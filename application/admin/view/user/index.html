@@ -50,7 +50,7 @@
 			<form class="layui-form" action="">
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label class="layui-form-label">用户账号：</label>
+						<label class="layui-form-label">用户ID：</label>
 						<div class="layui-input-inline">
 							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
 
@@ -63,11 +63,26 @@
 
 						</div>
 					</div>
+								<div class="layui-inline">
+						<label class="layui-form-label">用户账号</label>
+						<div class="layui-input-inline">
+							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+
+						</div>
+					</div>
+						<div class="layui-inline">
+						<label class="layui-form-label">会员等级</label>
+						<div class="layui-input-inline">
+							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+
+						</div>
+					</div>
+					
 					<div class="layui-inline" style="width: 36%;">
 											<label class="layui-form-label" style="width: 14% !important; ">时间</label>
 											<div class="layui-input-inline" style="width: 80% !important; margin-top: 8px;">
 												<span class="time"><input type="text" class="text datetimepicker" readonly="readonly" id="beginTime" value=""  style="width: 100px; font-size: 13px;">
-												</span>--
+												</span>~
 												<span class="time"><input type="text" class=" text datetimepicker" readonly="readonly" id="endTime" value=""  style="width: 100px; font-size: 13px;"></span>
 					
 											</div>
@@ -93,10 +108,12 @@
 						<th>用户账号</th>
 						<th>用户昵称</th>
 						<th>头像</th>
-						<th>配件商/零配件商</th>
-						<th>收货地址</th>
-						<th>注册时间</th>
-						<th>账户状态</th>
+						<th>会员等级</th>
+						<th>性别</th>
+						<th>身份证号</th>
+						<th>地址</th>
+						<th>加入时间</th>
+						<th>账户启用状态</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -110,6 +127,9 @@
 						<td>2018-09-26</td>
 						<td>2018-09-26 </td>
 						<td>2018-09-26 </td>
+						<td>2018-09-26</td>
+						<td>2018-09-26 </td>
+					
 						<td>
 							<input type="checkbox" class="Status" name="show" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 							 data-id="2">
