@@ -1,0 +1,658 @@
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+	body {
+		background: #fff;
+	}
+
+	label {
+		text-align: left !important;
+	}
+
+	.layui-form-item {
+		width: 100%;
+		margin-bottom: 0;
+		margin-top: 0;
+
+	}
+
+	.layui-form-label {
+		width: 26% !important;
+	}
+
+	.layui-input-inline {
+		width: 70% !important;
+	}
+
+	#page {
+		width: 96%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+	}
+
+	.time {
+		width: 110px;
+		display: inline-block;
+	}
+
+	.noshow {
+		display: none;
+	}
+
+	/* 弹窗 */
+	.tanchuang {
+		width: 100%;
+		min-height: 800px;
+		background: RGBA(0, 0, 0, 0.3);
+		position: fixed;
+		z-index: 9999;
+	}
+
+	.tanchuang-content {
+		width: 800px;
+		height: 500px;
+		background: #fff;
+		z-index: 10000;
+		position: fixed;
+		top: 20%;
+		left: 20%;
+	}
+
+	.close {
+		width: 30px;
+	}
+
+	.clear {
+		clear: both;
+	}
+
+	.title-a {
+		background: RGB(247, 247, 247);
+	}
+
+	.content-title {
+		padding-top: 10px;
+		padding-left: 20px;
+		float: left;
+		width: 50%;
+		height: 40px;
+
+	}
+
+	/* 弹窗内容样式 */
+	.list-a ul li {
+		float: left;
+		margin-left: 26px;
+		font-size: 12px;
+	}
+
+	.dom>ul {
+		margin-top: 10px;
+		margin-bottom: 0px;
+		margin-left: 50px;
+	}
+
+	.dom>ul>li {
+		float: left;
+		width: 100px;
+		text-align: center;
+		font-size: 16px;
+		border: solid 1px RGB(242, 242, 242);
+		height: 40px;
+		line-height: 40px;
+	}
+
+	.list {
+		padding-top: 20px;
+		margin-left: 50px;
+		border-top: RGB(242, 242, 242) solid 1px;
+	}
+
+	.cancel {
+		border-bottom: solid 1px RGB(242, 242, 242);
+		margin-left: 26px;
+		padding-bottom: 24px;
+		margin-top: 18px;
+		font-size: 12px;
+	}
+	.reply{
+		margin: 15px;
+	}
+	.reply-content{
+		    margin-top: 11px;
+			min-height: 175px;
+    max-height: 175px;
+    overflow-y: scroll;
+	}
+	.opation>div{
+		float: left;
+		margin-left: 26px;
+		margin-top: 10px;
+	}
+	.btu-sumit{
+	float: right;
+    color: #fff;
+    background: #0099FF;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    margin-right: 24px;
+	}
+	.active{
+		background: #F2F2F2;
+	}
+	/* 物流线 */
+
+/* flow start */
+.flowSwrap {
+	position: relative;
+	margin: 0 auto;
+	width:720px;
+	/*background-color: rgba(0,0,0,.3);*/
+}
+
+.flowCell {
+	overflow: hidden;
+}
+.cell-left {
+    width: 190px;
+    padding-right: 28px;
+    text-align: right;
+    display: table-cell; 
+    vertical-align:middle;
+    /*background-color: goldenrod;*/
+}
+.cell-right {
+    padding-left: 28px;
+    text-align: left;
+    display: table-cell; 
+    vertical-align:middle;
+    /*background-color:green;*/
+}
+.cell-center {
+    height:60px;
+    width: 20px;
+    display: table-cell; 
+    vertical-align:middle;
+    /*background-color: azure;*/
+}
+.cell-left .t1 {
+	font-size: 10px;
+}
+.cell-left .t2 {
+	font-size: 10px;
+}
+
+.cell-right .t1_start {
+	font-size: 10px;
+}
+.cell-right .t1 {
+	font-size: 10px;
+}
+.cell-right .t2 {
+	font-size: 10px;
+}
+
+.flow-line {
+	position: absolute;
+	width: 3px;
+	background-color: #aaaaaa;
+	/*top:10px;
+	left:210px;*/
+	z-index: -1;
+}
+
+
+.firstImg {
+	height:20px;
+	width:20px;
+}
+.childrenBody button{
+	width: 100px;
+	height: 30px;
+	color: #fff;
+	border-radius:10px ;
+}
+
+/*  flow  end */
+
+/* 按钮颜色 */
+.for-the-payment{
+	background: #FF0000;
+}
+.payment-has-been{
+	background: #FF9900;
+}
+.no-seed-goods{
+	background: #FF0099;
+}
+.send-the-goods{
+	background: #33CC00;
+}
+.for-the-goods{
+	background: #CC00FF;
+} 
+.have-the-goods{
+	background: #0099FF;
+}
+.complete{
+	background: #0000CC;
+}
+.closed-btu{
+	background: #333333;
+}
+.cancel-btu{
+	background: #990000;
+}
+
+
+</style>
+
+
+
+{/block}
+<body>
+
+	{block name="content"}
+	<!-- 弹窗 -->
+	<div class="tanchuang noshow">
+		<div class="tanchuang-content ">
+			<div class="title-a clear">
+				<div class="content-title">消息</div>
+				<div class="close"><img src="__STATIC__/admin/common/img/a7.png"></div>
+			</div>
+			<!-- 里面的内容 -->
+
+			<div class="dom">
+				<ul class="clear card">
+					<li class="active" data-id="list-a">订单处理</li>
+					<li data-id = "list-b">物流跟踪</li>
+				</ul>
+				
+			 	<div class="list-a list">
+					<ul class="clear">
+						<li>
+							<span>订单状态：</span>
+							<span>取消订单</span>
+						</li>
+						<li>
+							<span>支付方式：</span>
+							<span>取消订单</span>
+						</li>
+						<li>
+							<span>商品金额：</span>
+							<span>取消订单</span>
+						</li>
+						<li>
+							<span>积分抵扣：</span>
+							<span>取消订单</span>
+						</li>
+						<li>
+							<span>实付金额：</span>
+							<span>取消订单</span>
+						</li>
+					</ul>
+					<div class="cancel">
+						<span>取消原因:</span>
+						<span>商品无货</span>
+					</div>
+				    <div class="reply">
+						<span>官方回复</span>
+						<span><input type="text" name="" id="" value="" placeholder="请输入处理备注" style="width: 400px; height: 30px;"/></span>
+						<div class="reply-content">
+							<span>0180811 15：27：23</span>
+							<span>官方备注已用户要求高可顺非邮寄</span>
+						</div>
+					</div>
+					<div class="opation clear">
+						<div class="select-operation">
+							<span>选择状态</span>
+							<select>
+								<option value ="">请选择</option>
+								<option value ="">已关闭</option>
+							</select>
+						</div>
+						<div class="select-operation">
+							<span>退款方式</span>
+							<select>
+								<option value ="">请选择</option>
+								<option value ="">已关闭</option>
+							</select>
+						</div>
+						<div class="select-operation">
+							<span>退款金额</span>
+							<input type="text" name="" id="" value="" />
+						</div>
+						<button type="button" class="btu-sumit">确定</button>
+					</div>
+				</div>
+			   <div class="list-b list noshow">
+				   <div class="flowSwrap">
+			<!--流程线-->
+			<div class="flow-line" style="left: 226.5px; height:340px;"></div>
+			<!--流程区域 start-->
+			<div class="flowCell">
+				<div class="cell-left fc-orange">
+					<p class="t1">20:00</p>
+					<p class="t2">2018-01-01</p>
+				</div>
+				<div class="cell-center  fc-orange">
+					<img id="startImg" src="__STATIC__/admin/common/img/f1.png">
+				</div>
+				<div class="cell-right  fc-orange">
+					<p class="t1_start">订单已竣工</p>
+				</div>
+			</div>
+			<div class="flowCell">
+				<div class="cell-left  fc-grey">
+					<p class="t1">20:00</p>
+					<p class="t2">2018-01-01</p>
+				</div>
+				<div class="cell-center  fc-grey">
+					<img src="__STATIC__/admin/common/img/f2.png">
+				</div>
+				<div class="cell-right  fc-grey">
+					<p class="t1">施工小哥已接单，请等待</p>
+					<p class="t2">小哥电话：18612123233</p>
+				</div>
+			</div>
+			<div class="flowCell">
+				<div class="cell-left  fc-grey">
+					<p class="t1">20:00</p>
+					<p class="t2">2018-01-01</p>
+				</div>
+				<div class="cell-center  fc-grey">
+					<img src="__STATIC__/admin/common/img/f2.png">
+				</div>
+				<div class="cell-right  fc-grey">
+					<p class="t1">施工小哥已接单，请等待</p>
+					<p class="t2">小哥电话：18612123233</p>
+				</div>
+			</div>
+			<div class="flowCell">
+				<div class="cell-left fc-grey">
+					<p class="t1">20:00</p>
+					<p class="t2">2018-01-01</p>
+				</div>
+				<div class="cell-center  fc-grey">
+					<img id="endImg" src="__STATIC__/admin/common/img/f2.png">
+				</div>
+				<div class="cell-right  fc-grey">
+					<p class="t1">订单已提交</p>
+				</div>
+			</div>
+			<!--流程区域 end-->
+		</div>
+			   </div>
+			</div>
+		</div>
+	</div>
+
+	<div class="childrenBody">
+		<blockquote class="layui-elem-quote news_search">
+			<form class="layui-form" action="">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">订单编号</label>
+						<div class="layui-input-inline">
+							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">商品名称</label>
+						<div class="layui-input-inline">
+							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">用户账号</label>
+						<div class="layui-input-inline">
+							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">订单状态</label>
+						<div class="layui-input-inline">
+							<select name="interest" id="admin_status">
+								<option value="1" selected="">启用</option>
+								<option value="2">禁用</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline" style="width: 36%;">
+						<label class="layui-form-label" style="width: 14% !important; ">时间</label>
+						<div class="layui-input-inline" style="width: 80% !important; margin-top: 8px;">
+							<span class="time"><input type="text" class="text datetimepicker" readonly="readonly" id="beginTime" value=""
+								 style="width: 100px; font-size: 13px;">
+							</span>--
+							<span class="time"><input type="text" class=" text datetimepicker" readonly="readonly" id="endTime" value=""
+								 style="width: 100px; font-size: 13px;"></span>
+
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<a class="layui-btn search_btn">搜索</a>
+					</div>
+				</div>
+
+			</form>
+
+		</blockquote>
+		<div class="layui-form news_list">
+			<table class="layui-table">
+				<colgroup>
+					<col width="3%">
+
+					<col>
+				</colgroup>
+				<thead>
+					<tr>
+						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
+						<th>订单编号</th>
+						<th>服务项目</th>
+						<th>服务价格</th>
+						<th>预约门店</th>
+						<th>下单时间</th>
+						<th>车主姓名</th>
+						<th>车牌号</th>
+						<th>联系方式</th>
+						<th>预约到店时间</th>
+						<th>订单状态</th>
+					</tr>
+				</thead>
+				<tbody class="news_content">
+					<tr>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"></td>
+						<td>2</td>
+						<td><img src="111" /></td>
+						<td>张三</td>
+						<td>管理员</td>
+						<td>管理员</td>
+						<td>张三</td>
+						<td>管理员</td>
+						<td>管理员</td>
+						<td>管理员</td>
+						<td>
+							<button type="button" class="state for-the-payment">111</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="page">
+
+			<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
+				<option value="">批量删除</option>
+			</select>
+			<button type="button" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 30px;line-height: 30px;">确定
+			</button>
+		</div>
+
+	</div>
+
+
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	<script type="text/javascript">
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+			var vals = $("input").data("id");
+			//是否展示
+
+			//全选
+			form.on('checkbox(allChoose)', function(data) {
+				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+				child.each(function(index, item) {
+					item.checked = data.elem.checked;
+				});
+				form.render('checkbox');
+			});
+
+			//通过判断文章是否全部选中来确定全选按钮是否选中
+			form.on("checkbox(choose)", function(data) {
+				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+				var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
+				if (childChecked.length == child.length) {
+					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
+				} else {
+					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
+				}
+				form.render('checkbox');
+			})
+
+
+
+
+		})
+	</script>
+	<script type="text/javascript">
+		//时间
+		if ($(".datetimepickers").length > 0) {
+			$('.datetimepickers').datetimepicker({
+				timepicker: false,
+				scrollMonth: false
+			})
+		}
+
+		if ($(".datetimepickers2").length > 0) {
+			var datenow = new Date();
+			datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + (datenow.getDate());
+			$('.datetimepickers2').datetimepicker({
+				timepicker: false,
+				maxDate: datenow,
+				scrollMonth: false
+			})
+		}
+		if ($(".datetimepicker").length > 0) {
+			var datenow = new Date();
+			datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + (datenow.getDate());
+			var date = $("#beginTime").val();
+			var date1 = $("#endTime").val();
+			//时间控件
+			$('#beginTime').datetimepicker({
+				timepicker: false,
+				maxDate: datenow,
+				scrollMonth: false,
+				onClose: function(ct, $i) {
+					$('#endTime').datetimepicker({
+						minDate: $('#beginTime').val(),
+						maxDate: datenow,
+					});
+				}
+			});
+
+			$('#endTime').datetimepicker({
+				timepicker: false,
+				maxDate: datenow,
+				scrollMonth: false,
+				onClose: function(ct, $i) {
+					$('#beginTime').datetimepicker({
+						maxDate: $('#endTime').val(),
+					});
+				}
+			});
+		}
+		//清空时间
+		$(".handle_main span .cleartime").click(function() {
+			$(this).prev("input").val("")
+		})
+		//时间插件封装
+		function datetimepicker(beginTime, endTime) {
+			var datenow = new Date();
+			datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + (datenow.getDate());
+			var date = $(beginTime).val();
+			var date1 = $(endTime).val();
+			//时间控件
+			$(beginTime).datetimepicker({
+				timepicker: false,
+				maxDate: datenow,
+				scrollMonth: false,
+				onClose: function(ct, $i) {
+					$(endTime).datetimepicker({
+						minDate: $(beginTime).val(),
+						maxDate: datenow,
+					});
+				}
+			});
+
+			$(endTime).datetimepicker({
+				timepicker: false,
+				maxDate: datenow,
+				scrollMonth: false,
+				onClose: function(ct, $i) {
+					$(beginTime).datetimepicker({
+						maxDate: $(endTime).val(),
+					});
+				}
+			});
+		}
+	</script>
+	<script type="text/javascript">
+		$(".state").on('click', function() {
+			$(".tanchuang").removeClass("noshow");
+		});
+		$(".close").on('click', function() {
+			$(".tanchuang").addClass("noshow");
+		});
+		// 弹窗选项卡切换
+		$(".card").on('click','li',function(){
+			$(this).addClass("active");
+			$(this).siblings().removeClass("active");
+			var dait_id=$(this).data("id");
+			$("."+dait_id).removeClass("noshow");
+			$("."+dait_id).siblings("div").addClass("noshow");
+
+		});
+		$(".btu-sumit").click(function(){
+			$(".tanchuang").addClass("noshow");
+		});
+	</script>
+	{/block}
+
+</body>
+</html>

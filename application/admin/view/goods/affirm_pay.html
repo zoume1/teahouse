@@ -1,0 +1,40 @@
+{extend name="layout"} {block name="css"}
+<style type="text/css">
+	body {
+		background: #fff;
+	}
+	
+
+</style>
+
+{/block}
+
+<body>
+
+	{block name="content"}
+	<div class="all">
+		<h2>选择付款方式</h2>
+		<p>商家名称：siring</p>
+		<p>支付金额：<span>￥250000</span></p>
+		<span>支付方式：</span>
+		<span>
+			<input type="radio" name="" id="" value="" />扫码支付
+			<input type="radio" name="" id="" value="" />扫码支付
+			<input type="radio" name="" id="" value="" />扫码支付
+		</span>
+		
+	</div>
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	
+	{/block}
+
+</body>
+
+</html>

@@ -1,0 +1,190 @@
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+	body {
+		background: #fff;
+	}
+
+	label {
+		text-align: left !important;
+	}
+
+	.layui-form-item {
+		width: 100%;
+		margin-bottom: 0;
+		margin-top: 0;
+
+	}
+
+	.layui-form-label {
+		width: 26% !important;
+	}
+
+	.layui-input-inline {
+		width: 70% !important;
+	}
+
+	#page {
+		width: 96%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+	}
+</style>
+
+
+
+{/block}
+<body>
+
+	{block name="content"}
+
+
+	<div class="childrenBody">
+		<blockquote class="layui-elem-quote news_search">
+			<form class="layui-form" action="">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">会员账号：</label>
+						<div class="layui-input-inline">
+							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">类型：</label>
+						<div class="layui-input-inline">
+							<select name="interest" id="admin_status">
+								<option value="1" selected="">启用</option>
+								<option value="2">禁用</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<a class="layui-btn search_btn">搜索</a>
+					</div>
+				</div>
+
+			</form>
+
+		</blockquote>
+		<div class="layui-form news_list">
+			
+			<table class="layui-table">
+				<colgroup>
+					<col width="3%">
+
+				</colgroup>
+				<thead>
+					<tr>
+						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
+
+						<th>用户账号</th>
+						<th>积分</th>
+
+						<th>剩余积分</th>
+						<th>类型</th>
+						<th>时间</th>
+						<th>备注</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody class="news_content">
+					<tr>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"></td>
+						<td>admin</td>
+						<td>admin</td>
+						<td>2</td>
+						<td>111</td>
+						<td>2018-09-26</td>
+						<td>2018-09-26 </td>
+						<td>
+							<a class="layui-btn layui-btn-mini integral" >赠送积分</a>
+
+							<a href="{:url('admin/integral/detail')}" class="layui-btn layui-btn-danger layui-btn-mini " data-id="undefined">详情</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="page">
+
+		</div>
+
+	</div>
+
+
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	<script type="text/javascript">
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+			var vals = $("input").data("id");
+		
+				$(".integral").on("click", function() {
+					var dhtml="";
+					dhtml+='<div class="layui-form-item " style="width: 90%;"><label class="layui-form-label">赠送积分:</label><div class="layui-input-block"><input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" ></div></div>'
+					+'<div class="layui-form-item " style="width: 90%;"><label class="layui-form-label">备注信息:</label><div class="layui-input-block"><input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" ></div></div>'
+					var title="给8447466赠送积分"
+				                  layer.open({
+									      title:title, 
+										  type: 1,
+										  skin: 'layui-layer-rim', //加上边框
+										  area: ['420px', '300px'], //宽高
+										  btn: ['确认', '取消',],
+										  btnAlign: 'c',
+										  content: dhtml,
+										  yes: function(index, layero){
+											// 确认按钮回调函数
+											  }
+});
+							});
+			
+			//全选
+			form.on('checkbox(allChoose)', function(data) {
+				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+				child.each(function(index, item) {
+					item.checked = data.elem.checked;
+				});
+				form.render('checkbox');
+			});
+
+			//通过判断文章是否全部选中来确定全选按钮是否选中
+			form.on("checkbox(choose)", function(data) {
+				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+				var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
+				if (childChecked.length == child.length) {
+					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
+				} else {
+					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
+				}
+				form.render('checkbox');
+			})
+
+		})
+	</script>
+
+	{/block}
+
+</body>
+</html>

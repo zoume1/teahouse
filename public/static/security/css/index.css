@@ -1,0 +1,21 @@
+.UCright{
+	
+}
+.progress_safe{overflow:hidden;padding: 10px 0px 20px 90px;font-size:14px;}
+.progress_safe .progress_bar {width: 295px;height:16px;margin:0px 20px;background:#f5f5f5;border-radius:8px;position:relative;float:left;overflow:hidden;-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);margin-top: 2px;}
+.progress_safe .progress_bar p{margin:0px; height:16px; background: #e62d31; border-radius:3px 0px 0px 3px;-webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);   -webkit-transition: width 0.6s ease;  transition: width 0.6s ease;}
+.progress_safe img{float:left}
+.progress_safe em{color:#e62d31 !important}
+.progress_safe .cont{display:inline-block;float:left;margin-top: 14px;margin-left: 20px;}
+
+.safeCont td{border-top: 1px dashed #dddddd;border-bottom: 1px dashed #dddddd;padding:10px 10px 10px 10px;color:#999999;font-size:12px;height:100px;    line-height: 27px;}
+.safeCont th{font-size:14px;width:180px;border-top: 1px dashed #dddddd;border-bottom: 1px dashed #dddddd;padding:10px 0px 10px 50px;text-align:left}
+.safeCont th .icon{ font-size: 26px;margin-right: 15px;width: 29px;display: inline-block;text-align: center;}
+.safeCont th .icon  img{vertical-align:middle}
+.safeCont td .show {color: #666666;font-size: 14px}
+.safeCont td .show a{margin:0px 5px;color:#666666;}
+.safeCont td .show span i{font-size:24px;vertical-align: middle;display: inline-block; margin-right:3px}
+.safeCont td .show a:hover{color:#e62d31}
+.safeCont td.two{padding-right: 50px;padding-left: 60px;}
+.safeCont td .show span{color:#e62d31;margin-right:5px}
+

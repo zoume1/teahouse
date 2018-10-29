@@ -1,0 +1,106 @@
+{extend name="layout"}
+
+{block name="css"}
+
+<style type="text/css">
+	body {
+		background: #fff;
+	}
+</style>
+
+{/block}
+<body>
+
+	{block name="content"}
+
+
+	<div class="childrenBody">
+		<blockquote class="layui-elem-quote news_search">
+
+			<div class="layui-inline">
+				<a class="layui-btn layui-btn-danger bataadone" href="{:url('admin/Install/service_add')}">添加</a>
+			</div>
+
+		</blockquote>
+		<div class="layui-form news_list">
+			<table class="layui-table">
+
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>服务项目名称</th>
+						<th>添加日期</th>
+						<th>操作</th>
+
+					</tr>
+				</thead>
+				<tbody class="news_content">
+					<td>1</td>
+					<td>1</td>
+					<td>1</td>
+					<td>
+						<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Goods/edit')}"><i class="iconfont icon-edit"></i> 编辑</a>
+						<a href="/siring_ow/public/admin/admin_del/id/2.html" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
+						 data-id="undefined"><i class="layui-icon"></i> 删除</a>
+					</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="page"></div>
+	</div>
+
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	<script type="text/javascript">
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+			var vals = $("input").data("id");
+			//是否展示
+			form.on('switch(isShow)', function(data) {
+				if ($(this).val() == 0) {
+					$(this).val(1);
+				} else {
+					$(this).val(0);
+				}
+				var vals = data.value;
+				var id = $(this).data("id");
+				var status = $(this).val();
+				console.log(status);
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/admin/status')}",
+					data: {
+						"id": id,
+						"status": status
+					},
+					success: function(data) {
+						console.log("成功")
+					},
+					error: function(data) {
+						console.log("错误")
+					}
+				});
+
+
+			})
+
+
+		})
+	</script>
+
+	{/block}
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+.logo_out{
+    max-width: 1200px;
+    min-width: 1000px;
+    margin: 50px auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo_out .logo_img{
+    width: 115px;
+    height: 47px;
+}
+.logo_out .logo_img img{
+    width: 100%;
+    height: 100%;
+}
+.logo_out .home_page a{
+    text-decoration: none;
+    color: #000;
+}
+.logo_out .home_page a:hover{
+    color: #f20;
+}
+.logo_out .home_page i.icon_out{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background: url(../img/icon-out.png) no-repeat;
+    background-size: 100%;
+    vertical-align: middle;
+    margin-left: 10px;
+    transform: rotateY(180deg);
+}
+.order{
+    width: 1000px;
+    margin: 30px auto 0;
+}
+.order h2.order_title{
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+}
+.order_pay{
+    width: 100%;
+    border: 1px solid #ccc;
+    height: 900px;
+}
+.order_pay .pay_info{
+    width: 35%;
+    margin: 0 auto;
+}
+.order_pay .pay_info .currency{
+    font-size: 20px;
+    margin: 24px 0;
+}
+.order_pay .pay_info .currency span{
+    font-size: 14px;
+    color: #bcbcbc;
+}
+.order_pay .pay_info .total_pay{
+    font-size: 14px;
+}
+.order_pay .pay_info .total_pay span{
+    font-size: 18px;
+    color: #f00;
+}
+.pay_info .balance_payment p.balance_to_pay{
+    font-size: 14px;
+    margin: 10px 0;
+}
+.pay_info .balance_payment .pay_input{
+    position: relative;
+    width: 300px;
+    height: 42px;
+    background-color: #eee;
+    padding: 6px;
+    box-sizing: border-box;
+    display: flex;
+    align-content: center;
+}
+.pay_info .balance_payment .pay_input input{
+    width: 100%;
+    height: 100%;
+    padding: 3px 0 3px 20px;
+    box-sizing: border-box;
+    /* color: rgb(102, 204, 0); */
+}
+.pay_info .balance_payment .pay_input i{
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    margin-top: -8px;
+    background: url(../img/icon-money.png) no-repeat;
+    background-size: 100%;
+    width: 16px;
+    height: 16px;
+}
+.pay_info .balance_payment .balance{
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    margin: 15px 0;
+}
+.pay_info .balance_payment .balance_money i{
+    display: inline-block;
+    background: url(../img/icon-money2.png) no-repeat;
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+    vertical-align: text-bottom;
+}
+.pay_info .balance_payment .balance a{
+    text-decoration: none;
+    color: rgb(0, 153, 255);
+}
+.pay_info .balance_payment .use_coupon{
+    width: 300px;
+    text-align: right;
+    color: #f00;
+    font-size: 16px;
+}
+

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>模板商城</title>
+    <link rel="stylesheet" href="__STATIC__/index/css/common.css">
+    <link rel="stylesheet" href="__STATIC__/index/thirdpart/css/swiper-4.3.5.min.css">
+    <link rel="stylesheet" href="__STATIC__/index/css/template.css">
+    <!-- 分页插件样式 -->
+    <link rel="stylesheet" href="__STATIC__/index/thirdpart/css/paging.css">
+    <!-- author:sam -->
+</head>
+<body>
+     <div class="wrapper">
+         <!-- header 作为公共模板分离出去 common.css -->
+        <div class="header">
+            <!-- 登录条 start -->
+            <div class="login_bar">
+                <div class="login_bar_box">
+                    <div class="change_language">
+                        <a href="javascript:;">繁体&nbsp;&nbsp;</a>|&nbsp;
+                        <a href="javascript:;">English</a>
+                    </div>
+                    <div class="login_box">
+                        <!-- 登录前 -->
+                        <p class="login_before" style="display:block;">
+                            <a href="javascript:;" class="sign_up">注册&nbsp;&nbsp;</a>|&nbsp;
+                            <a href="javascript:;" class="sign_in">登录</a>
+                        </p>
+                        <!-- 登陆后 -->
+                        <div class="login_after" style="display:none;">
+                            <div class="my_order mgr15">
+                                <a href="javascript:;">
+                                    <i class="icon_cart"></i>&nbsp;
+                                    我的订单
+                                </a>
+                            </div>
+                            <div class="my_msg mgr15">
+                                <i class="icon_msg">
+                                    <span class="msg_num">3</span>
+                                </i>
+                            </div>
+                            <div class="personal_center mgr15">
+                                <a href="javascript:;">
+                                    <i class="icon_my"></i>
+                                    136****3045
+                                </a>
+                            </div>
+                            <a href="javascript:;" class="sign_out">退出</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 登录条 end -->
+    
+            <!-- 导航条 start -->
+            <div class="nav_bar">
+                <div class="nav_inner_box">
+                    <div class="logo_box">
+                        <img src="__STATIC__/index/img/logo.png" width="101" height="42" alt="公司logo">
+                    </div>
+                    <div class="nav_box">
+                        <ul class="first_class_ul">
+                            <li class="first_class_li"><a href="{:url('/')}">首页</a></li>|
+                            <li class="first_class_li"><a href="template_index">模板商城</a></li>|
+                            <li class="first_class_li"><a href="javascript:;">定制开发</a></li>|
+                            <li class="first_class_li">
+                                <a href="javascript:;" class="first_class_bot">云平台</a>
+                                <ul>
+                                    <li><a href="javascript:;">SaaS平台</a></li>
+                                    <li><a href="javascript:;">支付平台</a></li>
+                                    <li><a href="javascript:;">短信平台</a></li>
+                                </ul>
+                            </li>|
+                            <li class="first_class_li"><a href="javascript:;">投融介</a></li>|
+                            <li class="first_class_li"><a href="javascript:;">代理加盟</a></li>|
+                            <li class="first_class_li"><a href="javascript:;">关于我们</a></li>
+                        </ul>
+                    </div>
+                    <div class="dzxq_box">
+                        <a href="javascript:;">定制需求</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 导航条 end -->
+    
+            <!-- 轮播图 start -->
+            <div class="swiper_box">
+                <div class="swiper-container swiper-no-swiping">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="__STATIC__/index/img/img1.png" alt="轮播图"></div>
+                        <div class="swiper-slide"><img src="__STATIC__/index/img/img2.png" alt="轮播图"></div>
+                        <div class="swiper-slide"><img src="__STATIC__/index/img/img3.png" alt="轮播图"></div>
+                    </div>
+                    <!-- 如果需要分页器 -->
+                    <div class="swiper-pagination"></div>
+                    <!-- 如果需要滚动条 -->
+                    <div class="swiper-scrollbar"></div>
+                </div>
+            </div>
+            <!-- 轮播图 end -->
+        </div>
+        
+        <!-- 模板商城 -->
+        <div class="model_mall">
+            <div class="title_box">
+                <p>模板商城</p>
+            </div>
+            <div class="model_mall_inner">
+                <div class="model_ul_box">
+                    <ul>
+                        <!-- <li>
+                            <div class="model_mall_img"></div>
+                            <div class="model_mall_info_box">
+                                <div class="name_box">
+                                    <div class="top">
+                                        <span class="goods_name">B2C电商</span>
+                                        <span class="hot">HOT</span>
+                                    </div>
+                                    <div class="bottom">
+                                        <span class="desc_span">APP|小程序|公众号|H5</span>
+                                        <span class="ljgm">
+                                            <a href="javascript:;">&gt;&gt;立即购买</a>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="time_box">
+                                    <p>
+                                        <i></i>
+                                        <span>10天</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+                <div class="pagger" id="list"></div>
+            </div>
+        </div>
+
+         <!-- footer引用公共样式common.css -->
+         <div class="footer">
+            <!-- 我要代理 -->
+            <div class="be_the_agent">
+                <div class="title_box">
+                    <p>我要代理</p>
+                </div>
+                <div class="agent_type">
+                    <div class="agent_type_inner">
+                        <div class="gold_city">
+                            <div class="gold_city_title">
+                                <div>
+                                    <i class="member"></i>
+                                    <span class="title_name">金牌城市代理</span>
+                                    <i class="gold"></i>
+                                </div>
+                                <div class="ljsq">
+                                    <a href="javascript:;">&gt;&gt;立即申请</a>
+                                </div>
+                            </div>
+                            <div class="gold_city_cont">
+                                <div class="profess_consult">
+                                    <i></i>
+                                    <p>提供专业的1对1技术咨询，无需代理商具备专业技能，也能帮助您在市场获得领先优势。</p>
+                                </div>
+                                <div class="powerful_system">
+                                    <i></i>
+                                    <p>强大的平台系统，所有项目进度均实现可视化流程，保障代理及用户切身利益。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="diamond_city">
+                            <div class="diamond_city_title">
+                                <div>
+                                    <i class="member"></i>
+                                    <span class="title_name">钻石城市代理</span>
+                                    <i class="diamond"></i>
+                                </div>
+                                <div class="ljsq">
+                                    <a href="javascript:;">&gt;&gt;立即申请</a>
+                                </div>
+                            </div>
+                            <div class="diamond_city_cont">
+                                <div class="profess_consult">
+                                    <i></i>
+                                    <p>提供专业的1对1技术咨询，无需代理商具备专业技能，也能帮助您在市场获得领先优势。</p>
+                                </div>
+                                <div class="powerful_system">
+                                    <i></i>
+                                    <p>强大的平台系统，所有项目进度均实现可视化流程，保障代理及用户切身利益。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 经典用户 -->
+            <div class="classic_user">
+                <div class="title_box">
+                    <p>经典用户</p>
+                </div>
+                <div class="classic_user_inner">
+                    <div class="swiper-container2 swiper-no-swiping">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img src="__STATIC__/index/img/user1.png" alt="轮播图"></div>
+                            <div class="swiper-slide"><img src="__STATIC__/index/img/user2.png" alt="轮播图"></div>
+                            <div class="swiper-slide"><img src="__STATIC__/index/img/user3.png" alt="轮播图"></div>
+                            <div class="swiper-slide"><img src="__STATIC__/index/img/user4.png" alt="轮播图"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="footer_info">
+                <div class="footer_info_inner">
+                    <div class="footer_ul">
+                        <ul>
+                            <li>
+                                <h2>定制开发</h2>
+                                <p><a href="javascript:;">IOSAPP开发</a></p>
+                                <p><a href="javascript:;">安卓APP开发</a></p>
+                                <p><a href="javascript:;">HTML5开发</a></p>
+                                <p><a href="javascript:;">小程序开发</a></p>
+                                <p><a href="javascript:;">区块链开发</a></p>
+                            </li>
+                            <li>
+                                <h2>云平台</h2>
+                                <p><a href="javascript:;">小程序SaaS平台</a></p>
+                                <p><a href="javascript:;">支付平台</a></p>
+                                <p><a href="javascript:;">短信平台</a></p>
+                            </li>
+                            <li>
+                                <h2>模板商城</h2>
+                                <p><a href="javascript:;">智能硬件</a></p>
+                                <p><a href="javascript:;">电子商务</a></p>
+                                <p><a href="javascript:;">生活娱乐</a></p>
+                                <p><a href="javascript:;">金融</a></p>
+                                <p><a href="javascript:;">媒体</a></p>
+                                <p><a href="javascript:;">企业服务</a></p>
+                                <p><a href="javascript:;">政府公益</a></p>
+                            </li>
+                            <li>
+                                <h2>投融资</h2>
+                                <p><a href="javascript:;">项目融资申请</a></p>
+                                <p><a href="javascript:;">融资评审会</a></p>
+                            </li>
+                            <li>
+                                <h2>代理加盟</h2>
+                                <p><a href="javascript:;">申请代理</a></p>
+                            </li>
+                            <li>
+                                <h2>联系我们</h2>
+                                <p>座机:<br />0755-36609873</p>
+                                <p>专家顾问直线:<br />19925374651</p>
+                                <p>邮箱:<br />zhq@siring.com.cn</p>
+                                <p>地址:<br />深圳市福田区新闻路1号<br />中电信息大厦东座1518</p>
+                            </li>
+                            <li>
+                                <h2>意见反馈</h2>
+                                <div class="handle_box">
+                                    <div class="handle_logo">
+                                        <a href="javascript:;" class="curr"><i class="iconfont weixin">&#xe650;</i></a>
+                                        <a href="javascript:;"><i class="iconfont sina">&#xe716;</i></a>
+                                    </div>
+                                </div>
+                                <div class="code_box">
+                                    <div class="wx_code">
+                                        <span class="wx_span"><img src="__STATIC__/index/img/weixin.png" alt="微信二维码"></span>
+                                        <p>微信公众号</p>
+                                    </div>
+                                    <div class="wb_code" style="display:none">
+                                        <span class="wb_span"><img src="__STATIC__/index/img/weixin.png" alt="微信二维码"></span>
+                                        <p>新浪微博</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="yqlj">
+                        <h2>友情链接:</h2>
+                        <ul>
+                            <li><a href="javascript:;">微信公众平台</a></li>
+                            <li><a href="javascript:;">微信开放平台</a></li>
+                            <li><a href="javascript:;">微信支付平台 </a></li>
+                            <li><a href="javascript:;">微信</a></li>
+                            <li><a href="javascript:;">快递100</a></li>
+                            <li><a href="javascript:;">阿里云</a></li>
+                            <li><a href="javascript:;">腾讯云</a></li>
+                            <li><a href="javascript:;">西部数据</a></li>
+                            <li><a href="javascript:;">新浪微博</a></li>
+                            <li><a href="javascript:;">极光推送</a></li>
+                            <li><a href="javascript:;">企业支付宝</a></li>
+                            <li><a href="javascript:;">七牛云</a></li>
+                            <li><a href="javascript:;">银联</a></li>
+                            <li><a href="javascript:;">神箭云</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bottom">
+                    <p>版权所有 © 1996-2018  深圳市思锐信息技术有限公司 All Rights Reserved. 粤ICP备17014906号</p>
+                </div>
+            </div>
+        </div>
+     </div>
+<script src="__STATIC__/index/thirdpart/js/jquery.js"></script>
+<script src="__STATIC__/index/thirdpart/js/swiper-4.3.5.min.js"></script>
+<!-- 页面头部尾部公共脚本 -->
+<script src="__STATIC__/index/js/common.js"></script>
+<!-- 分页插件脚本 -->
+<script src="__STATIC__/index/thirdpart/js/paging.js"></script>
+<script>
+    (function(){
+        var str = '';
+        for(var i = 1; i <= 12; i++){
+            if(i % 4 !== 0){
+                str += '<li onclick="model_goods()">\
+                            <div class="model_mall_img"></div>\
+                            <div class="model_mall_info_box">\
+                                <div class="name_box">\
+                                    <div class="top">\
+                                        <span class="goods_name">B2C电商</span>\
+                                        <span class="hot">HOT</span>\
+                                    </div>\
+                                    <div class="bottom">\
+                                        <span class="desc_span">APP|小程序|公众号|H5</span>\
+                                        <span class="ljgm">\
+                                            <a href="javascript:;">&gt;&gt;立即购买</a>\
+                                        </span>\
+                                    </div>\
+                                </div>\
+                                <div class="time_box">\
+                                    <p>\
+                                        <i></i>\
+                                        <span>10天</span>\
+                                    </p>\
+                                </div>\
+                            </div>\
+                        </li>'
+            }else{
+                str += '<li class="mgr0" onclick="model_goods()">\
+                            <div class="model_mall_img"></div>\
+                            <div class="model_mall_info_box">\
+                                <div class="name_box">\
+                                    <div class="top">\
+                                        <span class="goods_name">B2C电商</span>\
+                                        <span class="hot">HOT</span>\
+                                    </div>\
+                                    <div class="bottom">\
+                                        <span class="desc_span">APP|小程序|公众号|H5</span>\
+                                        <span class="ljgm">\
+                                            <a href="javascript:;">&gt;&gt;立即购买</a>\
+                                        </span>\
+                                    </div>\
+                                </div>\
+                                <div class="time_box">\
+                                    <p>\
+                                        <i></i>\
+                                        <span>10天</span>\
+                                    </p>\
+                                </div>\
+                            </div>\
+                        </li>'
+            }
+        }
+        $('.model_ul_box ul').append(str);
+    }())
+    // 分页
+    var setTotalCount = $('.model_ul_box ul li').length;
+    var setTotalPages = Math.ceil(setTotalCount / 12);
+        $('#list').paging({
+            initPageNo: 1, // 初始页码
+            totalPages: setTotalPages, //总页数
+            totalCount: '合计' + setTotalCount + '条数据', // 条目总数
+            slideSpeed: 600, // 缓动速度。单位毫秒
+            jump: true, //是否支持跳转
+            callback: function(page) { // 回调函数
+                // console.log(page);
+            }
+        })
+    function model_goods(){
+        location.href = 'template_goods_show';
+    }
+</script>
+</body>
+</html>

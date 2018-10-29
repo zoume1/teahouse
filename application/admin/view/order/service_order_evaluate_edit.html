@@ -1,0 +1,160 @@
+	{extend name="layout"} {block name="css"}
+	<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+	<style type="text/css">
+		body {
+			background: #fff;
+		}
+		
+		.layui-form label {
+			width: 17%;
+			text-align: left;
+		}
+		.layui-form{
+			width: 90%;
+			margin: 0 auto;
+		}
+		
+		.layui-form .layui-input-block input {
+			width: 97%;
+		}
+		.blue{
+			color: #4F99FF;
+		}
+	
+	</style>
+	
+	{/block}
+	
+	<body>
+	
+		{block name="content"}
+		<div class="open">
+	
+		</div>
+		<form class="layui-form" action="">
+		
+			<div class="layui-form-item">
+				<label class="layui-form-label"> 用户名：</label>
+				<div class="layui-input-block">
+					<p>6843</p>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"> 评价商品：</label>
+				<div class="layui-input-block">
+					<p>优质米其林轮胎</p>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"> 评价时间：</label>
+				<div class="layui-input-block">
+					<p>优质米其林轮胎</p>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"> 评价打分：</label>
+				<div class="layui-input-block">
+				<span style="display: inline-block; width: 40px;">
+					<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+				</span>
+			<span style="display: inline-block; width: 40px;">
+				<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+			</span>
+			<span style="display: inline-block; width: 40px;">
+				<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+			</span>
+			<span style="display: inline-block; width: 40px;">
+				<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+			</span>
+			<span style="display: inline-block; width: 40px;">
+				<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+			</span>
+			<span style="display: inline-block; width: 40px;">
+				<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+			</span>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"> 买家秀图片：</label>
+				<div class="layui-input-block">
+						<span style="display: inline-block; width: 40px;">
+							<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+						</span>
+					<span style="display: inline-block; width: 40px;">
+						<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+					</span>
+					<span style="display: inline-block; width: 40px;">
+						<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+					</span>
+					<span style="display: inline-block; width: 40px;">
+						<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+					</span>
+					<span style="display: inline-block; width: 40px;">
+						<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+					</span>
+					<span style="display: inline-block; width: 40px;">
+						<img src="__STATIC__/admin/common/img/a11.png" width="100%" >
+					</span>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"> 评价内容：</label>
+				<div class="layui-input-block">
+				<textarea rows="10" cols="100">
+					
+				</textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"> 商家回复内容：</label>
+				<div class="layui-input-block">
+				<textarea rows="10" cols="100">
+					
+				</textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
+					
+					<button class="layui-btn" lay-submit="" lay-filter="demo1" type="submit" >确认</button>
+				   
+				</div>
+			</div>
+	
+		</form>
+		<h4 style="margin: 50px;border-bottom: 1px #E4E4E4 solid;padding-bottom: 22px;">全部评论 100</h4>
+		<div style="padding-bottom: 10px; border-bottom:solid 1px #E4E4E4;width: 90%;margin: 0 auto; padding-left: 50px;">
+			<p>嗷嗷</p>
+			<p>回复Windir：看来大家都是懒人呀！</p>
+			<p><span>2017-06-15 14:35:51</span><span class="blue">隐藏 </span><span class="blue">删除 </span> </p>
+		</div>
+		{/block}
+	
+		<!--_footer 作为公共模版分离出去-->
+		{include file="template/_footer" /}
+		<!--/_footer 作为公共模版分离出去-->
+	
+		<!--请在下方写此页面业务相关的脚本-->
+		{block name="bottom"}
+		
+		<script type="text/javascript">
+			layui.config({
+				base: "js/"
+			}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+				var form = layui.form(),
+					layer = parent.layer === undefined ? layui.layer : parent.layer,
+					laypage = layui.laypage,
+					$ = layui.jquery;
+	
+				
+			})
+		</script>
+	
+		
+	
+		{/block}
+	
+	</body>
+	
+	</html>

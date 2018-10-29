@@ -1,0 +1,599 @@
+/*字体*/
+/** iconfont CSSæ ·å¼ **/
+@font-face {font-family: 'iconfont1';
+    src: url('../font/iconfont1/iconfont.eot'); /* IE9*/
+    src: url('../font/iconfont1/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../font/iconfont1/iconfont.woff') format('woff'), /* chromeã€firefox */
+    url('../font/iconfont1/iconfont.ttf') format('truetype'), /* chromeã€firefoxã€operaã€Safari, Android, iOS 4.2+*/
+    url('../font/iconfont1/iconfont.svg#uxiconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont1{
+    font-family:'iconfont1' !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;    -webkit-text-stroke-width: 0.2px;  vertical-align: middle;}
+
+@font-face {font-family: 'iconfont2';
+   src: url('../font/iconfont2/iconfont.eot'); /* IE9*/  
+    src: url('../font/iconfont2/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../font/iconfont2/iconfont.woff') format('woff'), /* chromeã€firefox */
+    url('../font/iconfont2/iconfont.ttf') format('truetype'), /* chromeã€firefoxã€operaã€Safari, Android, iOS 4.2+*/
+    url('../font/iconfont2/iconfont.svg#uxiconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont2{
+    font-family:'iconfont2' !important;
+    font-size:20px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;     -webkit-text-stroke-width: 0.2px;   vertical-align: middle;}
+/** iconfont CSSæ ·å¼ end **/
+
+
+body {
+	background: #F6F6F6;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: none;
+}
+.conter{
+	width: 96%;
+	margin: 0 auto;
+}
+
+/*个人信息*/
+
+.ucenterTop {
+	width: 96%;
+	margin: 123px auto 16px auto;
+	background: #fff;
+	border: 1px solid #eee;
+	height: 153px;
+	overflow: hidden;
+	/* padding: 10px 10px 10px 45px; */
+}
+
+.ucenterTop .img_show {
+	width: 54%;
+	padding-top: 20px;
+	padding-right: -2px;
+	padding-left: 36px;
+	margin-right: 28px;
+	margin-top: 16px;
+	cursor: pointer;
+	margin-left: 11px;
+}
+
+.ucenterTop .img_show img {
+	/* height: 105px; */
+	width: 100%;
+	/* border-radius: 50%; */
+}
+
+.ucenterTop .cont {
+	position: relative;
+	float: left;
+	width: 16%;
+	margin-right: 33px;
+	margin-top: 16px;
+	border-right: solid 1px #C9C9C9;
+}
+
+.ucenterTop .cont .name {
+	overflow: hidden;
+	margin-top: 10px
+}
+
+.ucenterTop .cont .name span {
+	color: #898686;
+	font-size: 18px;
+	float: left;
+}
+
+.ucenterTop .cont .name font {
+	background: #e62d31;
+	color: #fff;
+	border-radius: 3px;
+	padding: 2px 4px;
+	float: left;
+	margin-left: 10px;
+}
+
+.ucenterTop .cont .ident {
+	overflow: hidden;
+	margin-top: 12px;
+}
+
+.ucenterTop .cont p {
+	padding-top: 10px;
+	font-size: 20px;
+	color: #999999;
+	margin-top: 6px;
+	line-height: 20px;
+}
+
+.ucenterTop .cont1 {
+	float: left;
+	width: 52%;
+	height: 140px;
+}
+
+.ucenterTop .cont1 .order {
+	text-align: center;
+	font-size: 16px;
+	margin-top: 20px;
+}
+
+.ucenterTop .cont1 .order i {
+	margin-right: 3px;
+	font-size: 20px;
+}
+
+.ucenterTop .cont1 .tasklist {
+	text-align: center;
+	overflow: hidden;
+	margin-top: 20px;
+}
+
+.ucenterTop .cont1 .tasklist span {
+	display: inline-block;
+	width: 33%;
+	float: left;
+}
+
+.ucenterTop .cont1 .tasklist span p {
+	color: #666666;
+}
+
+.ucenterTop .cont1 .tasklist span font {
+	font-size: 28px
+}
+
+.ucenterTop .cont1 .tasklist em {
+	float: left;
+	height: 34px;
+	border-left: 1px solid #d0d0d0;
+	display: inline-block;
+	margin-top: 0px;
+}
+
+.ucenterTop .cont1 .tasklist em:last-child {
+	display: none
+}
+
+.ucenterTop .cont1 .yunbi {
+	text-align: center;
+	margin: 17px 0px;
+	font-size: 14px
+}
+
+.ucenterTop .cont1 .yunbi img {
+	vertical-align: middle;
+	margin-right: 3px;
+}
+
+.ucenterTop .cont1 .money {
+	text-align: center
+}
+
+.ucenterTop .cont1 .money span {
+	display: inline-block;
+	padding: 0px 10px;
+	vertical-align: middle;
+	width: 150px;
+	overflow: hidden;
+}
+
+.ucenterTop .cont1 .money span .p1 {
+	font-size: 14px;
+}
+
+.ucenterTop .cont1 .money span .p1 em {
+	font-size: 18px;
+}
+
+.ucenterTop .cont1 .money span .p2 {
+	color: #666666;
+	margin-top: 5px;
+}
+
+.ucenterTop .cont1 .money span .fz22 {
+	color: #cccccc;
+	padding: 0px;
+	width: auto;
+}
+
+.ucenterTop .moneyBtn {
+	float: left;
+	margin-top: 10px
+}
+
+.ucenterTop .moneyBtn a {
+	width: 105px;
+	height: 35px;
+	line-height: 35px;
+	display: inline-block;
+	border: 1px solid #e62d31;
+	color: #e62d31;
+	font-size: 15px;
+	text-align: center;
+	margin-top: 15px;
+	border-radius: 3px;
+}
+
+.ucenterTop .moneyBtn a.recharge {
+	background: #e62d31;
+	color: #fff;
+}
+
+.UserType {
+	position: absolute;
+	display: inline-block;
+	text-align: center;
+	width: 40px;
+	height: 20px;
+	font-size: 6px;
+	line-height: 20px;
+	border-radius: 7px;
+	color: #fff;
+	background: #C90000;
+	top: 27px;
+	left: 9px;
+}
+
+.ucenterTop .cont .ident .dengji {
+	display: inline-block;
+	width: 16px;
+}
+
+.ucenterTop .cont .ident .text {
+	font-size: 17px;
+	color: #868686;
+}
+
+.ucenterTop .cont .up {
+	width: 76px;
+	height: 22px;
+	text-align: center;
+	line-height: 22px;
+	position: absolute;
+	color: #fff;
+	background: #4E99C7;
+	top: 46px;
+	left: 103px;
+	border-radius: 5px;
+}
+
+.ucenterTop .cont1 .icon1 {
+	width: 28px;
+	margin: 0 auto;
+}
+
+.ucenterTop .cont1 .cont1-title {
+	display: inline-block;
+	padding-left: 8px;
+	height: 20px;
+	font-size: 10px;
+	line-height: 20px;
+}
+
+.ucenterTop i {
+	font-style: normal;
+}
+
+.ucenterTop .cont2 {
+	float: left;
+	width: 16%;
+	padding-right: 18px;
+	margin-top: 16px;
+	border-right: solid 1px #C9C9C9;
+}
+
+.ucenterTop .cont2 .money-show {}
+
+.ucenterTop .cont2 .Put-forward {
+	color: #FF0000;
+	display: inline-block;
+	margin-left: 34px;
+	text-align: center;
+	width: 50px;
+	height: 24px;
+	line-height: 24px;
+	border: #ff0000 solid 1px;
+	border-radius: 3px;
+}
+
+.ucenterTop .cont2 .money-show .cont1-title {
+	margin-left: 36px;
+	color: red;
+}
+
+.ucenterTop .cont2 .money-show .money-ico {
+	vertical-align: -9px;
+	width: 35px;
+	display: inline-block;
+}
+
+.ucenterTop .cont2 .recharge {
+	display: inline-block;
+	text-align: center;
+	width: 50px;
+	height: 24px;
+	line-height: 24px;
+	color: #fff;
+	background: #FF0000;
+	border-radius: 3px;
+}
+
+.ucenterTop .cont2 .opation {
+	margin-top: 41px;
+}
+
+.ucenterTop .headerimg {
+	width: 10%;
+	overflow: hidden;
+	position: relative;
+	float: left;
+}
+
+
+/*个人中心导航*/
+
+.uMain {
+	margin-top: 20px;
+	overflow: hidden;
+}
+
+.UCleft {
+	margin-left: 2%;
+	/* margin: 0 auto; */
+	height: 600px;
+	background: #fff;
+	/* padding-left: 30px; */
+	width: 18%;
+	float: left;
+}
+
+.UCleft-fixed {
+	background: #fff
+}
+
+.UCleft dl {
+	overflow: hidden;
+	margin-bottom: 2px;
+}
+
+.UCleft dl dt {
+	height: 45px;
+	background: #eeeeee;
+	border-radius: 3px;
+	overflow: hidden;
+	color: #666666;
+	font-size: 14px;
+	padding: 0px 20px 0px 25px;
+	line-height: 45px;
+	cursor: pointer;
+}
+
+.UCleft dl dt i {
+	width: 25px;
+	text-align: center;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 25px;
+	margin-right: 10px;
+	float: left;
+	line-height: 45px;
+}
+
+.UCleft dl dt font {
+	float: right;
+}
+
+.UCleft dl dd {
+	overflow: hidden;
+	padding: 10px 0px;
+	display: none;
+}
+
+.UCleft dl dd p a {
+	text-indent: 65px;
+	display: block;
+	line-height: 31px;
+	height: 31px;
+	color: #666666;
+}
+
+.UCleft dl dd p a:hover,
+.UCleft dl dd p a.curr {
+	color: #e62d31;
+	font-weight: bold;
+}
+
+.UCleft dl dt:hover {
+	color: #fff;
+	background: #e62d31;
+}
+
+.UCleft dl.curr dd {
+	display: block !important;
+}
+
+.UCleft dl.curr dt {
+	color: #fff;
+	background: #e62d31;
+}
+
+.UCleft dl.curr dt font {
+	transform: rotate(180deg);
+}
+
+.UserCenter {
+	padding: 25px 0px 50px 0px;
+	overflow: hidden
+}
+
+.UCright {
+	float: right;
+	width: 972px;
+	background: #fff;
+	min-height: 785px;
+	border: 1px solid #eee;
+}
+
+.UCright .ucPanel {
+	background: #fff;
+	border: 1px solid #eee;
+}
+
+.UCright .uctt {
+	border-bottom: 1px solid #eeeeee;
+	height: 55px;
+	line-height: 55px;
+}
+
+.UCright .uctt span {
+	font-size: 16px;
+}
+
+.UCright .uctt span i {
+	margin-right: 5px;
+	font-size: 20px
+}
+
+.UCright .uctt .more {
+	color: #999999;
+	float: right;
+	font-size: 12px;
+}
+
+.UCright .uctt .more:hover {
+	color: #e62d31;
+}
+
+.ucMyproduct {
+	overflow: hidden;
+	margin-bottom: 40px;
+}
+
+.ucMyproduct li {
+	float: left;
+	width: 225px;
+	height: 195px;
+	border: 1px solid #cccccc;
+	display: inline-block;
+	overflow: hidden;
+	text-align: center;
+	margin-right: 55px;
+	margin: 32px 45px 0px 32px;
+}
+
+.ucMyproduct li a {
+	display: block;
+	height: 100%;
+	width: 100%;
+	float: left;
+	text-align: center;
+	overflow: hidden;
+	padding: 0px 12px;
+}
+
+.ucMyproduct li .user {
+	margin-top: 10px;
+}
+
+.ucMyproduct li .user .img {
+	height: 35px;
+	width: 35px;
+	border-radius: 50%;
+	overflow: hidden;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.ucMyproduct li .user .img img {
+	min-height: 35px;
+	width: 35px;
+}
+
+.ucMyproduct li .user .char {
+	margin-left: -15px;
+	position: relative;
+	z-index: 5;
+	vertical-align: bottom;
+	display: inline-block;
+}
+
+.ucMyproduct li .user .char img {
+	width: 20px;
+}
+
+.ucMyproduct li .tt {
+	font-size: 14px;
+	margin: 15px 0px 4px 0px;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+}
+
+.ucMyproduct li .tt img {
+	margin-left: 5px;
+	vertical-align: super;
+}
+
+.ucMyproduct li .tt:hover,
+.ucMyproduct li .p1 {
+	color: #999999;
+	font-size: 14px;
+}
+
+.ucMyproduct li .p2 {
+	color: #555555;
+	font-size: 14px;
+	margin-top: 5px;
+}
+
+.ucMyproduct li .user font {
+	margin-top: -10px;
+}
+
+.ucMyproduct li .prossc {
+	width: 195px;
+	background: #eeeeee;
+	border-radius: 10px;
+	height: 8px;
+	text-align: left;
+	margin-top: 15px;
+}
+
+.ucMyproduct li .prossc span {
+	display: inline-block;
+	height: 8px;
+	background: #e62d31;
+	float: left;
+	border-radius: 10px;
+	position: relative;
+}
+
+.ucMyproduct li .prossc font {
+	float: right;
+	position: absolute;
+	left: 0px;
+	top: 15px;
+}
+
+.ucMyproduct li:hover {
+	border: 1px solid #e62d31;
+}
+
+.ucMyproduct li:hover .tt {
+	color: #e62d31;
+}

@@ -1,0 +1,70 @@
+{include file="template/_meta" /}
+
+{block name="css"}
+	<style type="text/css">
+		body{
+			background: #fff;
+		}
+		input{
+			width: 40px;
+				margin-left: 10px;
+				margin-right: 10px;
+		}
+		div{
+			text-align: center;
+			margin-top: 10px;
+		}
+		.text{
+				top: 2px;
+			width: 344px;
+			margin: 20px auto;
+			position: relative;
+		}
+		.layui-icon{
+			position: absolute;
+			right: 0;
+			top: -9px;
+		}
+	</style>
+
+{/block}
+
+
+{block name="content"}
+       <h4 style="padding: 10px;">推荐奖励积分设置：</h4>
+	   <div class="content">
+	   <div style="    padding-left: 272px;" >成功推荐<input type="text" name="" id="" value="" />位好友奖励<input type="text" name="" id="" value="" />积分<span style="color:#CCCFDA;">（A推荐B,  B注册后,A可以得到一定的积分）</span></div>
+	   <div class="text">成功推荐<input type="text" name="" id="" value="" />位好友奖励<input type="text" name="" id="" value="" />积分</div>
+	   </div>
+	   <div class="bts" style="text-align: center;margin-top: 20px;">
+	   <button type="button" class="add-bts" style="background: #FFF; width: 100px; color: #0099FF; border:solid 1px #0099FF;border-radius:4px ;">+添加</button>
+         </div>
+		 <div style="margin-top: 30px; text-align: center;">
+		 	<button type="button" class="layui-btn  layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
+		 			<button class="layui-btn" type="submit" id="submits"  style="margin-left: 190px;">保存</button>
+		 				
+		 	</div>
+		 
+{/block}
+
+<!--_footer 作为公共模版分离出去-->
+{include file="template/_footer" /}
+<!--/_footer 作为公共模版分离出去-->
+
+
+
+<!--请在下方写此页面业务相关的脚本-->
+{block name="bottom"}
+<script type="text/javascript">
+		 	$(".add-bts").click(function(){
+				var dhtml="";
+				dhtml+='<div  class="text">成功推荐<input type="text" name="" id="" value="" />位好友奖励<input type="text" name="" id="" value="" />积分<i class="layui-icon remove-img">&#x1007;</i></div>';
+				$(".content").append(dhtml);
+				$(".content ").on('click','.layui-icon',function(){
+					// console.log(this)
+					var remove=$(this).parent();
+					remove.remove();
+				});
+			});
+		 </script>
+{/block}

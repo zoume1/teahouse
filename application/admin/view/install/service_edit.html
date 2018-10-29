@@ -1,0 +1,209 @@
+{extend name="layout"} {block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<style type="text/css">
+	body {
+		background: #fff;
+	}
+	
+	.layui-form label {
+		width: 17%;
+		text-align: left;
+	}
+	
+	.layui-form .layui-input-block input {
+		width: 97%;
+	}
+	
+	.layui-form-label span {
+		color: red;
+	}
+	
+	.layui-form {
+		width: 90%;
+		margin: 0 auto;
+		padding-top: 40px;
+	}
+	
+	.layui-input-block {
+		min-height: 40px;
+	}
+	
+	.biaoji .layui-form-radioed span {
+		color: #fff;
+		background: red;
+		width: 33px;
+		text-align: center;
+		height: 13px;
+		line-height: 13px;
+		font-size: 9px;
+		border-radius: 6px;
+	}
+	.title {
+		height: 50px;
+		background: #F2F2F2;
+		font-size: 20px;
+		line-height: 50px;
+		padding-left: 20px;
+		font-weight: bold;
+	}
+
+	.layui-form-item {
+		padding-left: 20px;
+	}
+
+	.add-content {
+		background: #F2F2F2;
+		width: 100%;
+	}
+
+	.general-kuang {
+		border: solid 1px #E4E4E4;
+		width: 1000px;
+	}
+
+	.btus {
+		background: #fff;
+		border: solid 1px #E4E4E4;
+		color: #0099FF;
+		width: 141px;
+		display: inline-block;
+		margin: 10px;
+	}
+
+	#general-content .layui-form-item {
+		width: 100%;
+	}
+
+	.sky-blue {
+		color: #0099FF;
+	}
+
+	.bgwhite {
+		background: #fff;
+	}
+
+	.noshow {
+		display: none;
+	}
+
+
+	
+	.operation-btus {
+		width: 60px;
+		height: 40px;
+		border-radius: 3px;
+		color: #fff;
+	}
+
+	.btu-delet {
+		background: #FF0000;
+	}
+
+	.btu-cancel {}
+
+	.btu-add {
+		background: #0099FF;
+	}
+
+	.num-content {
+		overflow: hidden;
+	}
+</style>
+
+{/block}
+
+<body>
+
+	{block name="content"}
+	<div class="open">
+
+	</div>
+	<form class="layui-form" action="">
+	
+		<div class="layui-form-item">
+			<label class="layui-form-label"> <span style="color: red;">*</span>商品项目名称：</label>
+			<div class="layui-input-block">
+				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label"> <span style="color: red;">*</span>菜单排序：</label>
+			<div class="layui-input-block">
+				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">添加日期：</label>
+			<div class="layui-input-block">
+				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+			</div>
+		</div>
+<div class="layui-form-item">
+			<label class="layui-form-label">商品分类图标：</label>
+			<div class="layui-input-block">
+				<div class="img-box full">
+					<section class=" img-section">
+						<div class="z_photo upimg-div clear">
+							<section class="z_file fl">
+								<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+								<input type="file" name="file" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple />
+							</section>
+						</div>
+					</section>
+				</div>
+				<aside class="mask works-mask">
+					<div class="mask-content">
+						<p class="del-p ">您确定要删除作品图片吗？</p>
+						<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+					</div>
+				</aside>
+			</div>
+		</div>
+	
+	<div class="layui-form-item">
+		<label class="layui-form-label">是否显示：</label>
+		<div class="layui-input-block">
+			<input type="radio" name="sex" value="启用" title="是" checked="">
+			<input type="radio" name="sex" value="禁用" title="否">
+		</div>
+	</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
+				
+				<button class="layui-btn" lay-submit="" lay-filter="demo1" type="submit" >保存</button>
+			   
+			</div>
+		</div>
+
+	</form>
+	
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	
+	<script type="text/javascript">
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+
+			
+		})
+	</script>
+
+	
+
+	{/block}
+
+</body>
+
+</html>
