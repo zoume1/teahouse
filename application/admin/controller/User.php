@@ -39,5 +39,23 @@ class User extends Controller{
     public function  grade(){
         return view('grade');
     }
+	/**
+	**************邹梅*******************
+	* @return \think\response\View
+	* 会员等级编辑
+	**************************************
+	*/
+	public function  grade_edit(){
+		return view('grade_edit');
+	}
+	/**
+	**************邹梅*******************
+	* @return \think\response\View
+	* 会员等级添加
+	**************************************
+	*/
+	public function  grade_add(){
+		return view('grade_add');
+	}
 
 }

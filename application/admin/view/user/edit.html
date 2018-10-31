@@ -1,126 +1,251 @@
-{extend name="layout"} {block name="css"}
-<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
 <style type="text/css">
 	body {
 		background: #fff;
 	}
-	.layui-form  {
-		width: 90%;
-		margin: 20px auto;
-	}
-	.layui-form label {
-		width: 17%;
+.layui-form	label{
+		width: 23%;
 		text-align: left;
 	}
-	
-	.layui-form .layui-input-block input {
-		width: 97%;
-	}
+.layui-form .layui-input-block input{
+	width: 97%;
+}
+.layui-form-label span{
+	color: red;
+}
+.layui-form{
+	width: 80%;
+	margin: 0 auto;
+	padding-top: 40px;
+}
+.layui-form-item{
+	display: inline-block;
+    width: 40%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+.layui-icon{
+	font-size: 26px;
+    color: #669900;
+    margin-right: 14px;
+}
+span{
+	    color: #666666;
+    font-size: 22px;
+}
 
+.title{
+	padding: 9px;
+    background: #F2F2F2;
+}
 </style>
+
 
 {/block}
 
-<body>
+{block name="content"}
 
-	{block name="content"}
-	<div class="open">
-
+<form class="layui-form" action="">
+	<div class="title">
+	<span >
+		基本信息
+	</span>
+</div>
+  <div class="layui-form-item ">
+    <label class="layui-form-label">会员账号</label>
+    <div class="layui-input-block">
+      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入账号" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">性别</label>
+    <div class="layui-input-block">
+     <p>男</p>
+		 </div>
+  </div>
+   <div class="layui-form-item">
+    <label class="layui-form-label">绑定手机号</label>
+    <div class="layui-input-block">
+      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+    </div>
+  </div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">会员名称</label>
+		<div class="layui-input-block">
+				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+		</div>
 	</div>
-	<form class="layui-form" action="">
+   <div class="layui-form-item">
+    <label class="layui-form-label">上级账号</label>
+    <div class="layui-input-block">
+      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+  	<label class="layui-form-label">会员头像</label>
+  	<div class="layui-input-block">
+  	<img src="11"/>
+  	</div>
+  </div>
+    <div class="layui-form-item">
+    <label class="layui-form-label">注册时间</label>
+    <div class="layui-input-block">
+      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+    </div>
+  </div>
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">会员等级</label>
+	    <div class="layui-input-block">
+	      <select name="interest" lay-filter="aihao">
+	        <option value="0" selected="">启用</option>
+	        <option value="1">禁用</option>
+	     
+	      </select>
+	    </div>
+	  </div>
 	
+   <div class="layui-form-item">
+    <label class="layui-form-label">会员到期时间</label>
+    <div class="layui-input-block">
+  <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+    </div>
+  </div>
+  	 <div class="layui-form-item">
+	    <label class="layui-form-label">会员地址</label>
+	    <div class="layui-input-block">
+	   <p>PR45</p> 
+	    </div>
+	  </div>
+   <div class="layui-form-item">
+    <label class="layui-form-label">状态</label>
+    <div class="layui-input-block">
+      <select name="interest" lay-filter="aihao">
+        <option value="0" selected="">启用</option>
+        <option value="1">禁用</option>
+      </select>
+    </div>
+  </div>
+
 		<div class="layui-form-item">
-			<label class="layui-form-label"> 会员名称：</label>
+			<label class="layui-form-label">会员邀请码</label>
 			<div class="layui-input-block">
-				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+		<p>PR45</p> 
 			</div>
 		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">真实姓名：</label>
-			<div class="layui-input-block">
-				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">手机：</label>
-			<div class="layui-input-block">
-				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">会员等级：</label>
-			<div class="layui-input-block">
-				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-			</div>
-		</div>
+<div class="title">
+	<span id="">
+
+高级信息
+	</span>
+</div>
+
 <div class="layui-form-item">
-			<label class="layui-form-label">会员头像：</label>
-			<div class="layui-input-block">
-			<img src="" >
-			</div>
-		</div>
-	
+    <label class="layui-form-label">真实姓名</label>
+    <div class="layui-input-block">
+      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">身份证号</label>
+    <div class="layui-input-block">
+      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+    </div>
+  </div>
 	<div class="layui-form-item">
-		<label class="layui-form-label">性别：</label>
+		<label class="layui-form-label">身份证</label>
 		<div class="layui-input-block">
-		<p>男</p>
+		<img src="11"/>
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label">性别：</label>
+		<label class="layui-form-label"></label>
 		<div class="layui-input-block">
-		<p>男</p>
+		<img src="11"/>
 		</div>
 	</div>
 	<div class="layui-form-item">
-		<label class="layui-form-label">收货地址1：</label>
-		<div class="layui-input-block">
-			<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label">申请时间：</label>
-		<div class="layui-input-block">
-		<p>男</p>
-		</div>
-	</div>
-		<div class="layui-form-item">
-			<div class="layui-input-block">
-				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
-				
-				<button class="layui-btn" lay-submit="" lay-filter="demo1" type="submit" >保存</button>
-			   
-			</div>
-		</div>
+	    <label class="layui-form-label">开户行</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+	    </div>
+	  </div>
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">开户账号</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+	    </div>
+	  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
 
-	</form>
-	
-	{/block}
 
-	<!--_footer 作为公共模版分离出去-->
-	{include file="template/_footer" /}
-	<!--/_footer 作为公共模版分离出去-->
+{/block}
 
-	<!--请在下方写此页面业务相关的脚本-->
-	{block name="bottom"}
-	
-	<script type="text/javascript">
-		layui.config({
-			base: "js/"
-		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+<!--_footer 作为公共模版分离出去-->
+{include file="template/_footer" /}
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+{block name="bottom"}
+ <script type="text/javascript">
+
+ 				//表单依赖
+				layui.config({
+			base : "js/"
+		    }).use(['form','layer','jquery','laypage', 'laydate'],function(){
 			var form = layui.form(),
+			laydate = layui.laydate,
 				layer = parent.layer === undefined ? layui.layer : parent.layer,
-				laypage = layui.laypage,
-				$ = layui.jquery;
-
+				 laypage = layui.laypage,
+				 layedit = layui.layedit,
+				 $ = layui.jquery;
+		
+		
+		  
+		//	<!--是否展示-->
 			
-		})
-	</script>
+		    var vals=$("input").data("id");  
+			form.on('switch(isShow)', function(data){
+		        var vals=data.value;
+				var id=$(this).data("id");
+				var status = $(".Status").value;
+		
+		       $.ajax({
+		               type: "POST",
+		               url: "{:url('')}",
+		               data: {"id":id,"status":vals},
+		               success: function(data){
+		               	console.log("成功")
+					  },
+				      error:function (data) {
+						  console.log("错误")
+		              }
+		            });
+		            
+		         
+			});
+			
+			
+			    $(".doings").on("click",function(){
+			    
+		      		layer.prompt({title: '处理备注', formType: 1}, function(pass, index){
+		            layer.close(index);
+		            });
+		       });
+		
+		});
+	</script>	
 
-	
 
-	{/block}
-
-</body>
-
-</html>
+{/block}

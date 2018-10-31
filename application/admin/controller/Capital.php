@@ -21,6 +21,24 @@ class Capital extends Controller{
     public function index(){
         return view('index');
     }
+	/**
+	**************邹梅*******************
+	* @return \think\response\View
+	* 资金管理编辑
+	**************************************
+	*/
+	public function edit(){
+		return view('edit');
+	}
+	/**
+	**************邹梅*******************
+	* @return \think\response\View
+	* 资金管理添加
+	**************************************
+	*/
+	public function add(){
+		return view('add');
+	}
 
 
 
