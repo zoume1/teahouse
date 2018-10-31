@@ -174,6 +174,10 @@ body{
 	color: #333;
 	border: #333 1px solid;
 }
+	.upimg-div{
+		height: 180px;
+		overflow-y: scroll;
+	}
 </style>
 
 {/block}
@@ -188,7 +192,7 @@ body{
 			</div>
 			<!-- 里面的内容 -->
 			<div class="dom">
-				<form action="" method="post"  class="layui-form">
+				<form action="{:url('admin/Photo/images_online_push')}" method="post"  class="layui-form"  enctype="multipart/form-data">
 					<div class="layui-form-item ">
 						<label class="layui-form-label">网络图片:</label>
 						<div class="layui-input-inline">
@@ -206,7 +210,7 @@ body{
 									<div class="z_photo upimg-div clear">
 										<section class="z_file fl">
 											<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-											<input type="file" name="goods_show_images" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple />
+											<input type="file" name="goods_show[]" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple/>
 										</section>
 									</div>
 								</section>
@@ -251,23 +255,25 @@ body{
 		<input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="allChoose" title="全选">
 	</div>
 	<div class="photo-library">
-		<ul class="clear">	
+		<ul class="clear">
+
+			{volist name="images_url" id="vo"}
 			<li>
-				<div class="photo-imgs"><img src="__STATIC__/admin/common/img/a11.png"  width="100%"></div>
+				<div class="photo-imgs"><img src="__UPLOAD__/{$vo.images}"  width="100%"></div>
 				<div class="photo-name">
 					<input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" title="other.png">
-					
 				</div>
 				<div class="photo-opration">
 					<ul class="clear">
 						<li class="rename">改名</li>
-						<li class="link">链接</li>
+						<li class="link" data-id="__UPLOAD__/{$vo.images}">链接</li>
 						<li class="grouping-ico">分组</li>
 						<li class="delect-ico">删除</li>
 					</ul>
 				</div>
 			</li>
-		
+			{/volist}
+
 		
 		</ul>
 	</div>
