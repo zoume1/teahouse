@@ -60,6 +60,9 @@ li{
 a{
 	text-decoration: none;
 }
+.layui-inline select{
+	font-size: 14px;
+}
 /*toubu*/
 .header{
 	color: #fff;

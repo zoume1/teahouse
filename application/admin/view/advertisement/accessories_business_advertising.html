@@ -4,25 +4,25 @@
 	body {
 		background: #fff;
 	}
-	
+
 	label {
 		text-align: left !important;
 	}
-	
+
 	.layui-form-item {
 		width: 100%;
 		margin-bottom: 0px;
 		margin-top: 0px;
 	}
-	
+
 	.layui-form-label {
 		width: 26% !important;
 	}
-	
+
 	.layui-input-inline {
 		width: 70% !important;
 	}
-	
+
 	#page {
 		width: 96%;
 		height: 50px;
@@ -31,11 +31,11 @@
 		padding-left: 50px;
 		background: #FDFDFE;
 	}
-	
+
 	select {
 		font-size: 15px;
 	}
-	
+
 	button {
 		width: 60px;
 		height: 40px;
@@ -54,17 +54,30 @@
 			<form class="layui-form" action="">
 				<div class="layui-form-item">
 					<div class="layui-inline">
-						<label class="layui-form-label">广告名称：</label>
+						<label class="layui-form-label">输入搜索：</label>
 						<div class="layui-input-inline">
-							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input">
 
 						</div>
 					</div>
 					<div class="layui-inline">
-						<label class="layui-form-label">广告位置</label>
+						<label class="layui-form-label">标签：</label>
 						<div class="layui-input-inline">
-						<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-
+							<select>
+								<option value="1">全部</option>
+								<option value="2">未发布</option>
+								<option value="3">已发布</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">状态：</label>
+						<div class="layui-input-inline">
+							<select>
+								<option value="1">全部</option>
+								<option value="2">过期</option>
+								<option value="3">未过期</option>
+							</select>
 						</div>
 					</div>
 					<div class="layui-inline">
@@ -86,13 +99,14 @@
 				<thead>
 					<tr>
 						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
-						<th>广告名称</th>
-						<th>缩略图</th>
-						<th>格式</th>
-						<th>广告位置</th>
-						<th>开始时间</th>
-						<th>结束时间</th>
-						<th>状态</th>
+						<th>活动名称</th>
+						<th>活动图片</th>
+						<th>活动地址</th>
+						<th>活动分类</th>
+						<th>价格</th>
+						<th>标签</th>
+						<th>排序</th>
+						<th>活动时间</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -100,34 +114,45 @@
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"></td>
 						<td>2</td>
-						<td><img src="111" /></td>
-						<td>管理员</td>
-						<td>管理员</td>
-						<td>2018</td>
-						<td>2018</td>
 						<td>
-							<input type="checkbox" class="Status" name="show" value="1" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked="" data-id="2">
-							
+							<div style="width: 80px; height: 80px;"><img src="__STATIC__/admin/common/img/a11.png" /></div>
 						</td>
-						
+						<td>管理员</td>
+						<td>管理员</td>
+						<td>2018</td>
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Advertisement/accessories_business_edit')}"><i class="iconfont icon-edit"></i> 编辑</a>
-							<a href="/siring_ow/public/admin/admin_del/id/2.html" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+							<input type="checkbox" class="Status" name="show" value="1" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+							 checked="" data-id="2">
+						</td>
+						<td>2018</td>
+						<td>2018</td>
+						<td>
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Advertisement/accessories_business_edit')}"><i class="iconfont icon-edit"></i>
+								编辑</a>
+							<a href="/siring_ow/public/admin/admin_del/id/2.html" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
+							 data-id="undefined"><i class="layui-icon"></i> 删除</a>
 
 						</td>
 					</tr>
 				</tbody>
 			</table>
-		</div>
-		<div id="page">
+			<div id="page">
+				<div class="opation" style="width: 200px; float: left;">
+					<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
+						<option check="" value="0">请选择</option>
+						<option value="1">批量删除</option>
+					</select>
+				</div>
+				<div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
+					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
+					</button>
+				</div>
 
-			<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
-				<option value="">商家批量上架</option>
-			</select>
-			<button type="button" class="up-button" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 30px;line-height: 30px;">确定 </button>
+
+			</div>
+
 		</div>
 
-	</div>
 
 	</div>
 	{/block}
@@ -189,7 +214,7 @@
 			form.on("checkbox(choose)", function(data) {
 				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
 				var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
-				if(childChecked.length == child.length) {
+				if (childChecked.length == child.length) {
 					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
 				} else {
 					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
@@ -197,7 +222,7 @@
 				form.render('checkbox');
 			})
 
-	
+
 		})
 	</script>
 
