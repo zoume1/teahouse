@@ -184,7 +184,6 @@ Route::group("admin",[
     "platform_business_index"=>"admin/platform_advertisement/platform_business_index",
     "platform_business_add"=>"admin/platform_advertisement/platform_business_add",
     "platform_business_edit"=>"admin/platform_advertisement/platform_business_edit",
-
     /*配件商广告，服务商广告，平台广告结束*/
 
 
@@ -337,7 +336,8 @@ Route::group("admin",[
     /* 图片库*/
 	"photo_index"=>"admin/Photo/index",
     "images_online_push"=>"admin/Photo/images_online_push", //上传图片库
-	
+    "photo_del"=>"admin/Photo/del", //删除单张图片
+
 	
 	 /*茶圈*/
 	 "teacircle_index"=>"admin/Teacircle/index",
