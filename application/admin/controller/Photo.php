@@ -64,10 +64,10 @@ class Photo extends Controller{
      * Notes:图片删除
      **************************************
      */
-    public function del($id){
+    public function delete($id){
         $image_url =Db::name('images_online')->field('images')->where('id',$id)->find();
         if($image_url['images'] != null){
-            unlink(ROOT_PATH . 'public' . DS . 'upload/'.$image_url['goods_images']);
+            unlink(ROOT_PATH . 'public' . DS . 'upload/'.$image_url['images']);
         }
         $res =Db::name('images_online')->where('id',$id)->delete();
         if($res){
