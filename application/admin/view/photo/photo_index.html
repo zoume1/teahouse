@@ -268,7 +268,7 @@ body{
 						<li class="rename">改名</li>
 						<li class="link" data-id="__UPLOAD__/{$vo.images}">链接</li>
 						<li class="grouping-ico">分组</li>
-						<li class="delect-ico" data-id="{$vo.id}">删除</li>
+						<li class="delect-ico"><a href="{:url('admin/Phone/del',['id'=>$vo.id])}" onclick="if(!confirm('确定要删除吗？')) return false">删除</a></li>
 					</ul>
 				</div>
 			</li>
@@ -331,16 +331,16 @@ body{
 							
 							});
 				});
-				$(".delect-ico").click(function(){
-					layer.confirm('确定删除该图片？', {
-							  btn: ['确定','取消'] //按钮
-							}, function(){
-							  
-							}, function(){
-							  
-							
-							});
-				});
+// 				$(".delect-ico").click(function(){
+// 					layer.confirm('确定删除该图片？', {
+// 							  btn: ['确定','取消'] //按钮
+// 							}, function(){
+// 							  
+// 							}, function(){
+// 							  
+// 							
+// 							});
+// 				});
 			
 			//全选
 			form.on('checkbox(allChoose)', function(data) {
