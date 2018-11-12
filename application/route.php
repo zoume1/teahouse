@@ -337,7 +337,13 @@ Route::group("admin",[
     /* 图片库*/
 	"photo_index"=>"admin/Photo/index",
     "images_online_push"=>"admin/Photo/images_online_push", //上传图片库
-
+	
+	
+	 /*茶圈*/
+	 "teacircle_index"=>"admin/Teacircle/index",
+	 "teacircle_add"=>"admin/Teacircle/add",
+	 "teacircle_edit"=>"admin/Teacircle/edit",
+	 
 ]);
 
 Route::miss("public/miss");
