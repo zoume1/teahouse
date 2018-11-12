@@ -336,7 +336,7 @@ Route::group("admin",[
     /* 图片库*/
 	"photo_index"=>"admin/Photo/index",
     "images_online_push"=>"admin/Photo/images_online_push", //上传图片库
-    "photo_del"=>"admin/Photo/del", //删除单张图片
+    "photo_del"=>"admin/Photo/delete", //删除单张图片
 
 	
 	 /*茶圈*/
