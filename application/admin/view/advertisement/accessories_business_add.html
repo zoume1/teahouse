@@ -3,30 +3,30 @@
 	body {
 		background: #fff;
 	}
-	
+
 	.layui-form label {
-		width: 17%;
+		width: 14%;
 		text-align: left;
 	}
-	
+
 	.layui-form .layui-input-block input {
 		width: 97%;
 	}
-	
+
 	.layui-form-label span {
 		color: red;
 	}
-	
+  
 	.layui-form {
 		width: 98%;
 		margin: 0 auto;
 		padding-top: 40px;
 	}
-	
+
 	.layui-input-block {
 		min-height: 40px;
 	}
-	
+
 	.biaoji .layui-form-radioed span {
 		color: #fff;
 		background: red;
@@ -37,9 +37,11 @@
 		font-size: 9px;
 		border-radius: 6px;
 	}
-	.form-group .layui-form-select{
+
+	.form-group .layui-form-select {
 		display: none;
 	}
+
 	.title {
 		height: 50px;
 		background: #F2F2F2;
@@ -48,7 +50,26 @@
 		padding-left: 20px;
 		font-weight: bold;
 	}
-	
+
+	.form-inline {
+		margin-left: 16%;
+	}
+
+	.layui-input-inline {
+		margin-left: 10px;
+	}
+
+	.noshow {
+		display: none;
+	}
+
+	.tips {
+		margin-left: 17%;
+		color: 949494;
+	}
+	.change_text{
+		cursor: pointer;
+	}
 </style>
 
 
@@ -64,7 +85,7 @@
 		<div class="basic-information title"> 基本信息
 		</div>
 		<div class="layui-form-item ">
-			<label class="layui-form-label"><span>*</span>活动名称:</label>
+			<label class="layui-form-label"><span>*</span>活动名称</label>
 			<div class="layui-input-block">
 				<input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="goods_name">
 			</div>
@@ -73,69 +94,170 @@
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">活动地址：</label>
-		<div class="form-inline">
-			<div data-toggle="distpicker">
-				<div class="form-group">
-					<label class="sr-only" for="province2">Province</label>
-					<select class="form-control" id="province2" data-province="---- 选择省 ----"></select>
-				</div>
-				<div class="form-group">
-					<label class="sr-only" for="city2">City</label>
-					<select class="form-control" id="city2" data-city="---- 选择市 ----"></select>
-				</div>
-				<div class="form-group">
-					<label class="sr-only" for="district2">District</label>
-					<select class="form-control" id="district2" data-district="---- 选择区 ----"></select>
+			<label class="layui-form-label">活动地址</label>
+			<div class="form-inline">
+				<div data-toggle="distpicker">
+					<div class="form-group">
+						<label class="sr-only" for="province2">Province</label>
+						<select class="form-control" id="province2" data-province="---- 选择省 ----"></select>
+					</div>
+					<div class="form-group">
+						<label class="sr-only" for="city2">City</label>
+						<select class="form-control" id="city2" data-city="---- 选择市 ----"></select>
+					</div>
+					<div class="form-group">
+						<label class="sr-only" for="district2">District</label>
+						<select class="form-control" id="district2" data-district="---- 选择区 ----"></select>
+					</div>
 				</div>
 			</div>
-		</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label"></label>
 			<div class="layui-input-block">
-						<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input" id="sort_number">
-					
-					
+				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input"
+				 id="sort_number">
+
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">时间：</label>
+			<label class="layui-form-label">活动时间</label>
 			<div class="layui-input-block">
-					<input type="text" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker"/>
-					
+				<input type="text" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker" />
+
 			</div>
 		</div>
-		<div class="layui-form-item" class="biaoji">
-			<label class="layui-form-label"><span>*</span>商品标记：</label>
-			<div class="layui-input-block" id="goods_sign">
-			 <input type="checkbox" name="like1[write]" lay-skin="primary" title="hot" checked="">
-      <input type="checkbox" name="like1[read]" lay-skin="primary" title="aaa">
+	<div class="layui-form-item" class="biaoji">
+		<label class="layui-form-label">活动标记</label>
+		<div class="layui-input-block" style="overflow: hidden;">
+			<div id="hot" style="overflow: hidden; float: left;">	
+			<div class="list" style="width: 70px; float: left;">
+			<input type="checkbox" name="like1[write]" lay-skin="primary" title="hot" checked="">
+			</div>
+			<div class="list" style="width: 70px; float: left;">
 			<input type="checkbox" name="like1[read]" lay-skin="primary" title="aaa">
 			</div>
-			<div class="tips">
+			<div class="list" style="width: 134px; float: left;">
+				<input type="checkbox" name="like1[read]" lay-skin="primary" title="特色活动">
+				<span style="margin-top: 10px;vertical-align: -6px; color: #0EA9E3;" class="change_text">修改</span>
+			</div>
+			</div>
+			<div class="add_biao" style="float: left;margin-top: 6px; margin-left: 10px;">
+				+添加文字标签
+			</div>
+		</div>
+		<div class="tips">
 			*在活动名称前添加，文字标签可编辑多选和添加，文字最长10个一个标签
+		</div>
+	</div>
+
+		<div class="layui-form-item ">
+			<label class="layui-form-label"><span>*</span>分享描述</label>
+			<div class="layui-input-block">
+				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"
+				 id="sort_number">
+			</div>
+			<div class="tips">
+				*微信分享给好友时会显示，建议36个字以内 <span>查看示例</span>
 			</div>
 		</div>
 		<div class="layui-form-item ">
-			<label class="layui-form-label"><span>*</span>商品品牌:</label>
+			<label class="layui-form-label"><span>*</span>归属分类</label>
 			<div class="layui-input-inline">
 				<select name="goods_brand">
 					<option value="浙江" selected="">浙江省</option>
 					<option value="你的工号">江西省</option>
 					<option value="你最喜欢的老师">福建省</option>
-				</select>	</div>
-				<div class="layui-input-inline">
-					<a href="{:url('admin/Brand/add')}" style="line-height: 40px;">添加品牌</a>
-				</div>
-		</div>
-		<div class="layui-form-item ">
-			<label class="layui-form-label"><span>*</span>商品排序:</label>
-			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">
+				</select> </div>
+			<div class="layui-input-inline">
+				<a href="{:url('admin/Brand/add')}" style="line-height: 40px;">添加品牌</a>
 			</div>
 		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">活动排序</label>
+			<div class="layui-input-block">
+				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input"
+				 id="sort_number">
 
+			</div>
+			<div class="tips">
+				*填写正整数，从大到小排序
+			</div>
+		</div>
+		<div class="basic-information title"> 详细信息</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">开放要求</label>
+			<div class="layui-input-block">
+				<input type="radio" name="sex1" value="1" title="对所有人开放" checked="">
+				<input type="radio" name="sex1" value="2" title="对所有人开放">
+			</div>
+
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">活动要求</label>
+			<div class="layui-input-block">
+				<input type="radio" name="sex2" value="1" title="无需预约" checked="">
+				<input type="radio" name="sex2" value="2" title="需要预约">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label"><span class="red">*</span>活动上限人数</label>
+			<div class="layui-input-block">
+				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input"
+				 id="sort_number">
+
+			</div>
+			<div class="tips">
+				*不填写，表示不限制人数
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label"><span class="red">*</span>活动费用</label>
+			<div class="layui-input-block">
+				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input"
+				 id="sort_number">
+
+			</div>
+			<div class="tips">
+				*不填写，表示免费
+			</div>
+		</div>
+		<div class="layui-form-item" class="biaoji">
+			<label class="layui-form-label"><span>*</span>活动规格</label>
+			<div class="layui-input-inline">
+				<input type="checkbox" name="like1[write]" lay-skin="primary" title="参加会员折扣" checked="">
+			</div>
+			<div class="layui-input-inline">
+				管理会员卡
+			</div>
+
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">活动图</label>
+			<div class="layui-input-block">
+
+				<div class="img-box full">
+					<section class=" img-section">
+						<div class="z_photo upimg-div clear">
+							<section class="z_file fl">
+								<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+								<input type="file" name="goods_show_images" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp"
+								 multiple />
+							</section>
+						</div>
+					</section>
+				</div>
+				<aside class="mask works-mask">
+					<div class="mask-content">
+						<p class="del-p ">您确定要删除作品图片吗？</p>
+						<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+					</div>
+				</aside>
+			</div>
+			<div class="tips">
+				建议尺寸：？*？像素
+			</div>
+		</div>
 		<div class="layui-form-item layui-form-text">
 			<label class="layui-form-label">商品描述：</label>
 			<div class="layui-input-block">
@@ -146,46 +268,16 @@
 				</div>
 			</div>
 		</div>
-		
-		<div class="basic-information title"> 其他
-		</div>
+
+
 		<div class="layui-form-item" class="biaoji">
-			<label class="layui-form-label">上架年限：</label>
+			<label class="layui-form-label">状态：</label>
 			<div class="layui-input-block" id="">
-				<input type="radio" name="goods_putaway" value="1年10元/单个商品" title="1年10元/单个商品" checked="" class="hot">
-				<input type="radio" name="goods_putaway" value="2年15元/单个商品" title="2年15元/单个商品" class="">
-				<input type="radio" name="goods_putaway" value="3年25元/单个商品" title="3年25元/单个商品" class="">
+				<input type="radio" name="goods_putaway" value="暂不发布" title="暂不发布" checked="" class="hot">
+				<input type="radio" name="goods_putaway" value="立即发布" title="立即发布" class="">
 			</div>
 		</div>
-		<div class="layui-form-item" pane="">
-			<label class="layui-form-label">限购：</label>
-			<div class="layui-input-inline">
-				<input type="checkbox" lay-skin="primary" title="限制每人可购买数量"  >
-			</div>
-			<div class="layui-input-inline">
-				<input type="text" name="goods_restriction" id="" value="" style="margin-right: 10px;" id="goods_restriction" />件
-			</div>
-		</div>
-		<div class="layui-form-item" class="biaoji">
-			<label class="layui-form-label"><span>*</span>是否上架：</label>
-			<div class="layui-input-block" id="goods_sign">
-				<input type="radio" name="goods_status" value="hot" title="上架" checked="" class="hot">
-				<input type="radio" name="goods_status" value="促销" title="不上架" class="">
-		
-			</div>
-		</div>
-		<div class="basic-information title"> 配送与安装服务
-		</div>
-	
-		<div class="layui-form-item" class="biaoji">
-			<label class="layui-form-label">配送与安装服务：</label>
-			<div class="layui-input-block" id="">
-				<input type="checkbox" name="goods_delivery[]" value="到店自提" title="到店自提" checked="" class="hot">
-				<input type="checkbox" name="goods_delivery[]" value="上门安装" title="上门安装" class="">
-				<input type="checkbox" name="goods_delivery[]" value="送货上门" title="送货上门" class="">
-				<input type="checkbox" name="goods_delivery[]" value="送货上门" title="平台配送" class="">
-			</div>
-		</div>
+
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn submit_btn" lay-submit="" lay-filter="demo1" type="submit">保存</button>
@@ -206,17 +298,33 @@
 	<script type="text/javascript">
 		layui.config({
 			base: "js/"
-		}).use(['form', 'layer', 'jquery', 'laypage','layedit'], function() {
+		}).use(['form', 'layer', 'jquery', 'laypage', 'layedit'], function() {
 			var form = layui.form(),
-			layedit = layui.layedit,
+				layedit = layui.layedit,
 				layer = parent.layer === undefined ? layui.layer : parent.layer,
 				laypage = layui.laypage,
 				$ = layui.jquery;
-				layedit.build('demo');
-					form.render('select');
+			layedit.build('demo');
+			form.render('select');
+			$(".add_biao").click(function(){
+						var dhtml="";
+						dhtml='<div class="list" style="width: 134px; float: left;"><input type="checkbox" name="" lay-skin="primary" title="特色活动"><span style="margin-top: 10px;vertical-align: -6px; color: #0EA9E3;"  class="change_text">修改</span></div>'
+						$("#hot").append(dhtml);
+						form.render();
+			});
 		
+			$("#hot").on('click',".change_text",function(){
+				console.log($(this).siblings('.layui-unselect').children('span').html()); 
 
-			
+				layer.prompt({title: '请输入修改的文字', formType: 2},
+				 function(text, index){
+					  layer.close(index);
+					  console.log($(this).siblings('.layui-unselect').children('span').html())
+					 
+					})
+			})
+
+
 		})
 	</script>
 
@@ -224,15 +332,12 @@
 		//实例化编辑器
 		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 		var ue = UE.getEditor('editor');
-// 		$('#datetimepicker1').datetimepicker({
-// 			datepicker:false,
-// 			format:'H:i',
-// 			step:1
-// 		});
-$('#datetimepicker').datetimepicker({
-	format: 'Y/m/d H:m',
-	step:1,
-	});
+	
+		$('#datetimepicker').datetimepicker({
+			format: 'Y/m/d H:m',
+			step: 1,
+		});
+		
 	</script>
 
 	{/block}
