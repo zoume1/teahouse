@@ -58,6 +58,25 @@ class Photo extends Controller{
         $this->assign('images_url',$datas);
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:图片删除
+     **************************************
+     */
+    public function del($id){
+        $image_url =Db::name('images_online')->field('images')->where('id',$id)->find();
+        if($image_url['images'] != null){
+            unlink(ROOT_PATH . 'public' . DS . 'upload/'.$image_url['goods_images']);
+        }
+        $res =Db::name('images_online')->where('id',$id)->delete();
+        if($res){
+            $this->success('删除成功','admin/Photo/index');
+        }else{
+            $this->error('删除失败','admin/Photo/index');
+        }
+    }
+
 
 
 
