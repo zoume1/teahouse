@@ -30,9 +30,10 @@
 }
 .layui-form-item{
 	width: 60%;
-	margin-bottom: 27px;
+	/* margin-bottom: 27px; */
 	margin-top: 20px;
-	margin: 20px auto;
+	/* margin: 20px auto; */
+	margin-left: 20px;
 }
 .layui-form-select .layui-edge{
 	right: 33px;
