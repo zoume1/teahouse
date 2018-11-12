@@ -65,6 +65,10 @@ class Photo extends Controller{
      **************************************
      */
     public function del($id){
+        $image_url =Db::name('images_online')->field('images')->where('id',$id)->find();
+        if($image_url['images'] != null){
+            unlink(ROOT_PATH . 'public' . DS . 'upload/'.$image_url['goods_images']);
+        }
         $res =Db::name('images_online')->where('id',$id)->delete();
         if($res){
             $this->success('删除成功','admin/Photo/index');
