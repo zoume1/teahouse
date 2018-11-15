@@ -4,10 +4,10 @@ $(function(){
 		fileType         : ["jpg","png","bmp","jpeg"],   // 上传文件的类型
 		fileSize         : 1024 * 1024 * 10                  // 上传文件的大小 10M
 	};
-	// alert(11);
-
+	
 		/*点击图片的文本框*/
 	$(".file").change(function(){	 
+		var maximg=$(this).data("id");
 	
 		var idFile = $(this).attr("id");
 		var file = document.getElementById(idFile);
@@ -17,16 +17,15 @@ $(function(){
 		var input = $(this).parent();//文本框的父亲元素
 		var imgArr = [];
 		// console.log(imgContainer.find(".up-section"));
-
 		//遍历得到的图片文件
 		var numUp = imgContainer.find(".up-section").length;
 		
 		var totalNum = numUp + fileList.length;  //总的数量
 		// console.log(fileList.length)
-		if(fileList.length > 10 || totalNum > 10){
-			alert("上传图片数目不可以超过10个，请重新选择");  //一次选择上传超过5个 或者是已经上传和这次上传的到的总数也不可以超过5个
+		if(fileList.length > maximg || totalNum >maximg ){
+			alert("上传图片数目不可以超过"+maximg+"个，请重新选择");  //一次选择上传超过5个 或者是已经上传和这次上传的到的总数也不可以超过5个
 		}
-		else if(numUp < 10){
+		else if(numUp < maximg){
 			fileList = validateUp(fileList);
 			for(var i = 0;i<fileList.length;i++){
 			 var imgUrl = window.URL.createObjectURL(fileList[i]);
@@ -61,7 +60,7 @@ $(function(){
 		 	 $(".up-img").removeClass("up-opcity");
 		 },450);
 		 numUp = imgContainer.find(".up-section").length;
-		if(numUp >= 10){
+		if(numUp >= maximg){
 			$(this).parent().hide();
 		}
 	});
@@ -74,9 +73,10 @@ $(function(){
 	});
 		
 	$(".wsdel-ok").click(function(){
+		var max=delParent.parent().find(".z_file").children("input").data("id")+1;
 		$(".works-mask").hide();
 		var numUp = delParent.siblings().length;
-		if(numUp < 11){
+		if(numUp < max){
 			delParent.parent().find(".z_file").show();
 		}
 		 delParent.remove();

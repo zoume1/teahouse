@@ -343,6 +343,16 @@ Route::group("admin",[
 	 "teacircle_index"=>"admin/Teacircle/index",
 	 "teacircle_add"=>"admin/Teacircle/add",
 	 "teacircle_edit"=>"admin/Teacircle/edit",
+	
+	
+	 /*评论*/
+	 "comments_index"=>"admin/Comments/index",
+	 "comments_add"=>"admin/Comments/add",
+	 "comments_edit"=>"admin/Comments/edit",
+	   
+	 /*评论*/
+	 "active_order_index"=>"admin/ActiveOrder/index",
+	 
 	 
 ]);
 

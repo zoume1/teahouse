@@ -16,9 +16,10 @@
 	.layui-form-label span {
 		color: red;
 	}
-  
+
 	.layui-form {
 		width: 98%;
+
 		margin: 0 auto;
 		padding-top: 40px;
 	}
@@ -64,10 +65,10 @@
 	}
 
 	.tips {
-		margin-left: 17%;
-		color: 949494;
+		color: #999;
 	}
-	.change_text{
+
+	.change_text {
 		cursor: pointer;
 	}
 </style>
@@ -88,10 +89,11 @@
 			<label class="layui-form-label"><span>*</span>活动名称</label>
 			<div class="layui-input-block">
 				<input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="goods_name">
+				<div class="tips">
+					活动名称必须填写，最多100个字
+				</div>
 			</div>
-			<div class="tips">
-				活动名称必须填写，最多100个字
-			</div>
+
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">活动地址</label>
@@ -127,39 +129,41 @@
 
 			</div>
 		</div>
-	<div class="layui-form-item" class="biaoji">
-		<label class="layui-form-label">活动标记</label>
-		<div class="layui-input-block" style="overflow: hidden;">
-			<div id="hot" style="overflow: hidden; float: left;">	
-			<div class="list" style="width: 70px; float: left;">
-			<input type="checkbox" name="like1[write]" lay-skin="primary" title="hot" checked="">
+		<div class="layui-form-item" class="biaoji">
+			<label class="layui-form-label">活动标记</label>
+			<div class="layui-input-block" style="overflow: hidden;">
+				<div id="hot" style="overflow: hidden; float: left;">
+					<div class="list" style="width: 70px; float: left;">
+						<input type="checkbox" name="like1[write]" lay-skin="primary" title="hot" checked="" >
+					</div>
+					<div class="list" style="width: 70px; float: left;">
+						<input type="checkbox" name="like1[read]" lay-skin="primary" title="aaa">
+					</div>
+					<div class="list" style="width: 134px; float: left;">
+						<input type="checkbox" name="like1[read]" lay-skin="primary" title="特色活动">
+						<span style="margin-top: 10px;vertical-align: -6px; color: #0EA9E3;" class="change_text">修改</span>
+					</div>
+				</div>
+				<div class="add_biao" style="float: left;margin-top: 6px; margin-left: 10px;">
+					+添加文字标签
+				</div>
+
 			</div>
-			<div class="list" style="width: 70px; float: left;">
-			<input type="checkbox" name="like1[read]" lay-skin="primary" title="aaa">
-			</div>
-			<div class="list" style="width: 134px; float: left;">
-				<input type="checkbox" name="like1[read]" lay-skin="primary" title="特色活动">
-				<span style="margin-top: 10px;vertical-align: -6px; color: #0EA9E3;" class="change_text">修改</span>
-			</div>
-			</div>
-			<div class="add_biao" style="float: left;margin-top: 6px; margin-left: 10px;">
-				+添加文字标签
+			<div class="tips">
+				*在活动名称前添加，文字标签可编辑多选和添加，文字最长10个一个标签
 			</div>
 		</div>
-		<div class="tips">
-			*在活动名称前添加，文字标签可编辑多选和添加，文字最长10个一个标签
-		</div>
-	</div>
 
 		<div class="layui-form-item ">
 			<label class="layui-form-label"><span>*</span>分享描述</label>
 			<div class="layui-input-block">
 				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"
 				 id="sort_number">
+				<div class="tips">
+					*微信分享给好友时会显示，建议36个字以内 <span>查看示例</span>
+				</div>
 			</div>
-			<div class="tips">
-				*微信分享给好友时会显示，建议36个字以内 <span>查看示例</span>
-			</div>
+
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label"><span>*</span>归属分类</label>
@@ -170,7 +174,7 @@
 					<option value="你最喜欢的老师">福建省</option>
 				</select> </div>
 			<div class="layui-input-inline">
-				<a href="{:url('admin/Brand/add')}" style="line-height: 40px;">添加品牌</a>
+				<a href="{:url('admin/category/add')}" style="line-height: 40px;">添加分类</a>
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -205,22 +209,22 @@
 			<div class="layui-input-block">
 				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input"
 				 id="sort_number">
+				<div class="tips">
+					*不填写，表示不限制人数
+				</div>
+			</div>
 
-			</div>
-			<div class="tips">
-				*不填写，表示不限制人数
-			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label"><span class="red">*</span>活动费用</label>
 			<div class="layui-input-block">
 				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input"
 				 id="sort_number">
+				<div class="tips">
+					*不填写，表示免费
+				</div>
+			</div>
 
-			</div>
-			<div class="tips">
-				*不填写，表示免费
-			</div>
 		</div>
 		<div class="layui-form-item" class="biaoji">
 			<label class="layui-form-label"><span>*</span>活动规格</label>
@@ -253,16 +257,15 @@
 						<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
 					</div>
 				</aside>
+				<div class="tips">
+					建议尺寸：？*？像素
+				</div>
 			</div>
-			<div class="tips">
-				建议尺寸：？*？像素
-			</div>
+
 		</div>
 		<div class="layui-form-item layui-form-text">
 			<label class="layui-form-label">商品描述：</label>
 			<div class="layui-input-block">
-				<!-- <textarea id="demo" style="display: none;"></textarea> -->
-				<!-- <textarea placeholder="请输入内容" class="layui-textarea" name="desc"></textarea> -->
 				<div id="goods_text">
 					<script id="editor" type="text/plain" name="goods_text" style="width:800px;height:500px;"></script>
 				</div>
@@ -306,22 +309,26 @@
 				$ = layui.jquery;
 			layedit.build('demo');
 			form.render('select');
-			$(".add_biao").click(function(){
-						var dhtml="";
-						dhtml='<div class="list" style="width: 134px; float: left;"><input type="checkbox" name="" lay-skin="primary" title="特色活动"><span style="margin-top: 10px;vertical-align: -6px; color: #0EA9E3;"  class="change_text">修改</span></div>'
-						$("#hot").append(dhtml);
-						form.render();
+			$(".add_biao").click(function() {
+				var dhtml = "";
+				dhtml =
+					'<div class="list" style="width: 134px; float: left;"><input type="checkbox" name="" lay-skin="primary" title="特色活动"><span style="margin-top: 10px;vertical-align: -6px; color: #0EA9E3;"  class="change_text">修改</span></div>'
+				$("#hot").append(dhtml);
+				form.render();
 			});
-		
-			$("#hot").on('click',".change_text",function(){
-				console.log($(this).siblings('.layui-unselect').children('span').html()); 
 
-				layer.prompt({title: '请输入修改的文字', formType: 2},
-				 function(text, index){
-					  layer.close(index);
-					  console.log($(this).siblings('.layui-unselect').children('span').html())
-					 
-					})
+			$("#hot").on('click', ".change_text", function() {
+				var texts = $(this).siblings('input');
+				layer.prompt({
+						title: '请输入修改的文字',
+						formType: 2
+					},
+					function(text, index) {
+						texts.attr("title",text);
+						layer.close(index);
+						form.render();
+					});
+
 			})
 
 
@@ -332,12 +339,11 @@
 		//实例化编辑器
 		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 		var ue = UE.getEditor('editor');
-	
+
 		$('#datetimepicker').datetimepicker({
 			format: 'Y/m/d H:m',
 			step: 1,
 		});
-		
 	</script>
 
 	{/block}

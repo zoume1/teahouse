@@ -3,7 +3,6 @@
 </head>
 
 {block name="css"}
-<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css"/>
 <style type="text/css">
 
 	body {
@@ -42,42 +41,33 @@
 	{block name="content"}
 
 	<form class="layui-form" action="{:url('admin/Category/save')}" method="post" enctype="multipart/form-data">
-		<div class="layui-form-item ">
-			<label class="layui-form-label"><span>*</span>分类名称</label>
-			<div class="layui-input-block">
-				<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">状态</label>
-			<div class="layui-input-block">
-				<input type="radio" name="status" value="1" title="启用" checked="">
-				<input type="radio" name="status" value="0" title="禁用">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">父级分类</label>
-			<div class="layui-input-block">
-				{if !empty($goods_list)}
-				<select name="pid" id="admin_role" class="role_list">
-					<option value="0">顶级</option>
-					{volist name="goods_list" id="value"}
-					<option value="{$value.id}">{$value.name}</option>
-					{/volist}
-				</select><br/>
-				{else /}
-				<select name="pid" class="role_list">
-					<option value="0">顶级</option>
-				</select><br/>
-				{/if}
-			</select>
-			</div>
-		</div>
+		
 	
 		<div class="layui-form-item">
-			<label class="layui-form-label"><span>*</span>排序</label>
+			<label class="layui-form-label">文字评论积分</label>
 			<div class="layui-input-block">
-				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+			   <div class="tips">
+				   不设置积分为0
+			   </div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">获点赞数得积分</label>
+			<div class="layui-input-block">
+				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+			<div class="tips">
+				不设置积分为0
+			</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">获评论数得积分</label>
+			<div class="layui-input-block">
+				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+			<div class="tips">
+				不设置积分为0
+			</div>
 			</div>
 		</div>
 		<div class="layui-form-item">
