@@ -22,7 +22,7 @@ class Category extends Controller{
      * 陈绪
      */
     public function index(){
-        $category = db("goods_type")->where("status","<>","0")->paginate(5);
+        $category = db("goods_type")->paginate(5);
         return view("category_index",["category"=>$category]);
     }
 
@@ -34,14 +34,12 @@ class Category extends Controller{
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
      */
     public function add($pid = 0){
-        $goods_cate = [];
         $goods_list = [];
-        if($pid == 0){
-            $goods_list = getSelectList("goods_type");
-        }else{
-            $goods_cate = db("goods_type")->where("id",$pid)->field()->select();
+
+        if($pid == 0) {
+            $goods_list = postSelectList("goods_type");
         }
-        return view("category_add",["goods_list"=>$goods_list,"goods_cate"=>$goods_cate]);
+        return view("category_add",["goods_list"=>$goods_list]);
     }
 
 
@@ -53,10 +51,6 @@ class Category extends Controller{
     public function save(Request $request){
         if($request->isPost()){
             $data = $request->param();
-            unset($data["taglocation"]);
-            unset($data["tags"]);
-            $show_images = $request->file("type_images")->move(ROOT_PATH . 'public' . DS . 'uploads');
-            $data["type_images"] = str_replace("\\","/",$show_images->getSaveName());
             $bool = db("goods_type")->insert($data);
             if($bool){
                 $this->success("添加成功",url("admin/Category/index"));
@@ -74,6 +68,7 @@ class Category extends Controller{
      */
     public function edit($pid=0,$id){
         $category = db("goods_type")->where("id",$id)->select();
+        dump($category);
         $category_name = db("goods_type")->where("id",$category[0]["pid"])->field("name,id")->select();
         if($pid == 0){
             $goods_list = getSelectList("goods_type");

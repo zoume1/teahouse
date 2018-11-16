@@ -141,7 +141,7 @@ Route::group("admin",[
 
 
 
-    /*商品分类*/
+    /*商品分类
     "category_index"=>"admin/Category/index",
     "category_add"=>"admin/Category/add",
     "category_save"=>"admin/Category/save",
@@ -151,7 +151,7 @@ Route::group("admin",[
     "category_ajax"=>"admin/Category/ajax_add",
     "category_images"=>"admin/Category/images",
     "category_status"=>"admin/Category/status",
-
+    */
 
 
     /*会员管理 ：TODO*/
@@ -340,9 +340,18 @@ Route::group("admin",[
 
 	
 	 /*茶圈*/
-	 "teacircle_index"=>"admin/Teacircle/index",
-	 "teacircle_add"=>"admin/Teacircle/add",
-	 "teacircle_edit"=>"admin/Teacircle/edit",
+	 //"teacircle_index"=>"admin/Teacircle/index",
+	 //"teacircle_add"=>"admin/Teacircle/add",
+	 //"teacircle_edit"=>"admin/Teacircle/edit",
+    "category_index"=>"admin/Category/index",
+    "category_add"=>"admin/Category/add",
+    "category_save"=>"admin/Category/save",
+    "category_edit"=>"admin/Category/edit",
+    "category_del"=>"admin/Category/del",
+    "category_updata"=>"admin/Category/updata",
+    "category_ajax"=>"admin/Category/ajax_add",
+    "category_images"=>"admin/Category/images",
+    "category_status"=>"admin/Category/status",
 	
 	
 	 /*评论*/

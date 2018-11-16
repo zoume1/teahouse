@@ -108,9 +108,9 @@
 				<tbody class="news_content">
 					{volist name="category" id="value"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"></td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
 						<td align="left">{$value.name}</td>
-						<td style="width: 100px;"><img src="__UPLOADS__/{$value.type_images}"></td>
+						<td>{$value.rank}</td>
 						<td>{$value.pid}</td>
 						<td>{$value.sort_number}</td>
 						<td>
