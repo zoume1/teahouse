@@ -173,9 +173,7 @@ Route::group("admin",[
     "integral_detail"=>"admin/Integral/detail", //积分详情
 
     /*配件商广告，服务商广告，平台广告开始*/
-    "Accessories_business_advertising"=>"admin/Advertisement/accessories_business_advertising",
-    "Accessories_business_add"=>"admin/Advertisement/accessories_business_add",
-    "Accessories_business_edit"=>"admin/Advertisement/accessories_business_edit",
+
 
     "Service_business_advertising"=>"admin/service_advertisement/Service_business_advertising",
     "Service_business_add"=>"admin/service_advertisement/Service_business_add",
@@ -340,19 +338,23 @@ Route::group("admin",[
 
 	
 	 /*茶圈*/
-	 //"teacircle_index"=>"admin/Teacircle/index",
-	 //"teacircle_add"=>"admin/Teacircle/add",
-	 //"teacircle_edit"=>"admin/Teacircle/edit",
-    "category_index"=>"admin/Category/index",
-    "category_add"=>"admin/Category/add",
-    "category_save"=>"admin/Category/save",
-    "category_edit"=>"admin/Category/edit",
-    "category_del"=>"admin/Category/del",
-    "category_updata"=>"admin/Category/updata",
-    "category_ajax"=>"admin/Category/ajax_add",
-    "category_images"=>"admin/Category/images",
-    "category_status"=>"admin/Category/status",
-	
+    "category_index"=>"admin/Category/index",   //活动分类显示
+    "category_add"=>"admin/Category/add",       //活动分类添加
+    "category_save"=>"admin/Category/save",     //活动分类分组入库
+    "category_edit"=>"admin/Category/edit",     //活动分类分组修改
+    "category_del"=>"admin/Category/del",       //活动分类分组删除
+    "category_updata"=>"admin/Category/updata", //活动分类分组更新
+    "category_ajax"=>"admin/Category/ajax_add", //活动分类分组ajax显示
+    "category_dels"=>"admin/Category/dels",     //活动分类批量删除
+    "category_status"=>"admin/Category/status", //活动分类分组状态修改
+
+
+    "accessories_business_advertising"=>"admin/Advertisement/index", //活动管理
+    "accessories_business_add"=>"admin/Advertisement/accessories_business_add",                 //活动管理分组添加
+    "accessories_business_edit"=>"admin/Advertisement/accessories_business_edit",
+
+
+
 	
 	 /*评论*/
 	 "comments_index"=>"admin/Comments/index",

@@ -41,7 +41,7 @@
 
 	{block name="content"}
 
-	<form class="layui-form" action="{:url('admin/Category/save')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form" action="{:url('admin/Category/updata')}" method="post" enctype="multipart/form-data">
 
 		{if !empty($category)}
 		{volist name="category" id="vo"}
@@ -85,13 +85,13 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label"><span>*</span>级别</label>
 			<div class="layui-input-block">
-				<input type="number" name="rank" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+				<input type="number" name="rank" value="{$vo.rank}">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label"><span>*</span>排序</label>
 			<div class="layui-input-block">
-				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+				<input type="number" name="sort_number" value="{$vo.sort_number}">
 			</div>
 		</div>
 		<div class="layui-form-item">
