@@ -53,7 +53,9 @@ class Login extends Controller{
         if ($request->isPost()){
             $username = $request->only("account")["account"];
             $passwd = $request->only("passwd")["passwd"];
-            $userInfo = db("admin")->where("account",$username)->where("status","<>",0)->select();
+
+            $userInfo = db("admin")->where("account",$username)->where("status","<>",1)->select();
+
             if (!$userInfo) {
                 $this->success("账户名不正确或管理员以被停用",url("admin/Login/index"));
             }
@@ -61,7 +63,7 @@ class Login extends Controller{
                 Session("user_id", $userInfo[0]["id"]);
                 unset($userInfo->user_passwd);
                 Session("user_info", $userInfo);
-                // $this->redirect(url("admin/index/index"));
+               // $this->redirect(url("admin/index/index"));
                 $this->success("登录成功",url("admin/Index/index"));
             }else{
                 $this->success("账户密码不正确",url("admin/Login/index"));
