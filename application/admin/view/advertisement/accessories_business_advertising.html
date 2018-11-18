@@ -100,7 +100,7 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
+						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" data-id="{$value.id}"></th>
 						<th>活动名称</th>
 						<th>活动图片</th>
 						<th>活动地址</th>
@@ -115,20 +115,25 @@
 				<tbody class="news_content">
 				{volist name="accessories" id="value"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"></td>
-						<td>2</td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"  data-id="{$value.id}"></td>
+						<td align="left">{$value.activity_name}</td>
 						<td>
 							<div style="width: 80px; height: 80px;"><img src="__STATIC__/admin/common/img/a11.png" /></div>
 						</td>
-						<td>管理员</td>
-						<td>管理员</td>
-						<td>2018</td>
+						<td>{$value.address}</td>
+						<td>{$value.class_name}</td>
+						<td>{$value.cost_moneny}</td>
 						<td>
-							<input type="checkbox" class="Status" name="show" value="1" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
-							 checked="" data-id="">
+								{if $value.label == 0}
+							<input type="checkbox" class="Status" name="show" value="{$value.label}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+							 checked="" data-id="{$value.id}">
+								 {else /}
+								 <input type="checkbox" class="Status" name="show" value="{$value.label}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+								 checked="" data-id="{$value.id}">
+								 {/if}
 						</td>
-						<td>2018</td>
-						<td>2018</td>
+						<td>{$value.order_ing}</td>
+						<td>{$value.start_time}</td>
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Advertisement/accessories_business_edit')}"><i class="iconfont icon-edit"></i>
 								编辑</a>
@@ -140,6 +145,8 @@
 				{/volist}
 				</tbody>
 			</table>
+			{$accessories->render()}
+		</div>
 			<div id="page">
 				<div class="opation" style="width: 200px; float: left;">
 					<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">

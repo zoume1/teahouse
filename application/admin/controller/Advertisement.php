@@ -45,17 +45,21 @@ class Advertisement extends Controller{
      * [活动分类分组入库]
      * 陈绪
      */
-/*    public function save(Request $request){
+    public function save(Request $request){
         if($request->isPost()){
             $data = $request->param();
+            unset($data["taglocation"]);
+            unset($data["tags"]);
+            $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+            $data["classify_image"] = str_replace("\\","/",$show_images->getSaveName());
             $bool = db("teahost")->insert($data);
             if($bool){
-                $this->success("添加成功",url("admin/Category/index"));
+                $this->success("添加成功",url("admin/Advertisement/index"));
             }else{
-                $this->error("添加失败",url("admin/Category/add"));
+                $this->error("添加失败",url("admin/Advertisement/accessories_business_add"));
             }
         }
-    }*/
+    }
 
 
 
@@ -64,12 +68,12 @@ class Advertisement extends Controller{
      * [陈绪]
      */
     public function accessories_business_edit($pid=0,$id){
-        $category = db("goods_type")->where("id",$id)->select();
-        $category_name = db("goods_type")->where("id",$category[0]["pid"])->field("name,id")->select();
+        $teahost = db("teahost")->where("id",$id)->select();
+        $teahost_name = db("teahost")->where("id",$teahost[0]["pid"])->field("name,id")->select();
         if($pid == 0){
-            $goods_list = postSelectList("goods_type");
+            $list = postSelectList("teahost");
         }
-        return view("accessories_business_edit",["category"=>$category,"category_name"=>$category_name,"goods_lists"=>$goods_list]);
+        return view("accessories_business_edit",["teahost"=>$teahost,"teahost_name"=>$teahost,"list"=>$list]);
     }
 
 
@@ -79,19 +83,19 @@ class Advertisement extends Controller{
      * @param Request $request
      * @param $id
      */
-/*    public function updata(Request $request){
+    public function updata(Request $request){
         if($request->isPost()) {
             $data = $request->only(["name", "status", "sort_number", "pid","rank"]);
-            halt($data);
+            $show_images = $request->file("type_images")->move(ROOT_PATH . 'public' . DS . 'uploads');
+            $data["type_images"] = str_replace("\\", "/", $show_images->getSaveName());
             $bool = db("goods_type")->where('id', $request->only(["id"])["id"])->update($data);
-            halt($bool);
             if ($bool) {
-                $this->success("编辑成功", url("admin/Category/index"));
+                $this->success("编辑成功", url("admin/Advertisement/index"));
             } else {
-                $this->error("编辑失败", url("admin/Category/edit"));
+                $this->error("编辑失败", url("admin/Advertisement/accessories_business_add"));
             }
         }
-    }*/
+    }
 
 
     /**
