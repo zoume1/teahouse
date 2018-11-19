@@ -38,7 +38,7 @@
 {/block}
 
 <body>
-
+	{block name="content"}
 	<form class="layui-form" action="{:url('admin/Category/save')}" method="post" enctype="multipart/form-data">
 		<div class="layui-form-item ">
 			<label class="layui-form-label"><span>*</span>分类名称</label>
@@ -51,6 +51,33 @@
 			<div class="layui-input-block">
 				<input type="radio" name="status" value="1" title="启用" checked="">
 				<input type="radio" name="status" value="0" title="禁用">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">一级图标</label>
+			<div class="layui-input-block">
+				<div class="img-box full">
+					<section class=" img-section">
+						<div class="z_photo upimg-div clear">
+							<section class="z_file fl">
+								<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+								<input type="file" name="goods_show_images" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id ="1"/>
+							</section>
+						</div>
+					</section>
+				</div>
+				<aside class="mask works-mask">
+					<div class="mask-content">
+						<p class="del-p ">您确定要删除作品图片吗？</p>
+						<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+					</div>
+				</aside>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">主调色</label>
+			<div class="layui-input-block">
+				<input type="color" value="#125f87">
 			</div>
 		</div>
 		<div class="layui-form-item">

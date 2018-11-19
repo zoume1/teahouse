@@ -31,6 +31,20 @@
 		margin: 0 auto;
 		padding-top: 40px;
 	}
+	/* 数据库展现图片样式 */
+	.img {
+		position: relative;
+		display: inline-block;
+		width: 100px;
+	}
+
+	.img>i {
+		display: inline-block;
+		width: 20px;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
 
 </style>
 
@@ -62,6 +76,41 @@
 				<input type="radio" name="status" value="" title="禁用" >
 				{/if}
 
+			</div>
+		</div>
+			<div class="layui-form-item">
+			<label class="layui-form-label">一级图标</label>
+			<div class="layui-input-block">
+				<div class="imgcontent">
+					<span class="img">
+						<img src="__STATIC__/admin/commit/img/a11.png" width="100%">
+						<i class="remove-img" data-id="" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+					</span>
+				</div>
+			</div>
+			<div class="layui-input-block">
+				<div class="img-box full">
+					<section class=" img-section">
+						<div class="z_photo upimg-div clear">
+							<section class="z_file fl">
+								<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+								<input type="file" name="goods_show_images" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id ="1"/>
+							</section>
+						</div>
+					</section>
+				</div>
+				<aside class="mask works-mask">
+					<div class="mask-content">
+						<p class="del-p ">您确定要删除作品图片吗？</p>
+						<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+					</div>
+				</aside>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">主调色</label>
+			<div class="layui-input-block">
+				<input type="color" value="#125f87">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -167,6 +216,46 @@
 	{block name="bottom"}
 
 	<script type="text/javascript">
+			// 图片删除
+		$(".remove-img").click(function() {
+			var remove = $(this).parent();
+			var id = $(this).data("id");
+			var value = $(this).data("value");
+			console.log(value)
+			console.log(id);
+			if (value == 1) {
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/Goods/images')}",
+					data: {
+						"id": id
+					},
+					dataType: "json",
+					success: function(data) {
+						remove.remove();
+					},
+					error: function(data) {
+						console.log("错误");
+					}
+				});
+			} else {
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/Goods/images')}",
+					data: {
+						"images_id": id
+					},
+					dataType: "json",
+					success: function(data) {
+						remove.remove();
+					},
+					error: function(data) {
+						console.log("错误");
+					}
+				});
+			}
+			// 		
+		});
 
 		layui.config({
 			base: "js/"
