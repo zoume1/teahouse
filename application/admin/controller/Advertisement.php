@@ -33,9 +33,10 @@ class Advertisement extends Controller{
      */
     public function accessories_business_add($pid = 0){
         $list = [];
-        if($pid == 0) {
-            $list = postSelectList("teahost");
-        }
+        // if($pid == 0) {
+        //     $list = postSelectList("teahost");
+        // }
+        
         return view("accessories_business_add",["list"=>$list]);
     }
 
