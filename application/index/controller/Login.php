@@ -32,11 +32,11 @@ class Login extends Controller{
         $http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $params, 'GET');
         $session_key = json_decode($http_key, true);
         if (!empty($session_key['session_key'])) {
-            return ajax_success('这是数据',['dsdsd'=>111]);
             $appid = $params['appid'];
             $encryptedData = urldecode($get['encryptedData']);
             $iv = define_str_replace($get['iv']);
-            $errCode = decryptData($appid, $session_key['session_key'], $encryptedData, $iv);
+            $errCode = decryptData($appid,$session_key['session_key'],$encryptedData, $iv);
+            return ajax_success('这是数据',$errCode);
             if(!empty($errCode)){
                 return ajax_success('这是数据',$errCode);
             }
