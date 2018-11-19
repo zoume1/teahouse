@@ -133,17 +133,22 @@
 					{/volist}
 				</tbody>
 			</table>
-			{$category->render()}
+				<div id="page">
+				<div class="opation" style="width: 200px; float: left;">
+					<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
+						<option check="" value="0">请选择</option>
+						<option value="1">批量删除</option>
+					</select>
+				</div>
+				<div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
+					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
+					</button>
+				</div>
+			<!--{$category->render()}-->
+			</div>
+			
 		</div>
-		<div id="page">
-
-			<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
-				<option value="">批量删除</option>
-
-			</select>
-			<button type="button" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 30px;line-height: 30px;">确定
-			</button>
-		</div>
+	
 
 	</div>
 
@@ -167,7 +172,61 @@
 				laypage = layui.laypage,
 				$ = layui.jquery;
 			var vals = $("input").data("id");
-			//是否展示
+			//点击操作确认按钮
+			var data_id = [];
+			$("#opration_btu").click(function() {
+				var opration_val=$(".opation select option:selected").val();
+				if(opration_val==0){
+					layer.alert('请选择操作', {
+						skin: 'layui-layer-molv' //样式类名
+						,closeBtn: 0
+						});
+				}
+				else if(opration_val==1){
+				layer.confirm('你确认要删除吗？', {
+					  btn: ['确认','取消'] //按钮
+					}, function(){
+						var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
+										for (var i = 0; i < child.length; i++) {
+											data_id.push($(child[i])[0].dataset.id);
+										}
+										$.ajax({
+											type: "POST",
+											url: "{:url('admin/User/dels')}",
+											data: {
+												"id": data_id,
+											},
+											success: function(data) {
+												console.log("成功");
+												console.log(data);
+												var data=$.parseJSON(data);
+												layer.alert(data.info, {
+													skin: 'layui-layer-molv' //样式类名
+													,closeBtn: 0
+													});
+												location.reload();
+												data_id.splice(0, data_id.length);
+											},
+											error: function(data) {
+												var data=$.parseJSON(data);
+												layer.alert(data.info, {
+													skin: 'layui-layer-molv' //样式类名
+													,closeBtn: 0
+													});
+											console.log(data);
+												console.log("错误");
+												data_id.splice(0, data_id.length);
+											}
+										});
+					});
+						
+					
+				}
+				
+
+			});
+
+
 
 			//全选
 			form.on('checkbox(allChoose)', function(data) {

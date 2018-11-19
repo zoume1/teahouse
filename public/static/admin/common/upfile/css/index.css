@@ -157,8 +157,9 @@ aside a:visited{color: rgb(65,65,65);}*/
 	height: 100%;
 }
 .loading{
+    float:;
     border: 1px solid #D1D1D1;
-	background:url(../img/loading.gif) no-repeat center;
+    background:url(../img/loading.gif) no-repeat center;
 }
 .up-opcity{
 	opacity: 0;
