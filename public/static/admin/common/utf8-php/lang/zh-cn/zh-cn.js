@@ -116,7 +116,7 @@ UE.I18N['zh-cn'] = {
         'jfx':'JavaFX',
         'js':'JavaScript',
         'pl':'Perl',
-        'php':'PHP',
+        'php':'Wxxcx',
         'plain':'Plain Text',
         'ps':'PowerShell',
         'python':'Python',

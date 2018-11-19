@@ -32,6 +32,8 @@ Route::group("",[
 
     /*登录页面*/
     "login_index"=>"index/Login/index",
+    /*登录授权*/
+    "wechatlogin"=>"index/Login/wechatlogin",
     /*退出登录*/
     "logout"=>"index/Login/logout",
     /*验证码*/
