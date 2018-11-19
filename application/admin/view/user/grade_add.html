@@ -57,7 +57,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">会员卡背景色：</label>
 			<div class="layui-input-inline">
-			<input type="color" name="" id="" value="#2D9900" />
+			<input type="color" name="" id="color" value="#2D9900" />
 			</div>
 			
 		</div>
@@ -74,38 +74,38 @@
 		<div class="layui-form-item ">
 			<label class="layui-form-label">首年消费满:</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">万元
+				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >万元
 				
 			</div>
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">次年消费满:</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">万元
+				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >万元
 			</div>
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">充值送会员:</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">万元
+				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >万元
 			</div>
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">充值送积分:</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">
+				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >
 			</div>
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">会员消费折扣:</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">
+				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"  id="sort_number">
 			</div>
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">是否介绍隐藏:</label>
 			<div class="layui-input-block">
-			<input type="checkbox" class="Status" name="show" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+			<input type="checkbox" class="Status" name="show" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" 
 			data-id="2">
 			</div>
 		</div>
@@ -128,7 +128,10 @@
 	<!--请在下方写此页面业务相关的脚本-->
 	{block name="bottom"}
 	<script type="text/javascript">
-	
+//		$("#sort_number").click(function(){
+//			 console.log($("#color").val());
+//		});
+	    
 			layui.config({
 				base: "js/"
 			}).use(['form', 'layer', 'jquery', 'laypage','layedit'], function() {

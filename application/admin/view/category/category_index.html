@@ -99,6 +99,8 @@
 						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
 						<th>分类名称</th>
 						<th>上级分类</th>
+						<th>一级图标</th>
+						<th>主调色</th>
 						<th>级别</th>
 						<th>排序</th>
 						<th>状态</th>
@@ -109,8 +111,11 @@
 					{volist name="category" id="value"}
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+					
 						<td align="left">{$value.name}</td>
-						<td>{$value.rank}</td>
+							<td>{$value.rank}</td>
+						<td width="100px"> <img src="aaa"/></td>
+						<td><input type="color" name="" id="" value="#7d431c" disabled="disabled"/></td>
 						<td>{$value.pid}</td>
 						<td>{$value.sort_number}</td>
 						<td>
@@ -121,7 +126,6 @@
 							<input type="checkbox" class="Status" name="show" value="{$value.status}" lay-skin="switch" lay-text="是|否"
 							 lay-filter="isShow" checked="" data-id="{$value.id}" />
 							{/if}
-
 						</td>
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i>
