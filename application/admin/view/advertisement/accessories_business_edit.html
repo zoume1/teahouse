@@ -78,13 +78,15 @@
 	<div class="open">
 
 	</div>
-	<form class="layui-form" action="{:url('admin/Goods/save')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form" action="{:url('admin/Advertisement/accessories_business_save')}" method="post" enctype="multipart/form-data">
+		{if !empty($teahost)}
+		{volist name="teahost" id="value"}
 		<div class="basic-information title"> 基本信息
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label"><span>*</span>活动名称</label>
 			<div class="layui-input-block">
-				<input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="goods_name">
+				<input type="text" name="activity_name" value={$value.activity_name}>
 			</div>
 			<div class="tips">
 				活动名称必须填写，最多100个字
@@ -112,24 +114,22 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label"></label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input"
-				 id="sort_number">
-
+				<input type="text" name="address" value={$value.address} id="sort_number">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">活动时间</label>
 			<div class="layui-input-block">
-				<input type="text" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker" />
+				<input type="text" name="start_time" value="{$value.start_time}"/>
 
 			</div>
 		</div>
 		<div class="layui-form-item" class="biaoji">
 			<label class="layui-form-label">活动标记</label>
 			<div class="layui-input-block">
-				<input type="checkbox" name="like1[write]" lay-skin="primary" title="hot" checked="">
-				<input type="checkbox" name="like1[read]" lay-skin="primary" title="aaa">
-				<input type="checkbox" name="like1[read]" lay-skin="primary" title="特色活动"><span id="">修改</span>
+				<input type="checkbox" name="marker" lay-skin="primary" title="{$value.marker}" checked="">
+				<input type="checkbox" name="marker" lay-skin="primary" title="{$value.marker}">
+				<input type="checkbox" name="marker" lay-skin="primary" title="{$value.marker}"><span id="">修改</span>
 			</div>
 			<div class="tips">
 				*在活动名称前添加，文字标签可编辑多选和添加，文字最长10个一个标签
@@ -139,8 +139,7 @@
 		<div class="layui-form-item ">
 			<label class="layui-form-label"><span>*</span>分享描述</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"
-				 id="sort_number">
+				<input type="text" name="describe" value="{$value.describe}">
 			</div>
 			<div class="tips">
 				*微信分享给好友时会显示，建议36个字以内 <span>查看示例</span>
@@ -149,10 +148,10 @@
 		<div class="layui-form-item ">
 			<label class="layui-form-label"><span>*</span>归属分类</label>
 			<div class="layui-input-inline">
-				<select name="goods_brand">
-					<option value="浙江" selected="">浙江省</option>
-					<option value="你的工号">江西省</option>
-					<option value="你最喜欢的老师">福建省</option>
+				<select name="class_name">
+					<option value="{$value.class_name}" selected="">浙江省</option>
+					<option value="{$value.class_name}">江西省</option>
+					<option value="{$value.class_name}">福建省</option>
 				</select> </div>
 			<div class="layui-input-inline">
 				<a href="{:url('admin/Brand/add')}" style="line-height: 40px;">添加品牌</a>
@@ -161,8 +160,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">活动排序</label>
 			<div class="layui-input-block">
-				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input"
-				 id="sort_number">
+				<input type="number" name="order_ing" value="{$value.order_ing}">
 
 			</div>
 			<div class="tips">
@@ -173,24 +171,28 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">开放要求</label>
 			<div class="layui-input-block">
-				<input type="radio" name="sex1" value="1" title="对所有人开放" checked="">
-				<input type="radio" name="sex1" value="2" title="对所有人开放">
+			   {if $value.open_request == 0}
+				<input type="radio" name="open_request" value="{$value.open_request}" title="对所有人开放">
+			   {else}
+				<input type="radio" name="open_request" value="{$value.open_request}"  title="对所有人开放" checked >
+			   {/if}
 			</div>
 
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">活动要求</label>
 			<div class="layui-input-block">
-				<input type="radio" name="sex2" value="1" title="无需预约" checked="">
-				<input type="radio" name="sex2" value="2" title="需要预约">
+				{if $value.requirements == 1}
+				<input type="radio" name="requirements" value="{$value.requirements}" title="无需预约" >
+				{else}
+				<input type="radio" name="requirements" value="{$value.requirements}" title="需要预约"checked>
+				{/if}
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label"><span class="red">*</span>活动上限人数</label>
 			<div class="layui-input-block">
-				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input"
-				 id="sort_number">
-
+					<input type="number" name="participats" value="{$value.participats}">
 			</div>
 			<div class="tips">
 				*不填写，表示不限制人数
@@ -199,8 +201,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label"><span class="red">*</span>活动费用</label>
 			<div class="layui-input-block">
-				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input"
-				 id="sort_number">
+				<input type="number" name="cost_moneny" value="{$value.cost_moneny}">
 
 			</div>
 			<div class="tips">
@@ -210,7 +211,7 @@
 		<div class="layui-form-item" class="biaoji">
 			<label class="layui-form-label"><span>*</span>活动规格</label>
 			<div class="layui-input-inline">
-				<input type="checkbox" name="like1[write]" lay-skin="primary" title="参加会员折扣" checked="">
+				<input type="checkbox" name="specification" value="{$value.specification}" title="参加会员折扣" checked="">
 			</div>
 			<div class="layui-input-inline">
 				管理会员卡
@@ -225,8 +226,8 @@
 					<section class=" img-section">
 						<div class="z_photo upimg-div clear">
 							<section class="z_file fl">
-								<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-								<input type="file" name="goods_show_images" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp"
+								<img src="__UPLOADS__/{$value.classify_image}" >
+								<input type="file" name="classify_image" id="file" class="file" value="{$value.classify_image}" accept="image/jpg,image/jpeg,image/png,image/bmp"
 								 multiple />
 							</section>
 						</div>
@@ -249,7 +250,7 @@
 				<!-- <textarea id="demo" style="display: none;"></textarea> -->
 				<!-- <textarea placeholder="请输入内容" class="layui-textarea" name="desc"></textarea> -->
 				<div id="goods_text">
-					<script id="editor" type="text/plain" name="goods_text" style="width:800px;height:500px;"></script>
+					<script id="editor" type="text/plain" name="commodity" value={$value.commodity} style="width:800px;height:500px;"></script>
 				</div>
 			</div>
 		</div>
@@ -258,8 +259,11 @@
 		<div class="layui-form-item" class="biaoji">
 			<label class="layui-form-label">状态：</label>
 			<div class="layui-input-block" id="">
-				<input type="radio" name="goods_putaway" value="暂不发布" title="暂不发布" checked="" class="hot">
-				<input type="radio" name="goods_putaway" value="立即发布" title="立即发布" class="">
+				{if $value.requirements == 0}
+				<input type="radio" name="release_status" value="{$value.release_status}" title="暂不发布" >
+				{else}
+				<input type="radio" name="release_status" value="{$value.release_status}" title="立即发布" checked>
+				{/if}
 			</div>
 		</div>
 
@@ -269,6 +273,7 @@
 				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
 			</div>
 		</div>
+		{/volist}
 
 	</form>
 
