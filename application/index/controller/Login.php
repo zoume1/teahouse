@@ -36,10 +36,11 @@ class Login extends Controller{
             $encryptedData = urldecode($get['encryptedData']);
             $iv = define_str_replace($get['iv']);
             $errCode = decryptData($appid,$session_key['session_key'],$encryptedData, $iv);
-            return ajax_success('这是数据',$iv);
-//            if(!empty($errCode)){
-//                return ajax_success('这是数据',$errCode);
-//            }
+            if(!empty($errCode)){
+                return ajax_success('这是数据',$errCode);
+            }else{
+                return ajax_error('没有数据',['status'=>0]);
+            }
 //            dump($errCode); //打印获取的数据
         } else {
             return ajax_error('获取session_key失败',['status'=>0]);
