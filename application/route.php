@@ -351,10 +351,12 @@ Route::group("admin",[
     "category_status"=>"admin/Category/status", //活动分类分组状态修改
 
 
-    "accessories_business_advertising"=>"admin/Advertisement/index", //活动管理
-    "accessories_business_add"=>"admin/Advertisement/accessories_business_add",                 //活动管理分组添加
-    "accessories_business_edit"=>"admin/Advertisement/accessories_business_edit",
-
+    "accessories_business_advertising"=>"admin/Advertisement/index",              //活动管理
+    "accessories_business_add"=>"admin/Advertisement/accessories_business_add",   //活动管理分组添加
+    "accessories_business_edit"=>"admin/Advertisement/accessories_business_edit", //活动管理分组编辑
+    "accessories_business_save"=>"admin/Advertisement/accessories_business_save", //活动管理分组保存
+    "accessories_business_del"=>"admin/Advertisement/accessories_business_del",    //活动管理分组删除
+    "accessories_business_label"=>"admin/Advertisement/accessories_business_label",    //活动管理分组标签修改
 
 
 	

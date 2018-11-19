@@ -31,13 +31,9 @@ class Advertisement extends Controller{
      * 陈绪
      *
      */
-    public function accessories_business_add($pid = 0){
-        $list = [];
-        // if($pid == 0) {
-        //     $list = postSelectList("teahost");
-        // }
-        
-        return view("accessories_business_add",["list"=>$list]);
+    public function accessories_business_add(){    
+       
+        return view("accessories_business_add");
     }
 
 
@@ -46,9 +42,10 @@ class Advertisement extends Controller{
      * [活动分类分组入库]
      * 陈绪
      */
-    public function save(Request $request){
+    public function accessories_business_save(Request $request){
         if($request->isPost()){
             $data = $request->param();
+            $data["start_time"] = strtotime($data["start_time"]);
             unset($data["taglocation"]);
             unset($data["tags"]);
             $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -69,12 +66,10 @@ class Advertisement extends Controller{
      * [陈绪]
      */
     public function accessories_business_edit($id){
-
         $teahost = db("teahost")->where("id",$id)->select();
-        $teahost_name = db("teahost")->field("class_name,id")->select();
-        dump($teahost_name);
-        
-        return view("accessories_business_edit",["teahost"=>$teahost,"teahost_name"=>$teahost]);
+        dump($teahost);
+        $teahost_name = db("teahost")->field("class_name,id")->find();
+        return view("accessories_business_edit",["teahost"=>$teahost,"teahost_name"=>$teahost_name]);
     }
 
 
@@ -87,9 +82,9 @@ class Advertisement extends Controller{
     public function updata(Request $request){
         if($request->isPost()) {
             $data = $request->only(["name", "status", "sort_number", "pid","rank"]);
-            $show_images = $request->file("type_images")->move(ROOT_PATH . 'public' . DS . 'uploads');
-            $data["type_images"] = str_replace("\\", "/", $show_images->getSaveName());
-            $bool = db("goods_type")->where('id', $request->only(["id"])["id"])->update($data);
+            $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+            $data["classify_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            $bool = db("teahost")->where('id', $request->only(["id"])["id"])->update($data);
             if ($bool) {
                 $this->success("编辑成功", url("admin/Advertisement/index"));
             } else {
@@ -103,14 +98,14 @@ class Advertisement extends Controller{
      * [活动分类分组删除]
      * [陈绪]
      */
-    /*public function del($id){
-        $bool = db("goods_type")->where("id",$id)->delete();
+    public function accessories_business_del($id){
+        $bool = db("teahost")->where("id",$id)->delete();
         if($bool){
-            $this->success("删除成功",url("admin/Category/index"));
+            $this->success("删除成功",url("admin/Advertisement/index"));
         }else{
-            $this->error("删除失败",url("admin/Category/edit"));
+            $this->error("删除失败",url("admin/Advertisement/accessories_business_edit"));
         }
-    }*/
+    }
 
 
     /**
@@ -158,29 +153,29 @@ class Advertisement extends Controller{
      * [活动分类分组状态修改]
      * 陈绪
      */
-/*    public function status(Request $request){
+   public function accessories_business_label(Request $request){
         if($request->isPost()) {
-            $status = $request->only(["status"])["status"];
+            $status = $request->only(["label"])["label"];
             if($status == 0) {
                 $id = $request->only(["id"])["id"];
-                $bool = db("goods_type")->where("id", $id)->update(["status" => 0]);
+                $bool = db("teahost")->where("id", $id)->update(["label" => 0]);
                 if ($bool) {
-                    $this->redirect(url("admin/Category/index"));
+                    $this->redirect(url("admin/Advertisement/index"));
                 } else {
-                    $this->error("修改失败", url("admin/Category/index"));
+                    $this->error("修改失败", url("admin/Advertisement/index"));
                 }
             }
             if($status == 1){
                 $id = $request->only(["id"])["id"];
-                $bool = db("goods_type")->where("id", $id)->update(["status" => 1]);
+                $bool = db("teahost")->where("id", $id)->update(["label" => 1]);
                 if ($bool) {
-                    $this->redirect(url("admin/Category/index"));
+                    $this->redirect(url("admin/Advertisement/index"));
                 } else {
-                    $this->error("修改失败", url("admin/Category/index"));
+                    $this->error("修改失败", url("admin/Advertisement/index"));
                 }
             }
         }
-    }*/
+    }
 
 
 
