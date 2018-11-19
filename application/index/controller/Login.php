@@ -26,7 +26,7 @@ class Login extends Controller{
         $get = input('get.');
         //获取session_key
         $params['appid'] = 'wxe81efe5d23e83c7d';
-        $params['secret'] = '09be44f61decf64d0c5b1992666e4891';
+        $params['secret'] = '055128687ca3e2eb2756307cd03a5544';
         $params['js_code'] = define_str_replace($get['code']);
         $params['grant_type'] = 'authorization_code';
         $http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $params, 'GET');
@@ -35,9 +35,12 @@ class Login extends Controller{
             $appid = $params['appid'];
             $encryptedData = urldecode($get['encryptedData']);
             $iv = define_str_replace($get['iv']);
-            $errCode = decryptData($appid, $session_key['session_key'], $encryptedData, $iv);
+            $errCode = decryptData($appid,$session_key['session_key'],$encryptedData, $iv);
             if(!empty($errCode)){
+
                 return ajax_success('这是数据',$errCode);
+            }else{
+                return ajax_error('没有数据',['status'=>0]);
             }
 //            dump($errCode); //打印获取的数据
         } else {

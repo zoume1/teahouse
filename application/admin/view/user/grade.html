@@ -48,7 +48,7 @@
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
 				<div class="layui-inline">
-					<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/User/grade_add')}">添加等级</a>
+					<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/User/grade_edit')}">添加等级</a>
 				</div>
 				</blockquote>
 		<div class="layui-form news_list">
@@ -69,32 +69,43 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+				{if !empty($grade_data)}
+				{volist name="grade_data" id ="vo"}
 					<tr>
-						<td>admin</td>
-						<td>admin</td>
-						<td>2</td>
-						<td><img src="111"></td>
-						<td>2018-09-26</td>
-						<td>2018-09-26 </td>
-						<td>2018-09-26 </td>
-						<td>2018-09-26 </td>
-					
+						<td>{$vo.member_grade_name}</td>
+						<td width="100px"><img src="__UPLOADS__/{$vo.member_grade_img}"></td>
+						<td>{$vo.member_finite_period}</td>
+						<td>{$vo.first_year_pay_full}</td>
+						<td>{$vo.second_year_pay_full}</td>
+						<td>{$vo.recharge_member_send}</td>
+						<td>{$vo.recharge_integral_send} </td>
+						<td>{$vo.member_consumption_discount} </td>
 						<td>
-							<input type="checkbox" class="Status" name="show" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
-							 data-id="2">
+							{if $vo.introduction_dispay==1}
+							<input type="checkbox" class="Status" name="show" value="0"  disabled checked lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+							 data-id="{$vo.member_grade_id}">
+							{else}
+							<input type="checkbox" class="Status" name="show" value="0" disabled  lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+								   data-id="{$vo.member_grade_id}">
+							{/if}
+
 						</td>
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/User/grade_edit')}"><i class="iconfont icon-edit"></i> 编辑</a>
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/User/grade_edit',['id'=>$vo.member_grade_id])}"><i class="iconfont icon-edit"></i> 编辑</a>
 
 							<a href="/siring_ow/public/admin/admin_del/id/2.html" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
 							 data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
+				{/volist}
+				{/if}
 				</tbody>
 			</table>
 		</div>
 		<div id="page">
-
+			{if !empty($grade_data)}
+			{$grade_data->render()}
+			{/if}
 		</div>
 
 	</div>

@@ -159,6 +159,7 @@ Route::group("admin",[
     /*会员管理 ：TODO*/
     "user_index"=>"admin/User/index", //会员概况
     "user_edit"=>"admin/User/edit",     //会员编辑
+
     "user_grade"=>"admin/User/grade",  //会员等级
 	"user_grade_edit"=>"admin/User/grade_edit",  //会员等级编辑
      "user_grade_add"=>"admin/User/grade_add",  //会员等级添加
