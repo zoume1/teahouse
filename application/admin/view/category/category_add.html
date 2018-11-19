@@ -39,8 +39,6 @@
 
 <body>
 
-	{block name="content"}
-
 	<form class="layui-form" action="{:url('admin/Category/save')}" method="post" enctype="multipart/form-data">
 		<div class="layui-form-item ">
 			<label class="layui-form-label"><span>*</span>分类名称</label>
@@ -73,13 +71,18 @@
 			</select>
 			</div>
 		</div>
-	
 		<div class="layui-form-item">
-			<label class="layui-form-label"><span>*</span>排序</label>
+			<label class="layui-form-label"><span>*</span>级别</label>
 			<div class="layui-input-block">
-				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+				<input type="number" name="rank" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
 			</div>
 		</div>
+		<div class="layui-form-item">
+		<label class="layui-form-label"><span>*</span>排序</label>
+		<div class="layui-input-block">
+			<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+		</div>
+	    </div>
 		<div class="layui-form-item">
 		<div class="layui-input-block">
 			<button class="layui-btn" type="submit" id="submits">保存</button>

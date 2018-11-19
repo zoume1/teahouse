@@ -6,13 +6,17 @@
  * Time: 19:17
  */
 namespace  app\admin\controller;
-
+use think\Db;
+use think\Request;
 use think\Controller;
 
 class  Teacircle extends  Controller{
+
     public function index(){
-        return view('teacircle_index');
+
+
     }
+
 	 public function add(){
 		return view('teacircle_add');
 	 }
