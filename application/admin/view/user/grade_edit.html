@@ -23,12 +23,12 @@
 	<div class="open">
 
 	</div>
-	<form class="layui-form" action="{:url('admin/Goods/save')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form" action="{:url('admin/User/grade_edit')}" method="post" enctype="multipart/form-data">
 	
 		<div class="layui-form-item ">
 			<label class="layui-form-label"><span>*</span>会员等级:</label>
 			<div class="layui-input-block">
-				<input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="goods_name">
+				<input type="text" name="member_grade_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="goods_name">
 			</div>
 		</div>
 	
@@ -40,7 +40,7 @@
 						<div class="z_photo upimg-div clear">
 							<section class="z_file fl">
 								<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-								<input type="file" name="goods_show_images" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple />
+								<input type="file" name="member_grade_img" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple />
 							</section>
 						</div>
 					</section>
@@ -57,55 +57,55 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">会员卡背景色：</label>
 			<div class="layui-input-inline">
-			<input type="color" name="" id="" value="#2D9900" />
+			<input type="color" name="member_background_color" id="" value="#2D9900" />
 			</div>
 			
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">有效期:</label>
 			<div class="layui-input-inline">
-				<select name="goods_brand">
-					<option value="浙江" selected="">浙江省</option>
-					<option value="你的工号">江西省</option>
-					<option value="你最喜欢的老师">福建省</option>
+				<select name="member_finite_period">
+					<option value="1" selected="">1年</option>
+					<option value="5">5年</option>
+					<option value="永久">永久</option>
 				</select>	</div>
 				
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">首年消费满:</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">万元
+				<input type="text" name="first_year_pay_full" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">万元
 				
 			</div>
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">次年消费满:</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">万元
+				<input type="text" name="second_year_pay_full" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">万元
 			</div>
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">充值送会员:</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">万元
+				<input type="text" name="recharge_member_send" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">万元
 			</div>
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">充值送积分:</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">
+				<input type="text" name="recharge_integral_send" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">
 			</div>
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">会员消费折扣:</label>
 			<div class="layui-input-block">
-				<input type="text" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">
+				<input type="text" name="member_consumption_discount" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="sort_number">
 			</div>
 		</div>
 		<div class="layui-form-item ">
 			<label class="layui-form-label">是否介绍隐藏:</label>
 			<div class="layui-input-block">
-			<input type="checkbox" class="Status" name="show" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+			<input type="checkbox" class="Status" name="introduction_dispay" value="1" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 			data-id="2">
 			</div>
 		</div>
