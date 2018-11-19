@@ -68,13 +68,13 @@ class Advertisement extends Controller{
      * [活动分类分组修改]
      * [陈绪]
      */
-    public function accessories_business_edit($pid=0,$id){
+    public function accessories_business_edit($id){
+
         $teahost = db("teahost")->where("id",$id)->select();
-        $teahost_name = db("teahost")->where("id",$teahost[0]["pid"])->field("name,id")->select();
-        if($pid == 0){
-            $list = postSelectList("teahost");
-        }
-        return view("accessories_business_edit",["teahost"=>$teahost,"teahost_name"=>$teahost,"list"=>$list]);
+        $teahost_name = db("teahost")->field("class_name,id")->select();
+        dump($teahost_name);
+        
+        return view("accessories_business_edit",["teahost"=>$teahost,"teahost_name"=>$teahost]);
     }
 
 
