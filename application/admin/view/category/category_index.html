@@ -8,28 +8,34 @@
 	body {
 		background: #fff;
 	}
-		label{
+
+	label {
 		text-align: left !important;
 	}
-	.layui-form-item{
-		width: 100%;
-		    margin-bottom: 0;
-          margin-top: 0;
-  
+
+	.layui-form-item {
+		max-width: 100% !important;
+		width: 100% !important;
+		margin-bottom: 0;
+		margin-top: 0;
+
 	}
-	.layui-form-label{
+
+	.layui-form-label {
 		width: 26% !important;
 	}
-	.layui-input-inline{
+
+	.layui-input-inline {
 		width: 70% !important;
 	}
-	#page{
+
+	#page {
 		width: 96%;
 		height: 50px;
 		line-height: 50px;
 		border: solid 1px #E2E2E2;
-	padding-left: 50px;
-	background: #FDFDFE;
+		padding-left: 50px;
+		background: #FDFDFE;
 	}
 </style>
 
@@ -38,152 +44,184 @@
 {/block}
 <body>
 
-{block name="content"}
+	{block name="content"}
 
-<div class="childrenBody">
-	<blockquote class="layui-elem-quote news_search">
+	<div class="childrenBody">
+		<blockquote class="layui-elem-quote news_search">
+			<form class="layui-form" action="">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">商品分类</label>
+						<div class="layui-input-inline">
+							<select name="interest" id="admin_status">
+								<option value="1">全部</option>
+								<option value="2">智能硬件</option>
+								<option value="3">电子商务</option>
+								<option value="4">生活娱乐</option>
+								<option value="5">金融</option>
+								<option value="6">媒体</option>
+								<option value="7">企业服务</option>
+								<option value="8">政府公益</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">商品分类</label>
+						<div class="layui-input-inline">
+							<select name="interest" id="admin_status">
+								<option value="1" selected="">全部</option>
+								<option value="2">上架</option>
+								<option value="3">下架</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn search_btn" type="submit">搜索</button>
+					</div>
+				</div>
 
-	<div class="layui-form-item">
-		
-		<div class="layui-inline">
-			<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Category/add')}">添加</a>
+			</form>
+		</blockquote>
+		<div class="layui-form-item">
+
+			<div class="layui-inline">
+				<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Category/add')}">添加</a>
+			</div>
 		</div>
-	     </div>
-			 </blockquote>
-	<div class="layui-form news_list">
-	  	<table class="layui-table">
-		    <colgroup>
-				<col width="3%">
-				<col width="9%">
-				<col width="15%">
-				<col width="9%">
-				<col width="9%">
-				<col width="9%">
-				<col width="15%">
-				<col>
-		    </colgroup>
-		    <thead>
-				<tr>
-					<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
-					<th >分类名称</th>
-					<th>商品分类图片</th>
-					<th>父级id</th>
-					<th>排序</th>
-					<th>状态</th>
-					<th>操作</th>
-				</tr> 
-		    </thead>
-		    <tbody class="news_content">
-			{volist name="category" id="value"}
-		    	<tr>
-		    		<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" ></td>
-					<td align="left">{$value.name}</td>
-					<td><img src="__UPLOADS__/{$value.type_images}" ></td>
-					<td>{$value.pid}</td>
-					<td>{$value.sort_number}</td>
-					<td>
-						{if $value.status == 0}
-						<input type="checkbox" class="Status" name="show" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"/>
-						{else /}
-						<input type="checkbox" class="Status" name="show" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked="" data-id="{$value.id}"/>
-						{/if}
+		<div class="layui-form news_list">
+			<table class="layui-table">
+				<colgroup>
+					<col width="3%">
 
-					</td>
-					<td>
-						<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑</a>
-						<a href="{:url('admin/Category/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
-					</td>
-				</tr>
-			{/volist}
-		    </tbody>
-		</table>
-		{$category->render()}
-	</div>
-	<div id="page">
-			
+				</colgroup>
+				<thead>
+					<tr>
+						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+						<th>分类名称</th>
+						<th>上级分类</th>
+						<th>级别</th>
+						<th>排序</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody class="news_content">
+					{volist name="category" id="value"}
+					<tr>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+						<td align="left">{$value.name}</td>
+						<td>{$value.rank}</td>
+						<td>{$value.pid}</td>
+						<td>{$value.sort_number}</td>
+						<td>
+							{if $value.status == 0}
+							<input type="checkbox" class="Status" name="show" value="{$value.status}" lay-skin="switch" lay-text="是|否"
+							 lay-filter="isShow" data-id="{$value.id}" />
+							{else /}
+							<input type="checkbox" class="Status" name="show" value="{$value.status}" lay-skin="switch" lay-text="是|否"
+							 lay-filter="isShow" checked="" data-id="{$value.id}" />
+							{/if}
+
+						</td>
+						<td>
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i>
+								编辑</a>
+							<a href="{:url('admin/Category/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
+							 data-id="undefined"><i class="layui-icon"></i> 删除</a>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+			{$category->render()}
+		</div>
+		<div id="page">
+
 			<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
-			<option value="">批量删除</option>
-			
-		</select>
-		<button type="button"  style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 30px;line-height: 30px;">确定 </button>
+				<option value="">批量删除</option>
+
+			</select>
+			<button type="button" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 30px;line-height: 30px;">确定
+			</button>
 		</div>
-	
+
 	</div>
 
 
-{/block}
+	{/block}
 
-<!--_footer 作为公共模版分离出去-->
-{include file="template/_footer" /}
-<!--/_footer 作为公共模版分离出去-->
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
 
 
 
-<!--请在下方写此页面业务相关的脚本-->
-{block name="bottom"}
-<script type="text/javascript">
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	<script type="text/javascript">
 		layui.config({
-	base : "js/"
-}).use(['form','layer','jquery','laypage'],function(){
-	var form = layui.form(),
-		layer = parent.layer === undefined ? layui.layer : parent.layer,
-		laypage = layui.laypage,
-		$ = layui.jquery;
-      var vals=$("input").data("id");
-	//是否展示
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+			var vals = $("input").data("id");
+			//是否展示
 
-	//全选
-	form.on('checkbox(allChoose)', function(data){
-		var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-		child.each(function(index, item){
-			item.checked = data.elem.checked;
-		});
-		form.render('checkbox');
-	});
+			//全选
+			form.on('checkbox(allChoose)', function(data) {
+				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+				child.each(function(index, item) {
+					item.checked = data.elem.checked;
+				});
+				form.render('checkbox');
+			});
 
-	//通过判断文章是否全部选中来确定全选按钮是否选中
-	form.on("checkbox(choose)",function(data){
-		var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-		var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
-		if(childChecked.length == child.length){
-			$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
-		}else{
-			$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
-		}
-		form.render('checkbox');
-	})
-
-
-        form.on('switch(isShow)', function(data){
-            if($(this).val()==0){
-                $(this).val(1);
-            }
-            else{
-                $(this).val(0);
-            }
-            var vals=data.value;
-            var id=$(this).data("id");
-            var status = $(this).val();
-            console.log(status);
-            $.ajax({
-                type: "POST",
-                url: "{:url('admin/Category/status')}",
-                data: {"id":id,"status":status},
-                success: function(data){
-                    console.log("成功")
-                },
-                error:function (data) {
-                    console.log("错误")
-                }
-            });
+			//通过判断文章是否全部选中来确定全选按钮是否选中
+			form.on("checkbox(choose)", function(data) {
+				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+				var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
+				if (childChecked.length == child.length) {
+					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
+				} else {
+					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
+				}
+				form.render('checkbox');
+			})
 
 
-        })
-	})
+			form.on('switch(isShow)', function(data) {
+				if ($(this).val() == 0) {
+					$(this).val(1);
+				} else {
+					$(this).val(0);
+				}
+				var vals = data.value;
+				var id = $(this).data("id");
+				var status = $(this).val();
+				console.log(status);
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/Category/status')}",
+					data: {
+						"id": id,
+						"status": status
+					},
+					success: function(data) {
+						console.log("成功")
+					},
+					error: function(data) {
+						console.log("错误")
+					}
+				});
 
+
+			})
+		})
 	</script>
 
-{/block}
+	{/block}
 
 </body>
 </html>

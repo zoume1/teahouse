@@ -92,6 +92,7 @@ aside a:visited{color: rgb(65,65,65);}*/
 
 /*上传图片插件的样式*/
 .img-box{
+	padding-left: 3%;
 	margin-top: 40px;
 }
 .img-box .up-p{

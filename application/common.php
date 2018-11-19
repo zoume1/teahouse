@@ -410,6 +410,18 @@ function getSelectList($table , $pid = 0 ,&$result = [] , $spac = -4){
     return $result;
 }
 
+function postSelectList($table , $pid = 0 ,&$result = [] , $spac = -4){
+    $spac += 4;
+    $list = db($table)->where(["pid"=>$pid,"status"=>1])->field("pid,id,rank")->select();     //传递条件数组
+    $list = objectToArray($list);
+    foreach($list as $value){
+        $value["name"] = str_repeat("&nbsp;",$spac).$value["rank"];
+        $result[] = $value;
+        postSelectList($table , $value["id"] , $result , $spac);
+    }
+    return $result;
+}
+
 function recursionArr($arr,$pid = 0) {
     $array = [];
     foreach ($arr as $value) {
@@ -457,5 +469,7 @@ function show_category($arr){
         }
     }
 }
+
+
 
 
