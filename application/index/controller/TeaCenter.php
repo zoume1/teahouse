@@ -22,11 +22,10 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()) {
 
-            $tea = Db::name("goods_type")->field('name,icon_image,color')->where("status", 1)->select();
+            $tea = Db::name("goods_type")->field('name,icon_image,color')->where('pid',0)->where("status", 1)->select();
 
             if (!empty($tea)) {
                 return ajax_success('传输成功', $tea);
-
             } else {
                 return ajax_error("传输失败");
 
