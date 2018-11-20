@@ -105,8 +105,7 @@
 		<div class="layui-form-item ">
 			<label class="layui-form-label">是否介绍隐藏:</label>
 			<div class="layui-input-block">
-			<input type="checkbox" class="Status" name="show" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" 
-			data-id="2">
+			<input type="checkbox" class="Status" name="show" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow">
 			</div>
 		</div>
 		
@@ -128,10 +127,6 @@
 	<!--请在下方写此页面业务相关的脚本-->
 	{block name="bottom"}
 	<script type="text/javascript">
-//		$("#sort_number").click(function(){
-//			 console.log($("#color").val());
-//		});
-	    
 			layui.config({
 				base: "js/"
 			}).use(['form', 'layer', 'jquery', 'laypage','layedit'], function() {
@@ -140,6 +135,17 @@
 					layer = parent.layer === undefined ? layui.layer : parent.layer,
 					laypage = layui.laypage,
 					$ = layui.jquery;
+					
+						//是否展示
+			form.on('switch(isShow)', function(data) {
+				alert(1211);
+				if ($(this).val() == 0) {
+					$(this).val(1);
+				} else {
+					$(this).val(0);
+				}
+				console.log($(this).val());
+			});
 			});
 	</script>
 	{/block}
