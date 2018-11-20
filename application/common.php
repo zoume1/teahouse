@@ -410,7 +410,7 @@ function getSelectList($table , $pid = 0 ,&$result = [] , $spac = -4){
     return $result;
 }
 
-function postSelectList($table , $pid = 0 ,&$result = [] , $spac = -4){
+function postSelectList($table , $pid = 1,&$result = [] , $spac = -4){
     $spac += 4;
     $list = db($table)->where(["pid"=>$pid,"status"=>1])->field("pid,id,rank")->select();     //传递条件数组
     $list = objectToArray($list);

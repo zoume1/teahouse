@@ -3,49 +3,49 @@
 </head>
 
 {block name="css"}
-<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <style type="text/css">
-
-	body {
-		background: #fff;
-	}
-	
-	.layui-form label {
-		width: 20%;
-		text-align: left;
-	}
-	
-	.layui-form .layui-input-block input {
-		width: 100%;
-	}
-	.layui-form-item{
-		width: 40% !important;
-	
-	}
-	.layui-form-label span {
-		color: red;
-	}
-	
-	.layui-form {
-		width: 80%;
-		margin: 0 auto;
-		padding-top: 40px;
-	}
-	/* 数据库展现图片样式 */
-	.img {
-		position: relative;
-		display: inline-block;
-		width: 100px;
-	}
-
-	.img>i {
-		display: inline-block;
-		width: 20px;
-		position: absolute;
-		right: 0;
-		top: 0;
-	}
-
+    body {
+        background: #fff;
+    }
+    
+    .layui-form label {
+        width: 20%;
+        text-align: left;
+    }
+    
+    .layui-form .layui-input-block input {
+        width: 100%;
+    }
+    
+    .layui-form-item {
+        width: 40% !important;
+    }
+    
+    .layui-form-label span {
+        color: red;
+    }
+    
+    .layui-form {
+        width: 80%;
+        margin: 0 auto;
+        padding-top: 40px;
+    }
+    /* 数据库展现图片样式 */
+    
+    .img {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+    }
+    
+    .img>i {
+        display: inline-block;
+        width: 20px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
 </style>
 
 
@@ -53,227 +53,229 @@
 
 <body>
 
-	{block name="content"}
+    {block name="content"}
 
-	<form class="layui-form" action="{:url('admin/Category/updata')}" method="post" enctype="multipart/form-data">
+    <form class="layui-form" action="{:url('admin/Category/updata')}" method="post" enctype="multipart/form-data">
 
-		{if !empty($category)}
-		{volist name="category" id="vo"}
-		<div class="layui-form-item ">
-			<label class="layui-form-label"><span>*</span>分类名称</label>
-			<div class="layui-input-block">
-				<input type="text" name="name" value="{$vo.name}"> </input>
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">状态</label>
-			<div class="layui-input-block">
-				{if $vo.status== 0}
-				<input type="radio" name="status" value="" title="启用" >
-				<input type="radio" name="status" value="{$vo.status}" title="禁用" checked="">
-				{else}
-				<input type="radio" name="status" value="{$vo.status}" title="启用" checked="">
-				<input type="radio" name="status" value="" title="禁用" >
-				{/if}
+        {if !empty($category)} {volist name="category" id="vo"}
+        <div class="layui-form-item " style="display:none">
+            <label class="layui-form-label"><span>*</span>id</label>
+            <div class="layui-input-block">
+                <input type="text" name="id" value="{$vo.id}"> </input>
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label"><span>*</span>分类名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" value="{$vo.name}"> </input>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                {if $vo.status== 0}
+                <input type="radio" name="status" value="" title="启用">
+                <input type="radio" name="status" value="{$vo.status}" title="禁用" checked=""> {else}
+                <input type="radio" name="status" value="{$vo.status}" title="启用" checked="">
+                <input type="radio" name="status" value="" title="禁用"> {/if}
 
-			</div>
-		</div>
-			<div class="layui-form-item">
-			<label class="layui-form-label">一级图标</label>
-			<div class="layui-input-block">
-				<div class="imgcontent">
-					<span class="img">
-						<img src="__STATIC__/admin/commit/img/a11.png" width="100%">
-						<i class="remove-img" data-id="" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            {if $vo.icon_image}
+
+            <label class="layui-form-label">一级图标</label>
+            <div class="layui-input-block">
+                <div class="imgcontent">
+                    <span class="img">
+						<img src="__UPLOADS__/{$vo.icon_image}" width="100%">
+						<i class="remove-img" name="icon_image" value="__UPLOADS__/{$vo.icon_image}" data-id="{$vo.id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
 					</span>
-				</div>
-			</div>
-			<div class="layui-input-block">
-				<div class="img-box full">
-					<section class=" img-section">
-						<div class="z_photo upimg-div clear">
-							<section class="z_file fl">
-								<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-								<input type="file" name="goods_show_images" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id ="1"/>
-							</section>
-						</div>
-					</section>
-				</div>
-				<aside class="mask works-mask">
-					<div class="mask-content">
-						<p class="del-p ">您确定要删除作品图片吗？</p>
-						<p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
-					</div>
-				</aside>
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">主调色</label>
-			<div class="layui-input-block">
-				<input type="color" value="#125f87">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">父级分类</label>
-			<div class="layui-input-block">
-				{if !empty($goods_list)}
-				<select name="pid" id="admin_role" class="role_list">
-					<option value="0">顶级</option>
+                </div>
+            </div>
+            {/if}
+            <div class="layui-input-block">
+                <div class="img-box full">
+                    <section class=" img-section">
+                        <div class="z_photo upimg-div clear">
+                            <section class="z_file fl">
+                                <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                <input type="file" name="icon_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                            </section>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="mask works-mask">
+                    <div class="mask-content">
+                        <p class="del-p ">您确定要删除作品图片吗？</p>
+                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                    </div>
+                </aside>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">主调色</label>
+            <div class="layui-input-block">
+                <input type="color" name="color" value="{$vo.color}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">父级分类</label>
+            <div class="layui-input-block">
+                {if !empty($goods_list)}
+                <select name="pid" id="admin_role" class="role_list">
+					<option value="顶级">顶级</option>
 					{volist name="goods_list" id="value"}
 					<option value="{$value.id}">{$value.name}</option>
 					{/volist}
-				</select><br/>
-				{else /}
-				<select name="pid" class="role_list">
-					<option value="0">顶级</option>
-				</select><br/>
-				{/if}
-			</select>
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label"><span>*</span>级别</label>
-			<div class="layui-input-block">
-				<input type="number" name="rank" value="{$vo.rank}">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label"><span>*</span>排序</label>
-			<div class="layui-input-block">
-				<input type="number" name="sort_number" value="{$vo.sort_number}">
-			</div>
-		</div>
-		<div class="layui-form-item">
-		<div class="layui-input-block">
-			<button class="layui-btn" type="submit" id="submits">保存</button>
-			<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
-		</div>
-	    </div>
-		{/volist}
-		{else}
-		<div class="layui-form-item ">
-			<label class="layui-form-label"><span>*</span>分类名称</label>
-			<div class="layui-input-block">
-				<input type="text" name="name" value="{$vo.name}"> </input>
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">状态</label>
-			<div class="layui-input-block">
-				<input type="radio" name="status" value="1" title="启用" checked="">
-				<input type="radio" name="status" value="0" title="禁用">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">父级分类</label>
-			<div class="layui-input-block">
-				{if !empty($goods_list)}
-				<select name="pid" id="admin_role" class="role_list">
-					<option value="0">顶级</option>
+                </select><br/> {else /}
+                <select name="pid" class="role_list">
+					<option value="顶级">顶级</option>
+                </select><br/> {/if}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span>*</span>级别</label>
+            <div class="layui-input-block">
+                <input type="number" name="rank" value="{$vo.rank}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span>*</span>排序</label>
+            <div class="layui-input-block">
+                <input type="number" name="sort_number" value="{$vo.sort_number}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="submit" id="submits">保存</button>
+                <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
+            </div>
+        </div>
+        {/volist} {else}
+        <div class="layui-form-item ">
+            <label class="layui-form-label"><span>*</span>分类名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" value="{$vo.name}"> </input>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="1" title="启用" checked="">
+                <input type="radio" name="status" value="0" title="禁用">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">父级分类</label>
+            <div class="layui-input-block">
+                {if !empty($goods_list)}
+                <select name="pid" id="admin_role" class="role_list">
+					<option value="顶级">顶级</option>
 					{volist name="goods_list" id="value"}
 					<option value="{$value.id}">{$value.name}</option>
 					{/volist}
-				</select><br/>
-				{else /}
-				<select name="pid" class="role_list">
-					<option value="0">顶级</option>
-				</select><br/>
-				{/if}
-				</select>
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label"><span>*</span>级别</label>
-			<div class="layui-input-block">
-				<input type="number" name="rank" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label"><span>*</span>排序</label>
-			<div class="layui-input-block">
-				<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<div class="layui-input-block">
-				<button class="layui-btn" type="submit" id="submits">保存</button>
-				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
-			</div>
-		</div>
+                </select><br/> {else /}
+                <select name="pid" class="role_list">
+					<option value="顶级">顶级</option>
+                </select><br/> {/if}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span>*</span>级别</label>
+            <div class="layui-input-block">
+                <input type="number" name="rank" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span>*</span>排序</label>
+            <div class="layui-input-block">
+                <input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="submit" id="submits">保存</button>
+                <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
+            </div>
+        </div>
 
-		{/if}
+        {/if}
 
-	</form>
+    </form>
 
 
-	{/block}
+    {/block}
 
-	<!--_footer 作为公共模版分离出去-->
-	{include file="template/_footer" /}
-	<!--/_footer 作为公共模版分离出去-->
-
-
-	
-	<!--请在下方写此页面业务相关的脚本-->
-	{block name="bottom"}
-
-	<script type="text/javascript">
-			// 图片删除
-		$(".remove-img").click(function() {
-			var remove = $(this).parent();
-			var id = $(this).data("id");
-			var value = $(this).data("value");
-			console.log(value)
-			console.log(id);
-			if (value == 1) {
-				$.ajax({
-					type: "POST",
-					url: "{:url('admin/Goods/images')}",
-					data: {
-						"id": id
-					},
-					dataType: "json",
-					success: function(data) {
-						remove.remove();
-					},
-					error: function(data) {
-						console.log("错误");
-					}
-				});
-			} else {
-				$.ajax({
-					type: "POST",
-					url: "{:url('admin/Goods/images')}",
-					data: {
-						"images_id": id
-					},
-					dataType: "json",
-					success: function(data) {
-						remove.remove();
-					},
-					error: function(data) {
-						console.log("错误");
-					}
-				});
-			}
-			// 		
-		});
-
-		layui.config({
-			base: "js/"
-		}).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
-			var form = layui.form(),
-				$ = layui.jquery;
-			form.render();
-			//创建一个编辑器
-			//var editIndex = layedit.build('LAY_demo_editor');
-
-		});
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
 
 
-	</script>
 
-	{/block}
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+
+    <script type="text/javascript">
+        // 图片删除
+        $(".remove-img").click(function() {
+            var remove = $(this).parent();
+            var id = $(this).data("id");
+            var value = $(this).data("value");
+            console.log(value)
+            console.log(id);
+            if (value == 1) {
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Category/images')}",
+                    data: {
+                        "id": id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        remove.remove();
+                    },
+                    error: function(data) {
+                        console.log("错误");
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Category/images')}",
+                    data: {
+                        "id": id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        remove.remove();
+                    },
+                    error: function(data) {
+                        console.log("错误");
+                    }
+                });
+            }
+
+        });
+
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
+            var form = layui.form(),
+                $ = layui.jquery;
+            form.render();
+            //创建一个编辑器
+            //var editIndex = layedit.build('LAY_demo_editor');
+
+        });
+    </script>
+
+    {/block}
 
 </body>
 

@@ -46,8 +46,7 @@ class Advertisement extends Controller{
         if($request->isPost()){
             $data = $request->param();
             $data["start_time"] = strtotime($data["start_time"]);
-            unset($data["taglocation"]);
-            unset($data["tags"]);
+            
             $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
             $data["classify_image"] = str_replace("\\","/",$show_images->getSaveName());
             $bool = db("teahost")->insert($data);
@@ -67,7 +66,7 @@ class Advertisement extends Controller{
      */
     public function accessories_business_edit($id){
         $teahost = db("teahost")->where("id",$id)->select();
-        dump($teahost);
+        //dump($teahost);
         $teahost_name = db("teahost")->field("class_name,id")->find();
         return view("accessories_business_edit",["teahost"=>$teahost,"teahost_name"=>$teahost_name]);
     }
