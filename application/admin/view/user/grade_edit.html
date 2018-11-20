@@ -11,6 +11,20 @@
 	.layui-form .layui-input-block input {
 		width: 80%;
 	}
+		/* 数据库展现图片样式 */
+		.img {
+			position: relative;
+			display: inline-block;
+			width: 100px;
+		}
+	
+		.img>i {
+			display: inline-block;
+			width: 20px;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
 	
 </style>
 
@@ -34,11 +48,21 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label"><span>*</span>等级图标</label>
 			<div class="layui-input-block">
+				<div class="imgcontent">
+					<span class="img">
+						<img src="__UPLOADS__/{$info.member_grade_img}" width="100%">
+						<i class="remove-img" data-id="" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+					</span>
+				</div>
+			</div>
+			<div class="layui-input-block">
 				<div class="img-box full">
 					<section class=" img-section">
 						<div class="z_photo upimg-div clear">
 							<section class="z_file fl">
-								<img src="__UPLOADS__/{$info.member_grade_img}" class="add-img">
+								<!-- <img src="__UPLOADS__/{$info.member_grade_img}" class="add-img"> -->
+								<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+
 								<input type="file" name="member_grade_img" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1"/>
 							</section>
 						</div>
@@ -243,6 +267,48 @@
 					layer = parent.layer === undefined ? layui.layer : parent.layer,
 					laypage = layui.laypage,
 					$ = layui.jquery;
+					
+					
+						// 图片删除
+					$(".remove-img").click(function() {
+						var remove = $(this).parent();
+						var id = $(this).data("id");
+						var value = $(this).data("value");
+						console.log(value)
+						console.log(id);
+						if (value == 1) {
+							$.ajax({
+								type: "POST",
+								url: "{:url('admin/Goods/images')}",
+								data: {
+									"id": id
+								},
+								dataType: "json",
+								success: function(data) {
+									remove.remove();
+								},
+								error: function(data) {
+									console.log("错误");
+								}
+							});
+						} else {
+							$.ajax({
+								type: "POST",
+								url: "{:url('admin/Goods/images')}",
+								data: {
+									"images_id": id
+								},
+								dataType: "json",
+								success: function(data) {
+									remove.remove();
+								},
+								error: function(data) {
+									console.log("错误");
+								}
+							});
+						}
+						// 		
+					});
 			});
 	</script>
 	{/block}
