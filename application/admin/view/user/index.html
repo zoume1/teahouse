@@ -120,22 +120,29 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+				{if !empty($user_data)}
+				{volist name="user_data" id ="vo"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"></td>
-						<td>admin</td>
-						<td>admin</td>
-						<td>2</td>
-						<td><div style="width: 80px; height: 80px;"><img src="__STATIC__/admin/common/img/a11.png" /></td>
-						<td>2018-09-26</td>
-						<td>2018-09-26 </td>
-						<td>2018-09-26 </td>
-						<td>2018-09-26</td>
-						<td>2018-09-26 </td>
-					
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.member_id}"></td>
+						<td>{$vo.member_id}</td>
+						<td>{$vo.member_phone_num}</td>
+						<td>{$vo.member_name}</td>
+						<td><div style="width: 80px; height: 80px;"><img src="{$vo.member_head_img}" /></td>
+						<td>{$vo.member_grade_name} </td>
+						<td>{$vo.member_sex} </td>
+						<td>{$vo.ID_card}</td>
+						<td>{$vo.member_address} </td>
+						<td>{$vo.member_create_time|date="Y-m-d H:i:s",###} </td>
 						<td>
-							<input type="checkbox" class="Status" name="show" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
-							 data-id="2">
-							<div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>否</em><i></i></div>
+							{if $vo.member_status==1}
+							<input type="checkbox" class="Status" name="show" value="{$vo.member_status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+							 data-id="{$vo.member_id}" checked>
+							{/if}
+							{if $vo.member_status==-1}
+							<input type="checkbox" class="Status" name="show" value="{$vo.member_status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+								   data-id="{$vo.member_id}">
+							{/if}
+							<!--<div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>否</em><i></i></div>-->
 
 						</td>
 						<td>
@@ -145,6 +152,8 @@
 							 data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
+				{/volist}
+				{/if}
 				</tbody>
 			</table>
 				<div id="page">
@@ -160,7 +169,9 @@
 								<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 								</button>
 							</div>
-			
+					{if !empty($user_data)}
+					{$user_data->render()}
+					{/if}
 			
 						</div>
 		</div>
@@ -265,10 +276,10 @@
 
 			//是否展示
 			form.on('switch(isShow)', function(data) {
-				if ($(this).val() == 0) {
+				if ($(this).val() == -1) {
 					$(this).val(1);
 				} else {
-					$(this).val(0);
+					$(this).val(-1);
 				}
 				var vals = data.value;
 				var id = $(this).data("id");
@@ -276,7 +287,7 @@
 				console.log(status);
 				$.ajax({
 					type: "POST",
-					url: "{:url('admin/admin/status')}",
+					url: "{:url('admin/User/status')}",
 					data: {
 						"id": id,
 						"status": status

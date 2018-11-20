@@ -162,6 +162,7 @@ Route::group("admin",[
 
     /*会员管理 ：TODO*/
     "user_index"=>"admin/User/index", //会员概况
+    "user_status"=>"admin/User/status", //会员状态编辑
     "user_edit"=>"admin/User/edit",     //会员编辑
 
     "user_grade"=>"admin/User/grade",  //会员等级
