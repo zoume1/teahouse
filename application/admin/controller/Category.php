@@ -56,7 +56,7 @@ class Category extends Controller
         if ($request->isPost()) {
             $data = $request->param();
             $show_images = $request->file("icon_image");
-             
+
             if ($show_images) {
                 $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
@@ -80,10 +80,10 @@ class Category extends Controller
     {
         $goods_list = [];
         $category = db("goods_type")->where("id", $id)->select();
-        if($pid == 0){
-        $goods_list = getSelectList("goods_type");
+        if ($pid == 0) {
+            $goods_list = getSelectList("goods_type");
         }
-        dump($goods_list);
+
         return view("category_edit", ["category" => $category, "goods_lists" => $goods_list]);
     }
 
