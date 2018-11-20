@@ -97,7 +97,6 @@ class User extends Controller{
         }
         if($id > 0){
             $info =Db::name('member_grade')->where("member_grade_id",$id)->find();
-            dump($info);
             $this->assign('info',$info);
         }
         return view('grade_edit',['term_data'=>$term_data]);
