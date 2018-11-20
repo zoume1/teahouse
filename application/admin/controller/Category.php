@@ -76,10 +76,7 @@ class Category extends Controller
     {
         $category = db("goods_type")->where("id", $id)->select();
         $category_name = db("goods_type")->where("id", $category[0]["pid"])->field("name,id")->select();
-
-        $goods_list = postSelectList("goods_type");
-       
-        //halt($goods_list);
+            $goods_list = postSelectList("goods_type");
         return view("category_edit", ["category" => $category, "goods_lists" => $goods_list]);
     }
 

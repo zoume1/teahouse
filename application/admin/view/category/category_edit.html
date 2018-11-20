@@ -179,10 +179,13 @@
 					{volist name="goods_list" id="value"}
 					<option value="{$value.id}">{$value.name}</option>
 					{/volist}
-                </select><br/> {else /}
+                </select><br/>
+                {else}
                 <select name="pid" class="role_list">
 					<option value="顶级">顶级</option>
-                </select><br/> {/if}
+                </select>
+                <br/>
+                {/if}
                 </select>
             </div>
         </div>
