@@ -20,7 +20,12 @@ class Login extends Controller{
        return view("login_index");
     }
 
-
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:微信小程序授权登录
+     **************************************
+     */
     public function wechatlogin()
     {
         $get = input('get.');
@@ -56,8 +61,6 @@ class Login extends Controller{
                 }else{
                     return ajax_error('该用户已经注册过，请不要重复注册');
                 }
-
-
             }else{
                 return ajax_error('没有数据',['status'=>0]);
             }

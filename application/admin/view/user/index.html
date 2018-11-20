@@ -135,11 +135,11 @@
 						<td>{$vo.member_create_time|date="Y-m-d H:i:s",###} </td>
 						<td>
 							{if $vo.member_status==1}
-							<input type="checkbox" class="Status" name="show" value="{$vo.member_id}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+							<input type="checkbox" class="Status" name="show" value="{$vo.member_status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 							 data-id="{$vo.member_id}" checked>
 							{/if}
 							{if $vo.member_status==-1}
-							<input type="checkbox" class="Status" name="show" value="{$vo.member_id}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+							<input type="checkbox" class="Status" name="show" value="{$vo.member_status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 								   data-id="{$vo.member_id}">
 							{/if}
 							<!--<div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>否</em><i></i></div>-->
@@ -276,10 +276,10 @@
 
 			//是否展示
 			form.on('switch(isShow)', function(data) {
-				if ($(this).val() == 0) {
+				if ($(this).val() == -1) {
 					$(this).val(1);
 				} else {
-					$(this).val(0);
+					$(this).val(-1);
 				}
 				var vals = data.value;
 				var id = $(this).data("id");
@@ -287,7 +287,7 @@
 				console.log(status);
 				$.ajax({
 					type: "POST",
-					url: "{:url('admin/admin/status')}",
+					url: "{:url('admin/User/status')}",
 					data: {
 						"id": id,
 						"status": status

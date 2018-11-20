@@ -25,6 +25,30 @@ class User extends Controller{
 
     /**
      **************李火生*******************
+     * @param Request $request
+     * Notes:客户账户启用状态编辑
+     **************************************
+     */
+    public function  status(Request $request){
+        if($request->isPost()){
+            $data =$_POST;
+            if(!empty($data)){
+                $bool =Db::name('member')->where('member_id',$data['id'])->update(['member_status'=>$data['status']]);
+                if($bool){
+                    return ajax_success('修改成功',['status'=>1]);
+                }else{
+                    return ajax_error('修改失败',['status'=>0]);
+                }
+            }
+        }
+    }
+
+
+
+
+
+    /**
+     **************李火生*******************
      * @return \think\response\View
      * 会员编辑
      **************************************
@@ -49,12 +73,12 @@ class User extends Controller{
 	* 会员等级编辑
 	**************************************
 	*/
-    public function grade_edit(Request $request ,$id =null){
+    public function grade_edit($id =null){
         $term_data =Db::name('term')->select();
         if($this->request->isPost()){
             $data =$this->request->post();
             $data['create_time'] =time();
-            $file =$request->file("member_grade_img");
+            $file =$this->request->file("member_grade_img");
             if($file){
                 $datas = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $images_url = str_replace("\\","/",$datas->getSaveName());
