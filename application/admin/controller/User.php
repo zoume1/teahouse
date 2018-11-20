@@ -73,12 +73,12 @@ class User extends Controller{
 	* 会员等级编辑
 	**************************************
 	*/
-    public function grade_edit(Request $request ,$id =null){
+    public function grade_edit($id =null){
         $term_data =Db::name('term')->select();
         if($this->request->isPost()){
             $data =$this->request->post();
             $data['create_time'] =time();
-            $file =$request->file("member_grade_img");
+            $file =$this->request->file("member_grade_img");
             if($file){
                 $datas = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $images_url = str_replace("\\","/",$datas->getSaveName());
