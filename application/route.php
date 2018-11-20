@@ -67,6 +67,10 @@ Route::group("",[
     /*安全中心*/
     "center_index"=>"index/Center/index",
 
+    /*茶圈*/
+    "teacenter_data"=>"index/TeaCenter/teacenter_data",
+    
+
 
 
 ]);
@@ -349,7 +353,8 @@ Route::group("admin",[
     "category_updata"=>"admin/Category/updata", //活动分类分组更新
     "category_ajax"=>"admin/Category/ajax_add", //活动分类分组ajax显示
     "category_dels"=>"admin/Category/dels",     //活动分类批量删除
-    "category_status"=>"admin/Category/status", //活动分类分组状态修改
+    "category_images"=>"admin/Category/images", 
+    "category_status"=>"admin/Category/status", //活动分类分组状态修改images
 
 
     "accessories_business_advertising"=>"admin/Advertisement/index",              //活动管理
