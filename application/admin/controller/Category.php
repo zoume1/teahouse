@@ -55,8 +55,12 @@ class Category extends Controller
     {
         if ($request->isPost()) {
             $data = $request->param();
-            $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
-            $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            $show_images = $request->file("icon_image");
+             
+            if ($show_images) {
+                $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            }
             $bool = db("goods_type")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Category/index"));
@@ -74,9 +78,12 @@ class Category extends Controller
      */
     public function edit($pid = 0, $id)
     {
+        $goods_list = [];
         $category = db("goods_type")->where("id", $id)->select();
-        $category_name = db("goods_type")->where("id", $category[0]["pid"])->field("name,id")->select();
-        $goods_list = postSelectList("goods_type");
+        if($pid == 0){
+        $goods_list = getSelectList("goods_type");
+        }
+        dump($goods_list);
         return view("category_edit", ["category" => $category, "goods_lists" => $goods_list]);
     }
 
