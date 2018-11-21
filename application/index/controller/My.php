@@ -41,6 +41,8 @@ class My extends Controller
                 $reg = 'reg';  //注册地址
                 $share_url = $domain_name . "/" . $reg . "/" . $member_id;
                 $data['share_url'] = $share_url; //生成的二维码
+                $data['member_grade_name'] =$member_information['member_grade_name'];
+                $data['member_grade_id'] =$member_information['member_grade_id'];
                 $member_data = Db::name('member_grade')->where('introduction_display', 1)->select();
                 foreach ($member_data as $k => $v) {
                     $grade['order_number'] =$k;                 //排序号
@@ -54,7 +56,7 @@ class My extends Controller
                     $grade['member_background_color'] =$v['member_background_color']; //颜色
                 }
                 $user['member_grade'] = $member_data;//会员等级信息
-                $user['information'] = $grade;        //用户的所有信息
+                $user['information'] = $data;        //用户的所有信息
                 if (!empty($user)) {
                     return ajax_success('成功返回数据', $user);
                 } else {
