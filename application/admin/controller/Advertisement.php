@@ -75,9 +75,12 @@ class Advertisement extends Controller{
      * 郭杨
      */
     public function accessories_business_edit($id){
-        $teahost = db("teahost")->where("id",$id)->select();
-        //dump($teahost);
+
+        $teahost = db("teahost")->where("id",$id)->find();
+        dump($teahost);
         $teahost_name = db("teahost")->field("class_name,id")->find();
+        $city_address = explode(",",$teahost["addressed"]);  
+        dump($city_address);
         return view("accessories_business_edit",["teahost"=>$teahost,"teahost_name"=>$teahost_name]);
     }
 
