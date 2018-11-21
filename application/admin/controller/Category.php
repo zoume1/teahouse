@@ -22,7 +22,7 @@ class Category extends Controller
 
     /**
      * [活动分类显示]
-     * 陈绪
+     * 郭杨
      */
     public function index()
     {
@@ -56,7 +56,7 @@ class Category extends Controller
 
     /**
      * [活动分类添加]
-     * 陈绪
+     * 郭杨
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
      */
     public function add($pid = 0)
@@ -72,7 +72,7 @@ class Category extends Controller
 
     /**
      * [活动分类分组入库]
-     * 陈绪
+     * 郭杨
      */
     public function save(Request $request)
     {
@@ -98,7 +98,7 @@ class Category extends Controller
 
     /**
      * [活动分类分组修改]
-     * [陈绪]
+     * 郭杨
      */
     public function edit($pid = 0, $id)
     {
@@ -113,7 +113,7 @@ class Category extends Controller
 
     /**
      * [图片删除]
-     * 陈绪
+     * 郭杨
      */
     public function images(Request $request)
     {
@@ -134,7 +134,7 @@ class Category extends Controller
 
     /**
      * [活动分类分组更新]
-     * [陈绪]
+     * 郭杨
      * @param Request $request
      * @param $id
      */
@@ -160,7 +160,7 @@ class Category extends Controller
 
     /**
      * [活动分类分组删除]
-     * [陈绪]
+     * 郭杨
      */
     public function del($id)
     {
@@ -175,7 +175,7 @@ class Category extends Controller
 
     /**
      * [活动分类分组ajax显示]
-     * 陈绪
+     * 郭杨
      * @param int $pid
      * @return
      */
@@ -190,7 +190,7 @@ class Category extends Controller
 
     /**
      * [活动分类分组批量删除]
-     * 陈绪
+     * 郭杨
      * @param int $pid
      * @return
      */
@@ -218,7 +218,7 @@ class Category extends Controller
 
     /**
      * [活动分类分组状态修改]
-     * 陈绪
+     * 郭杨
      */
     public function status(Request $request)
     {

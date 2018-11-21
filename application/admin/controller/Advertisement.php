@@ -17,7 +17,7 @@ class Advertisement extends Controller{
 
     /**
      * [活动管理显示]
-     * 陈绪
+     * 郭杨
      */
     public function index(){
         $accessories = db("teahost")->paginate(5);
@@ -28,7 +28,7 @@ class Advertisement extends Controller{
 
     /**
      * [活动管理添加]
-     * 陈绪
+     * 郭杨
      *
      */
     public function accessories_business_add(){    
@@ -40,7 +40,7 @@ class Advertisement extends Controller{
 
     /**
      * [活动分类分组入库]
-     * 陈绪
+     * 郭杨
      */
     public function accessories_business_save(Request $request){
         if($request->isPost()){
@@ -57,7 +57,6 @@ class Advertisement extends Controller{
                 }
             }
 
-            //halt($data);
             $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
             $data["classify_image"] = str_replace("\\","/",$show_images->getSaveName());
             $bool = db("teahost")->insert($data);
@@ -73,7 +72,7 @@ class Advertisement extends Controller{
 
     /**
      * [活动分类分组修改]
-     * [陈绪]
+     * 郭杨
      */
     public function accessories_business_edit($id){
         $teahost = db("teahost")->where("id",$id)->select();
@@ -85,7 +84,7 @@ class Advertisement extends Controller{
 
     /**
      * [活动分类分组更新]
-     * [陈绪]
+     * 郭杨
      * @param Request $request
      * @param $id
      */
@@ -106,7 +105,7 @@ class Advertisement extends Controller{
 
     /**
      * [活动分类分组删除]
-     * [陈绪]
+     * 郭杨
      */
     public function accessories_business_del($id){
         $bool = db("teahost")->where("id",$id)->delete();
@@ -120,9 +119,9 @@ class Advertisement extends Controller{
 
     /**
      * [活动分类分组ajax显示]
-     * 陈绪
+     * 郭杨
      * @param int $pid
-     * @return
+     * 
      */
 /*    public function ajax_add($pid = 0){
         $goods_list = [];
@@ -134,7 +133,7 @@ class Advertisement extends Controller{
 
     /**
      * [活动分类分组批量删除]
-     * 陈绪
+     * 郭杨
      * @param int $pid
      * @return
      */
@@ -161,7 +160,7 @@ class Advertisement extends Controller{
 
     /**
      * [活动分类分组状态修改]
-     * 陈绪
+     * 郭杨
      */
    public function accessories_business_label(Request $request){
         if($request->isPost()) {
