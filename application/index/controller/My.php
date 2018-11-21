@@ -44,6 +44,7 @@ class My extends Controller
                     $grade['first_year_pay_full'] = $v['first_year_pay_full'];  //首年消费满（万元
                     $grade['recharge_member_send'] = $v['recharge_member_send']; //充值送会员（万元）
                     $grade['recharge_integral_send'] = $v['recharge_integral_send']; //充值送积分
+                    $grade['member_background_color'] =$v['member_background_color']; //颜色
                 }
                 $user['member_grade'] = $member_data;//会员等级信息
                 $user['information'] = $grade;        //用户的所有信息
