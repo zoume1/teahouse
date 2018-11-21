@@ -125,15 +125,15 @@
         <div class="layui-form-item">
             <label class="layui-form-label">父级分类</label>
             <div class="layui-input-block">
-                {if !empty($goods_list)}
+                {if !empty($goods_lists)}
                 <select name="pid" id="admin_role" class="role_list">
-					<option value="顶级">顶级</option>
-					{volist name="goods_list" id="value"}
+                    <option value="0">顶级</option>
+                    {volist name="goods_lists" id="value"}
 					<option value="{$value.id}">{$value.name}</option>
-					{/volist}
-                </select><br/> {else /}
+                    {/volist}
+                </select><br/> {else}
                 <select name="pid" class="role_list">
-					<option value="顶级">顶级</option>
+					<option value="0">顶级</option>
                 </select><br/> {/if}
                 </select>
             </div>
@@ -179,13 +179,11 @@
 					{volist name="goods_list" id="value"}
 					<option value="{$value.id}">{$value.name}</option>
 					{/volist}
-                </select><br/>
-                {else}
+                </select><br/> {else}
                 <select name="pid" class="role_list">
 					<option value="顶级">顶级</option>
                 </select>
-                <br/>
-                {/if}
+                <br/> {/if}
                 </select>
             </div>
         </div>
