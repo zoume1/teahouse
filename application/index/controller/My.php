@@ -12,6 +12,12 @@ use think\Db;
 
 class My extends Controller
 {
+    public function my_index(Request $request){
+        if($request->isPost()){
+            $post_open_id = $request->only(['open_id'])['open_id'];
+        }
+    }
+
 
     /**
      **************李火生*******************
@@ -37,6 +43,7 @@ class My extends Controller
                 $data['share_url'] = $share_url; //生成的二维码
                 $member_data = Db::name('member_grade')->where('introduction_display', 1)->select();
                 foreach ($member_data as $k => $v) {
+                    $grade['order_number'] =$k;                 //排序号
                     $grade['member_grade_id'] = $v['member_grade_id'];           //会员等级ID
                     $grade['member_grade_name'] = $v['member_grade_name'];       //等级名称
                     $grade['member_grade_img'] = $v['member_grade_img'];     //等级图标
