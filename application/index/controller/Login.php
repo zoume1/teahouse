@@ -62,7 +62,7 @@ class Login extends Controller{
                     }
                 }else{
                     session('member_openid',$errCode['openId']);
-                    return ajax_error('该用户已经注册过，请不要重复注册');
+                    return ajax_error('该用户已经注册过，请不要重复注册',$errCode['openId']);
                 }
             }else{
                 return ajax_error('没有数据',['status'=>0]);
