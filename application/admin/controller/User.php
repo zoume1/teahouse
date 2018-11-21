@@ -53,8 +53,10 @@ class User extends Controller{
      * 会员编辑
      **************************************
      */
-    public function edit(){
-        return view('edit');
+    public function edit($id){
+        $member_data = Db::name('member')->where('member_id',$id)->find();
+        dump($member_data);
+        return view('edit',['member_data'=>$member_data]);
     }
 
     /**
