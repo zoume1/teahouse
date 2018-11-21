@@ -32,8 +32,15 @@ Route::group("",[
 
     /*登录页面*/
     "login_index"=>"index/Login/index",
+
+    /*TODO：start*/
     /*登录授权*/
-    "wechatlogin"=>"index/Login/wechatlogin",
+    "wechatlogin"=>"index/Login/wechatlogin",  //登录授权
+
+
+    "my_show_grade"=>"index/My/show_grade",  //会员等级
+    /*TODO:end*/
+
     /*退出登录*/
     "logout"=>"index/Login/logout",
     /*验证码*/
@@ -167,8 +174,10 @@ Route::group("admin",[
 
     "user_grade"=>"admin/User/grade",  //会员等级
 	"user_grade_edit"=>"admin/User/grade_edit",  //会员等级编辑
-     "user_grade_add"=>"admin/User/grade_add",  //会员等级添加
-	
+     "user_grade_add"=>"admin/User/grade_add",  //会员等级添加（写在编辑里面了）
+     "user_grade_del"=>"admin/User/grade_del",  //会员等级删除
+     "user_grade_start_image_del"=>"admin/User/grade_start_image_del",  //会员等级图片删除
+
     /*充值和提现*/
     "recharge_list"=>"admin/Recharge/index", //充值和提现首页
     "recharge_edit"=>"admin/Recharge/edit",   //充值和提现编辑

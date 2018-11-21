@@ -38,7 +38,7 @@
 
 	</div>
 	{if !empty($info)}
-	<form class="layui-form" action="{:url('admin/User/grade_edit')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form" action="{:url('admin/User/grade_edit',['id'=>$info.member_grade_id])}" method="post" enctype="multipart/form-data">
 		<div class="layui-form-item ">
 			<label class="layui-form-label"><span>*</span>会员等级:</label>
 			<div class="layui-input-block">
@@ -51,7 +51,7 @@
 				<div class="imgcontent">
 					<span class="img">
 						<img src="__UPLOADS__/{$info.member_grade_img}" width="100%">
-						<i class="remove-img" data-id="" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+						<i class="remove-img" data-id="{$info.member_grade_id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
 					</span>
 				</div>
 			</div>
@@ -133,11 +133,11 @@
 		<div class="layui-form-item ">
 			<label class="layui-form-label">是否介绍隐藏:</label>
 			<div class="layui-input-block">
-				{if $info.introduction_dispay == 1}
-				<input type="checkbox"  checked class="Status" name="introduction_dispay" value="{$info.introduction_dispay}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+				{if $info.introduction_display == 1}
+				<input type="checkbox"  checked class="Status" name="introduction_display" value="{$info.introduction_display}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 					   data-id="2">
 				{else}
-				<input type="checkbox" class="Status" name="introduction_dispay" value="{$info.introduction_dispay}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+				<input type="checkbox" class="Status" name="introduction_display" value="{$info.introduction_display}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 					   data-id="2">
 				{/if}
 			</div>
@@ -153,7 +153,7 @@
 	{/if}
 
 	{if empty($info)}
-	<form class="layui-form" action="{:url('admin/User/grade_edit')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form" action="{:url('admin/User/grade_edit',['id'=>0])}" method="post" enctype="multipart/form-data">
 		<div class="layui-form-item ">
 			<label class="layui-form-label"><span>*</span>会员等级:</label>
 			<div class="layui-input-block">
@@ -235,10 +235,8 @@
 		<div class="layui-form-item ">
 			<label class="layui-form-label">是否介绍隐藏:</label>
 			<div class="layui-input-block">
-
-				<input type="checkbox" class="Status" name="introduction_dispay" value="1" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+				<input type="checkbox" class="Status" name="introduction_display" value="1" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 					   data-id="2">
-
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -247,7 +245,6 @@
 				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
 			</div>
 		</div>
-
 	</form>
 	{/if}
 	{/block}
@@ -280,7 +277,7 @@
 						if (value == 1) {
 							$.ajax({
 								type: "POST",
-								url: "{:url('admin/Goods/images')}",
+								url: "{:url('admin/User/grade_start_image_del')}",
 								data: {
 									"id": id
 								},
@@ -295,9 +292,9 @@
 						} else {
 							$.ajax({
 								type: "POST",
-								url: "{:url('admin/Goods/images')}",
+								url: "{:url('admin/User/grade_start_image_del')}",
 								data: {
-									"images_id": id
+									"id": id
 								},
 								dataType: "json",
 								success: function(data) {
