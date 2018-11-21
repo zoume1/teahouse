@@ -81,7 +81,7 @@
 						<td>{$vo.recharge_integral_send} </td>
 						<td>{$vo.member_consumption_discount} </td>
 						<td>
-							{if $vo.introduction_dispay==1}
+							{if $vo.introduction_display==1}
 							<input type="checkbox" class="Status" name="show" value="0"  disabled checked lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 							 data-id="{$vo.member_grade_id}">
 							{else}
@@ -93,7 +93,7 @@
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/User/grade_edit',['id'=>$vo.member_grade_id])}"><i class="iconfont icon-edit"></i> 编辑</a>
 
-							<a href="/siring_ow/public/admin/admin_del/id/2.html" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
+							<a href="{:url('admin/User/grade_del',['id'=>$vo.member_grade_id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
 							 data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>

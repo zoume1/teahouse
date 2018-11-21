@@ -67,14 +67,21 @@ class User extends Controller{
        $grade_data = Db::name('member_grade')->paginate(5);
         return view('grade',['grade_data'=>$grade_data]);
     }
-	/**
-	**************邹梅*******************
-	* @return \think\response\View
-	* 会员等级编辑
-	**************************************
-	*/
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:会员等级编辑(添加编辑都在这)
+     **************************************
+     * @param null $id
+     * @return \think\response\View
+     */
     public function grade_edit($id =null){
         $term_data =Db::name('term')->select();
+        if($id > 0){
+            $info =Db::name('member_grade')->where("member_grade_id",$id)->find();
+            $this->assign('info',$info);
+        }
         if($this->request->isPost()){
             $data =$this->request->post();
             $data['create_time'] =time();
@@ -84,7 +91,7 @@ class User extends Controller{
                 $images_url = str_replace("\\","/",$datas->getSaveName());
                 $data['member_grade_img'] =$images_url;
             }
-            if($id>0){
+            if($id > 0){
                 $res =Db::name('member_grade')->where('member_grade_id',$id)->update($data);
             }else{
                 $res =Db::name('member_grade')->insertGetId($data);
@@ -95,20 +102,62 @@ class User extends Controller{
                 $this->error('编辑失败');
             }
         }
-        if($id > 0){
-            $info =Db::name('member_grade')->where("member_grade_id",$id)->find();
-            $this->assign('info',$info);
-        }
+
         return view('grade_edit',['term_data'=>$term_data]);
     }
-	/**
-	**************邹梅*******************
-	* @return \think\response\View
-	* 会员等级添加
-	**************************************
-	*/
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:会员等级添加（写在编辑里面）
+     **************************************
+     * @return \think\response\View
+     */
 	public function  grade_add(){
 		return view('grade_add');
 	}
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:会员等级图片删除
+     **************************************
+     * @param Request $request
+     */
+	public function  grade_start_image_del(Request $request){
+        if ($request->isPost()) {
+            $id = $request->only(['id'])['id'];
+            $image_url = Db::name('member_grade')->where("member_grade_id", $id)->field("member_grade_img")->find();
+            if ($image_url['member_grade_img'] != null) {
+                unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['member_grade_img']);
+            }
+            $bool = Db::name('member_grade')->where("member_grade_id", $id)->field("member_grade_img")->update(["member_grade_img" => null]);
+            if ($bool) {
+                return ajax_success("删除成功");
+            } else {
+                return ajax_error("删除失败");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:会员等级列表删除（注意没有把图片删除，其他地方有用到）
+     **************************************
+     * @param $id
+     */
+    public function grade_del($id){
+        $bool = db("member_grade")->where("member_grade_id", $id)->delete();
+        if ($bool) {
+            $this->success("删除成功", url("admin/User/grade"));
+        } else {
+            $this->error("删除失败", url("admin/User/grade"));
+        }
+    }
+
+
+
+
 
 }

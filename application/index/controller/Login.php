@@ -48,17 +48,20 @@ class Login extends Controller{
                     $data['member_head_img'] =$errCode['avatarUrl'];
                     $data['member_name'] =$errCode['nickName'];
                     $data['member_create_time'] =time();
+                    $data['member_grade_create_time'] =time();
                     $data['member_grade_id']=1;
                     $data['member_status']=1;
                     $grade_name =Db::name('member_grade')->field('member_grade_name')->where('member_grade_id',1)->find();
                     $data['member_grade_name'] =$grade_name['member_grade_name'];
                     $bool =Db::name('member')->insertGetId($data);
                     if($bool){
+                        session('member_openid',$errCode['openId']);
                         return ajax_success('返回数据成功',$errCode);
                     }else{
                         return ajax_success('返回数据失败',['status'=>0]);
                     }
                 }else{
+                    session('member_openid',$errCode['openId']);
                     return ajax_error('该用户已经注册过，请不要重复注册');
                 }
             }else{
