@@ -14,6 +14,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
+use think\paginator\driver\Bootstrap;
 
 class Category extends Controller
 {
@@ -25,8 +26,30 @@ class Category extends Controller
      */
     public function index()
     {
-        $category = db("goods_type")->paginate(5);
+        $category = db("goods_type")->select();
+        
+        foreach($category as $key => $value){
+            if($value["pid"]){
+                $res = db("goods_type")->where("id",$value['pid'])->field("name")->find();
+                //halt($res);
+                $category[$key]["names"] = $res["name"];
+            }
+        }
+        $all_idents =$category ;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 5;//每页3行记录
+        $showdata = array_slice($all_idents, ($curPage - 1)*$listRow, $listRow,true);// 数组中根据条件取出一段值，并返回
+        $category = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path'     => url('admin/Category/index'),//这里根据需要修改url
+            'query'    =>  [],
+            'fragment' => '',
+        ]);
+        $category->appends($_GET);
+        $this->assign('listpage', $category->render());
+        
         return view("category_index", ["category" => $category]);
+
     }
 
 
@@ -38,11 +61,11 @@ class Category extends Controller
      */
     public function add($pid = 0)
     {
-        $goods_list = [];
-        if ($pid == 0) {
-            $goods_list = postSelectList("goods_type");
-        }
-        return view("category_add", ["goods_list" => $goods_list]);
+        $goods_liste = [];
+
+        $goods_liste = db("goods_type")->field("id,name,pid")->select();
+        //halt($goods_liste);
+        return view("category_add",["goods_liste" => $goods_liste]);
     }
 
 
@@ -61,6 +84,7 @@ class Category extends Controller
                 $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
             }
+            
             $bool = db("goods_type")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Category/index"));
@@ -83,7 +107,7 @@ class Category extends Controller
         if ($pid == 0) {
             $goods_list = getSelectList("goods_type");
         }
-
+        
         return view("category_edit", ["category" => $category, "goods_lists" => $goods_list]);
     }
 

@@ -46,7 +46,18 @@ class Advertisement extends Controller{
         if($request->isPost()){
             $data = $request->param();
             $data["start_time"] = strtotime($data["start_time"]);
-            
+            $addressed = [$data["address_city1"],$data["address_city2"],$data["address_city3"],$data["address_street"]];
+            $data["addressed"] = implode(",",$addressed);
+            $data["address"] = implode("",$addressed);
+
+            foreach( $data as $k=>$v){
+                if(in_array($v,$addressed))
+                {
+                    unset($data[$k]);
+                }
+            }
+
+            //halt($data);
             $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
             $data["classify_image"] = str_replace("\\","/",$show_images->getSaveName());
             $bool = db("teahost")->insert($data);
