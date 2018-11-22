@@ -22,7 +22,9 @@ class My extends Controller
     public function my_index(Request $request){
         if($request->isPost()){
             $post_open_id = $request->only(['open_id'])['open_id'];
-            $my_data =Db::name('member')->where('member_open_id',$post_open_id)->select();
+            $my_data =Db::name('member')->field('member_phone_num,member_openid,member_name,member_head_img,member_grade_name,member_wallet,member_integral_wallet,member_grade_id')->where('member_openid',$post_open_id)->find();
+            $post_member_grade_img =Db::name('member_grade')->field('member_grade_img')->where('member_grade_id',$my_data['member_grade_id'])->find();
+           $my_data['member_grade_img'] =$post_member_grade_img['member_grade_img'];
             if(!empty($my_data)){
                 return ajax_success('用户信息返回成功',$my_data);
             }else{
