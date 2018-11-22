@@ -18,9 +18,8 @@ class Recharge extends Controller{
      **************************************
      */
     public function index(){
-        $recharge_data =Db::name('recharge_full_setting')->select();
-        dump($recharge_data);
-        return view('index',['recharge_data'=>$recharge_data]);
+
+        return view('index');
     }
 
     /**
