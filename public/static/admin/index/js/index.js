@@ -14,7 +14,12 @@ $(".UCleft-fixed").children("dl").on("click","dt",function(){
 	}
 
   });
+
   $(".UCleft-fixed").children("dl").children("dd").on("click","p",function(){
+  	
+  $(this).css('font-weight','bold');
+  $(this).siblings().css('font-weight','500');
+  $(this).parent("dd").parent("dl").siblings().children("dd").children("p").css('font-weight','500');
    var url=$(this).data("url");
    var dk = $(window.parent.document).find("#add").attr("src"); 
 			$.ajax({
@@ -27,7 +32,7 @@ $(".UCleft-fixed").children("dl").on("click","dt",function(){
 				
 			});
   });
-  	
+
     
     
 	
