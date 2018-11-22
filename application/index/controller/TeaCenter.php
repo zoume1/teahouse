@@ -73,11 +73,11 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()){
            
-            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,address,pid')->where("label", 1)->select();
+            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,address,pid')->where("label", 1)->select();
             
             foreach($activity as $key => $value){
                 if($value["pid"]){
-                    $rest = db("goods_type")->where("pid",$value['pid'])->field("name")->find();
+                    $rest = db("goods_type")->where("id",$value['pid'])->field("name")->find();
                     $activity[$key]["names"] = $rest["name"];
                 }
             }

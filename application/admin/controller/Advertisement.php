@@ -25,7 +25,7 @@ class Advertisement extends Controller{
         
         foreach($accessories as $key => $value){
             if($value["pid"]){
-                $res = db("goods_type")->where("pid",$value['pid'])->field("name")->find();
+                $res = db("goods_type")->where("id",$value['pid'])->field("name")->find();
                 $accessories[$key]["named"] = $res["name"];
             }
         }
@@ -109,6 +109,7 @@ class Advertisement extends Controller{
         if ($pid == 0) {
             $teahost_names = getSelectList("goods_type");
         }
+        
         //halt($teahost_names);
         $city_address = explode(",",$teahost[0]["addressed"]);  
         return view("accessories_business_edit",["teahost"=>$teahost,"teahost_names"=>$teahost_names,"city_address"=>$city_address]);
@@ -124,6 +125,7 @@ class Advertisement extends Controller{
     public function accessories_business_updata(Request $request){
         if($request->isPost()) {
             $data = $request->param();
+            //halt($data);
             $show_images = $request->file("classify_image");
             //halt($data);
             if ($show_images) {
