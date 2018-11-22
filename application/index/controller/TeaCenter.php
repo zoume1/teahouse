@@ -73,7 +73,7 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()){
             $res = $request->only(['id'])['id'];
-            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,address,pid')->where("label", 1)->where("pid",$res)->select();
+            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,address,pid')->where("label", 1)->where("pid",$res)->select();
             if(empty($activity)){
                 return ajax_error("下面没有活动");
             }
