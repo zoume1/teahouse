@@ -78,7 +78,7 @@ Route::group("",[
     /*茶圈*/
     "teacenter_data"=>"index/TeaCenter/teacenter_data",
     "teacenter_display"=>"index/TeaCenter/teacenter_display",
-
+    "teacenter_activity"=>"index/TeaCenter/teacenter_activity",
 
 
 ]);
@@ -380,12 +380,13 @@ Route::group("admin",[
     "category_status"=>"admin/Category/status", //活动分类分组状态修改images
 
 
-    "accessories_business_advertising"=>"admin/Advertisement/index",                //活动管理
-    "accessories_business_add"=>"admin/Advertisement/accessories_business_add",     //活动管理分组添加
-    "accessories_business_edit"=>"admin/Advertisement/accessories_business_edit",   //活动管理分组编辑
-    "accessories_business_save"=>"admin/Advertisement/accessories_business_save",   //活动管理分组保存
-    "accessories_business_del"=>"admin/Advertisement/accessories_business_del",     //活动管理分组删除
-    "accessories_business_label"=>"admin/Advertisement/accessories_business_label", //活动管理分组标签修改
+    "accessories_business_advertising"=>"admin/Advertisement/index",                 //活动管理
+    "accessories_business_add"=>"admin/Advertisement/accessories_business_add",      //活动管理分组添加
+    "accessories_business_edit"=>"admin/Advertisement/accessories_business_edit",    //活动管理分组编辑
+    "accessories_business_save"=>"admin/Advertisement/accessories_business_save",    //活动管理分组保存
+    "accessories_business_updata"=>"admin/Advertisement/accessories_business_updata",//活动管理分组保存
+    "accessories_business_del"=>"admin/Advertisement/accessories_business_del",      //活动管理分组删除
+    "accessories_business_label"=>"admin/Advertisement/accessories_business_label",  //活动管理分组标签修改
 
 
 	
