@@ -79,7 +79,7 @@ Route::group("",[
     "teacenter_data"=>"index/TeaCenter/teacenter_data",
     "teacenter_display"=>"index/TeaCenter/teacenter_display",
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",
-
+    "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",
 
 ]);
 

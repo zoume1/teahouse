@@ -66,7 +66,7 @@ class TeaCenter extends Controller
     }
 
     /**
-     * [茶圈活动显示]
+     * [茶圈活动页面显示]
      * 郭杨
      */
     public function teacenter_activity(Request $request)
@@ -97,5 +97,27 @@ class TeaCenter extends Controller
 
     }
 
+        /**
+     * [茶圈活动详细显示]
+     * 郭杨
+     */
+    public function teacenter_detailed(Request $request)
+    {
+        if ($request->isPost()){
+            $resd = $request->only(['id'])['id'];
+            $actdata = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid')->where("label", 1)->where("id",$resd)->select();
+          
+            if (!empty($actdata)) {
+                return ajax_success('传输成功', $actdata);
+            } else {
+                return ajax_error("数据为空");
+
+            }
+
+
+        }
+
+
+    }
 
 }
