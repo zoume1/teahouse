@@ -48,7 +48,7 @@
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/capital/add')}"> 添加规格</a>
+				<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/capital/edit')}"> 添加规格</a>
 			</div>
 		</blockquote>
 		<div class="layui-form news_list">
@@ -63,27 +63,35 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+				{if !empty($recharge_data)}
+				{volist name="recharge_data" id="vo"}
 					<tr>
-						<td>admin</td>
-						<td>admin</td>
-						
-
+						<td>{$vo.recharge_setting_full_money}</td>
+						<td>{$vo.recharge_setting_send_integral}</td>
 						<td>
-							<input type="checkbox" class="Status" name="show" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
-							 data-id="2">
+							{if $vo.status==1}
+							<input type="checkbox" checked class="Status" name="status" value="{$vo.recharge_setting_id}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+							 data-id="{$vo.recharge_setting_id}">
+							{else}
+							<input type="checkbox" class="Status" name="status" value="{$vo.recharge_setting_id}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+								   data-id="{$vo.recharge_setting_id}">
+							{/if}
+
 						</td>
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/capital/edit')}"><i class="iconfont icon-edit"></i> 编辑</a>
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/capital/edit',['id'=>$vo.recharge_setting_id])}"><i class="iconfont icon-edit"></i> 编辑</a>
 
-							<a href="/siring_ow/public/admin/admin_del/id/2.html" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
+							<a href="{:url('admin/capital/del',['id'=>$vo.recharge_setting_id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
 							 data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
+				{/volist}
+				{/if}
 				</tbody>
 			</table>
 		</div>
 		<div id="page">
-
+			{$recharge_data->render()}
 		</div>
 
 	</div>

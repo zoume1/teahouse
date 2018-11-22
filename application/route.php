@@ -180,16 +180,24 @@ Route::group("admin",[
      "user_grade_add"=>"admin/User/grade_add",  //会员等级添加（写在编辑里面了）
      "user_grade_del"=>"admin/User/grade_del",  //会员等级删除
      "user_grade_start_image_del"=>"admin/User/grade_start_image_del",  //会员等级图片删除
+    "user_grade_status"=>"admin/User/grade_status",  //会员等级状态修改
     /*TODO:会员管理结束*/
 
 
     /*充值和提现*/
     "recharge_list"=>"admin/Recharge/index", //充值和提现首页
     "recharge_edit"=>"admin/Recharge/edit",   //充值和提现编辑
+
+    /*TODO：资金管理开始*/
     /*资金管理*/
     "capital_index"=>"admin/Capital/index",  //资金管理界面
 	"capital_edit"=>"admin/Capital/edit", //资金管理界面edit
 	"capital_add"=>"admin/Capital/add", //资金管理界面add
+	"capital_del"=>"admin/Capital/del", //资金管理删除del
+	"capital_status"=>"admin/Capital/status", //资金管理状态修改
+    /*TODO:资金管理结束*/
+
+
     /*积分中心*/
     "integral_center"=>"admin/Integral/index", //积分中心
     "integral_detail"=>"admin/Integral/detail", //积分详情
