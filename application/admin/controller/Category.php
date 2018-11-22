@@ -61,10 +61,6 @@ class Category extends Controller
      */
     public function add($pid = 0)
     {
-        // $goods_liste = [];
-
-        // $goods_liste = db("goods_type")->field("id,name,pid")->select();
-        // //halt($goods_liste);
         $goods_liste = [];
         $category = db("goods_type")->select();
         if ($pid == 0) {
