@@ -50,7 +50,7 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()){
             $id = $request->only(['id'])['id'];
-            $resdata = Db::name("goods_type")->field('name,icon_image,color')->where('pid', $id)->where("status", 1)->select();
+            $resdata = Db::name("goods_type")->field('name,icon_image,color,pid')->where('pid', $id)->where("status", 1)->select();
             
             if (!empty($resdata)) {
                 return ajax_success('传输成功', $resdata);
@@ -81,6 +81,8 @@ class TeaCenter extends Controller
                     $activity[$key]["names"] = $rest["name"];
                 }
             }
+           
+            dump($activity);
             if (!empty($activity)) {
                 return ajax_success('传输成功', $activity);
             } else {
