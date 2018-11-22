@@ -90,10 +90,10 @@
 					<!--<option value="{$info.member_finite_period}" selected="">{$info.member_finite_period}</option>-->
 					{volist name="term_data" id="vo"}
 						{if condition="$info.member_finite_period eq $vo.term_value"}
-						<option value="{$vo.term_value}" selected="">{$vo.term_name}</option>
-						{else}
-						<option value="{$vo.term_value}">{$vo.term_name}</option>
-						{/if}
+					<option value="{$vo.term_value}" selected="">{$vo.term_name}</option>
+					{else}
+					<option value="{$vo.term_value}">{$vo.term_name}</option>
+					{/if}
 					{/volist}
 					{/if}
 				</select>	</div>

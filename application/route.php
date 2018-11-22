@@ -39,6 +39,7 @@ Route::group("",[
 
 
     "my_show_grade"=>"index/My/show_grade",  //会员等级
+    "my_index"=>"index/My/my_index",  //我的页面
     /*TODO:end*/
 
     /*退出登录*/
@@ -167,16 +168,20 @@ Route::group("admin",[
     */
 
 
-    /*会员管理 ：TODO*/
+    /*TODO：会员管理开始*/
     "user_index"=>"admin/User/index", //会员概况
     "user_status"=>"admin/User/status", //会员状态编辑
     "user_edit"=>"admin/User/edit",     //会员编辑
+    "user_update"=>"admin/User/update",     //会员信息更新
+    "user_del"=>"admin/User/del",     //会员删除
 
     "user_grade"=>"admin/User/grade",  //会员等级
 	"user_grade_edit"=>"admin/User/grade_edit",  //会员等级编辑
      "user_grade_add"=>"admin/User/grade_add",  //会员等级添加（写在编辑里面了）
      "user_grade_del"=>"admin/User/grade_del",  //会员等级删除
      "user_grade_start_image_del"=>"admin/User/grade_start_image_del",  //会员等级图片删除
+    /*TODO:会员管理结束*/
+
 
     /*充值和提现*/
     "recharge_list"=>"admin/Recharge/index", //充值和提现首页
