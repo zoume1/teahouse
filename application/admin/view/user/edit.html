@@ -51,6 +51,7 @@ span{
 
 {block name="content"}
 
+{if !empty($member_data)}
 <form class="layui-form" action="">
 	<div class="title">
 	<span >
@@ -60,43 +61,43 @@ span{
   <div class="layui-form-item ">
     <label class="layui-form-label">会员账号</label>
     <div class="layui-input-block">
-      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入账号" class="layui-input">
+      <input value="{$member_data.member_phone_num}" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入账号" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
     <label class="layui-form-label">性别</label>
     <div class="layui-input-block">
-     <p>男</p>
+     <p>{$member_data.member_sex}</p>
 		 </div>
   </div>
    <div class="layui-form-item">
     <label class="layui-form-label">绑定手机号</label>
     <div class="layui-input-block">
-      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+      <input  value="{$member_data.member_phone_num}" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
     </div>
   </div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">会员名称</label>
 		<div class="layui-input-block">
-				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+				<input  value="{$member_data.member_name}" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
 		</div>
 	</div>
    <div class="layui-form-item">
     <label class="layui-form-label">上级账号</label>
     <div class="layui-input-block">
-      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+      <input value="{$member_data.inviter_id}" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
     </div>
   </div>
   <div class="layui-form-item">
   	<label class="layui-form-label">会员头像</label>
   	<div class="layui-input-block">
-  	<img src="11"/>
+  	<img src="{$member_data.member_head_img}"/>
   	</div>
   </div>
     <div class="layui-form-item">
     <label class="layui-form-label">注册时间</label>
     <div class="layui-input-block">
-      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+      <input value="{$member_data.member_create_time}" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
     </div>
   </div>
 	  <div class="layui-form-item">
@@ -188,7 +189,7 @@ span{
     </div>
   </div>
 </form>
-
+{/if}
 
 {/block}
 
