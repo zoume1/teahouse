@@ -31,7 +31,6 @@ class My extends Controller
             }else{
                 return ajax_error('用户信息返回失败');
             }
-
         }
     }
 
@@ -56,7 +55,8 @@ class My extends Controller
                 $member_id = $member_information['member_id'];   //所登录的id
                 $reg = 'reg';  //注册地址
                 $share_url = $domain_name . "/" . $reg . "/" . $member_id;
-                $data['share_url'] = $share_url; //生成的二维码
+                $share_code ='http://b.bshare.cn/barCode?site=weixin&url='.$share_url;
+                $data['share_url'] = $share_code; //生成的二维码
                 $data['member_grade_name'] =$member_information['member_grade_name'];
                 $data['member_grade_id'] =$member_information['member_grade_id'];
                 $member_data = Db::name('member_grade')->where('introduction_display', 1)->select();

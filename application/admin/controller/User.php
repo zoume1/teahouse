@@ -142,7 +142,6 @@ class User extends Controller{
                 $this->error('编辑失败');
             }
         }
-
         return view('grade_edit',['term_data'=>$term_data]);
     }
 
@@ -193,6 +192,27 @@ class User extends Controller{
             $this->success("删除成功", url("admin/User/grade"));
         } else {
             $this->error("删除失败", url("admin/User/grade"));
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:会员等级列表状态值修改
+     **************************************
+     * @param Request $request
+     */
+    public function  grade_status(Request $request){
+        if($request->isPost()){
+            $data =$_POST;
+            if(!empty($data)){
+                $bool =Db::name('member_grade')->where('member_grade_id',$data['id'])->update(['introduction_display'=>$data['status']]);
+                if($bool){
+                    return ajax_success('修改成功',['status'=>1]);
+                }else{
+                    return ajax_error('修改失败',['status'=>0]);
+                }
+            }
         }
     }
 
