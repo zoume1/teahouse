@@ -43,10 +43,6 @@ class User extends Controller{
         }
     }
 
-
-
-
-
     /**
      **************李火生*******************
      * @return \think\response\View
@@ -55,9 +51,51 @@ class User extends Controller{
      */
     public function edit($id){
         $member_data = Db::name('member')->where('member_id',$id)->find();
-        dump($member_data);
-        return view('edit',['member_data'=>$member_data]);
+        $term_data =Db::name('member_grade')->select();
+        return view('edit',['member_data'=>$member_data,'term_data'=>$term_data]);
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:会员更新
+     **************************************
+     * @param $id
+     */
+    public function update($id){
+        if($this->request->isPost()){
+            $data = $data =$this->request->post();
+            $grade_name =Db::name('member_grade')->field('member_grade_name')->where('member_grade_id',$data['member_grade_id'])->find();
+            $data['member_grade_name']=$grade_name['member_grade_name'];
+            if(!empty($id)){
+                $bool =Db::name('member')->where('member_id',$id)->update($data);
+                if($bool){
+                    $this->success('编辑成功','admin/User/index');
+                }else{
+                    $this->error('编辑失败');
+                }
+            }
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:会员删除
+     **************************************
+     * @param $id
+     */
+    public function del($id){
+        $bool = db("member_grade")->where("member_id", $id)->delete();
+        if ($bool) {
+            $this->success("删除成功", url("admin/User/index"));
+        } else {
+            $this->error("删除失败", url("admin/User/index"));
+        }
+    }
+
+
 
     /**
      **************李火生*******************
