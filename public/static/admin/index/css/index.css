@@ -133,6 +133,7 @@ a{
 	font-size: 14px;
 }
 /*daohang*/
+
 .uMain {
 	margin-top: 20px;
 	overflow: hidden;
@@ -144,7 +145,7 @@ a{
 	background: #fff;
 	width: 14%;
 	float: left;
-	margin-top: 38px;
+	margin-top: 19px;
 }
 
 .UCleft-fixed {
@@ -190,6 +191,7 @@ a{
 }
 
 .UCleft dl dd p{
+	font-size: 14px;
 	text-indent: 42px;
 	display: block;
 	line-height: 31px;
@@ -395,7 +397,7 @@ a{
 .right-content{
 	float: right;
 	width: 80%;
-	height: 1000px;
+	min-height: 1000px;
 	/* background: #fff; */
 	margin-top: 21px;
 	margin-right: 29px;
