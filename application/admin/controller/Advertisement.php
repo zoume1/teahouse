@@ -12,6 +12,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
+use think\paginator\driver\Bootstrap;
 
 class Advertisement extends Controller{
 
@@ -20,7 +21,26 @@ class Advertisement extends Controller{
      * 郭杨
      */
     public function index(){
-        $accessories = db("teahost")->paginate(5);
+        $accessories = db("teahost")->select();
+        
+        foreach($accessories as $key => $value){
+            if($value["pid"]){
+                $res = db("goods_type")->where("id",$value['pid'])->field("name")->find();
+                $accessories[$key]["named"] = $res["name"];
+            }
+        }
+        $all_idents =$accessories ;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 5;//每页5行记录
+        $showdata = array_slice($all_idents, ($curPage - 1)*$listRow, $listRow,true);// 数组中根据条件取出一段值，并返回
+        $accessories = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path'     => url('admin/Advertisement/index'),//这里根据需要修改url
+            'query'    =>  [],
+            'fragment' => '',
+        ]);
+        $accessories->appends($_GET);
+        $this->assign('access', $accessories->render());
         return view("accessories_business_advertising",["accessories"=>$accessories]);
     }
 
@@ -31,9 +51,13 @@ class Advertisement extends Controller{
      * 郭杨
      *
      */
-    public function accessories_business_add(){    
+    public function accessories_business_add($pid=0){ 
+        $teahost_name = [];
+        if ($pid == 0) {
+            $teahost_name = getSelectList("goods_type");
+        }  
        
-        return view("accessories_business_add");
+        return view("accessories_business_add",["teahost_name"=>$teahost_name]);
     }
 
 
@@ -45,6 +69,8 @@ class Advertisement extends Controller{
     public function accessories_business_save(Request $request){
         if($request->isPost()){
             $data = $request->param();
+           // dump($data);
+        
             $data["start_time"] = strtotime($data["start_time"]);
             $addressed = [$data["address_city1"],$data["address_city2"],$data["address_city3"],$data["address_street"]];
             $data["addressed"] = implode(",",$addressed);
@@ -56,9 +82,10 @@ class Advertisement extends Controller{
                     unset($data[$k]);
                 }
             }
-
+          
             $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
             $data["classify_image"] = str_replace("\\","/",$show_images->getSaveName());
+       
             $bool = db("teahost")->insert($data);
             if($bool){
                 $this->success("添加成功",url("admin/Advertisement/index"));
@@ -74,14 +101,18 @@ class Advertisement extends Controller{
      * [活动分类分组修改]
      * 郭杨
      */
-    public function accessories_business_edit($id){
+    public function accessories_business_edit($pid=0,$id){
 
-        $teahost = db("teahost")->where("id",$id)->find();
-        dump($teahost);
-        $teahost_name = db("teahost")->field("class_name,id")->find();
-        $city_address = explode(",",$teahost["addressed"]);  
-        dump($city_address);
-        return view("accessories_business_edit",["teahost"=>$teahost,"teahost_name"=>$teahost_name]);
+        $teahost = db("teahost")->where("id",$id)->select();
+        
+        $teahost_names = [];
+        if ($pid == 0) {
+            $teahost_names = getSelectList("goods_type");
+        }
+        
+        //halt($teahost_names);
+        $city_address = explode(",",$teahost[0]["addressed"]);  
+        return view("accessories_business_edit",["teahost"=>$teahost,"teahost_names"=>$teahost_names,"city_address"=>$city_address]);
     }
 
 
@@ -91,11 +122,28 @@ class Advertisement extends Controller{
      * @param Request $request
      * @param $id
      */
-    public function updata(Request $request){
+    public function accessories_business_updata(Request $request){
         if($request->isPost()) {
-            $data = $request->only(["name", "status", "sort_number", "pid","rank"]);
-            $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
-            $data["classify_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            $data = $request->param();
+            //halt($data);
+            $show_images = $request->file("classify_image");
+            //halt($data);
+            if ($show_images) {
+                $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $data["classify_image"] = str_replace("\\","/",$show_images->getSaveName());
+            }
+            $data["start_time"] = strtotime($data["start_time"]);
+            $addressed = [$data["address_city1"],$data["address_city2"],$data["address_city3"],$data["address_street"]];
+            $data["addressed"] = implode(",",$addressed);
+            $data["address"] = implode("",$addressed);
+
+            foreach($data as $k=>$v){
+                if(in_array($v,$addressed))
+                {
+                    unset($data[$k]);
+                }
+            }
+
             $bool = db("teahost")->where('id', $request->only(["id"])["id"])->update($data);
             if ($bool) {
                 $this->success("编辑成功", url("admin/Advertisement/index"));

@@ -120,7 +120,7 @@
                             <div style="width: 80px; height: 80px;"><img src="__UPLOADS__/{$value.classify_image}" /></div>
                         </td>
                         <td>{$value.address}</td>
-                        <td>{$value.class_name}</td>
+                        <td>{if $value.pid !=0}{$value.named} {else} 无 {/if}</td>
                         <td>{$value.cost_moneny}</td>
                         <td>
                             {if $value.label == 0}
@@ -139,7 +139,7 @@
                     {/volist}
                 </tbody>
             </table>
-            {$accessories->render()}
+            {$access}
         </div>
         <div id="page">
             <div class="opation" style="width: 200px; float: left;">

@@ -26,7 +26,7 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()) {
 
-            $tea = Db::name("goods_type")->field('name,icon_image,color,id')->where('pid', 0)->where("status", 1)->select();
+            $tea = Db::name("goods_type")->field('name,icon_image,color，id')->where('pid', 0)->where("status", 1)->select();
 
             if (!empty($tea)) {
                 return ajax_success('传输成功', $tea);
@@ -65,6 +65,34 @@ class TeaCenter extends Controller
 
     }
 
+    /**
+     * [茶圈活动显示]
+     * 郭杨
+     */
+    public function teacenter_activity(Request $request)
+    {
+        if ($request->isPost()){
+           
+            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,address,pid')->where("label", 1)->select();
+            
+            foreach($activity as $key => $value){
+                if($value["pid"]){
+                    $rest = db("goods_type")->where("id",$value['pid'])->field("name")->find();
+                    $activity[$key]["names"] = $rest["name"];
+                }
+            }
+            if (!empty($activity)) {
+                return ajax_success('传输成功', $activity);
+            } else {
+                return ajax_error("传输失败");
+
+            }
+
+
+        }
+
+
+    }
 
 
 }

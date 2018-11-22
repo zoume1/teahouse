@@ -165,11 +165,18 @@
         <div class="layui-form-item ">
             <label class="layui-form-label"><span>*</span>归属分类</label>
             <div class="layui-input-inline">
-                <select name="class_name">
-					<option value="浙江" selected="">浙江省</option>
-					<option value="你的工号">江西省</option>
-					<option value="你最喜欢的老师">福建省</option>
-				</select> </div>
+                {if !empty($teahost_name)}
+                <select name="pid" id="admin_role" class="role_list">
+                    <option value="0">顶级</option>
+                    {volist name="teahost_name" id="value"}
+					<option value="{$value.id}">{$value.name}</option>
+                    {/volist}
+                </select><br/> {else}
+                <select name="pid" class="role_list">
+					<option value="0">顶级</option>
+                </select><br/> {/if}
+                </select>
+            </div>
             <div class="layui-input-inline">
                 <a href="{:url('admin/Category/add')}" style="line-height: 40px;">添加分类</a>
             </div>
