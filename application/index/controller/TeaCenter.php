@@ -72,8 +72,8 @@ class TeaCenter extends Controller
     public function teacenter_activity(Request $request)
     {
         if ($request->isPost()){
-           
-            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,address,pid')->where("label", 1)->select();
+            $res = $request->only(['pid'])['pid'];
+            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,address,pid')->where("label", 1)->where("pid",$res)->select();
             
             foreach($activity as $key => $value){
                 if($value["pid"]){
@@ -82,7 +82,7 @@ class TeaCenter extends Controller
                 }
             }
            
-            dump($activity);
+          
             if (!empty($activity)) {
                 return ajax_success('传输成功', $activity);
             } else {
