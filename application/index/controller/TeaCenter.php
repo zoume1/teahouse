@@ -24,9 +24,9 @@ class TeaCenter extends Controller
      */
     public function teacenter_data(Request $request)
     {
-        if ($request->isPost()) {
+        if ($request->isGet()) {
 
-            $tea = Db::name("goods_type")->field('name,icon_image,color，id')->where('pid', 0)->where("status", 1)->select();
+            $tea = Db::name("goods_type")->field('name,icon_image,color,id')->where('pid', 0)->where("status", 1)->select();
 
             if (!empty($tea)) {
                 return ajax_success('传输成功', $tea);
