@@ -31,7 +31,7 @@ class TeaCenter extends Controller
             if (!empty($tea)) {
                 return ajax_success('传输成功', $tea);
             } else {
-                return ajax_error("传输失败");
+                return ajax_error("数据为空");
 
             }
 
@@ -50,12 +50,12 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()){
             $id = $request->only(['id'])['id'];
-            $resdata = Db::name("goods_type")->field('name,icon_image,color,pid')->where('pid', $id)->where("status", 1)->select();
+            $resdata = Db::name("goods_type")->field('name,icon_image,color')->where('pid', $id)->where("status", 1)->select();
             
             if (!empty($resdata)) {
                 return ajax_success('传输成功', $resdata);
             } else {
-                return ajax_error("传输失败");
+                return ajax_error("数据为空");
 
             }
 
@@ -72,21 +72,22 @@ class TeaCenter extends Controller
     public function teacenter_activity(Request $request)
     {
         if ($request->isPost()){
-            $res = $request->only(['pid'])['pid'];
+            $res = $request->only(['id'])['id'];
             $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,address,pid')->where("label", 1)->where("pid",$res)->select();
-            
+            if(empty($activity)){
+                return ajax_error("下面没有活动");
+            }
             foreach($activity as $key => $value){
-                if($value["pid"]){
-                    $rest = db("goods_type")->where("id",$value['pid'])->field("name")->find();
+                if($value["id"]){
+                    $rest = db("goods_type")->where("id",$value['id'])->field("name")->find();
                     $activity[$key]["names"] = $rest["name"];
                 }
             }
            
-          
             if (!empty($activity)) {
                 return ajax_success('传输成功', $activity);
             } else {
-                return ajax_error("传输失败");
+                return ajax_error("数据为空");
 
             }
 
