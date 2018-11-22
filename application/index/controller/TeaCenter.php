@@ -50,7 +50,7 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()){
             $id = $request->only(['id'])['id'];
-            $resdata = Db::name("goods_type")->field('name,icon_image,color')->where('pid', $id)->where("status", 1)->select();
+            $resdata = Db::name("goods_type")->field('name,icon_image,color,id')->where('pid', $id)->where("status", 1)->select();
             
             if (!empty($resdata)) {
                 return ajax_success('传输成功', $resdata);
