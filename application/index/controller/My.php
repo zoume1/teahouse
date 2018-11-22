@@ -12,9 +12,23 @@ use think\Db;
 
 class My extends Controller
 {
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:我的页面数据返回
+     **************************************
+     * @param Request $request
+     */
     public function my_index(Request $request){
         if($request->isPost()){
             $post_open_id = $request->only(['open_id'])['open_id'];
+            $my_data =Db::name('member')->where('member_open_id',$post_open_id)->select();
+            if(!empty($my_data)){
+                return ajax_success('用户信息返回成功',$my_data);
+            }else{
+                return ajax_error('用户信息返回失败');
+            }
+
         }
     }
 
@@ -30,7 +44,6 @@ class My extends Controller
     {
         if ($request->isPost()) {
             $post_open_id = $request->only(['open_id'])['open_id'];
-//            $post_open_id =session('member_openid');
             if (!empty($post_open_id)) {
                 $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
                 $data = [];

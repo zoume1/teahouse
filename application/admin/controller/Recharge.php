@@ -8,6 +8,7 @@
 namespace  app\admin\controller;
 
 use think\Controller;
+use think\Db;
 
 class Recharge extends Controller{
     /**
@@ -17,7 +18,9 @@ class Recharge extends Controller{
      **************************************
      */
     public function index(){
-        return view('index');
+        $recharge_data =Db::name('recharge_full_setting')->select();
+        dump($recharge_data);
+        return view('index',['recharge_data'=>$recharge_data]);
     }
 
     /**
