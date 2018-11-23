@@ -72,14 +72,15 @@ class TeaCenter extends Controller
     public function teacenter_activity(Request $request)
     {
         if ($request->isPost()){
-            $res = $request->only(['id'])['id'];           
-            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,address,pid')->where("label", 1)->where("pid",$res)->select();
+            $res = $request->only(['id'])['id'];   
+                    
+            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,address,pid')->where("label", 1)->where("pid",$res)->order("start_time")->select();
             if(empty($activity)){
                 return ajax_error("下面没有活动");
             }
             foreach($activity as $key => $value){
-                if($value["id"]){
-                    $rest = db("goods_type")->where("id",$value["id"])->field("name,pid")->find();
+                if($value["id"]){       
+                    $rest = db("goods_type")->where("id", $res)->field("name,pid")->find();
                     $retsd = db("goods_type")->where("id",$rest["pid"])->field("name")->find();
                     $activity[$key]["names"] = $rest["name"];
                     $activity[$key]["named"] = $retsd["name"];
@@ -134,7 +135,7 @@ class TeaCenter extends Controller
     public function teacenter_alls(Request $request)
     {
         if ($request->isPost()){
-            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid')->where("label", 1)->select();           
+            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid')->where("label", 1)->order("start_time")->select();           
             foreach($data as $key => $value){
                 $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
             }
