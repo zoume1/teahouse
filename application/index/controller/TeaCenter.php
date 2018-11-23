@@ -79,8 +79,8 @@ class TeaCenter extends Controller
             }
             foreach($activity as $key => $value){
                 if($value["id"]){
-                    $rest = db("goods_type")->where("id",$value["id"])->field("name,pid")->find();
-                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name")->find();
+                    $rest = db("goods_type")->where("id",value["id"])->field("name,pid")->find();
+                    $retsd = db("goods_type")->where("id",rest["pid"])->field("name")->find();
                     $activity[$key]["names"] = $rest["name"];
                     $activity[$key]["named"] = $retsd["name"];
                     $activity[$key]["start_time"] = date('Y-m-d H:i',$activity[$key]["start_time"]);
