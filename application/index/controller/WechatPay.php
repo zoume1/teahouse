@@ -17,18 +17,31 @@ class WechatPay extends Controller
     /*
     微信支付配置参数
     */
+//    private $config = array(
+//        'appid' => "wx7214a4fde280c2b7",    /*微信开放平台上的应用id*/
+//        'mch_id' => "1412019602",   /*微信申请成功之后邮件中的商户id*/
+//        'api_key' => "你的在微信商户平台上自己设定的api密钥",    /*在微信商户平台上自己设定的api密钥 32位*/
+//        'notify_url' => '回调地址',
+//
+//    );
+
+
     private $config = array(
-        'appid' => "你的微信开放平台上的应用id",    /*微信开放平台上的应用id*/
-        'mch_id' => "你的微信申请成功之后邮件中的商户id",   /*微信申请成功之后邮件中的商户id*/
-        'api_key' => "你的在微信商户平台上自己设定的api密钥",    /*在微信商户平台上自己设定的api密钥 32位*/
+        'appid' => "wx4b0deb320539d8d3",    /*微信开放平台上的应用id*/
+        'mch_id' => "1412019602",   /*微信申请成功之后邮件中的商户id*/
+        'api_key' => "ffcfd0f4898e856ba07cc7f17ed4dbfb",    /*在微信商户平台上自己设定的api密钥 32位*/
         'notify_url' => '回调地址',
 
     );
 
     //微信支付下单
-    public function wxpay($body, $orderid, $out_trade_no, $total_fee, $type)
+//    public function wxpay($body, $orderid, $out_trade_no, $total_fee, $type)
+    public function wxpay()
     {
         $datas =$_POST;
+        $body =1;
+        $orderid =100001;
+        $out_trade_no =2018121212;
         $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
         $data["appid"] = $this->config["appid"];
         $data["body"] = '茶仓-' . $body;
@@ -46,6 +59,8 @@ class WechatPay extends Controller
         $response = $this->postXmlCurl($xml, $url); //以post方式提交xml到对应的接口url
         $response = $this->xmlToArray($response);  //将xml转为array
         $response = $this->two_sign($response, $data["nonce_str"]); //微信支付二次签名
+
+        return ajax_success('数据返回',$response);
         //返回数据
         echo json_encode(['status' => 1, 'indo' => 'success', 'orderid' => $orderid, 'data' => $response]);
     }
