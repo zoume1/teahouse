@@ -40,6 +40,7 @@ Route::group("",[
 
     "my_show_grade"=>"index/My/show_grade",  //会员等级
     "my_index"=>"index/My/my_index",  //我的页面
+    "wxpay"=>"index/WechatPay/wxpay",//微信支付测试
     /*TODO:end*/
 
     /*退出登录*/
