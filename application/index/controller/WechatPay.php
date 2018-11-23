@@ -28,6 +28,7 @@ class WechatPay extends Controller
     //微信支付下单
     public function wxpay($body, $orderid, $out_trade_no, $total_fee, $type)
     {
+        $datas =$_POST;
         $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
         $data["appid"] = $this->config["appid"];
         $data["body"] = '茶仓-' . $body;
