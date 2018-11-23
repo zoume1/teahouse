@@ -137,9 +137,15 @@ class TeaCenter extends Controller
         if ($request->isPost()){
             $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid')->where("label", 1)->order("start_time")->select();           
             foreach($data as $key => $value){
-                $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
+                if($value){
+                    $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
+                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name")->find();
+                    $data[$key]["names"] = $rest["name"];
+                    $data[$key]["named"] = $retsd["name"];
+                    $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
+                }
             }
-
+           
             if (!empty($data)) {
                 return ajax_success('传输成功', $data);
             } else {
