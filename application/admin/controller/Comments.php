@@ -20,9 +20,17 @@ class  Comments extends  Controller{
 	 * 郭杨
 	 */
     public function index(){
+
 		$comments_index = db("mament")->paginate(4);
-        return view('comments_index');
-    }
+		//halt($comments_index);
+        return view('comments_index',['comments_index'=>$comments_index]);
+	}
+	
+
+
+
+
+
 	 public function add(){
 		return view('comments_add');
 	 }

@@ -72,18 +72,21 @@ class TeaCenter extends Controller
     public function teacenter_activity(Request $request)
     {
         if ($request->isPost()){
-            $res = $request->only(['id'])['id'];
+            $res = $request->only(['id'])['id'];           
             $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,address,pid')->where("label", 1)->where("pid",$res)->select();
             if(empty($activity)){
                 return ajax_error("下面没有活动");
             }
             foreach($activity as $key => $value){
                 if($value["id"]){
-                    $rest = db("goods_type")->where("id",$value['id'])->field("name")->find();
+                    $rest = db("goods_type")->where("id",$value["id"])->field("name,pid")->find();
+                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name")->find();
                     $activity[$key]["names"] = $rest["name"];
+                    $activity[$key]["named"] = $retsd["name"];
+                    $activity[$key]["start_time"] = date('Y-m-d H:i',$activity[$key]["start_time"]);
                 }
             }
-           
+          
             if (!empty($activity)) {
                 return ajax_success('传输成功', $activity);
             } else {
@@ -97,7 +100,7 @@ class TeaCenter extends Controller
 
     }
 
-        /**
+     /**
      * [茶圈活动详细显示]
      * 郭杨
      */
@@ -106,9 +109,38 @@ class TeaCenter extends Controller
         if ($request->isPost()){
             $resd = $request->only(['id'])['id'];
             $actdata = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid')->where("label", 1)->where("id",$resd)->select();
-          
+            
+            foreach($actdata as $key => $value){
+                $actdata[$key]["start_time"] = date('Y-m-d H:i',$actdata[$key]["start_time"]);
+            }
+
             if (!empty($actdata)) {
                 return ajax_success('传输成功', $actdata);
+            } else {
+                return ajax_error("数据为空");
+
+            }
+
+
+        }
+
+
+    }
+
+     /**
+     * [茶圈所有活动]
+     * 郭杨
+     */
+    public function teacenter_alls(Request $request)
+    {
+        if ($request->isPost()){
+            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid')->where("label", 1)->select();           
+            foreach($data as $key => $value){
+                $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
+            }
+
+            if (!empty($data)) {
+                return ajax_success('传输成功', $data);
             } else {
                 return ajax_error("数据为空");
 
