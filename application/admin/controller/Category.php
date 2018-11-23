@@ -170,7 +170,7 @@ class Category extends Controller
         if ($bool) {
             $this->success("删除成功", url("admin/Category/index"));
         } else {
-            $this->error("删除失败", url("admin/Category/edit"));
+            $this->error("删除失败", url("admin/Category/index"));
         }
     }
 

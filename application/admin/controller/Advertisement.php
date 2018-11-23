@@ -104,6 +104,7 @@ class Advertisement extends Controller{
     public function accessories_business_edit($pid=0,$id){
 
         $teahost = db("teahost")->where("id",$id)->select();
+
         
         $teahost_names = [];
         if ($pid == 0) {
@@ -125,9 +126,7 @@ class Advertisement extends Controller{
     public function accessories_business_updata(Request $request){
         if($request->isPost()) {
             $data = $request->param();
-            //halt($data);
             $show_images = $request->file("classify_image");
-            //halt($data);
             if ($show_images) {
                 $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $data["classify_image"] = str_replace("\\","/",$show_images->getSaveName());
@@ -182,13 +181,13 @@ class Advertisement extends Controller{
         return ajax_success("获取成功",$goods_list);
     }*/
 
+    
     /**
      * [活动分类分组批量删除]
      * 郭杨
-     * @param int $pid
-     * @return
+     *  
      */
-/*    public function dels(Request $request){
+    public function accessories_business_dels(Request $request){
         if($request->isPost()){
             $id =$_POST['id'];
             if(is_array($id)){
@@ -196,7 +195,7 @@ class Advertisement extends Controller{
             }else{
                 $where ='id='.$id;
             }
-            $list =  Db::name('goods_type')->where($where)->delete();
+            $list =  Db::name('teahost')->where($where)->delete();
             if($list!==false)
             {
                 return ajax_success('成功删除!',['status'=>1]);
@@ -204,7 +203,7 @@ class Advertisement extends Controller{
                 return ajax_error('删除失败',['status'=>0]);
             }
         }
-    }*/
+    }
 
 
 

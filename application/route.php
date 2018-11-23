@@ -376,8 +376,8 @@ Route::group("admin",[
     "category_updata"=>"admin/Category/updata", //活动分类分组更新
     "category_ajax"=>"admin/Category/ajax_add", //活动分类分组ajax显示
     "category_dels"=>"admin/Category/dels",     //活动分类批量删除
-    "category_images"=>"admin/Category/images", 
-    "category_status"=>"admin/Category/status", //活动分类分组状态修改images
+    "category_images"=>"admin/Category/images", //活动分类图片删除
+    "category_status"=>"admin/Category/status", //活动分类分组状态修改
 
 
     "accessories_business_advertising"=>"admin/Advertisement/index",                 //活动管理
@@ -386,17 +386,23 @@ Route::group("admin",[
     "accessories_business_save"=>"admin/Advertisement/accessories_business_save",    //活动管理分组保存
     "accessories_business_updata"=>"admin/Advertisement/accessories_business_updata",//活动管理分组保存
     "accessories_business_del"=>"admin/Advertisement/accessories_business_del",      //活动管理分组删除
+    "accessories_business_dels"=>"admin/Advertisement/accessories_business_dels",    //活动管理分组批量删除(前端没写)
     "accessories_business_label"=>"admin/Advertisement/accessories_business_label",  //活动管理分组标签修改
 
 
 	
-	 /*评论*/
-	 "comments_index"=>"admin/Comments/index",
-	 "comments_add"=>"admin/Comments/add",
-	 "comments_edit"=>"admin/Comments/edit",
-	   
-	 /*评论*/
-	 "active_order_index"=>"admin/ActiveOrder/index",
+	 
+	 "comments_index"=>"admin/Comments/index",     //评论管理显示
+	 "comments_add"=>"admin/Comments/add",         //评论积分设置
+	 "comments_edit"=>"admin/Comments/edit",       //评论管理编辑
+     "comments_save"=>"admin/Comments/save",       //评论管理保存
+     "comments_status"=>"admin/Comments/status",   //评论管理状态修改
+     "comments_delete"=>"admin/Comments/delete",   //评论管理组删除
+     "comments_deletes"=>"admin/Comments/deletes", //评论管理组批量删除
+
+
+	 
+	 "active_order_index"=>"admin/ActiveOrder/index", //活动订单显示
 	 
 	 
 ]);
