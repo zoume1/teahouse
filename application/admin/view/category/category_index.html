@@ -120,8 +120,8 @@
                         <td>{$value.sort_number}</td>
                         <td>
                             {if $value.status == 0}
-                            <input type="checkbox" class="Status" name="show" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}" /> {else /}
-                            <input type="checkbox" class="Status" name="show" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked="" data-id="{$value.id}" /> {/if}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}" /> {else /}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked="" data-id="{$value.id}" /> {/if}
                         </td>
                         <td>
                             <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i>

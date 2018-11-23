@@ -21,8 +21,8 @@ class Advertisement extends Controller{
      * 郭杨
      */
     public function index(){
-        $accessories = db("teahost")->select();
         
+        $accessories = db("teahost")->select();        
         foreach($accessories as $key => $value){
             if($value["pid"]){
                 $res = db("goods_type")->where("id",$value['pid'])->field("name")->find();
