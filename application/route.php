@@ -401,10 +401,11 @@ Route::group("admin",[
      "comments_status"=>"admin/Comments/status",   //评论管理状态修改
      "comments_delete"=>"admin/Comments/delete",   //评论管理组删除
      "comments_deletes"=>"admin/Comments/deletes", //评论管理组批量删除
-
+     "comments_search"=>"admin/Comments/search",   //评论管理组模糊搜索
 
 	 
-	 "active_order_index"=>"admin/ActiveOrder/index", //活动订单显示
+     "active_order_index"=>"admin/ActiveOrder/index", //活动订单显示
+     "active_order_search"=>"admin/ActiveOrder/search",   //评论管理组模糊搜索
 	 
 	 
 ]);

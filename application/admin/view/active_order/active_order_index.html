@@ -64,18 +64,18 @@
     <div class="childrenBody">
 
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/User/search')}">
+            <form class="layui-form" action="{:url('admin/ActiveOrder/search')}">
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">输入搜索：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input" id="zhanghu">
+                            <input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input" id="zhanghu">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">用户账号：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="search_keys" lay-verify="title" autocomplete="off" placeholder="输入账号" class="layui-input" id="nichwng">
+                            <input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="输入账号" class="layui-input" id="nichwng">
 
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                 </tbody>
 
             </table>
-            {$actived}
+            {$active->render()}
             <div id="page">
                 <div class="opation" style="width: 200px; float: left;">
                     <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
