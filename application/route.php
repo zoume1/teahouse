@@ -94,6 +94,8 @@ Route::group("admin",[
     /*首页*/
     "/$"=>"admin/index/index",
 
+    /* 后台首页 */
+    "home_index"=>"admin/Home/index",
 
     /*登录页面*/
     "index"=>"admin/Login/index",
