@@ -274,11 +274,11 @@ class WechatPay extends Controller
         //默认格式为PEM，可以注释
         curl_setopt($ch, CURLOPT_SSLCERTTYPE, 'PEM');
         //退款证书
-        curl_setopt($ch, CURLOPT_SSLCERT, PUBLIC_PATH . '/wx/apiclient_cert.pem');
+//        curl_setopt($ch, CURLOPT_SSLCERT, PUBLIC_PATH . '/wx/apiclient_cert.pem');
         //默认格式为PEM，可以注释
         curl_setopt($ch, CURLOPT_SSLKEYTYPE, 'PEM');
         //退款证书
-        curl_setopt($ch, CURLOPT_SSLKEY, PUBLIC_PATH . '/wx/apiclient_key.pem');
+//        curl_setopt($ch, CURLOPT_SSLKEY, PUBLIC_PATH . '/wx/apiclient_key.pem');
 
         //运行curl
         $data = curl_exec($ch);
