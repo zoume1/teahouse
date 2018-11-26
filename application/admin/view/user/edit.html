@@ -90,8 +90,11 @@ span{
   </div>
   <div class="layui-form-item">
   	<label class="layui-form-label">会员头像</label>
-  	<div class="layui-input-block">
-  	<img src="{$member_data.member_head_img}"/>
+  	<div class="layui-input-block" >
+  		<div style="width: 100px; height: 100px; overflow: hidden;border-radius: 50%;">
+  				<img src="{$member_data.member_head_img}"/>
+  		</div>
+  
   	</div>
   </div>
     <div class="layui-form-item">
@@ -170,19 +173,26 @@ span{
   <div class="layui-form-item">
     <label class="layui-form-label">身份证号</label>
     <div class="layui-input-block">
-      <input value="{$member_data.ID_card}" type="text" name="ID_card" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-    </div>
+    	
+    		  <input value="{$member_data.ID_card}" type="text" name="ID_card" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+   
+    	
+     </div>
   </div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">身份证</label>
 		<div class="layui-input-block">
-		<img src="__UPLOADS__/{$member_data.member_id_card_in_img}"/>
+			<div style="width: 200px; height: 150px;">
+			    <img src="__UPLOADS__/{$member_data.member_id_card_in_img}"/>
+			</div>
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label"></label>
 		<div class="layui-input-block">
+			<div style="width: 200px; height: 150px;">
 		<img src="__UPLOADS__/{$member_data.member_id_card_side_img}"/>
+		</div>
 		</div>
 	</div>
 	<div class="layui-form-item">
