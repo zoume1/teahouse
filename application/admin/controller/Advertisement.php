@@ -104,7 +104,7 @@ class Advertisement extends Controller{
     public function accessories_business_edit($pid=0,$id){
 
         $teahost = db("teahost")->where("id",$id)->select();
-
+        dump($teahost);
         
         $teahost_names = [];
         if ($pid == 0) {
@@ -209,15 +209,15 @@ class Advertisement extends Controller{
 
 
     /**
-     * [活动分类分组状态修改]
+     * [活动分类推荐状态修改]
      * 郭杨
      */
    public function accessories_business_label(Request $request){
         if($request->isPost()) {
-            $status = $request->only(["label"])["label"];
+            $status = $request->only(["status"])["status"];
             if($status == 0) {
                 $id = $request->only(["id"])["id"];
-                $bool = db("teahost")->where("id", $id)->update(["label" => 0]);
+                $bool = db("teahost")->where("id", $id)->update(["status" => 0]);
                 if ($bool) {
                     $this->redirect(url("admin/Advertisement/index"));
                 } else {
@@ -226,7 +226,7 @@ class Advertisement extends Controller{
             }
             if($status == 1){
                 $id = $request->only(["id"])["id"];
-                $bool = db("teahost")->where("id", $id)->update(["label" => 1]);
+                $bool = db("teahost")->where("id", $id)->update(["status" => 1]);
                 if ($bool) {
                     $this->redirect(url("admin/Advertisement/index"));
                 } else {
