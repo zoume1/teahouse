@@ -56,6 +56,7 @@ class WechatPay extends Controller
         $data["sign"] = $sign;
 
         $xml = $this->arrayToXml($data);  //数组转化为xml
+        return ajax_success('数据返回',$xml);
         $response = $this->postXmlCurl($xml, $url); //以post方式提交xml到对应的接口url
         $response = $this->xmlToArray($response);  //将xml转为array
         $response = $this->two_sign($response, $data["nonce_str"]); //微信支付二次签名
