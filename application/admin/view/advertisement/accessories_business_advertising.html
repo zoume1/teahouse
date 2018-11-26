@@ -52,12 +52,12 @@
 
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="{:url('admin/Advertisement/accessories_business_search')}">
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         <label class="layui-form-label">输入搜索：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input">
+                            <input type="text" name="titles" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input">
 
                         </div>
                     </div>
@@ -65,9 +65,8 @@
                         <label class="layui-form-label">标签：</label>
                         <div class="layui-input-inline">
                             <select>
-								<option value="1">全部</option>
-								<option value="2">未发布</option>
-								<option value="3">已发布</option>
+								<option name="labely" value="0">未发布</option>
+								<option name="labely" value="1">已发布</option>
 							</select>
                         </div>
                     </div>
@@ -75,9 +74,8 @@
                         <label class="layui-form-label">状态：</label>
                         <div class="layui-input-inline">
                             <select>
-								<option value="1">全部</option>
-								<option value="2">过期</option>
-								<option value="3">未过期</option>
+								<option name="time" value="0">过期</option>
+								<option name="time" value="1">未过期</option>
 							</select>
                         </div>
                     </div>

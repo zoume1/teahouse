@@ -393,7 +393,7 @@ Route::group("admin",[
     "accessories_business_del"=>"admin/Advertisement/accessories_business_del",      //活动管理分组删除
     "accessories_business_dels"=>"admin/Advertisement/accessories_business_dels",    //活动管理分组批量删除(前端没写)
     "accessories_business_label"=>"admin/Advertisement/accessories_business_label",  //活动管理分组标签修改
-
+    "accessories_business_search"=>"admin/Advertisement/accessories_business_search",//活动管理分组模糊搜索
 
 	
 	 
