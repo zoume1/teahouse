@@ -83,6 +83,7 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",
+    "teacenter_recommend"=>"index/TeaCenter/recommend",
 ]);
 
 /**

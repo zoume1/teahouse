@@ -185,31 +185,33 @@
                 <label class="layui-form-label">开放要求</label>
                 <div class="layui-input-block">
                     {if $value.open_request == 0}
-                    <input type="radio" name="open_request" value="{$value.open_request}" title="对所有人开放" > 
-                    <input type="radio" name="open_request" value="{$value.open_request}" title="对会员开放" checked> 
-                    {else}
-                    <input type="radio" name="open_request" value="{$value.open_request}" title="对所有人开放" checked> 
-                    <input type="radio" name="open_request" value="{$value.open_request}" title="对会员开放" > 
-                    {/if}
+                    <input type="radio" name="open_request" value="{$value.open_request}" title="对所有人开放" checked>
+                    <input type="radio" name="open_request" value="{$value.open_request}" title="对会员开放"> {else}
+                    <input type="radio" name="open_request" value="{$value.open_request}" title="对所有人开放">
+                    <input type="radio" name="open_request" value="{$value.open_request}" title="对会员开放" checked> {/if}
                 </div>
-
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">活动要求</label>
                 <div class="layui-input-block">
-                    {if $value.requirements == 1}
-                    <input type="radio" name="requirements" value="{$value.requirements}" title="无需预约"> {else}
+                    {if $value.requirements == 0}
+                    <input type="radio" name="requirements" value="{$value.requirements}" title="无需预约" checked>
+                    <input type="radio" name="requirements" value="{$value.requirements}" title="需要预约">{else}
+                    <input type="radio" name="requirements" value="{$value.requirements}" title="无需预约">
                     <input type="radio" name="requirements" value="{$value.requirements}" title="需要预约" checked> {/if}
                 </div>
             </div>
-                  <div class="layui-form-item">
-            <label class="layui-form-label">首页推荐</label>
-            <div class="layui-input-block">
-                <input type="radio" name="open_request" value="1" title="推荐" >
-                <input type="radio" name="open_request" value="2" title="不推荐" checked="">
-            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">首页推荐</label>
+                <div class="layui-input-block">
+                    {if $value.status == 0}
+                    <input type="radio" name="status" value="{$value.requirements}" title="推荐">
+                    <input type="radio" name="status" value="{$value.requirements}" title="不推荐" checked> {else}
+                    <input type="radio" name="status" value="{$value.requirements}" title="推荐" checked>
+                    <input type="radio" name="status" value="{$value.requirements}" title="不推荐">{/if}
+                </div>
 
-        </div>
+            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="red">*</span>活动上限人数</label>
                 <div class="layui-input-block">
