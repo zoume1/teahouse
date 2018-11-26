@@ -17,22 +17,22 @@ class WechatPay extends Controller
     /*
     微信支付配置参数
     */
-//    private $config = array(
-//        'appid' => "wx7214a4fde280c2b7",    /*微信开放平台上的应用id*/
-//        'mch_id' => "1412019602",   /*微信申请成功之后邮件中的商户id*/
-//        'api_key' => "你的在微信商户平台上自己设定的api密钥",    /*在微信商户平台上自己设定的api密钥 32位*/
-//        'notify_url' => '回调地址',
-//
-//    );
-
-
     private $config = array(
-        'appid' => "wx4b0deb320539d8d3",    /*微信开放平台上的应用id*/
-        'mch_id' => "1412019602",   /*微信申请成功之后邮件中的商户id*/
-        'api_key' => "ffcfd0f4898e856ba07cc7f17ed4dbfb",    /*在微信商户平台上自己设定的api密钥 32位*/
+        'appid' => "wx141337862de5e39",    /*微信开放平台上的应用id*/
+        'mch_id' => "1488407552",   /*微信申请成功之后邮件中的商户id*/
+        'api_key' => "7830d05648dfcd375aee7f6030b393d4",    /*在微信商户平台上自己设定的api密钥 32位*/
         'notify_url' => '回调地址',
 
     );
+
+
+//    private $config = array(
+//        'appid' => "wx4b0deb320539d8d3",    /*微信开放平台上的应用id*/
+//        'mch_id' => "1412019602",   /*微信申请成功之后邮件中的商户id*/
+//        'api_key' => "ffcfd0f4898e856ba07cc7f17ed4dbfb",    /*在微信商户平台上自己设定的api密钥 32位*/
+//        'notify_url' => '回调地址',
+//
+//    );
 
     //微信支付下单
 //    public function wxpay($body, $orderid, $out_trade_no, $total_fee, $type)
