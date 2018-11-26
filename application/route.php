@@ -78,12 +78,12 @@ Route::group("",[
     "center_index"=>"index/Center/index",
 
     /*茶圈*/
-    "teacenter_data"=>"index/TeaCenter/teacenter_data",
-    "teacenter_display"=>"index/TeaCenter/teacenter_display",
-    "teacenter_activity"=>"index/TeaCenter/teacenter_activity",
-    "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",
-    "teacenter_alls"=>"index/TeaCenter/teacenter_alls",
-    "teacenter_recommend"=>"index/TeaCenter/recommend",
+    "teacenter_data"=>"index/TeaCenter/teacenter_data",          //茶圈父级显示
+    "teacenter_display"=>"index/TeaCenter/teacenter_display",    //茶圈分类显示
+    "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
+    "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
+    "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
+    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
 ]);
 
 /**

@@ -111,17 +111,18 @@
                     {volist name="category" id="value"}
                     <tr>
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
-
                         <td align="left">{$value.name} </td>
                         <td>{if $value.pid !=0}{$value.names} {else} 顶级 {/if}</td>
-                        <td width="100px"> <img src="__UPLOADS__/{$value.icon_image}" /></td>
+                        <td>
+                            <div style="width: 80px; height: 80px;"><img src="__UPLOADS__/{$value.icon_image}" /></div>
+                        </td>
                         <td><input type="color" name="color" id="" value="{$value.color}" disabled="disabled" /></td>
                         <td>{$value.rank}</td>
                         <td>{$value.sort_number}</td>
-                        <td>
-                            {if $value.status == 0}
-                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}" /> {else /}
-                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked="" data-id="{$value.id}" /> {/if}
+                        <td class="td-status">
+                            {if $value.status == 1}
+                            <span class="label label-success radius">已显示</span> {else}
+                            <span class="label label-success radius">已禁用</span> {/if}
                         </td>
                         <td>
                             <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i>
@@ -285,4 +286,4 @@
 
 </body>
 
-</html>s
+</html>
