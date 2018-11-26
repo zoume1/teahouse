@@ -570,5 +570,18 @@ function define_str_replace($data)
 }
 
 
-
+/**
+ * [茶圈活动管理标签显示]
+ * 郭杨
+ */
+function show_lable_repay($label){
+    switch ($label){
+        case '0':
+            return "未发布";
+            break;
+        case '1':
+            return "已发布";
+            break;
+    }
+}
 

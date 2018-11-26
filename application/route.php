@@ -83,6 +83,7 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",
+    "teacenter_recommend"=>"index/TeaCenter/recommend",
 ]);
 
 /**
@@ -394,14 +395,15 @@ Route::group("admin",[
 
 	
 	 
-	 "comments_index"=>"admin/Comments/index",     //评论管理显示
-	 "comments_add"=>"admin/Comments/add",         //评论积分设置
-	 "comments_edit"=>"admin/Comments/edit",       //评论管理编辑
-     "comments_save"=>"admin/Comments/save",       //评论管理保存
-     "comments_status"=>"admin/Comments/status",   //评论管理状态修改
-     "comments_delete"=>"admin/Comments/delete",   //评论管理组删除
-     "comments_deletes"=>"admin/Comments/deletes", //评论管理组批量删除
-     "comments_search"=>"admin/Comments/search",   //评论管理组模糊搜索
+	 "comments_index"=>"admin/Comments/index",       //评论管理显示
+	 "comments_add"=>"admin/Comments/add",           //评论积分设置
+	 "comments_preserve"=>"admin/Comments/preserve", //评论积分设置保存
+	 "comments_edit"=>"admin/Comments/edit",         //评论管理编辑
+     "comments_save"=>"admin/Comments/save",         //评论管理保存
+     "comments_status"=>"admin/Comments/status",     //评论管理状态修改
+     "comments_delete"=>"admin/Comments/delete",     //评论管理组删除
+     "comments_deletes"=>"admin/Comments/deletes",   //评论管理组批量删除
+     "comments_search"=>"admin/Comments/search",     //评论管理组模糊搜索
 
 	 
      "active_order_index"=>"admin/ActiveOrder/index", //活动订单显示
