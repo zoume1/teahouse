@@ -18,7 +18,7 @@ class WechatPay extends Controller
     微信支付配置参数
     */
     private $config = array(
-        'appid' => "wx141337862de5e39",    /*微信开放平台上的应用id*/
+        'appid' => "wx141337862de5e392",    /*微信开放平台上的应用id*/
         'mch_id' => "1488407552",   /*微信申请成功之后邮件中的商户id*/
         'api_key' => "7830d05648dfcd375aee7f6030b393d4",    /*在微信商户平台上自己设定的api密钥 32位*/
         'notify_url' => '回调地址',
