@@ -26,10 +26,36 @@ class  Comments extends  Controller{
 	}
 	
 
-
+	/**
+	 * [评论积分设置]
+	 * 郭杨
+	 */
 	 public function add(){
-		return view('comments_add');
+         
+        $comments_add = db("comment")->select();
+		return view('comments_add',['comments_add','comments_add'=>$comments_add]);
 	 }
+
+
+    /**
+	 * [评论积分设置保存]
+	 * 郭杨
+	 */
+	 public function preserve(Request $request){
+		if ($request->isPost()) {
+			$comment_datas = $request->param();
+			$res = $request->only(["id"])["id"];
+			
+			$bool = db("comment")->where('id', $res)->update($comment_datas);
+            if ($bool) {
+                $this->success("编辑成功", url("admin/Comments/add"));
+            } else {
+                $this->error("编辑失败", url("admin/Comments/add"));
+            }
+		 
+		}
+	 }
+	 
 
 
 	/**
@@ -38,10 +64,10 @@ class  Comments extends  Controller{
 	 */
 	 public function edit($id){
 		$comments = db("mament")->where('id',$id)->field('comment,id,reply_content')->select();
-		dump($comments);
 		return view('comments_edit',['comments'=>$comments]);
 	 }
  
+
 	/**
 	 * [评论管理保存]
 	 * 郭杨
@@ -61,8 +87,9 @@ class  Comments extends  Controller{
 		}
 	 }
 
+
 	/**
-     * [评论管理状态修改]
+     * [评论管理账户状态修改]
      * 郭杨
      */
 	public function status(Request $request){

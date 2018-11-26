@@ -121,7 +121,7 @@
                         </td>
                         <td>{$value.address}</td>
                         <td>{if $value.pid !=0}{$value.named} {else} 无 {/if}</td>
-                        <td>{$value.cost_moneny}</td>
+                        <td>￥{$value.cost_moneny}</td>
                         <td>
                             {if $value.label == 0}
                             <input type="checkbox" class="Status" name="label" value="{$value.label}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
