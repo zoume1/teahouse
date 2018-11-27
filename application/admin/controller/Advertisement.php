@@ -68,14 +68,13 @@ class Advertisement extends Controller
 
 
     /**
-     * [活动分类分组入库]
+     * [活动管理分组入库]
      * 郭杨
      */
     public function accessories_business_save(Request $request)
     {
         if ($request->isPost()) {
             $data = $request->param();
-           // dump($data);
 
             $data["start_time"] = strtotime($data["start_time"]);
             $addressed = [$data["address_city1"], $data["address_city2"], $data["address_city3"], $data["address_street"]];
@@ -103,7 +102,7 @@ class Advertisement extends Controller
 
 
     /**
-     * [活动分类分组修改]
+     * [活动管理分组修改]
      * 郭杨
      */
     public function accessories_business_edit($pid = 0, $id)
@@ -114,15 +113,14 @@ class Advertisement extends Controller
         if ($pid == 0) {
             $teahost_names = getSelectList("goods_type");
         }
-        
-        //halt($teahost_names);
+
         $city_address = explode(",", $teahost[0]["addressed"]);
         return view("accessories_business_edit", ["teahost" => $teahost, "teahost_names" => $teahost_names, "city_address" => $city_address]);
     }
 
 
     /**
-     * [活动分类分组更新]
+     * [活动管理分组更新]
      * 郭杨
      * @param Request $request
      * @param $id
@@ -158,7 +156,7 @@ class Advertisement extends Controller
 
 
     /**
-     * [活动分类分组删除]
+     * [活动管理分组删除]
      * 郭杨
      */
     public function accessories_business_del($id)
@@ -188,7 +186,7 @@ class Advertisement extends Controller
 
 
     /**
-     * [活动分类分组批量删除]
+     * [活动管理分组批量删除]
      * 郭杨
      *  
      */
@@ -214,7 +212,7 @@ class Advertisement extends Controller
 
 
     /**
-     * [活动分类推荐状态修改]
+     * [活动管理推荐状态修改]
      * 郭杨
      */
     public function accessories_business_label(Request $request)
@@ -244,35 +242,26 @@ class Advertisement extends Controller
 
 
     /**
-     * [活动分类推荐模糊搜索]
+     * [活动管理模糊搜索]
      * 郭杨
      */
     public function accessories_business_search()
     {
         $name = input('titles');   //活动名称
         $label = input('labely');  //活动标签
-        $datetime = input('time'); //是否过期 0:过期 1:未过期
+        $datetime = input('times'); //是否过期 0:过期 1:未过期
         $present_time = time();
-        
-        if (!(empty($name)) || (!empty($lablel))) {
-            if ($datetime == 0) {
-                $data = db('teahost')->where("activity_name", "like", "%" . $name . "%")->where("start_time", '<', '$present_time')->where("label", "like", "%" . $datetime . "%")->select();
+
+        if ((!empty($name)) && (!empty($label)) || (!empty($datetime))) {
+
+                $data = db('teahost')->where("activity_name", "like", "%" . $name . "%")->select();
                 foreach ($data as $key => $value) {
                     if ($value["pid"]) {
                         $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
                         $data[$key]["named"] = $res["name"];
                     }
                 }
-            }
-            if ($datetime == 1) {
-                $data = db('teahost')->where("activity_name", "like", "%" . $name . "%")->where("start_time", '>', '$present_time')->where("label", "like", "%" . $datetime . "%")->select();
-                foreach ($data as $key => $value) {
-                    if ($value["pid"]) {
-                        $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
-                        $data[$key]["named"] = $res["name"];
-                    }
-                }
-            }
+                    
             $all_idents = $data;//这里是需要分页的数据
             $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
             $listRow = 5;//每页5行记录
@@ -284,11 +273,53 @@ class Advertisement extends Controller
                 'fragment' => '',
             ]);
             $data->appends($_GET);
+            $this->assign('access', $data->render());
             return view("accessories_business_advertising", ["accessories" => $data]);
         }
-
-
+        if ((empty($name)) && (!empty($lable))) {
+            if ($datetime == 0) {
+                $data = db('teahost')->where("start_time", '<', '$present_time')->where("label", "like", "%" . $label . "%")->select();
+                foreach ($data as $key => $value) {
+                    if ($value["pid"]) {
+                        $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
+                        $data[$key]["named"] = $res["name"];
+                    }
+                }
+            }
+            if ($datetime == 1) {
+                $data = db('teahost')->where("start_time", '>', '$present_time')->where("label", "like", "%" . $label . "%")->select();
+                foreach ($data as $key => $value) {
+                    if ($value["pid"]) {
+                        $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
+                        $data[$key]["named"] = $res["name"];
+                    }
+                }
+            }
+            
+            $all_idents = $data;//这里是需要分页的数据
+            $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+            $listRow = 5;//每页5行记录
+            $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+            $data = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+                'var_page' => 'page',
+                'path' => url('admin/Advertisement/index'),//这里根据需要修改url
+                'query' => [],
+                'fragment' => '',
+            ]);
+            $data->appends($_GET);
+            $this->assign('access', $data->render());
+            return view("accessories_business_advertising", ["accessories" => $data]);
+        }
     }
-
 }
+
+
+
+
+
+
+
+
+
+
 
