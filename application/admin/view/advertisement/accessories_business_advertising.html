@@ -64,23 +64,23 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">标签：</label>
                         <div class="layui-input-inline">
-                            <select>
-								<option name="labely" value="0">未发布</option>
-								<option name="labely" value="1">已发布</option>
+                            <select name="labely">
+                                <option  value="1">已发布</option>
+								<option  value="0">未发布</option>
 							</select>
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">状态：</label>
                         <div class="layui-input-inline">
-                            <select>
-								<option name="time" value="0">过期</option>
-								<option name="time" value="1">未过期</option>
+                            <select name="times">
+                                <option  value="1">未过期</option>  
+                                <option  value="0">过期</option>
 							</select>
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <a class="layui-btn search_btn">搜索</a>
+                        <button class="layui-btn search_btn" id="seach" type="submit">搜索</button>
                     </div>
                 </div>
 
