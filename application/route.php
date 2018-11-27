@@ -383,6 +383,7 @@ Route::group("admin",[
     "category_dels"=>"admin/Category/dels",     //活动分类批量删除
     "category_images"=>"admin/Category/images", //活动分类图片删除
     "category_status"=>"admin/Category/status", //活动分类分组状态修改
+    "category_search"=>"admin/Category/search", //活动分类分组状态修改
 
 
     "accessories_business_advertising"=>"admin/Advertisement/index",                 //活动管理
@@ -408,8 +409,8 @@ Route::group("admin",[
      "comments_search"=>"admin/Comments/search",     //评论管理组模糊搜索
 
 	 
-     "active_order_index"=>"admin/ActiveOrder/index", //活动订单显示
-     "active_order_search"=>"admin/ActiveOrder/search",   //评论管理组模糊搜索
+     "active_order_index"=>"admin/ActiveOrder/index",   //活动订单显示
+     "active_order_search"=>"admin/ActiveOrder/search", //评论管理组模糊搜索
 	 
 	 
 ]);

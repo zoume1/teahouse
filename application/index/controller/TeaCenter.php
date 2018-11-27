@@ -27,7 +27,12 @@ class TeaCenter extends Controller
         if ($request->isPost()) {
 
             $tea = Db::name("goods_type")->field('name,icon_image,color,id')->where('pid', 0)->where("status", 1)->select();
-
+            foreach($tea as $key => $value){
+                $res = db("goods_type")->where("pid",$value['id'])->field("name,id")->find();
+                $tea[$key]["tid"] = $res["id"];
+                $tea[$key]["activity_name"] = $res["name"];
+               
+            }
             if (!empty($tea)) {
                 return ajax_success('传输成功', $tea);
             } else {
@@ -38,12 +43,13 @@ class TeaCenter extends Controller
 
         }
 
-
     }
 
 
+
+
     /**
-     * [茶圈分类显示]
+     * [茶圈子级显示]
      * 郭杨
      */
     public function teacenter_display(Request $request)
