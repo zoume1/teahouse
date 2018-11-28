@@ -184,6 +184,28 @@ class Advertisement extends Controller
         return ajax_success("获取成功",$goods_list);
     }*/
 
+    
+    /**
+     * [图片删除]
+     * 郭杨
+     */
+    public function accessories_business_images(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(['id'])['id'];
+            $image_url = db("teahost")->where("id", $id)->field("classify_image")->find();
+            if ($image_url['classify_image'] != null) {
+                unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['classify_image']);
+            }
+            $bool = db("teahost")->where("id", $id)->field("classify_image")->update(["classify_image" => null]);
+            if ($bool) {
+                return ajax_success("删除成功");
+            } else {
+                return ajax_error("删除失败");
+            }
+        }
+    }
+
 
     /**
      * [活动管理分组批量删除]

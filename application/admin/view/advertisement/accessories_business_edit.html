@@ -67,6 +67,21 @@
         margin-left: 17%;
         color: 949494;
     }
+    /* 数据库展现图片样式 */
+    
+    .img {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+    }
+    
+    .img>i {
+        display: inline-block;
+        width: 20px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
 </style>
 
 
@@ -321,6 +336,46 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
+        // 图片删除
+        $(".remove-img").click(function() {
+            var remove = $(this).parent();
+            var id = $(this).data("id");
+            var value = $(this).data("value");
+            console.log(value)
+            console.log(id);
+            if (value == 1) {
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Advertisement/accessories_business_images')}",
+                    data: {
+                        "id": id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        remove.remove();
+                    },
+                    error: function(data) {
+                        console.log("错误");
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Advertisement/accessories_business_images')}",
+                    data: {
+                        "id": id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        remove.remove();
+                    },
+                    error: function(data) {
+                        console.log("错误");
+                    }
+                });
+            }
+
+        });
         layui.config({
             base: "js/"
         }).use(['form', 'layer', 'jquery', 'laypage', 'layedit'], function() {
