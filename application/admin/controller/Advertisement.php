@@ -186,7 +186,7 @@ class Advertisement extends Controller
 
     
     /**
-     * [图片删除]
+     * [活动分类图片删除]
      * 郭杨
      */
     public function accessories_business_images(Request $request)
