@@ -95,7 +95,9 @@
     </div>
     {if !empty($teahost)} {volist name="teahost" id="value"}
     <form class="layui-form" action="{:url('admin/Advertisement/accessories_business_updata',['id'=>$value.id])}" method="post" enctype="multipart/form-data">
-
+        <div class="hide futext">
+            {$value.commodity}
+        </div>
         <div class="basic-information title"> 基本信息
         </div>
         <div class="layui-form-item ">
@@ -107,6 +109,7 @@
                 活动名称必须填写，最多100个字
             </div>
         </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">活动地址</label>
             <div class="form-inline">
@@ -297,9 +300,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">商品描述：</label>
             <div class="layui-input-block">
-                <div class="hide futext">
-                    {$value.commodity}
-                </div>
+
                 <div id="goods_text">
                     <script id="editor" type="text/plain" name="commodity" style="width:800px;height:500px;"></script>
                 </div>
@@ -311,10 +312,10 @@
             <label class="layui-form-label">状态：</label>
             <div class="layui-input-block" id="">
                 {if $value.label == 0}
-                <input type="radio" name="label" value="{$value.label}" title="暂不发布" checked>
-                <input type="radio" name="label" value="{$value.label}" title="立即发布"> {else}
-                <input type="radio" name="label" value="{$value.label}" title="暂不发布">
-                <input type="radio" name="label" value="{$value.label}" title="立即发布" checked> {/if}
+                <input type="radio" name="label" value="0" title="暂不发布" checked>
+                <input type="radio" name="label" value="1" title="立即发布"> {else}
+                <input type="radio" name="label" value="0" title="暂不发布">
+                <input type="radio" name="label" value="1" title="立即发布" checked> {/if}
             </div>
         </div>
 
