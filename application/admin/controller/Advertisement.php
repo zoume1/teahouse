@@ -144,7 +144,6 @@ class Advertisement extends Controller
                     unset($data[$k]);
                 }
             }
-            dump($data);
             $bool = db("teahost")->where('id', $request->only(["id"])["id"])->update($data);
             if ($bool) {
                 $this->success("编辑成功", url("admin/Advertisement/index"));
