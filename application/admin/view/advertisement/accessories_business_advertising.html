@@ -88,7 +88,7 @@
 
         </blockquote>
         <div class="layui-inline">
-            <a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Advertisement/accessories_business_add')}">添加广告</a>
+            <a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Advertisement/accessories_business_add')}">添加活动</a>
         </div>
         <div class="layui-form news_list">
             <table class="layui-table">
@@ -114,9 +114,10 @@
                     {volist name="accessories" id="value"}
                     <tr>
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
-                        <td > <div class="overflow">
-                        	{$value.activity_name}
-                        </div>
+                        <td>
+                            <div class="overflow">
+                                {$value.activity_name}
+                            </div>
                         </td>
                         <td>
                             <div class="tdimg"><img src="__UPLOADS__/{$value.classify_image}" /></div>

@@ -24,7 +24,7 @@ class Comments extends Controller
     public function index()
     {
 
-        $comments_index = db("mament")->paginate(4);
+        $comments_index = db("mament")->paginate(20);
         return view('comments_index', ['comments_index' => $comments_index]);
     }
 
