@@ -67,7 +67,7 @@
         <div class="layui-form-item ">
             <label class="layui-form-label"><span>*</span>分类名称</label>
             <div class="layui-input-block">
-                <input type="text" name="name" value="{$vo.name}"> </input>
+                <input type="text" name="name" value="{$vo.name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"> </input>
             </div>
         </div>
         <div class="layui-form-item">
@@ -141,13 +141,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label"><span>*</span>级别</label>
             <div class="layui-input-block">
-                <input type="number" name="rank" value="{$vo.rank}">
+                <input type="number" name="rank" value="{$vo.rank}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"><span>*</span>排序</label>
             <div class="layui-input-block">
-                <input type="number" name="sort_number" value="{$vo.sort_number}">
+                <input type="number" name="sort_number" value="{$vo.sort_number}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -156,7 +156,8 @@
                 <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
             </div>
         </div>
-        {/volist} {else}
+        {/volist}
+         {else}
         <div class="layui-form-item ">
             <label class="layui-form-label"><span>*</span>分类名称</label>
             <div class="layui-input-block">
