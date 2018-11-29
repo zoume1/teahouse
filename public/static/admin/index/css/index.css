@@ -12,7 +12,7 @@
     padding: 9px 14px;	
 }
 .layui-table td{
-    padding: 4px 8px;	
+    padding: 4px 8px;
     font-size: 10px;
 }
 .overflow{
@@ -40,6 +40,7 @@ white-space: normal !important;
 }
 .tips{
 	color: #999;
+	margin-left: 4px;
 }
 .pagination {
 		float: right;
@@ -60,9 +61,7 @@ white-space: normal !important;
 }
 .layui-form-item{
 	/* max-width: 662px; */
-	width: 40%;
-	margin-bottom: 27px;
-	margin-top: 20px;
+	width: 45%;
 	box-sizing: border-box;
 	margin-left: 20px;
 }

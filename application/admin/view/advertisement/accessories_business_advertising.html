@@ -114,11 +114,12 @@
                     {volist name="accessories" id="value"}
                     <tr>
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
-                        <td > <div class="overflo">
-                        	$value.activity_name}
-                        </div>{</td>
+                        <td > <div class="overflow">
+                        	{$value.activity_name}
+                        </div>
+                        </td>
                         <td>
-                            <div style="width: 80px; height: 80px;"><img src="__UPLOADS__/{$value.classify_image}" /></div>
+                            <div style="width: 50px; height: 50px;"><img src="__UPLOADS__/{$value.classify_image}" /></div>
                         </td>
                         <td>{$value.address}</td>
                         <td>{if $value.pid !=0}{$value.named} {else} 无 {/if}</td>
