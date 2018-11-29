@@ -116,7 +116,9 @@
                     {volist name="accessories" id="value"}
                     <tr>
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
-                        <td align="left">{$value.activity_name}</td>
+                        <td > <div class="overflo">
+                        	$value.activity_name}
+                        </div>{</td>
                         <td>
                             <div style="width: 80px; height: 80px;"><img src="__UPLOADS__/{$value.classify_image}" /></div>
                         </td>
