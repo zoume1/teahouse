@@ -17,9 +17,9 @@ class  Test extends Controller{
 //        $details=$request->param('details');//商品的详情，比如iPhone8，紫色
         $details='铁观音';//商品的详情，比如iPhone8，紫色
          $fee = 0.01;//举例充值0.01
-        $appid =        'wx7214a4fde280c2b7';//appid
-        $body =        $details;// '金邦汇商城';//'【自己填写】'
-        $mch_id = '1412019602';//'你的商户号【自己填写】'
+        $appid = "wx141337862de5e39";//appid
+        $body = $details;// '金邦汇商城';//'【自己填写】'
+        $mch_id = '1488407552';//'你的商户号【自己填写】'
         $nonce_str =    $this->nonce_str();//随机字符串
         $notify_url =   'https://zys.jinbh.cn/admin/Api/Wx_Speech';//回调的url【自己填写】';
         $openid =       $request->param('open_id');//'用户的openid【自己填写】';

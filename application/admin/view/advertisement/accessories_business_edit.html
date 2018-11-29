@@ -67,6 +67,21 @@
         margin-left: 17%;
         color: 949494;
     }
+    /* 数据库展现图片样式 */
+    
+    .img {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+    }
+    
+    .img>i {
+        display: inline-block;
+        width: 20px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
 </style>
 
 
@@ -80,7 +95,9 @@
     </div>
     {if !empty($teahost)} {volist name="teahost" id="value"}
     <form class="layui-form" action="{:url('admin/Advertisement/accessories_business_updata',['id'=>$value.id])}" method="post" enctype="multipart/form-data">
-
+        <div class="hide futext">
+            {$value.commodity}
+        </div>
         <div class="basic-information title"> 基本信息
         </div>
         <div class="layui-form-item ">
@@ -92,6 +109,7 @@
                 活动名称必须填写，最多100个字
             </div>
         </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">活动地址</label>
             <div class="form-inline">
@@ -242,19 +260,30 @@
 
             </div>
             <div class="layui-form-item">
+                {if $value.classify_image}
+
                 <label class="layui-form-label">活动图</label>
                 <div class="layui-input-block">
-
+                    <div class="imgcontent">
+                        <span class="img">
+                            <img src="__UPLOADS__/{$value.classify_image}" width="100%">
+                            <i class="remove-img" name="classify_image" value="__UPLOADS__/{$value.classify_image}" data-id="{$value.id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+                        </span>
+                    </div>
+                </div>
+                {/if}
+                <div class="layui-input-block">
                     <div class="img-box full">
                         <section class=" img-section">
                             <div class="z_photo upimg-div clear">
                                 <section class="z_file fl">
-                                    <img src="__UPLOADS__/{$value.classify_image}">
-                                    <input type="file" name="classify_image" id="file" class="file" value="{$value.classify_image}" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple />
+                                    <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                    <input type="file" name="classify_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
                                 </section>
                             </div>
                         </section>
                     </div>
+
                     <aside class="mask works-mask">
                         <div class="mask-content">
                             <p class="del-p ">您确定要删除作品图片吗？</p>
@@ -262,40 +291,40 @@
                         </div>
                     </aside>
                 </div>
-                <div class="tips">
-                    建议尺寸：？*？像素
+
+            </div>
+            <div class="tips">
+                建议尺寸：723*355像素
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">商品描述：</label>
+            <div class="layui-input-block">
+
+                <div id="goods_text">
+                    <script id="editor" type="text/plain" name="commodity" style="width:800px;height:500px;"></script>
                 </div>
             </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">商品描述：</label>
-                <div class="layui-input-block">
-                    <div class="hide futext">
-                        {$value.commodity}
-                    </div>
-                    <div id="goods_text">
-                        <script id="editor" type="text/plain" name="commodity" style="width:800px;height:500px;"></script>
-                    </div>
-                </div>
-            </div>
+        </div>
 
 
-            <div class="layui-form-item" class="biaoji">
-                <label class="layui-form-label">状态：</label>
-                <div class="layui-input-block" id="">
-                    {if $value.label == 0}
-                    <input type="radio" name="label" value="{$value.label}" title="暂不发布" checked>
-                    <input type="radio" name="label" value="{$value.label}" title="立即发布"> {else}
-                    <input type="radio" name="label" value="{$value.label}" title="暂不发布">
-                    <input type="radio" name="label" value="{$value.label}" title="立即发布" checked> {/if}
-                </div>
+        <div class="layui-form-item" class="biaoji">
+            <label class="layui-form-label">状态：</label>
+            <div class="layui-input-block" id="">
+                {if $value.label == 0}
+                <input type="radio" name="label" value="0" title="暂不发布" checked>
+                <input type="radio" name="label" value="1" title="立即发布"> {else}
+                <input type="radio" name="label" value="0" title="暂不发布">
+                <input type="radio" name="label" value="1" title="立即发布" checked> {/if}
             </div>
+        </div>
 
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn submit_btn" lay-submit="" lay-filter="demo1" type="submit">保存</button>
-                    <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
-                </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn submit_btn" lay-submit="" lay-filter="demo1" type="submit">保存</button>
+                <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
             </div>
+        </div>
 
 
     </form>
@@ -308,6 +337,46 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
+        // 图片删除
+        $(".remove-img").click(function() {
+            var remove = $(this).parent();
+            var id = $(this).data("id");
+            var value = $(this).data("value");
+            console.log(value)
+            console.log(id);
+            if (value == 1) {
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Advertisement/accessories_business_images')}",
+                    data: {
+                        "id": id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        remove.remove();
+                    },
+                    error: function(data) {
+                        console.log("错误");
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Advertisement/accessories_business_images')}",
+                    data: {
+                        "id": id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        remove.remove();
+                    },
+                    error: function(data) {
+                        console.log("错误");
+                    }
+                });
+            }
+
+        });
         layui.config({
             base: "js/"
         }).use(['form', 'layer', 'jquery', 'laypage', 'layedit'], function() {
