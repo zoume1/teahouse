@@ -26,6 +26,9 @@ white-space: normal !important;
 
 	
 }
+.layui-inline{
+	line-height: 43px;
+}
 
 /*修改layui样式*/
 .tdimg{
