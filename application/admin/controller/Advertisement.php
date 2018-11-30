@@ -164,7 +164,7 @@ class Advertisement extends Controller
         if ($bool) {
             $this->success("删除成功", url("admin/Advertisement/index"));
         } else {
-            $this->error("删除失败", url("admin/Advertisement/accessories_business_edit"));
+            $this->error("删除失败", url("admin/Advertisement/index"));
         }
     }
 
