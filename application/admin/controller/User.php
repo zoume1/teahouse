@@ -19,7 +19,7 @@ class User extends Controller{
      **************************************
      */
     public function index(){
-        $user_data =Db::name('member')->paginate(5);
+        $user_data =Db::name('member')->paginate(20);
         return view('index',['user_data'=>$user_data]);
     }
 
@@ -104,7 +104,7 @@ class User extends Controller{
      **************************************
      */
     public function  grade(){
-       $grade_data = Db::name('member_grade')->paginate(5);
+       $grade_data = Db::name('member_grade')->paginate(20);
         return view('grade',['grade_data'=>$grade_data]);
     }
 
