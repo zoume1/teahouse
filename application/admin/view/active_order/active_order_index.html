@@ -51,6 +51,7 @@
 	.pagination {
 		float: right;
 	}
+
 </style>
 
 {/block}
@@ -63,26 +64,21 @@
 
 		<blockquote class="layui-elem-quote news_search">
 			<form class="layui-form" action="{:url('admin/ActiveOrder/search')}">
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">输入搜索：</label>
-						<div class="layui-input-inline">
+				<div class="seach">
+					<div class="seach_list">
+						<div class="seach_laber">输入搜索</div>
+						<div class="seach_input">
 							<input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input" id="zhanghu">
 						</div>
 					</div>
-					<div class="layui-inline">
-						<label class="layui-form-label">用户账号：</label>
-						<div class="layui-input-inline">
-							<input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="输入账号" class="layui-input" id="nichwng">
-
+					<div class="seach_list">
+						<div class="seach_laber">用户账号</div>
+						<div class="seach_input">
+							<input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input" id="nichwng">
 						</div>
 					</div>
-
-					<div class="layui-inline">
-						<button class="layui-btn search_btn" id="seach" type="submit">搜索</button>
-					</div>
+					 <button class="layui-btn layui-btn-normal" type="submit">立即搜索</button>
 				</div>
-
 			</form>
 
 		</blockquote>

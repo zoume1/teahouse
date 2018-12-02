@@ -13,7 +13,7 @@
 }
 .layui-table td{
     padding: 4px 8px;
-    font-size: 10px;
+    font-size: 13px;
 }
 .overflow{
 	width: 130px;
@@ -26,10 +26,35 @@ white-space: normal !important;
 
 	
 }
+
 .layui-inline{
 	line-height: 43px;
 }
-
+/*搜索样式*/
+	.seach{
+		display: flex;
+		 flex-wrap: wrap;
+		 align-items: center;
+	}
+	.seach_list{
+		display: flex;
+		align-items: center;
+	    padding: 4px;
+	}
+	.seach_laber{
+		font-size: 13px;
+	    width: 80px;
+	    text-align: center;
+	    color: #333;
+	}
+	.seach_input{
+		width: 208px;
+		font-size: 16px;
+	}
+	.seach .layui-btn-normal{
+		width: 100px;
+	}
+/*搜索样式*/
 /*修改layui样式*/
 .tdimg{
 	width: 50px;
@@ -565,10 +590,7 @@ a{
 .cancel-btu{
 	background: #990000
 }
-.datetimepicker{
-	height: 28px;
-	border:solid #E6E6E6 1px;
-}
+
 .all {
     min-width: 1400px;
 }

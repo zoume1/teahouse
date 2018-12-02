@@ -53,36 +53,33 @@
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="{:url('admin/Advertisement/accessories_business_search')}">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">输入搜索：</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="titles" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input">
-
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">标签：</label>
-                        <div class="layui-input-inline">
-                            <select name="labely">
+            		<div class="seach">
+					<div class="seach_list">
+						<div class="seach_laber">输入搜索</div>
+						<div class="seach_input">
+							<input type="text" name="titles" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input" >
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">标签</div>
+						<div class="seach_input">
+						   <select name="labely">
                                 <option  value="1">已发布</option>
 								<option  value="0">未发布</option>
 							</select>
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">状态：</label>
-                        <div class="layui-input-inline">
-                            <select name="times">
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">状态</div>
+						<div class="seach_input">
+						     <select name="times">
                                 <option  value="1">未过期</option>  
                                 <option  value="0">过期</option>
 							</select>
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <button class="layui-btn search_btn" id="seach" type="submit">搜索</button>
-                    </div>
-                </div>
+						</div>
+					</div>
+					 <button class="layui-btn layui-btn-normal" type="submit" id="seach">立即搜索</button>
+				</div>
 
             </form>
 
