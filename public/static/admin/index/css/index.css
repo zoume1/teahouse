@@ -7,7 +7,35 @@
     url('../font/iconfont1/iconfont.ttf') format('truetype'), /* chromeÃ£â‚¬ÂfirefoxÃ£â‚¬ÂoperaÃ£â‚¬ÂSafari, Android, iOS 4.2+*/
     url('../font/iconfont1/iconfont.svg#uxiconfont') format('svg'); /* iOS 4.1- */
 }
+/*修改layui样式*/
+.layui-table th{
+    padding: 9px 14px;	
+}
+.layui-table td{
+    padding: 4px 8px;
+    font-size: 10px;
+}
+.overflow{
+	width: 130px;
+	overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+white-space: normal !important;
 
+	
+}
+.layui-inline{
+	line-height: 43px;
+}
+
+/*修改layui样式*/
+.tdimg{
+	width: 50px;
+	height: 50px;
+	margin: 0 auto;
+}
 .iconfont1{
     font-family:'iconfont1' !important;
     font-size:16px;font-style:normal;
@@ -20,6 +48,7 @@
 }
 .tips{
 	color: #999;
+	margin-left: 4px;
 }
 .pagination {
 		float: right;
@@ -31,17 +60,18 @@
 	font-size: 14px;
 }
 .layui-form label{
-	font-size: 15px;
+	font-size: 13px;
 	height: 38px;
 	line-height: 38px;
-	width: 21%;
+	/*width: 21%;*/
 	padding: 0;
 	
 }
 .layui-form-item{
-	width: 60%;
-	margin-bottom: 27px;
-	margin-top: 20px;
+	/* max-width: 662px; */
+	width: 45%;
+	box-sizing: border-box;
+	margin-left: 20px;
 }
 .layui-form-select .layui-edge{
 	right: 33px;
@@ -72,20 +102,28 @@ a{
 /*toubu*/
 .header{
 	color: #fff;
+	display: flex;
+	justify-content: space-between;
 	/* padding-left: 32px; */
 	height: 52px;
-	/* margin: auto; */
-	overflow: hidden;
 	line-height: 52px;
 	background: #585E6B;
+}
+/*.loading{
+	width: 400px;
+	display: flex;
+}*/
+.loading-box{
+	display: flex;
+	width: 400px;
 }
 .logo{
 	float: left;
 	padding-left: 37px;
-	width: 25px;
+	width: 35px;
 }
 .name{
-	width: 10%;
+	width: 83%;
 	font-size: 21px;
 	float: left;
 	font-weight: bold;
@@ -107,7 +145,7 @@ a{
 }
 .self_information{
 	float: left;
-	width: 24%;
+	width: 100%;
 	text-align: center;
 	/* line-height: 55px; */
 }
@@ -133,19 +171,19 @@ a{
 	font-size: 14px;
 }
 /*daohang*/
-
 .uMain {
 	margin-top: 20px;
 	overflow: hidden;
 }
 
 .UCleft {
-	margin-left: 2%;
-	height: 1000px;
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 910px;
 	background: #fff;
-	width: 14%;
+	width: 13%;
 	float: left;
-	margin-top: 19px;
+	margin-top: 10px;
 }
 
 .UCleft-fixed {
@@ -191,7 +229,6 @@ a{
 }
 
 .UCleft dl dd p{
-	font-size: 14px;
 	text-indent: 42px;
 	display: block;
 	line-height: 31px;
@@ -396,11 +433,11 @@ a{
 /*å³è¾¹å†…å®¹*/
 .right-content{
 	float: right;
-	width: 80%;
-	min-height: 1000px;
+	width: 84.5%;
+	height: 910px;
 	/* background: #fff; */
-	margin-top: 21px;
-	margin-right: 29px;
+	margin-top: 10px;
+	margin-right: 10px;
 }
 .right-content-title{
 	overflow: hidden;
@@ -421,9 +458,11 @@ a{
 }
 .recontent{
 	width: 100%;
-	min-height: 800px;
+	min-height: 910px;
 	background: #fff;
-	padding-bottom: 30px;
+}
+.layui-elem-quote{
+	padding: 6px !important;
 }
 /* 按钮颜色 */
 /* 待付款 */

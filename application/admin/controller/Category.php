@@ -24,31 +24,35 @@ class Category extends Controller
      * [活动分类显示]
      * 郭杨
      */
-    public function index()
+    public function index($pid = 0)
     {
+        $goods = [];
         $category = db("goods_type")->select();
-        
-        foreach($category as $key => $value){
-            if($value["pid"]){
-                $res = db("goods_type")->where("id",$value['pid'])->field("name")->find();
+
+        if ($pid == 0) {
+            $goods = getSelectList("goods_type");
+        }
+        foreach ($category as $key => $value) {
+            if ($value["pid"]) {
+                $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
                 //halt($res);
                 $category[$key]["names"] = $res["name"];
             }
         }
-        $all_idents =$category ;//这里是需要分页的数据
+        $all_idents = $category;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
-        $listRow = 5;//每页3行记录
-        $showdata = array_slice($all_idents, ($curPage - 1)*$listRow, $listRow,true);// 数组中根据条件取出一段值，并返回
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
         $category = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
             'var_page' => 'page',
-            'path'     => url('admin/Category/index'),//这里根据需要修改url
-            'query'    =>  [],
+            'path' => url('admin/Category/index'),//这里根据需要修改url
+            'query' => [],
             'fragment' => '',
         ]);
         $category->appends($_GET);
         $this->assign('listpage', $category->render());
-        
-        return view("category_index", ["category" => $category]);
+
+        return view("category_index", ["category" => $category, "goods" => $goods]);
 
     }
 
@@ -66,8 +70,8 @@ class Category extends Controller
         if ($pid == 0) {
             $goods_liste = getSelectList("goods_type");
         }
-        return view("category_add",["goods_liste" => $goods_liste]);
-        
+        return view("category_add", ["goods_liste" => $goods_liste]);
+
     }
 
 
@@ -86,7 +90,7 @@ class Category extends Controller
                 $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
             }
-            
+
             $bool = db("goods_type")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Category/index"));
@@ -109,7 +113,7 @@ class Category extends Controller
         if ($pid == 0) {
             $goods_list = getSelectList("goods_type");
         }
-        
+
         return view("category_edit", ["category" => $category, "goods_lists" => $goods_list]);
     }
 
@@ -248,6 +252,47 @@ class Category extends Controller
     }
 
 
+    
+    /**
+     * [活动分类组模糊搜索]
+     * 郭杨
+     */
+    public function search()
+    {
+        $ppd = input('ppd');          //活动分类
+        $interest = input('interest'); //分类状态
+
+        if ((!empty($ppd)) || (!empty($interest))) {
+            $activ = db("goods_type")->where("pid", "like", "%" . $ppd . "%")->where("status", "like", "%" . $interest . "%")->select();
+            foreach ($activ as $key => $value) {
+                if ($value["pid"]) {
+                    $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
+                    $activ[$key]["names"] = $res["name"];
+                }
+            }
+        } else {
+            $activ = db("goods_type")->select();
+            foreach ($activ as $key => $value) {
+                if ($value["pid"]) {
+                    $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
+                    $activ[$key]["names"] = $res["name"];
+                }
+            }
+        }
+        $all_idents = $activ;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 5;//每页5行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $activ = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Category/index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $activ->appends($_GET);
+        $this->assign('listpage', $activ->render());
+        return view('category_index', ['category' => $activ]);
+    }
 
 }
 

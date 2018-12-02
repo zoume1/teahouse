@@ -18,56 +18,52 @@
 	<!--头部-->
 	<div class="all">
 
-		{include file="template/_header" /}
+	{include file="template/_header" /}
 
-		<!--个人中心导航-->
+	<!--个人中心导航-->
 
-		{include file="template/_menu" /}
+	{include file="template/_menu" /}
 
-		<!--右边内容-->
-		<div class="right-content">
+	<!--右边内容-->
+	<div class="right-content">
 		
-			<div class="">
-				<iframe class="recontent" id="add" frameborder="0" src="/siring_ow/public/admin/admin_index.html"></iframe>
-			</div>
+		<div class="">
+			<iframe class="recontent" id="add" frameborder="0" src=""></iframe>
+		</div>
 
-		</div>
-		<!--模板-->
-		<div id="add-main" style="display: none;">
-			<form class="layui-form" id="add-form" action="{:url('admin/admin/passwd')}" method="post">
-				<div class="layui-form-item center" style="margin: 20px auto;">
-					<label class="layui-form-label" style="width: 100px !important">旧密码</label>
-					<div class="layui-input-block">
-						<input type="password" name="name" required value="" style="width: 240px" lay-verify="required" placeholder=""
-						 autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-form-item" style="margin: 20px auto;">
-					<label class="layui-form-label" style="width: 100px !important">新密码</label>
-					<div class="layui-input-block">
-						<input type="password" name="passwd" id="new_psw" required style="width: 240px" lay-verify="required" placeholder=""
-						 autocomplete="off" class="layui-input">
-					</div>
-				</div>
-				<div class="layui-form-item" style="margin: 20px auto;">
-					<label class="layui-form-label" style="width: 100px !important">确认密码</label>
-					<div class="layui-input-block">
-						<input type="password" name="value" required style="width: 240px" lay-verify="required" placeholder=""
-						 autocomplete="off" class="layui-input">
-						<!-- <input type="hidden" name="id" style="width: 240px" autocomplete="off" class="layui-input"> -->
-					</div>
-				</div>
-				<div class="layui-form-item" style="margin: 20px auto;">
-					<div class="layui-input-block">
-						<input type="hidden" name="id" value="{$Think.session.user_id}">
-						<button class="layui-btn" lay-submit lay-filter="save">立即提交</button>
-						<button type="reset" class="layui-btn layui-btn-primary" id="closeBtn">重置</button>
-					</div>
-				</div>
-			</form>
-		</div>
 	</div>
-
+	<!--模板-->
+	<div id="add-main" style="display: none;">
+       <form class="layui-form" id="add-form" action="{:url('admin/admin/passwd')}" method="post">
+         <div class="layui-form-item center"  style="margin: 20px auto; width: 70%;">
+          <label class="layui-form-label" style="width: 100px !important" >旧密码</label>
+          <div class="layui-input-block" >
+           <input type="password" name="name" required value="" style="width: 240px" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+          </div>
+         </div>
+         <div class="layui-form-item" style="margin: 20px auto; width: 70%;">
+          <label class="layui-form-label" style="width: 100px !important">新密码</label>
+          <div class="layui-input-block">
+           <input type="password" name="passwd" id="new_psw" required style="width: 240px" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+          </div>
+         </div>
+         <div class="layui-form-item" style="margin: 20px auto; width: 70%;">
+          <label class="layui-form-label" style="width: 100px !important">确认密码</label>
+          <div class="layui-input-block">
+           <input type="password" name="value" required style="width: 240px" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+           <!-- <input type="hidden" name="id" style="width: 240px" autocomplete="off" class="layui-input"> -->
+          </div>
+         </div>
+         <div class="layui-form-item" style="margin: 20px auto; width: 70%;">
+          <div class="layui-input-block">
+           <input type="hidden" name="id" value="{$Think.session.user_id}">
+           <button class="layui-btn" lay-submit lay-filter="save"  type="submit">立即提交</button>
+           <button type="reset" class="layui-btn layui-btn-primary" id="closeBtn" >重置</button>
+          </div>
+         </div> 
+       </form>  
+    </div>
+</div>
 	{include file="template/_footer" /}
 
 	<!--请在下方写此页面业务相关的脚本-->
@@ -81,21 +77,22 @@
 				laypage = layui.laypage,
 				$ = layui.jquery;
 			$("#password_edit").on("click", function() {
-				layer.open({
-					type: 1,
-					title: "修改密码",
-					closeBtn: false,
-					shift: 2,
-					area: ['600px', '400px'],
-					shadeClose: true,
-					//btn: ['新增', '取消'],
-					// btnAlign: 'c',
-					content: $("#add-main"),
-					success: function(layero, index) {
+                  layer.open({
+			        type: 1,
+			        title:"修改密码",
+			        closeBtn: false,
+			        shift: 2,
+			        area: ['600px', '400px'],
+			        shadeClose: true,
+                    //btn: ['新增', '取消'],
+			        // btnAlign: 'c',
+			        content: $("#add-main"),
+			        success: function(layero, index){
 
-					},
-					yes: function() {}
-				});
+                    },
+			        yes:function(){
+			        }
+			      });
 			});
 
 		})

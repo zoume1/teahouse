@@ -101,7 +101,6 @@
 			<table class="layui-table">
 				<colgroup>
 					<col width="3%">
-
 				</colgroup>
 				<thead>
 					<tr>
@@ -116,7 +115,7 @@
 						<th>地址</th>
 						<th>加入时间</th>
 						<th>账户启用状态</th>
-						<th>操作</th>
+						<th width="100px">操作</th>
 					</tr>
 				</thead>
 				<tbody class="news_content">
@@ -127,7 +126,7 @@
 						<td>{$vo.member_id}</td>
 						<td>{$vo.member_phone_num}</td>
 						<td>{$vo.member_name}</td>
-						<td><div style="width: 80px; height: 80px;"><img src="{$vo.member_head_img}" /></td>
+						<td><div class="tdimg"><img src="{$vo.member_head_img}" /></td>
 						<td>{$vo.member_grade_name} </td>
 						<td>{$vo.member_sex} </td>
 						<td>{$vo.ID_card}</td>

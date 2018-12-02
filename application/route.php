@@ -78,11 +78,12 @@ Route::group("",[
     "center_index"=>"index/Center/index",
 
     /*茶圈*/
-    "teacenter_data"=>"index/TeaCenter/teacenter_data",
-    "teacenter_display"=>"index/TeaCenter/teacenter_display",
-    "teacenter_activity"=>"index/TeaCenter/teacenter_activity",
-    "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",
-    "teacenter_alls"=>"index/TeaCenter/teacenter_alls",
+    "teacenter_data"=>"index/TeaCenter/teacenter_data",          //茶圈父级显示
+    "teacenter_display"=>"index/TeaCenter/teacenter_display",    //茶圈分类显示
+    "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
+    "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
+    "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
+    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
 ]);
 
 /**
@@ -93,6 +94,8 @@ Route::group("admin",[
     /*首页*/
     "/$"=>"admin/index/index",
 
+    /* 后台首页 */
+    "home_index"=>"admin/Home/index",
 
     /*登录页面*/
     "index"=>"admin/Login/index",
@@ -380,32 +383,35 @@ Route::group("admin",[
     "category_dels"=>"admin/Category/dels",     //活动分类批量删除
     "category_images"=>"admin/Category/images", //活动分类图片删除
     "category_status"=>"admin/Category/status", //活动分类分组状态修改
+    "category_search"=>"admin/Category/search", //活动分类分组状态修改
 
 
-    "accessories_business_advertising"=>"admin/Advertisement/index",                 //活动管理
+    "accessories_business_advertising"=>"admin/Advertisement/index",                 //活动管理分组显示
     "accessories_business_add"=>"admin/Advertisement/accessories_business_add",      //活动管理分组添加
     "accessories_business_edit"=>"admin/Advertisement/accessories_business_edit",    //活动管理分组编辑
     "accessories_business_save"=>"admin/Advertisement/accessories_business_save",    //活动管理分组保存
     "accessories_business_updata"=>"admin/Advertisement/accessories_business_updata",//活动管理分组保存
     "accessories_business_del"=>"admin/Advertisement/accessories_business_del",      //活动管理分组删除
+    "accessories_business_images"=>"admin/Advertisement/accessories_business_images",//活动管理分组图片删除
     "accessories_business_dels"=>"admin/Advertisement/accessories_business_dels",    //活动管理分组批量删除(前端没写)
     "accessories_business_label"=>"admin/Advertisement/accessories_business_label",  //活动管理分组标签修改
-
+    "accessories_business_search"=>"admin/Advertisement/accessories_business_search",//活动管理分组模糊搜索
 
 	
 	 
-	 "comments_index"=>"admin/Comments/index",     //评论管理显示
-	 "comments_add"=>"admin/Comments/add",         //评论积分设置
-	 "comments_edit"=>"admin/Comments/edit",       //评论管理编辑
-     "comments_save"=>"admin/Comments/save",       //评论管理保存
-     "comments_status"=>"admin/Comments/status",   //评论管理状态修改
-     "comments_delete"=>"admin/Comments/delete",   //评论管理组删除
-     "comments_deletes"=>"admin/Comments/deletes", //评论管理组批量删除
-     "comments_search"=>"admin/Comments/search",   //评论管理组模糊搜索
+	 "comments_index"=>"admin/Comments/index",       //评论管理显示
+	 "comments_add"=>"admin/Comments/add",           //评论积分设置
+	 "comments_preserve"=>"admin/Comments/preserve", //评论积分设置保存
+	 "comments_edit"=>"admin/Comments/edit",         //评论管理编辑
+     "comments_save"=>"admin/Comments/save",         //评论管理保存
+     "comments_status"=>"admin/Comments/status",     //评论管理状态修改
+     "comments_delete"=>"admin/Comments/delete",     //评论管理组删除
+     "comments_deletes"=>"admin/Comments/deletes",   //评论管理组批量删除
+     "comments_search"=>"admin/Comments/search",     //评论管理组模糊搜索
 
 	 
-     "active_order_index"=>"admin/ActiveOrder/index", //活动订单显示
-     "active_order_search"=>"admin/ActiveOrder/search",   //评论管理组模糊搜索
+     "active_order_index"=>"admin/ActiveOrder/index",   //活动订单显示
+     "active_order_search"=>"admin/ActiveOrder/search", //评论管理组模糊搜索
 	 
 	 
 ]);

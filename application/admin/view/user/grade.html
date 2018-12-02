@@ -73,7 +73,7 @@
 				{volist name="grade_data" id ="vo"}
 					<tr>
 						<td>{$vo.member_grade_name}</td>
-						<td width="100px"><img src="__UPLOADS__/{$vo.member_grade_img}"></td>
+						<td ><div class="tdimg"><img src="__UPLOADS__/{$vo.member_grade_img}"></div></td>
 						<td>{$vo.member_finite_period}</td>
 						<td>{$vo.first_year_pay_full}</td>
 						<td>{$vo.second_year_pay_full}</td>
@@ -90,7 +90,7 @@
 							{/if}
 
 						</td>
-						<td>
+						<td width="100px;">
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/User/grade_edit',['id'=>$vo.member_grade_id])}"><i class="iconfont icon-edit"></i> 编辑</a>
 
 							<a href="{:url('admin/User/grade_del',['id'=>$vo.member_grade_id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"

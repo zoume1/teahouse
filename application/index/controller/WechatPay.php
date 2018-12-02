@@ -17,22 +17,22 @@ class WechatPay extends Controller
     /*
     微信支付配置参数
     */
-//    private $config = array(
-//        'appid' => "wx7214a4fde280c2b7",    /*微信开放平台上的应用id*/
-//        'mch_id' => "1412019602",   /*微信申请成功之后邮件中的商户id*/
-//        'api_key' => "你的在微信商户平台上自己设定的api密钥",    /*在微信商户平台上自己设定的api密钥 32位*/
-//        'notify_url' => '回调地址',
-//
-//    );
-
-
     private $config = array(
-        'appid' => "wx4b0deb320539d8d3",    /*微信开放平台上的应用id*/
+        'appid' => "wx37e840c96f13f585",    /*微信开放平台上的应用id*/
         'mch_id' => "1412019602",   /*微信申请成功之后邮件中的商户id*/
-        'api_key' => "ffcfd0f4898e856ba07cc7f17ed4dbfb",    /*在微信商户平台上自己设定的api密钥 32位*/
+        'api_key' => "ffcfd0f5898e756ba07cc7f17ed4dbfb",    /*在微信商户平台上自己设定的api密钥 32位*/
         'notify_url' => '回调地址',
 
     );
+
+
+//    private $config = array(
+//        'appid' => "wx4b0deb320539d8d3",    /*微信开放平台上的应用id*/
+//        'mch_id' => "1412019602",   /*微信申请成功之后邮件中的商户id*/
+//        'api_key' => "ffcfd0f4898e856ba07cc7f17ed4dbfb",    /*在微信商户平台上自己设定的api密钥 32位*/
+//        'notify_url' => '回调地址',
+//
+//    );
 
     //微信支付下单
 //    public function wxpay($body, $orderid, $out_trade_no, $total_fee, $type)
@@ -56,11 +56,13 @@ class WechatPay extends Controller
         $data["sign"] = $sign;
 
         $xml = $this->arrayToXml($data);  //数组转化为xml
+
         $response = $this->postXmlCurl($xml, $url); //以post方式提交xml到对应的接口url
+        return ajax_success('数据返回',$response);
         $response = $this->xmlToArray($response);  //将xml转为array
         $response = $this->two_sign($response, $data["nonce_str"]); //微信支付二次签名
 
-        return ajax_success('数据返回',$response);
+//        return ajax_success('数据返回',$response);
         //返回数据
         echo json_encode(['status' => 1, 'indo' => 'success', 'orderid' => $orderid, 'data' => $response]);
     }
@@ -274,11 +276,11 @@ class WechatPay extends Controller
         //默认格式为PEM，可以注释
         curl_setopt($ch, CURLOPT_SSLCERTTYPE, 'PEM');
         //退款证书
-        curl_setopt($ch, CURLOPT_SSLCERT, PUBLIC_PATH . '/wx/apiclient_cert.pem');
+//        curl_setopt($ch, CURLOPT_SSLCERT, PUBLIC_PATH . '/wx/apiclient_cert.pem');
         //默认格式为PEM，可以注释
         curl_setopt($ch, CURLOPT_SSLKEYTYPE, 'PEM');
         //退款证书
-        curl_setopt($ch, CURLOPT_SSLKEY, PUBLIC_PATH . '/wx/apiclient_key.pem');
+//        curl_setopt($ch, CURLOPT_SSLKEY, PUBLIC_PATH . '/wx/apiclient_key.pem');
 
         //运行curl
         $data = curl_exec($ch);
