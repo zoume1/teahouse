@@ -22,8 +22,8 @@ class GoodsType extends Controller{
      * 陈绪
      */
     public function index(){
-        $category = db("category")->where("status","<>","0")->paginate(10);
-        return view("goods_type_index",["category"=>$category]);
+       /* $category = db("category")->where("status","<>","0")->paginate(10);*/
+        return view("goods_type_index"/*,["category"=>$category]*/);
     }
 
 
@@ -34,14 +34,14 @@ class GoodsType extends Controller{
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
      */
     public function add($pid = 0){
-        $goods_cate = [];
+        /*$goods_cate = [];
         $goods_list = [];
         if($pid == 0){
             $goods_list = getSelectList("category");
         }else{
             $goods_cate = db("category")->where("id",$pid)->field()->select();
-        }
-        return view("goods_type_add",["goods_list"=>$goods_list,"goods_cate"=>$goods_cate]);
+        }*/
+        return view("goods_type_add"/*,["goods_list"=>$goods_list,"goods_cate"=>$goods_cate]*/);
     }
 
 
@@ -76,12 +76,12 @@ class GoodsType extends Controller{
      * [陈绪]
      */
     public function edit($pid=0,$id){
-        $category = db("category")->where("id",$id)->select();
+        /*$category = db("category")->where("id",$id)->select();
         $category_name = db("category")->where("id",$category[0]["pid"])->field("name,id")->select();
         if($pid == 0){
             $goods_list = getSelectList("category");
-        }
-        return view("goods_type_edit",["category"=>$category,"category_name"=>$category_name,"goods_lists"=>$goods_list]);
+        }*/
+        return view("goods_type_edit"/*,["category"=>$category,"category_name"=>$category_name,"goods_lists"=>$goods_list]*/);
     }
 
 
@@ -170,7 +170,7 @@ class GoodsType extends Controller{
                 $id = $request->only(["id"])["id"];
                 $bool = db("category")->where("id", $id)->update(["status" => 0]);
                 if ($bool) {
-                    $this->redirect(url("admin/Category/index"));
+                    $this->redirect(url("admin/GoodsType/index"));
                 } else {
                     $this->error("修改失败", url("admin/GoodsType/index"));
                 }
