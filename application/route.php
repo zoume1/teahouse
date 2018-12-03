@@ -54,7 +54,6 @@ Route::group("admin",[
     "login"=>"admin/Login/login",
     "logout"=>"admin/Login/logout",
 
-
     /*验证码*/
     "login_captcha"=>"admin/Login/captchas",
 
@@ -114,28 +113,10 @@ Route::group("admin",[
 	"capital_add"=>"admin/Capital/add", //资金管理界面add
 	"capital_del"=>"admin/Capital/del", //资金管理删除del
 	"capital_status"=>"admin/Capital/status", //资金管理状态修改
-
     /*TODO:会员储值结束*/
 
 
-    /*代理*/
-    "agency_index"=>"admin/Agency/index",
-    "agency_add"=>"admin/Agency/add",
-    "agency_save"=>"admin/Agency/save",
-    "agency_edit"=>"admin/Agency/edit",
-    "agency_updata"=>"admin/Agency/updata",
-    "agency_del"=>"admin/Agency/del",
-
-    /*品牌*/
-    "brand_index"=>"admin/Brand/index",
-    "brand_add"=>"admin/Brand/add",
-    "brand_save"=>"admin/Brand/save",
-    "brand_edit"=>"admin/Brand/edit",
-    "brand_updata"=>"admin/Brand/updata",
-    "brand_del"=>"admin/Brand/del",
-	
     /* TODO:图片库开始*/
-
 	"photo_index"=>"admin/Photo/index",
     "images_online_push"=>"admin/Photo/images_online_push", //上传图片库
     "photo_del"=>"admin/Photo/delete", //删除单张图片
@@ -154,7 +135,6 @@ Route::group("admin",[
     "category_status"=>"admin/Category/status", //活动分类分组状态修改
     "category_search"=>"admin/Category/search", //活动分类分组状态修改
 
-
     "accessories_business_advertising"=>"admin/Advertisement/index",                 //活动管理分组显示
     "accessories_business_add"=>"admin/Advertisement/accessories_business_add",      //活动管理分组添加
     "accessories_business_edit"=>"admin/Advertisement/accessories_business_edit",    //活动管理分组编辑
@@ -166,7 +146,6 @@ Route::group("admin",[
     "accessories_business_label"=>"admin/Advertisement/accessories_business_label",  //活动管理分组标签修改
     "accessories_business_search"=>"admin/Advertisement/accessories_business_search",//活动管理分组模糊搜索
 
-	 
 	 "comments_index"=>"admin/Comments/index",       //评论管理显示
 	 "comments_add"=>"admin/Comments/add",           //评论积分设置
 	 "comments_preserve"=>"admin/Comments/preserve", //评论积分设置保存
@@ -176,6 +155,7 @@ Route::group("admin",[
      "comments_delete"=>"admin/Comments/delete",     //评论管理组删除
      "comments_deletes"=>"admin/Comments/deletes",   //评论管理组批量删除
      "comments_search"=>"admin/Comments/search",     //评论管理组模糊搜索
+
 
      "active_order_index"=>"admin/ActiveOrder/index",   //活动订单显示
      "active_order_search"=>"admin/ActiveOrder/search", //评论管理组模糊搜索
