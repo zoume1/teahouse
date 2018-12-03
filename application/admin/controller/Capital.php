@@ -16,7 +16,7 @@ class Capital extends Controller{
     /**
      **************李火生*******************
      * @return \think\response\View
-     * 资金管理首页
+     * 会员储值首页
      **************************************
      */
     public function index(){
@@ -26,7 +26,7 @@ class Capital extends Controller{
 	/**
 	**************李火生*******************
 	* @return \think\response\View
-	* 资金管理编辑（添加也写在这里了）
+	* 会员储值编辑（添加也写在这里了）
 	**************************************
 	*/
 	public function edit($id=null){
@@ -54,7 +54,7 @@ class Capital extends Controller{
 	/**
 	**************李火生*******************
 	* @return \think\response\View
-	* 资金管理添加
+	* 会员储值添加
 	**************************************
 	*/
 	public function add(){
@@ -63,7 +63,7 @@ class Capital extends Controller{
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:资金管理删除
+     * Notes:会员储值删除
      **************************************
      * @param $id
      */
@@ -79,7 +79,7 @@ class Capital extends Controller{
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:资金管理状态值修改
+     * Notes:会员储值状态值修改
      **************************************
      * @param Request $request
      */
