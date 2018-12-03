@@ -78,7 +78,7 @@
 							</select>
 						</div>
 					</div>
-					 <button class="layui-btn layui-btn-normal" type="submit" id="seach">立即搜索</button>
+					 <button class="layui-btn " type="submit" id="seach">立即搜索</button>
 				</div>
 
             </form>
@@ -119,7 +119,11 @@
                         <td>
                             <div class="tdimg"><img src="__UPLOADS__/{$value.classify_image}" /></div>
                         </td>
-                        <td>{$value.address}</td>
+                        <td>
+                        	 <div class="overflow">
+                        	{$value.address}
+                        	</div>
+                        </td>
                         <td>{if $value.pid !=0}{$value.named} {else} 无 {/if}</td>
                         <td>￥{$value.cost_moneny}</td>
                         <td>
@@ -151,9 +155,9 @@
                     {/volist}
                 </tbody>
             </table>
+            
             {$access}
-        </div>
-        <div id="page">
+            <div id="page">
             <div class="opation" style="width: 200px; float: left;">
                 <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
 						<option check="" value="0">请选择</option>
@@ -168,6 +172,8 @@
                 <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
             </div>
+        </div>
+        
 
 
         </div>
