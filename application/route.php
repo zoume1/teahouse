@@ -19,6 +19,7 @@ use think\Route;
 Route::group("",[
     /*首页*/
     "/$"=>"index/index/index",
+
     /*TODO：start*/
     /*登录授权*/
     "wechatlogin"=>"index/Login/wechatlogin",  //登录授权
@@ -113,6 +114,7 @@ Route::group("admin",[
 	"capital_add"=>"admin/Capital/add", //资金管理界面add
 	"capital_del"=>"admin/Capital/del", //资金管理删除del
 	"capital_status"=>"admin/Capital/status", //资金管理状态修改
+
     /*TODO:会员储值结束*/
 
 
@@ -133,6 +135,7 @@ Route::group("admin",[
     "brand_del"=>"admin/Brand/del",
 	
     /* TODO:图片库开始*/
+
 	"photo_index"=>"admin/Photo/index",
     "images_online_push"=>"admin/Photo/images_online_push", //上传图片库
     "photo_del"=>"admin/Photo/delete", //删除单张图片
@@ -152,12 +155,13 @@ Route::group("admin",[
     "category_search"=>"admin/Category/search", //活动分类分组状态修改
 
 
-    "accessories_business_advertising"=>"admin/Advertisement/index",                 //活动管理
+    "accessories_business_advertising"=>"admin/Advertisement/index",                 //活动管理分组显示
     "accessories_business_add"=>"admin/Advertisement/accessories_business_add",      //活动管理分组添加
     "accessories_business_edit"=>"admin/Advertisement/accessories_business_edit",    //活动管理分组编辑
     "accessories_business_save"=>"admin/Advertisement/accessories_business_save",    //活动管理分组保存
     "accessories_business_updata"=>"admin/Advertisement/accessories_business_updata",//活动管理分组保存
     "accessories_business_del"=>"admin/Advertisement/accessories_business_del",      //活动管理分组删除
+    "accessories_business_images"=>"admin/Advertisement/accessories_business_images",//活动管理分组图片删除
     "accessories_business_dels"=>"admin/Advertisement/accessories_business_dels",    //活动管理分组批量删除(前端没写)
     "accessories_business_label"=>"admin/Advertisement/accessories_business_label",  //活动管理分组标签修改
     "accessories_business_search"=>"admin/Advertisement/accessories_business_search",//活动管理分组模糊搜索
