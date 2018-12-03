@@ -33,6 +33,14 @@ white-space: normal !important;
 .layui-inline{
 	line-height: 43px;
 }
+.line{
+	display: flex;
+	align-items: center;
+}
+.line input{
+	width: 200px;
+	margin-right: 20px;
+}
 /*搜索样式*/
 	.seach{
 		display: flex;
@@ -60,7 +68,7 @@ white-space: normal !important;
 /*搜索样式*/
 /*保存列表页面样式*/
    .layui-form-lists{
-   	padding: 30px;
+   	padding: 11px;
    }
    .form-item{
    	display: flex;
@@ -72,7 +80,7 @@ white-space: normal !important;
    	color: #999999;
    }
    .form-input{
-   	width: 300px;
+   	width: 734px;
    }
    .layui-form-lists .layui-btn{
    	width: 100px;
@@ -81,7 +89,8 @@ white-space: normal !important;
  .form-title{
  	padding: 10px;
  	background: #F2F2F2;
- 	color: #fff;
+ 	color: #333;
+ 	font-weight:;
  }
 /*修改layui样式*/
 .tdimg{
