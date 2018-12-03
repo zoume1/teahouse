@@ -169,6 +169,17 @@ Route::group("admin",[
 
      "active_order_index"=>"admin/ActiveOrder/index",   //活动订单显示
      "active_order_search"=>"admin/ActiveOrder/search", //评论管理组模糊搜索
+
+
+
+    /**
+     * 商品分类
+     * 陈绪
+     */
+
+    "goods_type_index"=>"admin/GoodsType/index",
+    "goods_type_add"=>"admin/GoodsType/add",
+    "goods_type_edit"=>"admin/GoodsType/edit",
 ]);
 
 Route::miss("public/miss");
