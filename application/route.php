@@ -68,6 +68,16 @@ Route::group("admin",[
     "admin_passwd"=>"admin/admin/passwd",
 
 
+    /**
+     * 商品
+     * 陈绪
+     */
+    "goods_index"=>"admin/Goods/index",
+    "goods_add"=>"admin/Goods/add",
+    "goods_save"=>"admin/Goods/save",
+    "goods_edit"=>"admin/Goods/edit",
+
+
 
     /*菜单列表*/
     "menu_index"=>"admin/menu/index",
