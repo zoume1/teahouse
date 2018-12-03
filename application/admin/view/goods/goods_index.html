@@ -69,6 +69,7 @@
                         <th>商品图片</th>
                         <th>商品名称</th>
                         <th>商品品牌</th>
+                         <th>商品分类</th>
                         <th>价格</th>
                         <th>标签</th>
                         <th>排序</th>
@@ -81,10 +82,11 @@
                     <tr>
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
                         <td>1000001</td>
-                        <td class=""><div class="tdimg"></div><img src="11"/></td>
+                        <td class=""><div class="tdimg"><img src="11"/></div></td>
                         <td>1000001</td>
                         <td>1000001</td>
                         <td>1000001</td>
+                         <td>1000001</td>
                         <td>
 							<input type="checkbox" class="Status" name="" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 							checked>
@@ -94,6 +96,8 @@
                          <td>1000001</td>
                         <td>
                             <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit')}"><i class="iconfont icon-edit"></i> 编辑
+							</a>
+							  <a class="layui-btn layui-btn-mini edit" href=""><i class="iconfont icon-edit"></i> 分销设置
 							</a>
                             <a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>

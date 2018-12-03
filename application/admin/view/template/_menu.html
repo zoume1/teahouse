@@ -8,7 +8,7 @@
 		{volist name="menu_list" id="value"}
 		{if isset($value["sub"])}
 		<dl class="">
-			<dt href="#">{$value.name}<font class="iconfont1"></font></dt>
+			<dt href="#"><i class=""><img src="__STATIC__/admin/common/img/u12469.png"/></i>{$value.name}<font class="iconfont1"></font></dt>
 			<dd>
 				{volist name="$value.sub" id="val"}
 				<p  class="" data-url="{:url($val['url'])}">{$val.name}</p>
