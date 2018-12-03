@@ -55,6 +55,26 @@ white-space: normal !important;
 		width: 100px;
 	}
 /*搜索样式*/
+/*保存列表页面样式*/
+   .layui-form-lists{
+   	padding: 30px;
+   }
+   .form-item{
+   	display: flex;
+   	padding: 6px;
+   }
+   .form-label{
+   	width: 100px;
+   	text-align: center;
+   	color: #999999;
+   }
+   .form-input{
+   	width: 300px;
+   }
+   .layui-form-lists .layui-btn{
+   	width: 100px;
+   }
+   /*保存列表页面样式*/
 /*修改layui样式*/
 .tdimg{
 	width: 50px;
