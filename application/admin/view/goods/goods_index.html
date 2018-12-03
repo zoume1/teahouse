@@ -31,25 +31,16 @@
             			<div class="seach">
 					
 					<div class="seach_list">
-						<div class="seach_laber">活动分类</div>
+						<div class="seach_laber">输入搜索：</div>
 						<div class="seach_input">
-						   {if !empty($goods)}
-                            <select name="ppd" id="admin_role" class="role_list">
-								<option value="0">顶级</option>
-								{volist name="goods" id="vl"}
-								<option value="{$vl.id}">{$vl.name}</option>
-								{/volist}
-							</select> {else}
-                            <select name="ppd" class="role_list">
-								<option value="0">顶级</option>
-							</select>
-							 {/if}
+							<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="商品名称/商品货号" class="layui-input" >
+					
 						</div>
 					</div>
 					<div class="seach_list">
-						<div class="seach_laber">分类状态</div>
+						<div class="seach_laber">商品分类</div>
 						<div class="seach_input">
-						     <select name="interest" id="admin_status">
+						     <select name="">
 								<option value="" selected="">全部</option>
 								<option value="1">已显示</option>
 								<option value="0">已禁用</option>
@@ -63,7 +54,7 @@
             </form>
         </blockquote>
   
-                <a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Category/add')}">添加分类</a>
+                <a class="layui-btn layui-btn-danger batchDel" href="goods_add">添加商品</a>
            
         <div class="layui-form news_list">
             <table class="layui-table">
@@ -78,34 +69,35 @@
                         <th>商品图片</th>
                         <th>商品名称</th>
                         <th>商品品牌</th>
-                        <th>商品分类</th>
+                        <th>价格</th>
+                        <th>标签</th>
                         <th>排序</th>
-                        <th>状态</th>
+                        <th>库存</th>
+                         <th>销量</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                    {volist name="category" id="value"}
                     <tr>
-                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
-                        <td align="left">{$value.name} </td>
-                        <td>{if $value.pid !=0}{$value.names} {else} 顶级 {/if}</td>
+                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
+                        <td>1000001</td>
+                        <td class=""><div class="tdimg"></div><img src="11"/></td>
+                        <td>1000001</td>
+                        <td>1000001</td>
+                        <td>1000001</td>
                         <td>
-                            <div style="width: 50px; height: 50px; margin: 0 auto;"><img src="__UPLOADS__/{$value.icon_image}" /></div>
+							<input type="checkbox" class="Status" name="" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+							checked>
                         </td>
-                        <td><input type="color" name="color" id="" value="{$value.color}" disabled="disabled" /></td>
-                        <td>{$value.rank}</td>
-                        <td>{$value.sort_number}</td>
-                        <td class="td-status">
-                            {if $value.status == 1} 已显示 {else} 已禁用 {/if}
-                        </td>
+                        <td>1000001</td>
+                        <td>1000001</td>
+                         <td>1000001</td>
                         <td>
-                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit')}"><i class="iconfont icon-edit"></i> 编辑
 							</a>
-                            <a href="{:url('admin/Category/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                            <a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>
                     </tr>
-                    {/volist}
                 </tbody>
             </table>
             <div id="page">
@@ -119,7 +111,6 @@
                     <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
                 </div>
-                {$listpage}
             </div>
 
         </div>
@@ -227,10 +218,9 @@
                 var vals = data.value;
                 var id = $(this).data("id");
                 var status = $(this).val();
-                console.log(status);
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Category/status')}",
+                    url: "{:url('')}",
                     data: {
                         "id": id,
                         "status": status

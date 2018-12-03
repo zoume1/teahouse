@@ -78,6 +78,11 @@ white-space: normal !important;
    	width: 100px;
    }
    /*保存列表页面样式*/
+ .form-title{
+ 	padding: 10px;
+ 	background: #F2F2F2;
+ 	color: #fff;
+ }
 /*修改layui样式*/
 .tdimg{
 	width: 50px;
