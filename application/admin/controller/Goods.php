@@ -87,7 +87,7 @@ class Goods extends Controller{
      * 陈绪
      */
     public function add(Request $request,$pid=0){
-        $goods_list = [];
+       /* $goods_list = [];
         $goods_brand = [];
         if($pid == 0){
             $goods_list = getSelectList("goods_type");
@@ -98,8 +98,8 @@ class Goods extends Controller{
             $car_series = db("car_series")->distinct(true)->field("brand")->select();
             $car_brand = db("car_series")->field("series,brand,year,displacement")->select();
             return ajax_success("获取成功",array("car_series"=>$car_series,"car_brand"=>$car_brand));
-        }
-        return view("goods_add",["year"=>$year,"goods_list"=>$goods_list,"goods_brand"=>$goods_brand]);
+        }*/
+        return view("goods_add"/*,["year"=>$year,"goods_list"=>$goods_list,"goods_brand"=>$goods_brand]*/);
     }
 
 
@@ -165,7 +165,7 @@ class Goods extends Controller{
      * 陈绪
      */
     public function edit(Request $request,$id){
-        $goods = db("goods")->where("id",$id)->select();
+       /* $goods = db("goods")->where("id",$id)->select();
         foreach ($goods as $key=>$value){
             $goods[$key]["goods_standard_name"] = explode(",",$value["goods_standard_name"]);
             $goods_standard_value = explode(",",$value["goods_standard_value"]);
@@ -193,8 +193,8 @@ class Goods extends Controller{
             $car_series = db("car_series")->distinct(true)->field("brand")->select();
             $car_brand = db("car_series")->field("series,brand")->select();
             return ajax_success("获取成功",array("car_series"=>$car_series,"car_brand"=>$car_brand));
-        }
-        return view("goods_edit",["car_series"=>$car_series,"year"=>$year,"goods_brand"=>$goods_brand,"goods_standard_name"=>$goods_standard_name,"goods"=>$goods,"goods_list"=>$goods_list,"goods_brand"=>$goods_brand]);
+        }*/
+        return view("goods_edit"/*,["car_series"=>$car_series,"year"=>$year,"goods_brand"=>$goods_brand,"goods_standard_name"=>$goods_standard_name,"goods"=>$goods,"goods_list"=>$goods_list,"goods_brand"=>$goods_brand]*/);
     }
 
 
