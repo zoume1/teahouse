@@ -4,41 +4,37 @@
 
 {block name="css"}
 
-<style type="text/css">
-    body {
-        background: #fff;
-    }
-    
-    label {
-        text-align: left !important;
-    }
-    
-    .layui-form-item {
-        max-width: 100% !important;
-        width: 100% !important;
-        margin-bottom: 0;
-        margin-top: 0;
-    }
-    
-    .layui-form-label {
-        width: 26% !important;
-    }
-    
-    .layui-input-inline {
-        width: 70% !important;
-    }
-    
-    #page {
-        width: 96%;
-        height: 50px;
-        line-height: 50px;
-        border: solid 1px #E2E2E2;
-        padding-left: 50px;
-        background: #FDFDFE;
-    }
-</style>
+<style type="text/css">body {
+	background: #fff;
+}
 
+label {
+	text-align: left !important;
+}
 
+.layui-form-item {
+	max-width: 100% !important;
+	width: 100% !important;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.layui-form-label {
+	width: 26% !important;
+}
+
+.layui-input-inline {
+	width: 70% !important;
+}
+
+#page {
+	width: 96%;
+	height: 50px;
+	line-height: 50px;
+	border: solid 1px #E2E2E2;
+	padding-left: 50px;
+	background: #FDFDFE;
+}</style>
 
 {/block}
 
@@ -49,46 +45,43 @@
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="{:url('admin/Category/search')}">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">活动分类</label>
-                        <div class="layui-input-inline">
-                            {if !empty($goods)}
+            			<div class="seach">
+					
+					<div class="seach_list">
+						<div class="seach_laber">活动分类</div>
+						<div class="seach_input">
+						   {if !empty($goods)}
                             <select name="ppd" id="admin_role" class="role_list">
-                                    <option value="0">顶级</option>
-                                    {volist name="goods" id="vl"}
-                                    <option value="{$vl.id}">{$vl.name}</option>
-                                    {/volist}
-                                    </select> {else}
+								<option value="0">顶级</option>
+								{volist name="goods" id="vl"}
+								<option value="{$vl.id}">{$vl.name}</option>
+								{/volist}
+							</select> {else}
                             <select name="ppd" class="role_list">
-                                    <option value="0">顶级</option>
-                                </select> {/if}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">分类状态</label>
-                        <div class="layui-input-inline">
-                            <select name="interest" id="admin_status">
+								<option value="0">顶级</option>
+							</select>
+							 {/if}
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">分类状态</div>
+						<div class="seach_input">
+						     <select name="interest" id="admin_status">
 								<option value="" selected="">全部</option>
 								<option value="1">已显示</option>
 								<option value="0">已禁用</option>
 							</select>
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <button class="layui-btn search_btn" type="submit">搜索</button>
-                    </div>
-                </div>
+						</div>
+					</div>
+					 <button class="layui-btn layui-btn-normal" type="submit" id="seach">立即搜索</button>
+				</div>
+           
 
             </form>
         </blockquote>
-        <div class="layui-form-item">
-
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Category/add')}">添加</a>
-            </div>
-        </div>
+  
+                <a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Category/add')}">添加分类</a>
+           
         <div class="layui-form news_list">
             <table class="layui-table">
                 <colgroup>
@@ -115,19 +108,17 @@
                         <td align="left">{$value.name} </td>
                         <td>{if $value.pid !=0}{$value.names} {else} 顶级 {/if}</td>
                         <td>
-                            <div style="width: 80px; height: 80px;"><img src="__UPLOADS__/{$value.icon_image}" /></div>
+                            <div style="width: 50px; height: 50px; margin: 0 auto;"><img src="__UPLOADS__/{$value.icon_image}" /></div>
                         </td>
                         <td><input type="color" name="color" id="" value="{$value.color}" disabled="disabled" /></td>
                         <td>{$value.rank}</td>
                         <td>{$value.sort_number}</td>
                         <td class="td-status">
-                            {if $value.status == 1}
-                            <span class="label label-success radius">已显示</span> {else}
-                            <span class="label label-success radius">已禁用</span> {/if}
+                            {if $value.status == 1} 已显示 {else} 已禁用 {/if}
                         </td>
                         <td>
-                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i>
-								编辑</a>
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+							</a>
                             <a href="{:url('admin/Category/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>
                     </tr>
@@ -150,17 +141,13 @@
 
         </div>
 
-
     </div>
-
 
     {/block}
 
     <!--_footer 作为公共模版分离出去-->
     {include file="template/_footer" /}
     <!--/_footer 作为公共模版分离出去-->
-
-
 
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
@@ -223,13 +210,9 @@
                         });
                     });
 
-
                 }
 
-
             });
-
-
 
             //全选
             form.on('checkbox(allChoose)', function(data) {
@@ -251,7 +234,6 @@
                 }
                 form.render('checkbox');
             })
-
 
             form.on('switch(isShow)', function(data) {
                 if ($(this).val() == 0) {
@@ -277,7 +259,6 @@
                         console.log("错误")
                     }
                 });
-
 
             })
         })

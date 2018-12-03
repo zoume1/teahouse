@@ -48,7 +48,50 @@
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
 			<form class="layui-form" action="">
-				<div class="layui-form-item">
+					<div class="seach">
+					<div class="seach_list">
+						<div class="seach_laber">用户ID</div>
+						<div class="seach_input">
+							<input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" id="zhanghu">
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">用户昵称</div>
+						<div class="seach_input">
+							<input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" id="nichwng">
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">用户账号</div>
+						<div class="seach_input">
+							<input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" id="zhanghu">
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">会员等级</div>
+						<div class="seach_input">
+							<select>
+								<option value ="1">全部</option>
+								<option value ="2">E</option>
+							</select></div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">开始时间</div>
+						<div class="seach_input">
+						<span class="time"><input type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
+							</span>
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">结束时间</div>
+						<div class="seach_input">
+							<span class="time"><input type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
+
+						</div>
+					</div>
+					 <button class="layui-btn layui-btn-normal" type="submit">立即搜索</button>
+				</div>
+				<!--<div class="layui-form-item">
 					<div class="layui-inline">
 						<label class="layui-form-label">用户ID：</label>
 						<div class="layui-input-inline">
@@ -92,7 +135,7 @@
 					<div class="layui-inline">
 						<button class="layui-btn search_btn">搜索</button>
 					</div>
-				</div>
+				</div>-->
 
 			</form>
 
@@ -126,7 +169,7 @@
 						<td>{$vo.member_id}</td>
 						<td>{$vo.member_phone_num}</td>
 						<td>{$vo.member_name}</td>
-						<td><div style="width: 80px; height: 80px;"><img src="{$vo.member_head_img}" /></td>
+						<td><div class="tdimg"><img src="{$vo.member_head_img}" /></td>
 						<td>{$vo.member_grade_name} </td>
 						<td>{$vo.member_sex} </td>
 						<td>{$vo.ID_card}</td>

@@ -11,7 +11,7 @@ class Menu extends Controller
      * 陈绪
      */
     public function index(Request $request){
-        $menu_lists = db("Menu")->order("sort_number")->paginate(10);
+        $menu_lists = db("Menu")->order("sort_number")->paginate(20);
         $page = $menu_lists->render();
         return view("index",["menu_lists"=>$menu_lists,"page"=>$page]);
     }
