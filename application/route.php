@@ -180,6 +180,20 @@ Route::group("admin",[
     "goods_type_index"=>"admin/GoodsType/index",
     "goods_type_add"=>"admin/GoodsType/add",
     "goods_type_edit"=>"admin/GoodsType/edit",
+
+    /*TODO：分销开始*/
+    "distribution_setting_index"=>"admin/Distribution/setting_index",//分销设置页面
+    "distribution_setting_edit"=>"admin/Distribution/setting_edit",//分销设置页面编辑
+    "distribution_goods_index"=>"admin/Distribution/goods_index",//分销商品页面
+    "distribution_goods_add"=>"admin/Distribution/goods_add",//分销商品添加
+    "distribution_goods_edit"=>"admin/Distribution/goods_edit",//分销商品编辑
+    "distribution_record_index"=>"admin/Distribution/record_index",//分销记录页面
+    "distribution_member_index"=>"admin/Distribution/member_index",//分销成员页面
+    "distribution_member_edit"=>"admin/Distribution/member_edit",//分销成员页面编辑
+    /*TODO：分销结束*/
+
+
+
 ]);
 
 Route::miss("public/miss");
