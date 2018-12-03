@@ -21,15 +21,6 @@ Route::group("",[
     "/$"=>"index/index/index",
 
 
-    /*商品列表*/
-    "goods_index"=>"index/Goods/index",
-    "goods_detail"=>"index/Goods/detail",
-    "goods_id"=>"index/Goods/ajax_id",
-    "particulars_id"=>"index/Goods/goods_id",
-    "goods_big_images"=>"index/Goods/big_images",
-
-
-
     /*登录页面*/
     "login_index"=>"index/Login/index",
 
@@ -44,6 +35,8 @@ Route::group("",[
     "Wx_Pay"=>"index/Test/Wx_Pay", //测试
     /*TODO:end*/
 
+
+
     /*退出登录*/
     "logout"=>"index/Login/logout",
     /*验证码*/
@@ -57,25 +50,6 @@ Route::group("",[
     "register_index"=>"index/Register/register",
 
 
-
-    /*安全中心*/
-    "security_index"=>"index/Security/index",
-
-
-
-    /*模板商城*/
-    "template_index"=>"index/Template/index",
-    "template_goods_show"=>"index/Template/goods_show",
-    "template_goods_buy"=>"index/Template/goods_buy",
-
-
-    /*定制开发*/
-    "exploit_index"=>"index/Exploit/index",
-
-
-
-    /*安全中心*/
-    "center_index"=>"index/Center/index",
 
     /*茶圈*/
     "teacenter_data"=>"index/TeaCenter/teacenter_data",          //茶圈父级显示
@@ -138,39 +112,6 @@ Route::group("admin",[
     "role_status"=>"admin/role/status",
 
 
-    /*配件商品管理*/
-    "goods_index"=>"admin/Goods/index",
-    "goods_add"=>"admin/Goods/add",
-    "goods_save"=>"admin/Goods/save",
-    "goods_edit"=>"admin/Goods/edit",
-    "goods_updata"=>"admin/Goods/updata",
-    "goods_del"=>"admin/Goods/del",
-    "images_del"=>"admin/Goods/images",
-    "images_dels"=>"admin/Goods/image",
-    "goods_status"=>"admin/Goods/status",
-    "goods_batches"=>"admin/Goods/batches",
-    "goods_putaway"=>"admin/Goods/putaway",                                    //商品上架
-    "goods_pay"=>"admin/Goods/pay",                                            //商品付费详情
-    "affirm_pay"=>"admin/Goods/affirm",
-
-
-    /*服务商品管理*/
-    "serve_index"=>"admin/Serve/index",
-    "serve_add"=>"admin/Serve/add",
-
-
-
-    /*商品分类
-    "category_index"=>"admin/Category/index",
-    "category_add"=>"admin/Category/add",
-    "category_save"=>"admin/Category/save",
-    "category_edit"=>"admin/Category/edit",
-    "category_del"=>"admin/Category/del",
-    "category_updata"=>"admin/Category/updata",
-    "category_ajax"=>"admin/Category/ajax_add",
-    "category_images"=>"admin/Category/images",
-    "category_status"=>"admin/Category/status",
-    */
 
 
     /*TODO：会员管理开始*/
@@ -207,37 +148,7 @@ Route::group("admin",[
     "integral_center"=>"admin/Integral/index", //积分中心
     "integral_detail"=>"admin/Integral/detail", //积分详情
 
-    /*配件商广告，服务商广告，平台广告开始*/
 
-
-    "Service_business_advertising"=>"admin/service_advertisement/Service_business_advertising",
-    "Service_business_add"=>"admin/service_advertisement/Service_business_add",
-    "Service_business_edit"=>"admin/service_advertisement/Service_business_edit",
-
-    "platform_business_index"=>"admin/platform_advertisement/platform_business_index",
-    "platform_business_add"=>"admin/platform_advertisement/platform_business_add",
-    "platform_business_edit"=>"admin/platform_advertisement/platform_business_edit",
-    /*配件商广告，服务商广告，平台广告结束*/
-
-
-
-    /*优惠券*/
-    "discount_index"=>"admin/Discount/index",
-    "discount_add"=>"admin/Discount/add",
-    "discount_save"=>"admin/Discount/save",
-    "discount_edit"=>"admin/Discount/edit",
-    "discount_updata"=>"admin/Discount/updata",
-    "discount_del"=>"admin/Discount/del",
-    "discount_batches"=>"admin/Discount/batches",
-
-
-    /*代理*/
-    "agency_index"=>"admin/Agency/index",
-    "agency_add"=>"admin/Agency/add",
-    "agency_save"=>"admin/Agency/save",
-    "agency_edit"=>"admin/Agency/edit",
-    "agency_updata"=>"admin/Agency/updata",
-    "agency_del"=>"admin/Agency/del",
 
 
 
@@ -298,73 +209,11 @@ Route::group("admin",[
     "admin_chat_push"=>"admin/Chat/admin_chat_push",
 
 
-    /*内容管理*/
-    "content_index"=>"admin/Content/index",
-    "content_add"=>"admin/Content/add",
-    "content_save"=>"admin/Content/save",
-    "content_edit"=>"admin/Content/edit",
-    "content_del"=>"admin/Content/del",
-    "content_updata"=>"admin/Content/updata",
-
-
-    /*常见问题*/
-    "issue_index"=>"admin/Issue/index",
-    "issue_add"=>"admin/Issue/add",
-    "issue_save"=>"admin/Issue/save",
-    "issue_edit"=>"admin/Issue/edit",
-    "issue_del"=>"admin/Issue/del",
-    "issue_updata"=>"admin/Issue/updata",
-    "issue_status"=>"admin/Issue/status",
-    "issue_putaway"=>"admin/Issue/putaway",
-
 
     /*客户中心*/
     "client_index"=>"admin/Client/index",
 
 
-
-    /*广告管理*/
-    "advertising_index"=>"admin/Advertising/index",
-    "advertising_add"=>"admin/Advertising/add",
-    "advertising_save"=>"admin/Advertising/save",
-    "advertising_del"=>"admin/Advertising/del",
-    "advertising_edit"=>"admin/Advertising/edit",
-    "advertising_updata"=>"admin/Advertising/updata",
-    "advertising_images"=>"admin/Advertising/images",
-
-
-    /*设置*/
-    "install_index"=>"admin/Install/index",
-    "recommend_index"=>"admin/Install/recommend",
-    "integral_index"=>"admin/Install/integral",
-    "putaway_index"=>"admin/Install/putaway",
-    "recharge_index"=>"admin/Install/recharge",
-    "service_index"=>"admin/Install/service_index",
-    "service_add"=>"admin/Install/service_add",
-    "service_save"=>"admin/Install/service_save",
-    "service_edit"=>"admin/Install/service_edit",
-    "service_updata"=>"admin/Install/service_updata",
-    "service_del"=>"admin/Install/service_del",
-    "message_index"=>"admin/Install/message_index",
-    "message_del"=>"admin/Install/message_del",
-    "message_save"=>"admin/Install/message_save",
-
-
-
-
-    /*品牌*/
-    "brand_index"=>"admin/Brand/index",
-    "brand_add"=>"admin/Brand/add",
-    "brand_save"=>"admin/Brand/save",
-    "brand_edit"=>"admin/Brand/edit",
-    "brand_updata"=>"admin/Brand/updata",
-    "brand_del"=>"admin/Brand/del",
-
-
-    /*店铺管理*/
-    "shop_index"=>"admin/Shop/index",
-    "shop_add"=>"admin/Shop/add",
-	
 	
     /* 图片库*/
 	"photo_index"=>"admin/Photo/index",
