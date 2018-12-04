@@ -87,9 +87,10 @@ class TeaCenter extends Controller
             foreach($activity as $key => $value){
                 if($value["id"]){       
                     $rest = db("goods_type")->where("id", $res)->field("name,pid")->find();
-                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name")->find();
+                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name,color")->find();
                     $activity[$key]["names"] = $rest["name"];
                     $activity[$key]["named"] = $retsd["name"];
+                    $activity[$key]["color"] = $retsd["color"];
                     $activity[$key]["start_time"] = date('Y-m-d H:i',$activity[$key]["start_time"]);
                 }
             }
@@ -145,9 +146,10 @@ class TeaCenter extends Controller
             foreach($data as $key => $value){
                 if($value){
                     $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
-                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name")->find();
+                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name,color")->find();
                     $data[$key]["names"] = $rest["name"];
                     $data[$key]["named"] = $retsd["name"];
+                    $data[$key]["color"] = $retsd["color"];
                     $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
                 }
             }
@@ -177,9 +179,10 @@ class TeaCenter extends Controller
             foreach($data as $key => $value){
                 if($value){
                     $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
-                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name")->find();
+                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name,color")->find();
                     $data[$key]["names"] = $rest["name"];
                     $data[$key]["named"] = $retsd["name"];
+                    $data[$key]["color"] = $retsd["color"];
                     $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
                 }
             }
