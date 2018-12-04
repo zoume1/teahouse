@@ -7,6 +7,9 @@
     url('../font/iconfont1/iconfont.ttf') format('truetype'), /* chromeÃ£â‚¬ÂfirefoxÃ£â‚¬ÂoperaÃ£â‚¬ÂSafari, Android, iOS 4.2+*/
     url('../font/iconfont1/iconfont.svg#uxiconfont') format('svg'); /* iOS 4.1- */
 }
+.red{
+	color: red;
+}
 /*修改layui样式*/
 .layui-table th{
     padding: 9px 14px;	
@@ -163,6 +166,8 @@ a{
 }
 /*toubu*/
 .header{
+	width: 100%;
+	position: fixed;
 	color: #fff;
 	display: flex;
 	justify-content: space-between;
@@ -239,13 +244,14 @@ a{
 }
 
 .UCleft {
+	position: fixed;
 	margin-left: 10px;
 	margin-right: 10px;
 	height: 910px;
 	background: #fff;
 	width: 13%;
 	float: left;
-	margin-top: 10px;
+	margin-top: 60px;
 }
 
 .UCleft-fixed {
@@ -496,9 +502,8 @@ a{
 .right-content{
 	float: right;
 	width: 84.5%;
-	height: 910px;
-	/* background: #fff; */
-	margin-top: 10px;
+	min-height: 560px;
+	margin-top: 60px;
 	margin-right: 10px;
 }
 .right-content-title{
@@ -520,7 +525,7 @@ a{
 }
 .recontent{
 	width: 100%;
-	min-height: 910px;
+	min-height: 560px;
 	background: #fff;
 }
 .layui-elem-quote{
@@ -629,5 +634,5 @@ a{
 }
 
 .all {
-    min-width: 1400px;
+    min-width: 1352px;
 }
