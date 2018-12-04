@@ -502,7 +502,7 @@ a{
 .right-content{
 	float: right;
 	width: 84.5%;
-	min-height: 560px;
+	min-height: 500px;
 	margin-top: 60px;
 	margin-right: 10px;
 }
@@ -525,7 +525,7 @@ a{
 }
 .recontent{
 	width: 100%;
-	min-height: 560px;
+	/* min-height: 911px; */
 	background: #fff;
 }
 .layui-elem-quote{
