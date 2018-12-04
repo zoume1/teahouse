@@ -235,7 +235,8 @@ class Goods extends Controller{
      * [商品删除]
      * 陈绪
      */
-    public function del(Request $request){
+    public function del(Request $request)
+    {
         $id = $request->only(["id"])["id"];
         $image_url = db("goods_images")->where("goods_id", $id)->field("goods_images,id")->select();
         $bool = db("goods")->where("id", $id)->delete();
