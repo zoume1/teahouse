@@ -1,7 +1,9 @@
 
 $(function(){
 
-
+height=$(window).height()-64;
+//console.log(height);
+$(".recontent").height(height);//直接设置元素的高
 //	抽屉效果;
 $(".UCleft-fixed").children("dl").on("click","dt",function(){
 //	alert(111);
