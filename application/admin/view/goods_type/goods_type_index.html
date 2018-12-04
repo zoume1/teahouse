@@ -27,15 +27,22 @@
 
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Category/search')}">
+            <form class="layui-form" action="{:url('admin/GoodsType/search')}">
                 <div class="seach">
 
                     <div class="seach_list">
                         <div class="seach_laber">商品分类</div>
                         <div class="seach_input">
-                            <select name="interest" id="admin_status">
-								<option value="" selected="">全部</option>
-							</select>
+                            {if !empty($goods)}
+                            <select name="ppd" id="admin_role" class="role_list">
+                                    <option value="0">顶级</option>
+                                    {volist name="goods" id="vl"}
+                                    <option value="{$vl.id}">{$vl.name}</option>
+                                    {/volist}
+                                </select> {else}
+                            <select name="ppd" class="role_list">
+                             <option value="0">顶级</option>
+                            </select> {/if}
                         </div>
                     </div>
                     <div class="seach_list">
@@ -86,9 +93,9 @@
                             {if $value.status == 1} 已显示 {else} 已禁用 {/if}
                         </td>
                         <td>
-                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit')}"><i class="iconfont icon-edit"></i> 编辑
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/GoodsType/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
 							</a>
-                            <a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                            <a href="{:url('admin/GoodsType/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>
                     </tr>
                     {/volist}
@@ -149,7 +156,7 @@
                         }
                         $.ajax({
                             type: "POST",
-                            url: "{:url('admin/Category/dels')}",
+                            url: "{:url('admin/GoodsType/dels')}",
                             data: {
                                 "id": data_id,
                             },

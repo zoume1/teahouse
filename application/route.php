@@ -173,10 +173,15 @@ Route::group("admin",[
 
 
     /*商品分类*/
-    "goods_type_index"=>"admin/GoodsType/index",    //商品分类列表显示
-    "goods_type_add"=>"admin/GoodsType/add",        //商品分类列表增加
-    "goods_type_edit"=>"admin/GoodsType/edit",      //商品分类列表编辑
-    "goods_type_save"=>"admin/GoodsType/save",      //商品分类列表组入库
+    "goods_type_index"=>"admin/GoodsType/index",      //商品分类列表显示
+    "goods_type_add"=>"admin/GoodsType/add",          //商品分类列表增加
+    "goods_type_edit"=>"admin/GoodsType/edit",        //商品分类列表编辑
+    "goods_type_save"=>"admin/GoodsType/save",        //商品分类列表组入库
+    "goods_type_updata"=>"admin/GoodsType/updata",    //商品分类列表组更新
+    "goods_type_del"=>"admin/GoodsType/del",          //商品分类列表组删除 
+    "goods_type_ajax_add"=>"admin/GoodsType/ajax_add",//商品分类列表组ajax显示
+    "goods_type_dels"=>"admin/GoodsType/dels",        //商品分类列表组批量删除
+    "goods_type_search"=>"admin/GoodsType/search",    //商品分类列表组模糊搜索 
 
     /*TODO：分销开始*/
     "distribution_setting_index"=>"admin/Distribution/setting_index",//分销设置页面
