@@ -13,58 +13,88 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
+use think\paginator\driver\Bootstrap;
 
 class GoodsType extends Controller{
 
 
     /**
-     * [商品分类显示]
-     * 陈绪
+     * [商品分类列表显示]
+     * GY
      */
-    public function index(){
-       /* $category = db("category")->where("status","<>","0")->paginate(10);*/
-        return view("goods_type_index"/*,["category"=>$category]*/);
+    public function index($pid = 0)
+    {
+        $goods = [];
+        $wares = db("wares") -> where("status","<>","0") -> select();;
+
+        if($pid == 0)
+        {
+            $goods = getSelectList("wares");
+        }
+        
+        foreach ($wares as $key => $value)
+        {
+            if ($value["pid"]) {
+                $res = db("wares") -> where("id", $value['pid']) -> field("name") -> find();
+                //halt($res);
+                $wares[$key]["names"] = $res["name"];
+            }
+        }
+        $all_idents = $wares;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $wares = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/GoodsType/index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $wares->appends($_GET);
+        $this->assign('page', $wares->render());
+
+        return view("goods_type_index",["wares" => $wares]);
+
     }
 
 
 
     /**
-     * [商品分类添加]
-     * 陈绪
+     * [商品分类列表添加]
+     * GY
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
      */
-    public function add($pid = 0){
-        /*$goods_cate = [];
-        $goods_list = [];
-        if($pid == 0){
-            $goods_list = getSelectList("category");
-        }else{
-            $goods_cate = db("category")->where("id",$pid)->field()->select();
-        }*/
-        return view("goods_type_add"/*,["goods_list"=>$goods_list,"goods_cate"=>$goods_cate]*/);
+    public function add($pid = 0)
+    {
+        $goods_liste = [];
+        $category = db("wares")->select();
+
+        if ($pid == 0)
+        {
+            $goods_liste = getSelectList("wares");
+        }
+
+        return view("goods_type_add",["goods_liste" => $goods_liste]);
     }
 
 
 
     /**
-     * [商品分组入库]
-     * 陈绪
+     * [商品分类列表入库]
+     * GY
      */
-    public function save(Request $request){
-        if($request->isPost()){
-            $data = $request->param();
-            unset($data["taglocation"]);
-            unset($data["tags"]);
-            $show_images = $request->file("type_images");
-            if(!empty($show_images)){
-                $type_images = $show_images->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $data["type_images"] = str_replace("\\","/",$type_images->getSaveName());
-            }
-            $bool = db("category")->insert($data);
+    public function save(Request $request)
+    {
+        if($request->isPost())
+        {
+            $data = $request -> param();
+
+            $bool = db("wares") -> insert($data);
+           
             if($bool){
-                $this->success("添加成功",url("admin/GoodsType/index"));
+                $this -> success("添加成功",url("admin/GoodsType/index"));
             }else{
-                $this->error("添加失败",url("admin/GoodsType/add"));
+                $this -> error("添加失败",url("admin/GoodsType/add"));
             }
         }
     }
@@ -72,8 +102,8 @@ class GoodsType extends Controller{
 
 
     /**
-     * [商品分组修改]
-     * [陈绪]
+     * [商品分类列表修改]
+     * GY
      */
     public function edit($pid=0,$id){
         /*$category = db("category")->where("id",$id)->select();

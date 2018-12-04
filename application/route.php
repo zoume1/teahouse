@@ -72,7 +72,7 @@ Route::group("admin",[
      * 商品
      * 陈绪
      */
-    "goods_index"=>"admin/Goods/index",
+    "goods_index"=>"admin/Goods/index",  
     "goods_add"=>"admin/Goods/add",
     "goods_save"=>"admin/Goods/save",
     "goods_edit"=>"admin/Goods/edit",
@@ -172,14 +172,11 @@ Route::group("admin",[
 
 
 
-    /**
-     * 商品分类
-     * 陈绪
-     */
-
-    "goods_type_index"=>"admin/GoodsType/index",
-    "goods_type_add"=>"admin/GoodsType/add",
-    "goods_type_edit"=>"admin/GoodsType/edit",
+    /*商品分类*/
+    "goods_type_index"=>"admin/GoodsType/index",    //商品分类列表显示
+    "goods_type_add"=>"admin/GoodsType/add",        //商品分类列表增加
+    "goods_type_edit"=>"admin/GoodsType/edit",      //商品分类列表编辑
+    "goods_type_save"=>"admin/GoodsType/save",      //商品分类列表组入库
 
     /*TODO：分销开始*/
     "distribution_setting_index"=>"admin/Distribution/setting_index",//分销设置页面

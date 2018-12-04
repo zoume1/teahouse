@@ -4,19 +4,19 @@
 
 {block name="css"}
 
-<style type="text/css">body {
-	background: #fff;
-}
-
-
-#page {
-	width: 96%;
-	height: 50px;
-	line-height: 50px;
-	border: solid 1px #E2E2E2;
-	padding-left: 50px;
-	background: #FDFDFE;
-}
+<style type="text/css">
+    body {
+        background: #fff;
+    }
+    
+    #page {
+        width: 96%;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #E2E2E2;
+        padding-left: 50px;
+        background: #FDFDFE;
+    }
 </style>
 
 {/block}
@@ -28,35 +28,35 @@
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="{:url('admin/Category/search')}">
-            			<div class="seach">
-					
-					<div class="seach_list">
-						<div class="seach_laber">商品分类</div>
-						<div class="seach_input">
-						  <select name="interest" id="admin_status">
+                <div class="seach">
+
+                    <div class="seach_list">
+                        <div class="seach_laber">商品分类</div>
+                        <div class="seach_input">
+                            <select name="interest" id="admin_status">
 								<option value="" selected="">全部</option>
 							</select>
-						</div>
-					</div>
-					<div class="seach_list">
-						<div class="seach_laber">分类状态</div>
-						<div class="seach_input">
-						     <select name="interest" id="admin_status">
+                        </div>
+                    </div>
+                    <div class="seach_list">
+                        <div class="seach_laber">分类状态</div>
+                        <div class="seach_input">
+                            <select name="interest" id="admin_status">
 								<option value="" selected="">全部</option>
 								<option value="1">上架</option>
 								<option value="0">下架</option>
 							</select>
-						</div>
-					</div>
-					 <button class="layui-btn" type="submit" id="seach">立即搜索</button>
-				</div>
-           
+                        </div>
+                    </div>
+                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+                </div>
+
 
             </form>
         </blockquote>
-  
-                <a class="layui-btn layui-btn-danger batchDel" href="goods_type_add">添加分类</a>
-           
+
+        <a class="layui-btn layui-btn-danger batchDel" href="goods_type_add">添加分类</a>
+
         <div class="layui-form news_list">
             <table class="layui-table">
                 <colgroup>
@@ -75,15 +75,15 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
+                    {volist name="wares" id="value"}
                     <tr>
-                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-                        <td> 智能硬件</td>
-                        <td>智能硬件</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td >
-                           <input type="checkbox" class="Status" name="" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
-							checked>
+                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+                        <td>{$value.name}</td>
+                        <td>{if $value.pid !=0}{$value.names} {else} 顶级 {/if}</td>
+                        <td>{$value.rank}</td>
+                        <td>{$value.sort_number}</td>
+                        <td class="td-status">
+                            {if $value.status == 1} 已显示 {else} 已禁用 {/if}
                         </td>
                         <td>
                             <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit')}"><i class="iconfont icon-edit"></i> 编辑
@@ -91,6 +91,7 @@
                             <a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>
                     </tr>
+                    {/volist}
                 </tbody>
             </table>
             <div id="page">
@@ -104,6 +105,7 @@
                     <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
                 </div>
+                {$page}
             </div>
 
         </div>
