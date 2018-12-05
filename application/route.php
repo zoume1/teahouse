@@ -68,17 +68,6 @@ Route::group("admin",[
     "admin_passwd"=>"admin/admin/passwd",
 
 
-    /**
-     * 商品
-     * 陈绪
-     */
-    "goods_index"=>"admin/Goods/index",  
-    "goods_add"=>"admin/Goods/add",
-    "goods_save"=>"admin/Goods/save",
-    "goods_edit"=>"admin/Goods/edit",
-
-
-
     /*菜单列表*/
     "menu_index"=>"admin/menu/index",
     "menu_add"=>"admin/menu/add",
@@ -170,7 +159,15 @@ Route::group("admin",[
      "active_order_index"=>"admin/ActiveOrder/index",   //活动订单显示
      "active_order_search"=>"admin/ActiveOrder/search", //评论管理组模糊搜索
 
-
+    /*商品列表*/
+    "goods_index"=>"admin/Goods/index",      //商品列表显示
+    "goods_add"=>"admin/Goods/add",          //商品列表组添加
+    "goods_save"=>"admin/Goods/save",        //商品列表组保存入库
+    "goods_edit"=>"admin/Goods/edit",        //商品列表组编辑
+    "goods_updata"=>"admin/Goods/updata",    //商品列表组更新
+    "goods_del"=>"admin/Goods/del",          //商品列表组删除
+    "goods_dels"=>"admin/Goods/dels",        //商品列表组批量删除
+    "goods_search"=>"admin/Goods/search",    //商品列表组模糊搜索
 
     /*商品分类*/
     "goods_type_index"=>"admin/GoodsType/index",      //商品分类列表显示

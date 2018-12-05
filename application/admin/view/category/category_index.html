@@ -4,19 +4,19 @@
 
 {block name="css"}
 
-<style type="text/css">body {
-	background: #fff;
-}
-
-
-#page {
-	width: 96%;
-	height: 50px;
-	line-height: 50px;
-	border: solid 1px #E2E2E2;
-	padding-left: 50px;
-	background: #FDFDFE;
-}
+<style type="text/css">
+    body {
+        background: #fff;
+    }
+    
+    #page {
+        width: 96%;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #E2E2E2;
+        padding-left: 50px;
+        background: #FDFDFE;
+    }
 </style>
 
 {/block}
@@ -28,12 +28,12 @@
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="{:url('admin/Category/search')}">
-            			<div class="seach">
-					
-					<div class="seach_list">
-						<div class="seach_laber">活动分类</div>
-						<div class="seach_input">
-						   {if !empty($goods)}
+                <div class="seach">
+
+                    <div class="seach_list">
+                        <div class="seach_laber">活动分类</div>
+                        <div class="seach_input">
+                            {if !empty($goods)}
                             <select name="ppd" id="admin_role" class="role_list">
 								<option value="0">顶级</option>
 								{volist name="goods" id="vl"}
@@ -42,29 +42,28 @@
 							</select> {else}
                             <select name="ppd" class="role_list">
 								<option value="0">顶级</option>
-							</select>
-							 {/if}
-						</div>
-					</div>
-					<div class="seach_list">
-						<div class="seach_laber">分类状态</div>
-						<div class="seach_input">
-						     <select name="interest" id="admin_status">
+							</select> {/if}
+                        </div>
+                    </div>
+                    <div class="seach_list">
+                        <div class="seach_laber">分类状态</div>
+                        <div class="seach_input">
+                            <select name="interest" id="admin_status">
 								<option value="" selected="">全部</option>
 								<option value="1">已显示</option>
 								<option value="0">已禁用</option>
 							</select>
-						</div>
-					</div>
-					 <button class="layui-btn" type="submit" id="seach">立即搜索</button>
-				</div>
-           
+                        </div>
+                    </div>
+                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+                </div>
+
 
             </form>
         </blockquote>
-  
-                <a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Category/add')}">添加分类</a>
-           
+
+        <a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Category/add')}">添加分类</a>
+
         <div class="layui-form news_list">
             <table class="layui-table">
                 <colgroup>

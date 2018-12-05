@@ -53,33 +53,33 @@
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="{:url('admin/Advertisement/accessories_business_search')}">
-            		<div class="seach">
-					<div class="seach_list">
-						<div class="seach_laber">输入搜索</div>
-						<div class="seach_input">
-							<input type="text" name="titles" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input" >
-						</div>
-					</div>
-					<div class="seach_list">
-						<div class="seach_laber">标签</div>
-						<div class="seach_input">
-						   <select name="labely">
+                <div class="seach">
+                    <div class="seach_list">
+                        <div class="seach_laber">输入搜索</div>
+                        <div class="seach_input">
+                            <input type="text" name="titles" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="seach_list">
+                        <div class="seach_laber">标签</div>
+                        <div class="seach_input">
+                            <select name="labely">
                                 <option  value="1">已发布</option>
 								<option  value="0">未发布</option>
 							</select>
-						</div>
-					</div>
-					<div class="seach_list">
-						<div class="seach_laber">状态</div>
-						<div class="seach_input">
-						     <select name="times">
+                        </div>
+                    </div>
+                    <div class="seach_list">
+                        <div class="seach_laber">状态</div>
+                        <div class="seach_input">
+                            <select name="times">
                                 <option  value="1">未过期</option>  
                                 <option  value="0">过期</option>
 							</select>
-						</div>
-					</div>
-					 <button class="layui-btn " type="submit" id="seach">立即搜索</button>
-				</div>
+                        </div>
+                    </div>
+                    <button class="layui-btn " type="submit" id="seach">立即搜索</button>
+                </div>
 
             </form>
 
@@ -120,9 +120,9 @@
                             <div class="tdimg"><img src="__UPLOADS__/{$value.classify_image}" /></div>
                         </td>
                         <td>
-                        	 <div class="overflow">
-                        	{$value.address}
-                        	</div>
+                            <div class="overflow">
+                                {$value.address}
+                            </div>
                         </td>
                         <td>{if $value.pid !=0}{$value.named} {else} 无 {/if}</td>
                         <td>￥{$value.cost_moneny}</td>
@@ -155,11 +155,11 @@
                     {/volist}
                 </tbody>
             </table>
-            
+
             {$access}
             <div id="page">
-            <div class="opation" style="width: 200px; float: left;">
-                <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
+                <div class="opation" style="width: 200px; float: left;">
+                    <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
 						<option check="" value="0">请选择</option>
 						<option value="1">批量删除</option>
 						<option value="2">活动上架</option>
@@ -167,13 +167,13 @@
 						<option value="4">批量删除</option>
 						
 					</select>
-            </div>
-            <div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
-                <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
+                </div>
+                <div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
+                    <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
+                </div>
             </div>
-        </div>
-        
+
 
 
         </div>

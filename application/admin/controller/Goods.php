@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: CHEN
@@ -17,89 +18,84 @@ use app\admin\model\Good;
 use app\admin\model\GoodsImages;
 use think\Session;
 use think\Loader;
+use think\paginator\driver\Bootstrap;
 
-class Goods extends Controller{
+class Goods extends Controller
+{
 
-    public $goods_status = [0,1];
+
     /**
-     * [商品列表]
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
-     * 陈绪
+     * [商品列表显示]
+     * GY
      */
-    public function index(Request $request){
-        /*$goods = db("goods")->order("id desc")->paginate(10);
-        $goods_year = db("goods")->field("goods_year_id,id")->select();
-        $time = date("Y-m-d");
-        foreach ($goods_year as $key=>$value){
-            $year = db("year")->where("id",$value["goods_year_id"])->value("year");
-            $date = date("Y-m-d",strtotime("+$year year"));
-            if($time == $date){
-                $bool = db("goods")->where("id",$value["id"])->update(["goods_status"=>0,"putaway_status"=>null]);
+    public function index(Request $request)
+    {
+        $goods = db("goods")->order("id desc")->select();
+        foreach ($goods as $key => $value) {
+            if ($value["pid"]) {
+                $res = db("wares")->where("id", $value['pid'])->field("name")->find();
+                $goods[$key]["named"] = $res["name"];
             }
         }
-        $goods_money = db("goods")->field("goods_new_money,id")->select();
-        foreach ($goods_money as $k=>$val){
-            $goods_ratio[] = db("goods_ratio")->where("min_money","<=",$val["goods_new_money"])->where("max_money",">=",$val["goods_new_money"])->field("ratio")->find();
-            $goods_adjusted_money[] = $val["goods_new_money"]+($val["goods_new_money"] * $goods_ratio[$k]["ratio"]);
-            db("goods")->where("id",$val["id"])->update(["goods_adjusted_money"=>$goods_adjusted_money[$k]]);
-        }
 
-        $year = db("year")->select();
-        $user_id = Session::get("user_id");
-        $role_name = db("admin")->where("id",$user_id)->select();*/
-        return view("goods_index"/*,["goods"=>$goods,"year"=>$year,"role_name"=>$role_name]*/);
-
-
-    }
-
-
-
-    /**
-     * 模糊查询
-     * 陈绪
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
-     */
-    public function seach(Request $request){
-        $search_keys = $request->param("search_key");
-        $search_bts = $request->param("search_bt");
-
-        $search_key = isset($search_keys) ? $search_keys : '%';
-        $search_bt = isset($search_bts) ? $search_bts : false;
-
-        if ($search_key) {
-            $good = db("goods")->where("goods_name", "like", "%" . $search_key . "%")->paginate(5, false,['query' => request()->param()]);
-        } else {
-            $good = db("goods")->paginate(5,false,['query' => request()->param()]);
-            $this->assign("good", $good);
-        }
-        return view("goods_index", [
-            'good' => $good,
-            'search_key' => $search_key,
+        $all_idents = $goods;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $goods = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Category/index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
         ]);
+        $goods->appends($_GET);
+        $this->assign('listpage', $goods->render());
+        return view("goods_index", ["goods" => $goods]);
+
 
     }
 
 
+
+    // /**
+    //  * 模糊查询
+    //  * 陈绪
+    //  * @param Request $request
+    //  * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
+    //  */
+    // public function seach(Request $request){
+    //     $search_keys = $request->param("search_key");
+    //     $search_bts = $request->param("search_bt");
+
+    //     $search_key = isset($search_keys) ? $search_keys : '%';
+    //     $search_bt = isset($search_bts) ? $search_bts : false;
+
+    //     if ($search_key) {
+    //         $good = db("goods")->where("goods_name", "like", "%" . $search_key . "%")->paginate(5, false,['query' => request()->param()]);
+    //     } else {
+    //         $good = db("goods")->paginate(5,false,['query' => request()->param()]);
+    //         $this->assign("good", $good);
+    //     }
+    //     return view("goods_index", [
+    //         'good' => $good,
+    //         'search_key' => $search_key,
+    //     ]);
+
+    // }
+
+
     /**
-     * @param int $pin
-     * 商品添加页面
-     * 陈绪
+     * [商品列表添加组]
+     * GY
      */
-    public function add(Request $request,$pid=0){
-       /* $goods_list = [];
-        $goods_brand = [];
-        if($pid == 0){
-            $goods_list = getSelectList("goods_type");
-            $goods_brand = getSelectList("brand");
+    public function add($pid = 0)
+    {
+        $goods_list = [];
+        if ($pid == 0) {
+            $goods_list = getSelectList("wares");
         }
-        $year = db("year")->select();
-        if($request->isPost()){
-            $car_series = db("car_series")->distinct(true)->field("brand")->select();
-            $car_brand = db("car_series")->field("series,brand,year,displacement")->select();
-            return ajax_success("获取成功",array("car_series"=>$car_series,"car_brand"=>$car_brand));
-        }*/
-        return view("goods_add"/*,["year"=>$year,"goods_list"=>$goods_list,"goods_brand"=>$goods_brand]*/);
+
+        return view("goods_add", ["goods_list" => $goods_list]);
     }
 
 
@@ -112,50 +108,30 @@ class Goods extends Controller{
     public function save(Request $request)
     {
         if ($request->isPost()) {
-            $goods_data = $request->param();
-            if($goods_data["goods_standard"] == "通用"){
-                unset($goods_data["dedicated_vehicle"]);
-                unset($goods_data["goods_car_brand"]);
-                unset($goods_data["dedicated_property"]);
-            }
-            if(!empty($goods_data["goods_standard_name"])){
-                $goods_standard_name = implode(",",$goods_data["goods_standard_name"]);
-                $goods_standard_value = implode(",",$goods_data["goods_standard_value"]);
+
+            $goods_data = $request -> param();
+            if (!empty($goods_data["goods_standard_name"]))
+            {
+                $goods_standard_name = implode(",", $goods_data["goods_standard_name"]);
+                $goods_standard_value = implode(",", $goods_data["goods_standard_value"]);
                 $goods_data["goods_standard_name"] = $goods_standard_name;
                 $goods_data["goods_standard_value"] = $goods_standard_value;
             }
-            if(!empty($goods_data["goods_delivery"])){
-                $goods_delivery = implode(",",$goods_data["goods_delivery"]);
-                $goods_data["goods_delivery"] = $goods_delivery;
-            }
+            //添加图片
+            $show_images = $request -> file("goods_show_images");
 
-            //图片添加
-            $show_images = $request->file("goods_show_images");
-
-            if(!empty($show_images)) {
-                $show_image = $show_images->move(ROOT_PATH . 'public' . DS . 'uploads');
+            if (!empty($show_images)) {
+                $show_image = $show_images -> move(ROOT_PATH . 'public' . DS . 'uploads');
                 $goods_data["goods_show_images"] = str_replace("\\", "/", $show_image->getSaveName());
             }
-            $bool = db("goods")->insert($goods_data);
-            if ($bool) {
-                //取出图片在存到数据库
-                $goods_images = [];
-                $goodsid = db("goods")->getLastInsID();
-                $file = request()->file('goods_images');
-                if(!empty($file)) {
-                    foreach ($file as $key => $value) {
-                        $info = $value->move(ROOT_PATH . 'public' . DS . 'uploads');
-                        $goods_url = str_replace("\\", "/", $info->getSaveName());
-                        $goods_images[] = ["goods_images" => $goods_url, "goods_id" => $goodsid];
-                    }
-                }
-                $booldata = model("goods_images")->saveAll($goods_images);
-                if ($booldata) {
-                    $this->success("添加成功",url("admin/Goods/index"));
-                } else {
-                    $this->success("添加失败",url('admin/Goods/add'));
-                }
+            $bool = db("goods") -> insert($goods_data);
+            if ($bool)
+            {
+                $this->success("添加成功", url("admin/Goods/index"));
+            } else {
+                $this->success("添加失败", url('admin/Goods/add'));
             }
+
         }
     }
 
@@ -164,8 +140,9 @@ class Goods extends Controller{
      * [商品修改]
      * 陈绪
      */
-    public function edit(Request $request,$id){
-       /* $goods = db("goods")->where("id",$id)->select();
+    public function edit($id)
+    {
+        $goods = db("goods")->where("id",$id)->select();
         foreach ($goods as $key=>$value){
             $goods[$key]["goods_standard_name"] = explode(",",$value["goods_standard_name"]);
             $goods_standard_value = explode(",",$value["goods_standard_value"]);
@@ -173,8 +150,7 @@ class Goods extends Controller{
             $goods_delivery = explode(",",$value["goods_delivery"]);
             $goods[$key]["goods_delivery"] = $goods_delivery;
             $goods[$key]["goods_standard_value"] = $goods_standard_value;
-            $goods[$key]["goods_images"] = db("goods_images")->where("goods_id",$value["id"])->select();
-
+           
         }
         $goods_standard_name = array();
         foreach ($goods as $k=>$val){
@@ -185,16 +161,8 @@ class Goods extends Controller{
                 );
             }
         }
-        $goods_list = getSelectList("goods_type");
-        $goods_brand = getSelectList("brand");
-        $year = db("year")->select();
-        $car_series = db("car_series")->distinct(true)->field("brand")->select();
-        if($request->isPost()){
-            $car_series = db("car_series")->distinct(true)->field("brand")->select();
-            $car_brand = db("car_series")->field("series,brand")->select();
-            return ajax_success("获取成功",array("car_series"=>$car_series,"car_brand"=>$car_brand));
-        }*/
-        return view("goods_edit"/*,["car_series"=>$car_series,"year"=>$year,"goods_brand"=>$goods_brand,"goods_standard_name"=>$goods_standard_name,"goods"=>$goods,"goods_list"=>$goods_list,"goods_brand"=>$goods_brand]*/);
+        $goods_list = getSelectList("wares");
+        return view("goods_edit",["goods_standard_name"=>$goods_standard_name,"goods"=>$goods,"goods_list"=>$goods_list] );
     }
 
 
@@ -202,25 +170,26 @@ class Goods extends Controller{
      * [图片删除]
      * 陈绪
      */
-    public function images(Request $request){
-        if($request->isPost()){
+    public function images(Request $request)
+    {
+        if ($request->isPost()) {
             $id = $request->param();
-            if(!empty($id["id"])){
-                $image = db("goods")->where("id",$id["id"])->field("goods_show_images")->find();
-                $bool = db("goods")->where("id",$id["id"])->update(["goods_show_images"=>null]);
-                if ($bool){
-                    if(!empty($image)){
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$image['goods_show_images']);
+            if (!empty($id["id"])) {
+                $image = db("goods")->where("id", $id["id"])->field("goods_show_images")->find();
+                $bool = db("goods")->where("id", $id["id"])->update(["goods_show_images" => null]);
+                if ($bool) {
+                    if (!empty($image)) {
+                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image['goods_show_images']);
                     }
                     return ajax_success("成功");
                 }
-            }else{
+            } else {
                 $images_id = $request->only(["images_id"])["images_id"];
-                $goods_images = db("goods_images")->where("id",$images_id)->field("goods_images")->find();
-                $bool = db("goods_images")->where("id",$images_id)->delete();
-                if($bool){
-                    if(!empty($goods_images)){
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$goods_images['goods_images']);
+                $goods_images = db("goods_images")->where("id", $images_id)->field("goods_images")->find();
+                $bool = db("goods_images")->where("id", $images_id)->delete();
+                if ($bool) {
+                    if (!empty($goods_images)) {
+                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $goods_images['goods_images']);
                     }
                     return ajax_success("成功");
                 }
@@ -240,7 +209,7 @@ class Goods extends Controller{
         $id = $request->only(["id"])["id"];
         $image_url = db("goods_images")->where("goods_id", $id)->field("goods_images,id")->select();
         $bool = db("goods")->where("id", $id)->delete();
-        if($bool){
+        if ($bool) {
             foreach ($image_url as $value) {
                 if ($value['goods_images'] != null) {
                     unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value['goods_images']);
@@ -248,9 +217,9 @@ class Goods extends Controller{
                 $bool_data = db("goods_images")->where("id", $value['id'])->delete();
             }
             if ($bool_data) {
-                $this->success("添加成功",url("admin/Goods/index"));
+                $this->success("添加成功", url("admin/Goods/index"));
             } else {
-                $this->success("添加失败",url('admin/Goods/add'));
+                $this->success("添加失败", url('admin/Goods/add'));
             }
 
         }
@@ -269,34 +238,34 @@ class Goods extends Controller{
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
 
-            if($goods_data["goods_standard"] == "通用"){
+            if ($goods_data["goods_standard"] == "通用") {
                 unset($goods_data["dedicated_vehicle"]);
                 unset($goods_data["goods_car_brand"]);
                 unset($goods_data["dedicated_property"]);
             }
-            if(!empty($goods_data["goods_standard_name"])){
-                $goods_standard_name = implode(",",$goods_data["goods_standard_name"]);
-                $goods_standard_value = implode(",",$goods_data["goods_standard_value"]);
+            if (!empty($goods_data["goods_standard_name"])) {
+                $goods_standard_name = implode(",", $goods_data["goods_standard_name"]);
+                $goods_standard_value = implode(",", $goods_data["goods_standard_value"]);
                 $goods_data["goods_standard_name"] = $goods_standard_name;
                 $goods_data["goods_standard_value"] = $goods_standard_value;
             }
-            if(!empty($goods_data["goods_delivery"])){
-                $goods_delivery = implode(",",$goods_data["goods_delivery"]);
+            if (!empty($goods_data["goods_delivery"])) {
+                $goods_delivery = implode(",", $goods_data["goods_delivery"]);
                 $goods_data["goods_delivery"] = $goods_delivery;
             }
             //图片添加
             $show_images = $request->file("goods_show_images");
 
-            if(!empty($show_images)) {
+            if (!empty($show_images)) {
                 $show_image = $show_images->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $goods_data["goods_show_images"] = str_replace("\\", "/", $show_image->getSaveName());
             }
-            $bool = db("goods")->where("id",$id)->update($goods_data);
+            $bool = db("goods")->where("id", $id)->update($goods_data);
             if ($bool) {
                 //取出图片在存到数据库
                 $goods_images = [];
                 $file = request()->file('goods_images');
-                if(!empty($file)) {
+                if (!empty($file)) {
                     foreach ($file as $key => $value) {
                         $info = $value->move(ROOT_PATH . 'public' . DS . 'uploads');
                         $goods_url = str_replace("\\", "/", $info->getSaveName());
@@ -304,12 +273,12 @@ class Goods extends Controller{
                     }
                     $booldata = model("goods_images")->saveAll($goods_images);
                     if ($booldata) {
-                        $this->success("更新成功",url("admin/Goods/index"));
+                        $this->success("更新成功", url("admin/Goods/index"));
                     } else {
-                        $this->success("更新失败",url('admin/Goods/add'));
+                        $this->success("更新失败", url('admin/Goods/add'));
                     }
-                }else{
-                    $this->success("更新成功",url("admin/Goods/index"));
+                } else {
+                    $this->success("更新成功", url("admin/Goods/index"));
                 }
 
             }
@@ -322,17 +291,18 @@ class Goods extends Controller{
      * [商品状态]
      * 陈绪
      */
-    public function status(Request $request){
+    public function status(Request $request)
+    {
 
-        if($request->isPost()) {
+        if ($request->isPost()) {
             $status = $request->only(["status"])["status"];
-            if($status == 0) {
+            if ($status == 0) {
                 $id = $request->only(["id"])["id"];
                 $admin_id = Session::get("user_id");
-                $goods = db("goods")->where("id",$id)->field("putaway_status")->find();
-                if($admin_id == 2){
+                $goods = db("goods")->where("id", $id)->field("putaway_status")->find();
+                if ($admin_id == 2) {
                     $bool = db("goods")->where("id", $id)->update(["goods_status" => 0]);
-                }else{
+                } else {
                     $bool = db("goods")->where("id", $id)->update(["goods_status" => 0]);
                 }
                 if ($bool) {
@@ -341,12 +311,12 @@ class Goods extends Controller{
                     return ajax_error("失败");
                 }
             }
-            if($status == 1){
+            if ($status == 1) {
                 $id = $request->only(["id"])["id"];
                 $admin_id = Session::get("user_id");
-                $goods = db("goods")->where("id",$id)->field("putaway_status")->find();
-                if($admin_id == 2 || $goods["putaway_status"] != null){
-                    $bool = db("goods")->where("id", $id)->update(["goods_status" => 1,"putaway_status"=>1]);
+                $goods = db("goods")->where("id", $id)->field("putaway_status")->find();
+                if ($admin_id == 2 || $goods["putaway_status"] != null) {
+                    $bool = db("goods")->where("id", $id)->update(["goods_status" => 1, "putaway_status" => 1]);
                 }
                 if ($bool) {
                     return ajax_success("成功");
@@ -365,8 +335,9 @@ class Goods extends Controller{
      * [商品批量删除]
      * 陈绪
      */
-    public function batches(Request $request){
-        if($request->isPost()) {
+    public function batches(Request $request)
+    {
+        if ($request->isPost()) {
             $id = $request->only(["ids"])["ids"];
             foreach ($id as $value) {
                 $goods_images = db("goods_images")->where("goods_id", $value)->select();
@@ -397,7 +368,8 @@ class Goods extends Controller{
      * 商品付费详情
      * 陈绪
      */
-    public function pay($id){
+    public function pay($id)
+    {
 
 
         return view("goods_pay");
@@ -411,7 +383,8 @@ class Goods extends Controller{
      * 商品确认付费
      * 陈绪
      */
-    public function affirm(){
+    public function affirm()
+    {
 
         return view("affirm_pay");
 
@@ -424,35 +397,36 @@ class Goods extends Controller{
      * 商品查看
      * 陈绪
      */
-    public function look(Request $request,$id){
+    public function look(Request $request, $id)
+    {
 
-        $goods = db("goods")->where("id",$id)->select();
-        foreach ($goods as $key=>$value){
-            $goods[$key]["goods_standard_name"] = explode(",",$value["goods_standard_name"]);
-            $goods_standard_value = explode(",",$value["goods_standard_value"]);
-            $goods_standard_value = array_chunk($goods_standard_value,8);
+        $goods = db("goods")->where("id", $id)->select();
+        foreach ($goods as $key => $value) {
+            $goods[$key]["goods_standard_name"] = explode(",", $value["goods_standard_name"]);
+            $goods_standard_value = explode(",", $value["goods_standard_value"]);
+            $goods_standard_value = array_chunk($goods_standard_value, 8);
             $goods[$key]["goods_standard_value"] = $goods_standard_value;
-            $goods[$key]["goods_images"] = db("goods_images")->where("goods_id",$value["id"])->select();
+            $goods[$key]["goods_images"] = db("goods_images")->where("goods_id", $value["id"])->select();
 
         }
         $goods_standard_name = array();
-        foreach ($goods as $k=>$val){
-            foreach ($val["goods_standard_name"] as $k_1=>$v_2){
+        foreach ($goods as $k => $val) {
+            foreach ($val["goods_standard_name"] as $k_1 => $v_2) {
                 $goods_standard_name[$k_1] = array(
-                    "goods_standard_name" =>$val["goods_standard_name"][$k_1],
-                    "goods_standard_value"=>$val["goods_standard_value"][$k_1]
+                    "goods_standard_name" => $val["goods_standard_name"][$k_1],
+                    "goods_standard_value" => $val["goods_standard_value"][$k_1]
                 );
             }
         }
         $goods_list = getSelectList("goods_type");
         $goods_brand = getSelectList("brand");
         $year = db("year")->select();
-        if($request->isPost()){
+        if ($request->isPost()) {
             $car_series = db("car_series")->distinct(true)->field("brand")->select();
             $car_brand = db("car_series")->field("series,brand")->select();
-            return ajax_success("获取成功",array("car_series"=>$car_series,"car_brand"=>$car_brand));
+            return ajax_success("获取成功", array("car_series" => $car_series, "car_brand" => $car_brand));
         }
-        return view("goods_look",["year"=>$year,"goods_brand"=>$goods_brand,"goods_standard_name"=>$goods_standard_name,"goods"=>$goods,"goods_list"=>$goods_list,"goods_brand"=>$goods_brand]);
+        return view("goods_look", ["year" => $year, "goods_brand" => $goods_brand, "goods_standard_name" => $goods_standard_name, "goods" => $goods, "goods_list" => $goods_list, "goods_brand" => $goods_brand]);
     }
 
 
@@ -461,21 +435,22 @@ class Goods extends Controller{
      * 通用商品规格名添加
      * 陈绪
      */
-    public function name(Request $request){
+    public function name(Request $request)
+    {
 
-        if($request->isPost()){
+        if ($request->isPost()) {
             $standard_name = $request->only(["goods_name"])["goods_name"];
-            $standard =  db("goods_standard_name")->where("standard_name",$standard_name)->select();
-            if(empty($standard)){
-                $goods_name_bool = db("goods_standard_name")->insert(["standard_name"=>$standard_name]);
-                if($goods_name_bool){
-                    $goods_name = db("goods_standard_name")->order("id desc")->select();
-                    return ajax_success("成功",$goods_name);
-                }else{
-                   return 2;
+            $standard = db("goods_standard")->where("standard_name", $standard_name)->select();
+            if (empty($standard)) {
+                $goods_name_bool = db("goods_standard")->insert(["standard_name" => $standard_name]);
+                if ($goods_name_bool) {
+                    $goods_name = db("goods_standard")->order("id desc")->select();
+                    return ajax_success("成功", $goods_name);
+                } else {
+                    return 2;
                 }
 
-            }else{
+            } else {
                 return ajax_error("已存在");
             }
         }
@@ -490,13 +465,14 @@ class Goods extends Controller{
      * 通用商品规格名显示
      * 陈绪
      */
-    public function standard_name(Request $request){
+    public function standard_name(Request $request)
+    {
 
-        if($request->isPost()){
-            $goods_name = db("goods_standard_name")->order("id desc")->select();
-            if($goods_name){
-                return ajax_success("获取成功",$goods_name);
-            }else{
+        if ($request->isPost()) {
+            $goods_name = db("goods_standard")->order("id desc")->select();
+            if ($goods_name) {
+                return ajax_success("获取成功", $goods_name);
+            } else {
                 return ajax_error("失败");
             }
 
@@ -511,20 +487,21 @@ class Goods extends Controller{
      * 专用商品属性入库
      * 陈绪
      */
-    public function property_name(Request $request){
+    public function property_name(Request $request)
+    {
 
-        if($request->isPost()){
+        if ($request->isPost()) {
             $property_name = $request->only(["property_name"])["property_name"];
-            $property = db("goods_property_name")->where("property_name",$property_name)->select();
-            if(empty($property)){
-                $bool = db("goods_property_name")->insert(["property_name"=>$property_name]);
-                if($bool){
+            $property = db("goods_property_name")->where("property_name", $property_name)->select();
+            if (empty($property)) {
+                $bool = db("goods_property_name")->insert(["property_name" => $property_name]);
+                if ($bool) {
                     $goods_property_name = db("goods_property_name")->order("id desc")->select();
-                    return ajax_success("成功",$goods_property_name);
-                }else{
+                    return ajax_success("成功", $goods_property_name);
+                } else {
                     return 2;
                 }
-            }else{
+            } else {
                 return ajax_error("已存在");
             }
         }
@@ -539,13 +516,14 @@ class Goods extends Controller{
      * 专用商品属性显示
      * 陈绪
      */
-    public function property_show(Request $request){
+    public function property_show(Request $request)
+    {
 
-        if($request->isPost()){
+        if ($request->isPost()) {
             $property_name = db("goods_property_name")->order("id desc")->select();
-            if($property_name){
-                return ajax_success("获取成功",$property_name);
-            }else{
+            if ($property_name) {
+                return ajax_success("获取成功", $property_name);
+            } else {
                 return ajax_error("失败");
             }
 
@@ -560,12 +538,13 @@ class Goods extends Controller{
      * 角色检测
      * 陈绪
      */
-    public function role_name(Request $request){
+    public function role_name(Request $request)
+    {
 
-        if($request->isPost()) {
+        if ($request->isPost()) {
             $user_id = Session::get("user_id");
             $admin = db("admin")->where("id", $user_id)->select();
-            return ajax_success("获取成功",array("admin"=>$admin));
+            return ajax_success("获取成功", array("admin" => $admin));
         }
 
     }
@@ -577,9 +556,10 @@ class Goods extends Controller{
      * 商品提交订单
      * 陈绪
      */
-    public function alipay(Request $request){
+    public function alipay(Request $request)
+    {
 
-        $config = array (
+        $config = array(
             //应用ID,您的APPID。
             'app_id' => "2018082761132725",
 
@@ -596,7 +576,7 @@ class Goods extends Controller{
             'charset' => "UTF-8",
 
             //签名方式
-            'sign_type'=>"RSA2",
+            'sign_type' => "RSA2",
 
             //支付宝网关
             'gatewayUrl' => "https://openapi.alipay.com/gateway.do",
@@ -609,7 +589,7 @@ class Goods extends Controller{
         //Loader::import("Alipay.wappay.buildermodel.AlipayTradeWapPayContentBuilder");
         //Loader::import('Alipay.wappay.service.AlipayTradeService');
         //商户订单号，商户网站订单系统中唯一订单号，必填
-        $out_trade_no = date("YmdHis").uniqid();
+        $out_trade_no = date("YmdHis") . uniqid();
 
         //订单名称，必填
         $subject = $_POST['WIDsubject'];
@@ -619,7 +599,7 @@ class Goods extends Controller{
         //商品描述，可空
         $body = $_POST['WIDbody'];
         //超时时间
-        $timeout_express="1m";
+        $timeout_express = "1m";
         include('../extend/AliPay/wappay/buildermodel/AlipayTradeWapPayContentBuilder.php');
 
         $payRequestBuilder = new \AlipayTradeWapPayContentBuilder();
@@ -631,9 +611,9 @@ class Goods extends Controller{
         include('../extend/AliPay/wappay/service/AlipayTradeService.php');
 
         $payResponse = new \AlipayTradeService($config);
-        $result=$payResponse->wapPay($payRequestBuilder,$config['return_url'],$config['notify_url']);
-        Session("goods_id",$body);
-        return ;
+        $result = $payResponse->wapPay($payRequestBuilder, $config['return_url'], $config['notify_url']);
+        Session("goods_id", $body);
+        return;
 
 
     }
@@ -644,18 +624,19 @@ class Goods extends Controller{
      * 陈绪
      * @param Request $request
      */
-    public function pay_code(Request $request){
+    public function pay_code(Request $request)
+    {
 
-        if($request->isGet()){
+        if ($request->isGet()) {
             $id = Session::get("goods_id");
-            $goods_id = explode(",",$id);
-            foreach ($goods_id as $value){
-                $bool = db("goods")->where("id",$value)->update(["goods_status"=>1,"putaway_status"=>1]);
+            $goods_id = explode(",", $id);
+            foreach ($goods_id as $value) {
+                $bool = db("goods")->where("id", $value)->update(["goods_status" => 1, "putaway_status" => 1]);
             }
-            if($bool){
-                $this->success("上架成功",url("admin/Goods/index"));
-            }else{
-                $this->error("上架失败",url("admin/Goods/index"));
+            if ($bool) {
+                $this->success("上架成功", url("admin/Goods/index"));
+            } else {
+                $this->error("上架失败", url("admin/Goods/index"));
             }
         }
     }
@@ -667,21 +648,22 @@ class Goods extends Controller{
      * 专用适用车型编辑显示
      * 陈绪
      */
-    public function edit_show(Request $request){
+    public function edit_show(Request $request)
+    {
 
-        if($request->isPost()){
+        if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
-            $goods = db("goods")->where("id",$id)->field("dedicated_vehicle,goods_car_year,goods_car_displacement,goods_car_series")->select();
-            foreach ($goods as $key=>$value){
+            $goods = db("goods")->where("id", $id)->field("dedicated_vehicle,goods_car_year,goods_car_displacement,goods_car_series")->select();
+            foreach ($goods as $key => $value) {
 
-                $goods[$key]["goods_car_year"] = explode(",",$value["goods_car_year"]);
-                $goods[$key]["goods_car_displacement"] = explode(",",$value["goods_car_displacement"]);
-                $goods[$key]["goods_car_series"] = explode(",",$value["goods_car_series"]);
+                $goods[$key]["goods_car_year"] = explode(",", $value["goods_car_year"]);
+                $goods[$key]["goods_car_displacement"] = explode(",", $value["goods_car_displacement"]);
+                $goods[$key]["goods_car_series"] = explode(",", $value["goods_car_series"]);
 
             }
-            if($goods){
-                return ajax_success("获取成功",$goods);
-            }else{
+            if ($goods) {
+                return ajax_success("获取成功", $goods);
+            } else {
                 return ajax_error("获取失败");
             }
         }
