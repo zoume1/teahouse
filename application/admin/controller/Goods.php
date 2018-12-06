@@ -370,13 +370,11 @@ class Goods extends Controller
 
 
 
-
-
     /**
      * 商品特殊规格名显示
      * 陈绪
      */
-    public function standard_names(Request $request)
+    public function standard_name(Request $request)
     {
 
         if ($request->isPost()) {

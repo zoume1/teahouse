@@ -171,7 +171,7 @@ Route::group("admin",[
     "goods_search"=>"admin/Goods/search",    //商品列表组模糊搜索
     "goods_images"=>"admin/Goods/images",    //商品列表组图片删除
     "goods_name" =>"admin/Goods/name",       //商品列表特殊规格名添加
-    "standard_names"=>"admin/Goods/standard_names", //商品列表特殊规格名显示
+    "goods_standard"=>"admin/Goods/standard_name", //商品列表特殊规格名显示
 
     /*商品分类*/
     "goods_type_index"=>"admin/GoodsType/index",      //商品分类列表显示
