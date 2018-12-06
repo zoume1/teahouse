@@ -101,7 +101,7 @@ class Goods extends Controller
 
 
     /**
-     * [商品添加]
+     * [商品列表组添加]
      * 陈绪
      * @param Request $request
      */
@@ -109,24 +109,22 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
 
-            $goods_data = $request -> param();
-            if (!empty($goods_data["goods_standard_name"]))
-            {
+            $goods_data = $request->param();
+            if (!empty($goods_data["goods_standard_name"])) {
                 $goods_standard_name = implode(",", $goods_data["goods_standard_name"]);
                 $goods_standard_value = implode(",", $goods_data["goods_standard_value"]);
                 $goods_data["goods_standard_name"] = $goods_standard_name;
                 $goods_data["goods_standard_value"] = $goods_standard_value;
             }
             //添加图片
-            $show_images = $request -> file("goods_show_images");
+            $show_images = $request->file("goods_show_images");
 
             if (!empty($show_images)) {
-                $show_image = $show_images -> move(ROOT_PATH . 'public' . DS . 'uploads');
+                $show_image = $show_images->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $goods_data["goods_show_images"] = str_replace("\\", "/", $show_image->getSaveName());
             }
-            $bool = db("goods") -> insert($goods_data);
-            if ($bool)
-            {
+            $bool = db("goods")->insert($goods_data);
+            if ($bool) {
                 $this->success("添加成功", url("admin/Goods/index"));
             } else {
                 $this->success("添加失败", url('admin/Goods/add'));
@@ -137,63 +135,52 @@ class Goods extends Controller
 
 
     /**
-     * [商品修改]
+     * [商品列表组修改]
      * 陈绪
      */
     public function edit($id)
     {
-        $goods = db("goods")->where("id",$id)->select();
-        foreach ($goods as $key=>$value){
-            $goods[$key]["goods_standard_name"] = explode(",",$value["goods_standard_name"]);
-            $goods_standard_value = explode(",",$value["goods_standard_value"]);
-            $goods_standard_value = array_chunk($goods_standard_value,8);
-            $goods_delivery = explode(",",$value["goods_delivery"]);
+        $goods = db("goods")->where("id", $id)->select();
+        foreach ($goods as $key => $value) {
+            $goods[$key]["goods_standard_name"] = explode(",", $value["goods_standard_name"]);
+            $goods_standard_value = explode(",", $value["goods_standard_value"]);
+            $goods_standard_value = array_chunk($goods_standard_value, 8);
+            $goods_delivery = explode(",", $value["goods_delivery"]);
             $goods[$key]["goods_delivery"] = $goods_delivery;
             $goods[$key]["goods_standard_value"] = $goods_standard_value;
-           
+
         }
         $goods_standard_name = array();
-        foreach ($goods as $k=>$val){
-            foreach ($val["goods_standard_name"] as $k_1=>$v_2){
+        foreach ($goods as $k => $val) {
+            foreach ($val["goods_standard_name"] as $k_1 => $v_2) {
                 $goods_standard_name[$k_1] = array(
-                    "goods_standard_name" =>$val["goods_standard_name"][$k_1],
-                    "goods_standard_value"=>$val["goods_standard_value"][$k_1]
+                    "goods_standard_name" => $val["goods_standard_name"][$k_1],
+                    "goods_standard_value" => $val["goods_standard_value"][$k_1]
                 );
             }
         }
         $goods_list = getSelectList("wares");
-        return view("goods_edit",["goods_standard_name"=>$goods_standard_name,"goods"=>$goods,"goods_list"=>$goods_list] );
+        return view("goods_edit", ["goods_standard_name" => $goods_standard_name, "goods" => $goods, "goods_list" => $goods_list]);
     }
 
 
     /**
-     * [图片删除]
+     * [商品列表组图片删除]
      * 陈绪
      */
     public function images(Request $request)
     {
         if ($request->isPost()) {
-            $id = $request->param();
-            if (!empty($id["id"])) {
-                $image = db("goods")->where("id", $id["id"])->field("goods_show_images")->find();
-                $bool = db("goods")->where("id", $id["id"])->update(["goods_show_images" => null]);
-                if ($bool) {
-                    if (!empty($image)) {
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image['goods_show_images']);
-                    }
-                    return ajax_success("成功");
-                }
+            $id = $request->only(['id'])['id'];
+            $image_url = db("goods")->where("id", $id)->field("goods_show_images")->find();
+            if ($image_url['goods_show_images'] != null) {
+                unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['goods_show_images']);
+            }
+            $bool = db("goods")->where("id", $id)->field("goods_show_images")->update(["goods_show_images" => null]);
+            if ($bool) {
+                return ajax_success("删除成功");
             } else {
-                $images_id = $request->only(["images_id"])["images_id"];
-                $goods_images = db("goods_images")->where("id", $images_id)->field("goods_images")->find();
-                $bool = db("goods_images")->where("id", $images_id)->delete();
-                if ($bool) {
-                    if (!empty($goods_images)) {
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $goods_images['goods_images']);
-                    }
-                    return ajax_success("成功");
-                }
-
+                return ajax_error("删除失败");
             }
         }
     }
@@ -201,34 +188,25 @@ class Goods extends Controller
 
 
     /**
-     * [商品删除]
+     * [商品列表组删除]
      * 陈绪
      */
-    public function del(Request $request)
+    public function del($id)
     {
-        $id = $request->only(["id"])["id"];
-        $image_url = db("goods_images")->where("goods_id", $id)->field("goods_images,id")->select();
+
         $bool = db("goods")->where("id", $id)->delete();
         if ($bool) {
-            foreach ($image_url as $value) {
-                if ($value['goods_images'] != null) {
-                    unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value['goods_images']);
-                }
-                $bool_data = db("goods_images")->where("id", $value['id'])->delete();
-            }
-            if ($bool_data) {
-                $this->success("添加成功", url("admin/Goods/index"));
-            } else {
-                $this->success("添加失败", url('admin/Goods/add'));
-            }
-
+            $this->success("删除成功", url("admin/Goods/index"));
+        } else {
+            $this->error("删除失败", url("admin/Goods/index"));
         }
+
     }
 
 
 
     /**
-     * [产品更新]
+     * [商品列表组更新]
      * 陈绪
      * @param Request $request
      */
@@ -238,21 +216,13 @@ class Goods extends Controller
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
 
-            if ($goods_data["goods_standard"] == "通用") {
-                unset($goods_data["dedicated_vehicle"]);
-                unset($goods_data["goods_car_brand"]);
-                unset($goods_data["dedicated_property"]);
-            }
             if (!empty($goods_data["goods_standard_name"])) {
                 $goods_standard_name = implode(",", $goods_data["goods_standard_name"]);
                 $goods_standard_value = implode(",", $goods_data["goods_standard_value"]);
                 $goods_data["goods_standard_name"] = $goods_standard_name;
                 $goods_data["goods_standard_value"] = $goods_standard_value;
             }
-            if (!empty($goods_data["goods_delivery"])) {
-                $goods_delivery = implode(",", $goods_data["goods_delivery"]);
-                $goods_data["goods_delivery"] = $goods_delivery;
-            }
+
             //图片添加
             $show_images = $request->file("goods_show_images");
 
@@ -261,134 +231,75 @@ class Goods extends Controller
                 $goods_data["goods_show_images"] = str_replace("\\", "/", $show_image->getSaveName());
             }
             $bool = db("goods")->where("id", $id)->update($goods_data);
-            if ($bool) {
-                //取出图片在存到数据库
-                $goods_images = [];
-                $file = request()->file('goods_images');
-                if (!empty($file)) {
-                    foreach ($file as $key => $value) {
-                        $info = $value->move(ROOT_PATH . 'public' . DS . 'uploads');
-                        $goods_url = str_replace("\\", "/", $info->getSaveName());
-                        $goods_images[] = ["goods_images" => $goods_url, "goods_id" => $id];
-                    }
-                    $booldata = model("goods_images")->saveAll($goods_images);
-                    if ($booldata) {
-                        $this->success("更新成功", url("admin/Goods/index"));
-                    } else {
-                        $this->success("更新失败", url('admin/Goods/add'));
-                    }
-                } else {
-                    $this->success("更新成功", url("admin/Goods/index"));
-                }
 
+            if ($bool) {
+                $this->success("更新成功", url("admin/Goods/index"));
+            } else {
+                $this->success("更新失败", url('admin/Goods/edit'));
             }
+
+
         }
 
     }
 
 
     /**
-     * [商品状态]
+     * [商品列表组首页推荐]
      * 陈绪
      */
     public function status(Request $request)
     {
-
         if ($request->isPost()) {
             $status = $request->only(["status"])["status"];
             if ($status == 0) {
                 $id = $request->only(["id"])["id"];
-                $admin_id = Session::get("user_id");
-                $goods = db("goods")->where("id", $id)->field("putaway_status")->find();
-                if ($admin_id == 2) {
-                    $bool = db("goods")->where("id", $id)->update(["goods_status" => 0]);
-                } else {
-                    $bool = db("goods")->where("id", $id)->update(["goods_status" => 0]);
-                }
+                $bool = db("goods")->where("id", $id)->update(["status" => 0]);
                 if ($bool) {
-                    return ajax_success("成功");
+                    $this->redirect(url("admin/Goods/index"));
                 } else {
-                    return ajax_error("失败");
+                    $this->error("修改失败", url("admin/Goods/index"));
                 }
             }
             if ($status == 1) {
                 $id = $request->only(["id"])["id"];
-                $admin_id = Session::get("user_id");
-                $goods = db("goods")->where("id", $id)->field("putaway_status")->find();
-                if ($admin_id == 2 || $goods["putaway_status"] != null) {
-                    $bool = db("goods")->where("id", $id)->update(["goods_status" => 1, "putaway_status" => 1]);
-                }
+                $bool = db("goods")->where("id", $id)->update(["status" => 1]);
                 if ($bool) {
-                    return ajax_success("成功");
+                    $this->redirect(url("admin/Goods/index"));
                 } else {
-                    return ajax_error("失败");
+                    $this->error("修改失败", url("admin/Goods/index"));
                 }
             }
         }
-
+   
     }
 
 
 
 
     /**
-     * [商品批量删除]
+     * [商品列表组批量删除]
      * 陈绪
      */
-    public function batches(Request $request)
+    public function dels(Request $request)
     {
         if ($request->isPost()) {
-            $id = $request->only(["ids"])["ids"];
-            foreach ($id as $value) {
-                $goods_images = db("goods_images")->where("goods_id", $value)->select();
-                foreach ($goods_images as $val) {
-                    if ($val['goods_images'] != null) {
-                        unlink(ROOT_PATH . 'public' . DS . 'upload/' . $val['goods_images']);
-                    }
-                    if ($val['goods_quality_img'] != null) {
-                        unlink(ROOT_PATH . 'public' . DS . 'upload/' . $val['goods_quality_img']);
-                    }
-                    GoodsImages::destroy($val['id']);
-                }
-                $bool = Good::destroy($value);
-            }
-            if ($bool) {
-                return ajax_success("删除成功");
+            $id = $_POST['id'];
+            if (is_array($id)) {
+                $where = 'id in(' . implode(',', $id) . ')';
             } else {
-                return ajax_error("删除失败");
+                $where = 'id=' . $id;
             }
-
+            $list = Db::name('goods')->where($where)->delete();
+            if ($list !== false) {
+                return ajax_success('成功删除!', ['status' => 1]);
+            } else {
+                return ajax_error('删除失败', ['status' => 0]);
+            }
         }
+        
     }
 
-
-
-
-    /**
-     * 商品付费详情
-     * 陈绪
-     */
-    public function pay($id)
-    {
-
-
-        return view("goods_pay");
-
-    }
-
-
-
-
-    /**
-     * 商品确认付费
-     * 陈绪
-     */
-    public function affirm()
-    {
-
-        return view("affirm_pay");
-
-    }
 
 
 
@@ -432,7 +343,7 @@ class Goods extends Controller
 
 
     /**
-     * 通用商品规格名添加
+     * 特殊规格名添加
      * 陈绪
      */
     public function name(Request $request)
@@ -462,14 +373,15 @@ class Goods extends Controller
 
 
     /**
-     * 通用商品规格名显示
+     * 商品特殊规格名显示
      * 陈绪
      */
-    public function standard_name(Request $request)
+    public function standard_names(Request $request)
     {
 
         if ($request->isPost()) {
             $goods_name = db("goods_standard")->order("id desc")->select();
+            halt($goods_name);
             if ($goods_name) {
                 return ajax_success("获取成功", $goods_name);
             } else {

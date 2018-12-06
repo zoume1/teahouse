@@ -106,7 +106,7 @@
 							</a>
                             <a class="layui-btn layui-btn-mini edit" href=""><i class="iconfont icon-edit"></i> 分销设置
 							</a>
-                            <a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                            <a href="{:url('admin/Goods/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>
                     </tr>
                     {/volist}
@@ -233,7 +233,7 @@
                 var status = $(this).val();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('')}",
+                    url: "{:url('admin/Goods/status')}",
                     data: {
                         "id": id,
                         "status": status
