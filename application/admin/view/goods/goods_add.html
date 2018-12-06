@@ -240,7 +240,7 @@
         <div class="form-item">
             <label class="form-label">商品规格</label>
             <div class="form-input">
-                <input type="radio" name="goods_standard" value="统一规格" title="统一规格" checked="" lay-filter="guige">
+                <input type="radio" name="goods_standard" value="统一规格" title="统一规格" lay-filter="guige" checked="">
                 <input type="radio" name="goods_standard" value="特殊规格" title="特殊规格" lay-filter="guige">
             </div>
         </div>
@@ -485,7 +485,8 @@
             // TODO商品规格变化
             form.on('radio(guige)', function(data) {
                 var checkval = data.value;
-                if (checkval == 1) {
+                console.log(checkval);
+                if (checkval == "统一规格") {
                     $(".general").addClass("noshow");
                     $(".nomal").removeClass("noshow");
                     $("#general_content").children("div").remove();
@@ -528,6 +529,32 @@
                 $(this).addClass("noshow");
                 $(this).siblings(".add-names").removeClass("noshow");
             });
+         $("#general_content").on('click', ".guibtu-add", function() {
+				var text = $(this).parent().siblings(".add-names").children("input").val();
+				$.ajax({
+					type: "POST",
+					url: "goods_name",
+					data: {
+						"goods_name": text
+					},
+					success: function(data) {
+						data=eval("(" + data + ")"); 
+						console.log(data)
+						layer.msg(data.info);
+						if(data.info=="成功"){
+									var dhtmls = "";
+									dhtmls = '<option value="' + text + '">' + text + '</option> ';
+									$(".universal_standard_name").prepend(dhtmls);
+						}
+					
+						form.render('select');
+					},
+					error: function(data) {
+						console.log(data)
+					}
+				});
+
+			});
             $(".tan").click(function() {
                 src = $(this).data("id");
                 $(".tanchuang").removeClass("noshow");
@@ -536,6 +563,25 @@
             $(".tanchuang").click(function() {
                 $(".tanchuang").addClass("noshow");
             });
+            	$.ajax({
+				type: "POST",
+				url: "goods_standard",
+				data: {},
+				success: function(data) {
+					var data = eval('(' + data + ')');
+					console.log(data);
+//					for(var i = 0; i < data.data.length; i++) {
+//						var dhtmls = '<option value="' + data.data[i].property_name + '">' + data.data[i].property_name + '</option> ';
+//						$(".dedicated_property").append(dhtmls);
+//
+//					}
+					form.render('select');
+
+				},
+				error: function(data) {
+					console.log(data)
+				}
+			});
 
         });
     </script>
