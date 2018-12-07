@@ -250,6 +250,7 @@ a{
 	margin-right: 10px;
 	height: 910px;
 	background: #fff;
+	min-width: 188px;
 	width: 13%;
 	float: left;
 	margin-top: 60px;

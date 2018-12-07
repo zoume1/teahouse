@@ -159,6 +159,7 @@ class Goods extends Controller
                 );
             }
         }
+        halt($goods);
         $goods_list = getSelectList("wares");
         return view("goods_edit", ["goods_standard_name" => $goods_standard_name, "goods" => $goods, "goods_list" => $goods_list]);
     }
@@ -379,6 +380,7 @@ class Goods extends Controller
 
         if ($request->isPost()) {
             $goods_name = db("goods_standard")->order("id desc")->select();
+           
             if ($goods_name) {
                 return ajax_success("获取成功", $goods_name);
             } else {
