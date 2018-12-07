@@ -17,31 +17,7 @@
 		padding-left: 50px;
 		background: #FDFDFE;
 	}
-		.on{
-		color: #21A5FA !important;
-	   border-bottom:solid 3px #21A5FA ;
-	}
-	.distribution_list{
-			margin-bottom: 10px;
-		border-bottom: solid 1px #D7D7D7;
-	}
-	.distribution_list ul{
-		
-		display: flex;
-		width: 400px;
-		justify-content: center;
-		align-items: center;
-		
-	}
-	.distribution_list a{
-	
-		font-size: 17px;
-		padding: 9px;
-		color: #5E5E5E;
-	}
-	.distribution_list ul li{
-		flex: 1;
-	}
+
 </style>
 
 {/block}
@@ -51,14 +27,7 @@
 	{block name="content"}
 
 	<div class="childrenBody">
-			<div class="distribution_list">
-		<ul>
-			<li ><a href="distribution_setting_index" >分销设置</a></li>
-			<li><a href="distribution_goods_index" class="on">分销商品</a></li>
-			<li><a href="distribution_record_index">分销记录</a></li>
-			<li><a href="distribution_member_index">分销成员</a></li>
-		</ul>
-	</div>
+
 		<blockquote class="layui-elem-quote news_search">
 			<form class="layui-form" action="{:url('admin/Category/search')}">
 				<div class="seach">
@@ -76,7 +45,7 @@
 			</form>
 		</blockquote>
 
-		<a class="layui-btn layui-btn-danger batchDel" href="distribution_goods_add">添加分销商品</a>
+		<a class="layui-btn layui-btn-danger batchDel" href="distribution_goods_add">添加商品</a>
 
 		<div class="layui-form news_list">
 			<table class="layui-table">
@@ -88,12 +57,12 @@
 					<tr>
 						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
 						<th>商品编号</th>
+						<th>商品图片</th>
 						<th>商品名称</th>
-						<th>0级佣金</th>
-						<th>1级佣金</th>
-						<th>2级佣金</th>
-						<th>3级佣金</th>
-						<th>状态</th>
+						<th>所需积分</th>
+						<th>标签</th>
+						<th>排序</th>
+						<th>库存</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -101,14 +70,17 @@
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
 						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+						<td><div class="tdimg">
+							<img src="11"/>
+						</div></td>
 						<td>1000001</td>
 						<td>1000001</td>
 						<td>
 							<input type="checkbox" class="Status" name="" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked>
 						</td>
+						<td>1000001</td>
+						<td>1000001</td>
+						
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="distribution_goods_edit"><i class="iconfont icon-edit"></i> 编辑
 							</a>
@@ -165,7 +137,8 @@
 				} else if(opration_val == 1) {
 					layer.confirm('你确认要删除吗？', {
 						btn: ['确认', '取消'] //按钮
-					}, function() {
+					}, function(index) {
+						layer.close(index);
 						var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
 						for(var i = 0; i < child.length; i++) {
 							data_id.push($(child[i])[0].dataset.id);

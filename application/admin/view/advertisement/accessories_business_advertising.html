@@ -199,6 +199,63 @@
                 laypage = layui.laypage,
                 $ = layui.jquery;
             var vals = $("input").data("id");
+             //点击操作确认按钮
+            var data_id = [];
+            $("#opration_btu").click(function() {
+                var opration_val = $(".opation select option:selected").val();
+                if (opration_val == 0) {
+                    layer.alert('请选择操作', {
+                        skin: 'layui-layer-molv' //样式类名
+                            ,
+                        closeBtn: 0
+                    });
+                } else if (opration_val == 1) {
+                    layer.confirm('你确认要删除吗？', {
+                        btn: ['确认', '取消'] //按钮
+                    },  function(index) {
+						layer.close(index);
+                        var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
+                        for (var i = 0; i < child.length; i++) {
+                            data_id.push($(child[i])[0].dataset.id);
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "{:url('admin/Comments/deletes')}",
+                            data: {
+                                "id": data_id,
+                            },
+                            success: function(data) {
+                                console.log("成功");
+                                console.log(data);
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                        ,
+                                    closeBtn: 0
+                                });
+                                location.reload();
+                                data_id.splice(0, data_id.length);
+                            },
+                            error: function(data) {
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                        ,
+                                    closeBtn: 0
+                                });
+                                console.log(data);
+                                console.log("错误");
+                                data_id.splice(0, data_id.length);
+                            }
+                        });
+                    });
+
+
+                }
+
+
+            });
+
             //是否展示
             form.on('switch(isShow)', function(data) {
                 if ($(this).val() == 0) {
