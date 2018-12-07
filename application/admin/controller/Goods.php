@@ -379,7 +379,6 @@ class Goods extends Controller
 
         if ($request->isPost()) {
             $goods_name = db("goods_standard")->order("id desc")->select();
-            halt($goods_name);
             if ($goods_name) {
                 return ajax_success("获取成功", $goods_name);
             } else {
