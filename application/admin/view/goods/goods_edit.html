@@ -314,6 +314,49 @@
 		</div>
 		<div class="form-item general noshow">
 			<div class="layui-input-block general-kuang">
+				<div class="control-group">
+					<div class="controls" style="padding: 10px;">
+						<button id="add_lv1" class="btn btn-primary" type="button">添加规格项</button>
+						<button id="update_table" class="btn btn-success" type="button">刷新规格项目表</button>
+						<span class="red">*注意：请添加完规格值和规格参数，刷新后，添加价格组才会显示！</span>
+					</div>
+				</div>
+				<div class="control-group lv1" style="padding: 10px;"> <label class="control-label">规格名称</label>
+					<div class="controls"> <input type="text" name="lv1" placeholder="规格名称"> <button class="btn btn-primary add_lv2" type="button">添加参数</button> <button class="btn btn-danger remove_lv1" type="button">删除规格</button> </div>
+					<div class="controls lv2s">
+						<div style="margin-top: 5px;"> <input type="text" name="lv2" placeholder="参数名称"> <button class="btn btn-danger remove_lv2" type="button">删除参数</button></div>
+					</div>
+				</div>
+				<div id="lv_table_con" class="control-group">
+					<label class="control-label">规格项目表</label>
+					<div class="controls" style="">
+						<div id="lv_table" style="padding: 10px;">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th width="50"><input value="10" readonly="" style="border:0;"></th>
+										<th width="20"><input value="价格（元）" readonly="" style="border:0;"></th>
+										<th width="20"><input value="库存" readonly="" style="border:0;"></th>
+										<th width="20"><input value="规格编码" readonly="" style="border:0;"></th>
+										<th width="20"><input value="成本价" readonly="" style="border:0;"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr data-row="1">
+										<td width="50" rowspan="1" data-rc="1_1"><input value="1401" readonly="" style="border:0;"></td>
+										<td width="20"><input type="text" name="1401[price]"></td>
+										<td width="20"><input type="text" name="1401[original_price]"></td>
+										<td width="20"><input type="text" name="1401[original_price]"></td>
+										<td width="20"><input type="text" name="1401[original_price]"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--<div class="layui-input-block general-kuang">
 				<div id="general_content">
 					<div>
 						<div class="layui-form-item"> <label class="layui-form-label">规格名：</label>
@@ -348,7 +391,7 @@
 				<div class="add-content content" id="add_general_buts">
 					<button type="button" class="btus general_buts">添加规格项目</button>
 				</div>
-			</div>
+			</div>-->
 		</div>
 		{else}
 		<div class="nomal noshow">
@@ -528,24 +571,24 @@
 				$("#hot").append(dhtml);
 				form.render();
 			});
-			
-//			特殊规格请求规格名
+
+			//			特殊规格请求规格名
 			$.ajax({
-					type: "POST",
-					url: "{:url('admin/Goods/standard_name')}",
-					data: {},
-					success: function(data) {
-						data = eval("(" + data + ")");
-						for(var i = 0; i < data.data.length; i++) {
-							var dhtmls = '<option value="' + data.data[i].standard_name + '">' + data.data[i].standard_name + '</option> ';
-							$(".universal_standard_name_a").append(dhtmls);
-						}
-						form.render('select');
-					},
-					error: function(data) {
-						console.log(data)
+				type: "POST",
+				url: "{:url('admin/Goods/standard_name')}",
+				data: {},
+				success: function(data) {
+					data = eval("(" + data + ")");
+					for(var i = 0; i < data.data.length; i++) {
+						var dhtmls = '<option value="' + data.data[i].standard_name + '">' + data.data[i].standard_name + '</option> ';
+						$(".universal_standard_name_a").append(dhtmls);
 					}
-				});
+					form.render('select');
+				},
+				error: function(data) {
+					console.log(data)
+				}
+			});
 
 			$("#hot").on('click', ".change_text", function() {
 				var texts = $(this).siblings('input');
@@ -610,7 +653,7 @@
 					' 				<div class="layui-input-inline noshow add-names" style="">                                                ' +
 					' 				<button type="button" class="operation-btus btu-delet">删除</button>                                                                     ' +
 					' 					<button type="button" class="operation-btus btu-cancel">取消</button>                                                                     ' +
-					' 					<button type="button" class="operation-btus btu-add guibtu-add" data-id="'+num+'">添加</button>                                                                    ' +
+					' 					<button type="button" class="operation-btus btu-add guibtu-add" data-id="' + num + '">添加</button>                                                                    ' +
 					' 				</div>                                                                                                    ' +
 					' 			</div>                                                                                                        ' +
 					' 			<div class="layui-form-item">                                                                                 ' +
@@ -672,7 +715,7 @@
 			});
 			$("#general_content").on('click', ".guibtu-add", function() {
 				var text = $(this).parent().siblings(".add-names").children("input").val();
-		      	var data_id=$(this).data("id");
+				var data_id = $(this).data("id");
 				$.ajax({
 					type: "POST",
 					url: "{:url('admin/Goods/name')}",
@@ -685,7 +728,7 @@
 						if(data.info == "成功") {
 							var dhtmls = "";
 							dhtmls = '<option value="' + text + '">' + text + '</option> ';
-							$(".universal_standard_name_"+data_id).prepend(dhtmls);
+							$(".universal_standard_name_" + data_id).prepend(dhtmls);
 						}
 
 						form.render('select');
@@ -729,6 +772,141 @@
 
 			});
 
+		});
+	</script>
+	<script type="text/javascript">
+		var lv1HTML = '';
+		lv1HTML += '<div class="control-group lv1" style="padding: 10px;">';
+		lv1HTML += '	<label class="control-label">规格名称</label>';
+		lv1HTML += '	<div class="controls">';
+		lv1HTML += '		<input type="text" name="lv1" placeholder="规格名称" />';
+		lv1HTML += '		<button class="btn btn-primary add_lv2" type="button">添加规格值</button>';
+		lv1HTML += '		<button class="btn btn-danger remove_lv1" type="button">删除规格名</button>';
+		lv1HTML += '	</div>';
+		lv1HTML += '	<div class="controls lv2s">';
+		lv1HTML += '	</div>';
+		lv1HTML += '</div>';
+
+		var lv2HTML = '';
+		lv2HTML += '<div style="margin-top: 5px;">';
+		lv2HTML += '	<input type="text" name="lv2" placeholder="参数名称" />';
+		lv2HTML += '	<button class="btn btn-danger remove_lv2" type="button">删除规格值</button>';
+		lv2HTML += '</div>';
+
+		function isPositiveNum(s) {
+			var re = /^[0-9]*[1-9][0-9]*$/;
+			return re.test(s);
+		}
+
+		$(document).ready(function() {
+			$('#add_lv1').on('click', function() {
+				var last = $('.control-group.lv1:last');
+				if(!last || last.length == 0) {
+					$(this).parents('.control-group').eq(0).after(lv1HTML);
+				} else {
+					last.after(lv1HTML);
+				}
+			});
+			$(document).on('click', '.remove_lv1', function() {
+				$(this).parents('.lv1').remove();
+			});
+			$(document).on('click', '.add_lv2', function() {
+				$(this).parents('.lv1').find('.lv2s').append(lv2HTML);
+			});
+			$(document).on('click', '.remove_lv2', function() {
+				$(this).parent().remove();
+			});
+			$('#update_table').on('click', function() {
+				var lv1Arr = $('input[name="lv1"]');
+				if(!lv1Arr || lv1Arr.length == 0) {
+					$('#lv_table_con').hide();
+					$('#lv_table').html('');
+					return;
+				}
+				for(var i = 0; i < lv1Arr.length; i++) {
+					var lv2Arr = $(lv1Arr[i]).parents('.lv1').find('input[name="lv2"]');
+					if(!lv2Arr || lv2Arr.length == 0) {
+						alert('请先删除无参数的规格项！');
+						return;
+					}
+				}
+
+				var tableHTML = '';
+				tableHTML += '<table class="table table-bordered">';
+				tableHTML += '	<thead>';
+				tableHTML += '		<tr>';
+				for(var i = 0; i < lv1Arr.length; i++) {
+					tableHTML += '			<th width="50"><input value="' + $(lv1Arr[i]).val() + '"  readonly style="border:0;"></th>';
+				}
+				tableHTML += '			<th width="20"><input value="价格（元）"  readonly style="border:0;"></th>';
+				tableHTML += '			<th width="20"><input value="库存"  readonly style="border:0;"></th>';
+				tableHTML += '			<th width="20"><input value="规格编码"  readonly style="border:0;"></th>';
+				tableHTML += '			<th width="20"><input value="成本价"  readonly style="border:0;"></th>';
+				tableHTML += '		</tr>';
+				tableHTML += '	</thead>';
+				tableHTML += '	<tbody>';
+
+				var numsArr = new Array();
+				var idxArr = new Array();
+				for(var i = 0; i < lv1Arr.length; i++) {
+					numsArr.push($(lv1Arr[i]).parents('.lv1').find('input[name="lv2"]').length);
+					idxArr[i] = 0;
+				}
+
+				var len = 1;
+				var rowsArr = new Array();
+				for(var i = 0; i < numsArr.length; i++) {
+					len = len * numsArr[i];
+
+					var tmpnum = 1;
+					for(var j = numsArr.length - 1; j > i; j--) {
+						tmpnum = tmpnum * numsArr[j];
+					}
+					rowsArr.push(tmpnum);
+				}
+
+				for(var i = 0; i < len; i++) {
+					tableHTML += '		<tr data-row="' + (i + 1) + '">';
+
+					var name = '';
+					for(var j = 0; j < lv1Arr.length; j++) {
+						var n = parseInt(i / rowsArr[j]);
+						if(j == 0) {} else if(j == lv1Arr.length - 1) {
+							n = idxArr[j];
+							if(idxArr[j] + 1 >= numsArr[j]) {
+								idxArr[j] = 0;
+							} else {
+								idxArr[j]++;
+							}
+						} else {
+							var m = parseInt(i / rowsArr[j]);
+							n = m % numsArr[j];
+						}
+
+						var text = $(lv1Arr[j]).parents('.lv1').find('input[name="lv2"]').eq(n).val();
+						if(j != lv1Arr.length - 1) {
+							name += text + '_';
+						} else {
+							name += text;
+						}
+
+						if(i % rowsArr[j] == 0) {
+							tableHTML += '	<td width="50" rowspan="' + rowsArr[j] + '" data-rc="' + (i + 1) + '_' + (j + 1) + '"><input value="' + text + '"  readonly style="border:0;"></td>';
+						}
+					}
+
+					tableHTML += '			<td width="20"><input type="text" name="' + name + '[price]" /></td>';
+					tableHTML += '			<td width="20"><input type="text" name="' + name + '[original_price]" /></td>';
+					tableHTML += '			<td width="20"><input type="text" name="' + name + '[original_price]" /></td>';
+					tableHTML += '			<td width="20"><input type="text" name="' + name + '[original_price]" /></td>';
+					tableHTML += '		</tr>';
+				}
+				tableHTML += '	</tbody>';
+				tableHTML += '</table>';
+
+				$('#lv_table_con').show();
+				$('#lv_table').html(tableHTML);
+			});
 		});
 	</script>
 
