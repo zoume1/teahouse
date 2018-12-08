@@ -159,7 +159,7 @@ class Goods extends Controller
                 );
             }
         }
-        halt($goods);
+        //halt($goods);
         $goods_list = getSelectList("wares");
         return view("goods_edit", ["goods_standard_name" => $goods_standard_name, "goods" => $goods, "goods_list" => $goods_list]);
     }
