@@ -467,7 +467,7 @@
 				            ' 				<div class="layui-input-inline noshow add-names" style="">                                                ' +
 				            ' 				<button type="button" class="operation-btus btu-delet">删除</button>                                                                     ' +
 				            ' 					<button type="button" class="operation-btus btu-cancel">取消</button>                                                                     ' +
-				            ' 					<button type="button" class="operation-btus btu-add guibtu-add">添加</button>                                                                    ' +
+				            ' 					<button type="button" class="operation-btus btu-add guibtu-add" data-id="'+num+'">添加</button>                                                                    ' +
 				            ' 				</div>                                                                                                    ' +
 				            ' 			</div>                                                                                                        ' +
 				            ' 			<div class="layui-form-item">                                                                                 ' +
@@ -530,6 +530,7 @@
             });
          $("#general_content").on('click', ".guibtu-add", function() {
 				var text = $(this).parent().siblings(".add-names").children("input").val();
+				var data_id=$(this).data("id");
 				$.ajax({
 					type: "POST",
 					url: "goods_name",
@@ -543,7 +544,7 @@
 						if(data.info=="成功"){
 									var dhtmls = "";
 									dhtmls = '<option value="' + text + '">' + text + '</option> ';
-									$(".universal_standard_name").prepend(dhtmls);
+									$(".universal_standard_name_"+data_id).prepend(dhtmls);
 						}
 					
 						form.render('select');
