@@ -35,6 +35,7 @@ class Goods extends Controller
             if ($value["pid"]) {
                 $res = db("wares")->where("id", $value['pid'])->field("name")->find();
                 $goods[$key]["named"] = $res["name"];
+                $goods[$key]["goods_show_images"] = explode(",",$goods[$key]["goods_show_images"])[0];
             }
         }
 
@@ -118,12 +119,17 @@ class Goods extends Controller
             }
             //添加图片
             $show_images = $request->file("goods_show_images");
-
+            $list = [];
             if (!empty($show_images)) {
-                $show_image = $show_images->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $goods_data["goods_show_images"] = str_replace("\\", "/", $show_image->getSaveName());
+                foreach($show_images as $k => $v){
+                $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $list[] = str_replace("\\", "/", $show->getSaveName());
+                }
+                $goods_data["goods_show_images"] = implode(',',$list);
             }
+
             $bool = db("goods")->insert($goods_data);
+
             if ($bool) {
                 $this->success("添加成功", url("admin/Goods/index"));
             } else {
@@ -138,7 +144,7 @@ class Goods extends Controller
      * [商品列表组修改]
      * 陈绪
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $goods = db("goods")->where("id", $id)->select();
         foreach ($goods as $key => $value) {
@@ -148,6 +154,7 @@ class Goods extends Controller
             $goods_delivery = explode(",", $value["goods_delivery"]);
             $goods[$key]["goods_delivery"] = $goods_delivery;
             $goods[$key]["goods_standard_value"] = $goods_standard_value;
+            $goods[$key]["goods_show_images"] = explode(',',$goods[$key]["goods_show_images"]);
 
         }
         $goods_standard_name = array();
@@ -159,7 +166,7 @@ class Goods extends Controller
                 );
             }
         }
-        //halt($goods);
+     dump($goods);
         $goods_list = getSelectList("wares");
         return view("goods_edit", ["goods_standard_name" => $goods_standard_name, "goods" => $goods, "goods_list" => $goods_list]);
     }
@@ -172,16 +179,27 @@ class Goods extends Controller
     public function images(Request $request)
     {
         if ($request->isPost()) {
-            $id = $request->only(['id'])['id'];
-            $image_url = db("goods")->where("id", $id)->field("goods_show_images")->find();
-            if ($image_url['goods_show_images'] != null) {
-                unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['goods_show_images']);
-            }
-            $bool = db("goods")->where("id", $id)->field("goods_show_images")->update(["goods_show_images" => null]);
-            if ($bool) {
-                return ajax_success("删除成功");
+            $id = $request->param();
+            if (!empty($id["id"])) {
+                $image = db("goods")->where("id", $id["id"])->field("goods_show_images")->find();
+                $bool = db("goods")->where("id", $id["id"])->update(["goods_show_images" => null]);
+                if ($bool) {
+                    if (!empty($image)) {
+                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image['goods_show_images']);
+                    }
+                    return ajax_success("成功");
+                }
             } else {
-                return ajax_error("删除失败");
+                $images_id = $request->only(["images_id"])["images_id"];
+                $goods_images = db("goods_images")->where("id", $images_id)->field("goods_images")->find();
+                $bool = db("goods_images")->where("id", $images_id)->delete();
+                if ($bool) {
+                    if (!empty($goods_images)) {
+                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $goods_images['goods_images']);
+                    }
+                    return ajax_success("成功");
+                }
+
             }
         }
     }
@@ -192,16 +210,25 @@ class Goods extends Controller
      * [商品列表组删除]
      * 陈绪
      */
-    public function del($id)
+    public function del(Request $request)
     {
-
+        $id = $request->only(["id"])["id"];
+        $image_url = db("goods_images")->where("goods_id", $id)->field("goods_images,id")->select();
         $bool = db("goods")->where("id", $id)->delete();
         if ($bool) {
-            $this->success("删除成功", url("admin/Goods/index"));
-        } else {
-            $this->error("删除失败", url("admin/Goods/index"));
-        }
+            foreach ($image_url as $value) {
+                if ($value['goods_images'] != null) {
+                    unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value['goods_images']);
+                }
+                $bool_data = db("goods_images")->where("id", $value['id'])->delete();
+            }
+            if ($bool) {
+                $this->success("删除成功", url("admin/Goods/index"));
+            } else {
+                $this->success("删除失败", url('admin/Goods/add'));
+            }
 
+        }
     }
 
 
@@ -226,11 +253,12 @@ class Goods extends Controller
 
             //图片添加
             $show_images = $request->file("goods_show_images");
-
+            halt($goods_data);
             if (!empty($show_images)) {
                 $show_image = $show_images->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $goods_data["goods_show_images"] = str_replace("\\", "/", $show_image->getSaveName());
             }
+            
             $bool = db("goods")->where("id", $id)->update($goods_data);
 
             if ($bool) {
@@ -272,7 +300,7 @@ class Goods extends Controller
                 }
             }
         }
-   
+
     }
 
 
@@ -298,7 +326,7 @@ class Goods extends Controller
                 return ajax_error('删除失败', ['status' => 0]);
             }
         }
-        
+
     }
 
 
@@ -380,7 +408,7 @@ class Goods extends Controller
 
         if ($request->isPost()) {
             $goods_name = db("goods_standard")->order("id desc")->select();
-           
+
             if ($goods_name) {
                 return ajax_success("获取成功", $goods_name);
             } else {
