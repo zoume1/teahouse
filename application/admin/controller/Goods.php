@@ -166,7 +166,7 @@ class Goods extends Controller
                 );
             }
         }
-     dump($goods);
+     
         $goods_list = getSelectList("wares");
         return view("goods_edit", ["goods_standard_name" => $goods_standard_name, "goods" => $goods, "goods_list" => $goods_list]);
     }
@@ -253,7 +253,6 @@ class Goods extends Controller
 
             //图片添加
             $show_images = $request->file("goods_show_images");
-            halt($goods_data);
             if (!empty($show_images)) {
                 $show_image = $show_images->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $goods_data["goods_show_images"] = str_replace("\\", "/", $show_image->getSaveName());
