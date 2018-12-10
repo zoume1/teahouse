@@ -92,8 +92,8 @@ aside a:visited{color: rgb(65,65,65);}*/
 
 /*上传图片插件的样式*/
 .img-box{
-	padding-left: 3%;
-	/* margin-top: 40px; */
+	/* padding-left: 3%; */
+	
 }
 .img-box .up-p{
 	margin-bottom: 20px;
@@ -102,8 +102,8 @@ aside a:visited{color: rgb(65,65,65);}*/
 }
 .z_photo{
 	padding: 18px;
-	border:2px dashed #E7E6E6;
-	width: 44%;
+	/* border:2px dashed #E7E6E6; */
+	width: 80%;
 	/*padding: 18px;*/
 }
 .z_photo .z_file{
@@ -168,17 +168,17 @@ aside a:visited{color: rgb(65,65,65);}*/
 	display: none;
 }
 .upimg-div .up-section {
-    width: 190px;
-    height: 180px;
+    width: 90px;
+    height: 90px;
 }
 .img-box .upimg-div .z_file {
-    width: 190px;
-    height: 180px;
+    width: 90px;
+    height: 90px;
 }
 .z_file .add-img {
     display: block;
-    width: 190px;
-    height: 180px;
+    width: 90px;
+    height: 90px;
 }
 /*遮罩层样式*/
 .mask{
