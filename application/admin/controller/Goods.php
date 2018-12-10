@@ -38,7 +38,7 @@ class Goods extends Controller
                 $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
             }
         }
-
+      
         $all_idents = $goods;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
         $listRow = 20;//每页20行记录
@@ -119,31 +119,24 @@ class Goods extends Controller
             }
             //添加图片
 
-            $show_images = $request->file("goods_show_images")[0];
+            $show_images = $request->file("goods_show_images");
+            $list = [];
             if (!empty($show_images)) {
-                $show_image = $show_images->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $goods_data["goods_show_images"] = str_replace("\\", "/", $show_image->getSaveName());
-            }
-           
-            $goodsid = db("goods")->insertGetId($goods_data);
-            if ($goodsid) {
-                //取出图片在存到数据库
-                $goods_images = [];
-                if (!empty($file)) {
-                    foreach ($file as $key => $value) {
-                        $file = request()->file('goods_show_images');
-                        $info = $value->move(ROOT_PATH . 'public' . DS . 'uploads');
-                        $goods_url = str_replace("\\", "/", $info->getSaveName());
-                        $goods_images[] = ["goods_images" => $goods_url, "goods_id" => $goodsid];
-                    }
+                foreach ($show_images as $k => $v) {
+                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                    $list[] = str_replace("\\", "/", $show->getSaveName());
                 }
-                $booldata = model("goods_images")->saveAll($goods_images);
-                if ($booldata){
-                    $this->success("添加成功", url("admin/Goods/index"));
-                } else {
-                    $this->success("添加失败", url('admin/Goods/add'));
-                }
+                $goods_data["goods_show_images"] = implode(',', $list);
+
             }
+            $bool = db("goods")->insert($goods_data);
+
+            if ($bool) {
+                $this->success("添加成功", url("admin/Goods/index"));
+            } else {
+                $this->success("添加失败", url('admin/Goods/add'));
+            }
+
         }
     }
 
@@ -187,28 +180,38 @@ class Goods extends Controller
     public function images(Request $request)
     {
         if ($request->isPost()) {
-            $id = $request->param();
-            if (!empty($id["id"])) {
-                $image = db("goods")->where("id", $id["id"])->field("goods_show_images")->find();
-                $bool = db("goods")->where("id", $id["id"])->update(["goods_show_images" => null]);
-                if ($bool) {
-                    if (!empty($image)) {
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image['goods_show_images']);
+            $tid = $request->param();
+            $id = $tid["id"];
+        
+            if (!empty($id)) {
+                $image = db("goods")->where("id", $tid['pid'])->field("goods_show_images")->find();
+                
+                $se = explode(",", $image["goods_show_images"]);
+
+                foreach ($se as $key => $value) {
+                
+                    if ($value == $id) {
+                        unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$value);
+                    
+                    }else{
+                        $new_image[] =$value;
                     }
-                    return ajax_success("成功");
-                }
-            } else {
-                $images_id = $request->only(["images_id"])["images_id"];
-                $goods_images = db("goods_images")->where("id", $images_id)->field("goods_images")->find();
-                $bool = db("goods_images")->where("id", $images_id)->delete();
-                if ($bool) {
-                    if (!empty($goods_images)) {
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $goods_images['goods_images']);
-                    }
-                    return ajax_success("成功");
                 }
 
-            }
+                if(!empty($new_image)){
+                    $new_imgs_url =implode(',',$new_image);
+                    $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images'=>$new_imgs_url]);
+                }else{
+                    $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images'=>NULL]);
+                }
+                if($res){
+                    return ajax_success('删除成功');
+                }else{
+                    return ajax_success('删除失败');
+                }
+
+            }  
+ 
         }
     }
 
@@ -252,6 +255,7 @@ class Goods extends Controller
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
 
+       
             if (!empty($goods_data["goods_standard_name"])) {
                 $goods_standard_name = implode(",", $goods_data["goods_standard_name"]);
                 $goods_standard_value = implode(",", $goods_data["goods_standard_value"]);
@@ -259,14 +263,23 @@ class Goods extends Controller
                 $goods_data["goods_standard_value"] = $goods_standard_value;
             }
 
-            //图片添加
             $show_images = $request->file("goods_show_images");
+            
+            $list = [];
             if (!empty($show_images)) {
-                $show_image = $show_images->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $goods_data["goods_show_images"] = str_replace("\\", "/", $show_image->getSaveName());
+                foreach ($show_images as $k => $v) {
+                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                    $list[] = str_replace("\\", "/", $show->getSaveName());
+                }         
+                $liste = implode(',', $list);          
+                $image = db("goods")->where("id", $id)->field("goods_show_images")->find();                
+                $exper =  $image["goods_show_images"];              
+                $montage =  $exper.",".$liste;                       
+                $goods_data["goods_show_images"] = $montage;
             }
 
-            $bool = db("goods")->where("id", $id)->update($goods_data);
+            
+            $bool = db("goods")->where("id", $id)->update($goods_data);           
 
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));
