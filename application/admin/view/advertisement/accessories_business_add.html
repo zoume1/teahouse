@@ -252,7 +252,7 @@
 						<div class="z_photo upimg-div clear">
 							<section class="z_file fl">
 								<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-								<input type="file" name="classify_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="10" />
+								<input type="file" name="classify_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" />
 							</section>
 						</div>
 					</section>
@@ -303,6 +303,13 @@
 
 	<!--请在下方写此页面业务相关的脚本-->
 	{block name="bottom"}
+	<script type="text/javascript" src="__STATIC__/admin/common/js/jquery-ui.js"></script>
+	<script type="text/javascript">
+		  $(function() {
+		    $( ".upimg-div" ).sortable();
+		    $( ".upimg-div" ).disableSelection();
+		  });
+	</script>
 	<script type="text/javascript">
 		layui.config({
 			base: "js/"
