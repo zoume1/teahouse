@@ -448,10 +448,12 @@
             <label class="form-label"><span class="red">*</span>第一级菜单图</label>
             <div class="img-edit">
                 <div class="imgcontent">
+
+                    {volist name="$value.goods_show_images" id="val"}
                     <span class="img">
-						<img src="__UPLOADS__/{$value.goods_show_images}" width="100%">
-						<i class="remove-img" name="goods_show_images" value="{$value.id}" data-id="" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
-					</span>
+					<img src="__UPLOADS__/{$val}" width="100%">
+					<i class="remove-img"  data-id="" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+                    </span> {/volist}
                 </div>
                 <div class="form-input">
                     <div class="img-box full">
@@ -459,7 +461,7 @@
                             <div class="z_photo upimg-div clear">
                                 <section class="z_file fl">
                                     <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                    <input type="file" name="goods_show_images" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                                    <input type="file" name="goods_show_images" id="files" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
                                 </section>
                             </div>
                         </section>
