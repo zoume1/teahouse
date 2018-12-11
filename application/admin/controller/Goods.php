@@ -129,6 +129,7 @@ class Goods extends Controller
                 $goods_data["goods_show_images"] = implode(',', $list);
 
             }
+            halt($goods_data);
             $bool = db("goods")->insert($goods_data);
 
             if ($bool) {
@@ -275,10 +276,18 @@ class Goods extends Controller
                 $image = db("goods")->where("id", $id)->field("goods_show_images")->find();                
                 $exper =  $image["goods_show_images"];              
                 $montage =  $exper.",".$liste;                       
-                $goods_data["goods_show_images"] = $montage;
+                $goods_data["goods_show_images"] = $montage;               
+            }
+            
+            if(empty($show_images))
+            {
+                $image = db("goods")->where("id", $id)->field("goods_show_images")->find();                
+                $exper =  $image["goods_show_images"]; 
+                $goods_data["goods_show_images"] = $exper;
+
             }
 
-            
+            halt($goods_data);
             $bool = db("goods")->where("id", $id)->update($goods_data);           
 
             if ($bool) {
