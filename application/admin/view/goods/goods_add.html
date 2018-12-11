@@ -645,7 +645,7 @@
                 tableHTML += '	<thead>';
                 tableHTML += '		<tr>';
                 for (var i = 0; i < lv1Arr.length; i++) {
-                    tableHTML += '			<th width="50"><input value="' + $(lv1Arr[i]).val() + '"  readonly style="border:0;"></th>';
+                    tableHTML += '		<th width="50"><input value="' + $(lv1Arr[i]).val() + '"  readonly style="border:0;" name="guige[]"></th>';
                 }
                 tableHTML += '			<th width="20"><input value="价格（元）"  readonly style="border:0;"></th>';
                 tableHTML += '			<th width="20"><input value="库存"  readonly style="border:0;"></th>';
@@ -700,7 +700,7 @@
                         }
 
                         if (i % rowsArr[j] == 0) {
-                            tableHTML += '	<td width="50" rowspan="' + rowsArr[j] + '" data-rc="' + (i + 1) + '_' + (j + 1) + '"><input value="' + text + '"  readonly style="border:0;"></td>';
+                            tableHTML += '	<td width="50" rowspan="' + rowsArr[j] + '" data-rc="' + (i + 1) + '_' + (j + 1) + '"><input value="' + text + '"  readonly style="border:0;" name="num[]"></td>';
                         }
                     }
 

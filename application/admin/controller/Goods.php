@@ -121,9 +121,9 @@ class Goods extends Controller
                 $goods_data["goods_standard_value"] = $goods_standard_value;
             }
             //添加图片
-
-            $show_images = $request->file("goods_show_images");
             $list = [];
+            $show_images = $request->file("goods_show_images");
+            
             if (!empty($show_images)) {
                 foreach ($show_images as $k => $v) {
                     $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -132,8 +132,24 @@ class Goods extends Controller
                 $goods_data["goods_show_images"] = implode(',', $list);
 
             }
-            halt($goods_data);
+            dump($goods_data);
+            $data_arry = [];
+            if(is_array($goods_data)){ 
+            foreach($goods_data as $key => $value)
+            {                
+                if(substr($key,0,3) == "sss"){  
+                   $str = substr($key,3);            
+                   $keys[] = $str;
+                   $values[] = $value;                                 
+            }
+            }
+        }
+
+            dump($keys);
+            dump($values);
+
             $bool = db("goods")->insert($goods_data);
+            
 
             if ($bool) {
                 $this->success("添加成功", url("admin/Goods/index"));
