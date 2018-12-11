@@ -588,17 +588,17 @@
         lv1HTML += '<div class="control-group lv1" style="padding: 10px;">';
         lv1HTML += '	<label class="control-label">规格名称</label>';
         lv1HTML += '	<div class="controls">';
-        lv1HTML += '		<input type="text" name="lv1" placeholder="规格名称" />';
+        lv1HTML += '		<input type="text" name="lv1[]" class="lvv3"  placeholder="规格名称" />';
         lv1HTML += '		<button class="btn btn-primary add_lv2" type="button">添加规格值</button>';
         lv1HTML += '		<button class="btn btn-danger remove_lv1" type="button">删除规格名 </button>';
         lv1HTML += '	</div>';
         lv1HTML += '	<div class="controls lv2s">';
         lv1HTML += '	</div>';
         lv1HTML += '</div>';
-
+       var ii=0;
         var lv2HTML = '';
         lv2HTML += '<div style="margin-top: 5px;">';
-        lv2HTML += '	<input type="text" name="lv2" placeholder="参数名称" />';
+        lv2HTML += '	<input type="text" name="lv2['+ii+']" class="lvv4" placeholder="参数名称" />';
         lv2HTML += '	<button class="btn btn-danger remove_lv2" type="button">删除规格值</button>';
         lv2HTML += '</div>';
 
@@ -626,14 +626,14 @@
                 $(this).parent().remove();
             });
             $('#update_table').on('click', function() {
-                var lv1Arr = $('input[name="lv1"]');
+                var lv1Arr = $('input[class="lvv3"]');
                 if (!lv1Arr || lv1Arr.length == 0) {
                     $('#lv_table_con').hide();
                     $('#lv_table').html('');
                     return;
                 }
                 for (var i = 0; i < lv1Arr.length; i++) {
-                    var lv2Arr = $(lv1Arr[i]).parents('.lv1').find('input[name="lv2"]');
+                    var lv2Arr = $(lv1Arr[i]).parents('.lv1').find('input[class="lvv4"]');
                     if (!lv2Arr || lv2Arr.length == 0) {
                         alert('请先删除无参数的规格项！');
                         return;
@@ -645,7 +645,7 @@
                 tableHTML += '	<thead>';
                 tableHTML += '		<tr>';
                 for (var i = 0; i < lv1Arr.length; i++) {
-                    tableHTML += '		<th width="50"><input value="' + $(lv1Arr[i]).val() + '"  readonly style="border:0;" name="guige[]"></th>';
+                    tableHTML += '			<th width="50"><input value="' + $(lv1Arr[i]).val() + '"  readonly style="border:0;"></th>';
                 }
                 tableHTML += '			<th width="20"><input value="价格（元）"  readonly style="border:0;"></th>';
                 tableHTML += '			<th width="20"><input value="库存"  readonly style="border:0;"></th>';
@@ -658,7 +658,7 @@
                 var numsArr = new Array();
                 var idxArr = new Array();
                 for (var i = 0; i < lv1Arr.length; i++) {
-                    numsArr.push($(lv1Arr[i]).parents('.lv1').find('input[name="lv2"]').length);
+                    numsArr.push($(lv1Arr[i]).parents('.lv1').find('input[class="lvv4"]').length);
                     idxArr[i] = 0;
                 }
 
@@ -692,7 +692,7 @@
                             n = m % numsArr[j];
                         }
 
-                        var text = $(lv1Arr[j]).parents('.lv1').find('input[name="lv2"]').eq(n).val();
+                        var text = $(lv1Arr[j]).parents('.lv1').find('input[class="lvv4"]').eq(n).val();
                         if (j != lv1Arr.length - 1) {
                             name += text + '_';
                         } else {
@@ -700,7 +700,7 @@
                         }
 
                         if (i % rowsArr[j] == 0) {
-                            tableHTML += '	<td width="50" rowspan="' + rowsArr[j] + '" data-rc="' + (i + 1) + '_' + (j + 1) + '"><input value="' + text + '"  readonly style="border:0;" name="num[]"></td>';
+                            tableHTML += '	<td width="50" rowspan="' + rowsArr[j] + '" data-rc="' + (i + 1) + '_' + (j + 1) + '"><input value="' + text + '"  readonly style="border:0;"></td>';
                         }
                     }
 
