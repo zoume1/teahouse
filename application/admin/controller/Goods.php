@@ -96,6 +96,9 @@ class Goods extends Controller
             $goods_list = getSelectList("wares");
         }
 
+
+       
+
         return view("goods_add", ["goods_list" => $goods_list]);
     }
 
@@ -278,7 +281,7 @@ class Goods extends Controller
                 $montage =  $exper.",".$liste;                       
                 $goods_data["goods_show_images"] = $montage;               
             }
-            
+
             if(empty($show_images))
             {
                 $image = db("goods")->where("id", $id)->field("goods_show_images")->find();                
