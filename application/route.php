@@ -196,6 +196,18 @@ Route::group("admin",[
     "distribution_member_edit"=>"admin/Distribution/member_edit",     //分销成员页面编辑
     /*TODO：分销结束*/
 
+    /*积分商城*/
+    "bonus_index"=>"admin/Bonus/index",            //积分商城设置页面
+    "bonus_edit"=>"admin/Bonus/edit",              //积分商城页面编辑
+    "bonus_add"=>"admin/Bonus/add",                //积分商城商城添加
+
+    /*优惠券*/
+    "coupon_index"=>"admin/Bonus/coupon_index",    //优惠券页面
+    "coupon_edit"=>"admin/Bonus/coupon_edit",      //优惠券编辑
+    "coupon_add"=>"admin/Bonus/coupon_add",        //优惠券添加
+
+
+    
 
 
 ]);
