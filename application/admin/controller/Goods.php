@@ -132,7 +132,7 @@ class Goods extends Controller
                 $goods_data["goods_show_images"] = implode(',', $list);
 
             }
-            dump($goods_data);
+
             $data_arry = [];
             if(is_array($goods_data)){ 
             foreach($goods_data as $key => $value)
@@ -145,8 +145,7 @@ class Goods extends Controller
             }
         }
 
-            dump($keys);
-            dump($values);
+
 
             $bool = db("goods")->insert($goods_data);
             
@@ -306,7 +305,7 @@ class Goods extends Controller
 
             }
 
-            halt($goods_data);
+
             $bool = db("goods")->where("id", $id)->update($goods_data);           
 
             if ($bool) {
