@@ -15,11 +15,12 @@
 <body>
     {block name="content"}
     <form class="layui-form layui-form-lists" action="{:url('admin/Category/save')}" method="post" enctype="multipart/form-data">
+        {if !empty($category)} {volist name="category" id="value"}
         <div class="form-title">基础设置 </div>
         <div class="form-item">
             <label class="form-label">等级</label>
             <div class="form-input">
-                <p>1级</p>
+                <p>{$value.}</p>
                 <div class="tips">
                     *购买者为0级，按照腾讯规则，包括购买者在内，总计不得超过3级，平台设置为4级，敬请留意！
                 </div>
