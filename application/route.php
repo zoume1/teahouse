@@ -197,9 +197,9 @@ Route::group("admin",[
     /*TODO：分销结束*/
 
     /*积分商城*/
-    "bonus_index"=>"admin/Bonus/index",            //积分商城设置页面
-    "bonus_edit"=>"admin/Bonus/edit",              //积分商城页面编辑
-    "bonus_add"=>"admin/Bonus/add",                //积分商城商城添加
+    "bonus_index"=>"admin/Bonus/bonus_index",            //积分商城设置页面
+    "bonus_edit"=>"admin/Bonus/bonus_edit",              //积分商城页面编辑
+    "bonus_add"=>"admin/Bonus/bonus_add",                //积分商城商城添加
 
     /*优惠券*/
     "coupon_index"=>"admin/Bonus/coupon_index",    //优惠券页面

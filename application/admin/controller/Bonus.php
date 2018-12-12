@@ -16,10 +16,10 @@ class  Bonus extends  Controller{
      * [积分商城显示]
      * GY
      */
-    public function index()
+    public function bonus_index() 
     {
                
-        return view("bonus_index");
+        return view('bonus_index');
     }
 
 
@@ -27,7 +27,7 @@ class  Bonus extends  Controller{
      * [积分商城编辑]
      * GY
      */
-    public function edit()
+    public function bonus_edit()
     {
         return view('bonus_edit');
     }
@@ -37,7 +37,7 @@ class  Bonus extends  Controller{
      * [积分商城添加商品]
      * GY
      */
-    public function add()
+    public function bonus_add()
     {
         return view('bonus_add');
     }
