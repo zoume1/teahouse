@@ -120,7 +120,19 @@ Route::group("admin",[
     "images_online_push"=>"admin/Photo/images_online_push", //上传图片库
     "photo_del"=>"admin/Photo/delete", //删除单张图片
     /* TODO:图片库结束*/
-	
+
+    /*TODO:订单开始*/
+    "order_index"=>"admin/Order/order_index",//初始订单页面
+    "order_integral"=>"admin/Order/order_integral",//积分订单
+    "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
+    "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
+    /*TODO:订单结束*/
+    /*TODO:评价开始*/
+    "evaluate_index"=>"admin/Evaluate/evaluate_index",//评价管理页面
+    "evaluate_edit"=>"admin/Evaluate/evaluate_edit",//评价编辑
+    "evaluate_setting"=>"admin/Evaluate/evaluate_setting",//评价积分设置
+    /*TODO:评价结束*/
+
 	 /*茶圈*/
     "category_index"=>"admin/Category/index",   //活动分类显示
     "category_add"=>"admin/Category/add",       //活动分类添加
@@ -195,6 +207,9 @@ Route::group("admin",[
     "distribution_member_index"=>"admin/Distribution/member_index",   //分销成员页面
     "distribution_member_edit"=>"admin/Distribution/member_edit",     //分销成员页面编辑
     /*TODO：分销结束*/
+
+
+
 
     /*积分商城*/
     "bonus_index"=>"admin/Bonus/bonus_index",            //积分商城设置页面
