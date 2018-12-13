@@ -19,6 +19,7 @@ class WechatPay extends Controller
     */
     private $config = array(
         'appid' => "wx37e840c96f13f585",    /*微信开放平台上的应用id*/
+//        'appid' => "wx7214a4fde280c2b7",    /*微信开放平台上的应用id*/
         'mch_id' => "1412019602",   /*微信申请成功之后邮件中的商户id*/
         'api_key' => "ffcfd0f5898e756ba07cc7f17ed4dbfb",    /*在微信商户平台上自己设定的api密钥 32位*/
         'notify_url' => '回调地址',
