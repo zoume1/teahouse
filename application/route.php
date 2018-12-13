@@ -218,14 +218,15 @@ Route::group("admin",[
     "bonus_add"=>"admin/Bonus/bonus_add",               
 
     /*限时限购*/
-    "coupon_index"=>"admin/Bonus/coupon_index",    
-    "coupon_edit"=>"admin/Bonus/coupon_edit",      
-    "coupon_add"=>"admin/Bonus/coupon_add",        
-
-    /*优惠券*/
     "limitations_index"=>"admin/Limitations/limitations_index",    
     "limitations_edit"=>"admin/Limitations/limitations_edit",      
-    "limitations_add"=>"admin/Limitations/limitations_add",       
+    "limitations_add"=>"admin/Limitations/limitations_add",
+       
+
+    /*优惠券*/
+    "coupon_index"=>"admin/Bonus/coupon_index",    
+    "coupon_edit"=>"admin/Bonus/coupon_edit",      
+    "coupon_add"=>"admin/Bonus/coupon_add",    
 
 
 
