@@ -5,7 +5,7 @@
  * Date: 2018/12/13 0013
  * Time: 17:31
  */
-namespace app\index\controller;
+namespace app\admin\controller;
 
 
 use think\Controller;
