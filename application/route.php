@@ -68,17 +68,6 @@ Route::group("admin",[
     "admin_passwd"=>"admin/admin/passwd",
 
 
-    /**
-     * 商品
-     * 陈绪
-     */
-    "goods_index"=>"admin/Goods/index",
-    "goods_add"=>"admin/Goods/add",
-    "goods_save"=>"admin/Goods/save",
-    "goods_edit"=>"admin/Goods/edit",
-
-
-
     /*菜单列表*/
     "menu_index"=>"admin/menu/index",
     "menu_add"=>"admin/menu/add",
@@ -170,28 +159,55 @@ Route::group("admin",[
      "active_order_index"=>"admin/ActiveOrder/index",   //活动订单显示
      "active_order_search"=>"admin/ActiveOrder/search", //评论管理组模糊搜索
 
+    /*商品列表*/
+    "goods_index"=>"admin/Goods/index",      //商品列表显示
+    "goods_add"=>"admin/Goods/add",          //商品列表组添加
+    "goods_save"=>"admin/Goods/save",        //商品列表组保存入库
+    "goods_edit"=>"admin/Goods/edit",        //商品列表组编辑
+    "goods_updata"=>"admin/Goods/updata",    //商品列表组更新
+    "goods_status"=>"admin/Goods/status",    //商品列表组首页推荐
+    "goods_del"=>"admin/Goods/del",          //商品列表组删除
+    "goods_dels"=>"admin/Goods/dels",        //商品列表组批量删除
+    "goods_search"=>"admin/Goods/search",    //商品列表组模糊搜索
+    "goods_images"=>"admin/Goods/images",    //商品列表组图片删除
+    "goods_name" =>"admin/Goods/name",       //商品列表特殊规格名添加
+    "goods_standard"=>"admin/Goods/standard_name", //商品列表特殊规格名显示
 
-
-    /**
-     * 商品分类
-     * 陈绪
-     */
-
-    "goods_type_index"=>"admin/GoodsType/index",
-    "goods_type_add"=>"admin/GoodsType/add",
-    "goods_type_edit"=>"admin/GoodsType/edit",
+    /*商品分类*/
+    "goods_type_index"=>"admin/GoodsType/index",      //商品分类列表显示
+    "goods_type_add"=>"admin/GoodsType/add",          //商品分类列表增加
+    "goods_type_edit"=>"admin/GoodsType/edit",        //商品分类列表编辑
+    "goods_type_save"=>"admin/GoodsType/save",        //商品分类列表组入库
+    "goods_type_updata"=>"admin/GoodsType/updata",    //商品分类列表组更新
+    "goods_type_del"=>"admin/GoodsType/del",          //商品分类列表组删除 
+    "goods_type_ajax_add"=>"admin/GoodsType/ajax_add",//商品分类列表组ajax显示
+    "goods_type_dels"=>"admin/GoodsType/dels",        //商品分类列表组批量删除
+    "goods_type_search"=>"admin/GoodsType/search",    //商品分类列表组模糊搜索 
 
     /*TODO：分销开始*/
-    "distribution_setting_index"=>"admin/Distribution/setting_index",//分销设置页面
-    "distribution_setting_edit"=>"admin/Distribution/setting_edit",//分销设置页面编辑
-    "distribution_goods_index"=>"admin/Distribution/goods_index",//分销商品页面
-    "distribution_goods_add"=>"admin/Distribution/goods_add",//分销商品添加
-    "distribution_goods_edit"=>"admin/Distribution/goods_edit",//分销商品编辑
-    "distribution_record_index"=>"admin/Distribution/record_index",//分销记录页面
-    "distribution_member_index"=>"admin/Distribution/member_index",//分销成员页面
-    "distribution_member_edit"=>"admin/Distribution/member_edit",//分销成员页面编辑
+    "distribution_setting_index"=>"admin/Distribution/setting_index", //分销设置页面
+    "distribution_setting_edit"=>"admin/Distribution/setting_edit",   //分销设置页面编辑
+    "distribution_setting_save"=>"admin/Distribution/setting_save",   //分销设置页面保存
+    "distribution_goods_index"=>"admin/Distribution/goods_index",     //分销商品页面
+    "distribution_goods_add"=>"admin/Distribution/goods_add",         //分销商品添加
+    "distribution_goods_edit"=>"admin/Distribution/goods_edit",       //分销商品编辑
+    "distribution_record_index"=>"admin/Distribution/record_index",   //分销记录页面
+    "distribution_member_index"=>"admin/Distribution/member_index",   //分销成员页面
+    "distribution_member_edit"=>"admin/Distribution/member_edit",     //分销成员页面编辑
     /*TODO：分销结束*/
 
+    /*积分商城*/
+    "bonus_index"=>"admin/Bonus/bonus_index",            //积分商城设置页面
+    "bonus_edit"=>"admin/Bonus/bonus_edit",              //积分商城页面编辑
+    "bonus_add"=>"admin/Bonus/bonus_add",                //积分商城商城添加
+
+    /*优惠券*/
+    "coupon_index"=>"admin/Bonus/coupon_index",    //优惠券页面
+    "coupon_edit"=>"admin/Bonus/coupon_edit",      //优惠券编辑
+    "coupon_add"=>"admin/Bonus/coupon_add",        //优惠券添加
+
+
+    
 
 
 ]);

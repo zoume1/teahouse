@@ -13,28 +13,34 @@ use think\Controller;
 class  Distribution extends  Controller{
 
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销设置页面
-     **************************************
-     * @return \think\response\View
+     * [分销设置显示]
+     * GY
      */
-    public function setting_index(){
-        return view('setting_index');
+    public function setting_index()
+    {
+        $distribution = db("distribution") -> select();
+        
+        return view("setting_index",["distribution" =>$distribution ]);
     }
 
 
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销设置页面编辑
-     **************************************
-     * @return \think\response\View
+     * [分销设置编辑]
+     * GY
      */
-    public function setting_edit(){
+    public function setting_edit()
+    {
         return view('setting_edit');
     }
 
+    /**
+     * [分销设置编辑]
+     * GY
+     */
+    public function setting_save()
+    {
+        return view('setting_edit');
+    }
 
     /**
      **************李火生*******************

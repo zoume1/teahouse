@@ -83,6 +83,7 @@ white-space: normal !important;
    	color: #999999;
    }
    .form-input{
+   	display:;
    	width: 734px;
    }
    .layui-form-lists .layui-btn{
@@ -249,6 +250,7 @@ a{
 	margin-right: 10px;
 	height: 910px;
 	background: #fff;
+	min-width: 188px;
 	width: 13%;
 	float: left;
 	margin-top: 60px;

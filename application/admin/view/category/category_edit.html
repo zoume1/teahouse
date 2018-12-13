@@ -215,21 +215,21 @@
             var value = $(this).data("value");
             console.log(value)
             console.log(id);
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Category/images')}",
-                    data: {
-                        "id": id
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        remove.remove();
-                    },
-                    error: function(data) {
-                        console.log("错误");
-                    }
-                });
-         
+            $.ajax({
+                type: "POST",
+                url: "{:url('admin/Category/images')}",
+                data: {
+                    "id": id
+                },
+                dataType: "json",
+                success: function(data) {
+                    remove.remove();
+                },
+                error: function(data) {
+                    console.log("错误");
+                }
+            });
+
 
         });
 

@@ -35,7 +35,6 @@ class Category extends Controller
         foreach ($category as $key => $value) {
             if ($value["pid"]) {
                 $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
-                //halt($res);
                 $category[$key]["names"] = $res["name"];
             }
         }
