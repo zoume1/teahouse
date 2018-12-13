@@ -120,7 +120,19 @@ Route::group("admin",[
     "images_online_push"=>"admin/Photo/images_online_push", //上传图片库
     "photo_del"=>"admin/Photo/delete", //删除单张图片
     /* TODO:图片库结束*/
-	
+
+    /*TODO:订单开始*/
+    "order_index"=>"admin/Order/order_index",//初始订单页面
+    "order_integral"=>"admin/Order/order_integral",//积分订单
+    "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
+    "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
+    /*TODO:订单结束*/
+    /*TODO:评价开始*/
+    "evaluate_index"=>"admin/Evaluate/evaluate_index",//评价管理页面
+    "evaluate_edit"=>"admin/Evaluate/evaluate_edit",//评价编辑
+    "evaluate_setting"=>"admin/Evaluate/evaluate_setting",//评价积分设置
+    /*TODO:评价结束*/
+
 	 /*茶圈*/
     "category_index"=>"admin/Category/index",   //活动分类显示
     "category_add"=>"admin/Category/add",       //活动分类添加
@@ -185,26 +197,36 @@ Route::group("admin",[
     "goods_type_search"=>"admin/GoodsType/search",    //商品分类列表组模糊搜索 
 
     /*TODO：分销开始*/
-    "distribution_setting_index"=>"admin/Distribution/setting_index", //分销设置页面
-    "distribution_setting_edit"=>"admin/Distribution/setting_edit",   //分销设置页面编辑
-    "distribution_setting_save"=>"admin/Distribution/setting_save",   //分销设置页面保存
-    "distribution_goods_index"=>"admin/Distribution/goods_index",     //分销商品页面
-    "distribution_goods_add"=>"admin/Distribution/goods_add",         //分销商品添加
-    "distribution_goods_edit"=>"admin/Distribution/goods_edit",       //分销商品编辑
-    "distribution_record_index"=>"admin/Distribution/record_index",   //分销记录页面
-    "distribution_member_index"=>"admin/Distribution/member_index",   //分销成员页面
-    "distribution_member_edit"=>"admin/Distribution/member_edit",     //分销成员页面编辑
+    "distribution_setting_index"=>"admin/Distribution/setting_index",  //分销设置页面
+    "distribution_setting_edit"=>"admin/Distribution/setting_edit",    //分销设置页面编辑
+    "distribution_setting_updata"=>"admin/Distribution/setting_updata",//分销设置页面保存
+    "distribution_goods_index"=>"admin/Distribution/goods_index",      //分销商品页面
+    "distribution_goods_add"=>"admin/Distribution/goods_add",          //分销商品添加
+    "distribution_goods_edit"=>"admin/Distribution/goods_edit",        //分销商品编辑
+    "distribution_goods_save"=>"admin/Distribution/goods_save",        //分销商品添加入库
+    "distribution_record_index"=>"admin/Distribution/record_index",    //分销记录页面
+    "distribution_member_index"=>"admin/Distribution/member_index",    //分销成员页面
+    "distribution_member_edit"=>"admin/Distribution/member_edit",      //分销成员页面编辑
     /*TODO：分销结束*/
 
+
+
+
     /*积分商城*/
-    "bonus_index"=>"admin/Bonus/bonus_index",            //积分商城设置页面
-    "bonus_edit"=>"admin/Bonus/bonus_edit",              //积分商城页面编辑
-    "bonus_add"=>"admin/Bonus/bonus_add",                //积分商城商城添加
+    "bonus_index"=>"admin/Bonus/bonus_index",            
+    "bonus_edit"=>"admin/Bonus/bonus_edit",              
+    "bonus_add"=>"admin/Bonus/bonus_add",               
+
+    /*限时限购*/
+    "coupon_index"=>"admin/Bonus/coupon_index",    
+    "coupon_edit"=>"admin/Bonus/coupon_edit",      
+    "coupon_add"=>"admin/Bonus/coupon_add",        
 
     /*优惠券*/
-    "coupon_index"=>"admin/Bonus/coupon_index",    //优惠券页面
-    "coupon_edit"=>"admin/Bonus/coupon_edit",      //优惠券编辑
-    "coupon_add"=>"admin/Bonus/coupon_add",        //优惠券添加
+    "limitations_index"=>"admin/Limitations/limitations_index",    
+    "limitations_edit"=>"admin/Limitations/limitations_edit",      
+    "limitations_add"=>"admin/Limitations/limitations_add",       
+
 
 
     
