@@ -67,9 +67,26 @@ class  Distribution extends  Controller{
      * GY
      */
     public function goods_index(){
+
         $commodity = db("commodity") -> paginate(20);
-        //($commodity);
-        return view('goods_index');
+        // $res = array("zero" ,"first" ,"second","third");
+        // $commoditys = db("commodity") -> where("shop_number",13)->field("zero,first,second,third,grade")-> find();
+        // $pdd = explode(",",$commoditys["grade"]);
+        // foreach ($pdd as $key => $value)
+        // {
+        //     $pdd[$key] = str_replace('%','',$value);
+        // }
+
+        // $array = array_combine($res,$pdd);
+        // foreach ($array as $k => $v)
+        // {
+        //     $array[$k] = ($v * 100.00)/100;
+        // }
+
+        // dump($array);
+
+
+        return view('goods_index',["commodity"=> $commodity]);
     }
 
 
@@ -107,22 +124,37 @@ class  Distribution extends  Controller{
     {
         if ($request->isPost()) {
             $data = $request->param();
+            $top = $data["grade"];
+            $res = array("zero" ,"first" ,"second","third");
+            $des = db("goods") -> where("goods_number",$data["shop_number"])->field("goods_name,goods_show_images,goods_new_money")-> find();
+            $deny = explode(",",$des["goods_show_images"]);
+            $data["picture"] = $deny[0];
+            $data["shop_name"] = $des["goods_name"];
+            $data["shop_price"] = $des["goods_new_money"];
+
+            foreach ($top as $key => $value)
+            {
+                $top[$key] = str_replace('%','',$value);
+            }
+            $array = array_combine($res,$top);
+
+            foreach ($array as $k => $v)
+            {
+                $array[$k] = ($v * $des["goods_new_money"])/100;
+            }
             $data["rank"] = implode(",",$data["rank"]);
             $data["grade"] = implode(",",$data["grade"]);
             $data["award"] = implode(",",$data["award"]);
             $data["scale"] = implode(",",$data["scale"]);
             $data["integral"] = implode(",",$data["integral"]);
-            
-            $des = db("goods") -> where("goods_number",$data["shop_number"])->field("goods_name,goods_show_images")-> find();
-            $data["picture"] = $des["goods_show_images"];
-            $data["shop_name"] = $des["goods_name"];
-            
+
             if(empty($data["shop_name"]))
             {
                 $this->error("商品列表中没有该商品，请仔细核对后再添加", url("admin/Distribution/goods_add"));
             }
 
-            $bool = db("commodity")->insert($data);
+            $distribution = array_merge($data, $array);
+            $bool = db("commodity")->insert($distribution);
 
             if ($bool) {
                 $this->success("添加成功", url("admin/Distribution/goods_index"));

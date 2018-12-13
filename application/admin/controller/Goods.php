@@ -106,8 +106,8 @@ class Goods extends Controller
 
     /**
      * [商品列表组添加]
-     * 陈绪
-     * @param Request $request
+     * GY
+     * 
      */
     public function save(Request $request)
     {
@@ -162,7 +162,7 @@ class Goods extends Controller
 
     /**
      * [商品列表组修改]
-     * 陈绪
+     * GY
      */
     public function edit(Request $request, $id)
     {
@@ -194,7 +194,7 @@ class Goods extends Controller
 
     /**
      * [商品列表组图片删除]
-     * 陈绪
+     * GY
      */
     public function images(Request $request)
     {
@@ -238,7 +238,7 @@ class Goods extends Controller
 
     /**
      * [商品列表组删除]
-     * 陈绪
+     * GY
      */
     public function del(Request $request)
     {
@@ -265,8 +265,8 @@ class Goods extends Controller
 
     /**
      * [商品列表组更新]
-     * 陈绪
-     * @param Request $request
+     * GY
+     * 
      */
     public function updata(Request $request)
     {
@@ -274,7 +274,7 @@ class Goods extends Controller
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
 
-       
+            
             if (!empty($goods_data["goods_standard_name"])) {
                 $goods_standard_name = implode(",", $goods_data["goods_standard_name"]);
                 $goods_standard_value = implode(",", $goods_data["goods_standard_value"]);
@@ -305,9 +305,27 @@ class Goods extends Controller
 
             }
 
+            
+            $res = array("zero" ,"first" ,"second","third");
+            $commodity = db("commodity") -> where("shop_number",$goods_data["goods_number"])->field("zero,first,second,third,grade")-> find();
+            $pdd = explode(",",$commodity["grade"]); 
 
-            $bool = db("goods")->where("id", $id)->update($goods_data);           
+            foreach ($pdd as $key => $value)
+            {
+                $pdd[$key] = str_replace('%','',$value);
+            }
 
+            $array = array_combine($res,$pdd);
+
+            foreach ($array as $k => $v)
+            {
+                $array[$k] = ($v * $goods_data["goods_new_money"])/100;
+            }
+            
+            $array["shop_price"] = $goods_data["goods_new_money"];
+            $boole = db("commodity") -> where("shop_number",$goods_data["goods_number"]) ->update($array);
+
+            $bool = db("goods")->where("id", $id)->update($goods_data);
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));
             } else {
