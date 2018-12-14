@@ -204,6 +204,8 @@ Route::group("admin",[
     "distribution_goods_add"=>"admin/Distribution/goods_add",          //分销商品添加
     "distribution_goods_edit"=>"admin/Distribution/goods_edit",        //分销商品编辑
     "distribution_goods_save"=>"admin/Distribution/goods_save",        //分销商品添加入库
+    "distribution_goods_update"=>"admin/Distribution/goods_update",    //分销商品编辑更新
+    "distribution_goods_delete"=>"admin/Distribution/goods_delete",      //分销商品组删除
     "distribution_record_index"=>"admin/Distribution/record_index",    //分销记录页面
     "distribution_member_index"=>"admin/Distribution/member_index",    //分销成员页面
     "distribution_member_edit"=>"admin/Distribution/member_edit",      //分销成员页面编辑
