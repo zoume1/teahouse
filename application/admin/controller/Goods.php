@@ -133,23 +133,32 @@ class Goods extends Controller
 
             }
 
-            $data_arry = [];
-            if(is_array($goods_data)){ 
-            foreach($goods_data as $key => $value)
-            {                
-                if(substr($key,0,3) == "sss"){  
-                   $str = substr($key,3);            
-                   $keys[] = $str;
-                   $values[] = $value;                                 
-               }
+//            $data_arry = [];
+//            if(is_array($goods_data)){
+//            foreach($goods_data as $key => $value)
+//            {
+//                if(substr($key,0,3) == "sss"){
+//                   $str = substr($key,3);
+//                   $keys[] = $str;
+//                   $values[] = $value;
+//               }
+//            }
+//        }
+
+            foreach ($goods_data as $key => $value)
+            {
+                if(is_array($value)){
+
+                    $liste[$key] = implode(",",$value);
+                    $goods_json = json_encode($liste);
+                    unset($goods_data[$key]);
+                }
+
             }
-        }
 
-
-            halt($goods_data);
+            $goods_data["goods_standard_value"] = $goods_json;
             $bool = db("goods")->insert($goods_data);
             
-
             if ($bool) {
                 $this->success("添加成功", url("admin/Goods/index"));
             } else {
@@ -167,6 +176,7 @@ class Goods extends Controller
     public function edit(Request $request, $id)
     {
         $goods = db("goods")->where("id", $id)->select();
+        halt($goods);
         foreach ($goods as $key => $value) {
             $goods[$key]["goods_standard_name"] = explode(",", $value["goods_standard_name"]);
             $goods_standard_value = explode(",", $value["goods_standard_value"]);
@@ -306,25 +316,27 @@ class Goods extends Controller
             }
 
             
-            $res = array("zero" ,"first" ,"second","third");
-            $commodity = db("commodity") -> where("shop_number",$goods_data["goods_number"])->field("zero,first,second,third,grade")-> find();
-            $pdd = explode(",",$commodity["grade"]); 
-
-            foreach ($pdd as $key => $value)
+            $commodity = db("commodity") -> where("shop_number",$goods_data["goods_number"])->field("zero,first,second,third,grade,shop_price")-> find();
+            if(!($goods_data["goods_show_images"] == $commodity["shop_price"]))
             {
-                $pdd[$key] = str_replace('%','',$value);
-            }
+                $res = array("zero" ,"first" ,"second","third");
+                $pdd = explode(",",$commodity["grade"]); 
 
-            $array = array_combine($res,$pdd);
+                foreach ($pdd as $key => $value)
+                {
+                    $pdd[$key] = str_replace('%','',$value);
+                }
 
-            foreach ($array as $k => $v)
-            {
-                $array[$k] = ($v * $goods_data["goods_new_money"])/100;
-            }
-            
-            $array["shop_price"] = $goods_data["goods_new_money"];
-            $boole = db("commodity") -> where("shop_number",$goods_data["goods_number"]) ->update($array);
-
+                $array = array_combine($res,$pdd);
+                foreach ($array as $k => $v)
+                {
+                    $array[$k] = ($v * $goods_data["goods_new_money"])/100;
+                }
+                
+                $array["shop_price"] = $goods_data["goods_new_money"];
+                $boole = db("commodity") -> where("shop_number",$goods_data["goods_number"]) ->update($array);
+        }
+            halt($goods_data);
             $bool = db("goods")->where("id", $id)->update($goods_data);
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));

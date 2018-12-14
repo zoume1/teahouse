@@ -111,6 +111,7 @@ class GoodsType extends Controller{
         if ($pid == 0) {
             $goods_list = getSelectList("wares");
         }
+        
         return view("goods_type_edit", ["category" => $category, "goods_lists" => $goods_list]);
     }
 
