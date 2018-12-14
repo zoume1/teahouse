@@ -141,12 +141,12 @@ class Goods extends Controller
                    $str = substr($key,3);            
                    $keys[] = $str;
                    $values[] = $value;                                 
-            }
+               }
             }
         }
 
 
-
+            halt($goods_data);
             $bool = db("goods")->insert($goods_data);
             
 

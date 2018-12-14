@@ -66,38 +66,21 @@ class  Distribution extends  Controller{
      * [分销商品页面]
      * GY
      */
-    public function goods_index(){
+    public function goods_index()
+    {
 
         $commodity = db("commodity") -> paginate(20);
-        // $res = array("zero" ,"first" ,"second","third");
-        // $commoditys = db("commodity") -> where("shop_number",13)->field("zero,first,second,third,grade")-> find();
-        // $pdd = explode(",",$commoditys["grade"]);
-        // foreach ($pdd as $key => $value)
-        // {
-        //     $pdd[$key] = str_replace('%','',$value);
-        // }
-
-        // $array = array_combine($res,$pdd);
-        // foreach ($array as $k => $v)
-        // {
-        //     $array[$k] = ($v * 100.00)/100;
-        // }
-
-        // dump($array);
-
-
         return view('goods_index',["commodity"=> $commodity]);
     }
 
 
+
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销商品添加
-     **************************************
-     * @return \think\response\View
+     * [分销商品添加商品]
+     * GY
      */
-    public function goods_add(){
+    public function goods_add()
+    {
         return view('goods_add');
     }
 
@@ -105,14 +88,23 @@ class  Distribution extends  Controller{
 
 
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销商品编辑
-     **************************************
-     * @return \think\response\View
+     * [分销商品编辑]
+     * GY
      */
-    public function goods_edit(){
-        return view('goods_edit');
+    public function goods_edit($id)
+    {
+
+        $goods = db("commodity") -> where("id",$id) ->select();
+        dump($goods);
+        foreach( $goods as $key => $value)
+        {
+            $value["grade"] = explode(",",$value["grade"]);
+            $value["award"] = explode(",",$value["award"]);
+            $value["scale"] = explode(",",$value["scale"]);
+            $value["integral"] = explode(",",$value["integral"]);
+        }
+
+        return view('goods_edit',["goods"=> $goods]);
     }
 
 
