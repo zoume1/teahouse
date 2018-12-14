@@ -584,6 +584,7 @@
         });
     </script>
     <script type="text/javascript">
+    	var vals='';
         var lv1HTML = '';
         lv1HTML += '<div class="control-group lv1" style="padding: 10px;">';
         lv1HTML += '	<label class="control-label">规格名称</label>';
@@ -595,18 +596,15 @@
         lv1HTML += '	<div class="controls lv2s">';
         lv1HTML += '	</div>';
         lv1HTML += '</div>';
-       var ii=0;
-        var lv2HTML = '';
-        lv2HTML += '<div style="margin-top: 5px;">';
-        lv2HTML += '	<input type="text" name="lv2['+ii+']" class="lvv4" placeholder="参数名称" />';
-        lv2HTML += '	<button class="btn btn-danger remove_lv2" type="button">删除规格值</button>';
-        lv2HTML += '</div>';
+       
+       
+    
 
         function isPositiveNum(s) {
             var re = /^[0-9]*[1-9][0-9]*$/;
             return re.test(s);
         }
-
+       
         $(document).ready(function() {
             $('#add_lv1').on('click', function() {
                 var last = $('.control-group.lv1:last');
@@ -620,6 +618,12 @@
                 $(this).parents('.lv1').remove();
             });
             $(document).on('click', '.add_lv2', function() {
+            	var vals=$(this).siblings("input").val();
+            	    var lv2HTML = '';
+			        lv2HTML += '<div style="margin-top: 5px;">';
+			        lv2HTML += '	<input type="text" name="'+vals+'[]" class="lvv4" placeholder="参数名称" />';
+			        lv2HTML += '	<button class="btn btn-danger remove_lv2" type="button">删除规格值</button>';
+			        lv2HTML += '</div>';
                 $(this).parents('.lv1').find('.lv2s').append(lv2HTML);
             });
             $(document).on('click', '.remove_lv2', function() {
