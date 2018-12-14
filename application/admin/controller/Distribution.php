@@ -94,18 +94,43 @@ class  Distribution extends  Controller{
     public function goods_edit($id)
     {
 
-        $goods = db("commodity") -> where("id",$id) ->select();
-        dump($goods);
-        foreach( $goods as $key => $value)
-        {
-            $value["grade"] = explode(",",$value["grade"]);
-            $value["award"] = explode(",",$value["award"]);
-            $value["scale"] = explode(",",$value["scale"]);
-            $value["integral"] = explode(",",$value["integral"]);
-        }
+        $goods = db("commodity") -> where("id",$id) ->select();       
 
+        $goods[0]["grade"] = explode(",",$goods[0]["grade"]);
+        $goods[0]["award"] = explode(",",$goods[0]["award"]);
+        $goods[0]["scale"] = explode(",",$goods[0]["scale"]);
+        $goods[0]["integral"] = explode(",",$goods[0]["integral"]);       
+    
         return view('goods_edit',["goods"=> $goods]);
     }
+
+
+    
+    /**
+     * [分销商品编辑更新]
+     * GY
+     */
+    public function goods_update(Request $request)
+    {
+
+        if ($request->isPost()) {
+            $goods_data = $request->param();
+
+            $goods_data["rank"] = implode(",",$goods_data["rank"]);
+            $goods_data["grade"] = implode(",",$goods_data["grade"]);
+            $goods_data["award"] = implode(",",$goods_data["award"]);
+            $goods_data["scale"] = implode(",",$goods_data["scale"]);
+            $goods_data["integral"] = implode(",",$goods_data["integral"]);
+
+            $bool = db("commodity")->where('id', $request->only(["id"])["id"])->update($goods_data);
+            if ($bool) {
+                $this->success("编辑成功", url("admin/Distribution/goods_index"));
+            } else {
+                $this->error("编辑失败", url("admin/Distribution/goods_edit"));
+            }
+        }
+    }
+
 
 
     /**
@@ -157,6 +182,20 @@ class  Distribution extends  Controller{
     }
 
 
+    /**
+     * [分销商品组删除]
+     * GY
+     */
+    public function goods_delete($id)
+    {
+        $bool = db("commodity")->where("id", $id)->delete();
+        if ($bool) {
+            $this->success("删除成功", url("admin/Distribution/goods_index"));
+        } else {
+            $this->error("删除失败", url("admin/Distribution/goods_index"));
+        }
+
+    }
     /**
      **************李火生*******************
      * @param Request $request
