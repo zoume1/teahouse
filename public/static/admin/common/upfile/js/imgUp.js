@@ -6,7 +6,8 @@ $(function(){
 	};
 	
 		/*点击图片的文本框*/
-	$(".file").change(function(){	 
+	$("body").on('change','.file',function(){		
+//	$(".file").change(function(){	 
 		var maximg=$(this).data("id");
 	
 		var idFile = $(this).attr("id");
