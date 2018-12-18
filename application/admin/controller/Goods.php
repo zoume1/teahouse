@@ -176,7 +176,6 @@ class Goods extends Controller
     public function edit(Request $request, $id)
     {
         $goods = db("goods")->where("id", $id)->select();
-        halt($goods);
         foreach ($goods as $key => $value) {
             $goods[$key]["goods_standard_name"] = explode(",", $value["goods_standard_name"]);
             $goods_standard_value = explode(",", $value["goods_standard_value"]);
@@ -185,8 +184,8 @@ class Goods extends Controller
             $goods[$key]["goods_delivery"] = $goods_delivery;
             $goods[$key]["goods_standard_value"] = $goods_standard_value;
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
-
         }
+
         $goods_standard_name = array();
         foreach ($goods as $k => $val) {
             foreach ($val["goods_standard_name"] as $k_1 => $v_2) {
