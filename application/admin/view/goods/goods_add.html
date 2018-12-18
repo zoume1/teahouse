@@ -564,14 +564,14 @@
                     tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[price]" /></td>';
                     tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[stock]" /></td>';
                     tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" /></td>';
-                    tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[img]" /></td>';
+                    tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[cost]" /></td>';
                     tableHTML += '			<td width="100px">';
                      tableHTML += '                         <div class="img-box full">';
 					 tableHTML += '	                    <section class=" img-section">';
 					 tableHTML += '	                        <div class="z_photo upimg-div clear">';
 					 tableHTML += '	                            <section class="z_file fl">';
 					 tableHTML += '	                                <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">';
-					 tableHTML += '	                                <input type="file" name="goods_show_images[]" id="file_'+i+'" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />';
+					 tableHTML += '	                                <input type="file" name="sss' + name + '[img]" id="file_'+i+'" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />';
 					 tableHTML += '	                            </section>';
 					 tableHTML += '	                        </div>';
 					 tableHTML += '                    </section>';
@@ -583,7 +583,7 @@
 					 tableHTML += '                 </div>';
 					 tableHTML += '            </aside>';
                      tableHTML += '             </td>';
-                    tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="status" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>';
+                    tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[status]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>';
                     tableHTML += '		</tr>';
                 }
                 tableHTML += '	</tbody>';
