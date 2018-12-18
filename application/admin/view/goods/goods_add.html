@@ -121,27 +121,25 @@
         position: fixed;
         z-index: 9999;
     }
-    
-    table .full {
-        width: 100px !important;
-        min-width: 100px !important;
+    table  .full{
+    	width: 100px !important;
+    	min-width: 100px !important;
     }
-    
-    table input {
-        width: 80px !important;
-        min-width: 80px !important;
+    table  input{
+    	width: 80px !important;
+    	min-width: 80px !important;
     }
-    
-    table .z_photo {
-        padding: 0;
+     table  .z_photo{
+    	padding:0;
     }
-    
-    table th {
-        text-align: center;
+       table  th{
+       	text-align: center;
     }
-    
-    table td {
-        text-align: center;
+       table  td{
+         text-align: center;
+    }
+    .tan{
+    	cursor: pointer;
     }
 </style>
 
@@ -440,165 +438,165 @@
                 $("#hot").append(dhtml);
                 form.render();
             });
-            var vals = '';
-            var lv1HTML = '';
-            lv1HTML += '<div class="control-group lv1" style="padding: 10px;">';
-            lv1HTML += '	<label class="control-label">规格名称</label>';
-            lv1HTML += '	<div class="controls">';
-            lv1HTML += '		<input type="text" name="lv1[]" class="lvv3"  placeholder="规格名称" />';
-            lv1HTML += '		<button class="btn btn-primary add_lv2" type="button">添加规格值</button>';
-            lv1HTML += '		<button class="btn btn-danger remove_lv1" type="button">删除规格名 </button>';
-            lv1HTML += '	</div>';
-            lv1HTML += '	<div class="controls lv2s">';
-            lv1HTML += '	</div>';
-            lv1HTML += '</div>';
+            var vals='';
+        var lv1HTML = '';
+        lv1HTML += '<div class="control-group lv1" style="padding: 10px;">';
+        lv1HTML += '	<label class="control-label">规格名称</label>';
+        lv1HTML += '	<div class="controls">';
+        lv1HTML += '		<input type="text" name="lv1[]" class="lvv3"  placeholder="规格名称" />';
+        lv1HTML += '		<button class="btn btn-primary add_lv2" type="button">添加规格值</button>';
+        lv1HTML += '		<button class="btn btn-danger remove_lv1" type="button">删除规格名 </button>';
+        lv1HTML += '	</div>';
+        lv1HTML += '	<div class="controls lv2s">';
+        lv1HTML += '	</div>';
+        lv1HTML += '</div>';
+       
+       
+    
 
-
-
-
-            function isPositiveNum(s) {
-                var re = /^[0-9]*[1-9][0-9]*$/;
-                return re.test(s);
-            }
-
-            $(document).ready(function() {
-                $('#add_lv1').on('click', function() {
-                    var last = $('.control-group.lv1:last');
-                    if (!last || last.length == 0) {
-                        $(this).parents('.control-group').eq(0).after(lv1HTML);
-                    } else {
-                        last.after(lv1HTML);
-                    }
-                });
-                $(document).on('click', '.remove_lv1', function() {
-                    $(this).parents('.lv1').remove();
-                });
-                $(document).on('click', '.add_lv2', function() {
-                    var vals = $(this).siblings("input").val();
-                    var lv2HTML = '';
-                    lv2HTML += '<div style="margin-top: 5px;">';
-                    lv2HTML += '	<input type="text" name="' + vals + '[]" class="lvv4" placeholder="参数名称" />';
-                    lv2HTML += '	<button class="btn btn-danger remove_lv2" type="button">删除规格值</button>';
-                    lv2HTML += '</div>';
-                    $(this).parents('.lv1').find('.lv2s').append(lv2HTML);
-                });
-                $(document).on('click', '.remove_lv2', function() {
-                    $(this).parent().remove();
-                });
-                $('#update_table').on('click', function() {
-                    var lv1Arr = $('input[class="lvv3"]');
-                    if (!lv1Arr || lv1Arr.length == 0) {
-                        $('#lv_table_con').hide();
-                        $('#lv_table').html('');
+        function isPositiveNum(s) {
+            var re = /^[0-9]*[1-9][0-9]*$/;
+            return re.test(s);
+        }
+       
+        $(document).ready(function() {
+            $('#add_lv1').on('click', function() {
+                var last = $('.control-group.lv1:last');
+                if (!last || last.length == 0) {
+                    $(this).parents('.control-group').eq(0).after(lv1HTML);
+                } else {
+                    last.after(lv1HTML);
+                }
+            });
+            $(document).on('click', '.remove_lv1', function() {
+                $(this).parents('.lv1').remove();
+            });
+            $(document).on('click', '.add_lv2', function() {
+            	var vals=$(this).siblings("input").val();
+            	    var lv2HTML = '';
+			        lv2HTML += '<div style="margin-top: 5px;">';
+			        lv2HTML += '	<input type="text" name="'+vals+'[]" class="lvv4" placeholder="参数名称" />';
+			        lv2HTML += '	<button class="btn btn-danger remove_lv2" type="button">删除规格值</button>';
+			        lv2HTML += '</div>';
+                $(this).parents('.lv1').find('.lv2s').append(lv2HTML);
+            });
+            $(document).on('click', '.remove_lv2', function() {
+                $(this).parent().remove();
+            });
+            $('#update_table').on('click', function() {
+                var lv1Arr = $('input[class="lvv3"]');
+                if (!lv1Arr || lv1Arr.length == 0) {
+                    $('#lv_table_con').hide();
+                    $('#lv_table').html('');
+                    return;
+                }
+                for (var i = 0; i < lv1Arr.length; i++) {
+                    var lv2Arr = $(lv1Arr[i]).parents('.lv1').find('input[class="lvv4"]');
+                    if (!lv2Arr || lv2Arr.length == 0) {
+                        alert('请先删除无参数的规格项！');
                         return;
                     }
-                    for (var i = 0; i < lv1Arr.length; i++) {
-                        var lv2Arr = $(lv1Arr[i]).parents('.lv1').find('input[class="lvv4"]');
-                        if (!lv2Arr || lv2Arr.length == 0) {
-                            alert('请先删除无参数的规格项！');
-                            return;
+                }
+
+                var tableHTML = '';
+                tableHTML += '<table class="table table-bordered">';
+                tableHTML += '	<thead>';
+                tableHTML += '		<tr>';
+                for (var i = 0; i < lv1Arr.length; i++) {
+                    tableHTML += '			<th width="50"><input value="' + $(lv1Arr[i]).val() + '"  readonly style="border:0;"></th>';
+                }
+                tableHTML += '			<th width="100px"><input value="价格（元）"  readonly style="border:0;"></th>';
+                tableHTML += '			<th width="100px"><input value="库存"  readonly style="border:0;"></th>';
+                tableHTML += '			<th width="100px"><input value="规格编码"  readonly style="border:0;"></th>';
+                tableHTML += '			<th width="100px"><input value="成本价"  readonly style="border:0;"></th>';
+                tableHTML += '			<th width="100px"><input value="图片"  readonly style="border:0;"></th>';
+                tableHTML += '			<th width="100px"><input value="开关"  readonly style="border:0;"></th>';
+                tableHTML += '		</tr>';
+                tableHTML += '	</thead>';
+                tableHTML += '	<tbody>';
+
+                var numsArr = new Array();
+                var idxArr = new Array();
+                for (var i = 0; i < lv1Arr.length; i++) {
+                    numsArr.push($(lv1Arr[i]).parents('.lv1').find('input[class="lvv4"]').length);
+                    idxArr[i] = 0;
+                }
+
+                var len = 1;
+                var rowsArr = new Array();
+                for (var i = 0; i < numsArr.length; i++) {
+                    len = len * numsArr[i];
+
+                    var tmpnum = 1;
+                    for (var j = numsArr.length - 1; j > i; j--) {
+                        tmpnum = tmpnum * numsArr[j];
+                    }
+                    rowsArr.push(tmpnum);
+                }
+
+                for (var i = 0; i < len; i++) {
+                    tableHTML += '		<tr data-row="' + (i + 1) + '">';
+
+                    var name = '';
+                    for (var j = 0; j < lv1Arr.length; j++) {
+                        var n = parseInt(i / rowsArr[j]);
+                        if (j == 0) {} else if (j == lv1Arr.length - 1) {
+                            n = idxArr[j];
+                            if (idxArr[j] + 1 >= numsArr[j]) {
+                                idxArr[j] = 0;
+                            } else {
+                                idxArr[j]++;
+                            }
+                        } else {
+                            var m = parseInt(i / rowsArr[j]);
+                            n = m % numsArr[j];
+                        }
+
+                        var text = $(lv1Arr[j]).parents('.lv1').find('input[class="lvv4"]').eq(n).val();
+                        if (j != lv1Arr.length - 1) {
+                            name += text + '_';
+                        } else {
+                            name += text;
+                        }
+
+                        if (i % rowsArr[j] == 0) {
+                            tableHTML += '	<td width="50" rowspan="' + rowsArr[j] + '" data-rc="' + (i + 1) + '_' + (j + 1) + '"><input value="' + text + '"  readonly style="border:0;"></td>';
                         }
                     }
 
-                    var tableHTML = '';
-                    tableHTML += '<table class="table table-bordered">';
-                    tableHTML += '	<thead>';
-                    tableHTML += '		<tr>';
-                    for (var i = 0; i < lv1Arr.length; i++) {
-                        tableHTML += '			<th width="50"><input value="' + $(lv1Arr[i]).val() + '"  readonly style="border:0;"></th>';
-                    }
-                    tableHTML += '			<th width="100px"><input value="价格（元）"  readonly style="border:0;"></th>';
-                    tableHTML += '			<th width="100px"><input value="库存"  readonly style="border:0;"></th>';
-                    tableHTML += '			<th width="100px"><input value="规格编码"  readonly style="border:0;"></th>';
-                    tableHTML += '			<th width="100px"><input value="成本价"  readonly style="border:0;"></th>';
-                    tableHTML += '			<th width="100px"><input value="图片"  readonly style="border:0;"></th>';
-                    tableHTML += '			<th width="100px"><input value="开关"  readonly style="border:0;"></th>';
+                    tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[price]" /></td>';
+                    tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[stock]" /></td>';
+                    tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" /></td>';
+                    tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[cost]" /></td>';
+                    tableHTML += '			<td width="100px">';
+                     tableHTML += '                         <div class="img-box full">';
+					 tableHTML += '	                    <section class=" img-section">';
+					 tableHTML += '	                        <div class="z_photo upimg-div clear">';
+					 tableHTML += '	                            <section class="z_file fl">';
+					 tableHTML += '	                                <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">';
+					 tableHTML += '	                                <input type="file" name="sss' + name + '[img]" id="file_'+i+'" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />';
+					 tableHTML += '	                            </section>';
+					 tableHTML += '	                        </div>';
+					 tableHTML += '                    </section>';
+				     tableHTML += '                </div>';
+				     tableHTML += '                <aside class="mask works-mask">';
+					 tableHTML += '                   <div class="mask-content">';
+				     tableHTML += '                       <p class="del-p ">您确定要删除作品图片吗？</p>';
+					 tableHTML += '                     <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>';
+					 tableHTML += '                 </div>';
+					 tableHTML += '            </aside>';
+                     tableHTML += '             </td>';
+                    tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[status]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>';
                     tableHTML += '		</tr>';
-                    tableHTML += '	</thead>';
-                    tableHTML += '	<tbody>';
+                }
+                tableHTML += '	</tbody>';
+                tableHTML += '</table>';
 
-                    var numsArr = new Array();
-                    var idxArr = new Array();
-                    for (var i = 0; i < lv1Arr.length; i++) {
-                        numsArr.push($(lv1Arr[i]).parents('.lv1').find('input[class="lvv4"]').length);
-                        idxArr[i] = 0;
-                    }
-
-                    var len = 1;
-                    var rowsArr = new Array();
-                    for (var i = 0; i < numsArr.length; i++) {
-                        len = len * numsArr[i];
-
-                        var tmpnum = 1;
-                        for (var j = numsArr.length - 1; j > i; j--) {
-                            tmpnum = tmpnum * numsArr[j];
-                        }
-                        rowsArr.push(tmpnum);
-                    }
-
-                    for (var i = 0; i < len; i++) {
-                        tableHTML += '		<tr data-row="' + (i + 1) + '">';
-
-                        var name = '';
-                        for (var j = 0; j < lv1Arr.length; j++) {
-                            var n = parseInt(i / rowsArr[j]);
-                            if (j == 0) {} else if (j == lv1Arr.length - 1) {
-                                n = idxArr[j];
-                                if (idxArr[j] + 1 >= numsArr[j]) {
-                                    idxArr[j] = 0;
-                                } else {
-                                    idxArr[j]++;
-                                }
-                            } else {
-                                var m = parseInt(i / rowsArr[j]);
-                                n = m % numsArr[j];
-                            }
-
-                            var text = $(lv1Arr[j]).parents('.lv1').find('input[class="lvv4"]').eq(n).val();
-                            if (j != lv1Arr.length - 1) {
-                                name += text + '_';
-                            } else {
-                                name += text;
-                            }
-
-                            if (i % rowsArr[j] == 0) {
-                                tableHTML += '	<td width="50" rowspan="' + rowsArr[j] + '" data-rc="' + (i + 1) + '_' + (j + 1) + '"><input value="' + text + '"  readonly style="border:0;"></td>';
-                            }
-                        }
-
-                        tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[price]" /></td>';
-                        tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[stock]" /></td>';
-                        tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" /></td>';
-                        tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[img]" /></td>';
-                        tableHTML += '			<td width="100px">';
-                        tableHTML += '                         <div class="img-box full">';
-                        tableHTML += '	                    <section class=" img-section">';
-                        tableHTML += '	                        <div class="z_photo upimg-div clear">';
-                        tableHTML += '	                            <section class="z_file fl">';
-                        tableHTML += '	                                <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">';
-                        tableHTML += '	                                <input type="file" name="goods_show_images[]" id="file_' + i + '" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />';
-                        tableHTML += '	                            </section>';
-                        tableHTML += '	                        </div>';
-                        tableHTML += '                    </section>';
-                        tableHTML += '                </div>';
-                        tableHTML += '                <aside class="mask works-mask">';
-                        tableHTML += '                   <div class="mask-content">';
-                        tableHTML += '                       <p class="del-p ">您确定要删除作品图片吗？</p>';
-                        tableHTML += '                     <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>';
-                        tableHTML += '                 </div>';
-                        tableHTML += '            </aside>';
-                        tableHTML += '             </td>';
-                        tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="status" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>';
-                        tableHTML += '		</tr>';
-                    }
-                    tableHTML += '	</tbody>';
-                    tableHTML += '</table>';
-
-                    $('#lv_table_con').show();
-                    $('#lv_table').html(tableHTML);
+                $('#lv_table_con').show();
+                $('#lv_table').html(tableHTML);
                     form.render();
-                });
             });
+        });
 
             $("#hot").on('click', ".change_text", function() {
                     var texts = $(this).siblings('input');
@@ -636,7 +634,7 @@
                 }
 
             });
-
+            
             form.on('switch(isShow)', function(data) {
                 if ($(this).val() == 0) {
                     $(this).val(1);
@@ -743,7 +741,7 @@
                     },
                     success: function(data) {
                         data = eval("(" + data + ")");
-                        //                      console.log(data)
+//                      console.log(data)
                         layer.msg(data.info);
                         if (data.info == "成功") {
                             var dhtmls = "";
@@ -773,6 +771,7 @@
         });
     </script>
     <script type="text/javascript">
+    	
     </script>
 
 
