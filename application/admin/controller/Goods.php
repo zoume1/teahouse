@@ -114,56 +114,95 @@ class Goods extends Controller
         if ($request->isPost()) {
 
             $goods_data = $request->param();
-            if (!empty($goods_data["goods_standard_name"])) {
-                $goods_standard_name = implode(",", $goods_data["goods_standard_name"]);
-                $goods_standard_value = implode(",", $goods_data["goods_standard_value"]);
-                $goods_data["goods_standard_name"] = $goods_standard_name;
-                $goods_data["goods_standard_value"] = $goods_standard_value;
-            }
+            // if (!empty($goods_data["goods_standard_name"])) {
+            //     $goods_standard_name = implode(",", $goods_data["goods_standard_name"]);
+            //     $goods_standard_value = implode(",", $goods_data["goods_standard_value"]);
+            //     $goods_data["goods_standard_name"] = $goods_standard_name;
+            //     $goods_data["goods_standard_value"] = $goods_standard_value;
+            // }
             //添加图片
             $list = [];
             $show_images = $request->file("goods_show_images");
-            
+            $imgs = $request-> file("imgs");
+
             if (!empty($show_images)) {
-                foreach ($show_images as $k => $v) {
-                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                foreach ($show_images as $ky => $vl) {
+                    $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $show->getSaveName());
                 }
                 $goods_data["goods_show_images"] = implode(',', $list);
 
             }
 
-//            $data_arry = [];
-//            if(is_array($goods_data)){
-//            foreach($goods_data as $key => $value)
-//            {
-//                if(substr($key,0,3) == "sss"){
-//                   $str = substr($key,3);
-//                   $keys[] = $str;
-//                   $values[] = $value;
-//               }
-//            }
-//        }
-            
-            halt($goods_data);
-            foreach ($goods_data as $key => $value)
-            {
-                if(is_array($value)){
-
-                    $liste[$key] = implode(",",$value);
-                    $goods_json = json_encode($liste);
-                    unset($goods_data[$key]);
+            if($goods_data["goods_standard"] == "0"){
+                $bool = db("goods")->insert($goods_data);
+                if ($bool) {
+                    $this->success("添加成功", url("admin/Goods/index"));
+                } else {
+                    $this->success("添加失败", url('admin/Goods/add'));
                 }
 
             }
 
-            $goods_data["goods_standard_value"] = $goods_json;
-            $bool = db("goods")->insert($goods_data);
-            
-            if ($bool) {
-                $this->success("添加成功", url("admin/Goods/index"));
-            } else {
-                $this->success("添加失败", url('admin/Goods/add'));
+            if($goods_data["goods_standard"] == "1"){
+                $goods_special = [];
+                $goods_special["goods_name"] = $goods_data["goods_name"];
+                $goods_special["produce"] = $goods_data["produce"];
+                $goods_special["brand"] = $goods_data["brand"];
+                $goods_special["goods_number"] = $goods_data["goods_number"];
+                $goods_special["goods_standard"] = $goods_data["goods_standard"];
+                $goods_special["goods_selling"] = $goods_data["goods_selling"];
+                $goods_special["goods_sign"] = $goods_data["goods_sign"];
+                $goods_special["goods_describe"] = $goods_data["goods_describe"];
+                $goods_special["pid"] = $goods_data["pid"];
+                $goods_special["sort_number"] = $goods_data["sort_number"];
+                $goods_special["video_link"] = $goods_data["video_link"];
+                $goods_special["goods_delivery"] = $goods_data["goods_delivery"];
+                $goods_special["goods_franking"] = $goods_data["goods_franking"];
+                $goods_special["templet_id"] = $goods_data["templet_id"];
+                $goods_special["label"] = $goods_data["label"];
+                $goods_special["status"] = $goods_data["status"];
+                $goods_special["goods_text"] = $goods_data["goods_text"];
+                $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
+
+
+                $goods_id = db('goods')->insertGetId($goods_special);
+
+
+                if (!empty($imgs)) {
+                    foreach ($imgs as $k => $v) {
+                        $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                        $tab = str_replace("\\", "/", $shows->getSaveName());
+
+                        if(is_array($goods_data)){
+                            foreach($goods_data as $key => $value)
+                            {
+                                if(substr($key,0,3) == "sss"){
+                                    $str = substr($key,3);
+                                    $values[$k]["name"] = $str;
+                                    $values[$k]["price"] = $value["price"];
+                                    $values[$k]["stock"] = $value["stock"];
+                                    $values[$k]["coding"] = $value["coding"];
+                                    $values[$k]["status"] = $value["status"];
+                                    $values[$k]["cost"] = $value["cost"];
+                                    $values[$k]["images"] =$tab;
+                                    $values[$k]["goods_id"] =$goods_id;
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+                foreach($values as $kz => $vw){
+                    $rest = db('special')->insert($vw);
+
+                }
+                if ($rest) {
+                    $this->success("添加成功", url("admin/Goods/index"));
+                } else {
+                    $this->success("添加失败", url('admin/Goods/add'));
+                }
             }
 
         }
