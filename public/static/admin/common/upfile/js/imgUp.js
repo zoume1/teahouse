@@ -14,7 +14,6 @@ $(function(){
 		var file = document.getElementById(idFile);
 		var imgContainer = $(this).parents(".z_photo"); //存放图片的父亲元素
 		var fileList = file.files; //获取的图片文件
-
 		var input = $(this).parent();//文本框的父亲元素
 		var imgArr = [];
 		// console.log(imgContainer.find(".up-section"));
@@ -40,7 +39,9 @@ $(function(){
 		     var $img0 = $("<img class='close-upimg'>").on("click",function(event){
 				    event.preventDefault();
 					event.stopPropagation();
-					$(".works-mask").show();
+					console.log($(this).parent().parent().parent().siblings("aside"));
+					$(this).parent().parent().parent().parent().siblings("aside").show();
+//					$(".works-mask").show();
 					delParent = $(this).parent();
 				});   
 				$img0.attr("src","/siring_ow/public/static/admin/common/upfile/img/a7.png").appendTo($section);
@@ -69,7 +70,7 @@ $(function(){
 	
    
     $(".z_photo").delegate(".close-upimg","click",function(){
-     	  $(".works-mask").show();
+     	  $(this).parent().parent().parent().parent().siblings("aside").show();
      	  delParent = $(this).parent();
 	});
 		
