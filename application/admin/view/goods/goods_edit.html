@@ -364,10 +364,10 @@
 									<!--//规格值循环这里-->
 									<tr data-row="1">
 										<td width="50" rowspan="1" data-rc="1_1"><input value="1521" readonly="" style="border:0;"></td>
-										<td width="100px"><input type="text" name="sss1521[price]"></td>
-										<td width="100px"><input type="text" name="sss1521[stock]"></td>
-										<td width="100px"><input type="text" name="sss1521[coding]"></td>
-										<td width="100px"><input type="text" name="sss1521[img]"></td>
+										<td width="100px"><input type="text" ></td>
+										<td width="100px"><input type="text" ></td>
+										<td width="100px"><input type="text" ></td>
+										<td width="100px"><input type="text" ></td>
 										<td width="100px">
 											<div class="img-box full">
 												<section class=" img-section">
@@ -697,7 +697,7 @@
 	            
             	$.ajax({
 					type: "POST",
-					url: "{:url('admin/Goods/switch')}",
+					url: "{:url('admin/Goods/switches')}",
 					data: {
 						"id": id,
 						"status": value,
