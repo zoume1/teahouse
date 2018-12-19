@@ -145,7 +145,7 @@ class Goods extends Controller
             }
 
             if($goods_data["goods_standard"] == "1"){
-                halt($goods_data);
+                
                 $goods_special = [];
                 $goods_special["goods_name"] = $goods_data["goods_name"];
                 $goods_special["produce"] = $goods_data["produce"];
@@ -164,16 +164,17 @@ class Goods extends Controller
                 $goods_special["label"] = $goods_data["label"];
                 $goods_special["status"] = $goods_data["status"];
 
-                if(isset($goods_special["goods_text"])){
+                if(isset($goods_data["goods_text"])){
                 $goods_special["goods_text"] = $goods_data["goods_text"];
                 }else{
                     $goods_special["goods_text"] = "";
+                    $goods_data["goods_text"] = "";
                 }
                 $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
 
                 $result = implode(",",$goods_data["lv1"]);
                
-                //$goods_id = db('goods')->insertGetId($goods_special);
+                $goods_id = db('goods')->insertGetId($goods_special);
                 
                 if (!empty($goods_data)) {
                     foreach ($goods_data as $kn => $nl) {
@@ -181,14 +182,17 @@ class Goods extends Controller
                             $price[] = $nl["price"];
                             $stock[] = $nl["stock"];
                             $coding[] = $nl["coding"];
-                            $status[] = $nl["status"];
                             $cost[] = $nl["cost"];
-
+                            if(isset($nl["status"])){
+                            $status[] = $nl["status"];
+                            }else{
+                                $status[] = "0"; 
+                            }
                         }
                     }
     
                 }
-                dump($cost);
+               
 
                 if (!empty($imgs)) {
                     foreach ($imgs as $k => $v) {
@@ -206,8 +210,8 @@ class Goods extends Controller
                                     $values[$k]["price"] = $price[$k];
                                     $values[$k]["lv1"] = $result;
                                     $values[$k]["stock"] = $stock[$k];
-                                    $values[$k]["coding"] = $coding[$k];
-                                    $values[$k]["status"] = $status[$k];
+                                    $values[$k]["coding"] = $coding[$k];                                  
+                                    $values[$k]["status"] = $status[$k];                       
                                     $values[$k]["cost"] = $cost[$k];
                                     $values[$k]["images"] =$tab;
                                     $values[$k]["goods_id"] =$goods_id;
@@ -218,7 +222,7 @@ class Goods extends Controller
                         }
                         
                     }
-                     
+
                 }
                 foreach($values as $kz => $vw){
                     $rest = db('special')->insert($vw);
