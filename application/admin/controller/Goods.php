@@ -114,55 +114,121 @@ class Goods extends Controller
         if ($request->isPost()) {
 
             $goods_data = $request->param();
-            if (!empty($goods_data["goods_standard_name"])) {
-                $goods_standard_name = implode(",", $goods_data["goods_standard_name"]);
-                $goods_standard_value = implode(",", $goods_data["goods_standard_value"]);
-                $goods_data["goods_standard_name"] = $goods_standard_name;
-                $goods_data["goods_standard_value"] = $goods_standard_value;
-            }
+            // if (!empty($goods_data["goods_standard_name"])) {
+            //     $goods_standard_name = implode(",", $goods_data["goods_standard_name"]);
+            //     $goods_standard_value = implode(",", $goods_data["goods_standard_value"]);
+            //     $goods_data["goods_standard_name"] = $goods_standard_name;
+            //     $goods_data["goods_standard_value"] = $goods_standard_value;
+            // }
             //添加图片
             $list = [];
             $show_images = $request->file("goods_show_images");
-            
+            $imgs = $request-> file("imgs");
+
             if (!empty($show_images)) {
-                foreach ($show_images as $k => $v) {
-                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                foreach ($show_images as $ky => $vl) {
+                    $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $show->getSaveName());
                 }
                 $goods_data["goods_show_images"] = implode(',', $list);
 
             }
 
-//            $data_arry = [];
-//            if(is_array($goods_data)){
-//            foreach($goods_data as $key => $value)
-//            {
-//                if(substr($key,0,3) == "sss"){
-//                   $str = substr($key,3);
-//                   $keys[] = $str;
-//                   $values[] = $value;
-//               }
-//            }
-//        }
-
-            foreach ($goods_data as $key => $value)
-            {
-                if(is_array($value)){
-
-                    $liste[$key] = implode(",",$value);
-                    $goods_json = json_encode($liste);
-                    unset($goods_data[$key]);
+            if($goods_data["goods_standard"] == "0"){
+                $bool = db("goods")->insert($goods_data);
+                if ($bool) {
+                    $this->success("添加成功", url("admin/Goods/index"));
+                } else {
+                    $this->success("添加失败", url('admin/Goods/add'));
                 }
 
             }
 
-            $goods_data["goods_standard_value"] = $goods_json;
-            $bool = db("goods")->insert($goods_data);
-            
-            if ($bool) {
-                $this->success("添加成功", url("admin/Goods/index"));
-            } else {
-                $this->success("添加失败", url('admin/Goods/add'));
+            if($goods_data["goods_standard"] == "1"){
+                halt($goods_data);
+                $goods_special = [];
+                $goods_special["goods_name"] = $goods_data["goods_name"];
+                $goods_special["produce"] = $goods_data["produce"];
+                $goods_special["brand"] = $goods_data["brand"];
+                $goods_special["goods_number"] = $goods_data["goods_number"];
+                $goods_special["goods_standard"] = $goods_data["goods_standard"];
+                $goods_special["goods_selling"] = $goods_data["goods_selling"];
+                $goods_special["goods_sign"] = $goods_data["goods_sign"];
+                $goods_special["goods_describe"] = $goods_data["goods_describe"];
+                $goods_special["pid"] = $goods_data["pid"];
+                $goods_special["sort_number"] = $goods_data["sort_number"];
+                $goods_special["video_link"] = $goods_data["video_link"];
+                $goods_special["goods_delivery"] = $goods_data["goods_delivery"];
+                $goods_special["goods_franking"] = $goods_data["goods_franking"];
+                $goods_special["templet_id"] = $goods_data["templet_id"];
+                $goods_special["label"] = $goods_data["label"];
+                $goods_special["status"] = $goods_data["status"];
+
+                if(isset($goods_special["goods_text"])){
+                $goods_special["goods_text"] = $goods_data["goods_text"];
+                }else{
+                    $goods_special["goods_text"] = "";
+                }
+                $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
+
+                $result = implode(",",$goods_data["lv1"]);
+               
+                //$goods_id = db('goods')->insertGetId($goods_special);
+                
+                if (!empty($goods_data)) {
+                    foreach ($goods_data as $kn => $nl) {
+                        if(substr($kn,0,3) == "sss"){
+                            $price[] = $nl["price"];
+                            $stock[] = $nl["stock"];
+                            $coding[] = $nl["coding"];
+                            $status[] = $nl["status"];
+                            $cost[] = $nl["cost"];
+
+                        }
+                    }
+    
+                }
+                dump($cost);
+
+                if (!empty($imgs)) {
+                    foreach ($imgs as $k => $v) {
+                        $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                        $tab = str_replace("\\", "/", $shows->getSaveName());
+
+                        if(is_array($goods_data)){
+                            foreach($goods_data as $key => $value)
+                            {
+
+
+                                if(substr($key,0,3) == "sss"){                                   
+                                    $str[] = substr($key,3);
+                                    $values[$k]["name"] = $str[$k];                                    
+                                    $values[$k]["price"] = $price[$k];
+                                    $values[$k]["lv1"] = $result;
+                                    $values[$k]["stock"] = $stock[$k];
+                                    $values[$k]["coding"] = $coding[$k];
+                                    $values[$k]["status"] = $status[$k];
+                                    $values[$k]["cost"] = $cost[$k];
+                                    $values[$k]["images"] =$tab;
+                                    $values[$k]["goods_id"] =$goods_id;
+                                    
+                                }
+                               
+                            }
+                        }
+                        
+                    }
+                     
+                }
+                foreach($values as $kz => $vw){
+                    $rest = db('special')->insert($vw);
+
+                }
+                if ($rest) {
+                    $this->success("添加成功", url("admin/Goods/index"));
+                } else {
+                    $this->success("添加失败", url('admin/Goods/add'));
+                }
             }
 
         }
@@ -176,28 +242,23 @@ class Goods extends Controller
     public function edit(Request $request, $id)
     {
         $goods = db("goods")->where("id", $id)->select();
-        foreach ($goods as $key => $value) {
-            $goods[$key]["goods_standard_name"] = explode(",", $value["goods_standard_name"]);
-            $goods_standard_value = explode(",", $value["goods_standard_value"]);
-            $goods_standard_value = array_chunk($goods_standard_value, 8);
-            $goods_delivery = explode(",", $value["goods_delivery"]);
-            $goods[$key]["goods_delivery"] = $goods_delivery;
-            $goods[$key]["goods_standard_value"] = $goods_standard_value;
+        $goods_standard = db("special")->where("goods_id", $id)->select();
+
+        foreach ($goods as $key => $value) {               
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
         }
 
-        $goods_standard_name = array();
-        foreach ($goods as $k => $val) {
-            foreach ($val["goods_standard_name"] as $k_1 => $v_2) {
-                $goods_standard_name[$k_1] = array(
-                    "goods_standard_name" => $val["goods_standard_name"][$k_1],
-                    "goods_standard_value" => $val["goods_standard_value"][$k_1]
-                );
-            }
+        foreach ($goods_standard as $k => $v) {               
+            $goods_standard[$k]["title"]  = explode('_',  $v["name"]);
+            //$goods_standard[$k]["lv1"]  = explode(',',  $v["lv1"]);
+            $res = explode(',',  $v["lv1"]);
         }
+    //    dump($goods_standard);
+    //    dump($res);
 
+    //     halt($goods);
         $goods_list = getSelectList("wares");
-        return view("goods_edit", ["goods_standard_name" => $goods_standard_name, "goods" => $goods, "goods_list" => $goods_list]);
+        return view("goods_edit", ["goods" => $goods,"goods_list" => $goods_list,"res" => $res,"goods_standard" => $goods_standard]);
     }
 
 
