@@ -182,8 +182,11 @@ Route::group("admin",[
     "goods_dels"=>"admin/Goods/dels",        //商品列表组批量删除
     "goods_search"=>"admin/Goods/search",    //商品列表组模糊搜索
     "goods_images"=>"admin/Goods/images",    //商品列表组图片删除
-    "goods_name" =>"admin/Goods/name",       //商品列表特殊规格名添加
-    "goods_standard"=>"admin/Goods/standard_name", //商品列表特殊规格名显示
+    "goods_photos"=>"admin/Goods/photos",    //商品列表规格图片删除
+    "goods_value"=>"admin/Goods/value",      //商品列表规格值修改
+    "goods_switches"=>"admin/Goods/switch",  //商品列表规格开关
+    "goods_addphoto"=>"admin/Goods/addphoto",//商品列表规格图片添加
+
 
     /*商品分类*/
     "goods_type_index"=>"admin/GoodsType/index",      //商品分类列表显示
