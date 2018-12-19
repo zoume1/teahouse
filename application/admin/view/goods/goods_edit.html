@@ -483,16 +483,16 @@
                                             <input value="{$vs}" readonly="" style="border:0;">
                                         </td>
                                         {/volist}
-                                        <td width="100px"><input type="text" name="sss1521[price]" value="{$ve.price}"></td>
-                                        <td width="100px"><input type="text" name="sss1521[stock]" value="{$ve.stock}"></td>
-                                        <td width="100px"><input type="text" name="sss1521[coding]" value="{$ve.coding}"></td>
-                                        <td width="100px"><input type="text" name="sss1521[cost]" value="{$ve.cost}"> </td>
+                                        <td width="100px"><input type="text" name="sss1521[price]" value="{$ve.price}" data-id="{$ve.id}" data-value="price"></td>
+                                        <td width="100px"><input type="text" name="sss1521[stock]" value="{$ve.stock}" data-id="{$ve.id}" data-value="stock"></td>
+                                        <td width="100px"><input type="text" name="sss1521[coding]" value="{$ve.coding}" data-id="{$ve.id}" data-value="coding"></td>
+                                        <td width="100px"><input type="text" name="sss1521[cost]" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost"> </td>
                                         <td width="100px">
                                             <div class="img-box full">
                                                 <section class=" img-section">
                                                     <div class="z_photo upimg-div clear">
                                                         <section class="up-section fl">
-                                                            <span class="up-span"></span><img class="close-upimg" src="/siring_ow/public/static/admin/common/upfile/img/a7.png">
+                                                            <span class="up-span"></span><img class="close-upimg" src="/siring_ow/public/static/admin/common/upfile/img/a7.png" data-id="{$ve.id}" data-value="images">
                                                             <!--图片放这里-->
 
                                                             <img class="up-img" src="__UPLOADS__/{$ve.images}">
@@ -514,8 +514,8 @@
                                         </td>
                                         <td>
                                             {if $ve.status == 0}
-                                            <input type="checkbox" class="Status" name="status" value="{$ve.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$ve.id}"> {else}
-                                            <input type="checkbox" class="Status" name="status" value="{$ve.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$ve.id}"> {/if}
+                                            <input type="checkbox" class="Status" name="status" value="{$ve.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$ve.id}" data-value="status"> {else}
+                                            <input type="checkbox" class="Status" name="status" value="{$ve.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$ve.id}" data-value="status"> {/if}
                                         </td>
                                     </tr>
                                     {/volist} {/if}
