@@ -454,9 +454,15 @@
                         <div id="lv_table" style="padding: 10px;">
                             <table class="table table-bordered">
                                 <thead>
+
                                     <tr>
                                         <!--//循环这里规格名称-->
-                                        <th width="50"><input value="10" readonly="" style="border:0;"></th>
+                                        {if !empty($res)} {volist name="res" id="val"}
+                                        <th width="50">
+                                            <input name="lv1" value="{$val}" readonly="" style="border:0;">
+                                        </th>
+                                        {/volist} {/if}
+
                                         <!--//循环这里-->
                                         <th width="100px"><input value="价格（元）" readonly="" style="border:0;"></th>
                                         <th width="100px"><input value="库存" readonly="" style="border:0;"></th>
@@ -465,29 +471,37 @@
                                         <th width="100px"><input value="图片" readonly="" style="border:0;"></th>
                                         <th width="100px"><input value="开关" readonly="" style="border:0;"></th>
                                     </tr>
-                                    </tr>
+
+
                                 </thead>
                                 <tbody>
+                                    {if !empty($goods_standard)} {volist name="goods_standard" id="ve"}
                                     <!--//规格值循环这里-->
                                     <tr data-row="1">
-                                        <td width="50" rowspan="1" data-rc="1_1"><input value="1521" readonly="" style="border:0;"></td>
-                                        <td width="100px"><input type="text" name="sss1521[price]"></td>
-                                        <td width="100px"><input type="text" name="sss1521[stock]"></td>
-                                        <td width="100px"><input type="text" name="sss1521[coding]"></td>
-                                        <td width="100px"><input type="text" name="sss1521[img]"></td>
+                                        {volist name="$ve['title']" id="vs"}
+                                        <td width="50" rowspan="1" data-rc="1_1">
+                                            <input value="{$vs}" readonly="" style="border:0;">
+                                        </td>
+                                        {/volist}
+                                        <td width="100px"><input type="text" name="sss1521[price]" value="{$ve.price}"></td>
+                                        <td width="100px"><input type="text" name="sss1521[stock]" value="{$ve.stock}"></td>
+                                        <td width="100px"><input type="text" name="sss1521[coding]" value="{$ve.coding}"></td>
+                                        <td width="100px"><input type="text" name="sss1521[cost]" value="{$ve.cost}"> </td>
                                         <td width="100px">
                                             <div class="img-box full">
                                                 <section class=" img-section">
                                                     <div class="z_photo upimg-div clear">
                                                         <section class="up-section fl">
                                                             <span class="up-span"></span><img class="close-upimg" src="/siring_ow/public/static/admin/common/upfile/img/a7.png">
+                                                            <!--图片放这里-->
 
+                                                            <img class="up-img" src="__UPLOADS__/{$ve.images}">
                                                             <!--图片放这里-->
-                                                            <img class="up-img" src="blob:http://localhost/4a3c1ae7-69b8-4bb9-80f7-00689e6fb9d1">
-                                                            <!--图片放这里-->
-                                                            <p class="img-name-p">u4594.png</p><input id="taglocation" name="" value="" type="hidden"><input id="tags" name="" value="" type="hidden"></section>
+
+                                                            <p class="img-name-p">u4594.png</p><input id="taglocation" name="images" value="__UPLOADS__/{$ve.images}" type="hidden"><input id="tags" name="" value="" type="hidden"></section>
                                                         <section class="z_file fl" style="display: none;"> <img src="/teahouse/public/static/admin/common/upfile/img/a11.png" class="add-img"> <input type="file" name="goods_show_images[]" id="file_0" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp"
                                                                 multiple="" data-id="1"> </section>
+
                                                     </div>
                                                 </section>
                                             </div>
@@ -498,10 +512,13 @@
                                                 </div>
                                             </aside>
                                         </td>
-                                        <td width="100px"><input type="checkbox" class="Status" name="status" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow">
-                                            <div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>否</em><i></i></div>
+                                        <td>
+                                            {if $ve.status == 0}
+                                            <input type="checkbox" class="Status" name="status" value="{$ve.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$ve.id}"> {else}
+                                            <input type="checkbox" class="Status" name="status" value="{$ve.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$ve.id}"> {/if}
                                         </td>
                                     </tr>
+                                    {/volist} {/if}
                                     <!--//规格值循环这里-->
                                 </tbody>
                             </table>

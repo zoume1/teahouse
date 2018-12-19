@@ -145,6 +145,7 @@ class Goods extends Controller
             }
 
             if($goods_data["goods_standard"] == "1"){
+                halt($goods_data);
                 $goods_special = [];
                 $goods_special["goods_name"] = $goods_data["goods_name"];
                 $goods_special["produce"] = $goods_data["produce"];
@@ -162,12 +163,32 @@ class Goods extends Controller
                 $goods_special["templet_id"] = $goods_data["templet_id"];
                 $goods_special["label"] = $goods_data["label"];
                 $goods_special["status"] = $goods_data["status"];
+
+                if(isset($goods_special["goods_text"])){
                 $goods_special["goods_text"] = $goods_data["goods_text"];
+                }else{
+                    $goods_special["goods_text"] = "";
+                }
                 $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
 
+                $result = implode(",",$goods_data["lv1"]);
+               
+                //$goods_id = db('goods')->insertGetId($goods_special);
+                
+                if (!empty($goods_data)) {
+                    foreach ($goods_data as $kn => $nl) {
+                        if(substr($kn,0,3) == "sss"){
+                            $price[] = $nl["price"];
+                            $stock[] = $nl["stock"];
+                            $coding[] = $nl["coding"];
+                            $status[] = $nl["status"];
+                            $cost[] = $nl["cost"];
 
-                $goods_id = db('goods')->insertGetId($goods_special);
-
+                        }
+                    }
+    
+                }
+                dump($cost);
 
                 if (!empty($imgs)) {
                     foreach ($imgs as $k => $v) {
@@ -177,22 +198,27 @@ class Goods extends Controller
                         if(is_array($goods_data)){
                             foreach($goods_data as $key => $value)
                             {
-                                if(substr($key,0,3) == "sss"){
-                                    $str = substr($key,3);
-                                    $values[$k]["name"] = $str;
-                                    $values[$k]["price"] = $value["price"];
-                                    $values[$k]["stock"] = $value["stock"];
-                                    $values[$k]["coding"] = $value["coding"];
-                                    $values[$k]["status"] = $value["status"];
-                                    $values[$k]["cost"] = $value["cost"];
+
+
+                                if(substr($key,0,3) == "sss"){                                   
+                                    $str[] = substr($key,3);
+                                    $values[$k]["name"] = $str[$k];                                    
+                                    $values[$k]["price"] = $price[$k];
+                                    $values[$k]["lv1"] = $result;
+                                    $values[$k]["stock"] = $stock[$k];
+                                    $values[$k]["coding"] = $coding[$k];
+                                    $values[$k]["status"] = $status[$k];
+                                    $values[$k]["cost"] = $cost[$k];
                                     $values[$k]["images"] =$tab;
                                     $values[$k]["goods_id"] =$goods_id;
+                                    
                                 }
+                               
                             }
                         }
-
+                        
                     }
-
+                     
                 }
                 foreach($values as $kz => $vw){
                     $rest = db('special')->insert($vw);
@@ -215,14 +241,24 @@ class Goods extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $goods = db("goods")->where("id", $id)->select();        
+        $goods = db("goods")->where("id", $id)->select();
+        $goods_standard = db("special")->where("goods_id", $id)->select();
+
         foreach ($goods as $key => $value) {               
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
         }
 
-        halt($goods);
+        foreach ($goods_standard as $k => $v) {               
+            $goods_standard[$k]["title"]  = explode('_',  $v["name"]);
+            //$goods_standard[$k]["lv1"]  = explode(',',  $v["lv1"]);
+            $res = explode(',',  $v["lv1"]);
+        }
+    //    dump($goods_standard);
+    //    dump($res);
+
+    //     halt($goods);
         $goods_list = getSelectList("wares");
-        return view("goods_edit", ["goods" => $goods]);
+        return view("goods_edit", ["goods" => $goods,"goods_list" => $goods_list,"res" => $res,"goods_standard" => $goods_standard]);
     }
 
 
