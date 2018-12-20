@@ -422,7 +422,6 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
-            halt($id);
             if (!empty($id)) {
                 $photo = db("special")->where("id", $id)->update(["images" => null]);
             }
@@ -493,17 +492,14 @@ class Goods extends Controller
             $imag = $request->file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
             $images = str_replace("\\", "/", $imag->getSaveName());
 
-//             if (is_array($id)) {
-//                 $where = 'id in(' . implode(',', $id) . ')';
-//             } else {
-//                 $where = 'id=' . $id;
-//             }
-//             $list = Db::name('goods')->where($where)->delete();
-//             if ($list !== false) {
-//                 return ajax_success('成功删除!', ['status' => 1]);
-//             } else {
-//                 return ajax_error('删除失败', ['status' => 0]);
-//             }
+            if(!empty($id)){
+                $bool = db("special")->where("id", $id)->update(["images" => $images]);
+            }
+             if ($bool) {
+                 return ajax_success('添加图片成功!');
+             } else {
+                 return ajax_error('添加图片失败');
+             }
         }
 
     }
