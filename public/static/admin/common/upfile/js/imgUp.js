@@ -44,7 +44,7 @@ $(function(){
 //					$(".works-mask").show();
 					delParent = $(this).parent();
 				});   
-				$img0.attr("src","admin/common/upfile/img/a7.png").appendTo($section);
+				$img0.attr("src","/teahouse/public/static/admin/common/img/a7.png").appendTo($section);
 		     var $img = $("<img class='up-img up-opcity'>");
 		         $img.attr("src",imgArr[i]);
 		         $img.appendTo($section);
