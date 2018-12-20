@@ -493,18 +493,20 @@ class Goods extends Controller
     public function addphoto(Request $request)
     {
         if ($request->isPost()) {
-            // $id = $_POST['id'];
-            // if (is_array($id)) {
-            //     $where = 'id in(' . implode(',', $id) . ')';
-            // } else {
-            //     $where = 'id=' . $id;
-            // }
-            // $list = Db::name('goods')->where($where)->delete();
-            // if ($list !== false) {
-            //     return ajax_success('成功删除!', ['status' => 1]);
-            // } else {
-            //     return ajax_error('删除失败', ['status' => 0]);
-            // }
+//             $id = $_POST['id'];
+               $img =$request->file("file");
+               dump($img);
+//             if (is_array($id)) {
+//                 $where = 'id in(' . implode(',', $id) . ')';
+//             } else {
+//                 $where = 'id=' . $id;
+//             }
+//             $list = Db::name('goods')->where($where)->delete();
+//             if ($list !== false) {
+//                 return ajax_success('成功删除!', ['status' => 1]);
+//             } else {
+//                 return ajax_error('删除失败', ['status' => 0]);
+//             }
         }
 
     }
