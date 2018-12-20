@@ -729,27 +729,27 @@
 				});
 			});
 //			添加图片
-//			$(".file").change(function(){
-////				var formData = new FormData();
-//             
-//			    var idFile = $(this).attr("id");
-////		        var file = document.getElementById(idFile);
-////				var fileLists = file.files;
-//				formData.append("img", fileLists);
-//				formData.append("id", idFile);
-//				var id=$(this).data("name");
-//				   	$.ajax({
-//					type: "POST",
-//					url: "{:url('admin/Goods/addphoto')}",
-//					data: formData,
-//					success: function(data) {
-//						layer.msg("修改成功");
-//					},
-//					error: function(data) {
-//						console.log("失败")
-//					}
-//				});
-//			});
+			$(".file").change(function(){
+//				alert(111);
+				var formData = new FormData();
+               var filess = $(this)[0].files[0];
+				var id=$(this).data("name");
+				formData.append("id", id);
+				formData.append("file", filess);
+				   	$.ajax({
+					type: "POST",
+					url: "{:url('admin/Goods/addphoto')}",
+					processData: false,
+                    contentType: false,
+					data: formData,
+					success: function(data) {
+						layer.msg("修改成功");
+					},
+					error: function(data) {
+						console.log("失败")
+					}
+				});
+			});
 
 			$(".add_biao").click(function() {
 				var dhtml = "";
