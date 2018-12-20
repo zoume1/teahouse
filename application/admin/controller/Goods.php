@@ -218,9 +218,9 @@ class Goods extends Controller
         }
 
         $goods_list = getSelectList("wares");
-        $res = $goods[0]["goods_standard"];
+        $restel = $goods[0]["goods_standard"];
 
-        if ($res == 0) {
+        if ($restel == 0) {
             return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list]);
         } else {
             return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard]);
