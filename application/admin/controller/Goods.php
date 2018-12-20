@@ -207,7 +207,6 @@ class Goods extends Controller
     {
         $goods = db("goods")->where("id", $id)->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
-
         foreach ($goods as $key => $value) {
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
         }
@@ -216,7 +215,6 @@ class Goods extends Controller
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);
         }
-
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"];
 
@@ -240,9 +238,7 @@ class Goods extends Controller
 
             if (!empty($id)) {
                 $image = db("goods")->where("id", $tid['pid'])->field("goods_show_images")->find();
-
                 $se = explode(",", $image["goods_show_images"]);
-
                 foreach ($se as $key => $value) {
                     if ($value == $id) {
                         unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
@@ -493,9 +489,10 @@ class Goods extends Controller
     public function addphoto(Request $request)
     {
         if ($request->isPost()) {
-//             $id = $_POST['id'];
-               $img =$request->file("file");
-               dump($img);
+            $id = $request->only(["id"])["id"];
+            $imag = $request->file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
+            $images = str_replace("\\", "/", $imag->getSaveName());
+
 //             if (is_array($id)) {
 //                 $where = 'id in(' . implode(',', $id) . ')';
 //             } else {
