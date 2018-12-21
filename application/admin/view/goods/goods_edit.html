@@ -290,10 +290,10 @@
             <label class="form-label">商品规格</label>
             <div class="form-input">
                 {if $value.goods_standard == "0"}
-                <input type="radio" name="goods_standard" value="0" title="统一规格" checked="" lay-filter="guige">
-                <input type="radio" name="goods_standard" value="1" title="特殊规格" lay-filter="guige"> {else}
-                <input type="radio" name="goods_standard" value="0" title="统一规格" lay-filter="guige">
-                <input type="radio" name="goods_standard" value="1" title="特殊规格" lay-filter="guige" checked="">{/if}
+                <input type="radio" name="goods_standard" value="统一规格" title="统一规格" checked="" lay-filter="guige">
+                <input type="radio" name="goods_standard" value="特殊规格" title="特殊规格" lay-filter="guige"> {else}
+                <input type="radio" name="goods_standard" value="统一规格" title="统一规格" lay-filter="guige">
+                <input type="radio" name="goods_standard" value="特殊规格" title="特殊规格" lay-filter="guige" checked="">{/if}
 
             </div>
         </div>
@@ -339,70 +339,7 @@
             </div>
         </div>
         <div class="form-item general noshow">
-            <div class="layui-input-block general-kuang">
-
-                <div id="lv_table_con" class="control-group" style="">
-                    <label class="control-label">规格项目表</label>
-                    <div class="controls" style="">
-                        <div id="lv_table" style="padding: 10px;">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <!--//循环这里规格名称-->
-                                        <th width="50"><input value="10" readonly="" style="border:0;"></th>
-                                        <!--//循环这里-->
-                                        <th width="100px"><input value="价格（元）" readonly="" style="border:0;"></th>
-                                        <th width="100px"><input value="库存" readonly="" style="border:0;"></th>
-                                        <th width="100px"><input value="规格编码" readonly="" style="border:0;"></th>
-                                        <th width="100px"><input value="成本价" readonly="" style="border:0;"></th>
-                                        <th width="100px"><input value="图片" readonly="" style="border:0;"></th>
-                                        <th width="100px"><input value="开关" readonly="" style="border:0;"></th>
-                                    </tr>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!--//规格值循环这里-->
-                                    <tr data-row="1">
-                                        <td width="50" rowspan="1" data-rc="1_1"><input value="1521" readonly="" style="border:0;"></td>
-                                        <td width="100px"><input type="text"></td>
-                                        <td width="100px"><input type="text"></td>
-                                        <td width="100px"><input type="text"></td>
-                                        <td width="100px"><input type="text"></td>
-                                        <td width="100px">
-                                            <div class="img-box full">
-                                                <section class=" img-section">
-                                                    <div class="z_photo upimg-div clear">
-                                                        <section class="up-section fl">
-                                                            <span class="up-span"></span><img class="close-upimg" src="__STATIC__/admin/common/upfile/img/a7.png">
-
-                                                            <!--图片放这里-->
-                                                            <img class="up-img" src="blob:http://localhost/4a3c1ae7-69b8-4bb9-80f7-00689e6fb9d1">
-                                                            <!--图片放这里-->
-                                                            <p class="img-name-p">u4594.png</p><input id="taglocation" name="" value="" type="hidden"><input id="tags" name="" value="" type="hidden"></section>
-                                                        <section class="z_file fl" style="display: none;"> <img src="/teahouse/public/static/admin/common/upfile/img/a11.png" class="add-img"> <input type="file" name="goods_show_images[]" id="file_0" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp"
-                                                                multiple="" data-id="1"> </section>
-                                                    </div>
-                                                </section>
-                                            </div>
-                                            <aside class="mask works-mask del_img_other">
-                                                <div class="mask-content">
-                                                    <p class="del-p ">您确定要删除作品图片吗？</p>
-                                                    <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
-                                                </div>
-                                            </aside>
-                                        </td>
-                                        <td width="100px"><input type="checkbox" class="Status" name="status" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow">
-                                            <div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>否</em><i></i></div>
-                                        </td>
-                                    </tr>
-                                    <!--//规格值循环这里-->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+    
         </div>
         {else}
         <div class="nomal noshow">
@@ -482,10 +419,10 @@
                                             <input value="{$vs}" readonly="" style="border:0;">
                                         </td>
                                         {/volist}
-                                        <td width="100px"><input type="text" name="sss1521[price]" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs" required="required"></td>
-                                        <td width="100px"><input type="text" name="sss1521[stock]" value="{$ve.stock}" data-id="{$ve.id}" data-value="stock" class="inputs" required="required"></td>
-                                        <td width="100px"><input type="text" name="sss1521[coding]" value="{$ve.coding}" data-id="{$ve.id}" data-value="coding" class="inputs" required="required"></td>
-                                        <td width="100px"><input type="text" name="sss1521[cost]" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost" class="inputs" required="required"> </td>
+                                        <td width="100px"><input type="text" name="sss1521[price]" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs" ></td>
+                                        <td width="100px"><input type="text" name="sss1521[stock]" value="{$ve.stock}" data-id="{$ve.id}" data-value="stock" class="inputs" ></td>
+                                        <td width="100px"><input type="text" name="sss1521[coding]" value="{$ve.coding}" data-id="{$ve.id}" data-value="coding" class="inputs" ></td>
+                                        <td width="100px"><input type="text" name="sss1521[cost]" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost" class="inputs" > </td>
                                         <td width="100px">
                                             <div class="img-box full">
                                                 <section class=" img-section">
@@ -498,9 +435,9 @@
                                                             <!--图片放这里-->
 
                                                             <p class="img-name-p">u4594.png</p><input id="taglocation" name="images" value="__UPLOADS__/{$ve.images}" type="hidden">
-                                                            <input id="tags" name="" value="" type="hidden"></section>
+                                                            <input id="tags"  value="" type="hidden"></section>
                                                         <section class="z_file fl" style="display: none;"> <img src="/teahouse/public/static/admin/common/upfile/img/a11.png" class="add-img">
-                                                            <input type="file" name="goods_show_images[]" id="file_0" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="" data-id="1" required="required" data-value="images" data-name="{$ve.id}">                                                            </section>
+                                                            <input type="file"  id="file_0" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="" data-id="1"  data-value="images" data-name="{$ve.id}">                                                            </section>
 
                                                     </div>
                                                 </section>
@@ -655,11 +592,15 @@
             var form = layui.form(),
                 $ = layui.jquery;
             form.render();
+            
             //			价格库存等修改事件
             $(".inputs").change(function() {
                 var change_val = $(this).val();
                 var location_x = $(this).data("id");
                 var location_y = $(this).data("value");
+                if(change_val==''){
+                	change_val=0;
+                }
                 $.ajax({
                     type: "POST",
                     url: "{:url('admin/Goods/value')}",
@@ -709,24 +650,13 @@
                 });
 
             });
+             var phone_delect_id='';
             //          删除图片事件
             $(".list_delet_img").click(function() {
-                var id = $(this).data("id");
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Goods/photos')}",
-                    data: {
-                        "id": id,
-                    },
-                    success: function(data) {
-                        layer.msg("修改成功");
-                    },
-                    error: function(data) {
-                        console.log("失败")
-                    }
-                });
+                phone_delect_id = $(this).data("id");
+            
             });
-            //			添加图片
+                    //			添加图片
             $(".file").change(function() {
                 //				alert(111);
                 var formData = new FormData();
@@ -734,20 +664,33 @@
                 var id = $(this).data("name");
                 formData.append("id", id);
                 formData.append("file", filess);
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Goods/addphoto')}",
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    success: function(data) {
-                        layer.msg("修改成功");
+			                $.ajax({
+			                    type: "POST",
+			                    url: "{:url('admin/Goods/addphoto')}",
+			                    processData: false,
+			                    contentType: false,
+			                    data: formData,
+			                    success: function(data) {
+			                    	    $.ajax({
+			                    type: "POST",
+			                    url: "{:url('admin/Goods/photos')}",
+			                    data: {
+			                        "id": id,
+			                    },
+			                    success: function(data) {
+			                        layer.msg("修改成功");
+			                    },
+			                    error: function(data) {
+			                        console.log("失败")
+			                    }
+			                });
                     },
                     error: function(data) {
                         console.log("失败")
                     }
                 });
             });
+            
 
             $(".add_biao").click(function() {
                 var dhtml = "";
@@ -835,15 +778,14 @@
             $(".tanchuang").click(function() {
                 $(".tanchuang").addClass("noshow");
             });
-
+        
             // 图片删除
             $(".remove-img").click(function() {
                 var remove = $(this).parent();
                 var id = $(this).data("id");
                 var value = $(this).data("value");
                 var title = $(this).data("title");
-                console.log(value)
-                console.log(id);
+                remove.remove();
                 $.ajax({
                     type: "POST",
                     url: "{:url('admin/Goods/images')}",
@@ -853,7 +795,7 @@
                     },
                     dataType: "json",
                     success: function(data) {
-                        remove.remove();
+                        
                     },
                     error: function(data) {
                         console.log("错误");
@@ -861,6 +803,7 @@
                 });
 
             });
+    
 
         });
     </script>
