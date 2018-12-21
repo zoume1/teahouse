@@ -69,6 +69,7 @@ class Category extends Controller
         if ($pid == 0) {
             $goods_liste = getSelectList("goods_type");
         }
+
         return view("category_add", ["goods_liste" => $goods_liste]);
 
     }

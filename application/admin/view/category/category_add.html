@@ -63,11 +63,11 @@
                 <select name="pid" id="admin_role" class="role_list">
                     <option value="0">顶级</option>
                     {volist name="goods_liste" id="value"}
-					<option value="{$value.id}">{$value.name}</option>
+                    <option value="{$value.id}">{$value.name}</option>
                     {/volist}
                 </select><br/> {else}
                 <select name="pid" class="role_list">
-					<option value="0">顶级</option>
+                    <option value="0">顶级</option>
                 </select><br/> {/if}
                 </select>
             </div>
