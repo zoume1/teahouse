@@ -18,6 +18,24 @@
 	.list {
 		margin-right: 10px;
 		margin-bottom: 6px;
+		display: flex;
+	}
+	
+	.list img {
+		margin-left: 4px;
+		height: 20px;
+	}
+	
+	.list .texts {
+		margin-left: 4px;
+		width: 78px;
+		height: 20px;
+		display: inline-block;
+		text-align: center;
+		line-height: 20px;
+		color: #669900;
+		border: solid 1px #669900;
+		border-radius: 6px;
 	}
 	
 	.title {
@@ -233,14 +251,25 @@
 			<div class="form-input" style="display: flex; align-items: center;">
 				<div id="hot">
 					<div class="list">
-						<input type="checkbox" name="goods_sign" lay-skin="primary" title="hot" checked="">
+						<input type="checkbox" name="goods_sign" lay-skin="primary" title="" checked="">
+						<img src="__STATIC__/admin/index/img/kecun.png" />
 					</div>
 					<div class="list">
-						<input type="checkbox" name="goods_sign" lay-skin="primary" title="aaa">
+						<input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+						<img src="__STATIC__/admin/index/img/hot.png" />
 					</div>
 					<div class="list">
-						<input type="checkbox" name="goods_sign" lay-skin="primary" title="特色活动">
-						<span style="color: #0EA9E3;font-size: 12px;" class="change_text">修改</span>
+						<input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+						<img src="__STATIC__/admin/index/img/chuxiao.png" />
+					</div>
+					<div class="list">
+						<input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+						<img src="__STATIC__/admin/index/img/qingchang.png" />
+					</div>
+					<div class="list">
+						<input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+						<span class="texts">古色生香</span>
+						<span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
 					</div>
 				</div>
 
@@ -691,27 +720,27 @@
 				});
 			});
 
-			$(".add_biao").click(function() {
-				var dhtml = "";
-				dhtml =
-					'<div class="list" ><input type="checkbox" name="" lay-skin="primary" title="特色活动"><span style="color: #0EA9E3; font-size: 12px;"  class="change_text">修改</span></div>'
-				$("#hot").append(dhtml);
-				form.render();
-			});
-
-			$("#hot").on('click', ".change_text", function() {
-				var texts = $(this).siblings('input');
+		$("#hot").on('click', ".change_text", function() {
+				var texts = $(this).siblings('.texts');
 				layer.prompt({
 						title: '请输入修改的文字',
 						formType: 2
 					},
 					function(text, index) {
-						texts.attr("title", text);
+						texts.html(text);
 						layer.close(index);
-						form.render();
+
 					});
 
-			})
+			});
+			$(".add_biao").click(function() {
+				var dhtml = "";
+				dhtml =
+					'<div class="list"> <input type="checkbox" name="goods_sign" lay-skin="primary" title=""> <span class="texts">古色生香</span> <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> </div>'
+				$("#hot").append(dhtml);
+				form.render();
+			});
+	
 			//TODO点击取消按钮
 			$("#general_content").on('click', ".btu-cancel", function() {
 				$(this).parent(".add-names").addClass("noshow");
