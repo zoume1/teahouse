@@ -34,12 +34,20 @@ class Goods extends Controller
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
                 $res = db("wares")->where("id", $value['pid'])->field("name")->find();
-                $rest = db("special")->where("goods_id", $value['id'])->field("stock")->find();
+                if($goods[$key]["goods_standard"] == "1")
+                {
+                $rest["max_price"] = db("special")->where("goods_id", $goods[$key]['id'])->max("price");
+                //$goods[$key]["max_price"] = $rest[$key];
+                }
                 $goods[$key]["named"] = $res["name"];
+                //$goods[$key]["max_price"] = $rest[$key];
+
                 $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
             }
         }
 
+        //dump($res);
+        //halt($rest);
         $all_idents = $goods;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
         $listRow = 20;//每页20行记录
@@ -343,7 +351,7 @@ class Goods extends Controller
             //     $array["shop_price"] = $goods_data["goods_new_money"];
             //     $boole = db("commodity")->where("shop_number", $goods_data["goods_number"])->update($array);
             // }
-            halt($goods_data);
+            //halt($goods_data);
             $bool = db("goods")->where("id", $id)->update($goods_data);
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));
