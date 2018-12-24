@@ -184,7 +184,7 @@ Route::group("admin",[
     "goods_images"=>"admin/Goods/images",    //商品列表组图片删除
     "goods_photos"=>"admin/Goods/photos",    //商品列表规格图片删除
     "goods_value"=>"admin/Goods/value",      //商品列表规格值修改
-    "goods_switches"=>"admin/Goods/switches",  //商品列表规格开关
+    "goods_switches"=>"admin/Goods/switches",//商品列表规格开关
     "goods_addphoto"=>"admin/Goods/addphoto",//商品列表规格图片添加
 
 
