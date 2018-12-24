@@ -37,17 +37,14 @@ class Goods extends Controller
                 if($goods[$key]["goods_standard"] == "1")
                 {
                 $rest["max_price"] = db("special")->where("goods_id", $goods[$key]['id'])->max("price");
-                //$goods[$key]["max_price"] = $rest[$key];
                 }
                 $goods[$key]["named"] = $res["name"];
-                //$goods[$key]["max_price"] = $rest[$key];
+
 
                 $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
             }
         }
-
-        //dump($res);
-        //halt($rest);
+        
         $all_idents = $goods;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
         $listRow = 20;//每页20行记录
@@ -94,7 +91,6 @@ class Goods extends Controller
     public function save(Request $request)
     {
         if ($request->isPost()) {
-
             $goods_data = $request->param();
             $list = [];
             $show_images = $request->file("goods_show_images");
@@ -106,9 +102,7 @@ class Goods extends Controller
                     $list[] = str_replace("\\", "/", $show->getSaveName());
                 }
                 $goods_data["goods_show_images"] = implode(',', $list);
-
             }
-
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
                 if ($bool) {
@@ -117,9 +111,7 @@ class Goods extends Controller
                     $this->success("添加失败", url('admin/Goods/add'));
                 }
             }
-
             if ($goods_data["goods_standard"] == "1") {
-
                 $goods_special = [];
                 $goods_special["goods_name"] = $goods_data["goods_name"];
                 $goods_special["produce"] = $goods_data["produce"];
@@ -145,7 +137,6 @@ class Goods extends Controller
                     $goods_data["goods_text"] = "";
                 }
                 $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
-
                 $result = implode(",", $goods_data["lv1"]);
                 $goods_id = db('goods')->insertGetId($goods_special);
                 if (!empty($goods_data)) {
@@ -162,9 +153,7 @@ class Goods extends Controller
                             }
                         }
                     }
-
                 }
-
                 if (!empty($imgs)) {
                     foreach ($imgs as $k => $v) {
                         $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -183,18 +172,13 @@ class Goods extends Controller
                                     $values[$k]["cost"] = $cost[$k];
                                     $values[$k]["images"] = $tab;
                                     $values[$k]["goods_id"] = $goods_id;
-
                                 }
-
                             }
                         }
-
                     }
-
                 }
                 foreach ($values as $kz => $vw) {
                     $rest = db('special')->insert($vw);
-
                 }
                 if ($rest) {
                     $this->success("添加成功", url("admin/Goods/index"));
@@ -202,7 +186,6 @@ class Goods extends Controller
                     $this->success("添加失败", url('admin/Goods/add'));
                 }
             }
-
         }
     }
 
@@ -216,16 +199,16 @@ class Goods extends Controller
         $goods = db("goods")->where("id", $id)->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
         foreach ($goods as $key => $value) {
+            if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
         }
-
+     }
         foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);
         }
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"];
-
         if ($restel == 0) {
             return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list]);
         } else {
@@ -243,9 +226,8 @@ class Goods extends Controller
         if ($request->isPost()) {
             $tid = $request->param();
             $id = $tid["id"];
-
-            if (!empty($id)) {
-                $image = db("goods")->where("id", $tid['pid'])->field("goods_show_images")->find();
+            $image = db("goods")->where("id", $tid['pid'])->field("goods_show_images")->find();
+            if (!empty($image["goods_show_images"])) {
                 $se = explode(",", $image["goods_show_images"]);
                 foreach ($se as $key => $value) {
                     if ($value == $id) {
@@ -254,21 +236,18 @@ class Goods extends Controller
                         $new_image[] = $value;
                     }
                 }
-
-                if (!empty($new_image)) {
-                    $new_imgs_url = implode(',', $new_image);
-                    $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
-                } else {
-                    $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => null]);
-                }
-                if ($res) {
-                    return ajax_success('删除成功');
-                } else {
-                    return ajax_success('删除失败');
-                }
-
             }
-
+            if (!empty($new_image)) {
+                $new_imgs_url = implode(',', $new_image);
+                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
+            } else {
+                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL]);
+            }
+            if ($res) {
+                return ajax_success('删除成功');
+            } else {
+                return ajax_success('删除失败');
+            }
         }
     }
 
@@ -288,7 +267,6 @@ class Goods extends Controller
                 if ($value['goods_images'] != null) {
                     unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value['goods_images']);
                 }
-                $bool_data = db("goods_images")->where("id", $value['id'])->delete();
             }
             if ($bool) {
                 $this->success("删除成功", url("admin/Goods/index"));
@@ -311,28 +289,32 @@ class Goods extends Controller
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
-
             $show_images = $request->file("goods_show_images");
-
+            
             $list = [];
             if (!empty($show_images)) {
                 foreach ($show_images as $k => $v) {
                     $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $show->getSaveName());
-                }
+                }               
                 $liste = implode(',', $list);
                 $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"])){
                 $exper = $image["goods_show_images"];
                 $montage = $exper . "," . $liste;
                 $goods_data["goods_show_images"] = $montage;
-            }
-
-            if (empty($show_images)) {
+                } else {                   
+                    $montage = $liste;
+                    $goods_data["goods_show_images"] = $montage;
+                }
+            } else {
                 $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
-                $exper = $image["goods_show_images"];
-                $goods_data["goods_show_images"] = $exper;
-
-            }
+                if(!empty($image["goods_show_images"])){
+                $goods_data["goods_show_images"] = $image;
+                } else {
+                    $goods_data["goods_show_images"] = NULL;
+                }
+            } 
 
             // $commodity = db("commodity")->where("shop_number", $goods_data["goods_number"])->field("zero,first,second,third,grade,shop_price")->find();
             // if (!($goods_data["goods_new_money"] == $commodity["shop_price"])) {
@@ -351,14 +333,13 @@ class Goods extends Controller
             //     $array["shop_price"] = $goods_data["goods_new_money"];
             //     $boole = db("commodity")->where("shop_number", $goods_data["goods_number"])->update($array);
             // }
-            //halt($goods_data);
+
             $bool = db("goods")->where("id", $id)->update($goods_data);
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));
             } else {
                 $this->success("更新失败", url('admin/Goods/edit'));
             }
-
 
         }
 
@@ -392,7 +373,6 @@ class Goods extends Controller
                 }
             }
         }
-
     }
 
 
@@ -418,7 +398,6 @@ class Goods extends Controller
                 return ajax_error('删除失败', ['status' => 0]);
             }
         }
-
     }
 
 
@@ -439,7 +418,6 @@ class Goods extends Controller
                 return ajax_error('更新失败');
             }
         }
-
     }
 
 
@@ -450,7 +428,6 @@ class Goods extends Controller
     public function value(Request $request)
     {
         if ($request->isPost()) {
-
             $id = $request->only(["id"])["id"];
             $value = $request->only(["value"])["value"];
             $key = $request->only(["key"])["key"];
@@ -462,7 +439,6 @@ class Goods extends Controller
                 return ajax_error('更新失败');
             }
         }
-
     }
 
 
@@ -485,7 +461,6 @@ class Goods extends Controller
                 return ajax_error('更新失败');
             }
         }
-
     }
 
 
@@ -509,7 +484,6 @@ class Goods extends Controller
                  return ajax_error('添加图片失败');
              }
         }
-
     }
 
 
