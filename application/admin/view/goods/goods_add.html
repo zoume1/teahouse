@@ -61,7 +61,7 @@
 	
 	.general-kuang {
 		border: solid 1px #E4E4E4;
-		width: 1000px;
+		width: 1331px;
 		padding-left: 10px;
 	}
 	
@@ -146,6 +146,7 @@
 	}
 	
 	table input {
+		text-align: center;
 		width: 80px !important;
 		min-width: 80px !important;
 	}
@@ -534,6 +535,10 @@
 							$('#lv_table').html('');
 							return;
 						}
+						if(lv1Arr.length>6) {
+						    alert('规格名称最多6项');
+							return;
+						}
 						for(var i = 0; i < lv1Arr.length; i++) {
 							var lv2Arr = $(lv1Arr[i]).parents('.lv1').find('input[class="lvv4"]');
 							if(!lv2Arr || lv2Arr.length == 0) {
@@ -554,7 +559,8 @@
 						tableHTML += '			<th width="100px"><input value="规格编码"  readonly style="border:0;"></th>';
 						tableHTML += '			<th width="100px"><input value="成本价"  readonly style="border:0;"></th>';
 						tableHTML += '			<th width="100px"><input value="图片"  readonly style="border:0;"></th>';
-						tableHTML += '			<th width="100px"><input value="开关"  readonly style="border:0;"></th>';
+						tableHTML += '			<th width="100px"><input value="是否上架"  readonly style="border:0;"></th>';
+						tableHTML += '			<th width="100px"><input value="是否存茶"  readonly style="border:0;"></th>';
 						tableHTML += '		</tr>';
 						tableHTML += '	</thead>';
 						tableHTML += '	<tbody>';
@@ -631,6 +637,7 @@
 							tableHTML += '            </aside>';
 							tableHTML += '             </td>';
 							tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[status]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>';
+							tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[sava]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>';
 							tableHTML += '		</tr>';
 						}
 						tableHTML += '	</tbody>';
