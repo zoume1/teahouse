@@ -96,7 +96,6 @@ class Goods extends Controller
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
 
-            
             if (!empty($show_images)) {
                 foreach ($show_images as $ky => $vl) {
                     $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');

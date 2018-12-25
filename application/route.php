@@ -35,7 +35,12 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
-    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
+    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动  commodity
+
+    /*商品管理*/
+    "commodity_index"=>"index/Commodity/commodity_index",        //商品分类
+    "commodity_list"=>"index/Commodity/commodity_list",          //商品列表
+    "commodity_detail"=>"index/Commodity/commodity_detail",      //商品详情
 ]);
 
 /**
