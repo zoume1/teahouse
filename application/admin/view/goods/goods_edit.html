@@ -420,7 +420,6 @@
                         <div id="lv_table" style="padding: 10px;">
                             <table class="table table-bordered">
                                 <thead>
-
                                     <tr>
                                         <!--//循环这里规格名称-->
                                         {if !empty($res)} {volist name="res" id="val"}
@@ -435,7 +434,8 @@
                                         <th width="100px"><input value="规格编码" readonly="" style="border:0;"></th>
                                         <th width="100px"><input value="成本价" readonly="" style="border:0;"></th>
                                         <th width="100px"><input value="图片" readonly="" style="border:0;"></th>
-                                        <th width="100px"><input value="开关" readonly="" style="border:0;"></th>
+                                        <th width="100px"><input value="存茶开关" readonly="" style="border:0;"></th>
+                                        <th width="100px"><input value="上架开关" readonly="" style="border:0;"></th>
                                     </tr>
 
                                 </thead>
@@ -480,6 +480,11 @@
                                                     </p>
                                                 </div>
                                             </aside>
+                                        </td>
+                                        <td>
+                                            {if $ve.save == 0}
+                                            <input type="checkbox" class="Status" value="{$ve.save}" lay-skin="switch" lay-text="是|否" lay-filter="isshelves" data-id="{$ve.id}" data-value="status"> {else}
+                                            <input type="checkbox" class="Status" value="{$ve.save}" lay-skin="switch" lay-text="是|否" lay-filter="isshelves" checked data-id="{$ve.id}" data-value="status"> {/if}
                                         </td>
                                         <td>
                                             {if $ve.status == 0}

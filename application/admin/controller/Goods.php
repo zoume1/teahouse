@@ -96,6 +96,7 @@ class Goods extends Controller
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
 
+            
             if (!empty($show_images)) {
                 foreach ($show_images as $ky => $vl) {
                     $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -112,6 +113,7 @@ class Goods extends Controller
                 }
             }
             if ($goods_data["goods_standard"] == "1") {
+
                 $goods_special = [];
                 $goods_special["goods_name"] = $goods_data["goods_name"];
                 $goods_special["produce"] = $goods_data["produce"];
@@ -151,6 +153,11 @@ class Goods extends Controller
                             } else {
                                 $status[] = "0";
                             }
+                            if (isset($nl["save"])) {
+                                $save[] = $nl["save"];
+                            } else {
+                                $save[] = "0";
+                            }
                         }
                     }
                 }
@@ -169,6 +176,7 @@ class Goods extends Controller
                                     $values[$k]["stock"] = $stock[$k];
                                     $values[$k]["coding"] = $coding[$k];
                                     $values[$k]["status"] = $status[$k];
+                                    $values[$k]["save"] = $save[$k];
                                     $values[$k]["cost"] = $cost[$k];
                                     $values[$k]["images"] = $tab;
                                     $values[$k]["goods_id"] = $goods_id;
