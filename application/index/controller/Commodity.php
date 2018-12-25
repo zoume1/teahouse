@@ -15,6 +15,11 @@ class Commodity extends Controller
         if($request->isPost()) {            
             $goods_type = db("wares")->where("status", 1)->select();
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
+            foreach($goods_type as $key => $value)
+            {
+                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->select();
+ 
+            }
             return ajax_success("获取成功",array("goods_type"=>$goods_type));
         }
         
@@ -91,6 +96,6 @@ class Commodity extends Controller
                 return ajax_error("获取失败");
             }
         }
-        //return view("goods_detail");
+        
     }
 }

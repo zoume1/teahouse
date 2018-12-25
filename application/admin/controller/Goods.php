@@ -101,8 +101,10 @@ class Goods extends Controller
                     $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $show->getSaveName());
                 }
+                $goods_data["goods_show_image"] =  $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
             }
+            
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
                 if ($bool) {
@@ -248,7 +250,7 @@ class Goods extends Controller
                 $new_imgs_url = implode(',', $new_image);
                 $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
             } else {
-                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL]);
+                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
             }
             if ($res) {
                 return ajax_success('删除成功');
@@ -312,6 +314,7 @@ class Goods extends Controller
                 $goods_data["goods_show_images"] = $montage;
                 } else {                   
                     $montage = $liste;
+                    $goods_data["goods_show_images"] = $list[0];
                     $goods_data["goods_show_images"] = $montage;
                 }
             } else {
@@ -320,6 +323,7 @@ class Goods extends Controller
                 $goods_data["goods_show_images"] = $image;
                 } else {
                     $goods_data["goods_show_images"] = NULL;
+                    $goods_data["goods_show_image"] = NULL;
                 }
             } 
 
