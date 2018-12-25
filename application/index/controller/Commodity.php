@@ -45,7 +45,6 @@ class Commodity extends Controller
 
         if($request->isPost()){
             $goods_pid = $request->only(["id"])["id"];
-            $goods_data = [];
             $goods = db("goods")->where("pid",$goods_pid)->select();
 
             foreach ($goods as $k => $v)
@@ -55,7 +54,9 @@ class Commodity extends Controller
                     $goods_data[$k]["goods_show_images"] = (explode(",", $goods[$k]["goods_show_images"])[0]);
 
                 }
+ 
             }
+           
             if(!empty($goods_data) && !empty($goods_pid)){
                 return ajax_success("获取成功",$goods_data);
             }else{
