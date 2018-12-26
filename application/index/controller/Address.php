@@ -21,8 +21,12 @@ class Address extends  Controller{
      */
     public function member_address_information(Request $request){
         if($request->isPost()){
-            $member_id = Session::get("member_id");
-            return ajax_success('111',$member_id);
+            $post_open_id = $request->only(['open_id'])['open_id'];
+            $user_id =Db::name("member")
+                ->field("member_id")
+                ->where("member_openid", $post_open_id)
+                ->find();
+            $member_id =$user_id["member_id"];
             $data =Db::name("user_address")
                 ->where('user_id',$member_id)
                 ->order("id","desc")
@@ -45,7 +49,12 @@ class Address extends  Controller{
      */
     public function member_address_adds(Request $request){
         if($request->isPost()){
-            $member_id = Session::get("member_id");
+            $post_open_id = $request->only(['open_id'])['open_id'];
+            $user_id =Db::name("member")
+                ->field("member_id")
+                ->where("member_openid", $post_open_id)
+                ->find();
+            $member_id =$user_id["member_id"];
             $harvester = $request->only('harvester')['harvester'];
             $harvester_phone_num = $request->only('harvester_phone_num')['harvester_phone_num'];
             $address_name = $request->only('address_name')['address_name'];
@@ -85,7 +94,12 @@ class Address extends  Controller{
      */
     public function member_address_del(Request $request){
         if($request->isPost()){
-            $member_id = Session::get("member_id");
+            $post_open_id = $request->only(['open_id'])['open_id'];
+            $user_id =Db::name("member")
+                ->field("member_id")
+                ->where("member_openid", $post_open_id)
+                ->find();
+            $member_id =$user_id["member_id"];
             $id =$request->only('id')['id'];
             if($id){
                 $bool =Db::name('user_address')
@@ -114,7 +128,7 @@ class Address extends  Controller{
      */
     public function member_address_edit_information(Request $request){
         if($request->isPost()){
-            $id = Session::get('address_id');
+            $id = $request->only(['id'])['id'];
             $data =Db::name("user_address")->where('id',$id)->find();
             if(!empty($data)){
                 Session::delete("address_id");
@@ -125,24 +139,7 @@ class Address extends  Controller{
         }
     }
 
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:编辑地址点击一个id传给我
-     **************************************
-     * @param Request $request
-     */
-    public function member_save_address_id(Request $request){
-        if($request->isPost()){
-            $id =$request->only(['id'])['id'];
-            if(!empty($id)){
-                Session::set('address_id',$id);
-                return ajax_success('保存地址id成功',['status'=>1]);
-            }else{
-                return ajax_error('没有这条地址',['status'=>0]);
-            }
-        }
-    }
+
 
     /**
      **************李火生*******************
@@ -153,7 +150,12 @@ class Address extends  Controller{
      */
     public function member_address_edit(Request $request){
         if($request->isPost()){
-            $member_id = Session::get("member_id");
+            $post_open_id = $request->only(['open_id'])['open_id'];
+            $user_id =Db::name("member")
+                ->field("member_id")
+                ->where("member_openid", $post_open_id)
+                ->find();
+            $member_id =$user_id["member_id"];
             $id = $request->only('id')['id'];
             $harvester = $request->only('harvester')['harvester'];
             $harvester_phone_num = $request->only('harvester_phone_num')['harvester_phone_num'];
@@ -193,7 +195,12 @@ class Address extends  Controller{
      */
     public function member_address_status(Request $request){
         if($request->isPost()){
-            $member_id = Session::get("member_id");
+            $post_open_id = $request->only(['open_id'])['open_id'];
+            $user_id =Db::name("member")
+                ->field("member_id")
+                ->where("member_openid", $post_open_id)
+                ->find();
+            $member_id =$user_id["member_id"];
             $id =$request->only('id')['id'];
             if(!empty($id)){
                 $bool=  Db::name('user_address')
@@ -224,7 +231,12 @@ class Address extends  Controller{
     public function member_default_address_return(Request $request)
     {
         if ($request->isPost()) {
-            $member_id = Session::get("member_id");
+            $post_open_id = $request->only(['open_id'])['open_id'];
+            $user_id =Db::name("member")
+                ->field("member_id")
+                ->where("member_openid", $post_open_id)
+                ->find();
+            $member_id =$user_id["member_id"];
             if(empty( $member_id)){
                 exit(json_encode(array("status"=>2,"info"=>"请登录")));
             }

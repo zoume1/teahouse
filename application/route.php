@@ -34,7 +34,6 @@ Route::group("",[
     "member_address_adds"=>"index/Address/member_address_adds", //收货地址添加
     "member_address_del"=>"index/Address/member_address_del", //收货地址删除
     "member_address_edit_information"=>"index/Address/member_address_edit_information", //编辑地址数据返回
-    "member_save_address_id"=>"index/Address/member_save_address_id", //编辑地址点击一个id传给我
     "member_address_edit"=>"index/Address/member_address_edit", //收货地址编辑操作
     "member_address_status"=>"index/Address/member_address_status", //设置默认地址
     "member_default_address_return"=>"index/Address/member_default_address_return", //购买页面默认地址返回或者选择其他地址
