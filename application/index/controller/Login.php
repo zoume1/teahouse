@@ -63,7 +63,11 @@ class Login extends Controller{
                     }
                 }else{
                     session('member_openid',$errCode['openId']);
-                    $user_id =Db::name("member")->field("member_id")->where("member_openid",$errCode['openId'])->find();
+                    $user_id =Db::name("member")
+                        ->field("member_id")
+                        ->where("member_openid",$errCode['openId'])
+                        ->find();
+                    return ajax_error('该用户已经注册过，请不要重复注册', $user_id);
                     session('member_id',$user_id["member_id"]);
                     return ajax_error('该用户已经注册过，请不要重复注册',$errCode['openId']);
                 }

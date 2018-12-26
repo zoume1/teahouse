@@ -22,7 +22,10 @@ class My extends Controller
     public function my_index(Request $request){
         if($request->isPost()){
             $post_open_id = $request->only(['open_id'])['open_id'];
-            $my_data =Db::name('member')->field('member_phone_num,member_openid,member_name,member_head_img,member_grade_name,member_wallet,member_integral_wallet,member_grade_id')->where('member_openid',$post_open_id)->find();
+            $my_data =Db::name('member')
+                ->field('member_phone_num,member_openid,member_name,member_head_img,member_grade_name,member_wallet,member_integral_wallet,member_grade_id')
+                ->where('member_openid',$post_open_id)
+                ->find();
             $post_member_grade_img =Db::name('member_grade')->field('member_grade_img,member_background_color')->where('member_grade_id',$my_data['member_grade_id'])->find();
            $my_data['member_grade_img'] =$post_member_grade_img['member_grade_img'];
            $my_data['member_background_color'] =$post_member_grade_img['member_background_color'];
