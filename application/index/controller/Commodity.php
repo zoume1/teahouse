@@ -17,7 +17,7 @@ class Commodity extends Controller
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
             foreach($goods_type as $key => $value)
             {
-                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->select();
+                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("label",1)->select();
  
             }
             return ajax_success("获取成功",array("goods_type"=>$goods_type));
@@ -80,16 +80,18 @@ class Commodity extends Controller
     public function commodity_detail(Request $request)
     {
         if($request->isPost()){
-            $goods_id = $request->only(["id"])["id"];
+            $goods_id = $request->only(["id"])["id"];           
             $goods = db("goods")->where("id",$goods_id)->select();
             $goods_standard = db("special")->where("goods_id", $goods_id)->select();
 
             if($goods[0]["goods_standard"] == 1){
             foreach ($goods as $key=>$value){
                 $goods[$key]["goods_standard"] = $goods_standard;
-                $goods[$key]["goods_show_images"] = (explode(",", $goods[$key]["goods_show_images"])[0]);
+                $goods[$key]["goods_show_image"] = (explode(",", $goods[$key]["goods_show_images"])[0]);
+                $goods[$key]["goods_show_images"] = (explode(",", $goods[$key]["goods_show_images"]));
             }
-        }       
+        }
+             
             if(!empty($goods) && !empty($goods_id)){
                 return ajax_success("获取成功",$goods);
             }else{
