@@ -97,8 +97,8 @@ class Commodity extends Controller
 
             }
             } else {
-                $goods[$key]["goods_show_image"] = (explode(",", $goods[$key]["goods_show_images"])[0]);
-                $goods[$key]["goods_show_images"] = (explode(",", $goods[$key]["goods_show_images"]));
+                $goods[0]["goods_show_image"] = (explode(",", $goods[$key]["goods_show_images"])[0]);
+                $goods[0]["goods_show_images"] = (explode(",", $goods[$key]["goods_show_images"]));
             }
             if(!empty($goods) && !empty($goods_id)){
                 return ajax_success("获取成功",$goods);
