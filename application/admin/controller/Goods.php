@@ -36,15 +36,17 @@ class Goods extends Controller
                 $res = db("wares")->where("id", $value['pid'])->field("name")->find();
                 if($goods[$key]["goods_standard"] == "1")
                 {
-                $rest["max_price"] = db("special")->where("goods_id", $goods[$key]['id'])->max("price");
+                    $max[$key] = db("special")->where("goods_id", $goods[$key]['id'])->max("price");//最高价格
+                    $min[$key] = db("special")->where("goods_id", $goods[$key]['id'])->min("price");//最低价格
+                    $goods[$key]["max_price"] = $max[$key];
+                    $goods[$key]["min_price"] = $min[$key];
+
                 }
-                $goods[$key]["named"] = $res["name"];
-
-
+                $goods[$key]["named"] = $res["name"];               
                 $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
             }
         }
-        
+
         $all_idents = $goods;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
         $listRow = 20;//每页20行记录
