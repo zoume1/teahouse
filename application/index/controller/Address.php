@@ -240,17 +240,15 @@ class Address extends  Controller{
             if(empty( $member_id)){
                 exit(json_encode(array("status"=>2,"info"=>"请登录")));
             }
-            $address_id =Session::get("address_id");
+            $address_id =$request->only(['address_id'])['address_id'];
             if(!empty($address_id)){
                 $is_address =Db::name("user_address")
                     ->where("user_id", $member_id)
                     ->where("id",$address_id)
                     ->find();
                 if(!empty($is_address)){
-                    Session::delete("address_id");
                     return ajax_success('收货地址成功返回', $is_address);
                 }else{
-                    Session::delete("address_id");
                     exit(json_encode(array("status"=>0,"info"=>"请先选择收货地址")));
                 }
             }
