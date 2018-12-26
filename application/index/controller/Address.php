@@ -22,6 +22,7 @@ class Address extends  Controller{
     public function member_address_information(Request $request){
         if($request->isPost()){
             $member_id = Session::get("member_id");
+            return ajax_success('111',$member_id);
             $data =Db::name("user_address")
                 ->where('user_id',$member_id)
                 ->order("id","desc")
