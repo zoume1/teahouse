@@ -56,18 +56,20 @@ class Login extends Controller{
                     $bool =Db::name('member')->insertGetId($data);
                     if($bool){
                         session('member_openid',$errCode['openId']);
+                        session('member_id',$bool);
                         return ajax_success('返回数据成功',$errCode);
                     }else{
                         return ajax_success('返回数据失败',['status'=>0]);
                     }
                 }else{
                     session('member_openid',$errCode['openId']);
+                    $user_id =Db::name("member")->field("member_id")->where("member_openid")->find();
+                    session('member_id',$user_id["member_id"]);
                     return ajax_error('该用户已经注册过，请不要重复注册',$errCode['openId']);
                 }
             }else{
                 return ajax_error('没有数据',['status'=>0]);
             }
-//            dump($errCode); //打印获取的数据
         } else {
             return ajax_error('获取session_key失败',['status'=>0]);
         }
