@@ -89,7 +89,7 @@
                         <td>{$value.goods_name}</td>
                         <td>{$value.brand}</td>
                         <td>{if $value.pid !=0}{$value.named} {else} 无 {/if}</td>
-                        <td>￥{$value.goods_new_money}</td>
+                        <td>{if $value.goods_standard == 1}￥{$value.max_price}-￥{$value.min_price} {else}￥{$value.goods_new_money}{/if}</td>
                         <td class="td-status">
                             {if $value.label == 1} 已显示 {else} 已禁用 {/if}
                         </td>
