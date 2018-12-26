@@ -10,6 +10,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Db;
 use think\Loader;
+use think\Session;
 
 class Login extends Controller{
 
@@ -55,19 +56,19 @@ class Login extends Controller{
                     $data['member_grade_name'] =$grade_name['member_grade_name'];
                     $bool =Db::name('member')->insertGetId($data);
                     if($bool){
-                        session('member_openid',$errCode['openId']);
-                        session('member_id',$bool);
+                        Session::set('member_openid',$errCode['openId']);
+                        Session::set('member_id',$bool);
                         return ajax_success('返回数据成功',$errCode);
                     }else{
                         return ajax_success('返回数据失败',['status'=>0]);
                     }
                 }else{
-                    session('member_openid',$errCode['openId']);
+                    Session::set('member_openid',$errCode['openId']);
                     $user_id =Db::name("member")
                         ->field("member_id")
                         ->where("member_openid",$errCode['openId'])
                         ->find();
-                    session('member_i',$user_id['member_id']);
+                    Session::set('member_i',$user_id['member_id']);
                     return ajax_error('该用户已经注册过，请不要重复注册',$errCode['openId']);
                 }
             }else{
