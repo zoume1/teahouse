@@ -80,18 +80,26 @@ class Commodity extends Controller
     public function commodity_detail(Request $request)
     {
         if($request->isPost()){
-            $goods_id = $request->only(["id"])["id"];           
+            $goods_id = $request->only(["id"])["id"];   
             $goods = db("goods")->where("id",$goods_id)->select();
             $goods_standard = db("special")->where("goods_id", $goods_id)->select();
+            $max_price =  db("special")->where("goods_id", $goods_id)->max("price");
+            $min_price =  db("special")->where("goods_id", $goods_id)->min("price");
+
 
             if($goods[0]["goods_standard"] == 1){
             foreach ($goods as $key=>$value){
                 $goods[$key]["goods_standard"] = $goods_standard;
                 $goods[$key]["goods_show_image"] = (explode(",", $goods[$key]["goods_show_images"])[0]);
                 $goods[$key]["goods_show_images"] = (explode(",", $goods[$key]["goods_show_images"]));
+                $goods[$key]["max_price"] = $max_price;
+                $goods[$key]["min_price"] = $min_price;
+
             }
-        }
-             
+            } else {
+                $goods[$key]["goods_show_image"] = (explode(",", $goods[$key]["goods_show_images"])[0]);
+                $goods[$key]["goods_show_images"] = (explode(",", $goods[$key]["goods_show_images"]));
+            }
             if(!empty($goods) && !empty($goods_id)){
                 return ajax_success("获取成功",$goods);
             }else{
