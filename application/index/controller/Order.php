@@ -42,7 +42,7 @@ class  Order extends  Controller
                     $data[0]["special_info"] = Db::name("special")
                         ->where("id", $special_id)
                         ->find();
-                    $data[0]["grade_price"] =$member_consumption_discount* $data[0]["special_info"]["goods_new_money"];
+                    $data[0]["grade_price"] =$member_consumption_discount* $data[0]["special_info"]["price"];
                     $data[0]["number"] =$number;
                     $data[0]["user_grade_image"] =$member_grade_id["member_grade_img"];
                 }
