@@ -34,8 +34,8 @@ class  Order extends  Controller
             //专用规格
             if (!empty($special_id)) {
                 if ($goods_data["goods_standard"] == 1) {
-                    $data["goods_info"] = $goods_data;
-                    $data["special_info"] = Db::name("special")
+                    $data[0]["goods_info"] = $goods_data;
+                    $data[0]["special_info"] = Db::name("special")
                         ->where("id", $special_id)
                         ->find();
                     $data["number"] =$number;
@@ -43,9 +43,9 @@ class  Order extends  Controller
             } else {
                 //通用规格
                 if ($goods_data["goods_standard"] == 0) {
-                    $data["goods_info"] = $goods_data;
-                    $data["special_info"] = null;
-                    $data["number"] =$number;
+                    $data[0]["goods_info"] = $goods_data;
+                    $data[0]["special_info"] = null;
+                    $data[0]["number"] =$number;
                 }
 
             }
