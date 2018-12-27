@@ -38,7 +38,7 @@ class  Order extends  Controller
                     $data[0]["special_info"] = Db::name("special")
                         ->where("id", $special_id)
                         ->find();
-                    $data["number"] =$number;
+                    $data[0]["number"] =$number;
                 }
             } else {
                 //通用规格
