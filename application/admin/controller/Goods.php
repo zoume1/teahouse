@@ -484,8 +484,8 @@ class Goods extends Controller
     public function addphoto(Request $request)
     {
         if ($request->isPost()) {
-            $id = $request->only(["id"])["id"];
-            $imag = $request->file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
+            $id = $request -> only(["id"])["id"];
+            $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
             $images = str_replace("\\", "/", $imag->getSaveName());
 
             if(!empty($id)){
