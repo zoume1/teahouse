@@ -39,6 +39,11 @@ Route::group("",[
     "member_default_address_return"=>"index/Address/member_default_address_return", //购买页面默认地址返回或者选择其他地址
 
     /*TODO:地址管理结束*/
+    /*TODO:订单开始*/
+    "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
+    /*TODO:订单结束*/
+
+
 
     /*茶圈*/
     "teacenter_data"=>"index/TeaCenter/teacenter_data",          //茶圈父级显示
