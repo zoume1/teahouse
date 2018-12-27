@@ -79,30 +79,41 @@ class Commodity extends Controller
      */
     public function commodity_detail(Request $request)
     {
-        if($request->isPost()){
-            $goods_id = $request->only(["id"])["id"];  
-            $goods = db("goods")->where("id",$goods_id)->select();
+        if ($request->isPost()) {
+            $goods_id = $request->only(["id"])["id"];
+            $member_id = $request->only(["open_id"])["open_id"];
+            $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
+            $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
+            $goods = db("goods")->where("id", $goods_id)->select();
             $goods_standard = db("special")->where("goods_id", $goods_id)->select();
-            $max_price =  db("special")->where("goods_id", $goods_id)->max("price");
-            $min_price =  db("special")->where("goods_id", $goods_id)->min("price");
+            $max_price = db("special")->where("goods_id", $goods_id)->max("price");
+            $min_price = db("special")->where("goods_id", $goods_id)->min("price");
+            $max_prices = $max_price * $discount;
+            $min_prices = $min_price * $discount;
 
+            foreach ($goods_standard as $key => $value) {
+                $goods_standard[$key]["price"] = $goods_standard[$key]["price"] * $discount;
+            }
 
-            if($goods[0]["goods_standard"] == 1){           
+            if ($goods[0]["goods_standard"] == 1) {
                 $goods[0]["goods_standard"] = $goods_standard;
                 $goods[0]["goods_show_image"] = (explode(",", $goods[0]["goods_show_images"])[0]);
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
-                $goods[0]["max_price"] = $max_price;
-                $goods[0]["min_price"] = $min_price;
+                $goods[0]["max_price"] = $max_prices;
+                $goods[0]["min_price"] = $min_prices;
+
             } else {
+                $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
                 $goods[0]["goods_show_image"] = (explode(",", $goods[0]["goods_show_images"])[0]);
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
             }
-            if(!empty($goods) && !empty($goods_id)){
-                return ajax_success("获取成功",$goods);
-            }else{
+
+            if (!empty($goods) && !empty($goods_id)) {
+                return ajax_success("获取成功", $goods);
+            } else {
                 return ajax_error("获取失败");
             }
         }
-        
+
     }
 }
