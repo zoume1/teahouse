@@ -58,7 +58,7 @@ class Address extends  Controller{
             $harvester = $request->only('harvester')['harvester'];
             $harvester_phone_num = $request->only('harvester_phone_num')['harvester_phone_num'];
             $address_name = $request->only('address_name')['address_name'];
-            $address =implode("",$address_name);
+            $address =implode(",",$address_name);
             $status = $request->only('status')['status'];
             $harvester_real_address =$request->only('harvester_real_address')['harvester_real_address'];
             $data =[
@@ -131,7 +131,7 @@ class Address extends  Controller{
         if($request->isPost()){
             $id = $request->only(['id'])['id'];
             $data =Db::name("user_address")->where('id',$id)->find();
-            $data["address"] =explode("",$data['address_name']);
+            $data["address"] =explode(",",$data['address_name']);
             if(!empty($data)){
                 return ajax_success('地址信息返回成功',$data);
             }else{
