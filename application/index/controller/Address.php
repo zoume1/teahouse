@@ -131,9 +131,6 @@ class Address extends  Controller{
         if($request->isPost()){
             $id = $request->only(['id'])['id'];
             $data =Db::name("user_address")->where('id',$id)->find();
-            foreach ($data["address_name"] as $k=>$v){
-                $data["address"][] =explode(",",$v);
-            }
             if(!empty($data)){
                 return ajax_success('地址信息返回成功',$data);
             }else{
