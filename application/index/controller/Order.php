@@ -23,6 +23,10 @@ class  Order extends  Controller
     public function order_return(Request $request)
     {
         if ($request->isPost()) {
+            $open_id =$request->only("open_id")["open_id"];
+            $member_grade_id =Db::name("member")->where("member_openid",$open_id)->find();
+            $member_consumption_discount =Db::name("member_grade")->where("member_grade_id",$member_grade_id["member_grade_id"])->value("member_consumption_discount");
+
             $goods_id = $request->only("goods_id")["goods_id"];
             $special_id = $request->only("guige")["guige"];
             $number = $request->only("num")["num"];
@@ -38,16 +42,19 @@ class  Order extends  Controller
                     $data[0]["special_info"] = Db::name("special")
                         ->where("id", $special_id)
                         ->find();
+                    $data[0]["grade_price"] =$member_consumption_discount* $data[0]["special_info"]["goods_new_money"];
                     $data[0]["number"] =$number;
+                    $data[0]["user_grade_image"] =$member_grade_id["member_grade_img"];
                 }
             } else {
                 //通用规格
                 if ($goods_data["goods_standard"] == 0) {
                     $data[0]["goods_info"] = $goods_data;
+                    $data[0]["grade_price"] =$member_consumption_discount * $goods_data["goods_new_money"];
                     $data[0]["special_info"] = null;
                     $data[0]["number"] =$number;
+                    $data[0]["user_grade_image"] =$member_grade_id["member_grade_img"];
                 }
-
             }
             if(!empty($data)){
                 return ajax_success("数据返回",$data);
