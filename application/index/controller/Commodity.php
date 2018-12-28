@@ -30,12 +30,39 @@ class Commodity extends Controller
 
 
     /**
-     * 分类推荐
+     * 商品首页推荐
      * GY
      */
-    public function classify_recommend()
+    public function commodity_recommend(Request $request)
     {
-        return view("classify_recommend");
+
+        if ($request->isPost()) {
+            $member_id = $request->only(["open_id"])["open_id"];
+            $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
+            $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
+            $goods = db("goods")->where("status",1)->select();
+
+            foreach ($goods as $k => $v)
+            {
+                if($goods[$k]["goods_standard"] == 1){
+                    $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
+                    $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])->max("price")*$discount;//最高价格
+                    $min[$k] = db("special")->where("goods_id", $goods[$k]['id'])->min("price")*$discount;//最低价格
+                    $goods[$k]["goods_standard"] = $standard[$k];
+                    $goods[$k]["max_price"] = $max[$k];
+                    $goods[$k]["min_price"] = $min[$k];
+                } else {
+                    $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
+                }
+            }
+
+            if (!empty($goods) && !empty($member_id)) {
+                return ajax_success("获取成功", $goods);
+            } else {
+                return ajax_error("获取失败");
+            }
+        }
+
     }
 
 
@@ -57,9 +84,7 @@ class Commodity extends Controller
                 if($v["label"] == 1 ){
                     $goods_data[] = $v;
                     $goods_data[$k]["goods_show_images"] = (explode(",", $goods[$k]["goods_show_images"])[0]);
-
                 }
- 
             }
             if(!empty($goods_data) && !empty($goods_pid)){
                 return ajax_success("获取成功",$goods_data);
@@ -83,7 +108,7 @@ class Commodity extends Controller
             $member_id = $request->only(["open_id"])["open_id"];
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
-            $goods = db("goods")->where("id", $goods_id)->select();
+            $goods = db("goods")->where("id", $goods_id)->where("label",1)->select();
             $goods_standard = db("special")->where("goods_id", $goods_id)->select();
             $max_price = db("special")->where("goods_id", $goods_id)->max("price");
             $min_price = db("special")->where("goods_id", $goods_id)->min("price");
