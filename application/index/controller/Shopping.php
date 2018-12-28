@@ -85,7 +85,7 @@ class  Shopping extends  Controller{
                         }
                     }
                 }
-                if(!empty($goods_standard_id)){
+                if(empty($goods_standard_id)){
                     if($goods_id ==$value["goods_id"]){
                         $shopping_num = $value['goods_unit'] + $goods_unit;
                         $shopping_id =$value["id"];
