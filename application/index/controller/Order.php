@@ -49,11 +49,16 @@ class  Order extends  Controller
                     $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
                     } else{
                     $data[$key]["goods_info"] = $goods_data;
-                    $info = Db::name("special")
-                        ->where("id", $special_id[$key])
-                        ->find();
-                    $data[$key]["special_info"] =$info;
-                    $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $info["price"];
+                    if(!empty($special_id[$key])){
+                        $info = Db::name("special")
+                            ->where("id", $special_id[$key])
+                            ->find();
+                        $data[$key]["special_info"] =$info;
+                        $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $info["price"];
+                    }else{
+                        $data[$key]["goods_info"] = $goods_data[$key];
+                        $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data[$key]["goods_new_money"];
+                    }
                     $data[$key]["number"] =$number[$key];
                     $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
                 }
