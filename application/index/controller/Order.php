@@ -3,6 +3,7 @@
  * Created by PhpStorm.
  * User: Administrator
  * Date: 2018/12/27 0027
+ * 订单
  * Time: 15:20
  */
 
@@ -28,7 +29,6 @@ class  Order extends  Controller
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
-
             $goods_id = $request->only("goods_id")["goods_id"];
             $special_id = $request->only("guige")["guige"];
             $number = $request->only("num")["num"];

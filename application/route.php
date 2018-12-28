@@ -43,6 +43,14 @@ Route::group("",[
     "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
     /*TODO:订单结束*/
 
+    /*TODO:购物车开始*/
+    "shopping_index"=>"index/Shopping/shopping_index",//购物车列表信息返回
+     "get_goods_id_to_shopping"=>"index/Shopping/get_goods_id_to_shopping",//获取商品id 存入购物车
+     "shopping_information_add"=>"index/Shopping/shopping_information_add",//购物车添加商品数量
+     "shopping_information_del"=>"index/Shopping/shopping_information_del",//购物车减少商品数量
+     "shopping_del"=>"index/Shopping/shopping_del",//购物车删除
+
+    /*TODO:购物车结束*/
 
 
     /*茶圈*/
