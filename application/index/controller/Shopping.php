@@ -71,36 +71,69 @@ class  Shopping extends  Controller{
                 if (in_array($goods_standard_id,$value)) {
                     $shopping_num = $value['goods_unit'] + $goods_unit;
                     $shopping_id =$value["id"];
+                    if(!empty($shopping_num)){
+                        $bool = Db::name("shopping")
+                            ->where("id",$shopping_id)
+                            ->where("goods_id", $goods_id)
+                            ->where("user_id", $member_id["member_id"])
+                            ->where("goods_standard_id",$goods_standard_id)
+                            ->update(["goods_unit"=>$shopping_num]);
+                        if($bool){
+                            return ajax_success("成功", $bool);
+                        }else{
+                            return ajax_error("失败",["status"=>0]);
+                        }
+                    }
                 }
-            }
-            if(!empty($shopping_num)){
-                $bool = Db::name("shopping")
-                    ->where("id",$shopping_id)
-                    ->where("goods_id", $goods_id)
-                    ->where("user_id", $member_id["member_id"])
-                    ->where("goods_standard_id",$goods_standard_id)
-                    ->update(["goods_unit"=>$shopping_num]);
-                if($bool){
-                    return ajax_success("成功", $bool);
-                }else{
-                    return ajax_error("失败",["status"=>0]);
+                if(!empty($goods_standard_id)){
+                    if($goods_id ==$value["goods_id"]){
+                        $shopping_num = $value['goods_unit'] + $goods_unit;
+                        $shopping_id =$value["id"];
+                    }
+                    if(!empty($shopping_num)){
+                        $bool = Db::name("shopping")
+                            ->where("id",$shopping_id)
+                            ->where("goods_id", $goods_id)
+                            ->where("user_id", $member_id["member_id"])
+                            ->update(["goods_unit"=>$shopping_num]);
+                        if($bool){
+                            return ajax_success("成功", $bool);
+                        }else{
+                            return ajax_error("失败",["status"=>0]);
+                        }
+                    }
                 }
             }
             $data['goods_name'] = $goods['goods_name'];
-            $goods_end_money =Db::name("special")
-                ->field("price,name,images")
-                ->where("id",$goods_standard_id)
-                ->where("goods_id",$goods_id)
-                ->find();
-            $data['money'] =  $goods_end_money["price"] * $member_consumption_discount["member_consumption_discount"];
-            $data['goods_images'] =$goods_end_money['images'];//商品图片
-            $data['goods_unit'] = $goods_unit;
-            $data['user_id'] =  $member_id["member_id"];
-            $data['goods_id'] = $goods['id'];
-            $data['goods_standard_id'] =$goods_standard_id;
-            $data["special_name"] =$goods_end_money["name"];
-            $bool = db("shopping")->insert($data);
-            exit(json_encode(array("status" => 1, "info" => "加入购物车成功" ,"data"=>$bool)));
+
+            //判断通用过去还是专用
+            if(!empty($goods_standard_id)){
+                $goods_end_money =Db::name("special")
+                    ->field("price,name,images")
+                    ->where("id",$goods_standard_id)
+                    ->where("goods_id",$goods_id)
+                    ->find();
+                $data['money'] =  $goods_end_money["price"] * $member_consumption_discount["member_consumption_discount"];
+                $data['goods_images'] =$goods_end_money['images'];//商品图片
+                $data['goods_unit'] = $goods_unit;
+                $data['user_id'] =  $member_id["member_id"];
+                $data['goods_id'] = $goods['id'];
+                $data['goods_standard_id'] =$goods_standard_id;
+                $data["special_name"] =$goods_end_money["name"];
+                $bool = db("shopping")->insert($data);
+                exit(json_encode(array("status" => 1, "info" => "加入购物车成功" ,"data"=>$bool)));
+            }else{
+                $data['money'] =  $goods["goods_new_money"] * $member_consumption_discount["member_consumption_discount"];
+                $data['goods_images'] =$goods['goods_show_images'];//商品图片
+                $data['goods_unit'] = $goods_unit;
+                $data['user_id'] =  $member_id["member_id"];
+                $data['goods_id'] = $goods['id'];
+                $data['goods_standard_id'] =$goods_standard_id;
+                $data["special_name"] =null;
+                $bool = db("shopping")->insert($data);
+                exit(json_encode(array("status" => 1, "info" => "加入购物车成功" ,"data"=>$bool)));
+            }
+
         }
     }
 
@@ -204,6 +237,8 @@ class  Shopping extends  Controller{
             }
         }
     }
+
+
 
 
 }
