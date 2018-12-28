@@ -30,7 +30,11 @@ class  Shopping extends  Controller{
             if (empty($member_id)) {
                 exit(json_encode(array("status" => 2, "info" => "请登录")));
             }
-            $shopping_data = db("shopping")->where("user_id", $member_id)->select();
+            $shopping_data = Db::table("tb_shopping")
+                ->field("tb_shopping.* ,tb_goods.goods_selling goods_selling")
+                ->join("tb_goods","tb_shopping.goods_id=tb_goods.id","left")
+                ->where("tb_shopping.user_id", $member_id)
+                ->select();
             if (!empty($shopping_data)) {
                 exit(json_encode(array("status" => 1, "info" => "购物车数据返回成功", "data" => $shopping_data)));
             } else {
@@ -124,7 +128,7 @@ class  Shopping extends  Controller{
                 exit(json_encode(array("status" => 1, "info" => "加入购物车成功" ,"data"=>$bool)));
             }else{
                 $data['money'] =  $goods["goods_new_money"] * $member_consumption_discount["member_consumption_discount"];
-                $data['goods_images'] =$goods['goods_show_images'];//商品图片
+                $data['goods_images'] =$goods['goods_show_image'];//商品图片
                 $data['goods_unit'] = $goods_unit;
                 $data['user_id'] =  $member_id["member_id"];
                 $data['goods_id'] = $goods['id'];
