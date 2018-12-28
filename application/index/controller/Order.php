@@ -41,22 +41,22 @@ class  Order extends  Controller
                 //专用规格
                 if (!empty($special_id)) {
                     if ($goods_data["goods_standard"] == 1) {
-                        $data[$key]["goods_info"] = $goods_data;
+                        $data["goods_info"][$key] = $goods_data;
                         $data[$key]["special_info"] = Db::name("special")
                             ->where("id", $special_id[$key])
                             ->find();
-                        $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $data[$key]["special_info"]["price"];
-                        $data[$key]["number"] =$number[$key];
-                        $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
+                        $data["grade_price"][$key] =$member_consumption_discount["member_consumption_discount"]* $data[$key]["special_info"]["price"];
+                        $data["number"][$key] =$number[$key];
+                        $data["user_grade_image"][$key] =$member_consumption_discount["member_grade_img"];
                     }
                 } else {
                     //通用规格
                     if ($goods_data["goods_standard"] == 0) {
-                        $data[$key]["goods_info"] = $goods_data[$key];
-                        $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data[$key]["goods_new_money"];
-                        $data[$key]["special_info"] = null;
-                        $data[$key]["number"] =$number[$key];
-                        $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
+                        $data["goods_info"][$key] = $goods_data[$key];
+                        $data["grade_price"][$key] =$member_consumption_discount["member_consumption_discount"] * $goods_data[$key]["goods_new_money"];
+                        $data["special_info"][$key] = null;
+                        $data["number"][$key] =$number[$key];
+                        $data["user_grade_image"][$key] =$member_consumption_discount["member_grade_img"];
                     }
                 }
             }
