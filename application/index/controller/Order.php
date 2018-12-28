@@ -40,7 +40,7 @@ class  Order extends  Controller
                 //判断是为专用还是通用
                 //专用规格
                 if (!empty($special_id[$key])) {
-//                    if ($goods_data["goods_standard"] == 1) {
+                    if ($goods_data["goods_standard"] == 1) {
                         $data[$key]["goods_info"] = $goods_data;
                         $info = Db::name("special")
                             ->where("id", $special_id[$key])
@@ -49,16 +49,16 @@ class  Order extends  Controller
                         $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $info["price"];
                         $data[$key]["number"] =$number[$key];
                         $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
-//                    }
+                    }
                 } else {
                     //通用规格
-//                    if ($goods_data["goods_standard"] == 0) {
+                    if ($goods_data["goods_standard"] == 0) {
                         $data[$key]["goods_info"] = $goods_data[$key];
                         $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data[$key]["goods_new_money"];
                         $data[$key]["special_info"] = null;
                         $data[$key]["number"] =$number[$key];
                         $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
-//                    }
+                    }
                 }
             }
             if(!empty($data)){
