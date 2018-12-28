@@ -132,7 +132,7 @@ class  Shopping extends  Controller{
                 $data['goods_unit'] = $goods_unit;
                 $data['user_id'] =  $member_id["member_id"];
                 $data['goods_id'] = $goods['id'];
-                $data['goods_standard_id'] =$goods_standard_id;
+                $data['goods_standard_id'] =0;
                 $data["special_name"] =null;
                 $bool = db("shopping")->insert($data);
                 exit(json_encode(array("status" => 1, "info" => "加入购物车成功" ,"data"=>$bool)));
