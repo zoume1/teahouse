@@ -35,6 +35,7 @@ class  Order extends  Controller
             if (empty($goods_id)) {
                 return ajax_error("商品信息有误，请返回重新提交", ["status" => 0]);
             }
+
             $goods_data = Db::name("goods")->where("id", $goods_id)->find();
             //判断是为专用还是通用
             //专用规格
@@ -66,4 +67,6 @@ class  Order extends  Controller
 
         }
     }
+
+
 }
