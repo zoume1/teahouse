@@ -43,7 +43,7 @@ class  Order extends  Controller
                 //专用规格
                 if ($goods_data["goods_standard"] == 0) {
                     $data[$key]["goods_info"] = $goods_data;
-                    $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data[$key]["goods_new_money"];
+                    $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data["goods_new_money"];
                     $data[$key]["special_info"] = null;
                     $data[$key]["number"] =$number[$key];
                     $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
@@ -57,7 +57,7 @@ class  Order extends  Controller
                         $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $info["price"];
                     }else{
                         $data[$key]["goods_info"] = $goods_data;
-                        $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data[$key]["goods_new_money"];
+                        $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data["goods_new_money"];
                     }
                     $data[$key]["number"] =$number[$key];
                     $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
