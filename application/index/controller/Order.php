@@ -35,28 +35,29 @@ class  Order extends  Controller
             if (empty($goods_id)) {
                 return ajax_error("商品信息有误，请返回重新提交", ["status" => 0]);
             }
-
-            $goods_data = Db::name("goods")->where("id", $goods_id)->find();
-            //判断是为专用还是通用
-            //专用规格
-            if (!empty($special_id)) {
-                if ($goods_data["goods_standard"] == 1) {
-                    $data[0]["goods_info"] = $goods_data;
-                    $data[0]["special_info"] = Db::name("special")
-                        ->where("id", $special_id)
-                        ->find();
-                    $data[0]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $data[0]["special_info"]["price"];
-                    $data[0]["number"] =$number;
-                    $data[0]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
-                }
-            } else {
-                //通用规格
-                if ($goods_data["goods_standard"] == 0) {
-                    $data[0]["goods_info"] = $goods_data;
-                    $data[0]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data["goods_new_money"];
-                    $data[0]["special_info"] = null;
-                    $data[0]["number"] =$number;
-                    $data[0]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
+            foreach ($goods_id as  $key=>$value){
+                $goods_data = Db::name("goods")->where("id", $value)->find();
+                //判断是为专用还是通用
+                //专用规格
+                if (!empty($special_id)) {
+                    if ($value["goods_standard"] == 1) {
+                        $data[$key]["goods_info"] = $goods_data;
+                        $data[$key]["special_info"] = Db::name("special")
+                            ->where("id", $special_id[$key])
+                            ->find();
+                        $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $data[$key]["special_info"]["price"];
+                        $data[$key]["number"] =$number[$key];
+                        $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
+                    }
+                } else {
+                    //通用规格
+                    if ($goods_data["goods_standard"] == 0) {
+                        $data[$key]["goods_info"] = $goods_data[$key];
+                        $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data[$key]["goods_new_money"];
+                        $data[$key]["special_info"] = null;
+                        $data[$key]["number"] =$number[$key];
+                        $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
+                    }
                 }
             }
             if(!empty($data)){
