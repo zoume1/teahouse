@@ -259,9 +259,10 @@ Route::group("admin",[
        
 
     /*优惠券*/
-    "coupon_index"=>"admin/Bonus/coupon_index",    
-    "coupon_edit"=>"admin/Bonus/coupon_edit",      
-    "coupon_add"=>"admin/Bonus/coupon_add",    
+    "coupon_index"=>"admin/Bonus/coupon_index",    //优惠券列表显示
+    "coupon_add"=>"admin/Bonus/coupon_add",        //优惠券添加
+    "coupon_edit"=>"admin/Bonus/coupon_edit",
+    "coupon_save"=>"admin/Bonus/coupon_save",      //优惠券保存入库
 
 
 
