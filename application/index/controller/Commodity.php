@@ -61,7 +61,6 @@ class Commodity extends Controller
                 }
  
             }
-           
             if(!empty($goods_data) && !empty($goods_pid)){
                 return ajax_success("获取成功",$goods_data);
             }else{
@@ -107,7 +106,6 @@ class Commodity extends Controller
                 $goods[0]["goods_show_image"] = (explode(",", $goods[0]["goods_show_images"])[0]);
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
             }
-
             if (!empty($goods) && !empty($goods_id)) {
                 return ajax_success("获取成功", $goods);
             } else {
