@@ -59,12 +59,13 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
-    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动  commodity
+    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
 
     /*商品管理*/
     "commodity_index"=>"index/Commodity/commodity_index",        //商品分类
     "commodity_list"=>"index/Commodity/commodity_list",          //商品列表
     "commodity_detail"=>"index/Commodity/commodity_detail",      //商品详情
+    "commodity_recommend"=>"index/Commodity/commodity_recommend",//商品首页推荐
 ]);
 
 /**
@@ -237,7 +238,7 @@ Route::group("admin",[
     "distribution_goods_edit"=>"admin/Distribution/goods_edit",        //分销商品编辑
     "distribution_goods_save"=>"admin/Distribution/goods_save",        //分销商品添加入库
     "distribution_goods_update"=>"admin/Distribution/goods_update",    //分销商品编辑更新
-    "distribution_goods_delete"=>"admin/Distribution/goods_delete",      //分销商品组删除
+    "distribution_goods_delete"=>"admin/Distribution/goods_delete",    //分销商品组删除
     "distribution_record_index"=>"admin/Distribution/record_index",    //分销记录页面
     "distribution_member_index"=>"admin/Distribution/member_index",    //分销成员页面
     "distribution_member_edit"=>"admin/Distribution/member_edit",      //分销成员页面编辑
