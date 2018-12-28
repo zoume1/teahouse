@@ -46,7 +46,7 @@ class  Order extends  Controller
                             ->where("id", $special_id[$key])
                             ->find();
                         $data[$key]["special_info"] =$info;
-                        $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $info["special_info"]["price"];
+                        $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $info["price"];
                         $data[$key]["number"] =$number[$key];
                         $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
                     }
