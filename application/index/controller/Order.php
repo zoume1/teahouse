@@ -40,7 +40,7 @@ class  Order extends  Controller
                 //判断是为专用还是通用
                 //专用规格
                 if (!empty($special_id)) {
-                    if ($value["goods_standard"] == 1) {
+                    if ($goods_data["goods_standard"] == 1) {
                         $data[$key]["goods_info"] = $goods_data;
                         $data[$key]["special_info"] = Db::name("special")
                             ->where("id", $special_id[$key])
