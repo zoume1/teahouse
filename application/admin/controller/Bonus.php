@@ -8,7 +8,10 @@
 
 namespace  app\admin\controller;
 
+use think\console\Input;
 use think\Controller;
+use think\Db;
+use think\Request;
 
 class  Bonus extends  Controller{
 
@@ -47,8 +50,11 @@ class  Bonus extends  Controller{
      * [优惠券显示]
      * GY
      */
-    public function coupon_index(){
-        return view('coupon_index');
+    public function coupon_index()
+    {
+        $coupon = db("coupon")->paginate(20);
+
+        return view('coupon_index',["coupon" => $coupon]);
     }
 
 
@@ -58,6 +64,28 @@ class  Bonus extends  Controller{
      */
     public function coupon_add(){
         return view('coupon_add');
+    }
+
+
+
+    /**
+     * [优惠券保存入库]
+     * GY
+     */
+    public function coupon_save(Request $request)
+    {
+        if ($request->isPost()) {
+            $data = $request->param();
+            //halt($data);
+
+
+            $bool = db("coupon")->insert($data);
+            if ($bool) {
+                $this->success("添加成功", url("admin/Bonus/coupon_index"));
+            } else {
+                $this->error("添加失败", url("admin/Bonus/coupon_add"));
+            }
+        }
     }
 
 

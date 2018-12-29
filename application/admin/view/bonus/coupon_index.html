@@ -43,7 +43,7 @@
 			</form>
 		</blockquote>
 
-		<a class="layui-btn layui-btn-danger batchDel" href="coupon_add">添加优惠劵</a>
+		<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Bonus/coupon_add')}">添加优惠劵</a>
 
 		<div class="layui-form news_list">
 			<table class="layui-table">
@@ -64,22 +64,25 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+				{volist name="coupon" id="value"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>1000001</td>
-						<td>1054105</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+						<td>{$value.id +1000000}</td>
+						<td>{$value.coupon_name}</td>
+						<td>{$value.provide_number}</td>
+						<td>{$value.provide_number}</td>
+						<td>{$value.use_price}</td>
+						<td>￥{$value.price}</td>
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="coupon_edit"><i class="iconfont icon-edit"></i> 编辑
 							</a>
 							<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
+				{/volist}
 				</tbody>
 			</table>
+			{$coupon->render()}
 			<div id="page">
 				<div class="opation" style="width: 200px; float: left;">
 					<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
@@ -91,6 +94,7 @@
 					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
+
 			</div>
 
 		</div>

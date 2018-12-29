@@ -94,12 +94,11 @@ class  Distribution extends  Controller{
     public function goods_edit($id)
     {
 
-        $goods = db("commodity") -> where("id",$id) ->select();       
-
+        $goods = db("commodity") -> where("id",$id) ->select();
         $goods[0]["grade"] = explode(",",$goods[0]["grade"]);
         $goods[0]["award"] = explode(",",$goods[0]["award"]);
         $goods[0]["scale"] = explode(",",$goods[0]["scale"]);
-        $goods[0]["integral"] = explode(",",$goods[0]["integral"]);       
+        $goods[0]["integral"] = explode(",",$goods[0]["integral"]);
     
         return view('goods_edit',["goods"=> $goods]);
     }
