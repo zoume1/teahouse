@@ -104,9 +104,9 @@ class  Order extends  Controller
                     $is_address_status =$is_address;
                 }
                 $commodity_id = $request->only("goods_id")["goods_id"];//商品id
-                $all_money =$request->only("all_money")["all_money"];//总价钱
-                $goods_standard_id =$request->only("guige")["guige"];//规格id
-                $numbers =$request->only("num")["num"];
+                $all_money =$request->only("order_amount")["order_amount"];//总价钱
+                $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
+                $numbers =$request->only("order_quantity")["order_quantity"];
 
                 $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
                 $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
@@ -213,9 +213,9 @@ class  Order extends  Controller
                     $is_address_status =$is_address;
                 }
                 $commodity_id = $request->only("goods_id")["goods_id"];//商品id
-                $all_money =$request->only("all_money")["all_money"];//总价钱
-                $goods_standard_id =$request->only("guige")["guige"];//规格id
-                $numbers =$request->only("num")["num"];
+                $all_money =$request->only("order_amount")["order_amount"];//总价钱
+                $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
+                $numbers =$request->only("order_quantity")["order_quantity"];
 
                 $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
                 $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
