@@ -160,6 +160,7 @@ class  Order extends  Controller
                             $datas["parts_order_number"] =$parts_order_number;//时间+4位随机数+用户id构成订单号
                             $datas["buy_message"] =$buy_message;//买家留言
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
+                            $datas["special_id"] =$goods_standard_id[$keys];//规格id
                             $res = Db::name('order')->insertGetId($datas);
                             if ($res) {
                                 $order_datas =Db::name("order")
