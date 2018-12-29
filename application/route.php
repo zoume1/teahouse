@@ -34,12 +34,25 @@ Route::group("",[
     "member_address_adds"=>"index/Address/member_address_adds", //收货地址添加
     "member_address_del"=>"index/Address/member_address_del", //收货地址删除
     "member_address_edit_information"=>"index/Address/member_address_edit_information", //编辑地址数据返回
-    "member_save_address_id"=>"index/Address/member_save_address_id", //编辑地址点击一个id传给我
     "member_address_edit"=>"index/Address/member_address_edit", //收货地址编辑操作
     "member_address_status"=>"index/Address/member_address_status", //设置默认地址
     "member_default_address_return"=>"index/Address/member_default_address_return", //购买页面默认地址返回或者选择其他地址
 
     /*TODO:地址管理结束*/
+    /*TODO:订单开始*/
+    "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
+    "order_place"=>"index/Order/order_place",//下订单
+    /*TODO:订单结束*/
+
+    /*TODO:购物车开始*/
+    "shopping_index"=>"index/Shopping/shopping_index",//购物车列表信息返回
+     "get_goods_id_to_shopping"=>"index/Shopping/get_goods_id_to_shopping",//获取商品id 存入购物车
+     "shopping_information_add"=>"index/Shopping/shopping_information_add",//购物车添加商品数量
+     "shopping_information_del"=>"index/Shopping/shopping_information_del",//购物车减少商品数量
+     "shopping_del"=>"index/Shopping/shopping_del",//购物车删除
+
+    /*TODO:购物车结束*/
+
 
     /*茶圈*/
     "teacenter_data"=>"index/TeaCenter/teacenter_data",          //茶圈父级显示
@@ -47,12 +60,13 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
-    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动  commodity
+    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
 
     /*商品管理*/
     "commodity_index"=>"index/Commodity/commodity_index",        //商品分类
     "commodity_list"=>"index/Commodity/commodity_list",          //商品列表
     "commodity_detail"=>"index/Commodity/commodity_detail",      //商品详情
+    "commodity_recommend"=>"index/Commodity/commodity_recommend",//商品首页推荐
 ]);
 
 /**
@@ -142,6 +156,7 @@ Route::group("admin",[
     "order_index"=>"admin/Order/order_index",//初始订单页面
     "order_integral"=>"admin/Order/order_integral",//积分订单
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
+    "order_setting_update"=>"admin/Order/order_setting_update",//更新
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
     /*TODO:订单结束*/
     /*TODO:评价开始*/
@@ -225,7 +240,7 @@ Route::group("admin",[
     "distribution_goods_edit"=>"admin/Distribution/goods_edit",        //分销商品编辑
     "distribution_goods_save"=>"admin/Distribution/goods_save",        //分销商品添加入库
     "distribution_goods_update"=>"admin/Distribution/goods_update",    //分销商品编辑更新
-    "distribution_goods_delete"=>"admin/Distribution/goods_delete",      //分销商品组删除
+    "distribution_goods_delete"=>"admin/Distribution/goods_delete",    //分销商品组删除
     "distribution_record_index"=>"admin/Distribution/record_index",    //分销记录页面
     "distribution_member_index"=>"admin/Distribution/member_index",    //分销成员页面
     "distribution_member_edit"=>"admin/Distribution/member_edit",      //分销成员页面编辑
@@ -246,9 +261,13 @@ Route::group("admin",[
        
 
     /*优惠券*/
-    "coupon_index"=>"admin/Bonus/coupon_index",    
-    "coupon_edit"=>"admin/Bonus/coupon_edit",      
-    "coupon_add"=>"admin/Bonus/coupon_add",    
+    "coupon_index"=>"admin/Bonus/coupon_index",    //优惠券列表显示
+    "coupon_add"=>"admin/Bonus/coupon_add",        //优惠券添加
+    "coupon_save"=>"admin/Bonus/coupon_save",      //优惠券保存入库
+    "coupon_edit"=>"admin/Bonus/coupon_edit",      //优惠券编辑
+    "coupon_update"=>"admin/Bonus/coupon_update",  //优惠券编辑
+    "coupon_del"=>"admin/Bonus/coupon_del",        //优惠券删除
+    "coupon_search"=>"admin/Bonus/coupon_search",  //优惠券商品搜索
 
 
 

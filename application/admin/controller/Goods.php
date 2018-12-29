@@ -271,20 +271,13 @@ class Goods extends Controller
     public function del(Request $request)
     {
         $id = $request->only(["id"])["id"];
-        $image_url = db("goods_images")->where("goods_id", $id)->field("goods_images,id")->select();
-        $bool = db("goods")->where("id", $id)->delete();
-        if ($bool) {
-            foreach ($image_url as $value) {
-                if ($value['goods_images'] != null) {
-                    unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value['goods_images']);
-                }
-            }
-            if ($bool) {
-                $this->success("删除成功", url("admin/Goods/index"));
-            } else {
-                $this->success("删除失败", url('admin/Goods/add'));
-            }
+        $bool = db("goods")-> where("id", $id)->delete();
+        $boole = db("special")->where("goods_id",$id)->delete();
 
+        if ($bool && $boole) {
+            $this->success("删除成功", url("admin/Goods/index"));
+        } else {
+            $this->success("删除失败", url('admin/Goods/add'));
         }
     }
 
@@ -308,21 +301,22 @@ class Goods extends Controller
                     $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $show->getSaveName());
                 }               
-                $liste = implode(',', $list);
-                $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
-                if(!empty($image["goods_show_images"])){
-                $exper = $image["goods_show_images"];
-                $montage = $exper . "," . $liste;
-                $goods_data["goods_show_images"] = $montage;
+                    $liste = implode(',', $list);
+                    $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"]))
+                {
+                    $exper = $image["goods_show_images"];
+                    $montage = $exper . "," . $liste;
+                    $goods_data["goods_show_images"] = $montage;
                 } else {                   
                     $montage = $liste;
                     $goods_data["goods_show_images"] = $list[0];
                     $goods_data["goods_show_images"] = $montage;
                 }
             } else {
-                $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+                    $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"])){
-                $goods_data["goods_show_images"] = $image;
+                    $goods_data["goods_show_images"] = $image;
                 } else {
                     $goods_data["goods_show_images"] = NULL;
                     $goods_data["goods_show_image"] = NULL;
@@ -484,8 +478,8 @@ class Goods extends Controller
     public function addphoto(Request $request)
     {
         if ($request->isPost()) {
-            $id = $request->only(["id"])["id"];
-            $imag = $request->file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
+            $id = $request -> only(["id"])["id"];
+            $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
             $images = str_replace("\\", "/", $imag->getSaveName());
 
             if(!empty($id)){

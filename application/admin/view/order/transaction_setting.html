@@ -53,12 +53,12 @@
 
 	{block name="content"}
 
-	<form action="{:url('admin/Install/order_setting_update')}" method="post">
+	<form action="{:url('admin/Order/order_setting_update')}" method="post">
 		
 		<div>
 			<span class="title">正常订单超过：</span>
 			<span style="display: inline-block;height: 40px; line-height: 40px; border-color:#E4E4E4;">
-			<input type="text" name="normal" id="" value="" />
+			<input type="text" name="normal" id="" value="{$data.normal_time}" />
 		</span>
 			<span style="text-align: center; margin-left: -5px; display: inline-block; width: 40px;height: 40px; line-height: 40px;background: #F2F2F2; border: solid 2px #E4E4E4;">分</span>
 			<span>未付款，订单自动关闭</span>
@@ -66,7 +66,7 @@
 		<div>
 			<span class="title">发货超过：</span>
 			<span style="display: inline-block;height: 40px; line-height: 40px; border-color:#E4E4E4;">
-			<input type="text" name="deliver_goods" id="" value="" />
+			<input type="text" name="deliver_goods" id="" value="{$data.deliver_goods_time}" />
 		</span>
 			<span style="text-align: center; margin-left: -5px; display: inline-block; width: 40px;height: 40px; line-height: 40px;background: #F2F2F2; border: solid 2px #E4E4E4;">天</span>
 			<span>未收货，订单自动完成</span>
@@ -74,7 +74,7 @@
 		<div>
 			<span class="title">订单完成超过：</span>
 			<span style="display: inline-block;height: 40px; line-height: 40px; border-color:#E4E4E4;">
-			<input type="text" name="after_sale" id="" value="" />
+			<input type="text" name="after_sale" id="" value="{$data.after_sale_time}" />
 		</span>
 			<span style="text-align: center; margin-left: -5px; display: inline-block; width: 40px;height: 40px; line-height: 40px;background: #F2F2F2; border: solid 2px #E4E4E4;">天</span>
 			<span>自动结束交易，不能申请售后</span>
@@ -82,7 +82,7 @@
 		<div>
 			<span class="title">订单完成超过：</span>
 			<span style="display: inline-block;height: 40px; line-height: 40px; border-color:#E4E4E4;">
-			<input type="text" name="start_evaluate" id="" value="" />
+			<input type="text" name="start_evaluate" id="" value="{$data.start_evaluate_time}" />
 		</span>
 			<span style="text-align: center; margin-left: -5px; display: inline-block; width: 40px;height: 40px; line-height: 40px;background: #F2F2F2; border: solid 2px #E4E4E4;">天</span>
 			<span>自动五星好评</span>
