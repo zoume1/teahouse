@@ -142,25 +142,24 @@ class  Order extends  Controller
                                 $datas["goods_money"]= $special_data['goods_adjusted_price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
-                            $datas = [
-                                "goods_describe"=>$goods_data["goods_describe"],//卖点
-                                'parts_goods_name' => $goods_data['goods_name'],//名字
-                                'order_quantity' =>$numbers[$keys],//订单数量
-                                'member_id' => $user_id,//用户id
-                                "user_account_name"=>$user_information["member_name"],//用户名
-                                "user_phone_number"=>$user_information["member_phone_num"],//用户名手机号
-                                'harvester' => $is_address_status['harvester'],
-                                'harvest_phone_num' => $is_address_status['harvester_phone_num'],
-                                'harvester_address' => $harvest_address,
-                                'order_create_time' => $create_time,
-                                'order_amount' => $datas["goods_money"]*$numbers[$keys], //订单金额
-                                "order_real_pay"=>$all_money,//订单实际支付的金额(即优惠券抵扣之后的价钱）
-                                'status' => 1,
-                                'goods_id' => $commodity_id,
-                                'parts_order_number' => $parts_order_number,//时间+4位随机数+用户id构成订单号
-                                "buy_message"=>$buy_message,//买家留言
-                                "normal_future_time"=>$normal_future_time,//未来时间
-                            ];
+                            $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
+                            $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
+                            $datas["order_quantity"] =$numbers[$keys];//订单数量
+                            $datas["member_id"] =$user_id;//用户id
+                            $datas["user_account_name"] =$goods_data["goods_describe"];//卖点
+                            $datas["goods_describe"] =$user_information["member_name"];//用户名
+                            $datas["user_phone_number"] =$user_information["member_phone_num"];//用户名手机号
+                            $datas["harvester"] =$is_address_status['harvester'];
+                            $datas["harvest_phone_num"] =$is_address_status['harvester_phone_num'];
+                            $datas["harvester_address"] =$harvest_address;
+                            $datas["order_create_time"] =$create_time;
+                            $datas["order_amount"] =$datas["goods_money"]*$numbers[$keys];//订单金额
+                            $datas["order_real_pay"] =$all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                            $datas["status"] =1;
+                            $datas["goods_id"] =$values;
+                            $datas["parts_order_number"] =$parts_order_number;//时间+4位随机数+用户id构成订单号
+                            $datas["buy_message"] =$buy_message;//买家留言
+                            $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $res = Db::name('order')->insertGetId($datas);
                             if ($res) {
                                 $order_datas =Db::name("order")
