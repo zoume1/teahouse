@@ -76,7 +76,8 @@ class  Bonus extends  Controller{
     {
         if ($request->isPost()) {
             $data = $request->param();
-            //halt($data);
+            $data["start_time"] = strtotime($data["start_time"]);
+            $data["end_time"] = strtotime($data["end_time"]);
 
 
             $bool = db("coupon")->insert($data);
@@ -93,12 +94,46 @@ class  Bonus extends  Controller{
      * [优惠券编辑]
      * GY
      */
-    public function coupon_edit(){
+    public function coupon_edit($id)
+    {
+        $coupons = db("coupon")->where("id", $id)->select();
+        return view('coupon_edit',["coupons"=>$coupons]);
+    }
+
+
+
+    /**
+     * [优惠券编辑]
+     * GY
+     */
+    public function coupon_update(){
         return view('coupon_edit');
     }
 
 
 
+    /**
+     * [优惠券删除]search
+     * GY
+     */
+    public function coupon_del(){
+        return view('coupon_edit');
+    }
+
+
+
+    /**
+     * [优惠券搜索商品]
+     * GY
+     */
+    public function coupon_search()
+    {
+        $goods_number = input("goods_number");
+        halt($goods_number);
+        $goods = db("goods")->where("goods_number",$goods_number)->find();
+        halt($goods);
+        return view('coupon_edit');
+    }
 
 
 
