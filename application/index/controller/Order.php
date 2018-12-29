@@ -139,7 +139,7 @@ class  Order extends  Controller
                                     ->where("id",$goods_standard_id[$keys])
                                     ->find();
                                 $datas['goods_image'] = $special_data['images'];//图片
-                                $datas["goods_money"]= $special_data['goods_adjusted_price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
+                                $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
