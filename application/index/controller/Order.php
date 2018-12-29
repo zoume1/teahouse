@@ -227,7 +227,6 @@ class  Order extends  Controller
                 $create_time = time();//下单时间
                 $normal_time =Db::name("order_setting")->find();//订单设置的时间
                 $normal_future_time =strtotime("+". $normal_time['normal_time']." minute");
-
                 foreach ($commodity_id as $keys=>$values){
                     if (!empty($commodity_id)){
                         $goods_data = Db::name('goods')->where('id',$values)->find();
@@ -270,25 +269,25 @@ class  Order extends  Controller
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
                             $res = Db::name('order')->insertGetId($datas);
-                            if ($res) {
-                                $order_datas =Db::name("order")
-                                    ->field("order_real_pay,parts_goods_name,parts_order_number")
-                                    ->where('id',$res)
-                                    ->where("member_id",$user_id)
-                                    ->find();
-                                //清空购物车数据
-                                if(is_array($shopping_id)){
-                                    $where ='id in('.implode(',',$shopping_id).')';
-                                }else{
-                                    $where ='id='.$shopping_id;
-                                }
-                                $list =  Db::name('shopping')->where($where)->delete();
-                                return ajax_success('下单成功',$order_datas);
-                            }else{
-                                return ajax_error('失败',['status'=>0]);
-                            }
                         }
                     }
+                }
+                if ($res) {
+                    $order_datas =Db::name("order")
+                        ->field("order_real_pay,parts_goods_name,parts_order_number")
+                        ->where('id',$res)
+                        ->where("member_id",$user_id)
+                        ->find();
+                    //清空购物车数据
+                    if(is_array($shopping_id)){
+                        $where ='id in('.implode(',',$shopping_id).')';
+                    }else{
+                        $where ='id='.$shopping_id;
+                    }
+                    $list =  Db::name('shopping')->where($where)->delete();
+                    return ajax_success('下单成功',$order_datas);
+                }else{
+                    return ajax_error('失败',['status'=>0]);
                 }
 
 
