@@ -138,8 +138,8 @@
 
 		</div>
 	</div>
-	
 
+	{/volist} {/if}
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
@@ -185,26 +185,28 @@
 				</tr>
 				</thead>
 				<tbody class="news_content">
+				{if !empty($goods)}
 				<tr>
 					<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-					<td>1000001</td>
+					<td>{$goods.goods_number}</td>
 					<td class="">
-						<div class="tdimg"><img src="11" /></div>
+						<div class="tdimg"><img src="__UPLOADS__/{$goods.goods_show_images}" /></div>
 					</td>
 
-					<td>1000001</td>
-					<td>1000001</td>
+					<td>{$goods.goods_name}</td>
+					<td>{$goods.goods_repertory}</td>
 					<td>
 						<a class="layui-btn layui-btn-mini edit" href="bonus_edit"><i class="iconfont icon-edit"></i> 参加活动
 						</a>
 					</td>
 				</tr>
+				{/if}
 				</tbody>
 			</table>
 
 
 		</div>
-{/volist} {/if}
+
 
 {/block}
 

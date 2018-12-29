@@ -99,10 +99,10 @@
                         <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
                         <th>商品编号</th>
                         <th>商品名称</th>
-                        <th>0级佣金</th>
-                        <th>1级佣金</th>
-                        <th>2级佣金</th>
-                        <th>3级佣金</th>
+                        <th>0级佣金比例</th>
+                        <th>1级佣金比例</th>
+                        <th>2级佣金比例</th>
+                        <th>3级佣金比例</th>
                         <th>状态</th>
                         <th>操作</th>
                     </tr>
@@ -112,13 +112,11 @@
                     <tr>
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
                         <td>{$value.shop_number}</td>
-
                         <td>{$value.shop_name}</td>
-                        <td>￥{$value.zero}</td>
-                        <td>￥{$value.first}</td>
-
-                        <td>￥{$value.second}</td>
-                        <td>￥{$value.third}</td>
+                        <td>{$value.grade[0]}</td>
+                        <td>{$value.grade[1]}</td>
+                        <td>{$value.grade[2]}</td>
+                        <td>{$value.grade[3]}</td>
                         <td>
                             {if $value.status == 0}
                             <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
@@ -145,7 +143,7 @@
                     <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
                 </div>
-                {$commodity -> render()}
+                {$commodity}
             </div>
 
         </div>

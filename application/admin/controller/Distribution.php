@@ -13,6 +13,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
+use think\paginator\driver\Bootstrap;
 
 class  Distribution extends  Controller{
 
@@ -69,8 +70,28 @@ class  Distribution extends  Controller{
     public function goods_index()
     {
 
-        $commodity = db("commodity") -> paginate(20);
+        $commodity = db("commodity") -> select();
+        foreach ($commodity as $key => $value)
+        {
+            $commodity[$key]["grade"] = explode(",",$commodity[$key]["grade"]);
+        }
+
+
+        $all_idents = $commodity;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $commodity = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Category/index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $commodity->appends($_GET);
+        $this->assign('commodity', $commodity->render());
+
         return view('goods_index',["commodity"=> $commodity]);
+
     }
 
 
@@ -114,7 +135,6 @@ class  Distribution extends  Controller{
 
         if ($request->isPost()) {
             $goods_data = $request->param();
-
             $goods_data["rank"] = implode(",",$goods_data["rank"]);
             $goods_data["grade"] = implode(",",$goods_data["grade"]);
             $goods_data["award"] = implode(",",$goods_data["award"]);

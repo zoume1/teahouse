@@ -38,8 +38,10 @@ class Goods extends Controller
                 {
                     $max[$key] = db("special")->where("goods_id", $goods[$key]['id'])->max("price");//最高价格
                     $min[$key] = db("special")->where("goods_id", $goods[$key]['id'])->min("price");//最低价格
+                    $goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]['id'])->sum("stock");//库存
                     $goods[$key]["max_price"] = $max[$key];
                     $goods[$key]["min_price"] = $min[$key];
+                    
 
                 }
                 $goods[$key]["named"] = $res["name"];               

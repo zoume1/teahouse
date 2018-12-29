@@ -129,10 +129,18 @@ class  Bonus extends  Controller{
     public function coupon_search()
     {
         $goods_number = input("goods_number");
-        halt($goods_number);
-        $goods = db("goods")->where("goods_number",$goods_number)->find();
-        halt($goods);
-        return view('coupon_edit');
+        $goods = db("goods")->where("goods_number",$goods_number)->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
+
+        if($goods["goods_standard"] == 1)
+        {
+            $goods["goods_repertory"] = db("special")->where("goods_id",$goods["id"])->sum("stock");
+            $goods["goods_show_images"] = explode(",",$goods["goods_show_images"])[0];
+        } else {
+            $goods["goods_show_images"] = explode(",",$goods["goods_show_images"])[0];
+        }
+
+
+        return view('coupon_edit',["goods" => $goods]);
     }
 
 
