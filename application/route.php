@@ -41,6 +41,7 @@ Route::group("",[
     /*TODO:地址管理结束*/
     /*TODO:订单开始*/
     "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
+    "order_place"=>"index/Order/order_place",//下订单
     /*TODO:订单结束*/
 
     /*TODO:购物车开始*/
@@ -155,6 +156,7 @@ Route::group("admin",[
     "order_index"=>"admin/Order/order_index",//初始订单页面
     "order_integral"=>"admin/Order/order_integral",//积分订单
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
+    "order_setting_update"=>"admin/Order/order_setting_update",//更新
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
     /*TODO:订单结束*/
     /*TODO:评价开始*/
