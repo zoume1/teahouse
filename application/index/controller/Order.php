@@ -105,7 +105,7 @@ class  Order extends  Controller
                 }
                 $commodity_id = $request->only("goods_id")["goods_id"];//商品id
                 $all_money =$request->only("all_money")["all_money"];//总价钱
-                $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
+                $goods_standard_id =$request->only("guige")["guige"];//规格id
                 $numbers =$request->only("num")["num"];
 
 
