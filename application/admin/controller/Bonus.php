@@ -53,7 +53,7 @@ class  Bonus extends  Controller{
     public function coupon_index()
     {
         $coupon = db("coupon")->paginate(20);
-
+        
         return view('coupon_index',["coupon" => $coupon]);
     }
 
@@ -75,13 +75,36 @@ class  Bonus extends  Controller{
     public function coupon_save(Request $request)
     {
         if ($request->isPost()) {
-            $data = $request->param();
-            $data["start_time"] = strtotime($data["start_time"]);
-            $data["end_time"] = strtotime($data["end_time"]);
+            $data = $request->param();           
+            // $data["start_time"] = strtotime($data["start_time"]);
+            // $data["end_time"] = strtotime($data["end_time"]);
+            foreach($data["goods_id"] as $key => $value)
+            {
+                $goods[$key] = db("goods")->where("id",$data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
 
+            }
+            unset($data["goods_id"]);
 
-            $bool = db("coupon")->insert($data);
-            if ($bool) {
+            $coupon_id = db("coupon")->insertGetId($data);
+
+            foreach($goods as $key => $value){
+                $goods[$key]["goods_id"] =  $goods[$key]["id"];
+                $goods[$key]["coupon_id"] =  $coupon_id;
+
+                if($goods[$key]["goods_standard"] == 1)
+                {
+                    $goods[$key]["goods_repertory"] = db("special")->where("goods_id",$goods[$key]["id"])->sum("stock");
+                    $goods[$key]["goods_show_images"] = explode(",",$goods[$key]["goods_show_images"])[0];
+                } else {
+                    $goods[$key]["goods_show_images"] = explode(",",$goods[$key]["goods_show_images"])[0];
+                }
+                unset($goods[$key]["id"]);
+            }
+
+            foreach ($goods as $k => $v) {
+                $rest = db("join")->insert($v);
+            }
+            if ($coupon_id && $rest) {
                 $this->success("添加成功", url("admin/Bonus/coupon_index"));
             } else {
                 $this->error("添加失败", url("admin/Bonus/coupon_add"));
@@ -94,10 +117,17 @@ class  Bonus extends  Controller{
      * [优惠券编辑]
      * GY
      */
-    public function coupon_edit($id)
+    public function coupon_edit(Request $request)
     {
+        $id = $request->only(["id"])["id"];
         $coupons = db("coupon")->where("id", $id)->select();
-       // halt($coupons);
+        $join = db("join")->where("coupon_id",$id)->select();
+       
+        if (!empty($join) && !empty($id)) {
+            return ajax_success("获取成功", $goods);
+        } else {
+            return ajax_error("获取失败商品信息");
+        }
         return view('coupon_edit',["coupons"=>$coupons]);
     }
 
