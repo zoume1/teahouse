@@ -21,7 +21,7 @@ class  Bonus extends  Controller{
      */
     public function bonus_index() 
     {
-               
+             
         return view('bonus_index');
     }
 
@@ -117,23 +117,33 @@ class  Bonus extends  Controller{
      * [优惠券编辑]
      * GY
      */
-    public function coupon_edit(Request $request)
+    public function coupon_edit($id)
     {
-        if($request->isPost()) 
-        {
-            $id = $request->only(["id"])["id"];
-            $coupons = db("coupon")->where("id", $id)->select();
-            $join = db("join")->where("coupon_id",$id)->select();
-       
-        if (!empty($join) && !empty($id)) 
-        {
-            return ajax_success("获取成功", $join);
-        } else {
-            return ajax_error("获取失败优惠券失败");
-        }
+        $coupons = db("coupon")->where("id", $id)->select();
         return view('coupon_edit',["coupons"=>$coupons]);
-        }
         
+        
+    }
+
+
+    /**
+     * [优惠券编辑]
+     * GY
+     */
+    public function coupon_weave(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $join = db("join")->where("coupon_id",$id)->select();  
+            if (!empty($join) && !empty($id)) 
+            {
+                return ajax_success("获取成功", $join);
+            } else {
+                return ajax_error("获取失败优惠券失败");
+            }
+            
+        }
+              
     }
 
 
