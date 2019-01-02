@@ -153,8 +153,20 @@ class  Bonus extends  Controller{
      * [优惠券编辑]
      * GY
      */
-    public function coupon_update(){
-        return view('coupon_edit');
+    public function coupon_update(Request $request){
+        
+        if ($request->isPost()) {
+            $data = $request->param();
+            halt($data);
+
+            $bool = db("goods_type")->where('id', $request->only(["id"])["id"])->update($data);
+
+            if ($bool) {
+                $this->success("编辑成功", url("admin/Category/index"));
+            } else {
+                $this->error("编辑失败", url("admin/Category/edit"));
+            }
+        }
     }
 
 
