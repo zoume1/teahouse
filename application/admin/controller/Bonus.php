@@ -124,9 +124,9 @@ class  Bonus extends  Controller{
         $join = db("join")->where("coupon_id",$id)->select();
        
         if (!empty($join) && !empty($id)) {
-            return ajax_success("获取成功", $goods);
+            return ajax_success("获取成功", $join);
         } else {
-            return ajax_error("获取失败商品信息");
+            return ajax_error("获取失败优惠券失败");
         }
         return view('coupon_edit',["coupons"=>$coupons]);
     }
