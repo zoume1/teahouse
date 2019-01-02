@@ -309,8 +309,7 @@
 				$(".tanchuang").addClass("noshow");
 			});
 			$("#seach_button").click(function() {
-				var seach_val=$("#seach_val");
-				console.log(seach_val);
+				var seach_val=$("#seach_val").val();
 				$.ajax({
                     type: "POST",
                     url: "{:url('admin/Bonus/coupon_search')}",
@@ -318,7 +317,8 @@
                         "goods_number": seach_val,
                     },
                     success: function(data) {
-                        console.log(data);
+						var data=eval("("+data+")");
+						console.log(data);
                     },
                     error: function(data) {
                         console.log("错误")
