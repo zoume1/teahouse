@@ -72,6 +72,7 @@
 </div>
 {if !empty($coupons)} {volist name="coupons" id="value"}
 <form class="layui-form layui-form-lists" action="{:url('admin/Bonus/coupon_update',['id'=>$value.id])}" method="post" enctype="multipart/form-data">
+	<input type="hidden" class="id_val" data-id="{$value.id}">
 	<div class="form-title">活动信息</div>
 	<div class="form-item">
 		<label class="form-label">限购设置</label>
@@ -161,11 +162,11 @@
 					<div class="seach_list">
 						<div class="seach_laber">输入搜索：</div>
 						<div class="seach_input">
-							<input type="text" name="goods_number" lay-verify="title" autocomplete="off" placeholder="请输入商品编码/商品名称" class="layui-input">
+							<input type="text" name="goods_number" lay-verify="title" autocomplete="off" placeholder="请输入商品编码/商品名称" class="layui-input " id="seach_val">
 
 						</div>
 					</div>
-					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
+					<button class="layui-btn" type="button" id="seach_button">立即搜索</button>
 				</div>
 
 			</div>
@@ -189,22 +190,7 @@
 				</tr>
 				</thead>
 				<tbody class="news_content">
-				{if !empty($goods)}
-				<tr>
-					<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-					<td>{$goods.goods_number}</td>
-					<td class="">
-						<div class="tdimg"><img src="__UPLOADS__/{$goods.goods_show_images}" /></div>
-					</td>
-
-					<td>{$goods.goods_name}</td>
-					<td>{$goods.goods_repertory}</td>
-					<td>
-						<a class="layui-btn layui-btn-mini edit" href="bonus_edit"><i class="iconfont icon-edit"></i> 参加活动
-						</a>
-					</td>
-				</tr>
-				{/if}
+			
 				</tbody>
 			</table>
 
@@ -241,6 +227,81 @@
             $("#hot").append(dhtml);
             form.render();
         });
+	
+			var ids=$(".id_val").data("id");
+			console.log(ids);
+			$.ajax({
+				type: "POST",
+				url: "{:url('admin/Bonus/coupon_weave')}",
+				data: {
+					"id":ids
+				},
+				success: function(data) {
+					var data=eval("("+data+")").data;
+					console.log(data.length);
+					var dhtml='';
+					for(var i=0;i<data.length;i++){
+						dhtml+='<tr>';
+						dhtml+='<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="'+data[i].id+'" ></td>';
+						dhtml+='<td>'+data[i].goods_number+'</td>';
+						dhtml+='<td class="">';
+						dhtml+='<div class="tdimg"><img src="__UPLOADS__/'+data[i].goods_show_images+'" /></div>';
+						dhtml+='</td>';
+			
+						dhtml+='<td>'+data[i].goods_name+'</td>';
+						dhtml+='<td>'+data[i].goods_repertory+'</td>';
+						dhtml+='<td>';
+						dhtml+='<div class="layui-btn layui-btn-mini edit"><i class="iconfont icon-edit"></i> 参加活动</div>';
+						dhtml+='</td>';
+						dhtml+='</tr>';
+					
+						
+					}
+					$('.news_content').append(dhtml);
+					form.render('checkbox');
+				},
+				error: function(data) {
+					console.log("错误")
+				}
+			});
+			
+
+			$("#seach_button").click(function() {
+				var seach_val=$("#seach_val").val();
+				$.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Bonus/coupon_search')}",
+                    data: {
+                        "goods_number": seach_val,
+                    },
+                    success: function(data) {
+						var data=eval("("+data+")").data;
+						console.log(data);
+						var dhtml='';
+						for(var i=0;i<data.length;i++){
+							dhtml+='<tr>';
+							dhtml+='<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="'+data[i].id+'" name="goods_id[]"></td>';
+							dhtml+='<td>'+data[i].goods_number+'</td>';
+							dhtml+='<td class="">';
+							dhtml+='<div class="tdimg"><img src="__UPLOADS__/'+data[i].goods_show_images+'" /></div>';
+							dhtml+='</td>';
+				
+							dhtml+='<td>'+data[i].goods_name+'</td>';
+							dhtml+='<td>'+data[i].goods_repertory+'</td>';
+							dhtml+='<td>';
+							dhtml+='<div class="layui-btn layui-btn-mini edit"><i class="iconfont icon-edit"></i> 参加活动</div>';
+							dhtml+='</td>';
+							dhtml+='</tr>';
+							$('.news_content').prepend()(dhtml);
+							form.render('checkbox');
+						}
+                    },
+                    error: function(data) {
+                        console.log("错误")
+                    }
+                });
+			});
+			
         //全选
         form.on('checkbox(allChoose)', function(data) {
             var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
