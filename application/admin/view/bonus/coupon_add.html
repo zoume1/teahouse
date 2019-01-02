@@ -134,31 +134,24 @@
 		</div>
    
 
-		<div class="layui-form-item">
-			<div class="layui-input-block">
-				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
-				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
-			</div>
-		</div>
-	</form>
+		
 	<div class="form-title">选择商品</div>
 	<div class="childrenBody">
 	<blockquote class="layui-elem-quote news_search">
-		<form class="layui-form" action="{:url('admin/Category/search')}">
+		<div class="layui-form">
 			<div class="seach">
 				<div class="seach_list">
 					<div class="seach_laber">输入搜索：</div>
 					<div class="seach_input">
-						<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入商品编码/商品名称" class="layui-input">
-
+						<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入商品编码/商品名称" class="layui-input seach"  id="seach_val">
 					</div>
 				</div>
 				
 				
-				<button class="layui-btn" type="submit" id="seach">立即搜索</button>
+				<button class="layui-btn" type="button" id="seach_button">立即搜索</button>
 			</div>
 
-		</form>
+		</div>
 	</blockquote>
 
 
@@ -198,7 +191,13 @@
 		
 
 </div>
-
+<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+			<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+		</div>
+	</div>
+</form>
 	{/block}
 
 	<!--_footer 作为公共模版分离出去-->
@@ -309,6 +308,24 @@
 			$(".tanchuang").click(function() {
 				$(".tanchuang").addClass("noshow");
 			});
+			$("#seach_button").click(function() {
+				var seach_val=$("#seach_val");
+				console.log(seach_val);
+				$.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Bonus/coupon_search')}",
+                    data: {
+                        "goods_number": seach_val,
+                    },
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function(data) {
+                        console.log("错误")
+                    }
+                });
+			});
+			
 
 		});
 	</script>

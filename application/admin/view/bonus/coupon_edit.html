@@ -140,17 +140,11 @@
 	</div>
 
 	{/volist} {/if}
-		<div class="layui-form-item">
-			<div class="layui-input-block">
-				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
-				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
-			</div>
-		</div>
-</form>
+
 <div class="form-title">选择商品</div>
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Bonus/coupon_search')}">
+			<div class="layui-form" action="{:url('admin/Bonus/coupon_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">输入搜索：</div>
@@ -159,12 +153,10 @@
 
 						</div>
 					</div>
-
-
 					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
 				</div>
 
-			</form>
+			</div>
 		</blockquote>
 
 
@@ -206,7 +198,13 @@
 
 
 		</div>
-
+		<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+					<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+				</div>
+			</div>
+	</form>
 
 {/block}
 
