@@ -119,16 +119,21 @@ class  Bonus extends  Controller{
      */
     public function coupon_edit(Request $request)
     {
-        $id = $request->only(["id"])["id"];
-        $coupons = db("coupon")->where("id", $id)->select();
-        $join = db("join")->where("coupon_id",$id)->select();
+        if($request->isPost()) 
+        {
+            $id = $request->only(["id"])["id"];
+            $coupons = db("coupon")->where("id", $id)->select();
+            $join = db("join")->where("coupon_id",$id)->select();
        
-        if (!empty($join) && !empty($id)) {
+        if (!empty($join) && !empty($id)) 
+        {
             return ajax_success("获取成功", $join);
         } else {
             return ajax_error("获取失败优惠券失败");
         }
         return view('coupon_edit',["coupons"=>$coupons]);
+        }
+        
     }
 
 
