@@ -126,7 +126,7 @@ class  Bonus extends  Controller{
      * [优惠券搜索商品]
      * GY
      */
-    public function coupon_search()
+    public function coupon_search(Request $request)
     {
         $goods_number = input("goods_number");
         $goods = db("goods")->where("goods_number",$goods_number)->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
@@ -140,7 +140,11 @@ class  Bonus extends  Controller{
         }
 
 
-        return view('coupon_edit',["goods" => $goods]);
+        if (!empty($goods) && !empty($goods_number)) {
+            return ajax_success("获取成功", $goods);
+        } else {
+            return ajax_error("获取失败商品信息");
+        }
     }
 
 
