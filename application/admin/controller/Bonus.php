@@ -157,14 +157,36 @@ class  Bonus extends  Controller{
         
         if ($request->isPost()) {
             $data = $request->param();
-            halt($data);
 
-            $bool = db("goods_type")->where('id', $request->only(["id"])["id"])->update($data);
+            foreach($data["goods_id"] as $key => $value)
+            {
+                $goodes[$key] = db("goods")->where("id",$data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
 
-            if ($bool) {
-                $this->success("编辑成功", url("admin/Category/index"));
+            }
+            unset($data["goods_id"]);
+            unset($data["goods_number"]);
+            foreach($goodes as $key => $value){
+                $goodes[$key]["goods_id"] =  $goodes[$key]["id"];
+                $goodes[$key]["coupon_id"] =  $request->only(["id"])["id"];
+
+                if($goodes[$key]["goods_standard"] == 1)
+                {
+                    $goodes[$key]["goods_repertory"] = db("special")->where("goods_id",$goodes[$key]["id"])->sum("stock");
+                    $goodes[$key]["goods_show_images"] = explode(",",$goodes[$key]["goods_show_images"])[0];
+                } else {
+                    $goodes[$key]["goods_show_images"] = explode(",",$goodes[$key]["goods_show_images"])[0];
+                }
+                unset($goodes[$key]["id"]);
+            }
+            
+            $bool = db("coupon")->where('id', $request->only(["id"])["id"])->update($data);
+            foreach ($goodes as $k => $v) {
+                $rest = db("join")->insert($v);
+            }
+            if ($bool && $rest) {
+                $this->success("编辑成功", url("admin/Bonus/coupon_index"));
             } else {
-                $this->error("编辑失败", url("admin/Category/edit"));
+                $this->error("编辑失败", url("admin/Bonus/coupon_index"));
             }
         }
     }
