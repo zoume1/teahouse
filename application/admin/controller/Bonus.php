@@ -21,8 +21,9 @@ class  Bonus extends  Controller{
      */
     public function bonus_index() 
     {
+        $bonus = db("bonus_mall")->paginate(20);
              
-        return view('bonus_index');
+        return view('bonus_index',["bonus" => $bonus]);
     }
 
 
