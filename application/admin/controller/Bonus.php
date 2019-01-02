@@ -76,6 +76,7 @@ class  Bonus extends  Controller{
     {
         if ($request->isPost()) {
             $data = $request->param();
+            halt($data);
             $data["start_time"] = strtotime($data["start_time"]);
             $data["end_time"] = strtotime($data["end_time"]);
 
@@ -148,6 +149,7 @@ class  Bonus extends  Controller{
             return ajax_error("获取失败商品信息");
         }
     }
+
 
 
 
