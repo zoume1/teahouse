@@ -27,15 +27,6 @@ class  Bonus extends  Controller{
     }
 
 
-    /**
-     * [积分商城编辑]
-     * GY
-     */
-    public function bonus_edit()
-    {
-        return view('bonus_edit');
-    }
-
 
     /**
      * [积分商城添加商品]
@@ -45,6 +36,68 @@ class  Bonus extends  Controller{
     {
         return view('bonus_add');
     }
+
+
+    /**
+     * [积分商城保存商品]
+     * GY
+     */
+    public function bonus_save(Request $request)
+    {
+        if ($request->isPost()) {
+            $goods_data = $request->param();
+            $list = [];
+            $show_images = $request->file("goods_show_images");
+
+
+            if (!empty($show_images)) {
+                foreach ($show_images as $ky => $vl) {
+                    $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
+                    $list[] = str_replace("\\", "/", $show->getSaveName());
+                }
+                $goods_data["goods_show_images"] = implode(',', $list);
+            }
+//            halt($goods_data);
+            $bool = db("bonus_mall")->insert($goods_data);
+            if ($bool) {
+                $this->success("添加成功", url("admin/Bonus/bonus_index"));
+            } else {
+                $this->success("添加失败", url('admin/Bonus/bonus_index'));
+            }
+        }
+
+    }
+
+    /**
+     * [积分商城编辑商品]
+     * GY
+     */
+    public function bonus_edit()
+    {
+        return view('bonus_edit');
+    }
+
+
+    /**
+     * [积分商城更新商品]
+     * GY
+     */
+    public function bonus_update()
+    {
+        return view('bonus_edit');
+    }
+
+
+    /**
+     * [积分商城删除商品]
+     * GY
+     */
+    public function bonus_delete()
+    {
+        return view('bonus_edit');
+    }
+
+
 
 
     /**
@@ -159,7 +212,7 @@ class  Bonus extends  Controller{
 
 
     /**
-     * [优惠券编辑]
+     * [优惠券更新]
      * GY
      */
     public function coupon_update(Request $request){
@@ -208,11 +261,18 @@ class  Bonus extends  Controller{
 
 
     /**
-     * [优惠券删除]search
+     * [优惠券删除]
      * GY
      */
-    public function coupon_del(){
-        return view('coupon_edit');
+    public function coupon_del($id)
+    {
+        $bool = db("coupon")->where("id", $id)->delete();
+        $boole = db("join")->where("coupon_id", $id)->delete();
+        if ($bool && $boole) {
+            $this->success("删除成功", url("admin/Category/index"));
+        } else {
+            $this->error("删除失败", url("admin/Category/index"));
+        }
     }
 
 
