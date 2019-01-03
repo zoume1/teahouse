@@ -72,6 +72,7 @@
 </div>
 {if !empty($coupons)} {volist name="coupons" id="value"}
 <form class="layui-form layui-form-lists" action="{:url('admin/Bonus/coupon_update',['id'=>$value.id])}" method="post" enctype="multipart/form-data">
+	<input type="hidden" class="id_val" data-id="{$value.id}">
 	<div class="form-title">活动信息</div>
 	<div class="form-item">
 		<label class="form-label">限购设置</label>
@@ -80,15 +81,7 @@
 				<div class="texts">发行数量</div>
 				<input type="text" name="provide_number"  value="{$value.provide_number}" class="layui-input" />
 			</div>
-			<div>
-				<div class="texts">面向范围</div>
-				<select name="scope">
-					<option value="" >请选择</option>
-					<option value="1">黄金会员</option>
-					<option value="2">白金会员</option>
-				</select>
-				<div class="texts">以上</div>
-			</div>
+			
 
 			<div>
 				<div class="texts">满</div>
@@ -98,15 +91,31 @@
 			</div>
 			<div>
 				<div class="texts">有效期</div>
-				<span class="time"><input type="text"  name="start_time" class="text datetimepicker layui-input" readonly="readonly" id="beginTimes" value="{$value.start_time}"  >
+				<span class="time"><input type="text"  name="start_time" class="text datetimepicker layui-input" readonly="readonly" id="beginTimes" value="{$value.start_time}">
 					</span>---
-				<span class="time"><input type="text" name="end_time"  class="text datetimepicker layui-input" readonly="readonly" id="endTimes" value="{$value.end_time}"  >
+				<span class="time"><input type="text" name="end_time"  class="text datetimepicker layui-input" readonly="readonly" id="endTimes" value="{$value.end_time}">
 							</span>
 
 			</div>
 
 		</div>
 	</div>
+	{if !empty($value.scope)}
+	<div class="form-item">
+		<label class="form-label">面向范围</label>
+		<div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap; ">
+			{volist name="scope" id="val" }
+			<input type="checkbox" name="scope[]" lay-skin="primary" title="{$val['member_grade_name']}" value="{$val['member_grade_name']}"  {if condition = "in_array($val['member_grade_name'],$value.scope)"}
+			checked='checked'
+			type="checkbox" name="scope[]" lay-skin="primary"
+			{else}
+			type="checkbox" name="scope[]" lay-skin="primary"
+			{/if}>
+			{/volist}
+		</div>
+		
+	</div>
+	{/if}
 	<div class="form-item">
 		<label class="form-label">活动标签</label>
 		<div class="form-input">
@@ -140,31 +149,23 @@
 	</div>
 
 	{/volist} {/if}
-		<div class="layui-form-item">
-			<div class="layui-input-block">
-				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
-				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
-			</div>
-		</div>
-</form>
+
 <div class="form-title">选择商品</div>
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Bonus/coupon_search')}">
+			<div class="layui-form" action="{:url('admin/Bonus/coupon_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">输入搜索：</div>
 						<div class="seach_input">
-							<input type="text" name="goods_number" lay-verify="title" autocomplete="off" placeholder="请输入商品编码/商品名称" class="layui-input">
+							<input type="text" name="goods_number" lay-verify="title" autocomplete="off" placeholder="请输入商品编码/商品名称" class="layui-input " id="seach_val">
 
 						</div>
 					</div>
-
-
-					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
+					<button class="layui-btn" type="button" id="seach_button">立即搜索</button>
 				</div>
 
-			</form>
+			</div>
 		</blockquote>
 
 
@@ -185,28 +186,19 @@
 				</tr>
 				</thead>
 				<tbody class="news_content">
-				{if !empty($goods)}
-				<tr>
-					<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-					<td>{$goods.goods_number}</td>
-					<td class="">
-						<div class="tdimg"><img src="__UPLOADS__/{$goods.goods_show_images}" /></div>
-					</td>
-
-					<td>{$goods.goods_name}</td>
-					<td>{$goods.goods_repertory}</td>
-					<td>
-						<a class="layui-btn layui-btn-mini edit" href="bonus_edit"><i class="iconfont icon-edit"></i> 参加活动
-						</a>
-					</td>
-				</tr>
-				{/if}
+			
 				</tbody>
 			</table>
 
 
 		</div>
-
+		<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+					<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+				</div>
+			</div>
+	</form>
 
 {/block}
 
@@ -231,6 +223,108 @@
             $("#hot").append(dhtml);
             form.render();
         });
+	
+			var ids=$(".id_val").data("id");
+			var join_goods=[];
+		
+			$.ajax({
+				type: "POST",
+				url: "{:url('admin/Bonus/coupon_weave')}",
+				data: {
+					"id":ids
+				},
+				success: function(data) {
+					var data=eval("("+data+")").data;
+					join_goods=data;
+					var dhtml='';
+					for(var i=0;i<data.length;i++){
+						dhtml+='<tr>';
+						dhtml+='<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="'+data[i].id+'" ></td>';
+						dhtml+='<td>'+data[i].goods_number+'</td>';
+						dhtml+='<td class="">';
+						dhtml+='<div class="tdimg"><img src="__UPLOADS__/'+data[i].goods_show_images+'" /></div>';
+						dhtml+='</td>';
+						dhtml+='<td>'+data[i].goods_name+'</td>';
+						dhtml+='<td>'+data[i].goods_repertory+'</td>';
+						dhtml+='<td>';
+						dhtml+='<div class="layui-btn layui-btn-mini edit"><i class="iconfont icon-edit"></i> 参加活动</div>';
+						dhtml+='</td>';
+						dhtml+='</tr>';
+					
+						
+					}
+					$('.news_content').append(dhtml);
+					form.render('checkbox');
+				},
+				error: function(data) {
+					console.log("错误")
+				}
+			});
+			
+			var seach_goods=[];
+			$("#seach_button").click(function() {
+				var seach_val=$("#seach_val").val();
+				$.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Bonus/coupon_search')}",
+                    data: {
+                        "goods_number": seach_val,
+                    },
+                    success: function(data) {
+						var data=eval("("+data+")").data;
+						
+						var dhtml='';
+						
+						for(var i=0;i<data.length;i++){
+							var num=0;
+							for(var j=0;j<join_goods.length;j++){
+								if(data[i].goods_number==join_goods[j].goods_number){
+                                      num++;
+								}
+							}
+							
+							if(num==0){
+								var nums=0;
+								for(var q=0;q<seach_goods.length;q++){
+									if(data[i].goods_number==seach_goods[q].goods_number){
+                                       nums++; 
+									}
+								}
+								if(nums==0){
+									seach_goods.push(data[i]);
+									dhtml+='<tr>';
+									dhtml+='<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="'+data[i].id+'" name="goods_id[]"></td>';
+									dhtml+='<td>'+data[i].goods_number+'</td>';
+									dhtml+='<td class="">';
+									dhtml+='<div class="tdimg"><img src="__UPLOADS__/'+data[i].goods_show_images+'" /></div>';
+									dhtml+='</td>';
+						
+									dhtml+='<td>'+data[i].goods_name+'</td>';
+									dhtml+='<td>'+data[i].goods_repertory+'</td>';
+									dhtml+='<td>';
+									dhtml+='<div class="layui-btn layui-btn-mini edit"><i class="iconfont icon-edit"></i> 参加活动</div>';
+									dhtml+='</td>';
+									dhtml+='</tr>';
+									$('.news_content').prepend(dhtml);
+									form.render('checkbox');
+								}
+								else{
+								layer.msg('列表中已有此商品，请勿重复添加');
+							   }
+							
+							}
+							else{
+								layer.msg('列表中已有此商品，请勿重复添加');
+							   }
+						
+						}
+                    },
+                    error: function(data) {
+                        console.log("错误")
+                    }
+                });
+			});
+			
         //全选
         form.on('checkbox(allChoose)', function(data) {
             var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');

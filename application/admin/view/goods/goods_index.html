@@ -69,7 +69,7 @@
                         <th>商品品牌</th>
                         <th>商品分类</th>
                         <th>价格</th>
-                        <th>标签</th>
+                        <th>标签(上架)</th>
                         <th>排序</th>
                         <th>库存</th>
                         <th>销量</th>
@@ -100,7 +100,11 @@
                         <td>￥{$value.goods_new_money}</td>
                         {/if}
                         <td class="td-status">
-                            {if $value.label == 1} 已显示 {else} 已禁用 {/if}
+                            {if $value.label == 1}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShows" checked data-id="{$value.id}"> 
+                                {else}
+                             <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShows" data-id="{$value.id}">
+                            {/if}
                         </td>
                         <td>{$value.sort_number}</td>
                         <td>{$value.goods_repertory}</td>
@@ -232,6 +236,31 @@
             })
 
             form.on('switch(isShow)', function(data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+                var vals = data.value;
+                var id = $(this).data("id");
+                var status = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Goods/status')}",
+                    data: {
+                        "id": id,
+                        "status": status
+                    },
+                    success: function(data) {
+                        console.log("成功")
+                    },
+                    error: function(data) {
+                        console.log("错误")
+                    }
+                });
+
+            })
+            form.on('switch(isShows)', function(data) {
                 if ($(this).val() == 0) {
                     $(this).val(1);
                 } else {
