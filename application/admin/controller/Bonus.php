@@ -63,8 +63,15 @@ class  Bonus extends  Controller{
      * [优惠券添加]
      * GY
      */
-    public function coupon_add(){
-        return view('coupon_add');
+    public function coupon_add()
+    {
+        $member_grade = db("member_grade")->field("member_grade_name")->select();
+        foreach ($member_grade as $key => $value) {
+            foreach($value as $k => $v){
+                $member_grade[$key] = $value[$k];
+            }
+        }
+        return view('coupon_add',["member_grade"=>$member_grade]);
     }
 
 
