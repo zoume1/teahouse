@@ -295,4 +295,306 @@ class  Order extends  Controller
         }
     }
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:订单详情页面信息
+     **************************************
+     * @param Request $request
+     * @return \think\response\View|void
+     */
+    public function order_detail(Request $request){
+        if($request->isPost()) {
+            $open_id =$request->only("open_id")["open_id"]; //用户open_ID
+            $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+            $order_number =$request->only("order_number")["order_number"];//订单编号
+            $condition = "`member_id` = " . $user_id .  " and `parts_order_number` = " . $order_number;
+            $data = Db::name("order")
+                ->where($condition)
+                ->select();
+            if (!empty($data)) {
+                $datas["buy_message"] = $data[0]["buy_message"];//买家留言
+                $datas["create_time"] = $data[0]["order_create_time"];//订单创建时间
+                $datas["parts_order_number"] = $data[0]["parts_order_number"];//订单编号
+                $datas["pay_time"] = $data[0]["pay_time"]; //支付时间
+                $datas["harvester"] = $data[0]["harvester"];//收货人
+                $datas["harvest_phone_num"] = $data[0]["harvest_phone_num"];//收件人电话
+                $datas["harvester_address"] = $data[0]["harvester_address"];//收件人地址
+                $datas["status"] = $data[0]["status"];//状态
+                foreach ($data as $ks=>$vs){
+                    $datas["all_goods_money"][] =$vs["goods_money"]*$vs["order_quantity"];
+                }
+                $datas["all_goods_pays"] =array_sum($datas["all_goods_money"]); //商品总额（商品*数量）
+                $datas["normal_future_time"] = $data[0]["normal_future_time"];//正常订单未付款自动关闭的时间
+                $datas["all_order_real_pay"] = $data[0]["order_real_pay"];//订单实际支付
+                $datas["all_numbers"] = array_sum(array_map(create_function('$vals', 'return $vals["order_quantity"];'), $data));//订单总数量
+                $datas["info"] = $data;
+                if (!empty($datas)) {
+                    return ajax_success("数据返回成功", $datas);
+                } else {
+                    return ajax_error("没有数据信息", ["status" => 0]);
+                }
+            } else {
+                return ajax_error("订单信息错误", ["status" => 0]);
+            }
+        }
+
+        return view('order_parts_detail');
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:未付款判断时间是否过了订单设置的时间，过了则进行自动关闭
+     **************************************
+     * @param Request $request
+     */
+    public function order_detail_cancel(Request $request){
+        if($request->isPost()){
+            $open_id =$request->only("open_id")["open_id"]; //用户open_ID
+            $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+
+            $cancel_order_description =$request->only('cancel_order_description')["cancel_order_description"];//取消原因
+            $parts_order_number =$request->only("parts_order_number")["parts_order_number"];//订单编号
+
+            if(!empty($parts_order_number)){
+                $res =Db::name("order")
+                    ->where("parts_order_number",$parts_order_number)
+                    ->select();
+                if(!empty($res)){
+                    $normal_future_time =$res[0]["normal_future_time"];//未来时间（超过则自动关闭有优惠抵扣退回优惠抵扣）
+                    $new_time =time();
+                    if($new_time >= $normal_future_time){
+                        foreach($res as $k=>$v){
+                            $is_use_integral[$k] =Db::name("order_parts")
+                                ->field("integral_discount_setting_id,id,integral_deductible_num")
+                                ->where("id",$v["id"])
+                                ->having("integral_discount_setting_id","NEQ",NULL)
+                                ->group("integral_discount_setting_id")
+                                ->find();
+                            $data =[
+                                "status"=>9,
+                                "cancel_order_description"=>$cancel_order_description
+                            ];
+                            $bool =Db::name("order_parts")->where("id",$v["id"])->update($data);
+                        }
+                        if($bool){
+                            //取消订单退回积分到积余额
+                            if(!empty( $is_use_integral)){
+                                if(!empty($is_use_integral[0]["integral_deductible_num"])){
+                                    $user_info = Db::name("user")->field("user_integral_wallet,user_integral_wallet_consumed")->where("id",$user_id)->find();
+                                    $update_data =[
+                                        "user_integral_wallet"=>$user_info["user_integral_wallet"] + $is_use_integral[0]["integral_deductible_num"],
+                                        "user_integral_wallet_consumed"=>$user_info["user_integral_wallet_consumed"] - $is_use_integral[0]["integral_deductible_num"]
+                                    ];
+                                    Db::name("user")->where("id",$user_id)->update($update_data); //积分增加
+                                    $integral_data =[
+                                        "user_id"=>$user_id,//用户ID
+                                        "integral_operation"=>"+".$is_use_integral[0]["integral_deductible_num"],//积分操作
+                                        "integral_balance"=>$user_info["user_integral_wallet"] + $is_use_integral[0]["integral_deductible_num"],//积分余额
+                                        "integral_type"=> 1,//积分类型
+                                        "operation_time"=>date("Y-m-d H:i:s") ,//操作时间
+                                        "integral_remarks"=>"订单号:".$parts_order_number."因超时未付款，取消退回".$is_use_integral[0]["integral_deductible_num"]."积分",//积分备注
+                                    ];
+                                    Db::name("integral")->insert($integral_data); //插入积分消费记录
+                                }
+                            }
+                            return ajax_success("取消成功",["status"=>1]);
+                        }else{
+                            return ajax_error("取消失败",["status"=>0]);
+                        }
+                    }else{
+                        return ajax_error("还未到达自动取消订单时间",["status"=>0]);
+                    }
+                }
+            }else{
+                return ajax_error("所传参数不能为空",["status"=>0]);
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:订单状态全部订单接口
+     **************************************
+     * @param Request $request
+     */
+    public function   ios_api_order_all(Request $request)
+    {
+        if ($request->isPost()) {
+            $open_id =$request->only("open_id")["open_id"]; //用户open_ID
+            $member_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+            if(empty($member_id)){
+                exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
+            }
+            $data = Db::name('order')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id')
+                ->where('member_id', $member_id)
+                ->order('order_create_time', 'desc')
+                ->group('parts_order_number')
+                ->select();
+            foreach ($data as $key=>$value) {
+                if (strpos($value["order_id"], ",")) {
+                    $order_id = explode(',', $value["order_id"]);
+                    foreach ($order_id as $k=>$v){
+                        $return_data_info[] = Db::name('order')
+                            ->where('id', $v)
+                            ->where('member_id', $member_id)
+                            ->order('order_create_time', 'desc')
+                            ->find();
+                    }
+                    foreach ($return_data_info as $ke => $item) {
+                        $parts_order_number_all[$ke] = $item['parts_order_number'];
+                    }
+                    $unique_order_number = array_merge(array_unique($parts_order_number_all));
+
+                    foreach ( $unique_order_number as $da_k =>$da_v){
+                        $order_data['info'][$da_k] = Db::name('order')
+                            ->where('member_id', $member_id)
+                            ->where('parts_order_number', $da_v)
+                            ->order('order_create_time', 'desc')
+                            ->select();
+                        $names = Db::name("order")
+                            ->where("parts_order_number", $da_v)
+                            ->where("member_id", $member_id)
+                            ->find();
+                        $order_data['status'][$da_k] = $names['status'];
+                        $order_data["parts_order_number"][$da_k] = $names["parts_order_number"];
+                        $order_data["all_order_real_pay"][$da_k] = $names["order_real_pay"];
+                        $order_data["order_create_time"][$da_k] = $names["order_create_time"];
+                        foreach ($order_data["info"] as $kk => $vv) {
+                            $order_data["all_numbers"][$kk] = array_sum(array_map(create_function('$vals', 'return $vals["order_quantity"];'), $vv));
+                        }
+                    }
+                } else {
+                    $return_data = Db::name('order')
+                        ->where('id', $value['order_id'])
+                        ->find();
+                    $data_information["all_order_real_pay"][] = $return_data["order_real_pay"];
+                    $data_information["all_numbers"][] = $return_data["order_quantity"];
+                    $data_information['status'][] = $return_data['status'];
+                    $data_information['parts_order_number'][] = $return_data['parts_order_number'];
+                    $data_information['order_create_time'][] = $value['order_create_time'];
+                    $data_information['all'][] = Db::name('order')
+                        ->where('id', $value['order_id'])
+                        ->find();
+                }
+            }
+            if(!empty($order_data)){
+
+                //所有信息
+                foreach ($order_data["info"] as $i=>$j){
+                    if(!empty($j)){
+                        $new_arr[] =$j;
+                    }
+                }
+                foreach ($new_arr as $i=>$j){
+                    $end_info[$i]["info"] =$j;
+                }
+                //状态值
+                foreach ($order_data['status'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_status[] = $j;
+                    }
+                }
+                foreach ($new_arr_status as $i=>$j){
+                    $end_info[$i]['status'] = $j;
+                }
+                //实际支付的金额
+                foreach ($order_data['all_order_real_pay'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_pay[] =$j;
+                    }
+                }
+                foreach ($new_arr_pay as $i=>$j){
+                    $end_info[$i]['all_order_real_pay'] = $j;
+                }
+                //总数量
+                foreach ($order_data['all_numbers'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_all_numbers[] =$j;
+                    }
+                }
+                foreach ($new_arr_all_numbers as $i=>$j){
+                    $end_info[$i]['all_numbers'] = $j;
+                }
+
+                //订单编号
+                foreach ($order_data['parts_order_number'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_all_order_number[] =$j;
+                    }
+                }
+                foreach ($new_arr_all_order_number as $i=>$j){
+                    $end_info[$i]['parts_order_number'] = $j;
+                }
+
+                //订单创建时间
+                foreach ($order_data['order_create_time'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_order_create_time[] =$j;
+                    }
+                }
+                foreach ($new_arr_order_create_time as $i=>$j){
+                    $end_info[$i]['order_create_times'] = $j;
+                }
+            }
+            if(!empty($data_information)){
+                if(!empty($new_arr)){
+                    $count =count($new_arr);
+                }else{
+                    $count =0;
+                }
+                //支付状态
+                foreach ($data_information['status'] as $a=>$b){
+                    $end_info[$a+$count]['status'] = $b;
+                }
+                //总支付
+                foreach ($data_information['all_order_real_pay'] as $a=>$b){
+                    $end_info[$a+$count]['all_order_real_pay'] = $b;
+                }
+                //所有数量
+                foreach ($data_information['all_numbers'] as $a=>$b){
+                    $end_info[$a+$count]['all_numbers'] = $b;
+                }
+                //订单编号
+                foreach ($data_information['parts_order_number'] as $a=>$b){
+                    $end_info[$a+$count]['parts_order_number'] = $b;
+                }
+                //所有信息
+
+                foreach ($data_information['all'] as $a=>$b){
+                    $end_info[$a+$count]['info'] = $b;
+                }
+                //创建订单时间
+                foreach ($data_information['order_create_time'] as $a=>$b){
+                    $end_info[$a+$count]['order_create_times'] = $b;
+                }
+            }
+            if (!empty($end_info)) {
+                $ords =array();
+                foreach ($end_info as $vl){
+                    $ords[] =$vl["order_create_times"];
+                }
+                array_multisort($end_info,SORT_DESC,$ords);
+                return ajax_success('数据', $end_info);
+            } else {
+                return ajax_error('没数据');
+            }
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 }
