@@ -54,7 +54,6 @@ class  Bonus extends  Controller{
     public function coupon_index()
     {
         $coupon = db("coupon")->paginate(20);
-        
         return view('coupon_index',["coupon" => $coupon]);
     }
 
@@ -65,13 +64,8 @@ class  Bonus extends  Controller{
      */
     public function coupon_add()
     {
-        $member_grade = db("member_grade")->field("member_grade_name")->select();
-        foreach ($member_grade as $key => $value) {
-            foreach($value as $k => $v){
-                $member_grade[$key] = $value[$k];
-            }
-        }
-        return view('coupon_add',["member_grade"=>$member_grade]);
+        $scope = db("member_grade")->field("member_grade_name")->select();
+        return view('coupon_add',["scope"=>$scope]);
     }
 
 
@@ -86,15 +80,16 @@ class  Bonus extends  Controller{
             $data = $request->param();           
             // $data["start_time"] = strtotime($data["start_time"]);
             // $data["end_time"] = strtotime($data["end_time"]);
+            $data["scope"] = implode(",",$data["scope"]);
+            if(!empty($data["goods_id"])){
             foreach($data["goods_id"] as $key => $value)
             {
                 $goods[$key] = db("goods")->where("id",$data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
-
             }
             unset($data["goods_id"]);
-
+            }
             $coupon_id = db("coupon")->insertGetId($data);
-
+            if(!empty($goods)){
             foreach($goods as $key => $value){
                 $goods[$key]["goods_id"] =  $goods[$key]["id"];
                 $goods[$key]["coupon_id"] =  $coupon_id;
@@ -112,7 +107,8 @@ class  Bonus extends  Controller{
             foreach ($goods as $k => $v) {
                 $rest = db("join")->insert($v);
             }
-            if ($coupon_id && $rest) {
+        }
+            if ($coupon_id || $rest) {
                 $this->success("添加成功", url("admin/Bonus/coupon_index"));
             } else {
                 $this->error("添加失败", url("admin/Bonus/coupon_add"));
@@ -128,7 +124,13 @@ class  Bonus extends  Controller{
     public function coupon_edit($id)
     {
         $coupons = db("coupon")->where("id", $id)->select();
-        return view('coupon_edit',["coupons"=>$coupons]);
+        foreach($coupons as $k => $v)
+        {
+            $coupons[$k]["scope"] = explode(",",$coupons[$k]["scope"]);
+        }
+        
+        $scope = db("member_grade")->field("member_grade_name")->select();
+        return view('coupon_edit',["coupons"=>$coupons,"scope"=>$scope]);
         
         
     }
@@ -164,14 +166,18 @@ class  Bonus extends  Controller{
         
         if ($request->isPost()) {
             $data = $request->param();
-
+            $data["scope"] = implode(",",$data["scope"]);
+            
+            if(!empty($data["goods_id"])){
             foreach($data["goods_id"] as $key => $value)
             {
                 $goodes[$key] = db("goods")->where("id",$data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
 
             }
             unset($data["goods_id"]);
+        }
             unset($data["goods_number"]);
+            if(!empty($goodes)){
             foreach($goodes as $key => $value){
                 $goodes[$key]["goods_id"] =  $goodes[$key]["id"];
                 $goodes[$key]["coupon_id"] =  $request->only(["id"])["id"];
@@ -185,12 +191,13 @@ class  Bonus extends  Controller{
                 }
                 unset($goodes[$key]["id"]);
             }
-            
-            $bool = db("coupon")->where('id', $request->only(["id"])["id"])->update($data);
             foreach ($goodes as $k => $v) {
                 $rest = db("join")->insert($v);
             }
-            if ($bool && $rest) {
+        }
+            $bool = db("coupon")->where('id', $request->only(["id"])["id"])->update($data);
+
+            if ($bool || $rest) {
                 $this->success("编辑成功", url("admin/Bonus/coupon_index"));
             } else {
                 $this->error("编辑失败", url("admin/Bonus/coupon_index"));
