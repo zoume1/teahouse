@@ -116,7 +116,7 @@ class  Test extends Controller{
             if ($stringA) $stringA .= '&' . $key . "=" . $value;
             else $stringA = $key . "=" . $value;
         }
-        $wx_key = 'Zhangyusheng19810318015729366660';//申请支付后有给予一个商户账号和密码，登陆后自己设置key
+        $wx_key = 'TeahouseZwxcqgzyszhihuichacangZy';//申请支付后有给予一个商户账号和密码，登陆后自己设置key
         $stringSignTemp = $stringA . '&key=' . $wx_key;//申请支付后有给予一个商户账号和密码，登陆后自己设置key
         return strtoupper(md5($stringSignTemp));
     }
