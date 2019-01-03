@@ -229,7 +229,7 @@
         });
 	
 			var ids=$(".id_val").data("id");
-			console.log(ids);
+			var join_goods=[];
 			$.ajax({
 				type: "POST",
 				url: "{:url('admin/Bonus/coupon_weave')}",
@@ -238,7 +238,8 @@
 				},
 				success: function(data) {
 					var data=eval("("+data+")").data;
-					console.log(data.length);
+					join_goods=data;
+					console.log(join_goods);
 					var dhtml='';
 					for(var i=0;i<data.length;i++){
 						dhtml+='<tr>';
@@ -276,24 +277,34 @@
                     },
                     success: function(data) {
 						var data=eval("("+data+")").data;
-						console.log(data);
+						
 						var dhtml='';
+						
 						for(var i=0;i<data.length;i++){
-							dhtml+='<tr>';
-							dhtml+='<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="'+data[i].id+'" name="goods_id[]"></td>';
-							dhtml+='<td>'+data[i].goods_number+'</td>';
-							dhtml+='<td class="">';
-							dhtml+='<div class="tdimg"><img src="__UPLOADS__/'+data[i].goods_show_images+'" /></div>';
-							dhtml+='</td>';
-				
-							dhtml+='<td>'+data[i].goods_name+'</td>';
-							dhtml+='<td>'+data[i].goods_repertory+'</td>';
-							dhtml+='<td>';
-							dhtml+='<div class="layui-btn layui-btn-mini edit"><i class="iconfont icon-edit"></i> 参加活动</div>';
-							dhtml+='</td>';
-							dhtml+='</tr>';
-							$('.news_content').prepend(dhtml);
-							form.render('checkbox');
+							var num=0;
+							for(var j=0;j<join_goods.length;j++){
+								if(data[i].goods_number==join_goods[j].goods_number){
+                                      num++;
+								}
+							}
+							if(num==0){
+								dhtml+='<tr>';
+								dhtml+='<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="'+data[i].id+'" name="goods_id[]"></td>';
+								dhtml+='<td>'+data[i].goods_number+'</td>';
+								dhtml+='<td class="">';
+								dhtml+='<div class="tdimg"><img src="__UPLOADS__/'+data[i].goods_show_images+'" /></div>';
+								dhtml+='</td>';
+					
+								dhtml+='<td>'+data[i].goods_name+'</td>';
+								dhtml+='<td>'+data[i].goods_repertory+'</td>';
+								dhtml+='<td>';
+								dhtml+='<div class="layui-btn layui-btn-mini edit"><i class="iconfont icon-edit"></i> 参加活动</div>';
+								dhtml+='</td>';
+								dhtml+='</tr>';
+								$('.news_content').prepend(dhtml);
+								form.render('checkbox');
+							}
+						
 						}
                     },
                     error: function(data) {
