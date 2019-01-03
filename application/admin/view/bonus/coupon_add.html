@@ -80,15 +80,7 @@
 					<div class="texts">发行数量</div>
 					<input type="text" name="provide_number"  value="" class="layui-input" />
 				</div>
-				<div>
-					<div class="texts">面向范围</div>
-					<select name="scope">
-						<option value="0" >请选择</option>
-						<option value="1">黄金会员</option>
-						<option value="2">白金会员</option>
-					</select>
-					<div class="texts">以上</div>
-				</div>
+		
 			
 				<div>
 					<div class="texts">满</div>
@@ -107,6 +99,16 @@
 
 			</div>
 		</div>
+		<div class="form-item">
+			<label class="form-label">面向范围</label>
+			<div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap; ">
+				<input type="checkbox" name="like1[game]" lay-skin="primary" title="黄金会员">
+				<input type="checkbox" name="like1[game]" lay-skin="primary" title="黄金会员">
+				<input type="checkbox" name="like1[game]" lay-skin="primary" title="黄金会员">
+			</div>
+			
+		</div>
+		
 		<div class="form-item">
 			<label class="form-label">活动标签</label>
 			<div class="form-input">
@@ -306,6 +308,7 @@
 			$(".tanchuang").click(function() {
 				$(".tanchuang").addClass("noshow");
 			});
+			var seach_goods=[];
 			$("#seach_button").click(function() {
 				var seach_val=$("#seach_val").val();
 				$.ajax({
@@ -316,24 +319,38 @@
                     },
                     success: function(data) {
 						var data=eval("("+data+")").data;
-						console.log(data);
+						var num=0;
+						
 						var dhtml='';
 						for(var i=0;i<data.length;i++){
-							dhtml+='<tr>';
-							dhtml+='<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="'+data[i].id+'" name="goods_id[]"></td>';
-							dhtml+='<td>'+data[i].goods_number+'</td>';
-							dhtml+='<td class="">';
-							dhtml+='<div class="tdimg"><img src="__UPLOADS__/'+data[i].goods_show_images+'" /></div>';
-							dhtml+='</td>';
-				
-							dhtml+='<td>'+data[i].goods_name+'</td>';
-							dhtml+='<td>'+data[i].goods_repertory+'</td>';
-							dhtml+='<td>';
-							dhtml+='<div class="layui-btn layui-btn-mini edit"><i class="iconfont icon-edit"></i> 参加活动</div>';
-							dhtml+='</td>';
-							dhtml+='</tr>';
-							$('.news_content').append(dhtml);
-							form.render('checkbox');
+							console.log(seach_goods.length);
+							for(var j=0;j<seach_goods.length;j++){
+								if(data[i].goods_number==seach_goods[j].goods_number){
+									num++;
+								}
+							}
+							if(num==0){
+								seach_goods.push(data[i]);
+								dhtml+='<tr>';
+								dhtml+='<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="'+data[i].id+'" name="goods_id[]"></td>';
+								dhtml+='<td>'+data[i].goods_number+'</td>';
+								dhtml+='<td class="">';
+								dhtml+='<div class="tdimg"><img src="__UPLOADS__/'+data[i].goods_show_images+'" /></div>';
+								dhtml+='</td>';
+					
+								dhtml+='<td>'+data[i].goods_name+'</td>';
+								dhtml+='<td>'+data[i].goods_repertory+'</td>';
+								dhtml+='<td>';
+								dhtml+='<div class="layui-btn layui-btn-mini edit"><i class="iconfont icon-edit"></i> 参加活动</div>';
+								dhtml+='</td>';
+								dhtml+='</tr>';
+								$('.news_content').append(dhtml);
+								form.render('checkbox');
+							}
+							else{
+								layer.msg('列表中已有此商品，请勿重复添加');
+							}
+						
 						}
                     },
                     error: function(data) {
