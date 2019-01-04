@@ -42,10 +42,6 @@ class WechatPay extends Controller
     {
         if($request->isPost()){
             $datas =$request->param();
-            dump($datas);
-        }else{
-            dump(222);
-        }
         $body =1;
         $orderid =100001;
         $out_trade_no =2018121212;
@@ -53,7 +49,7 @@ class WechatPay extends Controller
         $data["appid"] = $this->config["appid"];
         $data["body"] = '茶仓-' . $body;
         $data["mch_id"] = $this->config['mch_id'];
-//        $data["open_id"] =$datas["open_id"];
+        $data["open_id"] =$datas["open_id"];
         $data["nonce_str"] = $this->createNoncestr(); //随机数
         $data["notify_url"] = $this->config["notify_url"];  //回调地址
         $data['trade_type'] = 'JSAPI';
@@ -73,6 +69,7 @@ class WechatPay extends Controller
 //        return ajax_success('数据返回',$response);
         //返回数据
         echo json_encode(['status' => 1, 'indo' => 'success', 'orderid' => $orderid, 'data' => $response]);
+        }
     }
 
     //微信支付回调地址--商品支付
