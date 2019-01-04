@@ -49,7 +49,7 @@ class WechatPay extends Controller
         $data["mch_id"] = $this->config['mch_id'];
         $data["nonce_str"] = $this->createNoncestr(); //随机数
         $data["notify_url"] = $this->config["notify_url"];  //回调地址
-        $data['trade_type'] = 'APP';
+        $data['trade_type'] = 'JSAPI';
         $data["total_fee"] = "1";//"$total_fee"
         $data["out_trade_no"] = $out_trade_no;
         $data["spbill_create_ip"] = $this->get_client_ip(); //获取当前服务器的IP
