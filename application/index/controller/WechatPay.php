@@ -58,15 +58,14 @@ class WechatPay extends Controller
         $data["spbill_create_ip"] = $this->get_client_ip(); //获取当前服务器的IP
         $sign = $this->getSign($data);  //微信支付签名
         $data["sign"] = $sign;
-
         $xml = $this->arrayToXml($data);  //数组转化为xml
-
         $response = $this->postXmlCurl($xml, $url); //以post方式提交xml到对应的接口url
         $response = $this->xmlToArray($response);  //将xml转为array
         $response = $this->two_sign($response, $data["nonce_str"]); //微信支付二次签名
 
 //        return ajax_success('数据返回',$response);
         //返回数据
+//            echo json_encode(['status' => 0, 'indo' =>$data, 'orderid' => $orderid, 'data' => $response ,"a"=>$xml,"b"=>$data]);
         echo json_encode(['status' => 1, 'indo' => 'success', 'orderid' => $orderid, 'data' => $response]);
         }
     }
@@ -162,7 +161,7 @@ class WechatPay extends Controller
             $arr = array(
                 'appid' => $this->config["appid"],
                 'partnerid' => $this->config['mch_id'],
-                'prepayid' => $response['prepay_id'],
+//                'prepayid' => $response['prepay_id'],
                 'package' => 'Sign=WXPay',
                 'noncestr' => $nonce_str,
                 'timestamp' => time(),

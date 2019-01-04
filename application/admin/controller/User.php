@@ -19,7 +19,7 @@ class User extends Controller{
      **************************************
      */
     public function index(){
-        $user_data =Db::name('member')->paginate(20);
+        $user_data =Db::name('member')->order("member_id","desc")->paginate(20);
         return view('index',['user_data'=>$user_data]);
     }
 
