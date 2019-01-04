@@ -48,19 +48,20 @@ class WechatPay extends Controller
         $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
         $data["appid"] = $this->config["appid"];
         $data["body"] = '茶仓-' . $body;
-//        $data["body"] = $datas["activity_name"];
         $data["mch_id"] = $this->config['mch_id'];
         $data["openid"] =$datas["open_id"];
         $data["nonce_str"] = $this->createNoncestr(); //随机数
         $data["notify_url"] = $this->config["notify_url"];  //回调地址
         $data['trade_type'] = 'JSAPI';
-        $data["total_fee"] = $datas["cost_moneny"];//"$total_fee"
+        $data["total_fee"] = 1;//"$total_fee"
         $data["out_trade_no"] = $out_trade_no;
         $data["spbill_create_ip"] = $this->get_client_ip(); //获取当前服务器的IP
         $sign = $this->getSign($data);  //微信支付签名
         $data["sign"] = $sign;
+
         $xml = $this->arrayToXml($data);  //数组转化为xml
-        $response = $this->postXmlCurl($xml,$url); //以post方式提交xml到对应的接口url
+
+        $response = $this->postXmlCurl($xml, $url); //以post方式提交xml到对应的接口url
         $response = $this->xmlToArray($response);  //将xml转为array
         $response = $this->two_sign($response, $data["nonce_str"]); //微信支付二次签名
 
@@ -125,6 +126,7 @@ class WechatPay extends Controller
         $data["refund_fee"] = intval($refund_fee * 100);
         $sign = $this->getSign($data);
         $data["sign"] = $sign;
+
         $xml = $this->arrayToXml($data);
         $response = $this->postXmlCurl($xml, $url);
         $response = $this->xmlToArray($response);
