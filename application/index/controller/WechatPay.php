@@ -49,7 +49,7 @@ class WechatPay extends Controller
         $data["appid"] = $this->config["appid"];
         $data["body"] = '茶仓-' . $body;
         $data["mch_id"] = $this->config['mch_id'];
-        $data["open_id"] =$datas["open_id"];
+        $data["openid"] =$datas["open_id"];
         $data["nonce_str"] = $this->createNoncestr(); //随机数
         $data["notify_url"] = $this->config["notify_url"];  //回调地址
         $data['trade_type'] = 'JSAPI';
