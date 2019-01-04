@@ -77,7 +77,9 @@
                 <tbody class="news_content">
                     {volist name = "distribution" id="value" }
                     <tr>
-                        <td>{$value.rank}</td>
+                        <td>{$value.rank}级
+                            (下{$value.rank}级)
+                        </td>
                         <td>{$value.grade}%</td>
                         <td>{$value.award}</td>
                         <td>{$value.scale}%</td>

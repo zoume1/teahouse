@@ -162,11 +162,11 @@ class  Distribution extends  Controller{
             $data = $request->param();
             $top = $data["grade"];
             $res = array("zero" ,"first" ,"second","third");
-            $des = db("goods") -> where("goods_number",$data["shop_number"])->field("goods_name,goods_show_images,goods_new_money")-> find();
+            $des = db("goods") -> where("goods_number",$data["shop_number"])->field("id,goods_name,goods_show_images,goods_new_money")-> find();
             $deny = explode(",",$des["goods_show_images"]);
             $data["picture"] = $deny[0];
             $data["shop_name"] = $des["goods_name"];
-            $data["shop_price"] = $des["goods_new_money"];
+            $data["goods_id"] = $des["id"];
 
             foreach ($top as $key => $value)
             {
@@ -190,6 +190,8 @@ class  Distribution extends  Controller{
             }
 
             $distribution = array_merge($data, $array);
+
+            halt($distribution);
             $bool = db("commodity")->insert($distribution);
 
             if ($bool) {

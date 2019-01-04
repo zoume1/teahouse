@@ -264,7 +264,9 @@ Route::group("admin",[
     "bonus_save"=>"admin/Bonus/bonus_save",     //积分商城保存商品
     "bonus_edit"=>"admin/Bonus/bonus_edit",     //积分商城编辑商品
     "bonus_update"=>"admin/Bonus/bonus_update", //积分商城更新商品
-    "bonus_delete"=>"admin/Bonus/bonus_delete",     //积分商城删除商品
+    "bonus_delete"=>"admin/Bonus/bonus_delete", //积分商城删除商品
+    "bonus_images"=>"admin/Bonus/bonus_images", //积分商城商品图片删除
+    "bonus_search"=>"admin/Bonus/bonus_search", //积分商城搜索商品
 
 
     /*限时限购*/

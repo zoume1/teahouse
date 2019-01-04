@@ -55,9 +55,10 @@ class  Bonus extends  Controller{
                     $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $show->getSaveName());
                 }
+                $goods_data["goods_show_image"] =  $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
             }
-//            halt($goods_data);
+            //halt($goods_data);
             $bool = db("bonus_mall")->insert($goods_data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Bonus/bonus_index"));
@@ -72,9 +73,18 @@ class  Bonus extends  Controller{
      * [积分商城编辑商品]
      * GY
      */
-    public function bonus_edit()
+    public function bonus_edit($id)
     {
-        return view('bonus_edit');
+        $mall = db("bonus_mall")->where("id", $id)->select();
+        foreach ($mall as $key => $value)
+        {
+            if(!empty($mall[$key]["goods_show_images"])){
+                $mall[$key]["goods_show_images"] = explode(",",$mall[$key]["goods_show_images"]);
+            }
+        }
+
+
+        return view('bonus_edit',["mall" => $mall]);
     }
 
 
@@ -82,9 +92,49 @@ class  Bonus extends  Controller{
      * [积分商城更新商品]
      * GY
      */
-    public function bonus_update()
+    public function bonus_update(Request $request)
     {
-        return view('bonus_edit');
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $goods_data = $request->param();
+            $show_images = $request->file("goods_show_images");
+            $list = [];
+
+            if (!empty($show_images)) {
+                foreach ($show_images as $k => $v) {
+                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                    $list[] = str_replace("\\", "/", $show->getSaveName());
+                }
+                $liste = implode(',', $list);
+                $image = db("bonus_mall")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"]))
+                {
+                    $exper = $image["goods_show_images"];
+                    $montage = $exper . "," . $liste;
+                    $goods_data["goods_show_images"] = $montage;
+                } else {
+                    $montage = $liste;
+                    $goods_data["goods_show_image"] = $list[0];
+                    $goods_data["goods_show_images"] = $montage;
+                }
+            } else {
+                $image = db("bonus_mall")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"])){
+                    $goods_data["goods_show_images"] = $image["goods_show_images"];
+                } else {
+                    $goods_data["goods_show_images"] = NULL;
+                    $goods_data["goods_show_image"] = NULL;
+                }
+            }
+
+            $bool = db("bonus_mall")->where("id", $id)->update($goods_data);
+            if ($bool) {
+                $this->success("更新成功", url("admin/Bonus/bonus_index"));
+            } else {
+                $this->success("更新失败", url('admin/Bonus/bonus_index'));
+            }
+
+        }
     }
 
 
@@ -92,11 +142,62 @@ class  Bonus extends  Controller{
      * [积分商城删除商品]
      * GY
      */
-    public function bonus_delete()
+    public function bonus_delete(Request $request)
     {
-        return view('bonus_edit');
+        $id = $request->only(["id"])["id"];
+        $bool = db("bonus_mall")-> where("id", $id)->delete();
+
+        if ($bool) {
+            $this->success("删除成功", url("admin/Bonus/bonus_index"));
+        } else {
+            $this->success("删除失败", url('admin/Bonus/bonus_index'));
+        }
     }
 
+
+    /**
+     * [积分商城商品图片删除]
+     * GY
+     */
+    public function bonus_images(Request $request)
+    {
+        if ($request->isPost()) {
+            $tid = $request->param();
+            $id = $tid["id"];
+            $image = db("bonus_mall")->where("id", $tid['pid'])->field("goods_show_images")->find();
+            if (!empty($image["goods_show_images"])) {
+                $se = explode(",", $image["goods_show_images"]);
+                foreach ($se as $key => $value) {
+                    if ($value == $id) {
+                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                    } else {
+                        $new_image[] = $value;
+                    }
+                }
+            }
+            if (!empty($new_image)) {
+                $new_imgs_url = implode(',', $new_image);
+                $res = Db::name('bonus_mall')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
+            } else {
+                $res = Db::name('bonus_mall')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
+            }
+            if ($res) {
+                return ajax_success('删除成功');
+            } else {
+                return ajax_success('删除失败');
+            }
+        }
+    }
+
+
+    /**
+     * [积分商城删除商品]
+     * GY
+     */
+    public function bonus_search()
+    {
+        return view('bonus_index');
+    }
 
 
 
