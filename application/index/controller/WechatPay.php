@@ -10,6 +10,7 @@ namespace app\index\controller;
 
 use think\Controller;
 use  think\Db;
+use think\Request;
 
 class WechatPay extends Controller
 {
@@ -37,11 +38,10 @@ class WechatPay extends Controller
 
     //微信支付下单
 //    public function wxpay($body, $orderid, $out_trade_no, $total_fee, $type)
-    public function wxpay()
+    public function wxpay(Request $request)
     {
-        $datas =$_POST;
+        $datas =$request->input();
         dump($datas);
-        dump($datas["open_id"]);
         $body =1;
         $orderid =100001;
         $out_trade_no =2018121212;
