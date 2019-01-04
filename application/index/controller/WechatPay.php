@@ -40,8 +40,12 @@ class WechatPay extends Controller
 //    public function wxpay($body, $orderid, $out_trade_no, $total_fee, $type)
     public function wxpay(Request $request)
     {
-        $datas =$request->input();
-        dump($datas);
+        if($request->isPost()){
+            $datas =$request->input();
+            dump($datas);
+        }else{
+            dump(222);
+        }
         $body =1;
         $orderid =100001;
         $out_trade_no =2018121212;
