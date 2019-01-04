@@ -43,6 +43,14 @@ Route::group("",[
     "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
     "order_place"=>"index/Order/order_place",//下订单
     "order_place_by_shopping"=>"index/Order/order_place_by_shopping",//购物车下订单
+    "order_detail"=>"index/Order/order_detail",//订单详情（未需要）
+    "order_detail_cancel"=>"index/Order/order_detail_cancel",//未付款判断时间是否过了订单设置的时间，过了则进行自动关闭（优惠券未实现）
+    "ios_api_order_all"=>"index/Order/ios_api_order_all",//我的所有订单
+
+
+
+
+
     /*TODO:订单结束*/
 
     /*TODO:购物车开始*/
@@ -251,9 +259,13 @@ Route::group("admin",[
 
 
     /*积分商城*/
-    "bonus_index"=>"admin/Bonus/bonus_index",            
-    "bonus_edit"=>"admin/Bonus/bonus_edit",              
-    "bonus_add"=>"admin/Bonus/bonus_add",               
+    "bonus_index"=>"admin/Bonus/bonus_index",   //积分商城显示商品
+    "bonus_add"=>"admin/Bonus/bonus_add",       //积分商城添加商品
+    "bonus_save"=>"admin/Bonus/bonus_save",     //积分商城保存商品
+    "bonus_edit"=>"admin/Bonus/bonus_edit",     //积分商城编辑商品
+    "bonus_update"=>"admin/Bonus/bonus_update", //积分商城更新商品
+    "bonus_delete"=>"admin/Bonus/bonus_delete",     //积分商城删除商品
+
 
     /*限时限购*/
     "limitations_index"=>"admin/Limitations/limitations_index",    

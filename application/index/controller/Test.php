@@ -17,15 +17,15 @@ class  Test extends Controller{
 //        $details=$request->param('details');//商品的详情，比如iPhone8，紫色
         $details='铁观音';//商品的详情，比如iPhone8，紫色
          $fee = 0.01;//举例充值0.01
-        $appid = "wx141337862de5e39";//appid
+        $appid = "wx301c1368929fdba8";//appid
         $body = $details;// '金邦汇商城';//'【自己填写】'
-        $mch_id = '1488407552';//'你的商户号【自己填写】'
+        $mch_id = '1522110351';//'你的商户号【自己填写】'
         $nonce_str =    $this->nonce_str();//随机字符串
         $notify_url =   'https://zys.jinbh.cn/admin/Api/Wx_Speech';//回调的url【自己填写】';
         $openid =       $request->param('open_id');//'用户的openid【自己填写】';
 //        $openid =       "wxe81efe5d23e83c7d";//'用户的openid【自己填写】';
         $out_trade_no = $this->order_number($openid);//商户订单号
-        $spbill_create_ip = '123.206.45.131';//'服务器的ip【自己填写】';
+        $spbill_create_ip = '119.23.79.230';//'服务器的ip【自己填写】';
         $total_fee =    $fee*100;//因为充值金额最小是1 而且单位为分 如果是充值1元所以这里需要*100
         $trade_type = 'JSAPI';//交易类型 默认
         //这里是按照顺序的 因为下面的签名是按照顺序 排序错误 肯定出错
@@ -116,7 +116,7 @@ class  Test extends Controller{
             if ($stringA) $stringA .= '&' . $key . "=" . $value;
             else $stringA = $key . "=" . $value;
         }
-        $wx_key = 'Zhangyusheng19810318015729366660';//申请支付后有给予一个商户账号和密码，登陆后自己设置key
+        $wx_key = 'TeahouseZwxcqgzyszhihuichacangZy';//申请支付后有给予一个商户账号和密码，登陆后自己设置key
         $stringSignTemp = $stringA . '&key=' . $wx_key;//申请支付后有给予一个商户账号和密码，登陆后自己设置key
         return strtoupper(md5($stringSignTemp));
     }
