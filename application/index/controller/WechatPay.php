@@ -42,13 +42,13 @@ class WechatPay extends Controller
     {
         if($request->isPost()){
             $datas =$request->param();
-//        $body =1;
+        $body =1;
         $orderid =100001;
         $out_trade_no =2018121212;
         $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
         $data["appid"] = $this->config["appid"];
-//        $data["body"] = '茶仓-' . $body;
-        $data["body"] = $datas["activity_name"];
+        $data["body"] = '茶仓-' . $body;
+//        $data["body"] = $datas["activity_name"];
         $data["mch_id"] = $this->config['mch_id'];
         $data["openid"] =$datas["open_id"];
         $data["nonce_str"] = $this->createNoncestr(); //随机数
