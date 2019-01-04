@@ -42,6 +42,7 @@ class WechatPay extends Controller
     {
         if($request->isPost()){
             $datas =$request->param();
+            dump($datas);
 //        $body =1;
         $orderid =100001;
         $out_trade_no =2018121212;
