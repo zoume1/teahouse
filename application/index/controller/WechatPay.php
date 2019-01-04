@@ -65,7 +65,7 @@ class WechatPay extends Controller
 
 //        return ajax_success('数据返回',$response);
         //返回数据
-            echo json_encode(['status' => 0, 'indo' =>$data, 'orderid' => $orderid, 'data' => $response ,"a"=>$xml,"b"=>$data]);
+//            echo json_encode(['status' => 0, 'indo' =>$data, 'orderid' => $orderid, 'data' => $response ,"a"=>$xml,"b"=>$data]);
         echo json_encode(['status' => 1, 'indo' => 'success', 'orderid' => $orderid, 'data' => $response]);
         }
     }
