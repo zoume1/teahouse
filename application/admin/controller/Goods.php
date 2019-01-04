@@ -390,6 +390,36 @@ class Goods extends Controller
     }
 
 
+    /**
+     * [商品列表组是否上架]
+     * 陈绪
+     */
+    public function ground(Request $request)
+    {
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("goods")->where("id", $id)->update(["label" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/Goods/index"));
+                } else {
+                    $this->error("修改失败", url("admin/Goods/index"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("goods")->where("id", $id)->update(["label" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/Goods/index"));
+                } else {
+                    $this->error("修改失败", url("admin/Goods/index"));
+                }
+            }
+        }
+    }
+
+
 
 
     /**

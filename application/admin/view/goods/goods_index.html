@@ -101,9 +101,9 @@
                         {/if}
                         <td class="td-status">
                             {if $value.label == 1}
-                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="上架|下架" lay-filter="isShows" checked data-id="{$value.id}"> 
-                                {else}
-                             <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="上架|上架" lay-filter="isShows" data-id="{$value.id}">
+                            <input type="checkbox" class="Status" name="status" value="{$value.label}" lay-skin="switch" lay-text="上架|下架" lay-filter="isShows" checked data-id="{$value.id}"> 
+                            {else}
+                             <input type="checkbox" class="Status" name="status" value="{$value.label}" lay-skin="switch" lay-text="上架|上架" lay-filter="isShows" data-id="{$value.id}">
                             {/if}
                         </td>
                         <td>{$value.sort_number}</td>
@@ -272,7 +272,7 @@
                 var status = $(this).val();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/status')}",
+                    url: "{:url('admin/Goods/ground')}",
                     data: {
                         "id": id,
                         "status": status
