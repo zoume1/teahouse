@@ -42,13 +42,13 @@ class WechatPay extends Controller
     {
         if($request->isPost()){
             $datas =$request->param();
-        $body =1;
+//        $body =1;
         $orderid =100001;
         $out_trade_no =2018121212;
         $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
         $data["appid"] = $this->config["appid"];
-        $data["body"] = '茶仓-' . $body;
-//        $data["body"] = $datas["activity_name"];
+//        $data["body"] = '茶仓-' . $body;
+        $data["body"] = $datas["activity_name"];
         $data["mch_id"] = $this->config['mch_id'];
         $data["openid"] =$datas["open_id"];
         $data["nonce_str"] = $this->createNoncestr(); //随机数
@@ -60,7 +60,7 @@ class WechatPay extends Controller
         $sign = $this->getSign($data);  //微信支付签名
         $data["sign"] = $sign;
         $xml = $this->arrayToXml($data);  //数组转化为xml
-        $response = $this->postXmlCurl($xml,$url); //以post方式提交xml到对应的接口url
+        $response = $this->postXmlCurl($xml, $url); //以post方式提交xml到对应的接口url
         $response = $this->xmlToArray($response);  //将xml转为array
         $response = $this->two_sign($response, $data["nonce_str"]); //微信支付二次签名
 
