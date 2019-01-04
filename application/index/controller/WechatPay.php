@@ -10,6 +10,7 @@ namespace app\index\controller;
 
 use think\Controller;
 use  think\Db;
+use think\Request;
 
 class WechatPay extends Controller
 {
@@ -18,10 +19,10 @@ class WechatPay extends Controller
     微信支付配置参数
     */
     private $config = array(
-        'appid' => "wx37e840c96f13f585",    /*微信开放平台上的应用id*/
+        'appid' => "wx301c1368929fdba8",    /*微信开放平台上的应用id*/
 //        'appid' => "wx7214a4fde280c2b7",    /*微信开放平台上的应用id*/
-        'mch_id' => "1412019602",   /*微信申请成功之后邮件中的商户id*/
-        'api_key' => "ffcfd0f5898e756ba07cc7f17ed4dbfb",    /*在微信商户平台上自己设定的api密钥 32位*/
+        'mch_id' => "1522110351",   /*微信申请成功之后邮件中的商户id*/
+        'api_key' => "TeahouseZwxcqgzyszhihuichacangZy",    /*在微信商户平台上自己设定的api密钥 32位*/
         'notify_url' => '回调地址',
 
     );
@@ -37,9 +38,10 @@ class WechatPay extends Controller
 
     //微信支付下单
 //    public function wxpay($body, $orderid, $out_trade_no, $total_fee, $type)
-    public function wxpay()
+    public function wxpay(Request $request)
     {
-        $datas =$_POST;
+        if($request->isPost()){
+            $datas =$request->param();
         $body =1;
         $orderid =100001;
         $out_trade_no =2018121212;
@@ -47,10 +49,11 @@ class WechatPay extends Controller
         $data["appid"] = $this->config["appid"];
         $data["body"] = '茶仓-' . $body;
         $data["mch_id"] = $this->config['mch_id'];
+        $data["openid"] =$datas["open_id"];
         $data["nonce_str"] = $this->createNoncestr(); //随机数
         $data["notify_url"] = $this->config["notify_url"];  //回调地址
-        $data['trade_type'] = 'APP';
-        $data["total_fee"] = "1";//"$total_fee"
+        $data['trade_type'] = 'JSAPI';
+        $data["total_fee"] = 1;//"$total_fee"
         $data["out_trade_no"] = $out_trade_no;
         $data["spbill_create_ip"] = $this->get_client_ip(); //获取当前服务器的IP
         $sign = $this->getSign($data);  //微信支付签名
@@ -59,13 +62,13 @@ class WechatPay extends Controller
         $xml = $this->arrayToXml($data);  //数组转化为xml
 
         $response = $this->postXmlCurl($xml, $url); //以post方式提交xml到对应的接口url
-        return ajax_success('数据返回',$response);
         $response = $this->xmlToArray($response);  //将xml转为array
         $response = $this->two_sign($response, $data["nonce_str"]); //微信支付二次签名
 
 //        return ajax_success('数据返回',$response);
         //返回数据
         echo json_encode(['status' => 1, 'indo' => 'success', 'orderid' => $orderid, 'data' => $response]);
+        }
     }
 
     //微信支付回调地址--商品支付
