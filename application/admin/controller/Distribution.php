@@ -158,26 +158,16 @@ class  Distribution extends  Controller{
      */
     public function goods_save(Request $request)
     {
-        if ($request->isPost()) {
+        if ($request->isPost())
+         {
             $data = $request->param();
-            $top = $data["grade"];
-            $res = array("zero" ,"first" ,"second","third");
             $des = db("goods") -> where("goods_number",$data["shop_number"])->field("id,goods_name,goods_show_images,goods_new_money")-> find();
+            $reste = db("commodity")->where("goods_id",$des["id"])->find();
             $deny = explode(",",$des["goods_show_images"]);
             $data["picture"] = $deny[0];
             $data["shop_name"] = $des["goods_name"];
             $data["goods_id"] = $des["id"];
-
-            foreach ($top as $key => $value)
-            {
-                $top[$key] = str_replace('%','',$value);
-            }
-            $array = array_combine($res,$top);
-
-            foreach ($array as $k => $v)
-            {
-                $array[$k] = ($v * $des["goods_new_money"])/100;
-            }
+            
             $data["rank"] = implode(",",$data["rank"]);
             $data["grade"] = implode(",",$data["grade"]);
             $data["award"] = implode(",",$data["award"]);
@@ -186,14 +176,14 @@ class  Distribution extends  Controller{
 
             if(empty($data["shop_name"]))
             {
-                $this->error("商品列表中没有该商品，请仔细核对后再添加", url("admin/Distribution/goods_add"));
+                $this->error("商品列表中没有该商品,请仔细核对后再添加", url("admin/Distribution/goods_add"));
             }
-
-            $distribution = array_merge($data, $array);
-
-            halt($distribution);
-            $bool = db("commodity")->insert($distribution);
-
+            if(!empty($reste))
+            {
+                $this->error("该商品已经加入分销设置,请仔细核对后再添加", url("admin/Distribution/goods_add"));
+            }
+         
+            $bool = db("commodity")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Distribution/goods_index"));
             } else {

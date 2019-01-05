@@ -405,6 +405,22 @@ class  Bonus extends  Controller{
     }
 
 
+    /**
+     * [优惠券搜索]
+     * GY
+     */
+     public function coupon_seek(Request $request)
+     {
+        $seek = input('seek');         //优惠券名称
+         
+        if (!empty($seek)) {
+            $activ = db("coupon")->where("label", "like", "%" . $seek . "%")->paginate(20);;
+        }else{
+            $activ = db("coupon")->paginate(20);;
+        }
+        return view('coupon_index',["coupon" => $activ]);
+     }
+
 
 
 
