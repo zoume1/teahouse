@@ -22,8 +22,8 @@ class  Test extends Controller{
         $mch_id = "1522110351";//'你的商户号【自己填写】'
         $nonce_str =    $this->nonce_str();//随机字符串
         $notify_url =   'https://zys.jinbh.cn/admin/Api/Wx_Speech';//回调的url【自己填写】';
-        $openid =       $request->param('open_id');//'用户的openid【自己填写】';
-//        $openid =       "wxe81efe5d23e83c7d";//'用户的openid【自己填写】';
+        $openid =  $request->param('open_id');//'用户的openid【自己填写】';
+//        $openid =   "wxe81efe5d23e83c7d";//'用户的openid【自己填写】';
         $out_trade_no = $this->order_number($openid);//商户订单号
         $spbill_create_ip = '119.23.79.230';//'服务器的ip【自己填写】';
         $total_fee = $fee*100;//因为充值金额最小是1 而且单位为分 如果是充值1元所以这里需要*100
@@ -31,7 +31,7 @@ class  Test extends Controller{
         //这里是按照顺序的 因为下面的签名是按照顺序 排序错误 肯定出错
         $post['appid'] = $appid;
         $post['body'] = $body;
-        $post['mch_id'] = $mch_id;
+        $post['mch_id'] = md5($mch_id);
         $post['nonce_str'] = $nonce_str;//随机字符串
         $post['notify_url'] = $notify_url;
         $post['openid'] = $openid;
