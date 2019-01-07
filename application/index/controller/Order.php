@@ -140,6 +140,7 @@ class  Order extends  Controller
                                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
+                            $datas["distribution"] =$goods_data["distribution"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
                             $datas["order_quantity"] =$numbers[$keys];//订单数量
@@ -159,6 +160,7 @@ class  Order extends  Controller
                             $datas["buy_message"] =$buy_message;//买家留言
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
+
                             $res = Db::name('order')->insertGetId($datas);
                             if ($res) {
                                 $order_datas =Db::name("order")
@@ -249,6 +251,7 @@ class  Order extends  Controller
                                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
+                            $datas["distribution"] =$goods_data["distribution"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
                             $datas["order_quantity"] =$numbers[$keys];//订单数量
