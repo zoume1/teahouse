@@ -162,6 +162,7 @@ class  Distribution extends  Controller{
          {
             $data = $request->param();
             $des = db("goods") -> where("goods_number",$data["shop_number"])->field("id,goods_name,goods_show_images,goods_new_money")-> find();
+            $bool = db("goods")->where("goods_number",$data["shop_number"])->update(["distribution" => 1]);
             $reste = db("commodity")->where("goods_id",$des["id"])->find();
             $deny = explode(",",$des["goods_show_images"]);
             $data["picture"] = $deny[0];
@@ -200,31 +201,27 @@ class  Distribution extends  Controller{
     public function goods_delete($id)
     {
         $bool = db("commodity")->where("id", $id)->delete();
-        if ($bool) {
+        $goods_id = db("commodity")->where("id", $id)->value("goods_id");
+        $boole = db("goods")->where("id",$goods_id)->update(["distribution" => 0]);
+        if ($bool && $boole) {
             $this->success("删除成功", url("admin/Distribution/goods_index"));
         } else {
             $this->error("删除失败", url("admin/Distribution/goods_index"));
         }
 
     }
+
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销记录页面
-     **************************************
-     * @return \think\response\View
+     * [分销记录页面]
+     * GY
      */
     public function record_index(){
         return view('record_index');
     }
 
-
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销成员页面
-     **************************************
-     * @return \think\response\View
+     * [分销成员页面]
+     * GY
      */
     public function member_index(){
         return view('member_index');
@@ -233,11 +230,8 @@ class  Distribution extends  Controller{
 
 
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销成员页面编辑
-     **************************************
-     * @return \think\response\View
+     * [分销成员编辑页面]
+     * GY
      */
     public function member_edit(){
         return view('member_edit');

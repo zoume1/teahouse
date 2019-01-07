@@ -140,6 +140,7 @@ class  Order extends  Controller
                                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
+                            $datas["distribution"] =$goods_data["distribution"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
                             $datas["order_quantity"] =$numbers[$keys];//订单数量
