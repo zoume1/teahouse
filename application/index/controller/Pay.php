@@ -2,29 +2,30 @@
 
 namespace app\index\controller;
 use think\Controller;
+use think\Request;
+
 include('../extend/WxpayAPI/lib/WxPay.Api.php');
 include('../extend/WxpayAPI/example/WxPay.NativePay.php');
 include('../extend/WxpayAPI/example/log.php');
-//include ("WxPay.Api.php");
-//include ("WxPay.Config.php");
-//include ("WxPay.Data.php");
+
 
 class Pay extends  Controller{
-    function index() {
-//        include('../extend/WxpayAPI/lib/WxPay.Api.php');
-
+    function index(Request $request) {
+        $open_ids = $request->param("open_id");//open_id
+        $activity_name = $request->param("activity_name");//名称
+        $cost_moneny = $request->param("cost_moneny");//金额
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
         //         文档提及的参数规范：商家名称-销售商品类目
-        $input->SetBody("testceshi");
+        $input->SetBody($activity_name);
         //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
         $input->SetOut_trade_no(time().'');
         //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
-        $input->SetTotal_fee("1");
-        $input->SetNotify_url("https://...com/notify.php");//需要自己写的notify.php
+        $input->SetTotal_fee($cost_moneny*100);
+        $input->SetNotify_url("https://teahouse.siring.com.cn/notify.php");//需要自己写的notify.php
         $input->SetTrade_type("JSAPI");
         //         由小程序端传给后端或者后端自己获取，写自己获取到的，
-        $input->SetOpenid('o_lMv5VTbQDkQxK08EkllWXtX-kY');
+        $input->SetOpenid( $open_ids);
         //$input->SetOpenid($this->getSession()->openid);
         //         向微信统一下单，并返回order，它是一个array数组
         $order = \WxPayApi::unifiedOrder($input);
@@ -34,7 +35,6 @@ class Pay extends  Controller{
     }
     private function getJsApiParameters($UnifiedOrderResult)
     {    //判断是否统一下单返回了prepay_id
-
         if(!array_key_exists("appid", $UnifiedOrderResult)
             || !array_key_exists("prepay_id", $UnifiedOrderResult)
             || $UnifiedOrderResult['prepay_id'] == "")
@@ -59,4 +59,5 @@ class Pay extends  Controller{
 //        $response = json_decode(file_get_contents($url));
 //        return $response;
 //    }
+
 }
