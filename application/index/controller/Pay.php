@@ -5,9 +5,9 @@ use think\Controller;
 class Pay extends Controller {
     function index() {
 //        include('../extend/WxpayAPI/lib/WxPay.Api.php');
-        include("../extend/WxpayAPI/lib/WxPay.Api.php");
-        include('../extend/WxpayAPI/example/WxPay.NativePay.php');
-        include('../extend/WxpayAPI/example/log.php');
+        require_once "../extend/WxpayAPI/lib/WxPay.Api.php";
+        require_once  '../extend/WxpayAPI/example/WxPay.NativePay.php';
+        require_once '../extend/WxpayAPI/example/log.php';
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
         //         文档提及的参数规范：商家名称-销售商品类目
@@ -29,9 +29,9 @@ class Pay extends Controller {
     }
     private function getJsApiParameters($UnifiedOrderResult)
     {    //判断是否统一下单返回了prepay_id
-        include("../extend/WxpayAPI/lib/WxPay.Api.php");
-        include('../extend/WxpayAPI/example/WxPay.NativePay.php');
-        include('../extend/WxpayAPI/example/log.php');
+        require_once "../extend/WxpayAPI/lib/WxPay.Api.php";
+        require_once  '../extend/WxpayAPI/example/WxPay.NativePay.php';
+        require_once '../extend/WxpayAPI/example/log.php';
         if(!array_key_exists("appid", $UnifiedOrderResult)
             || !array_key_exists("prepay_id", $UnifiedOrderResult)
             || $UnifiedOrderResult['prepay_id'] == "")
