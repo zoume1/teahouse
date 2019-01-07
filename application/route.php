@@ -26,8 +26,7 @@ Route::group("",[
     "my_show_grade"=>"index/My/show_grade",  //会员等级
     "my_qrcode"=>"index/My/qrcode",  //会员二维码
     "my_index"=>"index/My/my_index",  //我的页面
-    "wxpay"=>"index/WechatPay/wxpay",//微信支付测试
-    "Wx_Pay"=>"index/Test/Wx_Pay", //测试
+    "wx_index"=>"index/Pay/index",//小程序支付（活动）
     /*TODO:end*/
 
     /*TODO:地址管理开始*/
