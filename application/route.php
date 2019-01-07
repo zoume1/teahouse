@@ -219,6 +219,7 @@ Route::group("admin",[
     "goods_edit"=>"admin/Goods/edit",        //商品列表组编辑
     "goods_updata"=>"admin/Goods/updata",    //商品列表组更新
     "goods_status"=>"admin/Goods/status",    //商品列表组首页推荐
+    "goods_ground"=>"admin/Goods/ground",    //商品列表组是否上架
     "goods_del"=>"admin/Goods/del",          //商品列表组删除
     "goods_dels"=>"admin/Goods/dels",        //商品列表组批量删除
     "goods_search"=>"admin/Goods/search",    //商品列表组模糊搜索
@@ -264,7 +265,9 @@ Route::group("admin",[
     "bonus_save"=>"admin/Bonus/bonus_save",     //积分商城保存商品
     "bonus_edit"=>"admin/Bonus/bonus_edit",     //积分商城编辑商品
     "bonus_update"=>"admin/Bonus/bonus_update", //积分商城更新商品
-    "bonus_delete"=>"admin/Bonus/bonus_delete",     //积分商城删除商品
+    "bonus_delete"=>"admin/Bonus/bonus_delete", //积分商城删除商品
+    "bonus_images"=>"admin/Bonus/bonus_images", //积分商城商品图片删除
+    "bonus_search"=>"admin/Bonus/bonus_search", //积分商城搜索商品
 
 
     /*限时限购*/
@@ -282,6 +285,7 @@ Route::group("admin",[
     "coupon_update"=>"admin/Bonus/coupon_update",  //优惠券编辑
     "coupon_del"=>"admin/Bonus/coupon_del",        //优惠券删除
     "coupon_search"=>"admin/Bonus/coupon_search",  //优惠券商品搜索
+    "coupon_seek"=>"admin/Bonus/coupon_seek",  //优惠券搜索
 
 
 

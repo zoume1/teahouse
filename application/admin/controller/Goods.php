@@ -275,6 +275,11 @@ class Goods extends Controller
         $id = $request->only(["id"])["id"];
         $bool = db("goods")-> where("id", $id)->delete();
         $boole = db("special")->where("goods_id",$id)->delete();
+        $res = db("commodity")->where("goods_id",$id)->find();
+
+        if($res) {
+            db("commodity")->where("goods_id", $id)->delete();
+        }
 
         if ($bool && $boole) {
             $this->success("删除成功", url("admin/Goods/index"));
@@ -312,13 +317,13 @@ class Goods extends Controller
                     $goods_data["goods_show_images"] = $montage;
                 } else {                   
                     $montage = $liste;
-                    $goods_data["goods_show_images"] = $list[0];
+                    $goods_data["goods_show_image"] = $list[0];
                     $goods_data["goods_show_images"] = $montage;
                 }
             } else {
                     $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"])){
-                    $goods_data["goods_show_images"] = $image;
+                    $goods_data["goods_show_images"] = $image["goods_show_images"];
                 } else {
                     $goods_data["goods_show_images"] = NULL;
                     $goods_data["goods_show_image"] = NULL;
@@ -347,7 +352,7 @@ class Goods extends Controller
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));
             } else {
-                $this->success("更新失败", url('admin/Goods/edit'));
+                $this->success("更新失败", url('admin/Goods/index'));
             }
 
         }
@@ -375,6 +380,36 @@ class Goods extends Controller
             if ($status == 1) {
                 $id = $request->only(["id"])["id"];
                 $bool = db("goods")->where("id", $id)->update(["status" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/Goods/index"));
+                } else {
+                    $this->error("修改失败", url("admin/Goods/index"));
+                }
+            }
+        }
+    }
+
+
+    /**
+     * [商品列表组是否上架]
+     * 陈绪
+     */
+    public function ground(Request $request)
+    {
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("goods")->where("id", $id)->update(["label" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/Goods/index"));
+                } else {
+                    $this->error("修改失败", url("admin/Goods/index"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("goods")->where("id", $id)->update(["label" => 1]);
                 if ($bool) {
                     $this->redirect(url("admin/Goods/index"));
                 } else {

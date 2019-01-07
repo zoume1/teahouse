@@ -27,7 +27,7 @@
 
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Category/search')}">
+			<form class="layui-form" action="{:url('')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">输入搜索：</div>
@@ -70,7 +70,7 @@
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
 						<td>{$value.goods_number}</td>
 						<td class="">
-							<div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_images}" /></div>
+							<div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_image}" /></div>
 						</td>
 						<td>{$value.goods_name}</td>
 						<td>{$value.integral}</td>
@@ -84,10 +84,10 @@
 						<td>{$value.sort_number}</td>
 						<td>{$value.goods_repertory}</td>
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="bonus_edit"><i class="iconfont icon-edit"></i> 编辑
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Bonus/bonus_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
 							</a>
 						
-							<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+							<a href="{:url('admin/Bonus/bonus_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
 					{/volist}
