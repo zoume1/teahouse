@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 use think\Controller;
-//include('../extend/WxpayAPI/lib/WxPay.Api.php');
+include('../extend/WxpayAPI/lib/WxPay.Api.php');
 class Pay extends Controller {
     function index() {
         //         初始化值对象
