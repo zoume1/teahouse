@@ -27,6 +27,7 @@ Route::group("",[
     "my_index"=>"index/My/my_index",  //我的页面
     "wxpay"=>"index/WechatPay/wxpay",//微信支付测试
     "Wx_Pay"=>"index/Test/Wx_Pay", //测试
+    "wx_index"=>"index/Pay/index",//支付
     /*TODO:end*/
 
     /*TODO:地址管理开始*/
