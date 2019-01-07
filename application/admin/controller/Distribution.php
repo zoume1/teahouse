@@ -216,6 +216,8 @@ class  Distribution extends  Controller{
      * GY
      */
     public function record_index(){
+        //$record = db("order")->where("distribution",1)->select();//方便测试，后期再加上订单条件
+        //halt($record );
         return view('record_index');
     }
 
