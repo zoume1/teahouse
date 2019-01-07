@@ -2,9 +2,9 @@
 
 namespace app\index\controller;
 use think\Controller;
-include("/../extend/WxpayAPI/lib/WxPay.Api.php");
-include('/../extend/WxpayAPI/example/WxPay.NativePay.php');
-include('/../extend/WxpayAPI/example/log.php');
+include('../extend/WxpayAPI/lib/WxPay.Api.php');
+include('../extend/WxpayAPI/example/WxPay.NativePay.php');
+include('../extend/WxpayAPI/example/log.php');
 
 class Pay extends  Controller{
     function index() {
