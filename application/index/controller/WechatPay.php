@@ -57,6 +57,7 @@ class WechatPay extends Controller
         $data["out_trade_no"] = $out_trade_no;
         $data["spbill_create_ip"] = $this->get_client_ip(); //获取当前服务器的IP
         $sign = $this->getSign($data);  //微信支付签名
+            return ajax_success("ss",$sign);
         $data["sign"] = $sign;
         $xml = $this->arrayToXml($data);  //数组转化为xml
         $response = $this->postXmlCurl($xml, $url); //以post方式提交xml到对应的接口url
