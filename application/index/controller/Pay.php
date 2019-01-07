@@ -5,10 +5,9 @@ use think\Controller;
 //include('../extend/WxpayAPI/lib/WxPay.Api.php');
 //include('../extend/WxpayAPI/example/WxPay.NativePay.php');
 //include('../extend/WxpayAPI/example/log.php');
-require_once "WxPay.Exception.php";
-require_once "WxPay.Api.php";
-require_once "WxPay.Config.php";
-require_once "WxPay.Data.php";
+require "WxPay.Api.php";
+require "WxPay.Config.php";
+require "WxPay.Data.php";
 
 class Pay extends  Controller{
     function index() {
