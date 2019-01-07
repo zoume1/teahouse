@@ -1,6 +1,6 @@
 <?php
 namespace app\index\controller;
-use Think\Controller;
+use think\Controller;
 //include('../extend/WxpayAPI/lib/WxPay.Api.php');
 class Pay extends Controller {
     function index() {
