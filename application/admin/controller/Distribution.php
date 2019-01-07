@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Administrator
@@ -6,7 +7,7 @@
  * Time: 18:21
  */
 
-namespace  app\admin\controller;
+namespace app\admin\controller;
 
 use think\console\Input;
 use think\Controller;
@@ -15,7 +16,8 @@ use think\Request;
 use think\Image;
 use think\paginator\driver\Bootstrap;
 
-class  Distribution extends  Controller{
+class Distribution extends Controller
+{
 
     /**
      * [分销设置显示]
@@ -23,9 +25,9 @@ class  Distribution extends  Controller{
      */
     public function setting_index()
     {
-        $distribution = db("distribution") -> select();
-        
-        return view("setting_index",["distribution" =>$distribution ]);
+        $distribution = db("distribution")->select();
+
+        return view("setting_index", ["distribution" => $distribution]);
     }
 
 
@@ -35,9 +37,9 @@ class  Distribution extends  Controller{
      * GY
      */
     public function setting_edit($id)
-    {       
-        $setting = db("distribution") -> where("id",$id) -> select();    
-        return view("setting_edit",["setting" => $setting]);
+    {
+        $setting = db("distribution")->where("id", $id)->select();
+        return view("setting_edit", ["setting" => $setting]);
     }
 
 
@@ -70,10 +72,9 @@ class  Distribution extends  Controller{
     public function goods_index()
     {
 
-        $commodity = db("commodity") -> select();
-        foreach ($commodity as $key => $value)
-        {
-            $commodity[$key]["grade"] = explode(",",$commodity[$key]["grade"]);
+        $commodity = db("commodity")->select();
+        foreach ($commodity as $key => $value) {
+            $commodity[$key]["grade"] = explode(",", $commodity[$key]["grade"]);
         }
 
 
@@ -83,14 +84,14 @@ class  Distribution extends  Controller{
         $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
         $commodity = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
             'var_page' => 'page',
-            'path' => url('admin/Category/index'),//这里根据需要修改url
+            'path' => url('admin/Distribution/goods_index'),//这里根据需要修改url
             'query' => [],
             'fragment' => '',
         ]);
         $commodity->appends($_GET);
         $this->assign('commodity', $commodity->render());
 
-        return view('goods_index',["commodity"=> $commodity]);
+        return view('goods_index', ["commodity" => $commodity]);
 
     }
 
@@ -115,17 +116,17 @@ class  Distribution extends  Controller{
     public function goods_edit($id)
     {
 
-        $goods = db("commodity") -> where("id",$id) ->select();
-        $goods[0]["grade"] = explode(",",$goods[0]["grade"]);
-        $goods[0]["award"] = explode(",",$goods[0]["award"]);
-        $goods[0]["scale"] = explode(",",$goods[0]["scale"]);
-        $goods[0]["integral"] = explode(",",$goods[0]["integral"]);
-    
-        return view('goods_edit',["goods"=> $goods]);
+        $goods = db("commodity")->where("id", $id)->select();
+        $goods[0]["grade"] = explode(",", $goods[0]["grade"]);
+        $goods[0]["award"] = explode(",", $goods[0]["award"]);
+        $goods[0]["scale"] = explode(",", $goods[0]["scale"]);
+        $goods[0]["integral"] = explode(",", $goods[0]["integral"]);
+
+        return view('goods_edit', ["goods" => $goods]);
     }
 
 
-    
+
     /**
      * [分销商品编辑更新]
      * GY
@@ -135,11 +136,11 @@ class  Distribution extends  Controller{
 
         if ($request->isPost()) {
             $goods_data = $request->param();
-            $goods_data["rank"] = implode(",",$goods_data["rank"]);
-            $goods_data["grade"] = implode(",",$goods_data["grade"]);
-            $goods_data["award"] = implode(",",$goods_data["award"]);
-            $goods_data["scale"] = implode(",",$goods_data["scale"]);
-            $goods_data["integral"] = implode(",",$goods_data["integral"]);
+            $goods_data["rank"] = implode(",", $goods_data["rank"]);
+            $goods_data["grade"] = implode(",", $goods_data["grade"]);
+            $goods_data["award"] = implode(",", $goods_data["award"]);
+            $goods_data["scale"] = implode(",", $goods_data["scale"]);
+            $goods_data["integral"] = implode(",", $goods_data["integral"]);
 
             $bool = db("commodity")->where('id', $request->only(["id"])["id"])->update($goods_data);
             if ($bool) {
@@ -158,31 +159,28 @@ class  Distribution extends  Controller{
      */
     public function goods_save(Request $request)
     {
-        if ($request->isPost())
-         {
+        if ($request->isPost()) {
             $data = $request->param();
-            $des = db("goods") -> where("goods_number",$data["shop_number"])->field("id,goods_name,goods_show_images,goods_new_money")-> find();
-            $reste = db("commodity")->where("goods_id",$des["id"])->find();
-            $deny = explode(",",$des["goods_show_images"]);
+            $des = db("goods")->where("goods_number", $data["shop_number"])->field("id,goods_name,goods_show_images,goods_new_money")->find();
+            $reste = db("commodity")->where("goods_id", $des["id"])->find();
+            $deny = explode(",", $des["goods_show_images"]);
             $data["picture"] = $deny[0];
             $data["shop_name"] = $des["goods_name"];
             $data["goods_id"] = $des["id"];
-            
-            $data["rank"] = implode(",",$data["rank"]);
-            $data["grade"] = implode(",",$data["grade"]);
-            $data["award"] = implode(",",$data["award"]);
-            $data["scale"] = implode(",",$data["scale"]);
-            $data["integral"] = implode(",",$data["integral"]);
 
-            if(empty($data["shop_name"]))
-            {
+            $data["rank"] = implode(",", $data["rank"]);
+            $data["grade"] = implode(",", $data["grade"]);
+            $data["award"] = implode(",", $data["award"]);
+            $data["scale"] = implode(",", $data["scale"]);
+            $data["integral"] = implode(",", $data["integral"]);
+
+            if (empty($data["shop_name"])) {
                 $this->error("商品列表中没有该商品,请仔细核对后再添加", url("admin/Distribution/goods_add"));
             }
-            if(!empty($reste))
-            {
+            if (!empty($reste)) {
                 $this->error("该商品已经加入分销设置,请仔细核对后再添加", url("admin/Distribution/goods_add"));
             }
-         
+
             $bool = db("commodity")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Distribution/goods_index"));
@@ -207,6 +205,41 @@ class  Distribution extends  Controller{
         }
 
     }
+
+
+    /**
+     * [分销商品搜索]
+     * 郭杨
+     */
+    public function goods_search()
+    {
+        $ppd = input('goods');          //分销商品编号或名称
+        if (!empty($ppd)) {
+            $commodity = db("commodity")->where("shop_number", "like", "%" . $ppd . "%")->whereOr("shop_name", "like", "%" . $ppd . "%")->select();
+            foreach ($commodity as $key => $value) 
+            {
+                $commodity[$key]["grade"] = explode(",", $commodity[$key]["grade"]);
+            }
+        } else {
+            $commodity = db("commodity")->select();
+            foreach ($commodity as $key => $value) {
+                $commodity[$key]["grade"] = explode(",", $commodity[$key]["grade"]);
+            }
+        }
+        $all_idents = $commodity;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $commodity = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Distribution/goods_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+
+        return view('goods_index', ["commodity" => $commodity]);
+    }
+
     /**
      **************李火生*******************
      * @param Request $request
@@ -214,7 +247,8 @@ class  Distribution extends  Controller{
      **************************************
      * @return \think\response\View
      */
-    public function record_index(){
+    public function record_index()
+    {
         return view('record_index');
     }
 
@@ -226,7 +260,8 @@ class  Distribution extends  Controller{
      **************************************
      * @return \think\response\View
      */
-    public function member_index(){
+    public function member_index()
+    {
         return view('member_index');
     }
 
@@ -239,7 +274,8 @@ class  Distribution extends  Controller{
      **************************************
      * @return \think\response\View
      */
-    public function member_edit(){
+    public function member_edit()
+    {
         return view('member_edit');
     }
 
