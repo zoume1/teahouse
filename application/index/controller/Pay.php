@@ -4,7 +4,7 @@ use think\Controller;
 
 class Pay extends Controller {
     function index() {
-        include('../extend/WxpayAPI/lib/WxPay.Api.php');
+//        include('../extend/WxpayAPI/lib/WxPay.Api.php');
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
         //         文档提及的参数规范：商家名称-销售商品类目
