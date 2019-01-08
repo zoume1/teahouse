@@ -5,35 +5,12 @@
 {block name="css"}
 
 <style type="text/css">
-    img {
-        width: 100%;
-    }
+ 
     
     body {
         background: #fff;
     }
     
-    label {
-        text-align: left !important;
-    }
-    
-    .layui-form-item {
-        max-width: 100% !important;
-    }
-    
-    .layui-form-item {
-        width: 100%;
-        margin-bottom: 0;
-        margin-top: 0;
-    }
-    
-    .layui-form-label {
-        width: 26% !important;
-    }
-    
-    .layui-input-inline {
-        width: 70% !important;
-    }
     
     #page {
         width: 96%;
@@ -62,7 +39,7 @@
     {block name="content"}
 
     <div class="childrenBody">
-        <blockquote class="layui-elem-quote   ">
+        <blockquote class="layui-elem-quote">
             <div class="layui-form" action="{:url('admin/User/search')}">
                 <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
                 <span style="font-weight: bold;margin-left: 10px;">评论审核</span>
@@ -70,29 +47,29 @@
             </div>
         </blockquote>
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Comments/search')}">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">评论商品</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="zhanghu">
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">用户名</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="search_keys" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="nichwng">
+        		<form class="layui-form" action="{:url('admin/Comments/search')}">
+				<div class="seach">
+					<div class="seach_list">
+						<div class="seach_laber">评论商品：</div>
+						<div class="seach_input">
+						 <input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="zhanghu">
+                       
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">用户名：</div>
+						<div class="seach_input">
+							<input type="text" name="search_keys" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="nichwng">
 
-                        </div>
-                    </div>
+						</div>
+					</div>
+				
+					
+					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
+				</div>
 
-                    <div class="layui-inline">
-                        <button class="layui-btn search_btn" id="seach" type="submit">搜索</button>
-                    </div>
-                </div>
-
-            </form>
-
+			</form>
+     
         </blockquote>
         <div class="layui-inline">
             <a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Comments/add')}">评论积分设置</a>
@@ -201,7 +178,8 @@
                 } else if (opration_val == 1) {
                     layer.confirm('你确认要删除吗？', {
                         btn: ['确认', '取消'] //按钮
-                    }, function() {
+                    },  function(index) {
+						layer.close(index);
                         var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
                         for (var i = 0; i < child.length; i++) {
                             data_id.push($(child[i])[0].dataset.id);

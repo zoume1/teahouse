@@ -4,19 +4,19 @@
 
 {block name="css"}
 
-<style type="text/css">body {
-	background: #fff;
-}
-
-
-#page {
-	width: 96%;
-	height: 50px;
-	line-height: 50px;
-	border: solid 1px #E2E2E2;
-	padding-left: 50px;
-	background: #FDFDFE;
-}
+<style type="text/css">
+    body {
+        background: #fff;
+    }
+    
+    #page {
+        width: 96%;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #E2E2E2;
+        padding-left: 50px;
+        background: #FDFDFE;
+    }
 </style>
 
 {/block}
@@ -28,43 +28,32 @@
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="{:url('admin/Category/search')}">
-            			<div class="seach">
-					
-					<div class="seach_list">
-						<div class="seach_laber">活动分类</div>
-						<div class="seach_input">
-						   {if !empty($goods)}
-                            <select name="ppd" id="admin_role" class="role_list">
-								<option value="0">顶级</option>
-								{volist name="goods" id="vl"}
-								<option value="{$vl.id}">{$vl.name}</option>
-								{/volist}
-							</select> {else}
-                            <select name="ppd" class="role_list">
-								<option value="0">顶级</option>
-							</select>
-							 {/if}
-						</div>
-					</div>
-					<div class="seach_list">
-						<div class="seach_laber">分类状态</div>
-						<div class="seach_input">
-						     <select name="interest" id="admin_status">
+                <div class="seach">
+                    <div class="seach_list">
+                        <div class="seach_laber">输入搜索：</div>
+                        <div class="seach_input">
+                            <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="商品名称/商品货号" class="layui-input">
+
+                        </div>
+                    </div>
+                    <div class="seach_list">
+                        <div class="seach_laber">商品分类</div>
+                        <div class="seach_input">
+                            <select name="">
 								<option value="" selected="">全部</option>
 								<option value="1">已显示</option>
 								<option value="0">已禁用</option>
 							</select>
-						</div>
-					</div>
-					 <button class="layui-btn" type="submit" id="seach">立即搜索</button>
-				</div>
-           
+                        </div>
+                    </div>
+                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+                </div>
 
             </form>
         </blockquote>
-  
-                <a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/Category/add')}">添加分类</a>
-           
+
+        <a class="layui-btn layui-btn-danger batchDel" href="goods_add">添加商品</a>
+
         <div class="layui-form news_list">
             <table class="layui-table">
                 <colgroup>
@@ -79,30 +68,58 @@
                         <th>商品名称</th>
                         <th>商品品牌</th>
                         <th>商品分类</th>
+                        <th>价格</th>
+                        <th>标签</th>
                         <th>排序</th>
-                        <th>状态</th>
+                        <th>库存</th>
+                        <th>销量</th>
+                        <th>首页推荐</th>
+
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                    {volist name="category" id="value"}
+                    {volist name="goods" id="value"}
                     <tr>
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
-                        <td align="left">{$value.name} </td>
-                        <td>{if $value.pid !=0}{$value.names} {else} 顶级 {/if}</td>
-                        <td>
-                            <div style="width: 50px; height: 50px; margin: 0 auto;"><img src="__UPLOADS__/{$value.icon_image}" /></div>
+                        <td>{$value.goods_number}</td>
+                        <td class="">
+                            <div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_images}" /></div>
                         </td>
-                        <td><input type="color" name="color" id="" value="{$value.color}" disabled="disabled" /></td>
-                        <td>{$value.rank}</td>
-                        <td>{$value.sort_number}</td>
+                        <td>{$value.goods_name}</td>
+                        <td>{$value.brand}</td>
+                        <td>{if $value.pid !=0}{$value.named} {else} 无 {/if}</td>
+                        {if $value.goods_standard == 1}
+                        {if $value.min_price != $value.max_price}
+                        <td>￥{$value.min_price}-￥{$value.max_price}</td>
+                        {else}
+                        <td>￥{$value.min_price}</td>
+                        {/if}
+                        {/if}
+                        {if $value.goods_standard == 0}
+                        <td>￥{$value.goods_new_money}</td>
+                        {/if}
                         <td class="td-status">
-                            {if $value.status == 1} 已显示 {else} 已禁用 {/if}
+                            {if $value.label == 1}
+                            <input type="checkbox" class="Status" name="status" value="{$value.label}" lay-skin="switch" lay-text="上架|下架" lay-filter="isShows" checked data-id="{$value.id}"> 
+                            {else}
+                             <input type="checkbox" class="Status" name="status" value="{$value.label}" lay-skin="switch" lay-text="上架|上架" lay-filter="isShows" data-id="{$value.id}">
+                            {/if}
+                        </td>
+                        <td>{$value.sort_number}</td>
+                        <td>{$value.goods_repertory}</td>
+                        <td>{$value.goods_volume}</td>
+                        <td>
+                            {if $value.status == 0}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}"> {/if}
                         </td>
                         <td>
-                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Goods/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
 							</a>
-                            <a href="{:url('admin/Category/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                            <a class="layui-btn layui-btn-mini edit" href=""><i class="iconfont icon-edit"></i> 分销设置
+							</a>
+                            <a href="{:url('admin/Goods/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>
                     </tr>
                     {/volist}
@@ -217,7 +234,7 @@
                 }
                 form.render('checkbox');
             })
-
+        //   首页推荐
             form.on('switch(isShow)', function(data) {
                 if ($(this).val() == 0) {
                     $(this).val(1);
@@ -227,10 +244,35 @@
                 var vals = data.value;
                 var id = $(this).data("id");
                 var status = $(this).val();
-                console.log(status);
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Category/status')}",
+                    url: "{:url('admin/Goods/status')}",
+                    data: {
+                        "id": id,
+                        "status": status
+                    },
+                    success: function(data) {
+                        console.log("成功")
+                    },
+                    error: function(data) {
+                        console.log("错误")
+                    }
+                });
+
+            })
+            // 上架路由
+            form.on('switch(isShows)', function(data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+                var vals = data.value;
+                var id = $(this).data("id");
+                var status = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Goods/ground')}",
                     data: {
                         "id": id,
                         "status": status

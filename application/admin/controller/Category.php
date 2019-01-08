@@ -35,7 +35,6 @@ class Category extends Controller
         foreach ($category as $key => $value) {
             if ($value["pid"]) {
                 $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
-                //halt($res);
                 $category[$key]["names"] = $res["name"];
             }
         }
@@ -70,6 +69,7 @@ class Category extends Controller
         if ($pid == 0) {
             $goods_liste = getSelectList("goods_type");
         }
+
         return view("category_add", ["goods_liste" => $goods_liste]);
 
     }

@@ -25,10 +25,44 @@ Route::group("",[
     /*登录授权*/
     "wechatlogin"=>"index/Login/wechatlogin",  //登录授权
     "my_show_grade"=>"index/My/show_grade",  //会员等级
+    "my_qrcode"=>"index/My/qrcode",  //会员二维码
     "my_index"=>"index/My/my_index",  //我的页面
-    "wxpay"=>"index/WechatPay/wxpay",//微信支付测试
-    "Wx_Pay"=>"index/Test/Wx_Pay", //测试
+    "wx_index"=>"index/Pay/index",//小程序支付（活动）
     /*TODO:end*/
+
+    /*TODO:地址管理开始*/
+    "member_address_information"=>"index/Address/member_address_information", //所有地址列表数据返回
+    "member_address_adds"=>"index/Address/member_address_adds", //收货地址添加
+    "member_address_del"=>"index/Address/member_address_del", //收货地址删除
+    "member_address_edit_information"=>"index/Address/member_address_edit_information", //编辑地址数据返回
+    "member_address_edit"=>"index/Address/member_address_edit", //收货地址编辑操作
+    "member_address_status"=>"index/Address/member_address_status", //设置默认地址
+    "member_default_address_return"=>"index/Address/member_default_address_return", //购买页面默认地址返回或者选择其他地址
+
+    /*TODO:地址管理结束*/
+    /*TODO:订单开始*/
+    "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
+    "order_place"=>"index/Order/order_place",//下订单
+    "order_place_by_shopping"=>"index/Order/order_place_by_shopping",//购物车下订单
+    "order_detail"=>"index/Order/order_detail",//订单详情（未需要）
+    "order_detail_cancel"=>"index/Order/order_detail_cancel",//未付款判断时间是否过了订单设置的时间，过了则进行自动关闭（优惠券未实现）
+    "ios_api_order_all"=>"index/Order/ios_api_order_all",//我的所有订单
+
+
+
+
+
+    /*TODO:订单结束*/
+
+    /*TODO:购物车开始*/
+    "shopping_index"=>"index/Shopping/shopping_index",//购物车列表信息返回
+     "get_goods_id_to_shopping"=>"index/Shopping/get_goods_id_to_shopping",//获取商品id 存入购物车
+     "shopping_information_add"=>"index/Shopping/shopping_information_add",//购物车添加商品数量
+     "shopping_information_del"=>"index/Shopping/shopping_information_del",//购物车减少商品数量
+     "shopping_del"=>"index/Shopping/shopping_del",//购物车删除
+
+    /*TODO:购物车结束*/
+
 
     /*茶圈*/
     "teacenter_data"=>"index/TeaCenter/teacenter_data",          //茶圈父级显示
@@ -36,7 +70,14 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
-    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
+    "activity_order"=>"index/TeaCenter/activity_order",          //茶圈订单
+
+
+    /*商品管理*/
+    "commodity_index"=>"index/Commodity/commodity_index",        //商品分类
+    "commodity_list"=>"index/Commodity/commodity_list",          //商品列表
+    "commodity_detail"=>"index/Commodity/commodity_detail",      //商品详情
+    "commodity_recommend"=>"index/Commodity/commodity_recommend",//商品首页推荐
 ]);
 
 /**
@@ -67,17 +108,6 @@ Route::group("admin",[
     "admin_updata"=>"admin/admin/updata",
     "admin_status"=>"admin/admin/status",
     "admin_passwd"=>"admin/admin/passwd",
-
-
-    /**
-     * 商品
-     * 陈绪
-     */
-    "goods_index"=>"admin/Goods/index",
-    "goods_add"=>"admin/Goods/add",
-    "goods_save"=>"admin/Goods/save",
-    "goods_edit"=>"admin/Goods/edit",
-
 
 
     /*菜单列表*/
@@ -132,7 +162,20 @@ Route::group("admin",[
     "images_online_push"=>"admin/Photo/images_online_push", //上传图片库
     "photo_del"=>"admin/Photo/delete", //删除单张图片
     /* TODO:图片库结束*/
-	
+
+    /*TODO:订单开始*/
+    "order_index"=>"admin/Order/order_index",//初始订单页面
+    "order_integral"=>"admin/Order/order_integral",//积分订单
+    "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
+    "order_setting_update"=>"admin/Order/order_setting_update",//更新
+    "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
+    /*TODO:订单结束*/
+    /*TODO:评价开始*/
+    "evaluate_index"=>"admin/Evaluate/evaluate_index",//评价管理页面
+    "evaluate_edit"=>"admin/Evaluate/evaluate_edit",//评价编辑
+    "evaluate_setting"=>"admin/Evaluate/evaluate_setting",//评价积分设置
+    /*TODO:评价结束*/
+
 	 /*茶圈*/
     "category_index"=>"admin/Category/index",   //活动分类显示
     "category_add"=>"admin/Category/add",       //活动分类添加
@@ -171,16 +214,86 @@ Route::group("admin",[
      "active_order_index"=>"admin/ActiveOrder/index",   //活动订单显示
      "active_order_search"=>"admin/ActiveOrder/search", //评论管理组模糊搜索
 
+    /*商品列表*/
+    "goods_index"=>"admin/Goods/index",      //商品列表显示
+    "goods_add"=>"admin/Goods/add",          //商品列表组添加
+    "goods_save"=>"admin/Goods/save",        //商品列表组保存入库
+    "goods_edit"=>"admin/Goods/edit",        //商品列表组编辑
+    "goods_updata"=>"admin/Goods/updata",    //商品列表组更新
+    "goods_status"=>"admin/Goods/status",    //商品列表组首页推荐
+    "goods_ground"=>"admin/Goods/ground",    //商品列表组是否上架
+    "goods_del"=>"admin/Goods/del",          //商品列表组删除
+    "goods_dels"=>"admin/Goods/dels",        //商品列表组批量删除
+    "goods_search"=>"admin/Goods/search",    //商品列表组模糊搜索
+    "goods_images"=>"admin/Goods/images",    //商品列表组图片删除
+    "goods_photos"=>"admin/Goods/photos",    //商品列表规格图片删除
+    "goods_value"=>"admin/Goods/value",      //商品列表规格值修改
+    "goods_switches"=>"admin/Goods/switches",//商品列表规格开关
+    "goods_addphoto"=>"admin/Goods/addphoto",//商品列表规格图片添加
 
 
-    /**
-     * 商品分类
-     * 陈绪
-     */
+    /*商品分类*/
+    "goods_type_index"=>"admin/GoodsType/index",      //商品分类列表显示
+    "goods_type_add"=>"admin/GoodsType/add",          //商品分类列表增加
+    "goods_type_edit"=>"admin/GoodsType/edit",        //商品分类列表编辑
+    "goods_type_save"=>"admin/GoodsType/save",        //商品分类列表组入库
+    "goods_type_updata"=>"admin/GoodsType/updata",    //商品分类列表组更新
+    "goods_type_del"=>"admin/GoodsType/del",          //商品分类列表组删除 
+    "goods_type_ajax_add"=>"admin/GoodsType/ajax_add",//商品分类列表组ajax显示
+    "goods_type_dels"=>"admin/GoodsType/dels",        //商品分类列表组批量删除
+    "goods_type_search"=>"admin/GoodsType/search",    //商品分类列表组模糊搜索 
 
-    "goods_type_index"=>"admin/GoodsType/index",
-    "goods_type_add"=>"admin/GoodsType/add",
-    "goods_type_edit"=>"admin/GoodsType/edit",
+    /*TODO：分销开始*/
+    "distribution_setting_index"=>"admin/Distribution/setting_index",  //分销设置页面
+    "distribution_setting_edit"=>"admin/Distribution/setting_edit",    //分销设置页面编辑
+    "distribution_setting_updata"=>"admin/Distribution/setting_updata",//分销设置页面保存
+    "distribution_goods_index"=>"admin/Distribution/goods_index",      //分销商品页面
+    "distribution_goods_add"=>"admin/Distribution/goods_add",          //分销商品添加
+    "distribution_goods_edit"=>"admin/Distribution/goods_edit",        //分销商品编辑
+    "distribution_goods_save"=>"admin/Distribution/goods_save",        //分销商品添加入库
+    "distribution_goods_update"=>"admin/Distribution/goods_update",    //分销商品编辑更新
+    "distribution_goods_delete"=>"admin/Distribution/goods_delete",    //分销商品组删除
+    "distribution_record_index"=>"admin/Distribution/record_index",    //分销记录页面
+    "distribution_member_index"=>"admin/Distribution/member_index",    //分销成员页面
+    "distribution_member_edit"=>"admin/Distribution/member_edit",      //分销成员页面编辑
+    /*TODO：分销结束*/
+
+
+
+
+    /*积分商城*/
+    "bonus_index"=>"admin/Bonus/bonus_index",   //积分商城显示商品
+    "bonus_add"=>"admin/Bonus/bonus_add",       //积分商城添加商品
+    "bonus_save"=>"admin/Bonus/bonus_save",     //积分商城保存商品
+    "bonus_edit"=>"admin/Bonus/bonus_edit",     //积分商城编辑商品
+    "bonus_update"=>"admin/Bonus/bonus_update", //积分商城更新商品
+    "bonus_delete"=>"admin/Bonus/bonus_delete", //积分商城删除商品
+    "bonus_images"=>"admin/Bonus/bonus_images", //积分商城商品图片删除
+    "bonus_search"=>"admin/Bonus/bonus_search", //积分商城搜索商品
+
+
+    /*限时限购*/
+    "limitations_index"=>"admin/Limitations/limitations_index",    
+    "limitations_edit"=>"admin/Limitations/limitations_edit",      
+    "limitations_add"=>"admin/Limitations/limitations_add",
+       
+
+    /*优惠券*/
+    "coupon_index"=>"admin/Bonus/coupon_index",    //优惠券列表显示
+    "coupon_add"=>"admin/Bonus/coupon_add",        //优惠券添加
+    "coupon_save"=>"admin/Bonus/coupon_save",      //优惠券保存入库
+    "coupon_edit"=>"admin/Bonus/coupon_edit",      //优惠券编辑
+    "coupon_weave"=>"admin/Bonus/coupon_weave",    //优惠券添加商品编辑
+    "coupon_update"=>"admin/Bonus/coupon_update",  //优惠券编辑
+    "coupon_del"=>"admin/Bonus/coupon_del",        //优惠券删除
+    "coupon_search"=>"admin/Bonus/coupon_search",  //优惠券商品搜索
+    "coupon_seek"=>"admin/Bonus/coupon_seek",  //优惠券搜索
+
+
+
+    
+
+
 ]);
 
 Route::miss("public/miss");

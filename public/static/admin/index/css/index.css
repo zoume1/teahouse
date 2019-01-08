@@ -7,6 +7,10 @@
     url('../font/iconfont1/iconfont.ttf') format('truetype'), /* chromeÃ£â‚¬ÂfirefoxÃ£â‚¬ÂoperaÃ£â‚¬ÂSafari, Android, iOS 4.2+*/
     url('../font/iconfont1/iconfont.svg#uxiconfont') format('svg'); /* iOS 4.1- */
 }
+.red{
+	color: red;
+}
+
 /*修改layui样式*/
 .layui-table th{
     padding: 9px 14px;	
@@ -33,6 +37,14 @@ white-space: normal !important;
 .layui-inline{
 	line-height: 43px;
 }
+.line{
+	display: flex;
+	align-items: center;
+}
+.line input{
+	width: 200px;
+	margin-right: 20px;
+}
 /*搜索样式*/
 	.seach{
 		display: flex;
@@ -56,11 +68,14 @@ white-space: normal !important;
 	}
 	.seach .layui-btn{
 		width: 100px;
+		line-height: 35px !important;
+	height: 35px !important;
 	}
+	
 /*搜索样式*/
 /*保存列表页面样式*/
    .layui-form-lists{
-   	padding: 30px;
+   	padding: 11px;
    }
    .form-item{
    	display: flex;
@@ -72,16 +87,23 @@ white-space: normal !important;
    	color: #999999;
    }
    .form-input{
-   	width: 300px;
+   	display:;
+   	width: 734px;
    }
    .layui-form-lists .layui-btn{
    	width: 100px;
    }
    /*保存列表页面样式*/
+ .form-title{
+ 	padding: 10px;
+ 	background: #F2F2F2;
+ 	color: #333;
+ 	font-weight:;
+ }
 /*修改layui样式*/
 .tdimg{
 	width: 50px;
-	height: 50px;
+	/* height: 50px; */
 	margin: 0 auto;
 }
 .iconfont1{
@@ -149,6 +171,8 @@ a{
 }
 /*toubu*/
 .header{
+	width: 100%;
+	position: fixed;
 	color: #fff;
 	display: flex;
 	justify-content: space-between;
@@ -225,13 +249,15 @@ a{
 }
 
 .UCleft {
+	position: fixed;
 	margin-left: 10px;
 	margin-right: 10px;
 	height: 910px;
 	background: #fff;
+	min-width: 188px;
 	width: 13%;
 	float: left;
-	margin-top: 10px;
+	margin-top: 60px;
 }
 
 .UCleft-fixed {
@@ -277,7 +303,7 @@ a{
 }
 
 .UCleft dl dd p{
-	text-indent: 42px;
+	text-indent: 63px;
 	display: block;
 	line-height: 31px;
 	height: 31px;
@@ -482,9 +508,8 @@ a{
 .right-content{
 	float: right;
 	width: 84.5%;
-	height: 910px;
-	/* background: #fff; */
-	margin-top: 10px;
+	min-height: 500px;
+	margin-top: 60px;
 	margin-right: 10px;
 }
 .right-content-title{
@@ -506,7 +531,7 @@ a{
 }
 .recontent{
 	width: 100%;
-	min-height: 910px;
+	/* min-height: 911px; */
 	background: #fff;
 }
 .layui-elem-quote{
@@ -615,5 +640,5 @@ a{
 }
 
 .all {
-    min-width: 1400px;
+    min-width: 1352px;
 }

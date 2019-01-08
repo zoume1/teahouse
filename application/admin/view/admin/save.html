@@ -2,25 +2,7 @@
 
 {block name="css"}
 <style type="text/css">
-	.layui-form label {
-		width: 15%;
-		text-align: left;
-	}
-	
-	.layui-form .layui-input-block input {
-		width: 95%;
-	}
-	
-	.layui-form-label span {
-		color: red;
-	}
-	
-	.layui-form {
-		width: 80%;
-		margin: 0 auto;
-		padding-top: 40px;
-	}
-	
+
 	body {
 		background: #fff;
 	}
@@ -28,7 +10,7 @@
 	.layui-anim-upbit {
 		width: 95% !important;
 	}
-		.err{
+   .err{
 		    border: red solid 1px;
 	}
 
@@ -37,83 +19,82 @@
 {/block}
 <body>
 {block name="content"}
-<form class="layui-form" action="{:url('admin/admin/save')}" method="post">
-	<div class="layui-form-item ">
-		<label class="layui-form-label"><span>*</span>账号</label>
-		<div class="layui-input-block">
-			<input type="text" name="account" placeholder="请输入" class="layui-input" id="account">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label"><span>*</span>部门</label>
-		<div class="layui-input-block">
-			<input type="text" name="department" placeholder="请输入" class="layui-input" id="department">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label"><span>*</span>姓名</label>
-		<div class="layui-input-block">
-			<input type="text" name="name" placeholder="请输入" class="layui-input" id="name">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label"><span>*</span>性别</label>
-		<div class="layui-input-block" id="admin_sex">
+<form class="layui-form  layui-form-lists" action="{:url('admin/admin/save')}" method="post">
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>账号</label>
+			<div class="form-input">
+				<input type="text" name="account" placeholder="请输入" class="layui-input" id="account">
+			</div>
+		</div>	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>部门</label>
+			<div class="form-input">
+					<input type="text" name="department" placeholder="请输入" class="layui-input" id="department">
+			</div>
+		</div>	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>姓名</label>
+			<div class="form-input">
+				<input type="text" name="name" placeholder="请输入" class="layui-input" id="name">
+			</div>
+		</div>	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>性别</label>
+			<div class="form-input">
 			<input type="radio" name="sex" value="0" title="男">
 			<input type="radio" name="sex" value="1" title="女" checked>
+			</div>
+		</div>	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>密码</label>
+			<div class="form-input">
+				<input type="password" name="passwd" placeholder="请输入" class="layui-input" id="password">
+			</div>
+		</div>	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>密码确认</label>
+			<div class="form-input">
+				<input type="password"  placeholder="请输入" class="layui-input" id="repassword">
+			</div>
+		</div>	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>手机</label>
+			<div class="form-input">
+					<input type="text" name="phone" placeholder="请输入" class="layui-input"  id="phone">
+			</div>
+		</div>	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>邮箱</label>
+			<div class="form-input">
+					<input type="text" name="email" placeholder="请输入" class="layui-input" id="email">
+			</div>
 		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label"><span>*</span>密码</label>
-		<div class="layui-input-block">
-			<input type="password" name="passwd" placeholder="请输入" class="layui-input" id="password">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label"><span>*</span>密码确认</label>
-		<div class="layui-input-block">
-			<input type="password"  placeholder="请输入" class="layui-input" id="repassword">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label"><span>*</span>手机</label>
-		<div class="layui-input-block">
-			<input type="text" name="phone" placeholder="请输入" class="layui-input"  id="phone">
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label"><span>*</span>邮箱</label>
-		<div class="layui-input-block">
-			<input type="text" name="email" placeholder="请输入" class="layui-input" id="email">
-		</div>
-	</div>
-
-	<div class="layui-form-item">
-		<label class="layui-form-label"><span>*</span>角色</label>
-		<div class="layui-input-block" id="admin_role_id">
-			<select name="role_id" id="admin_role" class="role_list">
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>角色</label>
+			<div class="form-input">
+					<select name="role_id" id="admin_role" class="role_list">
 				{volist name="roleList" id="value"}
 				<option value="{$value.id}">{$value.name}</option>
 				{/volist}
 			</select>
-		</div>
-	</div>
-	<div class="layui-form-item">
-		<label class="layui-form-label"><span>*</span>状态</label>
-		<div class="layui-input-block">
-			<select name="status" id="admin_status">
+			</div>
+		</div>	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>状态</label>
+			<div class="form-input">
+					<select name="status" id="admin_status">
 				<option value="1" selected="">启用</option>
 				<option value="2">禁用</option>
 			</select>
+			</div>
+		</div>	
+			<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+			</div>
 		</div>
-	</div>
-
-	<div class="layui-form-item">
-		<div class="layui-input-block">
-			<button class="layui-btn" type="submit" id="submits">保存</button>
-			<button type="button" class="layui-btn" onClick="javascript :history.back(-1);"> 返回</button>
-		</div>
-	</div>
+	
 </form>
 {/block}
 
