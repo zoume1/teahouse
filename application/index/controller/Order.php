@@ -570,7 +570,7 @@ class  Order extends  Controller
                 //所有信息
 
                 foreach ($data_information['all'] as $a=>$b){
-                    $end_info[$a+$count]['info'] = $b;
+                    $end_info[$a+$count]['info'][] = $b;
                 }
                 //创建订单时间
                 foreach ($data_information['order_create_time'] as $a=>$b){
