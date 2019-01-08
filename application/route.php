@@ -19,14 +19,15 @@ use think\Route;
 Route::group("",[
     /*首页*/
     "/$"=>"index/index/index",
+    "weixin_notify"=>"index/index/index",
 
     /*TODO：start*/
     /*登录授权*/
     "wechatlogin"=>"index/Login/wechatlogin",  //登录授权
     "my_show_grade"=>"index/My/show_grade",  //会员等级
+    "my_qrcode"=>"index/My/qrcode",  //会员二维码
     "my_index"=>"index/My/my_index",  //我的页面
-    "wxpay"=>"index/WechatPay/wxpay",//微信支付测试
-    "Wx_Pay"=>"index/Test/Wx_Pay", //测试
+    "wx_index"=>"index/Pay/index",//小程序支付（活动）
     /*TODO:end*/
 
     /*TODO:地址管理开始*/
@@ -46,10 +47,13 @@ Route::group("",[
     "order_detail"=>"index/Order/order_detail",//订单详情（未需要）
     "order_detail_cancel"=>"index/Order/order_detail_cancel",//未付款判断时间是否过了订单设置的时间，过了则进行自动关闭（优惠券未实现）
     "ios_api_order_all"=>"index/Order/ios_api_order_all",//我的所有订单
-
-
-
-
+    "ios_api_order_wait_pay"=>"index/Order/ios_api_order_wait_pay",//我的待支付订单
+    "ios_api_order_wait_deliver"=>"index/Order/ios_api_order_wait_deliver",//我的待收货订单
+    "ios_api_order_wait_evaluate"=>"index/Order/ios_api_order_wait_evaluate",//我待评价订单
+    "ios_api_order_return_goods"=>"index/Order/ios_api_order_return_goods",//我的退货接口ajax订单
+    "ios_api_order_collect_goods"=>"index/Order/ios_api_order_collect_goods",//买家确认收货
+    "ios_api_order_del"=>"index/Order/ios_api_order_del",//买家删除订单接口(ajax)
+    "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
 
     /*TODO:订单结束*/
 
@@ -69,7 +73,8 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
-    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
+    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈订单
+    "activity_order"=>"index/TeaCenter/activity_order",          //茶圈订单
 
     /*商品管理*/
     "commodity_index"=>"index/Commodity/commodity_index",        //商品分类
@@ -219,6 +224,7 @@ Route::group("admin",[
     "goods_edit"=>"admin/Goods/edit",        //商品列表组编辑
     "goods_updata"=>"admin/Goods/updata",    //商品列表组更新
     "goods_status"=>"admin/Goods/status",    //商品列表组首页推荐
+    "goods_ground"=>"admin/Goods/ground",    //商品列表组是否上架
     "goods_del"=>"admin/Goods/del",          //商品列表组删除
     "goods_dels"=>"admin/Goods/dels",        //商品列表组批量删除
     "goods_search"=>"admin/Goods/search",    //商品列表组模糊搜索
@@ -264,7 +270,9 @@ Route::group("admin",[
     "bonus_save"=>"admin/Bonus/bonus_save",     //积分商城保存商品
     "bonus_edit"=>"admin/Bonus/bonus_edit",     //积分商城编辑商品
     "bonus_update"=>"admin/Bonus/bonus_update", //积分商城更新商品
-    "bonus_delete"=>"admin/Bonus/bonus_delete",     //积分商城删除商品
+    "bonus_delete"=>"admin/Bonus/bonus_delete", //积分商城删除商品
+    "bonus_images"=>"admin/Bonus/bonus_images", //积分商城商品图片删除
+    "bonus_search"=>"admin/Bonus/bonus_search", //积分商城搜索商品
 
 
     /*限时限购*/
@@ -282,6 +290,7 @@ Route::group("admin",[
     "coupon_update"=>"admin/Bonus/coupon_update",  //优惠券编辑
     "coupon_del"=>"admin/Bonus/coupon_del",        //优惠券删除
     "coupon_search"=>"admin/Bonus/coupon_search",  //优惠券商品搜索
+    "coupon_seek"=>"admin/Bonus/coupon_seek",  //优惠券搜索
 
 
 

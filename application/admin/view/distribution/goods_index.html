@@ -113,10 +113,14 @@
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
                         <td>{$value.shop_number}</td>
                         <td>{$value.shop_name}</td>
+                        {if $value.grade[0]==0 }
                         <td>{$value.grade[0]}</td>
-                        <td>{$value.grade[1]}</td>
-                        <td>{$value.grade[2]}</td>
-                        <td>{$value.grade[3]}</td>
+                        {else}
+                        <td>{$value.grade[0]}%</td>
+                        {/if}
+                        <td>{$value.grade[1]}%</td>
+                        <td>{$value.grade[2]}%</td>
+                        <td>{$value.grade[3]}%</td>
                         <td>
                             {if $value.status == 0}
                             <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}

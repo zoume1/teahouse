@@ -158,26 +158,17 @@ class  Distribution extends  Controller{
      */
     public function goods_save(Request $request)
     {
-        if ($request->isPost()) {
+        if ($request->isPost())
+         {
             $data = $request->param();
-            $top = $data["grade"];
-            $res = array("zero" ,"first" ,"second","third");
-            $des = db("goods") -> where("goods_number",$data["shop_number"])->field("goods_name,goods_show_images,goods_new_money")-> find();
+            $des = db("goods") -> where("goods_number",$data["shop_number"])->field("id,goods_name,goods_show_images,goods_new_money")-> find();
+            $bool = db("goods")->where("goods_number",$data["shop_number"])->update(["distribution" => 1]);
+            $reste = db("commodity")->where("goods_id",$des["id"])->find();
             $deny = explode(",",$des["goods_show_images"]);
             $data["picture"] = $deny[0];
             $data["shop_name"] = $des["goods_name"];
-            $data["shop_price"] = $des["goods_new_money"];
-
-            foreach ($top as $key => $value)
-            {
-                $top[$key] = str_replace('%','',$value);
-            }
-            $array = array_combine($res,$top);
-
-            foreach ($array as $k => $v)
-            {
-                $array[$k] = ($v * $des["goods_new_money"])/100;
-            }
+            $data["goods_id"] = $des["id"];
+            
             $data["rank"] = implode(",",$data["rank"]);
             $data["grade"] = implode(",",$data["grade"]);
             $data["award"] = implode(",",$data["award"]);
@@ -186,12 +177,14 @@ class  Distribution extends  Controller{
 
             if(empty($data["shop_name"]))
             {
-                $this->error("商品列表中没有该商品，请仔细核对后再添加", url("admin/Distribution/goods_add"));
+                $this->error("商品列表中没有该商品,请仔细核对后再添加", url("admin/Distribution/goods_add"));
             }
-
-            $distribution = array_merge($data, $array);
-            $bool = db("commodity")->insert($distribution);
-
+            if(!empty($reste))
+            {
+                $this->error("该商品已经加入分销设置,请仔细核对后再添加", url("admin/Distribution/goods_add"));
+            }
+         
+            $bool = db("commodity")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Distribution/goods_index"));
             } else {
@@ -208,31 +201,47 @@ class  Distribution extends  Controller{
     public function goods_delete($id)
     {
         $bool = db("commodity")->where("id", $id)->delete();
-        if ($bool) {
+        $goods_id = db("commodity")->where("id", $id)->value("goods_id");
+        $boole = db("goods")->where("id",$goods_id)->update(["distribution" => 0]);
+        if ($bool && $boole) {
             $this->success("删除成功", url("admin/Distribution/goods_index"));
         } else {
             $this->error("删除失败", url("admin/Distribution/goods_index"));
         }
 
     }
+
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销记录页面
-     **************************************
-     * @return \think\response\View
+     * [分销记录页面]
+     * GY
      */
     public function record_index(){
-        return view('record_index');
+        $record = db("order")->where("distribution",1)->where("status",2)->select();//方便测试，后期再加上订单条件(已付款)
+        foreach($record as $key => $value) {
+            $record[$key]["higher_level"] = db("member")->where("member_id", $record[$key]["member_id"])->value("inviter_id");//上一级member_id
+            $record[$key]["phone_numbers"] = db("member")->where("member_id", $record[$key]["higher_level"])->value("member_phone_num");//上一级手机号（用户账号）
+            $record[$key]["goods_number"] = db("goods")->where("id", $record[$key]["goods_id"])->value("goods_number");//商品编号
+        }
+       //halt($record);
+
+        $all_idents = $record;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $record = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Distribution/record_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $record->appends($_GET);
+        $this->assign('record', $record->render());
+        return view('record_index',["record"=>$record]);
     }
 
-
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销成员页面
-     **************************************
-     * @return \think\response\View
+     * [分销成员页面]
+     * GY
      */
     public function member_index(){
         return view('member_index');
@@ -241,11 +250,8 @@ class  Distribution extends  Controller{
 
 
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销成员页面编辑
-     **************************************
-     * @return \think\response\View
+     * [分销成员编辑页面]
+     * GY
      */
     public function member_edit(){
         return view('member_edit');
