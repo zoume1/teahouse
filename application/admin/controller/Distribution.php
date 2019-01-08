@@ -216,7 +216,27 @@ class  Distribution extends  Controller{
      * GY
      */
     public function record_index(){
-        return view('record_index');
+        $record = db("order")->where("distribution",1)->where("status",2)->select();//方便测试，后期再加上订单条件(已付款)
+        foreach($record as $key => $value) {
+            $record[$key]["higher_level"] = db("member")->where("member_id", $record[$key]["member_id"])->value("inviter_id");//上一级member_id
+            $record[$key]["phone_numbers"] = db("member")->where("member_id", $record[$key]["higher_level"])->value("member_phone_num");//上一级手机号（用户账号）
+            $record[$key]["goods_number"] = db("goods")->where("id", $record[$key]["goods_id"])->value("goods_number");//商品编号
+        }
+       //halt($record);
+
+        $all_idents = $record;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $record = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Distribution/record_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $record->appends($_GET);
+        $this->assign('record', $record->render());
+        return view('record_index',["record"=>$record]);
     }
 
     /**

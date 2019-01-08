@@ -19,11 +19,13 @@ use think\Route;
 Route::group("",[
     /*首页*/
     "/$"=>"index/index/index",
+    "weixin_notify"=>"index/index/index",
 
     /*TODO：start*/
     /*登录授权*/
     "wechatlogin"=>"index/Login/wechatlogin",  //登录授权
     "my_show_grade"=>"index/My/show_grade",  //会员等级
+    "my_qrcode"=>"index/My/qrcode",  //会员二维码
     "my_index"=>"index/My/my_index",  //我的页面
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
     /*TODO:end*/
@@ -68,7 +70,8 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
-    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
+    "activity_order"=>"index/TeaCenter/activity_order",          //茶圈订单
+
 
     /*商品管理*/
     "commodity_index"=>"index/Commodity/commodity_index",        //商品分类
