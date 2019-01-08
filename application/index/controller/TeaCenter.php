@@ -199,4 +199,38 @@ class TeaCenter extends Controller
 
 
     }
+
+
+    /**
+     * [茶圈活动订单]
+     * 郭杨
+     */
+    public function activity_order(Request $request)
+    {
+        if ($request->isPost()){
+            $data = $request->param();
+//            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid,status,open_request')->where("label", 1)->where('status',1)->order("start_time")->select();
+//            foreach($data as $key => $value){
+//                if($value){
+//                    $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
+//                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name,color")->find();
+//                    $data[$key]["names"] = $rest["name"];
+//                    $data[$key]["named"] = $retsd["name"];
+//                    $data[$key]["color"] = $retsd["color"];
+//                    $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
+//                }
+//            }
+//
+            if (!empty($data)) {
+                return ajax_success('传输成功', $data);//Activity order
+            } else {
+                return ajax_error("数据为空");
+
+            }
+
+
+        }
+
+
+    }
 }
