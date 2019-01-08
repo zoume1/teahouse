@@ -208,21 +208,15 @@ class TeaCenter extends Controller
     public function activity_order(Request $request)
     {
         if ($request->isPost()){
-            $data = $request->param();
-//            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid,status,open_request')->where("label", 1)->where('status',1)->order("start_time")->select();
-//            foreach($data as $key => $value){
-//                if($value){
-//                    $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
-//                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name,color")->find();
-//                    $data[$key]["names"] = $rest["name"];
-//                    $data[$key]["named"] = $retsd["name"];
-//                    $data[$key]["color"] = $retsd["color"];
-//                    $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
-//                }
-//            }
-//
-            if (!empty($data)) {
-                return ajax_success('传输成功', $data);//Activity order
+            $activity_id = $request->only(['activity_id'])['activity_id'];
+            $open_id = $request->only(['open_id'])['open_id'];
+            $data = db("teahost")->where('id',$activity_id)->find();
+            $account = db("member")->where('member_openid',$open_id)->value('member_phone_num');
+            $data['member_openid'] =  $open_id;
+            $data['member_phone_num'] =  $account;
+            $bool = db("activity_order")->insert($data);
+            if (!empty($bool)) {
+                return ajax_success('传输成功', $data);
             } else {
                 return ajax_error("数据为空");
 
