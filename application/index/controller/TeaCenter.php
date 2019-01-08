@@ -210,12 +210,11 @@ class TeaCenter extends Controller
         if ($request->isPost()){
             $activity_id = $request->only(['activity_id'])['activity_id'];
             $open_id = $request->only(['open_id'])['open_id'];
-            $data = db("teahost")->where('id',$activity_id)->field("activity_name,classify_image,address,class_name,cost_moneny,start_time,peoples")->find();
+            $data = db("teahost")->where('id',$activity_id)->field("activity_name,classify_image,address,pid,cost_moneny,start_time,peoples")->find();
             $account = db("member")->where('member_openid',$open_id)->value('member_phone_num');
             $data['member_openid'] =  $open_id;
             $data['account'] =  $account;
             $bool = db("activity_order")->insert($data);
-            
             if (!empty($bool)) {
                 return ajax_success('传输成功', $data);
             } else {
