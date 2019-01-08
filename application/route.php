@@ -19,6 +19,7 @@ use think\Route;
 Route::group("",[
     /*首页*/
     "/$"=>"index/index/index",
+    "weixin_notify"=>"index/index/index",
 
     /*TODO：start*/
     /*登录授权*/
