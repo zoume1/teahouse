@@ -10,6 +10,13 @@ include('../extend/WxpayAPI/example/log.php');
 
 
 class Pay extends  Controller{
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:小程序活动支付
+     **************************************
+     * @param Request $request
+     */
     function index(Request $request) {
         $open_ids = $request->param("open_id");//open_id
         $activity_name = $request->param("activity_name");//名称
