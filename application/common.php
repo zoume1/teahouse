@@ -470,6 +470,26 @@ function show_category($arr){
     }
 }
 
+function recursionArre($arr,$pid = 0,$level=0) {
+    $array = [];
+    foreach ($arr as $value) {
+        if ($value['inviter_id'] == $pid) {
+            $value['level'] = $level;
+            $value['child'] = recursionArre($arr,$value['member_id'],$level+1);
+            $value['member_grade_id'] = count($value['child']);
+            $array[] = $value;           
+        }
+    }
+    //$array['shuliang'] = count($array['child']);
+    return $array;
+}
+
+
+
+       
+
+
+
 /**
  * 发送HTTP请求方法
  * @param  string $url    请求URL

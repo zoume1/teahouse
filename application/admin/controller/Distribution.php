@@ -24,6 +24,24 @@ class  Distribution extends  Controller{
     public function setting_index()
     {
         $distribution = db("distribution") -> select();
+        //刷新页面
+        $members = db("member")->field("member_id,member_name,member_grade_id,member_grade_name,inviter_id,rank")->select();
+        foreach($members as $k=>$v){
+            if(!empty($v['inviter_id'])){ //判断是否有一级member_id
+             $e = db("member")->where("member_id", $members[$k]['inviter_id'])->field("rank")->update(["rank" => 1]);//将上一级用户更新为1级
+             $members[$k]['rank_one'] = db("member")->where("member_id", $v["inviter_id"])->value("inviter_id");//找到上一级的inviter_id 
+                   
+            if(!empty($members[$k]['rank_one'])){
+             $r = db("member")->where("member_id", $members[$k]['rank_one'])->field("rank")->update(["rank" => 2]);  
+             $members[$k]['rank_two'] = db("member")->where("member_id", $members[$k]['rank_one'])->value("inviter_id");
+            
+            if(!empty($members[$k]['rank_two'])){
+             $s = db("member")->where("member_id", $members[$k]['rank_two'])->field("rank")->update(["rank" => 3]);
+             $members[$k]['rank_two'] = db("member")->where("member_id", $members[$k]['rank_one'])->value("inviter_id");//上2级账号id          
+            }
+         }
+        } 
+     }
         
         return view("setting_index",["distribution" =>$distribution ]);
     }
@@ -222,7 +240,50 @@ class  Distribution extends  Controller{
             $record[$key]["phone_numbers"] = db("member")->where("member_id", $record[$key]["higher_level"])->value("member_phone_num");//上一级手机号（用户账号）
             $record[$key]["goods_number"] = db("goods")->where("id", $record[$key]["goods_id"])->value("goods_number");//商品编号
         }
-       //halt($record);
+
+
+    
+ 
+    
+        
+    //    $type = _tree_sort(recursionArre($members),'member_id');
+ 
+    //    foreach ($type as $key => $value) {
+    //     if (isset($value['child'])) {//是否有子集
+    //         $bool = db("member")->where("member_id", $value["member_id"])->field("rank")->update(["rank" =>1]);//有下一级用户,更新为1级
+            
+    //         foreach($value['child'] as $k => $v){
+    //             if (isset($value[$k]['child'])) {//是否有子集
+    //                 $boole = db("member")->where("member_id", $value[$k]["member_id"])->field("rank")->update(["rank" => 1]);//有下一级用户,更新为1级
+    //                 $one = db("member")->where("member_id", $value[$k]["rank_zero"])->field("rank")->update(["rank" => 2]);//上一级用户更新为2级
+    //                 halt(2);
+    //                 foreach($v as $q => $w){           
+    //                     if (count($w['child'])) {//是否有子集
+    //                         $w = db("member")->where("member_id", $v[$q]["member_id"])->field("rank")->update(["rank" => 1]);//有下一级用户,更新为1级
+    //                         $e = db("member")->where("member_id", $v[$q]["rank_one"])->field("rank")->update(["rank" => 2]);//上一级用户更新为2级
+    //                         $p = db("member")->where("member_id", $v[$q]["rank_two"])->field("rank")->update(["rank" => 3]);//上一级用户更新为3级
+
+    //                         foreach($w as $e => $r){           
+    //                             if (count($r['child'])) {//是否有子集
+    //                                 $c = db("member")->where("member_id", $w[$e]["member_id"])->field("rank")->update(["rank" => 1]);//有下一级用户,更新为1级
+    //                                 $v = db("member")->where("member_id", $w[$e]["rank_one"])->field("rank")->update(["rank" => 2]);//上一级用户更新为2级
+    //                                 $b = db("member")->where("member_id", $w[$e]["rank_two"])->field("rank")->update(["rank" => 3]);//上一级用户更新为3级
+    //                             }else {
+    //                                 $c = db("member")->where("member_id", $r[$e]["member_id"])->field("rank")->update(["rank" => 0]);//没有
+    //                             }
+    //                         }
+    //                     }else {
+    //                         $w = db("member")->where("member_id", $v[$q]["member_id"])->field("rank")->update(["rank" => 0]);//没有
+    //                     }
+    //                 } 
+    //             } 
+    //         } 
+    //     } else {
+    //         $bool = db("member")->where("member_id", $value["member_id"])->field("rank")->update(["rank" => 0]);//没有
+    //     }
+    // }
+
+
 
         $all_idents = $record;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
