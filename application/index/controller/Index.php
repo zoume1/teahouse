@@ -9,4 +9,9 @@ class Index extends Controller
     {
         return view("index");
     }
+
+
+    public function text(){
+        return view("text");
+    }
 }

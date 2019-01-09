@@ -81,6 +81,9 @@ Route::group("",[
     "commodity_list"=>"index/Commodity/commodity_list",          //商品列表
     "commodity_detail"=>"index/Commodity/commodity_detail",      //商品详情
     "commodity_recommend"=>"index/Commodity/commodity_recommend",//商品首页推荐
+
+    /*测试接口*/
+    "index_text"=>"index/index/text"
 ]);
 
 /**
