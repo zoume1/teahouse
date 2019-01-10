@@ -768,6 +768,181 @@ class  Order extends  Controller
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:我的待发货订单
+     **************************************
+     * @param Request $request
+     */
+    public function   ios_api_order_wait_send(Request $request)
+    {
+        if ($request->isPost()) {
+            $open_id =$request->only("open_id")["open_id"]; //用户open_ID
+            $member_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+            if(empty($member_id)){
+                exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
+            }
+            $condition ="`status` = '2' or `status` = '3'";
+            $data = Db::name('order')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id')
+                ->where('member_id', $member_id)
+                ->where($condition)
+                ->order('order_create_time', 'desc')
+                ->group('parts_order_number')
+                ->select();
+            foreach ($data as $key=>$value) {
+                if (strpos($value["order_id"], ",")) {
+                    $order_id = explode(',', $value["order_id"]);
+                    foreach ($order_id as $k=>$v){
+                        $return_data_info[] = Db::name('order')
+                            ->where('id', $v)
+                            ->where('member_id', $member_id)
+                            ->order('order_create_time', 'desc')
+                            ->find();
+                    }
+                    foreach ($return_data_info as $ke => $item) {
+                        $parts_order_number_all[$ke] = $item['parts_order_number'];
+                    }
+                    $unique_order_number = array_merge(array_unique($parts_order_number_all));
+
+                    foreach ( $unique_order_number as $da_k =>$da_v){
+                        $order_data['info'][$da_k] = Db::name('order')
+                            ->where('member_id', $member_id)
+                            ->where('parts_order_number', $da_v)
+                            ->order('order_create_time', 'desc')
+                            ->select();
+                        $names = Db::name("order")
+                            ->where("parts_order_number", $da_v)
+                            ->where("member_id", $member_id)
+                            ->find();
+                        $order_data['status'][$da_k] = $names['status'];
+                        $order_data["parts_order_number"][$da_k] = $names["parts_order_number"];
+                        $order_data["all_order_real_pay"][$da_k] = $names["order_real_pay"];
+                        $order_data["order_create_time"][$da_k] = $names["order_create_time"];
+                        foreach ($order_data["info"] as $kk => $vv) {
+                            $order_data["all_numbers"][$kk] = array_sum(array_map(create_function('$vals', 'return $vals["order_quantity"];'), $vv));
+                        }
+                    }
+                } else {
+                    $return_data = Db::name('order')
+                        ->where('id', $value['order_id'])
+                        ->find();
+                    $data_information["all_order_real_pay"][] = $return_data["order_real_pay"];
+                    $data_information["all_numbers"][] = $return_data["order_quantity"];
+                    $data_information['status'][] = $return_data['status'];
+                    $data_information['parts_order_number'][] = $return_data['parts_order_number'];
+                    $data_information['order_create_time'][] = $value['order_create_time'];
+                    $data_information['all'][] = Db::name('order')
+                        ->where('id', $value['order_id'])
+                        ->find();
+                }
+            }
+            if(!empty($order_data)){
+
+                //所有信息
+                foreach ($order_data["info"] as $i=>$j){
+                    if(!empty($j)){
+                        $new_arr[] =$j;
+                    }
+                }
+                foreach ($new_arr as $i=>$j){
+                    $end_info[$i]["info"] =$j;
+                }
+                //状态值
+                foreach ($order_data['status'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_status[] = $j;
+                    }
+                }
+                foreach ($new_arr_status as $i=>$j){
+                    $end_info[$i]['status'] = $j;
+                }
+                //实际支付的金额
+                foreach ($order_data['all_order_real_pay'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_pay[] =$j;
+                    }
+                }
+                foreach ($new_arr_pay as $i=>$j){
+                    $end_info[$i]['all_order_real_pay'] = $j;
+                }
+                //总数量
+                foreach ($order_data['all_numbers'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_all_numbers[] =$j;
+                    }
+                }
+                foreach ($new_arr_all_numbers as $i=>$j){
+                    $end_info[$i]['all_numbers'] = $j;
+                }
+
+                //订单编号
+                foreach ($order_data['parts_order_number'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_all_order_number[] =$j;
+                    }
+                }
+                foreach ($new_arr_all_order_number as $i=>$j){
+                    $end_info[$i]['parts_order_number'] = $j;
+                }
+
+                //订单创建时间
+                foreach ($order_data['order_create_time'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_order_create_time[] =$j;
+                    }
+                }
+                foreach ($new_arr_order_create_time as $i=>$j){
+                    $end_info[$i]['order_create_times'] = $j;
+                }
+            }
+            if(!empty($data_information)){
+                if(!empty($new_arr)){
+                    $count =count($new_arr);
+                }else{
+                    $count =0;
+                }
+                //支付状态
+                foreach ($data_information['status'] as $a=>$b){
+                    $end_info[$a+$count]['status'] = $b;
+                }
+                //总支付
+                foreach ($data_information['all_order_real_pay'] as $a=>$b){
+                    $end_info[$a+$count]['all_order_real_pay'] = $b;
+                }
+                //所有数量
+                foreach ($data_information['all_numbers'] as $a=>$b){
+                    $end_info[$a+$count]['all_numbers'] = $b;
+                }
+                //订单编号
+                foreach ($data_information['parts_order_number'] as $a=>$b){
+                    $end_info[$a+$count]['parts_order_number'] = $b;
+                }
+                //所有信息
+
+                foreach ($data_information['all'] as $a=>$b){
+                    $end_info[$a+$count]['info'][] = $b;
+                }
+                //创建订单时间
+                foreach ($data_information['order_create_time'] as $a=>$b){
+                    $end_info[$a+$count]['order_create_times'] = $b;
+                }
+            }
+            if (!empty($end_info)) {
+                $ords =array();
+                foreach ($end_info as $vl){
+                    $ords[] =$vl["order_create_times"];
+                }
+                array_multisort($end_info,SORT_DESC,$ords);
+                return ajax_success('数据', $end_info);
+            } else {
+                return ajax_error('没数据');
+            }
+
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:我的待收货订单
      **************************************
      * @param Request $request
@@ -780,7 +955,7 @@ class  Order extends  Controller
             if(empty($member_id)){
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
-            $condition ="`status` = '2' or `status` = '3' or `status` = '4' or `status` = '5' ";
+            $condition =" `status` = '4' or `status` = '5' ";
             $data = Db::name('order')
                 ->field('parts_order_number,order_create_time,group_concat(id) order_id')
                 ->where('member_id', $member_id)
@@ -1115,179 +1290,7 @@ class  Order extends  Controller
         }
     }
 
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:退货接口ajax
-     **************************************
-     * @param Request $request
-     */
-    public function   ios_api_order_return_goods(Request $request)
-    {
-        if ($request->isPost()) {
-            $open_id =$request->only("open_id")["open_id"]; //用户open_ID
-            $member_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
-            if(empty($member_id)){
-                exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
-            }
-            $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id')
-                ->where('member_id', $member_id)
-                ->where('status',11)
-                ->order('order_create_time', 'desc')
-                ->group('parts_order_number')
-                ->select();
-            foreach ($data as $key=>$value) {
-                if (strpos($value["order_id"], ",")) {
-                    $order_id = explode(',', $value["order_id"]);
-                    foreach ($order_id as $k=>$v){
-                        $return_data_info[] = Db::name('order')
-                            ->where('id', $v)
-                            ->where('member_id', $member_id)
-                            ->order('order_create_time', 'desc')
-                            ->find();
-                    }
-                    foreach ($return_data_info as $ke => $item) {
-                        $parts_order_number_all[$ke] = $item['parts_order_number'];
-                    }
-                    $unique_order_number = array_merge(array_unique($parts_order_number_all));
 
-                    foreach ( $unique_order_number as $da_k =>$da_v){
-                        $order_data['info'][$da_k] = Db::name('order')
-                            ->where('member_id', $member_id)
-                            ->where('parts_order_number', $da_v)
-                            ->order('order_create_time', 'desc')
-                            ->select();
-                        $names = Db::name("order")
-                            ->where("parts_order_number", $da_v)
-                            ->where("member_id", $member_id)
-                            ->find();
-                        $order_data['status'][$da_k] = $names['status'];
-                        $order_data["parts_order_number"][$da_k] = $names["parts_order_number"];
-                        $order_data["all_order_real_pay"][$da_k] = $names["order_real_pay"];
-                        $order_data["order_create_time"][$da_k] = $names["order_create_time"];
-                        foreach ($order_data["info"] as $kk => $vv) {
-                            $order_data["all_numbers"][$kk] = array_sum(array_map(create_function('$vals', 'return $vals["order_quantity"];'), $vv));
-                        }
-                    }
-                } else {
-                    $return_data = Db::name('order')
-                        ->where('id', $value['order_id'])
-                        ->find();
-                    $data_information["all_order_real_pay"][] = $return_data["order_real_pay"];
-                    $data_information["all_numbers"][] = $return_data["order_quantity"];
-                    $data_information['status'][] = $return_data['status'];
-                    $data_information['parts_order_number'][] = $return_data['parts_order_number'];
-                    $data_information['order_create_time'][] = $value['order_create_time'];
-                    $data_information['all'][] = Db::name('order')
-                        ->where('id', $value['order_id'])
-                        ->find();
-                }
-            }
-            if(!empty($order_data)){
-
-                //所有信息
-                foreach ($order_data["info"] as $i=>$j){
-                    if(!empty($j)){
-                        $new_arr[] =$j;
-                    }
-                }
-                foreach ($new_arr as $i=>$j){
-                    $end_info[$i]["info"] =$j;
-                }
-                //状态值
-                foreach ($order_data['status'] as $i => $j) {
-                    if(!empty($j)){
-                        $new_arr_status[] = $j;
-                    }
-                }
-                foreach ($new_arr_status as $i=>$j){
-                    $end_info[$i]['status'] = $j;
-                }
-                //实际支付的金额
-                foreach ($order_data['all_order_real_pay'] as $i => $j) {
-                    if(!empty($j)){
-                        $new_arr_pay[] =$j;
-                    }
-                }
-                foreach ($new_arr_pay as $i=>$j){
-                    $end_info[$i]['all_order_real_pay'] = $j;
-                }
-                //总数量
-                foreach ($order_data['all_numbers'] as $i => $j) {
-                    if(!empty($j)){
-                        $new_arr_all_numbers[] =$j;
-                    }
-                }
-                foreach ($new_arr_all_numbers as $i=>$j){
-                    $end_info[$i]['all_numbers'] = $j;
-                }
-
-                //订单编号
-                foreach ($order_data['parts_order_number'] as $i => $j) {
-                    if(!empty($j)){
-                        $new_arr_all_order_number[] =$j;
-                    }
-                }
-                foreach ($new_arr_all_order_number as $i=>$j){
-                    $end_info[$i]['parts_order_number'] = $j;
-                }
-
-                //订单创建时间
-                foreach ($order_data['order_create_time'] as $i => $j) {
-                    if(!empty($j)){
-                        $new_arr_order_create_time[] =$j;
-                    }
-                }
-                foreach ($new_arr_order_create_time as $i=>$j){
-                    $end_info[$i]['order_create_times'] = $j;
-                }
-            }
-            if(!empty($data_information)){
-                if(!empty($new_arr)){
-                    $count =count($new_arr);
-                }else{
-                    $count =0;
-                }
-                //支付状态
-                foreach ($data_information['status'] as $a=>$b){
-                    $end_info[$a+$count]['status'] = $b;
-                }
-                //总支付
-                foreach ($data_information['all_order_real_pay'] as $a=>$b){
-                    $end_info[$a+$count]['all_order_real_pay'] = $b;
-                }
-                //所有数量
-                foreach ($data_information['all_numbers'] as $a=>$b){
-                    $end_info[$a+$count]['all_numbers'] = $b;
-                }
-                //订单编号
-                foreach ($data_information['parts_order_number'] as $a=>$b){
-                    $end_info[$a+$count]['parts_order_number'] = $b;
-                }
-                //所有信息
-
-                foreach ($data_information['all'] as $a=>$b){
-                    $end_info[$a+$count]['info'][] = $b;
-                }
-                //创建订单时间
-                foreach ($data_information['order_create_time'] as $a=>$b){
-                    $end_info[$a+$count]['order_create_times'] = $b;
-                }
-            }
-            if (!empty($end_info)) {
-                $ords =array();
-                foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
-                }
-                array_multisort($end_info,SORT_DESC,$ords);
-                return ajax_success('数据', $end_info);
-            } else {
-                return ajax_error('没数据');
-            }
-
-        }
-    }
 
 
     /**
@@ -1305,7 +1308,7 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $parts_order_number =$request->only("parts_order_number")["parts_order_number"];//订单编号
-            if(!empty($store_id)&&!empty($parts_order_number)){
+            if(!empty($parts_order_number)){
                 $res =Db::name("order")
                     ->where("member_id",$member_id)
                     ->where("parts_order_number",$parts_order_number)
@@ -1345,7 +1348,7 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $parts_order_number =$request->only("parts_order_number")["parts_order_number"];//订单编号
-            if(!empty($store_id)&&!empty($parts_order_number)){
+            if(!empty($parts_order_number)){
                 $res =Db::name("order")
                     ->where("parts_order_number",$parts_order_number)
                     ->where("member_id",$member_id)
@@ -1384,7 +1387,7 @@ class  Order extends  Controller
             }
             $cancel_order_description =$request->only('cancel_order_description')["cancel_order_description"];//取消原因
             $parts_order_number =$request->only("parts_order_number")["parts_order_number"];//订单编号
-            if(!empty($store_id)&&!empty($parts_order_number)){
+            if(!empty($parts_order_number)){
                 $res =Db::name("order")
                     ->where("parts_order_number",$parts_order_number)
                     ->where("member_id",$member_id)
