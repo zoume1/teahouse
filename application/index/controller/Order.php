@@ -1308,7 +1308,7 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $parts_order_number =$request->only("parts_order_number")["parts_order_number"];//订单编号
-            if(!empty($store_id)&&!empty($parts_order_number)){
+            if(!empty($parts_order_number)){
                 $res =Db::name("order")
                     ->where("member_id",$member_id)
                     ->where("parts_order_number",$parts_order_number)
@@ -1348,7 +1348,7 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $parts_order_number =$request->only("parts_order_number")["parts_order_number"];//订单编号
-            if(!empty($store_id)&&!empty($parts_order_number)){
+            if(!empty($parts_order_number)){
                 $res =Db::name("order")
                     ->where("parts_order_number",$parts_order_number)
                     ->where("member_id",$member_id)
@@ -1387,7 +1387,7 @@ class  Order extends  Controller
             }
             $cancel_order_description =$request->only('cancel_order_description')["cancel_order_description"];//取消原因
             $parts_order_number =$request->only("parts_order_number")["parts_order_number"];//订单编号
-            if(!empty($store_id)&&!empty($parts_order_number)){
+            if(!empty($parts_order_number)){
                 $res =Db::name("order")
                     ->where("parts_order_number",$parts_order_number)
                     ->where("member_id",$member_id)
