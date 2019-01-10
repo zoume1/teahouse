@@ -48,6 +48,7 @@ Route::group("",[
     "order_detail_cancel"=>"index/Order/order_detail_cancel",//未付款判断时间是否过了订单设置的时间，过了则进行自动关闭（优惠券未实现）
     "ios_api_order_all"=>"index/Order/ios_api_order_all",//我的所有订单
     "ios_api_order_wait_pay"=>"index/Order/ios_api_order_wait_pay",//我的待支付订单
+    "ios_api_order_wait_send"=>"index/Order/ios_api_order_wait_send",//我的待发货订单
     "ios_api_order_wait_deliver"=>"index/Order/ios_api_order_wait_deliver",//我的待收货订单
     "ios_api_order_wait_evaluate"=>"index/Order/ios_api_order_wait_evaluate",//我待评价订单
     "ios_api_order_return_goods"=>"index/Order/ios_api_order_return_goods",//我的退货接口ajax订单
