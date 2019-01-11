@@ -25,23 +25,41 @@ class  Distribution extends  Controller{
     {
         $distribution = db("distribution") -> select();
         //刷新页面
-        $members = db("member")->field("member_id,member_name,member_grade_id,member_grade_name,inviter_id,rank")->select();
+        $members = db("member")->field("member_id,member_name,member_grade_id,member_grade_name,inviter_id")->select();
         foreach($members as $k=>$v){
-            if(!empty($v['inviter_id'])){ //判断是否有一级member_id
-             $e = db("member")->where("member_id", $members[$k]['inviter_id'])->field("rank")->update(["rank" => 1]);//将上一级用户更新为1级
-             $members[$k]['rank_one'] = db("member")->where("member_id", $v["inviter_id"])->value("inviter_id");//找到上一级的inviter_id 
-                   
+            if(!empty($members[$k]['inviter_id'])){ 
+             $members[$k]['rank_one'] = $members[$k]['inviter_id'];
             if(!empty($members[$k]['rank_one'])){
-             $r = db("member")->where("member_id", $members[$k]['rank_one'])->field("rank")->update(["rank" => 2]);  
-             $members[$k]['rank_two'] = db("member")->where("member_id", $members[$k]['rank_one'])->value("inviter_id");
-            
-            if(!empty($members[$k]['rank_two'])){
-             $s = db("member")->where("member_id", $members[$k]['rank_two'])->field("rank")->update(["rank" => 3]);
-             $members[$k]['rank_two'] = db("member")->where("member_id", $members[$k]['rank_one'])->value("inviter_id");//上2级账号id          
+             $members[$k]['rank_two'] = db("member")->where("member_id", $members[$k]['rank_one'])->value("inviter_id");//1021=>1024
+
+            if(!empty($members[$k]['rank_two']) ){
+                $members[$k]['rank_three'] = db("member")->where("member_id", $members[$k]['rank_two'])->value("inviter_id");//1021=>1024
+                       
             }
-         }
-        } 
+          }
+        }
      }
+     
+     foreach( $members as $k => $y){        
+        $bool = db("member")->update($members[$k]);
+     }
+     
+//      foreach($members as $k=>$v){
+//         if(!empty($members[$k]['inviter_id'])){ //判断是否有一级member_id  1025=>1046
+//          $e = db("member")->where("member_id", $members[$k]['inviter_id'])->field("rank")->update(["rank" => 1]);//将上一级用户更新为1级1046       
+//          $j =  db("member")->where("member_id", $members[$k]['inviter_id'])->value("inviter_id");  //找到上一级的邀请码 1021
+//         if(!empty($j) &&  ($j != 0)){
+//          $r = db("member")->where("member_id", $j)->field("rank")->update(["rank" => 2]);//1021=>2级  
+//          $z = db("member")->where("member_id", $j)->value("inviter_id");//1021=>1024
+
+//         if(!empty($z) &&  ($z != 0) ){
+//          $s = db("member")->where("member_id", $z)->field("rank")->update(["rank" => 3]);//1024=>3级
+//          //$members[$k]['rank_two'] = db("member")->where("member_id", $members[$k]['rank_one'])->value("inviter_id");//上2级账号id          
+//         }
+//       }
+//     } 
+//  }
+     
         
         return view("setting_index",["distribution" =>$distribution ]);
     }
@@ -239,7 +257,16 @@ class  Distribution extends  Controller{
             $record[$key]["higher_level"] = db("member")->where("member_id", $record[$key]["member_id"])->value("inviter_id");//上一级member_id
             $record[$key]["phone_numbers"] = db("member")->where("member_id", $record[$key]["higher_level"])->value("member_phone_num");//上一级手机号（用户账号）
             $record[$key]["goods_number"] = db("goods")->where("id", $record[$key]["goods_id"])->value("goods_number");//商品编号
+            if(empty($record[$key]["higher_level"])){
+                $rest = db("distribution") -> where("id",1)->find();
+                $record[$key]["commission"] = ($rest['grade']/100);
+                $record[$key]["money"] = round(($rest['grade'] * $record[$key]['order_real_pay']/100),2);
+                $record[$key]["integral"] = $rest['scale'];//积分比例
+                $record[$key]["integrals"] = round($rest['scale'] * $record[$key]['order_real_pay']/100);//积分
+            }
         }
+       
+      
 
 
     
@@ -247,6 +274,7 @@ class  Distribution extends  Controller{
     
         
     //    $type = _tree_sort(recursionArre($members),'member_id');
+    //    halt( $type);
  
     //    foreach ($type as $key => $value) {
     //     if (isset($value['child'])) {//是否有子集
@@ -305,7 +333,36 @@ class  Distribution extends  Controller{
      * GY
      */
     public function member_index(){
-        return view('member_index');
+        $member = db("member") -> select();
+        foreach($member as $key => $value) {
+            $member[$key]["higher_inviter"] = db("member")->where("member_id", $member[$key]["member_id"])->value("inviter_id");//上一级member_id
+            $member[$key]["phone_numbers"] = db("member")->where("member_id", $member[$key]["higher_inviter"])->value("member_phone_num");//上一级手机号（用户账号)
+            $member[$key]["count_money"] = db("order")->where("member_id", $member[$key]["member_id"])->where("distribution",1)->where("status",2)->sum("order_real_pay");
+            $member[$key]["count_money"] = round($member[$key]["count_money"],2);
+            $member[$key]["one_number"] = db("member")->where("rank_one", $member[$key]["member_id"])->count("rank_one");
+            $member[$key]["two_number"] = db("member")->where("rank_two", $member[$key]["member_id"])->count("rank_two");
+            $member[$key]["three_number"] = db("member")->where("rank_three", $member[$key]["member_id"])->count("rank_three");
+            if($member[$key]["one_number"] == 0){ //说明该用户未参与分销活动
+                unset($member[$key]);
+            }           
+            
+        }
+        
+        //$type = _tree_sort(recursionArre($member),'member_id');
+        
+        $all_idents = $member;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $member = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Distribution/member_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $member->appends($_GET);
+        $this->assign('member',$member->render());
+        return view('member_index',["member"=>$member]);
     }
 
 
