@@ -111,8 +111,8 @@
                     {volist name="commodity" id="value"}
                     <tr>
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
-                        <td>{$value.shop_number}</td>
-                        <td>{$value.shop_name}</td>
+                        <td>{$value.goods_number}</td>
+                        <td>{$value.goods_name}</td>
                         {if $value.grade[0]==0 }
                         <td>{$value.grade[0]}</td>
                         {else}

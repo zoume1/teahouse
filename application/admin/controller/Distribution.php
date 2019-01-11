@@ -160,6 +160,7 @@ class  Distribution extends  Controller{
         return view('goods_edit',["goods"=> $goods]);
     }
 
+ 
 
     
     /**
@@ -197,31 +198,27 @@ class  Distribution extends  Controller{
         if ($request->isPost())
          {
             $data = $request->param();
-            $des = db("goods") -> where("goods_number",$data["shop_number"])->field("id,goods_name,goods_show_images,goods_new_money")-> find();
-            $bool = db("goods")->where("goods_number",$data["shop_number"])->update(["distribution" => 1]);
-            $reste = db("commodity")->where("goods_id",$des["id"])->find();
-            $deny = explode(",",$des["goods_show_images"]);
-            $data["picture"] = $deny[0];
-            $data["shop_name"] = $des["goods_name"];
-            $data["goods_id"] = $des["id"];
-            
-            $data["rank"] = implode(",",$data["rank"]);
-            $data["grade"] = implode(",",$data["grade"]);
-            $data["award"] = implode(",",$data["award"]);
-            $data["scale"] = implode(",",$data["scale"]);
-            $data["integral"] = implode(",",$data["integral"]);
+            if(!empty($data["goods_id"])){
+                foreach($data["goods_id"] as $key => $value)
+                {
+                    $goods[$key] = db("goods")->where("id",$data["goods_id"][$key])->field("id,goods_number,goods_show_image,goods_name")->find();
+                    $bool = db("goods")->where("id",$data["goods_id"][$key])->update(["distribution" => 1]);
+                    $goods[$key]["rank"] = implode(",",$data["rank"]);
+                    $goods[$key]["grade"] = implode(",",$data["grade"]);
+                    $goods[$key]["scale"] = implode(",",$data["scale"]);
+                    $goods[$key]["integral"] = implode(",",$data["integral"]);
+                    $goods[$key]["award"] = implode(",",$data["award"]);
+                    $goods[$key]["status"] = $data["status"];                   
+                    $goods[$key]["way"] = $data["way"];
+                    $goods[$key]["goods_id"] = $goods[$key]["id"];
+                    unset($goods[$key]["id"]);
+                }
+            }
 
-            if(empty($data["shop_name"]))
-            {
-                $this->error("商品列表中没有该商品,请仔细核对后再添加", url("admin/Distribution/goods_add"));
-            }
-            if(!empty($reste))
-            {
-                $this->error("该商品已经加入分销设置,请仔细核对后再添加", url("admin/Distribution/goods_add"));
-            }
-         
-            $bool = db("commodity")->insert($data);
-            if ($bool) {
+         foreach($goods as $k => $v){
+            $boole = db("commodity")->insert($v);
+         }
+            if ($boole) {
                 $this->success("添加成功", url("admin/Distribution/goods_index"));
             } else {
                 $this->error("添加失败", url("admin/Distribution/goods_add"));
