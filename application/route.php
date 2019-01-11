@@ -261,6 +261,7 @@ Route::group("admin",[
     "distribution_goods_delete"=>"admin/Distribution/goods_delete",    //分销商品组删除
     "distribution_record_index"=>"admin/Distribution/record_index",    //分销记录页面
     "distribution_member_index"=>"admin/Distribution/member_index",    //分销成员页面
+    "distribution_member_add"=>"admin/Distribution/member_add",        //分销成员添加
     "distribution_member_edit"=>"admin/Distribution/member_edit",      //分销成员页面编辑
     /*TODO：分销结束*/
 

@@ -233,10 +233,10 @@ class  Distribution extends  Controller{
      */
     public function goods_delete($id)
     {
-        $bool = db("commodity")->where("id", $id)->delete();
         $goods_id = db("commodity")->where("id", $id)->value("goods_id");
         $boole = db("goods")->where("id",$goods_id)->update(["distribution" => 0]);
-        if ($bool && $boole) {
+        $bool = db("commodity")->where("id", $id)->delete();
+        if ($bool) {
             $this->success("删除成功", url("admin/Distribution/goods_index"));
         } else {
             $this->error("删除失败", url("admin/Distribution/goods_index"));
@@ -363,6 +363,14 @@ class  Distribution extends  Controller{
     }
 
 
+
+    /**
+     * [分销成员添加]
+     * GY
+     */
+    public function member_add(){
+        return view('member_add');
+    }
 
     /**
      * [分销成员编辑页面]
