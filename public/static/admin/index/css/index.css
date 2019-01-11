@@ -12,6 +12,9 @@
 }
 
 /*修改layui样式*/
+.layui-form-switch em{
+	font-size: 10px;
+}
 .layui-table th{
     padding: 9px 14px;	
 }
