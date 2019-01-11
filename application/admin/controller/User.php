@@ -87,7 +87,7 @@ class User extends Controller{
      * @param $id
      */
     public function del($id){
-        $bool = db("member_grade")->where("member_id", $id)->delete();
+        $bool = db("member")->where("member_id", $id)->delete();
         if ($bool) {
             $this->success("删除成功", url("admin/User/index"));
         } else {
