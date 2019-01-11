@@ -56,12 +56,29 @@ class Login extends Controller{
                     $data['member_grade_name'] =$grade_name['member_grade_name'];
                     $bool =Db::name('member')->insertGetId($data);
                     if($bool){
-                        return ajax_success('返回数据成功',$errCode);
+                        $member_grade_info =Db::name("member_grade")
+                            ->field("member_grade_name,member_grade_img,member_grade_id")
+                            ->where("member_grade_id",1)
+                            ->find();
+                        $info_data =[
+                            "member_grade_info"=>$member_grade_info,
+                            "openid"=>$errCode['openId']
+                        ];
+                        return ajax_success('返回数据成功',$info_data);
                     }else{
                         return ajax_success('返回数据失败',['status'=>0]);
                     }
                 }else{
-                    return ajax_error('该用户已经注册过，请不要重复注册',$errCode['openId']);
+                    //已注册则进行登录
+                    $member_grade_info =Db::name("member_grade")
+                        ->field("member_grade_name,member_grade_img,member_grade_id")
+                        ->where("member_grade_id",$is_register["member_grade_id"])
+                        ->find();
+                    $data =[
+                        "member_grade_info"=>$member_grade_info,
+                        "openid"=>$errCode['openId']
+                    ];
+                    return ajax_error('该用户已经注册过，请不要重复注册',$data);
                 }
             }else{
                 return ajax_error('没有数据',['status'=>0]);

@@ -48,9 +48,9 @@ Route::group("",[
     "order_detail_cancel"=>"index/Order/order_detail_cancel",//未付款判断时间是否过了订单设置的时间，过了则进行自动关闭（优惠券未实现）
     "ios_api_order_all"=>"index/Order/ios_api_order_all",//我的所有订单
     "ios_api_order_wait_pay"=>"index/Order/ios_api_order_wait_pay",//我的待支付订单
+    "ios_api_order_wait_send"=>"index/Order/ios_api_order_wait_send",//我的待发货订单
     "ios_api_order_wait_deliver"=>"index/Order/ios_api_order_wait_deliver",//我的待收货订单
     "ios_api_order_wait_evaluate"=>"index/Order/ios_api_order_wait_evaluate",//我待评价订单
-    "ios_api_order_return_goods"=>"index/Order/ios_api_order_return_goods",//我的退货接口ajax订单
     "ios_api_order_collect_goods"=>"index/Order/ios_api_order_collect_goods",//买家确认收货
     "ios_api_order_del"=>"index/Order/ios_api_order_del",//买家删除订单接口(ajax)
     "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
@@ -73,7 +73,7 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
-    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈订单
+    "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
     "activity_order"=>"index/TeaCenter/activity_order",          //茶圈订单
 
     /*商品管理*/
@@ -81,6 +81,9 @@ Route::group("",[
     "commodity_list"=>"index/Commodity/commodity_list",          //商品列表
     "commodity_detail"=>"index/Commodity/commodity_detail",      //商品详情
     "commodity_recommend"=>"index/Commodity/commodity_recommend",//商品首页推荐
+
+    /*测试接口*/
+    "index_text"=>"index/index/text"
 ]);
 
 /**

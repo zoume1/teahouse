@@ -208,29 +208,26 @@ class TeaCenter extends Controller
     public function activity_order(Request $request)
     {
         if ($request->isPost()){
-            $data = $request->param();
-//            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid,status,open_request')->where("label", 1)->where('status',1)->order("start_time")->select();
-//            foreach($data as $key => $value){
-//                if($value){
-//                    $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
-//                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name,color")->find();
-//                    $data[$key]["names"] = $rest["name"];
-//                    $data[$key]["named"] = $retsd["name"];
-//                    $data[$key]["color"] = $retsd["color"];
-//                    $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
-//                }
-//            }
-//
-            if (!empty($data)) {
-                return ajax_success('传输成功', $data);//Activity order
+            $activity_id = $request->only(['activity_id'])['activity_id'];
+            $open_id = $request->only(['open_id'])['open_id'];
+            $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+            $data = db("teahost")->where('id',$activity_id)->field("activity_name,classify_image,address,pid,cost_moneny,start_time,peoples")->find();
+            $account = db("member")->where('member_openid',$open_id)->value('member_phone_num');
+
+            $time=date("Y-m-d",time());
+            $v=explode('-',$time);
+            $time_second=date("H:i:s",time());
+            $vs=explode(':',$time_second);
+            $parts_order_number =$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+            $data['member_openid'] =  $open_id;
+            $data['account'] =  $account;
+            $data['parts_order_number'] =  $parts_order_number;
+            $bool = db("activity_order")->insert($data);
+            if (!empty($bool)) {
+                return ajax_success('传输成功', $data);
             } else {
                 return ajax_error("数据为空");
-
             }
-
-
         }
-
-
     }
 }
