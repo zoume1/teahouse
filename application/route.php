@@ -293,7 +293,7 @@ Route::group("admin",[
     "coupon_update"=>"admin/Bonus/coupon_update",  //优惠券编辑
     "coupon_del"=>"admin/Bonus/coupon_del",        //优惠券删除
     "coupon_search"=>"admin/Bonus/coupon_search",  //优惠券商品搜索
-    "coupon_seek"=>"admin/Bonus/coupon_seek",  //优惠券搜索
+    "coupon_seek"=>"admin/Bonus/coupon_seek",      //优惠券搜索
 
 
 

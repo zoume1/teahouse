@@ -18,7 +18,7 @@ class  Limitations extends  Controller{
      */
     public function limitations_index() 
     {
-               
+        $limit = db("limit")->select();
         return view('limitations_index');
     }
 
