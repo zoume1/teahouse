@@ -19,6 +19,7 @@ use think\Route;
 Route::group("",[
     /*首页*/
     "/$"=>"index/index/index",
+    "weixin_notify"=>"index/index/index",
 
     /*TODO：start*/
     /*登录授权*/
@@ -46,10 +47,13 @@ Route::group("",[
     "order_detail"=>"index/Order/order_detail",//订单详情（未需要）
     "order_detail_cancel"=>"index/Order/order_detail_cancel",//未付款判断时间是否过了订单设置的时间，过了则进行自动关闭（优惠券未实现）
     "ios_api_order_all"=>"index/Order/ios_api_order_all",//我的所有订单
-
-
-
-
+    "ios_api_order_wait_pay"=>"index/Order/ios_api_order_wait_pay",//我的待支付订单
+    "ios_api_order_wait_send"=>"index/Order/ios_api_order_wait_send",//我的待发货订单
+    "ios_api_order_wait_deliver"=>"index/Order/ios_api_order_wait_deliver",//我的待收货订单
+    "ios_api_order_wait_evaluate"=>"index/Order/ios_api_order_wait_evaluate",//我待评价订单
+    "ios_api_order_collect_goods"=>"index/Order/ios_api_order_collect_goods",//买家确认收货
+    "ios_api_order_del"=>"index/Order/ios_api_order_del",//买家删除订单接口(ajax)
+    "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
 
     /*TODO:订单结束*/
 
@@ -70,12 +74,16 @@ Route::group("",[
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
     "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
+    "activity_order"=>"index/TeaCenter/activity_order",          //茶圈订单
 
     /*商品管理*/
     "commodity_index"=>"index/Commodity/commodity_index",        //商品分类
     "commodity_list"=>"index/Commodity/commodity_list",          //商品列表
     "commodity_detail"=>"index/Commodity/commodity_detail",      //商品详情
     "commodity_recommend"=>"index/Commodity/commodity_recommend",//商品首页推荐
+
+    /*测试接口*/
+    "index_text"=>"index/index/text"
 ]);
 
 /**
@@ -253,8 +261,10 @@ Route::group("admin",[
     "distribution_goods_delete"=>"admin/Distribution/goods_delete",    //分销商品组删除
     "distribution_goods_search"=>"admin/Distribution/goods_search",    //分销商品组搜素
     "distribution_record_index"=>"admin/Distribution/record_index",    //分销记录页面
-    "distribution_member_index"=>"admin/Distribution/member_index",    //分销成员页面
-    "distribution_member_edit"=>"admin/Distribution/member_edit",      //分销成员页面编辑
+    "distribution_member_index"=>"admin/Member/member_index",          //分销成员页面
+    "distribution_member_add"=>"admin/Member/member_add",              //分销成员添加
+    "distribution_member_edit"=>"admin/Member/member_edit",            //分销成员页面编辑
+    "distribution_member_save"=>"admin/Member/member_save",            //分销成员保存入库
     /*TODO：分销结束*/
 
 
@@ -272,9 +282,14 @@ Route::group("admin",[
 
 
     /*限时限购*/
-    "limitations_index"=>"admin/Limitations/limitations_index",    
-    "limitations_edit"=>"admin/Limitations/limitations_edit",      
-    "limitations_add"=>"admin/Limitations/limitations_add",
+    "limitations_index"=>"admin/Limitations/limitations_index",  //限时限购列表显示  
+    "limitations_edit"=>"admin/Limitations/limitations_edit",    //限时限购编辑 
+    "limitations_add"=>"admin/Limitations/limitations_add",      //限时限购添加商品
+    "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加limitations_weave
+    "limitations_weave"=>"admin/Limitations/limitations_weave",  //限时限购编辑商品
+    "limitations_update"=>"admin/Limitations/limitations_update",//限时限购更新
+    "limitations_delete"=>"admin/Limitations/limitations_delete",//限时限购删除
+    "limitations_search"=>"admin/Limitations/limitations_search",//限时限购删除
        
 
     /*优惠券*/

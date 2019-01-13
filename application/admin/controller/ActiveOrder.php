@@ -18,7 +18,7 @@ class  ActiveOrder extends  Controller{
      */    
     public function index(){
 
-        $active = db("teahost")->select();        
+        $active = db("activity_order")->select();        
         foreach($active as $key => $value){
             if($value["pid"]){
                 $res = db("goods_type")->where("id",$value['pid'])->field("name")->find();

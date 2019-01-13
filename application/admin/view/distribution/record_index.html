@@ -95,25 +95,26 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+					{volist name="record" id="value"}
 					<tr>
-						<td>1000001</td>
-						
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+						<td>{$value.goods_number}</td>						
+						<td>{$value.parts_goods_name}</td>
+						<td>{if !empty($value.user_phone_number)}{$value.user_phone_number}{else}无{/if}</td>
+						<td>{$value.parts_order_number}</td>
+						<td>￥{$value.order_real_pay}</td>
+						<td>{if empty($value.higher_level)}0{else}1{/if}</td>
+						<td>{if empty($value.higher_level)}{$value.commission}{else}1{/if}</td>
+						<td>{if empty($value.higher_level)}{$value.money}{else}1{/if}</td>
+						<td>{if empty($value.higher_level)}{$value.integral}{else}2{/if}</td>
+						<td>{if empty($value.higher_level)}{$value.integrals}{else}3{/if}</td>
+						<td>{$value.pay_time|date="Y-m-d H:i",###}</td>
+						<td>{if !empty($value.phone_numbers)}{$value.phone_numbers}{else}无{/if}</td>
 						
 					</tr>
+					{/volist}
 				</tbody>
 			</table>
-		
+			{$record}
 		</div>
 
 	</div>

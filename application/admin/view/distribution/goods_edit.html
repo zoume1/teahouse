@@ -48,21 +48,21 @@
         <div class="form-item">
             <label class="form-label">商品编号</label>
             <div class="form-input">
-                <p style="line-height: 38px;">{$value.shop_number} </p>
+                <p style="line-height: 38px;">{$value.goods_number} </p>
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">商品名称</label>
             <div class="form-input">
-                <p style="line-height: 38px;">{$value.shop_name}</p>
+                <p style="line-height: 38px;">{$value.goods_name}</p>
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">主图</label>
             <div class="form-input">
-                {if $value.picture}
+                {if $value.goods_show_image}
                 <div class="" style="width: 100px;height: 100px;">
-                    <img src="__UPLOADS__/{$value.picture}" />
+                    <img src="__UPLOADS__/{$value.goods_show_image}" />
                 </div>
                 {/if}
             </div>
@@ -140,7 +140,6 @@
                 <input type="radio" name="status" value="0" title="关" checked="">{/if}
             </div>
         </div>
-
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>

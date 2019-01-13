@@ -80,7 +80,7 @@ class TeaCenter extends Controller
         if ($request->isPost()){
             $res = $request->only(['id'])['id'];   
                     
-            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,address,pid')->where("label", 1)->where("pid",$res)->order("start_time")->select();
+            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,peoples,address,pid')->where("label", 1)->where("pid",$res)->order("start_time")->select();
             if(empty($activity)){
                 return ajax_error("下面没有活动");
             }
@@ -116,7 +116,7 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()){
             $resd = $request->only(['id'])['id'];
-            $actdata = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid')->where("label", 1)->where("id",$resd)->select();
+            $actdata = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,peoples,requirements,address,pid')->where("label", 1)->where("id",$resd)->select();
             
             foreach($actdata as $key => $value){
                 $actdata[$key]["start_time"] = date('Y-m-d H:i',$actdata[$key]["start_time"]);
@@ -142,7 +142,7 @@ class TeaCenter extends Controller
     public function teacenter_alls(Request $request)
     {
         if ($request->isPost()){
-            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid')->where("label", 1)->order("start_time")->select();           
+            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid')->where("label", 1)->order("start_time")->select();
             foreach($data as $key => $value){
                 if($value){
                     $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
@@ -175,7 +175,7 @@ class TeaCenter extends Controller
     public function recommend(Request $request)
     {
         if ($request->isPost()){
-            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,address,pid,status,open_request')->where("label", 1)->where('status',1)->order("start_time")->select();           
+            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid,status,open_request')->where("label", 1)->where('status',1)->order("start_time")->select();
             foreach($data as $key => $value){
                 if($value){
                     $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
@@ -198,5 +198,36 @@ class TeaCenter extends Controller
         }
 
 
+    }
+
+
+    /**
+     * [茶圈活动订单]
+     * 郭杨
+     */
+    public function activity_order(Request $request)
+    {
+        if ($request->isPost()){
+            $activity_id = $request->only(['activity_id'])['activity_id'];
+            $open_id = $request->only(['open_id'])['open_id'];
+            $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+            $data = db("teahost")->where('id',$activity_id)->field("activity_name,classify_image,address,pid,cost_moneny,start_time,peoples")->find();
+            $account = db("member")->where('member_openid',$open_id)->value('member_phone_num');
+
+            $time=date("Y-m-d",time());
+            $v=explode('-',$time);
+            $time_second=date("H:i:s",time());
+            $vs=explode(':',$time_second);
+            $parts_order_number =$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+            $data['member_openid'] =  $open_id;
+            $data['account'] =  $account;
+            $data['parts_order_number'] =  $parts_order_number;
+            $bool = db("activity_order")->insert($data);
+            if (!empty($bool)) {
+                return ajax_success('传输成功', $data);
+            } else {
+                return ajax_error("数据为空");
+            }
+        }
     }
 }
