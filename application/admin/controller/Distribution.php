@@ -161,9 +161,10 @@ class Distribution extends Controller
     {
         if ($request->isPost()) {
             $data = $request->param();
-            $des = db("goods")->where("goods_number", $data["shop_number"])->field("id,goods_name,goods_show_images,goods_new_money")->find();
-            $reste = db("commodity")->where("goods_id", $des["id"])->find();
-            $deny = explode(",", $des["goods_show_images"]);
+            $des = db("goods") -> where("goods_number",$data["shop_number"])->field("id,goods_name,goods_show_images,goods_new_money")-> find();
+            $bool = db("goods")->where("goods_number",$data["shop_number"])->update(["distribution" => 1]);
+            $reste = db("commodity")->where("goods_id",$des["id"])->find();
+            $deny = explode(",",$des["goods_show_images"]);
             $data["picture"] = $deny[0];
             $data["shop_name"] = $des["goods_name"];
             $data["goods_id"] = $des["id"];
@@ -198,7 +199,9 @@ class Distribution extends Controller
     public function goods_delete($id)
     {
         $bool = db("commodity")->where("id", $id)->delete();
-        if ($bool) {
+        $goods_id = db("commodity")->where("id", $id)->value("goods_id");
+        $boole = db("goods")->where("id",$goods_id)->update(["distribution" => 0]);
+        if ($bool && $boole) {
             $this->success("删除成功", url("admin/Distribution/goods_index"));
         } else {
             $this->error("删除失败", url("admin/Distribution/goods_index"));
@@ -206,59 +209,19 @@ class Distribution extends Controller
 
     }
 
-
     /**
-     * [分销商品搜索]
-     * 郭杨
+     * [分销记录页面]
+     * GY
      */
-    public function goods_search()
-    {
-        $ppd = input('goods');          //分销商品编号或名称
-        if (!empty($ppd)) {
-            $commodity = db("commodity")->where("shop_number", "like", "%" . $ppd . "%")->whereOr("shop_name", "like", "%" . $ppd . "%")->select();
-            foreach ($commodity as $key => $value) 
-            {
-                $commodity[$key]["grade"] = explode(",", $commodity[$key]["grade"]);
-            }
-        } else {
-            $commodity = db("commodity")->select();
-            foreach ($commodity as $key => $value) {
-                $commodity[$key]["grade"] = explode(",", $commodity[$key]["grade"]);
-            }
-        }
-        $all_idents = $commodity;//这里是需要分页的数据
-        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
-        $listRow = 20;//每页20行记录
-        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
-        $commodity = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
-            'var_page' => 'page',
-            'path' => url('admin/Distribution/goods_index'),//这里根据需要修改url
-            'query' => [],
-            'fragment' => '',
-        ]);
-
-        return view('goods_index', ["commodity" => $commodity]);
-    }
-
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销记录页面
-     **************************************
-     * @return \think\response\View
-     */
-    public function record_index()
-    {
+    public function record_index(){
+        //$record = db("order")->where("distribution",1)->select();//方便测试，后期再加上订单条件
+        //halt($record );
         return view('record_index');
     }
 
-
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销成员页面
-     **************************************
-     * @return \think\response\View
+     * [分销成员页面]
+     * GY
      */
     public function member_index()
     {
@@ -268,11 +231,8 @@ class Distribution extends Controller
 
 
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:分销成员页面编辑
-     **************************************
-     * @return \think\response\View
+     * [分销成员编辑页面]
+     * GY
      */
     public function member_edit()
     {
