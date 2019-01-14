@@ -242,10 +242,15 @@ class TeaCenter extends Controller
 
         if($request->isPost()){
             $comment_data = $request->param();
-            $comment_data["user_account"] = db("member")->where("member_openid",$comment_data["user_id"])->value("member_id");
+            $user_account = db("member")->where("member_openid",$comment_data["user_id"])->find();
+            $comment_data["user_account"] = $user_account["member_name"];
+            $comment_data["user_id"] = $user_account["member_id"];
+            $comment_data["address"] = $user_account["member_address"];
             $comment_set = db("comment_set")->find();
             $comment_set_id = empty($comment_set) ? null : $comment_set["id"];
             $comment_data["comment_set_id"] = $comment_set_id;
+            $comment_data["create_time"] = time();
+            halt($comment_data);
             $bool = db("comment")->insert($comment_data);
             if($bool){
                 return ajax_success("存储成功");
@@ -271,6 +276,26 @@ class TeaCenter extends Controller
                 return ajax_success("获取成功", $comment_data);
             }else{
                 return ajax_error("获取失败");
+            }
+        }
+
+    }
+
+
+
+    /**
+     * [茶商评论点赞]
+     * 陈绪
+     */
+    public function teacenter_comment_updata(Request $request){
+
+        if ($request->isPost()){
+            $user_id = $request->only(["user_id"])["user_id"];
+            $comment = db("comment")->where("user_id",$user_id)->update(["status"=>1]);
+            if($comment){
+                return ajax_success("更新成功");
+            }else{
+                return ajax_error("更新失败");
             }
         }
 
