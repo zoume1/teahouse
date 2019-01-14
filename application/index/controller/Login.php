@@ -11,6 +11,7 @@ use think\Controller;
 use think\Db;
 use think\Loader;
 use think\Session;
+use think\Cache;
 
 class Login extends Controller{
 
@@ -24,6 +25,7 @@ class Login extends Controller{
     public function wechatlogin()
     {
         $get = input('get.');
+        Cache::store('redis')->set('name','value',10*60*1000);
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
         $params['appid'] = 'wx301c1368929fdba8';//客户公司
