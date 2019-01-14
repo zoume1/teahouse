@@ -24,16 +24,19 @@ class Coupon extends Controller
     public function coupon_untapped(Request $request)
     {
         if ($request->isPost()) {
-
-            $coupon = Db::name("coupon")->field('id,user_price,scope,start_time,end_time,money,suit,label')->where('pid', 0)->where("status", 1)->select();
-            foreach($tea as $key => $value){
-                $res = db("goods_type")->where("pid",$value['id'])->field("name,id")->find();
-                $tea[$key]["tid"] = $res["id"];
-                $tea[$key]["activity_name"] = $res["name"];
-               
+            $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
+            $open_id = $request->only(['open_id'])['open_id'];
+            $coupon = Db::name("coupon")->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
+        
+            foreach($coupon as $key => $value){
+                $coupon[$key]['scope'] = explode(",",$coupon[$key]['scope']);
+                if(in_array($member_grade_name,$coupon[$key]['scope'])){
+                    $data[] = $coupon[$key];
+                }
             }
-            if (!empty($tea)) {
-                return ajax_success('传输成功', $tea);
+
+            if (!empty($data)) {
+                return ajax_success('传输成功', $data);
             } else {
                 return ajax_error("数据为空");
 
