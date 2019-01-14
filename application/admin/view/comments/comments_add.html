@@ -17,7 +17,7 @@
  {block name="content"}{volist name="comments_add" id = "value"}
     <form class="layui-form layui-form-lists" action="{:url('admin/Comments/preserve',['id'=>$value.id])}" method="post" enctype="multipart/form-data">
          <div class="form-item">
-            <label class="form-label">文字评论积分</label>
+            <label class="form-label">评论积分</label>
             <div class="form-input">
                <input type="text" name="character_integral" value="{$value.character_integral}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
                 <div class="tips">
@@ -35,16 +35,7 @@
                 </div>
             </div>
         </div>
-           <div class="form-item">
-            <label class="form-label">获评论数得积分</label>
-            <div class="form-input">
-                 <input type="text" name="comments" value="{$value.comments}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-              
-               <div class="tips">
-                                   不设置积分为0
-                </div>
-            </div>
-        </div>
+        
       <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>

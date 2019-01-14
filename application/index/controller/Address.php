@@ -11,6 +11,7 @@ use think\Controller;
 use think\Db;
 use think\Session;
 use  think\Request;
+use think\Cache;
 class Address extends  Controller{
 
     /**
@@ -21,6 +22,8 @@ class Address extends  Controller{
      */
     public function member_address_information(Request $request){
         if($request->isPost()){
+            $bool = Cache::store('redis')->get('name');
+            halt($bool);
             $post_open_id = $request->only(['open_id'])['open_id'];
             $user_id =Db::name("member")
                 ->field("member_id")
