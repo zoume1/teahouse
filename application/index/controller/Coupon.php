@@ -30,7 +30,7 @@ class Coupon extends Controller
         
             foreach($coupon as $key => $value){
                 $coupon[$key]['scope'] = explode(",",$coupon[$key]['scope']);
-                $coupon[$key]['start_time'] = strtotime($coupon[$key]['scope']);
+                $coupon[$key]['start_time'] = strtotime($coupon[$key]['start_time']);
                 $coupon[$key]['end_time'] = strtotime($coupon[$key]['end_time']);
                 if(in_array($member_grade_name,$coupon[$key]['scope'])){
                     $data[] = $coupon[$key];
