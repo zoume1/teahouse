@@ -259,6 +259,7 @@ Route::group("admin",[
     "distribution_goods_save"=>"admin/Distribution/goods_save",        //分销商品添加入库
     "distribution_goods_update"=>"admin/Distribution/goods_update",    //分销商品编辑更新
     "distribution_goods_delete"=>"admin/Distribution/goods_delete",    //分销商品组删除
+    "distribution_goods_search"=>"admin/Distribution/goods_search",    //分销商品组搜素
     "distribution_record_index"=>"admin/Distribution/record_index",    //分销记录页面
     "distribution_member_index"=>"admin/Member/member_index",          //分销成员页面
     "distribution_member_add"=>"admin/Member/member_add",              //分销成员添加
@@ -281,9 +282,14 @@ Route::group("admin",[
 
 
     /*限时限购*/
-    "limitations_index"=>"admin/Limitations/limitations_index",    
-    "limitations_edit"=>"admin/Limitations/limitations_edit",      
-    "limitations_add"=>"admin/Limitations/limitations_add",
+    "limitations_index"=>"admin/Limitations/limitations_index",  //限时限购列表显示  
+    "limitations_edit"=>"admin/Limitations/limitations_edit",    //限时限购编辑 
+    "limitations_add"=>"admin/Limitations/limitations_add",      //限时限购添加商品
+    "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加limitations_weave
+    "limitations_weave"=>"admin/Limitations/limitations_weave",  //限时限购编辑商品
+    "limitations_update"=>"admin/Limitations/limitations_update",//限时限购更新
+    "limitations_delete"=>"admin/Limitations/limitations_delete",//限时限购删除
+    "limitations_search"=>"admin/Limitations/limitations_search",//限时限购删除
        
 
     /*优惠券*/

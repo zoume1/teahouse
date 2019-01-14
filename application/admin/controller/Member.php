@@ -68,8 +68,25 @@ class Member extends Controller{
         if ($request->isPost()){
             $data = $request->param();
             $rest = db("member") -> where("member_name",$data["member_name"])->field("member_id,inviter_id,member_phone_num")->find();
-            halt($rest);
-            
+            if(!empty($rest)){
+                $data["member_id"] = $rest["member_id"];
+                $data["inviter_id"] = $rest["inviter_id"];
+                $data["member_phone_num"] = $rest["member_phone_num"];
+                $data["grade"] = implode(",",$data["grade"]);
+                $data["scale"] = implode(",",$data["scale"]);
+                $data["integral"] = implode(",",$data["integral"]);
+                $data["award"] = implode(",",$data["award"]);
+                $member = db("leaguer")->insert($data);
+                if ($member) {
+                    $this->success("添加成功", url("admin/Distribution/member_index"));
+                } else {
+                    $this->error("添加失败", url("admin/Distribution/member_index"));
+                }
+
+            }else{
+                $this->error("没有该用户,请仔细核对后添加", url("admin/Distribution/member_index"));
+            }
+
             return view('member_add');
         }
     }
