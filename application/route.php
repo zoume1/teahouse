@@ -82,6 +82,11 @@ Route::group("",[
     "commodity_detail"=>"index/Commodity/commodity_detail",      //商品详情
     "commodity_recommend"=>"index/Commodity/commodity_recommend",//商品首页推荐
 
+    /*优惠券*/
+    "coupon_untapped"=>"index/Coupon/coupon_untapped",   //未使用优惠券显示
+    "coupon_user"=>"index/Coupon/coupon_user",           //已使用优惠券显示
+    "coupon_time"=>"index/Coupon/coupon_time",           //过期优惠券显示
+
     /*测试接口*/
     "index_text"=>"index/index/text"
 ]);

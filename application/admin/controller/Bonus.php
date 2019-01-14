@@ -374,9 +374,9 @@ class Bonus extends Controller
         $bool = db("coupon")->where("id", $id)->delete();
         $boole = db("join")->where("coupon_id", $id)->delete();
         if ($bool && $boole) {
-            $this->success("删除成功", url("admin/Category/index"));
+            $this->success("删除成功", url("admin/Bonus/coupon_index"));
         } else {
-            $this->error("删除失败", url("admin/Category/index"));
+            $this->error("删除失败", url("admin/Bonus/coupon_index"));
         }
     }
 
