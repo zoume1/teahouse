@@ -244,6 +244,7 @@ class TeaCenter extends Controller
             $comment_set = db("comment_set")->find();
             $comment_data["user_account"] = db("member")->where("member_id",$comment_data["user_id"])->find();
             $comment_set_id = !empty($comment_data) ? null : $comment_set["id"];
+            $comment_data["comment_set_id"] = $comment_set_id;
             $bool = db("comment")->insert($comment_data);
             if($bool){
                 return ajax_success("存储成功");
