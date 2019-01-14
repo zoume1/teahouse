@@ -76,6 +76,7 @@ Route::group("",[
     "activity_order"=>"index/TeaCenter/activity_order",          //茶圈订单
     "teacenter_comment"=>"index/TeaCenter/teacenter_comment",  //茶圈活动评论存储
     "teacenter_comment_show"=>"index/TeaCenter/teacenter_comment_show",  //茶圈活动评论显示
+    "teacenter_comment_updata"=>"index/TeaCenter/teacenter_comment_updata",  //茶圈活动评论点赞
 
 
     /*商品管理*/
