@@ -11,6 +11,7 @@ use think\Controller;
 use think\Db;
 use think\Session;
 use  think\Request;
+use think\Cache;
 class Address extends  Controller{
 
     /**
