@@ -249,7 +249,6 @@ class TeaCenter extends Controller
             $comment_set_id = empty($comment_set) ? null : $comment_set["id"];
             $comment_data["comment_set_id"] = $comment_set_id;
             $comment_data["create_time"] = time();
-            halt($comment_data);
             $bool = db("comment")->insert($comment_data);
             if($bool){
                 return ajax_success("存储成功");
