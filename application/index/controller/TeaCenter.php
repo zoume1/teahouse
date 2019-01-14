@@ -238,12 +238,12 @@ class TeaCenter extends Controller
      * 陈绪
      */
     public function teacenter_comment(Request $request){
-
+        
         if($request->isPost()){
             $comment_data = $request->param();
             $comment_set = db("comment_set")->find();
-            $comment_data["user_account"] = db("member")->where("member_id",$comment_data["user_id"])->find();
-            $comment_set_id = !empty($comment_data) ? null : $comment_set["id"];
+            $comment_data["user_account"] = db("member")->where("member_openid",$comment_data["user_id"])->value("member_id");
+            $comment_set_id = !empty($comment_set) ? null : $comment_set["id"];
             $comment_data["comment_set_id"] = $comment_set_id;
             $bool = db("comment")->insert($comment_data);
             if($bool){
