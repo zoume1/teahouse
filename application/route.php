@@ -89,6 +89,7 @@ Route::group("",[
     "coupon_untapped"=>"index/Coupon/coupon_untapped",   //未使用优惠券显示
     "coupon_user"=>"index/Coupon/coupon_user",           //已使用优惠券显示
     "coupon_time"=>"index/Coupon/coupon_time",           //过期优惠券显示
+    "coupon_goods"=>"index/Coupon/coupon_goods",         //优惠券使用商品
 
     /*测试接口*/
     "index_text"=>"index/index/text"

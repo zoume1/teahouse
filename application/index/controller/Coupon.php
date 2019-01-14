@@ -30,6 +30,8 @@ class Coupon extends Controller
         
             foreach($coupon as $key => $value){
                 $coupon[$key]['scope'] = explode(",",$coupon[$key]['scope']);
+                $coupon[$key]['start_time'] = strtotime($coupon[$key]['start_time']);
+                $coupon[$key]['end_time'] = strtotime($coupon[$key]['end_time']);
                 if(in_array($member_grade_name,$coupon[$key]['scope'])){
                     $data[] = $coupon[$key];
                 }
@@ -103,5 +105,34 @@ class Coupon extends Controller
 
         }
 
+    }
+
+
+    /**
+     * [优惠券适用商品显示]
+     * 郭杨
+     */
+    public function coupon_goods(Request $request)
+    {
+        if ($request->isPost()) {
+            $coupon_id = $request->only(['coupon_id'])['coupon_id'];
+            $member_id = $request->only(["open_id"])["open_id"];
+            $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
+            $goods = db("join")->where("coupon_id",$coupon_id)->field('goods_id,goods_name,goods_show_images,goods_standard,goods_repertory')->select();
+            $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
+            foreach($goods as $key => $value){
+                $goods[$key]["goods_new_money"] = (db("goods")-> where("id",$goods[$key]["goods_id"])->value("goods_new_money,goods_selling")) * $discount;
+                if($goods[$key]["goods_standard"] == 1){
+                    $goods[$key]["max_price"] = (db("special")->where("goods_id", $goods[$key]["goods_id"])->max("price")) * $discount;
+                    $goods[$key]["min_price"] = (db("special")->where("goods_id", $goods[$key]["goods_id"])->min("price"))* $discount;
+                }
+            }          
+            if (!empty($goods)) {
+                return ajax_success('传输成功', $goods);
+            } else {
+                return ajax_error("数据为空");
+
+            }
+        }
     }
 }
