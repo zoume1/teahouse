@@ -239,7 +239,6 @@ class TeaCenter extends Controller
      */
     public function teacenter_comment(Request $request){
 
-
         if($request->isPost()){
             $comment_data = $request->param();
             $user_account = db("member")->where("member_openid",$comment_data["user_id"])->find();
