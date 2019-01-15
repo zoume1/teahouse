@@ -109,8 +109,6 @@ class Coupon extends Controller
                 return ajax_error("数据为空");
 
             }
-
-
         }
 
     }
