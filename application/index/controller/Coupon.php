@@ -27,6 +27,7 @@ class Coupon extends Controller
             $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
             $open_id = $request->only(['open_id'])['open_id'];
             $coupon = Db::name("coupon")->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
+            $time = time();
         
             foreach($coupon as $key => $value){
                 $coupon[$key]['scope'] = explode(",",$coupon[$key]['scope']);
@@ -67,6 +68,9 @@ class Coupon extends Controller
             
             foreach($coupon_id as $key => $value){
                 $rest[] = Db::name("coupon")->where("id",$value["coupon_id"])->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
+            }
+            foreach($rest as $k => $v){
+                $v['scope'] = explode(",",$v['scope']);
             }
             if (!empty($rest)) {
                 return ajax_success('传输成功', $rest);
