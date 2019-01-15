@@ -88,20 +88,23 @@ class Coupon extends Controller
      */
     public function coupon_time(Request $request)
     {
-        if ($request->isGet()) {
+        if ($request->isPost()) {
             $time = time();//当前时间戳
-            //$member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
-           // $open_id = $request->only(['open_id'])['open_id'];
-            $coupon = Db::name("coupon")->where('end_time','>=','$time')->select();
-            halt($coupon);
+            $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
+            $member_grade_name = '1';
+            $open_id = $request->only(['open_id'])['open_id'];
+            $coupon = db("coupon")->select();
             foreach($coupon as $key => $value){
-                $coupon[$key]['scope'] = explode(",",$coupon[$key]['scope']);
-                if(in_array($member_grade_name,$coupon[$key]['scope'])){
+                $value['scope'] = explode(",",$value['scope']);
+                $value['start_timed'] = strtotime($value['start_time']);
+                $value['end_timed'] = strtotime($value['end_time']);
+                if(in_array($member_grade_name,$value['scope']) && $value['end_timed'] < $time){
                     $data[] = $coupon[$key];
-                }
+                }              
             }
-            if (!empty($tea)) {
-                return ajax_success('传输成功', $tea);
+            
+            if (!empty($data)) {
+                return ajax_success('传输成功', $data);
             } else {
                 return ajax_error("数据为空");
 
