@@ -93,13 +93,13 @@ class Coupon extends Controller
             $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
             $member_grade_name = '1';
             $open_id = $request->only(['open_id'])['open_id'];
-            $coupon = db("coupon")->select();
-            foreach($coupon as $key => $value){
+            $coupons = db("coupon")->select();
+            foreach($coupons as $key => $value){
                 $value['scope'] = explode(",",$value['scope']);
                 $value['start_timed'] = strtotime($value['start_time']);
                 $value['end_timed'] = strtotime($value['end_time']);
                 if(in_array($member_grade_name,$value['scope']) && $value['end_timed'] < $time){
-                    $data[] = $coupon[$key];
+                    $data[] = $coupons[$key];
                 }              
             }           
             if (!empty($data)) {
