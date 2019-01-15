@@ -99,11 +99,11 @@ class Coupon extends Controller
                 $value['start_timed'] = strtotime($value['start_time']);
                 $value['end_timed'] = strtotime($value['end_time']);
                 if(in_array($member_grade_name,$value['scope']) && $value['end_timed'] < $time){
-                    $data[] = $coupons[$key];
+                    $datas[] = $coupons[$key];
                 }              
             }           
-            if (!empty($data)) {
-                return ajax_success('传输成功', $data);
+            if (!empty($datas)) {
+                return ajax_success('传输成功', $datas);
             } else {
                 return ajax_error("数据为空");
 
