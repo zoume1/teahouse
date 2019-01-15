@@ -101,8 +101,7 @@ class Coupon extends Controller
                 if(in_array($member_grade_name,$value['scope']) && $value['end_timed'] < $time){
                     $data[] = $coupon[$key];
                 }              
-            }
-            
+            }           
             if (!empty($data)) {
                 return ajax_success('传输成功', $data);
             } else {
