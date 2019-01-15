@@ -91,7 +91,6 @@ class Coupon extends Controller
         if ($request->isPost()) {
             $time = time();//当前时间戳
             $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
-            $member_grade_name = '1';
             $open_id = $request->only(['open_id'])['open_id'];
             $coupons = db("coupon")->select();
             foreach($coupons as $key => $value){
