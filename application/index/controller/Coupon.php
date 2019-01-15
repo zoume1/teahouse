@@ -155,4 +155,21 @@ class Coupon extends Controller
             }
         }
     }
+
+
+    /**
+     * [积分商品显示]
+     * 郭杨
+     */
+    public function bonus_index()
+    {
+        $bonus = db("bonus_mall")->order('id desc')->select();          
+        if (!empty($bonus)) {
+            return ajax_success('传输成功', $bonus);
+        } else {
+            return ajax_error("数据为空");
+
+        }
+        
+    }
 }
