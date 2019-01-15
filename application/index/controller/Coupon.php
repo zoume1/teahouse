@@ -34,7 +34,7 @@ class Coupon extends Controller
                 $coupon[$key]['end_timed'] = strtotime($coupon[$key]['end_time']);
                 unset($coupon[$key]['start_time']);
                 unset($coupon[$key]['end_time']);
-                if(in_array($member_grade_name,$coupon[$key]['scope'])){
+                if(in_array($member_grade_name,$coupon[$key]['scope']) && $value['end_timed'] > $time){
                     $data[] = $coupon[$key];
                 }
             }
@@ -60,22 +60,20 @@ class Coupon extends Controller
     public function coupon_user(Request $request)
     {
         if ($request->isPost()) {
-
-            $tea = Db::name("goods_type")->field('name,icon_image,color,id')->where('pid', 0)->where("status", 1)->select();
-            foreach($tea as $key => $value){
-                $res = db("goods_type")->where("pid",$value['id'])->field("name,id")->find();
-                $tea[$key]["tid"] = $res["id"];
-                $tea[$key]["activity_name"] = $res["name"];
-               
+            $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
+            $open_id = $request->only(['open_id'])['open_id'];
+            $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
+            $coupon_id = Db::name("order")->where("member_id",$member_id)->distinct($member_id)->field("coupon_id")->select();
+            
+            foreach($coupon_id as $key => $value){
+                $rest[] = Db::name("coupon")->where("id",$value["coupon_id"])->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
             }
-            if (!empty($tea)) {
-                return ajax_success('传输成功', $tea);
+            if (!empty($rest)) {
+                return ajax_success('传输成功', $rest);
             } else {
                 return ajax_error("数据为空");
 
             }
-
-
         }
 
     }
