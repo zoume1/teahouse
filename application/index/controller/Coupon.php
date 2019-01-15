@@ -28,26 +28,37 @@ class Coupon extends Controller
             $open_id = $request->only(['open_id'])['open_id'];
             $coupon = Db::name("coupon")->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
             $time = time();
-        
+
+            //已使用
+            $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
+            $coupon_id = Db::name("order")->where("member_id",$member_id)
+                        ->where("coupon_id",'<>',0)
+                         ->distinct($member_id)
+                         ->field("coupon_id")
+                         ->select();
+            foreach($coupon_id as $key => $value){
+                foreach($value as $ke => $va){
+                    $rest[] = $va;
+                }
+            }                        
+            //未使用(包含已使用)
             foreach($coupon as $key => $value){
+                if(!in_array($value['id'],$rest)){
                 $value['scope'] = explode(",",$value['scope']);
-                $value['start_timed'] = strtotime($value['start_time']);
-                $value['end_timed'] = strtotime($value['end_time']);
-                if(in_array($member_grade_name,$value['scope']) && $value['end_timed'] > $time){
+                $value['start_time'] = strtotime($value['start_time']);
+                $value['end_time'] = strtotime($value['end_time']);
+                if(in_array($member_grade_name,$value['scope']) && $value['end_time'] > $time){
                     $data[] = $value;
                 }
             }
-
+        }   
             if (!empty($data)) {
                 return ajax_success('传输成功', $data);
             } else {
                 return ajax_error("数据为空");
 
             }
-
-
         }
-
     }
 
 
@@ -100,9 +111,9 @@ class Coupon extends Controller
             $coupons = db("coupon")->select();
             foreach($coupons as $key => $value){
                 $value['scope'] = explode(",",$value['scope']);
-                $value['start_timed'] = strtotime($value['start_time']);
-                $value['end_timed'] = strtotime($value['end_time']);
-                if(in_array($member_grade_name,$value['scope']) && $value['end_timed'] < $time){
+                $value['start_time'] = strtotime($value['start_time']);
+                $value['end_time'] = strtotime($value['end_time']);
+                if(in_array($member_grade_name,$value['scope']) && $value['end_time'] < $time){
                     $datas[] = $coupons[$key];
                 }              
             }           
