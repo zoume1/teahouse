@@ -19,13 +19,23 @@ class Comments extends Controller
 
     /**
      * [评论管理显示]
-     * 郭杨
+     * 陈绪
      */
     public function index()
     {
-
-        $comments_index = db("mament")->paginate(20);
-        return view('comments_index', ['comments_index' => $comments_index]);
+        $comments_index = db("comment")->select();
+        foreach ($comments_index as $key=>$value){
+            if(!empty($value["comment_set_id"]) && $value["status"] == 1){
+                $comments_character_integral = db("comment_set")->where("comment_set_id",$value["comment_set_id"])->value("character_integral");
+                $comments_approve = db("comment_set")->where("comment_set_id",$value["comment_set_id"])->value("approve");
+                $comments_integral = $comments_character_integral + $comments_approve;
+                $comments_index[$key]["comments_integral"] = $comments_integral;
+            }else if(!empty($value["comment_set_id"])){
+                $comments_character_integral = db("comment_set")->where("comment_set_id",$value["comment_set_id"])->value("character_integral");
+                $comments_index[$key]["comments_integral"] = $comments_character_integral;
+            }
+        }
+        return view('comments_index');
     }
 
 
@@ -35,9 +45,8 @@ class Comments extends Controller
      */
     public function add()
     {
-
         $comments_add = db("comment")->select();
-        return view('comments_add', ['comments_add', 'comments_add' => $comments_add]);
+        return view('comments_add', ['comments_add' => $comments_add]);
     }
 
 

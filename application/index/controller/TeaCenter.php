@@ -25,7 +25,6 @@ class TeaCenter extends Controller
     public function teacenter_data(Request $request)
     {
         if ($request->isPost()) {
-
             $tea = Db::name("goods_type")->field('name,icon_image,color,id')->where('pid', 0)->where("status", 1)->select();
             foreach($tea as $key => $value){
                 $res = db("goods_type")->where("pid",$value['id'])->field("name,id")->find();
@@ -229,5 +228,74 @@ class TeaCenter extends Controller
                 return ajax_error("数据为空");
             }
         }
+    }
+
+
+
+
+    /**
+     * [茶圈评论]
+     * 陈绪
+     */
+    public function teacenter_comment(Request $request){
+
+        if($request->isPost()){
+            $comment_data = $request->param();
+            $user_account = db("member")->where("member_openid",$comment_data["user_id"])->find();
+            $comment_data["user_account"] = $user_account["member_name"];
+            $comment_data["user_id"] = $user_account["member_id"];
+            $comment_data["address"] = $user_account["member_address"];
+            $comment_set = db("comment_set")->find();
+            $comment_set_id = empty($comment_set) ? null : $comment_set["id"];
+            $comment_data["comment_set_id"] = $comment_set_id;
+            $comment_data["create_time"] = time();
+            $bool = db("comment")->insert($comment_data);
+            if($bool){
+                return ajax_success("存储成功");
+            }else{
+                return ajax_error("失败");
+            }
+        }
+
+    }
+
+
+
+    /**
+     * [茶圈评论显示]
+     * 陈绪
+     */
+    public function teacenter_comment_show(Request $request){
+
+        if($request->isPost()){
+            $goods_id = $request->only(["goods_id"])["goods_id"];
+            $comment_data = db("comment")->where("goods_id",$goods_id)->select();
+            if($comment_data) {
+                return ajax_success("获取成功", $comment_data);
+            }else{
+                return ajax_error("获取失败");
+            }
+        }
+
+    }
+
+
+
+    /**
+     * [茶商评论点赞]
+     * 陈绪
+     */
+    public function teacenter_comment_updata(Request $request){
+
+        if ($request->isPost()){
+            $user_id = $request->only(["user_id"])["user_id"];
+            $comment = db("comment")->where("user_id",$user_id)->update(["status"=>1]);
+            if($comment){
+                return ajax_success("更新成功");
+            }else{
+                return ajax_error("更新失败");
+            }
+        }
+
     }
 }
