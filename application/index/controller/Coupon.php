@@ -142,7 +142,7 @@ class Coupon extends Controller
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
 
             foreach($goods_id as $key=>$value){
-                $goods[] = db("goods")->where("id",$value["goods_id"])->select();
+                $goods[] = db("goods")->where("id",$goods_id[$key]["goods_id"])->select();
             }
 
             foreach($goods as $k => $v){
