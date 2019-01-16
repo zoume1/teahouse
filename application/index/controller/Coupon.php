@@ -141,19 +141,20 @@ class Coupon extends Controller
             $goods_id = db("join")->where("coupon_id",$coupon_id)->field('goods_id')->select();
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
 
-            foreach($goods_id as $key=>$value){
-                $goods[] = db("goods")->where("id",$goods_id[$key]["goods_id"])->select();
-            }
+            if(!empty($goods_id)){
+                foreach($goods_id as $key=>$value){
+                    $goods[] = db("goods")->where("id",$value["goods_id"])->select();
+                }
 
-            foreach($goods as $k => $v){
+             foreach($goods as $k => $v){
                 $goods[$k]["goods_new_money"] = (db("goods")-> where("id",$goods[$key]["goods_id"])->value("goods_new_money,goods_selling")) * $discount;
                 if($goods[$key]["goods_standard"] == 1){
                     $goods[$key]["max_price"] = (db("special")->where("goods_id", $goods[$key]["goods_id"])->max("price")) * $discount;
                     $goods[$key]["min_price"] = (db("special")->where("goods_id", $goods[$key]["goods_id"])->min("price"))* $discount;
                 }
             }
-            
-            
+        } 
+                    
             if (!empty($goods)) {
                 return ajax_success('传输成功', $goods);
             } else {
