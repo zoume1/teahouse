@@ -27,7 +27,7 @@ class Pay extends  Controller{
         $input->SetBody($activity_name);
         //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
 //        $input->SetOut_trade_no(time().'');
-        $input->SetOut_trade_no($order_numbers);
+        $input->SetOut_trade_no(time().'');
         //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
         $input->SetTotal_fee($cost_moneny*100);
         $input->SetNotify_url("https://teahouse.siring.com.cn/notify.php");//需要自己写的notify.php
