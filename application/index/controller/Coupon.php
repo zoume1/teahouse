@@ -27,7 +27,7 @@ class Coupon extends Controller
             $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
             $open_id = $request->only(['open_id'])['open_id'];
             $coupon = Db::name("coupon")->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
-            $time = time();
+            $time = date("Y-m-d",strtotime("-1 day"));
 
             //已使用
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
@@ -105,7 +105,7 @@ class Coupon extends Controller
     public function coupon_time(Request $request)
     {
         if ($request->isPost()) {
-            $time = time();//当前时间戳
+            $time = date("Y-m-d",strtotime("-1 day"));//当前时间戳
             $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
             $open_id = $request->only(['open_id'])['open_id'];
             $coupons = db("coupon")->select();
