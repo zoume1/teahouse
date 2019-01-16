@@ -20,14 +20,14 @@ class Pay extends  Controller{
         $open_ids = $request->param("open_id");//open_id
         $activity_name = $request->param("activity_name");//名称
         $cost_moneny = $request->param("cost_moneny");//金额
-        $order_numbers =$request->param("order_number");//订单编号
+//        $order_numbers =$request->param("order_number");//订单编号
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
         //         文档提及的参数规范：商家名称-销售商品类目
         $input->SetBody($activity_name);
         //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
 //        $input->SetOut_trade_no(time().'');
-        $input->SetOut_trade_no($order_numbers);
+        $input->SetOut_trade_no("$order_numbers");
         //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
         $input->SetTotal_fee($cost_moneny*100);
         $input->SetNotify_url("https://teahouse.siring.com.cn/notify.php");//需要自己写的notify.php
