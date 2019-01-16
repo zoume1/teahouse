@@ -202,7 +202,7 @@ class Coupon extends Controller
         $bonus_id = $request->only(['id'])['id']; //积分商城商品id
         $bonus = db("bonus_mall")->where('id',$bonus_id)->where("status",1)->order('id desc')->select();
         foreach ($bonus as $key => $value) {
-            $value["goods_show_images"] = explode(",",$value["goods_show_images"]);
+            $bonus[$key]["goods_show_images"] = explode(",",$bonus[$key]["goods_show_images"]);
         }         
         if (!empty($bonus)) {
             return ajax_success('传输成功', $bonus);
