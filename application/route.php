@@ -92,7 +92,8 @@ Route::group("",[
     "coupon_goods"=>"index/Coupon/coupon_goods",         //优惠券使用商品
 
     /*积分商城*/
-    "bonus_index"=>"index/Coupon/bonus_index", //积分商城显示
+    "bonus_index"=>"index/Coupon/bonus_index",       //积分商城显示
+    "bonus_detailed"=>"index/Coupon/bonus_detailed", //积分商城显示
 
     /*测试接口*/
     "index_text"=>"index/index/text"

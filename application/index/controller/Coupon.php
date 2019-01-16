@@ -154,7 +154,7 @@ class Coupon extends Controller
                 }
             }
         } 
-                    
+
             if (!empty($goods)) {
                 return ajax_success('传输成功', $goods);
             } else {
@@ -180,4 +180,27 @@ class Coupon extends Controller
         }
         
     }
+
+
+    /**
+     * [积分商品详细显示]
+     * 郭杨
+     */
+    public function bonus_detailed(Request $request)
+    {
+        if ($request->isPost()) {
+        $bonus_id = $request->only(['id'])['id']; //积分商城商品id
+        $bonus = db("bonus_mall")->where('id',$bonus_id)->order('id desc')->select();         
+        if (!empty($bonus)) {
+            return ajax_success('传输成功', $bonus);
+        } else {
+            return ajax_error("数据为空");
+
+        }        
+     }
+  }
+
+
+
+
 }
