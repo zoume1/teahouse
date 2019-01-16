@@ -168,7 +168,7 @@ class Coupon extends Controller
             if (!empty($goods)) {
                 return ajax_success('传输成功', $goods);
             } else {
-                return ajax_error("数据为空");
+                return ajax_error("该优惠券适用所用商品");
 
             }
         }
