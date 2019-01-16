@@ -30,12 +30,14 @@ class Comments extends Controller
                 $comments_approve = db("comment_set")->where("comment_set_id",$value["comment_set_id"])->value("approve");
                 $comments_integral = $comments_character_integral + $comments_approve;
                 $comments_index[$key]["comments_integral"] = $comments_integral;
+                db("comment")->where("id",$value["id"])->update(["comment_integral"=>$comments_integral]);
             }else if(!empty($value["comment_set_id"])){
                 $comments_character_integral = db("comment_set")->where("comment_set_id",$value["comment_set_id"])->value("character_integral");
                 $comments_index[$key]["comments_integral"] = $comments_character_integral;
+                db("comment")->where("id",$value["id"])->update(["comment_integral"=>$comments_character_integral]);
             }
         }
-        return view('comments_index');
+        return view('comments_index',["comments_index"=>$comments_index]);
     }
 
 
@@ -45,8 +47,7 @@ class Comments extends Controller
      */
     public function add()
     {
-        $comments_add = db("comment")->select();
-        return view('comments_add', ['comments_add' => $comments_add]);
+        return view('comments_add');
     }
 
 
@@ -58,9 +59,7 @@ class Comments extends Controller
     {
         if ($request->isPost()) {
             $comment_datas = $request->param();
-            $res = $request->only(["id"])["id"];
-
-            $bool = db("comment")->where('id', $res)->update($comment_datas);
+            $bool = db("comment_set")->where('id', $res)->update($comment_datas);
             if ($bool) {
                 $this->success("编辑成功", url("admin/Comments/add"));
             } else {
