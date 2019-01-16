@@ -141,20 +141,30 @@ class Coupon extends Controller
             $goods_id = db("join")->where("coupon_id",$coupon_id)->field('goods_id')->select();
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
 
-            if(!empty($goods_id)){
-                foreach($goods_id as $key=>$value){
-                    $goods[] = db("goods")->where("id",$value["goods_id"])->select();
+            if(!empty($goods_id))
+            {
+                foreach($goods_id as $key=>$value)
+                {
+                    $goods[] = db("goods")->where("id",$value["goods_id"])->where("status",1)->find();                   
                 }
-
-             foreach($goods as $k => $v){
-                $goods[$k]["goods_new_money"] = (db("goods")-> where("id",$goods[$key]["goods_id"])->value("goods_new_money,goods_selling")) * $discount;
-                if($goods[$key]["goods_standard"] == 1){
-                    $goods[$key]["max_price"] = (db("special")->where("goods_id", $goods[$key]["goods_id"])->max("price")) * $discount;
-                    $goods[$key]["min_price"] = (db("special")->where("goods_id", $goods[$key]["goods_id"])->min("price"))* $discount;
-                }
-            }
+                foreach ($goods as $k => $v)
+                {
+                    if(!empty($v)){
+                    if($goods[$k]["goods_standard"] == 1){
+                        $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
+                        $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
+                        $min[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("price") * $discount;//最低价格
+                        $goods[$k]["goods_standard"] = $standard[$k];
+                        $goods[$k]["max_price"] = $max[$k];
+                        $goods[$k]["min_price"] = $min[$k];
+                    } else {
+                        $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
+                    }
+                } else {
+                    unset($v);
+                }                
+            }             
         } 
-
             if (!empty($goods)) {
                 return ajax_success('传输成功', $goods);
             } else {
@@ -164,14 +174,13 @@ class Coupon extends Controller
         }
     }
 
-
     /**
      * [积分商品显示]
      * 郭杨
      */
     public function bonus_index()
     {
-        $bonus = db("bonus_mall")->order('id desc')->select();          
+        $bonus = db("bonus_mall")->where("status",1)->order('id desc')->select();          
         if (!empty($bonus)) {
             return ajax_success('传输成功', $bonus);
         } else {
@@ -190,7 +199,7 @@ class Coupon extends Controller
     {
         if ($request->isPost()) {
         $bonus_id = $request->only(['id'])['id']; //积分商城商品id
-        $bonus = db("bonus_mall")->where('id',$bonus_id)->order('id desc')->select();         
+        $bonus = db("bonus_mall")->where('id',$bonus_id)->where("status",1)->order('id desc')->select();         
         if (!empty($bonus)) {
             return ajax_success('传输成功', $bonus);
         } else {
