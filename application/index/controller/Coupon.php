@@ -135,18 +135,25 @@ class Coupon extends Controller
     public function coupon_goods(Request $request)
     {
         if ($request->isPost()) {
-            $coupon_id = $request->only(['coupon_id'])['coupon_id'];
+            $coupon_id = $request->only(['coupon_id'])['coupon_id']; //优惠券id
             $member_id = $request->only(["open_id"])["open_id"];
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
-            $goods = db("join")->where("coupon_id",$coupon_id)->field('goods_id,goods_name,goods_show_images,goods_standard,goods_repertory')->select();
+            $goods_id = db("join")->where("coupon_id",$coupon_id)->field('goods_id')->select();
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
-            foreach($goods as $key => $value){
-                $goods[$key]["goods_new_money"] = (db("goods")-> where("id",$goods[$key]["goods_id"])->value("goods_new_money,goods_selling")) * $discount;
+
+            foreach($goods_id as $key=>$value){
+                $goods[] = db("goods")->where("id",$value["goods_id"])->select();
+            }
+
+            foreach($goods as $k => $v){
+                $goods[$k]["goods_new_money"] = (db("goods")-> where("id",$goods[$key]["goods_id"])->value("goods_new_money,goods_selling")) * $discount;
                 if($goods[$key]["goods_standard"] == 1){
                     $goods[$key]["max_price"] = (db("special")->where("goods_id", $goods[$key]["goods_id"])->max("price")) * $discount;
                     $goods[$key]["min_price"] = (db("special")->where("goods_id", $goods[$key]["goods_id"])->min("price"))* $discount;
                 }
-            }          
+            }
+            
+            
             if (!empty($goods)) {
                 return ajax_success('传输成功', $goods);
             } else {
