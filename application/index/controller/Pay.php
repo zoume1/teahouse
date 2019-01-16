@@ -74,19 +74,18 @@ class Pay extends  Controller{
      * Notes:小程序活动支付成功回来修改状态
      **************************************
      */
-    public function notify(Request $request){
-        $out_trade_no = input();
-        dump($out_trade_no);
-        $input = new \WxPayOrderQuery();
-        $input->SetTransaction_id();
-        $result = \WxPayApi::orderQuery($input);
-        \Log::DEBUG("query:" . json_encode($result));
-        if(array_key_exists("return_code", $result)
-            && array_key_exists("result_code", $result)
-            && $result["return_code"] == "SUCCESS"
-            && $result["result_code"] == "SUCCESS")
-        {
-            return true;
-        }
-    }
+//    public function notify(Request $request){
+//        $out_trade_no = input();
+//        $input = new \WxPayOrderQuery();
+//        $input->SetTransaction_id();
+//        $result = \WxPayApi::orderQuery($input);
+//        \Log::DEBUG("query:" . json_encode($result));
+//        if(array_key_exists("return_code", $result)
+//            && array_key_exists("result_code", $result)
+//            && $result["return_code"] == "SUCCESS"
+//            && $result["result_code"] == "SUCCESS")
+//        {
+//            return true;
+//        }
+//    }
 }

@@ -27,7 +27,7 @@ Route::group("",[
     "my_qrcode"=>"index/My/qrcode",  //会员二维码
     "my_index"=>"index/My/my_index",  //我的页面
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
-    "notify"=>"index/Pay/notify",//小程序支付回调（活动）
+//    "notify"=>"index/Pay/notify",//小程序支付回调（活动）
     /*TODO:end*/
 
     /*TODO:地址管理开始*/
