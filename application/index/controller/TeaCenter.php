@@ -217,7 +217,8 @@ class TeaCenter extends Controller
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
             $vs=explode(':',$time_second);
-            $parts_order_number =$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+//            $parts_order_number =$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+            $parts_order_number =$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2]; //订单编号
             $data['member_openid'] =  $open_id;
             $data['account'] =  $account;
             $data['parts_order_number'] =  $parts_order_number;
