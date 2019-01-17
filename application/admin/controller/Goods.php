@@ -55,7 +55,7 @@ class Goods extends Controller
         $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
         $goods = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
             'var_page' => 'page',
-            'path' => url('admin/Category/index'),//这里根据需要修改url
+            'path' => url('admin/Goods/index'),//这里根据需要修改url
             'query' => [],
             'fragment' => '',
         ]);
@@ -96,15 +96,16 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $goods_data = $request->param();
-            $list = [];
+        
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
-            
-            if (!empty($show_images)) {
-                foreach ($show_images as $ky => $vl) {
-                    $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
-                    $list[] = str_replace("\\", "/", $show->getSaveName());
+            $list = [];
+            if (!empty($show_images)) {              
+                foreach ($show_images as $k=>$v) {
+                    $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                    $list[] = str_replace("\\", "/", $info->getSaveName());
                 }
+                
                 $goods_data["goods_show_image"] =  $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
             }

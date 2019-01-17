@@ -30,12 +30,18 @@ class Comments extends Controller
                 $comments_approve = db("comment_set")->where("comment_set_id",$value["comment_set_id"])->value("approve");
                 $comments_integral = $comments_character_integral + $comments_approve;
                 $comments_index[$key]["comments_integral"] = $comments_integral;
+                $comments_index[$key]["goods_name"] = db("goods")->where("id",$value["goods_id"])->value("goods_name");
                 db("comment")->where("id",$value["id"])->update(["comment_integral"=>$comments_integral]);
+
             }else if(!empty($value["comment_set_id"])){
-                $comments_character_integral = db("comment_set")->where("comment_set_id",$value["comment_set_id"])->value("character_integral");
+                $comments_character_integral = db("comment_set")->where("id",$value["comment_set_id"])->value("character_integral");
                 $comments_index[$key]["comments_integral"] = $comments_character_integral;
+                $comments_index[$key]["goods_name"] = db("goods")->where("id",$value["goods_id"])->value("goods_name");
                 db("comment")->where("id",$value["id"])->update(["comment_integral"=>$comments_character_integral]);
+            }else{
+                $comments_index[$key]["goods_name"] = db("goods")->where("id",$value["goods_id"])->value("goods_name");
             }
+
         }
         return view('comments_index',["comments_index"=>$comments_index]);
     }
@@ -47,6 +53,10 @@ class Comments extends Controller
      */
     public function add()
     {
+        $comment = db("comment_set")->select();
+        if(!empty($comment)){
+            $this->assign(["comment"=>$comment]);
+        }
         return view('comments_add');
     }
 
@@ -57,42 +67,30 @@ class Comments extends Controller
      */
     public function preserve(Request $request)
     {
-        if ($request->isPost()) {
-            $comment_datas = $request->param();
-            $bool = db("comment_set")->where('id', $res)->update($comment_datas);
-            if ($bool) {
-                $this->success("编辑成功", url("admin/Comments/add"));
-            } else {
-                $this->error("编辑失败", url("admin/Comments/add"));
-            }
-
+        $comment_datas = $request->param();
+        $bool = db("comment_set")->insert($comment_datas);
+        if ($bool) {
+            $this->success("编辑成功", url("admin/Comments/index"));
+        } else {
+            $this->error("编辑失败", url("admin/Comments/index"));
         }
     }
 
 
 
-    /**
-     * [评论管理编辑]
-     * 郭杨
-     */
-    public function edit($id)
-    {
-        $comments = db("mament")->where('id', $id)->field('comment,id,reply_content')->select();
-        return view('comments_edit', ['comments' => $comments]);
-    }
 
 
     /**
      * [评论管理保存]
      * 郭杨
      */
-    public function save(Request $request)
+    public function updata(Request $request)
     {
         if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
             $comment_data = $request->param();
-            $res = $request->only(["id"])["id"];
-
-            $bool = db("mament")->where('id', $res)->update($comment_data);
+            unset($comment_data["id"]);
+            $bool = db("comment_set")->where('id', $id)->update($comment_data);
             if ($bool) {
                 $this->success("编辑成功", url("admin/Comments/index"));
             } else {
