@@ -137,6 +137,7 @@ class Coupon extends Controller
         if ($request->isPost()) {
             $coupon_id = $request->only(['coupon_id'])['coupon_id']; //优惠券id
             $member_id = $request->only(["open_id"])["open_id"];
+            $coupon_good = 0;
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $goods_id = db("join")->where("coupon_id",$coupon_id)->field('goods_id')->select();
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
@@ -168,7 +169,7 @@ class Coupon extends Controller
             if (!empty($goods)) {
                 return ajax_success('传输成功', $goods);
             } else {
-                return ajax_error("该优惠券适用所用商品");
+                return ajax_error("该优惠券适用所用商品",$coupon_good);
 
             }
         }
@@ -199,7 +200,10 @@ class Coupon extends Controller
     {
         if ($request->isPost()) {
         $bonus_id = $request->only(['id'])['id']; //积分商城商品id
-        $bonus = db("bonus_mall")->where('id',$bonus_id)->where("status",1)->order('id desc')->select();         
+        $bonus = db("bonus_mall")->where('id',$bonus_id)->where("status",1)->order('id desc')->select();
+        foreach ($bonus as $key => $value) {
+            $bonus[$key]["goods_show_images"] = explode(",",$bonus[$key]["goods_show_images"]);
+        }         
         if (!empty($bonus)) {
             return ajax_success('传输成功', $bonus);
         } else {
