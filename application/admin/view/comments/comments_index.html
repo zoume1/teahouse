@@ -95,7 +95,30 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-
+                {volist name="comments_index" id="value"}
+                    <tr>
+                        <td></td>
+                        <td align="left">{$value.user_account}</td>
+                        <td>{$value.comment_integral == null ? "无" : $value.comment_integral}</td>
+                        <td>{$value.goods_name}</td>
+                        <td>{$value.order_numbers}</td>
+                        <td>{$value.comment_details}</td>
+                        <td>{$value.create_time|date="Y-m-d H:i",###}</td>
+                        <td class="td-status">
+                            {if $value.status == 0}
+                            没有点赞
+                            {/if}
+                            {if $value.status == 1}
+                            已经点赞过
+                            {/if}
+                        </td>
+                        <td>
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+                            </a>
+                            <a href="{:url('admin/Category/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                        </td>
+                    </tr>
+                {/volist}
                 </tbody>
 
 
