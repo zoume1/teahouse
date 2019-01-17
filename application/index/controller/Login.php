@@ -25,8 +25,6 @@ class Login extends Controller{
     public function wechatlogin()
     {
         $get = input('get.');
-        Cache::set('name',"value",3600);
-        halt(Cache::get('name'));
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
         $params['appid'] = 'wx301c1368929fdba8';//客户公司
