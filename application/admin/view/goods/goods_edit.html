@@ -469,7 +469,7 @@
                                                             <p class="img-name-p">u4594.png</p><input id="taglocation" value="__UPLOADS__/{$ve.images}" type="hidden">
                                                             <input id="tags" value="" type="hidden"></section>
                                                         <section class="z_file fl" style="display: none;"> <img src="/teahouse/public/static/admin/common/upfile/img/a11.png" class="add-img">
-                                                            <input type="file" id="file_0" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="" data-id="1" data-value="images" data-name="{$ve.id}"> </section>
+                                                            <input type="file" id="file_0" class="file filedelect" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="" data-id="1" data-value="images" data-name="{$ve.id}"> </section>
 
                                                     </div>
                                                 </section>
@@ -716,7 +716,7 @@
 
             });
             //			添加图片
-            $(".file").change(function() {
+            $(".filedelect").change(function() {
                 //				alert(111);
                 var formData = new FormData();
                 var filess = $(this)[0].files[0];
@@ -724,30 +724,32 @@
                 formData.append("id", id);
                 formData.append("file", filess);
                 $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Goods/addphoto')}",
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    success: function(data) {
-                        $.ajax({
                             type: "POST",
                             url: "{:url('admin/Goods/photos')}",
                             data: {
                                 "id": id,
                             },
                             success: function(data) {
-                                layer.msg("修改成功");
+                                $.ajax({
+                                        type: "POST",
+                                        url: "{:url('admin/Goods/addphoto')}",
+                                        processData: false,
+                                        contentType: false,
+                                        data: formData,
+                                        success: function(data) {
+                                            layer.msg("修改成功");
+                                        },
+                                        error: function(data) {
+                                            console.log("失败")
+                                        }
+                                    });
+                                
                             },
                             error: function(data) {
                                 console.log("失败")
                             }
                         });
-                    },
-                    error: function(data) {
-                        console.log("失败")
-                    }
-                });
+               
             });
 
             $("#hot").on('click', ".change_text", function() {
