@@ -99,19 +99,14 @@ class Goods extends Controller
         
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
-            
-            if (!empty($show_images)) {
-                // foreach ($show_images as $ky => $vl) {
-                //     $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
-                //     $list[] = str_replace("\\", "/", $show->getSaveName());
-                // }
-                $list = [];
+            $list = [];
+            if (!empty($show_images)) {              
                 foreach ($show_images as $k=>$v) {
                     $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $info->getSaveName());
                 }
-                halt($list);
-                //$goods_data["goods_show_image"] =  $list[0];
+                
+                $goods_data["goods_show_image"] =  $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
             }
             
