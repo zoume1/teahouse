@@ -49,10 +49,13 @@ class Commodity extends Controller
                     $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
                     $min[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("price") * $discount;//最低价格
                     $goods[$k]["goods_standard"] = $standard[$k];
+                    $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
+                    $goods[$k]["goods_show_image"] = explode(",",$goods[$k]["goods_show_images"])[0];
                     $goods[$k]["max_price"] = $max[$k];
                     $goods[$k]["min_price"] = $min[$k];
                 } else {
                     $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
+                    $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
                 }
             }
 
