@@ -105,6 +105,7 @@ class Goods extends Controller
                     $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $show->getSaveName());
                 }
+                halt($list);
                 $goods_data["goods_show_image"] =  $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
             }
