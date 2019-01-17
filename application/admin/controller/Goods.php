@@ -96,7 +96,7 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $goods_data = $request->param();
-            $list = [];
+        
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             
@@ -105,6 +105,7 @@ class Goods extends Controller
                 //     $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
                 //     $list[] = str_replace("\\", "/", $show->getSaveName());
                 // }
+                $list = [];
                 foreach ($show_images as $k=>$v) {
                     $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $info->getSaveName());
