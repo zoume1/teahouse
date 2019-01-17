@@ -19,6 +19,7 @@ use think\Route;
 Route::group("",[
     /*首页*/
     "/$"=>"index/index/index",
+    "index_home"=>"index/index/home",
 
     /*TODO：start*/
     /*登录授权*/
