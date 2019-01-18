@@ -38,7 +38,22 @@
 .dxal .case-address-container .address{display: flex; align-items: center; justify-content: space-between; font-size: 20px; color: #333;}
 .dxal .more-case{display: block; width: 280px; height: 68px; border: 1px solid #545454; text-align: center; line-height: 68px; margin: 0 auto; font-size: 28px; color: #363636; border-radius: 5px;}
 
+/* 我们的服务 */
+.service{margin-bottom: 65px;}
+.service .title-h2{text-align: center; margin: 50px 0 65px;}
+.service .service-container{display: flex;}
+.service .service-container .service-item{flex-basis: 25%; text-align: center;}
+.service .service-item p{font-size: 14px; color: #797979; line-height: 28px;}
+.service .service-item img{margin-bottom: 10px;}
 
+/* 合作伙伴 */
+.partner{background-color: #f8f8f8; padding: 50px 75px 30px; box-sizing: border-box;}
+.partner .title-h2{text-align: center; margin-bottom: 50px;}
+.partner .partner-container{display: flex; justify-content: space-between; flex-wrap: wrap;}
+.partner .partner-container .partner-item{flex-basis: 16.6%; display: flex; align-items: center; justify-content: center; height: 78px; margin-bottom: 20px;}
+.tpl{display: none;}
+
+/* footer */
 
 
 

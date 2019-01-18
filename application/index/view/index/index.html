@@ -178,8 +178,51 @@
                 </div>
                 <a href="javascript:;" class="more-case">更多案例</a>
             </div>
+            <!-- 我们的服务 -->
+            <div class="service">
+                <h2 class="title-h2">我们的服务</h2>
+                <div class="service-container">
+                    <div class="service-item">
+                        <img src="__STATIC__/index/img/img10.png" width="134" height="134">
+                        <p class="service-titme">专业客服答疑</p>
+                        <p class="advantage">7*24小时专业指导</p>
+                    </div>
+                    <div class="service-item">
+                        <img src="__STATIC__/index/img/img11.png" width="134" height="134">
+                        <p class="service-titme">专业客服答疑</p>
+                        <p class="advantage">7*24小时专业指导</p>
+                    </div>
+                    <div class="service-item">
+                        <img src="__STATIC__/index/img/img12.png" width="134" height="134">
+                        <p class="service-titme">专业客服答疑</p>
+                        <p class="advantage">7*24小时专业指导</p>
+                    </div>
+                    <div class="service-item">
+                        <img src="__STATIC__/index/img/img13.png" width="134" height="134">
+                        <p class="service-titme">专业客服答疑</p>
+                        <p class="advantage">7*24小时专业指导</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 合作伙伴 -->
+            <div class="partner">
+                <h2 class="title-h2">合作伙伴</h2>
+                <div class="partner-container">
+                    <div class="tpl">
+                        <img src="__STATIC__/index/img/p-logo1.png">
+                    </div>
+                </div>
+            </div>
+            <!-- footer -->
+            <div class="footer">
+                <div class="top"></div>
+                <div class="bot">
+                    
+                </div>
+            </div>
         </div>
     </div>
+    <script src="__STATIC__/index/js/jquery.js"></script>
     <script src="__STATIC__/index/js/swiper-4.3.5.min.js"></script>
     <script>
         var mySwiper = new Swiper ('.swiper-container', {
@@ -192,7 +235,15 @@
             pagination: {
                 el: '.swiper-pagination',
             },
-        })        
+        })
+        var $partnerContainer = $('.partner-container');
+        for(var i = 1; i <= 12; i++){
+            var $partnerItem = $('.tpl').clone().removeClass('tpl').addClass('partner-item');
+            $partnerItem
+                .find('img')
+                    .attr('src', '__STATIC__/index/img/p-logo1.png');
+            $partnerContainer.append($partnerItem);
+        }
     </script>
 </body>
 </html>
