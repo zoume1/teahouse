@@ -12,7 +12,7 @@ class Commodity extends Controller
      */
     public function commodity_index(Request $request)
     {
-        if($request->isGet()) {            
+        if($request->isPost()) {            
             $goods_type = db("wares")->where("status", 1)->select();
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
             foreach($goods_type as $key => $value)
@@ -20,7 +20,6 @@ class Commodity extends Controller
                 $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("label",1)->select();
  
             }
-            halt($goods_type);
             return ajax_success("获取成功",array("goods_type"=>$goods_type));
         }
         
@@ -52,7 +51,6 @@ class Commodity extends Controller
                     $min[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("price") * $discount;//最低价格
                     $goods[$k]["goods_standard"] = $standard[$k];
                     $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
-                    $goods[$k]["goods_show_image"] = $goods[$k]["goods_show_images"][0];
                     $goods[$k]["max_price"] = $max[$k];
                     $goods[$k]["min_price"] = $min[$k];
                 } else {
@@ -126,14 +124,12 @@ class Commodity extends Controller
 
             if ($goods[0]["goods_standard"] == 1) {
                 $goods[0]["goods_standard"] = $goods_standard;
-                $goods[0]["goods_show_image"] = (explode(",", $goods[0]["goods_show_images"])[0]);
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
                 $goods[0]["max_price"] = $max_prices;
                 $goods[0]["min_price"] = $min_prices;
 
             } else {
                 $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
-                $goods[0]["goods_show_image"] = (explode(",", $goods[0]["goods_show_images"])[0]);
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
             }
             if (!empty($goods) && !empty($goods_id)) {
