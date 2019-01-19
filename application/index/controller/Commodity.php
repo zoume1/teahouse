@@ -36,8 +36,9 @@ class Commodity extends Controller
     public function commodity_recommend(Request $request)
     {
 
-        if ($request->isPost()) {
-            $member_id = $request->only(["open_id"])["open_id"];
+        if ($request->isGet()) {
+            // $member_id = $request->only(["open_id"])["open_id"];
+            $member_id = 'o_lMv5dwxVdyYvafw03wELn6YXxw';
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
             $goods = db("goods")->where("status",1)->select();
@@ -57,7 +58,7 @@ class Commodity extends Controller
                     $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
                 }
             }
-
+            halt($goods);
             if (!empty($goods) && !empty($member_id)) {
                 return ajax_success("获取成功", $goods);
             } else {

@@ -109,6 +109,7 @@ class Goods extends Controller
                 $goods_data["goods_show_image"] =  $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
             }
+           
             
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
@@ -145,6 +146,7 @@ class Goods extends Controller
                     $goods_data["goods_text"] = "";
                 }
                 $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
+                $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                 $result = implode(",", $goods_data["lv1"]);
                 $goods_id = db('goods')->insertGetId($goods_special);
                 if (!empty($goods_data)) {
