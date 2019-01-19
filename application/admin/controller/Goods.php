@@ -284,7 +284,7 @@ class Goods extends Controller
             db("commodity")->where("goods_id", $id)->delete();
         }
 
-        if ($bool && $boole) {
+        if ($bool || $boole) {
             $this->success("删除成功", url("admin/Goods/index"));
         } else {
             $this->success("删除失败", url('admin/Goods/add'));
