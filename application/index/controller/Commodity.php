@@ -12,7 +12,7 @@ class Commodity extends Controller
      */
     public function commodity_index(Request $request)
     {
-        if($request->isPost()) {            
+        if($request->isGet()) {            
             $goods_type = db("wares")->where("status", 1)->select();
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
             foreach($goods_type as $key => $value)
@@ -20,6 +20,7 @@ class Commodity extends Controller
                 $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("label",1)->select();
  
             }
+            halt($goods_type);
             return ajax_success("获取成功",array("goods_type"=>$goods_type));
         }
         
