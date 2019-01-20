@@ -41,9 +41,8 @@
     {block name="content"}
 
 
-    <form class="layui-form layui-form-lists" action="{:url('admin/Distribution/goods_save')}" method="post" enctype="multipart/form-data">
-    
-
+    <form class="layui-form layui-form-lists" action="{:url('admin/Distribution/goods_savetwo')}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="restid" value= "{$rest}" >
         <div class="form-title">分佣比例 </div>
         <table border="" cellspacing="" cellpadding="" class="proportion">
             <tr>
@@ -109,61 +108,6 @@
                 <input type="radio" name="status" value="0" title="关">
             </div>
         </div>
-	
-        <div class="form-title">选择商品</div>
-        <div class="childrenBody">
-        <blockquote class="layui-elem-quote news_search">
-            <div class="layui-form">
-                <div class="seach">
-                    <div class="seach_list">
-                        <div class="seach_laber">输入搜索：</div>
-                        <div class="seach_input">
-                            <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入商品编码/商品名称" class="layui-input seach"  id="seach_val">
-                        </div>
-                    </div>
-                    <button class="layui-btn" type="button" id="seach_button">立即搜索</button>
-                </div>
-    
-            </div>
-        </blockquote>
-    
-    
-        <div class="layui-form news_list">
-            <table class="layui-table">
-                <colgroup>
-                    <col width="3%">
-    
-                </colgroup>
-                <thead>
-                    <tr>
-                         <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
-                        <th>商品编号</th>
-                        <th>商品图片</th>
-                        <th>商品名称</th>
-                        <th>库存</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody class="news_content">
-                    <!-- <tr>
-                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-                        <td>1000001</td>
-                        <td class="">
-                            <div class="tdimg"><img src="11" /></div>
-                        </td>
-                        
-                        <td>1000001</td>
-                        <td>1000001</td>
-                        <td>
-                            <a class="layui-btn layui-btn-mini edit" href="bonus_edit"><i class="iconfont icon-edit"></i> 参加活动
-                            </a>
-                        </td>
-                    </tr> -->
-                </tbody>
-            </table>
-            
-    
-    </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>

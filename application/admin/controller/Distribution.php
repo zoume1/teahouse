@@ -281,14 +281,45 @@ class Distribution extends Controller
 
 
     /**
-     * [分销商品添加商品]
+     * [商品列表添加商品分销设置]
      * GY
      */
-    public function goods_addtwo()
+    public function goods_addtwo($id)
     {
-        return view('goods_addtwo');
+        $rest = $id;
+        return view('goods_addtwo',["rest"=>$rest]);
     }
 
 
+
+    /**
+     * [商品列表添加商品分销设置入库]
+     * GY
+     */
+    public function goods_savetwo(Request $request)
+    {
+        if ($request->isPost()) {
+            $data = $request->param();
+            $goods = db("goods")->where("id",$data["restid"])->field("id,goods_number,goods_show_image,goods_name")->find();
+            $bool = db("goods")->where("id",$data["restid"])->update(["distribution" => 1]);
+            $goods["rank"] = implode(",",$data["rank"]);
+            $goods["grade"] = implode(",",$data["grade"]);
+            $goods["scale"] = implode(",",$data["scale"]);
+            $goods["integral"] = implode(",",$data["integral"]);
+            $goods["award"] = implode(",",$data["award"]);
+            $goods["status"] = $data["status"];                   
+            $goods["way"] = $data["way"];
+            $goods["goods_id"] = $data["restid"]; 
+            unset($goods["id"]);               
+        
+            $boole = db("commodity")->insert($goods);
+         
+            if ($boole) {
+                $this->success("添加成功", url("admin/Distribution/goods_index"));
+            } else {
+                $this->error("添加失败", url("admin/Distribution/goods_add"));
+            }
+        }
+    }
 
 }
