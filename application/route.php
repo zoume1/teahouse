@@ -249,7 +249,9 @@ Route::group("admin",[
     "goods_photos"=>"admin/Goods/photos",    //商品列表规格图片删除
     "goods_value"=>"admin/Goods/value",      //商品列表规格值修改
     "goods_switches"=>"admin/Goods/switches",//商品列表规格开关
-    "goods_addphoto"=>"admin/Goods/addphoto",//商品列表规格图片添加
+    "goods_addphoto"=>"admin/Goods/addphoto",//商品列表规格图片添加 
+    "distribution_goods_addtwo"=>"admin/Distribution/goods_addtwo",//分销商品添加
+
 
 
     /*商品分类*/

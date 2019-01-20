@@ -77,9 +77,10 @@ class Advertisement extends Controller
             $data = $request->param();
 
             $data["start_time"] = strtotime($data["start_time"]);
-            $addressed = [$data["address_city2"], $data["address_city3"], $data["address_street"]];
+            $address = [$data["address_city2"], $data["address_city3"], $data["address_street"]];
+            $addressed = [$data["address_city1"], $data["address_city2"], $data["address_city3"], $data["address_street"]];
             $data["addressed"] = implode(",", $addressed);
-            $data["address"] = implode("", $addressed);
+            $data["address"] = implode("", $address);
             
 
             foreach ($data as $k => $v) {

@@ -41,8 +41,6 @@ class Goods extends Controller
                     $goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]['id'])->sum("stock");//库存
                     $goods[$key]["max_price"] = $max[$key];
                     $goods[$key]["min_price"] = $min[$key];
-                    
-
                 }
                 $goods[$key]["named"] = $res["name"];               
                 $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
@@ -533,6 +531,29 @@ class Goods extends Controller
         }
     }
 
+
+
+    /**
+     * [商品列表分销设置加载]
+     * 郭杨
+     */
+    public function goods_promote($id)
+    {
+        if ($request->isPost()) {
+            $id = $request -> only(["id"])["id"];
+            $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
+            $images = str_replace("\\", "/", $imag->getSaveName());
+
+            if(!empty($id)){
+                $bool = db("special")->where("id", $id)->update(["images" => $images]);
+            }
+             if ($bool) {
+                 return ajax_success('添加图片成功!');
+             } else {
+                 return ajax_error('添加图片失败');
+             }
+        }
+    }
 
 
 

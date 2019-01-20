@@ -280,7 +280,14 @@ class Distribution extends Controller
     }
 
 
-
+    /**
+     * [分销商品添加商品]
+     * GY
+     */
+    public function goods_addtwo()
+    {
+        return view('goods_addtwo');
+    }
 
 
 
