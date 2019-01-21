@@ -31,17 +31,17 @@ class Comments extends Controller
                 $comments_approve = db("comment_set")->where("id",$value["comment_set_id"])->value("approve");
                 $comments_integral = $comments_character_integral + $comments_approve;
                 $comments_index[$key]["comments_integral"] = $comments_integral;
-                $comments_index[$key]["goods_name"] = db("goods")->where("id",$value["goods_id"])->value("goods_name");
+                $comments_index[$key]["activity_name"] = db("teahost")->where("id",$value["teahost_id"])->value("activity_name");
                 db("comment")->where("id",$value["id"])->update(["comment_integral"=>$comments_integral]);
 
             }else if(!empty($value["comment_set_id"])){
                 $comments_character_integral = db("comment_set")->where("id",$value["comment_set_id"])->value("character_integral");
                 $comments_index[$key]["comments_integral"] = $comments_character_integral;
-                $comments_index[$key]["goods_name"] = db("goods")->where("id",$value["goods_id"])->value("goods_name");
+                $comments_index[$key]["activity_name"] = db("teahost")->where("id",$value["teahost_id"])->value("activity_name");
                 db("comment")->where("id",$value["id"])->update(["comment_integral"=>$comments_character_integral]);
             }else if (!empty($comments_set) && $value["comment_set_id"] == null){
                 db("comment")->where("comment_set_id",null)->update(["comment_set_id"=>$comments_set[0]["id"]]);
-                $comments_index[$key]["goods_name"] = db("goods")->where("id",$value["goods_id"])->value("goods_name");
+                $comments_index[$key]["activity_name"] = db("teahost")->where("id",$value["teahost_id"])->value("activity_name");
                 $comments_character_integral = db("comment_set")->where("id",$value["comment_set_id"])->value("character_integral");
                 $comments_index[$key]["comments_integral"] = $comments_character_integral;
                 if($value["status"] == 1){
@@ -50,7 +50,7 @@ class Comments extends Controller
                     $comments_index[$key]["comments_integral"] = $comments_integral;
                 }
             }else{
-                $comments_index[$key]["goods_name"] = db("goods")->where("id",$value["goods_id"])->value("goods_name");
+                $comments_index[$key]["activity_name"] = db("teahost")->where("id",$value["teahost_id"])->value("activity_name");
 
             }
 
