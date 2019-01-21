@@ -51,7 +51,6 @@ class Comments extends Controller
                 }
             }else{
                 $comments_index[$key]["activity_name"] = db("teahost")->where("id",$value["teahost_id"])->value("activity_name");
-
             }
 
         }
