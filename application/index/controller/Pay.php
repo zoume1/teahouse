@@ -76,9 +76,10 @@ class Pay extends  Controller{
      * Notes:小程序活动支付成功回来修改状态
      **************************************
      */
-    public function notify(Request $request){
+    public function notify(){
+        $out_trade_no = input('out_trade_no');
         $input = new \WxPayOrderQuery();
-        $input->SetTransaction_id();
+        $input->SetTransaction_id($out_trade_no);
         $result = \WxPayApi::orderQuery($input);
         \Log::DEBUG("query:" . json_encode($result));
         if(array_key_exists("return_code", $result)
@@ -94,6 +95,27 @@ class Pay extends  Controller{
             Db::name("activity_order")->where("parts_order_number",$result["transaction_id"])->delete();
         }
     }
+
+//    public function notify(Request $request){
+//        $out_trade_no = input('out_trade_no');
+//        $input = new \WxPayOrderQuery();
+//        $input->SetTransaction_id();
+//        $result = \WxPayApi::orderQuery($input);
+//        \Log::DEBUG("query:" . json_encode($result));
+//        if(array_key_exists("return_code", $result)
+//            && array_key_exists("result_code", $result)
+//            && $result["return_code"] == "SUCCESS"
+//            && $result["result_code"] == "SUCCESS")
+//        {
+//            Db::name("activity_order")->where("id",8)->update(["status"=>1]);
+//            Db::name("activity_order")->where("parts_order_number",$result["transaction_id"])->update(["status"=>1]);
+//        }else{
+//            Db::name("activity_order")->where("id",9)->update(["status"=>1]);
+//            Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->delete();
+//            Db::name("activity_order")->where("parts_order_number",$result["transaction_id"])->delete();
+//        }
+//    }
+
 
 //    public function Queryorder($transaction_id)
 //    {

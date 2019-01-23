@@ -24,7 +24,6 @@ class  PayNotufyCallBack extends WxPayNotify{
             && $result["return_code"] == "SUCCESS"
             && $result["result_code"] == "SUCCESS")
         {
-
             return true;
         }
         return false;
@@ -42,7 +41,6 @@ class  PayNotufyCallBack extends WxPayNotify{
     public function NotifyProcess($data, &$msg)
     {
         $notfiyOutput = array();
-
         if (!array_key_exists("transaction_id", $data)) {
             $msg = "输入参数不正确";
             return false;
@@ -54,5 +52,4 @@ class  PayNotufyCallBack extends WxPayNotify{
         }
         return true;
     }
-
 }
