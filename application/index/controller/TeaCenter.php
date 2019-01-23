@@ -290,8 +290,10 @@ class TeaCenter extends Controller
     public function teacenter_comment_updata(Request $request){
 
         if ($request->isPost()){
-            $user_id = $request->only(["user_id"])["user_id"];
-            $comment = db("comment")->where("user_id",$user_id)->update(["status"=>1]);
+            $opend_id = $request->only(["user_id"])["user_id"];
+            $teahost_id = $request->only(["teahost_id"])["teahost_id"];
+            $user_id = db("member")->where("member_openid",$opend_id)->value("member_id");
+            $comment = db("comment")->where("user_id",$user_id)->where("teahost_id",$teahost_id)->update(["status"=>1]);
             if($comment){
                 return ajax_success("更新成功");
             }else{

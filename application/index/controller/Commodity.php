@@ -49,13 +49,15 @@ class Commodity extends Controller
                     $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
                     $min[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("price") * $discount;//最低价格
                     $goods[$k]["goods_standard"] = $standard[$k];
+                    $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
                     $goods[$k]["max_price"] = $max[$k];
                     $goods[$k]["min_price"] = $min[$k];
                 } else {
                     $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
+                    $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
                 }
             }
-
+            
             if (!empty($goods) && !empty($member_id)) {
                 return ajax_success("获取成功", $goods);
             } else {
@@ -121,14 +123,12 @@ class Commodity extends Controller
 
             if ($goods[0]["goods_standard"] == 1) {
                 $goods[0]["goods_standard"] = $goods_standard;
-                $goods[0]["goods_show_image"] = (explode(",", $goods[0]["goods_show_images"])[0]);
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
                 $goods[0]["max_price"] = $max_prices;
                 $goods[0]["min_price"] = $min_prices;
 
             } else {
                 $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
-                $goods[0]["goods_show_image"] = (explode(",", $goods[0]["goods_show_images"])[0]);
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
             }
             if (!empty($goods) && !empty($goods_id)) {

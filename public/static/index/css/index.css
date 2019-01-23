@@ -1,0 +1,66 @@
+/* 智慧茶仓 */
+.zhcc{display: flex; height: 470px; background-color: #f8f8f8; padding: 55px 75px; box-sizing: border-box;}
+.zhcc-img{margin-right: 100px;}
+.zhcc-content h3{font-size: 25px; color: #515151; margin: 10px 0;}
+.zhcc-content ul{padding-left: 22px;}
+.zhcc-content ul li{list-style: disc; font-size: 20px; color: #515151}
+.tryout{text-align: right; margin-top: 20px;}
+.tryout a{display: inline-block; width: 226px; height: 70px; text-align: center; line-height: 70px; background-color: #545454; color: #fff; border-radius: 5px; font-size: 28px;}
+
+/* 应用场景 */
+.yycj .title-h2{text-align: center; margin: 50px 0;}
+.yycj .scene-container{padding: 0 75px; display: flex; flex-wrap: wrap; justify-content: space-between;}
+.yycj .scene-container .scene-item{width: 588px; height: 300px; margin-bottom: 20px; cursor: pointer;}
+.yycj .scene-item .scene-item-mask{position: relative; height: 100%; overflow: hidden; transition: all .3s;}
+.yycj .scene-item .scene-title-container{position: absolute; left: 0; bottom: -100px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; width: 100%; box-sizing: border-box; height: 100px; transition: all .5s;}
+.yycj .title{color: #fff; font-size: 40px; font-weight: 700;}
+.yycj .subtitle{color: #fff; font-size: 23px;}
+.yycj .scene-item .icon-more{width: 20px; height: 34px; background: url(../img/img2.png) no-repeat;}
+.yycj .scene-container .item1{background: url(../img/img3.png) no-repeat 50% 0;}
+.yycj .scene-container .item2{background: url(../img/img4.png) no-repeat 50% 0;}
+.yycj .scene-container .item3{background: url(../img/img5.png) no-repeat 50% 0;}
+.yycj .scene-container .item4{background: url(../img/img6.png) no-repeat 50% 0;}
+.yycj .scene-item:hover .scene-item-mask{background-color: rgba(0, 0, 0, .6);}
+.yycj .scene-item:hover .scene-title-container{bottom: 0px;}
+
+/* 典型案例 */
+.dxal{height: 680px; background-color: #f8f8f8; padding: 50px 75px 0; box-sizing: border-box;}
+.dxal .title-h2{text-align: center; margin: 0 0 50px;}
+.dxal .case-container{display: flex; justify-content: space-between; margin-bottom: 55px;}
+.dxal .case-item{position: relative; background-color: #fff;}
+.dxal .case-item .case-item-mask{position: absolute; left: 0; top: 0; width: 100%; height: 100%;background-color: rgba(0, 0, 0, .6); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: all .5s;}
+.dxal .case-item:hover .case-item-mask{opacity: 1;}
+.dxal .case-item-mask p{font-size: 20px; color: #fff; margin-top: 10px; font-weight: 700;}
+.dxal .case-item .case-address-container{padding: 20px;}
+.dxal .case-address-container .title{display: flex; align-items: center; margin-bottom: 10px;}
+.dxal .case-address-container .icon-case{display: inline-block; width: 40px; height: 48px; background: url(../img/img9.png) no-repeat; background-size: 100%; margin-right: 30px;}
+.dxal .case-address-container .case-name{font-size: 20px; color: #333; font-weight: 700;}
+.dxal .case-address-container .address{display: flex; align-items: center; justify-content: space-between; font-size: 20px; color: #333;}
+.dxal .more-case{display: block; width: 280px; height: 68px; border: 1px solid #545454; text-align: center; line-height: 68px; margin: 0 auto; font-size: 28px; color: #363636; border-radius: 5px;}
+
+/* 我们的服务 */
+.service{margin-bottom: 65px;}
+.service .title-h2{text-align: center; margin: 50px 0 65px;}
+.service .service-container{display: flex;}
+.service .service-container .service-item{flex-basis: 25%; text-align: center;}
+.service .service-item p{font-size: 14px; color: #797979; line-height: 28px;}
+.service .service-item img{margin-bottom: 10px;}
+
+/* 合作伙伴 */
+.partner{background-color: #f8f8f8; padding: 50px 75px 30px; box-sizing: border-box;}
+.partner .title-h2{text-align: center; margin-bottom: 50px;}
+.partner .partner-container{display: flex; justify-content: space-between; flex-wrap: wrap;}
+.partner .partner-container .partner-item{flex-basis: 16.6%; display: flex; align-items: center; justify-content: center; height: 78px; margin-bottom: 20px;}
+.tpl{display: none;}
+
+/* footer */
+
+
+
+
+
+
+
+
+
+

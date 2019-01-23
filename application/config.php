@@ -188,14 +188,10 @@ return [
     // | 缓存设置
     // +----------------------------------------------------------------------
 
-    'cache'                  => [
-        // 驱动方式
+    'cache'  => [
         'type'   => 'File',
-        // 缓存保存目录
         'path'   => CACHE_PATH,
-        // 缓存前缀
         'prefix' => '',
-        // 缓存有效期 0表示永久缓存
         'expire' => 0,
     ],
 
@@ -251,7 +247,7 @@ return [
         // 缓存前缀
         'prefix'=>  'think',
         // 缓存目录
-        'path'  =>  '../runtime/cache/',
+        'path'  =>  APP_PATH .'/runtime/cache/',
     ],
     'redis'	=>	[
         'type'	=>	'redis',

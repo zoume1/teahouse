@@ -224,8 +224,7 @@ Route::group("admin",[
 	 "comments_index"=>"admin/Comments/index",       //评论管理显示
 	 "comments_add"=>"admin/Comments/add",           //评论积分设置
 	 "comments_preserve"=>"admin/Comments/preserve", //评论积分设置保存
-	 "comments_edit"=>"admin/Comments/edit",         //评论管理编辑
-     "comments_save"=>"admin/Comments/save",         //评论管理保存
+     "comments_save"=>"admin/Comments/updata",         //评论管理保存
      "comments_status"=>"admin/Comments/status",     //评论管理状态修改
      "comments_delete"=>"admin/Comments/delete",     //评论管理组删除
      "comments_deletes"=>"admin/Comments/deletes",   //评论管理组批量删除
@@ -250,7 +249,9 @@ Route::group("admin",[
     "goods_photos"=>"admin/Goods/photos",    //商品列表规格图片删除
     "goods_value"=>"admin/Goods/value",      //商品列表规格值修改
     "goods_switches"=>"admin/Goods/switches",//商品列表规格开关
-    "goods_addphoto"=>"admin/Goods/addphoto",//商品列表规格图片添加
+    "goods_addphoto"=>"admin/Goods/addphoto",//商品列表规格图片添加 
+    
+
 
 
     /*商品分类*/
@@ -270,8 +271,10 @@ Route::group("admin",[
     "distribution_setting_updata"=>"admin/Distribution/setting_updata",//分销设置页面保存
     "distribution_goods_index"=>"admin/Distribution/goods_index",      //分销商品页面
     "distribution_goods_add"=>"admin/Distribution/goods_add",          //分销商品添加
+    "distribution_goods_addtwo"=>"admin/Distribution/goods_addtwo",    //商品列表分销设置添加
     "distribution_goods_edit"=>"admin/Distribution/goods_edit",        //分销商品编辑
     "distribution_goods_save"=>"admin/Distribution/goods_save",        //分销商品添加入库
+    "distribution_goods_savetwo"=>"admin/Distribution/goods_savetwo",  //商品列表分销设置添加入库
     "distribution_goods_update"=>"admin/Distribution/goods_update",    //分销商品编辑更新
     "distribution_goods_delete"=>"admin/Distribution/goods_delete",    //分销商品组删除
     "distribution_goods_search"=>"admin/Distribution/goods_search",    //分销商品组搜素
