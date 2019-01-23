@@ -77,23 +77,21 @@ class Pay extends  Controller{
      **************************************
      */
     public function notify(){
-        $out_trade_no = input('transaction_id');
-        $input = new \WxPayOrderQuery();
-        $input->SetTransaction_id($out_trade_no);
-        $result = \WxPayApi::orderQuery($input);
-        \Log::DEBUG("query:" . json_encode($result));
-        if(array_key_exists("return_code", $result)
-            && array_key_exists("result_code", $result)
-            && $result["return_code"] == "SUCCESS"
-            && $result["result_code"] == "SUCCESS")
-        {
+        $transaction_id = input();
+        if(!empty($transaction_id)){
             Db::name("activity_order")->where("id",8)->update(["status"=>1]);
-            Db::name("activity_order")->where("parts_order_number",$result["transaction_id"])->update(["status"=>1]);
-        }else{
-            Db::name("activity_order")->where("id",9)->update(["status"=>1]);
-            Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->delete();
-            Db::name("activity_order")->where("parts_order_number",$result["transaction_id"])->delete();
         }
+       $new = new \PayNotufyCallBack();
+       $is_ture =$new->NotifyProcess($transaction_id);
+       if($is_ture){
+          $order_number = $transaction_id["transaction_id"];
+          if($order_number){
+              Db::name("activity_order")->where("id",45)->update(["status"=>1]);
+          }
+          $order_number = $transaction_id["out_trade_no"];
+           Db::name("activity_order")->where("parts_order_number",$order_number)->update(["status"=>1]);
+       }
+
     }
 
 //    public function notify(Request $request){
