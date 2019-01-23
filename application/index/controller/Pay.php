@@ -87,9 +87,10 @@ class Pay extends  Controller{
             && $result["return_code"] == "SUCCESS"
             && $result["result_code"] == "SUCCESS")
         {
-            Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->update(["status"=>1]);
+            Db::name("activity_order")->where("id",8)->update(["status"=>1]);
             Db::name("activity_order")->where("parts_order_number",$result["transaction_id"])->update(["status"=>1]);
         }else{
+            Db::name("activity_order")->where("id",9)->update(["status"=>1]);
             Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->delete();
             Db::name("activity_order")->where("parts_order_number",$result["transaction_id"])->delete();
         }
