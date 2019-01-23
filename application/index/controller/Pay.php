@@ -7,6 +7,8 @@ use  think\Db;
 
 include('../extend/WxpayAPI/lib/WxPay.Api.php');
 include('../extend/WxpayAPI/example/WxPay.NativePay.php');
+include('../extend/WxpayAPI/lib/WxPay.Notify.php');
+include('../extend/WxpayAPI/lib/WxPay.Data.php');
 include('../extend/WxpayAPI/example/log.php');
 
 class Pay extends  Controller{
