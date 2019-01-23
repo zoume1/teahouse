@@ -101,14 +101,14 @@ class Pay extends  Controller{
             && $result["return_code"] == "SUCCESS"
             && $result["result_code"] == "SUCCESS")
         {
-        Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->update(["status"=>1]);
+            Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->update(["status"=>1]);
             return true;
         }
         return false;
     }
 
 
-    public function NotifyProcess($data, $msg)
+    public function notify($data, $msg)
     {
         $notfiyOutput = array();
         if(!array_key_exists("transaction_id", $data)){
@@ -120,6 +120,7 @@ class Pay extends  Controller{
             $msg = "订单查询失败";
             return false;
         }
+        Db::name("activity_order")->where("parts_order_number",$data["transaction_id"])->update(["status"=>1]);
         return true;
     }
 
