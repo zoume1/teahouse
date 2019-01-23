@@ -24,6 +24,7 @@ class  PayNotufyCallBack extends WxPayNotify{
             && $result["return_code"] == "SUCCESS"
             && $result["result_code"] == "SUCCESS")
         {
+
             return true;
         }
         return false;
@@ -55,5 +56,3 @@ class  PayNotufyCallBack extends WxPayNotify{
     }
 
 }
-$notify = new PayNotifyCallBack();
-$notify->Handle(false);
