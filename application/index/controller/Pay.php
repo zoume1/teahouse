@@ -3,6 +3,7 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Request;
+use  think\Db;
 
 include('../extend/WxpayAPI/lib/WxPay.Api.php');
 include('../extend/WxpayAPI/example/WxPay.NativePay.php');
@@ -75,7 +76,7 @@ class Pay extends  Controller{
      **************************************
      */
     public function notify(Request $request){
-        $out_trade_no = input();
+//        $out_trade_no = input();
         $input = new \WxPayOrderQuery();
         $input->SetTransaction_id();
         $result = \WxPayApi::orderQuery($input);
@@ -85,7 +86,9 @@ class Pay extends  Controller{
             && $result["return_code"] == "SUCCESS"
             && $result["result_code"] == "SUCCESS")
         {
-            return true;
+            Db::name("activity_order")->where("parts_order_number")->update(["status"=>1]);
+        }else{
+            Db::name("activity_order")->where("parts_order_number")->delete();
         }
     }
 }
