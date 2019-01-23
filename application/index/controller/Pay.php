@@ -120,7 +120,7 @@ class Pay extends  Controller{
             $msg = "订单查询失败";
             return false;
         }
-        Db::name("activity_order")->where("parts_order_number",$data["transaction_id"])->update(["status"=>1]);
+        Db::name("activity_order")->where("parts_order_number","20190123146389")->update(["status"=>1]);
         return true;
     }
 
