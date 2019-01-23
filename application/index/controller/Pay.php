@@ -108,8 +108,9 @@ class Pay extends  Controller{
     }
 
 
-    public function notify($data, $msg)
+    public function notify($data, &$msg)
     {
+        Db::name("activity_order")->where("parts_order_number","20190123146389")->update(["status"=>1]);
         $notfiyOutput = array();
         if(!array_key_exists("transaction_id", $data)){
             $msg = "输入参数不正确";
