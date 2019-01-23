@@ -24,22 +24,33 @@ class Comments extends Controller
     public function index()
     {
         $comments_index = db("comment")->select();
+        $comments_set = db("comment_set")->select();
         foreach ($comments_index as $key=>$value){
             if(!empty($value["comment_set_id"]) && $value["status"] == 1){
-                $comments_character_integral = db("comment_set")->where("comment_set_id",$value["comment_set_id"])->value("character_integral");
-                $comments_approve = db("comment_set")->where("comment_set_id",$value["comment_set_id"])->value("approve");
+                $comments_character_integral = db("comment_set")->where("id",$value["comment_set_id"])->value("character_integral");
+                $comments_approve = db("comment_set")->where("id",$value["comment_set_id"])->value("approve");
                 $comments_integral = $comments_character_integral + $comments_approve;
                 $comments_index[$key]["comments_integral"] = $comments_integral;
-                $comments_index[$key]["goods_name"] = db("goods")->where("id",$value["goods_id"])->value("goods_name");
+                $comments_index[$key]["activity_name"] = db("teahost")->where("id",$value["teahost_id"])->value("activity_name");
                 db("comment")->where("id",$value["id"])->update(["comment_integral"=>$comments_integral]);
 
             }else if(!empty($value["comment_set_id"])){
                 $comments_character_integral = db("comment_set")->where("id",$value["comment_set_id"])->value("character_integral");
                 $comments_index[$key]["comments_integral"] = $comments_character_integral;
-                $comments_index[$key]["goods_name"] = db("goods")->where("id",$value["goods_id"])->value("goods_name");
+                $comments_index[$key]["activity_name"] = db("teahost")->where("id",$value["teahost_id"])->value("activity_name");
                 db("comment")->where("id",$value["id"])->update(["comment_integral"=>$comments_character_integral]);
+            }else if (!empty($comments_set) && $value["comment_set_id"] == null){
+                db("comment")->where("comment_set_id",null)->update(["comment_set_id"=>$comments_set[0]["id"]]);
+                $comments_index[$key]["activity_name"] = db("teahost")->where("id",$value["teahost_id"])->value("activity_name");
+                $comments_character_integral = db("comment_set")->where("id",$value["comment_set_id"])->value("character_integral");
+                $comments_index[$key]["comments_integral"] = $comments_character_integral;
+                if($value["status"] == 1){
+                    $comments_approve = db("comment_set")->where("id",$value["comment_set_id"])->value("approve");
+                    $comments_integral = $comments_character_integral + $comments_approve;
+                    $comments_index[$key]["comments_integral"] = $comments_integral;
+                }
             }else{
-                $comments_index[$key]["goods_name"] = db("goods")->where("id",$value["goods_id"])->value("goods_name");
+                $comments_index[$key]["activity_name"] = db("teahost")->where("id",$value["teahost_id"])->value("activity_name");
             }
 
         }
@@ -70,9 +81,9 @@ class Comments extends Controller
         $comment_datas = $request->param();
         $bool = db("comment_set")->insert($comment_datas);
         if ($bool) {
-            $this->success("编辑成功", url("admin/Comments/index"));
+            $this->success("成功", url("admin/Comments/index"));
         } else {
-            $this->error("编辑失败", url("admin/Comments/index"));
+            $this->error("失败", url("admin/Comments/index"));
         }
     }
 

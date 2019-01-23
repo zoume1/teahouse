@@ -3,9 +3,11 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Request;
+use  think\Db;
 
 include('../extend/WxpayAPI/lib/WxPay.Api.php');
 include('../extend/WxpayAPI/example/WxPay.NativePay.php');
+include('../extend/WxpayAPI/lib/WxPay.Notify.php');
 include('../extend/WxpayAPI/example/log.php');
 
 class Pay extends  Controller{
@@ -74,18 +76,74 @@ class Pay extends  Controller{
      * Notes:小程序活动支付成功回来修改状态
      **************************************
      */
-    public function notify(Request $request){
-        $out_trade_no = input();
+    public function notify(){
+        $transaction_id = input();
         $input = new \WxPayOrderQuery();
-        $input->SetTransaction_id();
         $result = \WxPayApi::orderQuery($input);
-        \Log::DEBUG("query:" . json_encode($result));
-        if(array_key_exists("return_code", $result)
-            && array_key_exists("result_code", $result)
-            && $result["return_code"] == "SUCCESS"
-            && $result["result_code"] == "SUCCESS")
-        {
-            return true;
-        }
+       if($result["result_code"] == "SUCCESS" || $result["result_code"] == "Success"){
+          $order_number = $transaction_id["out_trade_no"];
+           Db::name("activity_order")->where("parts_order_number",$order_number)->update(["status"=>1]);
+       }
     }
+
+//    public function notify(Request $request){
+//        $out_trade_no = input('out_trade_no');
+//        $input = new \WxPayOrderQuery();
+//        $input->SetTransaction_id();
+//        $result = \WxPayApi::orderQuery($input);
+//        \Log::DEBUG("query:" . json_encode($result));
+//        if(array_key_exists("return_code", $result)
+//            && array_key_exists("result_code", $result)
+//            && $result["return_code"] == "SUCCESS"
+//            && $result["result_code"] == "SUCCESS")
+//        {
+//            Db::name("activity_order")->where("id",8)->update(["status"=>1]);
+//            Db::name("activity_order")->where("parts_order_number",$result["transaction_id"])->update(["status"=>1]);
+//        }else{
+//            Db::name("activity_order")->where("id",9)->update(["status"=>1]);
+//            Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->delete();
+//            Db::name("activity_order")->where("parts_order_number",$result["transaction_id"])->delete();
+//        }
+//    }
+
+
+//    public function Queryorder($transaction_id)
+//    {
+//        $input = new \WxPayOrderQuery();
+//        $input->SetTransaction_id($transaction_id);
+//        $result = \WxPayApi::orderQuery($input);
+//        if(array_key_exists("return_code", $result)
+//            && array_key_exists("result_code", $result)
+//            && $result["return_code"] == "SUCCESS"
+//            && $result["result_code"] == "SUCCESS")
+//        {
+//            Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->update(["status"=>1]);
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//
+//    public function notify($data, &$msg)
+//    {
+//        Db::name("activity_order")->where("parts_order_number","20190123146389")->update(["status"=>1]);
+//        $notfiyOutput = array();
+//        if(!array_key_exists("transaction_id", $data)){
+//            $msg = "输入参数不正确";
+//            return false;
+//        }
+//        //查询订单，判断订单真实性
+//        if(!$this->Queryorder($data["transaction_id"])){
+//            $msg = "订单查询失败";
+//            return false;
+//        }
+//        Db::name("activity_order")->where("parts_order_number","20190123146389")->update(["status"=>1]);
+//        return true;
+//    }
+
+
+
+
+
+
 }

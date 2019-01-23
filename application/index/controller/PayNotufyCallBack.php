@@ -5,6 +5,9 @@
  * Date: 2019/1/7 0007
  * Time: 17:40
  */
+
+include('../extend/WxpayAPI/lib/WxPay.Api.php');
+include('../extend/WxpayAPI/lib/WxPay.Notify.php');
 class  PayNotufyCallBack extends WxPayNotify{
     /**
      **************李火生*******************
@@ -16,9 +19,9 @@ class  PayNotufyCallBack extends WxPayNotify{
      */
     public function Queryorder($transaction_id)
     {
-        $input = new WxPayOrderQuery();
+        $input = new \WxPayOrderQuery();
         $input->SetTransaction_id($transaction_id);
-        $result = WxPayApi::orderQuery($input);
+        $result = \WxPayApi::orderQuery($input);
         if(array_key_exists("return_code", $result)
             && array_key_exists("result_code", $result)
             && $result["return_code"] == "SUCCESS"
@@ -41,7 +44,6 @@ class  PayNotufyCallBack extends WxPayNotify{
     public function NotifyProcess($data, &$msg)
     {
         $notfiyOutput = array();
-
         if (!array_key_exists("transaction_id", $data)) {
             $msg = "输入参数不正确";
             return false;
@@ -51,9 +53,7 @@ class  PayNotufyCallBack extends WxPayNotify{
             $msg = "订单查询失败";
             return false;
         }
+
         return true;
     }
-
 }
-$notify = new PayNotifyCallBack();
-$notify->Handle(false);

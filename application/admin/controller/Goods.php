@@ -41,8 +41,6 @@ class Goods extends Controller
                     $goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]['id'])->sum("stock");//库存
                     $goods[$key]["max_price"] = $max[$key];
                     $goods[$key]["min_price"] = $min[$key];
-                    
-
                 }
                 $goods[$key]["named"] = $res["name"];               
                 $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
@@ -109,6 +107,7 @@ class Goods extends Controller
                 $goods_data["goods_show_image"] =  $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
             }
+           
             
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
@@ -145,6 +144,7 @@ class Goods extends Controller
                     $goods_data["goods_text"] = "";
                 }
                 $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
+                $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                 $result = implode(",", $goods_data["lv1"]);
                 $goods_id = db('goods')->insertGetId($goods_special);
                 if (!empty($goods_data)) {
@@ -282,7 +282,7 @@ class Goods extends Controller
             db("commodity")->where("goods_id", $id)->delete();
         }
 
-        if ($bool && $boole) {
+        if ($bool || $boole) {
             $this->success("删除成功", url("admin/Goods/index"));
         } else {
             $this->success("删除失败", url('admin/Goods/add'));
@@ -531,6 +531,29 @@ class Goods extends Controller
         }
     }
 
+
+
+    /**
+     * [商品列表分销设置加载]
+     * 郭杨
+     */
+    public function goods_promote($id)
+    {
+        if ($request->isPost()) {
+            $id = $request -> only(["id"])["id"];
+            $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
+            $images = str_replace("\\", "/", $imag->getSaveName());
+
+            if(!empty($id)){
+                $bool = db("special")->where("id", $id)->update(["images" => $images]);
+            }
+             if ($bool) {
+                 return ajax_success('添加图片成功!');
+             } else {
+                 return ajax_error('添加图片失败');
+             }
+        }
+    }
 
 
 
