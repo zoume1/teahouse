@@ -77,7 +77,7 @@ class Pay extends  Controller{
      **************************************
      */
     public function notify(){
-        $out_trade_no = input('out_trade_no');
+        $out_trade_no = input('transaction_id');
         $input = new \WxPayOrderQuery();
         $input->SetTransaction_id($out_trade_no);
         $result = \WxPayApi::orderQuery($input);
