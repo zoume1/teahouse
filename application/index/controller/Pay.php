@@ -78,20 +78,12 @@ class Pay extends  Controller{
      */
     public function notify(){
         $transaction_id = input();
-        if(!empty($transaction_id)){
-            Db::name("activity_order")->where("id",8)->update(["status"=>1]);
-        }
-       $new = new \PayNotufyCallBack();
-       $is_ture =$new->NotifyProcess($transaction_id);
-       if($is_ture){
-          $order_number = $transaction_id["transaction_id"];
-          if($order_number){
-              Db::name("activity_order")->where("id",45)->update(["status"=>1]);
-          }
+        $input = new \WxPayOrderQuery();
+        $result = \WxPayApi::orderQuery($input);
+       if($result["result_code"] == "SUCCESS" || $result["result_code"] == "Success"){
           $order_number = $transaction_id["out_trade_no"];
            Db::name("activity_order")->where("parts_order_number",$order_number)->update(["status"=>1]);
        }
-
     }
 
 //    public function notify(Request $request){
