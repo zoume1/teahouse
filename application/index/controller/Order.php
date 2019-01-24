@@ -1435,7 +1435,9 @@ class  Order extends  Controller
             && $result["result_code"] == "SUCCESS")
         {
             file_put_contents(EXTEND_PATH."data.txt",$result["result_code"]);
-            $res =   Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->update(["status"=>1]);
+            $res =   Db::name("activity_order")
+                ->where("parts_order_number",$transaction_id)
+                ->update(["status"=>1]);
             if($res){
                 return ajax_success("成功",$res);
             }else{
