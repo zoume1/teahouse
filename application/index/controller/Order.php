@@ -1425,18 +1425,13 @@ class  Order extends  Controller
         include EXTEND_PATH."WxpayAPI/lib/WxPay.Data.php";
         include EXTEND_PATH."WxpayAPI/lib/WxPay.Notify.php";
         include EXTEND_PATH."WxpayAPI/lib/WxPay.Api.php";
-        $transaction_id =input("out_trade_no");
-        $input = new \WxPayOrderQuery();
-        $input->SetTransaction_id($transaction_id);
-        $result = \WxPayApi::orderQuery($input);
-        if(array_key_exists("return_code", $result)
-            && array_key_exists("result_code", $result)
-            && $result["return_code"] == "SUCCESS"
-            && $result["result_code"] == "SUCCESS")
-        {
-            file_put_contents(EXTEND_PATH."data.txt",$result["result_code"]);
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $val = json_decode(json_encode($xml_data), true);
+        if($val["result_code"] == "SUCCESS" ){
+            file_put_contents(EXTEND_PATH."data.txt",$val["result_code"]);
             $res =   Db::name("activity_order")
-                ->where("parts_order_number",$transaction_id)
+                ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>1]);
             if($res){
                 return ajax_success("成功",$res);
@@ -1445,5 +1440,29 @@ class  Order extends  Controller
             }
         }
     }
+
+
+
+
+//        $transaction_id =input("out_trade_no");
+//        $input = new \WxPayOrderQuery();
+//        $input->SetTransaction_id($transaction_id);
+//        $result = \WxPayApi::orderQuery($input);
+//        if(array_key_exists("return_code", $result)
+//            && array_key_exists("result_code", $result)
+//            && $result["return_code"] == "SUCCESS"
+//            && $result["result_code"] == "SUCCESS")
+//        {
+//            file_put_contents(EXTEND_PATH."data.txt",$result["result_code"]);
+//            $res =   Db::name("activity_order")
+//                ->where("parts_order_number",$transaction_id)
+//                ->update(["status"=>1]);
+//            if($res){
+//                return ajax_success("成功",$res);
+//            }else{
+//                return ajax_error("失败");
+//            }
+//        }
+//    }
 
 }
