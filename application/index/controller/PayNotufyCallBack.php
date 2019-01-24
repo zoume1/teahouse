@@ -41,8 +41,9 @@ class  PayNotufyCallBack extends WxPayNotify{
      * @param string $msg
      * @return bool
      */
-    public function NotifyProcess($data, &$msg)
+    public function notify()
     {
+        $data  =$this->request->param();
         $notfiyOutput = array();
         if (!array_key_exists("transaction_id", $data)) {
             $msg = "输入参数不正确";
@@ -53,7 +54,14 @@ class  PayNotufyCallBack extends WxPayNotify{
             $msg = "订单查询失败";
             return false;
         }
-
-        return true;
+        file_put_contents(EXTEND_PATH."data.txt",$data["out_trade_no"]);
+        $res =   Db::name("activity_order")
+            ->where("parts_order_number",$data["out_trade_no"])
+            ->update(["status"=>1]);
+        if($res){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
