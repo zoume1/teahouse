@@ -1436,15 +1436,11 @@ class  Order extends  Controller
         {
             file_put_contents(EXTEND_PATH."data.txt",$result["result_code"]);
             $res =   Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->update(["status"=>1]);
-        }
-
-//        if($result["result_code"] == "SUCCESS" ){
-//            $res =   Db::name("activity_order")->where("parts_order_number",$val["out_trade_no"])->update(["status"=>1]);
-//        }
-        if($res){
-            return ajax_success("成功",$res);
-        }else{
-            return ajax_error("失败");
+            if($res){
+                return ajax_success("成功",$res);
+            }else{
+                return ajax_error("失败");
+            }
         }
     }
 
