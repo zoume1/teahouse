@@ -1421,6 +1421,7 @@ class  Order extends  Controller
      */
 
     public function notify(){
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Data.php";
         include EXTEND_PATH."WxpayAPI/lib/WxPay.Notify.php";
         include EXTEND_PATH."WxpayAPI/lib/WxPay.Api.php";
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
