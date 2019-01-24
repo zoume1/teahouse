@@ -37,7 +37,7 @@ Route::group("",[
     "my_index"=>"index/My/my_index",  //我的页面
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
 //    "notify"=>"index/order/notify",//小程序支付回调（活动）
-    "notify"=>"index/paynotufycallback/notify",//小程序支付回调（活动）
+    "notify"=>"index/PayNotufyCallBack/notify",//小程序支付回调（活动）
     /*TODO:end*/
 
     /*TODO:地址管理开始*/
