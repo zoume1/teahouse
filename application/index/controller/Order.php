@@ -82,6 +82,7 @@ class  Order extends  Controller
     public function order_place(Request $request){
         if ($request->isPost()) {
             $open_id =$request->only('open_id')['open_id'];
+            halt($open_id);
             $address_id =$request->only("address_id")["address_id"];
             $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
             if(empty($user_id)){
