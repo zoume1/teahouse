@@ -32,7 +32,15 @@ class  PayNotufyCallBack extends Controller {
             && $result["return_code"] == "SUCCESS"
             && $result["result_code"] == "SUCCESS")
         {
-            return true;
+            $res =   Db::name("activity_order")
+                ->where("parts_order_number",$result["out_trade_no"])
+                ->update(["status"=>1]);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+
         }
         return false;
     }
