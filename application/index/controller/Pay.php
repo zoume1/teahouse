@@ -32,7 +32,7 @@ class Pay extends  Controller{
         $input->SetOut_trade_no($order_numbers);
         //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
         $input->SetTotal_fee($cost_moneny*100);
-        $input->SetNotify_url("notify.php");//需要自己写的notify.php
+        $input->SetNotify_url("https://teahouse.siring.com.cn/notify.php");//需要自己写的notify.php
         $input->SetTrade_type("JSAPI");
         //         由小程序端传给后端或者后端自己获取，写自己获取到的，
         $input->SetOpenid( $open_ids);
@@ -62,33 +62,6 @@ class Pay extends  Controller{
         $parameters = json_encode($jsapi->GetValues());
         return $parameters;
     }
-
-
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:小程序活动支付成功回来修改状态
-     **************************************
-     */
-
-    public function notify(Request $request){
-        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
-        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
-        $val = json_decode(json_encode($xml_data), true);
-        file_put_contents(APP_PATH."data.txt",$val["out_trade_no"]);
-        if($val["result_code"] == "SUCCESS" ){
-         $res =   Db::name("activity_order")->where("parts_order_number",$val["out_trade_no"])->update(["status"=>1]);
-        }
-        if($res){
-            return ajax_success("成功",$res);
-        }else{
-            return ajax_error("失败");
-        }
-    }
-
-
-
-
 
 
 
