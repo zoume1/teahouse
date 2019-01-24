@@ -5,10 +5,11 @@
  * Date: 2019/1/7 0007
  * Time: 17:40
  */
+namespace app\index\controller;
+use think\Db;
+use think\Request;
 
-include('../extend/WxpayAPI/lib/WxPay.Api.php');
-include('../extend/WxpayAPI/lib/WxPay.Notify.php');
-class  PayNotufyCallBack extends WxPayNotify{
+class  PayNotufyCallBack extends Controller {
     /**
      **************李火生*******************
      * @param Request $request
@@ -19,6 +20,9 @@ class  PayNotufyCallBack extends WxPayNotify{
      */
     public function Queryorder($transaction_id)
     {
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Data.php";
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Notify.php";
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Api.php";
         $input = new \WxPayOrderQuery();
         $input->SetTransaction_id($transaction_id);
         $result = \WxPayApi::orderQuery($input);
@@ -41,9 +45,12 @@ class  PayNotufyCallBack extends WxPayNotify{
      * @param string $msg
      * @return bool
      */
-    public function notify()
+    public function notify(Request $request)
     {
-        $data  =$this->request->param();
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Data.php";
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Notify.php";
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Api.php";
+        $data  =$request->param();
         $notfiyOutput = array();
         if (!array_key_exists("transaction_id", $data)) {
             $msg = "输入参数不正确";
