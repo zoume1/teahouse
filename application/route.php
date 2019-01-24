@@ -20,6 +20,14 @@ Route::group("",[
     /*首页*/
     "/$"=>"index/index/index",
     "index_home"=>"index/index/home",
+    "tea_factory"=>"index/index/tea_factory", //茶厂 
+    "tea_merchant"=>"index/index/tea_merchant", //茶商
+    "tea_moment"=>"index/index/tea_moment", //茶圈
+    "consumer"=>"index/index/consumer", //用户
+    "wisdom"=>"index/index/wisdom", //智慧茶仓
+    "partner"=>"index/index/partner", //招募合伙人
+    "about"=>"index/index/about", //关于我们
+
 
     /*TODO：start*/
     /*登录授权*/
