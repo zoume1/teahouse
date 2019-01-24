@@ -1422,13 +1422,26 @@ class  Order extends  Controller
      */
 
     public function notify(Request $request){
-        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
-        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
-        $val = json_decode(json_encode($xml_data), true);
-        file_put_contents(EXTEND_PATH."data.txt",$val);
-        if($val["result_code"] == "SUCCESS" ){
-            $res =   Db::name("activity_order")->where("parts_order_number",$val["out_trade_no"])->update(["status"=>1]);
+        include('../extend/WxpayAPI/lib/WxPay.Api.php');
+        include('../extend/WxpayAPI/example/WxPay.NativePay.php');
+        include('../extend/WxpayAPI/lib/WxPay.Notify.php');
+        include('../extend/WxpayAPI/example/log.php');
+        $transaction_id =input("out_trade_no");
+        $input = new \WxPayOrderQuery();
+        $input->SetTransaction_id($transaction_id);
+        $result = \WxPayApi::orderQuery($input);
+        if(array_key_exists("return_code", $result)
+            && array_key_exists("result_code", $result)
+            && $result["return_code"] == "SUCCESS"
+            && $result["result_code"] == "SUCCESS")
+        {
+            file_put_contents(EXTEND_PATH."data.txt",$result["result_code"]);
+            $res =   Db::name("activity_order")->where("parts_order_number",$result["out_trade_no"])->update(["status"=>1]);
         }
+
+//        if($result["result_code"] == "SUCCESS" ){
+//            $res =   Db::name("activity_order")->where("parts_order_number",$val["out_trade_no"])->update(["status"=>1]);
+//        }
         if($res){
             return ajax_success("成功",$res);
         }else{
