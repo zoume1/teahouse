@@ -81,8 +81,8 @@ class  Order extends  Controller
      */
     public function order_place(Request $request){
         if ($request->isPost()) {
-            $open_id =$request->only("open_id")["open_id"];
-            $address_id =$request->only("address_id")["address_id"];
+            $open_id = $request->param("open_id");//open_id
+            $address_id = $request->param("address_id");//address_id
             $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
@@ -1413,7 +1413,32 @@ class  Order extends  Controller
     }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:小程序活动支付成功回来修改状态
+     **************************************
+     */
 
+    public function notify(){
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Data.php";
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Notify.php";
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Api.php";
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $val = json_decode(json_encode($xml_data), true);
+        if($val["result_code"] == "SUCCESS" ){
+            file_put_contents(EXTEND_PATH."data.txt",$val);
+            $res = Db::name("activity_order")
+                ->where("parts_order_number",$val["out_trade_no"])
+                ->update(["status"=>1]);
+            if($res){
+                return ajax_success("成功",$res);
+            }else{
+                return ajax_error("失败");
+            }
+        }
+    }
 
 
 }
