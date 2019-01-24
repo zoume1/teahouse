@@ -1422,10 +1422,7 @@ class  Order extends  Controller
      */
 
     public function notify(Request $request){
-        include('../extend/WxpayAPI/lib/WxPay.Api.php');
-        include('../extend/WxpayAPI/example/WxPay.NativePay.php');
-        include('../extend/WxpayAPI/lib/WxPay.Notify.php');
-        include('../extend/WxpayAPI/example/log.php');
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Notify.php";
         $transaction_id =input("out_trade_no");
         $input = new \WxPayOrderQuery();
         $input->SetTransaction_id($transaction_id);
