@@ -81,6 +81,7 @@ class Pay extends  Controller{
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $val = json_decode(json_encode($xml_data), true);
+       file_put_contents(EXTEND_PATH."data.log",$val);
         if($val["result_code"] == "SUCCESS" ){
          $res =   Db::name("activity_order")->where("parts_order_number",$val["out_trade_no"])->update(["status"=>1]);
         }
