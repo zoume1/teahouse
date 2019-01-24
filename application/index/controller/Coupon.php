@@ -41,7 +41,7 @@ class Coupon extends Controller
                     $rest[] = $va;
                 }
             }                        
-            //未使用(包含已使用)
+            //未使用(去掉已使用)
             foreach($coupon as $key => $value){
                 if(!in_array($value['id'],$rest)){
                 $value['scope'] = explode(",",$value['scope']);
@@ -105,7 +105,7 @@ class Coupon extends Controller
     public function coupon_time(Request $request)
     {
         if ($request->isPost()) {
-            $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳
+            $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
             $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
             $open_id = $request->only(['open_id'])['open_id'];
             $coupons = db("coupon")->select();
