@@ -32,7 +32,8 @@ class Pay extends  Controller{
         $input->SetOut_trade_no($order_numbers);
         //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
         $input->SetTotal_fee($cost_moneny*100);
-        $input->SetNotify_url("https://teahouse.siring.com.cn/notify");//需要自己写的notify.php
+        $return_url =config("domain.url")."notify";
+        $input->SetNotify_url($return_url);//需要自己写的notify.php
         $input->SetTrade_type("JSAPI");
         //         由小程序端传给后端或者后端自己获取，写自己获取到的，
         $input->SetOpenid( $open_ids);
@@ -63,7 +64,39 @@ class Pay extends  Controller{
         return $parameters;
     }
 
-
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:小程序订单支付
+     **************************************
+     * @param Request $request
+     */
+    function order_pay(Request $request) {
+        $open_ids = $request->param("open_id");//open_id
+        $activity_name = $request->param("activity_name");//名称
+        $cost_moneny = $request->param("cost_moneny");//金额
+        $order_numbers =$request->param("order_number");//订单编号
+        //         初始化值对象
+        $input = new \WxPayUnifiedOrder();
+        //         文档提及的参数规范：商家名称-销售商品类目
+        $input->SetBody($activity_name);
+        //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
+//        $input->SetOut_trade_no(time().'');
+        $input->SetOut_trade_no($order_numbers);
+        //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
+        $input->SetTotal_fee($cost_moneny*100);
+        $return_url =config("domain.url")."notify";
+        $input->SetNotify_url($return_url);//需要自己写的notify.php
+        $input->SetTrade_type("JSAPI");
+        //         由小程序端传给后端或者后端自己获取，写自己获取到的，
+        $input->SetOpenid( $open_ids);
+        //$input->SetOpenid($this->getSession()->openid);
+        //         向微信统一下单，并返回order，它是一个array数组
+        $order = \WxPayApi::unifiedOrder($input);
+        //         json化返回给小程序端
+        header("Content-Type: application/json");
+        echo $this->getJsApiParameters($order);
+    }
 
 
 }

@@ -258,4 +258,8 @@ return [
         'prefix'=>  'think',
     ],
     // 添加更多的缓存类型设置
+
+    'domain'=>[
+        "url"=>"https://teahouse.siring.com.cn/",
+    ],
 ];
