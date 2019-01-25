@@ -69,6 +69,13 @@ Route::group("",[
 
     /*TODO:订单结束*/
 
+    /*TODO:订单用户提醒发货开始*/
+    "option_add"=>"index/Notification/option_add",//用户提醒
+    /*TODO:订单用户提醒发货结束*/
+
+
+
+
     /*TODO:购物车开始*/
     "shopping_index"=>"index/Shopping/shopping_index",//购物车列表信息返回
      "get_goods_id_to_shopping"=>"index/Shopping/get_goods_id_to_shopping",//获取商品id 存入购物车
@@ -165,6 +172,7 @@ Route::group("admin",[
 
 
 
+
     /*TODO：会员管理开始*/
     "user_index"=>"admin/User/index", //会员概况
     "user_status"=>"admin/User/status", //会员状态编辑
@@ -203,6 +211,11 @@ Route::group("admin",[
     "order_setting_update"=>"admin/Order/order_setting_update",//更新
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
     /*TODO:订单结束*/
+    /*TODO:订单备注开始*/
+    "option_add_notice"=>"admin/Notification/option_add_notice",//卖家备注
+    /*TODO:订单备注结束*/
+
+
     /*TODO:评价开始*/
     "evaluate_index"=>"admin/Evaluate/evaluate_index",//评价管理页面
     "evaluate_edit"=>"admin/Evaluate/evaluate_edit",//评价编辑
