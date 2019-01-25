@@ -208,6 +208,8 @@ Route::group("admin",[
 
     /*TODO:订单开始*/
     "order_index"=>"admin/Order/order_index",//初始订单页面
+    "order_search"=>"admin/Order/order_search",//初始订单搜索
+
     "order_integral"=>"admin/Order/order_integral",//积分订单
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
     "order_setting_update"=>"admin/Order/order_setting_update",//更新
