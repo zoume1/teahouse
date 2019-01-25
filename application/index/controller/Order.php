@@ -595,7 +595,7 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =intval($vl["order_create_time"]);
+                    $ords[] =intval($vl["order_create_times"]);
                 }
                 array_multisort($ords,SORT_ASC,$end_info);
                 return ajax_success('数据', $end_info);
@@ -769,7 +769,7 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =intval($vl["order_create_time"]);
+                    $ords[] =intval($vl["order_create_times"]);
                 }
                 array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
@@ -944,7 +944,7 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =intval($vl["order_create_time"]);
+                    $ords[] =intval($vl["order_create_times"]);
                 }
                 array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
@@ -1119,7 +1119,7 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =intval($vl["order_create_time"]);
+                    $ords[] =intval($vl["order_create_times"]);
                 }
                 array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
@@ -1294,7 +1294,7 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =intval($vl["order_create_time"]);
+                    $ords[] =intval($vl["order_create_times"]);
                 }
                 array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
