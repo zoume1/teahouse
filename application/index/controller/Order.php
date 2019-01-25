@@ -597,7 +597,7 @@ class  Order extends  Controller
                 foreach ($end_info as $vl){
                     $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($ords,SORT_DESC,$end_info);
+                array_multisort($ords,SORT_ASC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
