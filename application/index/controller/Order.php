@@ -1447,7 +1447,12 @@ class  Order extends  Controller
             if($res){
                 return ajax_success("成功",$res);
             }else{
-                
+                $bool = db("activity_order")->where('parts_order_number',$val["out_trade_no"])->delete();
+                if ($bool) {
+                    return ajax_success('取消订单成功', $bool);
+                } else {
+                    return ajax_error("取消订单失败");
+                }
                 return ajax_error("失败");
             }
         }
