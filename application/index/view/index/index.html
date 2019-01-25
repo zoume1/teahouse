@@ -11,8 +11,8 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="container">
-            <div class="header">
+        <div class="header">
+            <div class="header-container">
                 <div class="header-section logo">
                     <div class="logo-container">
                         <img src="__STATIC__/index/img/logo.png" width="50" height="40">
@@ -32,25 +32,27 @@
                     <a href="javascript:;" class="register">注册</a>
                 </div>
             </div>
-            <div class="banner">
-                <div class="swiper-container">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <img src="__STATIC__/index/img/banner.png" width="1350" height="460">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="__STATIC__/index/img/banner.png" width="1350" height="460">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="__STATIC__/index/img/banner.png" width="1350" height="460">
-                        </div>
+        </div>
+        <div class="banner">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="__STATIC__/index/img/banner.png">
                     </div>
-                    <!-- 如果需要分页器 -->
-                    <div class="swiper-pagination"></div>
+                    <div class="swiper-slide">
+                        <img src="__STATIC__/index/img/banner.png">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="__STATIC__/index/img/banner.png">
+                    </div>
                 </div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
             </div>
-            <!-- 智慧茶仓 -->
-            <div class="zhcc">
+        </div>
+        <!-- 智慧茶仓 -->
+        <div class="zhcc">
+            <div class="zhcc-container">
                 <div class="zhcc-img">
                     <img src="__STATIC__/index/img/img1.png" width="700" height="360">
                 </div>
@@ -68,9 +70,11 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- 应用场景 -->
-            <div class="yycj">
+        <!-- 应用场景 -->
+        <div class="yycj">
+            <div class="yycj-container">
                 <h2 class="title-h2">应用场景</h2>
                 <div class="scene-container">
                     <div class="scene-item item1">
@@ -119,9 +123,11 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- 典型案例 -->
-            <div class="dxal">
+        <!-- 典型案例 -->
+        <div class="dxal">
+            <div class="dxal-container">
                 <h2 class="title-h2">典型案例</h2>
                 <div class="case-container">
                     <div class="case-item">
@@ -179,7 +185,74 @@
                 <a href="javascript:;" class="more-case">更多案例</a>
             </div>
         </div>
+        <!-- 我们的服务 -->
+        <div class="service">
+            <div class="service-container">
+                <h2 class="title-h2">我们的服务</h2>
+                <div class="service-items">
+                    <div class="service-item">
+                        <img src="__STATIC__/index/img/img10.png" width="134" height="134">
+                        <p class="service-titme">专业客服答疑</p>
+                        <p class="advantage">7*24小时专业指导</p>
+                    </div>
+                    <div class="service-item">
+                        <img src="__STATIC__/index/img/img11.png" width="134" height="134">
+                        <p class="service-titme">专业客服答疑</p>
+                        <p class="advantage">7*24小时专业指导</p>
+                    </div>
+                    <div class="service-item">
+                        <img src="__STATIC__/index/img/img12.png" width="134" height="134">
+                        <p class="service-titme">专业客服答疑</p>
+                        <p class="advantage">7*24小时专业指导</p>
+                    </div>
+                    <div class="service-item">
+                        <img src="__STATIC__/index/img/img13.png" width="134" height="134">
+                        <p class="service-titme">专业客服答疑</p>
+                        <p class="advantage">7*24小时专业指导</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 合作伙伴 -->
+        <div class="partner">
+            <div class="partner-container">
+                <h2 class="title-h2">合作伙伴</h2>
+                <div class="partner-items">
+                    <div class="tpl">
+                        <img src="__STATIC__/index/img/p-logo1.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer -->
+        <div class="footer">
+            <div class="footer-container">
+                <div class="footer-about clearfix">
+                    <div class="footer-f contact-container">
+                        <h3>联系我们</h3>
+                        <p>开店咨询：010-123456</p>
+                        <p>周一到周日 9:00 ~ 18:00</p>
+                    </div>
+                    <div class="footer-f">
+                        <h3>关于我们</h3>
+                        <p><a href="javascript:;" class="cpy-contact">合作联系</a></p>
+                    </div>
+                    <div class="footer-f">
+                        <h3>产品与服务</h3>
+                        <p>智慧茶仓</p>
+                    </div>
+                </div>
+                <div class="footer-copy">
+                    <div class="comm-copy">
+                        <img src="__STATIC__/index/img/jgwablogo.png" width="20" height="20">
+                        <span class="jgwbab-txt">京公网安备 33010602004345</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/common.js"></script>
     <script src="__STATIC__/index/js/swiper-4.3.5.min.js"></script>
     <script>
         var mySwiper = new Swiper ('.swiper-container', {
@@ -192,7 +265,7 @@
             pagination: {
                 el: '.swiper-pagination',
             },
-        })        
+        })
     </script>
 </body>
 </html>

@@ -1,0 +1,20 @@
+.app-scene-container{width: 1350px; margin: 0 auto;}
+.app-scene-nav{padding: 0 100px; display: flex; justify-content: space-between; align-items: center; height: 50px; border-top: 1px solid #eee;}
+.app-scene-nav .app-scene-title{font-size: 18px; font-weight: 700; color: #515151;}
+.app-scene-nav .app-scene-nav-container .app-scene-nav-item{float: left; font-size: 16px; color: #515151; margin-left: 60px; cursor: pointer; padding: 0 5px;}
+.app-scene-nav .app-scene-nav-container div.scene-nav-item-on{position: relative; color: #fff; background-color: #545454;}
+.app-scene-nav-container .app-scene-nav-item:hover{color: #fff; background-color: #545454;}
+.app-scene-container .app-scene-banner{margin-bottom: 38px;}
+.app-scene-container .app-scene-article{padding: 0 115px 20px;}
+.app-scene-container .app-scene-article .app-scene-article-title{text-align: center; font-size: 32px; font-weight: 700; color: #515151; padding-bottom: 18px; border-bottom: 18px solid #eee;}
+.app-scene-container .app-scene-article .app-scene-article-subtitle{text-align: center; font-size: 18px; font-weight: 700; color: #515151; margin: 30px 0;}
+.app-scene-container .app-scene-article-content .article-paragraph{font-size: 18px; color: #515151; line-height: 48px; text-indent: 36px;}
+.app-scene-container .article-img-box{text-align: center;}
+
+.app-scene-container .moment-article-icon{width: 700px; margin: 0 auto 30px;; display: flex; justify-content: space-between;}
+.app-scene-container .moment-article-icon .moment-article-icon-item{display: flex; flex-direction: column; justify-content: space-between;}
+.moment-article-icon .moment-article-icon-item p{font-size: 26px; color: #6b6b6b; text-align: center;}
+
+
+
+

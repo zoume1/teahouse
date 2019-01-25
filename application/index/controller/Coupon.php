@@ -36,22 +36,34 @@ class Coupon extends Controller
                          ->distinct($member_id)
                          ->field("coupon_id")
                          ->select();
-            foreach($coupon_id as $key => $value){
-                foreach($value as $ke => $va){
-                    $rest[] = $va;
-                }
-            }                        
-            //未使用(包含已使用)
-            foreach($coupon as $key => $value){
-                if(!in_array($value['id'],$rest)){
-                $value['scope'] = explode(",",$value['scope']);
-                $value['start_time'] = strtotime($value['start_time']);
-                $value['end_time'] = strtotime($value['end_time']);
-                if(in_array($member_grade_name,$value['scope']) && $value['end_time'] > $time){
-                    $data[] = $value;
+            
+            if(count($coupon_id)>0){
+                foreach($coupon_id as $key => $value){
+                    foreach($value as $ke => $va){
+                        $rest[] = $va;
+                    }
+                }                        
+            //未使用(去掉已使用)
+                foreach($coupon as $key => $value){
+                    if(!in_array($value['id'],$rest)){
+                    $value['scope'] = explode(",",$value['scope']);
+                    $value['start_time'] = strtotime($value['start_time']);
+                    $value['end_time'] = strtotime($value['end_time']);
+                    if(in_array($member_grade_name,$value['scope']) && $value['end_time'] > $time){
+                        $data[] = $value;
+                    }
                 }
             }
-        }   
+        } else { //如果没有使用过
+                foreach($coupon as $key => $values){
+                    $values['scope'] = explode(",",$values['scope']);
+                    $values['start_time'] = strtotime($values['start_time']);
+                    $values['end_time'] = strtotime($values['end_time']);
+                    if(in_array($member_grade_name,$values['scope']) && $values['end_time'] > $time){
+                        $data[] = $values;
+                    }
+                }
+            }  
             if (!empty($data)) {
                 return ajax_success('传输成功', $data);
             } else {
@@ -78,18 +90,21 @@ class Coupon extends Controller
                             ->distinct($member_id)
                             ->field("coupon_id")
                             ->select();
-            
-            foreach($coupon_id as $key => $value){
-                $rest[] = Db::name("coupon")->where("id",$value["coupon_id"])->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
-            }
-            foreach($rest as $k => $v){
-                $v['scope'] = explode(",",$v['scope']);
+            if(count($coupon_id) > 0){
+                foreach($coupon_id as $key => $value){
+                    $rest[] = Db::name("coupon")->where("id",$value["coupon_id"])->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
+                }
+                foreach($rest as $k => $v){
+                    $v['scope'] = explode(",",$v['scope']);
+                }
+            } else {
+                $rest = null;
             }
 
             if (!empty($rest)) {
                 return ajax_success('传输成功', $rest);
             } else {
-                return ajax_error("数据为空");
+                return ajax_error("数据为空",$rest);
 
             }
         }
@@ -105,7 +120,7 @@ class Coupon extends Controller
     public function coupon_time(Request $request)
     {
         if ($request->isPost()) {
-            $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳
+            $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
             $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
             $open_id = $request->only(['open_id'])['open_id'];
             $coupons = db("coupon")->select();
@@ -139,18 +154,17 @@ class Coupon extends Controller
             $member_id = $request->only(["open_id"])["open_id"];
             $coupon_good = 0;
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
-            $goods_id = db("join")->where("coupon_id",$coupon_id)->field('goods_id')->select();
+            $goods_id = db("join")->where("coupon_id",$coupon_id)->where("label",1)->field('goods_id')->select();
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
 
             if(!empty($goods_id))
             {
                 foreach($goods_id as $key=>$value)
                 {
-                    $goods[] = db("goods")->where("id",$value["goods_id"])->where("status",1)->find();                   
+                    $goods[] = db("goods")->where("id",$value["goods_id"])->find(); //该商品是否上架                  
                 }
                 foreach ($goods as $k => $v)
                 {
-                    if(!empty($v)){
                     if($goods[$k]["goods_standard"] == 1){
                         $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
                         $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
@@ -161,11 +175,10 @@ class Coupon extends Controller
                     } else {
                         $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
                     }
-                } else {
-                    unset($v);
                 }                
-            }             
-        } 
+            }
+                     
+         
             if (!empty($goods)) {
                 return ajax_success('传输成功', $goods);
             } else {
@@ -173,6 +186,67 @@ class Coupon extends Controller
 
             }
         }
+    }
+
+    /**
+     * [商品下单适用优惠券]
+     * 郭杨
+     */
+    public function coupon_appropriated(Request $request)
+    {
+        if($request->isPost()){
+            $data = $request->param(); //包含goods_id and  open_id
+            $goods_id = $data['goods_id'];
+            $open_id = $data['open_id'];
+            $member_grade_name = $data['member_grade_name'];
+
+
+            $coupon = Db::name("coupon")->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
+            $time = strtotime(date("Y-m-d",strtotime("-1 day")));
+
+            //已使用
+            $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
+            $coupon_id = Db::name("order")->where("member_id",$member_id)
+                        ->where("coupon_id",'<>',0)
+                         ->distinct($member_id)
+                         ->field("coupon_id")
+                         ->select();
+            
+            if(count($coupon_id)>0){
+                foreach($coupon_id as $key => $value){
+                    foreach($value as $ke => $va){
+                        $rest[] = $va;
+                    }
+                }                        
+            //未使用(去掉已使用)
+                foreach($coupon as $key => $value){
+                    if(!in_array($value['id'],$rest)){
+                    $value['scope'] = explode(",",$value['scope']);
+                    $value['start_time'] = strtotime($value['start_time']);
+                    $value['end_time'] = strtotime($value['end_time']);
+                    if(in_array($member_grade_name,$value['scope']) && $value['end_time'] > $time){
+                        $data[] = $value;
+                    }
+                }
+            }
+        } else { //如果没有使用过
+                foreach($coupon as $key => $values){
+                    $values['scope'] = explode(",",$values['scope']);
+                    $values['start_time'] = strtotime($values['start_time']);
+                    $values['end_time'] = strtotime($values['end_time']);
+                    if(in_array($member_grade_name,$values['scope']) && $values['end_time'] > $time){
+                        $data[] = $values;
+                    }
+                }
+            } 
+
+            foreach($goods_id as $key => $value){
+
+            }
+
+
+        }
+
     }
 
     /**

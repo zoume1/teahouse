@@ -246,7 +246,7 @@ class Bonus extends Controller
             $data["scope"] = implode(",", $data["scope"]);
             if (!empty($data["goods_id"])) {
                 foreach ($data["goods_id"] as $key => $value) {
-                    $goods[$key] = db("goods")->where("id", $data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
+                    $goods[$key] = db("goods")->where("id", $data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,label")->find();
                 }
                 unset($data["goods_id"]);
             }
