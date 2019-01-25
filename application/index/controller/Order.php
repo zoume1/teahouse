@@ -152,8 +152,8 @@ class  Order extends  Controller
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
                             $datas["order_quantity"] =$numbers[$keys];//订单数量
                             $datas["member_id"] =$user_id;//用户id
-                            $datas["user_account_name"] =$goods_data["goods_describe"];//卖点
-                            $datas["goods_describe"] =$user_information["member_name"];//用户名
+                            $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
+                            $datas["user_account_name"] =$user_information["member_name"];//用户名
                             $datas["user_phone_number"] =$user_information["member_phone_num"];//用户名手机号
                             $datas["harvester"] =$is_address_status['harvester'];
                             $datas["harvest_phone_num"] =$is_address_status['harvester_phone_num'];
