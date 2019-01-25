@@ -37,3 +37,25 @@ $('.app-scene-nav-container').on('click', '.app-scene-nav-item', function(){
         case 3: location.href = 'consumer'; break;
     }
 })
+// 登录 注册
+$('.sign-in').click(function(){
+    location.href = 'sign_in';
+})
+$('.register').click(function(){
+    location.href = 'sign_up';
+})
+
+// logo返回首页
+$('.logo-container').add('.logo span').click(function(){
+    location.href = './';
+})
+
+// 显示隐藏密码
+$('.pw-icon').click(function(){
+    $(this).toggleClass('pw-icon-show');
+    if($(this).hasClass('pw-icon-show')){
+        $(this).siblings().attr('type', 'text');
+    }else{
+        $(this).siblings().attr('type', 'password');
+    }
+})

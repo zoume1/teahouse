@@ -46,5 +46,17 @@ class Index extends Controller
     public function about(){
         return view("about");
     }
+    // 注册
+    public function sign_up(){
+        return view("signup");
+    }
+    // 登录
+    public function sign_in(){
+        return view("signin");
+    }
+    // 忘记密码
+    public function forget_pw(){
+        return view("forgetpw");
+    }
 
 }
