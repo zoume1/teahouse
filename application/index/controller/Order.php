@@ -81,9 +81,12 @@ class  Order extends  Controller
      */
     public function order_place(Request $request){
         if ($request->isPost()) {
-            $open_id =$request->only("open_id")["open_id"];
-            $address_id =$request->only("address_id")["address_id"];
-            $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+            $open_id = $request->only("open_id")["open_id"];//open_id
+            $address_id = $request->param("address_id");//address_id
+            $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
+            $user_id =Db::name("member")
+                ->where("member_openid",$open_id)
+                ->value("member_id");
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
@@ -92,7 +95,10 @@ class  Order extends  Controller
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
             $user_information =Db::name("member")->where("member_id",$user_id)->find();
-            $is_address = Db::name('user_address')->where("status",1)->where('user_id', $user_id)->find();
+            $is_address = Db::name('user_address')
+                ->where("id",$address_id)
+                ->where('user_id', $user_id)
+                ->find();
             if (empty($is_address) ) {
                 return ajax_error('请填写收货地址',['status'=>0]);
             }else{
@@ -140,13 +146,13 @@ class  Order extends  Controller
                                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
+                            $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
                             $datas["distribution"] =$goods_data["distribution"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
                             $datas["order_quantity"] =$numbers[$keys];//订单数量
                             $datas["member_id"] =$user_id;//用户id
-                            $datas["user_account_name"] =$goods_data["goods_describe"];//卖点
-                            $datas["goods_describe"] =$user_information["member_name"];//用户名
+                            $datas["user_account_name"] =$user_information["member_name"];//用户名
                             $datas["user_phone_number"] =$user_information["member_phone_num"];//用户名手机号
                             $datas["harvester"] =$is_address_status['harvester'];
                             $datas["harvest_phone_num"] =$is_address_status['harvester_phone_num'];
@@ -202,8 +208,13 @@ class  Order extends  Controller
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
-            $user_information =Db::name("member")->where("member_id",$user_id)->find();
-            $is_address = Db::name('user_address')->where("status",1)->where('user_id', $user_id)->find();
+            $user_information =Db::name("member")
+                ->where("member_id",$user_id)
+                ->find();
+            $is_address = Db::name('user_address')
+                ->where("id",$address_id)
+                ->where('user_id', $user_id)
+                ->find();
             if (empty($is_address) ) {
                 return ajax_error('请填写收货地址',['status'=>0]);
             }else{
@@ -218,6 +229,8 @@ class  Order extends  Controller
                 $all_money =$request->only("order_amount")["order_amount"];//总价钱
                 $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
                 $numbers =$request->only("order_quantity")["order_quantity"];
+                $order_type =$request->only("order_type")["order_type"]; //1为选择直邮，2到店自提，3选择存茶
+
 
                 $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
                 $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
@@ -236,7 +249,7 @@ class  Order extends  Controller
 //                        if(!empty($data["buy_message"])){
 //                            $buy_message =$data["buy_message"];
 //                        }else{
-                            $buy_message = NUll;
+                            $buy_message = NUll; //买家留言
 //                        }
                             //判断是通用
                             if($goods_data["goods_standard"]==0){
@@ -251,13 +264,13 @@ class  Order extends  Controller
                                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
+                            $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
                             $datas["distribution"] =$goods_data["distribution"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
                             $datas["order_quantity"] =$numbers[$keys];//订单数量
                             $datas["member_id"] =$user_id;//用户id
-                            $datas["user_account_name"] =$goods_data["goods_describe"];//卖点
-                            $datas["goods_describe"] =$user_information["member_name"];//用户名
+                            $datas["user_account_name"] =$user_information["member_name"];//用户名
                             $datas["user_phone_number"] =$user_information["member_phone_num"];//用户名手机号
                             $datas["harvester"] =$is_address_status['harvester'];
                             $datas["harvest_phone_num"] =$is_address_status['harvester_phone_num'];
@@ -580,9 +593,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_times"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -754,9 +767,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_times"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -782,10 +795,10 @@ class  Order extends  Controller
             }
             $condition ="`status` = '2' or `status` = '3'";
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id')
+                ->field('parts_order_number,pay_time,group_concat(id) order_id')
                 ->where('member_id', $member_id)
                 ->where($condition)
-                ->order('order_create_time', 'desc')
+                ->order('pay_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
             foreach ($data as $key=>$value) {
@@ -795,7 +808,6 @@ class  Order extends  Controller
                         $return_data_info[] = Db::name('order')
                             ->where('id', $v)
                             ->where('member_id', $member_id)
-                            ->order('order_create_time', 'desc')
                             ->find();
                     }
                     foreach ($return_data_info as $ke => $item) {
@@ -816,7 +828,7 @@ class  Order extends  Controller
                         $order_data['status'][$da_k] = $names['status'];
                         $order_data["parts_order_number"][$da_k] = $names["parts_order_number"];
                         $order_data["all_order_real_pay"][$da_k] = $names["order_real_pay"];
-                        $order_data["order_create_time"][$da_k] = $names["order_create_time"];
+                        $order_data["pay_time"][$da_k] = $names["pay_time"];
                         foreach ($order_data["info"] as $kk => $vv) {
                             $order_data["all_numbers"][$kk] = array_sum(array_map(create_function('$vals', 'return $vals["order_quantity"];'), $vv));
                         }
@@ -829,7 +841,7 @@ class  Order extends  Controller
                     $data_information["all_numbers"][] = $return_data["order_quantity"];
                     $data_information['status'][] = $return_data['status'];
                     $data_information['parts_order_number'][] = $return_data['parts_order_number'];
-                    $data_information['order_create_time'][] = $value['order_create_time'];
+                    $data_information['pay_time'][] = $value['pay_time'];
                     $data_information['all'][] = Db::name('order')
                         ->where('id', $value['order_id'])
                         ->find();
@@ -885,13 +897,13 @@ class  Order extends  Controller
                 }
 
                 //订单创建时间
-                foreach ($order_data['order_create_time'] as $i => $j) {
+                foreach ($order_data['pay_time'] as $i => $j) {
                     if(!empty($j)){
                         $new_arr_order_create_time[] =$j;
                     }
                 }
                 foreach ($new_arr_order_create_time as $i=>$j){
-                    $end_info[$i]['order_create_times'] = $j;
+                    $end_info[$i]['pay_time'] = $j;
                 }
             }
             if(!empty($data_information)){
@@ -922,16 +934,16 @@ class  Order extends  Controller
                     $end_info[$a+$count]['info'][] = $b;
                 }
                 //创建订单时间
-                foreach ($data_information['order_create_time'] as $a=>$b){
-                    $end_info[$a+$count]['order_create_times'] = $b;
+                foreach ($data_information['pay_time'] as $a=>$b){
+                    $end_info[$a+$count]['pay_time'] = $b;
                 }
             }
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["pay_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -1104,9 +1116,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_times"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -1279,9 +1291,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_times"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -1411,6 +1423,64 @@ class  Order extends  Controller
             }
         }
     }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:小程序活动支付成功回来修改状态
+     **************************************
+     */
+
+    public function notify(){
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Data.php";
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Notify.php";
+        include EXTEND_PATH."WxpayAPI/lib/WxPay.Api.php";
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $val = json_decode(json_encode($xml_data), true);
+        if($val["result_code"] == "SUCCESS" ){
+            file_put_contents(EXTEND_PATH."data.txt",$val);
+            $res = Db::name("activity_order")
+                ->where("parts_order_number",$val["out_trade_no"])
+                ->update(["status"=>1]);
+            if($res){
+                return ajax_success("成功",$res);
+            }else{
+                return ajax_error("失败",$val["out_trade_no"]);
+            }
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:小程序订单支付成功回来修改状态
+     **************************************
+     */
+    public function order_notify(){
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $val = json_decode(json_encode($xml_data), true);
+        if($val["result_code"] == "SUCCESS" ){
+            file_put_contents(EXTEND_PATH."data.txt",$val);
+            $res = Db::name("order")
+                ->where("parts_order_number",$val["out_trade_no"])
+                ->update(["status"=>2,"pay_time"=>time()]);
+            if($res){
+                return ajax_success("成功",$res);
+            }else{
+                return ajax_error("失败");
+            }
+        }
+    }
+
+
+
+
+
+
 
 
 

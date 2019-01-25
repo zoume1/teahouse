@@ -321,26 +321,36 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+				{if !empty($data)}
+				{volist name="data" id="vo"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>1000001</td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}"></td>
+						<td>{$vo.parts_order_number}</td>
+						{if !empty($vo["goods_image"])}
 						<td class="">
-							<div class="tdimg"><img src="11" /></div>
+							<div class="tdimg"><img src="__UPLOADS__/{$vo.goods_image}" /></div>
 						</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+						{else}
+						<td class="">
+							无
+						</td>
+						{/if}
+						<td>{$vo.parts_goods_name}</td>
+						<td>{$vo.order_quantity}</td>
+						<td>{$vo.user_account_name}</td>
+						<td>{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
+						<td>{$vo.order_amount}</td>
 						<td>
-							<input type="checkbox" class="Status" name="" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked>
+							{$vo.order_type|order_type_status}
 						</td>
 						<td>
-							<div class="static_btus">
-								已关闭
+							<div class="static_btus" data-id="{$vo.id}">
+								{$vo.status|show_order_status}
 							</div>
 						</td>
 					</tr>
+				{/volist}
+				{/if}
 				</tbody>
 			</table>
 			<div id="page">
@@ -354,6 +364,8 @@
 					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
+				{if !empty($data)} {$data->render()} {/if}
+
 			</div>
 
 		</div>
@@ -480,9 +492,26 @@
 			})
 		})
 		$(".static_btus").click(function(){
+			var  data_id=$(this).data("id");
+			// console.log(data_id);
+			$.ajax({
+					type: "POST",
+					url: "{:url('admin/Notification/notice_index')}",
+					data: {
+						"order_id": data_id,
+					},
+					success: function(data) {
+						console.log(data);
+					
+					},
+					error: function(data) {
+						
+					}
+				});
+					
 			$(".popup_two").removeClass("noshow");
 		});
-			$(".popup_x").click(function(){
+		$(".popup_x").click(function(){
 			$(".popup_two").addClass("noshow");
 		});
 	</script>

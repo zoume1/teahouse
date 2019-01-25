@@ -39,7 +39,10 @@ Route::group("",[
     "my_qrcode"=>"index/My/qrcode",  //会员二维码
     "my_index"=>"index/My/my_index",  //我的页面
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
-    "notify"=>"index/Pay/notify",//小程序支付回调（活动）
+    "wx_order_index"=>"index/Pay/order_index",//小程序订单支付
+     "notify"=>"index/order/notify",//小程序支付回调（活动）
+     "order_notify"=>"index/order/order_notify",//小程序订单支付回调
+
     /*TODO:end*/
 
     /*TODO:地址管理开始*/
@@ -69,6 +72,13 @@ Route::group("",[
 
     /*TODO:订单结束*/
 
+    /*TODO:订单用户提醒发货开始*/
+    "option_add"=>"index/Notification/option_add",//用户提醒
+    /*TODO:订单用户提醒发货结束*/
+
+
+
+
     /*TODO:购物车开始*/
     "shopping_index"=>"index/Shopping/shopping_index",//购物车列表信息返回
      "get_goods_id_to_shopping"=>"index/Shopping/get_goods_id_to_shopping",//获取商品id 存入购物车
@@ -85,8 +95,10 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
+    "activity_status"=>"index/TeaCenter/activity_status",        //茶圈活动是否报名
     "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
     "activity_order"=>"index/TeaCenter/activity_order",          //茶圈订单
+    "activity_order_delete"=>"index/TeaCenter/activity_order_delete", //茶圈取消订单
     "teacenter_comment"=>"index/TeaCenter/teacenter_comment",          //茶圈活动评论存储
     "teacenter_comment_show"=>"index/TeaCenter/teacenter_comment_show",  //茶圈活动评论显示
     "teacenter_comment_updata"=>"index/TeaCenter/teacenter_comment_updata", //茶圈活动评论点赞
@@ -103,6 +115,7 @@ Route::group("",[
     "coupon_user"=>"index/Coupon/coupon_user",           //已使用优惠券显示
     "coupon_time"=>"index/Coupon/coupon_time",           //过期优惠券显示
     "coupon_goods"=>"index/Coupon/coupon_goods",         //优惠券使用商品
+    "coupon_appropriated"=>"index/Coupon/coupon_appropriated",//商品下单适用优惠券
 
     /*积分商城*/
     "bonus_index"=>"index/Coupon/bonus_index",       //积分商城显示
@@ -164,6 +177,7 @@ Route::group("admin",[
 
 
 
+
     /*TODO：会员管理开始*/
     "user_index"=>"admin/User/index", //会员概况
     "user_status"=>"admin/User/status", //会员状态编辑
@@ -202,6 +216,12 @@ Route::group("admin",[
     "order_setting_update"=>"admin/Order/order_setting_update",//更新
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
     /*TODO:订单结束*/
+    /*TODO:订单备注开始*/
+    "notice_index"=>"admin/Notification/notice_index",//卖家备注数据返回
+    "option_add_notice"=>"admin/Notification/option_add_notice",//卖家备注
+    /*TODO:订单备注结束*/
+
+
     /*TODO:评价开始*/
     "evaluate_index"=>"admin/Evaluate/evaluate_index",//评价管理页面
     "evaluate_edit"=>"admin/Evaluate/evaluate_edit",//评价编辑
@@ -235,7 +255,7 @@ Route::group("admin",[
 	 "comments_index"=>"admin/Comments/index",       //评论管理显示
 	 "comments_add"=>"admin/Comments/add",           //评论积分设置
 	 "comments_preserve"=>"admin/Comments/preserve", //评论积分设置保存
-     "comments_save"=>"admin/Comments/updata",         //评论管理保存
+     "comments_save"=>"admin/Comments/updata",       //评论管理保存
      "comments_status"=>"admin/Comments/status",     //评论管理状态修改
      "comments_delete"=>"admin/Comments/delete",     //评论管理组删除
      "comments_deletes"=>"admin/Comments/deletes",   //评论管理组批量删除
