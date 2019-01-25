@@ -27,6 +27,9 @@ Route::group("",[
     "wisdom"=>"index/index/wisdom", //智慧茶仓
     "partner"=>"index/index/partner", //招募合伙人
     "about"=>"index/index/about", //关于我们
+    "sign_up"=>"index/index/sign_up", //注册
+    "sign_in"=>"index/index/sign_in", //登录
+    "forget_pw"=>"index/index/forget_pw", //登录
 
 
     /*TODO：start*/
