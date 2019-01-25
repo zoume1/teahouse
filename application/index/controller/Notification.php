@@ -43,7 +43,8 @@ class Notification extends  Controller{
                     "information"=>"用户提醒发货",
                     "create_time"=>time(),
                     "option_name"=>"用户",
-                    "order_id"=>$v["id"]
+                    "order_id"=>$v["id"],
+                    "order_num"=>$order_num
                 ];
                 $res =  Db::name("note_notification")->insert($information_data);
             }
