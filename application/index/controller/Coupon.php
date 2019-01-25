@@ -90,18 +90,21 @@ class Coupon extends Controller
                             ->distinct($member_id)
                             ->field("coupon_id")
                             ->select();
-            
-            foreach($coupon_id as $key => $value){
-                $rest[] = Db::name("coupon")->where("id",$value["coupon_id"])->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
-            }
-            foreach($rest as $k => $v){
-                $v['scope'] = explode(",",$v['scope']);
+            if(count($coupon_id)>0){
+                foreach($coupon_id as $key => $value){
+                    $rest[] = Db::name("coupon")->where("id",$value["coupon_id"])->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
+                }
+                foreach($rest as $k => $v){
+                    $v['scope'] = explode(",",$v['scope']);
+                }
+            } else {
+                $rest = null;
             }
 
             if (!empty($rest)) {
                 return ajax_success('传输成功', $rest);
             } else {
-                return ajax_error("数据为空");
+                return ajax_error("数据为空",$rest);
 
             }
         }
