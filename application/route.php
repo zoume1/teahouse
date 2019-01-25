@@ -236,7 +236,7 @@ Route::group("admin",[
 	 "comments_index"=>"admin/Comments/index",       //评论管理显示
 	 "comments_add"=>"admin/Comments/add",           //评论积分设置
 	 "comments_preserve"=>"admin/Comments/preserve", //评论积分设置保存
-     "comments_save"=>"admin/Comments/updata",         //评论管理保存
+     "comments_save"=>"admin/Comments/updata",       //评论管理保存
      "comments_status"=>"admin/Comments/status",     //评论管理状态修改
      "comments_delete"=>"admin/Comments/delete",     //评论管理组删除
      "comments_deletes"=>"admin/Comments/deletes",   //评论管理组批量删除

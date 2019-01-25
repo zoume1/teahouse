@@ -36,6 +36,7 @@ class Coupon extends Controller
                          ->distinct($member_id)
                          ->field("coupon_id")
                          ->select();
+                         halt($coupon_id);
             foreach($coupon_id as $key => $value){
                 foreach($value as $ke => $va){
                     $rest[] = $va;
