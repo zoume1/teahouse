@@ -797,10 +797,10 @@ class  Order extends  Controller
             }
             $condition ="`status` = '2' or `status` = '3'";
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id')
+                ->field('parts_order_number,pay_time,group_concat(id) order_id')
                 ->where('member_id', $member_id)
                 ->where($condition)
-                ->order('order_create_time', 'desc')
+                ->order('pay_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
             foreach ($data as $key=>$value) {
@@ -810,7 +810,6 @@ class  Order extends  Controller
                         $return_data_info[] = Db::name('order')
                             ->where('id', $v)
                             ->where('member_id', $member_id)
-                            ->order('order_create_time', 'desc')
                             ->find();
                     }
                     foreach ($return_data_info as $ke => $item) {
@@ -831,7 +830,7 @@ class  Order extends  Controller
                         $order_data['status'][$da_k] = $names['status'];
                         $order_data["parts_order_number"][$da_k] = $names["parts_order_number"];
                         $order_data["all_order_real_pay"][$da_k] = $names["order_real_pay"];
-                        $order_data["order_create_time"][$da_k] = $names["order_create_time"];
+                        $order_data["pay_time"][$da_k] = $names["pay_time"];
                         foreach ($order_data["info"] as $kk => $vv) {
                             $order_data["all_numbers"][$kk] = array_sum(array_map(create_function('$vals', 'return $vals["order_quantity"];'), $vv));
                         }
@@ -844,7 +843,7 @@ class  Order extends  Controller
                     $data_information["all_numbers"][] = $return_data["order_quantity"];
                     $data_information['status'][] = $return_data['status'];
                     $data_information['parts_order_number'][] = $return_data['parts_order_number'];
-                    $data_information['order_create_time'][] = $value['order_create_time'];
+                    $data_information['pay_time'][] = $value['pay_time'];
                     $data_information['all'][] = Db::name('order')
                         ->where('id', $value['order_id'])
                         ->find();
@@ -900,13 +899,13 @@ class  Order extends  Controller
                 }
 
                 //订单创建时间
-                foreach ($order_data['order_create_time'] as $i => $j) {
+                foreach ($order_data['pay_time'] as $i => $j) {
                     if(!empty($j)){
                         $new_arr_order_create_time[] =$j;
                     }
                 }
                 foreach ($new_arr_order_create_time as $i=>$j){
-                    $end_info[$i]['order_create_times'] = $j;
+                    $end_info[$i]['pay_time'] = $j;
                 }
             }
             if(!empty($data_information)){
@@ -937,14 +936,14 @@ class  Order extends  Controller
                     $end_info[$a+$count]['info'][] = $b;
                 }
                 //创建订单时间
-                foreach ($data_information['order_create_time'] as $a=>$b){
-                    $end_info[$a+$count]['order_create_times'] = $b;
+                foreach ($data_information['pay_time'] as $a=>$b){
+                    $end_info[$a+$count]['pay_time'] = $b;
                 }
             }
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =intval($vl["order_create_times"]);
+                    $ords[] =intval($vl["pay_time"]);
                 }
                 array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
