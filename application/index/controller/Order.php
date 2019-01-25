@@ -83,6 +83,7 @@ class  Order extends  Controller
         if ($request->isPost()) {
             $open_id = $request->only("open_id")["open_id"];//open_id
             $address_id = $request->param("address_id");//address_id
+            $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $user_id =Db::name("member")
                 ->where("member_openid",$open_id)
                 ->value("member_id");
@@ -145,13 +146,14 @@ class  Order extends  Controller
                                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
+                            $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
                             $datas["distribution"] =$goods_data["distribution"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
                             $datas["order_quantity"] =$numbers[$keys];//订单数量
                             $datas["member_id"] =$user_id;//用户id
-                            $datas["user_account_name"] =$goods_data["goods_describe"];//卖点
-                            $datas["goods_describe"] =$user_information["member_name"];//用户名
+                            $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
+                            $datas["user_account_name"] =$user_information["member_name"];//用户名
                             $datas["user_phone_number"] =$user_information["member_phone_num"];//用户名手机号
                             $datas["harvester"] =$is_address_status['harvester'];
                             $datas["harvest_phone_num"] =$is_address_status['harvester_phone_num'];
@@ -207,8 +209,13 @@ class  Order extends  Controller
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
-            $user_information =Db::name("member")->where("member_id",$user_id)->find();
-            $is_address = Db::name('user_address')->where("status",1)->where('user_id', $user_id)->find();
+            $user_information =Db::name("member")
+                ->where("member_id",$user_id)
+                ->find();
+            $is_address = Db::name('user_address')
+                ->where("id",$address_id)
+                ->where('user_id', $user_id)
+                ->find();
             if (empty($is_address) ) {
                 return ajax_error('请填写收货地址',['status'=>0]);
             }else{
@@ -223,6 +230,8 @@ class  Order extends  Controller
                 $all_money =$request->only("order_amount")["order_amount"];//总价钱
                 $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
                 $numbers =$request->only("order_quantity")["order_quantity"];
+                $order_type =$request->only("order_type")["order_type"]; //1为选择直邮，2到店自提，3选择存茶
+
 
                 $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
                 $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
@@ -241,7 +250,7 @@ class  Order extends  Controller
 //                        if(!empty($data["buy_message"])){
 //                            $buy_message =$data["buy_message"];
 //                        }else{
-                            $buy_message = NUll;
+                            $buy_message = NUll; //买家留言
 //                        }
                             //判断是通用
                             if($goods_data["goods_standard"]==0){
@@ -256,13 +265,14 @@ class  Order extends  Controller
                                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
+                            $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
                             $datas["distribution"] =$goods_data["distribution"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
                             $datas["order_quantity"] =$numbers[$keys];//订单数量
                             $datas["member_id"] =$user_id;//用户id
-                            $datas["user_account_name"] =$goods_data["goods_describe"];//卖点
-                            $datas["goods_describe"] =$user_information["member_name"];//用户名
+                            $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
+                            $datas["user_account_name"] =$user_information["member_name"];//用户名
                             $datas["user_phone_number"] =$user_information["member_phone_num"];//用户名手机号
                             $datas["harvester"] =$is_address_status['harvester'];
                             $datas["harvest_phone_num"] =$is_address_status['harvester_phone_num'];
@@ -585,9 +595,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_ASC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -759,9 +769,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -934,9 +944,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -1109,9 +1119,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -1284,9 +1294,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
