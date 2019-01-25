@@ -1458,9 +1458,9 @@ class  Order extends  Controller
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
             file_put_contents(EXTEND_PATH."data.txt",$val);
-            $res = Db::name("activity_order")
+            $res = Db::name("order")
                 ->where("parts_order_number",$val["out_trade_no"])
-                ->update(["status"=>1]);
+                ->update(["status"=>2,"pay_time"=>time()]);
             if($res){
                 return ajax_success("成功",$res);
             }else{
