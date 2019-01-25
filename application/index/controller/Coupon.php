@@ -36,23 +36,34 @@ class Coupon extends Controller
                          ->distinct($member_id)
                          ->field("coupon_id")
                          ->select();
-                         halt($coupon_id);
-            foreach($coupon_id as $key => $value){
-                foreach($value as $ke => $va){
-                    $rest[] = $va;
-                }
-            }                        
+            
+            if(count($coupon_id)>0){
+                foreach($coupon_id as $key => $value){
+                    foreach($value as $ke => $va){
+                        $rest[] = $va;
+                    }
+                }                        
             //未使用(去掉已使用)
-            foreach($coupon as $key => $value){
-                if(!in_array($value['id'],$rest)){
-                $value['scope'] = explode(",",$value['scope']);
-                $value['start_time'] = strtotime($value['start_time']);
-                $value['end_time'] = strtotime($value['end_time']);
-                if(in_array($member_grade_name,$value['scope']) && $value['end_time'] > $time){
-                    $data[] = $value;
+                foreach($coupon as $key => $value){
+                    if(!in_array($value['id'],$rest)){
+                    $value['scope'] = explode(",",$value['scope']);
+                    $value['start_time'] = strtotime($value['start_time']);
+                    $value['end_time'] = strtotime($value['end_time']);
+                    if(in_array($member_grade_name,$value['scope']) && $value['end_time'] > $time){
+                        $data[] = $value;
+                    }
                 }
             }
-        }   
+        } else {
+                foreach($coupon as $key => $values){
+                    $values['scope'] = explode(",",$values['scope']);
+                    $values['start_time'] = strtotime($values['start_time']);
+                    $values['end_time'] = strtotime($values['end_time']);
+                    if(in_array($member_grade_name,$values['scope']) && $values['end_time'] > $time){
+                        $data[] = $values;
+                    }
+                }
+            }  
             if (!empty($data)) {
                 return ajax_success('传输成功', $data);
             } else {
