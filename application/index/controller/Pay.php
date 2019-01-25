@@ -71,14 +71,18 @@ class Pay extends  Controller{
      **************************************
      * @param Request $request
      */
-    function order_pay(Request $request) {
-        $open_ids = $request->param("open_id");//open_id
+    function order_index(Request $request) {
+        $member_id = $request->param("member_id");//open_id
+        $open_ids =Db::name("member")
+            ->where("member_id",$member_id)
+            ->value("member_openid");
         $order_numbers =$request->param("order_number");//订单编号
-
-        $activity_name = Db::name("order")
+        $order_datas = Db::name("order")
             ->where("parts_order_number",$order_numbers)
-            ->where("");//名称
-        $cost_moneny = $request->param("cost_moneny");//金额
+            ->where("member_id", $member_id)
+            ->find();
+        $activity_name =$order_datas["parts_goods_name"];//名称
+        $cost_moneny = $order_datas["order_real_pay"];//金额
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
         //         文档提及的参数规范：商家名称-销售商品类目
@@ -96,7 +100,7 @@ class Pay extends  Controller{
         //$input->SetOpenid($this->getSession()->openid);
         //         向微信统一下单，并返回order，它是一个array数组
         $order = \WxPayApi::unifiedOrder($input);
-        //         json化返回给小程序端
+        //       json化返回给小程序端
         header("Content-Type: application/json");
         echo $this->getJsApiParameters($order);
     }
