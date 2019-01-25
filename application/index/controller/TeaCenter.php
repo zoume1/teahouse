@@ -231,6 +231,23 @@ class TeaCenter extends Controller
         }
     }
 
+    /**
+     * [茶圈活动取消订单]
+     * 郭杨
+     */
+    public function activity_order_delete(Request $request)
+    {
+        if ($request->isPost()){
+            $number = $request->only(['parts_order_number'])['parts_order_number'];
+            $bool = db("activity_order")->where('parts_order_number',$number)->delete();
+            if ($bool) {
+                return ajax_success('取消订单成功', $bool);
+            } else {
+                return ajax_error("取消订单失败");
+            }
+        }
+    }
+
 
 
 

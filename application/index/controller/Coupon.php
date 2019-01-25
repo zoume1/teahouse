@@ -54,7 +54,7 @@ class Coupon extends Controller
                     }
                 }
             }
-        } else {
+        } else { //如果没有使用过
                 foreach($coupon as $key => $values){
                     $values['scope'] = explode(",",$values['scope']);
                     $values['start_time'] = strtotime($values['start_time']);
@@ -186,6 +186,20 @@ class Coupon extends Controller
 
             }
         }
+    }
+
+    /**
+     * [商品下单适用优惠券]
+     * 郭杨
+     */
+    public function coupon_appropriated(Request $request)
+    {
+        if($request->isPost()){
+            $data = $request->param(); //包含goods_id and  open_id
+            $goods_id = $data['goods_id'];
+
+        }
+
     }
 
     /**
