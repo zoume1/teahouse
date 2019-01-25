@@ -480,9 +480,40 @@
 			})
 		})
 		$(".static_btus").click(function(){
+			$.ajax({
+					type: "POST",
+					url: "{:url('admin/Category/dels')}",
+					data: {
+						"id": data_id,
+					},
+					success: function(data) {
+						console.log("成功");
+						console.log(data);
+						var data = $.parseJSON(data);
+						layer.alert(data.info, {
+							skin: 'layui-layer-molv' //样式类名
+								,
+							closeBtn: 0
+						});
+						location.reload();
+						data_id.splice(0, data_id.length);
+					},
+					error: function(data) {
+						var data = $.parseJSON(data);
+						layer.alert(data.info, {
+							skin: 'layui-layer-molv' //样式类名
+								,
+							closeBtn: 0
+						});
+						console.log(data);
+						console.log("错误");
+						data_id.splice(0, data_id.length);
+					}
+				});
+					
 			$(".popup_two").removeClass("noshow");
 		});
-			$(".popup_x").click(function(){
+		$(".popup_x").click(function(){
 			$(".popup_two").addClass("noshow");
 		});
 	</script>
