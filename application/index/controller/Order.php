@@ -595,9 +595,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -769,9 +769,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -944,9 +944,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -1119,9 +1119,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
@@ -1294,9 +1294,9 @@ class  Order extends  Controller
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
-                    $ords[] =$vl["order_create_times"];
+                    $ords[] =intval($vl["order_create_time"]);
                 }
-                array_multisort($end_info,SORT_DESC,$ords);
+                array_multisort($ords,SORT_DESC,$end_info);
                 return ajax_success('数据', $end_info);
             } else {
                 return ajax_error('没数据');
