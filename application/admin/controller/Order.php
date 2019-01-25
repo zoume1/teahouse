@@ -31,10 +31,12 @@ class  Order extends  Controller{
      * Notes:订单搜索
      **************************************
      */
-//    public function order_search(Request $request){
-//        if($request->isPost()){
-//        }
-//    }
+    public function order_search(Request $request){
+        if($request->isPost()){
+        }
+    }
+
+
 
 
 
