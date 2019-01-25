@@ -81,9 +81,12 @@ class  Order extends  Controller
      */
     public function order_place(Request $request){
         if ($request->isPost()) {
-            $open_id = $request->param("open_id");//open_id
+//            $open_id = $request->param("open_id");//open_id
+            $open_id = $request->only("open_id")["open_id"];//open_id
             $address_id = $request->param("address_id");//address_id
-            $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+            $user_id =Db::name("member")
+                ->where("member_openid",$open_id)
+                ->value("member_id");
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
@@ -92,7 +95,10 @@ class  Order extends  Controller
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
             $user_information =Db::name("member")->where("member_id",$user_id)->find();
-            $is_address = Db::name('user_address')->where("status",1)->where('user_id', $user_id)->find();
+            $is_address = Db::name('user_address')
+                ->where("id",$address_id)
+                ->where('user_id', $user_id)
+                ->find();
             if (empty($is_address) ) {
                 return ajax_error('请填写收货地址',['status'=>0]);
             }else{
