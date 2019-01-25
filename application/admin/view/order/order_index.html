@@ -344,7 +344,7 @@
 							{$vo.order_type|order_type_status}
 						</td>
 						<td>
-							<div class="static_btus">
+							<div class="static_btus" data-id="{$vo.id}">
 								{$vo.status|show_order_status}
 							</div>
 						</td>
@@ -492,9 +492,26 @@
 			})
 		})
 		$(".static_btus").click(function(){
+			var  data_id=$(this).data("id");
+			// console.log(data_id);
+			$.ajax({
+					type: "POST",
+					url: "{:url('admin/Notification/notice_index')}",
+					data: {
+						"order_id": data_id,
+					},
+					success: function(data) {
+						console.log(data);
+					
+					},
+					error: function(data) {
+						
+					}
+				});
+					
 			$(".popup_two").removeClass("noshow");
 		});
-			$(".popup_x").click(function(){
+		$(".popup_x").click(function(){
 			$(".popup_two").addClass("noshow");
 		});
 	</script>
