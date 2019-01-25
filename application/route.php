@@ -95,6 +95,7 @@ Route::group("",[
     "activity_status"=>"index/TeaCenter/activity_status",        //茶圈活动是否报名
     "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
     "activity_order"=>"index/TeaCenter/activity_order",          //茶圈订单
+    "activity_order_delete"=>"index/TeaCenter/activity_order_delete", //茶圈取消订单
     "teacenter_comment"=>"index/TeaCenter/teacenter_comment",          //茶圈活动评论存储
     "teacenter_comment_show"=>"index/TeaCenter/teacenter_comment_show",  //茶圈活动评论显示
     "teacenter_comment_updata"=>"index/TeaCenter/teacenter_comment_updata", //茶圈活动评论点赞
@@ -111,6 +112,7 @@ Route::group("",[
     "coupon_user"=>"index/Coupon/coupon_user",           //已使用优惠券显示
     "coupon_time"=>"index/Coupon/coupon_time",           //过期优惠券显示
     "coupon_goods"=>"index/Coupon/coupon_goods",         //优惠券使用商品
+    "coupon_appropriated"=>"index/Coupon/coupon_appropriated",//商品下单适用优惠券
 
     /*积分商城*/
     "bonus_index"=>"index/Coupon/bonus_index",       //积分商城显示
