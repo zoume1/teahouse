@@ -212,6 +212,7 @@ Route::group("admin",[
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
     /*TODO:订单结束*/
     /*TODO:订单备注开始*/
+    "notice_index"=>"admin/Notification/notice_index",//卖家备注数据返回
     "option_add_notice"=>"admin/Notification/option_add_notice",//卖家备注
     /*TODO:订单备注结束*/
 

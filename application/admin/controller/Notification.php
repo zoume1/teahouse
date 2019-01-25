@@ -16,6 +16,28 @@ class Notification extends Controller{
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:这是处理回复
+     **************************************
+     * @param Request $request
+     */
+    public function notice_index(Request $request){
+        if($request->isPost()){
+            $order_id =$request->only("order_id")["order_id"];
+            $data =Db::name("note_notification")
+                ->where("order_id",$order_id)
+                ->order("create_time","desc")
+                ->select();
+            if(!empty($data)){
+                return ajax_success("数据返回成功",$data);
+            }else{
+                return ajax_error("没有数据",["status"=>0]);
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:卖家备注
      **************************************
      */
