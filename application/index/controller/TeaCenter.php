@@ -273,7 +273,7 @@ class TeaCenter extends Controller
             $activity_pid = db('teahost')->where('id',$activity_id)->value('pid'); //活动pid
             $activity_name = db('teahost')->where('id',$activity_id)->value('activity_name');//活动名称         
             $rest = db("activity_order")
-                    ->where("pid",$activity_id)
+                    ->where("pid",$activity_pid)
                     ->where("member_openid",$open_id)
                     ->where("activity_name",$activity_name)
                     ->value('status');
