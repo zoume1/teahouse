@@ -90,7 +90,7 @@ class Coupon extends Controller
                             ->distinct($member_id)
                             ->field("coupon_id")
                             ->select();
-            if(count($coupon_id)>0){
+            if(count($coupon_id) > 0){
                 foreach($coupon_id as $key => $value){
                     $rest[] = Db::name("coupon")->where("id",$value["coupon_id"])->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
                 }
@@ -154,18 +154,17 @@ class Coupon extends Controller
             $member_id = $request->only(["open_id"])["open_id"];
             $coupon_good = 0;
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
-            $goods_id = db("join")->where("coupon_id",$coupon_id)->field('goods_id')->select();
+            $goods_id = db("join")->where("coupon_id",$coupon_id)->where("label",1)->field('goods_id')->select();
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
 
             if(!empty($goods_id))
             {
                 foreach($goods_id as $key=>$value)
                 {
-                    $goods[] = db("goods")->where("id",$value["goods_id"])->where("status",1)->find();                   
+                    $goods[] = db("goods")->where("id",$value["goods_id"])->find(); //该商品是否上架                  
                 }
                 foreach ($goods as $k => $v)
                 {
-                    if(!empty($v)){
                     if($goods[$k]["goods_standard"] == 1){
                         $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
                         $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
@@ -176,11 +175,10 @@ class Coupon extends Controller
                     } else {
                         $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
                     }
-                } else {
-                    unset($v);
                 }                
-            }             
-        } 
+            }
+        }             
+         
             if (!empty($goods)) {
                 return ajax_success('传输成功', $goods);
             } else {
