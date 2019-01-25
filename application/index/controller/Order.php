@@ -213,7 +213,7 @@ class  Order extends  Controller
                 ->where("member_id",$user_id)
                 ->find();
             $is_address = Db::name('user_address')
-                ->where("address_id",$address_id)
+                ->where("id",$address_id)
                 ->where('user_id', $user_id)
                 ->find();
             if (empty($is_address) ) {
