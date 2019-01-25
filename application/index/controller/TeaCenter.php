@@ -271,15 +271,18 @@ class TeaCenter extends Controller
             $open_id = $request->only(['open_id'])['open_id']; //账户id  
             $activity_id = $request->only(['id'])['id'];  //活动id
             $activity_pid = db('teahost')->where('id',$activity_id)->value('pid'); //活动pid
-            $activity_name = db('teahost')->where('id',$activity_id)->value('activity_name');//活动名称         
+            $activity_name = db('teahost')->where('id',$activity_id)->value('activity_name');//活动名称   
+          
             $rest = db("activity_order")
                     ->where("pid",$activity_pid)
                     ->where("member_openid",$open_id)
                     ->where("activity_name",$activity_name)
                     ->value('status');
+
             if ($rest == 1) {
                 return ajax_success('该用户已报名', $rest);
             } else {
+                $rest = 0;
                 return ajax_error("未报名",$rest);
             }
         }
