@@ -83,6 +83,7 @@ class  Order extends  Controller
         if ($request->isPost()) {
             $open_id = $request->only("open_id")["open_id"];//open_id
             $address_id = $request->param("address_id");//address_id
+            $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $user_id =Db::name("member")
                 ->where("member_openid",$open_id)
                 ->value("member_id");
@@ -145,6 +146,7 @@ class  Order extends  Controller
                                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
+                            $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
                             $datas["distribution"] =$goods_data["distribution"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
@@ -223,6 +225,8 @@ class  Order extends  Controller
                 $all_money =$request->only("order_amount")["order_amount"];//总价钱
                 $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
                 $numbers =$request->only("order_quantity")["order_quantity"];
+                $order_type =$request->only("order_type")["order_type"]; //1为选择直邮，2到店自提，3选择存茶
+
 
                 $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
                 $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
@@ -256,6 +260,7 @@ class  Order extends  Controller
                                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
+                            $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
                             $datas["distribution"] =$goods_data["distribution"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
