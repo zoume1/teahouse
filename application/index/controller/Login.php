@@ -63,7 +63,8 @@ class Login extends Controller{
                             ->find();
                         $info_data =[
                             "member_grade_info"=>$member_grade_info,
-                            "openid"=>$errCode['openId']
+                            "openid"=>$errCode['openId'],
+                            "member_id"=>$bool
                         ];
                         return ajax_success('返回数据成功',$info_data);
                     }else{
@@ -77,7 +78,8 @@ class Login extends Controller{
                         ->find();
                     $data =[
                         "member_grade_info"=>$member_grade_info,
-                        "openid"=>$errCode['openId']
+                        "openid"=>$errCode['openId'],
+                        "member_id"=>$is_register["member_id"]
                     ];
                     return ajax_error('该用户已经注册过，请不要重复注册',$data);
                 }

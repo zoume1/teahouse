@@ -36,7 +36,9 @@ Route::group("",[
     "my_qrcode"=>"index/My/qrcode",  //会员二维码
     "my_index"=>"index/My/my_index",  //我的页面
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
+    "wx_order_index"=>"index/Pay/order_index",//小程序订单支付
      "notify"=>"index/order/notify",//小程序支付回调（活动）
+     "order_notify"=>"index/order/order_notify",//小程序订单支付回调
 
     /*TODO:end*/
 
