@@ -83,6 +83,7 @@ Route::group("",[
     "teacenter_activity"=>"index/TeaCenter/teacenter_activity",  //茶圈活动页面显示
     "teacenter_detailed"=>"index/TeaCenter/teacenter_detailed",  //茶圈活动详细显示
     "teacenter_alls"=>"index/TeaCenter/teacenter_alls",          //茶圈所有活动
+    "activity_status"=>"index/TeaCenter/activity_status",        //茶圈活动是否报名
     "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
     "activity_order"=>"index/TeaCenter/activity_order",          //茶圈订单
     "teacenter_comment"=>"index/TeaCenter/teacenter_comment",          //茶圈活动评论存储

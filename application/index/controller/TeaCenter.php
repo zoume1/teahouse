@@ -261,6 +261,24 @@ class TeaCenter extends Controller
 
     }
 
+    /**
+     * [茶圈活动订单]
+     * 郭杨
+     */
+    public function activity_status(Request $request)
+    {
+        if ($request->isPost()){
+            $activity_id = $request->only(['pid'])['pid'];  //活动pid
+            $open_id = $request->only(['open_id'])['open_id']; //账户id           
+            $rest = db("activity")->where("member_openid",$activity_id)->where("member_openid",$open_id)->value('status');
+            if ($rest == 1) {
+                return ajax_success('该用户已报名', $data);
+            } else {
+                return ajax_error("未报名",$data);
+            }
+        }
+    }
+
 
 
     /**
