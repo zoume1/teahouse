@@ -11,7 +11,7 @@ table{border-collapse:collapse;border-spacing:0}
 td,th,ul,ol{padding:0}
 
 /* common */
-.clearfix::after{content: ''; display: block; clear: both; overflow: hidden;}
+.clearfix::after{content: ''; display: block; clear: both;}
 .title-h2{font-size: 40px; font-weight: 700; color: #545454; line-height: normal;}
 .fl{float: left;}
 
@@ -21,7 +21,7 @@ td,th,ul,ol{padding:0}
 /* header */
 .header{ background-color: #fff;}
 .header .header-container{display: flex; justify-content: space-around; width: 1350px; margin: 0 auto;}
-.header .header-section{height: 80px;}
+.header .header-section{height: 80px; box-sizing: border-box;}
 .logo{display: flex; align-items: center; flex-basis: 30%;}
 .logo-container{width: 70px; height: 70px; background-color: #545454; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; cursor: pointer;}
 .logo span{font-size: 36px; color: #545454; line-height: normal; cursor: pointer;}
@@ -33,7 +33,17 @@ td,th,ul,ol{padding:0}
 .login{flex-basis: 30%; text-align: right; line-height: 80px;}
 .login .sign-in, .login .register{display: inline-block; width: 140px; height: 40px; font-size: 23px; color: #545454; text-align: center; line-height: 40px; border: 1px solid #545454; border-radius: 5px;}
 .login .register{background-color: #545454; color: #fff; margin-left: 25px;}
-.loaded-common{flex-basis: 30%;}
+.loaded-common{flex-basis: 30%; text-align: center; line-height: 80px;}
+.loaded-common .loaded-inner{width: 120px; margin: 0 auto; text-align: left; padding: 0 15px;}
+.loaded-common .loaded-inner:hover{border-left: 1px solid #e5e5e5; border-right: 1px solid #e5e5e5; background-color: #fff;}
+.loaded-common .loaded-icon{display: inline-block; width: 16px; height: 16px; background: url(../img/icon3.png) no-repeat; background-size: 100%; vertical-align: sub;}
+.loaded-common .loaded-mobile{font-size: 14px; color: #38f;}
+.loaded-common .caret{position: relative;}
+.loaded-common .caret::before{content: ''; position: absolute; top: 3px; left: 5px; border: 5px solid transparent; border-top-color: #fff; z-index: 2;}
+.loaded-common .caret::after{content: ''; position: absolute; top: 5px; left: 5px; border: 5px solid transparent; border-top-color: #38f;}
+.loaded-common .loaded-menu{border: 1px solid #e5e5e5; border-top: 0; background-color: #fff; display: block; box-sizing: border-box;}
+
+
 /* 合作伙伴 */
 .partner{background-color: #f8f8f8; padding: 50px 75px 30px; box-sizing: border-box;}
 .partner .partner-container{width: 1350px; margin: 0 auto;}

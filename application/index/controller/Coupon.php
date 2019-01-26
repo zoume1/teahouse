@@ -195,14 +195,22 @@ class Coupon extends Controller
     public function coupon_appropriated(Request $request)
     {
         if($request->isPost()){
+            $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
             $data = $request->param(); //包含goods_id and  open_id
             $goods_id = $data['goods_id'];
             $open_id = $data['open_id'];
             $member_grade_name = $data['member_grade_name'];
 
+            
+            foreach($goods_id as $ky => $vl){ //通过商品找到所有适用的优惠券
+                $coupons[$ky] = db("join")->where("goods_id",$vl)->value('coupon_id'); 
+            }
+            $coupones = array_unique($counpons);
 
-            $coupon = Db::name("coupon")->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
-            $time = strtotime(date("Y-m-d",strtotime("-1 day")));
+            foreach($coupones as $ks => $vs){
+                $coupones[$ks] = db('coupon')->where('id',$vs)->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
+            }
+            
 
             //已使用
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
@@ -219,7 +227,7 @@ class Coupon extends Controller
                     }
                 }                        
             //未使用(去掉已使用)
-                foreach($coupon as $key => $value){
+                foreach($coupones as $key => $value){
                     if(!in_array($value['id'],$rest)){
                     $value['scope'] = explode(",",$value['scope']);
                     $value['start_time'] = strtotime($value['start_time']);
@@ -230,7 +238,7 @@ class Coupon extends Controller
                 }
             }
         } else { //如果没有使用过
-                foreach($coupon as $key => $values){
+                foreach($coupones as $key => $values){
                     $values['scope'] = explode(",",$values['scope']);
                     $values['start_time'] = strtotime($values['start_time']);
                     $values['end_time'] = strtotime($values['end_time']);
@@ -238,14 +246,13 @@ class Coupon extends Controller
                         $data[] = $values;
                     }
                 }
-            } 
-
-            foreach($goods_id as $key => $value){
-
             }
-
-
-        }
+            if (!empty($data)) {
+                return ajax_success('传输成功', $data);
+            } else {
+                return ajax_error("没有适用优惠券"); 
+         }
+      }
 
     }
 
