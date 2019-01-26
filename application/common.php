@@ -637,7 +637,7 @@ function order_type_status($label){
  */
 function show_order_status($status){
     if($status==0){
-        echo '<button type="button" class="state  close-btu" >已关闭</button>';
+        echo '<button type="button" class="state   close-btu" >已关闭</button>';
     }else if($status==1){
         echo '<button type="button" class="state  obligation" >待支付</button>';
     }else if($status==2){
