@@ -25,6 +25,32 @@ class  Order extends  Controller{
         return view("order_index",["data"=>$data]);
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:订单搜索
+     **************************************
+     */
+    public function order_search(Request $request){
+        if($request->isPost()){
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      **************李火生*******************

@@ -45,12 +45,12 @@
 		flex: 1;
 	}
 	
-	.static_btus {
+	.state {
 		width: 100px;
 		height: 30px;
 		line-height: 30px;
 		border-radius: 10px;
-		background: #007AFF;
+		/* background: #007AFF; */
 		color: #fff;
 		margin: 0 auto;
 	}
@@ -240,7 +240,8 @@
 			</ul>
 		</div>
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Category/search')}">
+
+			<form class="layui-form" action="{:url('admin/Order/order_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">订单编号：</div>
@@ -283,7 +284,8 @@
 					<div class="seach_list">
 						<div class="seach_laber">开始时间</div>
 						<div class="seach_input">
-							<span class="time"><input type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
+							<span class="time">
+								<input type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
 							</span>
 						</div>
 					</div>
@@ -291,14 +293,13 @@
 						<div class="seach_laber">结束时间</div>
 						<div class="seach_input">
 							<span class="time"><input type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
-
 						</div>
 					</div>
-
 					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
 				</div>
 
 			</form>
+
 		</blockquote>
 
 		<div class="layui-form news_list">
