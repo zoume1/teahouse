@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="__STATIC__/index/css/common.css">
+    <link rel="stylesheet" href="__STATIC__/index/css/intlTelInput.min.css">
+    <script src="__STATIC__/index/js/intlTelInput.min.js"></script>
+    <style>
+        .sign-in-container{width: 1000px; margin: 0 auto;}
+        .sign-in-container .signin-title-container{padding: 50px 0 20px;}
+        .signin-title-container .signin-cpy{margin-right: 100px;}
+        .signin-title-container .signin-cpy .cpy-name{ font-size: 18px; font-weight: 700; color: #515151;}
+        .signin-title-container .signin-subtitle .signin-way{position: relative; margin-right: 80px; font-size: 16px; cursor: pointer; line-height: 27px;}
+        .signin-subtitle .signin-way.way-active::after{position: absolute; bottom: -21px; left: 0; width: 100%; content: ''; border-bottom: 2px solid #38f;}
+        .signin-content-container{border-top: 1px solid #e5e5e5; padding-top: 50px; display: flex; justify-content: space-between;}
+        .signin-content-container .signin-content-inner{width: 450px;}
+        .signin-content-inner .signin-form-wrap{width: 350px; margin: 0 auto;}
+        .signin-content-inner .section-group{border-bottom: 1px solid #e5e5e5; display: flex; margin-bottom: 30px; align-items: center; height: 40px;}
+        .signin-content-inner .section-group .form-label{display: inline-block; width: 100px; font-size: 14px; color: #515151; font-weight: 700;}
+        .signin-content-inner .section-group .form-input-wrap{width: 250px; position: relative;}
+        .section-group .form-input-wrap input{border: 0; font-size: 14px;}
+        .intl-tel-input.separate-dial-code .selected-flag{background-color: transparent !important;}
+        .section-group .form-input-wrap .pw-icon{position: absolute; right: 20px; top: 0; width: 24px; height: 24px; background-color: #000; cursor: pointer; background: url(__STATIC__/index/img/icon1.png) no-repeat; background-size: 100%;}
+        .section-group .form-input-wrap .pw-icon.pw-icon-show{background: url(__STATIC__/index/img/icon2.png) no-repeat; background-size: 100%;}
+        .button-primary{display: block; margin-top: 30px; width: 350px; height: 45px; border: 0; outline: none; background-color: #38f; color: #fff; font-size: 16px; box-sizing: border-box; border-radius: 2px;}
+        .forget-group{ margin-top: 20px;}
+        .forget-group .forget-pw{float: right;}
+        .forget-group a{color: #38f;}
+        .copyright{text-align: center; margin-top: 50px;color: #515151;}
+        .copyright a{color: #515151;}
+        .qr-code-wrap{width: 350px; margin: 0 auto; text-align: center;}
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div class="header-container">
+                <div class="header-section logo">
+                    <div class="logo-container">
+                        <img src="__STATIC__/index/img/logo.png" width="50" height="40">
+                    </div>
+                    <span>宣铭科技</span>
+                </div>
+                <div class="header-section nav">
+                    <ul class="nav-ul clearfix">
+                        <li class="nav-li"><a href="javascript:;" class="nav-a">首页</a></li>
+                        <li class="nav-li"><a href="javascript:;" class="nav-a">智慧茶仓</a></li>
+                        <li class="nav-li"><a href="javascript:;" class="nav-a">招募合伙人</a></li>
+                        <li class="nav-li"><a href="javascript:;" class="nav-a">关于我们</a></li>
+                    </ul>
+                </div>
+                <div class="header-section login">
+                    <a href="javascript:;" class="sign-in">登录</a>
+                    <a href="javascript:;" class="register">注册</a>
+                </div>
+            </div>
+        </div>
+        <!-- 注册 -->
+        <div class="sign-in-wrap">
+            <div class="sign-in-container">
+                <div class="signin-title-container clearfix">
+                    <div class="signin-cpy fl">
+                        <img src="__STATIC__/index/img/logo2.png" width="25" height="20">
+                        <span class="cpy-name">宣铭科技</span>
+                    </div>
+                    <div class="signin-subtitle fl">
+                        <p class="signin-way signin-code fl">扫码登录</p>
+                        <p class="signin-way signin-account fl way-active">账号登录</p>
+                    </div>
+                </div>
+                <div class="signin-content-container">
+                    <div class="signin-content-inner">
+                        <div class="signin-form-wrap">
+                            <form action="" method="POST">
+                                <div class="section-group phone-wrap">
+                                    <label class="form-label">手机号码</label>
+                                    <div class="form-input-wrap">
+                                        <input type="text" id="phone" name="phone" placeholder="注册时填写的手机号">
+                                    </div>
+                                </div>
+                                <div class="section-group password-wrap">
+                                    <label class="form-label">设置密码</label>
+                                    <div class="form-input-wrap">
+                                        <input type="password" id="password" name="password" placeholder="请输入密码">
+                                        <span class="pw-icon"></span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="button-primary">登录</button>
+                            </form>
+                            <div class="forget-group">
+                                还没账号？<a href="sign_up">立即注册</a>
+                                <a href="forget_pw" class="forget-pw">忘记密码</a>
+                            </div>
+                        </div>
+                        <div class="qr-code-wrap" style="display: none;">
+                            <img src="__STATIC__/index/img/qrcode.png" width="260" height="260">
+                        </div>
+                    </div>
+                    <div class="signin-content-inner">
+                        <div class="banner">
+                            <img src="__STATIC__/index/img/img40.png" width="300" height="270">
+                        </div>
+                    </div>
+                </div>
+                <div class="foot">
+                    <p class="copyright">
+                        © 2012 - 2019
+                        <a href="./">宣铭科技版权所有</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/common.js"></script>
+    <script>
+        var phone = document.querySelector('#phone');
+        // http://www.jq22.com/jquery-info12917
+        var iti = window.intlTelInput(phone, {
+            preferredCountries: ['cn'],
+            separateDialCode: true,
+        })
+
+        $('.signin-way').click(function(){
+            $(this).addClass('way-active').siblings().removeClass('way-active');
+            if($(this).hasClass('signin-code')){
+                $('.qr-code-wrap').show();
+                $('.signin-form-wrap').hide();
+            }else{
+                $('.qr-code-wrap').hide();
+                $('.signin-form-wrap').show();
+            }
+        })
+    </script>
+</body>
+</html>

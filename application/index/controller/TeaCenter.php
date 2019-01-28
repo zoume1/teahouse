@@ -231,6 +231,23 @@ class TeaCenter extends Controller
         }
     }
 
+    /**
+     * [茶圈活动取消订单]
+     * 郭杨
+     */
+    public function activity_order_delete(Request $request)
+    {
+        if ($request->isPost()){
+            $number = $request->only(['parts_order_number'])['parts_order_number'];
+            $bool = db("activity_order")->where('parts_order_number',$number)->delete();
+            if ($bool) {
+                return ajax_success('取消订单成功', $bool);
+            } else {
+                return ajax_error("取消订单失败");
+            }
+        }
+    }
+
 
 
 
@@ -259,6 +276,33 @@ class TeaCenter extends Controller
             }
         }
 
+    }
+
+    /**
+     * [茶圈活动是否已报名]
+     * 郭杨
+     */
+    public function activity_status(Request $request)
+    {
+        if ($request->isPost()){
+            $open_id = $request->only(['open_id'])['open_id']; //账户id  
+            $activity_id = $request->only(['id'])['id'];  //活动id
+            $activity_pid = db('teahost')->where('id',$activity_id)->value('pid'); //活动pid
+            $activity_name = db('teahost')->where('id',$activity_id)->value('activity_name');//活动名称   
+          
+            $rest = db("activity_order")
+                    ->where("pid",$activity_pid)
+                    ->where("member_openid",$open_id)
+                    ->where("activity_name",$activity_name)
+                    ->value('status');
+
+            if ($rest == 1) {
+                return ajax_success('该用户已报名', $rest);
+            } else {
+                $rest = 0;
+                return ajax_error("未报名",$rest);
+            }
+        }
     }
 
 

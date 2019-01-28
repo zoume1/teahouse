@@ -5,24 +5,26 @@ h1,h2,h3,h4,h5,h6{font-size:100%}
 em,b{font-style:normal}
 a{text-decoration:none} 
 img{border:0} 
-body{background-color: #fff; height: 4000px;} 
+body{background-color: #fff;} 
 button,input,select,textarea{font-size:100%;outline:none}
 table{border-collapse:collapse;border-spacing:0}
 td,th,ul,ol{padding:0}
 
 /* common */
-.clearfix::after{content: ''; display: block; clear: both; overflow: hidden;}
+.clearfix::after{content: ''; display: block; clear: both;}
 .title-h2{font-size: 40px; font-weight: 700; color: #545454; line-height: normal;}
+.fl{float: left;}
 
 
 .wrapper{width: 100%;}
 .container{width: 1350px; margin: 0 auto;}
 /* header */
-.header{display: flex; justify-content: space-around; padding: 0 20px; background-color: #fff;}
-.header .header-section{height: 80px;}
+.header{ background-color: #fff;}
+.header .header-container{display: flex; justify-content: space-around; width: 1350px; margin: 0 auto;}
+.header .header-section{height: 80px; box-sizing: border-box;}
 .logo{display: flex; align-items: center; flex-basis: 30%;}
-.logo-container{width: 70px; height: 70px; background-color: #545454; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;}
-.logo span{font-size: 36px; color: #545454; line-height: normal;}
+.logo-container{width: 70px; height: 70px; background-color: #545454; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; cursor: pointer;}
+.logo span{font-size: 36px; color: #545454; line-height: normal; cursor: pointer;}
 .nav{flex-basis: 40%;}
 .nav-ul .nav-li{float: left; width: 25%; height: 80px; list-style: none; text-align: center; line-height: 80px;}
 .nav-ul .nav-li .nav-a{display: block; width: 100%; height: 100%; color: #545454; font-size: 20px;}
@@ -31,3 +33,34 @@ td,th,ul,ol{padding:0}
 .login{flex-basis: 30%; text-align: right; line-height: 80px;}
 .login .sign-in, .login .register{display: inline-block; width: 140px; height: 40px; font-size: 23px; color: #545454; text-align: center; line-height: 40px; border: 1px solid #545454; border-radius: 5px;}
 .login .register{background-color: #545454; color: #fff; margin-left: 25px;}
+.loaded-common{flex-basis: 30%; text-align: center; line-height: 80px;}
+.loaded-common .loaded-inner{width: 120px; margin: 0 auto; text-align: left; padding: 0 15px;}
+.loaded-common .loaded-inner:hover{border-left: 1px solid #e5e5e5; border-right: 1px solid #e5e5e5; background-color: #fff;}
+.loaded-common .loaded-icon{display: inline-block; width: 16px; height: 16px; background: url(../img/icon3.png) no-repeat; background-size: 100%; vertical-align: sub;}
+.loaded-common .loaded-mobile{font-size: 14px; color: #38f;}
+.loaded-common .caret{position: relative;}
+.loaded-common .caret::before{content: ''; position: absolute; top: 3px; left: 5px; border: 5px solid transparent; border-top-color: #fff; z-index: 2;}
+.loaded-common .caret::after{content: ''; position: absolute; top: 5px; left: 5px; border: 5px solid transparent; border-top-color: #38f;}
+.loaded-common .loaded-menu{border: 1px solid #e5e5e5; border-top: 0; background-color: #fff; display: block; box-sizing: border-box;}
+
+
+/* 合作伙伴 */
+.partner{background-color: #f8f8f8; padding: 50px 75px 30px; box-sizing: border-box;}
+.partner .partner-container{width: 1350px; margin: 0 auto;}
+.partner .title-h2{text-align: center; margin-bottom: 50px;}
+.partner .partner-items{display: flex; justify-content: space-between; flex-wrap: wrap;}
+.partner .partner-items .partner-item{flex-basis: 16.6%; display: flex; align-items: center; justify-content: center; height: 78px; margin-bottom: 20px;}
+.tpl{display: none;}
+
+/* footer */
+.footer{background-color: #545454; padding: 45px 65px 0;}
+.footer .footer-container{width: 1350px; margin: 0 auto;}
+.footer .footer-f{float: left; margin-right: 100px;}
+.footer .footer-about{margin-bottom: 50px;}
+.footer .footer-f h3{font-size: 28px; line-height: 32px; margin-bottom: 40px; color: #fff;}
+.footer .footer-f p{font-size: 16px; line-height: 18px; color: #fff; margin-bottom: 20px;}
+.footer .cpy-contact{color: #fff;}
+.footer .footer-copy{border-top: 1px solid #fff;}
+.footer .footer-copy .comm-copy{text-align: center; padding: 20px 0;}
+.footer .footer-copy img{margin-right: 10px; vertical-align: bottom;}
+.footer .footer-copy .jgwbab-txt{color: #fff; font-size: 13px; line-height: 16px;}

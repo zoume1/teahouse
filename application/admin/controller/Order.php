@@ -21,8 +21,35 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function order_index(){
-        return view("order_index");
+        $data =Db::name("order")->order("order_create_time","desc")->paginate(20);
+        return view("order_index",["data"=>$data]);
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:订单搜索
+     **************************************
+     */
+    public function order_search(Request $request){
+        if($request->isPost()){
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**

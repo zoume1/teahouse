@@ -402,6 +402,7 @@ class Goods extends Controller
             if ($status == 0) {
                 $id = $request->only(["id"])["id"];
                 $bool = db("goods")->where("id", $id)->update(["label" => 0]);
+                $rest = db("join")->where("goods_id",$id)->update(["label" => 0]);
                 if ($bool) {
                     $this->redirect(url("admin/Goods/index"));
                 } else {
@@ -411,6 +412,7 @@ class Goods extends Controller
             if ($status == 1) {
                 $id = $request->only(["id"])["id"];
                 $bool = db("goods")->where("id", $id)->update(["label" => 1]);
+                $rest = db("join")->where("goods_id",$id)->update(["label" => 1]);
                 if ($bool) {
                     $this->redirect(url("admin/Goods/index"));
                 } else {
