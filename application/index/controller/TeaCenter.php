@@ -314,8 +314,8 @@ class TeaCenter extends Controller
     public function teacenter_comment_show(Request $request){
 
         if($request->isPost()){
-            $goods_id = $request->only(["goods_id"])["goods_id"];
-            $comment_data = db("comment")->where("goods_id",$goods_id)->select();
+            $teahost_id= $request->only(["teahost_id"])["teahost_id"];
+            $comment_data = db("comment")->where("teahost_id",$teahost_id)->select();
             if($comment_data) {
                 return ajax_success("获取成功", $comment_data);
             }else{

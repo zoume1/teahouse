@@ -56,7 +56,7 @@
 	}
 	/*
      * 弹窗
-     */
+     4*/
 	
 	.popup {
 		width: 100%;
@@ -107,6 +107,7 @@
 	.operation{
 		display: flex;
 		align-items: center;
+		justify-content: flex-end;
 	}
 	.chat{
 		height: 210px;
@@ -166,67 +167,12 @@
 						<span>官方备注已用户要求高可顺非邮寄</span>
 					</div>
 				</div>
-				<div class="operation">
-					<div class="select_static">
-						<span class="operation_title">选择操作</span>
-						<select name="">
-							<option value="" selected="">请选择</option>
-							<option value="1">已发货</option>
-							<option value="0">已退货</option>
-						</select>
-					</div>
-					<div class="select_courier">
-						<span class="operation_title">选择快递</span>
-						<select name="">
-							<option value="" selected="">请选择</option>
-							<option value="1">顺丰</option>
-							<option value="0">圆通</option>
-						</select>
-					</div>
-					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" >
-					<button type="button" class="submit_btns">确定</button>
-				</div>
-			</div>
-		</div>
-	</div>
-    <div class="popup popup_two noshow">
-		<div class="popup_doms">
-		   <div class="popup_title">
-				处理回复（个人信息处有提示信息）
-					<div class="popup_x">
-				<img src="__STATIC__/admin/index/img/X.png"/>
-				</div>
-			</div>
-			<div class="popup_content">
-				<div class="repany">
-					<span class="span">官方回复</span>
-					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注" class="layui-input">
-				</div>
-				<div class="chat">
-					<div class="chat_list">
-						<span class="span">20180811</span>
-						<span>官方备注已用户要求高可顺非邮寄</span>
-					</div>
-				</div>
-				<div class="operation">
-					<div class="select_static">
-						<span class="operation_title">选择操作</span>
-						<select name="">
-							<option value="" selected="">请选择</option>
-							<option value="1">已退款</option>
-						</select>
-					</div>
-					<div class="select_courier"  >
-						<span class="operation_title">选择退款金额</span>
-					    <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额" class="layui-input danhao" >
-					</div>
+				<div class="operation" data-id="" >
 					
-					<button type="button" class="submit_btns">确定</button>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<div class="childrenBody">
 		<div class="distribution_list">
 			<ul>
@@ -345,7 +291,7 @@
 							{$vo.order_type|order_type_status}
 						</td>
 						<td>
-							<div class="static_btus" data-id="{$vo.id}">
+							<div class="static_btus" data-id="{$vo.id}" data-value="{$vo.status}">
 								{$vo.status|show_order_status}
 							</div>
 						</td>
@@ -494,7 +440,9 @@
 		})
 		$(".static_btus").click(function(){
 			var  data_id=$(this).data("id");
-			// console.log(data_id);
+			$(".operation").data("value",data_id);
+			var  data_value=$(this).data("value");
+			$(".operation").empty();
 			$.ajax({
 					type: "POST",
 					url: "{:url('admin/Notification/notice_index')}",
@@ -502,18 +450,151 @@
 						"order_id": data_id,
 					},
 					success: function(data) {
+						var data = eval('(' + data + ')');
 						console.log(data);
 					
 					},
 					error: function(data) {
 						
 					}
-				});
+			});
+			var dhtml1="";
+				dhtml1+='<div class="select_static">';
+				dhtml1+='<span class="operation_title">选择操作</span>';
+				dhtml1+='<select name="" class="operation_select">';
+				dhtml1+='<option value="" selected="" >请选择</option>';
+				dhtml1+='<option value="1">已发货</option>';
+				dhtml1+='<option value="0">已退货</option>';
+				dhtml1+='</select>';
+				dhtml1+='</div>';
+				dhtml1+='<div class="select_courier">';
+				dhtml1+='<span class="operation_title">选择快递</span>';
+				dhtml1+='<select name="" class="curier">';
+				dhtml1+='<option value="" selected="">请选择</option>';
+				dhtml1+='<option value="1">顺丰</option>';
+				dhtml1+='<option value="0">圆通</option>';
+				dhtml1+='</select>';
+				dhtml1+='</div>';
+				dhtml1+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  >';
+				dhtml1+='<button type="button" class="submit_btns" data-id="">确定</button>';
+				
+				var dhtml2="";
+				dhtml2+='<div class="select_static">';
+				dhtml2+='<span class="operation_title">选择操作</span>';
+				dhtml2+='<select name="" class="operation_select">';
+				dhtml2+='<option value="" selected="">请选择</option>';
+				dhtml2+='<option value="1">已退款</option>';
+				dhtml2+='</select>';
+				dhtml2+='</div>';
+				dhtml2+='<div class="select_courier"  >';
+				dhtml2+='<span class="operation_title">选择退款金额</span>';
+				dhtml2+=' <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额" class="layui-input danhao" >';
+				dhtml2+='</div>';
+				dhtml2+='<button type="button" class="submit_btns"  data-id="">确定</button>';
+				var dhtml3="";
+				dhtml3+='<button type="button" class="submit_btns"  data-id="">确定</button>';
+				if(data_value==2 || data_value==3){
+					$(".operation").append(dhtml1);
+					$(".operation").data("id",data_value);
+				}
+				else if(data_value==10){
+					$(".operation").append(dhtml2);
+					$(".operation").data("id",data_value);
 					
-			$(".popup_two").removeClass("noshow");
+				}
+				else{
+					$(".operation").append(dhtml3);
+					$(".operation").data("id",data_value);
+					
+				}
+				$(".popup_one").removeClass("noshow");
+	
 		});
 		$(".popup_x").click(function(){
-			$(".popup_two").addClass("noshow");
+			$(".popup").addClass("noshow");
+		});
+		$(".operation").on("click",".submit_btns",function(){
+			$(".popup").addClass("noshow");
+		    var repay=$(".repay").val();
+			var id=$(this).parent(".operation").data("id");
+			if(id==2 || id==3){
+			// 回复内容
+			   var repay=$(".repay").val();
+			//    快递选择
+			   var curier=$(".curier option:selected").val();	 
+			//    操作选择
+			   var operation_select=$(".operation_select option:selected").val();	
+			//    单号
+			   var danhao=$(".danhao").val();	
+			   $.ajax({
+					type: "POST",
+					url: "{:url('admin/Notification/notice_index')}",
+					data: {
+						"repay": repay,
+						"curier":curier,
+						"operation_select":operation_select,
+						"danhao":danhao
+					},
+					success: function(data) {
+						var data = eval('(' + data + ')');
+						console.log(data);
+					
+					},
+					error: function(data) {
+						
+					}
+			});
+			}
+			else if(id==10){
+		      // 回复内容
+					var repay=$(".repay").val();
+			//    快递选择
+			   var curier=$(".curier option:selected").val();	 
+			//    操作选择
+			   var operation_select=$(".operation_select option:selected").val();	
+			//    单号或退款
+			   var danhao=$(".danhao").val();	
+			   $.ajax({
+					type: "POST",
+					url: "{:url('admin/Notification/notice_index')}",
+					data: {
+						"repay": repay,
+						"curier":curier,
+						"operation_select":operation_select,
+						"danhao":danhao
+					},
+					success: function(data) {
+						var data = eval('(' + data + ')');
+						console.log(data);
+					
+					},
+					error: function(data) {
+						
+					}
+			});
+			
+				
+			}
+			else{
+					// 回复内容
+					var repay=$(".repay").val();
+					$.ajax({
+							type: "POST",
+							url: "{:url('admin/Notification/option_add_notice')}",
+							data: {
+								"Information": repay,
+							},
+							success: function(data) {
+								var data = eval('(' + data + ')');
+								console.log(data);
+							
+							},
+							error: function(data) {
+								
+							}
+					});
+			
+		    }
 		});
 	</script>
 

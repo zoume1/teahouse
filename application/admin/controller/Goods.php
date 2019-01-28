@@ -107,7 +107,7 @@ class Goods extends Controller
                 $goods_data["goods_show_image"] =  $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
             }
-           
+
             
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
