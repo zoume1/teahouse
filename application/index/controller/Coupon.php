@@ -214,7 +214,7 @@ class Coupon extends Controller
 
 
             $coupons = Db::name("coupon")->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
-            foreach($coupone as $ks => $vs){
+            foreach($coupons as $ks => $vs){
                 if(!empty($vs)){
                 $coupones[$ks] = db('coupon')->where('id',$vs)->where("use_price","<",$money)->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
                 }
