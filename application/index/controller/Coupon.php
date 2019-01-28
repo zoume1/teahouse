@@ -269,6 +269,8 @@ class Coupon extends Controller
                 } else {
                     return ajax_error("没有适用优惠券"); 
                 }  
+            } else {
+                   return ajax_error("没有适用优惠券");
             }
         }
 
