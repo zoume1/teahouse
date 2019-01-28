@@ -200,7 +200,7 @@ class Coupon extends Controller
             $goods_id = $data['goods_id'];
             $open_id = $data['open_id'];
             $money = $data['money'];
-            $member_grade_name = $data['member_grade_name'];
+            $member_grade_name = $data['member_garde_name'];
 
             
             foreach($goods_id as $ky => $vl){ //通过商品找到所有适用的优惠券
