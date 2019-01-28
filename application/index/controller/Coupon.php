@@ -196,11 +196,11 @@ class Coupon extends Controller
     {
         if($request->isPost()){
             $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
-            $data = $request->param(); //包含goods_id and  open_id
-            $goods_id = array_unique($data['goods_id']);
-            $open_id = $data['open_id'];
-            $money = $data['money'];
-            $member_grade_name = $data['member_grade_name'];
+            $datas = $request->param(); //包含goods_id and  open_id
+            $goods_id = array_unique($datas['goods_id']);
+            $open_id = $datas['open_id'];
+            $money = $datas['money'];
+            $member_grade_name = $datas['member_grade_name'];
 
             // $goods = [122,120,121];
             // $goods_id = array_unique($goods);
