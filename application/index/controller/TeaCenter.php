@@ -319,6 +319,8 @@ class TeaCenter extends Controller
             $comment_data = db("comment")->where("teahost_id",$teahost_id)->select();
             foreach ($comment_data as $key=>$value){
                 $comment_data[$key]["user_images"] = db("member")->where("member_id",$value["user_id"])->value("member_head_img");
+                $comment_data[$key]["member_address"] = db("member")->where("member_id",$value["user_id"])->value("member_address");
+
             }
             if($comment_data) {
                 return ajax_success("获取成功", $comment_data);
