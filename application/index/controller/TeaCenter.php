@@ -320,7 +320,6 @@ class TeaCenter extends Controller
             foreach ($comment_data as $key=>$value){
                 $comment_data[$key]["user_images"] = db("member")->where("member_id",$value["user_id"])->value("member_head_img");
                 $comment_data[$key]["member_address"] = db("member")->where("member_id",$value["user_id"])->value("member_address");
-
             }
             if($comment_data) {
                 return ajax_success("获取成功", $comment_data);
@@ -342,8 +341,9 @@ class TeaCenter extends Controller
         if ($request->isPost()){
             $opend_id = $request->only(["user_id"])["user_id"];
             $teahost_id = $request->only(["teahost_id"])["teahost_id"];
+            $comment_id = $request->only(["id"])["id"];
             $user_id = db("member")->where("member_openid",$opend_id)->value("member_id");
-            $comment = db("comment")->where("user_id",$user_id)->where("teahost_id",$teahost_id)->update(["status"=>1]);
+            $comment = db("comment")->where("id",$comment_id)->where("user_id",$user_id)->where("teahost_id",$teahost_id)->update(["status"=>1]);
             if($comment){
                 return ajax_success("更新成功");
             }else{
