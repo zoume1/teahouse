@@ -51,12 +51,8 @@ class Coupon extends Controller
                     $value['end_time'] = strtotime($value['end_time']);
                     if(in_array($member_grade_name,$value['scope']) && $value['end_time'] > $time){
                         $data[] = $value;
-                    } else {
-                        $data[] = null;
-                    }
-                } else {
-                    $data[] = null;
-                }
+                    } 
+                } 
             }
         } else { //如果没有使用过
                 foreach($coupon as $key => $values){
