@@ -51,7 +51,11 @@ class Coupon extends Controller
                     $value['end_time'] = strtotime($value['end_time']);
                     if(in_array($member_grade_name,$value['scope']) && $value['end_time'] > $time){
                         $data[] = $value;
+                    } else {
+                        $data[] = null;
                     }
+                } else {
+                    $data[] = null;
                 }
             }
         } else { //如果没有使用过
@@ -202,18 +206,22 @@ class Coupon extends Controller
             $money = $data['money'];
             $member_grade_name = $data['member_grade_name'];
 
-            
+            // $goods = [122,120,121];
+            // $goods_id = array_unique($goods);
+            // $open_id = 'o_lMv5dwxVdyYvafw03wELn6YXxw';
+            // $money = 300;
+            // $member_grade_name = '普通会员';
+
             foreach($goods_id as $ky => $vl){ //通过商品找到所有适用的优惠券
                 $coupons[$ky] = db("join")->where("goods_id",$vl)->value('coupon_id'); 
             }
-            $coupones = array_unique($counpons);
-
-            foreach($coupones as $ks => $vs){
+            $coupone = array_unique($coupons);
+            foreach($coupone as $ks => $vs){
+                if(!empty($vs)){
                 $coupones[$ks] = db('coupon')->where('id',$vs)->where("use_price","<",$money)->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
+                }
             }
-            
 
-            //已使用
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
             $coupon_id = Db::name("order")->where("member_id",$member_id)
                         ->where("coupon_id",'<>',0)
@@ -226,18 +234,23 @@ class Coupon extends Controller
                     foreach($value as $ke => $va){
                         $rest[] = $va;
                     }
-                }                        
-            //未使用(去掉已使用)
-                foreach($coupones as $key => $value){
-                    if(!in_array($value['id'],$rest)){
-                    $value['scope'] = explode(",",$value['scope']);
-                    $value['start_time'] = strtotime($value['start_time']);
-                    $value['end_time'] = strtotime($value['end_time']);
-                    if(in_array($member_grade_name,$value['scope']) && $value['end_time'] > $time){
-                        $data[] = $value;
+                }
+
+                foreach($coupones as $keyl => $valuel){
+                    if((!in_array($valuel['id'],$rest)) && !empty($valuel) ){  //判断优惠券是否已被使用
+                    $valuel['scope'] = explode(",",$valuel['scope']);
+                    $valuel['start_time'] = strtotime($valuel['start_time']);
+                    $valuel['end_time'] = strtotime($valuel['end_time']);
+                    if(in_array($member_grade_name,$valuel['scope']) && $valuel['end_time'] > $time){ //判断是否在适用范围和是否过期
+                        $data[] = $valuel;
+                    } else {
+                        $data[] = null;
                     }
+                } else {
+                    $data[] = null;
                 }
             }
+            
         } else { //如果没有使用过
                 foreach($coupones as $key => $values){
                     $values['scope'] = explode(",",$values['scope']);
@@ -248,6 +261,7 @@ class Coupon extends Controller
                     }
                 }
             }
+
             if (!empty($data)) {
                 return ajax_success('传输成功', $data);
             } else {
