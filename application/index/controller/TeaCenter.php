@@ -278,6 +278,7 @@ class TeaCenter extends Controller
 
     }
 
+
     /**
      * [茶圈活动是否已报名]
      * 郭杨
@@ -316,6 +317,9 @@ class TeaCenter extends Controller
         if($request->isPost()){
             $teahost_id= $request->only(["teahost_id"])["teahost_id"];
             $comment_data = db("comment")->where("teahost_id",$teahost_id)->select();
+            foreach ($comment_data as $key=>$value){
+                $comment_data[$key]["user_images"] = db("member")->where("member_id",$value["user_id"])->value("member_head_img");
+            }
             if($comment_data) {
                 return ajax_success("获取成功", $comment_data);
             }else{
