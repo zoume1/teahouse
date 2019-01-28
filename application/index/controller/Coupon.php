@@ -227,7 +227,7 @@ class Coupon extends Controller
                     }
                 }
 
-                foreach($coupones as $keyl => $valuel){
+                foreach($coupons as $keyl => $valuel){
                     if((!in_array($valuel['id'],$rest)) && !empty($valuel) ){  //判断优惠券是否已被使用
                     $valuel['scope'] = explode(",",$valuel['scope']);
                     $valuel['start_time'] = strtotime($valuel['start_time']);
@@ -243,7 +243,7 @@ class Coupon extends Controller
             }
         
         } else { //如果没有使用过
-                foreach($coupones as $key => $values){
+                foreach($coupons as $key => $values){
                     $values['scope'] = explode(",",$values['scope']);
                     $values['start_time'] = strtotime($values['start_time']);
                     $values['end_time'] = strtotime($values['end_time']);
