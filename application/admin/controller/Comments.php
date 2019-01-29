@@ -112,36 +112,6 @@ class Comments extends Controller
     }
 
 
-    /**
-     * [评论管理账户状态修改]
-     * 郭杨
-     */
-    public function status(Request $request)
-    {
-        if ($request->isPost()) {
-            $status = $request->only(["statuse"])["statuse"];
-
-            if ($status == 0) {
-                $id = $request->only(["id"])["id"];
-                $bool = db("mament")->where("id", $id)->update(["status" => 0]);
-                if ($bool) {
-                    $this->redirect(url("admin/Comments/index"));
-                } else {
-                    $this->error("修改失败", url("admin/Comments/index"));
-                }
-            }
-            if ($status == 1) {
-                $id = $request->only(["id"])["id"];
-                $bool = db("mament")->where("id", $id)->update(["status" => 1]);
-                if ($bool) {
-                    $this->redirect(url("admin/Comments/index"));
-                } else {
-                    $this->error("修改失败", url("admin/Comments/index"));
-                }
-            }
-        }
-    }
-
 
     /**
      * [评论管理组删除]
@@ -149,7 +119,7 @@ class Comments extends Controller
      */
     public function delete($id)
     {
-        $bool = db("mament")->where("id", $id)->delete();
+        $bool = db("comment")->where("id", $id)->delete();
         if ($bool) {
             $this->success("删除成功", url("admin/Comments/index"));
         } else {
