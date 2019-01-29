@@ -186,6 +186,11 @@
         color: #333;
         cursor: pointer;
     }
+    .sever_list{
+        background: #fff;
+        display: flex;
+    }
+   
 </style>
 
 {/block}
@@ -314,6 +319,36 @@
         </div>
         <div class="form-title">价格库存 </div>
         <div class="form-item">
+            <label class="form-label">服务承诺</label>
+            <div class="form-input">
+                <div class="sever_list">
+                <div class="list">
+                    <input type="checkbox" name="" lay-skin="primary" title="" checked>
+                    <span class="texts">7*24客服</span>
+                    <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                </div>
+                <div class="list">
+                    <input type="checkbox" name="" lay-skin="primary" title="" checked>
+                    <span class="texts">正品保障</span>
+                    <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                </div>
+                <div class="list">
+                    <input type="checkbox" name="" lay-skin="primary" title="" checked>
+                    <span class="texts">极速发货</span>
+                    <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                </div>
+                <div class="list">
+                    <input type="checkbox" name="" lay-skin="primary" title="" checked>
+                    <span class="texts">7天退换货</span>
+                    <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                </div>
+            </div>
+                <div class="tips">
+                  *前端可显示和不显示，点击文字可修改，单项不超过5个字 
+                </div>
+            </div>
+        </div>
+        <div class="form-item">
             <label class="form-label">商品规格</label>
             <div class="form-input">
                 <input type="radio" name="goods_standard" value="0" title="统一规格" lay-filter="guige" checked="">
@@ -428,6 +463,12 @@
                 <script id="editor" type="text/plain" name="goods_text" style="width:800px;height:500px;"></script>
             </div>
         </div>
+        <div class="form-item">
+                <label class="form-label">检测报告</label>
+                <div class="form-input">
+                    <script id="editor1" type="text/plain" name="" style="width:800px;height:500px;"></script>
+                </div>
+            </div>
         <div class="form-title">价格库存 </div>
         <div class="form-item">
             <label class="form-label">配送方式</label>
@@ -490,6 +531,7 @@
 
     <script type="text/javascript">
         var ue = UE.getEditor('editor');
+        var ue1 = UE.getEditor('editor1');
         layui.config({
             base: "js/"
         }).use(['form', 'layer', 'jquery', 'laypage', 'upload'],
@@ -674,6 +716,19 @@
                 });
 
                 $("#hot").on('click', ".change_text", function() {
+                        var texts = $(this).siblings('.texts');
+                        layer.prompt({
+                                title: '请输入修改的文字',
+                                formType: 2
+                            },
+                            function(text, index) {
+                                texts.html(text);
+                                layer.close(index);
+
+                            });
+
+                    })
+                    $(".sever_list").on('click', ".change_text", function() {
                         var texts = $(this).siblings('.texts');
                         layer.prompt({
                                 title: '请输入修改的文字',
