@@ -8,7 +8,7 @@ img{border:0}
 body{background-color: #fff;} 
 button,input,select,textarea{font-size:100%;outline:none}
 table{border-collapse:collapse;border-spacing:0}
-td,th,ul,ol{padding:0}
+td,th,ul,ol{padding:0; list-style: none;}
 
 /* common */
 .clearfix::after{content: ''; display: block; clear: both;}
@@ -64,3 +64,17 @@ td,th,ul,ol{padding:0}
 .footer .footer-copy .comm-copy{text-align: center; padding: 20px 0;}
 .footer .footer-copy img{margin-right: 10px; vertical-align: bottom;}
 .footer .footer-copy .jgwbab-txt{color: #fff; font-size: 13px; line-height: 16px;}
+
+/* aside */
+.aside-container{position: fixed; right: 0; top: 450px; z-index: 99999;}
+.aside-container .aside-item{position: relative; width: 60px; height: 60px; background-color: #545454; text-align: center; margin-bottom: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;}
+.aside-container .aside-item:nth-of-type(4){display: none;}
+.aside-container .aside-item .aside-text{color: #fff; font-size: 14px; line-height: normal;}
+.aside-container .aside-item:hover .float-container{display: block;}
+.float-container{position: absolute; top: 0; right: 100%; border: 1px solid #e5e5e5; padding: 15px 10px; width: 184px; box-sizing: border-box; background-color: #fff; display: none;}
+.float-container .float-title{font-size: 16px; color: #1e1e1e; margin-bottom: 10px;}
+.float-container .float-title img{vertical-align: middle; margin-right: 10px;}
+.float-container .contact-number{font-size: 20px; color: #1e1e1e; position: relative;}
+.float-container .contact-number.interactive-bg{background-color: #e5e5e5; margin-bottom: 10px;}
+.float-container .contact-number .wx-qrcode{position: absolute; left: 6px; bottom: 100%; display: none;}
+.float-container .interactive-bg:hover .wx-qrcode{display: block;}
