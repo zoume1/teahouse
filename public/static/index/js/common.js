@@ -46,7 +46,7 @@ $('.register').click(function(){
 })
 
 // logo返回首页
-$('.logo-container').add('.logo span').click(function(){
+$('.logo img').add('.logo span').click(function(){
     location.href = './';
 })
 // 显示隐藏密码
