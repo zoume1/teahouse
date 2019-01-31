@@ -61,9 +61,9 @@ $('.pw-icon').click(function(){
 // aside 返回顶部
 $(window).scroll(function(){
     if($(document).scrollTop() >= 300){
-        $('.aside-item:eq(3)').css('display', 'flex');
+        $('.aside-item:eq(3)').css('opacity', '1');
     }else{
-        $('.aside-item:eq(3)').hide();
+        $('.aside-item:eq(3)').css('opacity', '0');
     }
 })
 $('.aside-item:eq(3)').click(function(){
