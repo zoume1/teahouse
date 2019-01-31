@@ -74,7 +74,7 @@ td,th,ul,ol{padding:0; list-style: none;}
 .float-container{position: absolute; top: 0; right: 100%; border: 1px solid #e5e5e5; padding: 15px 10px; width: 184px; box-sizing: border-box; background-color: #fff; display: none;}
 .float-container .float-title{font-size: 16px; color: #1e1e1e; margin-bottom: 10px;}
 .float-container .float-title img{vertical-align: middle; margin-right: 10px;}
-.float-container .contact-number{font-size: 20px; color: #1e1e1e; position: relative;}
+.float-container .contact-number,.float-container .contact-number a{font-size: 20px; color: #1e1e1e; position: relative;}
 .float-container .contact-number.interactive-bg{background-color: #e5e5e5; margin-bottom: 10px;}
 .float-container .contact-number .wx-qrcode{position: absolute; left: 6px; bottom: 100%; display: none;}
 .float-container .interactive-bg:hover .wx-qrcode{display: block;}
