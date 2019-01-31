@@ -46,10 +46,9 @@ $('.register').click(function(){
 })
 
 // logo返回首页
-$('.logo-container').add('.logo span').click(function(){
+$('.logo img').add('.logo span').click(function(){
     location.href = './';
 })
-
 // 显示隐藏密码
 $('.pw-icon').click(function(){
     $(this).toggleClass('pw-icon-show');
@@ -59,3 +58,15 @@ $('.pw-icon').click(function(){
         $(this).siblings().attr('type', 'password');
     }
 })
+// aside 返回顶部
+$(window).scroll(function(){
+    if($(document).scrollTop() >= 300){
+        $('.aside-item:eq(3)').css('display', 'flex');
+    }else{
+        $('.aside-item:eq(3)').hide();
+    }
+})
+$('.aside-item:eq(3)').click(function(){
+    $('html').animate({scrollTop: 0}, 500);
+})
+

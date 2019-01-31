@@ -86,7 +86,7 @@
                         <td class="">
                             <div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_images}" /></div>
                         </td>
-                        <td>{$value.goods_name}</td>
+                        <td><div class="overflow">{$value.goods_name}</div></td>
                         <td>{$value.brand}</td>
                         <td>{if $value.pid !=0}{$value.named} {else} 无 {/if}</td>
                         {if $value.goods_standard == 1}
