@@ -61,7 +61,7 @@ class Bonus extends Controller
                 $goods_data["goods_show_image"] = $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
             }
-            //halt($goods_data);
+
             $bool = db("bonus_mall")->insert($goods_data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Bonus/bonus_index"));

@@ -136,9 +136,10 @@ class Advertisement extends Controller
                 $data["classify_image"] = str_replace("\\", "/", $show_images->getSaveName());
             }
             $data["start_time"] = strtotime($data["start_time"]);
-            $addressed = [$data["address_city2"], $data["address_city3"], $data["address_street"]];           
+            $address = [$data["address_city2"], $data["address_city3"], $data["address_street"]];
+            $addressed = [$data["address_city1"], $data["address_city2"], $data["address_city3"], $data["address_street"]];
             $data["addressed"] = implode(",", $addressed);
-            $data["address"] = implode("", $addressed);
+            $data["address"] = implode("", $address);
             
 
             foreach ($data as $k => $v) {
@@ -146,6 +147,7 @@ class Advertisement extends Controller
                     unset($data[$k]);
                 }
             }
+          
             $bool = db("teahost")->where('id', $request->only(["id"])["id"])->update($data);
             if ($bool) {
                 $this->success("编辑成功", url("admin/Advertisement/index"));

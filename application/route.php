@@ -355,6 +355,16 @@ Route::group("admin",[
     "coupon_seek"=>"admin/Bonus/coupon_seek",      //优惠券搜索
 
 
+    /*运营模块*/
+    "operate_index"=>"admin/operate/operate_index",//*******运营模块页
+    "operate_problem"=>"admin/operate/operate_problem",//常见问题
+    "operate_problem_add"=>"admin/operate/operate_problem_add",//常见问题添加
+    "operate_contract"=>"admin/operate/operate_contract",//********协议合同
+    "operate_contract_edit"=>"admin/operate/operate_contract_edit",//协议合同编辑
+    "operate_message"=>"admin/operate/operate_message",//*********消息提醒
+    "operate_message_email"=>"admin/operate/operate_message_email",//电子邮件
+    "operate_message_station"=>"admin/operate/operate_message_station",//站内消息
+    "operate_message_mobile"=>"admin/operate/operate_message_mobile",//手机短信
 
     
 
