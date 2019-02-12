@@ -1,329 +1,90 @@
+{include file="template/_meta" /}
+<title></title>
+</head>
 
-        <!-- 价格调整设置 -->
+{block name="css"}
 
-        {include file="template/_meta" /}
-        <title></title>
-        </head>
-        
-        {block name="css"}
-        
-            <style type="text/css">
-                table{
-                    width: 80%;
-                    margin: 60px auto;
-                    border-color:#E4E4E4 ;
-                }
-                th{
-                    text-align: center;
-                    background: #F9FAFC;
-                    height: 50px;
-                    color: #333;
-                }
-                td{
-                    height: 30px;
-                    text-align: center;
-                }
-                .blue{
-                    color: #0099FF;
-                }
-                body{
-                    background: #fff;
-                }
-                .on {
-        color: #21A5FA !important;
-        border-bottom: solid 3px #21A5FA;
-    }
-    
-    .distribution_list {
-        margin-bottom: 10px;
-        border-bottom: solid 1px #D7D7D7;
-    }
-    
-    .distribution_list ul {
-        display: flex;
-        width: 400px;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .distribution_list a {
-        font-size: 17px;
-        padding: 9px;
-        color: #5E5E5E;
-    }
-    
-    .distribution_list ul li {
-        flex: 1;
-    }
-                    /* 弹窗 */
-                    .tanchuang {
-                        width: 100%;
-                        min-height: 800px;
-                        background: RGBA(0, 0, 0, 0.3);
-                        position: fixed;
-                        z-index: 9999;
-                    }
-                
-                    .tanchuang-content {
-                        width: 800px;
-                        height: 500px;
-                        background: #fff;
-                        z-index: 10000;
-                        position: fixed;
-                        top: 20%;
-                        left: 20%;
-                    }
-                
-                    .close {
-                        width: 30px;
-                    }
-                
-                    .clear {
-                        clear: both;
-                    }
-                
-                    .title-a {
-                        background: RGB(247, 247, 247);
-                    }
-                
-                    .content-title {
-                        padding-top: 10px;
-                        padding-left: 20px;
-                        float: left;
-                        width: 50%;
-                        height: 40px;
-                
-                    }
-                    .noshow {
-                        display: none;
-                    }
-                    .dom{
-                        width: 80%;
-                        margin: 0 auto;
-                    }
-                    .dom>div{
-                        margin-top: 20px;
-                    }
-                    .label-information>div>ul{
-                        margin-left: 20px;
-                    }
-                    .label-information>div>ul>li{
-                        width: 30%;
-                        float: left;
-                    }
-                    .btus{
-                        width: 100%;
-                        text-align: center;
-                    }
-                    .submit_btn{
-                        background: #0099FF;
-                        margin-left: 100px;
-                    }
-                    .btus button{
-                         width: 160px;
-                         height: 30px;
-                         color: #fff;
-                         border-radius: 10px;
-                    }
-                    
-                
-            </style>
-        
-        
-         
-        
-        {/block}
-        <body>
-        
-        {block name="content"}
-        <div class="childrenBody">
-        <div class="distribution_list">
-            <ul>
-                <li>
-                    <a href="{:url('admin/operate/operate_problem')}"  >常见问题</a>
-                </li>
-                <li>
-                    <a href="{:url('admin/operate/operate_contract')}" >协议合同</a>
-                </li>
-                <li>
-                    <a href="{:url('admin/operate/operate_message')}" class="on">消息提醒</a>
-                </li>
-            </ul>
-        </div>
-        <!-- 弹窗 -->
-            <div class="tanchuang noshow">
-                <div class="tanchuang-content ">
-                    <div class="title-a clear">
-                        <div class="content-title">消息</div>
-                        <div class="close"><img src="__STATIC__/admin/common/img/a7.png"></div>
-                    </div>
-                    <!-- 里面的内容 -->
-        
-                    <div class="dom">
-                        <form action="" method="post">
-                    
-                          <div class="type">
-                                 <span>消息类型：</span>
-                                 <span>活动广告信息</span>
-                          </div>
-                          <div class="title">
-                              <span>信息标题：</span>
-                              <span><input type="text" name="" id="" value="" /></span>
-                          </div>
-                          <div class="label-information">
-                              <p>标签说明：</p>
-                              <div>
-                                  <ul class="clear">
-                                      <li>
-                                        <span>用户名：</span>
-                                        <span>$Username$</span>
-                                    </li>
-                                    <li>
-                                        <span>用户名：</span>
-                                        <span>$Username$</span>
-                                    </li>
-                                    <li>
-                                        <span>用户名：</span>
-                                        <span>$Username$</span>
-                                    </li>
-                                  </ul>
-                              </div>
-                          </div>
-                           <div class="edit-content">
-                               <span style="vertical-align: 132px;">编辑内容:</span>
-                               <textarea rows="10" cols="60">
-                                   
-                               </textarea>
-                               <p style="margin-left: 60px;">内容不能为空，长度限制在1-300个字符之间</p>
-                           </div>
-                           <div class="btus">
-                               <button type="button"> 取消</button>
-                               <button type="submit" class="submit_btn"> 确定</button>
-                           </div>
-                             </form>
-                    </div>
-                </div>
-            </div>
-        
-                <div class="content">
-                    <table border="" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <th width="8%">序号</th>
-                            <th>消息类型</th>
-                            <th>站内消息</th>
-                            <th>手机短信</th>
-                            <th>APP消息推送</th>
-                            
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>订单创建时</td>
-                            <td>
-                                <span>
-                                    <input type="checkbox" value="是否发送" title="是否发送">是否发送
-                                </span>
-                                <span class="blue edit">
-                                    编辑内容
-                                </span>
-                            </td>
-                            <td>
-                                <span>
-                                    <input type="checkbox" value="是否发送" title="是否发送">是否发送
-                                </span>
-                                <span class="blue edit">
-                                    编辑内容
-                                </span>
-                            </td>
-                            <td>
-                                <span>
-                                    <input type="checkbox" value="是否发送" title="是否发送">是否发送
-                                </span>
-                                <span class="blue edit">
-                                    编辑内容
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>系统消息</td>
-                            <td>
-                                <span>
-                                    <input type="checkbox" value="是否发送" title="是否发送">是否发送
-                                </span>
-                                <span class="blue edit">
-                                    编辑内容
-                                </span>
-                            </td>
-                            <td>
-                                <span>
-                                    <input type="checkbox" value="是否发送" title="是否发送">是否发送
-                                </span>
-                                <span class="blue edit">
-                                    编辑内容
-                                </span>
-                            </td>
-                            <td>
-                                <span>
-                                    <input type="checkbox" value="是否发送" title="是否发送">是否发送
-                                </span>
-                                <span class="blue edit">
-                                    编辑内容
-                                </span>
-                            </td>
-                        </tr>
-                        <!--<tr>
-                            <td>1</td>
-                            <td>活动广告信息</td>
-                            <td>
-                                <span>
-                                    <input type="checkbox" value="是否发送" title="是否发送">是否发送
-                                </span>
-                                <span class="blue edit">
-                                    编辑内容
-                                </span>
-                            </td>
-                            <td>
-                                <span>
-                                    <input type="checkbox" value="是否发送" title="是否发送">是否发送
-                                </span>
-                                <span class="blue edit">
-                                    编辑内容
-                                </span>
-                            </td>
-                            <td>
-                                <span>
-                                    <input type="checkbox" value="是否发送" title="是否发送">是否发送
-                                </span>
-                                <span class="blue edit">
-                                    编辑内容
-                                </span>
-                            </td>
-                        </tr>-->
-                    </table>
-                </div>
-            </div>
-        
-        {/block}
-        
-        <!--_footer 作为公共模版分离出去-->
-        {include file="template/_footer" /}
-        <!--/_footer 作为公共模版分离出去-->
-        
-        
-        
-        <!--请在下方写此页面业务相关的脚本-->
-        {block name="bottom"}
-        <script type="text/javascript">
-            $(".edit").click(function(){
-                    $(".tanchuang").removeClass("noshow");
-                
-            });
-            $(".close").on('click', function() {
-                $(".tanchuang").addClass("noshow");
-            });
-        </script>
-        
-        
-        
-        {/block}
-        
+<style type="text/css">
+	body {
+		background: #fff;
+	}
+	
+	#page {
+		width: 96%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+	}
+</style>
+
+{/block}
+
+<body>
+
+	{block name="content"}
+
+	<div class="childrenBody">
+	
+
+		<a class="layui-btn layui-btn-danger batchDel" href="message_add">添加</a>
+
+		<div class="layui-form news_list">
+			<table class="layui-table">
+				<colgroup>
+
+				</colgroup>
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>消息名称</th>
+						<th>添加日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody class="news_content">
+				{volist name="message" id="value"}
+					<tr>
+						<td>{$value.id}</td>
+						<td>{$value.headline}</td>
+						<td>{$value.create_time|date='Y-m-d H:i',###}</td>
+						<td>
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Install/message_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+							</a>
+							<a href="{:url('admin/Install/message_del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+						</td>
+					</tr>
+				{/volist}
+				</tbody>
+			</table>
+			
+
+		</div>
+
+	</div>
+
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	<script type="text/javascript">
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+		})
+	</script>
+
+	{/block}
+
+</body>
+
+</html>
