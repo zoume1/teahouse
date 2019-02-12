@@ -367,6 +367,7 @@ Route::group("admin",[
     /*配送设置*/
     "delivery_index"=>"admin/Delivery/delivery_index",//*******配送设置
     "delivery_add"=>"admin/Delivery/delivery_add",//上门自提添加
+    "delivery_edit"=>"admin/Delivery/delivery_edit",//上门自提编辑
     "delivery_goods"=>"admin/Delivery/delivery_goods",//快递发货
     "delivery_goods_add_weight"=>"admin/Delivery/delivery_goods_add_weight",//快递发货添加按重量
     "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add_number",//快递发货添加按件
