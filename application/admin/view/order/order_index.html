@@ -115,8 +115,13 @@
 		border-radius:10px ;
 	}
 	.popup_doms{
-		width: 765px;
-		height: 367px;
+		width: 790px;
+		height: 400px;
+		background: #fff;
+	}
+	.popup_doms1{
+		width: 900px;
+		height: 500px;
 		background: #fff;
 	}
 	.popup_content{
@@ -216,6 +221,19 @@
 				<div class="operation" data-id="" >
 					
 				</div>
+			</div>
+		</div>
+	</div>
+	<div class="popup popup_two noshow">
+		<div class="popup_doms1">
+			<div class="popup_title">
+				订单基本信息
+					<div class="popup_x">
+				<img src="__STATIC__/admin/index/img/X.png"/>
+			</div>
+			</div>
+			<div class="popup_content1" id="">
+				
 			</div>
 		</div>
 	</div>
@@ -350,7 +368,7 @@
 									
 								</div>
 							<div class="static_btus2" >
-									打印订单
+									订单详情
 							</div>
 							</div>
 						</td>
@@ -661,7 +679,62 @@
 			
 		    }
 		});
-	</script>
+	
+	$(".static_btus2").click(function(){
+		$(".popup_two").removeClass("noshow");
+		$(".popup_content1").empty();
+		var dhtm9="";
+  dhtm9+='<table class="layui-table">';
+	dhtm9+='<tbody class="news_content">';
+  dhtm9+='	<tr>';
+	dhtm9+='	<td>用户账号：</td>';
+	dhtm9+='<td>13922830809</td>';
+	dhtm9+='<td>订单号：</td>';
+	dhtm9+='<td>2018062803890</td>';
+	dhtm9+='</tr>';
+	dhtm9+='<tr>';
+	dhtm9+='<td>商品名称：</td>';
+	dhtm9+='<td>法国进口 雀巢（Nestle） 金牌咖啡法式烘焙 100g</td>';
+	dhtm9+='<td>商品数量：</td>';
+	dhtm9+='<td>2</td>';
+	dhtm9+='</tr>';
+	dhtm9+='<tr>';
+	dhtm9+='<td>下单时间：</td>';
+	dhtm9+='<td>13922830809</td>';
+	dhtm9+='<td>订单金额：</td>';
+	dhtm9+='<td>2018062803890</td>';
+	dhtm9+='	</tr>';
+	dhtm9+='<tr>';
+	dhtm9+='<td>订单类型：</td>';
+	dhtm9+='<td>13922830809</td>';
+	dhtm9+='<td>订单配送费用：</td>';
+	dhtm9+='<td>2018062803890</td>';
+	dhtm9+='	</tr>';
+	dhtm9+='	<tr>';
+	dhtm9+='<td>订单税费：</td>';
+	dhtm9+='<td>13922830809</td>';
+	dhtm9+='<td>仓储保险费：</td>';
+	dhtm9+='	<td>2018062803890</td>';
+	dhtm9+='</tr>';
+	dhtm9+='<tr>';
+	dhtm9+='<td>优惠劵：</td>';
+	dhtm9+='<td>13922830809</td>';
+	dhtm9+='<td>仓储地址：</td>';
+	dhtm9+='	<td>2018062803890</td>';
+	dhtm9+='</tr>';
+	dhtm9+='<tr>';
+	dhtm9+='	<td>配送地址：</td>';
+	dhtm9+='<td>13922830809</td>';
+	dhtm9+='<td>收货人信息：</td>';
+	dhtm9+='<td>详细地址：北京市东城区hhr	收件人：更好黄何联系电话：13244445555</td>';
+	dhtm9+='	</tr>';
+	dhtm9+='</tbody>';
+	dhtm9+='	</table>';
+	$(".popup_content1").append(dhtm9);
+	})
+	// 点击申请开票
+	
+</script>
 
 	{/block}
 
