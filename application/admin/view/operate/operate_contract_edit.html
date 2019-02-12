@@ -1,10 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{include file="template/_meta" /}
+<title></title>
 </head>
+
+{block name="css"}
+<style type="text/css">
+	body {
+		background: #fff;
+	}	
+</style>
+
+{/block}
+
 <body>
-协议合同编辑
+	{block name="content"}
+
+	<form class="layui-form layui-form-lists" action="{:url('admin/Category/save')}" method="post" enctype="multipart/form-data">
+	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>协议标题</label>
+			<div class="form-input">
+				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+			
+			</div>
+		</div>
+	
+		<div class="form-item">
+                <label class="form-label">协议位置</label>
+                <div class="form-input">
+                    <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+                
+                </div>
+            </div>
+            
+		 <div class="form-item">
+                <label class="form-label">内链地址</label>
+                <div class="form-input">
+                    <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+                
+                </div>
+            </div>
+	
+            <div class="form-item">
+                    <label class="form-label"><span class="red">*</span> 内容</label>
+                    <div class="form-input">
+                        <script id="editor" type="text/plain" name="commodity" style="width:800px;height:500px;"></script>
+                    </div>
+                </div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+			</div>
+		</div>
+	</form>
+
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	
+	<script type="text/javascript">
+		var ue = UE.getEditor('editor');
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
+			var form = layui.form(),
+				$ = layui.jquery;
+			form.render();
+			
+		});
+	</script>
+
+	{/block}
+
 </body>
+
 </html>
