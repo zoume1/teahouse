@@ -56,13 +56,13 @@
         <div class="distribution_list">
             <ul>
                 <li>
-                    <a href="" class="on">常见问题</a>
+                    <a href="{:url('admin/operate/operate_problem')}"  class="on">常见问题</a>
                 </li>
                 <li>
-                    <a href="" >协议合同</a>
+                    <a href="{:url('admin/operate/operate_contract')}" >协议合同</a>
                 </li>
                 <li>
-                    <a href="">消息提醒</a>
+                    <a href="{:url('admin/operate/operate_message')}">消息提醒</a>
                 </li>
             </ul>
         </div>
@@ -83,7 +83,7 @@
             </form>
         </blockquote>
 
-        <a class="layui-btn layui-btn-danger batchDel" href="">添加问题</a>
+        <a class="layui-btn layui-btn-danger batchDel" href="operate_problem_add">添加问题</a>
 
         <div class="layui-form news_list">
             <table class="layui-table">
@@ -111,7 +111,7 @@
 								<input type="checkbox" class="Status" name="" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked>
 							</td>
 							<td>
-								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit')}"><i class="iconfont icon-edit"></i> 编辑
+								<a class="layui-btn layui-btn-mini edit" href="operate_problem_add"><i class="iconfont icon-edit"></i> 编辑
 								</a>
 								
 								<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>

@@ -29,13 +29,13 @@
 		<blockquote class="layui-elem-quote">
 				<div class="layui-form" action="{:url('admin/User/search')}">
 					<input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
-					<span style="font-weight: bold;margin-left: 10px;">买家上门自提功能</span>
-					<p style="margin-left: 70px; font-size: 12px;">启用上门自提功能后，买家可以就近选择你预设的自提点，下单后你需要尽快将商品配送至指定自提点</p>
+					<span style="font-weight: bold;margin-left: 10px;">快递发货功能</span>
+					<p style="margin-left: 70px; font-size: 12px;">启用后，买家下单可以选择快递发货，由你安排快递送货上门。</p>
 				</div>
 		</blockquote>
 		
 
-		<a class="layui-btn layui-btn-danger batchDel" href="test_add">添加</a>
+		<a class="layui-btn layui-btn-danger batchDel" href="delivery_goods_add_number">添加</a>
 
 		<div class="layui-form news_list">
 			<table class="layui-table">
@@ -46,9 +46,14 @@
 				<thead>
 					<tr>
 						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
-						<th>自提点名称</th>
-						<th>详细地址</th>
-						<th>联系电话</th>
+						<th>编号</th>
+						<th>模板名称</th>
+						<th>计价方式</th>
+						<th>单位</th>
+						<th>起步价</th>
+						<th>增加</th>
+						<th>加价</th>
+						<th>地区</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -58,8 +63,13 @@
 						<td>1000001</td>
 						<td>1000001</td>
 						<td>1000001</td>
+						<td>1000001</td>
+						<td>1000001</td>
+						<td>1000001</td>
+						<td>1000001</td>
+						<td>1000001</td>
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit')}"><i class="iconfont icon-edit"></i> 编辑
+							<a class="layui-btn layui-btn-mini edit" href="delivery_goods_add_number"><i class="iconfont icon-edit"></i> 编辑
 							</a>
 							<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>

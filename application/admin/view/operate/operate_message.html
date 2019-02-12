@@ -29,6 +29,32 @@
                 body{
                     background: #fff;
                 }
+                .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        width: 400px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 17px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    
+    .distribution_list ul li {
+        flex: 1;
+    }
                     /* 弹窗 */
                     .tanchuang {
                         width: 100%;
@@ -110,6 +136,20 @@
         <body>
         
         {block name="content"}
+        <div class="childrenBody">
+        <div class="distribution_list">
+            <ul>
+                <li>
+                    <a href="{:url('admin/operate/operate_problem')}"  >常见问题</a>
+                </li>
+                <li>
+                    <a href="{:url('admin/operate/operate_contract')}" >协议合同</a>
+                </li>
+                <li>
+                    <a href="{:url('admin/operate/operate_message')}" class="on">消息提醒</a>
+                </li>
+            </ul>
+        </div>
         <!-- 弹窗 -->
             <div class="tanchuang noshow">
                 <div class="tanchuang-content ">
@@ -261,6 +301,7 @@
                         </tr>-->
                     </table>
                 </div>
+            </div>
         
         {/block}
         
