@@ -366,6 +366,13 @@ Route::group("admin",[
     "operate_message_station"=>"admin/operate/operate_message_station",//站内消息
     "operate_message_mobile"=>"admin/operate/operate_message_mobile",//手机短信
 
+    /*配送设置*/
+    "delivery_index"=>"admin/Delivery/delivery_index",//*******配送设置
+    "delivery_add"=>"admin/Delivery/delivery_add",//上门自提添加
+    "delivery_goods"=>"admin/Delivery/delivery_goods",//快递发货
+    "delivery_goods_add_weight"=>"admin/Delivery/delivery_goods_add_weight",//快递发货添加按重量
+    "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add_number",//快递发货添加按件
+
     
 
 
