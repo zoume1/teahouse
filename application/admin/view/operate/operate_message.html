@@ -28,7 +28,7 @@
 	<div class="childrenBody">
 	
 
-		<a class="layui-btn layui-btn-danger batchDel" href="message_add">添加</a>
+		<a class="layui-btn layui-btn-danger batchDel" href="operate_message_add">添加</a>
 
 		<div class="layui-form news_list">
 			<table class="layui-table">
@@ -44,18 +44,18 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
-				{volist name="message" id="value"}
+				
 					<tr>
-						<td>{$value.id}</td>
-						<td>{$value.headline}</td>
-						<td>{$value.create_time|date='Y-m-d H:i',###}</td>
+						<td>11</td>
+						<td>11</td>
+						<td>11</td>
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Install/message_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+							<a class="layui-btn layui-btn-mini edit" href="operate_message_add"><i class="iconfont icon-edit"></i> 编辑
 							</a>
-							<a href="{:url('admin/Install/message_del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+							<a href="{:url('admin/Install/message_del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
-				{/volist}
+			
 				</tbody>
 			</table>
 			
