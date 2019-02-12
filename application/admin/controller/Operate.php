@@ -84,40 +84,15 @@ class Operate extends  Controller{
     public function operate_message(){
         return view("operate_message");
     }
-
-
-    /**
+     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:电子邮件
+     * Notes:消息提醒添加编辑
      **************************************
      * @return \think\response\View
      */
-    public function operate_message_email(){
-        return view("operate_message_email");
+    public function operate_message_add(){
+        return view("operate_message_add");
     }
 
-
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:站内消息
-     **************************************
-     * @return \think\response\View
-     */
-    public function operate_message_station(){
-        return view("operate_message_station");
-    }
-
-
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:手机短信
-     **************************************
-     * @return \think\response\View
-     */
-    public function operate_message_mobile(){
-        return view("operate_message_mobile");
-    }
 }

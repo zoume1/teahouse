@@ -362,9 +362,7 @@ Route::group("admin",[
     "operate_contract"=>"admin/operate/operate_contract",//********协议合同
     "operate_contract_edit"=>"admin/operate/operate_contract_edit",//协议合同编辑
     "operate_message"=>"admin/operate/operate_message",//*********消息提醒
-    "operate_message_email"=>"admin/operate/operate_message_email",//电子邮件
-    "operate_message_station"=>"admin/operate/operate_message_station",//站内消息
-    "operate_message_mobile"=>"admin/operate/operate_message_mobile",//手机短信
+    "operate_message_add"=>"admin/operate/operate_message_add",//消息提醒编辑
 
     /*配送设置*/
     "delivery_index"=>"admin/Delivery/delivery_index",//*******配送设置
