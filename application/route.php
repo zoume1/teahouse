@@ -219,6 +219,7 @@ Route::group("admin",[
     /*TODO:订单开始*/
     "order_index"=>"admin/Order/order_index",//初始订单页面
     "order_search"=>"admin/Order/order_search",//初始订单搜索
+    "order_confirm_shipment"=>"admin/Order/order_confirm_shipment",//初始订单卖家确认发货
 
     "order_integral"=>"admin/Order/order_integral",//积分订单
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
@@ -228,6 +229,7 @@ Route::group("admin",[
     /*TODO:订单备注开始*/
     "notice_index"=>"admin/Notification/notice_index",//卖家备注数据返回
     "option_add_notice"=>"admin/Notification/option_add_notice",//卖家备注
+
     /*TODO:订单备注结束*/
 
 

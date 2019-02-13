@@ -28,6 +28,24 @@ class  Order extends  Controller{
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:订单确认发货（填写订单编号）
+     **************************************
+     */
+    public function  order_confirm_shipment(Request $request){
+        if($request->isPost()){
+            $order_id =$request->only(["order_id"])["order_id"];
+            $status =$request->only(["status"])["status"];
+            $courier_number =$request->only(["courier_number"])["status"];
+            $data =[
+                "status"=>$status,
+            ];
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:订单搜索
      **************************************
      */

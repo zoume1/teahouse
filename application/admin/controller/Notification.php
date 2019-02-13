@@ -23,10 +23,15 @@ class Notification extends Controller{
     public function notice_index(Request $request){
         if($request->isPost()){
             $order_id =$request->only("order_id")["order_id"];
-            $data =Db::name("note_notification")
+            $datas =Db::name("note_notification")
                 ->where("order_id",$order_id)
                 ->order("create_time","desc")
                 ->select();
+            $order_type =Db::name("order")->where("id",$order_id)->value("order_type");
+            $data =[
+                "datas"=>$datas,
+                "order_type"=>$order_type
+            ];
             if(!empty($data)){
                 return ajax_success("数据返回成功",$data);
             }else{
@@ -48,7 +53,7 @@ class Notification extends Controller{
             $information_data =[
                 "information"=>$information,
                 "create_time"=>time(),
-                "option_name"=>"用户",
+                "option_name"=>"商家",
                 "order_id"=>$order_id,
             ];
            $res  = Db::name("note_notification")->insert($information_data);
