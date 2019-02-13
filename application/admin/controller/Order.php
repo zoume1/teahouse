@@ -36,9 +36,18 @@ class  Order extends  Controller{
             $order_id =$request->only(["order_id"])["order_id"];
             $status =$request->only(["status"])["status"];
             $courier_number =$request->only(["courier_number"])["status"];
+            $express_name =$request->only(["express_name"])["express_name"];
             $data =[
                 "status"=>$status,
+                "courier_number"=>$courier_number,
+                "express_name"=>$express_name
             ];
+            $bool =Db::name("order")->where("id",$order_id)->update($data);
+            if($bool){
+                return ajax_success("发货成功",["status"=>1]);
+            }else{
+                return ajax_error("发货失败",["status"=>0]);
+            }
         }
     }
 
