@@ -55,6 +55,12 @@ Route::group("",[
     "member_default_address_return"=>"index/Address/member_default_address_return", //购买页面默认地址返回或者选择其他地址
 
     /*TODO:地址管理结束*/
+    /*TODO:到店自提地址开始*/
+    "delivery_address_return"=>"index/DeliveryAddress/delivery_address_return",//下单页面点击到店自提数据返回
+    "delivery_address_all_return"=>"index/DeliveryAddress/delivery_address_all_return",//下单页面到店自提所有数据返回
+    /*TODO:到店自提地址结束*/
+
+
     /*TODO:订单开始*/
     "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
     "order_place"=>"index/Order/order_place",//下订单
@@ -368,6 +374,8 @@ Route::group("admin",[
     "delivery_index"=>"admin/Delivery/delivery_index",//*******配送设置
     "delivery_add"=>"admin/Delivery/delivery_add",//上门自提添加
     "delivery_edit"=>"admin/Delivery/delivery_edit",//上门自提编辑
+    "delivery_del"=>"admin/Delivery/del",//上门自提删除
+    "delivery_dels"=>"admin/Delivery/dels",//上门自提批量删除
     "delivery_goods"=>"admin/Delivery/delivery_goods",//快递发货
     "delivery_goods_add_weight"=>"admin/Delivery/delivery_goods_add_weight",//快递发货添加按重量
     "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add_number",//快递发货添加按件

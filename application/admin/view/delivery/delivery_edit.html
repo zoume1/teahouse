@@ -18,11 +18,11 @@
 <body>
 {block name="content"}
 {if !empty($data)}
-<form class="layui-form layui-form-lists" action="{:url('admin/Delivery/delivery_add')}" method="post" enctype="multipart/form-data">
+<form class="layui-form layui-form-lists" action="{:url('admin/Delivery/delivery_edit',['id'=>$data.id])}" method="post" enctype="multipart/form-data">
     <div class="form-item">
         <label class="form-label">自提点名称</label>
         <div class="form-input">
-            <input type="text" value="{$data.extract_name}" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+            <input type="text" value="{$data.extract_name}" name="extract_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
         </div>
     </div>
     <div class="form-item">
@@ -32,15 +32,15 @@
                 <div data-toggle="distpicker">
                     <div class="form-group">
                         <label class="sr-only" for="province2">Province</label>
-                        <select  class="form-control" name="address_city1" id="province2" data-province="---- 选择省 ----"></select>
+                        <select  class="form-control" name="extract_address[]" id="province2" data-province="{$string[0]}"></select>
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="city2">City</label>
-                        <select class="form-control" name="address_city2" id="city2" data-city="---- 选择市 ----"></select>
+                        <select class="form-control" name="extract_address[]" id="city2" data-city="{$string[1]}"></select>
                     </div>
                     <div class="form-group">
                         <label class="sr-only" for="district2">District</label>
-                        <select class="form-control" name="address_city3" id="district2" data-district="---- 选择区 ----"></select>
+                        <select class="form-control" name="extract_address[]" id="district2" data-district="{$string[2]}"></select>
                     </div>
                 </div>
             </div>
@@ -49,14 +49,14 @@
     <div class="form-item">
         <label class="form-label"></label>
         <div class="form-input">
-            <input value="{$data.extract_real_address}" type="text" name="address_street" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input" id="sort_number">
+            <input value="{$data.extract_real_address}" type="text" name="extract_real_address" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input" id="sort_number">
 
         </div>
     </div>
     <div class="form-item">
         <label class="form-label">联系电话</label>
         <div class="form-input">
-            <input value="{$data.phone_num}"  type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >
+            <input value="{$data.phone_num}"  type="text" name="phone_num" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >
         </div>
     </div>
     <div class="layui-form-item">
