@@ -254,7 +254,7 @@ class  Shopping extends  Controller{
             $user_id =$request->only(["member_id"])["member_id"];
             $number =Db::name("shopping")->where("user_id",$user_id)->sum("goods_unit");
             if($number > 0){
-                return ajax_success("购物车数量但会成功",$number);
+                return ajax_success("购物车数量返回成功",$number);
             }else{
                 $number = 0;
                 return ajax_error("购物车里面没有商品",$number);
