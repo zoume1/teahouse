@@ -26,6 +26,7 @@ class DeliveryAddress extends  Controller{
             if(!empty($address_id)){
                 $is_address =Db::name("extract_address")
                     ->where("id",$address_id)
+                    ->where("status",1)
                     ->find();
                 if(!empty($is_address)){
                     return ajax_success('自提地址成功返回', $is_address);
@@ -34,6 +35,7 @@ class DeliveryAddress extends  Controller{
                 }
             }else{
                 $is_address =Db::name("extract_address")
+                    ->where("status",1)
                     ->find();
                 if(!empty($is_address)){
                     return ajax_success('自提地址成功返回', $is_address);
@@ -53,7 +55,7 @@ class DeliveryAddress extends  Controller{
      */
     public function delivery_address_all_return(Request $request){
         if($request->isPost()){
-            $data =Db::name("extract_address")->select();
+            $data =Db::name("extract_address")->where("status",1)->select();
             if(!empty($data)){
                 return ajax_success('自提地址成功返回', $data);
             }else{

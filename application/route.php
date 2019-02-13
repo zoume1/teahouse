@@ -372,6 +372,7 @@ Route::group("admin",[
 
     /*配送设置*/
     "delivery_index"=>"admin/Delivery/delivery_index",//*******配送设置
+    "delivery_status"=>"admin/Delivery/delivery_status",//买家上门自提功能开启关闭
     "delivery_add"=>"admin/Delivery/delivery_add",//上门自提添加
     "delivery_edit"=>"admin/Delivery/delivery_edit",//上门自提编辑
     "delivery_del"=>"admin/Delivery/del",//上门自提删除

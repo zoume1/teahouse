@@ -21,8 +21,36 @@ class Delivery extends  Controller{
      */
     public function delivery_index(){
         $data =Db::name("extract_address")->paginate(20);
-        return view("delivery_index",["data"=>$data]);
+        $data_status =Db::name("extract_address")->find();
+        return view("delivery_index",["data"=>$data,"data_status"=>$data_status]);
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:买家上门自提功能开启关闭
+     **************************************
+     * @param Request $request
+     */
+    public function delivery_status(Request $request){
+        if($request->isPost()){
+            $status =$request->only(["status"])["status"];//1为开启，-1为关闭
+            $data =Db::name("extract_address")->select();
+            if(!empty($data)){
+                foreach ($data as $key=>$value){
+                    $bool =Db::name("extract_address")
+                        ->where("id",$value["id"])
+                        ->update(["status"=>$status]);
+                }
+                if($bool){
+                    $this->success("更新成功",url("admin/Delivery/delivery_index"));
+                }else{
+                    $this->success("没有修改任何东西",url("admin/Delivery/delivery_index"));
+                }
+            }
+        }
+    }
+
 
     /**
      **************李火生*******************
@@ -50,7 +78,8 @@ class Delivery extends  Controller{
                 "extract_name"=>$data["extract_name"],
                 "extract_address"=>$extract_address,
                 "extract_real_address" =>$data["extract_real_address"],
-                "phone_num"=>$data["phone_num"]
+                "phone_num"=>$data["phone_num"],
+                "status"=>1
             ];
             $res =Db::name("extract_address")->insert($datas);
             if($res){
@@ -174,6 +203,8 @@ class Delivery extends  Controller{
     public function delivery_goods_add_number(){
         return view("delivery_goods_add_number");
     }
+
+
 
 
 
