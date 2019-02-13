@@ -702,7 +702,55 @@
 					async:false,
 					success: function(data) {
 						var data = eval('(' + data + ')');
-					  console.log(data);
+						console.log(data);
+						var dhtm9="";
+					dhtm9+='<table class="layui-table">';
+					dhtm9+='<tbody class="news_content">';
+					dhtm9+='	<tr>';
+					dhtm9+='	<td>用户账号：</td>';
+					dhtm9+='<td>'+data.data.user_account_name+'</td>';
+					dhtm9+='<td>订单号：</td>';
+					dhtm9+='<td>'+data.data.parts_order_number+'</td>';
+					dhtm9+='</tr>';
+					dhtm9+='<tr>';
+					dhtm9+='<td>商品名称：</td>';
+					dhtm9+='<td>'+data.data.parts_goods_name+'</td>';
+					dhtm9+='<td>商品数量：</td>';
+					dhtm9+='<td>'+data.data.order_quantity+'</td>';
+					dhtm9+='</tr>';
+					dhtm9+='<tr>';
+					dhtm9+='<td>下单时间：</td>';
+					dhtm9+='<td>'+data.data.order_create_time+'</td>';
+					dhtm9+='<td>订单金额：</td>';
+					dhtm9+='<td>'+data.data.order_amount+'</td>';
+					dhtm9+='	</tr>';
+					dhtm9+='<tr>';
+					dhtm9+='<td>订单类型：</td>';
+					dhtm9+='<td>'+data.data.order_type+'</td>';
+					dhtm9+='<td>订单配送费用：</td>';
+					dhtm9+='<td>'+data.data.goods_franking+' </td>';
+					dhtm9+='	</tr>';
+					dhtm9+='	<tr>';
+					dhtm9+='<td>订单税费：</td>';
+					dhtm9+='<td>13922830809</td>';
+					dhtm9+='<td>仓储保险费：</td>';
+					dhtm9+='	<td>2018062803890</td>';
+					dhtm9+='</tr>';
+					dhtm9+='<tr>';
+					dhtm9+='<td>优惠劵：</td>';
+					dhtm9+='<td>13922830809</td>';
+					dhtm9+='<td>仓储地址：</td>';
+					dhtm9+='	<td>2018062803890</td>';
+					dhtm9+='</tr>';
+					dhtm9+='<tr>';
+					dhtm9+='	<td>配送地址：</td>';
+					dhtm9+='<td>'+data.data.harvester_address+'</td>';
+					dhtm9+='<td>收货人信息：</td>';
+					dhtm9+='<td>收件人：'+data.data.Harvester+'联系电话：'+data.data.harvest_phone_num+'</td>';
+					dhtm9+='	</tr>';
+					dhtm9+='</tbody>';
+					dhtm9+='	</table>';
+					$(".popup_content1").append(dhtm9);
 					
 					},
 					error: function(data) {
@@ -710,54 +758,7 @@
 					}
 			});
 	
-		var dhtm9="";
-  dhtm9+='<table class="layui-table">';
-	dhtm9+='<tbody class="news_content">';
-  dhtm9+='	<tr>';
-	dhtm9+='	<td>用户账号：</td>';
-	dhtm9+='<td>13922830809</td>';
-	dhtm9+='<td>订单号：</td>';
-	dhtm9+='<td>2018062803890</td>';
-	dhtm9+='</tr>';
-	dhtm9+='<tr>';
-	dhtm9+='<td>商品名称：</td>';
-	dhtm9+='<td>法国进口 雀巢（Nestle） 金牌咖啡法式烘焙 100g</td>';
-	dhtm9+='<td>商品数量：</td>';
-	dhtm9+='<td>2</td>';
-	dhtm9+='</tr>';
-	dhtm9+='<tr>';
-	dhtm9+='<td>下单时间：</td>';
-	dhtm9+='<td>13922830809</td>';
-	dhtm9+='<td>订单金额：</td>';
-	dhtm9+='<td>2018062803890</td>';
-	dhtm9+='	</tr>';
-	dhtm9+='<tr>';
-	dhtm9+='<td>订单类型：</td>';
-	dhtm9+='<td>13922830809</td>';
-	dhtm9+='<td>订单配送费用：</td>';
-	dhtm9+='<td>2018062803890</td>';
-	dhtm9+='	</tr>';
-	dhtm9+='	<tr>';
-	dhtm9+='<td>订单税费：</td>';
-	dhtm9+='<td>13922830809</td>';
-	dhtm9+='<td>仓储保险费：</td>';
-	dhtm9+='	<td>2018062803890</td>';
-	dhtm9+='</tr>';
-	dhtm9+='<tr>';
-	dhtm9+='<td>优惠劵：</td>';
-	dhtm9+='<td>13922830809</td>';
-	dhtm9+='<td>仓储地址：</td>';
-	dhtm9+='	<td>2018062803890</td>';
-	dhtm9+='</tr>';
-	dhtm9+='<tr>';
-	dhtm9+='	<td>配送地址：</td>';
-	dhtm9+='<td>13922830809</td>';
-	dhtm9+='<td>收货人信息：</td>';
-	dhtm9+='<td>详细地址：北京市东城区hhr	收件人：更好黄何联系电话：13244445555</td>';
-	dhtm9+='	</tr>';
-	dhtm9+='</tbody>';
-	dhtm9+='	</table>';
-	$(".popup_content1").append(dhtm9);
+
 	})
 	// 点击申请开票
 	// 点击批注
