@@ -58,7 +58,7 @@ class Notification extends Controller{
             ];
            $res  = Db::name("note_notification")->insert($information_data);
             if($res){
-                return ajax_success("备注成功",["status"=>1]);
+                return ajax_success("备注成功",$information_data);
             }else{
                 return ajax_error("备注失败",["status"=>0]);
             }
