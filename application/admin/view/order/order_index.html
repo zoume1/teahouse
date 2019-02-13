@@ -652,35 +652,41 @@
 		$(".operation").on("click",".submit_btns",function(){
 			$(".popup").addClass("noshow");
 		    var repay=$(".repay").val();
-			var id=$(this).parent(".operation").data("id");
-			var value=$(this).parent(".operation").data("value");
-		
-			//    快递选择
-			   var curier=$(".curier option:selected").val();	 
-			//    操作选择
-			   var operation_select=$(".operation_select option:selected").val();	
-			//    单号
-			   var danhao=$(".danhao").val();	
-			   $.ajax({
-					type: "POST",
-					url: "{:url('admin/Order/order_confirm_shipment')}",
-					data: {
-						"order_id":value,
-						"courier_number":curier,
-						"status":5,
-						"express_name":danhao
-					},
-					success: function(data) {
-						location.reload();
-						var data = eval('(' + data + ')');
-						console.log(data);
-					
-					},
-					error: function(data) {
-						
-					}
-			});
+					var id=$(this).parent(".operation").data("id");
+					var value=$(this).parent(".operation").data("value");
+				
+					//    快递选择
+						var curier=$(".curier option:selected").val();	 
+					//    操作选择
+						var operation_select=$(".operation_select option:selected").val();	
+					//    单号
+						var danhao=$(".danhao").val();	
+						if(danhao!=''){
+							$.ajax({
+							type: "POST",
+							url: "{:url('admin/Order/order_confirm_shipment')}",
+							data: {
+								"order_id":value,
+								"courier_number":curier,
+								"status":5,
+								"express_name":danhao
+							},
+							success: function(data) {
+								location.reload();
+								var data = eval('(' + data + ')');
+								console.log(data);
+							
+							},
+							error: function(data) {
+								
+							}
+					});
 			
+				 }
+				 else{
+					 alert("请输入单号");
+				 }
+			   
 			});
 	// 点击订单详情
 	$(".static_btus2").click(function(){
@@ -768,7 +774,7 @@
 	
 		}
 		else{
-			alert();
+			alert("批注不能为空");
 		}
 	});
 	
