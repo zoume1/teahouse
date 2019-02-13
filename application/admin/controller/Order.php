@@ -84,6 +84,18 @@ class  Order extends  Controller{
      */
     public function order_search(Request $request){
         if($request->isPost()){
+            $keywords =input('search_key');
+            $keyword =input('search_keys');
+            $timemin  =strtotime(input("date_min"));
+            /*添加一天（23：59：59）*/
+            $time_max_data =strtotime(input('date_max'));
+            $t=date('Y-m-d H:i:s',$time_max_data+1*24*60*60);
+            $timemax  =strtotime($t);
+
+            $data =Db::name("order")
+                ->order("order_create_time","desc")
+                ->paginate(20);
+            return view("order_index",["data"=>$data]);
         }
     }
 
