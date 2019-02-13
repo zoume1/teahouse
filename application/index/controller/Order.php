@@ -120,7 +120,14 @@ class  Order extends  Controller
                 $v=explode('-',$time);
                 $time_second=date("H:i:s",time());
                 $vs=explode(':',$time_second);
-                $parts_order_number =$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                //1为选择直邮，2到店自提，3选择存茶
+                if($order_type ==1){
+                    $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                }else if($order_type ==2){
+                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                }else if($order_type ==3){
+                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                }
                 foreach ($commodity_id as $keys=>$values){
                     if (!empty($commodity_id)){
                         $goods_data = Db::name('goods')->where('id',$values)->find();
@@ -238,7 +245,14 @@ class  Order extends  Controller
                 $v=explode('-',$time);
                 $time_second=date("H:i:s",time());
                 $vs=explode(':',$time_second);
-                $parts_order_number =$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                //1为选择直邮，2到店自提，3选择存茶
+                if($order_type ==1){
+                    $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                }else if($order_type ==2){
+                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                }else if($order_type ==3){
+                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                }
                 $create_time = time();//下单时间
                 $normal_time =Db::name("order_setting")->find();//订单设置的时间
                 $normal_future_time =strtotime("+". $normal_time['normal_time']." minute");
