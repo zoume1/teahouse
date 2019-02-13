@@ -163,6 +163,7 @@
 		height: 40px;
 		border-color:#ABADB3 ;
 		color: #000;
+		background: #fff;
 	}
 	.operation div{
 		margin-right: 10px;
@@ -594,7 +595,6 @@
 				dhtml2+='<div class="select_courier">';
 				dhtml2+='<span class="operation_title">选择快递</span>';
 				dhtml2+='<select name="" class="curier">';
-				dhtml2+='<option value="" selected="">请选择</option>';
 				dhtml2+='<option value="ems">EMS</option>';
 				dhtml2+='<option value="shentong">申通</option>';
 				dhtml2+='<option value="shentong">顺丰</option>';
@@ -654,7 +654,7 @@
 		    var repay=$(".repay").val();
 			var id=$(this).parent(".operation").data("id");
 			var value=$(this).parent(".operation").data("value");
-			if(id==2 || id==3){
+		
 			//    快递选择
 			   var curier=$(".curier option:selected").val();	 
 			//    操作选择
@@ -671,34 +671,7 @@
 						"express_name":danhao
 					},
 					success: function(data) {
-						var data = eval('(' + data + ')');
-						console.log(data);
-					
-					},
-					error: function(data) {
-						
-					}
-			});
-			}
-			else if(id==10){
-		      // 回复内容
-					var repay=$(".repay").val();
-			//    快递选择
-			   var curier=$(".curier option:selected").val();	 
-			//    操作选择
-			   var operation_select=$(".operation_select option:selected").val();	
-			//    单号或退款
-			   var danhao=$(".danhao").val();	
-			   $.ajax({
-					type: "POST",
-					url: "{:url('admin/Notification/notice_index')}",
-					data: {
-						"repay": repay,
-						"curier":curier,
-						"operation_select":operation_select,
-						"danhao":danhao
-					},
-					success: function(data) {
+						location.reload();
 						var data = eval('(' + data + ')');
 						console.log(data);
 					
@@ -708,29 +681,7 @@
 					}
 			});
 			
-				
-			}
-			else{
-					// 回复内容
-					var repay=$(".repay").val();
-					$.ajax({
-							type: "POST",
-							url: "{:url('admin/Notification/option_add_notice')}",
-							data: {
-								"Information": repay,
-							},
-							success: function(data) {
-								var data = eval('(' + data + ')');
-								console.log(data);
-							
-							},
-							error: function(data) {
-								
-							}
-					});
-			
-		    }
-		});
+			});
 	// 点击订单详情
 	$(".static_btus2").click(function(){
 		$(".popup_two").removeClass("noshow");
