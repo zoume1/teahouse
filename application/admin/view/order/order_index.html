@@ -138,6 +138,7 @@
 		display: inline-block;
 		width: 80px;
 		text-align: left;
+		margin-right: 20px;
 	}
 	.repany .layui-input{
 		width: 530px;
@@ -558,8 +559,23 @@
 				dhtml1+='<span class="operation_title">选择快递</span>';
 				dhtml1+='<select name="" class="curier">';
 				dhtml1+='<option value="" selected="">请选择</option>';
-				dhtml1+='<option value="1">顺丰</option>';
-				dhtml1+='<option value="0">圆通</option>';
+				dhtml1+='<option value="ems">EMS</option>';
+				dhtml1+='<option value="shentong">申通</option>';
+				dhtml1+='<option value="shentong">顺丰</option>';
+				dhtml1+='<option value="shentong">圆通</option>';
+				dhtml1+='<option value="shentong">韵达</option>';
+				dhtml1+='<option value="shentong">天天快递</option>';
+				dhtml1+='<option value="shentong">宅急送</option>';
+				dhtml1+='<option value="shentong">中国邮政</option>';
+				dhtml1+='<option value="shentong">全峰快递</option>';
+				dhtml1+='<option value="shentong">速尔快递</option>';
+				dhtml1+='<option value="shentong">快捷快递</option>';
+				dhtml1+='<option value="shentong">中铁快运</option>';
+				dhtml1+='<option value="shentong">优速快递</option>';
+				dhtml1+='<option value="shentong">龙邦</option>';
+				dhtml1+='<option value="shentong">德邦物流</option>';
+				dhtml1+='<option value="shentong">华宇物流</option>';
+				dhtml1+='<option value="shentong">佳吉快运</option>';
 				dhtml1+='</select>';
 				dhtml1+='</div>';
 				dhtml1+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  >';
@@ -570,8 +586,23 @@
 				dhtml2+='<span class="operation_title">选择快递</span>';
 				dhtml2+='<select name="" class="curier">';
 				dhtml2+='<option value="" selected="">请选择</option>';
-				dhtml2+='<option value="1">顺丰</option>';
-				dhtml2+='<option value="0">圆通</option>';
+				dhtml2+='<option value="ems">EMS</option>';
+				dhtml2+='<option value="shentong">申通</option>';
+				dhtml2+='<option value="shentong">顺丰</option>';
+				dhtml2+='<option value="shentong">圆通</option>';
+				dhtml2+='<option value="shentong">韵达</option>';
+				dhtml2+='<option value="shentong">天天快递</option>';
+				dhtml2+='<option value="shentong">宅急送</option>';
+				dhtml2+='<option value="shentong">中国邮政</option>';
+				dhtml2+='<option value="shentong">全峰快递</option>';
+				dhtml2+='<option value="shentong">速尔快递</option>';
+				dhtml2+='<option value="shentong">快捷快递</option>';
+				dhtml2+='<option value="shentong">中铁快运</option>';
+				dhtml2+='<option value="shentong">优速快递</option>';
+				dhtml2+='<option value="shentong">龙邦</option>';
+				dhtml2+='<option value="shentong">德邦物流</option>';
+				dhtml2+='<option value="shentong">华宇物流</option>';
+				dhtml2+='<option value="shentong">佳吉快运</option>';
 				dhtml2+='</select>';
 				dhtml2+='</div>';
 				dhtml2+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  >';
@@ -613,9 +644,8 @@
 			$(".popup").addClass("noshow");
 		    var repay=$(".repay").val();
 			var id=$(this).parent(".operation").data("id");
+			var value=$(this).parent(".operation").data("value");
 			if(id==2 || id==3){
-			// 回复内容
-			   var repay=$(".repay").val();
 			//    快递选择
 			   var curier=$(".curier option:selected").val();	 
 			//    操作选择
@@ -624,12 +654,12 @@
 			   var danhao=$(".danhao").val();	
 			   $.ajax({
 					type: "POST",
-					url: "{:url('admin/Notification/notice_indexs')}",
+					url: "{:url('admin/Order/order_confirm_shipment')}",
 					data: {
-						"repay": repay,
-						"curier":curier,
-						"operation_select":operation_select,
-						"danhao":danhao
+						"order_id":value,
+						"courier_number":curier,
+						"status":operation_select,
+						"express_nam":danhao
 					},
 					success: function(data) {
 						var data = eval('(' + data + ')');
@@ -692,7 +722,7 @@
 			
 		    }
 		});
-	
+	// 点击订单详情
 	$(".static_btus2").click(function(){
 		$(".popup_two").removeClass("noshow");
 		$(".popup_content1").empty();
@@ -751,10 +781,9 @@
 	$(".repay_tip").click(function(){
 		var data_id=$(this).data("value")
 		var Information=$(".Information").val();
-		console.log(Information);
 		if(Information!=''){
 			$.ajax({
-					type: "POST",
+					type: "POST", 
 					url: "{:url('admin/Notification/option_add_notice')}",
 					data: {
 						"order_id": data_id,
@@ -762,8 +791,14 @@
 					},
 					async:false,
 					success: function(data) {
-						console.log(111);
-							// $(".chat").append(dhtm0);
+						var data = eval('(' + data + ')');
+						var dhtm0="";
+							dhtm0+='<div class="chat_list">';
+							dhtm0+='	<span class="span">'+data.data.create_time+'</span>';
+							dhtm0+='<span>'+data.data.information+'</span>';			
+							dhtm0+='</div>';
+							$(".chat").append(dhtm0);
+							$(".Information").val("");
 					
 					},
 					error: function(data) {
@@ -773,7 +808,7 @@
 	
 		}
 		else{
-			alert(222);
+			alert();
 		}
 	});
 	
