@@ -28,14 +28,23 @@
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote">
 				<div class="layui-form" action="{:url('admin/User/search')}">
-					<input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+					{if !empty($data_status)}
+						{if $data_status["status"] ==1}
+						<input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF" value="1" lay-filter="isShow" checked>
+						{else}
+						<input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF" value="-1" lay-filter="isShow">
+						{/if}
+					{/if}
 					<span style="font-weight: bold;margin-left: 10px;">买家上门自提功能</span>
 					<p style="margin-left: 70px; font-size: 12px;">启用上门自提功能后，买家可以就近选择你预设的自提点，下单后你需要尽快将商品配送至指定自提点</p>
 				</div>
 		</blockquote>
-		
-
+		{if !empty($data_status)}
+		{if $data_status["status"] ==1}
 		<a class="layui-btn layui-btn-danger batchDel" href="delivery_add">添加</a>
+		{/if}
+		{/if}
+
 
 		<div class="layui-form news_list">
 			<table class="layui-table">
@@ -53,17 +62,22 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+				{if !empty($data)}
+				{volist name="data" id="vo"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}"></td>
+						<td>{$vo.extract_name}</td>
+						<td>{$vo.extract_address}{$vo.extract_real_address}</td>
+						<td>{$vo.phone_num}</td>
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="delivery_add"><i class="iconfont icon-edit"></i> 编辑
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Delivery/delivery_edit',['id'=>$vo.id])}"><i class="iconfont icon-edit"></i> 编辑
 							</a>
-							<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+							<a href="{:url('admin/Delivery/del',['id'=>$vo.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
+
+				{/volist}
+				{/if}
 				</tbody>
 			</table>
 			<div id="page">
@@ -77,6 +91,9 @@
 					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
+				{if !empty($data)}
+				{$data->render()}
+				{/if}
 			</div>
 
 		</div>
@@ -121,7 +138,7 @@
 						}
 						$.ajax({
 							type: "POST",
-							url: "{:url('admin/Category/dels')}",
+							url: "{:url('admin/Delivery/dels')}",
 							data: {
 								"id": data_id,
 							},
@@ -177,23 +194,22 @@
 			})
 
 			form.on('switch(isShow)', function(data) {
-				if($(this).val() == 0) {
+				if($(this).val() == -1) {
 					$(this).val(1);
 				} else {
-					$(this).val(0);
+					$(this).val(-1);
 				}
 				var vals = data.value;
 				var id = $(this).data("id");
 				var status = $(this).val();
 				$.ajax({
 					type: "POST",
-					url: "{:url('')}",
+					url: "{:url('admin/Delivery/delivery_status')}",
 					data: {
-						"id": id,
 						"status": status
 					},
 					success: function(data) {
-						console.log("成功")
+						window.location.reload();
 					},
 					error: function(data) {
 						console.log("错误")
