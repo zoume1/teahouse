@@ -377,7 +377,7 @@
 								<div class="not_apply">未申请开票</div>
 									
 								</div>
-							<div class="static_btus2" >
+							<div class="static_btus2" data-id="{$vo.id}" >
 									订单详情
 							</div>
 							</div>
@@ -692,6 +692,24 @@
 	$(".static_btus2").click(function(){
 		$(".popup_two").removeClass("noshow");
 		$(".popup_content1").empty();
+		var data_id=$(this).data("id");
+		$.ajax({
+					type: "POST", 
+					url: "{:url('admin/Order/order_information_return')}",
+					data: {
+						"order_id": data_id,
+					},
+					async:false,
+					success: function(data) {
+						var data = eval('(' + data + ')');
+					  console.log(data);
+					
+					},
+					error: function(data) {
+						
+					}
+			});
+	
 		var dhtm9="";
   dhtm9+='<table class="layui-table">';
 	dhtm9+='<tbody class="news_content">';
