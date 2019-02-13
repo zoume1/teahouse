@@ -35,7 +35,7 @@ class  Order extends  Controller{
         if($request->isPost()){
             $order_id =$request->only(["order_id"])["order_id"];
             $status =$request->only(["status"])["status"];
-            $courier_number =$request->only(["courier_number"])["status"];
+            $courier_number =$request->only(["courier_number"])["courier_number"];
             $express_name =$request->only(["express_name"])["express_name"];
             $data =[
                 "status"=>$status,
