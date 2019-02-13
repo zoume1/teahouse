@@ -220,6 +220,7 @@ Route::group("admin",[
     "order_index"=>"admin/Order/order_index",//初始订单页面
     "order_search"=>"admin/Order/order_search",//初始订单搜索
     "order_confirm_shipment"=>"admin/Order/order_confirm_shipment",//初始订单卖家确认发货
+    "order_information_return"=>"admin/Order/order_information_return",//初始订单基本信息
 
     "order_integral"=>"admin/Order/order_integral",//积分订单
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置

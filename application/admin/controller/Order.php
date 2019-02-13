@@ -51,6 +51,30 @@ class  Order extends  Controller{
         }
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:初始订单的基本信息
+     **************************************
+     * @param Request $request
+     */
+    public function order_information_return(Request $request){
+        if($request->isPost()){
+            $order_id =$request->only(["order_id"])["order_id"];
+            if(!empty($order_id)){
+                $data =Db::name("order")->where("id",$order_id)->find();
+                if(!empty($data)){
+                    $data["member_name"] =Db::name("member")->where("member_id",$data["member_id"])->value("member_name");
+                    return ajax_success("数据返回成功",$data);
+                }else{
+                    return ajax_error("没有数据信息",["status"=>0]);
+                }
+            }
+        }
+    }
+
+
+
 
     /**
      **************李火生*******************
