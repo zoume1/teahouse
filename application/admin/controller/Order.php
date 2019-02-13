@@ -65,6 +65,7 @@ class  Order extends  Controller{
                 $data =Db::name("order")->where("id",$order_id)->find();
                 if(!empty($data)){
                     $data["member_name"] =Db::name("member")->where("member_id",$data["member_id"])->value("member_name");
+                    $data["goods_franking"] =Db::name("goods")->where("id",$data["goods_id"])->value("member_name")
                     return ajax_success("数据返回成功",$data);
                 }else{
                     return ajax_error("没有数据信息",["status"=>0]);
