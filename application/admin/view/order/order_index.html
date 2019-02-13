@@ -213,10 +213,7 @@
 					<span class="repay_tip">批注</span>
 				</div>
 				<div class="chat">
-					<div class="chat_list">
-						<span class="span">20180811</span>
-						<span>官方备注已用户要求高可顺非邮寄</span>
-					</div>
+					
 				</div>
 				<div class="operation" data-id="" >
 					
@@ -516,10 +513,12 @@
 			})
 		})
 		$(".static_btus").click(function(){
+		
 			var  data_id=$(this).data("id");
 			$(".operation").data("value",data_id);
 			var  data_value=$(this).data("value");
 			$(".operation").empty();
+			$(".chat").empty();
 			$.ajax({
 					type: "POST",
 					url: "{:url('admin/Notification/notice_index')}",
@@ -529,6 +528,15 @@
 					success: function(data) {
 						var data = eval('(' + data + ')');
 						console.log(data);
+						for(var i=0;i<data.data.length;i++){
+							var dhtm0="";
+							dhtm0+='<div class="chat_list">';
+							dhtm0+='	<span class="span">'+data.data[i].create_time+'</span>';
+							dhtm0+='<span>'+data.data[i].information+'</span>';			
+							dhtm0+='</div>';
+							$(".chat").append(dhtm0);
+						}
+				
 					
 					},
 					error: function(data) {
