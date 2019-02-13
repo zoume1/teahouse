@@ -242,6 +242,25 @@ class  Shopping extends  Controller{
         }
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:购物车数量返回
+     **************************************
+     * @param Request $request
+     */
+    public function shopping_numbers(Request $request){
+        if($request->isPost()){
+            $user_id =$request->only(["member_id"])["member_id"];
+            $number =Db::name("shopping")->where("user_id",$user_id)->sum("goods_unit");
+            if($number > 0){
+                return ajax_success("购物车数量但会成功",$number);
+            }else{
+                $number = 0;
+                return ajax_error("购物车里面没有商品",$number);
+            }
+        }
+    }
 
 
 

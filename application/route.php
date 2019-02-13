@@ -91,6 +91,7 @@ Route::group("",[
      "shopping_information_add"=>"index/Shopping/shopping_information_add",//购物车添加商品数量
      "shopping_information_del"=>"index/Shopping/shopping_information_del",//购物车减少商品数量
      "shopping_del"=>"index/Shopping/shopping_del",//购物车删除
+     "shopping_numbers"=>"index/Shopping/shopping_numbers",//购物车数量返回
 
     /*TODO:购物车结束*/
 
