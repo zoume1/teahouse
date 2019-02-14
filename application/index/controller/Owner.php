@@ -47,7 +47,7 @@ class  Owner extends  Controller{
             $id_card =$request->only(["id_card"])["id_card"];
             $data =[
                 "ID_card"=>$id_card,
-                "user_name"=>$user_name
+                "member_real_name"=>$user_name
             ];
             $member_id =$request->only(["member_id"])["member_id"];
             $bool =Db::name("member")->where("member_id",$member_id)->insert($data);
@@ -72,7 +72,7 @@ class  Owner extends  Controller{
             $id_card =$request->only(["id_card"])["id_card"];
             $data =[
                 "ID_card"=>$id_card,
-                "user_name"=>$user_name
+                "member_real_name"=>$user_name
             ];
             $member_id =$request->only(["member_id"])["member_id"];
             $bool =Db::name("member")->where("member_id",$member_id)->insert($data);

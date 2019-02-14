@@ -140,13 +140,19 @@ Route::group("",[
     /*TODO:身份证绑定结束*/
 
     /*TODO:银行卡管理开始*/
-
+    "bank_bingding"=>"index/Owner/bank_bingding",//银行卡数据返回
+    "bank_bingding_add"=>"index/Owner/bank_bingding_add",//银行卡银行卡添加
     /*TODO:银行卡管理结束*/
 
     /*TODO:手机号绑定开始*/
     "user_phone_return"=>"index/My/user_phone_return",//手机号绑定数据返回
-
     /*TODO:手机号绑定结束*/
+
+    /*TODO:短信验证开始*/
+    "sendMobileCode"=>"index/MobileVerification/sendMobileCode",//这是新绑定手机验证码验证
+    "sendMobileCodeBank"=>"index/MobileVerification/sendMobileCodeBank",//这是银行卡绑定时需手机验证码验证
+    /*TODO:短信验证结束*/
+
 
     /*测试接口*/
     "index_text"=>"index/index/text"
