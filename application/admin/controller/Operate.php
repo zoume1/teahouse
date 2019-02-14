@@ -95,4 +95,14 @@ class Operate extends  Controller{
         return view("operate_message_add");
     }
 
+
+
+    /**
+     * [积分规则]
+     * GY
+     */
+    public function operate_integral_rule(){
+        return view("operate_integral_rule");
+    }
+
 }
