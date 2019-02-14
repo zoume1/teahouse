@@ -162,4 +162,26 @@ class My extends Controller
          return $tmpInfo; // 返回数据
      }
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:手机账号数据返回，没有则进行绑定添加手机号
+     **************************************
+     * @param Request $request
+     */
+     public function  user_phone_return(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $phone_number =Db::name("member")
+                ->where("member_id", $member_id)
+                ->value("member_phone_num");
+            if(!empty($phone_number)){
+                return ajax_success("手机号返回成功",$phone_number);
+            }else{
+                return ajax_error("请前往绑定手机号",["status"=>0]);
+            }
+        }
+     }
+
 }
