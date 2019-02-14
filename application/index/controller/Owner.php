@@ -23,8 +23,11 @@ class  Owner extends  Controller{
     public function id_card_return(Request $request){
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];
-            $data =Db::name("member")->where("member_id",$member_id)->field("ID_card,member_real_name")->find();
-            if(!empty($data)){
+            $data =Db::name("member")
+                ->where("member_id",$member_id)
+                ->field("ID_card,member_real_name")
+                ->find();
+            if(!empty($data["ID_card"]) || (!empty($data["ID_card"])) ){
                 return ajax_success("身份证信息返回成功",$data);
             }else{
                 return ajax_error("没有进行身份证绑定",["status"=>0]);
