@@ -134,10 +134,14 @@ Route::group("",[
     "bonus_detailed"=>"index/Coupon/bonus_detailed", //积分商城显示
 
     /*TODO:身份证绑定开始*/
-    "id_card_return"=>"index/Owner/id_card_return",//身份证订单数据返回
+    "id_card_return"=>"index/Owner/id_card_return",//身份证数据返回
     "id_card_add"=>"index/Owner/id_card_add",//身份证绑定
     "id_card_edit"=>"index/Owner/id_card_edit",//身份证修改
     /*TODO:身份证绑定结束*/
+
+    /*TODO:银行卡管理开始*/
+
+    /*TODO:银行卡管理结束*/
 
 
     /*测试接口*/
