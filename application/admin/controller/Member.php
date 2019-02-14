@@ -25,7 +25,7 @@ class Member extends Controller{
         foreach($member as $key => $value) {
             $member[$key]["higher_inviter"] = db("member")->where("member_id", $member[$key]["member_id"])->value("inviter_id");//上一级member_id
             $member[$key]["phone_numbers"] = db("member")->where("member_id", $member[$key]["higher_inviter"])->value("member_phone_num");//上一级手机号（用户账号)
-            $member[$key]["count_money"] = db("order")->where("member_id", $member[$key]["member_id"])->where("distribution",1)->where("status",2)->sum("order_real_pay");
+            $member[$key]["count_money"] = db("order")->where("member_id", $member[$key]["member_id"])->where("distribution",1)->where("status",2)->sum("order_real_pay");//已付款
             $member[$key]["count_money"] = round($member[$key]["count_money"],2);
             $member[$key]["one_number"] = db("member")->where("rank_one", $member[$key]["member_id"])->count("rank_one");
             $member[$key]["two_number"] = db("member")->where("rank_two", $member[$key]["member_id"])->count("rank_two");

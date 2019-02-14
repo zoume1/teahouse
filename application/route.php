@@ -81,6 +81,10 @@ Route::group("",[
     /*TODO:订单用户提醒发货开始*/
     "option_add"=>"index/Notification/option_add",//用户提醒
     /*TODO:订单用户提醒发货结束*/
+    /*TODO:订单评价开始*/
+    "order_evaluate_index"=>"index/Evaluate/order_evaluate_index",//评价数据返回
+    "order_evaluate_add"=>"index/Evaluate/order_evaluate_add",//评价添加
+    /*TODO:订单评价结束*/
 
 
 
@@ -237,6 +241,11 @@ Route::group("admin",[
     /*TODO:评价开始*/
     "evaluate_index"=>"admin/Evaluate/evaluate_index",//评价管理页面
     "evaluate_edit"=>"admin/Evaluate/evaluate_edit",//评价编辑
+    "evaluate_del"=>"admin/Evaluate/evaluate_del",//评价删除
+    "evaluate_dels"=>"admin/Evaluate/evaluate_dels",//评价批量删除(检查一下)
+    "evaluate_search"=>"admin/Evaluate/evaluate_search",//评价搜索
+    "evaluate_status"=>"admin/Evaluate/evaluate_status",//评价功能开启关闭
+    "evaluate_repay"=>"admin/Evaluate/evaluate_repay",//评价商家回复
     "evaluate_setting"=>"admin/Evaluate/evaluate_setting",//评价积分设置
     /*TODO:评价结束*/
 
@@ -373,6 +382,8 @@ Route::group("admin",[
     "operate_contract_edit"=>"admin/operate/operate_contract_edit",//协议合同编辑
     "operate_message"=>"admin/operate/operate_message",//*********消息提醒
     "operate_message_add"=>"admin/operate/operate_message_add",//消息提醒编辑
+    "operate_integral_rule"=>"admin/operate/operate_integral_rule",//积分规则
+
 
     /*配送设置*/
     "delivery_index"=>"admin/Delivery/delivery_index",//*******配送设置
