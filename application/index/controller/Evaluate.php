@@ -12,10 +12,51 @@ use think\Request;
 use think\Db;
 class  Evaluate extends  Controller {
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:评价页面数据返回
+     **************************************
+     * @param Request $request
+     */
+    public function order_evaluate_index(Request $request){
+        if($request->isPost()){
+            $user_id =$request->only(["member_id"])["member_id"];
+            $parts_order_number =$request->only(["parts_order_number"])["parts_order_number"];
+            $parts_status =7;
+            $condition = "`member_id` = " . $user_id .  " and `parts_order_number` = " . $parts_order_number. " and `status` = " . $parts_status. " and `is_del` = 1" ;
+            $data =Db::name("order")
+                ->where($condition)
+                ->select();
+            if(!empty($data)){
+                return ajax_success("对应的订单信息返回成功",$data);
+            }else{
+                return ajax_error("没有对应的订单信息",["status"=>0]);
+            }
+
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:初始订单评价添加
+     **************************************
+     * @param Request $request
+     */
     public function order_evaluate_add(Request $request){
         if($request->isPost()){
-            $img = $request->file("img");
-            dump($img);
+//            $img = $request->file("img");
+//            dump($img);
+//            $data =$_POST["data"];
+//            dump($data);
+            $imgname = $_FILES['file']['name'];
+            $tmp = $_FILES['file']['tmp_name'];
+            dump($imgname);
+            dump($tmp);
+//            $datas =$request->param("data111");
+//            dump($datas);
         }
 //            $order_id =$request->only("orderId")["orderId"];//订单排序号（数组）
 //            foreach ($order_id as $k=>$v){

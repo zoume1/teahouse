@@ -41,30 +41,34 @@
     <div class="childrenBody">
         <blockquote class="layui-elem-quote">
             <div class="layui-form" action="{:url('admin/User/search')}">
-                <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+                {if !empty($data_status)}
+                    {if $data_status["is_show"] ==1}
+                    <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF" value="1" lay-filter="isShow" checked>
+                    {else}
+                    <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF" value="-1" lay-filter="isShow">
+                    {/if}
+                {/if}
                 <span style="font-weight: bold;margin-left: 10px;">评论审核</span>
                 <p style="margin-left: 70px; font-size: 12px;">启用关闭功能后，所有用户评价内容隐藏</p>
             </div>
         </blockquote>
         <blockquote class="layui-elem-quote news_search">
-        		<form class="layui-form" action="{:url('admin/Comments/search')}">
+        		<form class="layui-form" action="{:url('admin/Evaluate/evaluate_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">评论商品：</div>
 						<div class="seach_input">
-						 <input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="zhanghu">
+						 <input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="zhanghu">
                        
 						</div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">用户名：</div>
 						<div class="seach_input">
-							<input type="text" name="search_keys" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="nichwng">
+							<input type="text" name="user_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="nichwng">
 
 						</div>
 					</div>
-				
-					
 					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
 				</div>
 
@@ -85,8 +89,7 @@
                     <tr>
                         <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
                         <th>用户名</th>
-                        <th>评论积分</th>
-                        <th>评论商品</th>
+                        <th>评论商品名</th>
                         <th>订单号</th>
                         <th>评论内容</th>
                         <th>评论时间</th>
@@ -95,24 +98,29 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
+                {if !empty($data)}
+                {volist name="data" id="vo"}
                     <tr>
-                       <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>1000001</td>
-						<td class="">
-							<div class="tdimg"><img src="11" /></div>
-						</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+                       <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}"></td>
+						<td>{$vo.user_name}</td>
+						<td>{$vo.goods_name}</td>
+						<td>{$vo.order_information_number}</td>
+                        <td>{$vo.evaluate_content}</td>
+						<td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
 						<td>
-							<input type="checkbox" class="Status" name="" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked>
+                            {if $vo.status ==1}
+							<input type="checkbox" class="Status" name="" value="1" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked>
+                            {else}
+                            <input type="checkbox" class="Status" name="" value="-1" lay-skin="switch" lay-text="是|否" lay-filter="isShow">
+                            {/if}
 						</td>
                        <td>
-							<a class="layui-btn layui-btn-mini edit" href="evaluate_edit"><i class="iconfont icon-edit"></i> 编辑</a>
-							<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Evaluate/evaluate_edit',['id'=>$vo.id])}"><i class="iconfont icon-edit"></i> 编辑</a>
+							<a href="{:url('admin/Evaluate/evaluate_del',['id'=>$vo.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
                     </tr>
+                {/volist}
+                {/if}
                 </tbody>
 
 
@@ -130,6 +138,7 @@
                     <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
                 </div>
+                {if !empty($data)} {$data->render()} {/if}
 
             </div>
 
@@ -181,7 +190,7 @@
                         }
                         $.ajax({
                             type: "POST",
-                            url: "{:url('admin/Comments/deletes')}",
+                            url: "{:url('admin/Evaluate/evaluate_dels')}",
                             data: {
                                 "id": data_id,
                             },
@@ -242,10 +251,10 @@
 
             //是否展示
             form.on('switch(isShow)', function(data) {
-                if ($(this).val() == 0) {
+                if ($(this).val() == -1) {
                     $(this).val(1);
                 } else {
-                    $(this).val(0);
+                    $(this).val(-1);
                 }
                 var vals = data.value;
                 var id = $(this).data("id");
@@ -253,10 +262,10 @@
                 console.log(status);
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Comments/status')}",
+                    url: "{:url('admin/Evaluate/evaluate_status')}",
                     data: {
                         "id": id,
-                        "statuse": status
+                        "status": status
                     },
                     success: function(data) {
                         console.log("成功")
