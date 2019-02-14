@@ -9,6 +9,7 @@ namespace app\admin\controller;
 
 
 use think\Controller;
+use think\Db;
 
 class Evaluate extends  Controller{
 
@@ -20,8 +21,9 @@ class Evaluate extends  Controller{
      * @return \think\response\View
      */
     public function evaluate_index(){
-    return view("evaluate_index");
-}
+        $data =Db::name("evaluate")->order("create_time","desc")->paginate(20);
+        return view("evaluate_index",["data"=>$data]);
+    }
 
     /**
      **************李火生*******************

@@ -85,8 +85,8 @@
                     <tr>
                         <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
                         <th>用户名</th>
-                        <th>评论积分</th>
-                        <th>评论商品</th>
+                        <th>商品图片</th>
+                        <th>评论商品名</th>
                         <th>订单号</th>
                         <th>评论内容</th>
                         <th>评论时间</th>
@@ -95,8 +95,10 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
+                {if !empty($data)}
+                {volist name="data" id="vo"}
                     <tr>
-                       <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
+                       <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}"></td>
 						<td>1000001</td>
 						<td class="">
 							<div class="tdimg"><img src="11" /></div>
@@ -113,6 +115,8 @@
 							<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
                     </tr>
+                {/volist}
+                {/if}
                 </tbody>
 
 

@@ -49,6 +49,8 @@ class  Evaluate extends  Controller {
         if($request->isPost()){
             $img = $request->file("img");
             dump($img);
+            $data =$_POST;
+            dump($data);
         }
 //            $order_id =$request->only("orderId")["orderId"];//订单排序号（数组）
 //            foreach ($order_id as $k=>$v){
