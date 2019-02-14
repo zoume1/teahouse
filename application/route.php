@@ -82,6 +82,7 @@ Route::group("",[
     "option_add"=>"index/Notification/option_add",//用户提醒
     /*TODO:订单用户提醒发货结束*/
     /*TODO:订单评价开始*/
+    "order_evaluate_index"=>"index/Evaluate/order_evaluate_index",//评价数据返回
     "order_evaluate_add"=>"index/Evaluate/order_evaluate_add",//评价添加
     /*TODO:订单评价结束*/
 
