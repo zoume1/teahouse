@@ -47,14 +47,14 @@ class  Evaluate extends  Controller {
      */
     public function order_evaluate_add(Request $request){
         if($request->isPost()){
-//            $img = $request->file("img");
-//            dump($img);
-//            $data =$_POST["data"];
-//            dump($data);
-            $imgname = $_FILES['file']['name'];
-            $tmp = $_FILES['file']['tmp_name'];
-            dump($imgname);
-            dump($tmp);
+            $img = $request->file("img");
+            dump($img);
+            $data =$_POST["data"];
+            dump($data);
+//            $imgname = $_FILES['file']['name'];
+//            $tmp = $_FILES['file']['tmp_name'];
+//            dump($imgname);
+//            dump($tmp);
 //            $datas =$request->param("data111");
 //            dump($datas);
         }

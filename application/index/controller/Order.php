@@ -1317,6 +1317,33 @@ class  Order extends  Controller
     }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:订单详情
+     **************************************
+     */
+    public function order_details(Request $request){
+        if($request->isPost()){
+            $status =$request->only(["status"])["status"];//订单状态
+            $parts_order_number =$request->only(["parts_order_number"])["parts_order_number"];//订单编号
+            $data =Db::name("order")
+                ->where("status",$status)
+                ->where("parts_order_number",$parts_order_number)
+                ->select();
+            if(!empty($data)){
+                $datas =[
+                    "data"=>$data,
+                    "status"=>$status,
+                    "parts_order_number"=>$parts_order_number
+                ];
+                return ajax_success("详情数据返回成功",$datas);
+            }else{
+                return ajax_error("没有数据返回",["status"=>0]);
+            }
+
+        }
+    }
 
 
     /**
