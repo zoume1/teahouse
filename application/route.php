@@ -376,6 +376,8 @@ Route::group("admin",[
     "operate_contract_edit"=>"admin/operate/operate_contract_edit",//协议合同编辑
     "operate_message"=>"admin/operate/operate_message",//*********消息提醒
     "operate_message_add"=>"admin/operate/operate_message_add",//消息提醒编辑
+    "operate_integral_rule"=>"admin/operate/operate_integral_rule",//积分规则
+
 
     /*配送设置*/
     "delivery_index"=>"admin/Delivery/delivery_index",//*******配送设置
