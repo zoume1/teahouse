@@ -50,7 +50,7 @@ class  Owner extends  Controller{
                 "member_real_name"=>$user_name
             ];
             $member_id =$request->only(["member_id"])["member_id"];
-            $bool =Db::name("member")->where("member_id",$member_id)->insert($data);
+            $bool =Db::name("member")->where("member_id",$member_id)->update($data);
             if($bool){
                 return ajax_success("绑定成功",["status"=>1]);
             }else{
