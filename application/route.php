@@ -73,6 +73,7 @@ Route::group("",[
     "ios_api_order_wait_deliver"=>"index/Order/ios_api_order_wait_deliver",//我的待收货订单
     "ios_api_order_wait_evaluate"=>"index/Order/ios_api_order_wait_evaluate",//我待评价订单
     "ios_api_order_collect_goods"=>"index/Order/ios_api_order_collect_goods",//买家确认收货
+    "order_details"=>"index/Order/order_details",//订单详情
     "ios_api_order_del"=>"index/Order/ios_api_order_del",//买家删除订单接口(ajax)
     "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
 
