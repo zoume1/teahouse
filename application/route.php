@@ -356,7 +356,7 @@ Route::group("admin",[
     "limitations_index"=>"admin/Limitations/limitations_index",  //限时限购列表显示  
     "limitations_edit"=>"admin/Limitations/limitations_edit",    //限时限购编辑 
     "limitations_add"=>"admin/Limitations/limitations_add",      //限时限购添加商品
-    "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加limitations_weave
+    "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加
     "limitations_weave"=>"admin/Limitations/limitations_weave",  //限时限购编辑商品
     "limitations_update"=>"admin/Limitations/limitations_update",//限时限购更新
     "limitations_delete"=>"admin/Limitations/limitations_delete",//限时限购删除

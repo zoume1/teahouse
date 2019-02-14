@@ -102,7 +102,7 @@ class Operate extends  Controller{
      * GY
      */
     public function operate_integral_rule(){
-        $recommend_data =db('recommend_integral')->select();
+        $recommend_data = db('recommend_integral')->select();
         return view("operate_integral_rule",['recommend_data'=>$recommend_data]);
     }
 
