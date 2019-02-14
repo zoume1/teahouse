@@ -143,6 +143,10 @@ Route::group("",[
 
     /*TODO:银行卡管理结束*/
 
+    /*TODO:手机号绑定开始*/
+    "user_phone_return"=>"index/My/user_phone_return",//手机号绑定数据返回
+
+    /*TODO:手机号绑定结束*/
 
     /*测试接口*/
     "index_text"=>"index/index/text"
