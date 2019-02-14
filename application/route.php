@@ -383,6 +383,7 @@ Route::group("admin",[
     "operate_message"=>"admin/operate/operate_message",//*********消息提醒
     "operate_message_add"=>"admin/operate/operate_message_add",//消息提醒编辑
     "operate_integral_rule"=>"admin/operate/operate_integral_rule",//积分规则
+    "operate_integral_update"=>"admin/operate/operate_integral_update",//积分规则更新
 
 
     /*配送设置*/
