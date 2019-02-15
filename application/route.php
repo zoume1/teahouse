@@ -381,7 +381,7 @@ Route::group("admin",[
     "limitations_index"=>"admin/Limitations/limitations_index",  //限时限购列表显示  
     "limitations_edit"=>"admin/Limitations/limitations_edit",    //限时限购编辑 
     "limitations_add"=>"admin/Limitations/limitations_add",      //限时限购添加商品
-    "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加limitations_weave
+    "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加
     "limitations_weave"=>"admin/Limitations/limitations_weave",  //限时限购编辑商品
     "limitations_update"=>"admin/Limitations/limitations_update",//限时限购更新
     "limitations_delete"=>"admin/Limitations/limitations_delete",//限时限购删除
@@ -409,6 +409,7 @@ Route::group("admin",[
     "operate_message"=>"admin/operate/operate_message",//*********消息提醒
     "operate_message_add"=>"admin/operate/operate_message_add",//消息提醒编辑
     "operate_integral_rule"=>"admin/operate/operate_integral_rule",//积分规则
+    "operate_integral_update"=>"admin/operate/operate_integral_update",//积分规则更新
 
 
     /*配送设置*/

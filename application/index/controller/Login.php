@@ -43,7 +43,8 @@ class Login extends Controller{
             $encryptedData = urldecode($get['encryptedData']);
             $iv = define_str_replace($get['iv']);
             $errCode = decryptData($appid,$session_key['session_key'],$encryptedData, $iv);
-            if(!empty($errCode)){
+            $register_login = db("recommend_integral")->where("id","1")->value("register_integral");//授权通过即送积分
+            if(!empty($errCode )){
                 $is_register =Db::name('member')->where('member_openid',$errCode['openId'])->find();
                 if(empty($is_register)){
                     $data['member_openid'] =$errCode['openId'];
@@ -53,9 +54,22 @@ class Login extends Controller{
                     $data['member_grade_create_time'] =time();
                     $data['member_grade_id']=1;
                     $data['member_status']=1;
+                    $data['member_integral_wallet'] = $register_login;
                     $grade_name =Db::name('member_grade')->field('member_grade_name')->where('member_grade_id',1)->find();
                     $data['member_grade_name'] =$grade_name['member_grade_name'];
-                    $bool =Db::name('member')->insertGetId($data);
+                    $bool = Db::name('member')->insertGetId($data);
+                if($register_login > 0){
+                    //插入积分记录
+                    $integral_data = [
+                        "member_id" => $bool,
+                        "integral_operation" => $register_login,//获得积分
+                        "integral_balance" => $register_login,//积分余额
+                        "integral_type" => 1, //积分类型（1获得，-1消费）
+                        "operation_time" => date("Y-m-d H:i:s"), //操作时间
+                        "integral_remarks" => "成功注册送" . $register_login . "积分",
+                    ];
+                    Db::name("integral")->insert($integral_data);
+                }
                     if($bool){
                         $member_grade_info =Db::name("member_grade")
                             ->field("member_grade_name,member_grade_img,member_grade_id")

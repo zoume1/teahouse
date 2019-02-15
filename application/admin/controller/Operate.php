@@ -102,7 +102,29 @@ class Operate extends  Controller{
      * GY
      */
     public function operate_integral_rule(){
-        return view("operate_integral_rule");
+        $recommend_data = db('recommend_integral')->select();
+        return view("operate_integral_rule",['recommend_data'=>$recommend_data]);
     }
 
+    /**
+     * 积分设置更新
+     ***** GY *****
+     *
+     */
+    public function operate_integral_update(Request $request)
+    {
+        if($request->isPost())
+        {
+            $data = $request -> param();
+
+            $bool = db("recommend_integral") -> where('id',1) -> update($data);
+
+            if ($bool) {
+                $this->success("编辑成功", url("admin/operate/operate_integral_rule"));
+            } else {
+                $this->error("编辑失败", url("admin/operate/operate_integral_rule"));
+            }
+        }
+
+    }
 }
