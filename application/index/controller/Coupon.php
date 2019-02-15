@@ -407,7 +407,7 @@ class Coupon extends Controller
                                     $many = db("member")->where("member_id",$user_id)->value("member_integral_wallet");//获取所有积分
                                     $integral_data = [
                                         "member_id" => $user_id,
-                                        "integral_operation" => $datas["order_amount"],//消费积分
+                                        "integral_operation" => "-".$datas["order_amount"],//消费积分
                                         "integral_balance" => $many,//积分余额
                                         "integral_type" => -1, //积分类型（1获得，-1消费）
                                         "operation_time" => date("Y-m-d H:i:s"), //操作时间
