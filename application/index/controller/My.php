@@ -184,4 +184,96 @@ class My extends Controller
         }
      }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:用户昵称数据返回
+     **************************************
+     */
+     public function user_name_return(Request $request){
+         if($request->isPost()){
+             $member_id =$request->only(["member_id"])["member_id"];
+             $data =Db::name("member")
+                 ->where("member_id",$member_id)
+                 ->value("member_name");
+             if(!empty($data)){
+                 return ajax_success("昵称数据返回成功",$data);
+             }else{
+                 return ajax_error("没有昵称信息",["status"=>0]);
+             }
+         }
+     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:用户昵称数据修改
+     **************************************
+     * @param Request $request
+     */
+     public  function user_name_update(Request $request){
+         if($request->isPost()){
+             $user_name =$request->only(["user_name"])["user_name"];
+             $member_id =$request->only(["member_id"])["member_id"];
+             $data =[
+                 "user_name" =>$user_name
+             ];
+            $bool =Db::name("member")->where("member_id",$member_id)->update($data);
+            if($bool){
+                return ajax_success("修改成功",$data);
+            }else{
+                return ajax_error("修改失败",["status"=>0]);
+            }
+         }
+     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:用户头像数据返回
+     **************************************
+     */
+    public function user_img_return(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $data =Db::name("member")
+                ->where("member_id",$member_id)
+                ->value("member_head_img");
+            if(!empty($data)){
+                return ajax_success("昵称数据返回成功",$data);
+            }else{
+                return ajax_error("没有昵称信息",["status"=>0]);
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:用户头像修改
+     **************************************
+     */
+    public function user_img_update(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $member_img =$request->file("member_images");
+            if(!empty($member_img)){
+                $info = $member_img->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $images= str_replace("\\", "/", $info->getSaveName());
+
+            }
+            if(empty($images)){
+                return ajax_error("上传失败");
+            }
+            $data =Db::name("member")
+                ->where("member_id",$member_id)
+                ->update(["member_images"=>$images]);
+            if(!empty($data)){
+                return ajax_success("昵称数据返回成功",$data);
+            }else{
+                return ajax_error("没有昵称信息",["status"=>0]);
+            }
+        }
+    }
+
 }
