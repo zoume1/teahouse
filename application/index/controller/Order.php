@@ -133,7 +133,9 @@ class  Order extends  Controller
                         $goods_data = Db::name('goods')->where('id',$values)->find();
                         $create_time = time();//下单时间
                         $normal_time =Db::name("order_setting")->find();//订单设置的时间
-                        $normal_future_time =strtotime("+". $normal_time['normal_time']." minute");
+                        $normal_future_time = strtotime("+". $normal_time['normal_time']." minute");
+                        $coin = db("recommend_intgral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
+                        $intgral = db("recommend_intgral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
                         if (!empty($goods_data)) {
 //                        if(!empty($data["buy_message"])){
 //                            $buy_message =$data["buy_message"];
@@ -181,6 +183,20 @@ class  Order extends  Controller
                                     ->where('id',$res)
                                     ->where("member_id",$user_id)
                                     ->find();
+                                    if($all_money > $coin){
+                                        $rest = db("member")->where("member_id",$user_id)->setInc('member_integral_wallet',$intgral);//满足条件则增加积分
+                                        $many = db("member")->where("member_id",$user_id)->value("member_integral_wallet");//获取所有积分
+                                        //插入积分记录
+                                        $integral_data = [
+                                            "member_id" => $user_id,
+                                            "integral_operation" => $integral,//获得积分
+                                            "integral_balance" => $many,//积分余额
+                                            "integral_type" => 1, //积分类型（1获得，-1消费）
+                                            "operation_time" => date("Y-m-d H:i:s"), //操作时间
+                                            "integral_remarks" => "消费满" . $coin . "送".$integral."积分",
+                                        ];
+                                        Db::name("integral")->insert($integral_data);
+                                    }
                                 return ajax_success('下单成功',$order_datas);
                             }else{
                                 return ajax_error('失败',['status'=>0]);
@@ -299,6 +315,9 @@ class  Order extends  Controller
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
                             $res = Db::name('order')->insertGetId($datas);
+
+                            $coin = db("recommend_intgral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
+                            $intgral = db("recommend_intgral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
                         }
                     }
                 }
@@ -308,6 +327,20 @@ class  Order extends  Controller
                         ->where('id',$res)
                         ->where("member_id",$user_id)
                         ->find();
+                        if($all_money > $coin){
+                            $rest = db("member")->where("member_id",$user_id)->setInc('member_integral_wallet',$intgral);//满足条件则增加积分
+                            $many = db("member")->where("member_id",$user_id)->value("member_integral_wallet");//获取所有积分
+                            //插入积分记录
+                            $integral_data = [
+                                "member_id" => $user_id,
+                                "integral_operation" => $integral,//获得积分
+                                "integral_balance" => $many,//积分余额
+                                "integral_type" => 1, //积分类型（1获得，-1消费）
+                                "operation_time" => date("Y-m-d H:i:s"), //操作时间
+                                "integral_remarks" => "消费满" . $coin . "送".$integral."积分",
+                            ];
+                            Db::name("integral")->insert($integral_data);
+                        }
                     //清空购物车数据
                     if(is_array($shopping_id)){
                         $where ='id in('.implode(',',$shopping_id).')';

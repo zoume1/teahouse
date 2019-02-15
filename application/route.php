@@ -128,10 +128,14 @@ Route::group("",[
     "coupon_time"=>"index/Coupon/coupon_time",           //过期优惠券显示
     "coupon_goods"=>"index/Coupon/coupon_goods",         //优惠券使用商品
     "coupon_appropriated"=>"index/Coupon/coupon_appropriated",//商品下单适用优惠券
-
+    
     /*积分商城*/
-    "bonus_index"=>"index/Coupon/bonus_index",       //积分商城显示
-    "bonus_detailed"=>"index/Coupon/bonus_detailed", //积分商城显示
+    "bonus_index"=>"index/Coupon/bonus_index",        //积分商城显示
+    "bonus_detailed"=>"index/Coupon/bonus_detailed",  //积分商城详细显示
+    "integrals"=>"index/Coupon/integrals",            //积分流水显示
+    "order_integaral"=>"index/Coupon/order_integaral",//积分商城订单
+    
+
 
     /*TODO:身份证绑定开始*/
     "id_card_return"=>"index/Owner/id_card_return",//身份证数据返回
