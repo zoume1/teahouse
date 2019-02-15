@@ -148,9 +148,13 @@ Route::group("",[
     "bank_bingding_add"=>"index/Owner/bank_bingding_add",//银行卡银行卡添加
     /*TODO:银行卡管理结束*/
 
-    /*TODO:手机号绑定开始*/
+    /*TODO:手机号头像昵称绑定开始*/
     "user_phone_return"=>"index/My/user_phone_return",//手机号绑定数据返回
-    /*TODO:手机号绑定结束*/
+    "user_name_return"=>"index/My/user_name_return",//用户昵称绑定数据返回
+    "user_name_update"=>"index/My/user_name_update",//用户昵称绑定修改
+    "user_img_return"=>"index/My/user_img_return",//用户头像绑定数据返回
+    "user_img_update"=>"index/My/user_img_update",//用户头像修改
+    /*TODO:手机号头像昵称绑定结束*/
 
     /*TODO:短信验证开始*/
     "sendMobileCode"=>"index/MobileVerification/sendMobileCode",//这是新绑定手机验证码验证
