@@ -20,7 +20,7 @@ li{line-height: inherit;}
 .container{width: 1350px; margin: 0 auto;}
 /* header */
 .header{ background-color: #fff;}
-.header .header-container{display: flex; justify-content: space-around; width: 1350px; margin: 0 auto;}
+.header .header-container{display: flex; width: 1350px; margin: 0 auto;}
 .header .header-section{height: 80px; box-sizing: border-box;}
 .logo{display: flex; align-items: center; flex-basis: 30%;}
 .logo-container{width: 70px; height: 70px; background-color: #545454; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; cursor: pointer;}
