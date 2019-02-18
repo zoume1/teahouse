@@ -3,48 +3,59 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Cache;
+use think\Session;
 
 class Index extends Controller
 {
     public function index()
     {
-        return view("index");
+        $phone_num =  $this->common();
+        return view("index",["phone_num"=>$phone_num]);
     }
     public function home(){
-        return view("home");
+        $phone_num =  $this->common();
+        return view("home",["phone_num"=>$phone_num]);
     }
 
     public function text(){
-        return view("text");
+        $phone_num =  $this->common();
+        return view("text",["phone_num"=>$phone_num]);
     }
 
     // 茶厂
     public function tea_factory(){
-        return view("teafactory");
+        $phone_num =  $this->common();
+        return view("teafactory",["phone_num"=>$phone_num]);
     }
     // 茶商
     public function tea_merchant(){
-        return view("teamerchant");
+        $phone_num =  $this->common();
+        return view("teamerchant",["phone_num"=>$phone_num]);
     }
     // 茶圈
     public function tea_moment(){
-        return view("teamoment");
+        $phone_num =  $this->common();
+        return view("teamoment",["phone_num"=>$phone_num]);
     }
     // 用户
     public function consumer(){
-        return view("consumer");
+        $phone_num =  $this->common();
+        return view("consumer",["phone_num"=>$phone_num]);
     }
     // 智慧茶仓
     public function wisdom(){
-        return view("wisdom");
+        $phone_num =  $this->common();
+        return view("wisdom",["phone_num"=>$phone_num]);
     }
     // 招募合伙人
     public function partner(){
-        return view("partner");
+        $phone_num =  $this->common();
+        return view("partner",["phone_num"=>$phone_num]);
     }
     // 关于我们
     public function about(){
-        return view("about");
+        $phone_num =  $this->common();
+        return view("about",["phone_num"=>$phone_num]);
     }
     // 注册
     public function sign_up(){
@@ -57,6 +68,15 @@ class Index extends Controller
     // 忘记密码
     public function forget_pw(){
         return view("forgetpw");
+    }
+
+    protected  function  common(){
+        $data =Session::get("member");
+        if(!empty($data)){$phone_num =$data["phone_number"];
+        }else{
+          $phone_num =null;
+        }
+        return $phone_num;
     }
 
 }
