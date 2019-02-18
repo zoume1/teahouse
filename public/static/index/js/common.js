@@ -70,3 +70,72 @@ $('.aside-item:eq(3)').click(function(){
     $('html').animate({scrollTop: 0}, 500);
 })
 
+function buttonCountdown($el, msNum, timeFormat) {
+    var text = $el.data("text") || $el.text(),
+            timer = 0;
+    $el.prop("disabled", true).addClass("disabled")
+            .on("bc.clear", function () {
+                clearTime();
+            });
+    (function countdown() {
+        var time = showTime(msNum)[timeFormat];
+        $el.text(time + '后失效');
+        if (msNum <= 0) {
+            msNum = 0;
+            clearTime();
+        } else {
+            msNum -= 1000;
+            timer = setTimeout(arguments.callee, 1000);
+        }
+    })();
+    function clearTime() {
+        clearTimeout(timer);
+        $el.prop("disabled", false).removeClass("disabled").text(text);
+    }
+    function showTime(ms) {
+        var d = Math.floor(ms / 1000 / 60 / 60 / 24),
+                h = Math.floor(ms / 1000 / 60 / 60 % 24),
+                m = Math.floor(ms / 1000 / 60 % 60),
+                s = Math.floor(ms / 1000 % 60),
+                ss = Math.floor(ms / 1000);
+        return {
+            d: d + "天",
+            h: h + "小时",
+            m: m + "分",
+            ss: ss + "秒",
+            "d:h:m:s": d + "天" + h + "小时" + m + "分" + s + "秒",
+            "h:m:s": h + "小时" + m + "分" + s + "秒",
+            "m:s": m + "分" + s + "秒"
+        };
+    }
+    return this;
+}
+// 获取验证码
+$('.identifying-button').click(function(){
+    var $phone = $('#phone').val();
+    var phoneReg = /^1[34578]\d{9}$/;
+    var _this = this;
+    if($phone !== '' && phoneReg.test($phone)){
+        $.ajax({
+            url: 'PcsendMobileCode',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                "mobile": $phone
+            },
+            success: function(res){
+                console.log(res);
+                if(res.status == 1){
+                    layer.msg(res.info);
+                    buttonCountdown($(_this), 1000 * 60 * 1, "ss");
+                }
+            },
+            error: function(res){
+                console.log(res.status, res.statusText);
+            }
+        })
+    }else{
+        layer.msg('电话号码格式不正确！');
+    }
+})
+
