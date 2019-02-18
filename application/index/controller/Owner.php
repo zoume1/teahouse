@@ -10,6 +10,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use think\Cache;
 
 class  Owner extends  Controller{
 
@@ -117,7 +118,132 @@ class  Owner extends  Controller{
             $bank_name =$request->only(["bank_name"])["bank_name"];
             $account_name =$request->only(["account_name"])["account_name"];
             $bank_card =$request->only(["bank_card"])["bank_card"];
+            $status =$request->only(["status"])["status"];
+            $member_phone_num =Db::name("member")->where("member_id",$member_id)->value("member_phone_num");
+            $code =$request->only(["code"])["code"];
+            $mobileCode =Cache::get('mobileCode');
+            $mobile =Cache::get('mobile');
+            if($member_phone_num != $mobile){
+                return ajax_error("手机号不匹配");
+            }
+            if($mobileCode != $code) {
+                return ajax_error("验证码不正确");
+            }
+            $data =[
+                "bank_name"=>$bank_name,
+                "bank_card "=>$bank_card,
+                "account_name"=>$account_name,
+                "status"=>$status,
+                "user_id"=>$member_id
+            ];
+            $res =Db::name("user_bank")->insert($data);
+            if($res){
+                return ajax_success("添加成功",["status"=>1]);
+            }else{
+                return ajax_error("请重试",["status"=>0]);
+            }
 
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:银行卡编辑
+     **************************************
+     * @param Request $request
+     */
+    public function bank_bingding_update(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $id =$request->only(["id"])["id"];
+            $bank_name =$request->only(["bank_name"])["bank_name"];
+            $account_name =$request->only(["account_name"])["account_name"];
+            $bank_card =$request->only(["bank_card"])["bank_card"];
+            $status =$request->only(["status"])["status"];
+            $member_phone_num =Db::name("member")
+                ->where("member_id",$member_id)
+                ->value("member_phone_num");
+            $member_isset_card =Db::name("member")->where("bank_card",$bank_card)->find();
+            if(!empty($member_isset_card)){
+                return ajax_error("此银行卡已被绑定");
+            }
+            $code =$request->only(["code"])["code"];
+            $mobileCode =Cache::get('mobileCode');
+            $mobile =Cache::get('mobile');
+            if($member_phone_num != $mobile){
+                return ajax_error("手机号不匹配");
+            }
+            if($mobileCode != $code) {
+                return ajax_error("验证码不正确");
+            }
+            $data =[
+                "bank_name"=>$bank_name,
+                "bank_card "=>$bank_card,
+                "account_name"=>$account_name,
+                "status"=>$status,
+                "user_id"=>$member_id
+            ];
+            $res =Db::name("user_bank")->where("id",$id)->update($data);
+            if($res){
+                if($status==1){
+                    Db::name('user_bank')
+                        ->where('user_id',$member_id)
+                        ->where('id','NEQ',$id)
+                        ->update(['status'=>-1]);
+                }
+                return ajax_success("添加成功",["status"=>1]);
+            }else{
+                return ajax_error("请重试",["status"=>0]);
+            }
+
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:银行卡默认设置
+     **************************************
+     * @param Request $request
+     */
+    public function bank_binding_status(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $status =$request->only(["status"])["status"];
+            $id =$request->only(["id"])["id"];
+            $bool =Db::name("user_bank")
+                ->where("user_id",$member_id)
+                ->where("id",$id)
+                ->update(["status"=>$status]);
+            if(!empty($bool)){
+                Db::name("user_bank")
+                    ->where("user_id",$member_id)
+                    ->where("id","NEQ",$id)
+                    ->update(["status"=>-1]);
+                return ajax_success("修改成功",["status"=>1]);
+            }else{
+                return ajax_error("修改失败",["status"=>0]);
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:银行卡删除
+     **************************************
+     */
+    public function bank_binding_del(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $id =$request->only(["id"])["id"];
+            $bool =Db::name("user_bank")->where("member_id",$member_id)->where("id",$id)->delete();
+            if($bool){
+                return ajax_success("删除成功",["status"=>1]);
+            }else{
+               return ajax_error("删除失败",["status"=>0]);
+            }
         }
     }
 

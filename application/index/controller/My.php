@@ -9,6 +9,7 @@ namespace  app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use think\Cache;
 
 class My extends Controller
 {
@@ -187,6 +188,36 @@ class My extends Controller
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:手机号绑定
+     **************************************
+     * @param Request $request
+     */
+     public function user_phone_bingding(Request $request){
+         if($request->isPost()){
+             $member_id =$request->only(["member_id"])["member_id"];
+             $member_phone_num =$request->only(["member_phone_num"])["member_phone_num"];
+             $code =$request->only(["code"])["code"];
+             $mobileCode =Cache::get('mobileCode');
+             $mobile =Cache::get('mobile');
+             if($mobileCode != $code || $member_phone_num != $mobile) {
+                 return ajax_error("验证码不正确");
+             }
+             $phone_number =Db::name("member")
+                 ->where("member_id", $member_id)
+                 ->update(["member_phone_num"=>$member_phone_num]);
+             if(!empty($phone_number)){
+                 Cache::rm('mobileCode');
+                 Cache::rm('mobile');
+                 return ajax_success("绑定成功",$phone_number);
+             }else{
+                 return ajax_error("请重试",["status"=>0]);
+             }
+         }
+     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:用户昵称数据返回
      **************************************
      */
@@ -216,7 +247,7 @@ class My extends Controller
              $user_name =$request->only(["user_name"])["user_name"];
              $member_id =$request->only(["member_id"])["member_id"];
              $data =[
-                 "user_name" =>$user_name
+                 "member_name" =>$user_name
              ];
             $bool =Db::name("member")->where("member_id",$member_id)->update($data);
             if($bool){

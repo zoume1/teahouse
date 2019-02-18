@@ -249,6 +249,7 @@ return [
         // 缓存目录
         'path'  =>  APP_PATH .'/runtime/cache/',
     ],
+
     'redis'	=>	[
         'type'	=>	'redis',
         'host'	=>	'127.0.0.1',
