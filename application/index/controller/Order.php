@@ -1599,6 +1599,7 @@ class  Order extends  Controller
                         "operation_amount" =>$recharge_record_data["recharge_money"]+$lists, //操作金额
                         "recharge_describe" =>"充值".$recharge_record_data["recharge_money"]."元,送了".$lists,//描述
                         "status"=>1,
+                        "is_able_withdrawal"=>1
                     ];
                     Db::name("recharge_reflect")->insert($recharge_data);//插到记录
                     $user_wallet =Db::name("member")
@@ -1622,7 +1623,6 @@ class  Order extends  Controller
                     "order_nums"=>$val["out_trade_no"],//订单编号
                     "pay_type"=>"小程序", //支付方式/
                     "wallet_balance"=>$new_wallet,//此刻钱包余额
-                    "is_business"=>1,//判断是车主消费还是商家消费（充值只能是 1车主消费）
                 ];
                 Db::name("wallet")->insert($datas); //存入消费记录表
                 return ajax_success("成功",$res);

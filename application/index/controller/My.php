@@ -187,6 +187,32 @@ class My extends Controller
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:手机号绑定
+     **************************************
+     * @param Request $request
+     */
+     public function user_phone_bingding(Request $request){
+         if($request->isPost()){
+             $member_id =$request->only(["member_id"])["member_id"];
+             $member_phone_num =$request->only(["member_phone_num"])["member_phone_num"];
+             $code =$request->only(["code"])["code"];
+             if (session('mobileCode') != $code || $member_phone_num != $_SESSION['mobile']) {
+                 return ajax_error("验证码不正确");
+             }
+             $phone_number =Db::name("member")
+                 ->where("member_id", $member_id)
+                 ->update(["member_phone_num"=>$member_phone_num]);
+             if(!empty($phone_number)){
+                 return ajax_success("绑定成功",$phone_number);
+             }else{
+                 return ajax_error("请重试",["status"=>0]);
+             }
+         }
+     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:用户昵称数据返回
      **************************************
      */

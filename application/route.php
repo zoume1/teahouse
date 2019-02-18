@@ -28,9 +28,9 @@ Route::group("",[
     "sendMobileCodeByPhone"=>"index/Findpwd/sendMobileCodeByPhone",//找回密码验证码
     "sendMobileCodeByPh"=>"index/Findpwd/sendMobileCodeByPh",//修改密码验证码
     "update_password"=>"index/Findpwd/update_password",//修改密码操作
-
-
     /*TODO:PC端注册登录结束*/
+
+
     "index_home"=>"index/index/home",
     "tea_factory"=>"index/index/tea_factory", //茶厂 
     "tea_merchant"=>"index/index/tea_merchant", //茶商
@@ -180,11 +180,15 @@ Route::group("",[
 
     /*TODO:手机号头像昵称绑定开始*/
     "user_phone_return"=>"index/My/user_phone_return",//手机号绑定数据返回
+    "user_phone_bingding"=>"index/My/user_phone_bingding",//手机号绑定
     "user_name_return"=>"index/My/user_name_return",//用户昵称绑定数据返回
     "user_name_update"=>"index/My/user_name_update",//用户昵称绑定修改
     "user_img_return"=>"index/My/user_img_return",//用户头像绑定数据返回
     "user_img_update"=>"index/My/user_img_update",//用户头像修改
     /*TODO:手机号头像昵称绑定结束*/
+    /*TODO:我的账单开始*/
+    "consume"=>"index/Bill/consume",//账单我的消费
+    /*TODO:我的账单结束*/
 
     /*TODO:短信验证开始*/
     "sendMobileCode"=>"index/MobileVerification/sendMobileCode",//这是新绑定手机验证码验证
