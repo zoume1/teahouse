@@ -10,6 +10,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use think\Cache;
 
 class  Owner extends  Controller{
 
@@ -117,6 +118,30 @@ class  Owner extends  Controller{
             $bank_name =$request->only(["bank_name"])["bank_name"];
             $account_name =$request->only(["account_name"])["account_name"];
             $bank_card =$request->only(["bank_card"])["bank_card"];
+            $status =$request->only(["status"])["status"];
+            $member_phone_num =Db::name("member")->where("member_id",$member_id)->value("member_phone_num");
+            $code =$request->only(["code"])["code"];
+            $mobileCode =Cache::get('mobileCode');
+            $mobile =Cache::get('mobile');
+            if($member_phone_num != $mobile){
+                return ajax_error("手机号不匹配");
+            }
+            if($mobileCode != $code) {
+                return ajax_error("验证码不正确");
+            }
+            $data =[
+                "bank_name"=>$bank_name,
+                "bank_card "=>$bank_card,
+                "account_name"=>$account_name,
+                "status"=>$status,
+                "user_id"=>$member_id
+            ];
+            $res =Db::name("user_bank")->insert($data);
+            if($res){
+                return ajax_success("添加成功",["status"=>1]);
+            }else{
+                return ajax_error("请重试",["status"=>0]);
+            }
 
         }
     }
