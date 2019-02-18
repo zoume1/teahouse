@@ -26,7 +26,8 @@
         .section-group .form-input-wrap .pw-icon{position: absolute; right: 20px; top: 0; width: 24px; height: 24px; background-color: #000; cursor: pointer; background: url(__STATIC__/index/img/icon1.png) no-repeat; background-size: 100%;}
         .section-group .form-input-wrap .pw-icon.pw-icon-show{background: url(__STATIC__/index/img/icon2.png) no-repeat; background-size: 100%;}
         .protocol-field a{color: #38f;}
-        .button-primary{display: block; margin-top: 30px; width: 350px; height: 45px; border: 0; outline: none; background-color: #38f; color: #fff; font-size: 16px; box-sizing: border-box; border-radius: 2px;}
+        .button-primary{display: block; margin-top: 30px; width: 350px; height: 45px; border: 0; outline: none; background-color: #38f; color: #fff; font-size: 16px; box-sizing: border-box; border-radius: 2px; cursor: pointer;}
+        .button-primary[disabled]{background-color: #c2c2c2;}
         .goto-signin{color: #38f; display: block; text-align: right; margin-top: 20px;}
         .copyright{text-align: center; margin-top: 50px;color: #515151;}
         .copyright a{color: #515151;}
@@ -95,7 +96,7 @@
                                     <input type="checkbox" name="agree">我已阅读并同意
                                     <a href="javascript:;">《宣铭用户使用协议》</a>
                                 </label>
-                                <button type="submit" class="button-primary">确认注册</button>
+                                <button type="submit" class="button-primary" disabled>确认注册</button>
                             <!-- </form> -->
                             <a href="sign_in" class="goto-signin">已有账号，立即登录</a>
                         </div>
@@ -122,9 +123,46 @@
         var phone = document.querySelector('#phone');
         // http://www.jq22.com/jquery-info12917
         var iti = window.intlTelInput(phone, {
-            preferredCountries: ['cn', 'hk'],
+            preferredCountries: ['cn'],
             separateDialCode: true,
         })
+        // iti.getSelectedCountryData()
+        $('.protocol-field input[name="agree"]').change(function(e){
+            if(e.target.checked){
+                $('.button-primary').removeAttr('disabled');
+            }else{
+                $('.button-primary').attr('disabled', true);
+            }
+        })
+        // 注册
+        $('.button-primary').click(function(){
+            var pwdReg = /^[a-zA-Z0-9]{8,20}$/,
+                $phone = $('#phone').val(),
+                mobileCode = $('#identifying').val(),
+                $password = $('#password').val();
+            if(pwdReg.test($password)){
+                $.ajax({
+                    url: 'doRegByPhone',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        "mobile": $phone,
+                        "mobile_code": mobileCode,
+                        "password": $password,
+                        "confirm_password": $password
+                    },
+                    success: function(res){
+                        console.log(res);
+                    },
+                    error: function(res){
+                        console.log(res.status, res.statusText);
+                    }
+                })
+            }else{
+                layer.msg('密码格式不正确！');
+            }
+        })
+
     </script>
 </body>
 </html>
