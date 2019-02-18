@@ -144,9 +144,31 @@ function getIdentifyingCode($el, url, phone){
         dataType: 'JSON',
         success: function(res){
             console.log(res);
+            if(res.status == 1){
+                $('.login').hide();
+                $('.loaded-common').show();
+                $('.loaded-mobile').text(res.data.phone_number);
+            }
         },
         error: function(res){
             console.log(res.status, res.statusText);
         }
     })
 })()
+// 退出登录
+$('.logout').click(function(){
+    $.ajax({
+        url: 'logout',
+        type: 'POST',
+        dataType: 'JSON',
+        success: function(res){
+            console.log(res);
+            if(res.status == 1){
+                location.href = 'sign_in';
+            }
+        },
+        error: function(res){
+            console.log(res.status, res.statusText);
+        }
+    })
+})
