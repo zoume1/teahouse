@@ -193,6 +193,7 @@ class My extends Controller
      */
      public function user_phone_bingding(Request $request){
          if($request->isPost()){
+             $ad =input("session_id");
              $member_id =$request->only(["member_id"])["member_id"];
              $member_phone_num =$request->only(["member_phone_num"])["member_phone_num"];
              $code =$request->only(["code"])["code"];
