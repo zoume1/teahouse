@@ -153,6 +153,12 @@
                     },
                     success: function(res){
                         console.log(res);
+                        if(res.status == 1){
+                            layer.msg(res.info);
+                            setTimeout(function(){
+                                location.href = 'sign_in';
+                            },1000)
+                        }
                     },
                     error: function(res){
                         console.log(res.status, res.statusText);
