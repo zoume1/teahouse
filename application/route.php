@@ -19,6 +19,18 @@ use think\Route;
 Route::group("",[
     /*首页*/
     "/$"=>"index/index/index",
+    /*TODO:PC端注册登录开始*/
+    "PcsendMobileCode"=>"index/Register/PcsendMobileCode",//PC端注册验证码
+    "doRegByPhone"=>"index/Register/doRegByPhone",//PC端注册操作
+    "dolog"=>"index/Login/dolog",//登录操作
+    "logout"=>"index/Login/logout",//退出登录操作
+    "find_password_by_phone"=>"index/Findpwd/find_password_by_phone",//找回密码
+    "sendMobileCodeByPhone"=>"index/Findpwd/sendMobileCodeByPhone",//找回密码验证码
+    "sendMobileCodeByPh"=>"index/Findpwd/sendMobileCodeByPh",//修改密码验证码
+    "update_password"=>"index/Findpwd/update_password",//修改密码操作
+
+
+    /*TODO:PC端注册登录结束*/
     "index_home"=>"index/index/home",
     "tea_factory"=>"index/index/tea_factory", //茶厂 
     "tea_merchant"=>"index/index/tea_merchant", //茶商
@@ -40,8 +52,10 @@ Route::group("",[
     "my_index"=>"index/My/my_index",  //我的页面
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
     "wx_order_index"=>"index/Pay/order_index",//小程序订单支付
+    "wx_recharge_pay"=>"index/Pay/recharge_pay",//小程序充值支付
      "notify"=>"index/order/notify",//小程序支付回调（活动）
      "order_notify"=>"index/order/order_notify",//小程序订单支付回调
+     "recharge_notify"=>"index/order/recharge_notify",//小程序充值支付回调
 
     /*TODO:end*/
 
@@ -55,6 +69,12 @@ Route::group("",[
     "member_default_address_return"=>"index/Address/member_default_address_return", //购买页面默认地址返回或者选择其他地址
 
     /*TODO:地址管理结束*/
+    /*TODO:到店自提地址开始*/
+    "delivery_address_return"=>"index/DeliveryAddress/delivery_address_return",//下单页面点击到店自提数据返回
+    "delivery_address_all_return"=>"index/DeliveryAddress/delivery_address_all_return",//下单页面到店自提所有数据返回
+    /*TODO:到店自提地址结束*/
+
+
     /*TODO:订单开始*/
     "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
     "order_place"=>"index/Order/order_place",//下订单
@@ -67,6 +87,7 @@ Route::group("",[
     "ios_api_order_wait_deliver"=>"index/Order/ios_api_order_wait_deliver",//我的待收货订单
     "ios_api_order_wait_evaluate"=>"index/Order/ios_api_order_wait_evaluate",//我待评价订单
     "ios_api_order_collect_goods"=>"index/Order/ios_api_order_collect_goods",//买家确认收货
+    "order_details"=>"index/Order/order_details",//订单详情
     "ios_api_order_del"=>"index/Order/ios_api_order_del",//买家删除订单接口(ajax)
     "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
 
@@ -75,6 +96,10 @@ Route::group("",[
     /*TODO:订单用户提醒发货开始*/
     "option_add"=>"index/Notification/option_add",//用户提醒
     /*TODO:订单用户提醒发货结束*/
+    /*TODO:订单评价开始*/
+    "order_evaluate_index"=>"index/Evaluate/order_evaluate_index",//评价数据返回
+    "order_evaluate_add"=>"index/Evaluate/order_evaluate_add",//评价添加
+    /*TODO:订单评价结束*/
 
 
 
@@ -85,6 +110,7 @@ Route::group("",[
      "shopping_information_add"=>"index/Shopping/shopping_information_add",//购物车添加商品数量
      "shopping_information_del"=>"index/Shopping/shopping_information_del",//购物车减少商品数量
      "shopping_del"=>"index/Shopping/shopping_del",//购物车删除
+     "shopping_numbers"=>"index/Shopping/shopping_numbers",//购物车数量返回
 
     /*TODO:购物车结束*/
 
@@ -116,10 +142,55 @@ Route::group("",[
     "coupon_time"=>"index/Coupon/coupon_time",           //过期优惠券显示
     "coupon_goods"=>"index/Coupon/coupon_goods",         //优惠券使用商品
     "coupon_appropriated"=>"index/Coupon/coupon_appropriated",//商品下单适用优惠券
-
+    
     /*积分商城*/
-    "bonus_index"=>"index/Coupon/bonus_index",       //积分商城显示
-    "bonus_detailed"=>"index/Coupon/bonus_detailed", //积分商城显示
+    "bonus_index"=>"index/Coupon/bonus_index",        //积分商城显示
+    "bonus_detailed"=>"index/Coupon/bonus_detailed",  //积分商城详细显示
+    "integrals"=>"index/Coupon/integrals",            //积分流水显示
+    "order_integaral"=>"index/Coupon/order_integaral",//积分商城订单
+    
+
+
+    /*TODO:身份证绑定开始*/
+    "id_card_return"=>"index/Owner/id_card_return",//身份证数据返回
+    "id_card_add"=>"index/Owner/id_card_add",//身份证绑定
+    "id_card_edit"=>"index/Owner/id_card_edit",//身份证修改
+    /*TODO:身份证绑定结束*/
+
+    /*TODO:银行卡管理开始*/
+    "bank_bingding"=>"index/Owner/bank_bingding",//银行卡数据返回
+    "bank_bingding_add"=>"index/Owner/bank_bingding_add",//银行卡银行卡添加
+    "bank_binding_status"=>"index/Owner/bank_binding_status",///银行卡银行卡设置为默认
+    "bank_binding_del"=>"index/Owner/bank_binding_del",///银行卡银行卡删除
+    /*TODO:银行卡管理结束*/
+
+    /*TODO:设置支付密码开始*/
+    "pay_password_add" =>"index/PassWord/pay_password_add",//支付密码添加编辑
+    "pay_password_return" =>"index/PassWord/pay_password_return",//支付密码返回（判断是否存在支付密码）
+    /*TODO:设置支付密码结束*/
+
+    /*TODO:充值提现开始*/
+    "member_balance_return"=>"index/Wallet/member_balance_return",//账户余额和积分返回
+    "recharge_setting_return"=>"index/Wallet/recharge_setting_return",//账户充值页面对应的储值规则数据返回
+    "member_balance_recharge"=>"index/Wallet/member_balance_recharge",//账户余额充值
+    "wallet_recharge_del"=>"index/wallet/recharge_del",     //钱包充值下单未付款自动关闭取消删除(ajax)
+    /*TODO:充值提现结束*/
+
+
+
+    /*TODO:手机号头像昵称绑定开始*/
+    "user_phone_return"=>"index/My/user_phone_return",//手机号绑定数据返回
+    "user_name_return"=>"index/My/user_name_return",//用户昵称绑定数据返回
+    "user_name_update"=>"index/My/user_name_update",//用户昵称绑定修改
+    "user_img_return"=>"index/My/user_img_return",//用户头像绑定数据返回
+    "user_img_update"=>"index/My/user_img_update",//用户头像修改
+    /*TODO:手机号头像昵称绑定结束*/
+
+    /*TODO:短信验证开始*/
+    "sendMobileCode"=>"index/MobileVerification/sendMobileCode",//这是新绑定手机验证码验证
+    "sendMobileCodeBank"=>"index/MobileVerification/sendMobileCodeBank",//这是银行卡绑定时需手机验证码验证
+    /*TODO:短信验证结束*/
+
 
     /*测试接口*/
     "index_text"=>"index/index/text"
@@ -212,6 +283,8 @@ Route::group("admin",[
     /*TODO:订单开始*/
     "order_index"=>"admin/Order/order_index",//初始订单页面
     "order_search"=>"admin/Order/order_search",//初始订单搜索
+    "order_confirm_shipment"=>"admin/Order/order_confirm_shipment",//初始订单卖家确认发货
+    "order_information_return"=>"admin/Order/order_information_return",//初始订单基本信息
 
     "order_integral"=>"admin/Order/order_integral",//积分订单
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
@@ -221,12 +294,18 @@ Route::group("admin",[
     /*TODO:订单备注开始*/
     "notice_index"=>"admin/Notification/notice_index",//卖家备注数据返回
     "option_add_notice"=>"admin/Notification/option_add_notice",//卖家备注
+
     /*TODO:订单备注结束*/
 
 
     /*TODO:评价开始*/
     "evaluate_index"=>"admin/Evaluate/evaluate_index",//评价管理页面
     "evaluate_edit"=>"admin/Evaluate/evaluate_edit",//评价编辑
+    "evaluate_del"=>"admin/Evaluate/evaluate_del",//评价删除
+    "evaluate_dels"=>"admin/Evaluate/evaluate_dels",//评价批量删除(检查一下)
+    "evaluate_search"=>"admin/Evaluate/evaluate_search",//评价搜索
+    "evaluate_status"=>"admin/Evaluate/evaluate_status",//评价功能开启关闭
+    "evaluate_repay"=>"admin/Evaluate/evaluate_repay",//评价商家回复
     "evaluate_setting"=>"admin/Evaluate/evaluate_setting",//评价积分设置
     /*TODO:评价结束*/
 
@@ -336,7 +415,7 @@ Route::group("admin",[
     "limitations_index"=>"admin/Limitations/limitations_index",  //限时限购列表显示  
     "limitations_edit"=>"admin/Limitations/limitations_edit",    //限时限购编辑 
     "limitations_add"=>"admin/Limitations/limitations_add",      //限时限购添加商品
-    "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加limitations_weave
+    "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加
     "limitations_weave"=>"admin/Limitations/limitations_weave",  //限时限购编辑商品
     "limitations_update"=>"admin/Limitations/limitations_update",//限时限购更新
     "limitations_delete"=>"admin/Limitations/limitations_delete",//限时限购删除
@@ -355,6 +434,28 @@ Route::group("admin",[
     "coupon_seek"=>"admin/Bonus/coupon_seek",      //优惠券搜索
 
 
+    /*运营模块*/
+    "operate_index"=>"admin/operate/operate_index",//*******运营模块页
+    "operate_problem"=>"admin/operate/operate_problem",//常见问题
+    "operate_problem_add"=>"admin/operate/operate_problem_add",//常见问题添加
+    "operate_contract"=>"admin/operate/operate_contract",//********协议合同
+    "operate_contract_edit"=>"admin/operate/operate_contract_edit",//协议合同编辑
+    "operate_message"=>"admin/operate/operate_message",//*********消息提醒
+    "operate_message_add"=>"admin/operate/operate_message_add",//消息提醒编辑
+    "operate_integral_rule"=>"admin/operate/operate_integral_rule",//积分规则
+    "operate_integral_update"=>"admin/operate/operate_integral_update",//积分规则更新
+
+
+    /*配送设置*/
+    "delivery_index"=>"admin/Delivery/delivery_index",//*******配送设置
+    "delivery_status"=>"admin/Delivery/delivery_status",//买家上门自提功能开启关闭
+    "delivery_add"=>"admin/Delivery/delivery_add",//上门自提添加
+    "delivery_edit"=>"admin/Delivery/delivery_edit",//上门自提编辑
+    "delivery_del"=>"admin/Delivery/del",//上门自提删除
+    "delivery_dels"=>"admin/Delivery/dels",//上门自提批量删除
+    "delivery_goods"=>"admin/Delivery/delivery_goods",//快递发货
+    "delivery_goods_add_weight"=>"admin/Delivery/delivery_goods_add_weight",//快递发货添加按重量
+    "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add_number",//快递发货添加按件
 
     
 

@@ -28,11 +28,75 @@ class  Order extends  Controller{
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:订单确认发货（填写订单编号）
+     **************************************
+     */
+    public function  order_confirm_shipment(Request $request){
+        if($request->isPost()){
+            $order_id =$request->only(["order_id"])["order_id"];
+            $status =$request->only(["status"])["status"];
+            $courier_number =$request->only(["courier_number"])["courier_number"];
+            $express_name =$request->only(["express_name"])["express_name"];
+            $data =[
+                "status"=>$status,
+                "courier_number"=>$courier_number,
+                "express_name"=>$express_name
+            ];
+            $bool =Db::name("order")->where("id",$order_id)->update($data);
+            if($bool){
+                return ajax_success("发货成功",["status"=>1]);
+            }else{
+                return ajax_error("发货失败",["status"=>0]);
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:初始订单的基本信息
+     **************************************
+     * @param Request $request
+     */
+    public function order_information_return(Request $request){
+        if($request->isPost()){
+            $order_id =$request->only(["order_id"])["order_id"];
+            if(!empty($order_id)){
+                $data =Db::name("order")->where("id",$order_id)->find();
+                if(!empty($data)){
+                    $data["member_name"] =Db::name("member")->where("member_id",$data["member_id"])->value("member_name");
+                    $data["goods_franking"] =Db::name("goods")->where("id",$data["goods_id"])->value("goods_franking");
+                    return ajax_success("数据返回成功",$data);
+                }else{
+                    return ajax_error("没有数据信息",["status"=>0]);
+                }
+            }
+        }
+    }
+
+
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:订单搜索
      **************************************
      */
     public function order_search(Request $request){
         if($request->isPost()){
+            $keywords =input('search_key');
+            $keyword =input('search_keys');
+            $timemin  =strtotime(input("date_min"));
+            /*添加一天（23：59：59）*/
+            $time_max_data =strtotime(input('date_max'));
+            $t=date('Y-m-d H:i:s',$time_max_data+1*24*60*60);
+            $timemax  =strtotime($t);
+
+            $data =Db::name("order")
+                ->order("order_create_time","desc")
+                ->paginate(20);
+            return view("order_index",["data"=>$data]);
         }
     }
 

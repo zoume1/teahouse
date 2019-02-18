@@ -120,13 +120,22 @@ class  Order extends  Controller
                 $v=explode('-',$time);
                 $time_second=date("H:i:s",time());
                 $vs=explode(':',$time_second);
-                $parts_order_number =$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                //1为选择直邮，2到店自提，3选择存茶
+                if($order_type ==1){
+                    $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                }else if($order_type ==2){
+                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                }else if($order_type ==3){
+                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                }
                 foreach ($commodity_id as $keys=>$values){
                     if (!empty($commodity_id)){
                         $goods_data = Db::name('goods')->where('id',$values)->find();
                         $create_time = time();//下单时间
                         $normal_time =Db::name("order_setting")->find();//订单设置的时间
-                        $normal_future_time =strtotime("+". $normal_time['normal_time']." minute");
+                        $normal_future_time = strtotime("+". $normal_time['normal_time']." minute");
+                        $coin = db("recommend_intgral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
+                        $intgral = db("recommend_intgral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
                         if (!empty($goods_data)) {
 //                        if(!empty($data["buy_message"])){
 //                            $buy_message =$data["buy_message"];
@@ -174,6 +183,20 @@ class  Order extends  Controller
                                     ->where('id',$res)
                                     ->where("member_id",$user_id)
                                     ->find();
+                                    if($all_money > $coin){
+                                        $rest = db("member")->where("member_id",$user_id)->setInc('member_integral_wallet',$intgral);//满足条件则增加积分
+                                        $many = db("member")->where("member_id",$user_id)->value("member_integral_wallet");//获取所有积分
+                                        //插入积分记录
+                                        $integral_data = [
+                                            "member_id" => $user_id,
+                                            "integral_operation" => $integral,//获得积分
+                                            "integral_balance" => $many,//积分余额
+                                            "integral_type" => 1, //积分类型（1获得，-1消费）
+                                            "operation_time" => date("Y-m-d H:i:s"), //操作时间
+                                            "integral_remarks" => "消费满" . $coin . "送".$integral."积分",
+                                        ];
+                                        Db::name("integral")->insert($integral_data);
+                                    }
                                 return ajax_success('下单成功',$order_datas);
                             }else{
                                 return ajax_error('失败',['status'=>0]);
@@ -238,7 +261,14 @@ class  Order extends  Controller
                 $v=explode('-',$time);
                 $time_second=date("H:i:s",time());
                 $vs=explode(':',$time_second);
-                $parts_order_number =$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                //1为选择直邮，2到店自提，3选择存茶
+                if($order_type ==1){
+                    $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                }else if($order_type ==2){
+                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                }else if($order_type ==3){
+                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                }
                 $create_time = time();//下单时间
                 $normal_time =Db::name("order_setting")->find();//订单设置的时间
                 $normal_future_time =strtotime("+". $normal_time['normal_time']." minute");
@@ -285,6 +315,9 @@ class  Order extends  Controller
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
                             $res = Db::name('order')->insertGetId($datas);
+
+                            $coin = db("recommend_intgral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
+                            $intgral = db("recommend_intgral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
                         }
                     }
                 }
@@ -294,6 +327,20 @@ class  Order extends  Controller
                         ->where('id',$res)
                         ->where("member_id",$user_id)
                         ->find();
+                        if($all_money > $coin){
+                            $rest = db("member")->where("member_id",$user_id)->setInc('member_integral_wallet',$intgral);//满足条件则增加积分
+                            $many = db("member")->where("member_id",$user_id)->value("member_integral_wallet");//获取所有积分
+                            //插入积分记录
+                            $integral_data = [
+                                "member_id" => $user_id,
+                                "integral_operation" => $integral,//获得积分
+                                "integral_balance" => $many,//积分余额
+                                "integral_type" => 1, //积分类型（1获得，-1消费）
+                                "operation_time" => date("Y-m-d H:i:s"), //操作时间
+                                "integral_remarks" => "消费满" . $coin . "送".$integral."积分",
+                            ];
+                            Db::name("integral")->insert($integral_data);
+                        }
                     //清空购物车数据
                     if(is_array($shopping_id)){
                         $where ='id in('.implode(',',$shopping_id).')';
@@ -1303,6 +1350,33 @@ class  Order extends  Controller
     }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:订单详情
+     **************************************
+     */
+    public function order_details(Request $request){
+        if($request->isPost()){
+            $status =$request->only(["status"])["status"];//订单状态
+            $parts_order_number =$request->only(["parts_order_number"])["parts_order_number"];//订单编号
+            $data =Db::name("order")
+                ->where("status",$status)
+                ->where("parts_order_number",$parts_order_number)
+                ->select();
+            if(!empty($data)){
+                $datas =[
+                    "data"=>$data,
+                    "status"=>$status,
+                    "parts_order_number"=>$parts_order_number
+                ];
+                return ajax_success("详情数据返回成功",$datas);
+            }else{
+                return ajax_error("没有数据返回",["status"=>0]);
+            }
+
+        }
+    }
 
 
     /**
@@ -1469,6 +1543,88 @@ class  Order extends  Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time()]);
             if($res){
+                return ajax_success("成功",$res);
+            }else{
+                return ajax_error("失败");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:小程序充值支付成功回来处理数据
+     **************************************
+     */
+    public function recharge_notify(){
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $val = json_decode(json_encode($xml_data), true);
+        if($val["result_code"] == "SUCCESS" ){
+            file_put_contents(EXTEND_PATH."data.txt",$val);
+            $data['status'] = 1;
+            $data['pay_time'] = time();
+            $data['pay_type_name'] = "微信";
+            $condition['recharge_order_number'] = $val["out_trade_no"];
+            $res = Db::name("recharge_record")
+                ->where($condition)
+                ->update($data);
+            if($res > 0){
+                //进行钱包消费记录
+                $parts =Db::name("recharge_record")
+                ->field("recharge_money,user_id")
+                    ->where($condition)
+                    ->find();
+                $title ="余额充值";
+                $money =$parts["recharge_money"];//金额
+                $recharge_record_data = Db::name("recharge_record")
+                    ->where("recharge_order_number",$val["out_trade_no"])
+                    ->find();
+                $list =Db::name("recharge_setting")->field("recharge_full,send_money")->select();
+                $lists =0;
+                foreach($list as $k=>$v){
+                    if($v["recharge_full"] ==$recharge_record_data["recharge_money"]){
+                        $lists =$v["send_money"];
+                    }
+                }
+                //如果达到充值送积分条件
+                if(!empty($lists)){
+                    $recharge_data =[
+                        "user_id" =>$parts["user_id"],//用户id
+                        "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                        "operation_type"=>1,//充值为1，提现为负一
+                        "pay_type_content"=>$recharge_record_data["pay_type_name"],//支付方式
+                        "money_status"=>1 , //到款状态（1到账，2未到款）
+                        "img_url"=>" ", //对应的图片链接
+                        "operation_amount" =>$recharge_record_data["recharge_money"]+$lists, //操作金额
+                        "recharge_describe" =>"充值".$recharge_record_data["recharge_money"]."元,送了".$lists,//描述
+                        "status"=>1,
+                    ];
+                    Db::name("recharge_reflect")->insert($recharge_data);//插到记录
+                    $user_wallet =Db::name("member")
+                        ->field("user_wallet")
+                        ->where("member_id",$recharge_record_data["user_id"])
+                        ->find();
+                    Db::name("member")->where("member_id",$recharge_record_data["user_id"])
+                        ->update(["user_wallet"=>$user_wallet["user_wallet"]+$recharge_record_data["recharge_money"]+ $lists]);
+                }
+                $new_wallet =Db::name("member")
+                    ->where("member_id",$recharge_record_data["user_id"])
+                    ->value("user_wallet");
+                $datas=[
+                    "user_id"=>$parts["user_id"],//用户ID
+                    "wallet_operation"=> $money,//消费金额
+                    "wallet_type"=>1,//消费操作(1入，-1出)
+                    "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，充值，余额增加".$money."元,送".$lists."元",//消费备注
+                    "wallet_img"=>" ",//图标
+                    "title"=>$title,//标题（消费内容）
+                    "order_nums"=>$val["out_trade_no"],//订单编号
+                    "pay_type"=>"小程序", //支付方式/
+                    "wallet_balance"=>$new_wallet,//此刻钱包余额
+                    "is_business"=>1,//判断是车主消费还是商家消费（充值只能是 1车主消费）
+                ];
+                Db::name("wallet")->insert($datas); //存入消费记录表
                 return ajax_success("成功",$res);
             }else{
                 return ajax_error("失败");

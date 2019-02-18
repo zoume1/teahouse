@@ -295,7 +295,138 @@ class Coupon extends Controller
      }
   }
 
+    /**
+     * [积分流水显示]
+     * 郭杨
+     */
+    public function integrals(Request $request)
+    {
+        if ($request->isPost()) {
+        $open_id = $request->only(['open_id'])['open_id']; //open_id
+        $member_id = db("member")->where("member_openid",$open_id)->value("member_id");
+        $data = db("integral")->where("member_id",$member_id)->select();
 
+        if (!empty($data)) {
+            return ajax_success('传输成功', $data);
+        } else {
+            return ajax_error("数据为空");
+
+        }        
+     }
+  }
+
+    /**
+     * [积分商城订单显示]
+     * 郭杨
+     */
+    public function order_integaral(Request $request){
+        if ($request->isPost()) {
+            $open_id = $request->only("open_id")["open_id"];//open_id
+            $address_id = $request->param("address_id");//address_id
+            $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
+            $user_id =Db::name("member")
+                ->where("member_openid",$open_id)
+                ->value("member_id");
+            if(empty($user_id)){
+                return ajax_error("未登录",['status'=>0]);
+            }
+            $user_information =Db::name("member")->where("member_id",$user_id)->find();
+            $sum_integral = $user_information["member_integral_wallet"];//积分余额
+            $is_address = Db::name('user_address')
+                ->where("id",$address_id)
+                ->where('user_id', $user_id)
+                ->find();
+            if (empty($is_address) ) {
+                return ajax_error('请填写收货地址',['status'=>0]);
+            }else{
+                $is_address_status = Db::name('user_address')
+                    ->where('user_id', $user_id)
+                    ->where('id',$address_id)
+                    ->find();
+                if (empty($is_address_status) ) {
+                    $is_address_status =$is_address;
+                }
+                $commodity_id = $request->only("goods_id")["goods_id"];//商品id
+                $numbers =$request->only("order_quantity")["order_quantity"];//购买数量
+
+                $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
+                $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
+                $time=date("Y-m-d",time());
+                $v=explode('-',$time);
+                $time_second=date("H:i:s",time());
+                $vs=explode(':',$time_second);
+                //1为选择直邮，2到店自提，3选择存茶
+                if($order_type ==1){
+                    $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                }else if($order_type ==2){
+                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                }else if($order_type ==3){
+                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                }
+                foreach ($commodity_id as $keys=>$values){
+                    if (!empty($commodity_id)){
+                        $goods_data = db('bonus_mall')->where('id',$values)->find();
+                        $create_time = time();//下单时间
+                        $normal_time =Db::name("order_setting")->find();//订单设置的时间
+                        $normal_future_time = strtotime("+". $normal_time['normal_time']." minute");
+                        if (!empty($goods_data)) {
+                            $buy_message = NUll;                          
+                            $datas['goods_show_image'] = $goods_data['goods_show_image'];//图片
+                            $datas["integral"]=$goods_data['integral']; //单个商品所需积分
+                            $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
+                            $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
+                            $datas["goods_name"] =$goods_data["goods_name"];//名字
+                            $datas["order_quantity"] =$numbers[$keys];//订单数量
+                            $datas["member_id"] =$user_id;//用户id
+                            $datas["user_account_name"] =$user_information["member_name"];//用户名
+                            $datas["user_phone_number"] =$user_information["member_phone_num"];//用户名手机号
+                            $datas["harvester"] =$is_address_status['harvester'];
+                            $datas["harvest_phone_num"] =$is_address_status['harvester_phone_num'];
+                            $datas["harvester_address"] =$harvest_address;
+                            $datas["order_create_time"] =$create_time;
+                            $datas["order_amount"] =$datas["integral"]*$numbers[$keys];//订单积分
+                            $datas["status"] =1;
+                            $datas["goods_id"] =$values;
+                            $datas["parts_order_number"] =$parts_order_number;//时间+4位随机数+用户id构成订单号
+                            $datas["buy_message"] =$buy_message;//买家留言
+                            $datas["normal_future_time"] = $normal_future_time;//未来时间
+                            
+                            if($datas["order_amount"]>$sum_integral){
+                                return ajax_error("您的积分不足");
+                            } else {
+                                $res = Db::name('buyintegral')->insertGetId($datas);
+                            }
+                            if ($res) {
+                                $order_datas = Db::name("buyintegral")
+                                    ->field("order_amount,goods_name,parts_order_number")
+                                    ->where('id',$res)
+                                    ->where("member_id",$user_id)
+                                    ->find();
+                                    //插入积分记录
+                                    $rest = db("member")->where("member_id",$user_id)->setDec('member_integral_wallet',$datas["order_amount"]);//消费积分
+                                    $many = db("member")->where("member_id",$user_id)->value("member_integral_wallet");//获取所有积分
+                                    $integral_data = [
+                                        "member_id" => $user_id,
+                                        "integral_operation" => "-".$datas["order_amount"],//消费积分
+                                        "integral_balance" => $many,//积分余额
+                                        "integral_type" => -1, //积分类型（1获得，-1消费）
+                                        "operation_time" => date("Y-m-d H:i:s"), //操作时间
+                                        "integral_remarks" => "购买积分商城商品消费" . $datas["order_amount"] . "积分",
+                                    ];
+                                    Db::name("integral")->insert($integral_data);
+                                    
+                                return ajax_success('下单成功',$order_datas);
+                            }else{
+                                return ajax_error('失败',['status'=>0]);
+                            }
+                        }
+                    }
+                }
+
+
+            }
+        }
+    }
 
 
 }

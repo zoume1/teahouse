@@ -31,7 +31,7 @@ class Menu extends Controller
     public function save(Request $request){
        $data = $request->param();
        if(!empty($data)){
-           $bool = model("Menu")->sSave($data);
+           $bool = model("Menu")->Save($data);
            if($bool == true){
                $this->success("添加成功",url("admin/menu/index"));
            }else{

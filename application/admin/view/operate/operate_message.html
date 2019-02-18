@@ -1,0 +1,90 @@
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+	body {
+		background: #fff;
+	}
+	
+	#page {
+		width: 96%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+	}
+</style>
+
+{/block}
+
+<body>
+
+	{block name="content"}
+
+	<div class="childrenBody">
+	
+
+		<a class="layui-btn layui-btn-danger batchDel" href="operate_message_add">添加</a>
+
+		<div class="layui-form news_list">
+			<table class="layui-table">
+				<colgroup>
+
+				</colgroup>
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>消息名称</th>
+						<th>添加日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody class="news_content">
+				
+					<tr>
+						<td>11</td>
+						<td>11</td>
+						<td>11</td>
+						<td>
+							<a class="layui-btn layui-btn-mini edit" href="operate_message_add"><i class="iconfont icon-edit"></i> 编辑
+							</a>
+							<a href="{:url('admin/Install/message_del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+						</td>
+					</tr>
+			
+				</tbody>
+			</table>
+			
+
+		</div>
+
+	</div>
+
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	<script type="text/javascript">
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+		})
+	</script>
+
+	{/block}
+
+</body>
+
+</html>
