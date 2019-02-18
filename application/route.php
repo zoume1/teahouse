@@ -133,7 +133,7 @@ Route::group("",[
     "bonus_index"=>"index/Coupon/bonus_index",        //积分商城显示
     "bonus_detailed"=>"index/Coupon/bonus_detailed",  //积分商城详细显示
     "integrals"=>"index/Coupon/integrals",            //积分流水显示
-    "order_integaral"=>"index/Coupon/order_integaral",//积分商城订单
+    "order_integaral"=>"index/Coupon/order_integaral",//积分商城订单 
     
 
 
