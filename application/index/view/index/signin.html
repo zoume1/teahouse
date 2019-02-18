@@ -25,7 +25,7 @@
         .intl-tel-input.separate-dial-code .selected-flag{background-color: transparent !important;}
         .section-group .form-input-wrap .pw-icon{position: absolute; right: 20px; top: 0; width: 24px; height: 24px; background-color: #000; cursor: pointer; background: url(__STATIC__/index/img/icon1.png) no-repeat; background-size: 100%;}
         .section-group .form-input-wrap .pw-icon.pw-icon-show{background: url(__STATIC__/index/img/icon2.png) no-repeat; background-size: 100%;}
-        .button-primary{display: block; margin-top: 30px; width: 350px; height: 45px; border: 0; outline: none; background-color: #38f; color: #fff; font-size: 16px; box-sizing: border-box; border-radius: 2px;}
+        .button-primary{display: block; margin-top: 30px; width: 350px; height: 45px; border: 0; outline: none; background-color: #38f; color: #fff; font-size: 16px; box-sizing: border-box; border-radius: 2px; cursor: pointer;}
         .forget-group{ margin-top: 20px;}
         .forget-group .forget-pw{float: right;}
         .forget-group a{color: #38f;}
@@ -57,6 +57,19 @@
                 <div class="header-section login">
                     <a href="javascript:;" class="sign-in">登录</a>
                     <a href="javascript:;" class="register">注册</a>
+                </div>
+                <div class="header-section loaded-common" style="display: none;">
+                    <div class="loaded-inner">
+                        <span class="loaded-icon"></span>
+                        <a href="javascript:;" target="_blank">
+                            <span class="loaded-mobile"></span>
+                        </a>
+                        <i class="caret"></i>
+                        <ul class="loaded-menu">
+                            <li><a href="javascript:;" class="backstage">进入后台</a></li>
+                            <li><a href="javascript:;" class="logout">退出登录</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -117,6 +130,7 @@
         </div>
     </div>
     <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/layer/layer.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
         var phone = document.querySelector('#phone');
@@ -134,6 +148,38 @@
             }else{
                 $('.qr-code-wrap').hide();
                 $('.signin-form-wrap').show();
+            }
+        })
+        // 登录
+        $('.button-primary').click(function(){
+            var $phone = $('#phone').val(),
+                $password = $('#password').val();
+            if($phone !== '' && $password !== ''){
+                $.ajax({
+                    url: 'dolog',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        "account": $phone,
+                        "passwd": $password
+                    },
+                    success: function(res){
+                        console.log(res);
+                        if(res.status == 1){
+                            layer.msg(res.info);
+                            setTimeout(function(){
+                                location.href = './';
+                            }, 1000);
+                        }else{
+                            layer.msg(res.info);
+                        }
+                    },
+                    error: function(res){
+                        console.log(res.status, res.statusText);
+                    }
+                })
+            }else{
+                layer.msg('请填写手机号或密码！');
             }
         })
     </script>
