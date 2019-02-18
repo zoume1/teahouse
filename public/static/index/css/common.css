@@ -9,7 +9,7 @@ body{background-color: #fff;}
 button,input,select,textarea{font-size:100%;outline:none}
 table{border-collapse:collapse;border-spacing:0}
 td,th,ul,ol{padding:0; list-style: none;}
-
+li{line-height: inherit;}
 /* common */
 .clearfix::after{content: ''; display: block; clear: both;}
 .title-h2{font-size: 40px; font-weight: 700; color: #545454; line-height: normal;}
@@ -34,17 +34,19 @@ td,th,ul,ol{padding:0; list-style: none;}
 .login{flex-basis: 30%; text-align: right; line-height: 80px;}
 .login .sign-in, .login .register{display: inline-block; width: 140px; height: 40px; font-size: 23px; color: #545454; text-align: center; line-height: 40px; border: 1px solid #545454; border-radius: 5px;}
 .login .register{background-color: #545454; color: #fff; margin-left: 25px;}
-.loaded-common{flex-basis: 30%; text-align: center; line-height: 80px;}
-.loaded-common .loaded-inner{width: 120px; margin: 0 auto; text-align: left; padding: 0 15px;}
+.loaded-common{flex-basis: 30%; text-align: center; line-height: 80px; z-index: 2;}
+.loaded-common .loaded-inner{width: 120px; height: 80px; margin: 0 auto; text-align: left; padding: 0 15px;}
 .loaded-common .loaded-inner:hover{border-left: 1px solid #e5e5e5; border-right: 1px solid #e5e5e5; background-color: #fff;}
+.loaded-common .loaded-inner:hover .loaded-menu{display: block;}
 .loaded-common .loaded-icon{display: inline-block; width: 16px; height: 16px; background: url(../img/icon3.png) no-repeat; background-size: 100%; vertical-align: sub;}
 .loaded-common .loaded-mobile{font-size: 14px; color: #38f;}
 .loaded-common .caret{position: relative;}
 .loaded-common .caret::before{content: ''; position: absolute; top: 3px; left: 5px; border: 5px solid transparent; border-top-color: #fff; z-index: 2;}
 .loaded-common .caret::after{content: ''; position: absolute; top: 5px; left: 5px; border: 5px solid transparent; border-top-color: #38f;}
-.loaded-common .loaded-menu{border: 1px solid #e5e5e5; border-top: 0; background-color: #fff; display: block; box-sizing: border-box;}
-
-
+.loaded-common .loaded-menu{border: 1px solid #e5e5e5; border-top: 0; background-color: #fff; box-sizing: border-box; display: none; width: 152px; margin-left: -16px;}
+.loaded-common .loaded-menu li{width: 150px; height: 35px; padding: 0;}
+.loaded-common .loaded-menu li a{line-height: 35px; width: 150px; height: 35px; text-align: center;display: block; background-color: #fff; color: #666;font-size: 14px; box-sizing: border-box;}
+.loaded-common .loaded-menu li a:hover{color: #e00; background-color: #f6f6f6;}
 /* 合作伙伴 */
 .partner{background-color: #f8f8f8; padding: 50px 75px 30px; box-sizing: border-box;}
 .partner .partner-container{width: 1350px; margin: 0 auto;}

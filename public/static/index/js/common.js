@@ -72,7 +72,7 @@ $(window).scroll(function(){
 $('.aside-item:eq(3)').click(function(){
     $('html').animate({scrollTop: 0}, 500);
 })
-
+// 倒计时
 function buttonCountdown($el, msNum, timeFormat) {
     var text = $el.data("text") || $el.text(),
             timer = 0;
@@ -113,6 +113,7 @@ function buttonCountdown($el, msNum, timeFormat) {
     }
     return this;
 }
+// 获取验证码
 function getIdentifyingCode($el, url, phone){
     $.ajax({
         url: url,
@@ -135,4 +136,17 @@ function getIdentifyingCode($el, url, phone){
         }
     })
 }
-
+// 判断是否登录
+(function(){
+    $.ajax({
+        url: 'isLogin',
+        type: 'POST',
+        dataType: 'JSON',
+        success: function(res){
+            console.log(res);
+        },
+        error: function(res){
+            console.log(res.status, res.statusText);
+        }
+    })
+})()

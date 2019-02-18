@@ -58,6 +58,19 @@
                     <a href="javascript:;" class="sign-in">登录</a>
                     <a href="javascript:;" class="register">注册</a>
                 </div>
+                <div class="header-section loaded-common" style="display:none;">
+                    <div class="loaded-inner">
+                        <span class="loaded-icon"></span>
+                        <a href="javascript:;" target="_blank">
+                            <span class="loaded-mobile">13691853045</span>
+                        </a>
+                        <i class="caret"></i>
+                        <ul class="loaded-menu">
+                            <li><a href="javascript:;">进入后台</a></li>
+                            <li><a href="javascript:;">退出登录</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- 注册 -->
@@ -117,6 +130,7 @@
         </div>
     </div>
     <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/layer/layer.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
         var phone = document.querySelector('#phone');
@@ -147,12 +161,15 @@
                     dataType: 'JSON',
                     data: {
                         "account": $phone,
-                        "password": $password
+                        "passwd": $password
                     },
                     success: function(res){
                         console.log(res);
                         if(res.status == 1){
-                            location.href = './';
+                            layer.msg(res.info);
+                            setTimeout(function(){
+                                location.href = './';
+                            }, 1000);
                         }else{
                             layer.msg(res.info);
                         }
