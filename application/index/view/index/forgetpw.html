@@ -111,6 +111,7 @@
         </div>
     </div>
     <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/layer/layer.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
         var phone = document.querySelector('#phone');
@@ -119,7 +120,51 @@
             preferredCountries: ['cn'],
             separateDialCode: true,
         })
-
+        // 获取验证码
+        $('.identifying-button').click(function(){
+            var $phone = $('#phone').val();
+            var _this = this;
+            if($phone !== '' && phoneReg.test($phone)){
+                getIdentifyingCode(_this, 'sendMobileCodeByPhone', $phone);
+            }else{
+                layer.msg('电话号码格式不正确！');
+            }
+        })
+        // 修改密码
+        $('.button-primary').click(function(){
+            var $phone = $('#phone').val(),
+                mobileCode = $('#identifying').val(),
+                $password = $('#password').val();
+            if(pwdReg.test($password)){
+                $.ajax({
+                    url: 'find_password_by_phone',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        "phone_number": $phone,
+                        "code": mobileCode,
+                        "password": $password,
+                        "password_second": $password
+                    },
+                    success: function(res){
+                        console.log(res);
+                        if(res.status == 1){
+                            layer.msg(res.info);
+                            setTimeout(function(){
+                                location.href = 'sign_in';
+                            },1000)
+                        }else{
+                            layer.msg(res.info);
+                        }
+                    },
+                    error: function(res){
+                        console.log(res.status, res.statusText);
+                    }
+                })
+            }else{
+                layer.msg('密码格式不正确！');
+            }
+        })
     </script>
 </body>
 </html>

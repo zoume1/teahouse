@@ -134,10 +134,20 @@
                 $('.button-primary').attr('disabled', true);
             }
         })
+        // 获取验证码
+        $('.identifying-button').click(function(){
+            var $phone = $('#phone').val();
+            var phoneReg = /^1[34578]\d{9}$/;
+            var _this = this;
+            if($phone !== '' && phoneReg.test($phone)){
+                getIdentifyingCode(_this, 'PcsendMobileCode', $phone);
+            }else{
+                layer.msg('电话号码格式不正确！');
+            }
+        })
         // 注册
         $('.button-primary').click(function(){
-            var pwdReg = /^[a-zA-Z0-9]{8,20}$/,
-                $phone = $('#phone').val(),
+            var $phone = $('#phone').val(),
                 mobileCode = $('#identifying').val(),
                 $password = $('#password').val();
             if(pwdReg.test($password)){
@@ -158,6 +168,8 @@
                             setTimeout(function(){
                                 location.href = 'sign_in';
                             },1000)
+                        }else{
+                            layer.msg(res.info);
                         }
                     },
                     error: function(res){
