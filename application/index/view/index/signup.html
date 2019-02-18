@@ -70,7 +70,7 @@
                 <div class="signup-content-container">
                     <div class="signup-content-inner">
                         <div class="signup-form-wrap">
-                            <form action="" method="POST">
+                            <!-- <form action="" method="POST"> -->
                                 <div class="section-group phone-wrap">
                                     <label class="form-label">手机号码</label>
                                     <div class="form-input-wrap">
@@ -96,7 +96,7 @@
                                     <a href="javascript:;">《宣铭用户使用协议》</a>
                                 </label>
                                 <button type="submit" class="button-primary">确认注册</button>
-                            </form>
+                            <!-- </form> -->
                             <a href="sign_in" class="goto-signin">已有账号，立即登录</a>
                         </div>
                     </div>
@@ -116,12 +116,13 @@
         </div>
     </div>
     <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/layer/layer.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
         var phone = document.querySelector('#phone');
         // http://www.jq22.com/jquery-info12917
         var iti = window.intlTelInput(phone, {
-            preferredCountries: ['cn'],
+            preferredCountries: ['cn', 'hk'],
             separateDialCode: true,
         })
     </script>
