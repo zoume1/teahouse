@@ -216,7 +216,7 @@ class My extends Controller
              $user_name =$request->only(["user_name"])["user_name"];
              $member_id =$request->only(["member_id"])["member_id"];
              $data =[
-                 "user_name" =>$user_name
+                 "member_name" =>$user_name
              ];
             $bool =Db::name("member")->where("member_id",$member_id)->update($data);
             if($bool){

@@ -121,6 +121,53 @@ class  Owner extends  Controller{
         }
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:银行卡默认设置
+     **************************************
+     * @param Request $request
+     */
+    public function bank_binding_status(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $status =$request->only(["status"])["status"];
+            $id =$request->only(["id"])["id"];
+            $bool =Db::name("user_bank")
+                ->where("user_id",$member_id)
+                ->where("id",$id)
+                ->update(["status"=>$status]);
+            if(!empty($bool)){
+                Db::name("user_bank")
+                    ->where("user_id",$member_id)
+                    ->where("id","NEQ",$id)
+                    ->update(["status"=>-1]);
+                return ajax_success("修改成功",["status"=>1]);
+            }else{
+                return ajax_error("修改失败",["status"=>0]);
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:银行卡删除
+     **************************************
+     */
+    public function bank_binding_del(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $id =$request->only(["id"])["id"];
+            $bool =Db::name("user_bank")->where("member_id",$member_id)->where("id",$id)->delete();
+            if($bool){
+                return ajax_success("删除成功",["status"=>1]);
+            }else{
+               return ajax_error("删除失败",["status"=>0]);
+            }
+        }
+    }
+
 
 
 }

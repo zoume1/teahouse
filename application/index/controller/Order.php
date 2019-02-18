@@ -122,11 +122,11 @@ class  Order extends  Controller
                 $vs=explode(':',$time_second);
                 //1为选择直邮，2到店自提，3选择存茶
                 if($order_type ==1){
-                    $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                    $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==2){
-                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==3){
-                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }
                 foreach ($commodity_id as $keys=>$values){
                     if (!empty($commodity_id)){
@@ -247,11 +247,11 @@ class  Order extends  Controller
                 $vs=explode(':',$time_second);
                 //1为选择直邮，2到店自提，3选择存茶
                 if($order_type ==1){
-                    $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                    $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==2){
-                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==3){
-                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
+                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }
                 $create_time = time();//下单时间
                 $normal_time =Db::name("order_setting")->find();//订单设置的时间
@@ -1510,6 +1510,88 @@ class  Order extends  Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time()]);
             if($res){
+                return ajax_success("成功",$res);
+            }else{
+                return ajax_error("失败");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:小程序充值支付成功回来处理数据
+     **************************************
+     */
+    public function recharge_notify(){
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $val = json_decode(json_encode($xml_data), true);
+        if($val["result_code"] == "SUCCESS" ){
+            file_put_contents(EXTEND_PATH."data.txt",$val);
+            $data['status'] = 1;
+            $data['pay_time'] = time();
+            $data['pay_type_name'] = "微信";
+            $condition['recharge_order_number'] = $val["out_trade_no"];
+            $res = Db::name("recharge_record")
+                ->where($condition)
+                ->update($data);
+            if($res > 0){
+                //进行钱包消费记录
+                $parts =Db::name("recharge_record")
+                ->field("recharge_money,user_id")
+                    ->where($condition)
+                    ->find();
+                $title ="余额充值";
+                $money =$parts["recharge_money"];//金额
+                $recharge_record_data = Db::name("recharge_record")
+                    ->where("recharge_order_number",$val["out_trade_no"])
+                    ->find();
+                $list =Db::name("recharge_setting")->field("recharge_full,send_money")->select();
+                $lists =0;
+                foreach($list as $k=>$v){
+                    if($v["recharge_full"] ==$recharge_record_data["recharge_money"]){
+                        $lists =$v["send_money"];
+                    }
+                }
+                //如果达到充值送积分条件
+                if(!empty($lists)){
+                    $recharge_data =[
+                        "user_id" =>$parts["user_id"],//用户id
+                        "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                        "operation_type"=>1,//充值为1，提现为负一
+                        "pay_type_content"=>$recharge_record_data["pay_type_name"],//支付方式
+                        "money_status"=>1 , //到款状态（1到账，2未到款）
+                        "img_url"=>" ", //对应的图片链接
+                        "operation_amount" =>$recharge_record_data["recharge_money"]+$lists, //操作金额
+                        "recharge_describe" =>"充值".$recharge_record_data["recharge_money"]."元,送了".$lists,//描述
+                        "status"=>1,
+                    ];
+                    Db::name("recharge_reflect")->insert($recharge_data);//插到记录
+                    $user_wallet =Db::name("member")
+                        ->field("user_wallet")
+                        ->where("member_id",$recharge_record_data["user_id"])
+                        ->find();
+                    Db::name("member")->where("member_id",$recharge_record_data["user_id"])
+                        ->update(["user_wallet"=>$user_wallet["user_wallet"]+$recharge_record_data["recharge_money"]+ $lists]);
+                }
+                $new_wallet =Db::name("member")
+                    ->where("member_id",$recharge_record_data["user_id"])
+                    ->value("user_wallet");
+                $datas=[
+                    "user_id"=>$parts["user_id"],//用户ID
+                    "wallet_operation"=> $money,//消费金额
+                    "wallet_type"=>1,//消费操作(1入，-1出)
+                    "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，充值，余额增加".$money."元,送".$lists."元",//消费备注
+                    "wallet_img"=>" ",//图标
+                    "title"=>$title,//标题（消费内容）
+                    "order_nums"=>$val["out_trade_no"],//订单编号
+                    "pay_type"=>"小程序", //支付方式/
+                    "wallet_balance"=>$new_wallet,//此刻钱包余额
+                    "is_business"=>1,//判断是车主消费还是商家消费（充值只能是 1车主消费）
+                ];
+                Db::name("wallet")->insert($datas); //存入消费记录表
                 return ajax_success("成功",$res);
             }else{
                 return ajax_error("失败");

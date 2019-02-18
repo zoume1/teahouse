@@ -12,6 +12,7 @@ use think\Db;
 use think\Loader;
 use think\Session;
 use think\Cache;
+use think\Request;
 
 class Login extends Controller{
 
@@ -105,6 +106,61 @@ class Login extends Controller{
         }
     }
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:登陆操作
+     **************************************
+     * @param Request $request
+     */
+    public function dolog(Request $request){
+        if($request->isPost()){
+            $data = $_GET;
+            $user_mobile =$data['account'];
+            $password =$data['passwd'];
+            if(empty($user_mobile)){
+                return  ajax_error('手机号不能为空',$user_mobile);
+            }
+            if(empty($password)){
+                return ajax_error('密码不能为空',['status'=>0]);
+            }
+            $res = Db::name('pc_user')->field('password')->where('phone_number',$user_mobile)->find();
+            $datas =[
+                'phone_number'=> $user_mobile,
+            ];
+            if(password_verify($password , $res["password"])){
+                if($res){
+                    $ress =Db::name('pc_user')->where('phone_number',$user_mobile)->where('status',1)->field("id")->find();
+                    if($ress)
+                    {
+                        Session::set("user",$ress["id"]);
+                        Session::set('member',$datas);
+                        return ajax_success('登录成功',$datas);
+                    }else{
+                        ajax_error('此用户已被管理员设置停用',$datas);
+                    }
+                }
+            }else{
+                return ajax_error('密码错误',['status'=>0]);
+            }
+
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:退出操作
+     **************************************
+     */
+    public function logout(Request $request){
+        if($request->isPost()){
+            Session('member',null);
+            Session::delete("user");//用户推出
+            return ajax_success('退出成功',['status'=>1]);
+        }
+    }
 
 
 }

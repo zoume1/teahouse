@@ -19,6 +19,18 @@ use think\Route;
 Route::group("",[
     /*首页*/
     "/$"=>"index/index/index",
+    /*TODO:PC端注册登录开始*/
+    "PcsendMobileCode"=>"index/Register/PcsendMobileCode",//PC端注册验证码
+    "doRegByPhone"=>"index/Register/doRegByPhone",//PC端注册操作
+    "dolog"=>"index/Login/dolog",//登录操作
+    "logout"=>"index/Login/logout",//退出登录操作
+    "find_password_by_phone"=>"index/Findpwd/find_password_by_phone",//找回密码
+    "sendMobileCodeByPhone"=>"index/Findpwd/sendMobileCodeByPhone",//找回密码验证码
+    "sendMobileCodeByPh"=>"index/Findpwd/sendMobileCodeByPh",//修改密码验证码
+    "update_password"=>"index/Findpwd/update_password",//修改密码操作
+
+
+    /*TODO:PC端注册登录结束*/
     "index_home"=>"index/index/home",
     "tea_factory"=>"index/index/tea_factory", //茶厂 
     "tea_merchant"=>"index/index/tea_merchant", //茶商
@@ -40,8 +52,10 @@ Route::group("",[
     "my_index"=>"index/My/my_index",  //我的页面
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
     "wx_order_index"=>"index/Pay/order_index",//小程序订单支付
+    "wx_recharge_pay"=>"index/Pay/recharge_pay",//小程序充值支付
      "notify"=>"index/order/notify",//小程序支付回调（活动）
      "order_notify"=>"index/order/order_notify",//小程序订单支付回调
+     "recharge_notify"=>"index/order/recharge_notify",//小程序充值支付回调
 
     /*TODO:end*/
 
@@ -142,7 +156,23 @@ Route::group("",[
     /*TODO:银行卡管理开始*/
     "bank_bingding"=>"index/Owner/bank_bingding",//银行卡数据返回
     "bank_bingding_add"=>"index/Owner/bank_bingding_add",//银行卡银行卡添加
+    "bank_binding_status"=>"index/Owner/bank_binding_status",///银行卡银行卡设置为默认
+    "bank_binding_del"=>"index/Owner/bank_binding_del",///银行卡银行卡删除
     /*TODO:银行卡管理结束*/
+
+    /*TODO:设置支付密码开始*/
+    "pay_password_add" =>"index/PassWord/pay_password_add",//支付密码添加编辑
+    "pay_password_return" =>"index/PassWord/pay_password_return",//支付密码返回（判断是否存在支付密码）
+    /*TODO:设置支付密码结束*/
+
+    /*TODO:充值提现开始*/
+    "member_balance_return"=>"index/Wallet/member_balance_return",//账户余额和积分返回
+    "recharge_setting_return"=>"index/Wallet/recharge_setting_return",//账户充值页面对应的储值规则数据返回
+    "member_balance_recharge"=>"index/Wallet/member_balance_recharge",//账户余额充值
+    "wallet_recharge_del"=>"index/wallet/recharge_del",     //钱包充值下单未付款自动关闭取消删除(ajax)
+    /*TODO:充值提现结束*/
+
+
 
     /*TODO:手机号头像昵称绑定开始*/
     "user_phone_return"=>"index/My/user_phone_return",//手机号绑定数据返回
