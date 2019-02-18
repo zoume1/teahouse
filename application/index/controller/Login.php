@@ -116,7 +116,7 @@ class Login extends Controller{
      */
     public function dolog(Request $request){
         if($request->isPost()){
-            $data = $_GET;
+            $data = $_POST;
             $user_mobile =$data['account'];
             $password =$data['passwd'];
             if(empty($user_mobile)){

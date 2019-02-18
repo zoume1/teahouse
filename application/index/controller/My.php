@@ -196,7 +196,7 @@ class My extends Controller
              $member_id =$request->only(["member_id"])["member_id"];
              $member_phone_num =$request->only(["member_phone_num"])["member_phone_num"];
              $code =$request->only(["code"])["code"];
-             if (session('mobileCode') != $code || $member_phone_num != $_SESSION['mobile']) {
+             if(session('mobileCode') != $code || $member_phone_num != $_SESSION['mobile']) {
                  return ajax_error("验证码不正确");
              }
              $phone_number =Db::name("member")
