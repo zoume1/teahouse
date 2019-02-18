@@ -116,9 +116,8 @@ class Login extends Controller{
      */
     public function dolog(Request $request){
         if($request->isPost()){
-            $data = $_POST;
-            $user_mobile =$data['account'];
-            $password =$data['passwd'];
+            $user_mobile =$request->only(['account'])["account"];
+            $password =$request->only(["passwd"])["passwd"];
             if(empty($user_mobile)){
                 return  ajax_error('手机号不能为空',$user_mobile);
             }
@@ -131,7 +130,11 @@ class Login extends Controller{
             ];
             if(password_verify($password , $res["password"])){
                 if($res){
-                    $ress =Db::name('pc_user')->where('phone_number',$user_mobile)->where('status',1)->field("id")->find();
+                    $ress =Db::name('pc_user')
+                        ->where('phone_number',$user_mobile)
+                        ->where('status',1)
+                        ->field("id")
+                        ->find();
                     if($ress)
                     {
                         Session::set("user",$ress["id"]);
@@ -159,6 +162,34 @@ class Login extends Controller{
             Session('member',null);
             Session::delete("user");//用户推出
             return ajax_success('退出成功',['status'=>1]);
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:判断是否登录
+     **************************************
+     * @param Request $request
+     */
+    public function isLogin(Request $request){
+        if($request->isPost()){
+            $member_data =session('member');
+            if(!empty($member_data)){
+                $phone_num = $member_data['phone_number'];
+                if(!empty($phone_num)){
+                    $return_data =Db::name('pc_user')
+                        ->where("phone_number",$phone_num)
+                        ->find();
+                    if(!empty($return_data)){
+                        return ajax_success('用户信息返回成功',$return_data);
+                    }else{
+                        return ajax_error('没有该用户信息',['status'=>0]);
+                    }
+                }
+            }else{
+                return ajax_error('请前往登录',['status'=>0]);
+            }
         }
     }
 

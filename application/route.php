@@ -23,6 +23,7 @@ Route::group("",[
     "PcsendMobileCode"=>"index/Register/PcsendMobileCode",//PC端注册验证码
     "doRegByPhone"=>"index/Register/doRegByPhone",//PC端注册操作
     "dolog"=>"index/Login/dolog",//登录操作
+    "isLogin"=>"index/Login/isLogin",//判断是否登录
     "logout"=>"index/Login/logout",//退出登录操作
     "find_password_by_phone"=>"index/Findpwd/find_password_by_phone",//找回密码
     "sendMobileCodeByPhone"=>"index/Findpwd/sendMobileCodeByPhone",//找回密码验证码
