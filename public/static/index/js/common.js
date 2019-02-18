@@ -1,3 +1,6 @@
+var phoneReg = /^1[34578]\d{9}$/,
+    pwdReg = /^[a-zA-Z0-9]{8,20}$/;
+
 var $partnerContainer = $('.partner-items');
 for(var i = 1; i <= 12; i++){
     var $partnerItem = $('.tpl').clone().removeClass('tpl').addClass('partner-item');
@@ -110,32 +113,26 @@ function buttonCountdown($el, msNum, timeFormat) {
     }
     return this;
 }
-// 获取验证码
-$('.identifying-button').click(function(){
-    var $phone = $('#phone').val();
-    var phoneReg = /^1[34578]\d{9}$/;
-    var _this = this;
-    if($phone !== '' && phoneReg.test($phone)){
-        $.ajax({
-            url: 'PcsendMobileCode',
-            type: 'POST',
-            dataType: 'JSON',
-            data: {
-                "mobile": $phone
-            },
-            success: function(res){
-                console.log(res);
-                if(res.status == 1){
-                    layer.msg(res.info);
-                    buttonCountdown($(_this), 1000 * 60 * 1, "ss");
-                }
-            },
-            error: function(res){
-                console.log(res.status, res.statusText);
+function getIdentifyingCode($el, url, phone){
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'JSON',
+        data: {
+            "mobile": phone
+        },
+        success: function(res){
+            console.log(res);
+            if(res.status == 1){
+                layer.msg(res.info);
+                buttonCountdown($($el), 1000 * 60 * 1, "ss");
+            }else{
+                layer.msg(res.info);
             }
-        })
-    }else{
-        layer.msg('电话号码格式不正确！');
-    }
-})
+        },
+        error: function(res){
+            console.log(res.status, res.statusText);
+        }
+    })
+}
 
