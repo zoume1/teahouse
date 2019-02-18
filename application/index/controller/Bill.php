@@ -97,9 +97,11 @@ class Bill extends Controller{
             $title =$request->only(["title"])["title"];//搜索关键词
             $now_time_one =date("Y");
             $condition = " `operation_time` like '%{$now_time_one}%' ";
+            $conditions = " `title` like '%{$title}%' ";
             $data = Db::name("wallet")
                 ->where("user_id",$user_id)
                 ->where($condition)
+                ->where($conditions)
                 ->order("operation_time","desc")
                 ->select();
             $datas =array(

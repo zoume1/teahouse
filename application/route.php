@@ -189,6 +189,7 @@ Route::group("",[
     /*TODO:手机号头像昵称绑定结束*/
     /*TODO:我的账单开始*/
     "consume"=>"index/Bill/consume",//账单我的消费
+    "consume_search"=>"index/Bill/consume_search",//账单我的消费搜索
     /*TODO:我的账单结束*/
 
     /*TODO:短信验证开始*/
