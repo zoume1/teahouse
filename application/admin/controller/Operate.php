@@ -10,6 +10,9 @@ namespace app\admin\controller;
 
 
 use think\Controller;
+use think\console\Input;
+use think\Db;
+use think\Request;
 
 class Operate extends  Controller{
 
@@ -116,7 +119,6 @@ class Operate extends  Controller{
         if($request->isPost())
         {
             $data = $request -> param();
-
             $bool = db("recommend_integral") -> where('id',1) -> update($data);
 
             if ($bool) {
