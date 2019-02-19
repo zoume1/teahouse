@@ -44,11 +44,7 @@ class Distribution extends Controller
      
     //  foreach( $members as $k => $y){        
     //     $bool = db("member")->update($members[$k]);
-    //  }
-     
-
-     
-        
+    //  }      
         return view("setting_index",["distribution" =>$distribution ]);
     }
 
