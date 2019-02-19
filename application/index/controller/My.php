@@ -291,7 +291,6 @@ class My extends Controller
             if(!empty($member_img)){
                 $info = $member_img->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $images= str_replace("\\", "/", $info->getSaveName());
-
             }
             if(empty($images)){
                 return ajax_error("上传失败");

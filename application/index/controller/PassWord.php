@@ -16,7 +16,7 @@ class PassWord extends  Controller{
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:支付密码添加编辑
+     * Notes:支付密码添加
      **************************************
      */
     public function pay_password_add(Request $request){
@@ -39,6 +39,45 @@ class PassWord extends  Controller{
             }
         }
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:找回支付密码
+     **************************************
+     * @param Request $request
+     */
+    public function pay_password_find(Request $request){
+        if($request->isPost()){
+            $password =$request->only(["password"])["password"];
+            $password_repeat =$request->only(["password_repeat"])["password_repeat"];
+            $member_id =$request->only(["member_id"])["member_id"];
+            $member_id_card =$request->only(["member_id_card"])["member_id_card"]; //身份证
+            if(!empty($member_id)){
+                $is_name =Db::name("member")->where("member_id",$member_id)->value("ID_card");
+                if(empty($is_name)){
+                    return ajax_error("身份证未验证");
+                }
+                if($is_name !=$member_id_card ){
+                    return ajax_error("身份证输入有误");
+                }
+            }
+            if($password ==$password_repeat){
+                $passwords =password_hash($password,PASSWORD_DEFAULT);
+                $bool =Db::name("member")
+                    ->where("member_id",$member_id)
+                    ->update(["pay_password"=>$passwords]);
+                if($bool){
+                    return ajax_success("成功",["status"=>1]);
+                }else{
+                    return ajax_error("失败",["status"=>0]);
+                }
+            }else {
+                return ajax_error("两次密码不一致",["status"=>0]);
+            }
+        }
+    }
+
 
     /**
      **************李火生*******************

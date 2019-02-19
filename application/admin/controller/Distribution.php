@@ -42,27 +42,10 @@ class Distribution extends Controller
         }
      }
      
-     foreach( $members as $k => $y){        
-        $bool = db("member")->update($members[$k]);
-     }
-     
-//      foreach($members as $k=>$v){
-//         if(!empty($members[$k]['inviter_id'])){ //判断是否有一级member_id  1025=>1046
-//          $e = db("member")->where("member_id", $members[$k]['inviter_id'])->field("rank")->update(["rank" => 1]);//将上一级用户更新为1级1046       
-//          $j =  db("member")->where("member_id", $members[$k]['inviter_id'])->value("inviter_id");  //找到上一级的邀请码 1021
-//         if(!empty($j) &&  ($j != 0)){
-//          $r = db("member")->where("member_id", $j)->field("rank")->update(["rank" => 2]);//1021=>2级  
-//          $z = db("member")->where("member_id", $j)->value("inviter_id");//1021=>1024
+    //  foreach( $members as $k => $y){        
+    //     $bool = db("member")->update($members[$k]);
+    //  }
 
-//         if(!empty($z) &&  ($z != 0) ){
-//          $s = db("member")->where("member_id", $z)->field("rank")->update(["rank" => 3]);//1024=>3级
-//          //$members[$k]['rank_two'] = db("member")->where("member_id", $members[$k]['rank_one'])->value("inviter_id");//上2级账号id          
-//         }
-//       }
-//     } 
-//  }
-     
-        
         return view("setting_index",["distribution" =>$distribution ]);
     }
 

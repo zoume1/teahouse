@@ -149,7 +149,7 @@ Route::group("",[
     "bonus_index"=>"index/Coupon/bonus_index",        //积分商城显示
     "bonus_detailed"=>"index/Coupon/bonus_detailed",  //积分商城详细显示
     "integrals"=>"index/Coupon/integrals",            //积分流水显示
-    "order_integaral"=>"index/Coupon/order_integaral",//积分商城订单
+    "order_integaral"=>"index/Coupon/order_integaral",//积分商城订单 
     
 
 
@@ -162,6 +162,8 @@ Route::group("",[
     /*TODO:银行卡管理开始*/
     "bank_bingding"=>"index/Owner/bank_bingding",//银行卡数据返回
     "bank_bingding_add"=>"index/Owner/bank_bingding_add",//银行卡银行卡添加
+    "bank_bingding_update_return"=>"index/Owner/bank_bingding_update_return",//银行卡银行卡修改数据返回
+    "bank_bingding_update"=>"index/Owner/bank_bingding_update",//银行卡银行卡编辑
     "bank_binding_status"=>"index/Owner/bank_binding_status",///银行卡银行卡设置为默认
     "bank_binding_del"=>"index/Owner/bank_binding_del",///银行卡银行卡删除
     /*TODO:银行卡管理结束*/
@@ -169,6 +171,7 @@ Route::group("",[
     /*TODO:设置支付密码开始*/
     "pay_password_add" =>"index/PassWord/pay_password_add",//支付密码添加编辑
     "pay_password_return" =>"index/PassWord/pay_password_return",//支付密码返回（判断是否存在支付密码）
+    "balance_payment"=>"index/Balance/balance_payment",//商品余额支付
     /*TODO:设置支付密码结束*/
 
     /*TODO:充值提现开始*/
@@ -196,6 +199,7 @@ Route::group("",[
     /*TODO:短信验证开始*/
     "sendMobileCode"=>"index/MobileVerification/sendMobileCode",//这是新绑定手机验证码验证
     "sendMobileCodeBank"=>"index/MobileVerification/sendMobileCodeBank",//这是银行卡绑定时需手机验证码验证
+    "sendMobileCodePay"=>"index/MobileVerification/sendMobileCodePay",//忘记支付密码（找回密码验证码）
     /*TODO:短信验证结束*/
 
 

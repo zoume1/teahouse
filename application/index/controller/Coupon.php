@@ -322,7 +322,7 @@ class Coupon extends Controller
     public function order_integaral(Request $request){
         if ($request->isPost()) {
             $open_id = $request->only("open_id")["open_id"];//open_id
-            $address_id = $request->param("address_id");//address_id
+            $address_id = $request->param("address_id");    //address_id
             $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $user_id =Db::name("member")
                 ->where("member_openid",$open_id)
@@ -332,6 +332,7 @@ class Coupon extends Controller
             }
             $user_information =Db::name("member")->where("member_id",$user_id)->find();
             $sum_integral = $user_information["member_integral_wallet"];//积分余额
+            
             $is_address = Db::name('user_address')
                 ->where("id",$address_id)
                 ->where('user_id', $user_id)
@@ -372,30 +373,31 @@ class Coupon extends Controller
                         if (!empty($goods_data)) {
                             $buy_message = NUll;                          
                             $datas['goods_show_image'] = $goods_data['goods_show_image'];//图片
-                            $datas["integral"]=$goods_data['integral']; //单个商品所需积分
-                            $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
-                            $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
-                            $datas["goods_name"] =$goods_data["goods_name"];//名字
-                            $datas["order_quantity"] =$numbers[$keys];//订单数量
-                            $datas["member_id"] =$user_id;//用户id
-                            $datas["user_account_name"] =$user_information["member_name"];//用户名
-                            $datas["user_phone_number"] =$user_information["member_phone_num"];//用户名手机号
-                            $datas["harvester"] =$is_address_status['harvester'];
-                            $datas["harvest_phone_num"] =$is_address_status['harvester_phone_num'];
-                            $datas["harvester_address"] =$harvest_address;
-                            $datas["order_create_time"] =$create_time;
-                            $datas["order_amount"] =$datas["integral"]*$numbers[$keys];//订单积分
-                            $datas["status"] =1;
-                            $datas["goods_id"] =$values;
-                            $datas["parts_order_number"] =$parts_order_number;//时间+4位随机数+用户id构成订单号
-                            $datas["buy_message"] =$buy_message;//买家留言
+                            $datas["integral"]= $goods_data['integral']; //单个商品所需积分
+                            $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
+                            $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
+                            $datas["goods_name"] = $goods_data["goods_name"];//名字
+                            $datas["order_quantity"] = $numbers[$keys];//订单数量
+                            $datas["member_id"] = $user_id;//用户id
+                            $datas["user_account_name"] = $user_information["member_name"];//用户名
+                            $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
+                            $datas["harvester"] = $is_address_status['harvester'];
+                            $datas["harvest_phone_num"] = $is_address_status['harvester_phone_num'];
+                            $datas["harvester_address"] = $harvest_address;
+                            $datas["order_create_time"] = $create_time;
+                            $datas["order_amount"] = $goods_data['integral']*$numbers[$keys];//订单积分                             
+                            $datas["status"] = 1;
+                            $datas["goods_id"] = $values;
+                            $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
+                            $datas["buy_message"] = $buy_message;//买家留言
                             $datas["normal_future_time"] = $normal_future_time;//未来时间
-                            
+                           
                             if($datas["order_amount"]>$sum_integral){
-                                return ajax_error("您的积分不足");
+                                return ajax_error("您的积分不足",$datas);
                             } else {
                                 $res = Db::name('buyintegral')->insertGetId($datas);
                             }
+                            
                             if ($res) {
                                 $order_datas = Db::name("buyintegral")
                                     ->field("order_amount,goods_name,parts_order_number")
@@ -404,6 +406,9 @@ class Coupon extends Controller
                                     ->find();
                                     //插入积分记录
                                     $rest = db("member")->where("member_id",$user_id)->setDec('member_integral_wallet',$datas["order_amount"]);//消费积分
+                                    $volume = db("bonus_mall")->where("id",$values)->setDec("goods_repertory",$datas["order_quantity"]);//库存减少
+                                    //销量
+                                    //库存
                                     $many = db("member")->where("member_id",$user_id)->value("member_integral_wallet");//获取所有积分
                                     $integral_data = [
                                         "member_id" => $user_id,
