@@ -161,6 +161,8 @@ Route::group("",[
     /*TODO:银行卡管理开始*/
     "bank_bingding"=>"index/Owner/bank_bingding",//银行卡数据返回
     "bank_bingding_add"=>"index/Owner/bank_bingding_add",//银行卡银行卡添加
+    "bank_bingding_update_return"=>"index/Owner/bank_bingding_update_return",//银行卡银行卡修改数据返回
+    "bank_bingding_update"=>"index/Owner/bank_bingding_update",//银行卡银行卡编辑
     "bank_binding_status"=>"index/Owner/bank_binding_status",///银行卡银行卡设置为默认
     "bank_binding_del"=>"index/Owner/bank_binding_del",///银行卡银行卡删除
     /*TODO:银行卡管理结束*/
