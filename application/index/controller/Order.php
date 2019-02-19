@@ -1521,7 +1521,7 @@ class  Order extends  Controller
                 $integral = db("recommend_intgral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
                 //消费满多少金额赠送多少积分
                 if($all_money["order_real_pay"] > $coin){
-                    $rest = db("member")->where("member_id",$all_money["member_id"])->setInc('member_integral_wallet',$intgral);//满足条件则增加积分
+                    $rest = db("member")->where("member_id",$all_money["member_id"])->setInc('member_integral_wallet',$integral);//满足条件则增加积分
                     $many = db("member")->where("member_id",$all_money["member_id"])->value("member_integral_wallet");//获取所有积分
                     //插入积分记录
                     $integral_data = [
