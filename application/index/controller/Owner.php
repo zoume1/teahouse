@@ -189,7 +189,7 @@ class  Owner extends  Controller{
             $member_phone_num =Db::name("member")
                 ->where("member_id",$member_id)
                 ->value("member_phone_num");
-            $member_isset_card =Db::name("member")->where("bank_card",$bank_card)->find();
+            $member_isset_card =Db::name("user_bank")->where("bank_card",$bank_card)->find();
             if(!empty($member_isset_card)){
                 return ajax_error("此银行卡已被绑定");
             }
