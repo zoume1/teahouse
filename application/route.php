@@ -170,6 +170,7 @@ Route::group("",[
     /*TODO:设置支付密码开始*/
     "pay_password_add" =>"index/PassWord/pay_password_add",//支付密码添加编辑
     "pay_password_return" =>"index/PassWord/pay_password_return",//支付密码返回（判断是否存在支付密码）
+    "balance_payment"=>"index/Balance/balance_payment",//商品余额支付
     /*TODO:设置支付密码结束*/
 
     /*TODO:充值提现开始*/
