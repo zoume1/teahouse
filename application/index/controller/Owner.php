@@ -131,7 +131,7 @@ class  Owner extends  Controller{
             }
             $data =[
                 "bank_name"=>$bank_name,
-                "bank_card "=>$bank_card,
+                "bank_card"=>$bank_card,
                 "account_name"=>$account_name,
                 "status"=>$status,
                 "user_id"=>$member_id
