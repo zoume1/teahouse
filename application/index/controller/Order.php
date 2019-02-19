@@ -1511,7 +1511,7 @@ class  Order extends  Controller
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
-            // file_put_contents(EXTEND_PATH."data.txt",$val);
+             file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time()]);
@@ -1521,7 +1521,6 @@ class  Order extends  Controller
                 $integral = db("recommend_integral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
                 //消费满多少金额赠送多少积分
                 if($all_money["order_real_pay"] > $coin){
-                    file_put_contents(EXTEND_PATH."data.txt",111222333);
                     $rest = db("member")->where("member_id",$all_money["member_id"])->setInc('member_integral_wallet',$integral);//满足条件则增加积分
                     $many = db("member")->where("member_id",$all_money["member_id"])->value("member_integral_wallet");//获取所有积分
                     //插入积分记录
