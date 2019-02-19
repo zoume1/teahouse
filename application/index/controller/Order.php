@@ -1518,8 +1518,14 @@ class  Order extends  Controller
             if($res){
                 $all_money = db("order")->where("parts_order_number",$val["out_trade_no"])->field("order_real_pay,member_id");//实际支付的金额
                 $coin = db("recommend_intgral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
+                dump($all_money);
+                echo("---------------");
+                dump($coin);
+                echo("---------------");
                 $integral = db("recommend_intgral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
+                dump($integral);
                 //消费满多少金额赠送多少积分
+                echo("---------------");
                 if($all_money["order_real_pay"] > $coin){
                     $rest = db("member")->where("member_id",$all_money["member_id"])->setInc('member_integral_wallet',$integral);//满足条件则增加积分
                     $many = db("member")->where("member_id",$all_money["member_id"])->value("member_integral_wallet");//获取所有积分
@@ -1532,6 +1538,7 @@ class  Order extends  Controller
                         "operation_time" => date("Y-m-d H:i:s"), //操作时间
                         "integral_remarks" => "消费满" . $coin . "送".$integral."积分",
                     ];
+                    dump($integral_data);
                     Db::name("integral")->insert($integral_data);
                 }
                 return ajax_success("成功",$res);
