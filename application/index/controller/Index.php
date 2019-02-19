@@ -69,6 +69,11 @@ class Index extends Controller
     public function forget_pw(){
         return view("forgetpw");
     }
+    // 我的店铺
+    public function my_shop(){
+        $phone_num =  $this->common();
+        return view("myshop",["phone_num"=>$phone_num]);
+    }
 
     protected  function  common(){
         $data =Session::get("member");

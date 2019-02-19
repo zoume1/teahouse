@@ -43,6 +43,7 @@ Route::group("",[
     "sign_up"=>"index/index/sign_up", //注册
     "sign_in"=>"index/index/sign_in", //登录
     "forget_pw"=>"index/index/forget_pw", //登录
+    "my_shop"=>"index/index/my_shop", //我的店铺
 
 
     /*TODO：start*/

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="__STATIC__/index/css/common.css">
+    <style>
+        .inner-wrap{width: 1000px; margin: 0 auto;}
+        .head{margin: 25px 0;}
+        .head h2{display: inline-block; font-size: 16px; color: #333; font-weight: normal; vertical-align: super;}
+        .head .right{float: right;}
+        .head .right .dash{color: #e8e8e8;}
+        .head .right .logout{font-size: 12px; color: #38f;}
+        .select{background-color: #f9f8f7; padding-bottom: 5px;}
+        .select .infobar{padding: 10px 35px 0; margin-bottom: 10px;}
+        .select .infobar img{margin-right: 5px; vertical-align: middle;}
+        .select .infobar span{font-size: 14px; margin-right: 10px; vertical-align: middle;}
+        .select .infobar span.change-phone{color: #38f; cursor: pointer;}
+        .select .infobar .add-shop{float: right; margin-top: 4px; cursor: pointer; background-color: #38f; color: #fff; border: 0; padding: 7px 10px; border-radius: 3px; font-size: 13px;}
+        .select .infobar .add-shop:hover{background-color: #39e;}
+        .select .shop-innerbox{min-height: 460px; margin: 0 5px; padding: 20px 30px; background-color: #fff;}
+        .select .shop-innerbox ul{display: flex; justify-content: space-between; flex-wrap: wrap;}
+        .select .shop-innerbox li.holder{height: 0; margin: 0; padding: 0; width: 280px;}
+        .select .shop-innerbox li.add-shop-li{width: 280px; height: 120px; box-sizing: border-box; border: 1px dashed #a8a8a8; border-radius: 10px; text-align: center; line-height: 120px; cursor: pointer;}
+        .select .shop-innerbox .add-shop-li .cross{font-size: 25px; color: #999; font-style: normal;}
+        .select .shop-innerbox .add-shop-li span{font-size: 20px; color: #999;}
+        .select .shop-innerbox li.shop-item{width: 280px; height: 120px; box-sizing: border-box; border: 1px solid #a8a8a8; margin-bottom: 20px; padding: 10px 15px;}
+        .select .shop-innerbox li.universal-shop{border-top: 5px solid #e9b665;}
+        .select .shop-innerbox li.industry-shop{border-top: 5px solid #821006;}
+        .select .shop-innerbox li.progress-shop{border-top: 5px solid #ff2c2e;}
+        .shop-innerbox .shop-item .shop-info{position: relative; margin-bottom: 5px;}
+        .shop-innerbox .shop-item .shop-name,.shop-innerbox .shop-item .shop-number{color: #0bf; width: 120px; font-size: 12px;}
+        .shop-innerbox .shop-item .shop-version{position: absolute; top: 6px; right: 0; color: #fff; background-color: #f00; padding: 2px 6px; cursor: pointer;}
+        .shop-innerbox .shop-item .shop-introduce{font-size: 12px; color: #949494; }
+        .shop-innerbox .shop-item .remaining-time{float: left; line-height: 24px; color: #949494;}
+        .shop-innerbox .shop-item .into-shop{float: right; background-color: transparent; border: 1px solid #ccc; cursor: pointer; padding: 0 10px; color: #949494; margin-top: 2px;}
+        .shop-innerbox .universal-shop .shop-version{background: linear-gradient(to right, #e4c28b, #e9b665); border-radius: 10px;}
+        .shop-innerbox .industry-shop .shop-version{background: linear-gradient(to right, #bb6a62, #821006); border-radius: 10px;}
+        .shop-innerbox .progress-shop .shop-version{background: linear-gradient(to right, #da8485, #ff2c2e); border-radius: 10px;}
+        .copyright{text-align: center; margin-top: 50px;color: #515151;}
+        .copyright a{color: #515151;}
+        .pop{width: 680px; height: 550px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; border: 1px solid #a8a8a8; box-sizing: border-box;}
+        .pop-headbar{height: 40px; background-color: #eef7ea; border-bottom: 1px solid #d7d7d7;}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="warpper">
+        <div class="inner-wrap">
+            <div class="head">
+                <a href="./">
+                    <img src="__STATIC__/index/img/logo3.png" width="100" height="23">
+                </a>
+                <span class="sep"></span>
+                <h2>选择店铺</h2>
+                {if !empty($phone_num)}
+                <span class="right">
+                    {$phone_num}
+                    <span class="dash">-</span>
+                    <a href="javascript:;" class="logout">退出</a>
+                </span>
+                {/if}  
+            </div>
+            <div class="select">
+                <div class="infobar">
+                    <img src="__STATIC__/index/img/icon3.png" width="40" height="40">
+                    {if !empty($phone_num)}
+                    <span>{$phone_num}</span>
+                    {/if}
+                    <span class="change-phone">修改店铺绑定手机号</span>
+                    <button class="add-shop">创建店铺</button>
+                </div>
+                <div class="shop-box">
+                    <div class="shop-innerbox">
+                        <ul>
+                            <li class="add-shop-li">
+                                <span class="cross">＋</span>
+                                <span>创建店铺</span>
+                            </li>
+                            <li class="shop-item">
+                                <div class="shop-info">
+                                    <div class="shop-name txt-hid-one">店铺名</div>
+                                    <div class="shop-number txt-hid-one">店铺编号</div>
+                                    <div class="shop-version">店铺版本购买</div>
+                                </div>
+                                <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
+                                <div class="bottom clearfix">
+                                    <div class="remaining-time">剩余时间：<span>1天</span></div>
+                                    <button class="into-shop">进入</button>
+                                </div>
+                            </li>
+                            <li class="shop-item universal-shop">
+                                <div class="shop-info">
+                                    <div class="shop-name txt-hid-one">店铺名</div>
+                                    <div class="shop-number txt-hid-one">店铺编号</div>
+                                    <div class="shop-version">店铺版本购买</div>
+                                </div>
+                                <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
+                                <div class="bottom clearfix">
+                                    <div class="remaining-time">剩余时间：<span>1天</span></div>
+                                    <button class="into-shop">进入</button>
+                                </div>
+                            </li>
+                            <li class="shop-item industry-shop">
+                                <div class="shop-info">
+                                    <div class="shop-name txt-hid-one">店铺名</div>
+                                    <div class="shop-number txt-hid-one">店铺编号</div>
+                                    <div class="shop-version">店铺版本购买</div>
+                                </div>
+                                <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
+                                <div class="bottom clearfix">
+                                    <div class="remaining-time">剩余时间：<span>1天</span></div>
+                                    <button class="into-shop">进入</button>
+                                </div>
+                            </li>
+                            <li class="shop-item progress-shop">
+                                <div class="shop-info">
+                                    <div class="shop-name txt-hid-one">店铺名</div>
+                                    <div class="shop-number txt-hid-one">店铺编号</div>
+                                    <div class="shop-version">店铺版本购买</div>
+                                </div>
+                                <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
+                                <div class="bottom clearfix">
+                                    <div class="remaining-time">剩余时间：<span>1天</span></div>
+                                    <button class="into-shop">进入</button>
+                                </div>
+                            </li>
+                            <li class="holder"></li>
+                            <li class="holder"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <p class="copyright">
+                © 2012 - 2019
+                <a href="./">宣铭科技版权所有</a>
+            </p>
+        </div>
+    </div>
+    <div class="mask" style="display:none;"></div>
+    <!-- 修改手机号弹窗 -->
+    <div class="pop" style="display:none;">
+        <div class="pop-headbar clearfix">
+            <span>修改手机号</span>
+            <a href="javascript:;">×</a>
+        </div>
+    </div>
+    <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/layer/layer.js"></script>
+    <script src="__STATIC__/index/js/common.js"></script>
+
+</body>
+</html>
