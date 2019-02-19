@@ -196,15 +196,15 @@ class  Owner extends  Controller{
             $code =$request->only(["code"])["code"];
             $mobileCode =Cache::get('mobileCode');
             $mobile =Cache::get('mobile');
-            if($member_phone_num != $mobile){
-                return ajax_error("手机号不匹配");
-            }
+//            if($member_phone_num != $mobile){
+//                return ajax_error("手机号不匹配");
+//            }
             if($mobileCode != $code) {
                 return ajax_error("验证码不正确");
             }
             $data =[
                 "bank_name"=>$bank_name,
-                "bank_card "=>$bank_card,
+                "bank_card"=>$bank_card,
                 "account_name"=>$account_name,
                 "status"=>$status,
                 "user_id"=>$member_id
