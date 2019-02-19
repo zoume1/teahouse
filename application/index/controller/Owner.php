@@ -140,11 +140,36 @@ class  Owner extends  Controller{
             if($res){
                 return ajax_success("添加成功",["status"=>1]);
             }else{
+
                 return ajax_error("请重试",["status"=>0]);
             }
 
         }
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:银行卡修改返回信息
+     **************************************
+     * @param Request $request
+     */
+    public function bank_bingding_update_return(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $id =$request->only(["id"])["id"];
+            $data =Db::name("user_bank")
+                ->where("user_id",$member_id)
+                ->where("id",$id)
+                ->find();
+            if(!empty($data)){
+                return ajax_success("银行卡信息返回成功",$data);
+            }else{
+                return ajax_error("未绑定银行卡");
+            }
+        }
+    }
+
 
     /**
      **************李火生*******************
