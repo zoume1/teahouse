@@ -1515,16 +1515,17 @@ class  Order extends  Controller
             $res = Db::name("order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time()]);
-                $all_money = db("order")->where("parts_order_number",$val["out_trade_no"])->value("order_real_pay");//实际支付的金额
+            if($res){
+                $all_money = db("order")->where("parts_order_number",$val["out_trade_no"])->field("order_real_pay,member_id");//实际支付的金额
                 $coin = db("recommend_intgral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
                 $integral = db("recommend_intgral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
                 //消费满多少金额赠送多少积分
-                if($all_money > $coin){
-                    $rest = db("member")->where("member_id",$user_id)->setInc('member_integral_wallet',$intgral);//满足条件则增加积分
-                    $many = db("member")->where("member_id",$user_id)->value("member_integral_wallet");//获取所有积分
+                if($all_money["order_real_pay"] > $coin){
+                    $rest = db("member")->where("member_id",$all_money["member_id"])->setInc('member_integral_wallet',$intgral);//满足条件则增加积分
+                    $many = db("member")->where("member_id",$all_money["member_id"])->value("member_integral_wallet");//获取所有积分
                     //插入积分记录
                     $integral_data = [
-                        "member_id" => $user_id,
+                        "member_id" => $all_money["member_id"],
                         "integral_operation" => $integral,//获得积分
                         "integral_balance" => $many,//积分余额
                         "integral_type" => 1, //积分类型（1获得，-1消费）
@@ -1533,7 +1534,6 @@ class  Order extends  Controller
                     ];
                     Db::name("integral")->insert($integral_data);
                 }
-            if($res){
                 return ajax_success("成功",$res);
             }else{
                 return ajax_error("失败");
