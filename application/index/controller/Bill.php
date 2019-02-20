@@ -32,21 +32,21 @@ class Bill extends Controller{
                 ->where($condition)
                 ->order("operation_time","desc")
                 ->select();
-            $datas =array(
-                "january"=>[],
-                "february"=>[],
-                "march"=>[],
-                "april"=>[],
-                "may"=>[],
-                "june"=>[],
-                "july"=>[],
-                "august"=>[],
-                "september"=>[],
-                "october"=>[],
-                "november"=>[],
-                "december"=>[],
-            );
             if(!empty($data)){
+                $datas =array(
+                    "january"=>[],
+                    "february"=>[],
+                    "march"=>[],
+                    "april"=>[],
+                    "may"=>[],
+                    "june"=>[],
+                    "july"=>[],
+                    "august"=>[],
+                    "september"=>[],
+                    "october"=>[],
+                    "november"=>[],
+                    "december"=>[],
+                );
                 foreach ($data as $ks=>$vs){
                     if(strpos($vs["operation_time"],$now_time_one."-01") !==false){
                         $datas["january"][] =$vs;
@@ -74,8 +74,6 @@ class Bill extends Controller{
                         $datas["december"][] =$vs;
                     }
                 }
-            }
-            if(!empty($datas)){
                 return ajax_success("消费细节返回成功",$datas);
             }else{
                 return ajax_error("暂无消费记录",["status"=>0]);
