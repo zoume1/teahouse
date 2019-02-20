@@ -22,7 +22,7 @@ class Bill extends Controller{
      **************************************
      * @return \think\response\View
      */
-    public function consume(Request $request){
+    public function consume_index(Request $request){
         if($request->isPost()){
             $user_id =$request->only(["member_id"]);//用户id
             $now_time_one =date("Y");
@@ -32,7 +32,6 @@ class Bill extends Controller{
                 ->where($condition)
                 ->order("operation_time","desc")
                 ->select();
-            dump($data);
             if(!empty($data)){
                 return ajax_success("消费细节返回成功",$data);
             }else{
