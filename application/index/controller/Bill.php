@@ -34,20 +34,46 @@ class Bill extends Controller{
                 ->select();
             if(!empty($data)){
                 $datas =array(
-                    "january"=>[],
-                    "february"=>[],
-                    "march"=>[],
-                    "april"=>[],
-                    "may"=>[],
-                    "june"=>[],
-                    "july"=>[],
-                    "august"=>[],
-                    "september"=>[],
-                    "october"=>[],
-                    "november"=>[],
-                    "december"=>[],
+                    "january"=>array(),
+                    "february"=>array(),
+                    "march"=>array(),
+                    "april"=>array(),
+                    "may"=>array(),
+                    "june"=>array(),
+                    "july"=>array(),
+                    "august"=>array(),
+                    "september"=>array(),
+                    "october"=>array(),
+                    "november"=>array(),
+                    "december"=>array(),
                 );
-              
+                foreach ($data as $ks=>$vs){
+                    if(strpos($vs["operation_time"],$now_time_one."-01") !==false){
+                        $datas["january"][] =$vs;
+                    } else if(strpos($vs["operation_time"],$now_time_one."-02")  !==false){
+                        $datas["sebruary"][] =$vs;
+                    }else if(strpos($vs["operation_time"],$now_time_one."-03")  !==false){
+                        $datas["march"][] =$vs;
+                    }else if(strpos($vs["operation_time"],$now_time_one."-04")  !==false){
+                        $datas["april"][] =$vs;
+                    }else if(strpos($vs["operation_time"],$now_time_one."-05")  !==false){
+                        $datas["may"][] =$vs;
+                    }else if(strpos($vs["operation_time"],$now_time_one."-06")  !==false){
+                        $datas["june"][] =$vs;
+                    }else if(strpos($vs["operation_time"],$now_time_one."-07")  !==false){
+                        $datas["july"][] =$vs;
+                    }else if(strpos($vs["operation_time"],$now_time_one."-08")  !==false){
+                        $datas["august"][] =$vs;
+                    }else if(strpos($vs["operation_time"],$now_time_one."-09") !==false){
+                        $datas["september"][] =$vs;
+                    }else if(strpos($vs["operation_time"],$now_time_one."-10") !==false){
+                        $datas["october"][] =$vs;
+                    }else if(strpos($vs["operation_time"],$now_time_one."-11") !==false){
+                        $datas["november"][] =$vs;
+                    }else if(strpos($vs["operation_time"],$now_time_one."-12") !==false){
+                        $datas["december"][] =$vs;
+                    }
+                }
                 return ajax_success("消费细节返回成功",$datas);
             }else{
                 return ajax_error("暂无消费记录",["status"=>0]);
