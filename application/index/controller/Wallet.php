@@ -51,7 +51,7 @@ class  Wallet extends  Controller{
      */
     public function recharge_setting_return(Request $request){
         if($request->isPost()){
-            $data =Db::name("recharge_full_setting")->select();
+            $data =Db::name("recharge_full_setting")->where("status",1)->select();
             if(!empty($data)){
                 return ajax_success("储值信息返回成功",$data);
             }else{
@@ -132,6 +132,9 @@ class  Wallet extends  Controller{
      **************************************
      */
 
+    public function withdrawal(){
+
+    }
 
 
 
