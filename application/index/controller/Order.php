@@ -1574,12 +1574,12 @@ class  Order extends  Controller
                     ->where("recharge_order_number",$val["out_trade_no"])
                     ->find();
                 $list =Db::name("recharge_full_setting")
-                    ->field("recharge_full,send_money")
+                    ->field("recharge_setting_full,recharge_setting_full_money")
                     ->select();
                 $lists =0;
                 foreach($list as $k=>$v){
-                    if($v["recharge_full"] ==$recharge_record_data["recharge_money"]){
-                        $lists =$v["send_money"];
+                    if($v["recharge_setting_full"] ==$recharge_record_data["recharge_money"]){
+                        $lists =$v["recharge_setting_full_money"];
                     }
                 }
                 //如果达到充值送积分条件
