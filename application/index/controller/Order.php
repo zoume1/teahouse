@@ -1573,13 +1573,14 @@ class  Order extends  Controller
                 $recharge_record_data = Db::name("recharge_record")
                     ->where("recharge_order_number",$val["out_trade_no"])
                     ->find();
+                //充值送积分
                 $list =Db::name("recharge_full_setting")
-                    ->field("recharge_setting_full,recharge_setting_full_money")
+                    ->field("recharge_setting_send_integral,recharge_setting_full_money")
                     ->select();
                 $lists =0;
                 foreach($list as $k=>$v){
-                    if($v["recharge_setting_full"] ==$recharge_record_data["recharge_money"]){
-                        $lists =$v["recharge_setting_full_money"];
+                    if($v["recharge_setting_full_money"] ==$recharge_record_data["recharge_money"]){
+                        $lists =$v["recharge_setting_send_integral"];
                     }
                 }
                 //如果达到充值送积分条件
@@ -1591,18 +1592,20 @@ class  Order extends  Controller
                         "pay_type_content"=>$recharge_record_data["pay_type_name"],//支付方式
                         "money_status"=>1 , //到款状态（1到账，2未到款）
                         "img_url"=>" ", //对应的图片链接
-                        "operation_amount" =>$recharge_record_data["recharge_money"]+$lists, //操作金额
-                        "recharge_describe" =>"充值".$recharge_record_data["recharge_money"]."元,送了".$lists,//描述
+                        "operation_amount" =>$recharge_record_data["recharge_money"], //操作金额
+                        "recharge_describe" =>"充值".$recharge_record_data["recharge_money"]."元,送了".$lists."积分",//描述
                         "status"=>1,
                         "is_able_withdrawal"=>1
                     ];
                     Db::name("recharge_reflect")->insert($recharge_data);//插到记录
+                    //充值剩下的余额
                     $user_wallet =Db::name("member")
                         ->field("member_recharge_money")
                         ->where("member_id",$recharge_record_data["user_id"])
                         ->find();
+                    //更新充值的余额
                     Db::name("member")->where("member_id",$recharge_record_data["user_id"])
-                        ->update(["member_wallet"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]+ $lists]);
+                        ->update(["member_recharge_money"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]]);
                 }
                 $new_wallet =Db::name("member")
                     ->where("member_id",$recharge_record_data["user_id"])
@@ -1612,12 +1615,12 @@ class  Order extends  Controller
                     "wallet_operation"=> $money,//消费金额
                     "wallet_type"=>1,//消费操作(1入，-1出)
                     "operation_time"=>date("Y-m-d H:i:s"),//操作时间
-                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，充值，余额增加".$money."元,送".$lists."元",//消费备注
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，充值，余额增加".$money."元,送".$lists."积分",//消费备注
                     "wallet_img"=>" ",//图标
                     "title"=>$title,//标题（消费内容）
                     "order_nums"=>$val["out_trade_no"],//订单编号
                     "pay_type"=>"小程序", //支付方式/
-                    "member_recharge_money"=>$new_wallet,//此刻钱包余额
+                    "wallet_balance"=>$new_wallet,//此刻钱包余额
                 ];
                 Db::name("wallet")->insert($datas); //存入消费记录表
                 return ajax_success("成功",$res);
