@@ -179,6 +179,8 @@ Route::group("",[
     "recharge_setting_return"=>"index/Wallet/recharge_setting_return",//账户充值页面对应的储值规则数据返回
     "member_balance_recharge"=>"index/Wallet/member_balance_recharge",//账户余额充值
     "wallet_recharge_del"=>"index/wallet/recharge_del",     //钱包充值下单未付款自动关闭取消删除(ajax)
+    "withdrawal_return"=>"index/wallet/withdrawal_return",     //钱包提现页面数据返回
+    "withdrawal"=>"index/wallet/withdrawal",     //钱包提现
     /*TODO:充值提现结束*/
 
 

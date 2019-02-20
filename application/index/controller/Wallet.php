@@ -12,6 +12,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use think\Cache;
 
 class  Wallet extends  Controller{
 
@@ -125,6 +126,50 @@ class  Wallet extends  Controller{
         }
     }
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:提现页面数据返回（如果没有设置为默认选择第一个）
+     **************************************
+     */
+    public function withdrawal_return(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $id =$request->only(["id"])["id"];//银行卡id
+            if(!empty($id)){
+                $is_bank =Db::name("user_bank")
+                    ->where("user_id", $member_id)
+                    ->where("id",$id)
+                    ->find();
+                if(!empty($is_bank)){
+                    return ajax_success('收货地址成功返回', $is_bank);
+                }else{
+                    exit(json_encode(array("status"=>0,"info"=>"请先选择银行卡")));
+                }
+            }
+            $is_bank_status = Db::name('user_bank')
+                ->where('user_id',  $member_id)
+                ->order("id","desc")
+                ->find();
+            if (!empty($is_bank_status)) {
+                $is_bank = Db::name('user_bank')
+                    ->where('user_id',  $member_id)
+                    ->where("status", 1)
+                    ->find();
+                if(!empty($is_bank)){
+                    return ajax_success('银行卡信息成功返回', $is_bank);
+                }else{
+                    return ajax_success('银行卡信息成功返回', $is_bank);
+                }
+            } else {
+                exit(json_encode(array("status"=>0,"info"=>"请先填写银行卡信息")));
+            }
+
+        }
+    }
+
+
     /**
      **************李火生*******************
      * @param Request $request
@@ -132,8 +177,65 @@ class  Wallet extends  Controller{
      **************************************
      */
 
-    public function withdrawal(){
+    public function withdrawal(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $money =$request->only(["money"])["money"];
+            $user_name =$request->only(["user_name"])["user_name"];
+            $bank_name =$request->only(["bank_name"])["bank_name"];
+            $bank_card =$request->only(["bank_card"])["bank_card"];
+            $code =$request->only(["code"])["code"];
 
+            $member_recharge_money =Db::name("member")
+                ->where("member_id",$member_id)
+                ->value("member_recharge_money");
+            if($money <= 0){
+                return ajax_error("金额不正确");
+            }
+            if($money <= $member_recharge_money){
+                return ajax_error("提现金额不能超过可提现金额");
+            }
+            $user_real_name =Db::name("member")
+                ->where("member_id",$member_id)
+                ->value("member_real_name");
+            if($user_real_name != $user_name){
+                return ajax_error("户名必须跟绑定的身份证一致");
+            }
+            $member_phone_num =Db::name("member")
+                ->where("member_id",$member_id)
+                ->value("member_phone_num");
+            $mobileCode =Cache::get('mobileCode');
+            $mobile =Cache::get('mobile');
+            if($mobileCode != $code) {
+                return ajax_error("验证码不正确");
+            }
+            if($member_phone_num != $mobile){
+                return ajax_error("手机号不匹配");
+            }
+            $data =[
+                "user_id"=>$member_id,//钱包支付记录ID（充值提现）
+                "operation_time"=>date("Y-m-d H:i:s"), //操作时间
+                "operation_type"=>-1, //操作类型（-1提现,1充值）
+                "operation_amount"=>$money, //操作金额
+                "pay_type_content"=>"微信", //支付方式
+                "money_status"=>2, //到款状态（1到账，2未到款）
+                "recharge_describe"=>"提现",//描述
+                "img_url"=>" ",//对应的图片链接
+                "back_member"=>$user_name,//用户名
+                "bank_card"=>$bank_card,//开户银行卡
+                "bank_name"=>$bank_name,//开户银行
+                "status"=>2, //审核状态（-1,2,1）不通过，待审核，通过
+                "wallet_income_ids"=>0,//收入的钱，用来记住提现审核未通过（逗号隔开，方便修改回正常的数据）
+                "wallet_expenditure_ids"=>0,//支出的钱，用来记住提现审核未通过（逗号隔开，方便修改回正常的数据）
+                "is_able_withdrawal"=>1, //是否可提现1可以提现，-1不可提现
+            ];
+            $res =Db::name("recharge_reflect")->insertGetId($data);
+            if($res){
+                return ajax_success("申请成功",$res);
+            }else{
+                return ajax_error("请重复申请");
+            }
+        }
     }
 
 
