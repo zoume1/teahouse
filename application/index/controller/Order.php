@@ -1554,7 +1554,7 @@ class  Order extends  Controller
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
-            file_put_contents(EXTEND_PATH."data.txt",$val);
+//            file_put_contents(EXTEND_PATH."data.txt",$val);
             $data['status'] = 1;
             $data['pay_time'] = time();
             $data['pay_type_name'] = "微信";
@@ -1573,7 +1573,9 @@ class  Order extends  Controller
                 $recharge_record_data = Db::name("recharge_record")
                     ->where("recharge_order_number",$val["out_trade_no"])
                     ->find();
-                $list =Db::name("recharge_setting")->field("recharge_full,send_money")->select();
+                $list =Db::name("recharge_full_setting")
+                    ->field("recharge_full,send_money")
+                    ->select();
                 $lists =0;
                 foreach($list as $k=>$v){
                     if($v["recharge_full"] ==$recharge_record_data["recharge_money"]){
@@ -1596,15 +1598,15 @@ class  Order extends  Controller
                     ];
                     Db::name("recharge_reflect")->insert($recharge_data);//插到记录
                     $user_wallet =Db::name("member")
-                        ->field("user_wallet")
+                        ->field("member_recharge_money")
                         ->where("member_id",$recharge_record_data["user_id"])
                         ->find();
                     Db::name("member")->where("member_id",$recharge_record_data["user_id"])
-                        ->update(["user_wallet"=>$user_wallet["user_wallet"]+$recharge_record_data["recharge_money"]+ $lists]);
+                        ->update(["member_wallet"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]+ $lists]);
                 }
                 $new_wallet =Db::name("member")
                     ->where("member_id",$recharge_record_data["user_id"])
-                    ->value("user_wallet");
+                    ->value("member_recharge_money");
                 $datas=[
                     "user_id"=>$parts["user_id"],//用户ID
                     "wallet_operation"=> $money,//消费金额
@@ -1615,7 +1617,7 @@ class  Order extends  Controller
                     "title"=>$title,//标题（消费内容）
                     "order_nums"=>$val["out_trade_no"],//订单编号
                     "pay_type"=>"小程序", //支付方式/
-                    "wallet_balance"=>$new_wallet,//此刻钱包余额
+                    "member_recharge_money"=>$new_wallet,//此刻钱包余额
                 ];
                 Db::name("wallet")->insert($datas); //存入消费记录表
                 return ajax_success("成功",$res);
