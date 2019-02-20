@@ -215,6 +215,52 @@ class My extends Controller
          }
      }
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:手机号绑定
+     **************************************
+     * @param Request $request
+     */
+    public function user_phone_bingding_update(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $old_phone_num =$request->only(["old_phone_num"])["old_phone_num"];
+            $old =Db::name("member")
+                ->where("member_id",$member_id)
+                ->value("member_phone_num");
+            if( $old_phone_num  !=$old){
+                return ajax_error("老账号不是原绑定的手机号");
+            }
+            $member_phone_num =$request->only(["member_phone_num"])["member_phone_num"];
+            $code =$request->only(["code"])["code"];
+            $mobileCode =Cache::get('mobileCode');
+            $mobile =Cache::get('mobile');
+            if($mobileCode != $code || $member_phone_num != $mobile) {
+                return ajax_error("验证码不正确");
+            }
+            $phone_number =Db::name("member")
+                ->where("member_id", $member_id)
+                ->update(["member_phone_num"=>$member_phone_num]);
+            if(!empty($phone_number)){
+                Cache::rm('mobileCode');
+                Cache::rm('mobile');
+                return ajax_success("绑定成功",$phone_number);
+            }else{
+                return ajax_error("请重试",["status"=>0]);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
     /**
      **************李火生*******************
      * @param Request $request
