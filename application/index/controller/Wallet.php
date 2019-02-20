@@ -225,8 +225,6 @@ class  Wallet extends  Controller{
                 "bank_card"=>$bank_card,//开户银行卡
                 "bank_name"=>$bank_name,//开户银行
                 "status"=>2, //审核状态（-1,2,1）不通过，待审核，通过
-                "wallet_income_ids"=>0,//收入的钱，用来记住提现审核未通过（逗号隔开，方便修改回正常的数据）
-                "wallet_expenditure_ids"=>0,//支出的钱，用来记住提现审核未通过（逗号隔开，方便修改回正常的数据）
                 "is_able_withdrawal"=>1, //是否可提现1可以提现，-1不可提现
             ];
             $res =Db::name("recharge_reflect")->insertGetId($data);

@@ -121,7 +121,7 @@ class Pay extends  Controller{
         $order_numbers =$request->param("recharge_order_number");//订单编号
         $order_datas = Db::name("recharge_record")
             ->where("recharge_order_number",$order_numbers)
-            ->where("member_id", $member_id)
+            ->where("user_id", $member_id)
             ->find();
         $activity_name ="充值";//名称
         $cost_moneny = $order_datas["recharge_money"];//金额
