@@ -14,8 +14,10 @@ li{line-height: inherit;}
 .clearfix::after{content: ''; display: block; clear: both;}
 .title-h2{font-size: 40px; font-weight: 700; color: #545454; line-height: normal;}
 .fl{float: left;}
-
-
+.sep{width: 1px; height: 18px; margin: 0 10px; background-color: #e8e8e8; display: inline-block; position: relative;}
+.txt-hid-one{overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;}
+.txt-hid-two{overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;}
+.mask{position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, .5);}
 .wrapper{width: 100%;}
 .container{width: 1350px; margin: 0 auto;}
 /* header */

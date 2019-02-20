@@ -137,24 +137,24 @@ function getIdentifyingCode($el, url, phone){
     })
 }
 // 判断是否登录
-(function(){
-    $.ajax({
-        url: 'isLogin',
-        type: 'POST',
-        dataType: 'JSON',
-        success: function(res){
-            console.log(res);
-            if(res.status == 1){
-                $('.login').hide();
-                $('.loaded-common').show();
-                $('.loaded-mobile').text(res.data.phone_number);
-            }
-        },
-        error: function(res){
-            console.log(res.status, res.statusText);
-        }
-    })
-})()
+// (function(){
+//     $.ajax({
+//         url: 'isLogin',
+//         type: 'POST',
+//         dataType: 'JSON',
+//         success: function(res){
+//             console.log(res);
+//             if(res.status == 1){
+//                 $('.login').hide();
+//                 $('.loaded-common').show();
+//                 $('.loaded-mobile').text(res.data.phone_number);
+//             }
+//         },
+//         error: function(res){
+//             console.log(res.status, res.statusText);
+//         }
+//     })
+// })()
 // 退出登录
 $('.logout').click(function(){
     $.ajax({
@@ -171,4 +171,8 @@ $('.logout').click(function(){
             console.log(res.status, res.statusText);
         }
     })
+})
+// 进入后台
+$('.backstage').click(function(){
+    location.href = 'my_shop';
 })

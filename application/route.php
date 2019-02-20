@@ -43,6 +43,7 @@ Route::group("",[
     "sign_up"=>"index/index/sign_up", //注册
     "sign_in"=>"index/index/sign_in", //登录
     "forget_pw"=>"index/index/forget_pw", //登录
+    "my_shop"=>"index/index/my_shop", //我的店铺
 
 
     /*TODO：start*/
@@ -170,6 +171,7 @@ Route::group("",[
     /*TODO:设置支付密码开始*/
     "pay_password_add" =>"index/PassWord/pay_password_add",//支付密码添加编辑
     "pay_password_return" =>"index/PassWord/pay_password_return",//支付密码返回（判断是否存在支付密码）
+    "balance_payment"=>"index/Balance/balance_payment",//商品余额支付
     /*TODO:设置支付密码结束*/
 
     /*TODO:充值提现开始*/
@@ -177,6 +179,8 @@ Route::group("",[
     "recharge_setting_return"=>"index/Wallet/recharge_setting_return",//账户充值页面对应的储值规则数据返回
     "member_balance_recharge"=>"index/Wallet/member_balance_recharge",//账户余额充值
     "wallet_recharge_del"=>"index/wallet/recharge_del",     //钱包充值下单未付款自动关闭取消删除(ajax)
+    "withdrawal_return"=>"index/wallet/withdrawal_return",     //钱包提现页面数据返回
+    "withdrawal"=>"index/wallet/withdrawal",     //钱包提现
     /*TODO:充值提现结束*/
 
 
@@ -184,13 +188,14 @@ Route::group("",[
     /*TODO:手机号头像昵称绑定开始*/
     "user_phone_return"=>"index/My/user_phone_return",//手机号绑定数据返回
     "user_phone_bingding"=>"index/My/user_phone_bingding",//手机号绑定
+    "user_phone_bingding_update"=>"index/My/user_phone_bingding_update",//手机号绑定修改
     "user_name_return"=>"index/My/user_name_return",//用户昵称绑定数据返回
     "user_name_update"=>"index/My/user_name_update",//用户昵称绑定修改
     "user_img_return"=>"index/My/user_img_return",//用户头像绑定数据返回
     "user_img_update"=>"index/My/user_img_update",//用户头像修改
     /*TODO:手机号头像昵称绑定结束*/
     /*TODO:我的账单开始*/
-    "consume"=>"index/Bill/consume",//账单我的消费
+    "consume_index"=>"index/Bill/consume_index",//账单我的消费
     "consume_search"=>"index/Bill/consume_search",//账单我的消费搜索
     /*TODO:我的账单结束*/
 

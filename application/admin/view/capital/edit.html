@@ -33,11 +33,11 @@
 			<label class="layui-form-label"> 功能开关</label>
 			<div class="layui-input-block">
 				{if $data.status==1}
-				<input type="checkbox" checked class="Status" name="status" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+				<input type="checkbox" checked class="Status" name="status" value="1" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 				 data-id="{$data.status}">
 				{/if}
 				{if $data.status==-1}
-				<input type="checkbox"  class="Status" name="status" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+				<input type="checkbox"  class="Status" name="status" value="-1" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 					   data-id="{$data.status}">
 				{/if}
 
