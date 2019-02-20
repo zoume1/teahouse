@@ -27,10 +27,15 @@ class  Wallet extends  Controller{
             $member_id =$request->only(["member_id"])["member_id"];
             $data  =Db::name("member")
                 ->where("member_id",$member_id)
-                ->field("member_wallet,member_integral_wallet")
+                ->field("member_wallet,member_integral_wallet,member_recharge_money")
                 ->find();
             if(!empty($data)){
-                return ajax_success("余额信息返回成功",$data);
+                $datas =[
+                    "member_wallet"=>$data["member_wallet"]+$data["member_recharge_money"],//总共的余额
+                    "member_integral_wallet"=>$data["member_integral_wallet"],//积分
+                    "member_recharge_money" =>$data["member_recharge_money"],//可提现金额
+                ];
+                return ajax_success("余额信息返回成功",$datas);
             }else{
                 return ajax_error("没有信息返回",["status"=>0]);
             }
@@ -126,6 +131,7 @@ class  Wallet extends  Controller{
      * Notes:提现
      **************************************
      */
+
 
 
 
