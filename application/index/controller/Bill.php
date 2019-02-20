@@ -75,11 +75,8 @@ class Bill extends Controller{
                     }
                 }
             }
-            $res =[
-                "wallet_record"=>$datas
-            ];
-            if(!empty($data)){
-                return ajax_success("消费细节返回成功",$res);
+            if(!empty($datas)){
+                return ajax_success("消费细节返回成功",$datas);
             }else{
                 return ajax_error("暂无消费记录",["status"=>0]);
             }
