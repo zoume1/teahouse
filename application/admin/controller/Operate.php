@@ -53,15 +53,23 @@ class Operate extends  Controller{
     }
 
 
+
+
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:协议合同
-     **************************************
-     * @return \think\response\View
-     */
+     * [协议合同显示]
+     * GY
+    */
     public function operate_contract(){
         return view("operate_contract");
+    }
+
+
+    /**
+     * [协议合同添加]
+     * GY
+    */
+    public function operate_contract_add(){
+        return view("operate_contract_add");
     }
 
 
