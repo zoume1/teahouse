@@ -34,18 +34,6 @@ class Bill extends Controller{
                 ->select();
             if(!empty($data)){
                 $datas =array(
-                    "january"=>array(),
-                    "february"=>array(),
-                    "march"=>array(),
-                    "april"=>array(),
-                    "may"=>array(),
-                    "june"=>array(),
-                    "july"=>array(),
-                    "august"=>array(),
-                    "september"=>array(),
-                    "october"=>array(),
-                    "november"=>array(),
-                    "december"=>array(),
                 );
                 foreach ($data as $ks=>$vs){
                     if(strpos($vs["operation_time"],$now_time_one."-01") !==false){
