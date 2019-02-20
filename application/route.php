@@ -195,7 +195,7 @@ Route::group("",[
     "user_img_update"=>"index/My/user_img_update",//用户头像修改
     /*TODO:手机号头像昵称绑定结束*/
     /*TODO:我的账单开始*/
-    "consume_index"=>"index/Bill/consume_index",//账单我的消费
+    "consume"=>"index/Bill/consume",//账单我的消费
     "consume_search"=>"index/Bill/consume_search",//账单我的消费搜索
     /*TODO:我的账单结束*/
 
