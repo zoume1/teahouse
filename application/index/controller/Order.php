@@ -1607,7 +1607,7 @@ class  Order extends  Controller
                     Db::name("member")->where("member_id",$recharge_record_data["user_id"])
                         ->update(["member_recharge_money"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]]);
                     //插入积分记录
-                    $rest = db("member")
+                         Db::name("member")
                         ->where("member_id",$recharge_record_data["user_id"])
                         ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
                     $integral_res = Db::name("member")
@@ -1619,7 +1619,7 @@ class  Order extends  Controller
                         "integral_balance" => $integral_res,//积分余额
                         "integral_type" => 1, //积分类型（1获得，-1消费）
                         "operation_time" => date("Y-m-d H:i:s"), //操作时间
-                        "integral_remarks" => "充值满" . $money . "送".$list."积分",
+                        "integral_remarks" => "充值满" . $money . "送".$lists."积分",
                     ];
                     Db::name("integral")->insert($integral_data);
                 }
