@@ -15,12 +15,12 @@
 <body>
 	{block name="content"}
 
-	<form class="layui-form layui-form-lists" action="{:url('admin/Category/save')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_contract_save')}" method="post" enctype="multipart/form-data">
 	
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>帮助标题</label>
 			<div class="form-input">
-				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
 			
 			</div>
 		</div>
@@ -36,8 +36,8 @@
 		<div class="form-item">
 			<label class="form-label">显示设置</label>
 			<div class="form-input">
-				<input type="radio" name="a" value="1" title="显示" checked="">
-				<input type="radio" name="a" value="0" title="不显示">
+				<input type="radio" name="status" value="1" title="显示" checked="">
+				<input type="radio" name="status" value="0" title="不显示">
 			</div>
 		</div>
 

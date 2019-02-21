@@ -44,7 +44,8 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_problem_add(){
-        return view("operate_problem_add");
+        $problem = db("problem") -> select();
+        return view("operate_problem_add",["problem"=>$problem]);
     }
 
 
