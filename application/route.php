@@ -496,12 +496,16 @@ Route::group("admin",[
     "stores_divergence" =>"admin/StoreHouse/stores_divergence",//出入仓
 
     /*资产*/
-    "property_index" =>"admin/Property/property_index",
+    "property_day" =>"admin/Property/property_day", //对账单日汇报
+    "property_month" =>"admin/Property/property_month", //对账单月汇报
+    "recharge_application" =>"admin/Property/recharge_application", //充值申请
+    "withdrawal_application" =>"admin/Property/withdrawal_application", //提现申请
+
 
     /*物联*/
-    "anti_fake" =>"admin/Property/anti_fake",                 //防伪溯源
-    "direct_seeding" =>"admin/Property/direct_seeding",       //视频直播
-    "interaction_index" =>"admin/Property/interaction_index", //温湿感应
+    "anti_fake" =>"admin/Material/anti_fake",                 //防伪溯源
+    "direct_seeding" =>"admin/Material/direct_seeding",       //视频直播
+    "interaction_index" =>"admin/Material/interaction_index", //温湿感应
 
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况

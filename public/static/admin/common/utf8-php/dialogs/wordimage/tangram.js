@@ -152,7 +152,7 @@ baidu.browser = baidu.browser || {};
 
 /**
  * 判断是否为opera浏览器
- * @property opera opera版本号
+ * @material opera opera版本号
  * @grammar baidu.browser.opera
  * @meta standard
  * @see baidu.browser.ie,baidu.browser.firefox,baidu.browser.safari,baidu.browser.chrome
@@ -218,7 +218,7 @@ baidu.swf = baidu.swf || {};
 
 /**
  * 浏览器支持的flash插件版本
- * @property version 浏览器支持的flash插件版本
+ * @material version 浏览器支持的flash插件版本
  * @grammar baidu.swf.version
  * @return {String} 版本号
  * @meta standard

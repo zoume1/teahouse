@@ -143,7 +143,7 @@ function remove (arr, item) {
 }
 
 /**
- * Check whether the object has the property.
+ * Check whether the object has the material.
  */
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 function hasOwn (obj, key) {
@@ -435,7 +435,7 @@ var config = ({
   parsePlatformTagName: identity,
 
   /**
-   * Check if an attribute must be bound using property, e.g. value
+   * Check if an attribute must be bound using material, e.g. value
    * Platform-dependent.
    */
   mustUseProp: no,
@@ -457,7 +457,7 @@ function isReserved (str) {
 }
 
 /**
- * Define a property.
+ * Define a material.
  */
 function def (obj, key, val, enumerable) {
   Object.defineProperty(obj, key, {
@@ -869,7 +869,7 @@ function toggleObserving (value) {
 /**
  * Observer class that is attached to each observed
  * object. Once attached, the observer converts the target
- * object's property keys into getter/setters that
+ * object's material keys into getter/setters that
  * collect dependencies and dispatch updates.
  */
 var Observer = function Observer (value) {
@@ -889,7 +889,7 @@ var Observer = function Observer (value) {
 };
 
 /**
- * Walk through each property and convert them into
+ * Walk through each material and convert them into
  * getter/setters. This method should only be called when
  * value type is Object.
  */
@@ -961,7 +961,7 @@ function observe (value, asRootData) {
 }
 
 /**
- * Define a reactive property on an Object.
+ * Define a reactive material on an Object.
  */
 function defineReactive (
   obj,
@@ -1023,15 +1023,15 @@ function defineReactive (
 }
 
 /**
- * Set a property on an object. Adds the new property and
- * triggers change notification if the property doesn't
+ * Set a material on an object. Adds the new material and
+ * triggers change notification if the material doesn't
  * already exist.
  */
 function set (target, key, val) {
   if ("development" !== 'production' &&
     (isUndef(target) || isPrimitive(target))
   ) {
-    warn(("Cannot set reactive property on undefined, null, or primitive value: " + ((target))));
+    warn(("Cannot set reactive material on undefined, null, or primitive value: " + ((target))));
   }
   if (Array.isArray(target) && isValidArrayIndex(key)) {
     target.length = Math.max(target.length, key);
@@ -1060,13 +1060,13 @@ function set (target, key, val) {
 }
 
 /**
- * Delete a property and trigger change if necessary.
+ * Delete a material and trigger change if necessary.
  */
 function del (target, key) {
   if ("development" !== 'production' &&
     (isUndef(target) || isPrimitive(target))
   ) {
-    warn(("Cannot delete reactive property on undefined, null, or primitive value: " + ((target))));
+    warn(("Cannot delete reactive material on undefined, null, or primitive value: " + ((target))));
   }
   if (Array.isArray(target) && isValidArrayIndex(key)) {
     target.splice(key, 1);
@@ -1092,7 +1092,7 @@ function del (target, key) {
 
 /**
  * Collect dependencies on array elements when the array is touched, since
- * we cannot intercept array element access like property getters.
+ * we cannot intercept array element access like material getters.
  */
 function dependArray (value) {
   for (var e = (void 0), i = 0, l = value.length; i < l; i++) {
@@ -1899,10 +1899,10 @@ var initProxy;
 
   var warnNonPresent = function (target, key) {
     warn(
-      "Property or method \"" + key + "\" is not defined on the instance but " +
-      'referenced during render. Make sure that this property is reactive, ' +
+      "Material or method \"" + key + "\" is not defined on the instance but " +
+      'referenced during render. Make sure that this material is reactive, ' +
       'either in the data option, or for class-based components, by ' +
-      'initializing the property. ' +
+      'initializing the material. ' +
       'See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.',
       target
     );
@@ -1966,7 +1966,7 @@ var seenObjects = new _Set();
 
 /**
  * Recursively traverse an object to evoke all converted
- * getters, so that every nested property inside the object
+ * getters, so that every nested material inside the object
  * is collected as a "deep" dependency.
  */
 function traverse (val) {
@@ -3145,7 +3145,7 @@ Watcher.prototype.get = function get () {
       throw e
     }
   } finally {
-    // "touch" every property so they are all tracked as
+    // "touch" every material so they are all tracked as
     // dependencies for deep watching
     if (this.deep) {
       traverse(value);
@@ -3345,7 +3345,7 @@ function initProps (vm, propsOptions) {
           warn(
             "Avoid mutating a prop directly since the value will be " +
             "overwritten whenever the parent component re-renders. " +
-            "Instead, use a data or computed property based on the prop's " +
+            "Instead, use a data or computed material based on the prop's " +
             "value. Prop being mutated: \"" + key + "\"",
             vm
           );
@@ -3387,14 +3387,14 @@ function initData (vm) {
     {
       if (methods && hasOwn(methods, key)) {
         warn(
-          ("Method \"" + key + "\" has already been defined as a data property."),
+          ("Method \"" + key + "\" has already been defined as a data material."),
           vm
         );
       }
     }
     if (props && hasOwn(props, key)) {
       "development" !== 'production' && warn(
-        "The data property \"" + key + "\" is already declared as a prop. " +
+        "The data material \"" + key + "\" is already declared as a prop. " +
         "Use prop default value instead.",
         vm
       );
@@ -3432,13 +3432,13 @@ function initComputed (vm, computed) {
     var getter = typeof userDef === 'function' ? userDef : userDef.get;
     if ("development" !== 'production' && getter == null) {
       warn(
-        ("Getter is missing for computed property \"" + key + "\"."),
+        ("Getter is missing for computed material \"" + key + "\"."),
         vm
       );
     }
 
     if (!isSSR) {
-      // create internal watcher for the computed property.
+      // create internal watcher for the computed material.
       watchers[key] = new Watcher(
         vm,
         getter || noop,
@@ -3454,9 +3454,9 @@ function initComputed (vm, computed) {
       defineComputed(vm, key, userDef);
     } else {
       if (key in vm.$data) {
-        warn(("The computed property \"" + key + "\" is already defined in data."), vm);
+        warn(("The computed material \"" + key + "\" is already defined in data."), vm);
       } else if (vm.$options.props && key in vm.$options.props) {
-        warn(("The computed property \"" + key + "\" is already defined as a prop."), vm);
+        warn(("The computed material \"" + key + "\" is already defined as a prop."), vm);
       }
     }
   }
@@ -3487,7 +3487,7 @@ function defineComputed (
       sharedPropertyDefinition.set === noop) {
     sharedPropertyDefinition.set = function () {
       warn(
-        ("Computed property \"" + key + "\" was assigned to but it has no setter."),
+        ("Computed material \"" + key + "\" was assigned to but it has no setter."),
         this
       );
     };
@@ -7126,7 +7126,7 @@ function updateDOMProps (oldVnode, vnode) {
       if (vnode.children) { vnode.children.length = 0; }
       if (cur === oldProps[key]) { continue }
       // #6601 work around Chrome version <= 55 bug where single textNode
-      // replaced by innerHTML/textContent retains its parentNode property
+      // replaced by innerHTML/textContent retains its parentNode material
       if (elm.childNodes.length === 1) {
         elm.removeChild(elm.childNodes[0]);
       }
@@ -7448,7 +7448,7 @@ var hasTransition = inBrowser && !isIE9;
 var TRANSITION = 'transition';
 var ANIMATION = 'animation';
 
-// Transition property/event sniffing
+// Transition material/event sniffing
 var transitionProp = 'transition';
 var transitionEndEvent = 'transitionend';
 var animationProp = 'animation';
@@ -9680,7 +9680,7 @@ function checkForAliasModel (el, value) {
         "You are binding v-model directly to a v-for iteration alias. " +
         "This will not be able to modify the v-for source array because " +
         "writing to the alias is like modifying a function local variable. " +
-        "Consider using an array of objects and use v-model on an object property instead."
+        "Consider using an array of objects and use v-model on an object material instead."
       );
     }
     _el = _el.parent;
@@ -10563,7 +10563,7 @@ var prohibitedKeywordRE = new RegExp('\\b' + (
   'extends,finally,continue,debugger,function,arguments'
 ).split(',').join('\\b|\\b') + '\\b');
 
-// these unary operators should not be used as property/method names
+// these unary operators should not be used as material/method names
 var unaryOperatorsRE = new RegExp('\\b' + (
   'delete,typeof,void'
 ).split(',').join('\\s*\\([^\\)]*\\)|\\b') + '\\s*\\([^\\)]*\\)');
@@ -10611,7 +10611,7 @@ function checkEvent (exp, text, errors) {
   var keywordMatch = stipped.match(unaryOperatorsRE);
   if (keywordMatch && stipped.charAt(keywordMatch.index - 1) !== '$') {
     errors.push(
-      "avoid using JavaScript unary operator as property name: " +
+      "avoid using JavaScript unary operator as material name: " +
       "\"" + (keywordMatch[0]) + "\" in expression " + (text.trim())
     );
   }
@@ -10647,7 +10647,7 @@ function checkExpression (exp, text, errors) {
     var keywordMatch = exp.replace(stripStringRE, '').match(prohibitedKeywordRE);
     if (keywordMatch) {
       errors.push(
-        "avoid using JavaScript keyword as property name: " +
+        "avoid using JavaScript keyword as material name: " +
         "\"" + (keywordMatch[0]) + "\"\n  Raw expression: " + (text.trim())
       );
     } else {

@@ -114,7 +114,7 @@ win.HighchartsAdapter = {
 		if (isSVGElement && !el.setStyle) {
 			// add setStyle and getStyle methods for internal use in Moo
 			el.getStyle = el.attr;
-			el.setStyle = function () { // property value is given as array in Moo - break it down
+			el.setStyle = function () { // material value is given as array in Moo - break it down
 				var args = arguments;
 				this.attr.call(this, args[0], args[1][0]);
 			};
