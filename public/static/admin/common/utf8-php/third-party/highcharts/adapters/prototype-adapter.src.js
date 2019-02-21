@@ -96,7 +96,7 @@ return {
 					
 				},
 				finish: function () {
-					// Delete the property that holds this animation now that it is finished.
+					// Delete the material that holds this animation now that it is finished.
 					// Both canceled animations and complete ones gets a 'finish' call.
 					if (this.element && this.element._highchart_animation) { // #1405
 						delete this.element._highchart_animation[this.key];

@@ -471,14 +471,14 @@ jQuery.extend({
 		var key;
 
 		// Must be an Object.
-		// Because of IE, we also have to check the presence of the constructor property.
+		// Because of IE, we also have to check the presence of the constructor material.
 		// Make sure that DOM nodes and window objects don't pass through, as well
 		if ( !obj || jQuery.type(obj) !== "object" || obj.nodeType || jQuery.isWindow( obj ) ) {
 			return false;
 		}
 
 		try {
-			// Not own constructor property must be Object
+			// Not own constructor material must be Object
 			if ( obj.constructor &&
 				!core_hasOwn.call(obj, "constructor") &&
 				!core_hasOwn.call(obj.constructor.prototype, "isPrototypeOf") ) {
@@ -1292,7 +1292,7 @@ function Sizzle( selector, context, results, seed ) {
 /**
  * Create key-value caches of limited size
  * @returns {Function(string, Object)} Returns the Object data after storing it on itself with
- *	property name the (space-suffixed) string and (if the cache is larger than Expr.cacheLength)
+ *	material name the (space-suffixed) string and (if the cache is larger than Expr.cacheLength)
  *	deleting the oldest entry
  */
 function createCache() {
@@ -1464,7 +1464,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Support: IE>8
 	// If iframe document is assigned to "document" variable and if iframe has been reloaded,
 	// IE will throw "permission denied" error when accessing "document" variable, see jQuery #13936
-	// IE6-8 do not support the defaultView property so parent will be undefined
+	// IE6-8 do not support the defaultView material so parent will be undefined
 	if ( parent && parent.attachEvent && parent !== parent.top ) {
 		parent.attachEvent( "onbeforeunload", function() {
 			setDocument();
@@ -2282,7 +2282,7 @@ Expr = Sizzle.selectors = {
 		},
 
 		"selected": function( elem ) {
-			// Accessing this property makes selected-by-default
+			// Accessing this material makes selected-by-default
 			// options in Safari work properly
 			if ( elem.parentNode ) {
 				elem.parentNode.selectedIndex;
@@ -2926,7 +2926,7 @@ support.sortDetached = assert(function( div1 ) {
 });
 
 // Support: IE<8
-// Prevent attribute/property "interpolation"
+// Prevent attribute/material "interpolation"
 // http://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
 if ( !assert(function( div ) {
 	div.innerHTML = "<a href='#'></a>";
@@ -3373,7 +3373,7 @@ jQuery.support = (function( support ) {
 	// Check the default checkbox/radio value ("" on WebKit; "on" elsewhere)
 	support.checkOn = !!input.value;
 
-	// Make sure that a selected-by-default option has a working selected property.
+	// Make sure that a selected-by-default option has a working selected material.
 	// (WebKit defaults to false instead of true, IE too, if it's in an optgroup)
 	support.optSelected = opt.selected;
 
@@ -3634,17 +3634,17 @@ function internalData( elem, name, data, pvt /* Internal Use Only */ ){
 		thisCache[ jQuery.camelCase( name ) ] = data;
 	}
 
-	// Check for both converted-to-camel and non-converted data property names
-	// If a data property was specified
+	// Check for both converted-to-camel and non-converted data material names
+	// If a data material was specified
 	if ( typeof name === "string" ) {
 
-		// First Try to find as-is property data
+		// First Try to find as-is material data
 		ret = thisCache[ name ];
 
-		// Test for null|undefined property data
+		// Test for null|undefined material data
 		if ( ret == null ) {
 
-			// Try to find the camelCased property
+			// Try to find the camelCased material
 			ret = thisCache[ jQuery.camelCase( name ) ];
 		}
 	} else {
@@ -4071,7 +4071,7 @@ jQuery.fn.extend({
 	removeProp: function( name ) {
 		name = jQuery.propFix[ name ] || name;
 		return this.each(function() {
-			// try/catch handles cases where IE balks (such as removing a property on window)
+			// try/catch handles cases where IE balks (such as removing a material on window)
 			try {
 				this[ name ] = undefined;
 				delete this[ name ];
@@ -4405,7 +4405,7 @@ jQuery.extend({
 
 				// Boolean attributes get special treatment (#10870)
 				if ( jQuery.expr.match.bool.test( name ) ) {
-					// Set corresponding property to false
+					// Set corresponding material to false
 					if ( getSetInput && getSetAttribute || !ruseDefault.test( name ) ) {
 						elem[ propName ] = false;
 					// Support: IE<9
@@ -4501,7 +4501,7 @@ boolHook = {
 			// Remove boolean attributes when set to false
 			jQuery.removeAttr( elem, name );
 		} else if ( getSetInput && getSetAttribute || !ruseDefault.test( name ) ) {
-			// IE<8 needs the *property* name
+			// IE<8 needs the *material* name
 			elem.setAttribute( !getSetAttribute && jQuery.propFix[ name ] || name, name );
 
 		// Use defaultChecked and defaultSelected for oldIE
@@ -4622,7 +4622,7 @@ if ( !getSetAttribute ) {
 // Some attributes require a special call on IE
 // http://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
 if ( !jQuery.support.hrefNormalized ) {
-	// href/src property should get the full normalized URL (#10299/#12915)
+	// href/src material should get the full normalized URL (#10299/#12915)
 	jQuery.each([ "href", "src" ], function( i, name ) {
 		jQuery.propHooks[ name ] = {
 			get: function( elem ) {
@@ -4636,7 +4636,7 @@ if ( !jQuery.support.style ) {
 	jQuery.attrHooks.style = {
 		get: function( elem ) {
 			// Return undefined in the case of empty string
-			// Note: IE uppercases css property names, but if we were to .toLowerCase()
+			// Note: IE uppercases css material names, but if we were to .toLowerCase()
 			// .cssText, that would destroy case senstitivity in URL's, like in "background"
 			return elem.style.cssText || undefined;
 		},
@@ -4646,8 +4646,8 @@ if ( !jQuery.support.style ) {
 	};
 }
 
-// Safari mis-reports the default selected property of an option
-// Accessing the parent's selectedIndex property fixes it
+// Safari mis-reports the default selected material of an option
+// Accessing the parent's selectedIndex material fixes it
 if ( !jQuery.support.optSelected ) {
 	jQuery.propHooks.selected = {
 		get: function( elem ) {
@@ -4766,7 +4766,7 @@ jQuery.event = {
 					jQuery.event.dispatch.apply( eventHandle.elem, arguments ) :
 					undefined;
 			};
-			// Add elem as a property of the handle fn to prevent a memory leak with IE non-native events
+			// Add elem as a material of the handle fn to prevent a memory leak with IE non-native events
 			eventHandle.elem = elem;
 		}
 
@@ -5189,7 +5189,7 @@ jQuery.event = {
 		}
 
 		// Support: IE<9
-		// Fix target property (#1925)
+		// Fix target material (#1925)
 		if ( !event.target ) {
 			event.target = originalEvent.srcElement || document;
 		}
@@ -5349,7 +5349,7 @@ jQuery.removeEvent = document.removeEventListener ?
 		if ( elem.detachEvent ) {
 
 			// #8545, #7054, preventing memory leaks for custom events in IE6-8
-			// detachEvent needed property on element, by name of that event, to properly expose it to GC
+			// detachEvent needed material on element, by name of that event, to properly expose it to GC
 			if ( typeof elem[ name ] === core_strundefined ) {
 				elem[ name ] = null;
 			}
@@ -5411,7 +5411,7 @@ jQuery.Event.prototype = {
 			e.preventDefault();
 
 		// Support: IE
-		// Otherwise set the returnValue property of the original event to false
+		// Otherwise set the returnValue material of the original event to false
 		} else {
 			e.returnValue = false;
 		}
@@ -5429,7 +5429,7 @@ jQuery.Event.prototype = {
 		}
 
 		// Support: IE
-		// Set the cancelBubble property of the original event to true
+		// Set the cancelBubble material of the original event to true
 		e.cancelBubble = true;
 	},
 	stopImmediatePropagation: function() {
@@ -6471,7 +6471,7 @@ function getAll( context, tag ) {
 		found;
 }
 
-// Used in buildFragment, fixes the defaultChecked property
+// Used in buildFragment, fixes the defaultChecked material
 function fixDefaultChecked( elem ) {
 	if ( manipulation_rcheckableType.test( elem.type ) ) {
 		elem.defaultChecked = elem.checked;
@@ -6813,7 +6813,7 @@ var iframe, getStyles, curCSS,
 	cssExpand = [ "Top", "Right", "Bottom", "Left" ],
 	cssPrefixes = [ "Webkit", "O", "Moz", "ms" ];
 
-// return a css property mapped to a potentially vendor prefixed property
+// return a css material mapped to a potentially vendor prefixed material
 function vendorPropName( style, name ) {
 
 	// shortcut for names that are not vendor prefixed
@@ -6942,8 +6942,8 @@ jQuery.fn.extend({
 });
 
 jQuery.extend({
-	// Add in style property hooks for overriding the default
-	// behavior of getting and setting a style property
+	// Add in style material hooks for overriding the default
+	// behavior of getting and setting a style material
 	cssHooks: {
 		opacity: {
 			get: function( elem, computed ) {
@@ -6973,11 +6973,11 @@ jQuery.extend({
 	// Add in properties whose names you wish to fix before
 	// setting or getting the value
 	cssProps: {
-		// normalize float css property
+		// normalize float css material
 		"float": jQuery.support.cssFloat ? "cssFloat" : "styleFloat"
 	},
 
-	// Get and set the style property on a DOM Node
+	// Get and set the style material on a DOM Node
 	style: function( elem, name, value, extra ) {
 		// Don't set styles on text and comment nodes
 		if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style ) {
@@ -7017,7 +7017,7 @@ jQuery.extend({
 			}
 
 			// Fixes #8908, it can be done more correctly by specifing setters in cssHooks,
-			// but it would mean to define eight (for every problematic property) identical functions
+			// but it would mean to define eight (for every problematic material) identical functions
 			if ( !jQuery.support.clearCloneStyle && value === "" && name.indexOf("background") === 0 ) {
 				style[ name ] = "inherit";
 			}
@@ -7221,7 +7221,7 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 
 function getWidthOrHeight( elem, name, extra ) {
 
-	// Start with offset property, which is equivalent to the border-box value
+	// Start with offset material, which is equivalent to the border-box value
 	var valueIsBorderBox = true,
 		val = name === "width" ? elem.offsetWidth : elem.offsetHeight,
 		styles = getStyles( elem ),
@@ -8883,7 +8883,7 @@ function createTween( value, prop, animation ) {
 	for ( ; index < length; index++ ) {
 		if ( (tween = collection[ index ].call( animation, prop, value )) ) {
 
-			// we're done with this property
+			// we're done with this material
 			return tween;
 		}
 	}
@@ -9103,7 +9103,7 @@ function defaultPrefilter( elem, props, opts ) {
 		// overflowY are set to the same value
 		opts.overflow = [ style.overflow, style.overflowX, style.overflowY ];
 
-		// Set display property to inline-block for height/width
+		// Set display material to inline-block for height/width
 		// animations on inline elements that are having width/height animated
 		if ( jQuery.css( elem, "display" ) === "inline" &&
 				jQuery.css( elem, "float" ) === "none" ) {
@@ -9301,7 +9301,7 @@ jQuery.fn.extend({
 		var empty = jQuery.isEmptyObject( prop ),
 			optall = jQuery.speed( speed, easing, callback ),
 			doAnimation = function() {
-				// Operate on a copy of prop so per-property easing won't be lost
+				// Operate on a copy of prop so per-material easing won't be lost
 				var anim = Animation( this, jQuery.extend( {}, prop ), optall );
 
 				// Empty animations, or finishing resolves immediately
