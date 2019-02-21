@@ -15,12 +15,12 @@
 <body>
 	{block name="content"}
 
-	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_problem_save')}" method="post" enctype="multipart/form-data">
-	
+	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_problem_update')}" method="post" enctype="multipart/form-data">
+	{if !empty($problem)} {volist name="problem" id ="value"}
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>帮助标题</label>
 			<div class="form-input">
-				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+				<input type="text" name="title" value ="{$value.title}"lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
 			
 			</div>
 		</div>
@@ -29,9 +29,21 @@
 			<div class="form-input">
 				<select name="pid" lay-filter="aihao">
 						<option value=""></option>
-						<option value="1">常见问题</option>
+						{if $value.pid == 1}
+						<option value="1"selected="">常见问题</option>
 						<option value="2">订单问题</option>
 						<option value="3">支付问题</option>
+						{/if}
+						{if $value.pid == 2}
+						<option value="1">常见问题</option>
+						<option value="2" selected="">订单问题</option>
+						<option value="3">支付问题</option>
+						{/if}
+						{if $value.pid == 3}
+						<option value="1">常见问题</option>
+						<option value="2">订单问题</option>
+						<option value="3" selected="">支付问题</option>
+						{/if}
 				</select>
 			</div>
 		</div>
@@ -54,6 +66,8 @@
 				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
 			</div>
 		</div>
+		{/volist}
+		{/if}
 	</form>
 
 	{/block}
