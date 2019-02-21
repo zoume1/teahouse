@@ -1339,10 +1339,19 @@ class  Order extends  Controller
                 ->select();
             if($data[0]["order_type"] ==1){
                     $order_type ="直邮";
+                    $name =$data[0]["harvester"];
+                    $phone_num =$data[0]["harvest_phone_num"];
+                    $address =$data[0]["harvester_address"];
             }else if($data[0]["order_type"] ==2){
                 $order_type ="自提";
+                $name =$data[0]["harvester"];
+                $phone_num =$data[0]["harvest_phone_num"];
+                $address =$data[0]["harvester_address"];
             }else if($data[0]["order_type"] ==3){
                 $order_type ="存茶";
+                $name =$data[0]["harvester"];
+                $phone_num =$data[0]["harvest_phone_num"];
+                $address =$data[0]["harvester_address"];
             }
             if(!empty($data)){
                 $datas =[
@@ -1351,10 +1360,11 @@ class  Order extends  Controller
                     "parts_order_number"=>$parts_order_number,
                     "create_time"=>$data[0]["order_create_time"],
                     "pay_time"=>$data[0]["pay_time"],
-                    "order_type"=>$order_type,
-                    "harvester"=>$data[0]["harvester"],
-                    "harvest_phone_num"=>$data[0]["harvest_phone_num"],
-                    "harvester_address"=>$data[0]["harvester_address"]
+                    "order_type_name"=>$order_type,
+                    "order_type"=>$data[0]["order_type"],
+                    "name"=>$name,
+                    "phone_num"=>$phone_num,
+                    "address"=>$address
                 ];
                 return ajax_success("详情数据返回成功",$datas);
             }else{

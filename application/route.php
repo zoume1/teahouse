@@ -194,6 +194,7 @@ Route::group("",[
     "user_img_return"=>"index/My/user_img_return",//用户头像绑定数据返回
     "user_img_update"=>"index/My/user_img_update",//用户头像修改
     /*TODO:手机号头像昵称绑定结束*/
+
     /*TODO:我的账单开始*/
     "consume_index"=>"index/Bill/consume_index",//账单我的消费
     "consume_search"=>"index/Bill/consume_search",//账单我的消费搜索
@@ -294,6 +295,7 @@ Route::group("admin",[
     "photo_del"=>"admin/Photo/delete", //删除单张图片
     /* TODO:图片库结束*/
 
+
     /*TODO:订单开始*/
     "order_index"=>"admin/Order/order_index",//初始订单页面
     "order_search"=>"admin/Order/order_search",//初始订单搜索
@@ -305,6 +307,7 @@ Route::group("admin",[
     "order_setting_update"=>"admin/Order/order_setting_update",//更新
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
     /*TODO:订单结束*/
+
     /*TODO:订单备注开始*/
     "notice_index"=>"admin/Notification/notice_index",//卖家备注数据返回
     "option_add_notice"=>"admin/Notification/option_add_notice",//卖家备注
@@ -484,7 +487,32 @@ Route::group("admin",[
     "delivery_goods_add_weight"=>"admin/Delivery/delivery_goods_add_weight",//快递发货添加按重量
     "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add_number",//快递发货添加按件
 
-    
+    /*TODO:*/
+    /*专属定制*/
+    "custom_made"=>"admin/Made/custom_made",  //专属定制
+
+    /*仓储*/
+    "store_house" =>"admin/StoreHouse/store_house",      //仓库管理
+    "stores_divergence" =>"admin/StoreHouse/stores_divergence",//出入仓
+
+    /*资产*/
+    "property_index" =>"admin/Property/property_index",
+
+    /*物联*/
+    "anti_fake" =>"admin/Property/anti_fake",                 //防伪溯源
+    "direct_seeding" =>"admin/Property/direct_seeding",       //视频直播
+    "interaction_index" =>"admin/Property/interaction_index", //温湿感应
+
+    /*数据*/
+    "data_index" =>"admin/Information/data_index",                //数据概况
+    "analytical_index" =>"admin/Information/analytical_index",    //溯源分析
+
+    /*设置*/
+    "module_index" =>"admin/InterCalate/module_index",              //通用模块
+    "business_index" =>"admin/InterCalate/business_index",          //运营模块
+    "dispatching_index" =>"admin/InterCalate/dispatching_index",    //配送设置
+
+    /*TODO:*/
 
 
 ]);
