@@ -1115,7 +1115,7 @@
 
         /* Detecting touch events
 
-        * As we are changing the top property of the page on scrolling, we can not use the traditional way to detect it.
+        * As we are changing the top material of the page on scrolling, we can not use the traditional way to detect it.
         * This way, the touchstart and the touch moves shows an small difference between them which is the
         * used one to determine the direction.
         */
@@ -2288,7 +2288,7 @@
         }
 
         /**
-        * Adds a css3 transform property to the container class with or without animation depending on the animated param.
+        * Adds a css3 transform material to the container class with or without animation depending on the animated param.
         */
         function transformContainer(translate3d, animated){
             if(animated){
@@ -2908,8 +2908,8 @@
 
                 if(idAttr.length || nameAttr.length ){
                     showError('error', 'data-anchor tags can not have the same value as any `id` element on the site (or `name` element for IE).');
-                    idAttr.length && showError('error', '"' + name + '" is is being used by another element `id` property');
-                    nameAttr.length && showError('error', '"' + name + '" is is being used by another element `name` property');
+                    idAttr.length && showError('error', '"' + name + '" is is being used by another element `id` material');
+                    nameAttr.length && showError('error', '"' + name + '" is is being used by another element `name` material');
                 }
             });
         }

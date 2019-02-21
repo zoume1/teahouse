@@ -124,7 +124,7 @@ vjs.players = {};
  *     var Animal = CoreObject.extend();
  *     var Horse = Animal.extend();
  *
- * The constructor can be defined through the init property of an object argument.
+ * The constructor can be defined through the init material of an object argument.
  *
  *     var Animal = CoreObject.extend({
  *       init: function(name, sound){
@@ -208,7 +208,7 @@ vjs.CoreObject.extend = function(props){
 
   // Inherit from this object's prototype
   subObj.prototype = vjs.obj.create(this.prototype);
-  // Reset the constructor property for subObj otherwise
+  // Reset the constructor material for subObj otherwise
   // instances of subObj would have the constructor of the parent Object
   subObj.prototype.constructor = subObj;
 
@@ -400,7 +400,7 @@ vjs.cleanUpEvents = function(elem, type) {
 };
 
 /**
- * Fix a native event to have standard property values
+ * Fix a native event to have standard material values
  * @param  {Object} event Event object to fix
  * @return {Object}
  * @private
@@ -664,10 +664,10 @@ vjs.obj = {};
 };
 
 /**
- * Loop through each property in an object and call a function
+ * Loop through each material in an object and call a function
  * whose arguments are (key,value)
  * @param  {Object}   obj Object of properties
- * @param  {Function} fn  Function to be called on each property.
+ * @param  {Function} fn  Function to be called on each material.
  * @this {*}
  * @private
  */
@@ -844,7 +844,7 @@ vjs.removeData = function(el){
   // vjs.cache[id] = null;
   delete vjs.cache[id];
 
-  // Remove the expando property from the DOM node
+  // Remove the expando material from the DOM node
   try {
     delete el[vjs.expando];
   } catch(e) {
@@ -998,7 +998,7 @@ vjs.getAttributeValues = function(tag){
       attrVal = attrs[i].value;
 
       // check for known booleans
-      // the matching element property will return a value for typeof
+      // the matching element material will return a value for typeof
       if (typeof tag[attrName] === 'boolean' || knownBooleans.indexOf(','+attrName+',') !== -1) {
         // the value of an included boolean attribute is typically an empty
         // string ('') which would equal false if we just check for a false value.
@@ -1419,7 +1419,7 @@ vjs.Component.prototype.options_;
 /**
  * Deep merge of options objects
  *
- * Whenever a property is an object on both options objects
+ * Whenever a material is an object on both options objects
  * the two properties will be merged using vjs.obj.deepMerge.
  *
  * This is used for merging options for child components. We
@@ -1741,7 +1741,7 @@ vjs.Component.prototype.initChildren = function(){
 
       // Allow waiting to add components until a specific event is called
       var tempAdd = function(){
-        // Set property name on player. Could cause conflicts with other prop names, but it's worth making refs easy.
+        // Set material name on player. Could cause conflicts with other prop names, but it's worth making refs easy.
         self[name] = self.addChild(name, opts);
       };
 
@@ -2240,7 +2240,7 @@ vjs.Slider = vjs.Component.extend({
   init: function(player, options){
     vjs.Component.call(this, player, options);
 
-    // Set property names to bar and handle to match with the child Slider class is looking for
+    // Set material names to bar and handle to match with the child Slider class is looking for
     this.bar = this.getChild(this.options_['barName']);
     this.handle = this.getChild(this.options_['handleName']);
 
@@ -2715,7 +2715,7 @@ vjs.Player = vjs.Component.extend({
     // (tag must exist before Player)
     options = vjs.obj.merge(this.getTagSettings(tag), options);
 
-    // Cache for video property values.
+    // Cache for video material values.
     this.cache_ = {};
 
     // Set poster
@@ -5733,7 +5733,7 @@ vjs.Flash['onReady'] = function(currSwf){
 // If it's not ready, we set a timeout to check again shortly.
 vjs.Flash.checkReady = function(tech){
 
-  // Check if API property exists
+  // Check if API material exists
   if (tech.el().vjs_getProperty) {
 
     // If so, tell tech it's ready

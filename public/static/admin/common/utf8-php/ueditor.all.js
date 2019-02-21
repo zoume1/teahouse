@@ -47,7 +47,7 @@ var browser = UE.browser = function(){
         opera = window.opera,
         browser = {
         /**
-         * @property {boolean} ie 检测当前浏览器是否为IE
+         * @material {boolean} ie 检测当前浏览器是否为IE
          * @example
          * ```javascript
          * if ( UE.browser.ie ) {
@@ -58,7 +58,7 @@ var browser = UE.browser = function(){
         ie		:  /(msie\s|trident.*rv:)([\w.]+)/.test(agent),
 
         /**
-         * @property {boolean} opera 检测当前浏览器是否为Opera
+         * @material {boolean} opera 检测当前浏览器是否为Opera
          * @example
          * ```javascript
          * if ( UE.browser.opera ) {
@@ -69,7 +69,7 @@ var browser = UE.browser = function(){
         opera	: ( !!opera && opera.version ),
 
         /**
-         * @property {boolean} webkit 检测当前浏览器是否是webkit内核的浏览器
+         * @material {boolean} webkit 检测当前浏览器是否是webkit内核的浏览器
          * @example
          * ```javascript
          * if ( UE.browser.webkit ) {
@@ -80,7 +80,7 @@ var browser = UE.browser = function(){
         webkit	: ( agent.indexOf( ' applewebkit/' ) > -1 ),
 
         /**
-         * @property {boolean} mac 检测当前浏览器是否是运行在mac平台下
+         * @material {boolean} mac 检测当前浏览器是否是运行在mac平台下
          * @example
          * ```javascript
          * if ( UE.browser.mac ) {
@@ -91,7 +91,7 @@ var browser = UE.browser = function(){
         mac	: ( agent.indexOf( 'macintosh' ) > -1 ),
 
         /**
-         * @property {boolean} quirks 检测当前浏览器是否处于“怪异模式”下
+         * @material {boolean} quirks 检测当前浏览器是否处于“怪异模式”下
          * @example
          * ```javascript
          * if ( UE.browser.quirks ) {
@@ -103,7 +103,7 @@ var browser = UE.browser = function(){
     };
 
     /**
-    * @property {boolean} gecko 检测当前浏览器内核是否是gecko内核
+    * @material {boolean} gecko 检测当前浏览器内核是否是gecko内核
     * @example
     * ```javascript
     * if ( UE.browser.gecko ) {
@@ -132,7 +132,7 @@ var browser = UE.browser = function(){
 
         browser.ie11Compat = document.documentMode == 11;
         /**
-         * @property { boolean } ie9Compat 检测浏览器模式是否为 IE9 兼容模式
+         * @material { boolean } ie9Compat 检测浏览器模式是否为 IE9 兼容模式
          * @warning 如果浏览器不是IE， 则该值为undefined
          * @example
          * ```javascript
@@ -144,7 +144,7 @@ var browser = UE.browser = function(){
         browser.ie9Compat = document.documentMode == 9;
 
         /**
-         * @property { boolean } ie8 检测浏览器是否是IE8浏览器
+         * @material { boolean } ie8 检测浏览器是否是IE8浏览器
          * @warning 如果浏览器不是IE， 则该值为undefined
          * @example
          * ```javascript
@@ -156,7 +156,7 @@ var browser = UE.browser = function(){
         browser.ie8 = !!document.documentMode;
 
         /**
-         * @property { boolean } ie8Compat 检测浏览器模式是否为 IE8 兼容模式
+         * @material { boolean } ie8Compat 检测浏览器模式是否为 IE8 兼容模式
          * @warning 如果浏览器不是IE， 则该值为undefined
          * @example
          * ```javascript
@@ -168,7 +168,7 @@ var browser = UE.browser = function(){
         browser.ie8Compat = document.documentMode == 8;
 
         /**
-         * @property { boolean } ie7Compat 检测浏览器模式是否为 IE7 兼容模式
+         * @material { boolean } ie7Compat 检测浏览器模式是否为 IE7 兼容模式
          * @warning 如果浏览器不是IE， 则该值为undefined
          * @example
          * ```javascript
@@ -181,7 +181,7 @@ var browser = UE.browser = function(){
                 || document.documentMode == 7 );
 
         /**
-         * @property { boolean } ie6Compat 检测浏览器模式是否为 IE6 模式 或者怪异模式
+         * @material { boolean } ie6Compat 检测浏览器模式是否为 IE6 模式 或者怪异模式
          * @warning 如果浏览器不是IE， 则该值为undefined
          * @example
          * ```javascript
@@ -213,7 +213,7 @@ var browser = UE.browser = function(){
     }
 
     /**
-     * @property { Number } chrome 检测当前浏览器是否为Chrome, 如果是，则返回Chrome的大版本号
+     * @material { Number } chrome 检测当前浏览器是否为Chrome, 如果是，则返回Chrome的大版本号
      * @warning 如果浏览器不是chrome， 则该值为undefined
      * @example
      * ```javascript
@@ -227,7 +227,7 @@ var browser = UE.browser = function(){
     }
 
     /**
-     * @property { Number } safari 检测当前浏览器是否为Safari, 如果是，则返回Safari的大版本号
+     * @material { Number } safari 检测当前浏览器是否为Safari, 如果是，则返回Safari的大版本号
      * @warning 如果浏览器不是safari， 则该值为undefined
      * @example
      * ```javascript
@@ -250,7 +250,7 @@ var browser = UE.browser = function(){
         version = parseFloat( agent.match( / applewebkit\/(\d+)/ )[1] );
 
     /**
-     * @property { Number } version 检测当前浏览器版本号
+     * @material { Number } version 检测当前浏览器版本号
      * @remind
      * <ul>
      *     <li>IE系列返回值为5,6,7,8,9,10等</li>
@@ -265,7 +265,7 @@ var browser = UE.browser = function(){
     browser.version = version;
 
     /**
-     * @property { boolean } isCompatible 检测当前浏览器是否能够与UEditor良好兼容
+     * @material { boolean } isCompatible 检测当前浏览器是否能够与UEditor良好兼容
      * @example
      * ```javascript
      * if ( UE.browser.isCompatible ) {
@@ -4439,31 +4439,31 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
      */
 
     /**
-     * @property { Node } startContainer 当前Range的开始边界的容器节点, 可以是一个元素节点或者是文本节点
+     * @material { Node } startContainer 当前Range的开始边界的容器节点, 可以是一个元素节点或者是文本节点
      */
 
     /**
-     * @property { Node } startOffset 当前Range的开始边界容器节点的偏移量, 如果是元素节点，
+     * @material { Node } startOffset 当前Range的开始边界容器节点的偏移量, 如果是元素节点，
      *                              该值就是childNodes中的第几个节点， 如果是文本节点就是文本内容的第几个字符
      */
 
     /**
-     * @property { Node } endContainer 当前Range的结束边界的容器节点, 可以是一个元素节点或者是文本节点
+     * @material { Node } endContainer 当前Range的结束边界的容器节点, 可以是一个元素节点或者是文本节点
      */
 
     /**
-     * @property { Node } endOffset 当前Range的结束边界容器节点的偏移量, 如果是元素节点，
+     * @material { Node } endOffset 当前Range的结束边界容器节点的偏移量, 如果是元素节点，
      *                              该值就是childNodes中的第几个节点， 如果是文本节点就是文本内容的第几个字符
      */
 
     /**
-     * @property { Boolean } collapsed 当前Range是否闭合
+     * @material { Boolean } collapsed 当前Range是否闭合
      * @default true
      * @remind Range是闭合的时候， startContainer === endContainer && startOffset === endOffset
      */
 
     /**
-     * @property { Document } document 当前Range所属的Document对象
+     * @material { Document } document 当前Range所属的Document对象
      * @remind 不同range的的document属性可以是不同的
      */
     var Range = dom.Range = function (document) {

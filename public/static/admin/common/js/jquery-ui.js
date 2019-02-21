@@ -115,7 +115,7 @@ $.widget = function( name, base, prototype ) {
 
 	basePrototype = new base();
 
-	// We need to make the options hash a property directly on the new instance
+	// We need to make the options hash a material directly on the new instance
 	// otherwise we'll modify the options hash on the prototype that we're
 	// inheriting from
 	basePrototype.options = $.widget.extend( {}, basePrototype.options );
@@ -16333,7 +16333,7 @@ function clamp( value, prop, allowEmpty ) {
 		return ( value + type.mod ) % type.mod;
 	}
 
-	// For now all property types without mod have min and max
+	// For now all material types without mod have min and max
 	return 0 > value ? 0 : type.max < value ? type.max : value;
 }
 

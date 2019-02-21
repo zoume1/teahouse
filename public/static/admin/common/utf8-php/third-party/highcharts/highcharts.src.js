@@ -273,8 +273,8 @@ function defined(obj) {
  * it attempts to set expando properties on the SVG element, which is not allowed.
  *
  * @param {Object} elem The DOM element to receive the attribute(s)
- * @param {String|Object} prop The property or an abject of key-value pairs
- * @param {String} value The value if a single property is set
+ * @param {String|Object} prop The material or an abject of key-value pairs
+ * @param {String} value The value if a single material is set
  */
 function attr(elem, prop, value) {
 	var key,
@@ -329,7 +329,7 @@ function pick() {
 /**
  * Set CSS on a given element
  * @param {Object} el
- * @param {Object} styles Style object with camel case property names
+ * @param {Object} styles Style object with camel case material names
  */
 function css(el, styles) {
 	if (isIE) {
@@ -906,10 +906,10 @@ function arrayMax(data) {
 
 /**
  * Utility method that destroys any SVGElement or VMLElement that are properties on the given object.
- * It loops all properties and invokes destroy if there is a destroy method. The property is
+ * It loops all properties and invokes destroy if there is a destroy method. The material is
  * then delete'ed.
  * @param {Object} The object to destroy properties on
- * @param {Object} Exception, do not destroy this property, only delete it.
+ * @param {Object} Exception, do not destroy this material, only delete it.
  */
 function destroyObjectProperties(obj, except) {
 	var n;
@@ -920,7 +920,7 @@ function destroyObjectProperties(obj, except) {
 			obj[n].destroy();
 		}
 
-		// Delete the property from the object.
+		// Delete the material from the object.
 		delete obj[n];
 	}
 }
@@ -4776,7 +4776,7 @@ Highcharts.VMLElement = VMLElement = {
 							}
 						}
 
-						// Instead of toggling the visibility CSS property, move the div out of the viewport.
+						// Instead of toggling the visibility CSS material, move the div out of the viewport.
 						// This works around #61 and #586
 						if (nodeName === 'DIV') {
 							value = value === HIDDEN ? '-999em' : 0;
@@ -8606,7 +8606,7 @@ Tooltip.prototype = {
 			this.label.shadow(options.shadow);
 		}
 
-		// Public property for getting the shared state.
+		// Public material for getting the shared state.
 		this.shared = options.shared;
 	},
 
@@ -9811,7 +9811,7 @@ Pointer.prototype = {
 				pointer[eventConfig[2]](e);
 			};
 
-			// Now attach the function, either as a direct property or through addEvent
+			// Now attach the function, either as a direct material or through addEvent
 			if (eventConfig[1].indexOf('on') === 0) {
 				eventConfig[0][eventConfig[1]] = pointer['_' + eventConfig[2]];
 			} else {
@@ -11802,8 +11802,8 @@ Chart.prototype = {
 	},
 
 	/**
-	 * Detect whether a certain chart property is needed based on inspecting its options
-	 * and series. This mainly applies to the chart.invert property, and in extensions to 
+	 * Detect whether a certain chart material is needed based on inspecting its options
+	 * and series. This mainly applies to the chart.invert material, and in extensions to
 	 * the chart.angular and chart.polar properties.
 	 */
 	propFromSeries: function () {
@@ -11836,7 +11836,7 @@ Chart.prototype = {
 				}
 			}
 	
-			// Set the chart property
+			// Set the chart material
 			chart[key] = value;	
 		});
 		
@@ -15313,7 +15313,7 @@ var AreaSeries = extendClass(Series, {
 	
 	/**
 	 * Extend the base Series getSegmentPath method by adding the path for the area.
-	 * This path is pushed to the series.areaPath property.
+	 * This path is pushed to the series.areaPath material.
 	 */
 	getSegmentPath: function (segment) {
 		

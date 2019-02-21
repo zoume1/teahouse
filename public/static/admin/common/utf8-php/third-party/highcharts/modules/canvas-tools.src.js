@@ -462,7 +462,7 @@ if(!Array.prototype.indexOf){
 				return (this.value != null && this.value !== '');
 			}
 							
-			// return the numerical value of the property
+			// return the numerical value of the material
 			this.numValue = function() {
 				if (!this.hasValue()) return 0;
 				
