@@ -34,7 +34,8 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_problem(){
-        return view("operate_problem");
+        $problem = db("common_ailment")->paginate(20);
+        return view("operate_problem",["problem"=>$problem]);
     }
 
 
@@ -44,9 +45,56 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_problem_add(){
+        
         return view("operate_problem_add");
     }
 
+    /**
+     * [常见问题保存]
+     * GY
+    */
+    public function operate_problem_save(Request $request){
+        if($request->isPost()){
+            $data = $request->param();
+            $problem_name = db("problem") -> where("pid",$data["pid"]) ->value("name");
+            $data["name"] = $problem_name;
+            $bool = db("common_ailment")->insert($data);
+            if($bool){
+                $this->success('添加成功', 'admin/operate/operate_problem');
+            } else {
+                $this ->error("添加失败","admin/operate/operate_problem");
+            }
+        }
+        
+        return view("operate_problem_add");
+    }
+
+
+    /**
+     * [常见问题编辑]
+     * GY
+    */
+    public function operate_problem_edit($id){
+        $problem = db("common_ailment")->where("id",$id)->select();     
+        return view("operate_problem_edit",["problem"=>$problem]);
+    }
+    
+    
+    /**
+     * [常见问题更新]
+     * GY
+    */
+    public function operate_problem_update(Request $request){
+        if($request->isPost()){
+            $common_ailment = $request->param();
+            $bool = db("common_ailment")->where('id', $request->only(["id"])["id"])->update($common_ailment);
+            if($bool){
+                $this->success('更新成功', 'admin/operate/operate_problem');
+            } else {
+                $this ->error("更新失败","admin/operate/operate_problem");
+            }
+        }
+    }
 
 
 
@@ -80,7 +128,7 @@ class Operate extends  Controller{
 
 
     /**
-     * [协议合同编辑]
+     * [协议合同保存]
      * GY
     */
     public function operate_contract_save(Request $request){
@@ -98,7 +146,7 @@ class Operate extends  Controller{
 
 
     /**
-     * [协议合同编辑]
+     * [协议合同更新]
      * GY
     */
     public function operate_contract_update(Request $request){
