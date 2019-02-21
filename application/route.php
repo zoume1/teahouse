@@ -449,13 +449,24 @@ Route::group("admin",[
 
 
     /*运营模块*/
-    "operate_index"=>"admin/operate/operate_index",                  //*******运营模块页
-    "operate_problem"=>"admin/operate/operate_problem",              //常见问题
-    "operate_problem_add"=>"admin/operate/operate_problem_add",      //常见问题添加
-    "operate_contract"=>"admin/operate/operate_contract",            //协议合同显示
-    "operate_contract_add"=>"admin/operate/operate_contract_add",    //协议合同添加
-    "operate_contract_edit"=>"admin/operate/operate_contract_edit",  //协议合同编辑
-    "operate_contract_save"=>"admin/operate/operate_contract_save",  //协议合同保存
+    "operate_index"=>"admin/operate/operate_index",                      //*******运营模块页
+    "operate_problem"=>"admin/operate/operate_problem",                  //常见问题显示
+    "operate_problem_add"=>"admin/operate/operate_problem_add",          //常见问题添加
+    "operate_problem_save"=>"admin/operate/operate_problem_save",        //常见问题保存
+    "operate_problem_edit"=>"admin/operate/operate_problem_edit",        //常见问题编辑
+    "operate_problem_update"=>"admin/operate/operate_problem_update",    //常见问题更新
+    "operate_problem_delete"=>"admin/operate/operate_problem_delete",    //常见问题删除
+
+
+    "operate_contract"=>"admin/operate/operate_contract",                //协议合同显示
+    "operate_contract_add"=>"admin/operate/operate_contract_add",        //协议合同添加
+    "operate_contract_edit"=>"admin/operate/operate_contract_edit",      //协议合同编辑
+    "operate_contract_update"=>"admin/operate/operate_contract_update",  //协议合同更新
+    "operate_contract_delete"=>"admin/operate/operate_contract_delete",  //协议合同删除
+    "operate_contract_save"=>"admin/operate/operate_contract_save",      //协议合同保存
+
+
+    
     "operate_message"=>"admin/operate/operate_message",//*********消息提醒
     "operate_message_add"=>"admin/operate/operate_message_add",//消息提醒编辑
     "operate_integral_rule"=>"admin/operate/operate_integral_rule",//积分规则
