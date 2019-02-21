@@ -208,7 +208,14 @@ Route::group("",[
 
 
     /*测试接口*/
-    "index_text"=>"index/index/text"
+    "index_text"=>"index/index/text",
+
+    /*常见问题*/
+    "problem_data"=>"index/Manage/problem_data", //问题列表描述
+    "problem_list"=>"index/Manage/problem_list", //问题列表
+
+    /*协议合同*/
+    "agreement_contract"=>"index/Manage/agreement_contract",//协议合同详细
 ]);
 
 /**
@@ -459,6 +466,7 @@ Route::group("admin",[
     "operate_problem_edit"=>"admin/operate/operate_problem_edit",        //常见问题编辑
     "operate_problem_update"=>"admin/operate/operate_problem_update",    //常见问题更新
     "operate_problem_delete"=>"admin/operate/operate_problem_delete",    //常见问题删除
+    "operate_problem_status"=>"admin/operate/operate_problem_status",    //常见问题状态值修改
 
 
     "operate_contract"=>"admin/operate/operate_contract",                //协议合同显示

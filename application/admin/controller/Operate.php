@@ -87,6 +87,9 @@ class Operate extends  Controller{
     public function operate_problem_update(Request $request){
         if($request->isPost()){
             $common_ailment = $request->param();
+            $name = db("problem") -> where("pid",$common_ailment["pid"]) ->value("name");
+            $common_ailment["name"] = $name;
+
             $bool = db("common_ailment")->where('id', $request->only(["id"])["id"])->update($common_ailment);
             if($bool){
                 $this->success('更新成功', 'admin/operate/operate_problem');
@@ -96,6 +99,47 @@ class Operate extends  Controller{
         }
     }
 
+
+    /**
+     * [常见问题删除]
+     * GY
+    */
+    public function operate_problem_delete($id){
+        $bools = db("common_ailment")->where("id",$id)->delete();     
+        if($bools){
+            $this->success('删除成功', 'admin/operate/operate_problem');
+        } else {
+            $this ->error("删除失败","admin/operate/operate_problem");
+        }
+    }
+
+    /**
+     * [常见问题状态值修改]
+     * GY
+    */
+    public function operate_problem_status(Request $request){
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("common_ailment")->where("id", $id)->update(["status" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/operate/operate_problem"));
+                } else {
+                    $this->error("修改失败", url("admin/operate/operate_problem"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("common_ailment")->where("id", $id)->update(["status" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/operate/operate_problem"));
+                } else {
+                    $this->error("修改失败", url("admin/operate/operate_problem"));
+                }
+            }
+        }
+    }
 
 
     /**

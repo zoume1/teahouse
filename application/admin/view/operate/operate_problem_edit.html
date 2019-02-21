@@ -17,6 +17,7 @@
 
 	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_problem_update')}" method="post" enctype="multipart/form-data">
 	{if !empty($problem)} {volist name="problem" id ="value"}
+	<input type="hidden" name="id" id="" value="{$value.id}" />
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>帮助标题</label>
 			<div class="form-input">
