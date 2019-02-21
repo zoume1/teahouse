@@ -1492,7 +1492,7 @@ class  Order extends  Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>1]);
             if($res){
-                return ajax_success("成功",$res);
+                echo exit('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>');
             }else{
                 return ajax_error("失败",$val["out_trade_no"]);
             }
@@ -1536,7 +1536,7 @@ class  Order extends  Controller
                     ];
                     Db::name("integral")->insert($integral_data);
                 }
-                return ajax_success("成功",$res);
+                echo exit('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>');
             }else{
                 return ajax_error("失败");
             }
@@ -1607,8 +1607,11 @@ class  Order extends  Controller
                     Db::name("member")->where("member_id",$recharge_record_data["user_id"])
                         ->update(["member_recharge_money"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]]);
                     //插入积分记录
-                    $integral_res = db("member")->
-                    where("member_id",$recharge_record_data["user_id"])
+                         Db::name("member")
+                        ->where("member_id",$recharge_record_data["user_id"])
+                        ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
+                    $integral_res = Db::name("member")
+                        ->where("member_id",$recharge_record_data["user_id"])
                         ->value("member_integral_wallet");//获取所有积分
                     $integral_data = [
                         "member_id" => $recharge_record_data["user_id"],
@@ -1616,7 +1619,7 @@ class  Order extends  Controller
                         "integral_balance" => $integral_res,//积分余额
                         "integral_type" => 1, //积分类型（1获得，-1消费）
                         "operation_time" => date("Y-m-d H:i:s"), //操作时间
-                        "integral_remarks" => "充值满" . $money . "送".$list."积分",
+                        "integral_remarks" => "充值满" . $money . "送".$lists."积分",
                     ];
                     Db::name("integral")->insert($integral_data);
                 }
@@ -1636,7 +1639,7 @@ class  Order extends  Controller
                     "wallet_balance"=>$new_wallet,//此刻钱包余额
                 ];
                 Db::name("wallet")->insert($datas); //存入消费记录表
-                return "success";
+                echo exit('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>');
             }else{
                 return "fail";
             }
