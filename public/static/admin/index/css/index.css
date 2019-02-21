@@ -10,7 +10,9 @@
 .red{
 	color: red;
 }
-
+.layui-form-selected dl{
+	z-index: 9999;
+}
 /*修改layui样式*/
 .layui-form-switch em{
 	font-size: 10px;
