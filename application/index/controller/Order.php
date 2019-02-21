@@ -1662,7 +1662,7 @@ class  Order extends  Controller
                     "wallet_balance"=>$new_wallet,//此刻钱包余额
                 ];
                 Db::name("wallet")->insert($datas); //存入消费记录表
-                echo exit('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>');
+                echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }else{
                 return "fail";
             }

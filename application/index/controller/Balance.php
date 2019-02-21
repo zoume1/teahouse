@@ -22,7 +22,7 @@ class Balance extends Controller
         if ($request->isPost()) {
             $order_num = $request->only(['order_num'])['order_num'];
             //验证支付密码
-            $user_id = Session::get("user");
+            $user_id = $request->only(["member_id"])["member_id"];
             $user_info = Db::name("user")->field("pay_passwd,user_wallet")->where("id", $user_id)->find();//用户信息
             $password = $request->only("passwords")["passwords"]; //输入的密码
             if (password_verify($password,$user_info["pay_passwd"])) {
