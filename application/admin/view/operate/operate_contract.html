@@ -102,19 +102,23 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
+                    {if !empty($operate)}
+                    {volist name="operate" id="value"}
 						<tr>
-							<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-							<td>1000001</td>
-							<td>1000001</td>
-							<td>1000001</td>
-							<td>1000001</td>
+							<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+							<td>{$value.id +100000}</td>
+							<td>{$value.title}</td>
+							<td>{$value.place}</td>
+							<td>{$value.url}</td>
 							<td>
-								<a class="layui-btn layui-btn-mini edit" href="operate_contract_edit"><i class="iconfont icon-edit"></i> 编辑
+								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/operate/operate_contract_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
 								</a>
 								
-								<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+								<a href="{:url('admin/operate/operate_contract_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 							</td>
-						</tr>
+                        </tr>
+                    {/volist}
+                    {/if}
                 </tbody>
             </table>
             <div id="page">
@@ -128,6 +132,7 @@
                     <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
                 </div>
+                {$operate->render()}
             </div>
 
         </div>
