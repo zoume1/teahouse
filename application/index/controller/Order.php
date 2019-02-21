@@ -1337,11 +1337,24 @@ class  Order extends  Controller
                 ->where("status",$status)
                 ->where("parts_order_number",$parts_order_number)
                 ->select();
+            if($data[0]["order_type"] ==1){
+                    $order_type ="直邮";
+            }else if($data[0]["order_type"] ==2){
+                $order_type ="自提";
+            }else if($data[0]["order_type"] ==3){
+                $order_type ="存茶";
+            }
             if(!empty($data)){
                 $datas =[
                     "data"=>$data,
                     "status"=>$status,
-                    "parts_order_number"=>$parts_order_number
+                    "parts_order_number"=>$parts_order_number,
+                    "create_time"=>$data[0]["order_create_time"],
+                    "pay_time"=>$data[0]["pay_time"],
+                    "order_type"=>$order_type,
+                    "harvester"=>$data[0]["harvester"],
+                    "harvest_phone_num"=>$data[0]["harvest_phone_num"],
+                    "harvester_address"=>$data[0]["harvester_address"]
                 ];
                 return ajax_success("详情数据返回成功",$datas);
             }else{
