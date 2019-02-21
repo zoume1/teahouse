@@ -1606,7 +1606,22 @@ class  Order extends  Controller
                     //更新充值的余额
                     Db::name("member")->where("member_id",$recharge_record_data["user_id"])
                         ->update(["member_recharge_money"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]]);
-                   
+                    //插入积分记录
+                    $rest = db("member")
+                        ->where("member_id",$recharge_record_data["user_id"])
+                        ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
+                    $integral_res = Db::name("member")
+                        ->where("member_id",$recharge_record_data["user_id"])
+                        ->value("member_integral_wallet");//获取所有积分
+                    $integral_data = [
+                        "member_id" => $recharge_record_data["user_id"],
+                        "integral_operation" => $lists,//获得积分
+                        "integral_balance" => $integral_res,//积分余额
+                        "integral_type" => 1, //积分类型（1获得，-1消费）
+                        "operation_time" => date("Y-m-d H:i:s"), //操作时间
+                        "integral_remarks" => "充值满" . $money . "送".$list."积分",
+                    ];
+                    Db::name("integral")->insert($integral_data);
                 }
                 $new_wallet =Db::name("member")
                     ->where("member_id",$recharge_record_data["user_id"])
