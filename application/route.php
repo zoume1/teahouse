@@ -519,11 +519,6 @@ Route::group("admin",[
     "data_index" =>"admin/Information/data_index",                //数据概况
     "analytical_index" =>"admin/Information/analytical_index",    //溯源分析
 
-    /*设置*/
-    "module_index" =>"admin/InterCalate/module_index",              //通用模块
-    "business_index" =>"admin/InterCalate/business_index",          //运营模块
-    "dispatching_index" =>"admin/InterCalate/dispatching_index",    //配送设置
-
     /*TODO:*/
 
 
