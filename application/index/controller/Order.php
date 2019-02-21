@@ -1492,7 +1492,7 @@ class  Order extends  Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>1]);
             if($res){
-                return "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
+                echo exit('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>');
             }else{
                 return ajax_error("失败",$val["out_trade_no"]);
             }
@@ -1536,7 +1536,7 @@ class  Order extends  Controller
                     ];
                     Db::name("integral")->insert($integral_data);
                 }
-                return "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
+                echo exit('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>');
             }else{
                 return ajax_error("失败");
             }
