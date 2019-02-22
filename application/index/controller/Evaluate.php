@@ -57,7 +57,7 @@ class  Evaluate extends  Controller {
             ];
             $images_id =Db::name("order_evaluate_images")->insertGetId($insert_data);
             if($images_id){
-                return ajax_success("数据成功",1);
+                exit(json_encode(array("status"=>1,"info"=>"上传成功","data"=>["images_id"=>$images_id])));
             }else{
                 return ajax_error("上传失败",["status"=>0]);
             }
