@@ -28,9 +28,54 @@
         right: 0;
         top: -9px;
     }
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        width: 600px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 17px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    
+    .distribution_list ul li {
+        flex: 1;
+    }
 </style>
 
 {/block} {block name="content"}
+<div class="distribution_list">
+    <ul>
+        <li>
+            <a href="{:url('admin/operate/operate_problem')}">常见问题</a>
+        </li>
+        <li>
+            <a href="{:url('admin/operate/operate_contract')}"  >协议合同</a>
+        </li>
+        <li>
+            <a href="{:url('admin/operate/operate_message')}">消息提醒</a>
+        </li>
+        <li>
+            <a href="{:url('admin/operate/operate_integral_rule')}" class="on" >积分规则</a>
+        </li>
+        <li>
+            <a href="{:url('admin/operate/operate_about_index')}" >关于我们</a>
+        </li>
+    </ul>
+</div>
 <form action="{:url('admin/operate/operate_integral_update')}" method="post">
     <h4 style="padding: 10px;">推荐奖励积分设置：</h4>
     <div class="content">
