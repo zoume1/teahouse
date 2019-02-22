@@ -92,14 +92,18 @@ Route::group("",[
     "order_details"=>"index/Order/order_details",//订单详情
     "ios_api_order_del"=>"index/Order/ios_api_order_del",//买家删除订单接口(ajax)
     "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
-
     /*TODO:订单结束*/
+
+    /*TODO:售后处理开始*/
+    /*TODO:售后处理结束*/
 
     /*TODO:订单用户提醒发货开始*/
     "option_add"=>"index/Notification/option_add",//用户提醒
     /*TODO:订单用户提醒发货结束*/
     /*TODO:订单评价开始*/
     "order_evaluate_index"=>"index/Evaluate/order_evaluate_index",//评价数据返回
+    "order_evaluate_images_add"=>"index/Evaluate/order_evaluate_images_add",//评价图片添加
+    "order_evaluate_images_del"=>"index/Evaluate/order_evaluate_images_del",//初始订单评价图片删除(就是点击返回键)
     "order_evaluate_add"=>"index/Evaluate/order_evaluate_add",//评价添加
     /*TODO:订单评价结束*/
 
@@ -219,6 +223,9 @@ Route::group("",[
 
     /*消息提醒*/
     "message_reminder"=>"index/Manage/message_reminder",//消息提醒
+
+    /*关于我们*/
+    "about_us"=>"index/Manage/about_us",//关于我们
 ]);
 
 /**

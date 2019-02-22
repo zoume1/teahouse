@@ -143,7 +143,7 @@ class  Wallet extends  Controller{
                     ->where("id",$id)
                     ->find();
                 if(!empty($is_bank)){
-                    return ajax_success('收货地址成功返回', $is_bank);
+                    return ajax_success('银行卡成功返回', $is_bank);
                 }else{
                     exit(json_encode(array("status"=>0,"info"=>"请先选择银行卡")));
                 }
