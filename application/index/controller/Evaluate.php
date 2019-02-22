@@ -23,9 +23,9 @@ class  Evaluate extends  Controller {
     public function order_evaluate_index(Request $request){
         if($request->isPost()){
             $user_id =$request->only(["member_id"])["member_id"];
-            $parts_order_number =$request->only(["parts_order_number"])["parts_order_number"];
+            $parts_order_number =$request->only(["order_id"])["order_id"];
             $parts_status =7;
-            $condition = "`member_id` = " . $user_id .  " and `parts_order_number` = " . $parts_order_number. " and `status` = " . $parts_status. " and `is_del` = 1" ;
+            $condition = "`member_id` = " . $user_id .  " and `id` = " . $parts_order_number. " and `status` = " . $parts_status. " and `is_del` = 1" ;
             $data =Db::name("order")
                 ->where($condition)
                 ->select();
