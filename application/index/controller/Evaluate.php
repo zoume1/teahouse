@@ -135,7 +135,7 @@ class  Evaluate extends  Controller {
                                     $insert_data =[
                                         "evaluate_order_id"=>$bool,
                                     ];
-                                    Db::name("order_parts_evaluate_images")->where("id",$vs)->update($insert_data);
+                                    Db::name("order_evaluate_images")->where("id",$vs)->update($insert_data);
                             }
                         }
                     return ajax_success("评价成功",$bool);
