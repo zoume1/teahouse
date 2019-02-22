@@ -1,1 +1,132 @@
-1111
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+	body {
+		background: #fff;
+	}
+	
+	#page {
+		width: 96%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+	}
+	.on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        width: 400px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 17px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    
+    .distribution_list ul li {
+        flex: 1;
+    }
+</style>
+
+{/block}
+
+<body>
+
+	{block name="content"}
+
+	<div class="childrenBody">
+		<div class="distribution_list">
+            <ul>
+                <li>
+                    <a href="{:url('admin/operate/operate_problem')}">常见问题</a>
+                </li>
+                <li>
+                    <a href="{:url('admin/operate/operate_contract')}"  >协议合同</a>
+                </li>
+                <li>
+                    <a href="{:url('admin/operate/operate_message')}" >消息提醒</a>
+                </li>
+                <li>
+                    <a href="{:url('admin/operate/operate_about_index')}" class="on">关于我们</a>
+                </li>
+            </ul>
+        </div>
+      
+	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_problem_save')}" method="post" enctype="multipart/form-data">
+	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span> 官方网址</label>
+			<div class="form-input">
+				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="form-label">官方邮箱</label>
+			<div class="form-input">
+				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+			</div>
+        </div>
+        <div class="form-item">
+			<label class="form-label">联系电话</label>
+			<div class="form-input">
+				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+			</div>
+        </div>
+        <div class="form-item">
+			<label class="form-label">合作微信</label>
+			<div class="form-input">
+				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+			</div>
+		</div>
+	</form>
+	
+
+	</div>
+
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	<script type="text/javascript">
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+		})
+	</script>
+
+	{/block}
+
+</body>
+
+</html>
