@@ -100,6 +100,8 @@ Route::group("",[
     /*TODO:订单用户提醒发货结束*/
     /*TODO:订单评价开始*/
     "order_evaluate_index"=>"index/Evaluate/order_evaluate_index",//评价数据返回
+    "order_evaluate_images_add"=>"index/Evaluate/order_evaluate_images_add",//评价图片添加
+    "order_evaluate_images_del"=>"index/Evaluate/order_evaluate_images_del",//初始订单评价图片删除(就是点击返回键)
     "order_evaluate_add"=>"index/Evaluate/order_evaluate_add",//评价添加
     /*TODO:订单评价结束*/
 
