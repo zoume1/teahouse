@@ -221,28 +221,90 @@ class Operate extends  Controller{
         
     }
 
+
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:消息提醒
-     **************************************
-     * @return \think\response\View
-     */
+     * [消息提醒显示]
+     * GY
+    */
     public function operate_message(){
-        return view("operate_message");
+        $message = db("remind")-> paginate(20);
+        return view("operate_message",["message"=>$message]);
     }
-     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:消息提醒添加编辑
-     **************************************
-     * @return \think\response\View
-     */
+
+
+    /**
+     * [消息提醒添加]
+     * GY
+    */
     public function operate_message_add(){
         return view("operate_message_add");
     }
 
+    /**
+     * [消息提醒保存]
+     * GY
+    */
+    public function operate_message_save(Request $request)
+    {
+        if($request->isPost()){
+            $remind = $request -> param();
+            $time = time();
+            $remind["time"] = $time;
+            $bool = db("remind") -> insert($remind);
+            if($bool){
+                $this->success('添加成功', 'admin/operate/operate_message');
+            } else {
+                $this -> error("添加失败","admin/operate/operate_message");
+            }
+        }
+    }
 
+
+    /**
+     * [消息提醒编辑]
+     * GY
+    */
+    public function operate_message_edit($id)
+    {
+        $message_id = db("remind")->where("id",$id)->select();
+        return view("operate_message_edit",["message_id"=>$message_id]);
+    }
+
+
+    /**
+     * [消息提醒更新]
+     * GY
+    */
+    public function operate_message_update(Request $request)
+    {
+        if($request->isPost()){
+            $data = $request -> param();
+            $time = time();
+            $data["time"] = $time;
+            $bools = db("remind")->where("id",$request->only(["id"])["id"])->update($data);
+            if($bools){
+                $this->success("更新成功","admin/operate/operate_message");
+            } else {
+                $this->error("更新成功","admin/operate/operate_message");             
+            }
+        }
+    }
+
+
+    /**
+     * [消息提醒删除]
+     * GY
+    */
+    public function operate_message_delete($id){
+        $boole = db("remind")->where("id",$id)->delete();
+
+        if($boole){
+            $this->success("删除成功","admin/operate/operate_message");
+        } else {
+            $this->success("删除失败","admin/operate/operate_message");
+        }
+        
+    }
 
     /**
      * [积分规则]

@@ -216,6 +216,9 @@ Route::group("",[
 
     /*协议合同*/
     "agreement_contract"=>"index/Manage/agreement_contract",//协议合同详细
+
+    /*消息提醒*/
+    "message_reminder"=>"index/Manage/message_reminder",//消息提醒
 ]);
 
 /**
@@ -478,9 +481,14 @@ Route::group("admin",[
 
 
     
-    "operate_message"=>"admin/operate/operate_message",//*********消息提醒
-    "operate_message_add"=>"admin/operate/operate_message_add",//消息提醒编辑
-    "operate_integral_rule"=>"admin/operate/operate_integral_rule",//积分规则
+    "operate_message"=>"admin/operate/operate_message",               //*********消息提醒
+    "operate_message_add"=>"admin/operate/operate_message_add",       //消息提醒添加
+    "operate_message_save"=>"admin/operate/operate_message_save",     //消息提醒保存
+    "operate_message_edit"=>"admin/operate/operate_message_edit",     //消息提醒编辑
+    "operate_message_update"=>"admin/operate/operate_message_update", //消息提醒更新
+    "operate_message_delete"=>"admin/operate/operate_message_delete", //消息提醒删除
+
+    "operate_integral_rule"=>"admin/operate/operate_integral_rule",    //积分规则
     "operate_integral_update"=>"admin/operate/operate_integral_update",//积分规则更新
 
 

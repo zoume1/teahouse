@@ -77,4 +77,21 @@ class Manage extends Controller
 
     }
 
+
+    /**
+     * [消息提醒]
+     * 郭杨
+     */
+    public function message_reminder()
+    {     
+        $reminder = Db::name("remind")->select();
+        if (!empty($reminder)) {
+            return ajax_success('传输成功', $reminder);
+        } else {
+            return ajax_error("数据为空");
+
+        }
+
+    }
+
 }

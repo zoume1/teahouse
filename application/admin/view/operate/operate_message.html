@@ -82,20 +82,20 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
-				
+				{if !empty($message)}{volist name="message" id="value"}
 					<tr>
-						<td>11</td>
-						<td>11</td>
-						<td>11</td>
+						<td>{$value.id + 10000}</td>
+						<td>{$value.name}</td>
+						<td>{$value.time|date="Y-m-d H:i",###}
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="operate_message_add"><i class="iconfont icon-edit"></i> 编辑</a>
-							<a href="{:url('admin/Install/message_del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/operate/operate_message_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑</a>
+							<a href="{:url('admin/operate/operate_message_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
-			
+				{/volist}{/if}
 				</tbody>
 			</table>
-			
+			{$message->render()}
 
 		</div>
 
