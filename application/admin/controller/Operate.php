@@ -335,4 +335,13 @@ class Operate extends  Controller{
         }
 
     }
+
+
+    /**
+     * [关于我们显示]
+     * GY
+    */
+    public function operate_about_index(){
+        return view("operate_about");
+    }
 }

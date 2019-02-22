@@ -491,6 +491,10 @@ Route::group("admin",[
     "operate_integral_rule"=>"admin/operate/operate_integral_rule",    //积分规则
     "operate_integral_update"=>"admin/operate/operate_integral_update",//积分规则更新
 
+       
+    "operate_about_index"=>"admin/operate/operate_about_index",         //关于我们显示
+    "operate_about_update"=>"admin/operate/operate_about_update",       //关于我们更新
+
 
     /*配送设置*/
     "delivery_index"=>"admin/Delivery/delivery_index",//*******配送设置
@@ -526,6 +530,8 @@ Route::group("admin",[
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况
     "analytical_index" =>"admin/Information/analytical_index",    //溯源分析
+
+ 
 
     /*TODO:*/
 
