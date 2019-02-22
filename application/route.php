@@ -210,7 +210,20 @@ Route::group("",[
 
 
     /*测试接口*/
-    "index_text"=>"index/index/text"
+    "index_text"=>"index/index/text",
+
+    /*常见问题*/
+    "problem_data"=>"index/Manage/problem_data", //问题列表描述
+    "problem_list"=>"index/Manage/problem_list", //问题列表
+
+    /*协议合同*/
+    "agreement_contract"=>"index/Manage/agreement_contract",//协议合同详细
+
+    /*消息提醒*/
+    "message_reminder"=>"index/Manage/message_reminder",//消息提醒
+
+    /*关于我们*/
+    "about_us"=>"index/Manage/about_us",//关于我们
 ]);
 
 /**
@@ -461,6 +474,7 @@ Route::group("admin",[
     "operate_problem_edit"=>"admin/operate/operate_problem_edit",        //常见问题编辑
     "operate_problem_update"=>"admin/operate/operate_problem_update",    //常见问题更新
     "operate_problem_delete"=>"admin/operate/operate_problem_delete",    //常见问题删除
+    "operate_problem_status"=>"admin/operate/operate_problem_status",    //常见问题状态值修改
 
 
     "operate_contract"=>"admin/operate/operate_contract",                //协议合同显示
@@ -472,10 +486,19 @@ Route::group("admin",[
 
 
     
-    "operate_message"=>"admin/operate/operate_message",//*********消息提醒
-    "operate_message_add"=>"admin/operate/operate_message_add",//消息提醒编辑
-    "operate_integral_rule"=>"admin/operate/operate_integral_rule",//积分规则
+    "operate_message"=>"admin/operate/operate_message",               //*********消息提醒
+    "operate_message_add"=>"admin/operate/operate_message_add",       //消息提醒添加
+    "operate_message_save"=>"admin/operate/operate_message_save",     //消息提醒保存
+    "operate_message_edit"=>"admin/operate/operate_message_edit",     //消息提醒编辑
+    "operate_message_update"=>"admin/operate/operate_message_update", //消息提醒更新
+    "operate_message_delete"=>"admin/operate/operate_message_delete", //消息提醒删除
+
+    "operate_integral_rule"=>"admin/operate/operate_integral_rule",    //积分规则
     "operate_integral_update"=>"admin/operate/operate_integral_update",//积分规则更新
+
+       
+    "operate_about_index"=>"admin/operate/operate_about_index",         //关于我们显示
+    "operate_about_update"=>"admin/operate/operate_about_update",       //关于我们更新
 
 
     /*配送设置*/
@@ -512,6 +535,8 @@ Route::group("admin",[
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况
     "analytical_index" =>"admin/Information/analytical_index",    //溯源分析
+
+ 
 
     /*TODO:*/
 
