@@ -219,6 +219,9 @@ Route::group("",[
 
     /*消息提醒*/
     "message_reminder"=>"index/Manage/message_reminder",//消息提醒
+
+    /*关于我们*/
+    "about_us"=>"index/Manage/about_us",//关于我们
 ]);
 
 /**

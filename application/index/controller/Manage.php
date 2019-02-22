@@ -94,4 +94,21 @@ class Manage extends Controller
 
     }
 
+
+    /**
+     * [关于我们]
+     * 郭杨
+     */
+    public function about_us()
+    {     
+        $about = Db::name("about_us")->select();
+        if (!empty($about)) {
+            return ajax_success('传输成功', $about);
+        } else {
+            return ajax_error("数据为空");
+
+        }
+
+    }
+
 }
