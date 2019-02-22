@@ -222,6 +222,13 @@ Route::group("",[
 
     /*关于我们*/
     "about_us"=>"index/Manage/about_us",//关于我们
+
+    /*我的收藏*/
+    "collect"=>"index/Manage/collect",               //添加茶圈收藏
+    "enshrine_data"=>"index/Manage/enshrine_data",   //茶圈收藏列表
+    "demand_collect"=>"index/Manage/demand_collect", //添加供求收藏
+    "demand_data"=>"index/Manage/demand_data",       //供求收藏列表
+
 ]);
 
 /**
