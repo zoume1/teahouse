@@ -130,11 +130,12 @@ class Manage extends Controller
                     $activity[$k] = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,peoples,address,pid')->where("id",$val["activity_id"])->where("label", 1)->order("start_time")->find();
                 }              
                 foreach($activity as $key => $value){      
-                    $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
+                    $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid,icon_image")->find();
                     $retsd = db("goods_type")->where("id",$rest["pid"])->field("name,color")->find();
                     $activity[$key]["names"] = $rest["name"];
                     $activity[$key]["named"] = $retsd["name"];
                     $activity[$key]["color"] = $retsd["color"];
+                    $activity[$key]["icon_image"] = $rest["icon_image"];
                     $activity[$key]["start_time"] = date('Y-m-d H:i',$activity[$key]["start_time"]);                   
                 }
             } 
@@ -204,7 +205,7 @@ class Manage extends Controller
         if ($request->isPost()) {
             $data["member_id"] = $request->only(["member_id"])["member_id"];
             $data["activity_id"] = $request->only(["activity_id"])["activity_id"];
-            $data["type"] = 2;
+            $data["type"] = $request->only(["type"])["type"];
             $bools = db("enshrine")->insert($data);
             if (!empty($bools)) {
                 return ajax_success('添加成功',1);

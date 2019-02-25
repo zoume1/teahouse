@@ -434,4 +434,27 @@ class Coupon extends Controller
     }
 
 
+    /**
+     * [限时限购显示]
+     * 郭杨
+     */
+    public function limitations(Request $request)
+    {
+        if ($request->isPost()) {
+        $goods_id = $request->only(['goods_id'])['goods_id']; //goods_id
+        $member_grade_name = $request->only(["member_grade_name"])['member_grade_name'];//member_grade_name    
+        $limit = db("limited")->where("goods_id",$goods_id)->find();
+
+        if(!empty($limit)){
+            $scope = explode(",",$limit["scope"]);
+            if(in_array($member_grade_name, $scope)){
+                return ajax_success('传输成功', $limit);
+            } else {
+                return ajax_error("数据为空");
+            }
+        }     
+     }
+  }
+
+
 }
