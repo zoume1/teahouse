@@ -73,11 +73,14 @@
 						</td>
 						<td>{$value.goods_name}</td>
 						<td>{$value.number}</td>
-						{if $value.goods_name == 0  }
+						{if $value.time == 1  }
 						<td>一个月</td>
-						{else}
+						{elseif $value.time == 2 }
 						<td>两个月</td>
+						{else}
+						<td>无限制</td>
 						{/if}
+						
 						<td>{$value.goods_repertory}</td>
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Limitations/limitations_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑

@@ -148,6 +148,7 @@ Route::group("",[
     "coupon_time"=>"index/Coupon/coupon_time",           //过期优惠券显示
     "coupon_goods"=>"index/Coupon/coupon_goods",         //优惠券使用商品
     "coupon_appropriated"=>"index/Coupon/coupon_appropriated",//商品下单适用优惠券
+    "limitations"=>"index/Coupon/limitations",           //限时限购详情
     
     /*积分商城*/
     "bonus_index"=>"index/Coupon/bonus_index",        //积分商城显示
