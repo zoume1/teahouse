@@ -143,6 +143,12 @@ class Goods extends Controller
                     $goods_special["goods_text"] = "";
                     $goods_data["goods_text"] = "";
                 }
+                if (isset($goods_data["text"])) {
+                    $goods_special["text"] = $goods_data["text"];
+                } else {
+                    $goods_special["text"] = "";
+                    $goods_data["text"] = "";
+                }
                 $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
                 $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                 $result = implode(",", $goods_data["lv1"]);
@@ -154,6 +160,7 @@ class Goods extends Controller
                             $stock[] = $nl["stock"];
                             $coding[] = $nl["coding"];
                             $cost[] = $nl["cost"];
+                            $line[] = $nl["line"];
                             if (isset($nl["status"])) {
                                 $status[] = $nl["status"];
                             } else {
@@ -184,6 +191,7 @@ class Goods extends Controller
                                     $values[$k]["status"] = $status[$k];
                                     $values[$k]["save"] = $save[$k];
                                     $values[$k]["cost"] = $cost[$k];
+                                    $values[$k]["line"] = $line[$k];
                                     $values[$k]["images"] = $tab;
                                     $values[$k]["goods_id"] = $goods_id;
                                 }
@@ -191,6 +199,7 @@ class Goods extends Controller
                         }
                     }
                 }
+
                 foreach ($values as $kz => $vw) {
                     $rest = db('special')->insert($vw);
                 }
