@@ -35,15 +35,13 @@
     color: #669900;
     margin-right: 14px;
 }
-span{
-	    color: #666666;
-    font-size: 22px;
+.title{
+	padding: 10px;
+    background: #F2F2F2;
+    color: #333;
 }
 
-.title{
-	padding: 9px;
-    background: #F2F2F2;
-}
+
 </style>
 
 
@@ -54,9 +52,7 @@ span{
 {if !empty($member_data)}
 <form class="layui-form" action="{:url('admin/User/update',['id'=>$member_data.member_id])}" method="post">
 	<div class="title">
-	<span >
 		基本信息
-	</span>
 </div>
   <div class="layui-form-item ">
     <label class="layui-form-label">会员账号</label>
