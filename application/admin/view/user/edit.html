@@ -50,8 +50,8 @@
 {block name="content"}
 
 {if !empty($member_data)}
-<form class="layui-form" action="{:url('admin/User/update',['id'=>$member_data.member_id])}" method="post">
-	<div class="title">
+<form class="layui-form layui-form-lists" action="{:url('admin/User/update',['id'=>$member_data.member_id])}" method="post">
+	<div class="form-title">
 		基本信息
 </div>
   <div class="layui-form-item ">
@@ -153,11 +153,8 @@
 		<p>{$member_data.member_id}</p>
 			</div>
 		</div>
-<div class="title">
-	<span id="">
-
+<div class="form-title">
 高级信息
-	</span>
 </div>
 
 <div class="layui-form-item">
