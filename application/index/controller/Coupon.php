@@ -304,7 +304,7 @@ class Coupon extends Controller
         if ($request->isPost()) {
         $open_id = $request->only(['open_id'])['open_id']; //open_id
         $member_id = db("member")->where("member_openid",$open_id)->value("member_id");
-        $data = db("integral")->where("member_id",$member_id)->select();
+        $data = db("integral")->where("member_id",$member_id)->order('id desc')->select();
 
         if (!empty($data)) {
             return ajax_success('传输成功', $data);
@@ -433,6 +433,26 @@ class Coupon extends Controller
         }
     }
 
+
+    /**
+     * [积分订单详情页面信息]
+     * 郭杨
+     */
+    public function integrals_detail(Request $request)
+    {
+        if ($request->isPost()) {
+        $open_id = $request->only(['open_id'])['open_id']; //open_id
+        $member_id = db("member")->where("member_openid",$open_id)->value("member_id");
+        $data = db("integral")->where("member_id",$member_id)->select();
+
+        if (!empty($data)) {
+            return ajax_success('传输成功', $data);
+        } else {
+            return ajax_error("数据为空");
+
+        }        
+     }
+  }
 
     /**
      * [限时限购显示]

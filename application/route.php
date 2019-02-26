@@ -151,10 +151,11 @@ Route::group("",[
     "limitations"=>"index/Coupon/limitations",           //限时限购详情
     
     /*积分商城*/
-    "bonus_index"=>"index/Coupon/bonus_index",        //积分商城显示
-    "bonus_detailed"=>"index/Coupon/bonus_detailed",  //积分商城详细显示
-    "integrals"=>"index/Coupon/integrals",            //积分流水显示
-    "order_integaral"=>"index/Coupon/order_integaral",//积分商城订单 
+    "bonus_index"=>"index/Coupon/bonus_index",           //积分商城显示
+    "bonus_detailed"=>"index/Coupon/bonus_detailed",     //积分商城详细显示
+    "integrals"=>"index/Coupon/integrals",               //积分流水显示
+    "order_integaral"=>"index/Coupon/order_integaral",   //积分商城订单 
+    "integrals_detail"=>"index/Coupon/integrals_detaill",//积分商城订单详细
     
 
 
@@ -562,7 +563,7 @@ Route::group("admin",[
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况
     "analytical_index" =>"admin/Information/analytical_index",    //溯源分析
-    
+
     /*店铺*/
     "general_index"=>"admin/General/general_index", //店铺信息
     "small_routine_index"=>"admin/General/small_routine_index", //小程序设置
