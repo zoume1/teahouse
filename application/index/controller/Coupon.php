@@ -304,7 +304,7 @@ class Coupon extends Controller
         if ($request->isPost()) {
         $open_id = $request->only(['open_id'])['open_id']; //open_id
         $member_id = db("member")->where("member_openid",$open_id)->value("member_id");
-        $data = db("integral")->where("member_id",$member_id)->order('id desc')->select();
+        $data = db("integral")->where("member_id",$member_id)->order('integral_id desc')->select();
 
         if (!empty($data)) {
             return ajax_success('传输成功', $data);
