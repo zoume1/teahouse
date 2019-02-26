@@ -535,8 +535,9 @@ Route::group("admin",[
     "delivery_del"=>"admin/Delivery/del",//上门自提删除
     "delivery_dels"=>"admin/Delivery/dels",//上门自提批量删除
     "delivery_goods"=>"admin/Delivery/delivery_goods",//快递发货
-    "delivery_goods_add_weight"=>"admin/Delivery/delivery_goods_add_weight",//快递发货添加按重量
-    "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add_number",//快递发货添加按件
+    "delivery_goods_add_weight"=>"admin/Delivery/delivery_goods_add_weight", //快递发货添加按重量
+    "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add_number", //快递发货添加
+    "delivery_goods_save"=>"admin/Delivery/delivery_goods_save",             //快递发货添加保存
 
     /*TODO:*/
     /*专属定制*/

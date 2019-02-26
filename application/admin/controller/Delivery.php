@@ -172,16 +172,6 @@ class Delivery extends  Controller{
     }
 
 
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:快递发货
-     **************************************
-     */
-    public function delivery_goods(){
-        return view("delivery_goods");
-    }
-
 
     /**
      **************李火生*******************
@@ -194,13 +184,36 @@ class Delivery extends  Controller{
     }
 
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:快递发货
+     **************************************
+     */
+    public function delivery_goods(){
+        return view("delivery_goods");
+    }
+
+
+
     /**
      **************李火生*******************
      * @param Request $request
      * Notes:快递发货添加按件
      **************************************
      */
-    public function delivery_goods_add_number(){
+    public function delivery_goods_add_number(Request $request){
+        if($request->isPost()){
+            $data = $request->param();
+            halt($data);
+            $res =Db::name("extract_address")->insert($datas);
+            if($res){
+                $this->success("添加成功",'admin/Delivery/delivery_index');
+            }else{
+                $this->error("失败,请重试");
+            }
+        }
         return view("delivery_goods_add_number");
     }
 
