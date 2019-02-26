@@ -20,14 +20,34 @@ class StoreHouse extends Controller{
         return view("store_house");
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:仓库管理添加
+     **************************************
+     * @return \think\response\View
+     */
+    public function store_house_add(){
+        return view("store_house_add");
+    }
 
 
     /**
-     * [仓库管理]
+     * [仓库入仓]
      * 郭杨
      */    
     public function stores_divergence(){     
         return view("stores_divergence");
     }
+
+    /**
+     * [仓库出仓]
+     * 郭杨
+     */
+    public function stores_divergence_out(){
+        return view("stores_divergence_out");
+    }
+
+
     
  }
