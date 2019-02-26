@@ -568,4 +568,58 @@ class Goods extends Controller
 
 
 
+    /**
+     * [众筹商品显示]
+     * 郭杨
+     */    
+    public function crowd_index(){     
+        return view("crowd_index");
+    }
+
+
+
+    /**
+     * [众筹商品添加]
+     * 郭杨
+     */    
+    public function crowd_add(){     
+        return view("crowd_add");
+    }
+
+
+    /**
+     * [众筹商品编辑]
+     * 郭杨
+     */    
+    public function crowd_edit(){     
+        return view("crowd_edit");
+    }
+
+
+    /**
+     * [专属定制商品显示]
+     * 郭杨
+     */    
+    public function exclusive_index(){     
+        return view("exclusive_index");
+    }
+
+
+
+    /**
+     * [专属定制商品添加]
+     * 郭杨
+     */    
+    public function exclusive_add(){     
+        return view("exclusive_add");
+    }
+
+
+    /**
+     * [专属定制商品编辑]
+     * 郭杨
+     */    
+    public function exclusive_edit(){     
+        return view("exclusive_edit");
+    }
 }
