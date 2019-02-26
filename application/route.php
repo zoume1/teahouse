@@ -177,6 +177,7 @@ Route::group("",[
     "pay_password_add" =>"index/PassWord/pay_password_add",//支付密码添加编辑
     "pay_password_return" =>"index/PassWord/pay_password_return",//支付密码返回（判断是否存在支付密码）
     "balance_payment"=>"index/Balance/balance_payment",//商品余额支付
+    "check_password"=>"index/Balance/check_password",//校验支付密码
     /*TODO:设置支付密码结束*/
 
     /*TODO:充值提现开始*/
@@ -312,6 +313,10 @@ Route::group("admin",[
 	"capital_del"=>"admin/Capital/del", //资金管理删除del
 	"capital_status"=>"admin/Capital/status", //资金管理状态修改
     /*TODO:会员储值结束*/
+
+    /*TODO：会员余额开始*/
+    "member_balance"=>"admin/Money/balance",//
+    /*TODO：会员余额结束*/
 
 
     /* TODO:图片库开始*/
@@ -538,7 +543,9 @@ Route::group("admin",[
 
     /*仓储*/
     "store_house" =>"admin/StoreHouse/store_house",      //仓库管理
-    "stores_divergence" =>"admin/StoreHouse/stores_divergence",//出入仓
+    "store_house_add" =>"admin/StoreHouse/store_house_add",      //仓库管理添加
+    "stores_divergence" =>"admin/StoreHouse/stores_divergence",//入仓
+    "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out",//出仓
 
     /*资产*/
     "property_day" =>"admin/Property/property_day", //对账单日汇报
