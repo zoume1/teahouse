@@ -148,6 +148,7 @@ Route::group("",[
     "coupon_time"=>"index/Coupon/coupon_time",           //过期优惠券显示
     "coupon_goods"=>"index/Coupon/coupon_goods",         //优惠券使用商品
     "coupon_appropriated"=>"index/Coupon/coupon_appropriated",//商品下单适用优惠券
+    "limitations"=>"index/Coupon/limitations",           //限时限购详情
     
     /*积分商城*/
     "bonus_index"=>"index/Coupon/bonus_index",        //积分商城显示
@@ -227,6 +228,13 @@ Route::group("",[
 
     /*关于我们*/
     "about_us"=>"index/Manage/about_us",//关于我们
+
+    /*我的收藏*/
+    "collect"=>"index/Manage/collect",               //添加茶圈收藏
+    "enshrine_data"=>"index/Manage/enshrine_data",   //茶圈收藏列表
+    "demand_collect"=>"index/Manage/demand_collect", //添加供求收藏
+    "demand_data"=>"index/Manage/demand_data",       //供求收藏列表
+
 ]);
 
 /**
