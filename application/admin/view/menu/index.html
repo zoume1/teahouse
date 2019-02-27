@@ -15,14 +15,55 @@
    padding-left: 50px;
    background: #FDFDFE;
 	}
+	.on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        width: 380px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 17px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    
+    .distribution_list ul li {
+        flex: 1;
+    }
+
 </style>
 
 {/block}
 
 <body>
 
-	{block name="content"}
-	<div class="childrenBody">
+    {block name="content"}
+
+    <div class="childrenBody">
+        	<div class="distribution_list">
+                    <ul>
+                        <li>
+                            <a href="{:url('admin/admin/index')}" >账号管理</a>
+                        </li>
+                        <li>
+                            <a href="{:url('admin/role/index')}" >角色管理</a>
+                        </li>
+                        <li>
+                            <a href="{:url('admin/menu/index')}" class="on" >菜单管理</a>
+                        </li>
+                    </ul>
+                </div>
 		<blockquote class="layui-elem-quote news_search">
 			<div class="layui-inline">
 				<a class="layui-btn layui-btn-danger bataadtwo" href="{:url('admin/Menu/add')}">添加</a>

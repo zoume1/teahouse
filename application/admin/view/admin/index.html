@@ -6,6 +6,37 @@
 	body {
 		background: #fff;
 	}
+	.layui-icon {
+        position: absolute;
+        right: 0;
+        top: -9px;
+    }
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        width: 380px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 17px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    
+    .distribution_list ul li {
+        flex: 1;
+    }
 </style>
 
 {/block}
@@ -15,6 +46,19 @@
 
 
 <div class="childrenBody">
+		<div class="distribution_list">
+				<ul>
+					<li>
+						<a href="{:url('admin/admin/index')}" class="on">账号管理</a>
+					</li>
+					<li>
+						<a href="{:url('admin/role/index')}"  >角色管理</a>
+					</li>
+					<li>
+						<a href="{:url('admin/menu/index')}">菜单管理</a>
+					</li>
+				</ul>
+			</div>
 	<blockquote class="layui-elem-quote news_search">
 <div class="layui-inline">
 		<a class="layui-btn layui-btn-danger bataadone" href="{:url('admin/admin/add')}">添加</a>
