@@ -177,7 +177,7 @@ class Address extends  Controller{
                         ->where('id','NEQ',$id)
                         ->update(['status'=>-1]);
                 }
-                return ajax_success("编辑成功",$bool_id);
+                return ajax_success("编辑成功",$id);
             }else{
                 return ajax_error("编辑失败",['status'=>0]);
             }
