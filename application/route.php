@@ -220,6 +220,7 @@ Route::group("",[
     /*常见问题*/
     "problem_data"=>"index/Manage/problem_data", //问题列表描述
     "problem_list"=>"index/Manage/problem_list", //问题列表
+    "problem_show"=>"index/Manage/problem_show", //问题解答详情
 
     /*协议合同*/
     "agreement_contract"=>"index/Manage/agreement_contract",//协议合同详细
