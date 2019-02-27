@@ -151,10 +151,11 @@ Route::group("",[
     "limitations"=>"index/Coupon/limitations",           //限时限购详情
     
     /*积分商城*/
-    "bonus_index"=>"index/Coupon/bonus_index",        //积分商城显示
-    "bonus_detailed"=>"index/Coupon/bonus_detailed",  //积分商城详细显示
-    "integrals"=>"index/Coupon/integrals",            //积分流水显示
-    "order_integaral"=>"index/Coupon/order_integaral",//积分商城订单 
+    "bonus_index"=>"index/Coupon/bonus_index",           //积分商城显示
+    "bonus_detailed"=>"index/Coupon/bonus_detailed",     //积分商城详细显示
+    "integrals"=>"index/Coupon/integrals",               //积分流水显示
+    "order_integaral"=>"index/Coupon/order_integaral",   //积分商城订单 
+    "integrals_detail"=>"index/Coupon/integrals_detaill",//积分商城订单详细
     
 
 
@@ -177,6 +178,7 @@ Route::group("",[
     "pay_password_add" =>"index/PassWord/pay_password_add",//支付密码添加编辑
     "pay_password_return" =>"index/PassWord/pay_password_return",//支付密码返回（判断是否存在支付密码）
     "balance_payment"=>"index/Balance/balance_payment",//商品余额支付
+    "check_password"=>"index/Balance/check_password",//校验支付密码
     /*TODO:设置支付密码结束*/
 
     /*TODO:充值提现开始*/
@@ -313,6 +315,10 @@ Route::group("admin",[
 	"capital_status"=>"admin/Capital/status", //资金管理状态修改
     /*TODO:会员储值结束*/
 
+    /*TODO：会员余额开始*/
+    "member_balance"=>"admin/Money/balance",//
+    /*TODO：会员余额结束*/
+
 
     /* TODO:图片库开始*/
 	"photo_index"=>"admin/Photo/index",
@@ -389,21 +395,31 @@ Route::group("admin",[
      "active_order_search"=>"admin/ActiveOrder/search", //评论管理组模糊搜索
 
     /*商品列表*/
-    "goods_index"=>"admin/Goods/index",      //商品列表显示
-    "goods_add"=>"admin/Goods/add",          //商品列表组添加
-    "goods_save"=>"admin/Goods/save",        //商品列表组保存入库
-    "goods_edit"=>"admin/Goods/edit",        //商品列表组编辑
-    "goods_updata"=>"admin/Goods/updata",    //商品列表组更新
-    "goods_status"=>"admin/Goods/status",    //商品列表组首页推荐
-    "goods_ground"=>"admin/Goods/ground",    //商品列表组是否上架
-    "goods_del"=>"admin/Goods/del",          //商品列表组删除
-    "goods_dels"=>"admin/Goods/dels",        //商品列表组批量删除
-    "goods_search"=>"admin/Goods/search",    //商品列表组模糊搜索
-    "goods_images"=>"admin/Goods/images",    //商品列表组图片删除
-    "goods_photos"=>"admin/Goods/photos",    //商品列表规格图片删除
-    "goods_value"=>"admin/Goods/value",      //商品列表规格值修改
-    "goods_switches"=>"admin/Goods/switches",//商品列表规格开关
-    "goods_addphoto"=>"admin/Goods/addphoto",//商品列表规格图片添加 
+    "goods_index"=>"admin/Goods/index",      //普通商品列表显示
+    "goods_add"=>"admin/Goods/add",          //普通商品列表组添加
+    "goods_save"=>"admin/Goods/save",        //普通商品列表组保存入库
+    "goods_edit"=>"admin/Goods/edit",        //普通商品列表组编辑
+    "goods_updata"=>"admin/Goods/updata",    //普通商品列表组更新
+    "goods_status"=>"admin/Goods/status",    //普通商品列表组首页推荐
+    "goods_ground"=>"admin/Goods/ground",    //普通商品列表组是否上架
+    "goods_del"=>"admin/Goods/del",          //普通商品列表组删除
+    "goods_dels"=>"admin/Goods/dels",        //普通商品列表组批量删除
+    "goods_search"=>"admin/Goods/search",    //普通商品列表组模糊搜索
+    "goods_images"=>"admin/Goods/images",    //普通商品列表组图片删除
+    "goods_photos"=>"admin/Goods/photos",    //普通商品列表规格图片删除
+    "goods_value"=>"admin/Goods/value",      //普通商品列表规格值修改
+    "goods_switches"=>"admin/Goods/switches",//普通商品列表规格开关
+    "goods_addphoto"=>"admin/Goods/addphoto",//普通商品列表规格图片添加 
+
+    "crowd_index"=>"admin/Goods/crowd_index",   //众筹商品列表显示
+    "crowd_add"=>"admin/Goods/crowd_add",       //众筹商品列表添加
+    "crowd_edit"=>"admin/Goods/crowd_edit",     //众筹商品编辑
+
+    "exclusive_index"=>"admin/Goods/exclusive_index",   //专属定制商品显示
+    "exclusive_add"=>"admin/Goods/exclusive_add",       //专属定制商品添加
+    "exclusive_edit"=>"admin/Goods/exclusive_edit",     //专属定制商品编辑
+
+
     
 
 
@@ -519,8 +535,9 @@ Route::group("admin",[
     "delivery_del"=>"admin/Delivery/del",//上门自提删除
     "delivery_dels"=>"admin/Delivery/dels",//上门自提批量删除
     "delivery_goods"=>"admin/Delivery/delivery_goods",//快递发货
-    "delivery_goods_add_weight"=>"admin/Delivery/delivery_goods_add_weight",//快递发货添加按重量
-    "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add_number",//快递发货添加按件
+    "delivery_goods_add_weight"=>"admin/Delivery/delivery_goods_add_weight", //快递发货添加按重量
+    "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add_number", //快递发货添加
+    "delivery_goods_save"=>"admin/Delivery/delivery_goods_save",             //快递发货添加保存
 
     /*TODO:*/
     /*专属定制*/
@@ -528,7 +545,9 @@ Route::group("admin",[
 
     /*仓储*/
     "store_house" =>"admin/StoreHouse/store_house",      //仓库管理
-    "stores_divergence" =>"admin/StoreHouse/stores_divergence",//出入仓
+    "store_house_add" =>"admin/StoreHouse/store_house_add",      //仓库管理添加
+    "stores_divergence" =>"admin/StoreHouse/stores_divergence",//入仓
+    "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out",//出仓
 
     /*资产*/
     "property_day" =>"admin/Property/property_day", //对账单日汇报
@@ -546,6 +565,10 @@ Route::group("admin",[
     "data_index" =>"admin/Information/data_index",                //数据概况
     "analytical_index" =>"admin/Information/analytical_index",    //溯源分析
 
+    /*店铺*/
+    "general_index"=>"admin/General/general_index", //店铺信息
+    "small_routine_index"=>"admin/General/small_routine_index", //小程序设置
+    "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
  
 
     /*TODO:*/

@@ -44,7 +44,9 @@ class Login extends Controller{
             $encryptedData = urldecode($get['encryptedData']);
             $iv = define_str_replace($get['iv']);
             $errCode = decryptData($appid,$session_key['session_key'],$encryptedData, $iv);
-            $register_login = db("recommend_integral")->where("id","1")->value("register_integral");//授权通过即送积分
+            $register_login = db("recommend_integral")
+                ->where("id","1")
+                ->value("register_integral");//授权通过即送积分
             if(!empty($errCode )){
                 $is_register =Db::name('member')->where('member_openid',$errCode['openId'])->find();
                 if(empty($is_register)){

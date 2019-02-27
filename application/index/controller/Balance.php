@@ -177,4 +177,28 @@ class Balance extends Controller
                 }
             }
         }
+
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:校验支付密码
+     **************************************
+     */
+    public function check_password(Request $request){
+        //验证支付密码
+        $user_id = $request->only(["member_id"])["member_id"];
+        $user_info = Db::name("member")
+            ->field("pay_password")
+            ->where("member_id", $user_id)
+            ->find();//用户信息
+        $password = $request->only("passwords")["passwords"]; //输入的密码
+        if (password_verify($password,$user_info["pay_password"])){
+            return ajax_success("支付密码正确",["status"=>1]);
+        }else{
+            return ajax_error("支付密码错误",["status"=>0]);
+        }
+    }
+
 }
