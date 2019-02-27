@@ -206,12 +206,34 @@ class Delivery extends  Controller{
     public function delivery_goods_add_number(Request $request){
         if($request->isPost()){
             $data = $request->param();
-            halt($data);
+            $status = $data["status"];
+            if($status == 1){ //按片
+                $delivery = [
+                    "name"=> $data["name"],
+                    "status"=> $data["status"],
+                    "unit"=> $data["unit1"],
+                    "price"=> $data["price1"],
+                    "add"=> $data["add1"],
+                    "markup"=> $data["markup1"],
+                    "are"=> $data["are"]
+                ];
+            } else { //按重量
+                $delivery = [
+                    "name"=> $data["name"],
+                    "status"=> $data["status"],
+                    "unit"=> $data["unit"],
+                    "price"=> $data["price"],
+                    "add"=> $data["add"],
+                    "markup"=> $data["markup"],
+                    "are"=> $data["are"]
+                ];
+            }
+           
             $res =Db::name("extract_address")->insert($datas);
             if($res){
                 $this->success("添加成功",'admin/Delivery/delivery_index');
             }else{
-                $this->error("失败,请重试");
+                $this->error("添加失败,请重试");
             }
         }
         return view("delivery_goods_add_number");

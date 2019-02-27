@@ -61,6 +61,26 @@ class Manage extends Controller
 
     }
 
+    
+    /**
+     * [问题解答详情（跳转)]
+     * 郭杨
+     */
+    public function problem_show(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $problem_data = db("common_ailment")->where("id",$id)->field("title,name,text,pid")->select();
+            if (!empty($problem_data)) {
+                return ajax_success('传输成功', $problem_data);
+            } else {
+                return ajax_error("数据为空");
+
+            }
+
+        }
+
+    }
 
 
     /**
