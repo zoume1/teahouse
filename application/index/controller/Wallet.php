@@ -173,7 +173,7 @@ class  Wallet extends  Controller{
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:提现
+     * Notes:提现(未完成)
      **************************************
      */
 
@@ -185,7 +185,6 @@ class  Wallet extends  Controller{
             $bank_name =$request->only(["bank_name"])["bank_name"];
             $bank_card =$request->only(["bank_card"])["bank_card"];
             $code =$request->only(["code"])["code"];
-
             $member_recharge_money =Db::name("member")
                 ->where("member_id",$member_id)
                 ->value("member_recharge_money");
