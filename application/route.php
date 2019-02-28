@@ -579,6 +579,7 @@ Route::group("admin",[
     "small_routine_index"=>"admin/General/small_routine_index", //小程序设置
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
  
+    /*总控*/
 
     /*TODO:*/
 
