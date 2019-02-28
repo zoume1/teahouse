@@ -226,7 +226,8 @@ Route::group("",[
     "agreement_contract"=>"index/Manage/agreement_contract",//协议合同详细
 
     /*消息提醒*/
-    "message_reminder"=>"index/Manage/message_reminder",//消息提醒
+    "message_reminder"=>"index/Manage/message_reminder",//消息提醒列表
+    "message_show"=>"index/Manage/message_show",        //消息提醒详细
 
     /*关于我们*/
     "about_us"=>"index/Manage/about_us",//关于我们
@@ -535,10 +536,14 @@ Route::group("admin",[
     "delivery_edit"=>"admin/Delivery/delivery_edit",//上门自提编辑
     "delivery_del"=>"admin/Delivery/del",//上门自提删除
     "delivery_dels"=>"admin/Delivery/dels",//上门自提批量删除
-    "delivery_goods"=>"admin/Delivery/delivery_goods",//快递发货
-    "delivery_goods_add_weight"=>"admin/Delivery/delivery_goods_add_weight", //快递发货添加按重量
-    "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add_number", //快递发货添加
-    "delivery_goods_save"=>"admin/Delivery/delivery_goods_save",             //快递发货添加保存
+
+
+    "delivery_goods"=>"admin/Delivery/delivery_goods",                       //快递发货显示
+    "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add",        //快递发货添加
+    "delivery_goods_edit"=>"admin/Delivery/delivery_goods_edit",             //快递发货编辑
+    "delivery_goods_update"=>"admin/Delivery/delivery_goods_update",         //快递发货更新
+    "delivery_goods_delete"=>"admin/Delivery/delivery_goods_delete",         //快递发货删除
+
 
     /*TODO:*/
     /*专属定制*/

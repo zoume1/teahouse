@@ -185,25 +185,21 @@ class Delivery extends  Controller{
 
 
 
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:快递发货
-     **************************************
+   /**
+     * [快递发货显示]
+     * 郭杨
      */
     public function delivery_goods(){
-        return view("delivery_goods");
+        $delivery = db("express")->paginate(20);       
+        return view("delivery_goods",["delivery"=>$delivery]);
     }
 
 
-
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:快递发货添加按件
-     **************************************
+     * [快递发货添加]
+     * 郭杨
      */
-    public function delivery_goods_add_number(Request $request){
+    public function delivery_goods_add(Request $request){
         if($request->isPost()){
             $data = $request->param();
             $status = $data["status"];
@@ -229,18 +225,49 @@ class Delivery extends  Controller{
                 ];
             }
            
-            $res =Db::name("extract_address")->insert($datas);
+            $res =Db::name("express")->insert($delivery);
             if($res){
-                $this->success("添加成功",'admin/Delivery/delivery_index');
+                $this->success("添加成功",'admin/Delivery/delivery_goods');
             }else{
                 $this->error("添加失败,请重试");
             }
         }
-        return view("delivery_goods_add_number");
+        return view("delivery_goods_add");
+    }
+
+
+    /**
+     * [快递发货编辑]
+     * 郭杨
+     */
+    public function delivery_goods_edit($id){
+        $delivery_edit = db("express")->where("id",$id)->select();       
+        return view("delivery_goods_edit",["delivery_edit"=>$delivery_edit]);
+    }
+
+    /**
+     * [快递发货更新]
+     * 郭杨
+     */
+    public function delivery_goods_update(Request $request){
+
     }
 
 
 
+    /**
+     * [快递发货删除]
+     * 郭杨
+     */
+    public function delivery_goods_delete($id){
+        $bool = db("express")->where("id", $id)->delete();
+        if ($bool) {
+            $this->success("删除成功", url("admin/Delivery/delivery_goods"));
+        } else {
+            $this->error("删除失败", url("admin/Delivery/delivery_goods"));
+        }
+
+    }
 
 
 }

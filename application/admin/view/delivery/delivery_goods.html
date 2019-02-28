@@ -96,22 +96,33 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+					{if !empty($delivery)}{volist name="delivery" id = "value"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+						<td>{$value.id + 100000}</td>
+						<td>{$value.name}</td>
+						{if $value.status ==1}
+						<td>按片数</td>
+						<td>{$value.unit}(片)</td>
+						<td>{$value.price}</td>
+						<td>{$value.add}(片)</td>
+						<td>{$value.markup}</td>
+						<td>{$value.are}</td>
+						{else}
+						<td>按重量</td>
+						<td>{$value.unit}(Kg)</td>
+						<td>{$value.price}</td>
+						<td>{$value.add}(Kg)</td>
+						<td>{$value.markup}</td>
+						<td>{$value.are}</td>
+						{/if}
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="delivery_goods_add_number"><i class="iconfont icon-edit"></i> 编辑
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Delivery/delivery_goods_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
 							</a>
-							<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+							<a href="{:url('admin/Delivery/delivery_goods_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
+					{/volist}{/if}
 				</tbody>
 			</table>
 			<div id="page">
@@ -125,6 +136,7 @@
 					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
+				{$delivery->render()}
 			</div>
 
 		</div>
