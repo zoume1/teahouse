@@ -1,1 +1,57 @@
-111
+{include file="template/_meta" /} {block name="css"}
+<style type="text/css">
+	.layui-form {
+		box-sizing: border-box;
+		padding: 24px;
+	}
+	
+	body {
+		background: #fff;
+	}
+	
+	
+</style>
+
+{/block} {block name="content"}
+<div class="layui-form">
+        <table class="layui-table">
+                <colgroup>
+                  <col width="150">
+                  <col width="150">
+                  <col width="200">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th colspan="4">订单基本信息</th>
+                  </tr> 
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>贤心</td>
+                    <td>汉族</td>
+                    <td>1989-10-14</td>
+                    <td>人生似修行</td>
+                  </tr>
+                
+                  <tr>
+                    <td>孟子</td>
+                    <td>华夏族（汉族）</td>
+                    <td>公元前-372年</td>
+                    <td>猿强， </td>
+                  </tr>
+                </tbody>
+              </table>
+
+</div>
+{/block}
+
+<!--_footer 作为公共模版分离出去-->
+{include file="template/_footer" /}
+<!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__STATIC__/admin/common/zhexian/highcharts.js"></script>
+
+
+<!--请在下方写此页面业务相关的脚本-->
+{block name="bottom"}
+<!--自定义内容-->
+{/block}
