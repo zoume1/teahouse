@@ -34,27 +34,7 @@ class  Property extends  Controller{
         return view("property_month");
     }
 
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:资产充值申请
-     **************************************
-     * @return \think\response\View
-     */
-    public function recharge_application(){
-        return view("recharge_application");
-    }
 
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:资产提现申请
-     **************************************
-     * @return \think\response\View
-     */
-    public function withdrawal_application(){
-        return view("withdrawal_application");
-    }
 
 
     /**

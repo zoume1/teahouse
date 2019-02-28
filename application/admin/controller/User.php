@@ -217,7 +217,39 @@ class User extends Controller{
     }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:微信提现
+     **************************************
+     * @return \think\response\View
+     */
+    public function recharge_application(){
+        return view("recharge_application");
+    }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:银行卡提现
+     **************************************
+     * @return \think\response\View
+     */
+    public function withdrawal_application(){
+        return view("withdrawal_application");
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:提现设置
+     **************************************
+     * @return \think\response\View
+     */
+    public function withdrawal_setting(){
+        return view("withdrawal_setting");
+    }
 
 
 }
