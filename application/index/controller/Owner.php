@@ -152,7 +152,7 @@ class  Owner extends  Controller{
                         ->where('id','NEQ',$res)
                         ->update(['status'=>-1]);
                 }
-                return ajax_success("添加成功",["status"=>1]);
+                return ajax_success("添加成功",$res);
             }else{
 
                 return ajax_error("请重试",["status"=>0]);
