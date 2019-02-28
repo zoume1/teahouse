@@ -36,11 +36,11 @@
                 <label class="form-label"><span class="red">*</span>费用计算方式</label>
                 <div class="form-input">
                         {if $value.status== 1}
-                        <input type="radio" name="status" value="{$value.status}" title="按片" checked="" lay-filter="guige"> 
+                        <input type="radio" name="status" value="{$value.status}" title="按片" checked="" > 
                         <input type="radio" name="status" value="2" title="按重量">
                         {else}
                         <input type="radio" name="status" value="1" title="按片">
-                        <input type="radio" name="status" value="{$value.status}" title="按重量" checked="" lay-filter="guige">
+                        <input type="radio" name="status" value="{$value.status}" title="按重量" checked="">
                         {/if}
                     </div>
         </div>
@@ -84,7 +84,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>目的地</label>
                                     <div class="form-input">
-                                        <select name="are"  value="{$value.are}" class="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
+                                        <select name="are"   class="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
                                                 <option value="">请选择</option>
                                         </select>
                                     </div>
@@ -94,7 +94,7 @@
         </div>
         {/if}
         {if $value.status == 2}
-        <div class="form-item special noshow" >
+        <div class="form-item special " >
                 <label class="form-label"></label>
                 <div class="form-item " style=" flex-direction:column;">
                         <div class="form-input">
@@ -133,7 +133,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>目的地</label>
                                     <div class="form-input">
-                                        <select name="are"  value="{$value.are}" class="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
+                                        <select name="are"   class="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
                                                 <option value="">请选择</option>
                                         </select>
                                     </div>
