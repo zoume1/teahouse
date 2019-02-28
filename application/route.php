@@ -558,8 +558,10 @@ Route::group("admin",[
     /*资产*/
     "property_day" =>"admin/Property/property_day", //对账单日汇报
     "property_month" =>"admin/Property/property_month", //对账单月汇报
-    "recharge_application" =>"admin/Property/recharge_application", //充值申请
-    "withdrawal_application" =>"admin/Property/withdrawal_application", //提现申请
+    /*会员*/
+    "recharge_application" =>"admin/User/recharge_application", //微信提现
+    "withdrawal_application" =>"admin/User/withdrawal_application", //银行卡提现
+    "withdrawal_setting" =>"admin/User/withdrawal_setting", //提现设置
 
 
     /*物联*/
