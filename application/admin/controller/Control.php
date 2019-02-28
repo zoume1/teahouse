@@ -55,4 +55,15 @@ class  Control extends  Controller{
     public function control_order_add(){     
         return view("control_order_add");
     }
+
+
+
+    /**
+     * [店铺分析]
+     * 郭杨
+     */    
+    public function control_store_index(){     
+        return view("control_store_index");
+    }
+    
  }

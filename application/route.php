@@ -580,6 +580,23 @@ Route::group("admin",[
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
  
     /*总控*/
+    "control_index"=>"admin/Control/control_index",                //总控店铺
+    "control_meal_index"=>"admin/Control/control_meal_index",      //入驻套餐
+    "control_meal_add"=>"admin/Control/control_meal_add",          //添加入驻套餐
+    "control_order_index"=>"admin/Control/control_order_index",    //入驻订单
+    "control_order_add"=>"admin/Control/control_order_add",        //添加入驻订单
+    "control_store_index"=>"admin/Control/control_store_index",    //店铺分析
+
+    "analyse_index"=>"admin/Analyse/analyse_index",                 //增值商品
+    "analyse_add"=>"admin/Analyse/analyse_add",                     //增值商品添加
+    "analyse_order_index"=>"admin/Analyse/analyse_order_index",     //增值订单
+    "analyse_refund_index"=>"admin/Analyse/analyse_refund_index",   //退款维权
+
+    "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index", //SEO优化
+
+
+
+
 
     /*TODO:*/
 
