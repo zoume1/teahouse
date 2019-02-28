@@ -543,6 +543,8 @@ Route::group("admin",[
     "delivery_goods_edit"=>"admin/Delivery/delivery_goods_edit",             //快递发货编辑
     "delivery_goods_update"=>"admin/Delivery/delivery_goods_update",         //快递发货更新
     "delivery_goods_delete"=>"admin/Delivery/delivery_goods_delete",         //快递发货删除
+    "delivery_are"=>"admin/Delivery/delivery_are",                           //快递地区编辑demand_data
+   
 
 
     /*TODO:*/
@@ -558,10 +560,16 @@ Route::group("admin",[
     /*资产*/
     "property_day" =>"admin/Property/property_day", //对账单日汇报
     "property_month" =>"admin/Property/property_month", //对账单月汇报
+<<<<<<< HEAD
     /*会员*/
     "recharge_application" =>"admin/User/recharge_application", //微信提现
     "withdrawal_application" =>"admin/User/withdrawal_application", //银行卡提现
     "withdrawal_setting" =>"admin/User/withdrawal_setting", //提现设置
+=======
+    "recharge_application" =>"admin/Property/recharge_application", //充值申请
+    "withdrawal_application" =>"admin/Property/withdrawal_application", //提现申请
+    "property_day_index" =>"admin/Property/property_day_index", //日账单详细
+>>>>>>> 293fd92557af5f91dc5a151c1b9d15f45164f429
 
 
     /*物联*/

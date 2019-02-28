@@ -224,7 +224,7 @@ class Delivery extends  Controller{
                     "are"=> $data["are"]
                 ];
             }
-           
+           halt($delivery);
             $res =Db::name("express")->insert($delivery);
             if($res){
                 $this->success("添加成功",'admin/Delivery/delivery_goods');
@@ -241,7 +241,8 @@ class Delivery extends  Controller{
      * 郭杨
      */
     public function delivery_goods_edit($id){
-        $delivery_edit = db("express")->where("id",$id)->select();       
+        $delivery_edit = db("express")->where("id",$id)->select();
+        $delivery_edit[0]["are"]= explode(",",$delivery_edit[0]["are"]);            
         return view("delivery_goods_edit",["delivery_edit"=>$delivery_edit]);
     }
 
@@ -250,7 +251,17 @@ class Delivery extends  Controller{
      * 郭杨
      */
     public function delivery_goods_update(Request $request){
+        if( $request->isPost()){
+            $data = $request -> param();
+            $bool = db("express")->where('id', $request->only(["id"])["id"])->update($data);
 
+            if($bool){
+                $this->success("更新成功",url("admin/Delivery/delivery_goods"));
+            } else {
+                $this->error("更新失败", url("admin/Delivery/delivery_goods"));
+            }
+                  
+        }
     }
 
 
@@ -268,6 +279,30 @@ class Delivery extends  Controller{
         }
 
     }
+
+
+    /**
+     * [快递发货区域]
+     * 郭杨
+     */
+    public function delivery_are(Request $request){
+        if( $request->isPost()){
+            $id = $request->only(["id"])["id"];
+            halt($id);
+            $are = db("express")->where('id', $id)->value("are");
+            
+            $adress = explode(",",$are);
+            if (!empty($are)) {
+                return ajax_success('传输成功', $adress);
+            } else {
+                return ajax_error("数据为空");
+    
+            }
+                  
+        }
+    }
+
+
 
 
 }

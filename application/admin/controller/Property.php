@@ -36,5 +36,13 @@ class  Property extends  Controller{
 
 
 
+
+    /**
+     * [日账单详细]
+     * 郭杨
+     */
+    public function property_day_index(){
+        return view("property_day_index");
+    }
     
  }

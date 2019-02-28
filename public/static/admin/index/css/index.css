@@ -7,7 +7,9 @@
     url('../font/iconfont1/iconfont.ttf') format('truetype'), /* chromeÃ£â‚¬ÂfirefoxÃ£â‚¬ÂoperaÃ£â‚¬ÂSafari, Android, iOS 4.2+*/
     url('../font/iconfont1/iconfont.svg#uxiconfont') format('svg'); /* iOS 4.1- */
 }
-
+.iconfont{
+	margin-right: 10px;
+}
 
 .red{
 	color: red;
@@ -510,8 +512,9 @@ a{
 }
 /*å³è¾¹å†…å®¹*/
 .right-content{
-	min-height: 500px;
+	min-height: 910px;
 	margin-top: 60px;
+	background: #fff;
 }
 .right-content-title{
 	overflow: hidden;
