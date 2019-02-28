@@ -512,8 +512,9 @@ a{
 }
 /*å³è¾¹å†…å®¹*/
 .right-content{
-	min-height: 500px;
+	min-height: 910px;
 	margin-top: 60px;
+	background: #fff;
 }
 .right-content-title{
 	overflow: hidden;
