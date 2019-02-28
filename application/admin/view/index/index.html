@@ -1,6 +1,8 @@
 {include file="template/_meta" /}
+
 <title>Document</title>
 </head>
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/font/iconfont3/iconfont.css"/>
 <style type="text/css">
 	.mask {
 		position: absolute;
@@ -12,16 +14,19 @@
 		opacity: 0.5;
 		-moz-opacity: 0.5;
 	}
+	.contentall{
+		display: flex;
+	}
 </style>
 
 <body>
 	<!--头部-->
 	<div class="all">
-
+   
 	{include file="template/_header" /}
 
 	<!--个人中心导航-->
-
+<div class="contentall">
 	{include file="template/_menu" /}
 
 	<!--右边内容-->
@@ -32,6 +37,8 @@
 		</div>
 
 	</div>
+</div>
+
 	<!--模板-->
 	<div id="add-main" style="display: none;">
        <form class="layui-form" id="add-form" action="{:url('admin/admin/passwd')}" method="post">
