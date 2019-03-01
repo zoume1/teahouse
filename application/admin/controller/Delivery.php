@@ -224,7 +224,7 @@ class Delivery extends  Controller{
                     "are"=> $data["are"]
                 ];
             }
-           halt($delivery);
+           
             $res =Db::name("express")->insert($delivery);
             if($res){
                 $this->success("添加成功",'admin/Delivery/delivery_goods');
