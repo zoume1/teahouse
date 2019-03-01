@@ -80,21 +80,18 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th>序号</th>
-						<th>消息名称</th>
-						<th>添加日期</th>
-						<th>操作</th>
+						<th>消息类型</th>
+						<th>消息分类</th>
+						<th>站内消息</th>
 					</tr>
 				</thead>
 				<tbody class="news_content">
 				{if !empty($message)}{volist name="message" id="value"}
 					<tr>
-						<td>{$value.id + 10000}</td>
 						<td>{$value.name}</td>
-						<td>{$value.time|date="Y-m-d H:i",###}
+						<td>{$value.time|date="Y-m-d H:i",###}</td>
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/operate/operate_message_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑</a>
-							<a href="{:url('admin/operate/operate_message_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
 				{/volist}{/if}
