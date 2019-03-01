@@ -233,6 +233,28 @@ class Manage extends Controller
 
     }
 
+    /**
+     * [取消茶圈收藏]
+     * 郭杨
+     */
+    public function collect_updata(Request $request)
+    {
+        if ($request->isPost()) {
+            $member_id = $request->only(["member_id"])["member_id"];
+            $activity_id = $request->only(["activity_id"])["activity_id"];
+            
+            $bools = db("enshrine")->where("member_id",$member_id)->where("activity_id",$activity_id)->delete();
+            if (!empty($bools)) {
+                return ajax_success('取消成功',1);
+            } else {
+                return ajax_error("取消失败",0);
+
+            }
+
+        }
+
+    }
+
 
 
     /**
