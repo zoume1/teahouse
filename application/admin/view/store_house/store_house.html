@@ -43,15 +43,21 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+					{if !empty($store)} {volist name="store " id="value"}
 					<tr>
-						<td>1000001</td>
+						<td>{$value.number}</td>
 						<td >
-							1111
+							{$value.name}
 						</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+						<td>{$value.cost}</td>
+						{if status == 1}
+						<td>整存整取</td>
+						{/if}
+						{if status == 2}
+						<td>整存散取</td>
+						{/if}
+						<td>{$value.manager}</td>
+						<td>{$value.phone}</td>
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/StoreHouse/store_house_add')}"><i class="iconfont icon-edit"></i> 编辑
 							</a>

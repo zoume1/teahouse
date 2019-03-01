@@ -154,6 +154,36 @@ class Manage extends Controller
       }
     }
 
+    /**
+     * [消息状态修改]
+     * 郭杨
+     */
+    public function message_status(Request $request)
+    {           
+        if ($request->isPost()) {
+        $id = $request->only(["id"])["id"];  
+        $member_id = $request->only(["member_id"])["member_id"]; 
+        
+        $data["remind_id"] = $id;
+        $data["member_id"] = $member_id;
+        $data["status"] = -1;
+
+        $data = [
+            "remind_id" => $id,
+            "member_id" => $id,
+            "remind_id" => $id,
+        ]
+       
+        $bool = Db::name("remind_status")->insert($data);
+        if (!empty($bool)) {
+            return ajax_success('修改成功', $data);
+        } else {
+            return ajax_error("修改失败");
+
+        }
+      }
+    }
+
 
     /**
      * [关于我们]
