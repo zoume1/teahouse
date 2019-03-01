@@ -84,7 +84,7 @@ class Manage extends Controller
 
 
     /**
-     * [协议合同显示]
+     * [协议合同列表显示]
      * 郭杨
      */
     public function agreement_contract()
@@ -95,6 +95,26 @@ class Manage extends Controller
         } else {
             return ajax_error("数据为空");
 
+        }
+
+    }
+
+
+    /**
+     * [协议合同显示详细]
+     * 郭杨
+     */
+    public function agreement_show(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $protocol = Db::name("protocol")->where("id",$id)->field("title,place,url,text")->select();
+            if (!empty($protocol)) {
+                return ajax_success('传输成功', $protocol);
+            } else {
+                return ajax_error("数据为空");
+
+            }
         }
 
     }

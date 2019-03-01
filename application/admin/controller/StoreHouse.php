@@ -20,14 +20,15 @@ class StoreHouse extends Controller{
         return view("store_house");
     }
 
+    
     /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:仓库管理添加
-     **************************************
-     * @return \think\response\View
-     */
-    public function store_house_add(){
+     * [仓库管理添加]
+     * 郭杨
+     */    
+    public function store_house_add(Request $request){
+        if($request->isPost()){
+            $data = $request->param();
+        }
         return view("store_house_add");
     }
 

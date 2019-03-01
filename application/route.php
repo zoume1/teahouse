@@ -131,8 +131,8 @@ Route::group("",[
     "teacenter_recommend"=>"index/TeaCenter/recommend",          //茶圈首页推荐活动
     "activity_order"=>"index/TeaCenter/activity_order",          //茶圈订单
     "activity_order_delete"=>"index/TeaCenter/activity_order_delete", //茶圈取消订单
-    "teacenter_comment"=>"index/TeaCenter/teacenter_comment",          //茶圈活动评论存储
-    "teacenter_comment_show"=>"index/TeaCenter/teacenter_comment_show",  //茶圈活动评论显示
+    "teacenter_comment"=>"index/TeaCenter/teacenter_comment",         //茶圈活动评论存储
+    "teacenter_comment_show"=>"index/TeaCenter/teacenter_comment_show", //茶圈活动评论显示
     "teacenter_comment_updata"=>"index/TeaCenter/teacenter_comment_updata", //茶圈活动评论点赞
 
 
@@ -223,8 +223,9 @@ Route::group("",[
     "problem_show"=>"index/Manage/problem_show", //问题解答详情
 
     /*协议合同*/
-    "agreement_contract"=>"index/Manage/agreement_contract",//协议合同详细
-
+    "agreement_contract"=>"index/Manage/agreement_contract",//协议合同列表
+    "agreement_show"=>"index/Manage/agreement_show",        //协议合同详细
+    
     /*消息提醒*/
     "message_reminder"=>"index/Manage/message_reminder",//消息提醒列表
     "message_show"=>"index/Manage/message_show",        //消息提醒详细
@@ -543,7 +544,7 @@ Route::group("admin",[
     "delivery_goods_edit"=>"admin/Delivery/delivery_goods_edit",             //快递发货编辑
     "delivery_goods_update"=>"admin/Delivery/delivery_goods_update",         //快递发货更新
     "delivery_goods_delete"=>"admin/Delivery/delivery_goods_delete",         //快递发货删除
-    "delivery_are"=>"admin/Delivery/delivery_are",                           //快递地区编辑demand_data
+    "delivery_are"=>"admin/Delivery/delivery_are",                           //快递地区编辑
    
 
 
@@ -552,20 +553,20 @@ Route::group("admin",[
     "custom_made"=>"admin/Made/custom_made",  //专属定制
 
     /*仓储*/
-    "store_house" =>"admin/StoreHouse/store_house",      //仓库管理
-    "store_house_add" =>"admin/StoreHouse/store_house_add",      //仓库管理添加
-    "stores_divergence" =>"admin/StoreHouse/stores_divergence",//入仓
-    "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out",//出仓
+    "store_house" =>"admin/StoreHouse/store_house",                     //仓库管理
+    "store_house_add" =>"admin/StoreHouse/store_house_add",             //仓库管理添加
+    "stores_divergence" =>"admin/StoreHouse/stores_divergence",         //入仓
+    "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out", //出仓
 
     /*资产*/
-    "property_day" =>"admin/Property/property_day", //对账单日汇报
+    "property_day" =>"admin/Property/property_day",     //对账单日汇报
     "property_month" =>"admin/Property/property_month", //对账单月汇报
 
     /*会员*/
-    "recharge_application" =>"admin/User/recharge_application", //微信提现
+    "recharge_application" =>"admin/User/recharge_application",     //微信提现
     "withdrawal_application" =>"admin/User/withdrawal_application", //银行卡提现
-    "withdrawal_setting" =>"admin/User/withdrawal_setting", //提现设置
-    "property_day_index" =>"admin/Property/property_day_index", //日账单详
+    "withdrawal_setting" =>"admin/User/withdrawal_setting",         //提现设置
+    "property_day_index" =>"admin/Property/property_day_index",     //日账单详
 
     /*物联*/
     "anti_fake" =>"admin/Material/anti_fake",                 //防伪溯源
@@ -577,7 +578,7 @@ Route::group("admin",[
     "analytical_index" =>"admin/Information/analytical_index",    //溯源分析
 
     /*店铺*/
-    "general_index"=>"admin/General/general_index", //店铺信息
+    "general_index"=>"admin/General/general_index",             //店铺信息
     "small_routine_index"=>"admin/General/small_routine_index", //小程序设置
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
  
