@@ -50,27 +50,29 @@
 							{$value.name}
 						</td>
 						<td>{$value.cost}</td>
-						{if status == 1}
+						{if $value.status == 1}
 						<td>整存整取</td>
 						{/if}
-						{if status == 2}
+						{if $value.status == 2}
 						<td>整存散取</td>
 						{/if}
 						<td>{$value.manager}</td>
 						<td>{$value.phone}</td>
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/StoreHouse/store_house_add')}"><i class="iconfont icon-edit"></i> 编辑
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/StoreHouse/store_house_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
 							</a>
 							
-							<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+							<a href="{:url('admin/StoreHouse/store_house_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
+					{/volist}{/if}
 				</tbody>
 			</table>
+			
 			<div id="page">
 				
 			</div>
-
+			{$store->render()}
 		</div>
 
 	</div>

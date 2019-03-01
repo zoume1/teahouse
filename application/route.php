@@ -558,6 +558,9 @@ Route::group("admin",[
     /*仓储*/
     "store_house" =>"admin/StoreHouse/store_house",                     //仓库管理
     "store_house_add" =>"admin/StoreHouse/store_house_add",             //仓库管理添加
+    "store_house_delete" =>"admin/StoreHouse/store_house_delete",       //仓库管理刪除
+    "store_house_edit" =>"admin/StoreHouse/store_house_edit",           //仓库管理编辑
+    "store_house_update" =>"admin/StoreHouse/store_house_update",       //仓库管理更新
     "stores_divergence" =>"admin/StoreHouse/stores_divergence",         //入仓
     "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out", //出仓
 
