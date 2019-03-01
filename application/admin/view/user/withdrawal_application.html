@@ -1,9 +1,6 @@
 {include file="template/_meta" /}
 <title></title>
-</head>
-
-{block name="css"}
-
+</head> {block name="css"}
 <style type="text/css">
 	body {
 		background: #fff;
@@ -54,9 +51,7 @@
 		color: #fff;
 		margin: 0 auto;
 	}
-	/*
-     * 弹窗
-     */
+	/* * 弹窗 */
 	
 	.popup {
 		width: 100%;
@@ -76,119 +71,110 @@
 		height: 38px;
 		color: #fff;
 		background: #169BD5;
-		border-radius:10px ;
+		border-radius: 10px;
 	}
-	.popup_doms{
+	
+	.popup_doms {
 		width: 765px;
 		height: 367px;
 		background: #fff;
 	}
-	.popup_content{
+	
+	.popup_content {
 		padding: 20px;
 	}
-	.popup_title{
+	
+	.popup_title {
 		height: 40px;
 		line-height: 40px;
 		color: #66662B;
 		background: #EEF7EA;
 		padding-left: 20px;
 	}
-	.span{
+	
+	.span {
 		display: inline-block;
 		width: 80px;
 		text-align: left;
 	}
-	.repany .layui-input{
+	
+	.repany .layui-input {
 		width: 620px;
 	}
-	.repany{
+	
+	.repany {
 		margin-bottom: 10px;
 	}
-	.operation{
+	
+	.operation {
 		display: flex;
 		align-items: center;
 	}
-	.chat{
+	
+	.chat {
 		height: 210px;
 	}
-	.danhao{
+	
+	.danhao {
 		width: 200px;
 		margin-right: 10px;
 	}
-	.operation select{
+	
+	.operation select {
 		width: 130px;
 		height: 40px;
-		border-color:#ABADB3 ;
+		border-color: #ABADB3;
 		color: #000;
 	}
-	.operation div{
+	
+	.operation div {
 		margin-right: 10px;
 	}
-	.noshow{
+	
+	.noshow {
 		display: none;
 	}
-	.popup_title{
+	
+	.popup_title {
 		position: relative;
 	}
-	.popup_x{
-	    width: 25px;
-    position: absolute;
-    right: 12px;
-    top: -4px;
+	
+	.popup_x {
+		width: 25px;
+		position: absolute;
+		right: 12px;
+		top: -4px;
 	}
-	/*
-     * 弹窗end
-     */
+	/* * 弹窗end */
+</style> {/block}
 
-</style>
-
-{/block}
-
-<body>
-
-	{block name="content"}
+<body> {block name="content"}
 	<div class="popup popup_one noshow">
 		<div class="popup_doms">
-		
-			<div class="popup_title">
-				处理回复（个人信息处有提示信息）
-					<div class="popup_x">
-				<img src="__STATIC__/admin/index/img/X.png"/>
-			</div>
+			<div class="popup_title"> 处理回复（个人信息处有提示信息）
+				<div class="popup_x"> <img src="__STATIC__/admin/index/img/X.png" /> </div>
 			</div>
 			<div class="popup_content">
-				<div class="repany">
-					<span class="span">官方回复</span>
-					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注" class="layui-input">
-				</div>
+				<div class="repany"> <span class="span">官方回复</span> <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注" class="layui-input"> </div>
 				<div class="chat">
-					<div class="chat_list">
-						<span class="span">20180811</span>
-						<span>官方备注已用户要求高可顺非邮寄</span>
-					</div>
+					<div class="chat_list"> <span class="span">20180811</span> <span>官方备注已用户要求高可顺非邮寄</span> </div>
 				</div>
-				<div class="operation">
-                    <button type="button" class="submit_btns">审核不通过</button>
-					<button type="button" class="submit_btns">审核通过</button>
-				</div>
+				<div class="operation"> <button type="button" class="submit_btns">审核不通过</button> <button type="button" class="submit_btns">审核通过</button> </div>
 			</div>
 		</div>
 	</div>
-    
-
 	<div class="childrenBody">
 		<div class="distribution_list">
 			<ul>
 				<li>
-					<a href=" withdrawal_application"  style="text-decoration:none;"  class="on" >微信提现</a>
+					<a href="recharge_application"  style="text-decoration:none;"   >微信提现</a>
 				</li>
 				<li>
-					<a href="recharge_application"   style="text-decoration:none;">银行卡提现</a>
-                </li>
-                <li>
-                     <a href="recharge_application"   style="text-decoration:none;">提现设置</a>
-                 </li>
-
+					<a href="withdrawal_application"   style="text-decoration:none;"   class="on">银行卡提现</a>
+				</li>
+				<li>
+					 <a href="withdrawal_setting"   style="text-decoration:none;">提现设置</a>
+				 </li>
 			</ul>
 		</div>
 		<blockquote class="layui-elem-quote news_search">
@@ -196,45 +182,34 @@
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">申请人</div>
-						<div class="seach_input">
-							<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="姓名/手机号" class="layui-input">
-						</div>
+						<div class="seach_input"> <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="姓名/手机号" class="layui-input"> </div>
 					</div>
-				
 					<div class="seach_list">
 						<div class="seach_laber">开始时间</div>
-						<div class="seach_input">
-							<span class="time"><input type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
-							</span>
-						</div>
+						<div class="seach_input"> <span class="time"><input type="text"  class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  > </span> </div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">结束时间</div>
-						<div class="seach_input">
-							<span class="time"><input type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
-
-						</div>
-					</div>
-
-					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
-				</div>
-
+						<div class="seach_input"> <span class="time"><input type="text" class="  text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span> </div>
+					</div> <button class="layui-btn" type="submit" id="seach">立即搜索  </button> </div>
 			</form>
 		</blockquote>
-
 		<div class="layui-form news_list">
 			<table class="layui-table">
 				<colgroup>
-					<col width="3%">
-				</colgroup>
+					<col width="3%"> </colgroup>
 				<thead>
 					<tr>
 						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
-						<th>用户名</th>
+						<th>昵称</th>
+						<th>真实姓名</th>
 						<th>账户余额</th>
-						<th>账户余额</th>
-						<th>绑定手机号</th>
+						<th>可提现余额</th>
 						<th>申请提现金额</th>
+						<th>申请日期</th>
+						<th>申请到账开户银行</th>
+						<th>银行卡号</th>
+						<th>开户名</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -246,39 +221,30 @@
 						<td>1000001</td>
 						<td>1000001</td>
 						<td>1000001</td>
+						<td>1000001</td>
+						<td>1000001</td>
+						<td>1000001</td>
+						<td>1000001</td>
 						<td>
-							<div class="static_btus">
-								已关闭
-							</div>
+							<div class="static_btus"> 已关闭 </div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<div id="page">
 				<div class="opation" style="width: 200px; float: left;">
-					<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
+					<select name="" style="color: #C1A5A5; border-color:  #E4E4E4;height: 30px;">
 						<option check="" value="0">请选择</option>
 						<option value="1">批量删除</option>
 					</select>
 				</div>
-				<div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
-					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
-					</button>
-				</div>
+				<div style="float: left; height: 52px;line-height: 52px; margin-left:  20px;"> <button type="button" id="opration_btu" style="width: 60px;  background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定 </button> </div>
 			</div>
-
 		</div>
-
-	</div>
-
-	{/block}
-
-	<!--_footer 作为公共模版分离出去-->
-	{include file="template/_footer" /}
+	</div> {/block}
+	<!--_footer 作为公共模版分离出去-->{include file="template/_footer" /}
 	<!--/_footer 作为公共模版分离出去-->
-
-	<!--请在下方写此页面业务相关的脚本-->
-	{block name="bottom"}
+	<!--请在下方写此页面业务相关的脚本-->{block name="bottom"}
 	<script type="text/javascript">
 		layui.config({
 			base: "js/"
@@ -397,9 +363,6 @@
 			$(".popup_two").addClass("noshow");
 		});
 	</script>
-
-	{/block}
-
-</body>
+	{/block} </body>
 
 </html>
