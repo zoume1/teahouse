@@ -229,7 +229,7 @@ Route::group("",[
     /*消息提醒*/
     "message_reminder"=>"index/Manage/message_reminder",//消息提醒列表
     "message_show"=>"index/Manage/message_show",        //消息提醒详细
-    "message_status"=>"index/Manage/message_status",    //消息提醒状态修改
+    
 
     /*关于我们*/
     "about_us"=>"index/Manage/about_us",//关于我们
