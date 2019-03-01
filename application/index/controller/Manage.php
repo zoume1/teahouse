@@ -256,6 +256,31 @@ class Manage extends Controller
     }
 
 
+    
+    /**
+     * [判断茶圈活动是否被收藏]
+     * 郭杨
+     */
+    public function collect_judge(Request $request)
+    {
+        if ($request->isPost()) {
+            $member_id = $request->only(["member_id"])["member_id"];
+            $activity_id = $request->only(["activity_id"])["activity_id"];
+            
+            $bools = db("enshrine")->where("member_id",$member_id)->where("activity_id",$activity_id)->find();
+            if (!empty($bools)) {
+                return ajax_success('该活动已被用户收藏',1);
+            } else {
+                return ajax_error("未收藏",0);
+
+            }
+
+        }
+
+    }
+
+
+
 
     /**
      * [供求收藏列表详细]
