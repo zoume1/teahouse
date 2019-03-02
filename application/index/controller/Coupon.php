@@ -316,7 +316,7 @@ class Coupon extends Controller
   }
 
     /**
-     * [积分商城订单显示]
+     * [积分商城提交订单]
      * 郭杨
      */
     public function order_integaral(Request $request){
@@ -385,6 +385,7 @@ class Coupon extends Controller
                         $datas["harvest_phone_num"] = $is_address_status['harvester_phone_num'];
                         $datas["harvester_address"] = $harvest_address;
                         $datas["order_create_time"] = $create_time;
+                        $datas["pay_time"] = $create_time;
                         $datas["order_amount"] = $goods_data['integral']*$numbers;//订单积分                             
                         $datas["status"] = 1;
                         $datas["goods_id"] = $commodity_id;
@@ -440,20 +441,185 @@ class Coupon extends Controller
      */
     public function integrals_detail(Request $request)
     {
-        if ($request->isPost()) {
-        $open_id = $request->only(['open_id'])['open_id']; //open_id
-        $member_id = db("member")->where("member_openid",$open_id)->value("member_id");
-        $data = db("integral")->where("member_id",$member_id)->select();
+        if($request->isPost()) {
+            $user_id = $request->only("member_id")["member_id"]; //会员id
+            if(empty($member_id)){
+                exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
+            }
+            $order_number =$request->only("order_number")["order_number"];//订单编号
+            $condition = "`member_id` = " . $user_id .  " and `parts_order_number` = " . $order_number;
+            $data = Db::name("buyintegral")
+                ->where($condition)
+                ->find();
+            if (!empty($data)) {              
+                $datas = [
+                    "buy_message" => $data["buy_message"], //买家留言
+                    "create_time" => $data["order_create_time"],//订单创建时间
+                    "parts_order_number" => $data["parts_order_number"],//订单编号
+                    "pay_time" => $data["pay_time"],//支付时间
+                    "harvester" => $data["harvester"],//收货人
+                    "harvest_phone_num" => $data["harvest_phone_num"],//收件人电话
+                    "harvester_address" => $data["harvester_address"],//收件人地址
+                    "order_quantity" => $data["order_quantity"],//商品数量
+                    "status" => $data["status"],//状态
+                    "all_goods_pays" => $data["order_amount"],//商品总额（商品*数量）
+                    "all_order_real_pay" => $data["order_amount"],//订单实际支付积分
+                ];
 
-        if (!empty($data)) {
-            return ajax_success('传输成功', $data);
-        } else {
-            return ajax_error("数据为空");
-
-        }        
-     }
+                $rest[] = $datas;
+                if (!empty($rest)) {
+                    return ajax_success("数据返回成功", $rest);
+                } else {
+                    return ajax_error("没有数据信息", ["status" => 0]);
+                }
+            } else {
+                return ajax_error("订单信息错误", ["status" => 0]);
+            }
+        }
   }
 
+
+
+      /**
+     * [积分订单全部]
+     * 郭杨
+     */
+    public function integrals_list(Request $request)
+    {
+        if($request->isPost()) {
+            $member_id = $request->only("member_id")["member_id"]; //会员id
+            if(empty($member_id)){
+                exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
+            }
+            $data = Db::name("buyintegral")
+                ->where("member_id",$member_id)
+                ->order('order_create_time', 'desc')
+                ->select();
+            if (!empty($data)) {  
+                foreach($data as $key => $value){         
+               
+                    $datas[$key]["buy_message"] = $data[$key]["buy_message"]; //买家留言
+                    $datas[$key]["create_time"] = $data[$key]["order_create_time"];//订单创建时间
+                    $datas[$key]["goods_name"] = $data[$key]["goods_name"];//商品名
+                    $datas[$key]["goods_describe"] = $data[$key]["goods_describe"];//商品买点
+                    $datas[$key]["goods_show_image"] = $data[$key]["goods_show_image"];//商品图片                    
+                    $datas[$key]["integral"] = $data[$key]["integral"];//商品积分                    
+                    $datas[$key]["parts_order_number"] = $data[$key]["parts_order_number"];//订单编号
+                    $datas[$key]["pay_time"] = $data[$key]["pay_time"];//支付时间
+                    $datas[$key]["harvester"] = $data[$key]["harvester"];//收货人
+                    $datas[$key]["harvest_phone_num"] = $data[$key]["harvest_phone_num"];//收件人电话
+                    $datas[$key]["harvester_address"] = $data[$key]["harvester_address"];//收件人地址
+                    $datas[$key]["order_quantity"] = $data[$key]["order_quantity"];//商品数量
+                    $datas[$key]["status"] = $data[$key]["status"];//状态
+                    $datas[$key]["all_order_real_pay"] = $data[$key]["order_amount"];//订单实际支付积分
+                
+            }
+
+                if (!empty($datas)) {
+                    return ajax_success("数据返回成功", $datas);
+                } else {
+                    return ajax_error("没有数据信息", ["status" => 0]);
+                }
+            } else {
+                return ajax_error("订单信息错误", ["status" => 0]);
+            }
+        }
+  }
+
+
+    /**
+     * [积分订单待发货]
+     * 郭杨
+     */
+    public function integrals_delivered(Request $request)
+    {
+        if($request->isPost()) {
+            $member_id = $request->only("member_id")["member_id"]; //会员id
+            if(empty($member_id)){
+                exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
+            }
+            //1已付款，2待发货，3已发货，4待收货，5已收货
+            $data = Db::name("buyintegral")
+                ->where("member_id",$member_id)
+                ->where("status",1)
+                ->order('order_create_time', 'desc')
+                ->select();
+            if (!empty($data)) {  
+                foreach($data as $key => $value){         
+                    $datas[$key]["buy_message"] = $data[$key]["buy_message"]; //买家留言
+                    $datas[$key]["create_time"] = $data[$key]["order_create_time"];//订单创建时间
+                    $datas[$key]["goods_name"] = $data[$key]["goods_name"];//商品名
+                    $datas[$key]["goods_describe"] = $data[$key]["goods_describe"];//商品买点
+                    $datas[$key]["goods_show_image"] = $data[$key]["goods_show_image"];//商品图片                    
+                    $datas[$key]["integral"] = $data[$key]["integral"];//商品积分                    
+                    $datas[$key]["parts_order_number"] = $data[$key]["parts_order_number"];//订单编号
+                    $datas[$key]["pay_time"] = $data[$key]["pay_time"];//支付时间
+                    $datas[$key]["harvester"] = $data[$key]["harvester"];//收货人
+                    $datas[$key]["harvest_phone_num"] = $data[$key]["harvest_phone_num"];//收件人电话
+                    $datas[$key]["harvester_address"] = $data[$key]["harvester_address"];//收件人地址
+                    $datas[$key]["order_quantity"] = $data[$key]["order_quantity"];//商品数量
+                    $datas[$key]["status"] = $data[$key]["status"];//状态
+                    $datas[$key]["all_order_real_pay"] = $data[$key]["order_amount"];//订单实际支付积分              
+            }
+
+                if (!empty($datas)) {
+                    return ajax_success("数据返回成功", $datas);
+                } else {
+                    return ajax_error("没有数据信息", ["status" => 0]);
+                }
+            } else {
+                return ajax_error("订单信息错误", ["status" => 0]);
+            }
+        }
+  }
+
+
+  
+    /**
+     * [积分订单待收货]
+     * 郭杨
+     */
+    public function integrals_collections(Request $request)
+    {
+        if($request->isPost()) {
+            $member_id = $request->only("member_id")["member_id"]; //会员id
+            if(empty($member_id)){
+                exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
+            }
+            //1已付款，2待发货，3已发货，4待收货，5已收货
+            $data = Db::name("buyintegral")
+                ->where("member_id",$member_id)
+                ->where("status",3)
+                ->order('order_create_time', 'desc')
+                ->select();
+            if (!empty($data)) {  
+                foreach($data as $key => $value){         
+                    $datas[$key]["buy_message"] = $data[$key]["buy_message"]; //买家留言
+                    $datas[$key]["create_time"] = $data[$key]["order_create_time"];//订单创建时间
+                    $datas[$key]["goods_name"] = $data[$key]["goods_name"];//商品名
+                    $datas[$key]["goods_describe"] = $data[$key]["goods_describe"];//商品买点
+                    $datas[$key]["goods_show_image"] = $data[$key]["goods_show_image"];//商品图片                    
+                    $datas[$key]["integral"] = $data[$key]["integral"];//商品积分                    
+                    $datas[$key]["parts_order_number"] = $data[$key]["parts_order_number"];//订单编号
+                    $datas[$key]["pay_time"] = $data[$key]["pay_time"];//支付时间
+                    $datas[$key]["harvester"] = $data[$key]["harvester"];//收货人
+                    $datas[$key]["harvest_phone_num"] = $data[$key]["harvest_phone_num"];//收件人电话
+                    $datas[$key]["harvester_address"] = $data[$key]["harvester_address"];//收件人地址
+                    $datas[$key]["order_quantity"] = $data[$key]["order_quantity"];//商品数量
+                    $datas[$key]["status"] = $data[$key]["status"];//状态
+                    $datas[$key]["all_order_real_pay"] = $data[$key]["order_amount"];//订单实际支付积分              
+            }
+
+                if (!empty($datas)) {
+                    return ajax_success("数据返回成功", $datas);
+                } else {
+                    return ajax_error("没有数据信息", ["status" => 0]);
+                }
+            } else {
+                return ajax_error("订单信息错误", ["status" => 0]);
+            }
+        }
+  }
     /**
      * [限时限购显示]
      * 郭杨
