@@ -229,12 +229,15 @@ Route::group("",[
     /*消息提醒*/
     "message_reminder"=>"index/Manage/message_reminder",//消息提醒列表
     "message_show"=>"index/Manage/message_show",        //消息提醒详细
+    
 
     /*关于我们*/
     "about_us"=>"index/Manage/about_us",//关于我们
 
     /*我的收藏*/
     "collect"=>"index/Manage/collect",               //添加茶圈收藏
+    "collect_updata"=>"index/Manage/collect_updata", //取消茶圈收藏
+    "collect_judge"=>"index/Manage/collect_judge",   //判断茶圈活动是否被收藏
     "enshrine_data"=>"index/Manage/enshrine_data",   //茶圈收藏列表
     "demand_collect"=>"index/Manage/demand_collect", //添加供求收藏
     "demand_data"=>"index/Manage/demand_data",       //供求收藏列表
@@ -555,6 +558,9 @@ Route::group("admin",[
     /*仓储*/
     "store_house" =>"admin/StoreHouse/store_house",                     //仓库管理
     "store_house_add" =>"admin/StoreHouse/store_house_add",             //仓库管理添加
+    "store_house_delete" =>"admin/StoreHouse/store_house_delete",       //仓库管理刪除
+    "store_house_edit" =>"admin/StoreHouse/store_house_edit",           //仓库管理编辑
+    "store_house_update" =>"admin/StoreHouse/store_house_update",       //仓库管理更新
     "stores_divergence" =>"admin/StoreHouse/stores_divergence",         //入仓
     "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out", //出仓
 

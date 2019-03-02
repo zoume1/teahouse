@@ -143,8 +143,8 @@ class Manage extends Controller
     public function message_show(Request $request)
     {           
         if ($request->isPost()) {
-        $id = $request->only(["id"])["id"];  
-        $reminder = Db::name("remind")->where("id",$id)->field("name,time,text")->select();
+        $pid = $request->only(["pid"])["pid"];  
+        $reminder = Db::name("remind")->where("pid",$pid)->field("name,time,text")->select();
         if (!empty($reminder)) {
             return ajax_success('传输成功', $reminder);
         } else {
@@ -153,6 +153,8 @@ class Manage extends Controller
         }
       }
     }
+
+
 
 
     /**
@@ -230,6 +232,53 @@ class Manage extends Controller
         }
 
     }
+
+    /**
+     * [取消茶圈收藏]
+     * 郭杨
+     */
+    public function collect_updata(Request $request)
+    {
+        if ($request->isPost()) {
+            $member_id = $request->only(["member_id"])["member_id"];
+            $activity_id = $request->only(["activity_id"])["activity_id"];
+            
+            $bools = db("enshrine")->where("member_id",$member_id)->where("activity_id",$activity_id)->delete();
+            if (!empty($bools)) {
+                return ajax_success('取消成功',1);
+            } else {
+                return ajax_error("取消失败",0);
+
+            }
+
+        }
+
+    }
+
+
+    
+    /**
+     * [判断茶圈活动是否被收藏]
+     * 郭杨
+     */
+    public function collect_judge(Request $request)
+    {
+        if ($request->isPost()) {
+            $member_id = $request->only(["member_id"])["member_id"];
+            $activity_id = $request->only(["activity_id"])["activity_id"];
+            
+            $bools = db("enshrine")->where("member_id",$member_id)->where("activity_id",$activity_id)->find();
+            if (!empty($bools)) {
+                return ajax_success('该活动已被用户收藏',1);
+            } else {
+                return ajax_error("未收藏",0);
+
+            }
+
+        }
+
+    }
+
 
 
 
