@@ -116,6 +116,7 @@ class Commodity extends Controller
             $goods_standard = db("special")->where("goods_id", $goods_id)->select();
             $max_price = db("special")->where("goods_id", $goods_id)->max("price");
             $min_price = db("special")->where("goods_id", $goods_id)->min("price");
+            $min_line = db("special")->where("goods_id", $goods_id)->min("line");
             $max_prices = $max_price * $discount;
             $min_prices = $min_price * $discount;
 
@@ -128,6 +129,7 @@ class Commodity extends Controller
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
                 $goods[0]["max_price"] = $max_prices;
                 $goods[0]["min_price"] = $min_prices;
+                $goods[0]["min_line"] = $min_line;
 
             } else {
                 $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;

@@ -620,6 +620,7 @@ class Coupon extends Controller
             }
         }
   }
+
     /**
      * [限时限购显示]
      * 郭杨
@@ -633,14 +634,45 @@ class Coupon extends Controller
 
         if(!empty($limit)){
             $scope = explode(",",$limit["scope"]);
-            if(in_array($member_grade_name, $scope)){
-                return ajax_success('传输成功', $limit);
+            return ajax_success('传输成功', $limit);
+            } else {
+                return ajax_error("该商品并未加入限时限购");
+            }
+        }     
+     }
+
+
+    /**
+     * [商品点击购买时限时限购提示]
+     * 郭杨
+     */
+    public function limitations_hint(Request $request)
+    {
+        if ($request->isPost()) {
+        $goods_id = $request->only(['goods_id'])['goods_id']; //goods_id
+        $member_id = $request->only(['member_id'])['member_id']; //member_id
+        $member_grade_name = $request->only(["member_grade_name"])['member_grade_name'];//member_grade_name  
+        $time = time();
+        
+        //判断会员等级
+        $limit = db("limited")->where("goods_id",$goods_id)->find();
+
+        if(!empty($limit)){
+            $scope = explode(",",$limit["scope"]);
+            if(!in_array($member_grade_name,$scope)){
+                return ajax_error("您的会员等级过低,请升级后再购买");
+            }
+            $order = db("order")->where("member_id",$member_id)->where("goods_id",$goods_id)->order('order_create_time', 'desc')->select();//查询近期定单
+            if(!empty($order)){
+                $order_time = $order[0]["order_create_time"];//商品下单时间
+            }
+            return ajax_success('传输成功', $limit);
             } else {
                 return ajax_error("数据为空");
             }
         }     
      }
-  }
+  
 
 
 }
