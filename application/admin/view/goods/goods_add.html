@@ -190,6 +190,127 @@
         background: #fff;
         display: flex;
     }
+    	/*
+     * 弹窗
+     */
+	 	/*
+     * 弹窗
+     */
+	.popup {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 99999;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: solid 1px #D7D7D7;
+		box-sizing: border-box;
+	}
+	
+	.submit_btns {
+		width: 100px;
+		height: 38px;
+		color: #fff;
+		background: #169BD5;
+		border-radius:10px ;
+	}
+	.popup_doms{
+		width: 790px;
+		height: 400px;
+		background: #fff;
+	}
+	.popup_doms1{
+		width: 900px;
+		height: 500px;
+		background: #fff;
+	}
+	.popup_content{
+		padding: 20px;
+	}
+	.popup_title{
+		height: 40px;
+		line-height: 40px;
+		color: #66662B;
+		background: #EEF7EA;
+		padding-left: 20px;
+	}
+	.span{
+		display: inline-block;
+		width: 80px;
+		text-align: left;
+		margin-right: 20px;
+	}
+	.repany .layui-input{
+		width: 530px;
+	}
+	.repany{
+		margin-bottom: 10px;
+	}
+	.operation{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.chat{
+		height: 210px;
+	}
+	.danhao{
+		width: 200px;
+		margin-right: 10px;
+	}
+	.operation select{
+		width: 130px;
+		height: 40px;
+		border-color:#ABADB3 ;
+		color: #000;
+		background: #fff;
+	}
+	.operation div{
+		margin-right: 10px;
+	}
+	.noshow{
+		display: none;
+	}
+	.popup_title{
+		position: relative;
+	}
+	.popup_x{
+	    width: 25px;
+    position: absolute;
+    right: 12px;
+    top: -4px;
+	}
+	.repay_tip{
+	    display: inline-block;
+		width: 100px;
+		height: 30px;
+		text-align: center;
+		line-height: 30px;
+		color: #fff;
+		background: #669900;
+	}
+
+	.button{
+		width: 100px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #a2a2a2;
+    border-radius: 10px;
+	}
+	.button_all{
+		display: flex;
+  justify-content: space-around;
+	margin-top: 30PX;
+	}
+	.quxiao{
+
+	}
+	.queding{
+		background: #169BD5;
+		color: #fff;
+	}
    
 </style>
 
@@ -203,7 +324,44 @@
         </div>
 
     </div>
-
+    <div class="popup popup_one noshow">
+		<div class="popup_doms">
+		
+			<div class="popup_title">
+				请输入内容
+					<div class="popup_x">
+				<img src="__STATIC__/admin/index/img/X.png"/>
+			</div>
+			</div>
+			<div class="popup_content">
+                <textarea name="" id="" cols="100" rows="10"></textarea>
+                <div class="form-item">
+                    <label class="form-label">文字颜色</label>
+                    <div class="form-input1">
+                        <input type="color" name="brand" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="height: 24px;width: 70px;">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="form-label">方框颜色</label>
+                    <div class="form-input1">
+                        <input type="color" name="brand" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="height: 24px;width: 70px;">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="form-label">背景颜色</label>
+                    <div class="form-input1">
+                        <input type="color" name="brand" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="height: 24px;width: 70px;">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" type="button">确认提交</button>
+                    <button type="button" class="layui-btn layui-btn-primary " >返回</button>
+                </div>
+            </div>
+		</div>
+	</div>
     <form class="layui-form layui-form-lists" action="{:url('admin/Goods/save')}" method="post" enctype="multipart/form-data">
         <div class="form-title">基础信息 </div>
         <div class="form-item">
@@ -298,12 +456,14 @@
                 {if !empty($goods_list)}
                 <select name="pid" id="admin_role" class="role_list">
 					{volist name="goods_list" id="value"}
-					<option value="{$value.id}">{$value.name}</option>
+					 <option value="{$value.id}">{$value.name}</option>
 					{/volist}
-				</select><br/> {else}
+                </select><br/> 
+                {else}
                 <select name="pid" class="role_list">
 					<option value="0">顶级</option>
-				</select><br/> {/if}
+                </select><br/> 
+                {/if}
                 </select>
             </div>
         </div>
@@ -717,19 +877,19 @@
                     });
                 });
 
-                $("#hot").on('click', ".change_text", function() {
-                        var texts = $(this).siblings('.texts');
-                        layer.prompt({
-                                title: '请输入修改的文字',
-                                formType: 2
-                            },
-                            function(text, index) {
-                                texts.html(text);
-                                layer.close(index);
+                // $("#hot").on('click', ".change_text", function() {
+                //         var texts = $(this).siblings('.texts');
+                //         layer.prompt({
+                //                 title: '请输入修改的文字',
+                //                 formType: 2
+                //             },
+                //             function(text, index) {
+                //                 texts.html(text);
+                //                 layer.close(index);
 
-                            });
+                //             });
 
-                    })
+                //     })
                     $(".sever_list").on('click', ".change_text", function() {
                         var texts = $(this).siblings('.texts');
                         layer.prompt({
@@ -825,6 +985,12 @@
                 $(".tanchuang").click(function() {
                     $(".tanchuang").addClass("noshow");
                 });
+                $(".popup_x").click(function(){
+			$(".popup").addClass("noshow");
+		});
+        $("#hot").on('click', ".change_text", function() {
+			$(".popup").removeClass("noshow");
+		});
 
             });
     </script>

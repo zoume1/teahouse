@@ -109,7 +109,7 @@
 			<div class="form-input">
 				<input type="text" name="label" lay-verify="title" autocomplete="off" placeholder="限时限购" class="layui-input">
 				<div class="tips">
-					*活动期间展示于商品详情的价格下方，2至5字<span class="tan" style="color: #0E90D2;" data-id="__STATIC__/admin/common/img/u27291.png"> 查看示例</span>
+					*活动期间展示于商品详情的价格下方，2至5字<span class="tan" style="color: #0E90D2;" data-id="__STATIC__/admin/index/img/ex1.png"> 查看示例</span>
 				</div>
 			</div>
 		</div>
@@ -284,9 +284,11 @@
 				$(".tanchuang").removeClass("noshow");
 				$(".tanimg").attr("src", src);
 			});
+			
 			$(".tanchuang").click(function() {
 				$(".tanchuang").addClass("noshow");
 			});
+
 			var seach_goods=[];
 			$("#seach_button").click(function() {
 				var seach_val=$("#seach_val").val();
