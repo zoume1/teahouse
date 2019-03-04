@@ -622,7 +622,7 @@ class Coupon extends Controller
   }
 
     /**
-     * [限时限购显示]
+     * [限时限购提示]
      * 郭杨
      */
     public function limitations(Request $request)
@@ -696,48 +696,23 @@ class Coupon extends Controller
     }
 
     /**
-     * [商品点击购买时限时限购提示]
+     * [限时限购显示]
      * 郭杨
      */
-    public function limitations_hint(Request $request)
+    public function limitations_show(Request $request)
     {
         if ($request->isPost()) {
         $goods_id = $request->only(['goods_id'])['goods_id']; //goods_id
-        $member_id = $request->only(['member_id'])['member_id']; //member_id
-        $member_grade_name = $request->only(["member_grade_name"])['member_grade_name'];//member_grade_name  
-        $time = time();
-        
-        //判断会员等级
         $limit = db("limited")->where("goods_id",$goods_id)->find();
 
         if(!empty($limit)){
-            $scope = explode(",",$limit["scope"]);
-            if(!in_array($member_grade_name,$scope)){
-                return ajax_error("您的会员等级过低,请升级后再购买");
-            }
-            $order = db("order")->where("member_id",$member_id)->where("goods_id",$goods_id)->order('order_create_time', 'desc')->select();//查询近期定单
-            if(!empty($order)){
-                $order_time = $order[0]["order_create_time"];//商品下单时间
-                $limit_time = $limit["time"];  //限购时间
-                if($limit_time == 1){
-                    $date_time = date('Y-m-d H:i:s',strtotime("+1month",$order_time));
-                    if($time < $date_time){
-                        return ajax_error("您当月已购买过该商品,请下月再来购买"); 
-                    }
-                } else {
-                    $date_time = date('Y-m-d H:i:s',strtotime("+2month",$order_time));
-                    if($time < $date_time){
-                        return ajax_error("您已购买过该商品"); 
-                    }
-                }
-                
-            }
                 return ajax_success('传输成功', $limit);
-            } else {
-                return ajax_error("该商品无限时限购条件");
+            }else{
+                return ajax_error("该商品无限时限购条件",["status"=>0]);
             }
-        }     
-     }
+    
+        }
+    }
 
 
 
