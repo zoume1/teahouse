@@ -30,7 +30,11 @@ class StoreHouse extends Controller{
     public function store_house_add(Request $request){
         if($request->isPost()){
             $data = $request->param();
+            if($data["type"] != 1){
+                $data["type"] = 2;
+            }
             $res =Db::name("store_house")->insert($data);
+
             
             if($res){
                 $this -> success("添加成功","admin/StoreHouse/store_house");

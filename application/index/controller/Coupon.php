@@ -704,6 +704,7 @@ class Coupon extends Controller
         if ($request->isPost()) {
         $goods_id = $request->only(['goods_id'])['goods_id']; //goods_id
         $limit = db("limited")->where("goods_id",$goods_id)->find();
+        $limit["scope"] = explode(",",$limit["scope"]);
 
         if(!empty($limit)){
                 return ajax_success('传输成功', $limit);
