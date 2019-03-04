@@ -157,9 +157,9 @@ Route::group("",[
     "integrals"=>"index/Coupon/integrals",               //积分流水显示
     "order_integaral"=>"index/Coupon/order_integaral",   //积分商城下单 
     "integrals_detail"=>"index/Coupon/integrals_detail", //积分商城订单详情
-    "integrals_list"=>"index/Coupon/integrals_list",     //积分商城所有订单
-    "integrals_delivered"=>"index/Coupon/integrals_delivered",     //积分商城待发货定单
-    "integrals_collections"=>"index/Coupon/integrals_collections", //积分商城待收货订单
+    "integaral_list"=>"index/Coupon/integaral_list",     //积分商城所有订单
+    "integaral_delivered"=>"index/Coupon/integaral_delivered",     //积分商城待发货定单
+    "integaral_collections"=>"index/Coupon/integaral_collections", //积分商城待收货订单
     
 
 

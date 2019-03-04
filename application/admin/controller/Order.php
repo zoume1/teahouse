@@ -124,7 +124,8 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function order_integral(){
-        return view("order_integral");
+        $data =Db::name("buyintegral")->order("order_create_time","desc")->paginate(20);
+        return view("order_integral",["data"=>$data]);
     }
 
 
@@ -189,6 +190,10 @@ class  Order extends  Controller{
     public function refund_protection_index(){
         return view("refund_protection_index");
     }
+
+
+
+
 
 
 

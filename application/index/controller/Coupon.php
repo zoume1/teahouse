@@ -484,7 +484,7 @@ class Coupon extends Controller
      * [积分订单全部]
      * 郭杨
      */
-    public function integrals_list(Request $request)
+    public function integaral_list(Request $request)
     {
         if($request->isPost()) {
             $member_id = $request->only("member_id")["member_id"]; //会员id
@@ -531,7 +531,7 @@ class Coupon extends Controller
      * [积分订单待发货]
      * 郭杨
      */
-    public function integrals_delivered(Request $request)
+    public function integaral_delivered(Request $request)
     {
         if($request->isPost()) {
             $member_id = $request->only("member_id")["member_id"]; //会员id
@@ -579,7 +579,7 @@ class Coupon extends Controller
      * [积分订单待收货]
      * 郭杨
      */
-    public function integrals_collections(Request $request)
+    public function integaral_collections(Request $request)
     {
         if($request->isPost()) {
             $member_id = $request->only("member_id")["member_id"]; //会员id
