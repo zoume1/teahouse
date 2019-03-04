@@ -216,7 +216,7 @@ class  Wallet extends  Controller{
                 "operation_time"=>date("Y-m-d H:i:s"), //操作时间
                 "operation_type"=>-1, //操作类型（-1提现,1充值）
                 "operation_amount"=>$money, //操作金额
-                "pay_type_content"=>"微信", //支付方式
+                "pay_type_content"=>"银行卡", //支付方式
                 "money_status"=>2, //到款状态（1到账，2未到款）
                 "recharge_describe"=>"提现",//描述
                 "img_url"=>" ",//对应的图片链接

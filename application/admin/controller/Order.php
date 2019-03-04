@@ -92,7 +92,6 @@ class  Order extends  Controller{
             $time_max_data =strtotime(input('date_max'));
             $t=date('Y-m-d H:i:s',$time_max_data+1*24*60*60);
             $timemax  =strtotime($t);
-
             $data =Db::name("order")
                 ->order("order_create_time","desc")
                 ->paginate(20);
@@ -101,11 +100,82 @@ class  Order extends  Controller{
     }
 
 
+    /**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:待付款
+ **************************************
+ */
+    public function order_way_pay(){
+        $data =Db::name("order")
+            ->order("order_create_time","desc")
+            ->where("status",1)
+            ->paginate(20);
+        return view("order_index",["data"=>$data]);
+    }
 
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:待发货
+     **************************************
+     */
+    public function order_wait_send(){
+        $condition ="`status` = '2' or `status` = '3'";
+        $data =Db::name("order")
+            ->where($condition)
+            ->order("order_create_time","desc")
+            ->paginate(20);
+        return view("order_index",["data"=>$data]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:已发货
+     **************************************
+     */
+    public function order_shipped(){
+        $condition =" `status` = '4' or `status` = '5' ";
+        $data =Db::name("order")
+            ->order("order_create_time","desc")
+            ->where($condition)
+            ->paginate(20);
+        return view("order_index",["data"=>$data]);
+    }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:已完成
+     **************************************
+     */
+    public function order_completed(){
+        $data =Db::name("order")
+            ->order("order_create_time","desc")
+            ->where("status",8)
+            ->paginate(20);
+        return view("order_index",["data"=>$data]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:已关闭
+     **************************************
+     * @return \think\response\View
+     */
+    public function order_closed(){
+        $condition =" `status` = '9' or `status` = '10' ";
+        $data =Db::name("order")
+            ->order("order_create_time","desc")
+            ->where($condition)
+            ->paginate(20);
+        return view("order_index",["data"=>$data]);
+    }
 
 
 
