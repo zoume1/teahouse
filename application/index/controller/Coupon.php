@@ -639,7 +639,7 @@ class Coupon extends Controller
             if(!empty($limit)){
                 $scope = explode(",",$limit["scope"]);
                 if(!in_array($member_grade_name,$scope)){
-                    return ajax_error("您的会员等级过低,请升级后再购买");
+                    return ajax_error("您的会员等级过低,请升级后再购买",["status"=>0]);
                 }
                 $order = db("order")
                 ->where("member_id",$member_id)
@@ -653,19 +653,19 @@ class Coupon extends Controller
                     if($limit_time == 1){
                         $date_time = strtotime(date('Y-m-d H:i:s',strtotime("+1month",$order_time)));
                         if($time < $date_time){
-                            return ajax_error("您当月已购买过该商品,请下月再来购买",0); 
+                            return ajax_error("您当月已购买过该商品,请下月再来购买",["status"=>0]); 
                         }
                     } else {
                         $date_time = strtotime(date('Y-m-d H:i:s',strtotime("+2month",$order_time)));
                         if($time < $date_time){
-                            return ajax_error("您已购买过该商品"); 
+                            return ajax_error("您已购买过该商品",["status"=>0]); 
                         }
                     }
                     
                 }
-                    return ajax_success('传输成功', $limit);
+                return ajax_success("您符合限时限购条件条件",["status"=>1]);
                 } else {
-                    return ajax_error("该商品无限时限购条件");
+                    return ajax_error("该商品无限时限购条件",["status"=>1]);
                 }
             }     
      }
