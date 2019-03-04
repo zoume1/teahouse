@@ -622,7 +622,7 @@ class Coupon extends Controller
   }
 
     /**
-     * [限时限购显示]
+     * [限时限购提示]
      * 郭杨
      */
     public function limitations(Request $request)
@@ -639,7 +639,7 @@ class Coupon extends Controller
             if(!empty($limit)){
                 $scope = explode(",",$limit["scope"]);
                 if(!in_array($member_grade_name,$scope)){
-                    return ajax_error("您的会员等级过低,请升级后再购买");
+                    return ajax_error("您的会员等级过低,请升级后再购买",["status"=>0]);
                 }
                 $order = db("order")
                 ->where("member_id",$member_id)
@@ -653,67 +653,110 @@ class Coupon extends Controller
                     if($limit_time == 1){
                         $date_time = strtotime(date('Y-m-d H:i:s',strtotime("+1month",$order_time)));
                         if($time < $date_time){
-                            return ajax_error("您当月已购买过该商品,请下月再来购买",0); 
+                            return ajax_error("您当月已购买过该商品,请下月再来购买",["status"=>0]); 
                         }
                     } else {
                         $date_time = strtotime(date('Y-m-d H:i:s',strtotime("+2month",$order_time)));
                         if($time < $date_time){
-                            return ajax_error("您已购买过该商品"); 
+                            return ajax_error("您已购买过该商品",["status"=>0]); 
                         }
                     }
                     
                 }
-                    return ajax_success('传输成功', $limit);
+                return ajax_success("您符合限时限购条件条件",["status"=>1]);
                 } else {
-                    return ajax_error("该商品无限时限购条件");
+                    return ajax_error("该商品无限时限购条件",["status"=>1]);
                 }
             }     
      }
 
 
     /**
-     * [商品点击购买时限时限购提示]
+     * [积分订单确认收货]
      * 郭杨
      */
-    public function limitations_hint(Request $request)
+    public function take_delivery(Request $request)
+    {
+        if ($request->isPost()) {
+            $member_id = $request->only("member_id")["member_id"]; //会员id
+            $parts_order_number = $request->only("parts_order_number")["parts_order_number"]; //订单号
+            if(empty($member_id)){
+                exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
+            }
+
+            $bool = db("buyintegral")->where("member_id",$member_id)->where("parts_order_number",$parts_order_number)->update(["status"=>5]);
+            //1已付款，2待发货，3已发货，4待收货，5已收货
+            if($bool){
+                return ajax_success('收货成功'); 
+            } else {
+                return ajax_error("收货失败");
+            }    
+        }
+
+    }
+
+    /**
+     * [限时限购显示]
+     * 郭杨
+     */
+    public function limitations_show(Request $request)
     {
         if ($request->isPost()) {
         $goods_id = $request->only(['goods_id'])['goods_id']; //goods_id
-        $member_id = $request->only(['member_id'])['member_id']; //member_id
-        $member_grade_name = $request->only(["member_grade_name"])['member_grade_name'];//member_grade_name  
-        $time = time();
-        
-        //判断会员等级
         $limit = db("limited")->where("goods_id",$goods_id)->find();
+        $limit["scope"] = explode(",",$limit["scope"]);
 
         if(!empty($limit)){
-            $scope = explode(",",$limit["scope"]);
-            if(!in_array($member_grade_name,$scope)){
-                return ajax_error("您的会员等级过低,请升级后再购买");
-            }
-            $order = db("order")->where("member_id",$member_id)->where("goods_id",$goods_id)->order('order_create_time', 'desc')->select();//查询近期定单
-            if(!empty($order)){
-                $order_time = $order[0]["order_create_time"];//商品下单时间
-                $limit_time = $limit["time"];  //限购时间
-                if($limit_time == 1){
-                    $date_time = date('Y-m-d H:i:s',strtotime("+1month",$order_time));
-                    if($time < $date_time){
-                        return ajax_error("您当月已购买过该商品,请下月再来购买"); 
-                    }
-                } else {
-                    $date_time = date('Y-m-d H:i:s',strtotime("+2month",$order_time));
-                    if($time < $date_time){
-                        return ajax_error("您已购买过该商品"); 
-                    }
-                }
-                
-            }
                 return ajax_success('传输成功', $limit);
-            } else {
-                return ajax_error("该商品无限时限购条件");
+            }else{
+                return ajax_error("该商品无限时限购条件",["status"=>0]);
             }
-        }     
-     }
+    
+        }
+    }
+
+
+
+    /**
+     * [积分订单提醒发货]
+     * 郭杨
+     */
+    public function attention_to(Request $request)
+    {
+        if($request->isPost()){
+            $order_num =$request->only("parts_order_number")["parts_order_number"]; //订单编号
+            $timetoday = strtotime(date("Y-m-d",time()));//今天0点的时间点
+            $time2 = time() + 3600*24;//今天24点的时间点，两个值之间即为今天一天内的数据
+            $time_condition  = "create_time>$timetoday and create_time< $time2";
+            $is_notice =Db::name("note_remind")
+                ->where("parts_order_number",$order_num)
+                ->where($time_condition)
+                ->find();
+            if(!empty($is_notice)){
+                return ajax_success("您已提醒过");
+            }
+            $data =Db::name("order")
+                ->field("id")
+                ->where("parts_order_number",$order_num)
+                ->select();
+            foreach ($data as $k=>$v){
+                $information_data =[
+                    "information"=>"用户提醒发货",
+                    "create_time"=>time(),
+                    "option_name"=>"用户",
+                    "order_id"=>$v["id"],
+                    "parts_order_number"=>$order_num
+                ];
+                $res =  Db::name("note_remind")->insert($information_data);
+            }
+            if($res){
+                return ajax_success("提醒成功",["status"=>1]);
+            }else{
+                return ajax_error("请重新操作",["status"=>0]);
+            }
+        }
+
+    }
   
 
 
