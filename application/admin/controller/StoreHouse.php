@@ -64,7 +64,7 @@ class StoreHouse extends Controller{
      * [仓库管理编辑]
      * 郭杨
      */    
-    public function store_house_update($id){
+    public function store_house_edit($id){
         $house = db("store_house")->where("id",$id)->select(); 
         return view("store_house_edit",["house"=>$house]);
     }
