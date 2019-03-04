@@ -672,6 +672,30 @@ class Coupon extends Controller
 
 
     /**
+     * [积分订单确认收货]
+     * 郭杨
+     */
+    public function take_delivery(Request $request)
+    {
+        if ($request->isPost()) {
+            $member_id = $request->only("member_id")["member_id"]; //会员id
+            $parts_order_number = $request->only("parts_order_number")["parts_order_number"]; //订单号
+            if(empty($member_id)){
+                exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
+            }
+
+            $bool = db("buyintegral")->where("member_id",$member_id)->where("parts_order_number",$parts_order_number)->update(["status"=>5]);
+            //1已付款，2待发货，3已发货，4待收货，5已收货
+            if($bool){
+                return ajax_success('收货成功'); 
+            } else {
+                return ajax_error("收货失败");
+            }    
+        }
+
+    }
+
+    /**
      * [商品点击购买时限时限购提示]
      * 郭杨
      */
@@ -714,6 +738,49 @@ class Coupon extends Controller
             }
         }     
      }
+
+
+
+    /**
+     * [积分订单提醒发货]
+     * 郭杨
+     */
+    public function attention_to(Request $request)
+    {
+        if($request->isPost()){
+            $order_num =$request->only("parts_order_number")["parts_order_number"]; //订单编号
+            $timetoday = strtotime(date("Y-m-d",time()));//今天0点的时间点
+            $time2 = time() + 3600*24;//今天24点的时间点，两个值之间即为今天一天内的数据
+            $time_condition  = "create_time>$timetoday and create_time< $time2";
+            $is_notice =Db::name("note_remind")
+                ->where("parts_order_number",$order_num)
+                ->where($time_condition)
+                ->find();
+            if(!empty($is_notice)){
+                return ajax_success("您已提醒过");
+            }
+            $data =Db::name("order")
+                ->field("id")
+                ->where("parts_order_number",$order_num)
+                ->select();
+            foreach ($data as $k=>$v){
+                $information_data =[
+                    "information"=>"用户提醒发货",
+                    "create_time"=>time(),
+                    "option_name"=>"用户",
+                    "order_id"=>$v["id"],
+                    "parts_order_number"=>$order_num
+                ];
+                $res =  Db::name("note_remind")->insert($information_data);
+            }
+            if($res){
+                return ajax_success("提醒成功",["status"=>1]);
+            }else{
+                return ajax_error("请重新操作",["status"=>0]);
+            }
+        }
+
+    }
   
 
 

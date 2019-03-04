@@ -160,7 +160,8 @@ Route::group("",[
     "integaral_list"=>"index/Coupon/integaral_list",     //积分商城所有订单
     "integaral_delivered"=>"index/Coupon/integaral_delivered",     //积分商城待发货定单
     "integaral_collections"=>"index/Coupon/integaral_collections", //积分商城待收货订单
-    
+    "take_delivery"=>"index/Coupon/take_delivery",                 //积分订单确认收货
+    "attention_to"=>"index/Coupon/attention_to",                   //积分订单提醒发货
 
 
     /*TODO:身份证绑定开始*/
