@@ -30,6 +30,12 @@ Route::group("",[
     "sendMobileCodeByPh"=>"index/Findpwd/sendMobileCodeByPh",//修改密码验证码
     "update_password"=>"index/Findpwd/update_password",//修改密码操作
     /*TODO:PC端注册登录结束*/
+    /*TODO:PC端店铺开始*/
+    "store_add"=>"index/Store/store_add",//创建店铺
+    "store_return"=>"index/Store/store_return",//店铺信息返回
+    "store_edit"=>"index/Store/store_edit",//店铺信息编辑
+    "store_all_data"=>"index/Store/store_all_data",//所有店铺信息返回
+    /*TODO:PC端店铺结束*/
 
 
     "index_home"=>"index/index/home",
@@ -340,6 +346,11 @@ Route::group("admin",[
     /*TODO:订单开始*/
     "order_index"=>"admin/Order/order_index",//初始订单页面
     "order_search"=>"admin/Order/order_search",//初始订单搜索
+    "order_way_pay"=>"admin/Order/order_way_pay",//初始订单待付款
+    "order_wait_send"=>"admin/Order/order_wait_send",//初始订单待发货
+    "order_shipped"=>"admin/Order/order_shipped",//初始订单已发货
+    "order_completed"=>"admin/Order/order_completed",//初始订单已完成
+    "order_closed"=>"admin/Order/order_closed",//初始订单已关闭
     "order_confirm_shipment"=>"admin/Order/order_confirm_shipment",//初始订单卖家确认发货
     "order_information_return"=>"admin/Order/order_information_return",//初始订单基本信息
 
@@ -576,6 +587,7 @@ Route::group("admin",[
     "recharge_application" =>"admin/User/recharge_application",     //微信提现
     "withdrawal_application" =>"admin/User/withdrawal_application", //银行卡提现
     "withdrawal_setting" =>"admin/User/withdrawal_setting",         //提现设置
+    "withdrawal_save" =>"admin/User/withdrawal_save",         //提现设置更新保存
     "property_day_index" =>"admin/Property/property_day_index",     //日账单详
 
     /*物联*/
