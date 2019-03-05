@@ -150,12 +150,13 @@ Route::group("",[
 
     /*优惠券*/
     "coupon_untapped"=>"index/Coupon/coupon_untapped",   //未使用优惠券显示
-    "coupon_user"=>"index/Coupon/coupon_user",           //已使用优惠券显示
-    "coupon_time"=>"index/Coupon/coupon_time",           //过期优惠券显示
-    "coupon_goods"=>"index/Coupon/coupon_goods",         //优惠券使用商品
+    "coupon_user"=>"index/Coupon/coupon_user",                //已使用优惠券显示
+    "coupon_time"=>"index/Coupon/coupon_time",                //过期优惠券显示
+    "coupon_goods"=>"index/Coupon/coupon_goods",              //优惠券使用商品
     "coupon_appropriated"=>"index/Coupon/coupon_appropriated",//商品下单适用优惠券
-    "limitations_show"=>"index/Coupon/limitations_show",     //判断该商品是否限时限购
-    "limitations"=>"index/Coupon/limitations",               //判断用户是否能购买商品
+    "coupon_minute"=>"index/Coupon/coupon_minute",            //优惠券显示
+    "limitations_show"=>"index/Coupon/limitations_show",      //判断该商品是否限时限购
+    "limitations"=>"index/Coupon/limitations",                //判断用户是否能购买商品
     
     /*积分商城*/
     "bonus_index"=>"index/Coupon/bonus_index",           //积分商城显示

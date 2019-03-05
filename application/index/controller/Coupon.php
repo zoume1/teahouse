@@ -194,7 +194,7 @@ class Coupon extends Controller
      */
     public function coupon_appropriated(Request $request)
     {
-        if($request->isPost()){
+        if($request->isGet()){
             $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
             $datas = $request->param(); //包含goods_id and  open_id
             $goods_id = array_unique($datas['goods_id']);
@@ -202,20 +202,15 @@ class Coupon extends Controller
             $money = $datas['money'];
             $member_grade_name = $datas['member_grade_name'];
 
-            // $goods = [122,120,121];
-            // $goods_id = array_unique($goods);
-            // $open_id = 'o_lMv5dwxVdyYvafw03wELn6YXxw';
-            // $money = 300;
-            // $member_grade_name = '普通会员';
 
             $coupons = Db::name("coupon")->where("use_price","<=",$money)->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
-            $coupon_id = Db::name("order")->where("member_id",$member_id)
+            $coupon_id = Db::name("order")->where("member_id",$member_id)//已使用优惠券
                         ->where("coupon_id",'<>',0)
                         ->distinct($member_id)
                         ->field("coupon_id")
                         ->select();
-        
+            
             if(count($coupon_id)>0){
                 foreach($coupon_id as $key => $value){
                     foreach($value as $ke => $va){
@@ -231,10 +226,10 @@ class Coupon extends Controller
                     if(in_array($member_grade_name,$valuel['scope']) && $valuel['end_time'] > $time){ //判断是否在适用范围和是否过期
                         $data[] = $valuel;
                     } else {
-                        $data[] = null;
+                        $data = array();
                     }
                 } else {
-                    $data[] = null;
+                    $data = array();
                 }
             }
         
@@ -256,6 +251,27 @@ class Coupon extends Controller
             }   
         }
     }
+
+
+    /**
+     * [优惠券显示]
+     * 郭杨
+     */
+    public function coupon_minute(Request $request)
+    {
+        if ($request->isPost()) {
+            $coupon_id = $request->only(['coupon_id'])['coupon_id'];
+            $rest = Db::name("coupon")->where("id",$coupon_id)->field("money")->find();
+            if (!empty($rest)) {
+                return ajax_success('传输成功', $rest);
+            } else {
+                return ajax_error("数据为空",$rest);
+
+            }
+        }
+    }
+
+    
 
     /**
      * [积分商品显示]
