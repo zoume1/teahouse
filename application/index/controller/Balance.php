@@ -25,7 +25,7 @@ class Balance extends Controller
             $user_id = $request->only(["member_id"])["member_id"];
             $user_info = Db::name("member")
                 ->field("pay_password,member_wallet")
-                ->where("id", $user_id)
+                ->where("member_id", $user_id)
                 ->find();//用户信息
             $password = $request->only("passwords")["passwords"]; //输入的密码
             if (password_verify($password,$user_info["pay_password"])) {
