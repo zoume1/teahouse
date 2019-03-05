@@ -75,7 +75,7 @@ class Balance extends Controller
                         ->find();
                     $now_money =$user_information["member_wallet"]+$user_information["member_recharge_money"];
                     $datas=[
-                        "user_id"=>$information["member"],//用户ID
+                        "user_id"=>$information["member_id"],//用户ID
                         "wallet_operation"=> $information["order_real_pay"],//消费金额
                         "wallet_type"=>-1,//消费操作(1入，-1出)
                         "operation_time"=>date("Y-m-d H:i:s"),//操作时间
