@@ -34,31 +34,43 @@ class Balance extends Controller
                 if(!empty($money)){
                     $money =round($money,2);
                 }else{
-                    $money =0;
+                   return ajax_error("价钱出错，无法支付");
                 }
                         $user_wallet = $user_info["member_wallet"];//升值进来的钱
-                        if ($money > $user_wallet) {
-                                $member_recharge_money =$user_info["member_recharge_money"];//充值进来的钱
-                        } else {
-                            $select_data = Db::name("order")
-                                ->where("parts_order_number", $order_num)
-                                ->select();
-                            //对订单状态进行修改
-                            $data['status'] = 2;
-                            $data["pay_time"] = time();
-                            $data['pay_type_content'] = "余额支付";
-                            $result= Db::name("order")
-                                    ->where("parts_order_number",$order_num)
-                                    ->update(["status"=>2,"pay_time"=>time()]);
-                            //如果修改成功则进行钱抵扣
-                            if ($result > 0) {
-                                return ajax_success('支付成功', ['status' => 1]);
-                            } else {
-                                return ajax_error('验证失败了', ['status' => 0]);
+                        if($money > $user_wallet) {
+                            // 如果钱包的钱不够用，则使用充值的钱
+                            $member_recharge_money =$user_info["member_recharge_money"];//充值进来的钱
+                            $n_money = $money - $user_wallet; //剩下需要支付的部分
+                            $new_money =$member_recharge_money - $n_money;
+                            if($new_money < 0){
+                                return ajax_error("余额不足");
                             }
+
+                            //钱包归0，充值进来的钱包进行余额减
+                            $new_data =[
+                                "member_wallet" =>0,
+                                "member_recharge_money"=>$new_money,
+                            ];
+                        }else {
+                            //钱包进行减（优先使用钱包的钱，即不可提现的钱）
+                            $new_money = $user_wallet - $money;
+                            $new_data =[
+                                "member_wallet" =>$new_money,
+                            ];
                         }
+                Db::name("member")->where("member_id",$user_id)->update($new_data);
+                //对订单状态进行修改
+                $result= Db::name("order")
+                    ->where("parts_order_number",$order_num)
+                    ->update(["status"=>2,"pay_time"=>time()]);
+                //如果修改成功则进行钱抵扣
+                if ($result > 0) {
+                    return ajax_success('支付成功', ['status' => 1]);
+                } else {
+                    return ajax_error('验证失败了');
+                }
                 }else {
-                    return ajax_error('密码错误', ['status' => 0]);
+                    return ajax_error('密码错误');
                 }
             }
         }
