@@ -24,7 +24,7 @@ class Balance extends Controller
             //验证支付密码
             $user_id = $request->only(["member_id"])["member_id"];
             $user_info = Db::name("member")
-                ->field("pay_password,member_wallet")
+                ->field("pay_password,member_wallet,member_recharge_money")
                 ->where("member_id", $user_id)
                 ->find();//用户信息
             $password = $request->only("passwords")["passwords"]; //输入的密码
