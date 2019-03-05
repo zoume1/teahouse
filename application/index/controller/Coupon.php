@@ -325,6 +325,8 @@ class Coupon extends Controller
             $address_id = $request->param("address_id");    //address_id
             $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $password = $request->only("passwords")["passwords"]; //输入的密码
+            $commodity_id = $request->only("goods_id")["goods_id"];//商品id
+            $numbers =$request->only("order_quantity")["order_quantity"];//购买数量
 
             $user_id =Db::name("member")
                 ->where("member_openid",$open_id)
@@ -337,11 +339,7 @@ class Coupon extends Controller
             ->where("member_openid",$open_id)
             ->value("pay_password");
 
-        if (password_verify($password,$passwordes)){
-            return ajax_success("支付密码正确",["status"=>1]);
-        }else{
-            return ajax_error("支付密码错误",["status"=>0]);
-        }
+
             $user_information =Db::name("member")->where("member_id",$user_id)->find();
             $sum_integral = $user_information["member_integral_wallet"];//积分余额
             
@@ -359,8 +357,13 @@ class Coupon extends Controller
                 if (empty($is_address_status) ) {
                     $is_address_status =$is_address;
                 }
-                $commodity_id = $request->only("goods_id")["goods_id"];//商品id
-                $numbers =$request->only("order_quantity")["order_quantity"];//购买数量
+
+                
+                if (password_verify($password,$passwordes)){
+                    return ajax_success("支付密码正确",["status"=>1]);
+                }else{
+                    return ajax_error("支付密码错误",["status"=>0]);
+                }
 
                 $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
                 $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
