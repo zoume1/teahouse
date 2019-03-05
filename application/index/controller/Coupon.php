@@ -194,7 +194,7 @@ class Coupon extends Controller
      */
     public function coupon_appropriated(Request $request)
     {
-        if($request->isGet()){
+        if($request->isPost()){
             $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
             $datas = $request->param(); //包含goods_id and  open_id
             $goods_id = array_unique($datas['goods_id']);
@@ -243,7 +243,7 @@ class Coupon extends Controller
                     }
                 }
             }
-
+            
             if (!empty($data)) {
                 return ajax_success('传输成功', $data);
             } else {
@@ -266,7 +266,6 @@ class Coupon extends Controller
                 return ajax_success('传输成功', $rest);
             } else {
                 return ajax_error("数据为空",$rest);
-
             }
         }
     }
@@ -527,8 +526,7 @@ class Coupon extends Controller
                 ->order('order_create_time', 'desc')
                 ->select();
             if (!empty($data)) {  
-                foreach($data as $key => $value){         
-               
+                foreach($data as $key => $value){                       
                     $datas[$key]["buy_message"] = $data[$key]["buy_message"]; //买家留言
                     $datas[$key]["create_time"] = $data[$key]["order_create_time"];//订单创建时间
                     $datas[$key]["goods_name"] = $data[$key]["goods_name"];//商品名
@@ -545,7 +543,6 @@ class Coupon extends Controller
                     $datas[$key]["all_order_real_pay"] = $data[$key]["order_amount"];//订单实际支付积分
                 
             }
-
                 if (!empty($datas)) {
                     return ajax_success("数据返回成功", $datas);
                 } else {
@@ -759,7 +756,7 @@ class Coupon extends Controller
             $timetoday = strtotime(date("Y-m-d",time()));//今天0点的时间点
             $time2 = time() + 3600*24;//今天24点的时间点，两个值之间即为今天一天内的数据
             $time_condition  = "create_time>$timetoday and create_time< $time2";
-            $is_notice =Db::name("note_remind")
+            $is_notice = Db::name("note_remind")
                 ->where("parts_order_number",$order_num)
                 ->where($time_condition)
                 ->find();
