@@ -39,10 +39,14 @@ class Commodity extends Controller
         if ($request->isPost()) {
             $member_id = $request->only(["open_id"])["open_id"];
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
+            $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
             $goods = db("goods")->where("status",1)->select();
 
-            foreach ($goods as $k => $v)
+
+            $status = "huiyuan";
+
+            foreach ($goods as $k => $v) //所有商品
             {
                 if($goods[$k]["goods_standard"] == 1){
                     $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
@@ -54,12 +58,34 @@ class Commodity extends Controller
                     $goods[$k]["max_price"] = $max[$k];
                     $goods[$k]["min_price"] = $min[$k];
                     $goods[$k]["line"] = $line[$k];
+                    $limite[$k] = db("limited")->where("goods_id", $goods[$k]['id'])->field("scope")->find();
+                    $goods[$k]["scope"] = explode(",",$limite[$k]["scope"]);
+                    if(is_null($goods[$k]["scope"])){
+                    if(in_array($status,$goods[$k]["scope"])){
+                         unset($goods[$k]);
+                    }
+                }
                 } else {
                     $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
                     $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
                 }
+                
             }
-            
+
+            $status = "huiyuan";
+
+            // foreach ($goods as $k => $v) //所有商品
+            // {
+            //     if(!empty($goods[$k]["scope"])){
+            //         if(!in_array($status,$goods[$k]["scope"])){
+            //             unset($goods[$k]);
+            //         }
+
+            //     }
+            // }
+
+
+
             if (!empty($goods) && !empty($member_id)) {
                 return ajax_success("获取成功", $goods);
             } else {
