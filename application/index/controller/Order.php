@@ -124,7 +124,7 @@ class  Order extends  Controller
                 if($order_type ==1){
                     $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==2){
-                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                    $parts_order_number ="ZT".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==3){
                     $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }
@@ -250,7 +250,7 @@ class  Order extends  Controller
                 if($order_type ==1){
                     $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==2){
-                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                    $parts_order_number ="ZT".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==3){
                     $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }
@@ -300,9 +300,9 @@ class  Order extends  Controller
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
                             $res = Db::name('order')->insertGetId($datas);
-
-                            $coin = db("recommend_intgral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
-                            $intgral = db("recommend_intgral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
+//
+//                            $coin = db("recommend_integral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
+//                            $intgral = db("recommend_integral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
                         }
                     }
                 }
@@ -1542,7 +1542,6 @@ class  Order extends  Controller
                 $member_id = db("order")->where("parts_order_number",$val["out_trade_no"])->value("member_id");//会员id
                 $coin = db("recommend_integral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
                 $integral = db("recommend_integral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
-             
                 //消费满多少金额赠送多少积分
                 if( $all_money > $coin){
                     $rest = db("member")->where("member_id",$member_id)->setInc('member_integral_wallet',$integral);//满足条件则增加积分
