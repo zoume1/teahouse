@@ -43,9 +43,6 @@ class Commodity extends Controller
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
             $goods = db("goods")->where("status",1)->select();
 
-
-            $status = "huiyuan";
-
             foreach ($goods as $k => $v) //所有商品
             {
                 if($goods[$k]["goods_standard"] == 1){
@@ -72,20 +69,6 @@ class Commodity extends Controller
                 
             }
 
-            $status = "huiyuan";
-
-            // foreach ($goods as $k => $v) //所有商品
-            // {
-            //     if(!empty($goods[$k]["scope"])){
-            //         if(!in_array($status,$goods[$k]["scope"])){
-            //             unset($goods[$k]);
-            //         }
-
-            //     }
-            // }
-
-
-
             if (!empty($goods) && !empty($member_id)) {
                 return ajax_success("获取成功", $goods);
             } else {
@@ -108,7 +91,6 @@ class Commodity extends Controller
         if($request->isPost()){
             $goods_pid = $request->only(["id"])["id"];
             $goods = db("goods")->where("pid",$goods_pid)->select();
-
             foreach ($goods as $k => $v)
             {
                 if($v["label"] == 1 ){
@@ -149,14 +131,12 @@ class Commodity extends Controller
             foreach ($goods_standard as $key => $value) {
                 $goods_standard[$key]["price"] = $goods_standard[$key]["price"] * $discount;
             }
-
             if ($goods[0]["goods_standard"] == 1) {
                 $goods[0]["goods_standard"] = $goods_standard;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
                 $goods[0]["max_price"] = $max_prices;
                 $goods[0]["min_price"] = $min_prices;
                 $goods[0]["min_line"] = $min_line;
-
             } else {
                 $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
