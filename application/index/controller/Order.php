@@ -1514,13 +1514,35 @@ class  Order extends  Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>1]);
             if($res){
+                //做消费记录
+                $information =Db::name("activity_order")
+                    ->field("member_openid,cost_moneny,activity_name")
+                    ->where("parts_order_number",$val["out_trade_no"])
+                    ->find();
+                $user_information =Db::name("member")
+                    ->field("member_id,member_wallet,member_recharge_money")
+                    ->where("member_openid",$information["member_openid"])
+                    ->find();
+                $now_money =$user_information["member_wallet"]+$user_information["member_recharge_money"];
+                $datas=[
+                    "user_id"=>$user_information["member_id"],//用户ID
+                    "wallet_operation"=> $information["cost_moneny"],//消费金额
+                    "wallet_type"=>-1,//消费操作(1入，-1出)
+                    "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，微信消费".$information["cost_moneny"]."元",//消费备注
+                    "wallet_img"=>" ",//图标
+                    "title"=>$information["activity_name"],//标题（消费内容）
+                    "order_nums"=>$val["out_trade_no"],//订单编号
+                    "pay_type"=>"小程序", //支付方式/
+                    "wallet_balance"=>$now_money,//此刻钱包余额
+                ];
+                Db::name("wallet")->insert($datas); //存入消费记录表
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }else{
                 return ajax_error("失败",$val["out_trade_no"]);
             }
         }
     }
-
 
     /**
      **************李火生*******************
@@ -1538,6 +1560,29 @@ class  Order extends  Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time()]);
             if($res){
+                //做消费记录
+                $information =Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
+                $user_information =Db::name("member")
+                    ->field("member_wallet,member_recharge_money")
+                    ->where("member_id",$information["member_id"])
+                    ->find();
+                $now_money =$user_information["member_wallet"]+$user_information["member_recharge_money"];
+                $datas=[
+                    "user_id"=>$information["member"],//用户ID
+                    "wallet_operation"=> $information["order_real_pay"],//消费金额
+                    "wallet_type"=>-1,//消费操作(1入，-1出)
+                    "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，微信消费".$information["order_real_pay"]."元",//消费备注
+                    "wallet_img"=>" ",//图标
+                    "title"=>$information["parts_goods_name"],//标题（消费内容）
+                    "order_nums"=>$val["out_trade_no"],//订单编号
+                    "pay_type"=>"小程序", //支付方式/
+                    "wallet_balance"=>$now_money,//此刻钱包余额
+                ];
+                Db::name("wallet")->insert($datas); //存入消费记录表
+
+
+
                 $all_money = db("order")->where("parts_order_number",$val["out_trade_no"])->value("order_real_pay");//实际支付的金额
                 $member_id = db("order")->where("parts_order_number",$val["out_trade_no"])->value("member_id");//会员id
                 $coin = db("recommend_integral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
@@ -1666,9 +1711,6 @@ class  Order extends  Controller
             }
         }
     }
-
-
-
 
 
 

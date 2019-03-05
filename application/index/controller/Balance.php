@@ -65,6 +65,28 @@ class Balance extends Controller
                     ->update(["status"=>2,"pay_time"=>time()]);
                 //如果修改成功则进行钱抵扣
                 if ($result > 0) {
+                    //做消费记录
+                    $information =Db::name("order")
+                        ->field("member_id,order_real_pay,parts_goods_name")
+                        ->where("parts_order_number",$order_num)->find();
+                    $user_information =Db::name("member")
+                        ->field("member_wallet,member_recharge_money")
+                        ->where("member_id",$information["member_id"])
+                        ->find();
+                    $now_money =$user_information["member_wallet"]+$user_information["member_recharge_money"];
+                    $datas=[
+                        "user_id"=>$information["member"],//用户ID
+                        "wallet_operation"=> $information["order_real_pay"],//消费金额
+                        "wallet_type"=>-1,//消费操作(1入，-1出)
+                        "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                        "wallet_remarks"=>"订单号：".$order_num."，微信消费".$information["order_real_pay"]."元",//消费备注
+                        "wallet_img"=>" ",//图标
+                        "title"=>$information["parts_goods_name"],//标题（消费内容）
+                        "order_nums"=>$order_num,//订单编号
+                        "pay_type"=>"小程序", //支付方式/
+                        "wallet_balance"=>$now_money,//此刻钱包余额
+                    ];
+                    Db::name("wallet")->insert($datas); //存入消费记录表
                     return ajax_success('支付成功', ['status' => 1]);
                 } else {
                     return ajax_error('验证失败了');
