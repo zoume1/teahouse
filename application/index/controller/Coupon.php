@@ -324,12 +324,24 @@ class Coupon extends Controller
             $open_id = $request->only("open_id")["open_id"];//open_id
             $address_id = $request->param("address_id");    //address_id
             $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
+            $password = $request->only("passwords")["passwords"]; //输入的密码
+
             $user_id =Db::name("member")
                 ->where("member_openid",$open_id)
                 ->value("member_id");
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+
+            $passwordes =Db::name("member")
+            ->where("member_openid",$open_id)
+            ->value("pay_password");
+
+        if (password_verify($password,$passwordes)){
+            return ajax_success("支付密码正确",["status"=>1]);
+        }else{
+            return ajax_error("支付密码错误",["status"=>0]);
+        }
             $user_information =Db::name("member")->where("member_id",$user_id)->find();
             $sum_integral = $user_information["member_integral_wallet"];//积分余额
             
