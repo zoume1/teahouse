@@ -128,8 +128,9 @@
 				</tbody>
 
 			</table>
-			
-			{$active->render()}
+			{if !empty($actived)}
+			{$actived}
+			{/if}
 			
 			<div id="page">
 				<div class="opation" style="width: 200px; float: left;">

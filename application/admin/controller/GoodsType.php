@@ -36,7 +36,6 @@ class GoodsType extends Controller{
         {
             if ($value["pid"]) {
                 $res = db("wares") -> where("id", $value['pid']) -> field("name") -> find();
-                //halt($res);
                 $wares[$key]["names"] = $res["name"];
             }
         }
@@ -86,7 +85,6 @@ class GoodsType extends Controller{
         if($request->isPost())
         {
             $data = $request -> param();
-
             $bool = db("wares") -> insert($data);
             if($bool){
                 $this -> success("添加成功",url("admin/GoodsType/index"));
@@ -111,7 +109,6 @@ class GoodsType extends Controller{
         if ($pid == 0) {
             $goods_list = getSelectList("wares");
         }
-        
         return view("goods_type_edit", ["category" => $category, "goods_lists" => $goods_list]);
     }
 
@@ -127,6 +124,7 @@ class GoodsType extends Controller{
         if($request -> isPost())
          {    
             $data = $request -> param();
+            $data["pid"] = db("wares")->where("id",$data["id"])->value("pid");
             $bool = db("wares") -> where('id', $request->only(["id"])["id"]) -> update($data);
             if ($bool) {
                 $this->success("编辑成功", url("admin/GoodsType/index"));

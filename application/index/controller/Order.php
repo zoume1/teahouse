@@ -417,6 +417,7 @@ class  Order extends  Controller
                                 ->find();
                             $data =[
                                 "status"=>9,
+                                "coupon_id"=>0,
                                 "cancel_order_description"=>$cancel_order_description
                             ];
                             $bool =Db::name("order_parts")->where("id",$v["id"])->update($data);

@@ -150,6 +150,7 @@ class Category extends Controller
     {
         if ($request->isPost()) {
             $data = $request->param();
+            $data["pid"] = db("goods_type")->where("id",$data["id"])->value("pid");
             $show_images = $request->file("icon_image");
             if ($show_images) {
                 $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
