@@ -16,7 +16,13 @@ use app\index\controller\Xgcontent;
 
 class Balance extends Controller
 {
-    //商品余额支付
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:商品余额支付
+     **************************************
+     * @param Request $request
+     */
     public function balance_payment(Request $request)
     {
         if ($request->isPost()) {

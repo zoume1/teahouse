@@ -97,7 +97,7 @@ class  AfterSale extends Controller{
             $member_id =$request->only(["member_id"])["member_id"];//会员id
             $order_id =$request->only(["order_id"])["order_id"];//订单编号（主键）
             $return_reason =$request->only(["return_reason"])["return_reason"];//退货原因
-            $application_amount =$request->only(["application_amount"])["application_amount"];//申请的金额
+//            $application_amount =$request->only(["application_amount"])["application_amount"];//申请的金额
             $is_return_goods =$request->only(["is_return_goods"])["is_return_goods"];//判断是否需要换货还是退货退款（1需要要进行换货，2退款退货）
             $after_image_ids =$request->only(["after_image_ids"])["after_image_ids"];//退货上传的图片id 数组形式
             //限制一下不能申请超过该单的支付原价
@@ -117,7 +117,7 @@ class  AfterSale extends Controller{
                 "sale_order_number"=>$sale_order_number,//售后编号
                 "is_return_goods"=>$is_return_goods,//判断是否为换货还是退货退款，1换货，2退款退货
                 "operation_time"=>time(), //操作时间
-                "application_amount"=>$application_amount,//申请金额
+                "application_amount"=>$before_order_data["refund_amount"],//申请金额
                 "return_reason"=>$return_reason,//退货原因
                 "status"=>1, //申请状态（1为申请中，2商家已同意，等待上传快递单信息，处理中，3收货中，4换货成功，5拒绝）
                 "buy_order_number"=>$before_order_data["parts_order_number"],//原始订单号
