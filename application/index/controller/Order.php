@@ -91,9 +91,7 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
-            if(empty($coupon_id)){
-                $coupon_id = 0;
-            }
+
             $member_grade_id =Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
@@ -229,9 +227,7 @@ class  Order extends  Controller
                 ->where("id",$address_id)
                 ->where('user_id', $user_id)
                 ->find();
-            if(empty($coupon_id)){
-                $coupon_id = 0;
-            }
+
             if (empty($is_address) ) {
                 return ajax_error('请填写收货地址',['status'=>0]);
             }else{
