@@ -18,6 +18,25 @@ class  AfterSale extends Controller{
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:售后订单信息返回
+     **************************************
+     * @param Request $request
+     */
+    public function after_sale_order_return(Request $request){
+        if($request->isPost()){
+            $id =$request->only(["id"])["id"];
+            $data =Db::name("order")->field("parts_goods_name,goods_image,refund_amount")->where("id",$id)->find();
+            if(!empty($data)){
+                return ajax_success("数据返回成功",$data);
+            }else{
+                return ajax_error("没有该数据");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:上传的图片，注意：小程序只能一张张上传
      **************************************
      * @param Request $request
@@ -123,6 +142,34 @@ class  AfterSale extends Controller{
     }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:添加物流信息
+     **************************************
+     * @param Request $request
+     */
+    public function  add_express_information(Request $request){
+        $id =$request->only(["id"])["id"];
+        $buy_express_company =$request->only(["buy_express_company"])["buy_express_company"]; //快递公司
+        $buy_express_number =$request->only(["buy_express_number"])["buy_express_number"]; //快递单号
+        if(!empty($buy_express_company) && (!empty($buy_express_number))){
+            $data =[
+                "buy_express_company"=>$buy_express_company,
+                "buy_express_number"=>$buy_express_number,
+                "status" =>3
+            ];
+            $bool=Db::name("after_sale")->where("id",$id)->update($data);
+            if($bool){
+                return ajax_success("添加快递信息成功");
+            }else{
+                return ajax_error("请重新添加信息");
+            }
+        }else{
+            return ajax_error("请填写快递公司或快递单号");
+        }
+
+    }
 
 
 

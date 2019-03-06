@@ -329,6 +329,7 @@
 						<th>服务单号</th>
 						<th>原始订单号</th>
 						<th>申请时间</th>
+						<th>昵称</th>
 						<th>用户账号</th>
 						<th>联系人</th>
 						<th>退款金额</th>
@@ -338,28 +339,54 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+				{if !empty($data)}
+				{volist name="data" id="vo"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>1000001</td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}"></td>
+						<td>{$vo.sale_order_number}</td>
 						<td class="">
-							<div class="tdimg"><img src="11" /></div>
+							{$vo.buy_order_number}
 						</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td><div class="tdimg">
-							<img src="111"/>
-						</div></td>
-						
+						<td>{$vo.member_name}</td>
+						<td>{$vo.operation_time|date="Y-m-d H:i:s",###}</td>
+
+						{if !empty($vo["member_phone_num"])}
+						<td>{$vo.member_phone_num}</td>
+						{else}
+						<td>未绑定</td>
+						{/if}
+
+						{if !empty($vo["member_real_name"])}
+						<td>{$vo.member_real_name}</td>
+						{else}
+						<td>未绑定身份证</td>
+						{/if}
+
+						<td>{$vo.application_amount}</td>
 						<td>
-							<div class="static_btus">
-								已关闭
+							<div class="tdimg">
+								{if !empty($vo["images"])}
+									{volist name="vo['images']" id ="value"}
+									<img src="__UPLOADS__/{$value.url}"/>
+									{/volist}
+								{else}
+								无
+								{/if}
 							</div>
 						</td>
-						<td>1000001</td>
-					
+						<td>
+							<div class="static_btus">
+								{$vo.status}
+							</div>
+						</td>
+						{if !empty($vo["handle_time"])}
+						<td>{$vo.handle_time|date="Y-m-d H:i:s",###}</td>
+						{else}
+						<td>未处理</td>
+						{/if}
 					</tr>
+				{/volist}
+				{/if}
 				</tbody>
 			</table>
 			<div id="page">
@@ -373,6 +400,9 @@
 					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
+				{if !empty($data)}
+				{$access}
+				{/if}
 			</div>
 
 		</div>
@@ -417,7 +447,7 @@
 						}
 						$.ajax({
 							type: "POST",
-							url: "{:url('admin/Category/dels')}",
+							url: "{:url('')}",
 							data: {
 								"id": data_id,
 							},
