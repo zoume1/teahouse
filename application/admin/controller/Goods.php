@@ -199,7 +199,7 @@ class Goods extends Controller
                         }
                     }
                 }
-
+               
                 foreach ($values as $kz => $vw) {
                     $rest = db('special')->insert($vw);
                 }
