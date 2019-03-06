@@ -101,6 +101,10 @@ Route::group("",[
     /*TODO:订单结束*/
 
     /*TODO:售后处理开始*/
+    "after_sale_upload"=>"index/AfterSale/after_sale_upload",//上传的图片，注意：小程序只能一张张上传
+    "after_sale_images_del"=>"index/AfterSale/after_sale_images_del",//售后图片删除（有时候返回上一次则进行删除）
+    "apply_after_sale"=>"index/AfterSale/apply_after_sale",//用户申请售后
+
     /*TODO:售后处理结束*/
 
     /*TODO:订单用户提醒发货开始*/
@@ -112,9 +116,6 @@ Route::group("",[
     "order_evaluate_images_del"=>"index/Evaluate/order_evaluate_images_del",//初始订单评价图片删除(就是点击返回键)
     "order_evaluate_add"=>"index/Evaluate/order_evaluate_add",//评价添加
     /*TODO:订单评价结束*/
-
-
-
 
     /*TODO:购物车开始*/
     "shopping_index"=>"index/Shopping/shopping_index",//购物车列表信息返回
@@ -200,7 +201,8 @@ Route::group("",[
     "member_balance_recharge"=>"index/Wallet/member_balance_recharge",//账户余额充值
     "wallet_recharge_del"=>"index/wallet/recharge_del",     //钱包充值下单未付款自动关闭取消删除(ajax)
     "withdrawal_return"=>"index/wallet/withdrawal_return",     //钱包提现页面数据返回
-    "withdrawal"=>"index/wallet/withdrawal",     //钱包提现
+    "withdrawal"=>"index/wallet/withdrawal",     //钱包银行卡提现
+    "wechat_withdrawal"=>"index/wallet/wechat_withdrawal",     //钱包微信提现
     /*TODO:充值提现结束*/
 
 
