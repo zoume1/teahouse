@@ -52,7 +52,8 @@ class  Analyse extends  Controller{
      * [SEO优化]
      * 郭杨
      */    
-    public function analyse_optimize_index(){     
+    public function analyse_optimize_index(){  
+        $optimize = db("seo_optimize")->where("id",1)->select();  
         return view("analyse_optimize_index");
     }
 
