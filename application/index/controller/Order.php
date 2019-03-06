@@ -83,6 +83,7 @@ class  Order extends  Controller
         if ($request->isPost()) {
             $open_id = $request->only("open_id")["open_id"];//open_id
             $address_id = $request->param("address_id");//address_id
+            $coupon_id =$request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $user_id =Db::name("member")
                 ->where("member_openid",$open_id)
@@ -90,6 +91,7 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+
             $member_grade_id =Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
@@ -174,6 +176,7 @@ class  Order extends  Controller
                             $datas["buy_message"] =$buy_message;//买家留言
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
+                            $datas["coupon_id"] =$coupon_id;
 
                             $res = Db::name('order')->insertGetId($datas);
                             if ($res) {
@@ -206,6 +209,7 @@ class  Order extends  Controller
     public function order_place_by_shopping(Request $request){
         if ($request->isPost()) {
             $shopping_id =$request->only("shopping_id")["shopping_id"];
+            $coupon_id =$request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $open_id =$request->only("open_id")["open_id"];
             $address_id =$request->only("address_id")["address_id"];
             $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
@@ -223,6 +227,7 @@ class  Order extends  Controller
                 ->where("id",$address_id)
                 ->where('user_id', $user_id)
                 ->find();
+
             if (empty($is_address) ) {
                 return ajax_error('请填写收货地址',['status'=>0]);
             }else{
@@ -299,6 +304,7 @@ class  Order extends  Controller
                             $datas["buy_message"] =$buy_message;//买家留言
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
+                            $datas["coupon_id"] =$coupon_id;
                             $res = Db::name('order')->insertGetId($datas);
 //
 //                            $coin = db("recommend_integral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
@@ -1477,6 +1483,7 @@ class  Order extends  Controller
                     foreach($res as $k=>$v){
                         $data =[
                             "status"=>9,
+                            "coupon_id"=>0,
                             "cancel_order_description"=>$cancel_order_description
                         ];
                         $bool =Db::name("order")->where("id",$v["id"])->update($data);
