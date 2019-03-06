@@ -101,6 +101,10 @@ Route::group("",[
     /*TODO:订单结束*/
 
     /*TODO:售后处理开始*/
+    "after_sale_upload"=>"index/AfterSale/after_sale_upload",//上传的图片，注意：小程序只能一张张上传
+    "after_sale_images_del"=>"index/AfterSale/after_sale_images_del",//售后图片删除（有时候返回上一次则进行删除）
+    "apply_after_sale"=>"index/AfterSale/apply_after_sale",//用户申请售后
+
     /*TODO:售后处理结束*/
 
     /*TODO:订单用户提醒发货开始*/
@@ -112,9 +116,6 @@ Route::group("",[
     "order_evaluate_images_del"=>"index/Evaluate/order_evaluate_images_del",//初始订单评价图片删除(就是点击返回键)
     "order_evaluate_add"=>"index/Evaluate/order_evaluate_add",//评价添加
     /*TODO:订单评价结束*/
-
-
-
 
     /*TODO:购物车开始*/
     "shopping_index"=>"index/Shopping/shopping_index",//购物车列表信息返回
