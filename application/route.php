@@ -106,6 +106,7 @@ Route::group("",[
     "apply_after_sale"=>"index/AfterSale/apply_after_sale",//用户申请售后
     "add_express_information"=>"index/AfterSale/add_express_information",//售后添加物流信息
     "after_sale_order_return"=>"index/AfterSale/after_sale_order_return",//售后订单信息返回
+    "after_sale_information_return"=>"index/AfterSale/after_sale_information_return",//退货信息返回
 
     /*TODO:售后处理结束*/
 
