@@ -107,6 +107,7 @@ class  AfterSale extends Controller{
 //            if($before_order_data["refund_amount"] < $application_amount){
 //                return ajax_error("申请的金额不能超过".$before_order_data["refund_amount"]."元");
 //            }
+            $normal_future_time =strtotime("+ 7200  minute"); //未来时间
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
@@ -117,6 +118,7 @@ class  AfterSale extends Controller{
                 "sale_order_number"=>$sale_order_number,//售后编号
                 "is_return_goods"=>$is_return_goods,//判断是否为换货还是退货退款，1换货，2退款退货
                 "operation_time"=>time(), //操作时间
+                "future_time"=>$normal_future_time,//未来时间
                 "application_amount"=>$before_order_data["refund_amount"],//申请金额
                 "return_reason"=>$return_reason,//退货原因
                 "status"=>1, //申请状态（1为申请中，2商家已同意，等待上传快递单信息，处理中，3收货中，4换货成功，5拒绝）
