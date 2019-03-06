@@ -625,7 +625,8 @@ Route::group("admin",[
     "analyse_order_index"=>"admin/Analyse/analyse_order_index",     //增值订单
     "analyse_refund_index"=>"admin/Analyse/analyse_refund_index",   //退款维权
 
-    "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index", //SEO优化
+    "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index",   //SEO优化
+    "analyse_optimize_update"=>"admin/Analyse/analyse_optimize_update", //SEO优化编辑
 
 
 
