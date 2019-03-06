@@ -18,6 +18,25 @@ class  AfterSale extends Controller{
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:售后订单信息返回
+     **************************************
+     * @param Request $request
+     */
+    public function after_sale_order_return(Request $request){
+        if($request->isPost()){
+            $id =$request->only(["id"])["id"];
+            $data =Db::name("order")->field("parts_goods_name,goods_image,refund_amount")->where("id",$id)->find();
+            if(!empty($data)){
+                return ajax_success("数据返回成功",$data);
+            }else{
+                return ajax_error("没有该数据");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:上传的图片，注意：小程序只能一张张上传
      **************************************
      * @param Request $request
@@ -78,7 +97,7 @@ class  AfterSale extends Controller{
             $member_id =$request->only(["member_id"])["member_id"];//会员id
             $order_id =$request->only(["order_id"])["order_id"];//订单编号（主键）
             $return_reason =$request->only(["return_reason"])["return_reason"];//退货原因
-            $application_amount =$request->only(["application_amount"])["application_amount"];//申请的金额
+//            $application_amount =$request->only(["application_amount"])["application_amount"];//申请的金额
             $is_return_goods =$request->only(["is_return_goods"])["is_return_goods"];//判断是否需要换货还是退货退款（1需要要进行换货，2退款退货）
             $after_image_ids =$request->only(["after_image_ids"])["after_image_ids"];//退货上传的图片id 数组形式
             //限制一下不能申请超过该单的支付原价
@@ -98,7 +117,7 @@ class  AfterSale extends Controller{
                 "sale_order_number"=>$sale_order_number,//售后编号
                 "is_return_goods"=>$is_return_goods,//判断是否为换货还是退货退款，1换货，2退款退货
                 "operation_time"=>time(), //操作时间
-                "application_amount"=>$application_amount,//申请金额
+                "application_amount"=>$before_order_data["refund_amount"],//申请金额
                 "return_reason"=>$return_reason,//退货原因
                 "status"=>1, //申请状态（1为申请中，2商家已同意，等待上传快递单信息，处理中，3收货中，4换货成功，5拒绝）
                 "buy_order_number"=>$before_order_data["parts_order_number"],//原始订单号
@@ -123,7 +142,54 @@ class  AfterSale extends Controller{
     }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:添加物流信息
+     **************************************
+     * @param Request $request
+     */
+    public function  add_express_information(Request $request){
+        $id =$request->only(["id"])["id"];
+        $buy_express_company =$request->only(["buy_express_company"])["buy_express_company"]; //快递公司
+        $buy_express_number =$request->only(["buy_express_number"])["buy_express_number"]; //快递单号
+        if(!empty($buy_express_company) && (!empty($buy_express_number))){
+            $data =[
+                "buy_express_company"=>$buy_express_company,
+                "buy_express_number"=>$buy_express_number,
+                "status" =>3
+            ];
+            $bool=Db::name("after_sale")->where("id",$id)->update($data);
+            if($bool){
+                return ajax_success("添加快递信息成功");
+            }else{
+                return ajax_error("请重新添加信息");
+            }
+        }else{
+            return ajax_error("请填写快递公司或快递单号");
+        }
+
+    }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:退货信息返回
+     **************************************
+     * @param Request $request
+     */
+    public function after_sale_information_return(Request $request){
+        if($request->isPost()){
+            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];
+            $data =Db::name("after_sale")->where("id",$after_sale_id)->find();
+            $data["images"] =Db::name("after_image")->where("after_sale_id",$after_sale_id)->select();
+            if(!empty($data)){
+                return ajax_success("售后信息返回成功",$data);
+            }else{
+                return ajax_error("暂无售后信息");
+            }
+        }
+    }
 
 }

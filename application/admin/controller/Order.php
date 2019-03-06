@@ -12,6 +12,7 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Db;
 use  think\Request;
+use think\paginator\driver\Bootstrap;
 class  Order extends  Controller{
     /**
      **************李火生*******************
@@ -258,7 +259,30 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function refund_protection_index(){
-        return view("refund_protection_index");
+        $accessories=Db::name("after_sale")->select();
+        foreach ($accessories as $key => $value) {
+            if ($value["id"]) {
+                $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();
+                $accessories[$key]["member_phone_num"] = $res["member_phone_num"];
+                $accessories[$key]["member_real_name"] = $res["member_real_name"];
+                $accessories[$key]["member_name"] = $res["member_name"];
+                $images =Db::name("after_image")->field("url")->where("after_sale_id",$value["id"])->select();
+                $accessories[$key]["images"] =$images;
+            }
+        }
+        $all_idents = $accessories;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $accessories = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Order/refund_protection_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $accessories->appends($_GET);
+        $this->assign('access', $accessories->render());
+        return view("refund_protection_index",["data" => $accessories]);
     }
 
 
