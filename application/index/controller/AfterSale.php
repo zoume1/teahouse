@@ -187,7 +187,7 @@ class  AfterSale extends Controller{
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];
             $data =Db::name("after_sale")->where("id",$after_sale_id)->find();
             $data["images"] =Db::name("after_image")->where("after_sale_id",$after_sale_id)->select();
-            $data["reply"] =Db::name("after_replay")->where("after_sale_id",$after_sale_id)->select();
+            $data["reply"] =Db::name("after_reply")->where("after_sale_id",$after_sale_id)->select();
             if(!empty($data)){
                 return ajax_success("售后信息返回成功",$data);
             }else{
@@ -215,7 +215,7 @@ class  AfterSale extends Controller{
                 "is_who"=>$is_who,
                 "create_time" =>time()
             ];
-            $id =Db::name("after_replay")->insertGetId($data);
+            $id =Db::name("after_reply")->insertGetId($data);
             if($id >0){
                 return ajax_success("回复成功");
             }else{
