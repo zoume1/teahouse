@@ -367,6 +367,9 @@ Route::group("admin",[
     "order_setting_update"=>"admin/Order/order_setting_update",//更新
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
     /*TODO:订单结束*/
+    /*TODO:售后开始*/
+    "business_repay"=>"admin/AfterSale/business_repay",//售后官方回复
+    /*TODO:售后结束*/
 
     /*TODO:订单备注开始*/
     "notice_index"=>"admin/Notification/notice_index",//卖家备注数据返回

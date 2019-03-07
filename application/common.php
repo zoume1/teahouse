@@ -706,3 +706,23 @@ function operation_recharge_status($status){
     }
 }
 
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:售后审核状态
+ **************************************
+ * @param $status
+ */
+function after_sale_status($status){
+   if($status==1){
+        echo '<button type="button" class="state  payment-has-been" >申请中</button>';
+    }else  if($status==2){
+        echo '<button type="button" class="state  shipmenting-btu" >处理中</button>';
+    }else  if($status==3){
+        echo '<button type="button" class="state  shipmented-btu" >收货中</button>';
+    }else  if($status==4){
+        echo '<button type="button" class="state  gooding-btu" >换货成功</button>';
+    }else  if($status==5){
+        echo '<button type="button" class="state  gooded-btu" >拒绝</button>';
+    }
+}
