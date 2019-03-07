@@ -83,6 +83,7 @@ class  Order extends  Controller
         if ($request->isPost()) {
             $open_id = $request->only("open_id")["open_id"];//open_id
             $address_id = $request->param("address_id");//address_id
+            $coupon_id =$request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $user_id =Db::name("member")
                 ->where("member_openid",$open_id)
@@ -90,6 +91,7 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+
             $member_grade_id =Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
@@ -124,7 +126,7 @@ class  Order extends  Controller
                 if($order_type ==1){
                     $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==2){
-                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                    $parts_order_number ="ZT".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==3){
                     $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }
@@ -174,6 +176,15 @@ class  Order extends  Controller
                             $datas["buy_message"] =$buy_message;//买家留言
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
+                            $datas["coupon_id"] =$coupon_id;
+
+                            $data["refund_amount"] =$all_money;
+
+                            
+                            if(!empty($coupon_id)){ //优惠券金额
+                                $datas["coupon_deductible"] = db("coupon")->where("id",$coupon_id)->value("money");
+                            }
+
 
                             $res = Db::name('order')->insertGetId($datas);
                             if ($res) {
@@ -182,7 +193,6 @@ class  Order extends  Controller
                                     ->where('id',$res)
                                     ->where("member_id",$user_id)
                                     ->find();
-
                                 return ajax_success('下单成功',$order_datas);
                             }else{
                                 return ajax_error('失败',['status'=>0]);
@@ -207,12 +217,14 @@ class  Order extends  Controller
     public function order_place_by_shopping(Request $request){
         if ($request->isPost()) {
             $shopping_id =$request->only("shopping_id")["shopping_id"];
+            $coupon_id =$request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $open_id =$request->only("open_id")["open_id"];
             $address_id =$request->only("address_id")["address_id"];
             $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+             
             $member_grade_id =Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
@@ -224,6 +236,7 @@ class  Order extends  Controller
                 ->where("id",$address_id)
                 ->where('user_id', $user_id)
                 ->find();
+
             if (empty($is_address) ) {
                 return ajax_error('请填写收货地址',['status'=>0]);
             }else{
@@ -251,7 +264,7 @@ class  Order extends  Controller
                 if($order_type ==1){
                     $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==2){
-                    $parts_order_number ="DD".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                    $parts_order_number ="ZT".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==3){
                     $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }
@@ -300,10 +313,15 @@ class  Order extends  Controller
                             $datas["buy_message"] =$buy_message;//买家留言
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
+                            $datas["coupon_id"] =$coupon_id;
+                            $datas["refund_amount"] =$all_money;
+                            if(!empty($coupon_id)){ //优惠券金额
+                                $datas["coupon_deductible"] = db("coupon")->where("id",$coupon_id)->value("money");
+                            }
                             $res = Db::name('order')->insertGetId($datas);
-
-                            $coin = db("recommend_intgral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
-                            $intgral = db("recommend_intgral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
+//
+//                            $coin = db("recommend_integral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
+//                            $intgral = db("recommend_integral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
                         }
                     }
                 }
@@ -412,6 +430,7 @@ class  Order extends  Controller
                                 ->find();
                             $data =[
                                 "status"=>9,
+                                "coupon_id"=>0,
                                 "cancel_order_description"=>$cancel_order_description
                             ];
                             $bool =Db::name("order_parts")->where("id",$v["id"])->update($data);
@@ -1478,6 +1497,7 @@ class  Order extends  Controller
                     foreach($res as $k=>$v){
                         $data =[
                             "status"=>9,
+                            "coupon_id"=>0,
                             "cancel_order_description"=>$cancel_order_description
                         ];
                         $bool =Db::name("order")->where("id",$v["id"])->update($data);
@@ -1515,13 +1535,35 @@ class  Order extends  Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>1]);
             if($res){
+                //做消费记录
+                $information =Db::name("activity_order")
+                    ->field("member_openid,cost_moneny,activity_name")
+                    ->where("parts_order_number",$val["out_trade_no"])
+                    ->find();
+                $user_information =Db::name("member")
+                    ->field("member_id,member_wallet,member_recharge_money")
+                    ->where("member_openid",$information["member_openid"])
+                    ->find();
+                $now_money =$user_information["member_wallet"]+$user_information["member_recharge_money"];
+                $datas=[
+                    "user_id"=>$user_information["member_id"],//用户ID
+                    "wallet_operation"=> $information["cost_moneny"],//消费金额
+                    "wallet_type"=>-1,//消费操作(1入，-1出)
+                    "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，微信消费".$information["cost_moneny"]."元",//消费备注
+                    "wallet_img"=>" ",//图标
+                    "title"=>$information["activity_name"],//标题（消费内容）
+                    "order_nums"=>$val["out_trade_no"],//订单编号
+                    "pay_type"=>"小程序", //支付方式/
+                    "wallet_balance"=>$now_money,//此刻钱包余额
+                ];
+                Db::name("wallet")->insert($datas); //存入消费记录表
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }else{
                 return ajax_error("失败",$val["out_trade_no"]);
             }
         }
     }
-
 
     /**
      **************李火生*******************
@@ -1539,11 +1581,33 @@ class  Order extends  Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time()]);
             if($res){
+                //做消费记录
+                $information =Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
+                $user_information =Db::name("member")
+                    ->field("member_wallet,member_recharge_money")
+                    ->where("member_id",$information["member_id"])
+                    ->find();
+                $now_money =$user_information["member_wallet"]+$user_information["member_recharge_money"];
+                $datas=[
+                    "user_id"=>$information["member_id"],//用户ID
+                    "wallet_operation"=> $information["order_real_pay"],//消费金额
+                    "wallet_type"=>-1,//消费操作(1入，-1出)
+                    "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，微信消费".$information["order_real_pay"]."元",//消费备注
+                    "wallet_img"=>" ",//图标
+                    "title"=>$information["parts_goods_name"],//标题（消费内容）
+                    "order_nums"=>$val["out_trade_no"],//订单编号
+                    "pay_type"=>"小程序", //支付方式/
+                    "wallet_balance"=>$now_money,//此刻钱包余额
+                ];
+                Db::name("wallet")->insert($datas); //存入消费记录表
+
+
+
                 $all_money = db("order")->where("parts_order_number",$val["out_trade_no"])->value("order_real_pay");//实际支付的金额
                 $member_id = db("order")->where("parts_order_number",$val["out_trade_no"])->value("member_id");//会员id
                 $coin = db("recommend_integral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
                 $integral = db("recommend_integral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
-             
                 //消费满多少金额赠送多少积分
                 if( $all_money > $coin){
                     $rest = db("member")->where("member_id",$member_id)->setInc('member_integral_wallet',$integral);//满足条件则增加积分
@@ -1668,9 +1732,6 @@ class  Order extends  Controller
             }
         }
     }
-
-
-
 
 
 

@@ -30,7 +30,11 @@ class StoreHouse extends Controller{
     public function store_house_add(Request $request){
         if($request->isPost()){
             $data = $request->param();
+            if($data["type"] != 1){
+                $data["type"] = 2;
+            }
             $res =Db::name("store_house")->insert($data);
+
             
             if($res){
                 $this -> success("添加成功","admin/StoreHouse/store_house");
@@ -64,7 +68,7 @@ class StoreHouse extends Controller{
      * [仓库管理编辑]
      * 郭杨
      */    
-    public function store_house_update($id){
+    public function store_house_edit($id){
         $house = db("store_house")->where("id",$id)->select(); 
         return view("store_house_edit",["house"=>$house]);
     }

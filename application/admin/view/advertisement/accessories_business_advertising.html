@@ -108,7 +108,7 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                    {volist name="accessories" id="value"}
+                    {if !empty($accessories)} {volist name="accessories" id="value"}
                     <tr>
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
                         <td>
@@ -152,11 +152,10 @@
 
                         </td>
                     </tr>
-                    {/volist}
+                    {/volist}{/if}
                 </tbody>
             </table>
 
-            {$access}
             <div id="page">
                 <div class="opation" style="width: 200px; float: left;">
                     <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
@@ -172,6 +171,9 @@
                     <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
                 </div>
+                {if !empty($access)}
+                {$access}
+                {/if}
             </div>
 
 

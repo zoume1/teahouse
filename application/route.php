@@ -30,6 +30,12 @@ Route::group("",[
     "sendMobileCodeByPh"=>"index/Findpwd/sendMobileCodeByPh",//修改密码验证码
     "update_password"=>"index/Findpwd/update_password",//修改密码操作
     /*TODO:PC端注册登录结束*/
+    /*TODO:PC端店铺开始*/
+    "store_add"=>"index/Store/store_add",//创建店铺
+    "store_return"=>"index/Store/store_return",//店铺信息返回
+    "store_edit"=>"index/Store/store_edit",//店铺信息编辑
+    "store_all_data"=>"index/Store/store_all_data",//所有店铺信息返回
+    /*TODO:PC端店铺结束*/
 
 
     "index_home"=>"index/index/home",
@@ -95,6 +101,16 @@ Route::group("",[
     /*TODO:订单结束*/
 
     /*TODO:售后处理开始*/
+    "after_sale_upload"=>"index/AfterSale/after_sale_upload",//上传的图片，注意：小程序只能一张张上传
+    "after_sale_images_del"=>"index/AfterSale/after_sale_images_del",//售后图片删除（有时候返回上一次则进行删除）
+    "apply_after_sale"=>"index/AfterSale/apply_after_sale",//用户申请售后
+    "add_express_information"=>"index/AfterSale/add_express_information",//售后添加物流信息
+    "after_sale_order_return"=>"index/AfterSale/after_sale_order_return",//售后订单信息返回
+    "after_sale_information_return"=>"index/AfterSale/after_sale_information_return",//退货信息返回
+    "buyer_replay"=>"index/AfterSale/buyer_replay",//售后买家回复
+    "update_application"=>"index/AfterSale/update_application",//售后修改申请
+    "cancellation_of_application"=>"index/AfterSale/cancellation_of_application",//售后撤销售后申请
+
     /*TODO:售后处理结束*/
 
     /*TODO:订单用户提醒发货开始*/
@@ -106,9 +122,6 @@ Route::group("",[
     "order_evaluate_images_del"=>"index/Evaluate/order_evaluate_images_del",//初始订单评价图片删除(就是点击返回键)
     "order_evaluate_add"=>"index/Evaluate/order_evaluate_add",//评价添加
     /*TODO:订单评价结束*/
-
-
-
 
     /*TODO:购物车开始*/
     "shopping_index"=>"index/Shopping/shopping_index",//购物车列表信息返回
@@ -144,12 +157,13 @@ Route::group("",[
 
     /*优惠券*/
     "coupon_untapped"=>"index/Coupon/coupon_untapped",   //未使用优惠券显示
-    "coupon_user"=>"index/Coupon/coupon_user",           //已使用优惠券显示
-    "coupon_time"=>"index/Coupon/coupon_time",           //过期优惠券显示
-    "coupon_goods"=>"index/Coupon/coupon_goods",         //优惠券使用商品
+    "coupon_user"=>"index/Coupon/coupon_user",                //已使用优惠券显示
+    "coupon_time"=>"index/Coupon/coupon_time",                //过期优惠券显示
+    "coupon_goods"=>"index/Coupon/coupon_goods",              //优惠券使用商品
     "coupon_appropriated"=>"index/Coupon/coupon_appropriated",//商品下单适用优惠券
-    "limitations"=>"index/Coupon/limitations",           //限时限购详情
-    "limitations_hint"=>"index/Coupon/limitations_hint", //商品点击购买时限时限购提示
+    "coupon_minute"=>"index/Coupon/coupon_minute",            //优惠券显示
+    "limitations_show"=>"index/Coupon/limitations_show",      //判断该商品是否限时限购
+    "limitations"=>"index/Coupon/limitations",                //判断用户是否能购买商品
     
     /*积分商城*/
     "bonus_index"=>"index/Coupon/bonus_index",           //积分商城显示
@@ -157,10 +171,12 @@ Route::group("",[
     "integrals"=>"index/Coupon/integrals",               //积分流水显示
     "order_integaral"=>"index/Coupon/order_integaral",   //积分商城下单 
     "integrals_detail"=>"index/Coupon/integrals_detail", //积分商城订单详情
-    "integrals_list"=>"index/Coupon/integrals_list",     //积分商城所有订单
-    "integrals_delivered"=>"index/Coupon/integrals_delivered",     //积分商城待发货定单
-    "integrals_collections"=>"index/Coupon/integrals_collections", //积分商城待收货订单
-    
+    "integaral_list"=>"index/Coupon/integaral_list",     //积分商城所有订单
+    "integaral_delivered"=>"index/Coupon/integaral_delivered",     //积分商城待发货定单
+    "integaral_collections"=>"index/Coupon/integaral_collections", //积分商城待收货订单
+    "take_delivery"=>"index/Coupon/take_delivery",                 //积分订单确认收货
+    "attention_to"=>"index/Coupon/attention_to",                   //积分订单提醒发货
+
 
 
     /*TODO:身份证绑定开始*/
@@ -191,7 +207,8 @@ Route::group("",[
     "member_balance_recharge"=>"index/Wallet/member_balance_recharge",//账户余额充值
     "wallet_recharge_del"=>"index/wallet/recharge_del",     //钱包充值下单未付款自动关闭取消删除(ajax)
     "withdrawal_return"=>"index/wallet/withdrawal_return",     //钱包提现页面数据返回
-    "withdrawal"=>"index/wallet/withdrawal",     //钱包提现
+    "withdrawal"=>"index/wallet/withdrawal",     //钱包银行卡提现
+    "wechat_withdrawal"=>"index/wallet/wechat_withdrawal",     //钱包微信提现
     /*TODO:充值提现结束*/
 
 
@@ -340,6 +357,11 @@ Route::group("admin",[
     /*TODO:订单开始*/
     "order_index"=>"admin/Order/order_index",//初始订单页面
     "order_search"=>"admin/Order/order_search",//初始订单搜索
+    "order_way_pay"=>"admin/Order/order_way_pay",//初始订单待付款
+    "order_wait_send"=>"admin/Order/order_wait_send",//初始订单待发货
+    "order_shipped"=>"admin/Order/order_shipped",//初始订单已发货
+    "order_completed"=>"admin/Order/order_completed",//初始订单已完成
+    "order_closed"=>"admin/Order/order_closed",//初始订单已关闭
     "order_confirm_shipment"=>"admin/Order/order_confirm_shipment",//初始订单卖家确认发货
     "order_information_return"=>"admin/Order/order_information_return",//初始订单基本信息
 
@@ -348,6 +370,9 @@ Route::group("admin",[
     "order_setting_update"=>"admin/Order/order_setting_update",//更新
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
     /*TODO:订单结束*/
+    /*TODO:售后开始*/
+    "business_replay"=>"admin/AfterSale/business_replay",//售后官方回复
+    /*TODO:售后结束*/
 
     /*TODO:订单备注开始*/
     "notice_index"=>"admin/Notification/notice_index",//卖家备注数据返回
@@ -576,6 +601,7 @@ Route::group("admin",[
     "recharge_application" =>"admin/User/recharge_application",     //微信提现
     "withdrawal_application" =>"admin/User/withdrawal_application", //银行卡提现
     "withdrawal_setting" =>"admin/User/withdrawal_setting",         //提现设置
+    "withdrawal_save" =>"admin/User/withdrawal_save",         //提现设置更新保存
     "property_day_index" =>"admin/Property/property_day_index",     //日账单详
 
     /*物联*/
@@ -605,7 +631,8 @@ Route::group("admin",[
     "analyse_order_index"=>"admin/Analyse/analyse_order_index",     //增值订单
     "analyse_refund_index"=>"admin/Analyse/analyse_refund_index",   //退款维权
 
-    "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index", //SEO优化
+    "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index",   //SEO优化
+    "analyse_optimize_update"=>"admin/Analyse/analyse_optimize_update", //SEO优化编辑
 
 
 

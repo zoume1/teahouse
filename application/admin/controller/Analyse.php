@@ -52,10 +52,29 @@ class  Analyse extends  Controller{
      * [SEO优化]
      * 郭杨
      */    
-    public function analyse_optimize_index(){     
+    public function analyse_optimize_index(){  
+        $optimize = db("seo_optimize")->where("id",1)->select();  
         return view("analyse_optimize_index");
     }
 
+
+    /**
+     * [SEO优化更新]
+     * 郭杨
+     */    
+    public function analyse_optimize_update(Request $request){
+        if($request -> isPost()){
+            $optimize_data = $request -> param();
+            $bool = db("seo_optimize")->where("id",1)->update($optimize_data); 
+            if($bool){
+                $this->success('编辑成功', 'admin/Analyse/analyse_optimize_index');
+            } else {
+                $this ->error('编辑失败','admin/Analyse/analyse_optimize_index');
+            }
+            
+        }  
+
+    }
 
 
  }

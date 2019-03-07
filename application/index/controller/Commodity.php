@@ -39,10 +39,11 @@ class Commodity extends Controller
         if ($request->isPost()) {
             $member_id = $request->only(["open_id"])["open_id"];
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
+            $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
             $goods = db("goods")->where("status",1)->select();
 
-            foreach ($goods as $k => $v)
+            foreach ($goods as $k => $v) //所有商品
             {
                 if($goods[$k]["goods_standard"] == 1){
                     $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
@@ -54,12 +55,20 @@ class Commodity extends Controller
                     $goods[$k]["max_price"] = $max[$k];
                     $goods[$k]["min_price"] = $min[$k];
                     $goods[$k]["line"] = $line[$k];
+                    $limite[$k] = db("limited")->where("goods_id", $goods[$k]['id'])->field("scope")->find();
+                    $goods[$k]["scope"] = explode(",",$limite[$k]["scope"]);
+                    if(is_null($goods[$k]["scope"])){
+                    if(in_array($status,$goods[$k]["scope"])){
+                         unset($goods[$k]);
+                    }
+                }
                 } else {
                     $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
                     $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
                 }
+                
             }
-            
+
             if (!empty($goods) && !empty($member_id)) {
                 return ajax_success("获取成功", $goods);
             } else {
@@ -82,7 +91,6 @@ class Commodity extends Controller
         if($request->isPost()){
             $goods_pid = $request->only(["id"])["id"];
             $goods = db("goods")->where("pid",$goods_pid)->select();
-
             foreach ($goods as $k => $v)
             {
                 if($v["label"] == 1 ){
@@ -123,14 +131,12 @@ class Commodity extends Controller
             foreach ($goods_standard as $key => $value) {
                 $goods_standard[$key]["price"] = $goods_standard[$key]["price"] * $discount;
             }
-
             if ($goods[0]["goods_standard"] == 1) {
                 $goods[0]["goods_standard"] = $goods_standard;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
                 $goods[0]["max_price"] = $max_prices;
                 $goods[0]["min_price"] = $min_prices;
                 $goods[0]["min_line"] = $min_line;
-
             } else {
                 $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));

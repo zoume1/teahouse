@@ -202,20 +202,15 @@ class Coupon extends Controller
             $money = $datas['money'];
             $member_grade_name = $datas['member_grade_name'];
 
-            // $goods = [122,120,121];
-            // $goods_id = array_unique($goods);
-            // $open_id = 'o_lMv5dwxVdyYvafw03wELn6YXxw';
-            // $money = 300;
-            // $member_grade_name = '普通会员';
 
             $coupons = Db::name("coupon")->where("use_price","<=",$money)->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
-            $coupon_id = Db::name("order")->where("member_id",$member_id)
+            $coupon_id = Db::name("order")->where("member_id",$member_id)//已使用优惠券
                         ->where("coupon_id",'<>',0)
                         ->distinct($member_id)
                         ->field("coupon_id")
                         ->select();
-        
+            
             if(count($coupon_id)>0){
                 foreach($coupon_id as $key => $value){
                     foreach($value as $ke => $va){
@@ -231,10 +226,10 @@ class Coupon extends Controller
                     if(in_array($member_grade_name,$valuel['scope']) && $valuel['end_time'] > $time){ //判断是否在适用范围和是否过期
                         $data[] = $valuel;
                     } else {
-                        $data[] = null;
+                        $data = array();
                     }
                 } else {
-                    $data[] = null;
+                    $data = array();
                 }
             }
         
@@ -248,7 +243,7 @@ class Coupon extends Controller
                     }
                 }
             }
-
+            
             if (!empty($data)) {
                 return ajax_success('传输成功', $data);
             } else {
@@ -256,6 +251,26 @@ class Coupon extends Controller
             }   
         }
     }
+
+
+    /**
+     * [优惠券显示]
+     * 郭杨
+     */
+    public function coupon_minute(Request $request)
+    {
+        if ($request->isPost()) {
+            $coupon_id = $request->only(['coupon_id'])['coupon_id'];
+            $rest = Db::name("coupon")->where("id",$coupon_id)->field("money")->find();
+            if (!empty($rest)) {
+                return ajax_success('传输成功', $rest);
+            } else {
+                return ajax_error("数据为空",$rest);
+            }
+        }
+    }
+
+    
 
     /**
      * [积分商品显示]
@@ -324,12 +339,22 @@ class Coupon extends Controller
             $open_id = $request->only("open_id")["open_id"];//open_id
             $address_id = $request->param("address_id");    //address_id
             $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
+            $password = $request->only("passwords")["passwords"]; //输入的密码
+            $commodity_id = $request->only("goods_id")["goods_id"];//商品id
+            $numbers =$request->only("order_quantity")["order_quantity"];//购买数量
+
             $user_id =Db::name("member")
                 ->where("member_openid",$open_id)
                 ->value("member_id");
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+
+            $passwordes =Db::name("member")
+            ->where("member_openid",$open_id)
+            ->value("pay_password");
+
+
             $user_information =Db::name("member")->where("member_id",$user_id)->find();
             $sum_integral = $user_information["member_integral_wallet"];//积分余额
             
@@ -347,8 +372,13 @@ class Coupon extends Controller
                 if (empty($is_address_status) ) {
                     $is_address_status =$is_address;
                 }
-                $commodity_id = $request->only("goods_id")["goods_id"];//商品id
-                $numbers =$request->only("order_quantity")["order_quantity"];//购买数量
+
+                
+                if (password_verify($password,$passwordes)){
+                    return ajax_success("支付密码正确",["status"=>1]);
+                }else{
+                    return ajax_error("支付密码错误",["status"=>0]);
+                }
 
                 $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
                 $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
@@ -484,7 +514,7 @@ class Coupon extends Controller
      * [积分订单全部]
      * 郭杨
      */
-    public function integrals_list(Request $request)
+    public function integaral_list(Request $request)
     {
         if($request->isPost()) {
             $member_id = $request->only("member_id")["member_id"]; //会员id
@@ -496,8 +526,7 @@ class Coupon extends Controller
                 ->order('order_create_time', 'desc')
                 ->select();
             if (!empty($data)) {  
-                foreach($data as $key => $value){         
-               
+                foreach($data as $key => $value){                       
                     $datas[$key]["buy_message"] = $data[$key]["buy_message"]; //买家留言
                     $datas[$key]["create_time"] = $data[$key]["order_create_time"];//订单创建时间
                     $datas[$key]["goods_name"] = $data[$key]["goods_name"];//商品名
@@ -514,7 +543,6 @@ class Coupon extends Controller
                     $datas[$key]["all_order_real_pay"] = $data[$key]["order_amount"];//订单实际支付积分
                 
             }
-
                 if (!empty($datas)) {
                     return ajax_success("数据返回成功", $datas);
                 } else {
@@ -531,7 +559,7 @@ class Coupon extends Controller
      * [积分订单待发货]
      * 郭杨
      */
-    public function integrals_delivered(Request $request)
+    public function integaral_delivered(Request $request)
     {
         if($request->isPost()) {
             $member_id = $request->only("member_id")["member_id"]; //会员id
@@ -579,7 +607,7 @@ class Coupon extends Controller
      * [积分订单待收货]
      * 郭杨
      */
-    public function integrals_collections(Request $request)
+    public function integaral_collections(Request $request)
     {
         if($request->isPost()) {
             $member_id = $request->only("member_id")["member_id"]; //会员id
@@ -622,7 +650,7 @@ class Coupon extends Controller
   }
 
     /**
-     * [限时限购显示]
+     * [限时限购提示]
      * 郭杨
      */
     public function limitations(Request $request)
@@ -639,7 +667,7 @@ class Coupon extends Controller
             if(!empty($limit)){
                 $scope = explode(",",$limit["scope"]);
                 if(!in_array($member_grade_name,$scope)){
-                    return ajax_error("您的会员等级过低,请升级后再购买");
+                    return ajax_error("您的会员等级过低,请升级后再购买",["status"=>0]);
                 }
                 $order = db("order")
                 ->where("member_id",$member_id)
@@ -653,67 +681,110 @@ class Coupon extends Controller
                     if($limit_time == 1){
                         $date_time = strtotime(date('Y-m-d H:i:s',strtotime("+1month",$order_time)));
                         if($time < $date_time){
-                            return ajax_error("您当月已购买过该商品,请下月再来购买",0); 
+                            return ajax_error("您当月已购买过该商品,请下月再来购买",["status"=>0]); 
                         }
                     } else {
                         $date_time = strtotime(date('Y-m-d H:i:s',strtotime("+2month",$order_time)));
                         if($time < $date_time){
-                            return ajax_error("您已购买过该商品"); 
+                            return ajax_error("您已购买过该商品",["status"=>0]); 
                         }
                     }
                     
                 }
-                    return ajax_success('传输成功', $limit);
+                return ajax_success("您符合限时限购条件条件",["status"=>1]);
                 } else {
-                    return ajax_error("该商品无限时限购条件");
+                    return ajax_error("该商品无限时限购条件",["status"=>1]);
                 }
             }     
      }
 
 
     /**
-     * [商品点击购买时限时限购提示]
+     * [积分订单确认收货]
      * 郭杨
      */
-    public function limitations_hint(Request $request)
+    public function take_delivery(Request $request)
+    {
+        if ($request->isPost()) {
+            $member_id = $request->only("member_id")["member_id"]; //会员id
+            $parts_order_number = $request->only("parts_order_number")["parts_order_number"]; //订单号
+            if(empty($member_id)){
+                exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
+            }
+
+            $bool = db("buyintegral")->where("member_id",$member_id)->where("parts_order_number",$parts_order_number)->update(["status"=>5]);
+            //1已付款，2待发货，3已发货，4待收货，5已收货
+            if($bool){
+                return ajax_success('收货成功'); 
+            } else {
+                return ajax_error("收货失败");
+            }    
+        }
+
+    }
+
+    /**
+     * [限时限购显示]
+     * 郭杨
+     */
+    public function limitations_show(Request $request)
     {
         if ($request->isPost()) {
         $goods_id = $request->only(['goods_id'])['goods_id']; //goods_id
-        $member_id = $request->only(['member_id'])['member_id']; //member_id
-        $member_grade_name = $request->only(["member_grade_name"])['member_grade_name'];//member_grade_name  
-        $time = time();
-        
-        //判断会员等级
         $limit = db("limited")->where("goods_id",$goods_id)->find();
+        $limit["scope"] = explode(",",$limit["scope"]);
 
         if(!empty($limit)){
-            $scope = explode(",",$limit["scope"]);
-            if(!in_array($member_grade_name,$scope)){
-                return ajax_error("您的会员等级过低,请升级后再购买");
-            }
-            $order = db("order")->where("member_id",$member_id)->where("goods_id",$goods_id)->order('order_create_time', 'desc')->select();//查询近期定单
-            if(!empty($order)){
-                $order_time = $order[0]["order_create_time"];//商品下单时间
-                $limit_time = $limit["time"];  //限购时间
-                if($limit_time == 1){
-                    $date_time = date('Y-m-d H:i:s',strtotime("+1month",$order_time));
-                    if($time < $date_time){
-                        return ajax_error("您当月已购买过该商品,请下月再来购买"); 
-                    }
-                } else {
-                    $date_time = date('Y-m-d H:i:s',strtotime("+2month",$order_time));
-                    if($time < $date_time){
-                        return ajax_error("您已购买过该商品"); 
-                    }
-                }
-                
-            }
                 return ajax_success('传输成功', $limit);
-            } else {
-                return ajax_error("该商品无限时限购条件");
+            }else{
+                return ajax_error("该商品无限时限购条件",["status"=>0]);
             }
-        }     
-     }
+    
+        }
+    }
+
+
+
+    /**
+     * [积分订单提醒发货]
+     * 郭杨
+     */
+    public function attention_to(Request $request)
+    {
+        if($request->isPost()){
+            $order_num =$request->only("parts_order_number")["parts_order_number"]; //订单编号
+            $timetoday = strtotime(date("Y-m-d",time()));//今天0点的时间点
+            $time2 = time() + 3600*24;//今天24点的时间点，两个值之间即为今天一天内的数据
+            $time_condition  = "create_time>$timetoday and create_time< $time2";
+            $is_notice = Db::name("note_remind")
+                ->where("parts_order_number",$order_num)
+                ->where($time_condition)
+                ->find();
+            if(!empty($is_notice)){
+                return ajax_success("您已提醒过");
+            }
+            $data =Db::name("order")
+                ->field("id")
+                ->where("parts_order_number",$order_num)
+                ->select();
+            foreach ($data as $k=>$v){
+                $information_data =[
+                    "information"=>"用户提醒发货",
+                    "create_time"=>time(),
+                    "option_name"=>"用户",
+                    "order_id"=>$v["id"],
+                    "parts_order_number"=>$order_num
+                ];
+                $res =  Db::name("note_remind")->insert($information_data);
+            }
+            if($res){
+                return ajax_success("提醒成功",["status"=>1]);
+            }else{
+                return ajax_error("请重新操作",["status"=>0]);
+            }
+        }
+
+    }
   
 
 
