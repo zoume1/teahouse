@@ -110,9 +110,8 @@ class My extends Controller
                  $json_access_token = $this -> sendCmd($url_access_token,array());
                  $arr_access_token = json_decode($json_access_token,true);
                  $access_token = $arr_access_token['access_token'];
-                 halt($access_token);
                  if(!empty($access_token)) {
-                     $url = 'http://teahouse.siring.com.cn/teahouse'.$access_token;
+                     $url = config("domain.url").$access_token;
                     //halt($url);
                      $data = '{"path": "pages/my/my?uid='.$dealer.'", "width": 430}';
                      $result = $this -> sendCmd($url,$data);
@@ -120,7 +119,6 @@ class My extends Controller
                      file_put_contents('./upload/qrcode/code-'.$name.'.jpg',$result);
                      //存储二维码路径
                      $arr['dimension'] = '/upload/qrcode/code-'.$name.'.jpg';
-                     halt($arr);
                      $res=Db::name("users")->where(['member_openid' => $openid])->update($arr);
                      return ajax_success('暂无数据',$arr);
                  } else {

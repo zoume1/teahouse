@@ -32,7 +32,7 @@ class  AfterSale extends  Controller{
             ];
             $id =Db::name("after_reply")->insertGetId($data);
             if($id >0){
-                return ajax_success("回复成功");
+                return ajax_success("回复成功",$data);
             }else{
                 return ajax_error("回复失败");
             }
@@ -56,6 +56,25 @@ class  AfterSale extends  Controller{
                 return ajax_success("售后信息返回成功",$data);
             }else{
                 return ajax_error("暂无售后信息");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后状态修改
+     **************************************
+     */
+    public function after_sale_status(Request $request){
+        if($request->isPost()){
+            $status =$request->only(["status"])["status"];
+            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
+            $bool =Db::name("after_sale")->where("id",$after_sale_id)->update(["status"=>$status]);
+            if($bool){
+                return ajax_success("更改成功");
+            }else{
+                return ajax_error("更改失败");
             }
         }
     }
