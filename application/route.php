@@ -99,6 +99,10 @@ Route::group("",[
     "ios_api_order_del"=>"index/Order/ios_api_order_del",//买家删除订单接口(ajax)
     "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
     /*TODO:订单结束*/
+    /*TODO:快递100物流信息开始*/
+    "express_hundred"=>"index/Api/express_hundred",//快递100实时物流
+    /*TODO:快递100物流信息结束*/
+
 
     /*TODO:售后处理开始*/
     "after_sale_upload"=>"index/AfterSale/after_sale_upload",//上传的图片，注意：小程序只能一张张上传
@@ -107,6 +111,10 @@ Route::group("",[
     "add_express_information"=>"index/AfterSale/add_express_information",//售后添加物流信息
     "after_sale_order_return"=>"index/AfterSale/after_sale_order_return",//售后订单信息返回
     "after_sale_information_return"=>"index/AfterSale/after_sale_information_return",//退货信息返回
+    "buyer_replay"=>"index/AfterSale/buyer_replay",//售后买家回复
+    "update_application"=>"index/AfterSale/update_application",//售后修改申请
+    "cancellation_of_application"=>"index/AfterSale/cancellation_of_application",//售后撤销售后申请
+    "business_address"=>"index/AfterSale/business_address",//售后商家寄还地址返回
 
     /*TODO:售后处理结束*/
 
@@ -366,7 +374,18 @@ Route::group("admin",[
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
     "order_setting_update"=>"admin/Order/order_setting_update",//更新
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
+    "refund_protection_processing"=>"admin/Order/refund_protection_processing",//退款维权处理中
+    "refund_protection_receipting"=>"admin/Order/refund_protection_receipting",//退款维权收货中
+    "refund_protection_completed"=>"admin/Order/refund_protection_completed",//退款维权换货完成
+    "refund_protection_refuse"=>"admin/Order/refund_protection_refuse",//退款维权拒绝
     /*TODO:订单结束*/
+    /*TODO:售后开始*/
+    "business_replay"=>"admin/AfterSale/business_replay",//售后官方回复
+    "business_after_sale_information"=>"admin/AfterSale/business_after_sale_information",//售后页面数据返回
+    "after_sale_status"=>"admin/AfterSale/after_sale_status",//售后状态修改
+    "after_sale_express_add"=>"admin/AfterSale/after_sale_express_add",//售后状态修改带快递信息
+    "after_sale_money_add"=>"admin/AfterSale/after_sale_money_add",//售后状态修改带退钱操作
+    /*TODO:售后结束*/
 
     /*TODO:订单备注开始*/
     "notice_index"=>"admin/Notification/notice_index",//卖家备注数据返回

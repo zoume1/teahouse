@@ -80,7 +80,7 @@
 	}
 	.popup_doms{
 		width: 765px;
-		height: 367px;
+		height: 413px;
 		background: #fff;
 	}
 	.popup_content{
@@ -97,9 +97,10 @@
 		display: inline-block;
 		width: 80px;
 		text-align: left;
+		margin-right: 20px;
 	}
 	.repany .layui-input{
-		width: 620px;
+		width: 510px;
 	}
 	.repany{
 		margin-bottom: 10px;
@@ -136,6 +137,23 @@
     right: 12px;
     top: -4px;
 	}
+	.img_content{
+		display: flex;
+		margin-left: 80px;
+	}
+	.img_content img{
+		width: 40px;
+	}
+	.local_host_repay{
+		width: 100px;
+		height: 38px;
+		color: #fff;
+		background: #669900;
+		border-radius: 10px;
+	}
+	.layui-inputs{
+		width: 200px;
+	}
 	/*
      * 弹窗end
      */
@@ -148,7 +166,6 @@
 	{block name="content"}
 	<div class="popup popup_tree noshow">
 		<div class="popup_doms">
-		
 			<div class="popup_title">
 				处理回复（个人信息处有提示信息）
 					<div class="popup_x">
@@ -156,112 +173,23 @@
 			</div>
 			</div>
 			<div class="popup_content">
-				<div class="repany">
-					<span class="span">官方回复</span>
-					<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款80元" style="border: 0;">
-				</div>
-				<div class="chat">
-					<div class="chat_list">
-						<span class="span">20180811</span>
-						<span>官方备注已用户要求高可顺非邮寄</span>
-					</div>
-				</div>
-				<div class="operation" style="justify-content: space-between;">
-					<div class="select_static">
-						<span class="operation_title">选择操作</span>
-						<select name="">
-							<option value="" selected="">请选择</option>
-							<option value="1">已发货</option>
-							<option value="0">已退货</option>
-						</select>
-					</div>
-					<button type="button" class="submit_btns">确定</button>
-				</div>
-			</div>
-		</div>
-	</div>
-    <div class="popup popup_one noshow">
-		<div class="popup_doms">
-		
-			<div class="popup_title">
-				处理回复（个人信息处有提示信息）
-					<div class="popup_x">
-				<img src="__STATIC__/admin/index/img/X.png"/>
-			</div>
-			</div>
-			<div class="popup_content">
-				<div class="repany">
-					<span class="span">官方回复</span>
-					<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款80元" style="border: 0;">
-				</div>
-				<div class="chat">
-					<div class="chat_list">
-						<span class="span">20180811</span>
-						<span>官方备注已用户要求高可顺非邮寄</span>
-					</div>
-				</div>
-				<div class="operation">
-					<div class="select_static">
-						<span class="operation_title">选择操作</span>
-						<select name="">
-							<option value="" selected="">请选择</option>
-							<option value="1">已发货</option>
-							<option value="0">已退货</option>
-						</select>
-					</div>
-					<div class="select_courier">
-						<span class="operation_title">选择快递</span>
-						<select name="">
-							<option value="" selected="">请选择</option>
-							<option value="1">顺丰</option>
-							<option value="0">圆通</option>
-						</select>
-					</div>
-					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" >
-					<button type="button" class="submit_btns">确定</button>
-				</div>
-			</div>
-		</div>
-	</div>
-   
-    <div class="popup popup_two noshow">
-		<div class="popup_doms">
-		   <div class="popup_title">
-				处理回复（个人信息处有提示信息）
-					<div class="popup_x">
-				<img src="__STATIC__/admin/index/img/X.png"/>
-				</div>
-			</div>
-			<div class="popup_content">
-				<div class="repany">
-					<span class="span">官方回复</span>
-					<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款80元" style="border: 0;">
-				</div>
-				<div class="chat">
-					<div class="chat_list">
-						<span class="span">20180811</span>
-						<span>官方备注已用户要求高可顺非邮寄</span>
-					</div>
-				</div>
-				<div class="operation">
-					<div class="select_static">
-						<span class="operation_title">选择操作</span>
-						<select name="">
-							<option value="" selected="">请选择</option>
-							<option value="1">已退款</option>
-						</select>
-					</div>
-					<div class="select_courier"  >
-						<span class="operation_title">选择退款金额</span>
-					    <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额" class="layui-input danhao" >
-					</div>
+				<div class="repay_list" id="repay_list">
 					
-					<button type="button" class="submit_btns">确定</button>
+			    </div>
+				<div class="repany">
+					<span class="span">官方回复</span>
+					<input type="text" name="" lay-verify="title" autocomplete="off"  placeholder="请输入处理备注" class="layui-input Information" value="" >
+					<button class="local_host_repay">回复</button>
+				</div>
+				<div class="chat">
+					
+				</div>
+				<div class="operation" style="justify-content: space-between;" data-id="">
+					
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<div class="childrenBody">
 		
 		<blockquote class="layui-elem-quote news_search">
@@ -375,8 +303,8 @@
 							</div>
 						</td>
 						<td>
-							<div class="static_btus">
-								{$vo.status}
+							<div class="static_btus" data-id="{$vo.id}" id="static_btus">
+								{$vo.status|after_sale_status}
 							</div>
 						</td>
 						{if !empty($vo["handle_time"])}
@@ -534,6 +462,242 @@
 			$(".popup_x").click(function(){
 			$(".popup").addClass("noshow");
 		});
+	</script>
+	<script>
+		// 退款退货换货,第一部分
+		var dhtml_a='';
+		dhtml_a+='<div class="repany">';
+		dhtml_a+='<span class="span">客户申请</span>';
+		dhtml_a+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款80元"  style="border:0">';
+		dhtml_a+='</div>';
+		// 退款退货换货,第二部分
+		var dhtml_b='';
+		dhtml_b+='<div class="chat_list_content">';
+		dhtml_b+='<div class="chat_list">';
+		dhtml_b+='<span class="span">20180811</span>';
+		dhtml_b+='<span>官方备注已用户要求高可顺非邮寄</span>';
+		dhtml_b+='</div>';
+		dhtml_b+='<div class="img_content">';
+		dhtml_b+='<img src="__STATIC__/admin/index/img/u168.png" alt="">';
+		dhtml_b+='</div>';
+		dhtml_b+='</div>';
+		// 退款退货换货,第三部分
+		var dhtml_c='';
+		dhtml_c='<div class="select_static">';
+		dhtml_c='<span class="operation_title">选择操作</span>';
+		dhtml_c='<select name="">';
+		dhtml_c='<option value="" selected="">请选择</option>';
+		dhtml_c='<option value="1">拒绝</option>';
+		dhtml_c='<option value="0">收货中</option>';
+		dhtml_c='</select>';
+		dhtml_c='</div>';
+		dhtml_c='<button type="button" class="submit_btns">确定</button>';
+		// 收货中,第一部分
+		var dhtml_d='';
+		dhtml_d+='<div class="repany">';
+		dhtml_d+='<span class="span">客户申请</span>';
+		dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款80元"  style="border:0">';
+		dhtml_d+='</div>';
+		dhtml_d+='<div class="repany">';
+		dhtml_d+='<span class="span"> 快递公司 </span>';
+		dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
+		dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
+		dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="77777377373773"  style="border:0">';
+		dhtml_d+='</div>';
+		// 收货中,第三部分
+		var dhtml_c='';
+		dhtml_c='<div class="select_static">';
+		dhtml_c='<span class="operation_title">选择操作</span>';
+		dhtml_c='<select name="">';
+		dhtml_c='<option value="" selected="">请选择</option>';
+		dhtml_c='<option value="1">拒绝</option>';
+		dhtml_c='<option value="0">收货中</option>';
+		dhtml_c='</select>';
+		dhtml_c='</div>';
+		dhtml_c='<button type="button" class="submit_btns">确定</button>';
+		// 换货处理
+		var dhtml1="";
+		dhtml1+='<div class="select_static">';
+		dhtml1+='<span class="operation_title">选择操作</span>';
+		dhtml1+='<select name="" class="operation_select">';
+		dhtml1+='<option value="1" selected="">已发货</option>';
+		dhtml1+='</select>';
+		dhtml1+='</div>';
+		dhtml1+='<div class="select_courier">';
+		dhtml1+='<span class="operation_title">选择快递</span>';
+		dhtml1+='<select name="" class="curier">';
+		dhtml1+='<option value="ems">EMS</option>';
+		dhtml1+='<option value="shentong">申通</option>';
+		dhtml1+='<option value="shentong">顺丰</option>';
+		dhtml1+='<option value="shentong">圆通</option>';
+		dhtml1+='<option value="shentong">韵达</option>';
+		dhtml1+='<option value="shentong">天天快递</option>';
+		dhtml1+='<option value="shentong">宅急送</option>';
+		dhtml1+='<option value="shentong">中国邮政</option>';
+		dhtml1+='<option value="shentong">全峰快递</option>';
+		dhtml1+='<option value="shentong">速尔快递</option>';
+		dhtml1+='<option value="shentong">快捷快递</option>';
+		dhtml1+='<option value="shentong">中铁快运</option>';
+		dhtml1+='<option value="shentong">优速快递</option>';
+		dhtml1+='<option value="shentong">龙邦</option>';
+		dhtml1+='<option value="shentong">德邦物流</option>';
+		dhtml1+='<option value="shentong">华宇物流</option>';
+		dhtml1+='<option value="shentong">佳吉快运</option>';
+		dhtml1+='</select>';
+		dhtml1+='</div>';
+		dhtml1+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  >';
+		dhtml1+='<button type="button" class="submit_btns" data-id="">确定</button>';
+		// 退款退货完成
+		var dhtml2="";
+		dhtml2+='<div class="select_static">';
+		dhtml2+='<span class="operation_title">选择操作</span>';
+		dhtml2+='<select name="" class="operation_select">';
+		dhtml2+='<option value="" selected="">请选择</option>';
+		dhtml2+='<option value="1">已退款</option>';
+		dhtml2+='</select>';
+		dhtml2+='</div>';
+		dhtml2+='<div class="select_courier"  >';
+		dhtml2+='<span class="operation_title">选择退款金额</span>';
+		dhtml2+=' <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额" class="layui-input danhao" >';
+		dhtml2+='</div>';
+		dhtml2+='<button type="button" class="submit_btns"  data-id="">确定</button>';
+      $("#static_btus").click(function(){
+		  var data_id=$(this).data("id");
+			$(".local_host_repay").data("id",data_id);
+		$.ajax({
+				type: "POST",
+				url: "{:url('admin/AfterSale/business_after_sale_information')}",
+				data: {
+					"after_sale_id": data_id,
+				},
+				async:false,
+				success: function(data) {
+					var data = eval('(' + data + ')');
+					console.log(data);
+					way=data.data.status;
+					$("#repay_list").empty();
+					$(".chat").empty();
+					$(".operation").empty();
+					$(".operation").data("id",way);
+					$(".operation").data("value",data_id);
+					// 申请中
+					if(way==1){
+						var dhtml_a='';
+						dhtml_a+='<div class="repany">';
+						dhtml_a+='<span class="span">客户申请</span>';
+						dhtml_a+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款'+data.data.application_amount+'元"  style="border:0">';
+						dhtml_a+='</div>';
+						$("#repay_list").append(dhtml_a);
+						var dhtml_b='';
+						dhtml_b+='<div class="chat_list_content">';
+						dhtml_b+='<div class="chat_list">';
+						dhtml_b+='<span class="span">'+data.data.operation_time+'</span>';
+						dhtml_b+='<span>'+data.data.return_reason+'</span>';
+						dhtml_b+='</div>';
+						dhtml_b+='<div class="img_content">';
+						for(var i=0;i<data.data.images.length;i++){
+							// console.log(data.data.images[i])
+							dhtml_b+='<img src="__UPLOADS__/'+data.data.images[i].url+'" alt="" >';
+						}
+						dhtml_b+='</div>';
+						dhtml_b+='</div>';
+						$(".chat").append(dhtml_b);
+						for(var j=0;j<data.data.reply.length;j++){
+							var dhtml_e='';
+							dhtml_e+='<div class="chat_list_content">';
+							dhtml_e+='<div class="chat_list">';
+							dhtml_e+='<span class="span">'+data.data.operation_time+'</span>';
+							dhtml_e+='<span>'+data.data.return_reason+'</span>';
+							dhtml_e+='</div>';
+							dhtml_e+='<div class="img_content">';
+							dhtml_e+='</div>';
+							dhtml_e+='</div>';
+							$(".chat").append(dhtml_b);
+						}
+						var dhtml_c='';
+						dhtml_c+='<div class="select_static">';
+						dhtml_c+='<span class="operation_title">选择操作</span>';
+						dhtml_c+='<select name="" class="operation_select">';
+						dhtml_c+='<option value="0" selected="">请选择</option>';
+						dhtml_c+='<option value="5">拒绝</option>';
+						dhtml_c+='<option value="3">收货中</option>';
+						dhtml_c+='</select>';
+						dhtml_c+='</div>';
+						dhtml_c+='<button type="button" class="submit_btns" data_id="">确定</button>';
+						$(".operation").append(dhtml_c);
+					}
+					
+				
+				},
+				error: function(data) {
+					
+				}
+			});
+	  })
+		$(".operation").on("click",".submit_btns",function(){
+			 var static=$(".operation").data("id");
+			 var value=$(".operation").data("value");
+			 
+			 if(static==1){
+         var val=$(".operation_select  option:selected").val();
+				 if(val!="0"){
+					$.ajax({
+					type: "POST", 
+					url: "{:url('admin/AfterSale/after_sale_status')}",
+					data: {
+						"after_sale_id": value,
+						"status": val,
+					},
+					async:false,
+					success: function(data) {
+					
+					},
+					error: function(data) {
+						
+					}
+			});
+	
+				 }
+				 
+				 $(".popup").addClass("noshow");
+			 }
+		})
+		$(".local_host_repay").on("click",function(){
+			var data_id=$(this).data("id")
+		var Information=$(".Information").val();
+		if(Information!=''){
+			$.ajax({
+					type: "POST", 
+					url: "{:url('admin/AfterSale/business_replay')}",
+					data: {
+						"after_sale_id": data_id,
+						"content": Information,
+					},
+					async:false,
+					success: function(data) {
+						var data = eval('(' + data + ')');
+						console.log(data);
+						var dhtm0="";
+							dhtm0+='<div class="chat_list">';
+							dhtm0+='	<span class="span">'+data.data.create_time+'</span>';
+							dhtm0+='<span>'+data.data.information+'</span>';			
+							dhtm0+='</div>';
+							$(".chat").append(dhtm0);
+							$(".Information").val("");
+					
+					},
+					error: function(data) {
+						
+					}
+			});
+	
+		}
+		else{
+			alert("回复不能为空");
+		}
+		})
+		
+
 	</script>
 
 	{/block}

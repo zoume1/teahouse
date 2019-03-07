@@ -107,7 +107,8 @@ class  AfterSale extends Controller{
 //            if($before_order_data["refund_amount"] < $application_amount){
 //                return ajax_error("申请的金额不能超过".$before_order_data["refund_amount"]."元");
 //            }
-            $normal_future_time =strtotime("+ 7200  minute"); //未来时间
+            $normal_time =Db::name("order_setting")->find();//订单设置的时间
+            $normal_future_time =strtotime("+". $normal_time['after_sale_time']." minute");
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
@@ -186,10 +187,89 @@ class  AfterSale extends Controller{
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];
             $data =Db::name("after_sale")->where("id",$after_sale_id)->find();
             $data["images"] =Db::name("after_image")->where("after_sale_id",$after_sale_id)->select();
+            $data["reply"] =Db::name("after_reply")->where("after_sale_id",$after_sale_id)->select();
             if(!empty($data)){
                 return ajax_success("售后信息返回成功",$data);
             }else{
                 return ajax_error("暂无售后信息");
+            }
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后买家回复
+     **************************************
+     * @param Request $request
+     */
+    public function buyer_replay(Request $request){
+        if($request->isPost()){
+            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
+            $content= $request->only(["content"])["content"]; //回复的内容
+            $is_who =2;//谁回复（1卖家，2买家）
+            $data =[
+                "content" =>$content,
+                "after_sale_id"=>$after_sale_id,
+                "is_who"=>$is_who,
+                "create_time" =>time()
+            ];
+            $id =Db::name("after_reply")->insertGetId($data);
+            if($id >0){
+                return ajax_success("回复成功");
+            }else{
+                return ajax_error("回复失败");
+            }
+
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:修改售后
+     **************************************
+     */
+    public function  update_application(Request $request){
+        if($request->isPost()){
+
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:撤销售后申请
+     **************************************
+     */
+    public function cancellation_of_application(Request $request){
+        if($request->isPost()){
+            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
+           $bool =Db::name("after_sale")->where("id", $after_sale_id)->update(["status"=>5]);
+           if($bool){
+               return ajax_success("撤销成功");
+           }else{
+               return ajax_error("撤销失败");
+           }
+        }
+
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后商家寄还地址返回
+     **************************************
+     */
+    public function business_address(Request $request){
+        if($request->isPost()){
+            $address =Db::name("about_us")->field("business_address")->find();
+            if(!empty($address)){
+                return ajax_success("商家收货地址返回成功",$address);
+            }else{
+                return ajax_error("没有设置收货地址");
             }
         }
     }
