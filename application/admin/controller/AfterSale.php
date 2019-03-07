@@ -32,7 +32,7 @@ class  AfterSale extends  Controller{
             ];
             $id =Db::name("after_reply")->insertGetId($data);
             if($id >0){
-                return ajax_success("回复成功");
+                return ajax_success("回复成功",$data);
             }else{
                 return ajax_error("回复失败");
             }

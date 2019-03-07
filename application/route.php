@@ -99,6 +99,10 @@ Route::group("",[
     "ios_api_order_del"=>"index/Order/ios_api_order_del",//买家删除订单接口(ajax)
     "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
     /*TODO:订单结束*/
+    /*TODO:快递100物流信息开始*/
+    "express_hundred"=>"index/Api/express_hundred",//快递100实时物流
+    /*TODO:快递100物流信息结束*/
+
 
     /*TODO:售后处理开始*/
     "after_sale_upload"=>"index/AfterSale/after_sale_upload",//上传的图片，注意：小程序只能一张张上传

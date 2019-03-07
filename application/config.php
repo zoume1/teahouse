@@ -263,4 +263,10 @@ return [
     'domain'=>[
         "url"=>"https://teahouse.siring.com.cn/",
     ],
+    /*快递100参数*/
+    "express_hundred"=>[
+        "customer"=>"",
+        "key"=>""
+    ],
+
 ];
