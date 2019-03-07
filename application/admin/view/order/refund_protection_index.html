@@ -579,6 +579,7 @@
 					$(".chat").empty();
 					$(".operation").empty();
 					$(".operation").data("id",way);
+					$(".operation").data("value",data_id);
 					// 申请中
 					if(way==1){
 						var dhtml_a='';
@@ -635,8 +636,30 @@
 	  })
 		$(".operation").on("click",".submit_btns",function(){
 			 var static=$(".operation").data("id");
+			 var value=$(".operation").data("value");
+			 
 			 if(static==1){
-          
+         var val=$(".operation_select  option:selected").val();
+				 if(val!="0"){
+					$.ajax({
+					type: "POST", 
+					url: "{:url('admin/AfterSale/after_sale_status')}",
+					data: {
+						"after_sale_id": value,
+						"status": val,
+					},
+					async:false,
+					success: function(data) {
+					
+					},
+					error: function(data) {
+						
+					}
+			});
+	
+				 }
+				 
+				 $(".popup").addClass("noshow");
 			 }
 		})
 		$(".local_host_repay").on("click",function(){
