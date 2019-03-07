@@ -108,6 +108,8 @@ Route::group("",[
     "after_sale_order_return"=>"index/AfterSale/after_sale_order_return",//售后订单信息返回
     "after_sale_information_return"=>"index/AfterSale/after_sale_information_return",//退货信息返回
     "buyer_replay"=>"index/AfterSale/buyer_replay",//售后买家回复
+    "update_application"=>"index/AfterSale/update_application",//售后修改申请
+    "cancellation_of_application"=>"index/AfterSale/cancellation_of_application",//售后撤销售后申请
 
     /*TODO:售后处理结束*/
 

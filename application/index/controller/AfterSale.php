@@ -225,4 +225,37 @@ class  AfterSale extends Controller{
         }
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:修改售后
+     **************************************
+     */
+    public function  update_application(Request $request){
+        if($request->isPost()){
+
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:撤销售后申请
+     **************************************
+     */
+    public function cancellation_of_application(Request $request){
+        if($request->isPost()){
+            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
+           $bool =Db::name("after_sale")->where("id", $after_sale_id)->update(["status"=>5]);
+           if($bool){
+               return ajax_success("撤销成功");
+           }else{
+               return ajax_error("撤销失败");
+           }
+
+        }
+
+    }
+
 }
