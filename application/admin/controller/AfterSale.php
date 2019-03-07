@@ -19,7 +19,7 @@ class  AfterSale extends  Controller{
      * Notes:售后官方回复
      **************************************
      */
-    public function business_repay(Request $request){
+    public function business_replay(Request $request){
         if($request->isPost()){
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
             $content= $request->only(["content"])["content"]; //回复的内容

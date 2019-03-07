@@ -107,6 +107,7 @@ Route::group("",[
     "add_express_information"=>"index/AfterSale/add_express_information",//售后添加物流信息
     "after_sale_order_return"=>"index/AfterSale/after_sale_order_return",//售后订单信息返回
     "after_sale_information_return"=>"index/AfterSale/after_sale_information_return",//退货信息返回
+    "buyer_replay"=>"index/AfterSale/buyer_replay",//售后买家回复
 
     /*TODO:售后处理结束*/
 
@@ -368,7 +369,7 @@ Route::group("admin",[
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
     /*TODO:订单结束*/
     /*TODO:售后开始*/
-    "business_repay"=>"admin/AfterSale/business_repay",//售后官方回复
+    "business_replay"=>"admin/AfterSale/business_replay",//售后官方回复
     /*TODO:售后结束*/
 
     /*TODO:订单备注开始*/
