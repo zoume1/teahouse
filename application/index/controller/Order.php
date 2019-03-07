@@ -177,7 +177,14 @@ class  Order extends  Controller
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
                             $datas["coupon_id"] =$coupon_id;
+
                             $data["refund_amount"] =$all_money;
+
+                            
+                            if(!empty($coupon_id)){ //优惠券金额
+                                $datas["coupon_deductible"] = db("coupon")->where("id",$coupon_id)->value("money");
+                            }
+
 
                             $res = Db::name('order')->insertGetId($datas);
                             if ($res) {
@@ -217,6 +224,7 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+             
             $member_grade_id =Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
@@ -307,6 +315,9 @@ class  Order extends  Controller
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
                             $datas["coupon_id"] =$coupon_id;
                             $datas["refund_amount"] =$all_money;
+                            if(!empty($coupon_id)){ //优惠券金额
+                                $datas["coupon_deductible"] = db("coupon")->where("id",$coupon_id)->value("money");
+                            }
                             $res = Db::name('order')->insertGetId($datas);
 //
 //                            $coin = db("recommend_integral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
