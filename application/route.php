@@ -369,9 +369,14 @@ Route::group("admin",[
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
     "order_setting_update"=>"admin/Order/order_setting_update",//更新
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
+    "refund_protection_processing"=>"admin/Order/refund_protection_processing",//退款维权处理中
+    "refund_protection_receipting"=>"admin/Order/refund_protection_receipting",//退款维权收货中
+    "refund_protection_completed"=>"admin/Order/refund_protection_completed",//退款维权换货完成
+    "refund_protection_refuse"=>"admin/Order/refund_protection_refuse",//退款维权拒绝
     /*TODO:订单结束*/
     /*TODO:售后开始*/
     "business_replay"=>"admin/AfterSale/business_replay",//售后官方回复
+    "business_after_sale_information"=>"admin/AfterSale/business_after_sale_information",//售后页面数据返回
     /*TODO:售后结束*/
 
     /*TODO:订单备注开始*/
