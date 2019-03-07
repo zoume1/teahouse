@@ -579,7 +579,6 @@
 					$(".chat").empty();
 					$(".operation").empty();
 					$(".operation").data("id",way);
-					console.log(	$(".operation").data("id"));
 					// 申请中
 					if(way==1){
 						var dhtml_a='';
@@ -635,7 +634,10 @@
 			});
 	  })
 		$(".operation").on("click",".submit_btns",function(){
-      $("")
+			 var static=$(".operation").data("id");
+			 if(static==1){
+          
+			 }
 		})
 		$(".local_host_repay").on("click",function(){
 			var data_id=$(this).data("id")
