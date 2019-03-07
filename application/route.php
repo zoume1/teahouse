@@ -383,6 +383,8 @@ Route::group("admin",[
     "business_replay"=>"admin/AfterSale/business_replay",//售后官方回复
     "business_after_sale_information"=>"admin/AfterSale/business_after_sale_information",//售后页面数据返回
     "after_sale_status"=>"admin/AfterSale/after_sale_status",//售后状态修改
+    "after_sale_express_add"=>"admin/AfterSale/after_sale_express_add",//售后状态修改带快递信息
+    "after_sale_money_add"=>"admin/AfterSale/after_sale_money_add",//售后状态修改带退钱操作
     /*TODO:售后结束*/
 
     /*TODO:订单备注开始*/
