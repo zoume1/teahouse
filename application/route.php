@@ -382,6 +382,7 @@ Route::group("admin",[
     /*TODO:售后开始*/
     "business_replay"=>"admin/AfterSale/business_replay",//售后官方回复
     "business_after_sale_information"=>"admin/AfterSale/business_after_sale_information",//售后页面数据返回
+    "after_sale_status"=>"admin/AfterSale/after_sale_status",//售后状态修改
     /*TODO:售后结束*/
 
     /*TODO:订单备注开始*/

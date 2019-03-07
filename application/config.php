@@ -265,8 +265,8 @@ return [
     ],
     /*快递100参数*/
     "express_hundred"=>[
-        "customer"=>"",
-        "key"=>""
+        "customer"=>"4FB2D23DC8AC017B42F78D5A2E108860",
+        "key"=>"iYTBcMoU9991"
     ],
 
 ];
