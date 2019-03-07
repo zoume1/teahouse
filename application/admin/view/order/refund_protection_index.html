@@ -163,9 +163,8 @@
 <body>
 
 	{block name="content"}
-	<div class="popup popup_tree">
+	<div class="popup popup_tree noshow">
 		<div class="popup_doms">
-		
 			<div class="popup_title">
 				处理回复（个人信息处有提示信息）
 					<div class="popup_x">
@@ -303,7 +302,7 @@
 							</div>
 						</td>
 						<td>
-							<div class="static_btus">
+							<div class="static_btus" data-id="{$vo.id}" id="static_btus">
 								{$vo.status|after_sale_status}
 							</div>
 						</td>
@@ -561,6 +560,37 @@
 		dhtml2+=' <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额" class="layui-input danhao" >';
 		dhtml2+='</div>';
 		dhtml2+='<button type="button" class="submit_btns"  data-id="">确定</button>';
+      $("#static_btus").click(function(){
+		  var data_id=$(this).data("id");
+		  console.log(data_id);
+		$.ajax({
+				type: "POST",
+				url: "{:url('admin/AfterSale/business_after_sale_information')}",
+				data: {
+					"after_sale_id": data_id,
+				},
+				async:false,
+				success: function(data) {
+					var data = eval('(' + data + ')');
+					console.log(data.data.order_type);
+					way=data.data.order_type;
+					for(var i=0;i<data.data.datas.length;i++){
+						var dhtm0="";
+						dhtm0+='<div class="chat_list">';
+						dhtm0+='	<span class="span">'+data.data.datas[i].create_time+'</span>';
+						dhtm0+='<span>'+data.data.datas[i].information+'</span>';			
+						dhtm0+='</div>';
+						$(".chat").append(dhtm0);
+					}
+			
+				
+				},
+				error: function(data) {
+					
+				}
+			});
+	  })
+
 	</script>
 
 	{/block}
