@@ -110,6 +110,7 @@ Route::group("",[
     "buyer_replay"=>"index/AfterSale/buyer_replay",//售后买家回复
     "update_application"=>"index/AfterSale/update_application",//售后修改申请
     "cancellation_of_application"=>"index/AfterSale/cancellation_of_application",//售后撤销售后申请
+    "business_address"=>"index/AfterSale/business_address",//售后商家寄还地址返回
 
     /*TODO:售后处理结束*/
 

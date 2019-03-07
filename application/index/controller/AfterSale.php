@@ -253,9 +253,25 @@ class  AfterSale extends Controller{
            }else{
                return ajax_error("撤销失败");
            }
-
         }
 
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后商家寄还地址返回
+     **************************************
+     */
+    public function business_address(Request $request){
+        if($request->isPost()){
+            $address =Db::name("about_us")->field("business_address")->find();
+            if(!empty($address)){
+                return ajax_success("商家收货地址返回成功",$address);
+            }else{
+                return ajax_error("没有设置收货地址");
+            }
+        }
     }
 
 }
