@@ -24,9 +24,13 @@ class  Api extends  Controller{
      **************************************
      */
     public function order_refund(Request $request){
-        $order_id =$request->only(["order_id"])["order_id"];
+        $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];
+        $business_return_money =$request->only(["business_return_money"])["business_return_money"];
+        $data =Db::name("after_sale")
+            ->where("id",$after_sale_id)
+            ->find();
         $map = array(
-            'id'=>$order_id
+            'id'=>$data["order_id"]
         );
         $refund_amount =Db::name("order")
             ->field("refund_amount,parts_order_number,order_real_pay")
@@ -34,6 +38,9 @@ class  Api extends  Controller{
             ->find();
         if(!$refund_amount){
             return ajax_error("未找到该订单信息");
+        }
+        if($business_return_money>$refund_amount["refund_amount"]){
+            return ajax_error("所退款金额大于支付的金钱");
         }
         $out_trade_no=$refund_amount["parts_order_number"];
         $total_fee=$refund_amount["order_real_pay"] *100;
