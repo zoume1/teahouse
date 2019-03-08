@@ -38,6 +38,7 @@ class Commodity extends Controller
 
         if ($request->isPost()) {
             $member_id = $request->only(["open_id"])["open_id"];
+            $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
@@ -45,6 +46,9 @@ class Commodity extends Controller
 
             foreach ($goods as $k => $v) //所有商品
             {
+                if(!empty($goods[$k]["scope"])){
+                    $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
+                }
                 if($goods[$k]["goods_standard"] == 1){
                     $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
                     $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
@@ -55,22 +59,26 @@ class Commodity extends Controller
                     $goods[$k]["max_price"] = $max[$k];
                     $goods[$k]["min_price"] = $min[$k];
                     $goods[$k]["line"] = $line[$k];
-                    $limite[$k] = db("limited")->where("goods_id", $goods[$k]['id'])->field("scope")->find();
-                    $goods[$k]["scope"] = explode(",",$limite[$k]["scope"]);
-                    if(is_null($goods[$k]["scope"])){
-                    if(in_array($status,$goods[$k]["scope"])){
-                         unset($goods[$k]);
+
+                if(!empty($goods[$k]["scope"])){
+                    if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                        unset($goods[$k]);
                     }
-                }
+                }              
                 } else {
                     $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
                     $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
+                    if(!empty($goods[$k]["scope"])){
+                        if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                            unset($goods[$k]);
+                        }
+                    }
                 }
                 
             }
-
-            if (!empty($goods) && !empty($member_id)) {
-                return ajax_success("获取成功", $goods);
+            $goods_new = array_values($goods);
+            if (!empty($goods_new) && !empty($member_id)) {
+                return ajax_success("获取成功", $goods_new);
             } else {
                 return ajax_error("获取失败");
             }
@@ -89,17 +97,24 @@ class Commodity extends Controller
     {
 
         if($request->isPost()){
+            $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $goods_pid = $request->only(["id"])["id"];
-            $goods = db("goods")->where("pid",$goods_pid)->select();
+            $goods = db("goods")->where("pid",$goods_pid)->where("label",1)->select();
+            
             foreach ($goods as $k => $v)
             {
-                if($v["label"] == 1 ){
-                    $goods_data[] = $v;
-                    $goods_data[$k]["goods_show_images"] = (explode(",", $goods[$k]["goods_show_images"])[0]);
+                $goods[$k]["goods_show_images"] = (explode(",", $goods[$k]["goods_show_images"])[0]);
+                if(!empty($goods[$k]["scope"])){
+                    $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
+                    if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                        unset($goods[$k]);
+                    }
                 }
+
             }
-            if(!empty($goods_data) && !empty($goods_pid)){
-                return ajax_success("获取成功",$goods_data);
+            $new_goods = array_values($goods);
+            if(!empty($new_goods) && !empty($goods_pid)){
+                return ajax_success("获取成功",$new_goods);
             }else{
                 return ajax_error("获取失败");
             }
