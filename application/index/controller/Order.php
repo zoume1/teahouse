@@ -184,8 +184,6 @@ class  Order extends  Controller
                             if(!empty($coupon_id)){ //优惠券金额
                                 $datas["coupon_deductible"] = db("coupon")->where("id",$coupon_id)->value("money");
                             }
-
-
                             $res = Db::name('order')->insertGetId($datas);
                             if ($res) {
                                 $order_datas =Db::name("order")
@@ -200,7 +198,6 @@ class  Order extends  Controller
                         }
                     }
                 }
-
 
             }
         }
