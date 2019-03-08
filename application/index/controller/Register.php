@@ -10,6 +10,8 @@ namespace  app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use think\Session;
+
 class Register extends  Controller{
 
     /**
@@ -118,13 +120,14 @@ class Register extends  Controller{
      */
     public function  new_phone_update(Request $request){
         if($request->isPost()){
-            $user_id =$request->only(["user_id"])["user_id"];
-            $mobile = trim($_POST['mobiles']);
+            $user_id =Session::get("user");
+            $mobile = trim($_POST['mobiles']);//新手机
             $is_reg =Db::name("pc_user")->where("phone_number",$mobile)->find();
             if(!empty($is_reg)){
                 return ajax_error("此手机已注册，可以直接登录");
             }
             $code = trim($_POST['mobile_code']);
+            $mobile_codes = trim($_POST['mobile_codes']); //新手机号
             $password =trim($_POST['password']);
             $confirm_password =trim($_POST['confirm_password']);
             $create_time =date('Y-m-d H:i:s');
@@ -134,25 +137,24 @@ class Register extends  Controller{
             if (strlen($mobile) != 11 || substr($mobile, 0, 1) != '1' || $code == '') {
                 return ajax_error("参数不正确");
             }
-            if (session('mobileCodes') != $code || $mobile != $_SESSION['mobiles']) {
-                return ajax_error("验证码不正确");
+            //新手机号
+            if (session('mobileCodes') != $mobile_codes || $mobile != $_SESSION['mobiles']) {
+                return ajax_error("新手机号验证码不正确");
             } else {
-                //这个是
-                if(session('mobileCodes') != $code || $mobile != $_SESSION['mobiles']){
-
+                //这个是旧手机
+                if(session('mobileCode') != $code){
+                    return ajax_error("旧手机号验证码不正确");
                 }
-
-
                 $passwords =password_hash($password,PASSWORD_DEFAULT);
                 $datas =[
                     'phone_number'=>$mobile,
                     'password'=>$passwords,
                 ];
-                $res =Db::name('pc_user')->update($datas);
+                $res =Db::name('pc_user')->where("id",$user_id)->update($datas);
                 if($res){
-                    return ajax_success('注册成功',$res);
+                    return ajax_success('修改成功',$res);
                 }else{
-                    return ajax_error('请重新注册',['status'=>0]);
+                    return ajax_error('修改失败');
                 }
             }
         }

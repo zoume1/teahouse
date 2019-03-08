@@ -286,7 +286,8 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function refund_protection_processing(){
-        $accessories=Db::name("after_sale")->where("status",1)->select();
+
+        $accessories=Db::name("after_sale")->where("status",3)->select();
         foreach ($accessories as $key => $value) {
             if ($value["id"]) {
                 $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();
@@ -322,7 +323,7 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function refund_protection_receipting(){
-        $accessories=Db::name("after_sale")->where("status",3)->select();
+        $accessories=Db::name("after_sale")->where("status",2)->select();
         foreach ($accessories as $key => $value) {
             if ($value["id"]) {
                 $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();

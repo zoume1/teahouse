@@ -717,9 +717,9 @@ function after_sale_status($status){
    if($status==1){
         echo '<div type="button" class="state  payment-has-been" >申请中</div>';
     }else  if($status==2){
-        echo '<div  type="button" class="state  shipmenting-btu" >处理中</button>';
+        echo '<div  type="button" class="state  shipmenting-btu" >收货中</button>';
     }else  if($status==3){
-        echo '<div  type="button" class="state  shipmented-btu" >收货中</button>';
+        echo '<div  type="button" class="state  shipmented-btu" >处理中</button>';
     }else  if($status==4){
         echo '<div  type="button" class="state  gooding-btu" >换货成功</button>';
     }else  if($status==5){

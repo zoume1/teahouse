@@ -29,6 +29,7 @@ Route::group("",[
     "sendMobileCodeByPhone"=>"index/Findpwd/sendMobileCodeByPhone",//找回密码验证码
     "sendMobileCodeByPh"=>"index/Findpwd/sendMobileCodeByPh",//修改密码验证码
     "update_password"=>"index/Findpwd/update_password",//修改密码操作
+    "new_phone_update"=>"index/Findpwd/new_phone_update",//修改手机操作
     /*TODO:PC端注册登录结束*/
     /*TODO:PC端店铺开始*/
     "store_add"=>"index/Store/store_add",//创建店铺
