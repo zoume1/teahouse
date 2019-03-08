@@ -710,13 +710,181 @@
 								dhtml_c+='<select name="" class="operation_select">';
 								dhtml_c+='<option value="0" selected="">请选择</option>';
 								dhtml_c+='<option value="5">拒绝</option>';
-								dhtml_c+='<option value="3">收货中</option>';
+								dhtml_c+='<option value="6">已收货</option>';
 								dhtml_c+='</select>';
 								dhtml_c+='</div>';
 								dhtml_c+='<button type="button" class="submit_btns" data_id="">确定</button>';
 								$(".operation").append(dhtml_c);
 							}
-							
+							else if(way==2 ){
+								if(data.data.is_return_goods==1){
+									var dhtml_d='';
+								dhtml_d+='<div class="repany">';
+								dhtml_d+='<span class="span">客户申请</span>';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款'+data.data.application_amount+'元"  style="border:0">';
+								dhtml_d+='</div>';
+								dhtml_d+='<div class="repany">';
+								dhtml_d+='<span class="span"> 快递公司 </span>';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="77777377373773"  style="border:0">';
+								dhtml_d+='</div>';
+								$("#repay_list").append(dhtml_d);
+								var dhtml_b='';
+								dhtml_b+='<div class="chat_list_content">';
+								dhtml_b+='<div class="chat_list">';
+								dhtml_b+='<span class="span">'+data.data.operation_time+'</span>';
+								dhtml_b+='<span>'+data.data.return_reason+'</span>';
+								dhtml_b+='</div>';
+								dhtml_b+='<div class="img_content">';
+								for(var i=0;i<data.data.images.length;i++){
+									// console.log(data.data.images[i])
+									dhtml_b+='<img src="__UPLOADS__/'+data.data.images[i].url+'" alt="" >';
+								}
+								dhtml_b+='</div>';
+								dhtml_b+='</div>';
+								$(".chat").append(dhtml_b);
+								for(var j=0;j<data.data.reply.length;j++){
+									var dhtml_e='';
+									dhtml_e+='<div class="chat_list_content">';
+									dhtml_e+='<div class="chat_list">';
+									dhtml_e+='<span class="span">'+data.data.operation_time+'</span>';
+									dhtml_e+='<span>'+data.data.return_reason+'</span>';
+									dhtml_e+='</div>';
+									dhtml_e+='<div class="img_content">';
+									dhtml_e+='</div>';
+									dhtml_e+='</div>';
+									$(".chat").append(dhtml_b);
+								}
+								var dhtml1="";
+								dhtml1+='<div class="select_static">';
+								dhtml1+='<span class="operation_title">选择操作</span>';
+								dhtml1+='<select name="" class="operation_select">';
+								dhtml1+='<option value="1" selected="">已发货</option>';
+								dhtml1+='</select>';
+								dhtml1+='</div>';
+								dhtml1+='<div class="select_courier">';
+								dhtml1+='<span class="operation_title">选择快递</span>';
+								dhtml1+='<select name="" class="curier">';
+								dhtml1+='<option value="ems">EMS</option>';
+								dhtml1+='<option value="shentong">申通</option>';
+								dhtml1+='<option value="shentong">顺丰</option>';
+								dhtml1+='<option value="shentong">圆通</option>';
+								dhtml1+='<option value="shentong">韵达</option>';
+								dhtml1+='<option value="shentong">天天快递</option>';
+								dhtml1+='<option value="shentong">宅急送</option>';
+								dhtml1+='<option value="shentong">中国邮政</option>';
+								dhtml1+='<option value="shentong">全峰快递</option>';
+								dhtml1+='<option value="shentong">速尔快递</option>';
+								dhtml1+='<option value="shentong">快捷快递</option>';
+								dhtml1+='<option value="shentong">中铁快运</option>';
+								dhtml1+='<option value="shentong">优速快递</option>';
+								dhtml1+='<option value="shentong">龙邦</option>';
+								dhtml1+='<option value="shentong">德邦物流</option>';
+								dhtml1+='<option value="shentong">华宇物流</option>';
+								dhtml1+='<option value="shentong">佳吉快运</option>';
+								dhtml1+='</select>';
+								dhtml1+='</div>';
+								dhtml1+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  >';
+								dhtml1+='<button type="button" class="submit_btns" data-id="">确定</button>';
+								$(".operation").append(dhtml1);
+								}
+								else{
+									var dhtml_d='';
+								dhtml_d+='<div class="repany">';
+								dhtml_d+='<span class="span">客户申请</span>';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款'+data.data.application_amount+'元"  style="border:0">';
+								dhtml_d+='</div>';
+								dhtml_d+='<div class="repany">';
+								dhtml_d+='<span class="span"> 快递公司 </span>';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="77777377373773"  style="border:0">';
+								dhtml_d+='</div>';
+								$("#repay_list").append(dhtml_d);
+								var dhtml_b='';
+								dhtml_b+='<div class="chat_list_content">';
+								dhtml_b+='<div class="chat_list">';
+								dhtml_b+='<span class="span">'+data.data.operation_time+'</span>';
+								dhtml_b+='<span>'+data.data.return_reason+'</span>';
+								dhtml_b+='</div>';
+								dhtml_b+='<div class="img_content">';
+								for(var i=0;i<data.data.images.length;i++){
+									// console.log(data.data.images[i])
+									dhtml_b+='<img src="__UPLOADS__/'+data.data.images[i].url+'" alt="" >';
+								}
+								dhtml_b+='</div>';
+								dhtml_b+='</div>';
+								$(".chat").append(dhtml_b);
+								for(var j=0;j<data.data.reply.length;j++){
+									var dhtml_e='';
+									dhtml_e+='<div class="chat_list_content">';
+									dhtml_e+='<div class="chat_list">';
+									dhtml_e+='<span class="span">'+data.data.operation_time+'</span>';
+									dhtml_e+='<span>'+data.data.return_reason+'</span>';
+									dhtml_e+='</div>';
+									dhtml_e+='<div class="img_content">';
+									dhtml_e+='</div>';
+									dhtml_e+='</div>';
+									$(".chat").append(dhtml_b);
+
+								}
+								var dhtml2="";
+										dhtml2+='<div class="select_static">';
+										dhtml2+='<span class="operation_title">选择操作</span>';
+										dhtml2+='<select name="" class="operation_select">';
+										dhtml2+='<option value="" selected="">请选择</option>';
+										dhtml2+='<option value="1">已退款</option>';
+										dhtml2+='</select>';
+										dhtml2+='</div>';
+										dhtml2+='<div class="select_courier"  >';
+										dhtml2+='<span class="operation_title">选择退款金额</span>';
+										dhtml2+=' <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额" class="layui-input danhao" >';
+										dhtml2+='</div>';
+										dhtml2+='<button type="button" class="submit_btns"  data-id="">确定</button>';
+								$(".operation").append(dhtml2);
+								}
+							}
+							else{
+								var dhtml_d='';
+								dhtml_d+='<div class="repany">';
+								dhtml_d+='<span class="span">客户申请</span>';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款'+data.data.application_amount+'元"  style="border:0">';
+								dhtml_d+='</div>';
+								dhtml_d+='<div class="repany">';
+								dhtml_d+='<span class="span"> 快递公司 </span>';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="77777377373773"  style="border:0">';
+								dhtml_d+='</div>';
+								$("#repay_list").append(dhtml_d);
+								var dhtml_b='';
+								dhtml_b+='<div class="chat_list_content">';
+								dhtml_b+='<div class="chat_list">';
+								dhtml_b+='<span class="span">'+data.data.operation_time+'</span>';
+								dhtml_b+='<span>'+data.data.return_reason+'</span>';
+								dhtml_b+='</div>';
+								dhtml_b+='<div class="img_content">';
+								for(var i=0;i<data.data.images.length;i++){
+									// console.log(data.data.images[i])
+									dhtml_b+='<img src="__UPLOADS__/'+data.data.images[i].url+'" alt="" >';
+								}
+								dhtml_b+='</div>';
+								dhtml_b+='</div>';
+								$(".chat").append(dhtml_b);
+								for(var j=0;j<data.data.reply.length;j++){
+									var dhtml_e='';
+									dhtml_e+='<div class="chat_list_content">';
+									dhtml_e+='<div class="chat_list">';
+									dhtml_e+='<span class="span">'+data.data.operation_time+'</span>';
+									dhtml_e+='<span>'+data.data.return_reason+'</span>';
+									dhtml_e+='</div>';
+									dhtml_e+='<div class="img_content">';
+									dhtml_e+='</div>';
+									dhtml_e+='</div>';
+									$(".chat").append(dhtml_b);
+								}
+							}
 						
 						},
 						error: function(data) {
@@ -727,8 +895,8 @@
 		$(".operation").on("click",".submit_btns",function(){
 			 var static=$(".operation").data("id");
 			 var value=$(".operation").data("value");
-			 
-			 if(static==1){
+			//  申请中  收货中
+			 if(static==1 || static==3){
          var val=$(".operation_select  option:selected").val();
 				 if(val!="0"){
 					$.ajax({
@@ -750,6 +918,10 @@
 				 }
 				 
 				 $(".popup").addClass("noshow");
+			 }
+		  //  处理中
+			 else if(static==2){
+
 			 }
 		})
 		$(".local_host_repay").on("click",function(){
