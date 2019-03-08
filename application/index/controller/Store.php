@@ -62,7 +62,9 @@ class  Store extends  Controller{
                 "store_introduction"=>$store_introduction,
                 "business_name"=>$business_name,
                 "licence_no"=>$licence_no,
-                "user_id"=>$user_id
+                "user_id"=>$user_id,
+                //店铺状态(1审核通过,-1审核不通过,2审核中）
+                "status"=>2
             ];
             $bool =Db::name("store")->insert($data);
             if($bool){
@@ -140,6 +142,8 @@ class  Store extends  Controller{
                     "store_introduction"=>$store_introduction,
                     "business_name"=>$business_name,
                     "licence_no"=>$licence_no,
+                    //店铺状态(1审核通过,-1审核不通过,2审核中）
+                    "status"=>2
                 ];
             }else if(!empty($card_positive_file) && empty($card_side_file) ){
                 $data = [
@@ -152,6 +156,8 @@ class  Store extends  Controller{
                     "store_introduction"=>$store_introduction,
                     "business_name"=>$business_name,
                     "licence_no"=>$licence_no,
+                    //店铺状态(1审核通过,-1审核不通过,2审核中）
+                    "status"=>2
                 ];
             }else if(empty($card_positive_file) && !empty($card_side_file) ){
                 $data = [
@@ -164,6 +170,8 @@ class  Store extends  Controller{
                     "store_introduction"=>$store_introduction,
                     "business_name"=>$business_name,
                     "licence_no"=>$licence_no,
+                    //店铺状态(1审核通过,-1审核不通过,2审核中）
+                    "status"=>2
                 ];
             }else {
                 $data = [
@@ -175,6 +183,8 @@ class  Store extends  Controller{
                     "store_introduction"=>$store_introduction,
                     "business_name"=>$business_name,
                     "licence_no"=>$licence_no,
+                    //店铺状态(1审核通过,-1审核不通过,2审核中）
+                    "status"=>2
                 ];
             }
             $bool =Db::name("store")->where("id",$id)->where("user_id",$user_id)->update($data);
