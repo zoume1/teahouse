@@ -263,4 +263,16 @@ return [
     'domain'=>[
         "url"=>"https://teahouse.siring.com.cn/",
     ],
+    /*快递100参数*/
+    "express_hundred"=>[
+        //实时物流
+        "customer"=>"4FB2D23DC8AC017B42F78D5A2E108860",
+        "key"=>"iYTBcMoU9991",
+        //智能判断
+        "keys"=>"iYTBcMoU9991",
+        //电子面单
+        "key_info"=>"iYTBcMoU9991",
+        "secret"=>"01affe8e054747f79c4e52e4ac746b5a"
+    ],
+
 ];

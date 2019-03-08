@@ -9,7 +9,7 @@
 		background: #fff;
 	}
 .layui-form	label{
-		width: 23%;
+		width: 17%;
 		text-align: left;
 	}
 .layui-form .layui-input-block input{
@@ -18,11 +18,7 @@
 .layui-form-label span{
 	color: red;
 }
-.layui-form{
-	width: 80%;
-	margin: 0 auto;
-	padding-top: 40px;
-}
+
 .layui-form-item{
 	display: inline-block;
     width: 40%;
@@ -35,15 +31,13 @@
     color: #669900;
     margin-right: 14px;
 }
-span{
-	    color: #666666;
-    font-size: 22px;
+.title{
+	padding: 10px;
+    background: #F2F2F2;
+    color: #333;
 }
 
-.title{
-	padding: 9px;
-    background: #F2F2F2;
-}
+
 </style>
 
 
@@ -52,11 +46,9 @@ span{
 {block name="content"}
 
 {if !empty($member_data)}
-<form class="layui-form" action="{:url('admin/User/update',['id'=>$member_data.member_id])}" method="post">
-	<div class="title">
-	<span >
+<form class="layui-form layui-form-lists" action="{:url('admin/User/update',['id'=>$member_data.member_id])}" method="post">
+	<div class="form-title">
 		基本信息
-	</span>
 </div>
   <div class="layui-form-item ">
     <label class="layui-form-label">会员账号</label>
@@ -157,11 +149,8 @@ span{
 		<p>{$member_data.member_id}</p>
 			</div>
 		</div>
-<div class="title">
-	<span id="">
-
+<div class="form-title">
 高级信息
-	</span>
 </div>
 
 <div class="layui-form-item">

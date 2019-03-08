@@ -1,0 +1,106 @@
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+	body {
+		background: #fff;
+	}
+	
+	#page {
+		width: 96%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+	}
+</style>
+
+{/block}
+
+<body>
+
+	{block name="content"}
+
+	<div class="childrenBody">
+		<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/StoreHouse/store_house_add')}">添加仓库</a>
+
+		<div class="layui-form news_list">
+			<table class="layui-table">
+				
+				<thead>
+					<tr>
+						<th>仓库编号</th>
+						<th>仓库名称</th>
+						<th>仓库保管费</th>
+						<th>仓库属性</th>
+						<th>仓库管理员</th>
+						<th>电话</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody class="news_content">
+					{if !empty($store)} {volist name="store " id="value"}
+					<tr>
+						<td>{$value.number}</td>
+						<td >
+							{$value.name}
+						</td>
+						<td>{$value.cost}</td>
+						{if $value.status == 1}
+						<td>整存整取</td>
+						{/if}
+						{if $value.status == 2}
+						<td>整存散取</td>
+						{/if}
+						<td>{$value.manager}</td>
+						<td>{$value.phone}</td>
+						<td>
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/StoreHouse/store_house_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+							</a>
+							
+							<a href="{:url('admin/StoreHouse/store_house_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+						</td>
+					</tr>
+					{/volist}{/if}
+				</tbody>
+			</table>
+			
+			<div id="page">
+				
+			</div>
+			{$store->render()}
+		</div>
+
+	</div>
+
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	<script type="text/javascript">
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+			
+
+			
+		})
+	</script>
+
+	{/block}
+
+</body>
+
+</html>

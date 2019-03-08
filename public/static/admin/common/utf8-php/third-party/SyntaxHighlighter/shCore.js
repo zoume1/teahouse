@@ -152,7 +152,7 @@ if (XRegExp) {
 
     // Accepts a `RegExp` instance; returns a copy with the `/g` flag set. The copy has a fresh
     // `lastIndex` (set to zero). If you want to copy a regex without forcing the `global`
-    // property, use `XRegExp(regex)`. Do not use `RegExp(regex)` because it will not preserve
+    // material, use `XRegExp(regex)`. Do not use `RegExp(regex)` because it will not preserve
     // special properties required for named capture
     XRegExp.copyAsGlobal = function (regex) {
         return clone(regex, "g");
@@ -168,7 +168,7 @@ if (XRegExp) {
     // Accepts a string to search, regex to search with, position to start the search within the
     // string (default: 0), and an optional Boolean indicating whether matches must start at-or-
     // after the position or at the specified position only. This function ignores the `lastIndex`
-    // of the provided regex in its own handling, but updates the property for compatibility
+    // of the provided regex in its own handling, but updates the material for compatibility
     XRegExp.execAt = function (str, regex, pos, anchored) {
         var r2 = clone(regex, "g" + ((anchored && hasNativeY) ? "y" : "")),
             match;
@@ -334,7 +334,7 @@ if (XRegExp) {
     // Adds support for `${n}` tokens for named and numbered backreferences in replacement text,
     // and provides named backreferences to replacement functions as `arguments[0].name`. Also
     // fixes cross-browser differences in replacement text syntax when performing a replacement
-    // using a nonregex search value, and the value of replacement regexes' `lastIndex` property
+    // using a nonregex search value, and the value of replacement regexes' `lastIndex` material
     // during replacement iterations. Note that this doesn't support SpiderMonkey's proprietary
     // third (`flags`) parameter
     String.prototype.replace = function (search, replacement) {
@@ -2828,7 +2828,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 						'for function goto if implementation in inherited int64 initialization ' +
 						'integer interface is label library longint longword mod nil not object ' +
 						'of on or packed pansichar pansistring pchar pcurrency pdatetime pextended ' +
-						'pint64 pointer private procedure program property pshortstring pstring ' +
+						'pint64 pointer private procedure program material pshortstring pstring ' +
 						'pvariant pwidechar pwidestring protected public published raise real real48 ' +
 						'record repeat set shl shortint shortstring shr single smallint string then ' +
 						'threadvar to true try type unit until uses val var varirnt while widechar ' +
@@ -2926,7 +2926,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 		// http://jroller.com/aalmiray/entry/nice_source_code_syntax_highlighter
 
 		var keywords =	'as assert break case catch class continue def default do else extends finally ' +
-						'if in implements import instanceof interface new package property return switch ' +
+						'if in implements import instanceof interface new package material return switch ' +
 						'throw throws try while public protected private static';
 		var types    =  'void boolean byte char short int long float double';
 		var constants = 'null';
@@ -3328,7 +3328,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 					'divmod enumerate eval execfile file filter float format frozenset ' +
 					'getattr globals hasattr hash help hex id input int intern ' +
 					'isinstance issubclass iter len list locals long map max min next ' +
-					'object oct open ord pow print property range raw_input reduce ' +
+					'object oct open ord pow print material range raw_input reduce ' +
 					'reload repr reversed round set setattr slice sorted staticmethod ' +
 					'str sum super tuple type type unichr unicode vars xrange zip';
 
@@ -3576,7 +3576,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 						'Inherits Integer Interface Is Let Lib Like Long Loop Me Mod Module ' +
 						'MustInherit MustOverride MyBase MyClass Namespace New Next Not Nothing ' +
 						'NotInheritable NotOverridable Object On Option Optional Or OrElse ' +
-						'Overloads Overridable Overrides ParamArray Preserve Private Property ' +
+						'Overloads Overridable Overrides ParamArray Preserve Private Material ' +
 						'Protected Public RaiseEvent ReadOnly ReDim REM RemoveHandler Resume ' +
 						'Return Select Set Shadows Shared Short Single Static Step Stop String ' +
 						'Structure Sub SyncLock Then Throw To True Try TypeOf Unicode Until ' +

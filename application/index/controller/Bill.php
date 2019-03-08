@@ -22,9 +22,9 @@ class Bill extends Controller{
      **************************************
      * @return \think\response\View
      */
-    public function consume(Request $request){
+    public function consume_index(Request $request){
         if($request->isPost()){
-            $user_id =$request->only(["member_id"]);//用户id
+            $user_id =$request->only(["member_id"])["member_id"];//用户id
             $now_time_one =date("Y");
             $condition = " `operation_time` like '%{$now_time_one}%' ";
             $data = Db::name("wallet")
@@ -32,52 +32,8 @@ class Bill extends Controller{
                 ->where($condition)
                 ->order("operation_time","desc")
                 ->select();
-            $datas =array(
-                "january"=>[],
-                "february"=>[],
-                "march"=>[],
-                "april"=>[],
-                "may"=>[],
-                "june"=>[],
-                "july"=>[],
-                "august"=>[],
-                "september"=>[],
-                "october"=>[],
-                "november"=>[],
-                "december"=>[],
-            );
-            foreach ($data as $ks=>$vs){
-                if(strpos($vs["operation_time"],$now_time_one."-01") !==false){
-                    $datas["january"][] =$vs;
-                } else if(strpos($vs["operation_time"],$now_time_one."-02")  !==false){
-                    $datas["sebruary"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-03")  !==false){
-                    $datas["march"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-04")  !==false){
-                    $datas["april"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-05")  !==false){
-                    $datas["may"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-06")  !==false){
-                    $datas["june"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-07")  !==false){
-                    $datas["july"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-08")  !==false){
-                    $datas["august"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-09") !==false){
-                    $datas["september"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-10") !==false){
-                    $datas["october"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-11") !==false){
-                    $datas["november"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-12") !==false){
-                    $datas["december"][] =$vs;
-                }
-            }
-            $res =[
-                "wallet_record"=>$datas
-            ];
             if(!empty($data)){
-                return ajax_success("消费细节返回成功",$res);
+                return ajax_success("消费细节返回成功",$data);
             }else{
                 return ajax_error("暂无消费记录",["status"=>0]);
             }
@@ -104,52 +60,8 @@ class Bill extends Controller{
                 ->where($conditions)
                 ->order("operation_time","desc")
                 ->select();
-            $datas =array(
-                "january"=>[],
-                "february"=>[],
-                "march"=>[],
-                "april"=>[],
-                "may"=>[],
-                "june"=>[],
-                "july"=>[],
-                "august"=>[],
-                "september"=>[],
-                "october"=>[],
-                "november"=>[],
-                "december"=>[],
-            );
-            foreach ($data as $ks=>$vs){
-                if(strpos($vs["operation_time"],$now_time_one."-01") !==false){
-                    $datas["january"][] =$vs;
-                } else if(strpos($vs["operation_time"],$now_time_one."-02")  !==false){
-                    $datas["sebruary"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-03")  !==false){
-                    $datas["march"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-04")  !==false){
-                    $datas["april"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-05")  !==false){
-                    $datas["may"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-06")  !==false){
-                    $datas["june"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-07")  !==false){
-                    $datas["july"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-08")  !==false){
-                    $datas["august"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-09") !==false){
-                    $datas["september"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-10") !==false){
-                    $datas["october"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-11") !==false){
-                    $datas["november"][] =$vs;
-                }else if(strpos($vs["operation_time"],$now_time_one."-12") !==false){
-                    $datas["december"][] =$vs;
-                }
-            }
-            $res =[
-                "wallet_record"=>$datas
-            ];
             if(!empty($data)){
-                return ajax_success("消费细节返回成功",$res);
+                return ajax_success("消费细节返回成功",$data);
             }else{
                 return ajax_error("暂无消费记录",["status"=>0]);
             }

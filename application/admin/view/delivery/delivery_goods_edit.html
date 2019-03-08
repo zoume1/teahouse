@@ -22,22 +22,29 @@
 <body>
 	{block name="content"}
 
-	<form class="layui-form layui-form-lists" action="{:url('admin/Category/save')}" method="post" enctype="multipart/form-data">
-	
+	<form class="layui-form layui-form-lists" action="{:url('admin/Delivery/delivery_goods_update')}" method="post" enctype="multipart/form-data">
+    {if !empty($delivery_edit)}{volist name= "$delivery_edit" id= "value"}
+    <input type="hidden" name="id" id="" value="{$value.id}" />
 		<div class="form-item">
 			<label class="form-label"> 模板名称</label>
 			<div class="form-input">
-				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >
+				<input type="text" name="name" value="{$value.name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >
 			
 			</div>
         </div>
         <div class="form-item">
                 <label class="form-label"><span class="red">*</span>费用计算方式</label>
                 <div class="form-input">
-                    <input type="radio" name="requirements" value="0" title="按片" checked="" lay-filter="guige">
-                    <input type="radio" name="requirements" value="1" title="按重量" lay-filter="guige">
-                </div>
+                        {if $value.status== 1}
+                        <input type="radio" name="status" value="{$value.status}" title="按片" checked="" > 
+                        <input type="radio" name="status" value="2" title="按重量">
+                        {else}
+                        <input type="radio" name="status" value="1" title="按片">
+                        <input type="radio" name="status" value="{$value.status}" title="按重量" checked="">
+                        {/if}
+                    </div>
         </div>
+        {if $value.status== 1}
         <div class="form-item general " >
                 <label class="form-label"></label>
                 <div class="form-item " style=" flex-direction:column;">
@@ -45,7 +52,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>首件（件）</label>
                                     <div class="form-input">
-                                        <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
+                                        <input type="text" name="unit" value="{$value.unit}" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
                                     </div>
                                 </div>
                         </div>
@@ -53,7 +60,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>首费（元）</label>
                                     <div class="form-input">
-                                        <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
+                                        <input type="text" name="price" value="{$value.price}" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
                                     </div>
                                 </div>
                         </div>
@@ -61,7 +68,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>续件（件）</label>
                                     <div class="form-input">
-                                        <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
+                                        <input type="text" name="add" value="{$value.add}" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
                                     </div>
                                 </div>
                         </div>
@@ -69,7 +76,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>续费（元）</label>
                                     <div class="form-input">
-                                        <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
+                                        <input type="text" name="markup" value="{$value.markup}" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
                                     </div>
                                 </div>
                         </div>
@@ -77,7 +84,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>目的地</label>
                                     <div class="form-input">
-                                        <select name="goods_car_series"  class="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
+                                        <select name="are"   class="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
                                                 <option value="">请选择</option>
                                         </select>
                                     </div>
@@ -85,14 +92,16 @@
                         </div>
                 </div>
         </div>
-        <div class="form-item special noshow" >
+        {/if}
+        {if $value.status == 2}
+        <div class="form-item special " >
                 <label class="form-label"></label>
                 <div class="form-item " style=" flex-direction:column;">
                         <div class="form-input">
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>首重（kg）</label>
                                     <div class="form-input">
-                                        <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
+                                        <input type="text" name="unit" value="{$value.unit}" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
                                     </div>
                                 </div>
                         </div>
@@ -100,7 +109,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span> 首费（元）</label>
                                     <div class="form-input">
-                                        <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
+                                        <input type="text" name="price" value="{$value.price}" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
                                     </div>
                                 </div>
                         </div>
@@ -108,7 +117,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>续重（kg）</label>
                                     <div class="form-input">
-                                        <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
+                                        <input type="text" name="add" value="{$value.add}" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
                                     </div>
                                 </div>
                         </div>
@@ -116,7 +125,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>续费（元）</label>
                                     <div class="form-input">
-                                        <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+                                        <input type="text" name="markup"  value="{$value.markup}" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
                                     </div>
                                 </div>
                         </div>
@@ -124,7 +133,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>目的地</label>
                                     <div class="form-input">
-                                        <select name="goods_car_series" class="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
+                                        <select name="are"   class="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
                                                 <option value="">请选择</option>
                                         </select>
                                     </div>
@@ -132,6 +141,7 @@
                         </div>
                 </div>
         </div>
+        {/if}{/volist}{/if}
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
@@ -204,7 +214,8 @@
             	// TODO商品规格变化
 			form.on('radio(guige)', function(data) {
 				var checkval = data.value;
-				if(checkval == 0) {
+                console.log(checkval);
+				if(checkval == 1) {
 					$(".general").removeClass("noshow");
 					$(".special").addClass("noshow");
 				} else {

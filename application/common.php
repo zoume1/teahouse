@@ -640,15 +640,42 @@ function show_order_status($status){
         echo '<button type="button" class="state   close-btu" >已关闭</button>';
     }else if($status==1){
         echo '<button type="button" class="state  obligation" >待支付</button>';
-    }else if($status==2){
-        echo '<button type="button" class="state  payment-has-been" >已付款</button>';
-    }else  if($status==3){
+//    }else if($status==2){
+//        echo '<button type="button" class="state  payment-has-been" >已付款</button>';
+    }else  if($status==2 || $status==3){
         echo '<button type="button" class="state  shipmenting-btu" >待发货</button>';
-    }else  if($status==4){
-        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
-    }else  if($status==5){
+//    }else  if($status==4){
+//        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
+    }else  if($status==4 || $status==5){
         echo '<button type="button" class="state  gooding-btu" >待收货</button>';
     }else  if($status==6){
+        echo '<button type="button" class="state  gooded-btu" >已收货</button>';
+    }else  if($status==7){
+        echo '<button type="button" class="state  obligation" >待评价</button>';
+    } else  if($status==8){
+        echo '<button type="button" class="state  finish-btu" >已完成</button>';
+//    }else  if($status==9){
+//        echo '<button type="button" class="state  cancel-btu" >取消订单</button>';
+    }else  if($status==9 || $status==10){
+        echo '<button type="button" class="state  cancel-btu" >已关闭</button>';
+    }else  if($status==11){
+        echo '<button type="button" class="state  cancel-btu" >退货</button>';
+    }
+}
+
+
+function show_order_statues($status){
+    if($status==0){
+        echo '<button type="button" class="state   close-btu" >已关闭</button>';
+    }else if($status==1){
+        echo '<button type="button" class="state  payment-has-been" >已付款</button>';
+    }else  if($status==2){
+        echo '<button type="button" class="state  shipmenting-btu" >待发货</button>';
+    }else  if($status==3){
+        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
+    }else  if($status==4){
+        echo '<button type="button" class="state  gooding-btu" >待收货</button>';
+    }else  if($status==5){
         echo '<button type="button" class="state  gooded-btu" >已收货</button>';
     }else  if($status==7){
         echo '<button type="button" class="state  obligation" >待评价</button>';
@@ -662,4 +689,40 @@ function show_order_status($status){
         echo '<button type="button" class="state  cancel-btu" >退货</button>';
     }
 }
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:提现审核状态
+ **************************************
+ * @param $status
+ */
+function operation_recharge_status($status){
+    if($status==1){
+        echo '通过';
+    }elseif ($status==-1){
+        echo '<span class="gray">不通过</span>';
+    }elseif($status==2){
+        echo '<span class="red">待审核</sapn>';
+    }
+}
 
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:售后审核状态
+ **************************************
+ * @param $status
+ */
+function after_sale_status($status){
+   if($status==1){
+        echo '<div type="button" class="state  payment-has-been" >申请中</div>';
+    }else  if($status==2){
+        echo '<div  type="button" class="state  shipmenting-btu" >处理中</button>';
+    }else  if($status==3){
+        echo '<div  type="button" class="state  shipmented-btu" >收货中</button>';
+    }else  if($status==4){
+        echo '<div  type="button" class="state  gooding-btu" >换货成功</button>';
+    }else  if($status==5){
+        echo '<div  type="button" class="state  gooded-btu" >拒绝</button>';
+    }
+}

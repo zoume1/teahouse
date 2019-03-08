@@ -172,16 +172,6 @@ class Delivery extends  Controller{
     }
 
 
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:快递发货
-     **************************************
-     */
-    public function delivery_goods(){
-        return view("delivery_goods");
-    }
-
 
     /**
      **************李火生*******************
@@ -194,16 +184,123 @@ class Delivery extends  Controller{
     }
 
 
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:快递发货添加按件
-     **************************************
+
+   /**
+     * [快递发货显示]
+     * 郭杨
      */
-    public function delivery_goods_add_number(){
-        return view("delivery_goods_add_number");
+    public function delivery_goods(){
+        $delivery = db("express")->paginate(20);       
+        return view("delivery_goods",["delivery"=>$delivery]);
     }
 
+
+    /**
+     * [快递发货添加]
+     * 郭杨
+     */
+    public function delivery_goods_add(Request $request){
+        if($request->isPost()){
+            $data = $request->param();
+            $status = $data["status"];
+            if($status == 1){ //按片
+                $delivery = [
+                    "name"=> $data["name"],
+                    "status"=> $data["status"],
+                    "unit"=> $data["unit1"],
+                    "price"=> $data["price1"],
+                    "add"=> $data["add1"],
+                    "markup"=> $data["markup1"],
+                    "are"=> $data["are"]
+                ];
+            } else { //按重量
+                $delivery = [
+                    "name"=> $data["name"],
+                    "status"=> $data["status"],
+                    "unit"=> $data["unit"],
+                    "price"=> $data["price"],
+                    "add"=> $data["add"],
+                    "markup"=> $data["markup"],
+                    "are"=> $data["are"]
+                ];
+            }
+           
+            $res =Db::name("express")->insert($delivery);
+            if($res){
+                $this->success("添加成功",'admin/Delivery/delivery_goods');
+            }else{
+                $this->error("添加失败,请重试");
+            }
+        }
+        return view("delivery_goods_add");
+    }
+
+
+    /**
+     * [快递发货编辑]
+     * 郭杨
+     */
+    public function delivery_goods_edit($id){
+        $delivery_edit = db("express")->where("id",$id)->select();
+        $delivery_edit[0]["are"]= explode(",",$delivery_edit[0]["are"]);            
+        return view("delivery_goods_edit",["delivery_edit"=>$delivery_edit]);
+    }
+
+    /**
+     * [快递发货更新]
+     * 郭杨
+     */
+    public function delivery_goods_update(Request $request){
+        if( $request->isPost()){
+            $data = $request -> param();
+            $bool = db("express")->where('id', $request->only(["id"])["id"])->update($data);
+
+            if($bool){
+                $this->success("更新成功",url("admin/Delivery/delivery_goods"));
+            } else {
+                $this->error("更新失败", url("admin/Delivery/delivery_goods"));
+            }
+                  
+        }
+    }
+
+
+
+    /**
+     * [快递发货删除]
+     * 郭杨
+     */
+    public function delivery_goods_delete($id){
+        $bool = db("express")->where("id", $id)->delete();
+        if ($bool) {
+            $this->success("删除成功", url("admin/Delivery/delivery_goods"));
+        } else {
+            $this->error("删除失败", url("admin/Delivery/delivery_goods"));
+        }
+
+    }
+
+
+    /**
+     * [快递发货区域]
+     * 郭杨
+     */
+    public function delivery_are(Request $request){
+        if( $request->isPost()){
+            $id = $request->only(["id"])["id"];
+            halt($id);
+            $are = db("express")->where('id', $id)->value("are");
+            
+            $adress = explode(",",$are);
+            if (!empty($are)) {
+                return ajax_success('传输成功', $adress);
+            } else {
+                return ajax_error("数据为空");
+    
+            }
+                  
+        }
+    }
 
 
 

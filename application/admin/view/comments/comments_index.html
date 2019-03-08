@@ -95,7 +95,7 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                {volist name="comments_index" id="value"}
+                {if !empty($comments_index)}{volist name="comments_index" id="value"}
                     <tr>
                         <td></td>
                         <td align="left">{$value.user_account}</td>
@@ -116,7 +116,7 @@
                             <a href="{:url('admin/Comments/delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>
                     </tr>
-                {/volist}
+                {/volist}{/if}
                 </tbody>
 
 
@@ -132,9 +132,12 @@
                 </div>
                 <div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
                     <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
-					</button>
-                </div>
+                    </button>
 
+                </div>
+                {if !empty($comment)}
+                {$comment}
+                {/if}
             </div>
 
         </div>

@@ -4,6 +4,32 @@
     body {
         background: #fff;
     }
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        width: 380px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 17px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    
+    .distribution_list ul li {
+        flex: 1;
+    }
 
 </style>
 
@@ -14,6 +40,19 @@
     {block name="content"}
 
     <div class="childrenBody">
+        	<div class="distribution_list">
+                    <ul>
+                        <li>
+                            <a href="{:url('admin/admin/index')}" >账号管理</a>
+                        </li>
+                        <li>
+                            <a href="{:url('admin/role/index')}" class="on" >角色管理</a>
+                        </li>
+                        <li>
+                            <a href="{:url('admin/menu/index')}">菜单管理</a>
+                        </li>
+                    </ul>
+                </div>
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="">
            <div class="seach">

@@ -21,19 +21,19 @@
 	{block name="content"}
 	
 
-	<form class="layui-form layui-form-lists" action="{:url('admin/Install/message_save')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_message_save')}" method="post" enctype="multipart/form-data">
 	
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>消息标题</label>
 			<div class="form-input">
-				<input type="text" name="headline" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required">
+				<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required">
 			</div>
 		</div>
 	
 		<div class="form-item">
 			<label class="form-label">详细内容</label>
 			<div class="form-input">
-				<script id="editor" type="text/plain" name="content" style="width:800px;height:500px;"></script>
+				<script id="editor" type="text/plain" name="text" style="width:800px;height:500px;"></script>
 			</div>
 		</div>
 		

@@ -10,6 +10,7 @@ namespace  app\admin\controller;
 use think\Controller;
 use think\Db;
 use think\Request;
+use think\paginator\driver\Bootstrap;
 
 class User extends Controller{
     /**
@@ -217,7 +218,126 @@ class User extends Controller{
     }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:微信提现
+     **************************************
+     * @return \think\response\View
+     */
+    public function recharge_application(){
+        $data =Db::name("recharge_reflect")
+            ->where("operation_type",-1)
+            ->where("pay_type_content","微信")
+            ->select();
+        foreach ($data as $k=>$v){
+            $member_data =Db::name("member")
+                ->field("member_name,member_real_name,member_wallet,member_recharge_money,member_phone_num")
+                ->where("member_id",$v["user_id"])
+                ->find();
+            $data[$k]["member_name"] =$member_data["member_name"];//昵称
+            $data[$k]["member_real_name"] =$member_data["member_real_name"];//真实名字
+            $data[$k]["member_wallet"] =$member_data["member_wallet"]+$member_data["member_recharge_money"];//钱包余额
+            $data[$k]["member_recharge_money"] =$member_data["member_recharge_money"];//可提现金额
+            $data[$k]["member_phone_num"] =$member_data["member_phone_num"];//手机号
+        }
+        $all_idents =$data ;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页3行记录
+        $showdata = array_slice($all_idents, ($curPage - 1)*$listRow, $listRow,true);// 数组中根据条件取出一段值，并返回
+        $data = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path'     => url('admin/User/withdrawal_application'),//这里根据需要修改url
+            'query'    =>  [],
+            'fragment' => '',
+        ]);
+        $data->appends($_GET);
+        $this->assign('listpage', $data->render());
+        return view("recharge_application",["data"=>$data]);
+    }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:银行卡提现
+     **************************************
+     * @return \think\response\View
+     */
+    public function withdrawal_application(){
+        $data =Db::name("recharge_reflect")
+            ->where("operation_type",-1)
+            ->where("pay_type_content","银行卡")
+            ->select();
+        foreach ($data as $k=>$v){
+            $member_data =Db::name("member")
+                ->field("member_name,member_real_name,member_wallet,member_recharge_money,member_phone_num")
+                ->where("member_id",$v["user_id"])
+                ->find();
+            $data[$k]["member_name"] =$member_data["member_name"];//昵称
+            $data[$k]["member_real_name"] =$member_data["member_real_name"];//真实名字
+            $data[$k]["member_wallet"] =$member_data["member_wallet"]+$member_data["member_recharge_money"];//钱包余额
+            $data[$k]["member_recharge_money"] =$member_data["member_recharge_money"];//可提现金额
+            $data[$k]["member_phone_num"] =$member_data["member_phone_num"];//手机号
+        }
+        $all_idents =$data ;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页3行记录
+        $showdata = array_slice($all_idents, ($curPage - 1)*$listRow, $listRow,true);// 数组中根据条件取出一段值，并返回
+        $data = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path'     => url('admin/User/withdrawal_application'),//这里根据需要修改url
+            'query'    =>  [],
+            'fragment' => '',
+        ]);
+        $data->appends($_GET);
+        $this->assign('listpage', $data->render());
+        return view("withdrawal_application",["data"=>$data]);
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:提现设置
+     **************************************
+     * @return \think\response\View
+     */
+    public function withdrawal_setting(){
+        $data =Db::name("withdrawal")->where("id",1)->select();
+        return view("withdrawal_setting",["data"=>$data]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:提现设置更新数据
+     **************************************
+     * @param Request $request
+     */
+    public function  withdrawal_save(Request $request){
+        if($request->isPost()){
+            $min_money =$request->only(["min_money"])["min_money"];
+            $day_max_money =$request->only(["day_max_money"])["day_max_money"];
+            $day_frequency =$request->only(["day_frequency"])["day_frequency"];
+            $service_charge =$request->only(["service_charge"])["service_charge"];
+
+            if(empty($min_money) || empty($day_max_money) || empty($day_frequency) || empty($service_charge)){
+                $this->error("所传参数不能为空");
+            }
+            $data =[
+                "min_money"=>$min_money,
+                "day_max_money"=>$day_max_money,
+                "day_frequency"=>$day_frequency,
+                "service_charge"=>$service_charge
+            ];
+            $bool =Db::name("withdrawal")->where("id",1)->update($data);
+            if($bool){
+                $this->success("修改成功");
+            }else{
+                $this->error("数据未改动");
+            }
+        }
+    }
 
 
 }

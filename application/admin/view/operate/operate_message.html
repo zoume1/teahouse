@@ -17,6 +17,32 @@
 		padding-left: 50px;
 		background: #FDFDFE;
 	}
+	.on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        width: 600px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 17px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    
+    .distribution_list ul li {
+        flex: 1;
+    }
 </style>
 
 {/block}
@@ -26,10 +52,27 @@
 	{block name="content"}
 
 	<div class="childrenBody">
+		<div class="distribution_list">
+            <ul>
+                <li>
+                    <a href="{:url('admin/operate/operate_problem')}">常见问题</a>
+                </li>
+                <li>
+                    <a href="{:url('admin/operate/operate_contract')}"  >协议合同</a>
+                </li>
+                <li>
+                    <a href="{:url('admin/operate/operate_message')}" class="on">消息提醒</a>
+				</li>
+				<li>
+                    <a href="{:url('admin/operate/operate_integral_rule')}" >积分规则</a>
+                </li>
+				<li>
+                    <a href="{:url('admin/operate/operate_about_index')}" >关于我们</a>
+                </li>
+            </ul>
+        </div>
+
 	
-
-		<a class="layui-btn layui-btn-danger batchDel" href="operate_message_add">添加</a>
-
 		<div class="layui-form news_list">
 			<table class="layui-table">
 				<colgroup>
@@ -37,28 +80,24 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th>序号</th>
-						<th>消息名称</th>
-						<th>添加日期</th>
-						<th>操作</th>
+						<th>消息类型</th>
+						<th>消息分类</th>
+						<th>站内消息</th>
 					</tr>
 				</thead>
 				<tbody class="news_content">
-				
+				{if !empty($message)}{volist name="message" id="value"}
 					<tr>
-						<td>11</td>
-						<td>11</td>
-						<td>11</td>
+						<td>{$value.name}</td>
+						<td>{$value.time|date="Y-m-d H:i",###}</td>
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="operate_message_add"><i class="iconfont icon-edit"></i> 编辑
-							</a>
-							<a href="{:url('admin/Install/message_del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/operate/operate_message_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑</a>
 						</td>
 					</tr>
-			
+				{/volist}{/if}
 				</tbody>
 			</table>
-			
+			{$message->render()}
 
 		</div>
 

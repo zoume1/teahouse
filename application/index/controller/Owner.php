@@ -119,15 +119,23 @@ class  Owner extends  Controller{
             $account_name =$request->only(["account_name"])["account_name"];
             $bank_card =$request->only(["bank_card"])["bank_card"];
             $status =$request->only(["status"])["status"];
-            $member_phone_num =Db::name("member")->where("member_id",$member_id)->value("member_phone_num");
+            $member_phone_num =Db::name("member")
+                ->where("member_id",$member_id)
+                ->value("member_phone_num");
+            $user_real_name =Db::name("member")
+                ->where("member_id",$member_id)
+                ->value("member_real_name");
+            if($user_real_name != $account_name){
+                return ajax_error("户名必须跟绑定的身份证一致");
+            }
             $code =$request->only(["code"])["code"];
             $mobileCode =Cache::get('mobileCode');
             $mobile =Cache::get('mobile');
-            if($member_phone_num != $mobile){
-                return ajax_error("手机号不匹配");
-            }
             if($mobileCode != $code) {
                 return ajax_error("验证码不正确");
+            }
+            if($member_phone_num != $mobile){
+                return ajax_error("手机号不匹配");
             }
             $data =[
                 "bank_name"=>$bank_name,
@@ -136,9 +144,15 @@ class  Owner extends  Controller{
                 "status"=>$status,
                 "user_id"=>$member_id
             ];
-            $res =Db::name("user_bank")->insert($data);
+            $res =Db::name("user_bank")->insertGetId($data);
             if($res){
-                return ajax_success("添加成功",["status"=>1]);
+                if($status==1){
+                    Db::name('user_bank')
+                        ->where('user_id',$member_id)
+                        ->where('id','NEQ',$res)
+                        ->update(['status'=>-1]);
+                }
+                return ajax_success("添加成功",$res);
             }else{
 
                 return ajax_error("请重试",["status"=>0]);
@@ -189,18 +203,18 @@ class  Owner extends  Controller{
             $member_phone_num =Db::name("member")
                 ->where("member_id",$member_id)
                 ->value("member_phone_num");
-            $member_isset_card =Db::name("user_bank")->where("bank_card",$bank_card)->find();
-            if(!empty($member_isset_card)){
-                return ajax_error("此银行卡已被绑定");
+            $user_real_name =Db::name("member")->where("member_id",$member_id)->value("member_real_name");
+            if($user_real_name != $account_name){
+                return ajax_error("户名必须跟绑定的身份证一致");
             }
             $code =$request->only(["code"])["code"];
             $mobileCode =Cache::get('mobileCode');
             $mobile =Cache::get('mobile');
-//            if($member_phone_num != $mobile){
-//                return ajax_error("手机号不匹配");
-//            }
             if($mobileCode != $code) {
                 return ajax_error("验证码不正确");
+            }
+            if($member_phone_num != $mobile){
+                return ajax_error("手机号不匹配");
             }
             $data =[
                 "bank_name"=>$bank_name,
@@ -217,7 +231,7 @@ class  Owner extends  Controller{
                         ->where('id','NEQ',$id)
                         ->update(['status'=>-1]);
                 }
-                return ajax_success("添加成功",["status"=>1]);
+                return ajax_success("修改成功",["status"=>1]);
             }else{
                 return ajax_error("请重试",["status"=>0]);
             }

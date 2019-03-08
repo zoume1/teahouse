@@ -30,7 +30,7 @@
     
     .distribution_list ul {
         display: flex;
-        width: 400px;
+        width: 600px;
         justify-content: center;
         align-items: center;
     }
@@ -63,6 +63,12 @@
                 </li>
                 <li>
                     <a href="{:url('admin/operate/operate_message')}">消息提醒</a>
+                </li>
+                <li>
+                    <a href="{:url('admin/operate/operate_integral_rule')}" >积分规则</a>
+                </li>
+                <li>
+                    <a href="{:url('admin/operate/operate_about_index')}" >关于我们</a>
                 </li>
             </ul>
         </div>
@@ -102,21 +108,25 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
+                    {if !empty($problem)} {volist name="problem" id="value"}
 						<tr>
 							<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-							<td>1000001</td>
-							<td>1000001</td>
-							<td>1000001</td>
+							<td>{$value.id + 100000}</td>
+                            <td>{$value.title}</td>
+                            <td>{$value.name}</td>
+                            <td>
+                            {if $value.status == 0}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}"> {/if}
+                            </td>
 							<td>
-								<input type="checkbox" class="Status" name="" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked>
+								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/operate/operate_problem_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+								</a>			
+								<a href="{:url('admin/operate/operate_problem_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 							</td>
-							<td>
-								<a class="layui-btn layui-btn-mini edit" href="operate_problem_add"><i class="iconfont icon-edit"></i> 编辑
-								</a>
-								
-								<a href="{:url('admin/Category/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
-							</td>
-						</tr>
+                        </tr>
+                        {/volist}
+                        {/if}
                 </tbody>
             </table>
             <div id="page">
@@ -130,6 +140,7 @@
                     <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
                 </div>
+                {$problem->render()}
             </div>
 
         </div>
@@ -240,7 +251,7 @@
                 var status = $(this).val();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('')}",
+                    url: "{:url('admin/operate/operate_problem_status')}",
                     data: {
                         "id": id,
                         "status": status

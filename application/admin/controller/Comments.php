@@ -13,6 +13,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
+use think\paginator\driver\Bootstrap;
 
 class Comments extends Controller
 {
@@ -54,6 +55,18 @@ class Comments extends Controller
             }
 
         }
+        $all_idents = $comments_index;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $comments_index = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Comments/index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $comments_index->appends($_GET);
+        $this->assign('comment', $comments_index->render());
         return view('comments_index',["comments_index"=>$comments_index]);
     }
 

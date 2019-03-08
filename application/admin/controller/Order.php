@@ -12,6 +12,7 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Db;
 use  think\Request;
+use think\paginator\driver\Bootstrap;
 class  Order extends  Controller{
     /**
      **************李火生*******************
@@ -92,7 +93,6 @@ class  Order extends  Controller{
             $time_max_data =strtotime(input('date_max'));
             $t=date('Y-m-d H:i:s',$time_max_data+1*24*60*60);
             $timemax  =strtotime($t);
-
             $data =Db::name("order")
                 ->order("order_create_time","desc")
                 ->paginate(20);
@@ -101,19 +101,82 @@ class  Order extends  Controller{
     }
 
 
+    /**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:待付款
+ **************************************
+ */
+    public function order_way_pay(){
+        $data =Db::name("order")
+            ->order("order_create_time","desc")
+            ->where("status",1)
+            ->paginate(20);
+        return view("order_index",["data"=>$data]);
+    }
 
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:待发货
+     **************************************
+     */
+    public function order_wait_send(){
+        $condition ="`status` = '2' or `status` = '3'";
+        $data =Db::name("order")
+            ->where($condition)
+            ->order("order_create_time","desc")
+            ->paginate(20);
+        return view("order_index",["data"=>$data]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:已发货
+     **************************************
+     */
+    public function order_shipped(){
+        $condition =" `status` = '4' or `status` = '5' ";
+        $data =Db::name("order")
+            ->order("order_create_time","desc")
+            ->where($condition)
+            ->paginate(20);
+        return view("order_index",["data"=>$data]);
+    }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:已完成
+     **************************************
+     */
+    public function order_completed(){
+        $data =Db::name("order")
+            ->order("order_create_time","desc")
+            ->where("status",8)
+            ->paginate(20);
+        return view("order_index",["data"=>$data]);
+    }
 
-
-
-
-
-
-
-
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:已关闭
+     **************************************
+     * @return \think\response\View
+     */
+    public function order_closed(){
+        $condition =" `status` = '9' or `status` = '10' ";
+        $data =Db::name("order")
+            ->order("order_create_time","desc")
+            ->where($condition)
+            ->paginate(20);
+        return view("order_index",["data"=>$data]);
+    }
 
 
     /**
@@ -124,7 +187,8 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function order_integral(){
-        return view("order_integral");
+        $data =Db::name("buyintegral")->order("order_create_time","desc")->paginate(20);
+        return view("order_integral",["data"=>$data]);
     }
 
 
@@ -187,7 +251,169 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function refund_protection_index(){
-        return view("refund_protection_index");
+        $accessories=Db::name("after_sale")->select();
+        foreach ($accessories as $key => $value) {
+            if ($value["id"]) {
+                $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();
+                $accessories[$key]["member_phone_num"] = $res["member_phone_num"];
+                $accessories[$key]["member_real_name"] = $res["member_real_name"];
+                $accessories[$key]["member_name"] = $res["member_name"];
+                $images =Db::name("after_image")->field("url")->where("after_sale_id",$value["id"])->select();
+                $accessories[$key]["images"] =$images;
+            }
+        }
+        $all_idents = $accessories;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $accessories = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Order/refund_protection_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $accessories->appends($_GET);
+        $this->assign('access', $accessories->render());
+        return view("refund_protection_index",["data" => $accessories]);
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:处理中
+     **************************************
+     * @return \think\response\View
+     */
+    public function refund_protection_processing(){
+        $accessories=Db::name("after_sale")->where("status",1)->select();
+        foreach ($accessories as $key => $value) {
+            if ($value["id"]) {
+                $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();
+                $accessories[$key]["member_phone_num"] = $res["member_phone_num"];
+                $accessories[$key]["member_real_name"] = $res["member_real_name"];
+                $accessories[$key]["member_name"] = $res["member_name"];
+                $images =Db::name("after_image")->field("url")->where("after_sale_id",$value["id"])->select();
+                $accessories[$key]["images"] =$images;
+            }
+        }
+        $all_idents = $accessories;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $accessories = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Order/refund_protection_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $accessories->appends($_GET);
+        $this->assign('access', $accessories->render());
+        return view("refund_protection_index",["data" => $accessories]);
+    }
+
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:收货中
+     **************************************
+     * @return \think\response\View
+     */
+    public function refund_protection_receipting(){
+        $accessories=Db::name("after_sale")->where("status",3)->select();
+        foreach ($accessories as $key => $value) {
+            if ($value["id"]) {
+                $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();
+                $accessories[$key]["member_phone_num"] = $res["member_phone_num"];
+                $accessories[$key]["member_real_name"] = $res["member_real_name"];
+                $accessories[$key]["member_name"] = $res["member_name"];
+                $images =Db::name("after_image")->field("url")->where("after_sale_id",$value["id"])->select();
+                $accessories[$key]["images"] =$images;
+            }
+        }
+        $all_idents = $accessories;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $accessories = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Order/refund_protection_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $accessories->appends($_GET);
+        $this->assign('access', $accessories->render());
+        return view("refund_protection_index",["data" => $accessories]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:换货完成
+     **************************************
+     * @return \think\response\View
+     */
+    public function  refund_protection_completed(){
+        $accessories=Db::name("after_sale")->where("status",4)->select();
+        foreach ($accessories as $key => $value) {
+            if ($value["id"]) {
+                $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();
+                $accessories[$key]["member_phone_num"] = $res["member_phone_num"];
+                $accessories[$key]["member_real_name"] = $res["member_real_name"];
+                $accessories[$key]["member_name"] = $res["member_name"];
+                $images =Db::name("after_image")->field("url")->where("after_sale_id",$value["id"])->select();
+                $accessories[$key]["images"] =$images;
+            }
+        }
+        $all_idents = $accessories;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $accessories = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Order/refund_protection_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $accessories->appends($_GET);
+        $this->assign('access', $accessories->render());
+        return view("refund_protection_index",["data" => $accessories]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:退款维权拒绝
+     **************************************
+     * @return \think\response\View
+     */
+    public function  refund_protection_refuse(){
+        $accessories=Db::name("after_sale")->where("status",5)->select();
+        foreach ($accessories as $key => $value) {
+            if ($value["id"]) {
+                $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();
+                $accessories[$key]["member_phone_num"] = $res["member_phone_num"];
+                $accessories[$key]["member_real_name"] = $res["member_real_name"];
+                $accessories[$key]["member_name"] = $res["member_name"];
+                $images =Db::name("after_image")->field("url")->where("after_sale_id",$value["id"])->select();
+                $accessories[$key]["images"] =$images;
+            }
+        }
+        $all_idents = $accessories;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $accessories = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Order/refund_protection_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $accessories->appends($_GET);
+        $this->assign('access', $accessories->render());
+        return view("refund_protection_index",["data" => $accessories]);
     }
 
 

@@ -87,7 +87,9 @@ class Capital extends Controller{
         if($request->isPost()){
             $data =$_POST;
             if(!empty($data)){
-                $bool =Db::name('recharge_full_setting')->where('recharge_setting_id',$data['id'])->update(['status'=>$data['status']]);
+                $bool =Db::name('recharge_full_setting')
+                    ->where('recharge_setting_id',$data['id'])
+                    ->update(['status'=>$data['status']]);
                 if($bool){
                     return ajax_success('修改成功',['status'=>1]);
                 }else{

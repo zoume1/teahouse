@@ -38,28 +38,47 @@ class Commodity extends Controller
 
         if ($request->isPost()) {
             $member_id = $request->only(["open_id"])["open_id"];
+            $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
+            $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
             $goods = db("goods")->where("status",1)->select();
 
-            foreach ($goods as $k => $v)
+            foreach ($goods as $k => $v) //所有商品
             {
+                if(!empty($goods[$k]["scope"])){
+                    $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
+                }
                 if($goods[$k]["goods_standard"] == 1){
                     $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
                     $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
                     $min[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("price") * $discount;//最低价格
+                    $line[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("line");//最低价格
                     $goods[$k]["goods_standard"] = $standard[$k];
                     $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
                     $goods[$k]["max_price"] = $max[$k];
                     $goods[$k]["min_price"] = $min[$k];
+                    $goods[$k]["line"] = $line[$k];
+
+                if(!empty($goods[$k]["scope"])){
+                    if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                        unset($goods[$k]);
+                    }
+                }              
                 } else {
                     $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
                     $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
+                    if(!empty($goods[$k]["scope"])){
+                        if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                            unset($goods[$k]);
+                        }
+                    }
                 }
+                
             }
-            
-            if (!empty($goods) && !empty($member_id)) {
-                return ajax_success("获取成功", $goods);
+            $goods_new = array_values($goods);
+            if (!empty($goods_new) && !empty($member_id)) {
+                return ajax_success("获取成功", $goods_new);
             } else {
                 return ajax_error("获取失败");
             }
@@ -78,18 +97,24 @@ class Commodity extends Controller
     {
 
         if($request->isPost()){
+            $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $goods_pid = $request->only(["id"])["id"];
-            $goods = db("goods")->where("pid",$goods_pid)->select();
-
+            $goods = db("goods")->where("pid",$goods_pid)->where("label",1)->select();
+            
             foreach ($goods as $k => $v)
             {
-                if($v["label"] == 1 ){
-                    $goods_data[] = $v;
-                    $goods_data[$k]["goods_show_images"] = (explode(",", $goods[$k]["goods_show_images"])[0]);
+                $goods[$k]["goods_show_images"] = (explode(",", $goods[$k]["goods_show_images"])[0]);
+                if(!empty($goods[$k]["scope"])){
+                    $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
+                    if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                        unset($goods[$k]);
+                    }
                 }
+
             }
-            if(!empty($goods_data) && !empty($goods_pid)){
-                return ajax_success("获取成功",$goods_data);
+            $new_goods = array_values($goods);
+            if(!empty($new_goods) && !empty($goods_pid)){
+                return ajax_success("获取成功",$new_goods);
             }else{
                 return ajax_error("获取失败");
             }
@@ -114,19 +139,19 @@ class Commodity extends Controller
             $goods_standard = db("special")->where("goods_id", $goods_id)->select();
             $max_price = db("special")->where("goods_id", $goods_id)->max("price");
             $min_price = db("special")->where("goods_id", $goods_id)->min("price");
+            $min_line = db("special")->where("goods_id", $goods_id)->min("line");
             $max_prices = $max_price * $discount;
             $min_prices = $min_price * $discount;
 
             foreach ($goods_standard as $key => $value) {
                 $goods_standard[$key]["price"] = $goods_standard[$key]["price"] * $discount;
             }
-
             if ($goods[0]["goods_standard"] == 1) {
                 $goods[0]["goods_standard"] = $goods_standard;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
                 $goods[0]["max_price"] = $max_prices;
                 $goods[0]["min_price"] = $min_prices;
-
+                $goods[0]["min_line"] = $min_line;
             } else {
                 $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));

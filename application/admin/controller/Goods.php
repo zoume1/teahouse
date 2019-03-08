@@ -76,11 +76,9 @@ class Goods extends Controller
         if ($pid == 0) {
             $goods_list = getSelectList("wares");
         }
+        $scope = db("member_grade")->field("member_grade_name")->select();
 
-
-
-
-        return view("goods_add", ["goods_list" => $goods_list]);
+        return view("goods_add", ["goods_list" => $goods_list,"scope"=>$scope]);
     }
 
 
@@ -93,8 +91,7 @@ class Goods extends Controller
     public function save(Request $request)
     {
         if ($request->isPost()) {
-            $goods_data = $request->param();
-        
+            $goods_data = $request->param();                   
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];
@@ -102,13 +99,15 @@ class Goods extends Controller
                 foreach ($show_images as $k=>$v) {
                     $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $info->getSaveName());
-                }
-                
+                }            
                 $goods_data["goods_show_image"] =  $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
             }
-
-            
+            if(!empty($goods_data["scope"])){
+                $goods_data["scope"] = implode(',', $goods_data["scope"]);
+            } else {
+                $goods_data["scope"] = "";
+            }        
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
                 if ($bool) {
@@ -118,7 +117,6 @@ class Goods extends Controller
                 }
             }
             if ($goods_data["goods_standard"] == "1") {
-
                 $goods_special = [];
                 $goods_special["goods_name"] = $goods_data["goods_name"];
                 $goods_special["produce"] = $goods_data["produce"];
@@ -136,12 +134,19 @@ class Goods extends Controller
                 $goods_special["templet_id"] = $goods_data["templet_id"];
                 $goods_special["label"] = $goods_data["label"];
                 $goods_special["status"] = $goods_data["status"];
+                $goods_special["scope"] = $goods_data["scope"];
 
                 if (isset($goods_data["goods_text"])) {
                     $goods_special["goods_text"] = $goods_data["goods_text"];
                 } else {
                     $goods_special["goods_text"] = "";
                     $goods_data["goods_text"] = "";
+                }
+                if (isset($goods_data["text"])) {
+                    $goods_special["text"] = $goods_data["text"];
+                } else {
+                    $goods_special["text"] = "";
+                    $goods_data["text"] = "";
                 }
                 $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
                 $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
@@ -154,6 +159,7 @@ class Goods extends Controller
                             $stock[] = $nl["stock"];
                             $coding[] = $nl["coding"];
                             $cost[] = $nl["cost"];
+                            $line[] = $nl["line"];
                             if (isset($nl["status"])) {
                                 $status[] = $nl["status"];
                             } else {
@@ -184,6 +190,7 @@ class Goods extends Controller
                                     $values[$k]["status"] = $status[$k];
                                     $values[$k]["save"] = $save[$k];
                                     $values[$k]["cost"] = $cost[$k];
+                                    $values[$k]["line"] = $line[$k];
                                     $values[$k]["images"] = $tab;
                                     $values[$k]["goods_id"] = $goods_id;
                                 }
@@ -191,6 +198,7 @@ class Goods extends Controller
                         }
                     }
                 }
+               
                 foreach ($values as $kz => $vw) {
                     $rest = db('special')->insert($vw);
                 }
@@ -211,10 +219,12 @@ class Goods extends Controller
     public function edit(Request $request, $id)
     {
         $goods = db("goods")->where("id", $id)->select();
+        $scope = db("member_grade")->field("member_grade_name")->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
+            $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
         }
      }
         foreach ($goods_standard as $k => $v) {
@@ -224,9 +234,9 @@ class Goods extends Controller
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"];
         if ($restel == 0) {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope]);
         } else {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope]);
         }
     }
 
@@ -302,6 +312,11 @@ class Goods extends Controller
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
             $show_images = $request->file("goods_show_images");
+            if(!empty($goods_data["scope"])){
+                $goods_data["scope"] = implode(',', $goods_data["scope"]);
+            } else {
+                $goods_data["scope"] = "";
+            }
             
             $list = [];
             if (!empty($show_images)) {
@@ -330,25 +345,7 @@ class Goods extends Controller
                     $goods_data["goods_show_image"] = NULL;
                 }
             } 
-
-            // $commodity = db("commodity")->where("shop_number", $goods_data["goods_number"])->field("zero,first,second,third,grade,shop_price")->find();
-            // if (!($goods_data["goods_new_money"] == $commodity["shop_price"])) {
-            //     $res = array("zero", "first", "second", "third");
-            //     $pdd = explode(",", $commodity["grade"]);
-
-            //     foreach ($pdd as $key => $value) {
-            //         $pdd[$key] = str_replace('%', '', $value);
-            //     }
-
-            //     $array = array_combine($res, $pdd);
-            //     foreach ($array as $k => $v) {
-            //         $array[$k] = ($v * $goods_data["goods_new_money"]) / 100;
-            //     }
-
-            //     $array["shop_price"] = $goods_data["goods_new_money"];
-            //     $boole = db("commodity")->where("shop_number", $goods_data["goods_number"])->update($array);
-            // }
-
+              
             $bool = db("goods")->where("id", $id)->update($goods_data);
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));
@@ -559,4 +556,58 @@ class Goods extends Controller
 
 
 
+    /**
+     * [众筹商品显示]
+     * 郭杨
+     */    
+    public function crowd_index(){     
+        return view("crowd_index");
+    }
+
+
+
+    /**
+     * [众筹商品添加]
+     * 郭杨
+     */    
+    public function crowd_add(){     
+        return view("crowd_add");
+    }
+
+
+    /**
+     * [众筹商品编辑]
+     * 郭杨
+     */    
+    public function crowd_edit(){     
+        return view("crowd_edit");
+    }
+
+
+    /**
+     * [专属定制商品显示]
+     * 郭杨
+     */    
+    public function exclusive_index(){     
+        return view("exclusive_index");
+    }
+
+
+
+    /**
+     * [专属定制商品添加]
+     * 郭杨
+     */    
+    public function exclusive_add(){     
+        return view("exclusive_add");
+    }
+
+
+    /**
+     * [专属定制商品编辑]
+     * 郭杨
+     */    
+    public function exclusive_edit(){     
+        return view("exclusive_edit");
+    }
 }

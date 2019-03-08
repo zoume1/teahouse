@@ -189,9 +189,59 @@
 		color: #fff;
 		background: #669900;
 	}
+
+	.button{
+		width: 100px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #a2a2a2;
+    border-radius: 10px;
+	}
+	.button_all{
+		display: flex;
+  justify-content: space-around;
+	margin-top: 30PX;
+	}
+	.quxiao{
+
+	}
+	.queding{
+		background: #169BD5;
+		color: #fff;
+	}
 	/*
      * 弹窗end
-     */
+		 */
+		 .seach_button_all{
+
+		 }
+		 .seach_button{
+			 display: inline-block;
+			 width: 80px;
+			 line-height: 30px;
+			 color: #fff;
+			 text-align: center;
+		 }
+		 .all0{
+			 background:#F4FBFF;
+			 color: #999;
+		 }
+		 .all1{
+			background:#CC3366;
+			}
+			.all2{
+			  background:#CC00CC;
+			}
+			.all3{
+			  background:#FF0000;
+			}
+			.all4{
+			  background:#669900;
+			}
+			.all5{
+				background:#A1A1A1;
+			 color: #000;
+			}
 </style>
 
 {/block}
@@ -234,6 +284,10 @@
 			<div class="popup_content1" id="">
 				
 			</div>
+			<div class="button_all">
+						<div class="quxiao button">取消</div>
+						<div class="queding button">打印</div>
+	   	</div>
 		</div>
 	</div>
 	<div class="childrenBody">
@@ -321,7 +375,15 @@
 			</form>
 
 		</blockquote>
-
+		<div class="seach_button_all">
+			<a href="{:url('admin/Order/order_index')}" class="seach_button all0" >全部</a>
+			<a href="{:url('admin/Order/order_way_pay')}" class="seach_button all1" >待付款</a>
+			<a href="{:url('admin/Order/order_wait_send')}" class="seach_button all2" >待发货</a>
+			<a href="{:url('admin/Order/order_shipped')}" class="seach_button all3" >已发货</a>
+			<a href="{:url('admin/Order/order_completed')}" class="seach_button all4" >已完成</a>
+			<a href="{:url('admin/Order/order_closed')}" class="seach_button all5" >已关闭</a>
+		</div>
+  
 		<div class="layui-form news_list">
 			<table class="layui-table">
 				<colgroup>
@@ -347,9 +409,9 @@
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}"></td>
 						<td>
-						   <div class="overflow">
+						   <!-- <div class="overflow"> -->
 							{$vo.parts_order_number}
-					    	</div>
+					    	<!-- </div> -->
 						</td>
 						{if !empty($vo["goods_image"])}
 						<td class="">
@@ -796,7 +858,9 @@
 			alert("批注不能为空");
 		}
 	});
-	
+	$(".button").click(function() {
+				$(".popup").addClass("noshow");
+			});
 </script>
 
 	{/block}
