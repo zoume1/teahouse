@@ -110,7 +110,8 @@
 		align-items: center;
 	}
 	.chat{
-		height: 210px;
+		height: 172px;
+    overflow-y: scroll;
 	}
 	.danhao{
 		width: 200px;
@@ -598,130 +599,130 @@
 		dhtml2+=' <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额" class="layui-input danhao" >';
 		dhtml2+='</div>';
 		dhtml2+='<button type="button" class="submit_btns"  data-id="">确定</button>';
-      $("#static_btus").click(function(){
+      $(".static_btus").click(function(){
 		  var data_id=$(this).data("id");
-			$(".local_host_repay").data("id",data_id);
-		$.ajax({
-				type: "POST",
-				url: "{:url('admin/AfterSale/business_after_sale_information')}",
-				data: {
-					"after_sale_id": data_id,
-				},
-				async:false,
-				success: function(data) {
-					var data = eval('(' + data + ')');
-					console.log(data);
-					way=data.data.status;
-					$("#repay_list").empty();
-					$(".chat").empty();
-					$(".operation").empty();
-					$(".operation").data("id",way);
-					$(".operation").data("value",data_id);
-					// 申请中
-					if(way==1){
-						var dhtml_a='';
-						dhtml_a+='<div class="repany">';
-						dhtml_a+='<span class="span">客户申请</span>';
-						dhtml_a+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款'+data.data.application_amount+'元"  style="border:0">';
-						dhtml_a+='</div>';
-						$("#repay_list").append(dhtml_a);
-						var dhtml_b='';
-						dhtml_b+='<div class="chat_list_content">';
-						dhtml_b+='<div class="chat_list">';
-						dhtml_b+='<span class="span">'+data.data.operation_time+'</span>';
-						dhtml_b+='<span>'+data.data.return_reason+'</span>';
-						dhtml_b+='</div>';
-						dhtml_b+='<div class="img_content">';
-						for(var i=0;i<data.data.images.length;i++){
-							// console.log(data.data.images[i])
-							dhtml_b+='<img src="__UPLOADS__/'+data.data.images[i].url+'" alt="" >';
+			  $(".local_host_repay").data("id",data_id);
+				$.ajax({
+						type: "POST",
+						url: "{:url('admin/AfterSale/business_after_sale_information')}",
+						data: {
+							"after_sale_id": data_id,
+						},
+						async:false,
+						success: function(data) {
+							var data = eval('(' + data + ')');
+							console.log(data);
+							way=data.data.status;
+							$("#repay_list").empty();
+							$(".chat").empty();
+							$(".operation").empty();
+							$(".operation").data("id",way);
+							$(".operation").data("value",data_id);
+							// 申请中
+							if(way==1){
+								var dhtml_a='';
+								dhtml_a+='<div class="repany">';
+								dhtml_a+='<span class="span">客户申请</span>';
+								dhtml_a+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款'+data.data.application_amount+'元"  style="border:0">';
+								dhtml_a+='</div>';
+								$("#repay_list").append(dhtml_a);
+								var dhtml_b='';
+								dhtml_b+='<div class="chat_list_content">';
+								dhtml_b+='<div class="chat_list">';
+								dhtml_b+='<span class="span">'+data.data.operation_time+'</span>';
+								dhtml_b+='<span>'+data.data.return_reason+'</span>';
+								dhtml_b+='</div>';
+								dhtml_b+='<div class="img_content">';
+								for(var i=0;i<data.data.images.length;i++){
+									// console.log(data.data.images[i])
+									dhtml_b+='<img src="__UPLOADS__/'+data.data.images[i].url+'" alt="" >';
+								}
+								dhtml_b+='</div>';
+								dhtml_b+='</div>';
+								$(".chat").append(dhtml_b);
+								for(var j=0;j<data.data.reply.length;j++){
+									var dhtml_e='';
+									dhtml_e+='<div class="chat_list_content">';
+									dhtml_e+='<div class="chat_list">';
+									dhtml_e+='<span class="span">'+data.data.operation_time+'</span>';
+									dhtml_e+='<span>'+data.data.return_reason+'</span>';
+									dhtml_e+='</div>';
+									dhtml_e+='<div class="img_content">';
+									dhtml_e+='</div>';
+									dhtml_e+='</div>';
+									$(".chat").append(dhtml_b);
+								}
+								var dhtml_c='';
+								dhtml_c+='<div class="select_static">';
+								dhtml_c+='<span class="operation_title">选择操作</span>';
+								dhtml_c+='<select name="" class="operation_select">';
+								dhtml_c+='<option value="0" selected="">请选择</option>';
+								dhtml_c+='<option value="5">拒绝</option>';
+								dhtml_c+='<option value="3">收货中</option>';
+								dhtml_c+='</select>';
+								dhtml_c+='</div>';
+								dhtml_c+='<button type="button" class="submit_btns" data_id="">确定</button>';
+								$(".operation").append(dhtml_c);
+							}
+							// 收货中
+							else if(way==3){
+								var dhtml_d='';
+								dhtml_d+='<div class="repany">';
+								dhtml_d+='<span class="span">客户申请</span>';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款'+data.data.application_amount+'元"  style="border:0">';
+								dhtml_d+='</div>';
+								dhtml_d+='<div class="repany">';
+								dhtml_d+='<span class="span"> 快递公司 </span>';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
+								dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="77777377373773"  style="border:0">';
+								dhtml_d+='</div>';
+								$("#repay_list").append(dhtml_d);
+								var dhtml_b='';
+								dhtml_b+='<div class="chat_list_content">';
+								dhtml_b+='<div class="chat_list">';
+								dhtml_b+='<span class="span">'+data.data.operation_time+'</span>';
+								dhtml_b+='<span>'+data.data.return_reason+'</span>';
+								dhtml_b+='</div>';
+								dhtml_b+='<div class="img_content">';
+								for(var i=0;i<data.data.images.length;i++){
+									// console.log(data.data.images[i])
+									dhtml_b+='<img src="__UPLOADS__/'+data.data.images[i].url+'" alt="" >';
+								}
+								dhtml_b+='</div>';
+								dhtml_b+='</div>';
+								$(".chat").append(dhtml_b);
+								for(var j=0;j<data.data.reply.length;j++){
+									var dhtml_e='';
+									dhtml_e+='<div class="chat_list_content">';
+									dhtml_e+='<div class="chat_list">';
+									dhtml_e+='<span class="span">'+data.data.operation_time+'</span>';
+									dhtml_e+='<span>'+data.data.return_reason+'</span>';
+									dhtml_e+='</div>';
+									dhtml_e+='<div class="img_content">';
+									dhtml_e+='</div>';
+									dhtml_e+='</div>';
+									$(".chat").append(dhtml_b);
+								}
+								var dhtml_c='';
+								dhtml_c+='<div class="select_static">';
+								dhtml_c+='<span class="operation_title">选择操作</span>';
+								dhtml_c+='<select name="" class="operation_select">';
+								dhtml_c+='<option value="0" selected="">请选择</option>';
+								dhtml_c+='<option value="5">拒绝</option>';
+								dhtml_c+='<option value="3">收货中</option>';
+								dhtml_c+='</select>';
+								dhtml_c+='</div>';
+								dhtml_c+='<button type="button" class="submit_btns" data_id="">确定</button>';
+								$(".operation").append(dhtml_c);
+							}
+							
+						
+						},
+						error: function(data) {
+							
 						}
-						dhtml_b+='</div>';
-						dhtml_b+='</div>';
-						$(".chat").append(dhtml_b);
-						for(var j=0;j<data.data.reply.length;j++){
-							var dhtml_e='';
-							dhtml_e+='<div class="chat_list_content">';
-							dhtml_e+='<div class="chat_list">';
-							dhtml_e+='<span class="span">'+data.data.operation_time+'</span>';
-							dhtml_e+='<span>'+data.data.return_reason+'</span>';
-							dhtml_e+='</div>';
-							dhtml_e+='<div class="img_content">';
-							dhtml_e+='</div>';
-							dhtml_e+='</div>';
-							$(".chat").append(dhtml_b);
-						}
-						var dhtml_c='';
-						dhtml_c+='<div class="select_static">';
-						dhtml_c+='<span class="operation_title">选择操作</span>';
-						dhtml_c+='<select name="" class="operation_select">';
-						dhtml_c+='<option value="0" selected="">请选择</option>';
-						dhtml_c+='<option value="5">拒绝</option>';
-						dhtml_c+='<option value="3">收货中</option>';
-						dhtml_c+='</select>';
-						dhtml_c+='</div>';
-						dhtml_c+='<button type="button" class="submit_btns" data_id="">确定</button>';
-						$(".operation").append(dhtml_c);
-					}
-					// 收货中
-					else if(way==3){
-						var dhtml_d='';
-						dhtml_d+='<div class="repany">';
-						dhtml_d+='<span class="span">客户申请</span>';
-						dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款'+data.data.application_amount+'元"  style="border:0">';
-						dhtml_d+='</div>';
-						dhtml_d+='<div class="repany">';
-						dhtml_d+='<span class="span"> 快递公司 </span>';
-						dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
-						dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
-						dhtml_d+='<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="77777377373773"  style="border:0">';
-						dhtml_d+='</div>';
-						$("#repay_list").append(dhtml_d);
-						var dhtml_b='';
-						dhtml_b+='<div class="chat_list_content">';
-						dhtml_b+='<div class="chat_list">';
-						dhtml_b+='<span class="span">'+data.data.operation_time+'</span>';
-						dhtml_b+='<span>'+data.data.return_reason+'</span>';
-						dhtml_b+='</div>';
-						dhtml_b+='<div class="img_content">';
-						for(var i=0;i<data.data.images.length;i++){
-							// console.log(data.data.images[i])
-							dhtml_b+='<img src="__UPLOADS__/'+data.data.images[i].url+'" alt="" >';
-						}
-						dhtml_b+='</div>';
-						dhtml_b+='</div>';
-						$(".chat").append(dhtml_b);
-						for(var j=0;j<data.data.reply.length;j++){
-							var dhtml_e='';
-							dhtml_e+='<div class="chat_list_content">';
-							dhtml_e+='<div class="chat_list">';
-							dhtml_e+='<span class="span">'+data.data.operation_time+'</span>';
-							dhtml_e+='<span>'+data.data.return_reason+'</span>';
-							dhtml_e+='</div>';
-							dhtml_e+='<div class="img_content">';
-							dhtml_e+='</div>';
-							dhtml_e+='</div>';
-							$(".chat").append(dhtml_b);
-						}
-						var dhtml_c='';
-						dhtml_c+='<div class="select_static">';
-						dhtml_c+='<span class="operation_title">选择操作</span>';
-						dhtml_c+='<select name="" class="operation_select">';
-						dhtml_c+='<option value="0" selected="">请选择</option>';
-						dhtml_c+='<option value="5">拒绝</option>';
-						dhtml_c+='<option value="3">收货中</option>';
-						dhtml_c+='</select>';
-						dhtml_c+='</div>';
-						dhtml_c+='<button type="button" class="submit_btns" data_id="">确定</button>';
-						$(".operation").append(dhtml_c);
-					}
-					
-				
-				},
-				error: function(data) {
-					
-				}
-			});
+					});
 	  })
 		$(".operation").on("click",".submit_btns",function(){
 			 var static=$(".operation").data("id");
