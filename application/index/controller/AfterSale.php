@@ -104,6 +104,10 @@ class  AfterSale extends Controller{
             $before_order_data =Db::name("order")
                 ->where("id",$order_id)
                 ->find();
+            $is_set_sale =Db::name("after_sale")->where("order_id",$order_id)->find();
+            if(!empty($is_set_sale)){
+                return ajax_error("该订单已申请过售后");
+            }
 //            if($before_order_data["refund_amount"] < $application_amount){
 //                return ajax_error("申请的金额不能超过".$before_order_data["refund_amount"]."元");
 //            }
@@ -196,6 +200,25 @@ class  AfterSale extends Controller{
         }
     }
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:判断这个订单是否已申请售后
+     **************************************
+     * @param Request $request
+     */
+    public function  after_sale_is_set(Request $request){
+        if($request->isPost()){
+            $order_id =$request->only(["order_id"])["order_id"];
+            $is_set_sale =Db::name("after_sale")->where("order_id",$order_id)->find();
+            if(!empty($is_set_sale)){
+                return ajax_error("该订单已申请过售后");
+            }else{
+                return ajax_success("该订单没有申请过售后");
+            }
+        }
+    }
 
     /**
      **************李火生*******************
