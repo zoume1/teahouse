@@ -23,7 +23,7 @@ class  Api extends  Controller{
      * Notes:初始订单退款
      **************************************
      */
-    public function order_refund(Request $request){
+    public function order_refunds(Request $request){
         $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];
         $business_return_money =$request->only(["business_return_money"])["business_return_money"];
         $data =Db::name("after_sale")

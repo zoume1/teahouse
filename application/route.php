@@ -117,7 +117,7 @@ Route::group("",[
     "update_application"=>"index/AfterSale/update_application",//售后修改申请
     "cancellation_of_application"=>"index/AfterSale/cancellation_of_application",//售后撤销售后申请
     "business_address"=>"index/AfterSale/business_address",//售后商家寄还地址返回
-
+    "order_refund"=>"index/Api/order_refund",//微信退款
     /*TODO:售后处理结束*/
 
     /*TODO:订单用户提醒发货开始*/
@@ -391,7 +391,7 @@ Route::group("admin",[
     "after_sale_money_add"=>"admin/AfterSale/after_sale_money_add",//售后状态修改带退钱操作
     /*TODO:售后结束*/
     /*TODO:退款*/
-    "order_refund"=>"admin/Api/order_refund",//微信退款
+//    "order_refund"=>"admin/Api/order_refund",//微信退款
 
     /*TODO:订单备注开始*/
     "notice_index"=>"admin/Notification/notice_index",//卖家备注数据返回
