@@ -618,6 +618,17 @@
                 <a href="">管理会员卡</a>
             </div>
         </div>
+
+        <div class="form-item">
+			<label class="form-label">面向范围</label>			
+			<div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap; ">
+				{foreach name="scope" item="val" key="key"}
+				<input type="checkbox" name="scope[]" lay-skin="primary"   title="{$val.member_grade_name}" value="{$val.member_grade_name}">	
+				{/foreach}
+			</div>
+					
+        </div>
+        
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>商品图</label>
             <div class="form-input">
