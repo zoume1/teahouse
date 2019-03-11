@@ -75,24 +75,7 @@
                 </li>
             </ul>
         </div>
-        <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Category/search')}">
-                <div class="seach">
-                    <div class="seach_list">
-                        <div class="seach_laber">标题:</div>
-                        <div class="seach_input">
-                            <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入内容" class="layui-input">
-
-                        </div>
-                    </div>
-
-                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
-                </div>
-
-            </form>
-        </blockquote>
-
-        <a class="layui-btn layui-btn-danger batchDel" href="operate_problem_add">添加问题</a>
+        <a class="layui-btn layui-btn-danger batchDel" href="operate_broadcast_save">添加广播</a>
 
         <div class="layui-form news_list">
             <table class="layui-table">
@@ -104,28 +87,26 @@
                     <tr>
                         <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
                         <th>编号</th>
-                        <th>标题</th>
-                        <th>分类</th>
-                        <th>是否显示</th>
+                        <th>广播内容</th>
+                        <th>显示</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                    {if !empty($problem)} {volist name="problem" id="value"}
+                    {if !empty($broadcast)} {volist name="broadcast" id="value"}
 						<tr>
 							<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
 							<td>{$value.id + 100000}</td>
                             <td>{$value.title}</td>
-                            <td>{$value.name}</td>
                             <td>
-                            {if $value.status == 0}
-                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
-                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}"> {/if}
+                                {if $value.status == 0}
+                                <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
+                                <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}"> {/if}
                             </td>
 							<td>
-								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/operate/operate_problem_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/operate/operate_broadcast_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
 								</a>			
-								<a href="{:url('admin/operate/operate_problem_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+								<a href="{:url('admin/operate/operate_broadcast_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 							</td>
                         </tr>
                         {/volist}
@@ -143,7 +124,9 @@
                     <button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
                 </div>
-                {$problem->render()}
+                {if!empty($broadcast)}
+                {$broadcast->render()}
+                {/if}
             </div>
 
         </div>
@@ -254,7 +237,7 @@
                 var status = $(this).val();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/operate/operate_problem_status')}",
+                    url: "{:url('admin/operate/operate_broadcast_status')}",
                     data: {
                         "id": id,
                         "status": status
