@@ -108,6 +108,13 @@ class  AfterSale extends Controller{
             if(!empty($is_set_sale)){
                 return ajax_error("该订单已申请过售后");
             }
+            if($is_return_goods ==1){
+                //1需要要进行换货,没有金额
+                $before_order_return =0;
+            }else{
+                //2退款退货，申请金额
+                $before_order_return =$before_order_data["refund_amount"];
+            }
 //            if($before_order_data["refund_amount"] < $application_amount){
 //                return ajax_error("申请的金额不能超过".$before_order_data["refund_amount"]."元");
 //            }
@@ -124,7 +131,7 @@ class  AfterSale extends Controller{
                 "is_return_goods"=>$is_return_goods,//判断是否为换货还是退货退款，1换货，2退款退货
                 "operation_time"=>time(), //操作时间
                 "future_time"=>$normal_future_time,//未来时间
-                "application_amount"=>$before_order_data["refund_amount"],//申请金额
+                "application_amount"=>$before_order_return,//申请金额
                 "return_reason"=>$return_reason,//退货原因
                 "status"=>1, //申请状态（1为申请中，2商家已同意，等待上传快递单信息，处理中，3收货中，4换货成功，5拒绝）
                 "buy_order_number"=>$before_order_data["parts_order_number"],//原始订单号
