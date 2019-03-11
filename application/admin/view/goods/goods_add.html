@@ -323,17 +323,17 @@
     font-size: 32px;
     color: #a2a2a2;
    }
-  #packing_specifications{
+  .packing_specifications{
     display: flex;
       align-items: center;
   }
-  #packing_specifications  select{
+  .packing_specifications  select{
     display:block
   }
-  #packing_specifications  .layui-form-select{
+  .packing_specifications  .layui-form-select{
     display: none;
   }
-  #packing_specifications input{
+  .packing_specifications input{
      width: 60px;
      margin-right: 5px;
    }
@@ -342,6 +342,19 @@
    }
    .packing{
        height: 38px;
+       margin-right: 5px
+       
+   }
+   .danwei_content{
+    display: flex;
+    align-items: center; 
+    position: relative;
+   }
+   .delect_img{
+    width: 14px;
+    position: absolute;
+    right: 0;
+    top: 0;
    }
 </style>
 
@@ -634,16 +647,17 @@
             </div>
             <div class="form-item general noshow" style=" align-items: center;">
                 <label class="form-label">包装规格</label>
-                <div class="form-input" id="packing_specifications" style=" align-items: center;">
-                    <select name=""  class="packing">
-                        <option value="">请选择</option>
+                <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
+                    <select name=""  class="packing packings">
+                        <option value="0">请选择规格编码</option>
                      </select>
+                     <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  
                 </div>
-                <div class="add_danwei1" style="color: #20A0FF;"> 继续添加单位</div>  
+              
             </div>
             <div class="form-item general noshow">
                 <label class="form-label"></label>
-                <div class="form-input" class="add_danwei2" style=" align-items: center;  color: #20A0FF;">
+                <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;">
                     继续添加
                 </div>
             </div>
@@ -758,6 +772,7 @@
                 <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">预览商品</button>
                 <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
             </div>
+           
         </div>
     </form>
 
@@ -773,6 +788,7 @@
     <script type="text/javascript">
         var ue = UE.getEditor('editor');
         var ue1 = UE.getEditor('editor1');
+        var codings=[];
         layui.config({
             base: "js/"
         }).use(['form', 'layer', 'jquery', 'laypage', 'upload'],
@@ -924,7 +940,7 @@
 
                             tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[price]" /></td>';
                             tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[stock]" /></td>';
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" /></td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" class="coding" /></td>';
                             tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[cost]" /></td>';
                             tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[line]" /></td>';
                             tableHTML += '			<td width="100px">';
@@ -1079,23 +1095,115 @@
             danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
             $("#packing_specification").append(danwei);
         });
-        $(".add_danwei1").click(function(){
-            var danwei=''
-            danwei+='<div class="fuhao">=</div>';
-            danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-            danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
-            // $("#packing_specifications").append(danwei);
-            $(this).siblings(".form-input").append(danwei);
+        $(".general_content").on("click",".add_danwei1",function(){
+           var i=parseInt($(this).data("id"));
+         
+             var select=$(this).siblings(".packing").val()
+           if(select!="0"){
+            if(i==0){
+                var danwei1='';
+                danwei1+='<div class="danwei_content">';
+                danwei1+='<div class="fuhao">=</div>';
+                danwei1+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="1" readonly>';
+                danwei1+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+                danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                danwei1+='</div>';
+            }
+            else{
+                var danwei1='';
+                danwei1+='<div class="danwei_content">';
+                danwei1+='<div class="fuhao">=</div>';
+                danwei1+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+                danwei1+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+                danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                danwei1+='</div>';
+            }
+            $(this).before(danwei1);
+           }
+          else{
+              alert("请选择规格编码");
+          }
+          $(this).data("id",i+1);
+          
         });
         $(".add_danwei2").click(function(){
-            var danwei=''
-            danwei+='<div class="fuhao">=</div>';
-            danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-            danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
-            // $("#packing_specifications").append(danwei);
-            $(this).siblings(".form-input").append(danwei);
+            if($(".packings").find("option").length!=1){
+                var danwei2='';
+                danwei2+='<div class="form-item general " style=" align-items: center;position: relative;">';
+                danwei2+='<label class="form-label"></label>';
+                danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
+                danwei2+='<select name="" class="packing">';
+                danwei2+='<option value="0">请选择规格编码</option>';
+                for(var j=0;j<codings.length;j++){
+                    danwei2+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
+                }
+               
+                danwei2+='</select>';
+                danwei2+='<div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>';
+                danwei2+='</div>';
+                danwei2+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
+                danwei2+=' </div>';
+                $(this).parent().before(danwei2)
+            }
+           else{
+                 alert("请先添加规格编码")
+           }
         });
             });
+        $(".general-kuang").on('focus', ".coding", function() {
+            $(this).data("id",$(this).val());
+        });
+        
+        $(".general-kuang").on('change', ".coding", function() {
+           if($(this).data("id")==''){
+               var dhtmlq='';
+               dhtmlq+=' <option value="'+$(this).val()+'">'+$(this).val()+'</option>';
+             $(".packing").append(dhtmlq);
+             $(this).data("id",$(this).val());
+              codings.push($(this).val());
+           }
+           else{
+                $(".packing option[value='"+$(this).data("id")+"']").text($(this).val());
+                $(".packing option[value='"+$(this).data("id")+"']").val($(this).val());
+              
+                for(var i=0;i<codings.length;i++){
+                    console.log(codings[i]);
+                    console.log($(this).data("id"));
+                    console.log($(this).val());
+                    if(codings[i]==$(this).data("id")){
+                        codings[i]=$(this).val();
+                    }
+                }
+                $(this).data("id",$(this).val());
+           }
+        //    console.log(codings);
+        });
+        $(".general_content").on('click', ".delect_img", function() {
+           $(this).parent().siblings(".add_danwei1").data("id", parseInt($(this).parent().siblings(".add_danwei1").data("id"))-1);
+        
+           $(this).parent().remove();
+        })
+        $(".general_content").on('change', ".packing", function() {
+            console.log($(this).val())
+            var k=0;
+          for(var q=0;q<$(".packing").length;q++){
+             if($(".packing")[q].value==$(this).val()){
+                 k++;
+             }
+          }
+          if(k>1){
+              console.log( $(this).find("option[value='0']"));
+            $(this).children("option").remove();
+            var danwei4='';
+            danwei4+='<option value="0">请选择规格编码</option>';
+            for(var j=0;j<codings.length;j++){
+                    danwei4+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
+             }
+
+             $(this).append(danwei4);
+          }
+           
+        })
     </script>
 
     {/block}
