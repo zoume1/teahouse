@@ -28,9 +28,13 @@ class Notification extends Controller{
                 ->order("create_time","desc")
                 ->select();
             $order_type =Db::name("order")->where("id",$order_id)->value("order_type");
+            $courier_number =Db::name("order")->where("id",$order_id)->value("courier_number");
+            $express_name =Db::name("order")->where("id",$order_id)->value("express_name");
             $data =[
                 "datas"=>$datas,
-                "order_type"=>$order_type
+                "order_type"=>$order_type,
+                "express_name"=>$express_name,
+                "courier_number"=>$courier_number
             ];
             if(!empty($data)){
                 return ajax_success("数据返回成功",$data);
