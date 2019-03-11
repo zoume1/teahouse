@@ -331,7 +331,6 @@ class  AfterSale extends Controller{
                     $data[$key]["goods_describe"] =$order_data["goods_describe"];
                 }
                 return ajax_success("售后订单返回成功",$data);
-
             }else{
                 return ajax_error("暂无售后订单");
             }
