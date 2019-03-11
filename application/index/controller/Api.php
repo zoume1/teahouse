@@ -10,7 +10,10 @@ namespace  app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
-
+include('../extend/WxpayAPI/lib/WxPay.Api.php');
+include('../extend/WxpayAPI/example/WxPay.NativePay.php');
+include('../extend/WxpayAPI/lib/WxPay.Notify.php');
+include('../extend/WxpayAPI/example/log.php');
 class  Api extends  Controller{
     /**
      **************李火生*******************
