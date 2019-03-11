@@ -965,11 +965,11 @@
 								if(val != 0 || danhao != '') {
 									$.ajax({
 										type: "POST",
-										url: "{:url('admin/AfterSale/after_sale_money_add')}",
+										url: "{:url('admin/Api/order_refund')}",
 										data: {
 											"after_sale_id": value,
 											"status": val,
-											"sell_express_number": danhao,
+											"business_return_money": danhao,
 										},
 										async: false,
 										success: function(data) {

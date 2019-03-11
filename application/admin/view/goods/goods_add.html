@@ -1084,7 +1084,16 @@
             danwei+='<div class="fuhao">=</div>';
             danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
             danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
-            $("#packing_specifications").append(danwei);
+            // $("#packing_specifications").append(danwei);
+            $(this).siblings(".form-input").append(danwei);
+        });
+        $(".add_danwei2").click(function(){
+            var danwei=''
+            danwei+='<div class="fuhao">=</div>';
+            danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+            danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+            // $("#packing_specifications").append(danwei);
+            $(this).siblings(".form-input").append(danwei);
         });
             });
     </script>
