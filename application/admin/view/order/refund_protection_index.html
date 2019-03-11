@@ -317,8 +317,8 @@
 						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
 						<th>服务单号</th>
 						<th>原始订单号</th>
-						<th>申请时间</th>
 						<th>昵称</th>
+						<th>申请时间</th>
 						<th>用户账号</th>
 						<th>联系人</th>
 						<th>退款金额</th>
@@ -965,7 +965,7 @@
 								if(val != 0 || danhao != '') {
 									$.ajax({
 										type: "POST",
-										url: "{:url('admin/Api/order_refund')}",
+										url: "{:url('index/Api/order_refund')}",
 										data: {
 											"after_sale_id": value,
 											"status": val,

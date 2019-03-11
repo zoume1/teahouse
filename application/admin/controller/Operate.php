@@ -354,6 +354,8 @@ class Operate extends  Controller{
     public function operate_about_update(Request $request){
         if($request->isPost()){
             $about_us = $request->param();
+
+
             $bool = db("about_us")->where('id', 1)->update($about_us);
             if($bool){
                 $this->success('更新成功', 'admin/operate/operate_about_index');

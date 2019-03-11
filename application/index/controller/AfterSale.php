@@ -18,14 +18,16 @@ class  AfterSale extends Controller{
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:售后订单信息返回
+     * Notes:售后订单信息返回（未用到）
      **************************************
      * @param Request $request
      */
     public function after_sale_order_return(Request $request){
         if($request->isPost()){
             $id =$request->only(["id"])["id"];
-            $data =Db::name("order")->field("parts_goods_name,goods_image,refund_amount")->where("id",$id)->find();
+            $data =Db::name("order")
+                ->field("parts_goods_name,goods_image,refund_amount")
+                ->where("id",$id)->find();
             if(!empty($data)){
                 return ajax_success("数据返回成功",$data);
             }else{
@@ -108,6 +110,13 @@ class  AfterSale extends Controller{
             if(!empty($is_set_sale)){
                 return ajax_error("该订单已申请过售后");
             }
+            if($is_return_goods ==1){
+                //1需要要进行换货,没有金额
+                $before_order_return =0;
+            }else{
+                //2退款退货，申请金额
+                $before_order_return =$before_order_data["refund_amount"];
+            }
 //            if($before_order_data["refund_amount"] < $application_amount){
 //                return ajax_error("申请的金额不能超过".$before_order_data["refund_amount"]."元");
 //            }
@@ -124,7 +133,7 @@ class  AfterSale extends Controller{
                 "is_return_goods"=>$is_return_goods,//判断是否为换货还是退货退款，1换货，2退款退货
                 "operation_time"=>time(), //操作时间
                 "future_time"=>$normal_future_time,//未来时间
-                "application_amount"=>$before_order_data["refund_amount"],//申请金额
+                "application_amount"=>$before_order_return,//申请金额
                 "return_reason"=>$return_reason,//退货原因
                 "status"=>1, //申请状态（1为申请中，2商家已同意，等待上传快递单信息，处理中，3收货中，4换货成功，5拒绝）
                 "buy_order_number"=>$before_order_data["parts_order_number"],//原始订单号
@@ -293,6 +302,148 @@ class  AfterSale extends Controller{
                 return ajax_success("商家收货地址返回成功",$address);
             }else{
                 return ajax_error("没有设置收货地址");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后全部订单
+     **************************************
+     */
+    public function  after_sale_all(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $data =Db::name("after_sale")
+                ->where("member_id",$member_id)
+                ->order("operation_time","desc")
+                ->select();
+            if(!empty($data)){
+                foreach ($data as $key=>$value){
+                    $order_data =Db::name("order")
+                        ->field("goods_image,parts_goods_name,goods_money,order_quantity,refund_amount,goods_describe")
+                        ->where("id",$value["order_id"])
+                        ->find();
+                    $data[$key]["goods_image"] =$order_data["goods_image"];
+                    $data[$key]["parts_goods_name"] =$order_data["parts_goods_name"];
+                    $data[$key]["goods_money"] =$order_data["goods_money"];
+                    $data[$key]["order_quantity"] =$order_data["order_quantity"];
+                    $data[$key]["refund_amount"] =$order_data["refund_amount"];
+                    $data[$key]["goods_describe"] =$order_data["goods_describe"];
+                }
+                return ajax_success("售后订单返回成功",$data);
+            }else{
+                return ajax_error("暂无售后订单");
+            }
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后订单（申请中）
+     **************************************
+     */
+    public function  after_sale_applying(Request $request){
+        if($request->isPost()){
+            $condition ="`status` = '1' or `status` = '2' or `status` = '3'";
+            $member_id =$request->only(["member_id"])["member_id"];
+            $data =Db::name("after_sale")
+                ->where("member_id",$member_id)
+                ->where($condition)
+                ->order("operation_time","desc")
+                ->select();
+            if(!empty($data)){
+                foreach ($data as $key=>$value){
+                    $order_data =Db::name("order")
+                        ->field("goods_image,parts_goods_name,goods_money,order_quantity,refund_amount,goods_describe")
+                        ->where("id",$value["order_id"])
+                        ->find();
+                    $data[$key]["goods_image"] =$order_data["goods_image"];
+                    $data[$key]["parts_goods_name"] =$order_data["parts_goods_name"];
+                    $data[$key]["goods_money"] =$order_data["goods_money"];
+                    $data[$key]["order_quantity"] =$order_data["order_quantity"];
+                    $data[$key]["refund_amount"] =$order_data["refund_amount"];
+                    $data[$key]["goods_describe"] =$order_data["goods_describe"];
+                }
+                return ajax_success("售后订单返回成功",$data);
+
+            }else{
+                return ajax_error("暂无售后订单");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后订单（已撤销）
+     **************************************
+     */
+    public function  after_sale_rescinded(Request $request){
+        if($request->isPost()){
+            $condition ="`status` = '5'";
+            $member_id =$request->only(["member_id"])["member_id"];
+            $data =Db::name("after_sale")
+                ->where("member_id",$member_id)
+                ->where($condition)
+                ->order("operation_time","desc")
+                ->select();
+            if(!empty($data)){
+                foreach ($data as $key=>$value){
+                    $order_data =Db::name("order")
+                        ->field("goods_image,parts_goods_name,goods_money,order_quantity,refund_amount,goods_describe")
+                        ->where("id",$value["order_id"])
+                        ->find();
+                    $data[$key]["goods_image"] =$order_data["goods_image"];
+                    $data[$key]["parts_goods_name"] =$order_data["parts_goods_name"];
+                    $data[$key]["goods_money"] =$order_data["goods_money"];
+                    $data[$key]["order_quantity"] =$order_data["order_quantity"];
+                    $data[$key]["refund_amount"] =$order_data["refund_amount"];
+                    $data[$key]["goods_describe"] =$order_data["goods_describe"];
+                }
+                return ajax_success("售后订单返回成功",$data);
+
+            }else{
+                return ajax_error("暂无售后订单");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后订单（已完成）
+     **************************************
+     */
+    public function  after_sale_completed(Request $request){
+        if($request->isPost()){
+            $condition ="`status` = '4'";
+            $member_id =$request->only(["member_id"])["member_id"];
+            $data =Db::name("after_sale")
+                ->where("member_id",$member_id)
+                ->where($condition)
+                ->order("operation_time","desc")
+                ->select();
+            if(!empty($data)){
+                foreach ($data as $key=>$value){
+                    $order_data =Db::name("order")
+                        ->field("goods_image,parts_goods_name,goods_money,order_quantity,refund_amount,goods_describe")
+                        ->where("id",$value["order_id"])
+                        ->find();
+                    $data[$key]["goods_image"] =$order_data["goods_image"];
+                    $data[$key]["parts_goods_name"] =$order_data["parts_goods_name"];
+                    $data[$key]["goods_money"] =$order_data["goods_money"];
+                    $data[$key]["order_quantity"] =$order_data["order_quantity"];
+                    $data[$key]["refund_amount"] =$order_data["refund_amount"];
+                    $data[$key]["goods_describe"] =$order_data["goods_describe"];
+                }
+                return ajax_success("售后订单返回成功",$data);
+
+            }else{
+                return ajax_error("暂无售后订单");
             }
         }
     }
