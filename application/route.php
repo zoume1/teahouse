@@ -106,18 +106,23 @@ Route::group("",[
 
 
     /*TODO:售后处理开始*/
+    "after_sale_all"=>"index/AfterSale/after_sale_all",//售后全部订单
+    "after_sale_applying"=>"index/AfterSale/after_sale_applying",//售后订单（申请中）
+    "after_sale_rescinded"=>"index/AfterSale/after_sale_rescinded",//售后订单（已撤销）
+    "after_sale_completed"=>"index/AfterSale/after_sale_completed",//售后订单（已完成）
+
     "after_sale_upload"=>"index/AfterSale/after_sale_upload",//上传的图片，注意：小程序只能一张张上传
     "after_sale_images_del"=>"index/AfterSale/after_sale_images_del",//售后图片删除（有时候返回上一次则进行删除）
     "apply_after_sale"=>"index/AfterSale/apply_after_sale",//用户申请售后
     "after_sale_is_set"=>"index/AfterSale/after_sale_is_set",//判断用户是否申请过该订单售后
     "add_express_information"=>"index/AfterSale/add_express_information",//售后添加物流信息
-    "after_sale_order_return"=>"index/AfterSale/after_sale_order_return",//售后订单信息返回
+    "after_sale_order_return"=>"index/AfterSale/after_sale_order_return",//售后订单信息返回（未用到）
     "after_sale_information_return"=>"index/AfterSale/after_sale_information_return",//退货信息返回
     "buyer_replay"=>"index/AfterSale/buyer_replay",//售后买家回复
     "update_application"=>"index/AfterSale/update_application",//售后修改申请
     "cancellation_of_application"=>"index/AfterSale/cancellation_of_application",//售后撤销售后申请
     "business_address"=>"index/AfterSale/business_address",//售后商家寄还地址返回
-
+    "order_refund"=>"index/Api/order_refund",//微信退款
     /*TODO:售后处理结束*/
 
     /*TODO:订单用户提醒发货开始*/
@@ -391,7 +396,7 @@ Route::group("admin",[
     "after_sale_money_add"=>"admin/AfterSale/after_sale_money_add",//售后状态修改带退钱操作
     /*TODO:售后结束*/
     /*TODO:退款*/
-    "order_refund"=>"admin/Api/order_refund",//微信退款
+//    "order_refund"=>"admin/Api/order_refund",//微信退款
 
     /*TODO:订单备注开始*/
     "notice_index"=>"admin/Notification/notice_index",//卖家备注数据返回

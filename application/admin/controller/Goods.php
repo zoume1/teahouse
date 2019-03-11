@@ -110,6 +110,7 @@ class Goods extends Controller
                 $goods_data["scope"] = "";
             }        
             if ($goods_data["goods_standard"] == "0") {
+                halt($goods_data);
                 $bool = db("goods")->insert($goods_data);
                 if ($bool) {
                     $this->success("添加成功", url("admin/Goods/index"));
@@ -152,6 +153,7 @@ class Goods extends Controller
                 $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
                 $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                 $result = implode(",", $goods_data["lv1"]);
+                halt($goods_special);
                 $goods_id = db('goods')->insertGetId($goods_special);
                 if (!empty($goods_data)) {
                     foreach ($goods_data as $kn => $nl) {

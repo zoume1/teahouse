@@ -177,8 +177,7 @@ class  Order extends  Controller
                             $datas["normal_future_time"] =$normal_future_time;//未来时间
                             $datas["special_id"] =$goods_standard_id[$keys];//规格id
                             $datas["coupon_id"] =$coupon_id;
-
-                            $data["refund_amount"] =$all_money;
+                            $datas["refund_amount"] =$all_money;
 
                             
                             if(!empty($coupon_id)){ //优惠券金额

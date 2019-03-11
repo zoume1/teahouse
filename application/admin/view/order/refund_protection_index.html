@@ -317,8 +317,8 @@
 						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
 						<th>服务单号</th>
 						<th>原始订单号</th>
-						<th>申请时间</th>
 						<th>昵称</th>
+						<th>申请时间</th>
 						<th>用户账号</th>
 						<th>联系人</th>
 						<th>退款金额</th>
@@ -580,6 +580,7 @@
 		dhtml1 += '<option value="shentong">申通</option>';
 		dhtml1 += '<option value="shentong">顺丰</option>';
 		dhtml1 += '<option value="shentong">圆通</option>';
+		dhtml1 += '<option value="shentong">中通</option>';
 		dhtml1 += '<option value="shentong">韵达</option>';
 		dhtml1 += '<option value="shentong">天天快递</option>';
 		dhtml1 += '<option value="shentong">宅急送</option>';
@@ -964,11 +965,11 @@
 								if(val != 0 || danhao != '') {
 									$.ajax({
 										type: "POST",
-										url: "{:url('admin/AfterSale/after_sale_money_add')}",
+										url: "{:url('index/Api/order_refund')}",
 										data: {
 											"after_sale_id": value,
 											"status": val,
-											"sell_express_number": danhao,
+											"business_return_money": danhao,
 										},
 										async: false,
 										success: function(data) {
@@ -986,39 +987,39 @@
 						}
 						}
 					})
-					 $(".local_host_repay").on("click", function() {
-					var data_id = $(this).data("id")
-					var Information = $(".Information").val();
-					if(Information != '') {
-						$.ajax({
-							type: "POST",
-							url: "{:url('admin/AfterSale/business_replay')}",
-							data: {
-								"after_sale_id": data_id,
-								"content": Information,
-							},
-							async: false,
-							success: function(data) {
-								var data = eval('(' + data + ')');
-								console.log(data);
-								var dhtm0 = "";
-								dhtm0 += '<div class="chat_list">';
-								dhtm0 += '	<span class="span">' + data.data.create_time + '</span>';
-								dhtm0 += '<span>' + data.data.information + '</span>';
-								dhtm0 += '</div>';
-								$(".chat").append(dhtm0);
-								$(".Information").val("");
+		$(".local_host_repay").on("click", function() {
+			var data_id = $(this).data("id")
+			var Information = $(".Information").val();
+			if(Information != '') {
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/AfterSale/business_replay')}",
+					data: {
+						"after_sale_id": data_id,
+						"content": Information,
+					},
+					async: false,
+					success: function(data) {
+						var data = eval('(' + data + ')');
+						console.log(data);
+						var dhtm0 = "";
+						dhtm0 += '<div class="chat_list">';
+						dhtm0 += '	<span class="span">' + data.data.create_time + '</span>';
+						dhtm0 += '<span>' + data.data.content + '</span>';
+						dhtm0 += '</div>';
+						$(".chat").append(dhtm0);
+						$(".Information").val("");
 
-							},
-							error: function(data) {
+					},
+					error: function(data) {
 
-							}
-						});
-
-					} else {
-						alert("回复不能为空");
 					}
-				})
+				});
+
+			} else {
+				alert("回复不能为空");
+			}
+			})
 	</script>
 
 	{/block}

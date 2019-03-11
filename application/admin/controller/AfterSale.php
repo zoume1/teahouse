@@ -70,7 +70,9 @@ class  AfterSale extends  Controller{
         if($request->isPost()){
             $status =$request->only(["status"])["status"];
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
-            $bool =Db::name("after_sale")->where("id",$after_sale_id)->update(["status"=>$status]);
+            $bool =Db::name("after_sale")
+                ->where("id",$after_sale_id)
+                ->update(["status"=>$status,"handle_time"=>time()]);
             if($bool){
                 return ajax_success("更改成功");
             }else{
@@ -113,7 +115,7 @@ class  AfterSale extends  Controller{
     public function after_sale_money_add(Request $request){
         if($request->isPost()){
             $status =$request->only(["status"])["status"];
-            $business_return_money =$request->only(["bussiness_return_money"])["bussiness_return_money"];
+            $business_return_money =$request->only(["business_return_money"])["business_return_money"];
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
             $data =[
                 "status"=>$status,

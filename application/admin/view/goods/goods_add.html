@@ -323,7 +323,26 @@
     font-size: 32px;
     color: #a2a2a2;
    }
-
+  #packing_specifications{
+    display: flex;
+      align-items: center;
+  }
+  #packing_specifications  select{
+    display:block
+  }
+  #packing_specifications  .layui-form-select{
+    display: none;
+  }
+  #packing_specifications input{
+     width: 60px;
+     margin-right: 5px;
+   }
+   .add_danwei,.add_danwei1,.add_danwei2{
+    cursor: pointer;
+   }
+   .packing{
+       height: 38px;
+   }
 </style>
 
 {/block}
@@ -531,11 +550,11 @@
             <div class="form-item">
                 <label class="form-label">包装规格</label>
                 <div class="form-input" id="packing_specification" style=" align-items: center;">
-                     <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="1" readonly>
-                     <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input"  maxlength="2">
+                     <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="1" readonly>
+                     <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input"  maxlength="2">
                      <div class="fuhao">=</div>
-                     <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">
-                     <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">
+                     <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">
+                     <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">
                 </div>
                 <div class="add_danwei"> 继续添加单位</div>
                 
@@ -588,28 +607,46 @@
             </div>
             
         </div>
-        <div class="form-item general noshow">
-            <div class="layui-input-block general-kuang">
-                <div class="control-group">
-                    <div class="controls" style="padding: 10px;">
-                        <button id="add_lv1" class="btn btn-primary" type="button">添加规格项</button>
-                        <button id="update_table" class="btn btn-success" type="button">刷新规格项目表</button>
-                        <span class="red">*注意：请全部添加完“规格名称”及“规格值”后，再点击【刷新规格项目表】，就可对各种规格进行价格等编辑，手机前端显示<span class="tan" style="color: #0E90D2;" data-id="__STATIC__/admin/common/img/u27290.png">查看实例</span></span>
+        <div class="general_content">
+            <div class="form-item general noshow">
+                <div class="layui-input-block general-kuang">
+                    <div class="control-group">
+                        <div class="controls" style="padding: 10px;">
+                            <button id="add_lv1" class="btn btn-primary" type="button">添加规格项</button>
+                            <button id="update_table" class="btn btn-success" type="button">刷新规格项目表</button>
+                            <span class="red">*注意：请全部添加完“规格名称”及“规格值”后，再点击【刷新规格项目表】，就可对各种规格进行价格等编辑，手机前端显示<span class="tan" style="color: #0E90D2;" data-id="__STATIC__/admin/common/img/u27290.png">查看实例</span></span>
+                        </div>
+                    </div>
+                    <div id="lv_table_con" class="control-group" style="display: none; ">
+                        <label class="control-label">规格项目表</label>
+                        <div class="controls" style="">
+                            <div id="lv_table" style="padding: 10px;"></div>
+                        </div>
                     </div>
                 </div>
-                <div id="lv_table_con" class="control-group" style="display: none; ">
-                    <label class="control-label">规格项目表</label>
-                    <div class="controls" style="">
-                        <div id="lv_table" style="padding: 10px;"></div>
+            
+                <!--<div class="layui-input-block general-kuang">
+                    <div id="general_content"></div>
+                    <div class="add-content content" id="add_general_buts">
+                        <button type="button" class="btus general_buts">添加规格项目</button>
                     </div>
+                </div>-->
+            </div>
+            <div class="form-item general noshow" style=" align-items: center;">
+                <label class="form-label">包装规格</label>
+                <div class="form-input" id="packing_specifications" style=" align-items: center;">
+                    <select name=""  class="packing">
+                        <option value="">请选择</option>
+                     </select>
+                </div>
+                <div class="add_danwei1" style="color: #20A0FF;"> 继续添加单位</div>  
+            </div>
+            <div class="form-item general noshow">
+                <label class="form-label"></label>
+                <div class="form-input" class="add_danwei2" style=" align-items: center;  color: #20A0FF;">
+                    继续添加
                 </div>
             </div>
-            <!--<div class="layui-input-block general-kuang">
-                <div id="general_content"></div>
-                <div class="add-content content" id="add_general_buts">
-                    <button type="button" class="btus general_buts">添加规格项目</button>
-                </div>
-            </div>-->
         </div>
         <div class="form-item">
             <label class="form-label">商品折扣</label>
@@ -1038,10 +1075,26 @@
         $(".add_danwei").click(function(){
             var danwei=''
             danwei+='<div class="fuhao">=</div>';
-            danwei+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-            danwei+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+            danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+            danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+            $("#packing_specification").append(danwei);
         });
-
+        $(".add_danwei1").click(function(){
+            var danwei=''
+            danwei+='<div class="fuhao">=</div>';
+            danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+            danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+            // $("#packing_specifications").append(danwei);
+            $(this).siblings(".form-input").append(danwei);
+        });
+        $(".add_danwei2").click(function(){
+            var danwei=''
+            danwei+='<div class="fuhao">=</div>';
+            danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+            danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+            // $("#packing_specifications").append(danwei);
+            $(this).siblings(".form-input").append(danwei);
+        });
             });
     </script>
 
