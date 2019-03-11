@@ -91,6 +91,7 @@ class Goods extends Controller
      */
     public function save(Request $request)
     {
+        halt($request);
         if ($request->isPost()) {
             $goods_data = $request->param();                   
             $show_images = $request->file("goods_show_images");

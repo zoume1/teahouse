@@ -564,7 +564,7 @@
                 <label class="form-label">包装规格</label>
                 <div class="form-input" id="packing_specification" style=" align-items: center;">
                      <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="1" readonly>
-                     <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input"  maxlength="2">
+                     <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input"  maxlength="2" >
                      <div class="fuhao">=</div>
                      <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">
                      <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">
@@ -657,7 +657,7 @@
             </div>
             <div class="form-item general noshow">
                 <label class="form-label"></label>
-                <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;">
+                <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;">
                     继续添加
                 </div>
             </div>
@@ -852,6 +852,7 @@
                         $(this).parent().remove();
                     });
                     $('#update_table').on('click', function() {
+                        codings.splice(0,ary.length); 
                         var lv1Arr = $('input[class="lvv3"]');
                         if (!lv1Arr || lv1Arr.length == 0) {
                             $('#lv_table_con').hide();
@@ -1097,15 +1098,14 @@
         });
         $(".general_content").on("click",".add_danwei1",function(){
            var i=parseInt($(this).data("id"));
-         
-             var select=$(this).siblings(".packing").val()
+            var select=$(this).siblings(".packing").val()
            if(select!="0"){
             if(i==0){
                 var danwei1='';
                 danwei1+='<div class="danwei_content">';
                 danwei1+='<div class="fuhao">=</div>';
-                danwei1+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="1" readonly>';
-                danwei1+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+                danwei1+='<input type="text" name="'+select+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="1" readonly>';
+                danwei1+='<input type="text" name="'+select+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2"  required>';
                 danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                 danwei1+='</div>';
             }
@@ -1113,8 +1113,8 @@
                 var danwei1='';
                 danwei1+='<div class="danwei_content">';
                 danwei1+='<div class="fuhao">=</div>';
-                danwei1+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-                danwei1+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+                danwei1+='<input type="text" name="'+select+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
+                danwei1+='<input type="text" name="'+select+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
                 danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                 danwei1+='</div>';
             }
@@ -1137,7 +1137,6 @@
                 for(var j=0;j<codings.length;j++){
                     danwei2+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
                 }
-               
                 danwei2+='</select>';
                 danwei2+='<div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>';
                 danwei2+='</div>';
