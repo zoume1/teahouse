@@ -70,7 +70,7 @@ class  Api extends  Controller{
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:初始订单退款
+     * Notes:后台初始订单退款
      **************************************
      */
     public function order_refund(Request $request){
@@ -99,7 +99,7 @@ class  Api extends  Controller{
         $input->SetOut_refund_no(\WxPayConfig::MCHID.date("YmdHis"));
         $input->SetOp_user_id(\WxPayConfig::MCHID);
         $result =\WxPayApi::refund($input);
-        file_put_contents(EXTEND_PATH."refund.txt",$result);
+//      file_put_contents(EXTEND_PATH."refund.txt",$result);
         if ($result['result_code'] == 'SUCCESS' && $result['return_code'] == 'SUCCESS') {
             $result['code'] = 1;
             $result['data'] =  $result['transaction_id'];
