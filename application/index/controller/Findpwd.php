@@ -63,7 +63,7 @@ class Findpwd extends Controller{
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:找回密码验证码
+     * Notes:PC找回密码验证码，PC修改手机号验证码
      **************************************
      * @param Request $request
      */
@@ -167,7 +167,9 @@ class Findpwd extends Controller{
             $passwords =password_hash(trim($password),PASSWORD_DEFAULT);
             $member =session('member');
             if(!empty(trim($password))){
-                $bool =Db::name('pc_user')->where('phone_number',$member['phone_number'])->update(['password'=>$passwords]);
+                $bool =Db::name('pc_user')
+                    ->where('phone_number',$member['phone_number'])
+                    ->update(['password'=>$passwords]);
                 if($bool){
                     return ajax_success('修改成功',['status'=>1]);
                 }else{

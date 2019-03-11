@@ -362,4 +362,105 @@ class Operate extends  Controller{
             }
         }
     }
+
+    /**
+     * [广播消息显示]
+     * GY
+    */
+    public function operate_broadcast(){
+        $broadcast = db("broadcast")->paginate(20);
+        return view("operate_broadcast",["broadcast"=>$broadcast]);
+    }
+
+
+    /**
+     * [广播消息保存]
+     * GY
+    */
+    public function operate_broadcast_save(Request $request){
+        if($request->isPost()){
+            $data = $request->param();
+            $data["status"] = 1;
+            $bool = db("broadcast")->insert($data);
+            if($bool){
+                $this->success('添加成功', 'admin/operate/operate_broadcast');
+            } else {
+                $this ->error("添加失败","admin/operate/operate_broadcast");
+            }
+        }
+        
+        return view("operate_broadcast_add");
+    }
+
+
+    /**
+     * [常见问题编辑]
+     * GY
+    */
+    public function operate_broadcast_edit($id){
+        $broadcast_new = db("broadcast")->where("id",$id)->select();   
+        return view("operate_broadcast_edit",["broadcast_new"=>$broadcast_new]);
+    }
+    
+    
+    /**
+     * [常见问题更新]
+     * GY
+    */
+    public function operate_broadcast_update(Request $request){
+        if($request->isPost()){
+            $broadcast = $request->param();
+
+            $bool = db("broadcast")->where('id', $request->only(["id"])["id"])->update($broadcast);
+            if($bool){
+                $this->success('更新成功', 'admin/operate/operate_broadcast');
+            } else {
+                $this ->error("更新失败","admin/operate/operate_broadcast");
+            }
+        }
+    }
+
+
+    /**
+     * [常见问题删除]
+     * GY
+    */
+    public function operate_broadcast_delete($id){
+        $bools = db("broadcast")->where("id",$id)->delete();     
+        if($bools){
+            $this->success('删除成功', 'admin/operate/operate_broadcast');
+        } else {
+            $this ->error("删除失败","admin/operate/operate_broadcast");
+        }
+    }
+
+
+    /**
+     * [广播消息状态修改]
+     * GY
+    */
+    public function operate_broadcast_status(Request $request){
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("broadcast")->where("id", $id)->update(["status" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/operate/operate_broadcast"));
+                } else {
+                    $this->error("修改失败", url("admin/operate/operate_broadcast"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("broadcast")->where("id", $id)->update(["status" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/operate/operate_broadcast"));
+                } else {
+                    $this->error("修改失败", url("admin/operate/operate_broadcast"));
+                }
+            }
+        }
+    }
+
 }

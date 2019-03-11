@@ -29,6 +29,7 @@ Route::group("",[
     "sendMobileCodeByPhone"=>"index/Findpwd/sendMobileCodeByPhone",//找回密码验证码
     "sendMobileCodeByPh"=>"index/Findpwd/sendMobileCodeByPh",//修改密码验证码
     "update_password"=>"index/Findpwd/update_password",//修改密码操作
+    "new_phone_update"=>"index/Findpwd/new_phone_update",//修改手机操作
     /*TODO:PC端注册登录结束*/
     /*TODO:PC端店铺开始*/
     "store_add"=>"index/Store/store_add",//创建店铺
@@ -260,6 +261,8 @@ Route::group("",[
 
     /*关于我们*/
     "about_us"=>"index/Manage/about_us",//关于我们
+
+
 
     /*我的收藏*/
     "collect"=>"index/Manage/collect",               //添加茶圈收藏
@@ -577,6 +580,14 @@ Route::group("admin",[
     "operate_about_index"=>"admin/operate/operate_about_index",         //关于我们显示
     "operate_about_update"=>"admin/operate/operate_about_update",       //关于我们更新
 
+    "operate_broadcast"=>"admin/operate/operate_broadcast",                //广播消息显示
+    "operate_broadcast_edit"=>"admin/operate/operate_broadcast_edit",      //广播消息编辑
+    "operate_broadcast_update"=>"admin/operate/operate_broadcast_update",  //广播消息更新
+    "operate_broadcast_delete"=>"admin/operate/operate_broadcast_delete",  //广播消息删除
+    "operate_broadcast_save"=>"admin/operate/operate_broadcast_save",      //广播消息保存
+    "operate_broadcast_status"=>"admin/operate/operate_broadcast_status",  //广播消息显示状态编辑
+    
+
 
     /*配送设置*/
     "delivery_index"=>"admin/Delivery/delivery_index",//*******配送设置
@@ -649,6 +660,7 @@ Route::group("admin",[
 
     "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index",   //SEO优化
     "analyse_optimize_update"=>"admin/Analyse/analyse_optimize_update", //SEO优化编辑
+    
 
 
 
