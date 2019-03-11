@@ -106,6 +106,11 @@ Route::group("",[
 
 
     /*TODO:售后处理开始*/
+    "after_sale_all"=>"index/AfterSale/after_sale_all",//售后全部订单
+    "after_sale_applying"=>"index/AfterSale/after_sale_applying",//售后订单（申请中）
+    "after_sale_rescinded"=>"index/AfterSale/after_sale_rescinded",//售后订单（已撤销）
+    "after_sale_completed"=>"index/AfterSale/after_sale_completed",//售后订单（已完成）
+
     "after_sale_upload"=>"index/AfterSale/after_sale_upload",//上传的图片，注意：小程序只能一张张上传
     "after_sale_images_del"=>"index/AfterSale/after_sale_images_del",//售后图片删除（有时候返回上一次则进行删除）
     "apply_after_sale"=>"index/AfterSale/apply_after_sale",//用户申请售后

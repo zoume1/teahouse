@@ -79,12 +79,9 @@ class  Api extends  Controller{
         $data =Db::name("after_sale")
             ->where("id",$after_sale_id)
             ->find();
-        $map = array(
-            'id'=>$data["order_id"]
-        );
         $refund_amount =Db::name("order")
             ->field("refund_amount,parts_order_number,order_real_pay")
-            ->where($map)
+            ->where("id",$data["order_id"])
             ->find();
         if(!$refund_amount){
             return ajax_error("未找到该订单信息");
@@ -106,12 +103,11 @@ class  Api extends  Controller{
         if ($result['result_code'] == 'SUCCESS' && $result['return_code'] == 'SUCCESS') {
             $result['code'] = 1;
             $result['data'] =  $result['transaction_id'];
-            return ajax_success("支付成功",$result);
-        }
-        else {
+            return ajax_success("成功",$result);
+        }else {
             $result['code'] = 0;
             $result['msg'] =  $result['err_code'];
-            return ajax_error("支付失败",$result);
+            return ajax_error("失败",$result);
         }
 
     }
