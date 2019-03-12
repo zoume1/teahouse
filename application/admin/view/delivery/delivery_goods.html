@@ -102,17 +102,17 @@
 						<td>{$value.id + 100000}</td>
 						<td>{$value.name}</td>
 						{if $value.status ==1}
-						<td>按片数</td>
-						<td>{$value.unit}(片)</td>
+						<td>按单位</td>
+						<td>{$value.unit}</td>
 						<td>{$value.price}</td>
-						<td>{$value.add}(片)</td>
+						<td>1{$value.add}</td>
 						<td>{$value.markup}</td>
 						<td>{$value.are}</td>
 						{else}
 						<td>按重量</td>
-						<td>{$value.unit}(Kg)</td>
+						<td>{$value.unit}</td>
 						<td>{$value.price}</td>
-						<td>{$value.add}(Kg)</td>
+						<td>1{$value.add}</td>
 						<td>{$value.markup}</td>
 						<td>{$value.are}</td>
 						{/if}

@@ -31,6 +31,7 @@ class Goods extends Controller
     public function index(Request $request)
     {
         $goods = db("goods")->order("id desc")->select();
+        $goods_list = getSelectList("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
                 $res = db("wares")->where("id", $value['pid'])->field("name")->find();
@@ -59,7 +60,7 @@ class Goods extends Controller
         ]);
         $goods->appends($_GET);
         $this->assign('listpage', $goods->render());
-        return view("goods_index", ["goods" => $goods]);
+        return view("goods_index", ["goods" => $goods,"goods_list" => $goods_list]);
 
 
     }
@@ -90,6 +91,7 @@ class Goods extends Controller
      */
     public function save(Request $request)
     {
+        halt($request);
         if ($request->isPost()) {
             $goods_data = $request->param();                   
             $show_images = $request->file("goods_show_images");
@@ -556,6 +558,67 @@ class Goods extends Controller
         }
     }
 
+
+    /**
+     * [商品列表搜索]
+     * 郭杨
+     */
+    public function search()
+    {
+        $goods_number = input('goods_number');
+        $pid = input('pid');
+
+        if((empty($goods_number)) && (!empty($pid))){
+            $goods = db("goods")
+                    ->where("pid",$pid)
+                    ->order("id desc")
+                    ->select();
+        } else if ((!empty($goods_number)) && (empty($pid))) {
+            $goods = db("goods")
+                    ->where("goods_number",$goods_number)
+                    ->order("id desc")
+                    ->select();
+        } else if ((!empty($goods_number)) && (!empty($pid))) {
+            $goods = db("goods")
+            ->where("goods_number",$goods_number)
+            ->where("pid",$pid)
+            ->order("id desc")
+            ->select();
+        } else {
+            $goods = db("goods")->order("id desc")->select();
+        }
+      
+        $goods_list = getSelectList("wares");
+        foreach ($goods as $key => $value) {
+            if ($value["pid"]) {
+                $res = db("wares")->where("id", $value['pid'])->field("name")->find();
+                if($goods[$key]["goods_standard"] == "1")
+                {
+                    $max[$key] = db("special")->where("goods_id", $goods[$key]['id'])->max("price");//最高价格
+                    $min[$key] = db("special")->where("goods_id", $goods[$key]['id'])->min("price");//最低价格
+                    $goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]['id'])->sum("stock");//库存
+                    $goods[$key]["max_price"] = $max[$key];
+                    $goods[$key]["min_price"] = $min[$key];
+                }
+                $goods[$key]["named"] = $res["name"];               
+                $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
+            }
+        }
+
+        $all_idents = $goods;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $goods = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Goods/index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $goods->appends($_GET);
+        $this->assign('listpage', $goods->render());
+        return view("goods_index", ["goods" => $goods,"goods_list" => $goods_list]);
+    }
 
 
     /**

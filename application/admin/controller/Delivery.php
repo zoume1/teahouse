@@ -203,7 +203,7 @@ class Delivery extends  Controller{
         if($request->isPost()){
             $data = $request->param();
             $status = $data["status"];
-            if($status == 1){ //按片
+            if($status == 1){ //按单位
                 $delivery = [
                     "name"=> $data["name"],
                     "status"=> $data["status"],
@@ -224,7 +224,7 @@ class Delivery extends  Controller{
                     "are"=> $data["are"]
                 ];
             }
-           
+            
             $res =Db::name("express")->insert($delivery);
             if($res){
                 $this->success("添加成功",'admin/Delivery/delivery_goods');
