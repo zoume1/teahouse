@@ -78,7 +78,7 @@ class Index extends Controller
     protected  function  commons(){
         $data =Session::get("member");
         if(!empty($data)){
-            $phone_num =$data["phone_num"];
+            $phone_num =$data["phone_number"];
         }else{
           $phone_num =null;
         }

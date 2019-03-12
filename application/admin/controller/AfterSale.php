@@ -76,7 +76,8 @@ class  AfterSale extends  Controller{
                 $data =[
                     "status"=>$status,
                     "handle_time"=>time(),
-                    "future_time"=>$normal_future_time
+                    "future_time"=>$normal_future_time,
+                    "who_handle"=>3 , //1、用户自己撤销 2 、中途撤销 3、商家拒绝
                 ];
             }else{
                 $data =[
