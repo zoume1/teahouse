@@ -647,15 +647,15 @@
                     </div>
                 </div>-->
             </div>
-            <div class="form-item general noshow" style=" align-items: center;">
-                    <label class="form-label">包装规格</label>
-                    <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
-                        <select name=""  class="packing packings">
-                            <option value="0">请选择规格编码</option>
-                         </select>
-                         <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  
-                    </div>
-                  
+                <div class="form-item general noshow generals" style=" align-items: center;">
+                        <label class="form-label">包装规格</label>
+                        <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
+                            <select name=""  class="packing packings">
+                                <option value="0">请选择规格编码</option>
+                            </select>
+                            <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  
+                        </div>
+                    
                 </div>
                 <div class="form-item general noshow">
                     <label class="form-label"></label>
@@ -855,6 +855,21 @@
                     });
                     $('#update_table').on('click', function() {
                         codings.splice(0,codings.length); 
+                        $(".generals").remove();
+                        var danwei2='';
+                        danwei2+='<div class="form-item general generals" style=" align-items: center;">';
+                        danwei2+='<label class="form-label">包装规格</label>';
+                        danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
+                        danwei2+='<select name="" class="packing">';
+                        danwei2+='<option value="0">请选择规格编码</option>';
+                        for(var j=0;j<codings.length;j++){
+                            danwei2+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
+                        }
+                        danwei2+='</select>';
+                        danwei2+='<div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>';
+                        danwei2+='</div>';
+                        danwei2+=' </div>';
+                        $(".add_danwei2").parent().before(danwei2)
                         var lv1Arr = $('input[class="lvv3"]');
                         if (!lv1Arr || lv1Arr.length == 0) {
                             $('#lv_table_con').hide();
@@ -885,6 +900,7 @@
                         tableHTML += '			<th width="100px"><input value="规格编码"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="成本价"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="划线价"  readonly style="border:0;"></th>';
+                        tableHTML += '			<th width="100px"><input value="报价单位"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="图片"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="存茶开关"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="是否上架"  readonly style="border:0;"></th>';
@@ -946,6 +962,7 @@
                             tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" class="coding" /></td>';
                             tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[cost]" /></td>';
                             tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[line]" /></td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[offer]" /></td>';
                             tableHTML += '			<td width="100px">';
                             tableHTML += '                         <div class="img-box full">';
                             tableHTML += '	                    <section class=" img-section">';
@@ -1133,7 +1150,7 @@
         $(".add_danwei2").click(function(){
             if($(".packings").find("option").length!=1){
                 var danwei2='';
-                danwei2+='<div class="form-item general " style=" align-items: center;position: relative;">';
+                danwei2+='<div class="form-item general generals" style=" align-items: center;position: relative;">';
                 danwei2+='<label class="form-label"></label>';
                 danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
                 danwei2+='<select name="" class="packing">';
