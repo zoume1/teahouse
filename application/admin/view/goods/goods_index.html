@@ -123,13 +123,13 @@
                             <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}"> {/if}
                         </td>
                         <td>
-                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Goods/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Goods/edit',['id'=>$value.id])}"> 编辑
                             </a>
                             {if !empty($value.distribution)}
-                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Distribution/goods_edit',['id'=>$value.distribution_id])}"><i class="iconfont icon-edit"></i> 分销设置
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Distribution/goods_edit',['id'=>$value.distribution_id])}"> 分销设置
                             </a>
                             {else}
-                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Distribution/goods_addtwo',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 分销设置
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Distribution/goods_addtwo',['id'=>$value.id])}"> 分销设置
                             </a>
                             {/if}
                             <a href="{:url('admin/Goods/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
