@@ -9,8 +9,10 @@ namespace  app\index\controller;
 
 define("APPID", "wx301c1368929fdba8"); // 商户账号appid
 define("MCHID", "1522110351"); 		// 商户号
-define("SECRECT_KEY", "94477ab333493c79f806f948f036f1e3");  //支付密钥签名
-define("IP", "119.23.79.230");   //IP
+//define("SECRECT_KEY", "94477ab333493c79f806f948f036f1e3");  //支付密钥签名
+define("SECRECT_KEY", "TeahouseZwxcqgzyszhihuichacangZy");  //支付密钥签名
+//define("IP", "119.23.79.230");   //IP
+define("IP", "192.168.0.1");   //IP
 
 use think\Controller;
 use think\Request;
@@ -214,15 +216,15 @@ class  Api extends  Controller{
         }
 //        $str.='key='.$secrect_key;
         $str.='key='.$secrect_key;
-        dump(strtoupper(md5($str))); //TODO：注意签名需要大写字母
+//        dump(strtoupper(md5($str))); //TODO：注意签名需要大写字母
         $data['sign']=strtoupper(md5($str));
         $xml=$this->arraytoxml($data);
-      dump($xml);
+//        halt($xml);
         $url='https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers'; //调用接口
         $res=$this->curl($xml,$url); //fales
-        halt($res);
+//        halt($res);
         $return=$this->xmltoarray($res);
-        halt($return);
+//        halt($return);
 
         //返回来的结果
         // [return_code] => SUCCESS [return_msg] => Array ( ) [mch_appid] => wxd44b890e61f72c63 [mchid] => 1493475512 [nonce_str] => 616615516 [result_code] => SUCCESS [partner_trade_no] => 20186505080216815
