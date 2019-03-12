@@ -93,12 +93,7 @@ class Goods extends Controller
     {
         
         if ($request->isPost()) {
-            $goods_data = $request->param();   
-
-            $test = 'tester_num';
-            $result = substr($test,0,strrpos($test,"_"));
-             halt($result);
-                            
+            $goods_data = $request->param();           
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];
@@ -170,6 +165,7 @@ class Goods extends Controller
                 $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                 $result = implode(",", $goods_data["lv1"]);
                 $goods_id = db('goods')->insertGetId($goods_special);
+                
                 if (!empty($goods_data)) {
                     foreach ($goods_data as $kn => $nl) {
                         if (substr($kn, 0, 3) == "sss") {
@@ -189,9 +185,16 @@ class Goods extends Controller
                                 $save[] = "0";
                             }
                         }
+                        if(substr($kn,strrpos($kn,"_")+1) == "num"){
+                            $num[] = implode(",",$goods_data[$kn]);
+                        }
+                        if(substr($kn,strrpos($kn,"_")+1) == "unit"){
+                            $unit[] = implode(",",$goods_data[$kn]);
+                        }
+ 
                     }
-                }
 
+                }
 
                 if (!empty($imgs)) {
                     foreach ($imgs as $k => $v) {
@@ -211,6 +214,8 @@ class Goods extends Controller
                                     $values[$k]["save"] = $save[$k];
                                     $values[$k]["cost"] = $cost[$k];
                                     $values[$k]["line"] = $line[$k];
+                                    $values[$k]["num"] = $num[$k];
+                                    $values[$k]["unit"] = $unit[$k];
                                     $values[$k]["images"] = $tab;
                                     $values[$k]["goods_id"] = $goods_id;
                                 }
