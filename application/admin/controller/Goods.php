@@ -93,7 +93,12 @@ class Goods extends Controller
     {
         
         if ($request->isPost()) {
-            $goods_data = $request->param();                   
+            $goods_data = $request->param();   
+
+            $test = 'tester_num';
+            $result = substr($test,0,strrpos($test,"_"));
+             halt($result);
+                            
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];
@@ -109,9 +114,19 @@ class Goods extends Controller
                 $goods_data["scope"] = implode(',', $goods_data["scope"]);
             } else {
                 $goods_data["scope"] = "";
-            }        
+            } 
+            
+            
+            if(empty($goods_data["num"][1]) && empty($goods_data["unit"][0])){ //存空
+                
+                $goods_data["num"] = array();
+                $goods_data["unit"] = array();
+            } else {
+                $goods_data["num"] = implode(",",$goods_data["num"]);
+                $goods_data["unit"] = implode(",",$goods_data["unit"]);
+            }
+            
             if ($goods_data["goods_standard"] == "0") {
-                halt($goods_data);
                 $bool = db("goods")->insert($goods_data);
                 if ($bool) {
                     $this->success("添加成功", url("admin/Goods/index"));
@@ -154,7 +169,6 @@ class Goods extends Controller
                 $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
                 $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                 $result = implode(",", $goods_data["lv1"]);
-                halt($goods_special);
                 $goods_id = db('goods')->insertGetId($goods_special);
                 if (!empty($goods_data)) {
                     foreach ($goods_data as $kn => $nl) {
@@ -177,6 +191,8 @@ class Goods extends Controller
                         }
                     }
                 }
+
+
                 if (!empty($imgs)) {
                     foreach ($imgs as $k => $v) {
                         $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -202,7 +218,7 @@ class Goods extends Controller
                         }
                     }
                 }
-               
+               halt($values);
                 foreach ($values as $kz => $vw) {
                     $rest = db('special')->insert($vw);
                 }
