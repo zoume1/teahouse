@@ -201,6 +201,12 @@ class  AfterSale extends Controller{
             $data =Db::name("after_sale")->where("id",$after_sale_id)->find();
             $data["images"] =Db::name("after_image")->where("after_sale_id",$after_sale_id)->select();
             $data["reply"] =Db::name("after_reply")->where("after_sale_id",$after_sale_id)->select();
+            $goods_data =Db::name("order")
+                ->field("goods_image,parts_goods_name"
+                )->where("id",$data["order_id"])
+                ->find();
+            $data["goods_images"] =$goods_data["goods_image"];
+            $data["goods_name"] =$goods_data["parts_goods_name"];
             if(!empty($data)){
                 return ajax_success("售后信息返回成功",$data);
             }else{

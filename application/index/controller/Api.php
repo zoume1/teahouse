@@ -214,10 +214,10 @@ class  Api extends  Controller{
         }
 //        $str.='key='.$secrect_key;
         $str.='key='.$secrect_key;
-        dump($str);
-        $data['sign']=md5($str);
+        dump(strtoupper(md5($str))); //TODO：注意签名需要大写字母
+        $data['sign']=strtoupper(md5($str));
         $xml=$this->arraytoxml($data);
-        dump($xml);
+      dump($xml);
         $url='https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers'; //调用接口
         $res=$this->curl($xml,$url); //fales
         halt($res);
