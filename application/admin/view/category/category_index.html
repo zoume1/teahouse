@@ -99,7 +99,7 @@
                             {if $value.status == 1} 已显示 {else} 已禁用 {/if}
                         </td>
                         <td>
-                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Category/edit',['id'=>$value.id])}"> 编辑
 							</a>
                             <a href="{:url('admin/Category/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>

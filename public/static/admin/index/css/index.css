@@ -30,6 +30,10 @@ a:focus, a:hover {
     padding: 4px 8px;
     font-size: 13px;
 }
+.layui-btn-mini {
+   
+    border-radius: 4px !important;
+}
 .overflow{
 	width: 130px;
 	overflow: hidden;

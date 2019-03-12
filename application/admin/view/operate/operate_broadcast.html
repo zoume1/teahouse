@@ -104,7 +104,7 @@
                                 <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}"> {/if}
                             </td>
 							<td>
-								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/operate/operate_broadcast_edit',['id'=>$value.id])}"><i class="iconfont icon-edit"></i> 编辑
+								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/operate/operate_broadcast_edit',['id'=>$value.id])}"> 编辑
 								</a>			
 								<a href="{:url('admin/operate/operate_broadcast_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 							</td>

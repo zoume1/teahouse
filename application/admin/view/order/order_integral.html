@@ -49,10 +49,13 @@
 		width: 100px;
 		height: 30px;
 		line-height: 30px;
-		border-radius: 10px;
-		background: #007AFF;
+		border-radius: 8px;
 		color: #fff;
 		margin: 0 auto;
+		overflow: hidden;
+	}
+	.static_btus button {
+		width: 100%;
 	}
 	/*
      * 弹窗
@@ -139,7 +142,30 @@
 	/*
      * 弹窗end
      */
-
+	/* 状态颜色 */
+		
+			/* 待发货 */
+			.color2{
+                 background: #CC00CC;
+			}
+			/* 已发货 */
+			.color3{
+                 background: #FF0000;
+			}
+			/* 已完成 */
+			.color4{
+                   background: #669900;
+			}
+			/* 已关闭 */
+			.color5{
+                  background: #A1A1A1;
+			}
+			
+			/*  待发货*/
+			.color8{
+                  background: #CC00CC;
+			}
+			
 </style>
 
 {/block}
@@ -479,6 +505,16 @@
 			$(".popup_x").click(function(){
 			$(".popup_two").addClass("noshow");
 		});
+		function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() ;
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
+        D = date.getDate() ;
+        h = date.getHours() + ':';
+        m = date.getMinutes() + ':';
+        s = date.getSeconds();
+        return Y+M+D;
+    }
 	</script>
 
 	{/block}
