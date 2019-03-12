@@ -1575,7 +1575,7 @@ class  Order extends  Controller
              file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("order")
                 ->where("parts_order_number",$val["out_trade_no"])
-                ->update(["status"=>2,"pay_time"=>time()]);
+                ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
             if($res){
                 //做消费记录
                 $information =Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
