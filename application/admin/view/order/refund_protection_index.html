@@ -357,7 +357,7 @@
 						</td>
 						<td>
 							<div class="static_btus" data-id="{$vo.id}" id="static_btus">
-								{$vo.status|after_sale_status}
+								{:after_sale_status($vo.status,$vo.who_handle)}
 							</div>
 						</td>
 						{if !empty($vo["handle_time"])}
@@ -643,7 +643,7 @@
 						var dhtml_b = '';
 						dhtml_b += '<div class="chat_list_content">';
 						dhtml_b += '<div class="chat_list">';
-						dhtml_b += '<span class="span">' + data.data.operation_time + '</span>';
+						dhtml_b += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
 						dhtml_b += '<span>' + data.data.return_reason + '</span>';
 						dhtml_b += '</div>';
 						dhtml_b += '<div class="img_content">';
@@ -658,7 +658,7 @@
 							var dhtml_e = '';
 							dhtml_e += '<div class="chat_list_content">';
 							dhtml_e += '<div class="chat_list">';
-							dhtml_e += '<span class="span">' + data.data.operation_time + '</span>';
+							dhtml_e += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
 							dhtml_e += '<span>' + data.data.return_reason + '</span>';
 							dhtml_e += '</div>';
 							dhtml_e += '<div class="img_content">';
@@ -695,7 +695,7 @@
 						var dhtml_b = '';
 						dhtml_b += '<div class="chat_list_content">';
 						dhtml_b += '<div class="chat_list">';
-						dhtml_b += '<span class="span">' + data.data.operation_time + '</span>';
+						dhtml_b += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
 						dhtml_b += '<span>' + data.data.return_reason + '</span>';
 						dhtml_b += '</div>';
 						dhtml_b += '<div class="img_content">';
@@ -710,7 +710,7 @@
 							var dhtml_e = '';
 							dhtml_e += '<div class="chat_list_content">';
 							dhtml_e += '<div class="chat_list">';
-							dhtml_e += '<span class="span">' + data.data.operation_time + '</span>';
+							dhtml_e += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
 							dhtml_e += '<span>' + data.data.return_reason + '</span>';
 							dhtml_e += '</div>';
 							dhtml_e += '<div class="img_content">';
@@ -746,7 +746,7 @@
 							var dhtml_b = '';
 							dhtml_b += '<div class="chat_list_content">';
 							dhtml_b += '<div class="chat_list">';
-							dhtml_b += '<span class="span">' + data.data.operation_time + '</span>';
+							dhtml_b += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
 							dhtml_b += '<span>' + data.data.return_reason + '</span>';
 							dhtml_b += '</div>';
 							dhtml_b += '<div class="img_content">';
@@ -761,7 +761,7 @@
 								var dhtml_e = '';
 								dhtml_e += '<div class="chat_list_content">';
 								dhtml_e += '<div class="chat_list">';
-								dhtml_e += '<span class="span">' + data.data.operation_time + '</span>';
+								dhtml_e += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
 								dhtml_e += '<span>' + data.data.return_reason + '</span>';
 								dhtml_e += '</div>';
 								dhtml_e += '<div class="img_content">';
@@ -818,7 +818,7 @@
 							var dhtml_b = '';
 							dhtml_b += '<div class="chat_list_content">';
 							dhtml_b += '<div class="chat_list">';
-							dhtml_b += '<span class="span">' + data.data.operation_time + '</span>';
+							dhtml_b += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
 							dhtml_b += '<span>' + data.data.return_reason + '</span>';
 							dhtml_b += '</div>';
 							dhtml_b += '<div class="img_content">';
@@ -833,7 +833,7 @@
 								var dhtml_e = '';
 								dhtml_e += '<div class="chat_list_content">';
 								dhtml_e += '<div class="chat_list">';
-								dhtml_e += '<span class="span">' + data.data.operation_time + '</span>';
+								dhtml_e += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
 								dhtml_e += '<span>' + data.data.return_reason + '</span>';
 								dhtml_e += '</div>';
 								dhtml_e += '<div class="img_content">';
@@ -874,7 +874,7 @@
 						var dhtml_b = '';
 						dhtml_b += '<div class="chat_list_content">';
 						dhtml_b += '<div class="chat_list">';
-						dhtml_b += '<span class="span">' + data.data.operation_time + '</span>';
+						dhtml_b += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
 						dhtml_b += '<span>' + data.data.return_reason + '</span>';
 						dhtml_b += '</div>';
 						dhtml_b += '<div class="img_content">';
@@ -889,7 +889,7 @@
 							var dhtml_e = '';
 							dhtml_e += '<div class="chat_list_content">';
 							dhtml_e += '<div class="chat_list">';
-							dhtml_e += '<span class="span">' + data.data.operation_time + '</span>';
+							dhtml_e += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
 							dhtml_e += '<span>' + data.data.return_reason + '</span>';
 							dhtml_e += '</div>';
 							dhtml_e += '<div class="img_content">';
@@ -1004,7 +1004,7 @@
 						console.log(data);
 						var dhtm0 = "";
 						dhtm0 += '<div class="chat_list">';
-						dhtm0 += '	<span class="span">' + data.data.create_time + '</span>';
+						dhtm0 += '	<span class="span">' + timestampToTime(data.data.create_time)+ '</span>';
 						dhtm0 += '<span>' + data.data.content + '</span>';
 						dhtm0 += '</div>';
 						$(".chat").append(dhtm0);
@@ -1020,6 +1020,16 @@
 				alert("回复不能为空");
 			}
 			})
+			function timestampToTime(timestamp) {
+				var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+				Y = date.getFullYear() ;
+				M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
+				D = date.getDate() ;
+				h = date.getHours() + ':';
+				m = date.getMinutes() + ':';
+				s = date.getSeconds();
+				return Y+M+D;
+    }
 	</script>
 
 	{/block}

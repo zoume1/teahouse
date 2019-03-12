@@ -123,6 +123,7 @@ Route::group("",[
     "cancellation_of_application"=>"index/AfterSale/cancellation_of_application",//售后撤销售后申请
     "business_address"=>"index/AfterSale/business_address",//售后商家寄还地址返回
     "order_refund"=>"index/Api/order_refund",//微信退款
+    "sendMoney"=>"index/Api/sendMoney",//TODO：提现测试
     /*TODO:售后处理结束*/
 
     /*TODO:订单用户提醒发货开始*/
@@ -221,7 +222,7 @@ Route::group("",[
     "withdrawal_return"=>"index/wallet/withdrawal_return",     //钱包提现页面数据返回
     "withdrawal"=>"index/wallet/withdrawal",     //钱包银行卡提现
     "wechat_withdrawal"=>"index/wallet/wechat_withdrawal",     //钱包微信提现
-    "sendMoney"=>"index/Api/sendMoney",//TODO：提现测试
+
     /*TODO:充值提现结束*/
 
 

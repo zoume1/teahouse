@@ -126,9 +126,19 @@
 
 			</div>
 		</div>
-		</div>
 		<div class="form-item">
-			<label class="form-label">适用范围</label>
+				<label class="form-label">适用费用</label>
+				<div class="form-input">
+						<input type="checkbox" name="goods_delivery" lay-skin="primary" title="商品费用" value="1" checked="">
+						<input type="checkbox" name="goods_delivery" lay-skin="primary" title="保险费用" value="2">
+						<input type="checkbox" name="goods_delivery" lay-skin="primary" title="仓储费用" value="3">
+					<div class="tips">
+						*可多选，表明该券只适用与指定的费用优惠券
+					</div>
+				</div>
+			</div>
+		<div class="form-item">
+			<label class="form-label">适用商品</label>
 			<div class="form-input">
 				<input type="radio" name="suit" value="0" title="所有商品/活动" checked="">
 				<input type="radio" name="suit" value="1" title="选择商品/活动">
@@ -181,7 +191,7 @@
 					<td>1000001</td>
 					<td>1000001</td>
 					<td>
-						<a class="layui-btn layui-btn-mini edit" href="bonus_edit"><i class="iconfont icon-edit"></i> 参加活动
+						<a class="layui-btn layui-btn-mini edit" href="bonus_edit"> 参加活动
 						</a>
 					</td>
 				</tr> -->
@@ -341,7 +351,7 @@
 								dhtml+='<td>'+data[i].goods_name+'</td>';
 								dhtml+='<td>'+data[i].goods_repertory+'</td>';
 								dhtml+='<td>';
-								dhtml+='<div class="layui-btn layui-btn-mini edit"><i class="iconfont icon-edit"></i> 参加活动</div>';
+								dhtml+='<div class="layui-btn layui-btn-mini edit"> 参加活动</div>';
 								dhtml+='</td>';
 								dhtml+='</tr>';
 								$('.news_content').append(dhtml);

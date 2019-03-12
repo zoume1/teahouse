@@ -9,8 +9,10 @@ namespace  app\index\controller;
 
 define("APPID", "wx301c1368929fdba8"); // 商户账号appid
 define("MCHID", "1522110351"); 		// 商户号
-define("SECRECT_KEY", "94477ab333493c79f806f948f036f1e3");  //支付密钥签名
-define("IP", "119.23.79.230");   //IP
+//define("SECRECT_KEY", "94477ab333493c79f806f948f036f1e3");  //支付密钥签名
+define("SECRECT_KEY", "TeahouseZwxcqgzyszhihuichacangZy");  //支付密钥签名
+//define("IP", "119.23.79.230");   //IP
+define("IP", "192.168.0.1");   //IP
 
 use think\Controller;
 use think\Request;
@@ -85,15 +87,23 @@ class  Api extends  Controller{
             ->where("id",$after_sale_id)
             ->find();
         $refund_amount =Db::name("order")
-            ->field("refund_amount,parts_order_number,order_real_pay")
+            ->field("refund_amount,parts_order_number,order_real_pay,si_pay_type")
             ->where("id",$data["order_id"])
             ->find();
+        //si_pay_type 支付方式（1为小程序余额支付，2是小程序微信支付）
         if(!$refund_amount){
             return ajax_error("未找到该订单信息");
         }
         if($business_return_money>$refund_amount["refund_amount"]){
             return ajax_error("所退款金额大于支付的金钱");
         }
+        if($refund_amount ==1){
+            //如果是余额支付退回用户余额（不可提现）
+            $refund_fee= $refund_amount["refund_amount"];
+            return ajax_success("退款成功",$refund_amount);
+        }
+
+
         $out_trade_no=$refund_amount["parts_order_number"];
         $total_fee=$refund_amount["order_real_pay"] *100;
         $refund_fee= $refund_amount["refund_amount"] *100;
@@ -214,15 +224,15 @@ class  Api extends  Controller{
         }
 //        $str.='key='.$secrect_key;
         $str.='key='.$secrect_key;
-        dump(strtoupper(md5($str))); //TODO：注意签名需要大写字母
+//        dump(strtoupper(md5($str))); //TODO：注意签名需要大写字母
         $data['sign']=strtoupper(md5($str));
         $xml=$this->arraytoxml($data);
-      dump($xml);
+//        halt($xml);
         $url='https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers'; //调用接口
         $res=$this->curl($xml,$url); //fales
-        halt($res);
+//        halt($res);
         $return=$this->xmltoarray($res);
-        halt($return);
+//        halt($return);
 
         //返回来的结果
         // [return_code] => SUCCESS [return_msg] => Array ( ) [mch_appid] => wxd44b890e61f72c63 [mchid] => 1493475512 [nonce_str] => 616615516 [result_code] => SUCCESS [partner_trade_no] => 20186505080216815

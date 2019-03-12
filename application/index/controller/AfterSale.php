@@ -285,7 +285,23 @@ class  AfterSale extends Controller{
     public function cancellation_of_application(Request $request){
         if($request->isPost()){
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
-           $bool =Db::name("after_sale")->where("id", $after_sale_id)->update(["status"=>5]);
+           $handle_time =Db::name("after_sale")->where("id", $after_sale_id)->value("handle_time");
+           if(!empty($handle_time)){
+               //1、用户自己撤销 2 、中途撤销 3、商家拒绝
+               $data =[
+                   "status"=>5,
+                   "who_handle"=>2,
+                   "handle_time"=>time()
+               ];
+           }else{
+               //1、用户自己撤销 2 、中途撤销 3、商家拒绝
+               $data =[
+                   "status"=>5,
+                   "who_handle"=>1,
+                   "handle_time"=>time()
+               ];
+           }
+           $bool =Db::name("after_sale")->where("id", $after_sale_id)->update($data);
            if($bool){
                return ajax_success("撤销成功");
            }else{

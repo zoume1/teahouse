@@ -35,6 +35,8 @@
 						<option value="0">顶级</option>
 					</select><br/> {/if}
                 </select>
+                <div class="tips"> *当不选择时，则该分类名称创建为1级</div>
+               
             </div>
         </div>
         <div class="form-item">
@@ -47,6 +49,7 @@
             <label class="form-label">排序</label>
             <div class="form-input">
                 <input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <div class="tips">*填写正整数，从大到小排序</div>
             </div>
         </div>
         <div class="form-item">

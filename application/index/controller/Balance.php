@@ -68,7 +68,7 @@ class Balance extends Controller
                 //对订单状态进行修改
                 $result= Db::name("order")
                     ->where("parts_order_number",$order_num)
-                    ->update(["status"=>2,"pay_time"=>time()]);
+                    ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>1]);
                 //如果修改成功则进行钱抵扣
                 if ($result > 0) {
                     //做消费记录
