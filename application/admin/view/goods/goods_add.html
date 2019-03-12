@@ -311,6 +311,7 @@
 		background: #169BD5;
 		color: #fff;
 	}
+    /* 包装规格 */
    #packing_specification{
       display: flex;
       align-items: center;
@@ -356,6 +357,7 @@
     right: 0;
     top: 0;
    }
+       /* 包装规格 */
 </style>
 
 {/block}
@@ -646,21 +648,21 @@
                 </div>-->
             </div>
             <div class="form-item general noshow" style=" align-items: center;">
-                <label class="form-label">包装规格</label>
-                <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
-                    <select name=""  class="packing packings">
-                        <option value="0">请选择规格编码</option>
-                     </select>
-                     <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  
+                    <label class="form-label">包装规格</label>
+                    <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
+                        <select name=""  class="packing packings">
+                            <option value="0">请选择规格编码</option>
+                         </select>
+                         <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  
+                    </div>
+                  
                 </div>
-              
-            </div>
-            <div class="form-item general noshow">
-                <label class="form-label"></label>
-                <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;">
-                    继续添加
+                <div class="form-item general noshow">
+                    <label class="form-label"></label>
+                    <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;">
+                        继续添加
+                    </div>
                 </div>
-            </div>
         </div>
         <div class="form-item">
             <label class="form-label">商品折扣</label>
@@ -1089,6 +1091,8 @@
         $("#hot").on('click', ".change_text", function() {
 			$(".popup").removeClass("noshow");
 		});
+
+        // 包装规格
         $(".add_danwei").click(function(){
             var danwei=''
             danwei+='<div class="fuhao">=</div>';
@@ -1203,6 +1207,7 @@
           }
            
         })
+        // 包装规格
     </script>
 
     {/block}
