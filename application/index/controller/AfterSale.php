@@ -287,14 +287,18 @@ class  AfterSale extends Controller{
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
            $handle_time =Db::name("after_sale")->where("id", $after_sale_id)->value("handle_time");
            if(!empty($handle_time)){
+               //1、用户自己撤销 2 、中途撤销 3、商家拒绝
                $data =[
                    "status"=>5,
-                   "who_handle"=>2
+                   "who_handle"=>2,
+                   "handle_time"=>time()
                ];
            }else{
+               //1、用户自己撤销 2 、中途撤销 3、商家拒绝
                $data =[
                    "status"=>5,
-                   "who_handle"=>1
+                   "who_handle"=>1,
+                   "handle_time"=>time()
                ];
            }
            $bool =Db::name("after_sale")->where("id", $after_sale_id)->update($data);
