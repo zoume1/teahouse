@@ -212,11 +212,15 @@ class  Api extends  Controller{
         foreach($data as $k=>$v) {
             $str.=$k.'='.$v.'&';
         }
+//        $str.='key='.$secrect_key;
         $str.='key='.$secrect_key;
+        dump($str);
         $data['sign']=md5($str);
         $xml=$this->arraytoxml($data);
+        dump($xml);
         $url='https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers'; //调用接口
         $res=$this->curl($xml,$url); //fales
+        halt($res);
         $return=$this->xmltoarray($res);
         halt($return);
 

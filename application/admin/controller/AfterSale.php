@@ -70,9 +70,23 @@ class  AfterSale extends  Controller{
         if($request->isPost()){
             $status =$request->only(["status"])["status"];
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
+            if($status ==5){
+                $normal_time =Db::name("order_setting")->find();//订单设置的时间
+                $normal_future_time =strtotime("+". $normal_time['after_sale_time']." minute");
+                $data =[
+                    "status"=>$status,
+                    "handle_time"=>time(),
+                    "future_time"=>$normal_future_time
+                ];
+            }else{
+                $data =[
+                    "status"=>$status,
+                    "handle_time"=>time()
+                ];
+            }
             $bool =Db::name("after_sale")
                 ->where("id",$after_sale_id)
-                ->update(["status"=>$status,"handle_time"=>time()]);
+                ->update($data);
             if($bool){
                 return ajax_success("更改成功");
             }else{
