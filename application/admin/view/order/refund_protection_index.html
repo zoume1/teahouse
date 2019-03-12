@@ -357,7 +357,7 @@
 						</td>
 						<td>
 							<div class="static_btus" data-id="{$vo.id}" id="static_btus">
-								{$vo.status|after_sale_status}
+								{:after_sale_status($vo.status,$vo.who_handle)}
 							</div>
 						</td>
 						{if !empty($vo["handle_time"])}

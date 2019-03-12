@@ -713,16 +713,20 @@ function operation_recharge_status($status){
  **************************************
  * @param $status
  */
-function after_sale_status($status){
+function after_sale_status($status,$who_handle){
    if($status==1){
-        echo '<div type="button" class="state  payment-has-been" >申请中</div>';
+        echo '<div type="button" class="state  payment-has-been " >申请中</div>';
     }else  if($status==2){
         echo '<div  type="button" class="state  shipmenting-btu" >收货中</button>';
     }else  if($status==3){
         echo '<div  type="button" class="state  shipmented-btu" >处理中</button>';
     }else  if($status==4){
         echo '<div  type="button" class="state  gooding-btu" >换货成功</button>';
-    }else  if($status==5){
-        echo '<div  type="button" class="state  gooded-btu" >拒绝</button>';
-    }
+    }else  if($status==5 && $who_handle ==1){
+        echo '<div  type="button" class="state  gooded-btu" >用户撤销</button>';
+    }else  if($status==5 && $who_handle ==2){
+       echo '<div  type="button" class="state  gooded-btu" >用户撤销</button>';
+   }else  if($status==5 && $who_handle ==3){
+       echo '<div  type="button" class="state  gooded-btu" >拒绝</button>';
+   }
 }
