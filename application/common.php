@@ -772,5 +772,32 @@ function unit_comment($num,$unit){
    
 }
 
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:快递名称改变
+ **************************************
+ * @param $str
+ * @return string
+ */
+function str_to_chinese($str){
+    $arr = array(
+        'ems'=>'EMS',
+        'shunfeng'=>'顺丰',
+        'shentong'=>'申通',
+        'yuantong'=> '圆通',
+        'zhongtong'=> '中通',
+        'huitong'=>'汇通',
+        'tiantian'=> '天天',
+        'yunda'=> '韵达',
+        'quanfeng'=>'全峰',
+        'zhongguoyouzheng'=>'中国邮政',
+        'youzhengpingyou'=> '邮政平邮',
+        'nengda'=>'港中能达',
+        'zhaijisong'=>'宅急送快递'
+    );
+    return strtr($str, $arr);
+}
+
 
 
