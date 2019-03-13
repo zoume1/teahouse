@@ -198,7 +198,6 @@ class  AfterSale extends Controller{
     public function after_sale_information_return(Request $request){
         if($request->isPost()){
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];
-            halt($after_sale_id);
             $data =Db::name("after_sale")->where("id",$after_sale_id)->find();
             $data["images"] =Db::name("after_image")->where("after_sale_id",$after_sale_id)->select();
             $data["reply"] =Db::name("after_reply")->where("after_sale_id",$after_sale_id)->select();
