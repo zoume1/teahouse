@@ -66,7 +66,6 @@ class  Api extends  Controller{
                         }else{
                             return ajax_error("暂无物流信息");
                         }
-//                        $data = json_decode($data,true);
                     }
                 }
 
