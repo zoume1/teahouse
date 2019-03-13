@@ -117,6 +117,7 @@ class Goods extends Controller
                 $goods_data["num"] = array();
                 $goods_data["unit"] = array();
             } else {
+                $goods_data["element"] = unit_comment($goods_data["num"],$goods_data["unit"]);
                 $goods_data["num"] = implode(",",$goods_data["num"]);
                 $goods_data["unit"] = implode(",",$goods_data["unit"]);
             }
@@ -187,9 +188,11 @@ class Goods extends Controller
                             }
                         }
                         if(substr($kn,strrpos($kn,"_")+1) == "num"){
+                            $num1[] = $goods_data[$kn];
                             $num[] = implode(",",$goods_data[$kn]);
                         }
                         if(substr($kn,strrpos($kn,"_")+1) == "unit"){
+                            $unit1[] = $goods_data[$kn];
                             $unit[] = implode(",",$goods_data[$kn]);
                         }
  
@@ -220,6 +223,7 @@ class Goods extends Controller
                                     $values[$k]["offer"] = $offer[$k];
                                     $values[$k]["images"] = $tab;
                                     $values[$k]["goods_id"] = $goods_id;
+                                    $values[$k]["element"] = unit_comment($num1[$k],$unit1[$k]);
                                 }
                             }
                         }
@@ -253,72 +257,21 @@ class Goods extends Controller
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
             $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
+            $goods[$key]["unit"] = explode(',', $goods[$key]["element"]);
         }
      }
         foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
-            $res = explode(',', $v["lv1"]);
-            $num[] = explode(',', $v["num"]);
-            $unit[] =explode(',', $v["unit"]);
-
-
-
-        
+            $res = explode(',', $v["lv1"]);  
+            $unit[] = explode(',', $v["element"]);        
         }
 
-        foreach($num as $z => $w){
-            foreach($w as $m => $b){
-                if($m % 2 == 0 ){
-                    $new[$z+1][$m] = $unit[$z][$m]; 
-                }else{
-                    $new[$z][$m] = $b;                   
-                }
-                
-            }
-        }
-      
-
-        // $count =count($b);
-        // foreach($a as $z => $w){
-        //     foreach($b as $i=>$j){
-        //         if($z ==$i){
-        //             $ar[$z]["nu"]=$w;
-        //             $ar[$z]["num"]=$j;
-        //         }
-        //     }
-        // } 
-
-        // foreach( $ar as $ks=>$vs){
-        //     foreach($vs["nu"] as $y=>$m){
-        //         foreach($vs["num"] as $i=>$j){
-        //             if($y == $i){
-        //                 $new[$ks][$y] = $m;
-        //                 $new[$ks][$y+1]= $j;
-        //             }
-                   
-
-        //         }
-        //     }
-            
-            
-        // }
-
-        // foreach( $ar as $ks=>$vs){
-        //     foreach($vs["nu"] as $y=>$m){
-        //         $new[$ks][$y] = $vs["nu"][$y];
-        //         $new[$ks][$y+$count]= $vs["num"][$y];
-        //     }
-            
-            
-        // }
-
-        
         $goods_list = getSelectList("wares");
-        $restel = $goods[0]["goods_standard"];
+        $restel = $goods[0]["goods_standard"]; //判断是否为通用或特殊
         if ($restel == 0) {
             return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope]);
         } else {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"offer"=>$offer,"ar"=>$ar]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"offer"=>$offer,"unit"=>$unit]);
         }
     }
 
@@ -423,11 +376,11 @@ class Goods extends Controller
                 if(!empty($image["goods_show_images"])){
                     $goods_data["goods_show_images"] = $image["goods_show_images"];
                 } else {
-                    $goods_data["goods_show_images"] = NULL;
-                    $goods_data["goods_show_image"] = NULL;
+                    $goods_data["goods_show_images"] = null;
+                    $goods_data["goods_show_image"] = null;
                 }
             } 
-              
+            halt($goods_data);
             $bool = db("goods")->where("id", $id)->update($goods_data);
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));
