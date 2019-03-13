@@ -43,10 +43,10 @@ class  Api extends  Controller{
 //                        $codes =$express_num;
                         //参数设置
                         $post_data = array();
-                        $post_data["customer"] = config("express_hundred.customer");
-                        $key = config("express_hundred.key");
-//                        $post_data["customer"] = '4C249BC13C74A7FE1ED2AAEACF722D34';
-//                        $key = 'rBJvVnui5301';
+//                        $post_data["customer"] = config("express_hundred.customer");
+//                        $key = config("express_hundred.key");
+                        $post_data["customer"] = '4FB2D23DC8AC017B42F78D5A2E108860';
+                        $key = 'iYTBcMoU9991';
                         $post_data["param"] = '{"com":"'.$express_type.'","num":"' . $express_num . '"}';
                         $url = 'http://poll.kuaidi100.com/poll/query.do';
                         $post_data["sign"] = md5($post_data["param"] . $key . $post_data["customer"]);
