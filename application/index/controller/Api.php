@@ -65,9 +65,11 @@ class  Api extends  Controller{
                         $result = curl_exec($ch);
                         $data = str_replace("\"", '"', $result);
                         if(!empty($data)){
-                            return ajax_success("物流数据返回成功",$data);
+                            $data = json_decode($data,true);
+//                            return ajax_success("物流数据返回成功",$data);
                         }else{
-                            return ajax_error("暂无物流信息");
+                            $data = json_decode($data,true);
+//                            return ajax_error("暂无物流信息");
                         }
                     }
                 }
@@ -85,6 +87,7 @@ class  Api extends  Controller{
     public function order_refund(Request $request){
         $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];
         $business_return_money =$request->only(["business_return_money"])["business_return_money"];
+        $status =$request->only(["status"])["status"];
         $data =Db::name("after_sale")
             ->where("id",$after_sale_id)
             ->find();
@@ -99,13 +102,20 @@ class  Api extends  Controller{
         if($business_return_money>$refund_amount["refund_amount"]){
             return ajax_error("所退款金额大于支付的金钱");
         }
-        if($refund_amount ==1){
+        if($refund_amount["si_pay_type"] ==1){
             //如果是余额支付退回用户余额（不可提现）
-            $refund_fee= $refund_amount["refund_amount"];
-            return ajax_success("退款成功",$refund_amount);
+            $refund_fee= $refund_amount["refund_amount"];//返回的金钱
+            $result_data  =Db::name("member")->where("member_id",$data["member_id"])->setInc("member_wallet",$refund_fee);
+           if($result_data){
+               Db::name("after_sale")
+                   ->where("id",$after_sale_id)
+                   ->update(["status"=>$status]);
+               return ajax_success("退款成功",$refund_amount);
+           }else{
+               return ajax_error("退款失败");
+           }
+
         }
-
-
         $out_trade_no=$refund_amount["parts_order_number"];
         $total_fee=$refund_amount["order_real_pay"] *100;
         $refund_fee= $refund_amount["refund_amount"] *100;
@@ -121,6 +131,9 @@ class  Api extends  Controller{
         if ($result['result_code'] == 'SUCCESS') {
             $result['code'] = 1;
             $result['data'] =  $result['transaction_id'];
+            Db::name("after_sale")
+                ->where("id",$after_sale_id)
+                ->update(["status"=>$status]);
             return ajax_success("成功",$result);
         }else {
             $result['code'] = 0;

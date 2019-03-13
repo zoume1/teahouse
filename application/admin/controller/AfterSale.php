@@ -121,29 +121,29 @@ class  AfterSale extends  Controller{
             }
         }
     }
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:售后状态修改带退钱操作
-     **************************************
-     */
-    public function after_sale_money_add(Request $request){
-        if($request->isPost()){
-            $status =$request->only(["status"])["status"];
-            $business_return_money =$request->only(["business_return_money"])["business_return_money"];
-            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
-            $data =[
-                "status"=>$status,
-                "business_return_money"=>$business_return_money,
-            ];
-            $bool =Db::name("after_sale")->where("id",$after_sale_id)->update($data);
-            if($bool){
-                return ajax_success("更改成功");
-            }else{
-                return ajax_error("更改失败");
-            }
-        }
-    }
+//    /**
+//     **************李火生*******************
+//     * @param Request $request
+//     * Notes:售后状态修改带退钱操作
+//     **************************************
+//     */
+//    public function after_sale_money_add(Request $request){
+//        if($request->isPost()){
+//            $status =$request->only(["status"])["status"];
+//            $business_return_money =$request->only(["business_return_money"])["business_return_money"];
+//            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
+//            $data =[
+//                "status"=>$status,
+//                "business_return_money"=>$business_return_money,
+//            ];
+//            $bool =Db::name("after_sale")->where("id",$after_sale_id)->update($data);
+//            if($bool){
+//                return ajax_success("更改成功");
+//            }else{
+//                return ajax_error("更改失败");
+//            }
+//        }
+//    }
 
 
 }
