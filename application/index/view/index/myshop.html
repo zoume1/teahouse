@@ -111,7 +111,7 @@
                                 <span class="cross">＋</span>
                                 <span>创建店铺</span>
                             </li>
-                            <li class="shop-item">
+                            <!-- <li class="shop-item">
                                 <div class="shop-info">
                                     <div class="shop-name txt-hid-one">店铺名</div>
                                     <div class="shop-number txt-hid-one">店铺编号</div>
@@ -158,7 +158,7 @@
                                     <div class="remaining-time">剩余时间：<span>1天</span></div>
                                     <button class="into-shop">进入</button>
                                 </div>
-                            </li>
+                            </li> -->
                             <li class="holder"></li>
                             <li class="holder"></li>
                         </ul>
@@ -372,7 +372,15 @@
     <script src="__STATIC__/index/js/layer/layer.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
-        var init = {
+        var org = {
+            init: function(){
+                this.hidePhone();
+                this.countryData();
+                this.myVerify('#mpanel', 'changephone-button');
+                this.changeNatureItem();
+                this.closePop();
+                this.getAllShop();
+            },
             hidePhone: function(){
                 // 手机打星号
                 var reg = /(\d{3})\d{4}(\d{4})/;
@@ -436,22 +444,29 @@
                     $('.mask').hide();
                     $(this).parents('.pop').hide();
                 })
-            }
+            },
+            getAllShop(){
+                $.ajax({
+                    url: 'store_all_data',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: function(res){console.log('所有店铺', res);},
+                    error: function(){console.log('所有店铺error')}
+                })
+            },
+
         }
-        init.hidePhone();
-        init.countryData();
-        init.myVerify('#mpanel', 'changephone-button');
-        init.changeNatureItem();
-        init.closePop();
+        org.init();
+        
         // 旧手机发送验证码
         $('.nowphone-sendcode').click(function(){
             var $phone = $('.infobar-phone').text();
-            init.sendPhoneCode($phone, this, 'PcsendMobileCode');
+            org.sendPhoneCode($phone, this, 'PcsendMobileCode');
         })
         // 新手机发送验证码
         $('.newphone-sendcode').click(function(){
             var $phone = $('#newphone').val();
-            init.sendPhoneCode($phone, this, 'PcsendMobileCode');
+            org.sendPhoneCode($phone, this, 'PcsendMobileCode');
         })
 
         $('.change-phone').click(function(){
