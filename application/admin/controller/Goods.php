@@ -255,9 +255,11 @@ class Goods extends Controller
         $goods_standard = db("special")->where("goods_id", $id)->select();
         $offer = db("special")->where("goods_id", $id)->field("coding")->select();
         foreach($offer as $pp => $qq){
-            $offers[$pp] = $qq["coding"];
+            if(!empty($offer)){
+                $offers[$pp] = $qq["coding"];
+            }
         }
-        
+
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
@@ -272,26 +274,22 @@ class Goods extends Controller
             $unit1["unit"][] = explode(',', $v["unit"]);        
             $num["num"][] = explode(',', $v["num"]);        
         }
-       
-    //   $rest["111"] = array_merge($unit1,$num);
-    //   halt($rest);
-    //   halt($unit1["unit"][0]);
-      foreach($offers as $kk => $zz){
-          $rest1["unit"][$kk] = $unit1["unit"][$kk];
-          $rest2["num"][$kk] = $num["num"][$kk];
-        //   $rest["$zz"][] =  array_merge($rest1["unit"][$kk],$rest2["num"][$kk]);
-          $unit3["$zz"]["unit"] =  $rest1["unit"][$kk];
-          $unit3["$zz"]["num"] =  $rest2["num"][$kk];
-
-      }
-       
-
-
+          
+        foreach($offers as $kk => $zz){
+            $rest1["unit"][$kk] = $unit1["unit"][$kk];
+            $rest2["num"][$kk] = $num["num"][$kk];
+            $unit3[$kk]["unit"] =  $rest1["unit"][$kk];
+            $unit3[$kk]["num"] =  $rest2["num"][$kk];    
+            $unit3[$kk]["number"] =  $offers[$kk];    
+                
+        }
+        
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"]; //判断是否为通用或特殊
         if ($restel == 0) {
             return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope]);
         } else {
+
             return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"offer"=>$offer,"unit"=>$unit3]);
         }
     }
@@ -703,7 +701,7 @@ class Goods extends Controller
                     $rest2["num"][$kk] = $num["num"][$kk];
                     $unit1[$kk]["$zz"]["unit"] =  $rest1["unit"][$kk];
                     $unit1[$kk]["$zz"]["num"] =  $rest2["num"][$kk];
-          
+                    $unit1[$kk]["number"] =  $offers[$kk];          
                 }
     
                 if(!empty($unit1)){
