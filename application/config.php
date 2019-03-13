@@ -264,10 +264,12 @@ return [
         "url"=>"https://teahouse.siring.com.cn/",
     ],
     /*快递100参数*/
-    "express_hundred"=>[
+    "express"=>[
         //实时物流
-        "customer"=>"4FB2D23DC8AC017B42F78D5A2E108860",
-        "key"=>"iYTBcMoU9991",
+//        "customer"=>"4FB2D23DC8AC017B42F78D5A2E108860",
+//        "key"=>"iYTBcMoU9991",
+        "customer"=>"4C249BC13C74A7FE1ED2AAEACF722D34",
+        "key"=>"rBJvVnui5301",
         //智能判断
         "keys"=>"iYTBcMoU9991",
         //电子面单

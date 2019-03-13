@@ -767,9 +767,9 @@
 							url: "{:url('admin/Order/order_confirm_shipment')}",
 							data: {
 								"order_id":value,
-								"courier_number":curier,
+								"courier_number":danhao,
 								"status":5,
-								"express_name":danhao
+								"express_name": curier
 							},
 							success: function(data) {
 								location.reload();
