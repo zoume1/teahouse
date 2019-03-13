@@ -93,12 +93,7 @@ class Goods extends Controller
     {
         
         if ($request->isPost()) {
-            $goods_data = $request->param();   
-
-            $test = 'tester_num';
-            $result = substr($test,0,strrpos($test,"_"));
-             halt($result);
-                            
+            $goods_data = $request->param();           
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];
@@ -170,6 +165,7 @@ class Goods extends Controller
                 $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                 $result = implode(",", $goods_data["lv1"]);
                 $goods_id = db('goods')->insertGetId($goods_special);
+                
                 if (!empty($goods_data)) {
                     foreach ($goods_data as $kn => $nl) {
                         if (substr($kn, 0, 3) == "sss") {
@@ -178,6 +174,7 @@ class Goods extends Controller
                             $coding[] = $nl["coding"];
                             $cost[] = $nl["cost"];
                             $line[] = $nl["line"];
+                            $offer[] = $nl["offer"];
                             if (isset($nl["status"])) {
                                 $status[] = $nl["status"];
                             } else {
@@ -189,9 +186,16 @@ class Goods extends Controller
                                 $save[] = "0";
                             }
                         }
+                        if(substr($kn,strrpos($kn,"_")+1) == "num"){
+                            $num[] = implode(",",$goods_data[$kn]);
+                        }
+                        if(substr($kn,strrpos($kn,"_")+1) == "unit"){
+                            $unit[] = implode(",",$goods_data[$kn]);
+                        }
+ 
                     }
-                }
 
+                }
 
                 if (!empty($imgs)) {
                     foreach ($imgs as $k => $v) {
@@ -211,6 +215,9 @@ class Goods extends Controller
                                     $values[$k]["save"] = $save[$k];
                                     $values[$k]["cost"] = $cost[$k];
                                     $values[$k]["line"] = $line[$k];
+                                    $values[$k]["num"] = $num[$k];
+                                    $values[$k]["unit"] = $unit[$k];
+                                    $values[$k]["offer"] = $offer[$k];
                                     $values[$k]["images"] = $tab;
                                     $values[$k]["goods_id"] = $goods_id;
                                 }
@@ -218,7 +225,7 @@ class Goods extends Controller
                         }
                     }
                 }
-               halt($values);
+              
                 foreach ($values as $kz => $vw) {
                     $rest = db('special')->insert($vw);
                 }
@@ -241,6 +248,7 @@ class Goods extends Controller
         $goods = db("goods")->where("id", $id)->select();
         $scope = db("member_grade")->field("member_grade_name")->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
+        $offer = db("special")->where("goods_id", $id)->field("coding")->select();
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
@@ -250,13 +258,67 @@ class Goods extends Controller
         foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);
+            $num[] = explode(',', $v["num"]);
+            $unit[] =explode(',', $v["unit"]);
+
+
+
+        
         }
+
+        foreach($num as $z => $w){
+            foreach($w as $m => $b){
+                if($m % 2 == 0 ){
+                    $new[$z+1][$m] = $unit[$z][$m]; 
+                }else{
+                    $new[$z][$m] = $b;                   
+                }
+                
+            }
+        }
+      
+
+        // $count =count($b);
+        // foreach($a as $z => $w){
+        //     foreach($b as $i=>$j){
+        //         if($z ==$i){
+        //             $ar[$z]["nu"]=$w;
+        //             $ar[$z]["num"]=$j;
+        //         }
+        //     }
+        // } 
+
+        // foreach( $ar as $ks=>$vs){
+        //     foreach($vs["nu"] as $y=>$m){
+        //         foreach($vs["num"] as $i=>$j){
+        //             if($y == $i){
+        //                 $new[$ks][$y] = $m;
+        //                 $new[$ks][$y+1]= $j;
+        //             }
+                   
+
+        //         }
+        //     }
+            
+            
+        // }
+
+        // foreach( $ar as $ks=>$vs){
+        //     foreach($vs["nu"] as $y=>$m){
+        //         $new[$ks][$y] = $vs["nu"][$y];
+        //         $new[$ks][$y+$count]= $vs["num"][$y];
+        //     }
+            
+            
+        // }
+
+        
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"];
         if ($restel == 0) {
             return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope]);
         } else {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"offer"=>$offer,"ar"=>$ar]);
         }
     }
 

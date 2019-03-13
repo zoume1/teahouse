@@ -87,15 +87,23 @@ class  Api extends  Controller{
             ->where("id",$after_sale_id)
             ->find();
         $refund_amount =Db::name("order")
-            ->field("refund_amount,parts_order_number,order_real_pay")
+            ->field("refund_amount,parts_order_number,order_real_pay,si_pay_type")
             ->where("id",$data["order_id"])
             ->find();
+        //si_pay_type 支付方式（1为小程序余额支付，2是小程序微信支付）
         if(!$refund_amount){
             return ajax_error("未找到该订单信息");
         }
         if($business_return_money>$refund_amount["refund_amount"]){
             return ajax_error("所退款金额大于支付的金钱");
         }
+        if($refund_amount ==1){
+            //如果是余额支付退回用户余额（不可提现）
+            $refund_fee= $refund_amount["refund_amount"];
+            return ajax_success("退款成功",$refund_amount);
+        }
+
+
         $out_trade_no=$refund_amount["parts_order_number"];
         $total_fee=$refund_amount["order_real_pay"] *100;
         $refund_fee= $refund_amount["refund_amount"] *100;

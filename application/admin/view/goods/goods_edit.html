@@ -544,6 +544,7 @@
                                             <th width="100px"><input value="规格编码" readonly="" style="border:0;"></th>
                                             <th width="100px"><input value="成本价" readonly="" style="border:0;"></th>
                                             <th width="100px"><input value="划线价" readonly="" style="border:0;"></th>
+                                            <th width="100px"><input value="报价单位" readonly="" style="border:0;"></th>
                                             <th width="100px"><input value="图片" readonly="" style="border:0;"></th>
                                             <th width="100px"><input value="存茶开关" readonly="" style="border:0;"></th>
                                             <th width="100px"><input value="上架开关" readonly="" style="border:0;"></th>
@@ -564,6 +565,7 @@
                                             <td width="100px"><input type="text" value="{$ve.coding}" data-id="{$ve.id}" data-value="coding" class="inputs coding" data-title="{$ve.coding}"></td>
                                             <td width="100px"><input type="text" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost" class="inputs "   > </td>
                                             <td width="100px"><input type="text" value="{$ve.line}" data-id="{$ve.id}" data-value="line" class="inputs"> </td>
+                                            <td width="100px"><input type="text" value="{$ve.offer}" data-id="{$ve.id}" data-value="offer" class="inputs"> </td>
                                             <td width="100px">
                                                 <div class="img-box full">
                                                     <section class=" img-section">
@@ -618,17 +620,31 @@
             <div class="form-item general" style=" align-items: center;">
                     <label class="form-label">包装规格</label>
                     <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
+                        {if !empty($offer)}
                         <select name=""  class="packing packings">
-                            <option value="0">请选择规格编码</option>
-                            <option value="LP001">LP001</option>
+                            <option value="">请选择规格编码</option>
+                            {volist name="offer" id = "vs"}
+                            <option value="">{$vs.coding}</option>
+                            {/volist}
                          </select>
+                         {/if}
+                         
+                         {if !empty($ar)}
+                         {volist name="ar" id="test"}
                          <!-- 单位循环这里 -->
                          <div class="danwei_content">
                              <div class="fuhao">=</div>
-                             <input type="text" name="LP001_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="1" readonly="">
-                             <input type="text" name="LP001_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required=""> 
+                             {volist name="test['num']" id="nu"}
+                             <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="{$nu}" readonly="">
+                             {/volist}
+                             {volist name="test['res']" id="mu"}
+                             <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="{$mu}" maxlength="2" required=""> 
+                              {/volist}
                              <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">
-                        </div>
+                      
+                            </div>
+                        {/volist}
+                        {/if}
                           <!-- 单位循环这里 -->
                         <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  
                     </div>
