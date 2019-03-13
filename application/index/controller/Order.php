@@ -374,6 +374,7 @@ class  Order extends  Controller
                 $datas["status"] = $data[0]["status"];//状态
                 foreach ($data as $ks=>$vs){
                     $datas["all_goods_money"][] =$vs["goods_money"]*$vs["order_quantity"];
+                    $data[$ks]["courier_number"] =str_to_chinese($vs["courier_number"]);
                 }
                 $datas["all_goods_pays"] =array_sum($datas["all_goods_money"]); //商品总额（商品*数量）
                 $datas["normal_future_time"] = $data[0]["normal_future_time"];//正常订单未付款自动关闭的时间

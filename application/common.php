@@ -783,18 +783,26 @@ function unit_comment($num,$unit){
 function str_to_chinese($str){
     $arr = array(
         'ems'=>'EMS',
-        'shunfeng'=>'顺丰',
-        'shentong'=>'申通',
-        'yuantong'=> '圆通',
+        'youzhengguonei'=>'邮政包裹/平邮',
+        'bjemstckj'=>'北京EMS',
+        'shunfeng'=> '顺丰',
+        'shentong'=> '申通 ',
+        'yuantong'=>'圆通',
         'zhongtong'=> '中通',
-        'huitong'=>'汇通',
-        'tiantian'=> '天天',
-        'yunda'=> '韵达',
-        'quanfeng'=>'全峰',
-        'zhongguoyouzheng'=>'中国邮政',
-        'youzhengpingyou'=> '邮政平邮',
-        'nengda'=>'港中能达',
-        'zhaijisong'=>'宅急送快递'
+        'huitongkuaidi'=> '百世汇通',
+        'baishiwuliu'=>'百世物流',
+        'yunda'=>'韵达',
+        'zhaijisong'=> '宅急送',
+        'tiantian'=>'天天',
+        'debangwuliu'=>'德邦',
+        'guotongkuaidi'=>'国通',
+        'zengyisudi'=>'增益',
+        'suer'=>'速尔',
+        'ztky'=>'中铁物流',
+        'zhongtiewuliu'=>'中铁快运',
+        'ganzhongnengda'=>'能达',
+        'youshuwuliu'=>'优速',
+        'quanfengkuaidi'=>'全峰',
     );
     return strtr($str, $arr);
 }

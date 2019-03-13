@@ -333,7 +333,7 @@ class  AfterSale extends Controller{
      */
     public function application_images_del(Request $request){
         if($request->isPost()){
-            $str =$request->only(["str"])["str"];
+
 
         }
     }
