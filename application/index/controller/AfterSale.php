@@ -275,6 +275,25 @@ class  AfterSale extends Controller{
         }
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:时间倒计时自动确认
+     **************************************
+     */
+    public function  update_time_automatic(Request $request){
+        if($request->isPost()){
+           $after_sale_id = $request->only(["after_sale_id"])["after_sale_id"];
+           $status = $request->only(["status"])["status"];
+           $bool =Db::name("after_sale")->where("id",$after_sale_id)->update(["status"=>$status]);
+           if($bool){
+               return ajax_success("成功");
+           }else{
+               return ajax_error("失败");
+           }
+        }
+    }
+
 
     /**
      **************李火生*******************
