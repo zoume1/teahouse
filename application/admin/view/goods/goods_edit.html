@@ -252,7 +252,7 @@
 
     <form class="layui-form layui-form-lists" action="{:url('admin/Goods/updata')}" method="post" enctype="multipart/form-data">
         {volist name="goods" id="value"}
-        <input type="hidden" name="id" id="" value="{$value.id}" />
+        <input type="hidden" name="id" id="ids" value="{$value.id}" />
         <div class="form-title">基础信息 </div>
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>商品名称</label>

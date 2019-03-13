@@ -97,6 +97,7 @@ class Goods extends Controller
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];
+            
             if (!empty($show_images)) {              
                 foreach ($show_images as $k=>$v) {
                     $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -253,6 +254,10 @@ class Goods extends Controller
         $scope = db("member_grade")->field("member_grade_name")->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
         $offer = db("special")->where("goods_id", $id)->field("coding")->select();
+        foreach($offer as $pp => $qq){
+            $offers[$pp] = $qq["coding"];
+        }
+        
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
@@ -264,14 +269,30 @@ class Goods extends Controller
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);  
             $unit[] = explode(',', $v["element"]);        
+            $unit1["unit"][] = explode(',', $v["unit"]);        
+            $num["num"][] = explode(',', $v["num"]);        
         }
+       
+    //   $rest["111"] = array_merge($unit1,$num);
+    //   halt($rest);
+    //   halt($unit1["unit"][0]);
+      foreach($offers as $kk => $zz){
+          $rest1["unit"][$kk] = $unit1["unit"][$kk];
+          $rest2["num"][$kk] = $num["num"][$kk];
+        //   $rest["$zz"][] =  array_merge($rest1["unit"][$kk],$rest2["num"][$kk]);
+          $unit3["$zz"]["unit"] =  $rest1["unit"][$kk];
+          $unit3["$zz"]["num"] =  $rest2["num"][$kk];
+
+      }
+       
+
 
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"]; //判断是否为通用或特殊
         if ($restel == 0) {
             return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope]);
         } else {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"offer"=>$offer,"unit"=>$unit]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"offer"=>$offer,"unit"=>$unit3]);
         }
     }
 
@@ -651,6 +672,51 @@ class Goods extends Controller
         return view("goods_index", ["goods" => $goods,"goods_list" => $goods_list]);
     }
 
+
+
+    /**
+     * [普通商品多规格列表单位编辑]
+     * 郭杨
+     */
+    public function offer(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request -> only(["id"])["id"];
+            $standard = db("goods")->where("id",$id)->value("goods_standard");
+            if($standard == 1){
+                $goods_standard = db("special")->where("goods_id", $id)->select();
+                $offer = db("special")->where("goods_id", $id)->field("coding")->select();
+
+                foreach($offer as $pp => $qq){
+                    $offers[$pp] = $qq["coding"];
+                }
+
+                foreach ($goods_standard as $k => $v) {
+                    $goods_standard[$k]["title"] = explode('_', $v["name"]);
+                    $res = explode(',', $v["lv1"]);      
+                    $unit["unit"][] = explode(',', $v["unit"]);        
+                    $num["num"][] = explode(',', $v["num"]);        
+                }
+
+                foreach($offers as $kk => $zz){
+                    $rest1["unit"][$kk] = $unit["unit"][$kk];
+                    $rest2["num"][$kk] = $num["num"][$kk];
+                    $unit1[$kk]["$zz"]["unit"] =  $rest1["unit"][$kk];
+                    $unit1[$kk]["$zz"]["num"] =  $rest2["num"][$kk];
+          
+                }
+    
+                if(!empty($unit1)){
+                    return ajax_success('传输成功', $unit1);
+                } else {
+                    return ajax_error("数据为空");
+                }
+
+            } else {
+                return ajax_error("该商品为统一规格商品");
+            }
+        }
+    }
 
     /**
      * [众筹商品显示]
