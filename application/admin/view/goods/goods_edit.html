@@ -412,11 +412,16 @@
             <div class="form-item">
                 <label class="form-label">包装规格</label>
                 <div class="form-input" id="packing_specification" style=" align-items: center;">
-                        <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="1" readonly>
-                        <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input"  maxlength="2" >
+                    {if !empty($value.unit)}{foreach name="$value.unit" item ="w" key="x"}                  
+                    {if $x % 2 == 0}
+                        <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="{$w}" readonly>
+                    {else}
+                        <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="{$w}" maxlength="2" >
                         <div class="fuhao">=</div>
-                        <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">
-                        <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">
+                    {/if}
+                    {/foreach}
+                    {/if}
+
                 </div>
                 <div class="add_danwei"> 继续添加单位</div>
                 
@@ -629,21 +634,23 @@
                          </select>
                          {/if}
                          
-                         {if !empty($ar)}
-                         {volist name="ar" id="test"}
+                         {if !empty($unit)}
+                         {foreach name="unit" item="vs" key="ks"}
                          <!-- 单位循环这里 -->
-                         <div class="danwei_content">
+                         <div class="danwei_content"></div>
                              <div class="fuhao">=</div>
-                             {volist name="test['num']" id="nu"}
-                             <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="{$nu}" readonly="">
-                             {/volist}
-                             {volist name="test['res']" id="mu"}
-                             <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="{$mu}" maxlength="2" required=""> 
-                              {/volist}
+                             {foreach name="vs" item="v" key="k"}
+                        
+                             {if $k % 2 == 0}
+                             <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="{$v}" readonly="">
+                             {else}
+                             <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="{$v}" maxlength="2" required=""> 
+                             {/if}
+                             {/foreach}
                              <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">
                       
                             </div>
-                        {/volist}
+                        {/foreach}
                         {/if}
                           <!-- 单位循环这里 -->
                         <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  

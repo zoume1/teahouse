@@ -730,3 +730,47 @@ function after_sale_status($status,$who_handle){
        echo '<div  type="button" class="state  gooded-btu" >拒绝</button>';
    }
 }
+
+
+/**
+ **************郭杨*******************
+ *            单位组合
+ **************************************
+ */
+function unit_comment($num,$unit){
+    $count = count($num);
+    switch($count)
+    {
+        case 1:
+            $new = $num[0].','.$unit[0];
+            return $new;
+            break;
+        case 2:
+            $new = $num[0].','.$unit[0].','.$num[1].','.$unit[1];
+            return $new;
+            break;
+        case 3:
+            $new = $num[0].','.$unit[0].','.$num[1].','.$unit[1].','.$num[2].','.$unit[2];
+            return $new;
+            break;
+        case 4:
+            $new = $num[0].','.$unit[0].','.$num[1].','.$unit[1].','.$num[2].','.$unit[2].','.$num[3].','.$unit[3];
+            return $new;
+            break;
+        case 5:
+            $new = $num[0].','.$unit[0].','.$num[1].','.$unit[1].','.$num[2].','.$unit[2].','.$num[3].','.$unit[3].','.$num[4].','.$unit[4];
+            return $new;
+            break;
+        case 6:
+            $new = $num[0].','.$unit[0].','.$num[1].','.$unit[1].','.$num[2].','.$unit[2].','.$num[3].','.$unit[3].','.$num[4].','.$unit[4].','.$num[5].','.$unit[5];
+            return $new;
+            break;
+        default:
+            $new = null;
+            return $new;
+    }
+   
+}
+
+
+
