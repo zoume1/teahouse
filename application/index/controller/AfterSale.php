@@ -285,7 +285,8 @@ class  AfterSale extends Controller{
         if($request->isPost()){
            $after_sale_id = $request->only(["after_sale_id"])["after_sale_id"];
            $status = $request->only(["status"])["status"];
-           $bool =Db::name("after_sale")->where("id",$after_sale_id)->update(["status"=>$status]);
+           $who_handle =$request->only(["who_handle"])["who_handle"];
+           $bool =Db::name("after_sale")->where("id",$after_sale_id)->update(["status"=>$status,"who_handle"=>$who_handle]);
            if($bool){
                return ajax_success("成功");
            }else{
