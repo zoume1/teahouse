@@ -820,6 +820,7 @@
                 console.log(data);
                 if(data.status=="1"){
                     for(var i=0;i<data.data.length;i++){
+                        alert(111)
                         var dhtmlss='';   
                    //   <!-- 编码循环这里 -->
                         dhtmlss+='<div class="form-item general" style=" align-items: center;">';
@@ -860,6 +861,7 @@
                          dhtmlss+=' </div>';
                      //   <!-- 编码循环这里 -->
                     }
+                    $(".add_danwei2").parent().before(dhtmlss);
                 }
                 
             },
