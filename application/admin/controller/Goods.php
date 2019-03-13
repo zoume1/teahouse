@@ -699,9 +699,9 @@ class Goods extends Controller
                 foreach($offers as $kk => $zz){
                     $rest1["unit"][$kk] = $unit["unit"][$kk];
                     $rest2["num"][$kk] = $num["num"][$kk];
-                    $unit1[$kk]["$zz"]["unit"] =  $rest1["unit"][$kk];
-                    $unit1[$kk]["$zz"]["num"] =  $rest2["num"][$kk];
-                    $unit1[$kk]["number"] =  $offers[$kk];          
+                    $unit1["$zz"]["unit"] =  $rest1["unit"][$kk];
+                    $unit1["$zz"]["num"] =  $rest2["num"][$kk];
+                    $unit1["number"] =  $offers[$kk];          
                 }
     
                 if(!empty($unit1)){
