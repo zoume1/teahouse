@@ -40,12 +40,12 @@ class  Api extends  Controller{
                     $express_type =$express['express_name'];
                     $express_num =$express['courier_number'];
                     if(!empty($express_num)) {
-                        $codes =$express_num;
+//                        $codes =$express_num;
                         //参数设置
                         $post_data = array();
                         $post_data["customer"] = config("express_hundred.customer");
                         $key = config("express_hundred.key");
-                        $post_data["param"] = '{"com":"'.$express_type.'","num":"' . $codes . '"}';
+                        $post_data["param"] = '{"com":"'.$express_type.'","num":"' . $express_num . '"}';
                         $url = 'http://poll.kuaidi100.com/poll/query.do';
                         $post_data["sign"] = md5($post_data["param"] . $key . $post_data["customer"]);
                         $post_data["sign"] = strtoupper($post_data["sign"]);
@@ -126,9 +126,6 @@ class  Api extends  Controller{
         }
 
     }
-
-
-
     function createstring($length =32)
     {
 
