@@ -17,7 +17,6 @@ define("IP", "192.168.0.1");   //IP
 use think\Controller;
 use think\Request;
 use think\Db;
-use  think\config;
 include('../extend/WxpayAPI/lib/WxPay.Api.php');
 include('../extend/WxpayAPI/example/WxPay.NativePay.php');
 include('../extend/WxpayAPI/lib/WxPay.Notify.php');
@@ -110,6 +109,7 @@ class  Api extends  Controller{
                Db::name("after_sale")
                    ->where("id",$after_sale_id)
                    ->update(["status"=>$status]);
+               //做回款记录
                return ajax_success("退款成功",$refund_amount);
            }else{
                return ajax_error("退款失败");
@@ -134,6 +134,7 @@ class  Api extends  Controller{
             Db::name("after_sale")
                 ->where("id",$after_sale_id)
                 ->update(["status"=>$status]);
+            //做回款记录
             return ajax_success("成功",$result);
         }else {
             $result['code'] = 0;
