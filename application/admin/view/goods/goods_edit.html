@@ -827,7 +827,16 @@
                             dhtmlss+=' <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">';
                             dhtmlss+='<select name=""  class="packing packings">';
                             dhtmlss+='  <option value="">请选择规格编码</option>';
-                            dhtmlss+=' <option value=""></option>';
+                            for(var w=0;w<codings.length;w++){
+                                if(data.data[i].number==codings[w]){
+                                    dhtmlss+=' <option value="'+codings[w]+'" selected>'+codings[w]+'+</option>';
+                                }
+                                else{
+                                    dhtmlss+=' <option value="'+codings[w]+'">'+codings[w]+'+</option>';
+                                }
+                                
+                            }
+                           
                             dhtmlss+=' </select>';
                             for(var j=0;j<data.data[i].num.length;j++){
                                 for(var q=0;q<data.data[i].unit.length;q++) {
