@@ -622,6 +622,8 @@
 
             </div>
             <!-- 编码循环这里 -->
+            {if !empty($unit)}
+            {foreach name="unit" item="vs" key="ks"}
             <div class="form-item general" style=" align-items: center;">
                     <label class="form-label">包装规格</label>
                     <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
@@ -634,30 +636,28 @@
                          </select>
                          {/if}
                          
-                         {if !empty($unit)}
-                         {foreach name="unit" item="vs" key="ks"}
+                         {foreach name="vs" item="v" key="k"}
                          <!-- 单位循环这里 -->
-                         <div class="danwei_content"></div>
+                         <div class="danwei_content">
                              <div class="fuhao">=</div>
-                             {foreach name="vs" item="v" key="k"}
-                        
                              {if $k % 2 == 0}
                              <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="{$v}" readonly="">
                              {else}
                              <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="{$v}" maxlength="2" required=""> 
                              {/if}
-                             {/foreach}
+                            
                              <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">
                       
-                            </div>
+                        </div>
                         {/foreach}
-                        {/if}
                           <!-- 单位循环这里 -->
                         <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  
                     </div>
                   
+                  <!-- 编码循环这里 -->
             </div>
-            <!-- 编码循环这里 -->
+            {/foreach}
+            {/if}
                 <div class="form-item general">
                     <label class="form-label"></label>
                     <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;">
