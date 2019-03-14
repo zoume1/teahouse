@@ -7,7 +7,6 @@
  */
 namespace  app\index\controller;
 
-use function PHPSTORM_META\elementType;
 use think\Controller;
 use think\Request;
 use think\Session;
@@ -206,7 +205,8 @@ class  Store extends  Controller{
         if($request->isPost()){
             $user_id =Session::get("user");
             $data =Db::name("store")
-                ->where("user_id",$user_id)->select();
+                ->where("user_id",$user_id)
+                ->select();
             if(!empty($data)){
                 return ajax_success("所有店铺信息返回成功",$data);
             }else{
