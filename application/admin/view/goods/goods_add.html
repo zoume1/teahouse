@@ -1248,12 +1248,16 @@
             var para = $('form').serializeObject() ;  
              para = JSON.stringify(para) ; 　      
              var partb=eval("(" + para + ")");
-           
+           var shuju=[];
              for(var i=0;i<codings.length;i++){
                  var num="partb"+codings[i]+"_num"
                  var unit="partb"+codings[i]+"_unit"
-            //    if(num!=)
+               if(num!=undefined){
+                    // shuju[codings[i]].push(num);
+                    // shuju[codings[i]].push(unit);
+               }
              }
+             console.log(shuju);
         });
     </script>
 
