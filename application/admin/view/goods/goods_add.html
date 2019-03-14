@@ -770,7 +770,7 @@
 
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+                <button class="layui-btn layui-btn-normal" type="button" id="submit">确认提交</button>
                 <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">预览商品</button>
                 <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
             </div>
@@ -1227,7 +1227,34 @@
           }
            
         })
+        $.fn.serializeObject = function()   
+      {   
+            var o = {};   
+            var a = this.serializeArray();   
+            $.each(a, function() {   
+                if (o[this.name]) {   
+                    if (!o[this.name].push) {   
+                        o[this.name] = [o[this.name]];   
+                    }   
+                    o[this.name].push(this.value || '');   
+                } else {   
+                    o[this.name] = this.value || '';   
+                }   
+            });   
+            return o;   
+            };  
         // 包装规格
+        $("#submit").click(function(){
+            var para = $('form').serializeObject() ;  
+             para = JSON.stringify(para) ; 　      
+             var partb=eval("(" + para + ")");
+           
+             for(var i=0;i<codings.length;i++){
+                 var num="partb"+codings[i]+"_num"
+                 var unit="partb"+codings[i]+"_unit"
+               if()
+             }
+        });
     </script>
 
     {/block}
