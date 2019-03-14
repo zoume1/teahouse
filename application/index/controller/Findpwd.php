@@ -218,6 +218,10 @@ class Findpwd extends Controller{
                 ];
                 $res =Db::name('pc_user')->where("id",$user_id)->update($datas);
                 if($res){
+                    $datas =[
+                        'phone_number'=> $mobile,
+                    ];
+                    Session::set('member',$datas);
                     return ajax_success('修改成功',$res);
                 }else{
                     return ajax_error('修改失败');
