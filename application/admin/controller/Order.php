@@ -98,9 +98,13 @@ class  Order extends  Controller{
                 $t=date('Y-m-d H:i:s',$date_max+1*24*60*60);
                 $timemax  =strtotime($t);
             }
-
-
-
+            if(!empty($time_min) && empty($date_max)){
+                //开始时间
+            }else if (empty($time_min) && (!empty($date_max))){
+                //结束时间
+            }else if((!empty($timemin)) && (!empty($date_max))){
+                //既有开始又有结束
+            }
             if(!empty($search_a)){
                 $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
                 $data =Db::name("order")
