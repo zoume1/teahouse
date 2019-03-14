@@ -73,7 +73,7 @@ class  AfterSale extends Controller{
         if($request->isPost()){
             $id =$request->only(["id"])["id"];//数组id
             foreach ($id as $k=>$v) {
-                $data =Db::name("after_image")->where("id",$v)->value("uel");
+                $data =Db::name("after_image")->where("id",$v)->value("url");
                 //删除图片
                 unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $data);
                 $bool =Db::name("after_image")->where("id",$v)->delete();
@@ -325,18 +325,7 @@ class  AfterSale extends Controller{
         }
     }
 
-    /**
-     **************李火生*******************
-     * @param Request $request
-     * Notes:售后图片删除
-     **************************************
-     */
-    public function application_images_del(Request $request){
-        if($request->isPost()){
 
-
-        }
-    }
 
     /**
      **************李火生*******************
