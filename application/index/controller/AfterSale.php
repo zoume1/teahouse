@@ -110,6 +110,7 @@ class  AfterSale extends Controller{
             if(!empty($is_set_sale)){
                 return ajax_error("该订单已申请过售后");
             }
+            $member_count =Db::name("member")->where("member_id",$member_id)->value("member_phone_num");
             if($is_return_goods ==1){
                 //1需要要进行换货,没有金额
                 $before_order_return =0;
@@ -138,6 +139,7 @@ class  AfterSale extends Controller{
                 "status"=>1, //申请状态（1为申请中，2商家已同意，等待上传快递单信息，处理中，3收货中，4换货成功，5拒绝）
                 "buy_order_number"=>$before_order_data["parts_order_number"],//原始订单号
                 "member_id"=>$member_id, //会员id
+                "member_count"=>$member_count
             ];
             $after_sale_id =Db::name("after_sale")->insertGetId($insert_data);
             if($after_sale_id){

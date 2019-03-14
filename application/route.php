@@ -391,6 +391,7 @@ Route::group("admin",[
     "refund_protection_receipting"=>"admin/Order/refund_protection_receipting",//退款维权收货中
     "refund_protection_completed"=>"admin/Order/refund_protection_completed",//退款维权换货完成
     "refund_protection_refuse"=>"admin/Order/refund_protection_refuse",//退款维权拒绝
+    "refund_protection_search"=>"admin/Order/refund_protection_search",//退款维权搜索
     /*TODO:订单结束*/
     /*TODO:售后开始*/
     "business_replay"=>"admin/AfterSale/business_replay",//售后官方回复
