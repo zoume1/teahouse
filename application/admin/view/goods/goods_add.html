@@ -1183,6 +1183,9 @@
               codings.push($(this).val());
            }
            else{
+                    $("input[name='"+title+"_num[]']").attr('name',$(this).val()+"_num[]");   
+                    $("input[name='"+title+"_unit[]']").attr('name',$(this).val()+"_unit[]");  
+                    
                 $(".packing option[value='"+$(this).data("id")+"']").text($(this).val());
                 $(".packing option[value='"+$(this).data("id")+"']").val($(this).val());
               
