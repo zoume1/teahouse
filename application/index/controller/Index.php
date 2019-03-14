@@ -18,7 +18,7 @@ class Index extends Controller
     }
 
     public function text(){
-        $phone_num =  $this->common();
+        $phone_num =  $this->commons();
         return view("text",["phone_num"=>$phone_num]);
     }
 
