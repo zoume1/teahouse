@@ -275,7 +275,7 @@ class  AfterSale extends Controller{
         if($request->isPost()){
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];
             $member_id =$request->only(["member_id"])["member_id"];//会员id
-//            $order_id =$request->only(["order_id"])["order_id"];//订单编号（主键）
+            $order_id =$request->only(["order_id"])["order_id"];//订单编号（主键）
             $return_reason =$request->only(["return_reason"])["return_reason"];//退货原因
             $is_return_goods =$request->only(["is_return_goods"])["is_return_goods"];//判断是否需要换货还是退货退款（1需要要进行换货，2退款退货）
             $after_image_ids =$request->only(["after_image_ids"])["after_image_ids"];//退货上传的图片id 数组形式
