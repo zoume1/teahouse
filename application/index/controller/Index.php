@@ -18,7 +18,7 @@ class Index extends Controller
     }
 
     public function text(){
-        $phone_num =  $this->common();
+        $phone_num =  $this->commons();
         return view("text",["phone_num"=>$phone_num]);
     }
 
@@ -44,7 +44,7 @@ class Index extends Controller
     }
     // 智慧茶仓
     public function wisdom(){
-        $phone_num =  $this->common();
+        $phone_num =  $this->commons();
         return view("wisdom",["phone_num"=>$phone_num]);
     }
     // 招募合伙人
