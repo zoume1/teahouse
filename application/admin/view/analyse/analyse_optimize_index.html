@@ -18,20 +18,20 @@
 
 <body>
 	{block name="content"}
-
-	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_broadcast_save')}" method="post" enctype="multipart/form-data">
+    {if !empty($optimize)}{volist name="optimize" id="value" }
+	<form class="layui-form layui-form-lists" action="{:url('admin/Analyse/analyse_optimize_update')}" method="post" enctype="multipart/form-data">
 	
 		<div class="form-item">
 			<label class="form-label">网站名称WEBSITE NAM</label>
 			<div class="form-input">
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
+                <input type="text" name="website_name" lay-verify="title" value="{$value.website_name}"autocomplete="off" placeholder="" class="layui-input" >
                 <div class="tips">注意：针对搜索引擎网站起名时如果只用行业性、地域性的的词来做为网站的名称，而没有加入自己特有的词来做为名称，这就会导致大量同名网站产生。</div>
 			</div>
         </div>
         <div class="form-item">
                 <label class="form-label">网站短名称</label>
                 <div class="form-input">
-                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
+                    <input type="text" name="short_name" lay-verify="title" value="{$value.short_name}" autocomplete="off" placeholder="" class="layui-input" >
                     <div class="tips">针对搜索引擎设置的标题   </div>
 			
                 </div>
@@ -39,7 +39,7 @@
         <div class="form-item">
                 <label class="form-label"> 网站关键字</label>
                 <div class="form-input">
-                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请控制在30字以内" class="layui-input" >
+                    <input type="text" name="key_words" lay-verify="title" value="{$value.key_words}" autocomplete="off" placeholder="请控制在30字以内" class="layui-input" >
                     <div class="tips">*关键字中间用半角逗号,隔开   </div>
 			
                 </div>
@@ -47,7 +47,7 @@
         <div class="form-item">
                 <label class="form-label">网站描述</label>
                 <div class="form-input">
-                    <textarea name="" id="" cols="100" rows="30"></textarea>
+                    <textarea name="describe" id="" cols="100" rows="30">{$value.describe}</textarea>
                     <div class="tips">*针对搜索引擎设置的网站描述</div>
 			
                 </div>
@@ -55,7 +55,7 @@
         <div class="form-item">
                 <label class="form-label">版权信息 </label>
                 <div class="form-input">
-                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder=" Copyright © 2013 - 2016, 版权所有 粤ICP备11111111" class="layui-input" >
+                    <input type="text" name="copyright" lay-verify="title" autocomplete="off" value="{$value.copyright}"placeholder=" Copyright © 2013 - 2016, 版权所有 粤ICP备11111111" class="layui-input" >
                 </div>
         </div>
 		<div class="layui-form-item">
@@ -64,7 +64,8 @@
 				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
 			</div>
 		</div>
-	</form>
+    </form>
+    {/volist}{/if}
 
 	{/block}
 
