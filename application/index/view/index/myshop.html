@@ -380,15 +380,19 @@
                 this.changeNatureItem();
                 this.closePop();
                 this.getAllShop();
+                this.createShop();
             },
+            data: {
+                nature: 1,
+            },
+            // 手机打星号
             hidePhone: function(){
-                // 手机打星号
                 var reg = /(\d{3})\d{4}(\d{4})/;
                 var popNowPhone = $('.nowphone-span').text();
                 $('.nowphone-span').text(popNowPhone.replace(reg, '$1****$2'))
             },
+            // 国际电话区号
             countryData: function(){
-                // 国际电话区号
                 var newphone = document.querySelector('#newphone');
                 // http://www.jq22.com/jquery-info12917
                 var iti = window.intlTelInput(newphone, {
@@ -396,8 +400,8 @@
                     separateDialCode: true,
                 })
             },
+            // 验证码  https://veui.net/
             myVerify: function($el, btnId){
-                // 验证码  https://veui.net/
                 $($el).codeVerify({
                     type : 1,
                     // figure : 10,	//位数，仅在type=2时生效
@@ -417,8 +421,8 @@
                     }
                 });
             },
+            // 发送验证码
             sendPhoneCode: function(phone, _this, url){
-                console.log(phone)
                 var phoneReg = /^1[34578]\d{9}$/;
                 if(phone !== '' && phoneReg.test(phone)){
                     getIdentifyingCode(_this, url, phone);
@@ -426,25 +430,30 @@
                     layer.msg('电话号码格式不正确！');
                 }
             },
+            // 切换个人 公司
             changeNatureItem: function(){
-                // 切换个人 公司
                 $('.content-wrap input[name=nature]').change(function(e){
                     var target = e.target;
                     if(target.id == 'personal'){
                         $('.personal-item').show();
                         $('.company-item').hide();
+                        org.data.nature = 1;
                     }else{
                         $('.personal-item').hide();
                         $('.company-item').show();
+                        org.data.nature = 2;
                     }
                 })
             },
+            // 关闭弹窗
             closePop: function(){
+                
                 $('.pop-close').click(function(){
                     $('.mask').hide();
                     $(this).parents('.pop').hide();
                 })
             },
+            // 获取所有店铺信息
             getAllShop(){
                 $.ajax({
                     url: 'store_all_data',
@@ -454,6 +463,13 @@
                     error: function(){console.log('所有店铺error')}
                 })
             },
+            // 创建店铺
+            createShop(){
+                $('.addshop-button').click(function(){
+                    
+                })
+            },
+
 
         }
         org.init();
