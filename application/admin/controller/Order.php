@@ -85,17 +85,38 @@ class  Order extends  Controller{
      **************************************
      */
     public function order_search(Request $request){
-        if($request->isPost()){
-            $keywords =input('search_key');
-            $keyword =input('search_keys');
-            $timemin  =strtotime(input("date_min"));
-            /*添加一天（23：59：59）*/
-            $time_max_data =strtotime(input('date_max'));
-            $t=date('Y-m-d H:i:s',$time_max_data+1*24*60*60);
-            $timemax  =strtotime($t);
-            $data =Db::name("order")
-                ->order("order_create_time","desc")
-                ->paginate(20);
+        if($request->isGet()){
+            $search_a =input("search_a") ? input("search_a"):null;
+            $order_type =input("order_type") ? input("order_type"):null;
+            $time_min  =input("date_min") ? input("date_min"):null;
+            $date_max  =input('date_max') ? input('date_max'):null;
+            if(!empty($time_min)){
+                $timemin =strtotime($time_min);
+            }
+            if(!empty($date_max)){
+                /*添加一天（23：59：59）*/
+                $t=date('Y-m-d H:i:s',$date_max+1*24*60*60);
+                $timemax  =strtotime($t);
+            }
+
+
+
+            if(!empty($search_a)){
+                $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+                $data =Db::name("order")
+                    ->where($condition)
+                    ->order("order_create_time","desc")
+                    ->paginate(20);
+            }else if (!empty($order_type)){
+                $data =Db::name("order")
+                    ->where("order_type",$order_type)
+                    ->order("order_create_time","desc")
+                    ->paginate(20);
+            }else{
+                $data =Db::name("order")->order("order_create_time","desc")->paginate(20);
+            }
+
+
             return view("order_index",["data"=>$data]);
         }
     }
@@ -391,6 +412,45 @@ class  Order extends  Controller{
      */
     public function  refund_protection_refuse(){
         $accessories=Db::name("after_sale")->where("status",5)->order("operation_time","desc")->select();
+        foreach ($accessories as $key => $value) {
+            if ($value["id"]) {
+                $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();
+                $accessories[$key]["member_phone_num"] = $res["member_phone_num"];
+                $accessories[$key]["member_real_name"] = $res["member_real_name"];
+                $accessories[$key]["member_name"] = $res["member_name"];
+                $images =Db::name("after_image")->field("url")->where("after_sale_id",$value["id"])->select();
+                $accessories[$key]["images"] =$images;
+            }
+        }
+        $all_idents = $accessories;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $accessories = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Order/refund_protection_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $accessories->appends($_GET);
+        $this->assign('access', $accessories->render());
+        return view("refund_protection_index",["data" => $accessories]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:退款维权搜索
+     **************************************
+     */
+    public function  refund_protection_search(){
+        $search_a =input("search_a") ? input("search_a"):null;
+        if(!empty($search_a)){
+            $condition =" `sale_order_number` like '%{$search_a}%' or `buy_order_number` like '%{$search_a}%' or `member_count` like '%{$search_a}%' ";
+            $accessories=Db::name("after_sale")->where($condition)->order("operation_time","desc")->select();
+        }else{
+            $accessories=Db::name("after_sale")->order("operation_time","desc")->select();
+        }
         foreach ($accessories as $key => $value) {
             if ($value["id"]) {
                 $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();

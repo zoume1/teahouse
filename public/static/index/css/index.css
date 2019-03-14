@@ -30,7 +30,7 @@
 
 /* 典型案例 */
 .dxal{height: 680px; background-color: #f8f8f8; padding: 50px 75px 0; box-sizing: border-box;}
-.dxal-container{width: 1350px; margin: 0 auto;}
+.dxal-container{max-width: 1350px; margin: 0 auto;}
 .dxal .title-h2{text-align: center; margin: 0 0 50px;}
 .dxal .case-container{display: flex; justify-content: space-between; margin-bottom: 55px;}
 .dxal .case-item{position: relative; background-color: #fff;}
