@@ -565,12 +565,12 @@
                                                 <input value="{$vs}" readonly="" style="border:0;">
                                             </td>
                                             {/volist}
-                                            <td width="100px"><input type="text" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs"></td>
-                                            <td width="100px"><input type="text" value="{$ve.stock}" data-id="{$ve.id}" data-value="stock" class="inputs"></td>
+                                            <td width="100px"><input type="text" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs" data-title="{$ve.price}"></td>
+                                            <td width="100px"><input type="text" value="{$ve.stock}" data-id="{$ve.id}" data-value="stock" class="inputs"  data-title="{$ve.stock}"></td>
                                             <td width="100px"><input type="text" value="{$ve.coding}" data-id="{$ve.id}" data-value="coding" class="inputs coding" data-title="{$ve.coding}"></td>
-                                            <td width="100px"><input type="text" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost" class="inputs "   > </td>
-                                            <td width="100px"><input type="text" value="{$ve.line}" data-id="{$ve.id}" data-value="line" class="inputs"> </td>
-                                            <td width="100px"><input type="text" value="{$ve.offer}" data-id="{$ve.id}" data-value="offer" class="inputs"> </td>
+                                            <td width="100px"><input type="text" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost" class="inputs "   data-title="{$ve.cost}" > </td>
+                                            <td width="100px"><input type="text" value="{$ve.line}" data-id="{$ve.id}" data-value="line" class="inputs"  data-title="{$ve.line}"> </td>
+                                            <td width="100px"><input type="text" value="{$ve.offer}" data-id="{$ve.id}" data-value="offer" class="inputs"  data-title="{$ve.offer}"> </td>
                                             <td width="100px">
                                                 <div class="img-box full">
                                                     <section class=" img-section">
@@ -621,43 +621,7 @@
                 </div>
 
             </div>
-            <!-- 编码循环这里 -->
-            {if !empty($unit)}
-            {foreach name="unit" item="vs" key="ks"}
-            <div class="form-item general" style=" align-items: center;">
-                    <label class="form-label">包装规格</label>
-                    <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
-                        {if !empty($offer)}
-                        <select name=""  class="packing packings">
-                            <option value="">请选择规格编码</option>
-                            {volist name="offer" id = "vs"}
-                            <option value="">{$vs.coding}</option>
-                            {/volist}
-                         </select>
-                         {/if}
-                         
-                         {foreach name="vs" item="v" key="k"}
-                         <!-- 单位循环这里 -->
-                         <div class="danwei_content">
-                             <div class="fuhao">=</div>
-                             {if $k % 2 == 0}
-                             <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="{$v}" readonly="">
-                             {else}
-                             <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="{$v}" maxlength="2" required=""> 
-                             {/if}
-                            
-                             <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">
-                      
-                        </div>
-                        {/foreach}
-                          <!-- 单位循环这里 -->
-                        <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  
-                    </div>
-                  
-                  <!-- 编码循环这里 -->
-            </div>
-            {/foreach}
-            {/if}
+            
                 <div class="form-item general">
                     <label class="form-label"></label>
                     <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;">
@@ -836,13 +800,75 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
-        var ue = UE.getEditor('editor');
-        var ue1 = UE.getEditor('editor1');
-        var codings=[];
-        for(var r=0;r<$(".coding").length;r++){
-            codings.push($(".coding")[r].value);
-        }
-       
+    var ids=$("#ids").val();
+    var ue = UE.getEditor('editor');
+    var ue1 = UE.getEditor('editor1');
+    var codings=[];
+    
+    for(var r=0;r<$(".coding").length;r++){
+        codings.push($(".coding")[r].value);
+    }
+        
+         $.ajax({
+            type: "POST",
+            url: "{:url('admin/Goods/offer')}",
+            data: {
+                "id": ids,
+            },
+            success: function(data) {
+                var data=eval('(' + data + ')');
+                console.log(data);
+                if(data.status=="1"){
+                    var dhtmlss='';  
+                    for(var i=0;i<data.data.length;i++){
+                         
+                   //   <!-- 编码循环这里 -->
+                        dhtmlss+='<div class="form-item general" style=" align-items: center;position: relative;">';
+                            dhtmlss+='<label class="form-label">包装规格</label>';
+                            dhtmlss+=' <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">';
+                            dhtmlss+='<select name=""  class="packing packings">';
+                            dhtmlss+='  <option value="">请选择规格编码</option>';
+                            for(var w=0;w<codings.length;w++){
+                                if(data.data[i].number==codings[w]){
+                                    dhtmlss+=' <option value="'+codings[w]+'" selected>'+codings[w]+'</option>';
+                                }
+                                else{
+                                    dhtmlss+=' <option value="'+codings[w]+'">'+codings[w]+'</option>';
+                                }
+                                
+                            }
+                           
+                            dhtmlss+=' </select>';
+                            for(var j=0;j<data.data[i].num.length;j++){
+                                for(var q=0;q<data.data[i].unit.length;q++) {
+                                    if(j==q){
+                                        //  <!-- 单位循环这里 -->
+                                        dhtmlss+='<div class="danwei_content">';
+                                        dhtmlss+='<div class="fuhao">=</div>';
+                                        dhtmlss+='<input type="text" name="'+data.data[i].number+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="'+data.data[i].num[j]+'" >';
+                                        dhtmlss+='<input type="text" name="'+data.data[i].number+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="'+data.data[i].unit[q]+'" maxlength="2"> ';
+                                        dhtmlss+='<img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                                        dhtmlss+='</div>';
+                                        //   <!-- 单位循环这里 -->
+                                        }
+                                }
+                            }
+                        
+                            dhtmlss+=' <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div> ';
+                         dhtmlss+=' </div>';
+                         dhtmlss+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
+                         dhtmlss+=' </div>';
+                     //   <!-- 编码循环这里 -->
+                    }
+                    $(".add_danwei2").parent().before(dhtmlss);
+                }
+                
+            },
+            error: function(data) {
+                console.log("失败")
+            }
+           });
+  
         layui.config({
             base: "js/"
         }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
@@ -856,9 +882,11 @@
                 var location_x = $(this).data("id");
                 var location_y = $(this).data("value");
                 if (change_val == '') {
-                    change_val = 0;
+                    $(this).val($(this).data("title"));
+                   alert("修改的值不能为空");
                 }
-                $.ajax({
+                else{
+                    $.ajax({
                     type: "POST",
                     url: "{:url('admin/Goods/value')}",
                     data: {
@@ -867,6 +895,7 @@
                         "key": location_y,
                     },
                     success: function(data) {
+                        $(this).data("title",change_val);
                         data = eval("(" + data + ")");
                         layer.msg(data.info);
                         form.render('select');
@@ -875,6 +904,8 @@
                         console.log("失败")
                     }
                 });
+                }
+               
             });
             //			  开关修改事件
             form.on('switch(isshelves)', function(data) {
@@ -1117,7 +1148,7 @@
         $(".add_danwei2").click(function(){
             if($(".packings").find("option").length!=1){
                 var danwei2='';
-                danwei2+='<div class="form-item general " style=" align-items: center;position: relative;">';
+                danwei2+='<div class="form-item general" style="align-items: center; position: relative;">';
                 danwei2+='<label class="form-label"></label>';
                 danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
                 danwei2+='<select name="" class="packing">';
@@ -1142,19 +1173,21 @@
         });
         
         $(".general-kuang").on('change', ".coding", function() {
-           var title=$(this).data("title")
-           
+           var title=$(this).data("title");
+          
            if($(this).data("title")==''){
                var dhtmlq='';
                dhtmlq+=' <option value="'+$(this).val()+'">'+$(this).val()+'</option>';
              $(".packing").append(dhtmlq);
              $(this).data("title",$(this).val());
-              codings.push($(this).val());
+                codings.push($(this).val());
            }
            else{
-                for(var qq=0;qq>$("input[name='"+title+"num[]']").length;qq++){
-                    $("input[name='"+title+"_num[]']")[i].attr('name',$(this).val());   
-                }
+               
+            //   for(var qq=0;qq<$("input[name='"+title+"_num[]']").length;qq++){
+                    $("input[name='"+title+"_num[]']").attr('name',$(this).val()+"_num[]");   
+                    $("input[name='"+title+"_unit[]']").attr('name',$(this).val()+"_unit[]");  
+            //    }
                 $(".packing option[value='"+$(this).data("title")+"']").text($(this).val());
                 $(".packing option[value='"+$(this).data("title")+"']").val($(this).val());
               
