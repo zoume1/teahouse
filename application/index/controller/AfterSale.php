@@ -202,8 +202,8 @@ class  AfterSale extends Controller{
             $data["images"] =Db::name("after_image")->where("after_sale_id",$after_sale_id)->select();
             $data["reply"] =Db::name("after_reply")->where("after_sale_id",$after_sale_id)->select();
             $goods_data =Db::name("order")
-                ->field("goods_image,parts_goods_name"
-                )->where("id",$data["order_id"])
+                ->field("goods_image,parts_goods_name")
+                ->where("id",$data["order_id"])
                 ->find();
             $data["goods_images"] =$goods_data["goods_image"];
             $data["goods_name"] =$goods_data["parts_goods_name"];
@@ -333,7 +333,7 @@ class  AfterSale extends Controller{
      */
     public function application_images_del(Request $request){
         if($request->isPost()){
-            $str =$request->only(["str"])["str"];
+
 
         }
     }
