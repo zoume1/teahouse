@@ -79,286 +79,288 @@
     </style>
 </head>
 <body>
-    <div class="warpper">
-        <div class="inner-wrap">
-            <div class="head">
-                <a href="./">
-                    <img src="__STATIC__/index/img/logo3.png" width="100" height="23">
-                </a>
-                <span class="sep"></span>
-                <h2>选择店铺</h2>
-                {if !empty($phone_num)}
-                <span class="right">
-                    {$phone_num}
-                    <span class="dash">-</span>
-                    <a href="javascript:;" class="logout">退出</a>
-                </span>
-                {/if}  
-            </div>
-            <div class="select">
-                <div class="infobar">
-                    <img src="__STATIC__/index/img/icon3.png" width="40" height="40">
+    <div id="app">
+        <div class="warpper">
+            <div class="inner-wrap">
+                <div class="head">
+                    <a href="./">
+                        <img src="__STATIC__/index/img/logo3.png" width="100" height="23">
+                    </a>
+                    <span class="sep"></span>
+                    <h2>选择店铺</h2>
                     {if !empty($phone_num)}
-                    <span class="infobar-phone">{$phone_num}</span>
-                    {/if}
-                    <span class="change-phone">修改店铺绑定手机号</span>
-                    <button class="add-shop">创建店铺</button>
+                    <span class="right">
+                        {$phone_num}
+                        <span class="dash">-</span>
+                        <a href="javascript:;" class="logout">退出</a>
+                    </span>
+                    {/if}  
                 </div>
-                <div class="shop-box">
-                    <div class="shop-innerbox">
-                        <ul>
-                            <li class="add-shop-li">
-                                <span class="cross">＋</span>
-                                <span>创建店铺</span>
-                            </li>
-                            <!-- <li class="shop-item">
-                                <div class="shop-info">
-                                    <div class="shop-name txt-hid-one">店铺名</div>
-                                    <div class="shop-number txt-hid-one">店铺编号</div>
-                                    <div class="shop-version">店铺版本购买</div>
-                                </div>
-                                <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
-                                <div class="bottom clearfix">
-                                    <div class="remaining-time">剩余时间：<span>1天</span></div>
-                                    <button class="into-shop">进入</button>
-                                </div>
-                            </li>
-                            <li class="shop-item universal-shop">
-                                <div class="shop-info">
-                                    <div class="shop-name txt-hid-one">店铺名</div>
-                                    <div class="shop-number txt-hid-one">店铺编号</div>
-                                    <div class="shop-version">店铺版本购买</div>
-                                </div>
-                                <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
-                                <div class="bottom clearfix">
-                                    <div class="remaining-time">剩余时间：<span>1天</span></div>
-                                    <button class="into-shop">进入</button>
-                                </div>
-                            </li>
-                            <li class="shop-item industry-shop">
-                                <div class="shop-info">
-                                    <div class="shop-name txt-hid-one">店铺名</div>
-                                    <div class="shop-number txt-hid-one">店铺编号</div>
-                                    <div class="shop-version">店铺版本购买</div>
-                                </div>
-                                <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
-                                <div class="bottom clearfix">
-                                    <div class="remaining-time">剩余时间：<span>1天</span></div>
-                                    <button class="into-shop">进入</button>
-                                </div>
-                            </li>
-                            <li class="shop-item progress-shop">
-                                <div class="shop-info">
-                                    <div class="shop-name txt-hid-one">店铺名</div>
-                                    <div class="shop-number txt-hid-one">店铺编号</div>
-                                    <div class="shop-version">店铺版本购买</div>
-                                </div>
-                                <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
-                                <div class="bottom clearfix">
-                                    <div class="remaining-time">剩余时间：<span>1天</span></div>
-                                    <button class="into-shop">进入</button>
-                                </div>
-                            </li> -->
-                            <li class="holder"></li>
-                            <li class="holder"></li>
-                        </ul>
+                <div class="select">
+                    <div class="infobar">
+                        <img src="__STATIC__/index/img/icon3.png" width="40" height="40">
+                        {if !empty($phone_num)}
+                        <span class="infobar-phone">{$phone_num}</span>
+                        {/if}
+                        <span class="change-phone">修改店铺绑定手机号</span>
+                        <button class="add-shop">创建店铺</button>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="foot">
-            <p class="copyright">
-                © 2012 - 2019
-                <a href="./">宣铭科技版权所有</a>
-            </p>
-        </div>
-    </div>
-    <div class="mask" style="display:none;"></div>
-    <!-- 修改手机号弹窗 -->
-    <div class="pop pop-changephone" style="display: none;">
-        <div class="pop-headbar clearfix">
-            <span class="pop-headtitle">修改手机号</span>
-            <a href="javascript:;" class="pop-close">×</a>
-        </div>
-        <div class="input-container">
-            <div class="input-item nowphone">
-                <label class="input-title">现在手机号：</label>
-                <div>
-                    {if !empty($phone_num)}
-                    <span class="nowphone-span">{$phone_num}</span>
-                    {/if}
-                </div>
-            </div>
-            <div class="input-item">
-                <label class="input-title">发送验证码：</label>
-                <div>
-                    <input type="text" placeholder="请输入手机验证码">
-                    <button class="nowphone-sendcode">获取验证码</button>
-                </div>
-            </div>
-            <div class="input-item">
-                <label class="input-title">新手机号：</label>
-                <div>
-                    <input type="text" class="newphone" id="newphone" placeholder="请输入新手机号码">
-                </div>
-            </div>
-            <div class="input-item">
-                <label class="input-title">新手机号验证码：</label>
-                <div>
-                    <input type="text" placeholder="请输入新手机验证码">
-                    <button class="newphone-sendcode">获取验证码</button>
-                </div>
-            </div>
-            <div class="input-item">
-                <label class="input-title">新手机密码：</label>
-                <div>
-                    <input type="text" placeholder="请输入新手机密码">
-                </div>
-            </div>
-            <div class="input-item">
-                <label class="input-title">确认新手机密码：</label>
-                <div>
-                    <input type="text" placeholder="请再次输入新手机密码">
-                </div>
-            </div>
-            <div class="input-item">
-                <label class="input-title">验证码：</label>
-                <div>
-                    <div id="mpanel"></div>
-                </div>
-            </div>
-            <button class="changephone-button" id="changephone-button">确认</button>
-        </div>
-    </div>
-    <!-- 创建店铺弹窗 -->
-    <div class="pop pop-addshop" style="display: none;">
-        <div class="pop-headbar clearfix">
-            <span class="pop-headtitle">创建店铺</span>
-            <a href="javascript:;" class="pop-close">×</a>
-        </div>
-        <div class="content-wrap">
-            <div class="content-item">
-                <label class="content-title">我是：</label>
-                <div>
-                    <input type="radio" name="nature" id="personal" checked><label for="personal">个人</label>
-                    <input type="radio" name="nature" id="company"><label for="company">公司</label>
-                </div>
-            </div>
-            <!-- 个人 -->
-            <div class="personal-item" style="display: block;">
-                <div class="content-item">
-                    <label class="content-title">姓名：</label>
-                    <div>
-                        <input type="text">
-                    </div>
-                </div>
-                <div class="content-item">
-                    <label class="content-title">身份证号码：</label>
-                    <div>
-                        <input type="text">
-                    </div>
-                </div>
-                <div class="content-item address-item">
-                    <label class="content-title">详细地址：</label>
-                    <div>
-                        <div data-toggle="distpicker">
-                            <select></select>
-                            <select></select>
-                            <select></select>
+                    <div class="shop-box">
+                        <div class="shop-innerbox">
+                            <ul>
+                                <li class="add-shop-li">
+                                    <span class="cross">＋</span>
+                                    <span>创建店铺</span>
+                                </li>
+                                <!-- <li class="shop-item">
+                                    <div class="shop-info">
+                                        <div class="shop-name txt-hid-one">店铺名</div>
+                                        <div class="shop-number txt-hid-one">店铺编号</div>
+                                        <div class="shop-version">店铺版本购买</div>
+                                    </div>
+                                    <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
+                                    <div class="bottom clearfix">
+                                        <div class="remaining-time">剩余时间：<span>1天</span></div>
+                                        <button class="into-shop">进入</button>
+                                    </div>
+                                </li>
+                                <li class="shop-item universal-shop">
+                                    <div class="shop-info">
+                                        <div class="shop-name txt-hid-one">店铺名</div>
+                                        <div class="shop-number txt-hid-one">店铺编号</div>
+                                        <div class="shop-version">店铺版本购买</div>
+                                    </div>
+                                    <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
+                                    <div class="bottom clearfix">
+                                        <div class="remaining-time">剩余时间：<span>1天</span></div>
+                                        <button class="into-shop">进入</button>
+                                    </div>
+                                </li>
+                                <li class="shop-item industry-shop">
+                                    <div class="shop-info">
+                                        <div class="shop-name txt-hid-one">店铺名</div>
+                                        <div class="shop-number txt-hid-one">店铺编号</div>
+                                        <div class="shop-version">店铺版本购买</div>
+                                    </div>
+                                    <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
+                                    <div class="bottom clearfix">
+                                        <div class="remaining-time">剩余时间：<span>1天</span></div>
+                                        <button class="into-shop">进入</button>
+                                    </div>
+                                </li>
+                                <li class="shop-item progress-shop">
+                                    <div class="shop-info">
+                                        <div class="shop-name txt-hid-one">店铺名</div>
+                                        <div class="shop-number txt-hid-one">店铺编号</div>
+                                        <div class="shop-version">店铺版本购买</div>
+                                    </div>
+                                    <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
+                                    <div class="bottom clearfix">
+                                        <div class="remaining-time">剩余时间：<span>1天</span></div>
+                                        <button class="into-shop">进入</button>
+                                    </div>
+                                </li> -->
+                                <li class="holder"></li>
+                                <li class="holder"></li>
+                            </ul>
                         </div>
-                        <input type="text" placeholder="请填写详细地址">
                     </div>
                 </div>
-                <div class="content-item id-item">
-                    <label class="content-title">上传身份证：</label>
-                    <div class="id-box">
-                        <div class="positive">
-                            <div>
-                                <img src="__STATIC__/index/img/id1.png" width="150" height="98">
-                                <input type="file">
+            </div>
+            <div class="foot">
+                <p class="copyright">
+                    © 2012 - 2019
+                    <a href="./">宣铭科技版权所有</a>
+                </p>
+            </div>
+        </div>
+        <div class="mask" style="display:none;"></div>
+        <!-- 修改手机号弹窗 -->
+        <div class="pop pop-changephone" style="display: none;">
+            <div class="pop-headbar clearfix">
+                <span class="pop-headtitle">修改手机号</span>
+                <a href="javascript:;" class="pop-close">×</a>
+            </div>
+            <div class="input-container">
+                <div class="input-item nowphone">
+                    <label class="input-title">现在手机号：</label>
+                    <div>
+                        {if !empty($phone_num)}
+                        <span class="nowphone-span">{$phone_num}</span>
+                        {/if}
+                    </div>
+                </div>
+                <div class="input-item">
+                    <label class="input-title">发送验证码：</label>
+                    <div>
+                        <input type="text" placeholder="请输入手机验证码" id="oldPhoneCode">
+                        <button class="nowphone-sendcode">获取验证码</button>
+                    </div>
+                </div>
+                <div class="input-item">
+                    <label class="input-title">新手机号：</label>
+                    <div>
+                        <input type="text" class="newphone" id="newphone" placeholder="请输入新手机号码">
+                    </div>
+                </div>
+                <div class="input-item">
+                    <label class="input-title">新手机号验证码：</label>
+                    <div>
+                        <input type="text" placeholder="请输入新手机验证码" id="newPhoneCode">
+                        <button class="newphone-sendcode">获取验证码</button>
+                    </div>
+                </div>
+                <div class="input-item">
+                    <label class="input-title">新手机密码：</label>
+                    <div>
+                        <input type="password" placeholder="请输入新手机密码" id="newPhonePwd">
+                    </div>
+                </div>
+                <div class="input-item">
+                    <label class="input-title">确认新手机密码：</label>
+                    <div>
+                        <input type="password" placeholder="请再次输入新手机密码" id="newPhonePwd2">
+                    </div>
+                </div>
+                <div class="input-item">
+                    <label class="input-title">验证码：</label>
+                    <div>
+                        <div id="mpanel"></div>
+                    </div>
+                </div>
+                <button class="changephone-button" id="changephone-button">确认</button>
+            </div>
+        </div>
+        <!-- 创建店铺弹窗 -->
+        <div class="pop pop-addshop" style="display: none;">
+            <div class="pop-headbar clearfix">
+                <span class="pop-headtitle">创建店铺</span>
+                <a href="javascript:;" class="pop-close">×</a>
+            </div>
+            <div class="content-wrap">
+                <div class="content-item">
+                    <label class="content-title">我是：</label>
+                    <div>
+                        <input type="radio" name="nature" id="personal" checked><label for="personal">个人</label>
+                        <input type="radio" name="nature" id="company"><label for="company">公司</label>
+                    </div>
+                </div>
+                <!-- 个人 -->
+                <div class="personal-item" style="display: block;">
+                    <div class="content-item">
+                        <label class="content-title">姓名：</label>
+                        <div>
+                            <input type="text" oninput="">
+                        </div>
+                    </div>
+                    <div class="content-item">
+                        <label class="content-title">身份证号码：</label>
+                        <div>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="content-item address-item">
+                        <label class="content-title">详细地址：</label>
+                        <div>
+                            <div data-toggle="distpicker">
+                                <select></select>
+                                <select></select>
+                                <select></select>
                             </div>
-                            <p class="id-tips">身份证正面(国徽)</p>
+                            <input type="text" placeholder="请填写详细地址">
                         </div>
-                        <div class="back">
-                            <div>
-                                <img src="__STATIC__/index/img/id2.png" width="150" height="98">
-                                <input type="file">
+                    </div>
+                    <div class="content-item id-item">
+                        <label class="content-title">上传身份证：</label>
+                        <div class="id-box">
+                            <div class="positive">
+                                <div>
+                                    <img src="__STATIC__/index/img/id1.png" width="150" height="98">
+                                    <input type="file">
+                                </div>
+                                <p class="id-tips">身份证正面(国徽)</p>
                             </div>
-                            <p class="id-tips">身份证反面(人像)</p>
+                            <div class="back">
+                                <div>
+                                    <img src="__STATIC__/index/img/id2.png" width="150" height="98">
+                                    <input type="file">
+                                </div>
+                                <p class="id-tips">身份证反面(人像)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-item introduce-item">
+                        <label class="content-title">店铺介绍：</label>
+                        <div>
+                            <textarea></textarea>
                         </div>
                     </div>
                 </div>
-                <div class="content-item introduce-item">
-                    <label class="content-title">店铺介绍：</label>
-                    <div>
-                        <textarea></textarea>
+                <!-- 公司 -->
+                <div class="company-item" style="display: none;">
+                    <div class="content-item">
+                        <label class="content-title">联系人姓名：</label>
+                        <div>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="content-item">
+                        <label class="content-title">联系人身份证号：</label>
+                        <div>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="content-item address-item">
+                        <label class="content-title">详细地址：</label>
+                        <div>
+                            <div data-toggle="distpicker">
+                                <select></select>
+                                <select></select>
+                                <select></select>
+                            </div>
+                            <input type="text" placeholder="请填写详细地址">
+                        </div>
+                    </div>
+                    <div class="content-item">
+                        <label class="content-title">企业名称：</label>
+                        <div>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="content-item">
+                        <label class="content-title">企业执照号：</label>
+                        <div>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="content-item id-item">
+                        <label class="content-title"></label>
+                        <div class="id-box">
+                            <div class="positive">
+                                <div>
+                                    <img src="__STATIC__/index/img/id1.png" width="150" height="98">
+                                    <input type="file">
+                                </div>
+                                <p class="id-tips">身份证正面(国徽)</p>
+                            </div>
+                            <div class="back">
+                                <div>
+                                    <img src="__STATIC__/index/img/id2.png" width="150" height="98">
+                                    <input type="file">
+                                </div>
+                                <p class="id-tips">企业营业执照(人像)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-item introduce-item">
+                        <label class="content-title">店铺介绍：</label>
+                        <div>
+                            <textarea></textarea>
+                        </div>
                     </div>
                 </div>
+                <button class="addshop-button">确认</button>
             </div>
-            <!-- 公司 -->
-            <div class="company-item" style="display: none;">
-                <div class="content-item">
-                    <label class="content-title">联系人姓名：</label>
-                    <div>
-                        <input type="text">
-                    </div>
-                </div>
-                <div class="content-item">
-                    <label class="content-title">联系人身份证号：</label>
-                    <div>
-                        <input type="text">
-                    </div>
-                </div>
-                <div class="content-item address-item">
-                    <label class="content-title">详细地址：</label>
-                    <div>
-                        <div data-toggle="distpicker">
-                            <select></select>
-                            <select></select>
-                            <select></select>
-                        </div>
-                        <input type="text" placeholder="请填写详细地址">
-                    </div>
-                </div>
-                <div class="content-item">
-                    <label class="content-title">企业名称：</label>
-                    <div>
-                        <input type="text">
-                    </div>
-                </div>
-                <div class="content-item">
-                    <label class="content-title">企业执照号：</label>
-                    <div>
-                        <input type="text">
-                    </div>
-                </div>
-                <div class="content-item id-item">
-                    <label class="content-title"></label>
-                    <div class="id-box">
-                        <div class="positive">
-                            <div>
-                                <img src="__STATIC__/index/img/id1.png" width="150" height="98">
-                                <input type="file">
-                            </div>
-                            <p class="id-tips">身份证正面(国徽)</p>
-                        </div>
-                        <div class="back">
-                            <div>
-                                <img src="__STATIC__/index/img/id2.png" width="150" height="98">
-                                <input type="file">
-                            </div>
-                            <p class="id-tips">企业营业执照(人像)</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-item introduce-item">
-                    <label class="content-title">店铺介绍：</label>
-                    <div>
-                        <textarea></textarea>
-                    </div>
-                </div>
-            </div>
-            <button class="addshop-button">确认</button>
         </div>
     </div>
 
@@ -368,66 +370,129 @@
     <!-- 三级联动 -->
     <script src="__STATIC__/index/js/distpicker.data.js"></script>
     <script src="__STATIC__/index/js/distpicker.js"></script>
-
     <script src="__STATIC__/index/js/layer/layer.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
-        var org = {
-            init: function(){
-                this.hidePhone();
-                this.countryData();
-                this.myVerify('#mpanel', 'changephone-button');
-                this.changeNatureItem();
-                this.closePop();
-                this.getAllShop();
-            },
-            hidePhone: function(){
-                // 手机打星号
-                var reg = /(\d{3})\d{4}(\d{4})/;
-                var popNowPhone = $('.nowphone-span').text();
-                $('.nowphone-span').text(popNowPhone.replace(reg, '$1****$2'))
-            },
-            countryData: function(){
-                // 国际电话区号
-                var newphone = document.querySelector('#newphone');
-                // http://www.jq22.com/jquery-info12917
-                var iti = window.intlTelInput(newphone, {
-                    preferredCountries: ['cn'],
-                    separateDialCode: true,
-                })
-            },
-            myVerify: function($el, btnId){
-                // 验证码  https://veui.net/
-                $($el).codeVerify({
-                    type : 1,
-                    // figure : 10,	//位数，仅在type=2时生效
-                    // arith : 0,	//算法，支持加减乘，不填为随机，仅在type=2时生效
-                    width : '130px',
-                    height : '45px',
-                    fontSize : '16px',
-                    codeLength: 4,
-                    btnId : btnId,
-                    ready : function() {
-                    },
-                    success : function(e) {
-                        // alert('验证匹配！');
-                    },
-                    error : function() {
-                        alert('验证码不匹配！');
+        // 国际电话区号
+        (function(){
+            var newphone = document.querySelector('#newphone');
+            // http://www.jq22.com/jquery-info12917
+            var iti = window.intlTelInput(newphone, {
+                preferredCountries: ['cn'],
+                separateDialCode: true,
+            })
+        }());
+
+        // 验证码  https://veui.net/
+        (function($el, btnId){
+            $($el).codeVerify({
+                type : 1,
+                // figure : 10,	//位数，仅在type=2时生效
+                // arith : 0,	//算法，支持加减乘，不填为随机，仅在type=2时生效
+                width : '130px',
+                height : '45px',
+                fontSize : '16px',
+                codeLength: 4,
+                btnId : btnId,
+                ready : function() {},
+                success : function(e) {
+                    // alert('验证匹配！');
+                    var oldPhoneCode = $('#oldPhoneCode').val(),
+                        newphone = $('#newphone').val(),
+                        newPhoneCode = $('#newPhoneCode').val(),
+                        newPhonePwd = $('#newPhonePwd').val(),
+                        newPhonePwd2 = $('#newPhonePwd2').val();
+                    if(oldPhoneCode && newphone && newPhoneCode && newPhonePwd && newPhonePwd2){
+                        if(newPhonePwd === newPhonePwd2){
+                            (function(){
+                                $.ajax({
+                                    url: 'new_phone_update',
+                                    type: 'POST',
+                                    contentType: 'application/x-www-form-unencoded',
+                                    dataType: 'JSON',
+                                    data: {
+                                        mobiles: newphone,
+                                        mobile_code: oldPhoneCode,
+                                        mobile_codes: newPhoneCode,
+                                        password: newPhonePwd,
+                                        confirm_password: newPhonePwd2
+                                    },
+                                    success: function(res){
+                                        console.log('修改手机成功');
+                                        if(res.status == 1){
+                                            layer.msg('修改成功！');
+                                            setTimeout(function(){location.reload()}, 1000);
+                                        }else{
+                                            layer.msg(res.info);
+                                        }
+                                    },
+                                    error: function(){console.log('修改手机失败')}
+                                })
+                            }())
+                        }else{
+                            layer.msg('前后密码不一致！');
+                        }
+                    }else{
+                        layer.msg('请填写信息！');
                     }
-                });
-            },
-            sendPhoneCode: function(phone, _this, url){
-                console.log(phone)
+                    
+                },
+                error : function() {
+                    alert('验证码不匹配！');
+                }
+            });
+        }('#mpanel', 'changephone-button'));
+        
+        // 关闭弹窗
+        (function(){
+            $('.pop-close').click(function(){
+                $('.mask').hide();
+                $(this).parents('.pop').hide();
+            })
+        }());
+
+        // 创建店铺
+        (function(){
+            $('.addshop-button').click(function(){
+                
+            })
+        }());
+
+        // 获取所有店铺信息
+        (function() {
+            $.ajax({
+                url: 'store_all_data',
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/x-www-form-urlencoded',
+                success: function (res) { 
+                    console.log('所有店铺', res); 
+                    if(res.status == 1){
+                        
+                    }
+                },
+                error: function () { console.log('所有店铺error') }
+            })
+        }());
+
+        (function(myEvent){
+            // 手机打星号
+            myEvent.hidePhone = function(num){
+                var reg = /(\d{3})\d{4}(\d{4})/;
+                return num.replace(reg, '$1****$2');
+            }
+            
+            // 发送验证码
+            myEvent.sendPhoneCode = function(phone, _this, url){
                 var phoneReg = /^1[34578]\d{9}$/;
                 if(phone !== '' && phoneReg.test(phone)){
                     getIdentifyingCode(_this, url, phone);
                 }else{
                     layer.msg('电话号码格式不正确！');
                 }
-            },
-            changeNatureItem: function(){
-                // 切换个人 公司
+            }
+            // 切换个人 公司
+            myEvent.changeNatureItem = function(){
                 $('.content-wrap input[name=nature]').change(function(e){
                     var target = e.target;
                     if(target.id == 'personal'){
@@ -438,35 +503,24 @@
                         $('.company-item').show();
                     }
                 })
-            },
-            closePop: function(){
-                $('.pop-close').click(function(){
-                    $('.mask').hide();
-                    $(this).parents('.pop').hide();
-                })
-            },
-            getAllShop(){
-                $.ajax({
-                    url: 'store_all_data',
-                    type: 'POST',
-                    dataType: 'JSON',
-                    success: function(res){console.log('所有店铺', res);},
-                    error: function(){console.log('所有店铺error')}
-                })
-            },
+            }
+            // 铺店铺
 
-        }
-        org.init();
+            
+            window.myEvent = myEvent;
+        }(window.myEvent || {}));
         
+        // 隐藏手机号
+        $('.nowphone-span').text(myEvent.hidePhone($('.nowphone-span').text()));
         // 旧手机发送验证码
         $('.nowphone-sendcode').click(function(){
             var $phone = $('.infobar-phone').text();
-            org.sendPhoneCode($phone, this, 'PcsendMobileCode');
+            myEvent.sendPhoneCode($phone, this, 'sendMobileCodeByPhone');
         })
         // 新手机发送验证码
         $('.newphone-sendcode').click(function(){
             var $phone = $('#newphone').val();
-            org.sendPhoneCode($phone, this, 'PcsendMobileCode');
+            myEvent.sendPhoneCode($phone, this, 'PcsendMobileCode');
         })
 
         $('.change-phone').click(function(){
