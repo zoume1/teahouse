@@ -47,45 +47,49 @@
 
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="">
+			<form class="layui-form" action="{:url('admin/User/user_search')}">
 					<div class="seach">
 					<div class="seach_list">
-						<div class="seach_laber">用户ID</div>
+						<div class="seach_laber">请输入：</div>
 						<div class="seach_input">
-							<input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" id="zhanghu">
+							<input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="用户ID/用户昵称/用户账号" class="layui-input" id="zhanghu">
 						</div>
 					</div>
-					<div class="seach_list">
-						<div class="seach_laber">用户昵称</div>
-						<div class="seach_input">
-							<input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" id="nichwng">
-						</div>
-					</div>
-					<div class="seach_list">
-						<div class="seach_laber">用户账号</div>
-						<div class="seach_input">
-							<input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" id="zhanghu">
-						</div>
-					</div>
+					<!--<div class="seach_list">-->
+						<!--<div class="seach_laber">用户昵称</div>-->
+						<!--<div class="seach_input">-->
+							<!--<input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" id="nichwng">-->
+						<!--</div>-->
+					<!--</div>-->
+					<!--<div class="seach_list">-->
+						<!--<div class="seach_laber">用户账号</div>-->
+						<!--<div class="seach_input">-->
+							<!--<input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" id="zhanghu">-->
+						<!--</div>-->
+					<!--</div>-->
+						{if !empty($grade_data)}
 					<div class="seach_list">
 						<div class="seach_laber">会员等级</div>
 						<div class="seach_input">
-							<select>
-								<option value ="1">全部</option>
-								<option value ="2">E</option>
+							<select name="grade_type">
+								<option value="0" selected>全部</option>
+								{volist name="grade_data" id="value"}
+								<option value ="{$value.member_grade_id}">{$value.member_grade_name}</option>
+								{/volist}
 							</select></div>
 					</div>
+						{/if}
 					<div class="seach_list">
 						<div class="seach_laber">开始时间</div>
 						<div class="seach_input">
-						<span class="time"><input type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
+						<span class="time"><input name="date_min" type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
 							</span>
 						</div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">结束时间</div>
 						<div class="seach_input">
-							<span class="time"><input type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
+							<span class="time"><input  name="date_max" type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
 
 						</div>
 					</div>
@@ -128,8 +132,8 @@
 						<td><div class="tdimg"><img src="{$vo.member_head_img}" /></td>
 						<td>{$vo.member_grade_name} </td>
 						<td>{$vo.member_sex} </td>
+						<td>{$vo.member_real_name}</td>
 						<td>{$vo.ID_card}</td>
-						<td>用户姓名</td>
 						<td>{$vo.member_address} </td>
 						<td>{$vo.member_create_time|date="Y-m-d H:i:s",###} </td>
 						<td>
