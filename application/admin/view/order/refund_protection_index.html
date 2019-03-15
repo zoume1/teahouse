@@ -248,7 +248,7 @@
 	<div class="childrenBody">
 
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Order/refund_protection_search')}" method="get">
+			<form class="layui-form" action="{:url('admin/Order/refund_protection_search')}" >
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">请搜索：</div>
@@ -273,14 +273,14 @@
 					<div class="seach_list">
 						<div class="seach_laber">开始时间</div>
 						<div class="seach_input">
-							<span class="time"><input name="star_time" type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
+							<span class="time"><input name="date_min" type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
 							</span>
 						</div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">结束时间</div>
 						<div class="seach_input">
-							<span class="time"><input name="end_time" type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
+							<span class="time"><input name="date_max" type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
 
 						</div>
 					</div>

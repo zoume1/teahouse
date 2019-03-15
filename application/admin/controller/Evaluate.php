@@ -23,7 +23,9 @@ class Evaluate extends  Controller{
      */
     public function evaluate_index(){
         $data_status =Db::name("order_evaluate")->find();
-        $data =Db::name("order_evaluate")->order("create_time","desc")->paginate(20);
+        $data =Db::name("order_evaluate")->order("create_time","desc")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         return view("evaluate_index",["data"=>$data,"data_status"=>$data_status]);
     }
 
@@ -137,13 +139,21 @@ class Evaluate extends  Controller{
             $goods_name =trim(input('goods_name'));
             $user_name =trim(input('user_name'));
             if(!empty($goods_name) && (!empty($user_name))){
-                $data =Db::name("order_evaluate")->where("goods_name",$goods_name)->where("user_name",$user_name)->order("create_time","desc")->paginate(20);
+                $data =Db::name("order_evaluate")->where("goods_name",$goods_name)->where("user_name",$user_name)->order("create_time","desc")->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
             }else if(!empty($goods_name) && empty($user_name)){
-                $data =Db::name("order_evaluate")->where("goods_name",$goods_name)->order("create_time","desc")->paginate(20);
+                $data =Db::name("order_evaluate")->where("goods_name",$goods_name)->order("create_time","desc")->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
             }else if(empty($goods_name) && (!empty($user_name))){
-                $data =Db::name("order_evaluate")->where("user_name",$user_name)->order("create_time","desc")->paginate(20);
+                $data =Db::name("order_evaluate")->where("user_name",$user_name)->order("create_time","desc")->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
             }else{
-                $data =Db::name("order_evaluate")->order("create_time","desc")->paginate(20);
+                $data =Db::name("order_evaluate")->order("create_time","desc")->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
             }
         return view("evaluate_index",["data"=>$data]);
     }

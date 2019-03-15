@@ -34,7 +34,9 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_problem(){
-        $problem = db("common_ailment")->paginate(20);
+        $problem = db("common_ailment")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         return view("operate_problem",["problem"=>$problem]);
     }
 
@@ -147,7 +149,9 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_contract(){
-        $operate = db("protocol") -> paginate(20);
+        $operate = db("protocol")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         return view("operate_contract",["operate" => $operate]);
     }
 
@@ -227,7 +231,9 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_message(){
-        $message = db("remind")-> paginate(20);
+        $message = db("remind")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         return view("operate_message",["message"=>$message]);
     }
 
@@ -370,7 +376,9 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_broadcast(){
-        $broadcast = db("broadcast")->paginate(20);
+        $broadcast = db("broadcast")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         return view("operate_broadcast",["broadcast"=>$broadcast]);
     }
 
