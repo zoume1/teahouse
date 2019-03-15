@@ -115,6 +115,8 @@ $('.aside-item:eq(3)').click(function () {
         }
         return this;
     }
+
+    // 上传图片
     window.myEvent = myEvent;
 }(window.myEvent || {}))
 

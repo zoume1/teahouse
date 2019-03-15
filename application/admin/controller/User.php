@@ -23,7 +23,67 @@ class User extends Controller{
         $user_data =Db::name('member')->order("member_id","desc")->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
-        return view('index',['user_data'=>$user_data]);
+        $grade_data =Db::name("member_grade")->field("member_grade_id,member_grade_name")->select();
+        return view('index',['user_data'=>$user_data,"grade_data"=>$grade_data]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:订单搜索
+     **************************************
+     */
+    public function user_search(){
+        $search_a =input("search_a") ? input("search_a"):null;
+        $grade_type =input("grade_type") ? input("grade_type"):null;
+        $time_min  =input("date_min") ? input("date_min"):null;
+        $date_max  =input('date_max') ? input('date_max'):null;
+        if(!empty($search_a)){
+            $condition =" `member_id` like '%{$search_a}%' or `member_name` like '%{$search_a}%' or `member_phone_num` like '%{$search_a}%' or `member_real_name` like '%{$search_a}%' or `ID_card` like '%{$search_a}%'";
+            $user_data =Db::name('member')->where($condition)->order("member_id","desc")->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        }else if (!empty($grade_type)){
+            $user_data =Db::name('member')->where("member_grade_id",$grade_type)->order("member_id","desc")->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        }else{
+            if(!empty($time_min)){
+                $timemin =strtotime($time_min);
+            }
+            if(!empty($date_max)){
+                /*添加一天（23：59：59）*/
+                $t=date('Y-m-d H:i:s',strtotime($date_max)+1*24*60*60);
+                $timemax  =strtotime($t);
+
+            }
+            if(!empty($time_min) && empty($date_max)){
+                $time_condition  = "member_create_time>{$timemin}";
+                //开始时间
+                $user_data =Db::name('member')->where($time_condition)->order("member_id","desc")->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            }else if (empty($time_min) && (!empty($date_max))){
+                $time_condition  = "member_create_time< {$timemax}";
+                //结束时间
+                $user_data =Db::name('member')->where($time_condition)->order("member_id","desc")->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            }else if((!empty($timemin)) && (!empty($date_max))){
+                $time_condition  = "member_create_time>{$timemin} and member_create_time< {$timemax}";
+                //既有开始又有结束
+                $user_data =Db::name('member')->where($time_condition)->order("member_id","desc")->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            }else{
+                $user_data =Db::name('member')->order("member_id","desc")->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+
+            }
+        }
+        $grade_data =Db::name("member_grade")->field("member_grade_id,member_grade_name")->select();
+        return view('index',['user_data'=>$user_data,"grade_data"=>$grade_data]);
     }
 
     /**
@@ -259,6 +319,8 @@ class User extends Controller{
         $this->assign('listpage', $data->render());
         return view("recharge_application",["data"=>$data]);
     }
+
+
 
     /**
      **************李火生*******************
