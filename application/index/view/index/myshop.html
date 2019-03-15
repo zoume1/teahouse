@@ -94,7 +94,7 @@
                         <span class="dash">-</span>
                         <a href="javascript:;" class="logout">退出</a>
                     </span>
-                    {/if}  
+                    {/if}
                 </div>
                 <div class="select">
                     <div class="infobar">
@@ -241,8 +241,8 @@
                 <div class="content-item">
                     <label class="content-title">我是：</label>
                     <div>
-                        <input type="radio" name="nature" id="personal" checked><label for="personal">个人</label>
-                        <input type="radio" name="nature" id="company"><label for="company">公司</label>
+                        <input type="radio" onchange="myEvent.changeNatureItem(this.id);" name="nature" id="personal" checked><label for="personal">个人</label>
+                        <input type="radio" onchange="myEvent.changeNatureItem(this.id);" name="nature" id="company"><label for="company">公司</label>
                     </div>
                 </div>
                 <!-- 个人 -->
@@ -250,24 +250,24 @@
                     <div class="content-item">
                         <label class="content-title">姓名：</label>
                         <div>
-                            <input type="text" oninput="">
+                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 1);">
                         </div>
                     </div>
                     <div class="content-item">
                         <label class="content-title">身份证号码：</label>
                         <div>
-                            <input type="text">
+                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 2)">
                         </div>
                     </div>
                     <div class="content-item address-item">
                         <label class="content-title">详细地址：</label>
                         <div>
-                            <div data-toggle="distpicker">
+                            <div data-toggle="distpicker" id="p-dist">
                                 <select></select>
                                 <select></select>
                                 <select></select>
                             </div>
-                            <input type="text" placeholder="请填写详细地址">
+                            <input type="text" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
                         </div>
                     </div>
                     <div class="content-item id-item">
@@ -276,14 +276,14 @@
                             <div class="positive">
                                 <div>
                                     <img src="__STATIC__/index/img/id1.png" width="150" height="98">
-                                    <input type="file">
+                                    <input type="file" id="p-f">
                                 </div>
                                 <p class="id-tips">身份证正面(国徽)</p>
                             </div>
                             <div class="back">
                                 <div>
                                     <img src="__STATIC__/index/img/id2.png" width="150" height="98">
-                                    <input type="file">
+                                    <input type="file" id="p-b">
                                 </div>
                                 <p class="id-tips">身份证反面(人像)</p>
                             </div>
@@ -292,7 +292,7 @@
                     <div class="content-item introduce-item">
                         <label class="content-title">店铺介绍：</label>
                         <div>
-                            <textarea></textarea>
+                            <textarea onblur="myEvent.onBlurGetInfo(this.value, 4)"></textarea>
                         </div>
                     </div>
                 </div>
@@ -301,36 +301,36 @@
                     <div class="content-item">
                         <label class="content-title">联系人姓名：</label>
                         <div>
-                            <input type="text">
+                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 1)">
                         </div>
                     </div>
                     <div class="content-item">
                         <label class="content-title">联系人身份证号：</label>
                         <div>
-                            <input type="text">
+                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 2)">
                         </div>
                     </div>
                     <div class="content-item address-item">
                         <label class="content-title">详细地址：</label>
                         <div>
-                            <div data-toggle="distpicker">
+                            <div data-toggle="distpicker" id="c-dist">
                                 <select></select>
                                 <select></select>
                                 <select></select>
                             </div>
-                            <input type="text" placeholder="请填写详细地址">
+                            <input type="text" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
                         </div>
                     </div>
                     <div class="content-item">
                         <label class="content-title">企业名称：</label>
                         <div>
-                            <input type="text">
+                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 5)">
                         </div>
                     </div>
                     <div class="content-item">
                         <label class="content-title">企业执照号：</label>
                         <div>
-                            <input type="text">
+                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 6)">
                         </div>
                     </div>
                     <div class="content-item id-item">
@@ -339,14 +339,14 @@
                             <div class="positive">
                                 <div>
                                     <img src="__STATIC__/index/img/id1.png" width="150" height="98">
-                                    <input type="file">
+                                    <input type="file" id="c-f">
                                 </div>
                                 <p class="id-tips">身份证正面(国徽)</p>
                             </div>
                             <div class="back">
                                 <div>
                                     <img src="__STATIC__/index/img/id2.png" width="150" height="98">
-                                    <input type="file">
+                                    <input type="file" id="c-b">
                                 </div>
                                 <p class="id-tips">企业营业执照(人像)</p>
                             </div>
@@ -355,7 +355,7 @@
                     <div class="content-item introduce-item">
                         <label class="content-title">店铺介绍：</label>
                         <div>
-                            <textarea></textarea>
+                            <textarea onblur="myEvent.onBlurGetInfo(this.value, 4)"></textarea>
                         </div>
                     </div>
                 </div>
@@ -454,7 +454,44 @@
         // 创建店铺
         (function(){
             $('.addshop-button').click(function(){
-                
+                var addrArr = [],
+                    select;
+                if(myEvent.data.natureTag == 1){
+                    select = document.querySelectorAll('#p-dist select');
+                }else{
+                    select = document.querySelectorAll('#c-dist select');
+                }
+                select.forEach(function(v, i){
+                    addrArr.push(v.value);
+                })
+                myEvent.data.addressStr = addrArr.join(',');
+                $.ajax({
+                    url: 'store_add',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        is_business: myEvent.data.natureTag,
+                        id_card: myEvent.data.idCardNum,
+                        contact_name: myEvent.data.userName,
+                        address_data: myEvent.data.addressStr,
+                        address_real_data: myEvent.data.addressStr2,
+                        card_positive: myEvent.data.pf,
+                        card_side: myEvent.data.pb,
+                        store_introduction: myEvent.data.storeDesc,
+                        business_name: myEvent.data.compName,
+                        licence_no: myEvent.data.licenceNum,
+                    },
+                    success: function(res){
+                        console.log('添加店铺成功',res);
+                        if(res.status == 1){
+                            layer.msg('修改成功！');
+                            setTimeout(function(){location.reload()}, 1000);
+                        }else{
+                            layer.msg(res.info);
+                        }
+                    },
+                    error: function(){console.log('添加店铺失败')}
+                })
             })
         }());
 
@@ -476,12 +513,23 @@
         }());
 
         (function(myEvent){
+            myEvent.data = {
+                natureTag: 1,
+                userName: '',
+                idCardNum: null,
+                addressStr: '',
+                addressStr2: '',
+                pf: '',
+                pb: '',
+                storeDesc: '',
+                compName: null,
+                licenceNum: null,
+            };
             // 手机打星号
             myEvent.hidePhone = function(num){
                 var reg = /(\d{3})\d{4}(\d{4})/;
                 return num.replace(reg, '$1****$2');
             }
-            
             // 发送验证码
             myEvent.sendPhoneCode = function(phone, _this, url){
                 var phoneReg = /^1[34578]\d{9}$/;
@@ -492,23 +540,69 @@
                 }
             }
             // 切换个人 公司
-            myEvent.changeNatureItem = function(){
-                $('.content-wrap input[name=nature]').change(function(e){
-                    var target = e.target;
-                    if(target.id == 'personal'){
-                        $('.personal-item').show();
-                        $('.company-item').hide();
-                    }else{
-                        $('.personal-item').hide();
-                        $('.company-item').show();
-                    }
-                })
+            myEvent.changeNatureItem = function(id){
+                if(id == 'personal'){
+                    $('.personal-item').show();
+                    $('.company-item').hide();
+                    myEvent.data.natureTag = 1;
+                }else{
+                    $('.personal-item').hide();
+                    $('.company-item').show();
+                    myEvent.data.natureTag = 2;
+                }
             }
-            // 铺店铺
-
-            
+            // 上传图片
+            myEvent.imgUpload = function(e, _this){
+                var file = e.target.files[0],
+                    reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function(e){
+                    $(_this).siblings('img').attr('src', e.target.result);
+                    if(_this.id == 'p-f' || _this.id == 'c-f'){
+                        myEvent.data.pf = e.target.result;
+                    }else{
+                        myEvent.data.pb = e.target.result;
+                    }
+                }
+            }
+            // 获取名字
+            myEvent.onBlurGetInfo = function(val, tag){
+                if(val){
+                    switch(tag){
+                        case 1: 
+                            myEvent.data.userName = val;
+                            break;
+                        case 2: 
+                            myEvent.data.idCardNum = val;
+                            break;
+                        case 3: 
+                            myEvent.data.addressStr2 = val;
+                            break;
+                        case 4: 
+                            myEvent.data.storeDesc = val;
+                            break;
+                        case 5: 
+                            myEvent.data.compName = val;
+                            break;
+                        case 6: 
+                            myEvent.data.licenceNum = val;
+                            break;
+                    }
+                }
+            }
             window.myEvent = myEvent;
         }(window.myEvent || {}));
+
+        (function(){
+            $('#p-f').add('#p-b').add('#c-f').add('#c-b').on('change', function(e){
+                if(this.id == 'p-f' || this.id == 'c-f'){
+                    myEvent.imgUpload(e, this);
+                }else{
+                    myEvent.imgUpload(e, this);
+                }
+            })
+
+        }())
         
         // 隐藏手机号
         $('.nowphone-span').text(myEvent.hidePhone($('.nowphone-span').text()));
