@@ -758,6 +758,7 @@ class Goods extends Controller
                     $unit1[$kk]["unit"] =  $rest1["unit"][$kk];
                     $unit1[$kk]["num"] =  $rest2["num"][$kk];
                     $unit1[$kk]["number"] =  $offers[$kk];
+                    $unit1[$kk]["id"] =  $specail_id[$kk];
                     
                              
                 }
