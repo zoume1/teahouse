@@ -804,7 +804,11 @@
     var ue = UE.getEditor('editor');
     var ue1 = UE.getEditor('editor1');
     var codings=[];
-    
+    function jiequ(str){
+      var arr = str.split("_");
+       return arr[1];
+    }
+   
     for(var r=0;r<$(".coding").length;r++){
         codings.push($(".coding")[r].value);
     }
@@ -1226,8 +1230,34 @@
              $(this).append(danwei4);
           }
           else{
-              console.log($(this).val());
-              $(this).siblings(".danwei_content").children("input");
+              var ids=$("#ids").val();
+             var coding=$(this).val();
+             var data_id=null;
+              $.ajax({
+                    type: "POST",
+                    url: "goods_standard",
+                    data: {
+                        "id": ids,
+                        "coding": coding
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        // data_id=data.data  
+                    },
+                    error: function(data) {
+                        console.log("错误");
+                    }
+                });
+
+              var change_name= $(this).siblings(".danwei_content").children("input")
+              console.log(change_name);
+              for(var k=0;k<change_name.length;k++){
+                  if( jiequ(change_name[k].name)=="num[]"){
+             
+                  }
+              }
+            ;
           }
            
         })
