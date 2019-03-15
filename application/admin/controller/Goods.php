@@ -733,8 +733,8 @@ class Goods extends Controller
      */
     public function offer(Request $request)
     {
-        if ($request->isGet()) {
-             $id = 202;
+        if ($request->isPost()) {
+             $id = $request->only(["pid"])["pid"];
             $standard = db("goods")->where("id",$id)->value("goods_standard");
             if($standard == 1){
                 $goods_standard = db("special")->where("goods_id", $id)->select();
@@ -762,11 +762,11 @@ class Goods extends Controller
                              
                 }
                 
-                foreach($unit1 as $yy=>$cc){
-                    if(empty($unit1[$yy]["unit"][$yy]) || empty($unit1[$yy]["num"][$yy]))
-                    unset($unit1[$yy]);
-                }
-                $rest = array_values($unit1);
+                // foreach($unit1 as $yy=>$cc){
+                //     if(empty($unit1[$yy]["unit"][$yy]) || empty($unit1[$yy]["num"][$yy]))
+                //     unset($unit1[$yy]);
+                // }
+                // $rest = array_values($unit1);
                 if(!empty($rest)){
                     return ajax_success('传输成功', $rest);
                 } else {
