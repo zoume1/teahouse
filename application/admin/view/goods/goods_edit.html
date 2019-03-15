@@ -822,7 +822,6 @@
                     var dhtmlss='';  
                     for(var i=0;i<data.data.length;i++){
                        if(data.data[i].num[0]!=''){
-                           alert(111);
                                  //   <!-- 编码循环这里 -->
                         dhtmlss+='<div class="form-item general" style=" align-items: center;position: relative;">';
                             dhtmlss+='<label class="form-label">包装规格</label>';
@@ -846,8 +845,8 @@
                                         //  <!-- 单位循环这里 -->
                                         dhtmlss+='<div class="danwei_content">';
                                         dhtmlss+='<div class="fuhao">=</div>';
-                                        dhtmlss+='<input type="text" name="'+data.data[i].number+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="'+data.data[i].num[j]+'" >';
-                                        dhtmlss+='<input type="text" name="'+data.data[i].number+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="'+data.data[i].unit[q]+'" maxlength="2"> ';
+                                        dhtmlss+='<input type="text" name="'+data.data[i].id+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="'+data.data[i].num[j]+'" >';
+                                        dhtmlss+='<input type="text" name="'+data.data[i].id+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="'+data.data[i].unit[q]+'" maxlength="2"> ';
                                         dhtmlss+='<img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                                         dhtmlss+='</div>';
                                         //   <!-- 单位循环这里 -->
@@ -1216,7 +1215,7 @@
              }
           }
           if(k>1){
-              console.log( $(this).find("option[value='0']"));
+             
             $(this).children("option").remove();
             var danwei4='';
             danwei4+='<option value="0">请选择规格编码</option>';
@@ -1225,6 +1224,10 @@
              }
 
              $(this).append(danwei4);
+          }
+          else{
+              console.log($(this).val());
+              $(this).siblings(".danwei_content").children("input");
           }
            
         })
