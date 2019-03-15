@@ -174,10 +174,14 @@ class Comments extends Controller
         $comment_name = input('search_keys');      //用户名
 
         if ((!empty($comment_commodity)) || (!empty($comment_name))) {
-            $actived = db("mament")->where("goods_comment", "like", "%" . $comment_commodity . "%")->where("user_account", "like", "%" . $comment_name . "%")->paginate(4);
+            $actived = db("mament")->where("goods_comment", "like", "%" . $comment_commodity . "%")->where("user_account", "like", "%" . $comment_name . "%")->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
 
         } else {
-            $comments_inde = db("mament")->paginate(4);
+            $comments_inde = db("mament")->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
             return view('comments_index', ['comments_index' => $comments_inde]);
         }
         if (!empty($actived)) {

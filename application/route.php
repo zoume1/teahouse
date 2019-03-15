@@ -475,6 +475,7 @@ Route::group("admin",[
     "goods_switches"=>"admin/Goods/switches",//普通商品列表规格开关
     "goods_addphoto"=>"admin/Goods/addphoto",//普通商品列表规格图片添加 
     "goods_offer"=>"admin/Goods/offer",      //普通商品多规格列表单位编辑 
+    "goods_standard"=>"admin/Goods/standard",//普通商品多规格列表单位id查找 
 
     "crowd_index"=>"admin/Goods/crowd_index",   //众筹商品列表显示
     "crowd_add"=>"admin/Goods/crowd_add",       //众筹商品列表添加

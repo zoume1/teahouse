@@ -18,7 +18,9 @@ class StoreHouse extends Controller{
      * 郭杨
      */    
     public function store_house(){
-         $store = db("store_house")->paginate(20);
+         $store = db("store_house")->paginate(20 ,false, [
+             'query' => request()->param(),
+         ]);
         return view("store_house",["store"=>$store]);
     }
 

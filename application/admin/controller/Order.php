@@ -22,7 +22,11 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function order_index(){
-        $data =Db::name("order")->order("order_create_time","desc")->paginate(20);
+        $data =Db::name("order")
+            ->order("order_create_time","desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         return view("order_index",["data"=>$data]);
     }
 
@@ -84,45 +88,74 @@ class  Order extends  Controller{
      * Notes:订单搜索
      **************************************
      */
-    public function order_search(Request $request){
-        if($request->isGet()){
+    public function order_search(){
             $search_a =input("search_a") ? input("search_a"):null;
             $order_type =input("order_type") ? input("order_type"):null;
             $time_min  =input("date_min") ? input("date_min"):null;
             $date_max  =input('date_max') ? input('date_max'):null;
-            if(!empty($time_min)){
-                $timemin =strtotime($time_min);
-            }
-            if(!empty($date_max)){
-                /*添加一天（23：59：59）*/
-                $t=date('Y-m-d H:i:s',$date_max+1*24*60*60);
-                $timemax  =strtotime($t);
-            }
-            if(!empty($time_min) && empty($date_max)){
-                //开始时间
-            }else if (empty($time_min) && (!empty($date_max))){
-                //结束时间
-            }else if((!empty($timemin)) && (!empty($date_max))){
-                //既有开始又有结束
-            }
             if(!empty($search_a)){
                 $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
                 $data =Db::name("order")
                     ->where($condition)
                     ->order("order_create_time","desc")
-                    ->paginate(20);
+                    ->paginate(20 ,false, [
+                        'query' => request()->param(),
+                    ]);
             }else if (!empty($order_type)){
                 $data =Db::name("order")
                     ->where("order_type",$order_type)
                     ->order("order_create_time","desc")
-                    ->paginate(20);
+                    ->paginate(20 ,false, [
+                        'query' => request()->param(),
+                    ]);
             }else{
-                $data =Db::name("order")->order("order_create_time","desc")->paginate(20);
+                if(!empty($time_min)){
+                    $timemin =strtotime($time_min);
+                }
+                if(!empty($date_max)){
+                    /*添加一天（23：59：59）*/
+                    $t=date('Y-m-d H:i:s',strtotime($date_max)+1*24*60*60);
+                    $timemax  =strtotime($t);
+
+                }
+                if(!empty($time_min) && empty($date_max)){
+                    $time_condition  = "order_create_time>{$timemin}";
+                    //开始时间
+                    $data =Db::name("order")
+                        ->where($time_condition)
+                        ->order("order_create_time","desc")
+                        ->paginate(20 ,false, [
+                            'query' => request()->param(),
+                        ]);
+                }else if (empty($time_min) && (!empty($date_max))){
+                    $time_condition  = "order_create_time< {$timemax}";
+                    //结束时间
+                    $data =Db::name("order")
+                        ->where($time_condition)
+                        ->order("order_create_time","desc")
+                        ->paginate(20 ,false, [
+                            'query' => request()->param(),
+                        ]);
+                }else if((!empty($timemin)) && (!empty($date_max))){
+                    $time_condition  = "order_create_time>{$timemin} and order_create_time< {$timemax}";
+                    //既有开始又有结束
+                    $data =Db::name("order")
+                        ->where($time_condition)
+                        ->order("order_create_time","desc")
+                        ->paginate(20 ,false, [
+                            'query' => request()->param(),
+                        ]);
+                }else{
+                    $data =Db::name("order")
+                        ->order("order_create_time","desc")
+                        ->paginate(20 ,false, [
+                        'query' => request()->param(),
+                    ]);
+
+                }
             }
-
-
             return view("order_index",["data"=>$data]);
-        }
+
     }
 
 
@@ -136,7 +169,9 @@ class  Order extends  Controller{
         $data =Db::name("order")
             ->order("order_create_time","desc")
             ->where("status",1)
-            ->paginate(20);
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         return view("order_index",["data"=>$data]);
     }
 
@@ -153,7 +188,9 @@ class  Order extends  Controller{
         $data =Db::name("order")
             ->where($condition)
             ->order("order_create_time","desc")
-            ->paginate(20);
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         return view("order_index",["data"=>$data]);
     }
 
@@ -168,7 +205,9 @@ class  Order extends  Controller{
         $data =Db::name("order")
             ->order("order_create_time","desc")
             ->where($condition)
-            ->paginate(20);
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         return view("order_index",["data"=>$data]);
     }
 
@@ -183,7 +222,9 @@ class  Order extends  Controller{
         $data =Db::name("order")
             ->order("order_create_time","desc")
             ->where("status",8)
-            ->paginate(20);
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         return view("order_index",["data"=>$data]);
     }
 
@@ -199,7 +240,9 @@ class  Order extends  Controller{
         $data =Db::name("order")
             ->order("order_create_time","desc")
             ->where($condition)
-            ->paginate(20);
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         return view("order_index",["data"=>$data]);
     }
 
@@ -212,7 +255,11 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function order_integral(){
-        $data =Db::name("buyintegral")->order("order_create_time","desc")->paginate(20);
+        $data =Db::name("buyintegral")
+            ->order("order_create_time","desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         return view("order_integral",["data"=>$data]);
     }
 
@@ -449,11 +496,35 @@ class  Order extends  Controller{
      */
     public function  refund_protection_search(){
         $search_a =input("search_a") ? input("search_a"):null;
+        $time_min  =input("date_min") ? input("date_min"):null;
+        $date_max  =input('date_max') ? input('date_max'):null;
         if(!empty($search_a)){
             $condition =" `sale_order_number` like '%{$search_a}%' or `buy_order_number` like '%{$search_a}%' or `member_count` like '%{$search_a}%' ";
             $accessories=Db::name("after_sale")->where($condition)->order("operation_time","desc")->select();
         }else{
-            $accessories=Db::name("after_sale")->order("operation_time","desc")->select();
+            if(!empty($time_min)){
+                $timemin =strtotime($time_min);
+            }
+            if(!empty($date_max)){
+                /*添加一天（23：59：59）*/
+                $t=date('Y-m-d H:i:s',strtotime($date_max)+1*24*60*60);
+                $timemax  =strtotime($t);
+            }
+            if(!empty($time_min) && empty($date_max)){
+                $time_condition  = "operation_time>{$timemin}";
+                $accessories=Db::name("after_sale")->where($time_condition)->order("operation_time","desc")->select();
+                //开始时间
+            }else if (empty($time_min) && (!empty($date_max))){
+                $time_condition  = "operation_time< {$timemax}";
+                $accessories=Db::name("after_sale")->where($time_condition)->order("operation_time","desc")->select();
+                //结束时间
+            }else if((!empty($timemin)) && (!empty($date_max))){
+                $time_condition  = "operation_time>{$timemin} and operation_time< {$timemax}";
+                $accessories=Db::name("after_sale")->where($time_condition)->order("operation_time","desc")->select();
+                //既有开始又有结束
+            }else{
+                $accessories=Db::name("after_sale")->order("operation_time","desc")->select();
+            }
         }
         foreach ($accessories as $key => $value) {
             if ($value["id"]) {
