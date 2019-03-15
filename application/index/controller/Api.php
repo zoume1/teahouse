@@ -110,6 +110,19 @@ class  Api extends  Controller{
                    ->where("id",$after_sale_id)
                    ->update(["status"=>$status]);
                //做回款记录
+               $datas=[
+                   "user_id"=> $data["member_id"],//用户ID
+                   "wallet_operation"=> $business_return_money,//消费金额
+                   "wallet_type"=>1,//消费操作(1入，-1出)
+                   "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                   "wallet_remarks"=>"售后号：".$data['sale_order_number']."，退款".$business_return_money,//消费备注
+                   "wallet_img"=>" ",//图标
+                   "title"=>"退款到余额",//标题（消费内容）
+                   "order_nums"=>$refund_amount["parts_order_number"],//订单编号
+                   "pay_type"=>"小程序", //支付方式/
+                   "wallet_balance"=>$result_data,//此刻钱包余额
+               ];
+               Db::name("wallet")->insert($datas); //存入消费记录表
                return ajax_success("退款成功",$refund_amount);
            }else{
                return ajax_error("退款失败");
@@ -134,7 +147,21 @@ class  Api extends  Controller{
             Db::name("after_sale")
                 ->where("id",$after_sale_id)
                 ->update(["status"=>$status]);
+            $result_money =Db::name("member")->where("member_id",$data["member_id"])->find("member_wallet");
             //做回款记录
+            $datas=[
+                "user_id"=> $data["member_id"],//用户ID
+                "wallet_operation"=> $business_return_money,//消费金额
+                "wallet_type"=>1,//消费操作(1入，-1出)
+                "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                "wallet_remarks"=>"售后号：".$data['sale_order_number']."，退款".$business_return_money,//消费备注
+                "wallet_img"=>" ",//图标
+                "title"=>"退款",//标题（消费内容）
+                "order_nums"=>$refund_amount["parts_order_number"],//订单编号
+                "pay_type"=>"小程序", //支付方式/
+                "wallet_balance"=>$result_money,//此刻钱包余额
+            ];
+            Db::name("wallet")->insert($datas); //存入消费记录表
             return ajax_success("成功",$result);
         }else {
             $result['code'] = 0;

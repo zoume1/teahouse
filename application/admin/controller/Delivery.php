@@ -20,7 +20,9 @@ class Delivery extends  Controller{
      **************************************
      */
     public function delivery_index(){
-        $data =Db::name("extract_address")->paginate(20);
+        $data =Db::name("extract_address")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         $data_status =Db::name("extract_address")->find();
         return view("delivery_index",["data"=>$data,"data_status"=>$data_status]);
     }
@@ -190,7 +192,9 @@ class Delivery extends  Controller{
      * 郭杨
      */
     public function delivery_goods(){
-        $delivery = db("express")->paginate(20);       
+        $delivery = db("express")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         return view("delivery_goods",["delivery"=>$delivery]);
     }
 

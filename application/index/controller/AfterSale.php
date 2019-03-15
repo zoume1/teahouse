@@ -298,7 +298,7 @@ class  AfterSale extends Controller{
             $vs=explode(':',$time_second);
             $sale_order_number  ="SH".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999); //订单编号
             $insert_data  =[
-                "order_id"=>$order_id, //订单号
+//                "order_id"=>$order_id, //订单号
                 "sale_order_number"=>$sale_order_number,//售后编号
                 "is_return_goods"=>$is_return_goods,//判断是否为换货还是退货退款，1换货，2退款退货
                 "operation_time"=>time(), //操作时间

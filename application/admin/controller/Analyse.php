@@ -5,7 +5,7 @@
  * Date: 2019/2/20
  */
 namespace  app\admin\controller;
-
+use think\Request;
 use think\Controller;
 use think\Db;
 use think\paginator\driver\Bootstrap;
@@ -54,7 +54,7 @@ class  Analyse extends  Controller{
      */    
     public function analyse_optimize_index(){  
         $optimize = db("seo_optimize")->where("id",1)->select();  
-        return view("analyse_optimize_index");
+        return view("analyse_optimize_index",["optimize"=>$optimize]);
     }
 
 

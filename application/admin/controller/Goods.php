@@ -93,7 +93,7 @@ class Goods extends Controller
     {
         
         if ($request->isPost()) {
-            $goods_data = $request->param();           
+            $goods_data = $request->param(); 
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];
@@ -125,7 +125,7 @@ class Goods extends Controller
             
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
-                if ($bool) {
+                if ($bool && (!empty($show_images))) {
                     $this->success("添加成功", url("admin/Goods/index"));
                 } else {
                     $this->success("添加失败", url('admin/Goods/add'));
@@ -188,19 +188,20 @@ class Goods extends Controller
                                 $save[] = "0";
                             }
                         }
+
                         if(substr($kn,strrpos($kn,"_")+1) == "num"){
-                            $num1[] = $goods_data[$kn];
-                            $num[] = implode(",",$goods_data[$kn]);
+                            $num1[substr($kn,0,strrpos($kn,"_"))]["num"] = implode(",",$goods_data[$kn]);
+                            $num[substr($kn,0,strrpos($kn,"_"))]["num"] = $goods_data[$kn];
                         }
                         if(substr($kn,strrpos($kn,"_")+1) == "unit"){
-                            $unit1[] = $goods_data[$kn];
-                            $unit[] = implode(",",$goods_data[$kn]);
+                            $unit1[substr($kn,0,strrpos($kn,"_"))]["unit"] = implode(",",$goods_data[$kn]);
+                            $unit[substr($kn,0,strrpos($kn,"_"))]["unit"] = $goods_data[$kn]; 
                         }
  
+                        
                     }
 
-                }
-
+            }
                 if (!empty($imgs)) {
                     foreach ($imgs as $k => $v) {
                         $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -215,26 +216,36 @@ class Goods extends Controller
                                     $values[$k]["lv1"] = $result;
                                     $values[$k]["stock"] = $stock[$k];
                                     $values[$k]["coding"] = $coding[$k];
+                                    if(array_key_exists($coding[$k],$num1)){
+                                        $values[$k]["num"] = $num1[$coding[$k]]["num"]; 
+                                    } else {
+                                        $values[$k]["num"] = null;
+                                    }
+                                    if(array_key_exists($coding[$k],$unit1)){
+                                        $values[$k]["unit"] = $unit1[$coding[$k]]["unit"];
+                                        $values[$k]["element"] = unit_comment($num[$coding[$k]]["num"],$unit[$coding[$k]]["unit"]);
+                                    } else {
+                                        $values[$k]["unit"] = null;
+                                        $values[$k]["element"] = null;
+                                    }
                                     $values[$k]["status"] = $status[$k];
                                     $values[$k]["save"] = $save[$k];
                                     $values[$k]["cost"] = $cost[$k];
-                                    $values[$k]["line"] = $line[$k];
-                                    $values[$k]["num"] = $num[$k];
-                                    $values[$k]["unit"] = $unit[$k];
-                                    $values[$k]["offer"] = $offer[$k];
+                                    $values[$k]["line"] = $line[$k];                                    
                                     $values[$k]["images"] = $tab;
                                     $values[$k]["goods_id"] = $goods_id;
-                                    $values[$k]["element"] = unit_comment($num1[$k],$unit1[$k]);
+                                    $values[$k]["offer"] = $offer[$k];
+                                    
                                 }
                             }
                         }
                     }
                 }
-              
+
                 foreach ($values as $kz => $vw) {
-                    $rest = db('special')->insert($vw);
-                }
-                if ($rest) {
+                    $rest = db('special')->insertGetId($vw);
+                }    
+                if ($rest && (!empty($show_images))) {
                     $this->success("添加成功", url("admin/Goods/index"));
                 } else {
                     $this->success("添加失败", url('admin/Goods/add'));
@@ -253,12 +264,6 @@ class Goods extends Controller
         $goods = db("goods")->where("id", $id)->select();
         $scope = db("member_grade")->field("member_grade_name")->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
-        $offer = db("special")->where("goods_id", $id)->field("coding")->select();
-        foreach($offer as $pp => $qq){
-            if(!empty($offer)){
-                $offers[$pp] = $qq["coding"];
-            }
-        }
 
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
@@ -269,28 +274,16 @@ class Goods extends Controller
      }
         foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
-            $res = explode(',', $v["lv1"]);  
-            $unit[] = explode(',', $v["element"]);        
-            $unit1["unit"][] = explode(',', $v["unit"]);        
-            $num["num"][] = explode(',', $v["num"]);        
+            $res = explode(',', $v["lv1"]);         
         }
           
-        foreach($offers as $kk => $zz){
-            $rest1["unit"][$kk] = $unit1["unit"][$kk];
-            $rest2["num"][$kk] = $num["num"][$kk];
-            $unit3[$kk]["unit"] =  $rest1["unit"][$kk];
-            $unit3[$kk]["num"] =  $rest2["num"][$kk];    
-            $unit3[$kk]["number"] =  $offers[$kk];    
-                
-        }
         
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"]; //判断是否为通用或特殊
         if ($restel == 0) {
             return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope]);
         } else {
-
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"offer"=>$offer,"unit"=>$unit3]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope]);
         }
     }
 
@@ -364,8 +357,10 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
-            $goods_data = $request->param();
+            $goods_data = $request->param();  
+            halt($goods_data) ;     
             $show_images = $request->file("goods_show_images");
+
             if(!empty($goods_data["scope"])){
                 $goods_data["scope"] = implode(',', $goods_data["scope"]);
             } else {
@@ -399,7 +394,67 @@ class Goods extends Controller
                     $goods_data["goods_show_image"] = null;
                 }
             } 
-            halt($goods_data);
+
+            if($goods_data["goods_standard"] == 1){
+                $special_id = db("special")->where("goods_id",$id)->field("id")->select();
+
+                foreach($special_id as $pp => $qq){
+                    $special[$pp] = $qq["id"];
+                }
+
+                foreach ($goods_data as $kn => $nl) {
+                    if(substr($kn,strrpos($kn,"_")+1) == "num"){
+                        $num1[substr($kn,0,strrpos($kn,"_"))]["num"] = implode(",",$goods_data[$kn]);
+                        $num[substr($kn,0,strrpos($kn,"_"))]["num"] = $goods_data[$kn];
+                    }
+                    if(substr($kn,strrpos($kn,"_")+1) == "unit"){
+                        $unit1[substr($kn,0,strrpos($kn,"_"))]["unit"] = implode(",",$goods_data[$kn]);
+                        $unit[substr($kn,0,strrpos($kn,"_"))]["unit"] = $goods_data[$kn]; 
+                    }
+                    
+                    if(is_array($nl)){
+                        unset($goods_data[$kn]);                    
+                    }
+                }
+
+
+            
+            
+             foreach($special as $tt => $yy){ 
+                 if(array_key_exists($yy,$num1)){        
+                 $bools[$tt] = db("special")->where("id",$yy)->update(["unit"=>$unit1[$yy]["unit"],"num"=>$num1[$yy]["num"],"element"=>unit_comment($num[$yy]["num"],$unit[$yy]["unit"])]);
+                } else {
+                 $bools[$tt] = db("special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null]);
+                }
+            }
+
+             foreach($bools as $xx => $cc){
+                 if($cc = 1){
+                     $rest = 1;
+                 } else {
+                    $rest = 0;
+                 }
+             }
+
+             $bool = db("goods")->where("id", $id)->update($goods_data);
+             if ($bool || $rest) {
+                 $this->success("更新成功", url("admin/Goods/index"));
+             } else {
+                 $this->success("更新失败", url('admin/Goods/index'));
+             }
+             
+        } else {
+            if(empty($goods_data["num"][1]) && empty($goods_data["unit"][0])){ //存空
+                
+                $goods_data["num"] = array();
+                $goods_data["unit"] = array();
+            } else {
+                $goods_data["element"] = unit_comment($goods_data["num"],$goods_data["unit"]);
+                $goods_data["num"] = implode(",",$goods_data["num"]);
+                $goods_data["unit"] = implode(",",$goods_data["unit"]);
+            }
+        }
+            
             $bool = db("goods")->where("id", $id)->update($goods_data);
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));
@@ -679,14 +734,15 @@ class Goods extends Controller
     public function offer(Request $request)
     {
         if ($request->isPost()) {
-            $id = $request -> only(["id"])["id"];
+            $id = $request->only(["id"])["id"];
             $standard = db("goods")->where("id",$id)->value("goods_standard");
             if($standard == 1){
                 $goods_standard = db("special")->where("goods_id", $id)->select();
-                $offer = db("special")->where("goods_id", $id)->field("coding")->select();
+                $offer = db("special")->where("goods_id", $id)->field("coding,id")->select();
 
                 foreach($offer as $pp => $qq){
                     $offers[$pp] = $qq["coding"];
+                    $specail_id[$pp] = $qq["id"];
                 }
 
                 foreach ($goods_standard as $k => $v) {
@@ -701,9 +757,17 @@ class Goods extends Controller
                     $rest2["num"][$kk] = $num["num"][$kk];
                     $unit1[$kk]["unit"] =  $rest1["unit"][$kk];
                     $unit1[$kk]["num"] =  $rest2["num"][$kk];
-                    $unit1[$kk]["number"] =  $offers[$kk];          
+                    $unit1[$kk]["number"] =  $offers[$kk];
+                    $unit1[$kk]["id"] =  $specail_id[$kk];
+                    
+                             
                 }
-    
+                
+                // foreach($unit1 as $yy=>$cc){
+                //     if(empty($unit1[$yy]["unit"][$yy]) || empty($unit1[$yy]["num"][$yy]))
+                //     unset($unit1[$yy]);
+                // }
+                // $rest = array_values($unit1);
                 if(!empty($unit1)){
                     return ajax_success('传输成功', $unit1);
                 } else {
@@ -715,6 +779,27 @@ class Goods extends Controller
             }
         }
     }
+    
+
+
+    /**
+     * [普通商品多规格列表单位id查找]
+     * 郭杨
+     */
+    public function standard(Request $request)
+    {
+        if ($request->isPost()) {
+            $coding = $request->only(["coding"])["coding"];
+            $id = $request->only(["id"])["id"];
+            $special = db("special")->where("goods_id",$id)->where("coding",$coding)->value("id");
+            if(!empty($special)){
+                return ajax_success('传输成功', $special);
+            } else {
+                return ajax_error("数据为空");
+            } 
+        }             
+    }
+
 
     /**
      * [众筹商品显示]
