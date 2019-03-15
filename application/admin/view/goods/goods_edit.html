@@ -830,7 +830,7 @@
                         dhtmlss+='<div class="form-item general" style=" align-items: center;position: relative;">';
                             dhtmlss+='<label class="form-label">包装规格</label>';
                             dhtmlss+=' <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">';
-                            dhtmlss+='<select name=""  class="packing packings" >';
+                            dhtmlss+='<select name=""  class="packing packings" disabled="disabled">';
                             dhtmlss+='  <option value="">请选择规格编码</option>';
                             for(var w=0;w<codings.length;w++){
                                 if(data.data[i].number==codings[w]){
@@ -1123,32 +1123,42 @@
         });
         $(".general_content").on("click",".add_danwei1",function(){
            var i=parseInt($(this).data("id"));
-            var select=$(this).siblings(".packing").val()
-           if(select!="0"){
-            if(i==0){
-                var danwei1='';
-                danwei1+='<div class="danwei_content">';
-                danwei1+='<div class="fuhao">=</div>';
-                danwei1+='<input type="text" name="'+select+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="1" readonly>';
-                danwei1+='<input type="text" name="'+select+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2"  required>';
-                danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
-                danwei1+='</div>';
-            }
-            else{
-                var danwei1='';
-                danwei1+='<div class="danwei_content">';
-                danwei1+='<div class="fuhao">=</div>';
-                danwei1+='<input type="text" name="'+select+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
-                danwei1+='<input type="text" name="'+select+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
-                danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
-                danwei1+='</div>';
-            }
-            $(this).before(danwei1);
-           }
-          else{
-              alert("请选择规格编码");
-          }
-          $(this).data("id",i+1);
+            var select=$(this).siblings(".packing").val();
+            var ids=$("#ids").val();
+             var thisa=$(this);
+                if(select!="0"){
+                    $.ajax({
+                            type: "POST",
+                            url:  "{:url('admin/Goods/standard')}",
+                            data: {
+                                "id": ids,
+                                "coding": select
+                            },
+                            async:false,
+                            dataType: "json",
+                            success: function(data) {
+                                console.log(data);
+                                    var danwei1='';
+                                    danwei1+='<div class="danwei_content">';
+                                    danwei1+='<div class="fuhao">=</div>';
+                                    danwei1+='<input type="text" name="'+data.data+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
+                                    danwei1+='<input type="text" name="'+data.data+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
+                                    danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                                    danwei1+='</div>';
+                                
+                                    thisa.before(danwei1);
+                                
+                            },
+                            error: function(data) {
+                                console.log("错误");
+                            }
+                        });
+                
+                }
+                else{
+                    alert("请选择规格编码");
+                }
+                $(this).data("id",i+1);
           
         });
         $(".add_danwei2").click(function(){
@@ -1157,7 +1167,7 @@
                 danwei2+='<div class="form-item general" style="align-items: center; position: relative;">';
                 danwei2+='<label class="form-label"></label>';
                 danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
-                danwei2+='<select name="" class="packing" disabled>';
+                danwei2+='<select name="" class="packing" >';
                 danwei2+='<option value="0">请选择规格编码</option>';
                 for(var j=0;j<codings.length;j++){
                     danwei2+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
