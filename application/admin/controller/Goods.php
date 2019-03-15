@@ -734,7 +734,7 @@ class Goods extends Controller
     public function offer(Request $request)
     {
         if ($request->isPost()) {
-             $id = $request->only(["pid"])["pid"];
+            $id = $request->only(["id"])["id"];
             $standard = db("goods")->where("id",$id)->value("goods_standard");
             if($standard == 1){
                 $goods_standard = db("special")->where("goods_id", $id)->select();
