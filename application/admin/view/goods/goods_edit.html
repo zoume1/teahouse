@@ -565,7 +565,7 @@
                                                 <input value="{$vs}" readonly="" style="border:0;">
                                             </td>
                                             {/volist}
-                                            <td width="100px"><input type="text" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs" data-title="{$ve.price}"></td>
+                                            <td width="100px"><input type="text" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs" data-title="{$ve.price}" ></td>
                                             <td width="100px"><input type="text" value="{$ve.stock}" data-id="{$ve.id}" data-value="stock" class="inputs"  data-title="{$ve.stock}"></td>
                                             <td width="100px"><input type="text" value="{$ve.coding}" data-id="{$ve.id}" data-value="coding" class="inputs coding" data-title="{$ve.coding}"></td>
                                             <td width="100px"><input type="text" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost" class="inputs "   data-title="{$ve.cost}" > </td>
@@ -804,7 +804,11 @@
     var ue = UE.getEditor('editor');
     var ue1 = UE.getEditor('editor1');
     var codings=[];
-    
+    function jiequ(str){
+      var arr = str.split("_");
+       return arr[1];
+    }
+   
     for(var r=0;r<$(".coding").length;r++){
         codings.push($(".coding")[r].value);
     }
@@ -821,12 +825,12 @@
                 if(data.status=="1"){
                     var dhtmlss='';  
                     for(var i=0;i<data.data.length;i++){
-                         
-                   //   <!-- 编码循环这里 -->
+                       if(data.data[i].num[0]!=''){
+                                 //   <!-- 编码循环这里 -->
                         dhtmlss+='<div class="form-item general" style=" align-items: center;position: relative;">';
                             dhtmlss+='<label class="form-label">包装规格</label>';
                             dhtmlss+=' <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">';
-                            dhtmlss+='<select name=""  class="packing packings">';
+                            dhtmlss+='<select name=""  class="packing packings" >';
                             dhtmlss+='  <option value="">请选择规格编码</option>';
                             for(var w=0;w<codings.length;w++){
                                 if(data.data[i].number==codings[w]){
@@ -845,8 +849,8 @@
                                         //  <!-- 单位循环这里 -->
                                         dhtmlss+='<div class="danwei_content">';
                                         dhtmlss+='<div class="fuhao">=</div>';
-                                        dhtmlss+='<input type="text" name="'+data.data[i].number+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="'+data.data[i].num[j]+'" >';
-                                        dhtmlss+='<input type="text" name="'+data.data[i].number+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="'+data.data[i].unit[q]+'" maxlength="2"> ';
+                                        dhtmlss+='<input type="text" name="'+data.data[i].id+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="'+data.data[i].num[j]+'" >';
+                                        dhtmlss+='<input type="text" name="'+data.data[i].id+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="'+data.data[i].unit[q]+'" maxlength="2"> ';
                                         dhtmlss+='<img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                                         dhtmlss+='</div>';
                                         //   <!-- 单位循环这里 -->
@@ -859,6 +863,8 @@
                          dhtmlss+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
                          dhtmlss+=' </div>';
                      //   <!-- 编码循环这里 -->
+                       }  
+                      
                     }
                     $(".add_danwei2").parent().before(dhtmlss);
                 }
@@ -1151,7 +1157,7 @@
                 danwei2+='<div class="form-item general" style="align-items: center; position: relative;">';
                 danwei2+='<label class="form-label"></label>';
                 danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
-                danwei2+='<select name="" class="packing">';
+                danwei2+='<select name="" class="packing" disabled>';
                 danwei2+='<option value="0">请选择规格编码</option>';
                 for(var j=0;j<codings.length;j++){
                     danwei2+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
@@ -1213,7 +1219,7 @@
              }
           }
           if(k>1){
-              console.log( $(this).find("option[value='0']"));
+             
             $(this).children("option").remove();
             var danwei4='';
             danwei4+='<option value="0">请选择规格编码</option>';
@@ -1222,6 +1228,40 @@
              }
 
              $(this).append(danwei4);
+          }
+          else{
+              var ids=$("#ids").val();
+             var coding=$(this).val();
+             var data_id=null;
+             var change_name= $(this).siblings(".danwei_content").children("input")
+              $.ajax({
+                    type: "POST",
+                    url:  "{:url('admin/Goods/standard')}",
+                    data: {
+                        "id": ids,
+                        "coding": coding
+                    },
+                    async:false,
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        for(var k=0;k<change_name.length;k++){
+                        if( jiequ(change_name[k].name)=="num[]"){
+                            $("input[name='"+change_name[k].name+"']").attr('name',data.data+"_num[]")
+                        }
+                        else if( jiequ(change_name[k].name)=="umit[]"){
+                            $("input[name='"+change_name[k].name+"']").attr('name',data.data+"_unit[]")
+                        }
+                    }
+                    },
+                    error: function(data) {
+                        console.log("错误");
+                    }
+                });
+
+             
+         
+            
           }
            
         })

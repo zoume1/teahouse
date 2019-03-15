@@ -338,6 +338,7 @@ Route::group("admin",[
 
     /*TODO：会员管理开始*/
     "user_index"=>"admin/User/index", //会员概况
+    "user_search"=>"admin/User/user_search", //会员概况搜索
     "user_status"=>"admin/User/status", //会员状态编辑
     "user_edit"=>"admin/User/edit",     //会员编辑
     "user_update"=>"admin/User/update",     //会员信息更新
