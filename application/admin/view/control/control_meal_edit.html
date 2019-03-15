@@ -1,0 +1,81 @@
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<style type="text/css">
+	body {
+		background: #fff;
+	}	
+    td input{
+        border: 0;
+       text-align: center;
+    }
+</style>
+
+{/block}
+
+<body>
+	{block name="content"}
+
+	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_broadcast_save')}" method="post" enctype="multipart/form-data">
+	
+		<div class="form-item">
+			<label class="form-label"><span class="red">*</span>版本名称</label>
+			<div class="form-input">
+				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请控制在30字以内" class="layui-input" readonly value="万用版" style="border:0;color:#169BD5;">
+			
+			</div>
+        </div>
+        <div class="form-item">
+                <label class="form-label">版本名称</label>
+                <div class="form-input">
+                    <table class="layui-table">
+                        <tr>
+                            <th>年份</th>
+                            <th>原价</th>
+                            <th>优惠价</th>
+                        </tr>
+                        <tr>
+                            <td>1年</td>
+                            <td><input type="text" value="500"></td>
+                            <td><input type="text" value="500"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+			</div>
+		</div>
+	</form>
+
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	
+	<script type="text/javascript">
+		var ue = UE.getEditor('editor');
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
+			var form = layui.form(),
+				$ = layui.jquery;
+			form.render();
+			
+		});
+	</script>
+
+	{/block}
+
+</body>
+
+</html>
