@@ -830,7 +830,7 @@
                         dhtmlss+='<div class="form-item general" style=" align-items: center;position: relative;">';
                             dhtmlss+='<label class="form-label">包装规格</label>';
                             dhtmlss+=' <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">';
-                            dhtmlss+='<select name=""  class="packing packings">';
+                            dhtmlss+='<select name=""  class="packing packings" >';
                             dhtmlss+='  <option value="">请选择规格编码</option>';
                             for(var w=0;w<codings.length;w++){
                                 if(data.data[i].number==codings[w]){
@@ -1157,7 +1157,7 @@
                 danwei2+='<div class="form-item general" style="align-items: center; position: relative;">';
                 danwei2+='<label class="form-label"></label>';
                 danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
-                danwei2+='<select name="" class="packing">';
+                danwei2+='<select name="" class="packing" disabled>';
                 danwei2+='<option value="0">请选择规格编码</option>';
                 for(var j=0;j<codings.length;j++){
                     danwei2+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
@@ -1233,6 +1233,7 @@
               var ids=$("#ids").val();
              var coding=$(this).val();
              var data_id=null;
+             var change_name= $(this).siblings(".danwei_content").children("input")
               $.ajax({
                     type: "POST",
                     url:  "{:url('admin/Goods/standard')}",
@@ -1240,23 +1241,26 @@
                         "id": ids,
                         "coding": coding
                     },
+                    async:false,
                     dataType: "json",
                     success: function(data) {
                         console.log(data);
-                        // data_id=data.data  
+                        for(var k=0;k<change_name.length;k++){
+                        if( jiequ(change_name[k].name)=="num[]"){
+                            $("input[name='"+change_name[k].name+"']").attr('name',data.data+"_num[]")
+                        }
+                        else if( jiequ(change_name[k].name)=="umit[]"){
+                            $("input[name='"+change_name[k].name+"']").attr('name',data.data+"_unit[]")
+                        }
+                    }
                     },
                     error: function(data) {
                         console.log("错误");
                     }
                 });
 
-              var change_name= $(this).siblings(".danwei_content").children("input")
-              console.log(change_name);
-              for(var k=0;k<change_name.length;k++){
-                  if( jiequ(change_name[k].name)=="num[]"){
              
-                  }
-              }
+         
             
           }
            
