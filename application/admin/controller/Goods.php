@@ -733,8 +733,8 @@ class Goods extends Controller
      */
     public function offer(Request $request)
     {
-        if ($request->isPost()) {
-             $id = $request -> only(["id"])["id"];
+        if ($request->isGet()) {
+             $id = 202;
             $standard = db("goods")->where("id",$id)->value("goods_standard");
             if($standard == 1){
                 $goods_standard = db("special")->where("goods_id", $id)->select();
@@ -757,8 +757,11 @@ class Goods extends Controller
                     $rest2["num"][$kk] = $num["num"][$kk];
                     $unit1[$kk]["unit"] =  $rest1["unit"][$kk];
                     $unit1[$kk]["num"] =  $rest2["num"][$kk];
+                    $unit1[$kk]["number"] =  $offers[$kk];
+                    $unit1[$kk]["id"] =  $specail_id[$kk];
                              
                 }
+                
                 foreach($unit1 as $yy=>$cc){
                     if(empty($unit1[$yy]["unit"][$yy]) || empty($unit1[$yy]["num"][$yy]))
                     unset($unit1[$yy]);
