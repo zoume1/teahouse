@@ -20,7 +20,9 @@ class User extends Controller{
      **************************************
      */
     public function index(){
-        $user_data =Db::name('member')->order("member_id","desc")->paginate(20);
+        $user_data =Db::name('member')->order("member_id","desc")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         return view('index',['user_data'=>$user_data]);
     }
 
@@ -105,7 +107,9 @@ class User extends Controller{
      **************************************
      */
     public function  grade(){
-       $grade_data = Db::name('member_grade')->paginate(20);
+       $grade_data = Db::name('member_grade')->paginate(20 ,false, [
+           'query' => request()->param(),
+       ]);
         return view('grade',['grade_data'=>$grade_data]);
     }
 

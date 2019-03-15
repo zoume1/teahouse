@@ -22,7 +22,9 @@ class  Limitations extends  Controller{
      */
     public function limitations_index() 
     {
-        $limit = db("limited")->paginate(20);
+        $limit = db("limited")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         
         return view('limitations_index',["limit"=>$limit]);
     }

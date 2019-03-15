@@ -24,7 +24,9 @@ class Bonus extends Controller
      */
     public function bonus_index()
     {
-        $bonus = db("bonus_mall")->paginate(20);
+        $bonus = db("bonus_mall")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
 
         return view('bonus_index', ["bonus" => $bonus]);
     }
@@ -198,10 +200,14 @@ class Bonus extends Controller
     {
         $ppd = input('goods');          //积分商品编号或名称
         if (!empty($ppd)) {
-            $bonus = db("bonus_mall")->where("goods_number", "like", "%" . $ppd . "%")->whereOr("goods_name", "like", "%" . $ppd . "%")->paginate(20);
+            $bonus = db("bonus_mall")->where("goods_number", "like", "%" . $ppd . "%")->whereOr("goods_name", "like", "%" . $ppd . "%")->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
 
         } else {
-            $bonus = db("bonus_mall")->paginate(20);
+            $bonus = db("bonus_mall")->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         }
         return view('bonus_index', ["bonus" => $bonus]);
     }
@@ -216,7 +222,9 @@ class Bonus extends Controller
      */
     public function coupon_index()
     {
-        $coupon = db("coupon")->paginate(20);
+        $coupon = db("coupon")->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         return view('coupon_index', ["coupon" => $coupon]);
     }
 
@@ -417,9 +425,13 @@ class Bonus extends Controller
         $seek = input('seek');         //优惠券名称
 
         if (!empty($seek)) {
-            $activ = db("coupon")->where("label", "like", "%" . $seek . "%")->paginate(20);;
+            $activ = db("coupon")->where("label", "like", "%" . $seek . "%")->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         } else {
-            $activ = db("coupon")->paginate(20);;
+            $activ = db("coupon")->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         }
         return view('coupon_index', ["coupon" => $activ]);
     }

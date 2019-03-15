@@ -20,7 +20,9 @@ class Capital extends Controller{
      **************************************
      */
     public function index(){
-        $recharge_data =Db::name('recharge_full_setting')->paginate(20);
+        $recharge_data =Db::name('recharge_full_setting')->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
         return view('index',['recharge_data'=>$recharge_data]);
     }
 	/**
