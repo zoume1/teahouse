@@ -807,5 +807,40 @@ function str_to_chinese($str){
     return strtr($str, $arr);
 }
 
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:
+ **********************图片上传****************
+ * @param $base64
+ * @return bool|string
+ */
+function base64_upload_flie($base64) {
+    $base64_image = str_replace(' ', '+', $base64);
+    //post的数据里面，加号会被替换为空格，需要重新替换回来，如果不是post的数据，则注释掉这一行
+    if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image, $result)){
+        //匹配成功
+        if($result[2] == 'jpeg'){
+            $image_name = '.jpg';
+            //纯粹是看jpeg不爽才替换的
+        }else{
+            $image_name = $result[2];
+        }
+        $dir =ROOT_PATH . 'public' . DS . 'uploads'."/".date('Ymd');
+        $file_names =date('Ymd') . DS . md5(microtime(true)).$image_name;
+        if(!file_exists($dir)) {
+            mkdir($dir, 0777, true);
+        }
+            $image_file = ROOT_PATH . 'public' . DS . 'uploads'. "/" .$file_names;
+        //服务器文件存储路径
+        if (file_put_contents($image_file, base64_decode(str_replace($result[1], '', $base64_image)))){
+            return $file_names;
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+}
 
 
