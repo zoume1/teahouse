@@ -1235,7 +1235,7 @@
              var data_id=null;
               $.ajax({
                     type: "POST",
-                    url: "goods_standard",
+                    url:  "{:url('admin/Goods/standard')}",
                     data: {
                         "id": ids,
                         "coding": coding
@@ -1257,7 +1257,7 @@
              
                   }
               }
-            ;
+            
           }
            
         })
