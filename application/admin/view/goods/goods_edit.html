@@ -565,7 +565,7 @@
                                                 <input value="{$vs}" readonly="" style="border:0;">
                                             </td>
                                             {/volist}
-                                            <td width="100px"><input type="text" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs" data-title="{$ve.price}"></td>
+                                            <td width="100px"><input type="text" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs" data-title="{$ve.price}" ></td>
                                             <td width="100px"><input type="text" value="{$ve.stock}" data-id="{$ve.id}" data-value="stock" class="inputs"  data-title="{$ve.stock}"></td>
                                             <td width="100px"><input type="text" value="{$ve.coding}" data-id="{$ve.id}" data-value="coding" class="inputs coding" data-title="{$ve.coding}"></td>
                                             <td width="100px"><input type="text" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost" class="inputs "   data-title="{$ve.cost}" > </td>
@@ -821,8 +821,9 @@
                 if(data.status=="1"){
                     var dhtmlss='';  
                     for(var i=0;i<data.data.length;i++){
-                         
-                   //   <!-- 编码循环这里 -->
+                       if(data.data[i].num[0]!=''){
+                           alert(111);
+                                 //   <!-- 编码循环这里 -->
                         dhtmlss+='<div class="form-item general" style=" align-items: center;position: relative;">';
                             dhtmlss+='<label class="form-label">包装规格</label>';
                             dhtmlss+=' <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">';
@@ -859,6 +860,8 @@
                          dhtmlss+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
                          dhtmlss+=' </div>';
                      //   <!-- 编码循环这里 -->
+                       }  
+                      
                     }
                     $(".add_danwei2").parent().before(dhtmlss);
                 }
