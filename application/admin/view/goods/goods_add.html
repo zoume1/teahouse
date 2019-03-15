@@ -589,7 +589,7 @@
                         *最大包装单位例如：箱
                     </div>
                     <div class="tips">
-                        *非必选项，此处添加了包装规格，商品售价单位变为可选
+                        *非必选项，此处添加的“包装规格”单位，必须包含有“商品规格”中填写的“报价单位” ；且第一个单位数量需要填写为“1”
                     </div>
                  </div>
             <div class="form-item">
@@ -965,19 +965,19 @@
                                 }
                             }
 
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[price]" /></td>';
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[stock]" /></td>';
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" class="coding" /></td>';
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[cost]" /></td>';
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[line]" /></td>';
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[offer]" /></td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[price]"  required  /></td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[stock]"  required /></td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" class="coding" required /></td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[cost]" required /></td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[line]" required /></td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[offer]" class="offer" /></td>';
                             tableHTML += '			<td width="100px">';
                             tableHTML += '                         <div class="img-box full">';
                             tableHTML += '	                    <section class=" img-section">';
                             tableHTML += '	                        <div class="z_photo upimg-div clear">';
                             tableHTML += '	                            <section class="z_file fl">';
                             tableHTML += '	                                <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">';
-                            tableHTML += '	                                <input type="file" name="imgs[]" id="file_' + i + '" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />';
+                            tableHTML += '	                                <input type="file" name="imgs[]" id="file_' + i + '" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" required />';
                             tableHTML += '	                            </section>';
                             tableHTML += '	                        </div>';
                             tableHTML += '                    </section>';
@@ -1045,6 +1045,7 @@
                         $(".nomal").removeClass("noshow");
                         $("#general_content").children("div").remove();
                         $(".nomal").children(".form-item").children(".form-input").children("input").attr("disabled", false)
+                        $(".table-bordered").empty();
 
                     } else {
                         $(".nomal").children(".form-item").children(".form-input").children("input").attr("disabled", true)
@@ -1129,16 +1130,7 @@
            var i=parseInt($(this).data("id"));
             var select=$(this).siblings(".packing").val()
            if(select!="0"){
-            if(i==0){
-                var danwei1='';
-                danwei1+='<div class="danwei_content">';
-                danwei1+='<div class="fuhao">=</div>';
-                danwei1+='<input type="text" name="'+select+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="1" readonly>';
-                danwei1+='<input type="text" name="'+select+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2"  required>';
-                danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
-                danwei1+='</div>';
-            }
-            else{
+        
                 var danwei1='';
                 danwei1+='<div class="danwei_content">';
                 danwei1+='<div class="fuhao">=</div>';
@@ -1146,7 +1138,7 @@
                 danwei1+='<input type="text" name="'+select+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
                 danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                 danwei1+='</div>';
-            }
+            
             $(this).before(danwei1);
            }
           else{
@@ -1270,6 +1262,10 @@
         //      }
         //      console.log(shuju);
         // });
+        $("#lv_table").on("keyup",".offer",function(){
+            this.value=this.value.replace(/\s+/g,'');
+            this.value=this.value.replace(/_+/g,'');
+        })
     </script>
 
     {/block}
