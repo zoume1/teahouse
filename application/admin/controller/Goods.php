@@ -418,13 +418,13 @@ class Goods extends Controller
                 }
 
 
-            }
+            
             
              foreach($special as $tt => $yy){ 
                  if(array_key_exists($yy,$num1)){        
                  $bools = db("special")->where("id",$yy)->update(["unit"=>$unit1[$yy]["unit"],"num"=>$num1[$yy]["num"],"element"=>unit_comment($num[$yy]["num"],$unit[$yy]["unit"])]);
                 } else {
-                 $bools = db("special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null);
+                 $bools = db("special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null]);
                 }
             }
 
