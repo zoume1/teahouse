@@ -414,17 +414,11 @@ class Goods extends Controller
                     if(substr($kn,strrpos($kn,"_")+1) == "num"){
                         $num1[substr($kn,0,strrpos($kn,"_"))]["num"] = implode(",",$goods_data[$kn]);
                         $num[substr($kn,0,strrpos($kn,"_"))]["num"] = $goods_data[$kn];
-                    } else{
-                        $num1 = array();
-                        $num = array();
-                    }
+                    } 
                     if(substr($kn,strrpos($kn,"_")+1) == "unit"){
                         $unit1[substr($kn,0,strrpos($kn,"_"))]["unit"] = implode(",",$goods_data[$kn]);
                         $unit[substr($kn,0,strrpos($kn,"_"))]["unit"] = $goods_data[$kn]; 
-                    } else {
-                        $unit1 = array();
-                        $unit = array();
-                    }
+                    } 
                     
                     if(is_array($nl)){
                         unset($goods_data[$kn]);                    
@@ -435,7 +429,7 @@ class Goods extends Controller
             
             
              foreach($special as $tt => $yy){ 
-                 if(!empty($num1)){
+                 if(isset($num1)){
                     if(array_key_exists($yy,$num1)){        
                     $bools[$tt] = db("special")->where("id",$yy)->update(["unit"=>$unit1[$yy]["unit"],"num"=>$num1[$yy]["num"],"element"=>unit_comment($num[$yy]["num"],$unit[$yy]["unit"])]);
                     } else {
