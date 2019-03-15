@@ -413,7 +413,7 @@
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>商品名称</label>
             <div class="form-input">
-                <input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
                 <div class="tips">
                     商品名称必须填写，最多100个字
                 </div>
@@ -438,9 +438,9 @@
             </div>
         </div>
         <div class="form-item">
-            <label class="form-label">商品编号</label>
+            <label class="form-label"><span class="red">*</span>商品编号</label>
             <div class="form-input">
-                <input type="text" name="goods_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" name="goods_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
                 <div class="tips">
                     *可自行设定规则按照2位大写字母+4位数字设定（例如：NB0001)
                 </div>
@@ -690,7 +690,7 @@
                         <div class="z_photo upimg-div clear">
                             <section class="z_file fl">
                                 <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                <input type="file" name="goods_show_images[]" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" />
+                                <input type="file" name="goods_show_images[]" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" required />
                             </section>
                         </div>
                     </section>
@@ -1175,6 +1175,7 @@
         });
         
         $(".general-kuang").on('change', ".coding", function() {
+        
            if($(this).data("id")==''){
                var dhtmlq='';
                dhtmlq+=' <option value="'+$(this).val()+'">'+$(this).val()+'</option>';
@@ -1183,9 +1184,8 @@
               codings.push($(this).val());
            }
            else{
-                    $("input[name='"+title+"_num[]']").attr('name',$(this).val()+"_num[]");   
-                    $("input[name='"+title+"_unit[]']").attr('name',$(this).val()+"_unit[]");  
-                    
+                $("input[name='"+$(this).data("id")+"_num[]']").attr('name',$(this).val()+"_num[]");   
+                $("input[name='"+$(this).data("id")+"_unit[]']").attr('name',$(this).val()+"_unit[]");  
                 $(".packing option[value='"+$(this).data("id")+"']").text($(this).val());
                 $(".packing option[value='"+$(this).data("id")+"']").val($(this).val());
               
