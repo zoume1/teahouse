@@ -42,7 +42,7 @@ class  Store extends  Controller{
             if(empty($card_positive)){
                 return ajax_error("请上传身份证正面图");
             }
-            $card_side_file = $request->only(["car_side"])["car_side"];//身份证反面
+            $card_side_file = $request->only(["card_side"])["card_side"];//身份证反面
             if(empty($card_side_file)){
                 return ajax_error("请上传身份证反面图");
             }
@@ -118,25 +118,15 @@ class  Store extends  Controller{
                 }
             }
             $card_positive =$request->only(["card_positive"])["card_positive"]; //身份证正面
-            if(empty($card_positive)){
-                return ajax_error("请上传身份证正面图");
+            $card_side = $request->only(["card_side"])["card_side"];//身份证反面
+            if(!empty($card_positive_file)){
+                $card_positive_images = base64_upload_flie($card_positive);//身份证正面
+                $ole_positive_url =Db::name("store")->where("id",$id)->value("card_positive");
             }
-            $card_side_file = $request->only(["car_side"])["car_side"];//身份证反面
-            if(empty($card_side_file)){
-                return ajax_error("请上传身份证反面图");
+            if(!empty( $card_side)){
+                $card_side_file =base64_upload_flie( $card_side) ; //身份证反面
+                $ole_side_url =Db::name("store")->where("id",$id)->value("card_side");
             }
-            $card_positive_images = base64_upload_flie($card_positive);//身份证正面
-            $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
-//            $card_positive_file = $request->file('card_positive'); //身份证正面
-//            if(!empty($card_positive_file)){
-//                $info =  $card_positive_file->move(ROOT_PATH . 'public' . DS . 'store');
-//                $card_positive_images = str_replace("\\","/",$info->getSaveName()); //身份证正面
-//            }
-//            $card_side_file = $request->file('car_side');//身份证反面
-//            if(!empty($card_side_file)){
-//                $info_img =  $card_side_file->move(ROOT_PATH . 'public' . DS . 'store');
-//                $card_side_file = str_replace("\\","/",$info_img->getSaveName()); //身份证正面
-//            }
             //修改图片需要把之前的图片删除
             if(!empty($card_positive_file)&& !empty($card_side_file)){
                 $data = [
@@ -197,6 +187,13 @@ class  Store extends  Controller{
             }
             $bool =Db::name("store")->where("id",$id)->where("user_id",$user_id)->update($data);
             if($bool){
+                //删除图片
+                if($card_positive_images != null){
+                    unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$ole_positive_url);
+                }
+                if($card_side_file != null){
+                    unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$ole_side_url);
+                }
                 return ajax_success("您的资料已提交,请耐心等待审核");
             }else{
                 return ajax_error("网络错误，请重新提交");
