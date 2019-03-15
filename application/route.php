@@ -641,6 +641,7 @@ Route::group("admin",[
     "recharge_application" =>"admin/User/recharge_application",     //微信提现
     "recharge_application_search" =>"admin/User/recharge_application_search",     //微信提现搜索
     "withdrawal_application" =>"admin/User/withdrawal_application", //银行卡提现
+    "withdrawal_application_search" =>"admin/User/withdrawal_application_search", //银行卡提现搜索
     "withdrawal_setting" =>"admin/User/withdrawal_setting",         //提现设置
     "withdrawal_save" =>"admin/User/withdrawal_save",         //提现设置更新保存
     "property_day_index" =>"admin/Property/property_day_index",     //日账单详

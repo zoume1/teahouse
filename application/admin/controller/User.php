@@ -342,7 +342,7 @@ class User extends Controller{
                 $timemax  =strtotime($t);
             }
             if(!empty($time_min) && empty($date_max)){
-                $time_condition  = "operation_time>{$timemin}";
+                $time_condition  = "operation_linux_time>{$timemin}";
                 //开始时间
                 $data =Db::table("tb_recharge_reflect")
                     ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
@@ -351,7 +351,7 @@ class User extends Controller{
                     ->where($time_condition)
                     ->select();
             }else if (empty($time_min) && (!empty($date_max))){
-                $time_condition  = "operation_time< {$timemax}";
+                $time_condition  = "operation_linux_time< {$timemax}";
                 //结束时间
                 $data =Db::table("tb_recharge_reflect")
                     ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
@@ -360,7 +360,7 @@ class User extends Controller{
                     ->where($time_condition)
                     ->select();
             }else if((!empty($timemin)) && (!empty($date_max))){
-                $time_condition  = strtotime("tb_recharge_reflect.operation_time").">{$timemin} and ".strtotime("tb_recharge_reflect.operation_time")."< {$timemax}";
+                $time_condition  = "operation_linux_time>{$timemin} and operation_linux_time< {$timemax}";
                 //既有开始又有结束
                 $data =Db::table("tb_recharge_reflect")
                     ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
@@ -368,7 +368,6 @@ class User extends Controller{
                     ->where($arr_condition)
                     ->where($time_condition)
                     ->select();
-                halt($data);
             }else{
                 $data =Db::table("tb_recharge_reflect")
                     ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
@@ -402,21 +401,12 @@ class User extends Controller{
      * @return \think\response\View
      */
     public function withdrawal_application(){
-        $data =Db::name("recharge_reflect")
+        $data =Db::table("tb_recharge_reflect")
+            ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_phone_num,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
+            ->join("tb_member","tb_recharge_reflect.user_id=tb_member.member_id",'left')
             ->where("operation_type",-1)
             ->where("pay_type_content","银行卡")
             ->select();
-        foreach ($data as $k=>$v){
-            $member_data =Db::name("member")
-                ->field("member_name,member_real_name,member_wallet,member_recharge_money,member_phone_num")
-                ->where("member_id",$v["user_id"])
-                ->find();
-            $data[$k]["member_name"] =$member_data["member_name"];//昵称
-            $data[$k]["member_real_name"] =$member_data["member_real_name"];//真实名字
-            $data[$k]["member_wallet"] =$member_data["member_wallet"]+$member_data["member_recharge_money"];//钱包余额
-            $data[$k]["member_recharge_money"] =$member_data["member_recharge_money"];//可提现金额
-            $data[$k]["member_phone_num"] =$member_data["member_phone_num"];//手机号
-        }
         $all_idents =$data ;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
         $listRow = 20;//每页3行记录
@@ -431,6 +421,89 @@ class User extends Controller{
         $this->assign('listpage', $data->render());
         return view("withdrawal_application",["data"=>$data]);
     }
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:银行卡提现
+     **************************************
+     * @return \think\response\View
+     */
+    public function withdrawal_application_search(){
+        $search_a =input("search_a") ? input("search_a"):null;
+        $time_min  =input("date_min") ? input("date_min"):null;
+        $date_max  =input('date_max') ? input('date_max'):null;
+        $arr_condition ="`operation_type` = '-1' and `pay_type_content` = '银行卡' ";
+        if(!empty($search_a)){
+            $where ="`member_name` = '{$search_a}' or `member_phone_num` = '{$search_a}' ";
+            $data =Db::table("tb_recharge_reflect")
+                ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_phone_num,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
+                ->join("tb_member","tb_recharge_reflect.user_id=tb_member.member_id",'left')
+                ->where($arr_condition)
+                ->where($where)
+                ->select();
+        }else{
+            if(!empty($time_min)){
+                $timemin =strtotime($time_min);
+            }
+            if(!empty($date_max)){
+                /*添加一天（23：59：59）*/
+                $t=date('Y-m-d H:i:s',strtotime($date_max)+1*24*60*60);
+                $timemax  =strtotime($t);
+            }
+            if(!empty($time_min) && empty($date_max)){
+                $time_condition  = "operation_linux_time>{$timemin}";
+                //开始时间
+                $data =Db::table("tb_recharge_reflect")
+                    ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
+                    ->join("tb_member","tb_recharge_reflect.user_id=tb_member.member_id",'left')
+                    ->where($arr_condition)
+                    ->where($time_condition)
+                    ->select();
+            }else if (empty($time_min) && (!empty($date_max))){
+                $time_condition  = "operation_linux_time< {$timemax}";
+                //结束时间
+                $data =Db::table("tb_recharge_reflect")
+                    ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
+                    ->join("tb_member","tb_recharge_reflect.user_id=tb_member.member_id",'left')
+                    ->where($arr_condition)
+                    ->where($time_condition)
+                    ->select();
+            }else if((!empty($timemin)) && (!empty($date_max))){
+                $time_condition  = "operation_linux_time>{$timemin} and operation_linux_time< {$timemax}";
+                //既有开始又有结束
+                $data =Db::table("tb_recharge_reflect")
+                    ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
+                    ->join("tb_member","tb_recharge_reflect.user_id=tb_member.member_id",'left')
+                    ->where($arr_condition)
+                    ->where($time_condition)
+                    ->select();
+            }else{
+                $data =Db::table("tb_recharge_reflect")
+                    ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
+                    ->join("tb_member","tb_recharge_reflect.user_id=tb_member.member_id",'left')
+                    ->where($arr_condition)
+                    ->select();
+
+            }
+        }
+
+        $all_idents =$data ;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页3行记录
+        $showdata = array_slice($all_idents, ($curPage - 1)*$listRow, $listRow,true);// 数组中根据条件取出一段值，并返回
+        $data = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path'     => url('admin/User/withdrawal_application'),//这里根据需要修改url
+            'query'    =>  [],
+            'fragment' => '',
+        ]);
+        $data->appends($_GET);
+        $this->assign('listpage', $data->render());
+        return view("withdrawal_application",["data"=>$data]);
+    }
+
+
+
 
 
     /**
