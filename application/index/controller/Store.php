@@ -38,18 +38,16 @@ class  Store extends  Controller{
                     return ajax_error("请填写企业信息");
                 }
             }
-            $card_positive_file = $request->file('card_positive'); //身份证正面
-            if(empty($card_positive_file)){
+            $card_positive =$request->only(["card_positive"])["card_positive"]; //身份证正面
+            if(empty($card_positive)){
                 return ajax_error("请上传身份证正面图");
             }
-            $card_side_file = $request->file('car_side');//身份证反面
+            $card_side_file = $request->only(["car_side"])["car_side"];//身份证反面
             if(empty($card_side_file)){
                 return ajax_error("请上传身份证反面图");
             }
-            $info =  $card_positive_file->move(ROOT_PATH . 'public' . DS . 'store');
-            $card_positive_images = str_replace("\\","/",$info->getSaveName()); //身份证正面
-            $info_img =  $card_side_file->move(ROOT_PATH . 'public' . DS . 'store');
-            $card_side_file = str_replace("\\","/",$info_img->getSaveName()); //身份证正面
+            $card_positive_images = base64_upload_flie($card_positive);//身份证正面
+            $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
             $data = [
                 "is_business"=>$is_business,
                 "id_card"=>$id_card,
@@ -119,16 +117,26 @@ class  Store extends  Controller{
                     return ajax_error("请填写企业信息");
                 }
             }
-            $card_positive_file = $request->file('card_positive'); //身份证正面
-            if(!empty($card_positive_file)){
-                $info =  $card_positive_file->move(ROOT_PATH . 'public' . DS . 'store');
-                $card_positive_images = str_replace("\\","/",$info->getSaveName()); //身份证正面
+            $card_positive =$request->only(["card_positive"])["card_positive"]; //身份证正面
+            if(empty($card_positive)){
+                return ajax_error("请上传身份证正面图");
             }
-            $card_side_file = $request->file('car_side');//身份证反面
-            if(!empty($card_side_file)){
-                $info_img =  $card_side_file->move(ROOT_PATH . 'public' . DS . 'store');
-                $card_side_file = str_replace("\\","/",$info_img->getSaveName()); //身份证正面
+            $card_side_file = $request->only(["car_side"])["car_side"];//身份证反面
+            if(empty($card_side_file)){
+                return ajax_error("请上传身份证反面图");
             }
+            $card_positive_images = base64_upload_flie($card_positive);//身份证正面
+            $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
+//            $card_positive_file = $request->file('card_positive'); //身份证正面
+//            if(!empty($card_positive_file)){
+//                $info =  $card_positive_file->move(ROOT_PATH . 'public' . DS . 'store');
+//                $card_positive_images = str_replace("\\","/",$info->getSaveName()); //身份证正面
+//            }
+//            $card_side_file = $request->file('car_side');//身份证反面
+//            if(!empty($card_side_file)){
+//                $info_img =  $card_side_file->move(ROOT_PATH . 'public' . DS . 'store');
+//                $card_side_file = str_replace("\\","/",$info_img->getSaveName()); //身份证正面
+//            }
             //修改图片需要把之前的图片删除
             if(!empty($card_positive_file)&& !empty($card_side_file)){
                 $data = [
