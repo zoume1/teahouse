@@ -770,7 +770,7 @@
 
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn layui-btn-normal" type="button" id="submit">确认提交</button>
+                <button class="layui-btn layui-btn-normal" type="submit" id="submit">确认提交</button>
                 <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">预览商品</button>
                 <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
             </div>
@@ -1244,21 +1244,21 @@
             return o;   
             };  
         // 包装规格
-        $("#submit").click(function(){
-            var para = $('form').serializeObject() ;  
-             para = JSON.stringify(para) ; 　      
-             var partb=eval("(" + para + ")");
-           var shuju=[];
-             for(var i=0;i<codings.length;i++){
-                 var num="partb"+codings[i]+"_num"
-                 var unit="partb"+codings[i]+"_unit"
-               if(num!=undefined){
-                    // shuju[codings[i]].push(num);
-                    // shuju[codings[i]].push(unit);
-               }
-             }
-             console.log(shuju);
-        });
+        // $("#submit").click(function(){
+        //     var para = $('form').serializeObject() ;  
+        //      para = JSON.stringify(para) ; 　      
+        //      var partb=eval("(" + para + ")");
+        //    var shuju=[];
+        //      for(var i=0;i<codings.length;i++){
+        //          var num="partb"+codings[i]+"_num"
+        //          var unit="partb"+codings[i]+"_unit"
+        //        if(num!=undefined){
+        //             // shuju[codings[i]].push(num);
+        //             // shuju[codings[i]].push(unit);
+        //        }
+        //      }
+        //      console.log(shuju);
+        // });
     </script>
 
     {/block}
