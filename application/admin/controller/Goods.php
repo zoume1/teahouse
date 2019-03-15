@@ -97,7 +97,7 @@ class Goods extends Controller
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];
-            
+
             if (!empty($show_images)) {              
                 foreach ($show_images as $k=>$v) {
                     $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -111,10 +111,8 @@ class Goods extends Controller
             } else {
                 $goods_data["scope"] = "";
             } 
-            
-            
-            if(empty($goods_data["num"][1]) && empty($goods_data["unit"][0])){ //存空
-                
+                      
+            if(empty($goods_data["num"][1]) && empty($goods_data["unit"][0])){ //存             
                 $goods_data["num"] = array();
                 $goods_data["unit"] = array();
             } else {
@@ -556,8 +554,9 @@ class Goods extends Controller
             } else {
                 $where = 'id=' . $id;
             }
+            halt($where);
             $list = Db::name('goods')->where($where)->delete();
-            if ($list !== false) {
+            if (empty($list)) {
                 return ajax_success('成功删除!', ['status' => 1]);
             } else {
                 return ajax_error('删除失败', ['status' => 0]);
