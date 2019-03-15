@@ -238,6 +238,7 @@ class  Wallet extends  Controller{
             $data =[
                 "user_id"=>$member_id,//钱包支付记录ID（充值提现）
                 "operation_time"=>date("Y-m-d H:i:s"), //操作时间
+                "operation_linux_time"=>time(), //操作时间
                 "operation_type"=>-1, //操作类型（-1提现,1充值）
                 "operation_amount"=>$money, //操作金额
                 "pay_type_content"=>"银行卡", //支付方式
@@ -269,6 +270,7 @@ class  Wallet extends  Controller{
                         "wallet_operation"=> $money,//消费金额
                         "wallet_type"=>-1,//消费操作(1入，-1出)
                         "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                        "operation_linux_time"=>time(), //操作时间
                         "wallet_remarks"=>"订单号：".$res."，微信提现".$money."元",//消费备注
                         "wallet_img"=>" ",//图标
                         "title"=>"微信提现",//标题（消费内容）
@@ -345,6 +347,7 @@ class  Wallet extends  Controller{
             $data =[
                 "user_id"=>$member_id,//钱包支付记录ID（充值提现）
                 "operation_time"=>date("Y-m-d H:i:s"), //操作时间
+                "operation_linux_time"=>time(), //操作时间
                 "operation_type"=>-1, //操作类型（-1提现,1充值）
                 "operation_amount"=>$money, //操作金额
                 "pay_type_content"=>"微信", //支付方式
@@ -373,6 +376,7 @@ class  Wallet extends  Controller{
                         "wallet_operation"=> $money,//消费金额
                         "wallet_type"=>-1,//消费操作(1入，-1出)
                         "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                        "operation_linux_time"=>time(), //操作时间
                         "wallet_remarks"=>"订单号：".$res."，微信提现".$money."元",//消费备注
                         "wallet_img"=>" ",//图标
                         "title"=>"微信提现",//标题（消费内容）

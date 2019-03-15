@@ -1547,6 +1547,7 @@ class  Order extends  Controller
                     "wallet_operation"=> $information["cost_moneny"],//消费金额
                     "wallet_type"=>-1,//消费操作(1入，-1出)
                     "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "operation_linux_time"=>time(), //操作时间
                     "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，微信消费".$information["cost_moneny"]."元",//消费备注
                     "wallet_img"=>" ",//图标
                     "title"=>$information["activity_name"],//标题（消费内容）
@@ -1590,6 +1591,7 @@ class  Order extends  Controller
                     "wallet_operation"=> $information["order_real_pay"],//消费金额
                     "wallet_type"=>-1,//消费操作(1入，-1出)
                     "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "operation_linux_time"=>time(), //操作时间
                     "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，微信消费".$information["order_real_pay"]."元",//消费备注
                     "wallet_img"=>" ",//图标
                     "title"=>$information["parts_goods_name"],//标题（消费内容）
@@ -1672,6 +1674,7 @@ class  Order extends  Controller
                     $recharge_data =[
                         "user_id" =>$parts["user_id"],//用户id
                         "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                        "operation_linux_time"=>time(),//操作时间
                         "operation_type"=>1,//充值为1，提现为负一
                         "pay_type_content"=>$recharge_record_data["pay_type_name"],//支付方式
                         "money_status"=>1 , //到款状态（1到账，2未到款）
@@ -1715,6 +1718,7 @@ class  Order extends  Controller
                     "wallet_operation"=> $money,//消费金额
                     "wallet_type"=>1,//消费操作(1入，-1出)
                     "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "operation_linux_time"=>time(), //操作时间
                     "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，充值，余额增加".$money."元,送".$lists."积分",//消费备注
                     "wallet_img"=>" ",//图标
                     "title"=>$title,//标题（消费内容）
