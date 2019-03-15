@@ -556,8 +556,9 @@ class Goods extends Controller
             } else {
                 $where = 'id=' . $id;
             }
+            halt($where);
             $list = Db::name('goods')->where($where)->delete();
-            if ($list !== false) {
+            if (empty($list)) {
                 return ajax_success('成功删除!', ['status' => 1]);
             } else {
                 return ajax_error('删除失败', ['status' => 0]);
