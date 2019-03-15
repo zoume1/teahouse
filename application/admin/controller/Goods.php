@@ -789,7 +789,7 @@ class Goods extends Controller
     public function standard(Request $request)
     {
         if ($request->isPost()) {
-            $coding_id = $request->only(["coding"])["coding"];
+            $coding = $request->only(["coding"])["coding"];
             $id = $request->only(["id"])["id"];
             $special = db("special")->where("goods_id",$id)->where("coding",$coding)->value("id");
             if(!empty($special)){
