@@ -422,9 +422,9 @@ class Goods extends Controller
             
              foreach($special as $tt => $yy){ 
                  if(array_key_exists($yy,$num1)){        
-                 $bools = db("special")->where("id",$yy)->update(["unit"=>$unit1[$yy]["unit"],"num"=>$num1[$yy]["num"],"element"=>unit_comment($num[$yy]["num"],$unit[$yy]["unit"])]);
+                 $bools[$tt] = db("special")->where("id",$yy)->update(["unit"=>$unit1[$yy]["unit"],"num"=>$num1[$yy]["num"],"element"=>unit_comment($num[$yy]["num"],$unit[$yy]["unit"])]);
                 } else {
-                 $bools = db("special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null]);
+                 $bools[$tt] = db("special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null]);
                 }
             }
 
@@ -779,6 +779,27 @@ class Goods extends Controller
             }
         }
     }
+    
+
+
+    /**
+     * [普通商品多规格列表单位id查找]
+     * 郭杨
+     */
+    public function standard(Request $request)
+    {
+        if ($request->isPost()) {
+            $coding = $request->only(["coding"])["coding"];
+            $id = $request->only(["id"])["id"];
+            $special = db("special")->where("goods_id",$id)->where("coding",$coding)->value("id");
+            if(!empty($special)){
+                return ajax_success('传输成功', $special);
+            } else {
+                return ajax_error("数据为空");
+            } 
+        }             
+    }
+
 
     /**
      * [众筹商品显示]
