@@ -192,11 +192,11 @@ class Goods extends Controller
                         if(substr($kn,strrpos($kn,"_")+1) == "num"){
                             $num1[substr($kn,0,strrpos($kn,"_"))]["num"] = implode(",",$goods_data[$kn]);
                             $num[substr($kn,0,strrpos($kn,"_"))]["num"] = $goods_data[$kn];
-                        }
+                        } 
                         if(substr($kn,strrpos($kn,"_")+1) == "unit"){
                             $unit1[substr($kn,0,strrpos($kn,"_"))]["unit"] = implode(",",$goods_data[$kn]);
                             $unit[substr($kn,0,strrpos($kn,"_"))]["unit"] = $goods_data[$kn]; 
-                        }
+                        } 
  
                         
                     }
@@ -216,17 +216,26 @@ class Goods extends Controller
                                     $values[$k]["lv1"] = $result;
                                     $values[$k]["stock"] = $stock[$k];
                                     $values[$k]["coding"] = $coding[$k];
-                                    if(array_key_exists($coding[$k],$num1)){
-                                        $values[$k]["num"] = $num1[$coding[$k]]["num"]; 
+                                    if(isset($num1)){
+                                        if(array_key_exists($coding[$k],$num1)){
+                                            $values[$k]["num"] = $num1[$coding[$k]]["num"]; 
+                                        } else {
+                                            $values[$k]["num"] = null;
+                                        }
                                     } else {
-                                        $values[$k]["num"] = null;
+                                            $values[$k]["num"] = null;
                                     }
-                                    if(array_key_exists($coding[$k],$unit1)){
-                                        $values[$k]["unit"] = $unit1[$coding[$k]]["unit"];
-                                        $values[$k]["element"] = unit_comment($num[$coding[$k]]["num"],$unit[$coding[$k]]["unit"]);
+                                    if(isset($unit1)){
+                                        if(array_key_exists($coding[$k],$unit1)){
+                                            $values[$k]["unit"] = $unit1[$coding[$k]]["unit"];
+                                            $values[$k]["element"] = unit_comment($num[$coding[$k]]["num"],$unit[$coding[$k]]["unit"]);
+                                        } else {
+                                            $values[$k]["unit"] = null;
+                                            $values[$k]["element"] = null;
+                                        }
                                     } else {
-                                        $values[$k]["unit"] = null;
-                                        $values[$k]["element"] = null;
+                                            $values[$k]["unit"] = null;
+                                            $values[$k]["element"] = null;
                                     }
                                     $values[$k]["status"] = $status[$k];
                                     $values[$k]["save"] = $save[$k];
@@ -357,8 +366,7 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
-            $goods_data = $request->param();  
-            halt($goods_data) ;     
+            $goods_data = $request->param();       
             $show_images = $request->file("goods_show_images");
 
             if(!empty($goods_data["scope"])){
@@ -406,11 +414,11 @@ class Goods extends Controller
                     if(substr($kn,strrpos($kn,"_")+1) == "num"){
                         $num1[substr($kn,0,strrpos($kn,"_"))]["num"] = implode(",",$goods_data[$kn]);
                         $num[substr($kn,0,strrpos($kn,"_"))]["num"] = $goods_data[$kn];
-                    }
+                    } 
                     if(substr($kn,strrpos($kn,"_")+1) == "unit"){
                         $unit1[substr($kn,0,strrpos($kn,"_"))]["unit"] = implode(",",$goods_data[$kn]);
                         $unit[substr($kn,0,strrpos($kn,"_"))]["unit"] = $goods_data[$kn]; 
-                    }
+                    } 
                     
                     if(is_array($nl)){
                         unset($goods_data[$kn]);                    
@@ -421,11 +429,15 @@ class Goods extends Controller
             
             
              foreach($special as $tt => $yy){ 
-                 if(array_key_exists($yy,$num1)){        
-                 $bools[$tt] = db("special")->where("id",$yy)->update(["unit"=>$unit1[$yy]["unit"],"num"=>$num1[$yy]["num"],"element"=>unit_comment($num[$yy]["num"],$unit[$yy]["unit"])]);
-                } else {
-                 $bools[$tt] = db("special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null]);
-                }
+                 if(isset($num1)){
+                    if(array_key_exists($yy,$num1)){        
+                    $bools[$tt] = db("special")->where("id",$yy)->update(["unit"=>$unit1[$yy]["unit"],"num"=>$num1[$yy]["num"],"element"=>unit_comment($num[$yy]["num"],$unit[$yy]["unit"])]);
+                    } else {
+                    $bools[$tt] = db("special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null]);
+                    }
+               } else {
+                    $bools[$tt] = db("special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null]);
+               }
             }
 
              foreach($bools as $xx => $cc){
@@ -763,11 +775,6 @@ class Goods extends Controller
                              
                 }
                 
-                // foreach($unit1 as $yy=>$cc){
-                //     if(empty($unit1[$yy]["unit"][$yy]) || empty($unit1[$yy]["num"][$yy]))
-                //     unset($unit1[$yy]);
-                // }
-                // $rest = array_values($unit1);
                 if(!empty($unit1)){
                     return ajax_success('传输成功', $unit1);
                 } else {

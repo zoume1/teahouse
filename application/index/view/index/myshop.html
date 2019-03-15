@@ -29,18 +29,24 @@
         .select .shop-innerbox .add-shop-li .cross{font-size: 25px; color: #999; font-style: normal;}
         .select .shop-innerbox .add-shop-li span{font-size: 20px; color: #999;}
         .select .shop-innerbox li.shop-item{width: 280px; height: 120px; box-sizing: border-box; border: 1px solid #a8a8a8; margin-bottom: 20px; padding: 10px 15px;}
+        .select .shop-innerbox li.audit-status{border-top: 5px solid #c9c9c9;}
         .select .shop-innerbox li.universal-shop{border-top: 5px solid #e9b665;}
         .select .shop-innerbox li.industry-shop{border-top: 5px solid #821006;}
         .select .shop-innerbox li.progress-shop{border-top: 5px solid #ff2c2e;}
         .shop-innerbox .shop-item .shop-info{position: relative; margin-bottom: 5px;}
-        .shop-innerbox .shop-item .shop-name,.shop-innerbox .shop-item .shop-number{color: #0bf; width: 120px; font-size: 12px;}
-        .shop-innerbox .shop-item .shop-version{position: absolute; top: 6px; right: 0; color: #fff; background-color: #f00; padding: 2px 6px; cursor: pointer;}
+        .shop-innerbox .shop-item .shop-name,
+        .shop-innerbox .shop-item .shop-number{color: #0bf; width: 120px; font-size: 12px;}
+        .shop-innerbox .shop-item .shop-version{position: absolute; top: 6px; right: 0; color: #fff; background-color: #f00; padding: 2px 0; cursor: pointer; width: 80px; text-align: center;}
         .shop-innerbox .shop-item .shop-introduce{font-size: 12px; color: #949494; }
         .shop-innerbox .shop-item .remaining-time{float: left; line-height: 24px; color: #949494;}
         .shop-innerbox .shop-item .into-shop{float: right; background-color: transparent; border: 1px solid #ccc; cursor: pointer; padding: 0 10px; color: #949494; margin-top: 2px;}
         .shop-innerbox .universal-shop .shop-version{background: linear-gradient(to right, #e4c28b, #e9b665); border-radius: 10px;}
         .shop-innerbox .industry-shop .shop-version{background: linear-gradient(to right, #bb6a62, #821006); border-radius: 10px;}
         .shop-innerbox .progress-shop .shop-version{background: linear-gradient(to right, #da8485, #ff2c2e); border-radius: 10px;}
+        .shop-innerbox .audit-status .status-txt{font-size: 16px; line-height: 2em; text-align: center; padding: 0 20px;}
+        .shop-innerbox .auditing .status-txt{margin-top: 20px;}
+        .shop-innerbox .audit-status .giveup{color: #f00; cursor: pointer;}
+        .shop-innerbox .audit-status .continue{color: #00BBFF; cursor: pointer;}
         .copyright{text-align: center; margin-top: 50px;color: #515151;}
         .copyright a{color: #515151;}
         /* 修改手机号弹窗 */
@@ -68,7 +74,7 @@
         .pop-addshop .id-item,
         .pop-addshop .introduce-item{align-items: end;}
         .pop-addshop .id-item .id-box{display: flex;}
-        .pop-addshop .id-item .positive, .pop-addshop .id-item .back{position: relative; margin-right: 30px;}
+        .pop-addshop .id-item .positive, .pop-addshop .id-item .back{position: relative; margin-right: 70px;}
         .pop-addshop .id-item input[type=file]{position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; z-index: 2;}
         .pop-addshop .id-item .id-tips{text-align: center; font-size: 13px; color: #a1a1a1;}
         .pop-addshop .introduce-item textarea{width: 500px; height: 80px; resize: none; padding: 5px; box-sizing: border-box;}
@@ -112,23 +118,28 @@
                                     <span class="cross">＋</span>
                                     <span>创建店铺</span>
                                 </li>
-                                <!-- <li class="shop-item">
-                                    <div class="shop-info">
-                                        <div class="shop-name txt-hid-one">店铺名</div>
-                                        <div class="shop-number txt-hid-one">店铺编号</div>
-                                        <div class="shop-version">店铺版本购买</div>
+                                <li class="shop-item audit-status auditing">
+                                    <div class="status-txt">您的店铺申请资料已提交请耐心等待审核……</div>
+                                </li>
+                                <li class="shop-item audit-status rejected">
+                                    <div class="status-txt">您的店铺资料不完整，请重新申请</div>
+                                    <div class="clearfix">
+                                        <span class="fl giveup">放弃</span>
+                                        <span class="fr continue">继续编辑>></span>
                                     </div>
-                                    <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
-                                    <div class="bottom clearfix">
-                                        <div class="remaining-time">剩余时间：<span>1天</span></div>
-                                        <button class="into-shop">进入</button>
+                                </li>
+                                <li class="shop-item audit-status passed">
+                                    <div class="status-txt">您的店铺申请已通过，请选择店铺版本</div>
+                                    <div class="clearfix">
+                                        <span class="fl giveup">放弃</span>
+                                        <span class="fr continue">选择店铺版本>></span>
                                     </div>
                                 </li>
                                 <li class="shop-item universal-shop">
                                     <div class="shop-info">
                                         <div class="shop-name txt-hid-one">店铺名</div>
                                         <div class="shop-number txt-hid-one">店铺编号</div>
-                                        <div class="shop-version">店铺版本购买</div>
+                                        <div class="shop-version">万用版</div>
                                     </div>
                                     <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
                                     <div class="bottom clearfix">
@@ -140,7 +151,7 @@
                                     <div class="shop-info">
                                         <div class="shop-name txt-hid-one">店铺名</div>
                                         <div class="shop-number txt-hid-one">店铺编号</div>
-                                        <div class="shop-version">店铺版本购买</div>
+                                        <div class="shop-version">茶行业版</div>
                                     </div>
                                     <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
                                     <div class="bottom clearfix">
@@ -152,14 +163,14 @@
                                     <div class="shop-info">
                                         <div class="shop-name txt-hid-one">店铺名</div>
                                         <div class="shop-number txt-hid-one">店铺编号</div>
-                                        <div class="shop-version">店铺版本购买</div>
+                                        <div class="shop-version">茶进阶版</div>
                                     </div>
                                     <div class="shop-introduce txt-hid-two">店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介</div>
                                     <div class="bottom clearfix">
                                         <div class="remaining-time">剩余时间：<span>1天</span></div>
                                         <button class="into-shop">进入</button>
                                     </div>
-                                </li> -->
+                                </li>
                                 <li class="holder"></li>
                                 <li class="holder"></li>
                             </ul>
@@ -345,7 +356,7 @@
                             </div>
                             <div class="back">
                                 <div>
-                                    <img src="__STATIC__/index/img/id2.png" width="150" height="98">
+                                    <img src="__STATIC__/index/img/id3.png" width="120">
                                     <input type="file" id="c-b">
                                 </div>
                                 <p class="id-tips">企业营业执照(人像)</p>
