@@ -85,6 +85,7 @@ class Balance extends Controller
                         "wallet_operation"=> $information["order_real_pay"],//消费金额
                         "wallet_type"=>-1,//消费操作(1入，-1出)
                         "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                        "operation_linux_time"=>time(), //操作时间
                         "wallet_remarks"=>"订单号：".$order_num."，微信消费".$information["order_real_pay"]."元",//消费备注
                         "wallet_img"=>" ",//图标
                         "title"=>$information["parts_goods_name"],//标题（消费内容）

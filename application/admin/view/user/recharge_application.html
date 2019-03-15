@@ -192,26 +192,26 @@
 			</ul>
 		</div>
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Category/search')}">
+			<form class="layui-form" action="{:url('admin/User/recharge_application_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">申请人</div>
 						<div class="seach_input">
-							<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="姓名/手机号" class="layui-input">
+							<input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="姓名/手机号" class="layui-input">
 						</div>
 					</div>
 				
 					<div class="seach_list">
 						<div class="seach_laber">开始时间</div>
 						<div class="seach_input">
-							<span class="time"><input type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
+							<span class="time"><input name="date_min" type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
 							</span>
 						</div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">结束时间</div>
 						<div class="seach_input">
-							<span class="time"><input type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
+							<span class="time"><input  name="date_max" type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
 
 						</div>
 					</div>
@@ -232,7 +232,7 @@
 						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
 						<th>用户名</th>
 						<th>真实姓名</th>
-						<th>账户余额</th>
+						<th>不可提现余额</th>
 						<th>可提现余额</th>
 						<th>绑定手机号</th>
 						<th>申请提现金额</th>

@@ -115,6 +115,7 @@ class  Api extends  Controller{
                    "wallet_operation"=> $business_return_money,//消费金额
                    "wallet_type"=>1,//消费操作(1入，-1出)
                    "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                   "operation_linux_time"=>time(), //操作时间
                    "wallet_remarks"=>"售后号：".$data['sale_order_number']."，退款".$business_return_money,//消费备注
                    "wallet_img"=>" ",//图标
                    "title"=>"退款到余额",//标题（消费内容）
@@ -154,6 +155,7 @@ class  Api extends  Controller{
                 "wallet_operation"=> $business_return_money,//消费金额
                 "wallet_type"=>1,//消费操作(1入，-1出)
                 "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                "operation_linux_time"=>time(), //操作时间
                 "wallet_remarks"=>"售后号：".$data['sale_order_number']."，退款".$business_return_money,//消费备注
                 "wallet_img"=>" ",//图标
                 "title"=>"退款",//标题（消费内容）

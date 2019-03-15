@@ -188,7 +188,7 @@ class  Store extends  Controller{
             $bool =Db::name("store")->where("id",$id)->where("user_id",$user_id)->update($data);
             if($bool){
                 //删除图片
-                if($card_positive_images != null){
+                    if($card_positive_images != null){
                     unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$ole_positive_url);
                 }
                 if($card_side_file != null){
