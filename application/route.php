@@ -171,7 +171,7 @@ Route::group("",[
     "commodity_recommend"=>"index/Commodity/commodity_recommend",//商品首页推荐
 
     /*优惠券*/
-    "coupon_untapped"=>"index/Coupon/coupon_untapped",   //未使用优惠券显示
+    "coupon_untapped"=>"index/Coupon/coupon_untapped",        //未使用优惠券显示
     "coupon_user"=>"index/Coupon/coupon_user",                //已使用优惠券显示
     "coupon_time"=>"index/Coupon/coupon_time",                //过期优惠券显示
     "coupon_goods"=>"index/Coupon/coupon_goods",              //优惠券使用商品
