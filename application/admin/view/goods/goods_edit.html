@@ -194,6 +194,7 @@
    #packing_specification{
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
    }
    #packing_specification input{
      width: 60px;
@@ -206,6 +207,8 @@
   .packing_specifications{
     display: flex;
       align-items: center;
+      flex-wrap: wrap;
+      
   }
   .packing_specifications  select{
     display:block
@@ -237,6 +240,9 @@
     top: 0;
    }
        /* 包装规格 */
+  .add_danwei,.add_biao{
+       color: #20A0FF
+   }
 </style>
 
 {/block}
@@ -324,12 +330,13 @@
                         <span class="texts">古色生香</span>
                         <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
                     </div>
+                    <div class="add_biao">
+                        +添加文字标签
+                    </div>
                 </div>
 
             </div>
-            <div class="add_biao">
-                +添加文字标签
-            </div>
+            
         </div>
         <div class="form-item">
             <label class="form-label">分享描述</label>
@@ -421,9 +428,10 @@
                     {/if}
                     {/foreach}
                     {/if}
+                    <div class="add_danwei"> 继续添加单位</div>
 
                 </div>
-                <div class="add_danwei"> 继续添加单位</div>
+               
                 
                 </div>
                 <div class="form-item">
@@ -1017,7 +1025,7 @@
                 var dhtml = "";
                 dhtml =
                     '<div class="list"> <input type="checkbox" name="goods_sign" lay-skin="primary" title=""> <span class="texts">古色生香</span> <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> </div>'
-                $("#hot").append(dhtml);
+               $(this).before(dhtml);
                 form.render();
             });
 
@@ -1119,7 +1127,7 @@
             danwei+='<div class="fuhao">=</div>';
             danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
             danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
-            $("#packing_specification").append(danwei);
+            $(this).before(danwei);
         });
         $(".general_content").on("click",".add_danwei1",function(){
            var i=parseInt($(this).data("id"));
