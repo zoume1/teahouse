@@ -19,12 +19,12 @@
 <body>
 	{block name="content"}
 
-	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_broadcast_save')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form layui-form-lists" action="{:url('admin/Control/control_meal_add')}" method="post" enctype="multipart/form-data">
 	
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>版本名称</label>
 			<div class="form-input">
-				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请控制在30字以内" class="layui-input" readonly value="万用版" style="border:0;color:#169BD5;">
+				<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请控制在30字以内" class="layui-input"  value="万用版" style="border:0;color:#169BD5;">
 			
 			</div>
         </div>
@@ -39,37 +39,53 @@
                         </tr>
                         <tr>
                             <td>1年</td>
-                            <td><input type="text" value="500"></td>
-                            <td><input type="text" value="500"></td>
+                            <td><input type="text" name="cost[1]"value=""></td>
+                            <td><input type="text" name="favourable_cost[1]"value=""></td>
 						</tr>
 						<tr>
                             <td>2年</td>
-                            <td><input type="text" value="500"></td>
-                            <td><input type="text" value="500"></td>
+                            <td><input type="text" name="cost[2]"value=""></td>
+                            <td><input type="text" name="favourable_cost[2]"value=""></td>
 						</tr>
 						<tr>
                             <td>3年</td>
-                            <td><input type="text" value="500"></td>
-                            <td><input type="text" value="500"></td>
+                            <td><input type="text" name="cost[3]"value=""></td>
+                            <td><input type="text" name="favourable_cost[3]"value=""></td>
 						</tr>
 						<tr>
                             <td>4年</td>
-                            <td><input type="text" value="500"></td>
-                            <td><input type="text" value="500"></td>
+                            <td><input type="text" name="cost[4]"value=""></td>
+                            <td><input type="text" name="favourable_cost[4]"value=""></td>
 						</tr>
 						<tr>
                             <td>5年</td>
-                            <td><input type="text" value="500"></td>
-                            <td><input type="text" value="500"></td>
+                            <td><input type="text" name="cost[5]"value=""></td>
+                            <td><input type="text" name="favourable_cost[5]"value=""></td>
 						</tr>
 						<tr>
                             <td>6年</td>
-                            <td><input type="text" value="500"></td>
-                            <td><input type="text" value="500"></td>
+                            <td><input type="text" name="cost[6]"value=""></td>
+                            <td><input type="text" name="favourable_cost[6]"value=""></td>
                         </tr>
                     </table>
                 </div>
-            </div>
+			</div>
+			<div class="form-item">
+				<label class="form-label">套餐排序</label>
+				<div class="form-input">
+					<input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+					<div class="tips">
+						*填写正整数，从大到小排序
+					</div>
+				</div>
+			</div>
+			<div class="form-item">
+				<label class="form-label">状态</label>
+				<div class="form-input">
+					<input type="radio" name="status" value="1" title="显示" checked="">
+					<input type="radio" name="status" value="2" title="不显示">
+				</div>
+			</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
