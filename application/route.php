@@ -187,6 +187,7 @@ Route::group("",[
     "order_integaral"=>"index/Coupon/order_integaral",   //积分商城下单 
     "integrals_detail"=>"index/Coupon/integrals_detail", //积分商城订单详情
     "integaral_list"=>"index/Coupon/integaral_list",     //积分商城所有订单
+    "integaral_search"=>"index/Coupon/integaral_search", //积分记录搜索
     "integaral_delivered"=>"index/Coupon/integaral_delivered",     //积分商城待发货定单
     "integaral_collections"=>"index/Coupon/integaral_collections", //积分商城待收货订单
     "take_delivery"=>"index/Coupon/take_delivery",                 //积分订单确认收货
@@ -664,6 +665,9 @@ Route::group("admin",[
     "control_index"=>"admin/Control/control_index",                //总控店铺
     "control_meal_index"=>"admin/Control/control_meal_index",      //入驻套餐
     "control_meal_add"=>"admin/Control/control_meal_add",          //添加入驻套餐
+    "control_meal_status"=>"admin/Control/control_meal_status",    //入驻套餐首页显示
+    "control_meal_edit"=>"admin/Control/control_meal_edit",        //入驻套餐编辑
+    "control_meal_update"=>"admin/Control/control_meal_update",    //入驻套餐编辑保存
     "control_order_index"=>"admin/Control/control_order_index",    //入驻订单
     "control_order_add"=>"admin/Control/control_order_add",        //添加入驻订单
     "control_store_index"=>"admin/Control/control_store_index",    //店铺分析

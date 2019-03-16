@@ -48,6 +48,7 @@ class  Store extends  Controller{
             }
             $card_positive_images = base64_upload_flie($card_positive);//身份证正面
             $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
+            $phone_number = db("pc_user")->where("id",$user_id)->value("phone_number");//获取手机号
             $data = [
                 "is_business"=>$is_business,
                 "id_card"=>$id_card,
@@ -60,6 +61,7 @@ class  Store extends  Controller{
                 "business_name"=>$business_name,
                 "licence_no"=>$licence_no,
                 "user_id"=>$user_id,
+                "phone_number"=>$phone_number,
                 //店铺状态(1审核通过,-1审核不通过,2审核中）
                 "status"=>2
             ];

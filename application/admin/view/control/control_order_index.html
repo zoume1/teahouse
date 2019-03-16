@@ -107,10 +107,12 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
+                    {if !empty($order)}{ volist name="order" id="value"}
 						<tr>
-                            <td>1111</td>
-                            <td>1111</td>
-                            <td>1111</td>
+                            <td>{$value.phone_number}</td>
+                            <td>{$value.contact_name}</td>
+                            {if $value.is_business == 1}
+                            <td></td>
                             <td>1111</td>
                             <td>1111</td>
                             <td>1111</td>
@@ -128,6 +130,7 @@
          
 
         </div>
+        {$order->render()}
 
     </div>
 
