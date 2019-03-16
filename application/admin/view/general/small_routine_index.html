@@ -1,1 +1,67 @@
-55
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>小程序设置</title>
+    <style>
+        .items{margin-top: 40px;}
+        .item{display: flex; align-items: flex-start; margin-bottom: 25px;}
+        .item .item-key{width: 200px; text-align: right; font-size: 16px; color: #333; margin-right: 10px;}
+        .item .item-value input{width: 450px; height: 40px; padding-left: 10px; box-sizing: border-box; border: 1px solid #e4e4e4; font-size: 14px; color: #333;}
+        .item .item-value input:focus{border-color: #0066FF;}
+        .item .item-value a{display: block; text-decoration: none; color: #0066FF; margin-top: 5px;}
+        .item .item-value textarea{width: 450px; height: 150px; box-sizing: border-box; resize: none; padding-left: 10px; font-size: 14px; color: #333;}
+        .confirm{margin-left: 200px; width: 140px; height: 40px; border: 0; color: #fff; font-size: 14px; text-align: center; background-color: #0099ff; border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="items">
+            <div class="item">
+                <div class="item-key">小程序名称</div>
+                <div class="item-value">
+                    <input type="text" placeholder="请输入">
+                    <a href="https://mp.weixin.qq.com/" target="_blank">我还没有小程序账号，如何申请？</a>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-key">小程序AppID</div>
+                <div class="item-value">
+                    <input type="text" placeholder="请输入">
+                    <a href="https://developers.weixin.qq.com/miniprogram/introduction/#%E8%8E%B7%E5%8F%96appid" target="_blank">如何获得AppID？</a>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-key">小程序AppSecret</div>
+                <div class="item-value">
+                    <input type="text" placeholder="请输入">
+                    <a href="https://developers.weixin.qq.com/miniprogram/introduction/#%E8%8E%B7%E5%8F%96appid" target="_blank">如何获得AppSecret</a>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-key">微信支付商户号</div>
+                <div class="item-value">
+                    <input type="text" placeholder="请输入">
+                    <a href="https://pay.weixin.qq.com/index.php/core/home/login?return_url=%2F" target="_blank">财付通商户权限秘钥</a>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-key">微信支付API秘钥</div>
+                <div class="item-value">
+                    <input type="text" placeholder="请输入">
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-key">微信支付APIclient_key.pem</div>
+                <div class="item-value">
+                    <textarea></textarea>
+                    <a href="javascript:void(0);">使用文本编辑器打开apiclient_key.pem文件，将文件的全部内容复制进来</a>
+                </div>
+            </div>
+        </div>
+        <button class="confirm">确定</button>
+    </div>
+</body>
+</html>
