@@ -162,8 +162,10 @@ class  Control extends  Controller{
     public function control_order_index(){
         $order = db("store")->paginate(20,false, [
             'query' => request()->param(),
-        ]);    
-        return view("control_order_index",["order"=>$order]);
+        ]);
+        $enter_meal = db("enter_meal")->field("name")->select();
+           
+        return view("control_order_index",["order"=>$order,"enter_meal"=>$enter_meal]);
     }
 
 
@@ -171,10 +173,72 @@ class  Control extends  Controller{
      * [入驻订单编辑]
      * 郭杨
      */    
-    public function control_order_add(){     
-        return view("control_order_add");
+    public function control_order_add($id){
+        $store_order = db("store")->where("id",1)->select();
+        $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
+             
+        return view("control_order_add",["store_order"=>$store_order]);
     }
 
+
+    /**
+     * [入驻订单状态更新]
+     * 郭杨
+     */    
+    public function control_order_update(Request $request){
+        if($request -> isPost()){
+            $id = $request -> only(["id"])["id"];
+            $data = $request -> param();
+            $bool = db("store")->where("id",$id)->update($data);
+            
+            if($bool){
+                $this->success("审核成功",url("admin/Control/control_order_index"));
+            } else {
+                $this->error("审核失败,请编辑后再提交",url("admin/Control/control_order_index"));
+            }
+             
+        }
+    }
+
+
+
+    /**
+     * [入驻订单搜索]
+     * 郭杨
+     */    
+    public function control_order_search(){
+        $contact_name = input("contact_name") ? input("contact_name"):null;
+        $name = input("name") ? input("name"):null; 
+        if((!empty($contact_name)) && (!empty($name))){
+            $add_order = db("store")
+                        ->where("contact_name",$contact_name)
+                        ->where("enter_meal",$name)
+                        ->paginate(20 ,false, [
+                            'query' => request()->param(),
+                        ]);
+
+        } else if((empty($contact_name)) && (!empty($name))){
+           $add_order = db("store")
+                     ->where("enter_meal", "like","%" .$name ."%")
+                     ->paginate(20 ,false, [
+                      'query' => request()->param(),
+                      ]);
+                      
+        } else if((!empty($contact_name)) && (empty($name))){
+            $add_order = db("store")
+                      ->where("contact_name", "like","%" .$contact_name ."%")
+                      ->paginate(20 ,false, [
+                       'query' => request()->param(),
+                       ]);
+        } else {
+            $add_order = db("store")->paginate(20,false, [
+                'query' => request()->param(),
+            ]);
+        }
+        $enter_meal = db("enter_meal")->field("name")->select();
+        return view("control_order_index",["order"=>$add_order,"enter_meal"=>$enter_meal]);
+                     
+    }
 
 
     /**
