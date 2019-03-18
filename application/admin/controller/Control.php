@@ -162,14 +162,13 @@ class  Control extends  Controller{
     public function control_order_index(){
         $order = db("store")->paginate(20,false, [
             'query' => request()->param(),
-        ]);
-        // halt($order);     
-        return view("control_order_index");
+        ]);    
+        return view("control_order_index",["order"=>$order]);
     }
 
 
     /**
-     * [添加入驻订单]
+     * [入驻订单编辑]
      * 郭杨
      */    
     public function control_order_add(){     

@@ -37,4 +37,23 @@ class  General extends  Controller{
     public function decoration_routine_index(){     
         return view("decoration_routine_index");
     }
+
+    /**
+     * [增值服务(增值商品显示)]
+     * 郭杨
+     */    
+    public function added_service_index(){     
+        return view("added_service_index");
+    }
+
+    /**
+     * [订单套餐(显示)]
+     * 郭杨
+     */    
+    public function order_package_index(){     
+        return view("order_package_index");
+    }
+
+
+
  }

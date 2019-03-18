@@ -107,24 +107,38 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                    {if !empty($order)}{ volist name="order" id="value"}
+                    {if !empty($order)}{volist name="order" id="value"}
 						<tr>
                             <td>{$value.phone_number}</td>
                             <td>{$value.contact_name}</td>
                             {if $value.is_business == 1}
+                            <td>个人</td>
+                            {/if}
+                            {if $value.is_business == 2}
+                            <td>公司</td>
+                            {/if}
+                            <td>{$value.address_real_data}</td>
+                            {if !empty($value.enter_meal)}
+                            <td>{$value.enter_meal}</td>
+                            <td>{$value.cost}</td>
+                            <td>{$value.start_time}</td>
+                            <td>{$value.endtime_time}</td>
+                            {else}
+                            <td>未选择套餐</td>
+                            <td>￥0</td>
                             <td></td>
-                            <td>1111</td>
-                            <td>1111</td>
-                            <td>1111</td>
-                            <td>1111</td>
-                            <td>1111</td>
-                            <td> 
-                                <input type="checkbox" class="Status" name="status" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id=""></td>
-							<td>
-								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_order_add')}"> 编辑
+                            <td></td>
+                            {/if}
+                            <td>
+                                {if $value.status == -1}
+                                <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
+                                <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}"> {/if}
+                            </td>
+								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_order_add',['id'=>$value.id])}"> 编辑
 								</a>
 							</td>
                         </tr>
+                        {/volist}{/if}
                 </tbody>
             </table>
          
