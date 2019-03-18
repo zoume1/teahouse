@@ -19,12 +19,14 @@
 <body>
 	{block name="content"}
 
-	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_broadcast_save')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form layui-form-lists" action="{:url('admin/Control/control_meal_update')}" method="post" enctype="multipart/form-data">
+		{if !empty($meal_edit)}
+		<input type="hidden" name="id" id="ids" value="{$meal_edit.id}" />
 	
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>版本名称</label>
 			<div class="form-input">
-				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请控制在30字以内" class="layui-input" readonly value="万用版" style="border:0;color:#169BD5;">
+				<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请控制在30字以内" class="layui-input" readonly value="{$meal_edit.name}" style="border:0;color:#169BD5;">
 			
 			</div>
         </div>
@@ -36,12 +38,38 @@
                             <th>年份</th>
                             <th>原价</th>
                             <th>优惠价</th>
-                        </tr>
+						</tr>
+						<tr>
+							<td>1年</td>
+							<td><input type="text" name="cost[0]" value="{$meal_edit['cost'][0]}"></td>
+							<td><input type="text" name="favourable_cost[0]"value="{$meal_edit.favourable_cost[0]}"></td>
+						</tr>
                         <tr>
-                            <td>1年</td>
-                            <td><input type="text" value="500"></td>
-                            <td><input type="text" value="500"></td>
-                        </tr>
+                            <td>2年</td>
+							<td><input type="text" name="cost[1]" value="{$meal_edit['cost'][1]}"></td>
+							<td><input type="text" name="favourable_cost[1]"value="{$meal_edit['favourable_cost'][1]}"></td>
+						</tr>
+						<tr>
+							<td>3年</td>
+							<td><input type="text" name="cost[2]" value="{$meal_edit['cost'][2]}"></td>
+							<td><input type="text" name="favourable_cost[2]"value="{$meal_edit['favourable_cost'][2]}"></td>
+						</tr>
+						<tr>
+							<td>4年</td>
+							<td><input type="text" name="cost[3]" value="{$meal_edit['cost'][3]}"></td>
+							<td><input type="text" name="favourable_cost[3]"value="{$meal_edit['favourable_cost'][3]}"></td>
+						</tr>
+						<tr>
+							<td>5年</td>
+							<td><input type="text" name="cost[4]" value="{$meal_edit['cost'][4]}"></td>
+							<td><input type="text" name="favourable_cost[4]" value="{$meal_edit['favourable_cost'][4]}"></td>
+						</tr>
+						<tr>
+							<td>6年</td>
+							<td><input type="text" name="cost[5]" value="{$meal_edit['cost'][5]}"></td>
+							<td><input type="text" name="favourable_cost[5]" value="{$meal_edit['favourable_cost'][5]}"></td>
+						</tr>
+						
                     </table>
                 </div>
             </div>
@@ -51,6 +79,7 @@
 				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
 			</div>
 		</div>
+		{/if}
 	</form>
 
 	{/block}

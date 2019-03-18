@@ -785,6 +785,33 @@ class Coupon extends Controller
         }
 
     }
+
+
+     /**
+     * [积分记录搜索]
+     * 郭杨
+     */
+    public function integaral_search(Request $request)
+    {
+        if($request->isPost()){
+            $member_id = $request->only("member_id")["member_id"]; //会员id
+            $remarks = $request->only("remarks")["remarks"];
+
+            $data = db("integral")
+                    ->where("member_id",$member_id)
+                    ->where("integral_remarks", "like","%" .$remarks ."%")
+                    ->order('integral_id desc')
+                    ->select();
+                    
+            if (!empty($data)) {
+                return ajax_success('传输成功', $data);
+            } else {
+                return ajax_error("数据为空");
+    
+            } 
+
+        }
+    }
   
 
 
