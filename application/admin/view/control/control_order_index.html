@@ -8,7 +8,7 @@
     body {
         background: #fff;
     }
-    
+
     #page {
         width: 96%;
         height: 50px;
@@ -17,30 +17,30 @@
         padding-left: 50px;
         background: #FDFDFE;
     }
-    
+
     .on {
         color: #21A5FA !important;
         border-bottom: solid 3px #21A5FA;
     }
-    
+
     .distribution_list {
         margin-bottom: 10px;
         border-bottom: solid 1px #D7D7D7;
     }
-    
+
     .distribution_list ul {
         display: flex;
         width: 250px;
         justify-content: center;
         align-items: center;
     }
-    
+
     .distribution_list a {
         font-size: 17px;
         padding: 9px;
         color: #5E5E5E;
     }
-    
+
     .distribution_list ul li {
         flex: 1;
     }
@@ -51,8 +51,9 @@
 <body>
 
     {block name="content"}
-   
+
     <div class="childrenBody">
+<<<<<<< HEAD
             <div class="distribution_list">
                     <ul>
                         <li>
@@ -97,15 +98,48 @@
 
                             
                             <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+=======
+        <div class="distribution_list">
+            <ul>
+                <li>
+                    <a href="{:url('admin/Control/control_meal_index')}">入驻套餐</a>
+                </li>
+                <li>
+                    <a href="{:url('admin/Control/control_order_index')}" class="on">入驻订单</a>
+                </li>
+            </ul>
+        </div>
+        <blockquote class="layui-elem-quote news_search">
+            <form class="layui-form" action="{:url('admin/Goods/search')}">
+                <div class="seach">
+                    <div class="seach_list">
+                        <div class="seach_laber">入驻商名称</div>
+                        <div class="seach_input">
+                            <input type="text" name="goods_number" lay-verify="title" autocomplete="off"
+                                placeholder="姓名/公司名" class="layui-input">
+
                         </div>
-        
-                    </form>
-                </blockquote>
-     
+                    </div>
+                    <div class="seach_list">
+                        <div class="seach_laber">入驻商等级</div>
+                        <div class="seach_input">
+                            <select name="pid">
+                                <option value="" select>请选择入驻等级</option>
+                            </select>
+>>>>>>> 501f1de946c219427c07b430d023d1766b29d3a8
+                        </div>
+                    </div>
+
+                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+                </div>
+
+            </form>
+        </blockquote>
+
 
         <div class="layui-form news_list">
             <table class="layui-table">
-               
+
                 <thead>
                     <tr>
                         <th>用户账号手机号）</th>
@@ -154,7 +188,7 @@
                         {/volist}{/if}
                 </tbody>
             </table>
-         
+
 
         </div>
         {$order->render()}
@@ -172,12 +206,12 @@
     <script type="text/javascript">
         layui.config({
             base: "js/"
-        }).use(['form', 'layer', 'jquery', 'laypage'], function() {
+        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
             var form = layui.form(),
                 layer = parent.layer === undefined ? layui.layer : parent.layer,
                 laypage = layui.laypage,
                 $ = layui.jquery;
-                form.on('switch(isShow)', function(data) {
+            form.on('switch(isShow)', function (data) {
                 if ($(this).val() == 0) {
                     $(this).val(1);
                 } else {
@@ -193,17 +227,17 @@
                         "id": id,
                         "status": status
                     },
-                    success: function(data) {
+                    success: function (data) {
                         console.log("成功")
                     },
-                    error: function(data) {
+                    error: function (data) {
                         console.log("错误")
                     }
                 });
 
             })
-      
-       })
+
+        })
     </script>
 
     {/block}
