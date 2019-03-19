@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>订单套餐</title>
-    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/layui/css/layui.css"/>
     <style>
         *{margin: 0; padding: 0;}
+        ul, li{list-style: none;}
         [v-cloak]{display: none;}
         .cr{color: #f00;}
         .td{text-decoration: line-through; color: #949494; font-size: 14px;}
@@ -143,8 +143,13 @@
     <script src="__STATIC__/admin/common/js/vue.js"></script>
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
     <script src="__STATIC__/admin/common/js/vue-router.js"></script>
-    <script src="__STATIC__/admin/common/layui/layui.js"></script>
     <script>
+        var routes = [
+            {path: 'order_package_buy'}
+        ]
+        var router = new VueRouter({
+            routes
+        })
         var vm = new Vue({
             el: '#app',
             data: {
@@ -154,6 +159,7 @@
                 versionData: [],
                 selectData: [],
             },
+            router,
             methods: {
                 // 选择年限
                 crimpComb: function(_index){
@@ -174,7 +180,7 @@
                     this.$http.post('order_package_show').then(function(res){
                         if(res.body.status == 1){
                             this.versionData = res.body.data;
-                            console.log(this.versionData);
+                            // console.log(this.versionData);
                         }
                     }, function(res){
                         console.log(res.status, res.statusText);
@@ -182,9 +188,7 @@
                 },
                 // 下订单
                 getOrder: function(){
-                    var _this = this;
-                    console.log(_this)
-                    _this.$router.push({path: 'order_package_buy'});
+                    this.$router.push({path: 'order_package_buy'});
                 }
             },
             mounted(){
