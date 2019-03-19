@@ -150,7 +150,7 @@ class  Analyse extends  Controller{
     }
 
     /**
-     * [增值虚拟商品编辑]
+     * [增值虚拟商品添加]
      * 郭杨
      */    
     public function analyse_invented(){     
