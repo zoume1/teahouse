@@ -78,7 +78,7 @@
                         <span class="td">￥{{selectData[index]?selectData[index].cost:item.price}}</span>
                     </div>
                     <button class="order"
-                            @click="getOrder(index)">立即订购</button>
+                            @click="getOrder">立即订购</button>
                     <div class="select-comb"
                         @click="crimpComb(index)">
                         <span class="cr triangle">选择年限</span>
@@ -141,7 +141,8 @@
         </div>
     </div>
     <script src="__STATIC__/admin/common/js/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
+    <script src="__STATIC__/admin/common/js/vue-router.js"></script>
     <script src="__STATIC__/admin/common/layui/layui.js"></script>
     <script>
         var vm = new Vue({
@@ -180,10 +181,10 @@
                     })
                 },
                 // 下订单
-                getOrder: function(_index){
-                    this.$router.push({
-                        path: 'order_package_buy'
-                    })
+                getOrder: function(){
+                    var _this = this;
+                    console.log(_this)
+                    _this.$router.push({path: 'order_package_buy'});
                 }
             },
             mounted(){
