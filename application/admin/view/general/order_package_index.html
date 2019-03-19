@@ -33,7 +33,7 @@
         .order{display: block; background-color: #f00; color: #fff; font-size: 14px; width: 90%; height: 35px; cursor: pointer; margin: 0 auto; border: 0; outline: none;}
         .select-comb{position: relative; text-align: center; font-size: 13px; width: 90%; margin: 10px auto 0; cursor: pointer;}
         .comb-container{width: 200px; height: 250px; position: absolute; left: 50%; bottom: -108%; margin-left: -100px; overflow: hidden;}
-        .comb-list{position: absolute; left: 0; top: -100%; width: 100%; height: 100%; box-sizing: border-box; background-color: #fff; z-index: 2; transition: all .6s;}
+        .comb-list{position: absolute; left: 0; top: -100%; width: 100%; height: 100%; box-sizing: border-box; background-color: #fff; z-index: 2; transition: all .6s; overflow: hidden;}
         .movelist{top: 0;}
         .comb-list .comb-item{display: flex; align-items: center; justify-content: space-between; height: 40px;}
         .comb-list .comb-p{cursor: pointer;}
@@ -93,7 +93,7 @@
                                 @click="selectComb">
                                 <p>{{item.year}}</p>
                                 <p class="td">{{item.cost}}</p>
-                                <p class="cr">{{item.cost}}</p>
+                                <p class="cr">{{item.favourable_cost}}</p>
                             </li>
                         </ul>
                     </div>
