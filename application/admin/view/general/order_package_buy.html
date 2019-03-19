@@ -1,1 +1,78 @@
-套餐购买
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>确认订单信息</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        [v-cloak]{display: none;}
+        .cr{color: #f00;}
+        .td{text-decoration: line-through; color: #949494; font-size: 14px;}
+        .triangle::after{content: ''; position: absolute; left: 50%; top: 110%; margin-left: -4px; width: 0; height: 0; border: 5px solid transparent; border-top-color: #f00;}
+        .wrapper{padding: 0 60px;}
+        .header{display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #bcbcbc; margin-bottom: 50px;}
+        .step{font-size: 14px; color: #868686; margin: 0 30px; line-height: 3em;}
+        .step-on{font-size: 20px; color: #333; font-weight: 700;}
+        .step-line{width: 35px; border-top: 1px dashed #868686;}
+        .main{width: 1000px; margin: 0 auto;}
+        .shop-name{font-size: 14px; color: #949494; margin-bottom: 10px;}
+        .shop-name span{color: #000;}
+        .carts{border: 1px solid rgb(207, 236, 255);}
+        .carts-head{display: flex; align-items: center; justify-content: space-between; height: 40px; background-color: #cfecff; border-bottom: 1px solid rgb(168, 221, 255); padding: 0 8px;}
+        .carts-head div{text-align: center; font-size: 14px;}
+        .carts-head .unit-text,
+        .carts-head .money-text,
+        .carts-head .tatal-text{font-weight: 700;}
+        .carts-head .time{flex-basis: 10%; text-align: left;}
+        .carts-head .order-number{flex-basis: 20%; text-align: left;}
+        .carts-head .unit-text{flex-basis: 30%;}
+        .carts-head .money-text{flex-basis: 30%;}
+
+    </style>
+</head>
+<body>
+    <div class="wrapper" id="app" v-cloak>
+        <div class="header">
+            <div class="step">1.选择服务</div>
+            <div class="step-line"></div>
+            <div class="step step-on">2.确认订单信息</div>
+            <div class="step-line"></div>
+            <div class="step">3.确认付款</div>
+            <div class="step-line"></div>
+            <div class="step">4.完成订购</div>
+            <div class="step-line"></div>
+            <div class="step">5.追加评论</div>
+        </div>
+       <div class="main">
+           <p class="shop-name">订购店铺：<span>滴金茶叶</span></p>
+           <div class="carts">
+                <div class="carts-head">
+                    <input type="checkbox">
+                    <div class="time">20190319</div>
+                    <div class="order-number">订单号：1234567891523</div>
+                    <div class="unit-text">数量</div>
+                    <div class="money-text">金额</div>
+                    <div class="total-text">小计（元）</div>
+                </div>
+
+           </div>
+       </div>
+    </div>
+    <script src="__STATIC__/admin/common/js/vue.js"></script>
+    <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
+    <script src="__STATIC__/admin/common/js/vue-router.js"></script>
+   <script>
+       var vm = new Vue({
+           el: '#app',
+           data: {
+               
+           },
+           methods: {
+
+           }
+       })
+   </script>
+</body>
+</html>

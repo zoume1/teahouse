@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>订单套餐</title>
-    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/layui/css/layui.css"/>
     <style>
         *{margin: 0; padding: 0;}
+        ul, li{list-style: none;}
         [v-cloak]{display: none;}
         .cr{color: #f00;}
         .td{text-decoration: line-through; color: #949494; font-size: 14px;}
@@ -78,7 +78,7 @@
                         <span class="td">￥{{selectData[index]?selectData[index].cost:item.price}}</span>
                     </div>
                     <button class="order"
-                            @click="getOrder(index)">立即订购</button>
+                            @click="getOrder">立即订购</button>
                     <div class="select-comb"
                         @click="crimpComb(index)">
                         <span class="cr triangle">选择年限</span>
@@ -141,9 +141,15 @@
         </div>
     </div>
     <script src="__STATIC__/admin/common/js/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
-    <script src="__STATIC__/admin/common/layui/layui.js"></script>
+    <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
+    <script src="__STATIC__/admin/common/js/vue-router.js"></script>
     <script>
+        var routes = [
+            {path: 'order_package_buy'}
+        ]
+        var router = new VueRouter({
+            routes
+        })
         var vm = new Vue({
             el: '#app',
             data: {
@@ -153,6 +159,7 @@
                 versionData: [],
                 selectData: [],
             },
+            router,
             methods: {
                 // 选择年限
                 crimpComb: function(_index){
@@ -173,17 +180,15 @@
                     this.$http.post('order_package_show').then(function(res){
                         if(res.body.status == 1){
                             this.versionData = res.body.data;
-                            console.log(this.versionData);
+                            // console.log(this.versionData);
                         }
                     }, function(res){
                         console.log(res.status, res.statusText);
                     })
                 },
                 // 下订单
-                getOrder: function(_index){
-                    this.$router.push({
-                        path: 'order_package_buy'
-                    })
+                getOrder: function(){
+                    this.$router.push({path: 'order_package_buy'});
                 }
             },
             mounted(){
