@@ -78,4 +78,13 @@ class  General extends  Controller{
     }
 
 
+    /**
+     * [套餐购买]
+     * 郭杨
+     */    
+    public function order_package_buy(){
+        return view("order_package_buy");
+    }
+
+
  }
