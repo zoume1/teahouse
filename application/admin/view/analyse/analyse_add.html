@@ -441,17 +441,18 @@
     
     <form class="layui-form layui-form-lists" action="{:url('admin/Analyse/analyse_add')}" method="post" enctype="multipart/form-data">
         <div class="form-title">商品类型 </div>
+       
         <div class="nav">
-             <a href="" class="physical ons">
-                 <div> 实物商品 </div>
-                 <div class="logistics ons">（物流发货） </div>
-             </a>
-             <a href="analyse_invented" class="virtual">
-                    <div> 虚拟商品 </div>
-                    <div class="logistics"> （无需物流） </div>
+                <a href="analyse_add" class="physical ons">
+                    <div> 实物商品 </div>
+                    <div class="logistics ons">（物流发货） </div>
                 </a>
-        
-        </div>
+                <a href="analyse_invented" class="virtual">
+                       <div> 虚拟商品 </div>
+                       <div class="logistics"> （无需物流） </div>
+                   </a>
+           
+           </div>
         <div class="form-title">基础信息 </div>
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>商品名称</label>
