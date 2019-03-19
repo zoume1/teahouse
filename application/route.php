@@ -660,10 +660,11 @@ Route::group("admin",[
     "general_index"=>"admin/General/general_index",             //店铺信息
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
-    "added_service_index"=>"admin/General/added_service_index",    //增值服务(增值商品显示)
-    "order_package_index"=>"admin/General/order_package_index",    //订单套餐
-    "order_package_show"=>"admin/General/order_package_show",      //订单套餐(显示)
-
+    "added_service_index"=>"admin/General/added_service_index",      //增值服务(增值商品显示)
+    "order_package_index"=>"admin/General/order_package_index",      //订单套餐
+    "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
+    "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买
+    "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
  
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺

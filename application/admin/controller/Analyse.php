@@ -22,7 +22,7 @@ class  Analyse extends  Controller{
 
     
     /**
-     * [增值商品添加]
+     * [增值物流商品添加]
      * 郭杨
      */    
     public function analyse_add(Request $request){
@@ -38,11 +38,13 @@ class  Analyse extends  Controller{
                         $list[] = str_replace("\\", "/", $info->getSaveName());
                     }            
                     $goods_data["goods_show_image"] =  $list[0];
+                    $goods_data["goods_type"] = 1;     //商品类型
                     $goods_data["goods_show_images"] = implode(',', $list);
                 }
                           
                
                 if ($goods_data["goods_standard"] == "0") {
+                    halt($goods_data);
                     $bool = db("goods")->insert($goods_data);
                     if ($bool && (!empty($show_images))) {
                         $this->success("添加成功", url("admin/Goods/index"));
@@ -54,6 +56,7 @@ class  Analyse extends  Controller{
                     $goods_special = [];
                     $goods_special["goods_name"] = $goods_data["goods_name"];
                     $goods_special["produce"] = $goods_data["produce"];
+                    $goods_special["goods_type"] = $goods_data["goods_type"];
                     $goods_special["brand"] = $goods_data["brand"];
                     $goods_special["goods_number"] = $goods_data["goods_number"];
                     $goods_special["goods_standard"] = $goods_data["goods_standard"];
@@ -75,16 +78,11 @@ class  Analyse extends  Controller{
                         $goods_special["goods_text"] = null;
                         $goods_data["goods_text"] = null;
                     }
-                    if (isset($goods_data["text"])) {
-                        $goods_special["text"] = $goods_data["text"];
-                    } else {
-                        $goods_special["text"] = null;
-                        $goods_data["text"] = null;
-                    }
+
                     $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
                     $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                     $result = implode(",", $goods_data["lv1"]);
-                    $goods_id = db('goods')->insertGetId($goods_special);
+                    $goods_id = db('analyse_goods')->insertGetId($goods_special);
                     
                     if (!empty($goods_data)) {
                         foreach ($goods_data as $kn => $nl) {
@@ -94,7 +92,6 @@ class  Analyse extends  Controller{
                                 $coding[] = $nl["coding"];
                                 $cost[] = $nl["cost"];
                                 $line[] = $nl["line"];
-                                $offer[] = $nl["offer"];
                                 if (isset($nl["status"])) {
                                     $status[] = $nl["status"];
                                 } else {
@@ -124,7 +121,6 @@ class  Analyse extends  Controller{
                                         $values[$k]["lv1"] = $result;
                                         $values[$k]["stock"] = $stock[$k];
                                         $values[$k]["coding"] = $coding[$k];
-                                        $values[$k]["status"] = $status[$k];
                                         $values[$k]["save"] = $save[$k];
                                         $values[$k]["cost"] = $cost[$k];
                                         $values[$k]["line"] = $line[$k];                                    
@@ -137,7 +133,7 @@ class  Analyse extends  Controller{
                     }
     
                     foreach ($values as $kz => $vw) {
-                        $rest = db('special')->insertGetId($vw);
+                        $rest = db('analyse_special')->insertGetId($vw);
                     }    
                     if ($rest && (!empty($show_images))) {
                         $this->success("添加成功", url("admin/Goods/index"));
