@@ -663,6 +663,7 @@ Route::group("admin",[
     "added_service_index"=>"admin/General/added_service_index",    //增值服务(增值商品显示)
     "order_package_index"=>"admin/General/order_package_index",    //订单套餐
     "order_package_show"=>"admin/General/order_package_show",      //订单套餐(显示)
+    "order_package_buy"=>"admin/General/order_package_buy",        //订单套餐购买
 
  
     /*总控*/
