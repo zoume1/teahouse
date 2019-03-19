@@ -17,29 +17,30 @@
         .step{font-size: 14px; color: #868686; margin: 0 30px; line-height: 3em;}
         .step-on{font-size: 20px; color: #333; font-weight: 700;}
         .step-line{width: 35px; border-top: 1px dashed #868686;}
-        .versions{display: flex; justify-content: space-around; align-items: center;}
-        .version-item{width: 250px; height: 580px; box-sizing: border-box; border: 1px solid #bcbcbc; border-top: 3px solid #bcbcbc;}
+        .versions{display: flex; justify-content: space-around; align-items: center; width: 1100px; margin: 0 auto;}
+        .version-item{width: 310px; height: 580px; box-sizing: border-box; border: 1px solid #bcbcbc; border-top: 3px solid #bcbcbc; transition: box-shadow .3s;}
         .universal{border-color: #e9b665; box-shadow: 0 5px 10px #e9b665;}
         .industry{border-color: #821001; box-shadow: 0 5px 10px #821001;}
         .progress{border-color: #ff2c2e; box-shadow: 0 5px 10px #ff2c2e;}
-        .item-top{background-color: #fffbf4; padding: 25px 12px 15px;}
+        .item-top{position: relative; background-color: #fffbf4; padding: 15px 4px 15px;}
         .version-name{margin: 0 auto 15px; width: 100px; height: 30px; line-height: 30px; text-align: center; box-sizing: border-box; color: #fff; border-radius: 15px; font-size: 14px; font-weight: 700;}
         .universal-name{background: linear-gradient(to right, #e4c28b, #dd9522);}
         .industry-name{background: linear-gradient(to right, #bb6a62, #821006);}
         .progress-name{background: linear-gradient(to right, #da8485, #ff2c2e);}
-        .version-suggest{font-size: 13px; text-align: center; margin-bottom: 18px;}
+        .version-suggest{font-size: 13px; text-align: center; margin-bottom: 10px;}
         .version-cost{font-size: 22px; font-weight: 700; color: #333; border-top: 1px solid #949494; padding: 10px 0 0; width: 85%; margin: 0 auto 8px; text-align: center;}
         .version-cost .td{font-weight: normal;}
         .order{display: block; background-color: #f00; color: #fff; font-size: 14px; width: 90%; height: 35px; cursor: pointer; margin: 0 auto; border: 0; outline: none;}
         .select-comb{position: relative; text-align: center; font-size: 13px; width: 90%; margin: 10px auto 0; cursor: pointer;}
-        .comb-container{width: 200px; height: 250px; position: absolute; top: 28px; overflow: hidden;}
+        .comb-container{width: 200px; height: 250px; position: absolute; left: 50%; bottom: -108%; margin-left: -100px; overflow: hidden;}
         .comb-list{position: absolute; left: 0; top: -100%; width: 100%; height: 100%; box-sizing: border-box; background-color: #fff; z-index: 2; transition: all .6s;}
         .movelist{top: 0;}
         .comb-list .comb-item{display: flex; align-items: center; justify-content: space-between; height: 40px;}
+        .comb-list .comb-p{cursor: pointer;}
         .comb-list .comb-item p{flex-basis: 33%; text-align: center;}
         .item-bott{padding: 0 12px; background-color: #fff;}
-        .right-title{font-size: 16px; color: #aeaeae; margin: 15px 0;}
-        .rights .right{font-size: 13px; color: #000; margin: 15px 0;}
+        .right-title{font-size: 16px; color: #aeaeae; margin: 12px 0;}
+        .rights .right{font-size: 13px; color: #000; margin: 14px 0;}
         .rights .right::before{display: inline-block; margin-right: 8px;}
         .rights .right-on::before{content: '√'; color: #66cc00;}
         .rights .right-off{color: #949494;}
@@ -60,9 +61,14 @@
             <div class="step">5.追加评论</div>
         </div>
         <div class="versions">
-            <div class="version-item" v-for="item in versionData">
+            <div class="version-item"
+                v-for="(item, index) in versionData"
+                :class="selectClassName[index === selectFlag && index]"
+                :key="index"
+                @mouseenter="selectEvent(index)">
                 <div class="item-top">
-                    <div class="version-name universal-name">{{item.name}}</div>
+                    <div class="version-name" 
+                        :class="[item.versionId==1?'universal-name':(item.versionId==2?'industry-name':'progress-name')]">{{item.name}}</div>
                     <p class="version-suggest" v-if="item.versionId == 1">适合小微团队开店，满足<span class="cr">大批发，新零售商品</span>销售、推广营销等基础经营需求</p>
                     <p class="version-suggest" v-else-if="item.versionId == 2">本版本能够在万用版的基础上，实现和满足<span class="cr">传统电商无法提供给垂直茶行业</span>经销商、消费者的深度需求</p>
                     <p class="version-suggest" v-else-if="item.versionId == 3">解决大型的规模化的<span class="cr">茶厂、茶商柔性化、定制化生产</span>所遇见的全部所需功能 及需求</p>
@@ -71,23 +77,25 @@
                     </div>
                     <button class="order">立即订购</button>
                     <div class="select-comb"
-                        @click="crimpComb">
+                        @click="crimpComb(index)">
                         <span class="cr triangle">选择年限</span>
-                        <div class="comb-container">
-                            <ul class="comb-list"
-                                :class="{movelist: crimpFlag}">
-                                <li class="comb-item">
-                                    <p>年限</p>
-                                    <p>原价</p>
-                                    <p class="cr">优惠价</p>
-                                </li>
-                                <li class="comb-item" v-for="item in item.priceList">
-                                    <p>{{item.year}}</p>
-                                    <p class="td">{{item.throughPrice}}</p>
-                                    <p class="cr">{{item.price}}</p>
-                                </li>
-                            </ul>
-                        </div>
+                    </div>
+                    <div class="comb-container">
+                        <ul class="comb-list"
+                            :class="{movelist: crimpFlag[index]}">
+                            <li class="comb-item">
+                                <p>年限</p>
+                                <p>原价</p>
+                                <p class="cr">优惠价</p>
+                            </li>
+                            <li class="comb-item comb-p" 
+                                v-for="item in item.priceList"
+                                @click="getAllData">
+                                <p>{{item.year}}</p>
+                                <p class="td">{{item.throughPrice}}</p>
+                                <p class="cr">{{item.price}}</p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="item-bott">
@@ -130,12 +138,15 @@
         </div>
     </div>
     <script src="__STATIC__/admin/common/js/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     <script src="__STATIC__/admin/common/layui/layui.js"></script>
     <script>
         var vm = new Vue({
             el: '#app',
             data: {
-                crimpFlag: false,
+                crimpFlag: [false, false, false],
+                selectFlag: 0,
+                selectClassName: ['universal', 'industry', 'progress'],
                 versionData: [
                     {
                         name: '万用版',
@@ -166,15 +177,86 @@
                                 price: 1199
                             }
                         ]
+                    },{
+                        name: '茶行业版',
+                        versionId: 2,
+                        year: 1,
+                        throughPrice: 599,
+                        price: 399,
+                        priceList: [
+                            {
+                                year: 1,
+                                throughPrice: 599,
+                                price: 399
+                            },{
+                                year: 2,
+                                throughPrice: 799,
+                                price: 599
+                            },{
+                                year: 3,
+                                throughPrice: 999,
+                                price: 799
+                            },{
+                                year: 4,
+                                throughPrice: 1199,
+                                price: 999
+                            },{
+                                year: 5,
+                                throughPrice: 1399,
+                                price: 1199
+                            }
+                        ]
+                    },{
+                        name: '茶进阶版',
+                        versionId: 3,
+                        year: 1,
+                        throughPrice: 599,
+                        price: 399,
+                        priceList: [
+                            {
+                                year: 1,
+                                throughPrice: 599,
+                                price: 399
+                            },{
+                                year: 2,
+                                throughPrice: 799,
+                                price: 599
+                            },{
+                                year: 3,
+                                throughPrice: 999,
+                                price: 799
+                            },{
+                                year: 4,
+                                throughPrice: 1199,
+                                price: 999
+                            },{
+                                year: 5,
+                                throughPrice: 1399,
+                                price: 1199
+                            }
+                        ]
                     }
                 ]
             },
             methods: {
-                crimpComb: function(){
-                    this.crimpFlag = !this.crimpFlag;
+                // 选择年限
+                crimpComb: function(_index){
+                    this.$set(this.crimpFlag, _index, !this.crimpFlag[_index]);
+                },
+                selectEvent: function(_index){
+                    this.selectFlag = _index;
+                },
+                selectComb: function(){
+                    console.log(111)
+                },
+                getAllData: function(){
+                    this.$http.post('order_package_show').then(function(res){
+                        console.log(res);
+                    }, function(res){
+                        console.log(res.status, res.statusText);
+                    })
                 }
             }
-
         })
     </script>
 </body>
