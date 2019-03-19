@@ -678,7 +678,8 @@ Route::group("admin",[
     "control_store_index"=>"admin/Control/control_store_index",    //店铺分析
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //增值商品
-    "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品添加
+    "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
+    "analyse_invented"=>"admin/Analyse/analyse_invented",    //增值虚拟商品添加
     "analyse_edit"=>"admin/Analyse/analyse_edit",            //增值商品编辑
     "analyse_update"=>"admin/Analyse/analyse_update",        //增值商品更新
     "analyse_delete"=>"admin/Analyse/analyse_delete",        //增值商品删除

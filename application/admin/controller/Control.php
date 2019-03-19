@@ -52,24 +52,40 @@ class  Control extends  Controller{
             $meal = $request->param();
             $year = $meal["year"]; 
             $min_cost = $meal["cost"];
-            $favourable_cost = $meal["favourable_cost"];
+            $favourable = $meal["favourable_cost"];
             foreach($min_cost as $key => $value){
                 if(!$value){
                     unset($min_cost[$key]);
                 }
                 $cost[] = $value; 
-            }           
+            }             
+            foreach($favourable as $ke => $val){
+                if(!$val){
+                    unset($favourable[$key]);
+                }
+                $favourable_cost[] = $val; 
+            } 
             $min = min($min_cost);        //套餐原价最低价
+            $favour_min = min($favourable);        //套餐原价最低优惠券
+
             $enter = array(
                 "name" => $meal["name"],
                 "price" => $min,
+                "favourable" => $favour_min,
                 "sort_number" => $meal["sort_number"],
+                "year" => 1,
                 "status" => $meal["status"],
                 "cost" => implode(",",$cost),
                 "favourable_cost" => implode(",",$favourable_cost),
             );
             
-            $bool = db("enter_meal")->insert($enter);
+            foreach($year as $k => $v){
+                $values[$k]['year'] = $v;
+                $values[$k]['cost'] = $cost[$k];
+                $values[$k]['favourable_cost'] = $favourable_cost[$k];
+            }
+            
+            $bool = db("enter_meal")->insertGetId($enter);
             if ($bool) {
                 $this->success("添加成功", url("admin/Control/control_meal_index"));
             } else {
