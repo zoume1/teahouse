@@ -50,7 +50,16 @@ class  General extends  Controller{
      * [订单套餐(显示)]
      * 郭杨
      */    
-    public function order_package_index(){     
+    public function order_package_index(){
+        $order_package = db("enter_meal")->where("status",1)->select();
+        foreach($order_package as $key => $value){
+            $order_package[$key]["cost"] = explode(",",$value["cost"]);
+            $order_package[$key]["favourable_cost"] = explode(",",$value["favourable_cost"]);
+        }
+         
+        
+
+        
         return view("order_package_index");
     }
 

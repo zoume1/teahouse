@@ -149,6 +149,13 @@ class  Analyse extends  Controller{
                      return view("analyse_add");
     }
 
+    /**
+     * [增值虚拟商品编辑]
+     * 郭杨
+     */    
+    public function analyse_invented(){     
+        return view("analyse_invented");
+    }
 
     /**
      * [增值商品编辑]
