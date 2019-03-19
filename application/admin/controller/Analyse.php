@@ -82,7 +82,6 @@ class  Analyse extends  Controller{
                     $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
                     $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                     $result = implode(",", $goods_data["lv1"]);
-                    halt($goods_data);
                     $goods_id = db('analyse_goods')->insertGetId($goods_special);
                     
                     if (!empty($goods_data)) {
