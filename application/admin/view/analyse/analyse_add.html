@@ -504,7 +504,7 @@
             <div class="form-input" style="display: flex; align-items: center;">
                 <div id="hot">
                     <div class="list">
-                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="" checked="">
+                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="" checked="" >
                         <img src="__STATIC__/admin/index/img/kecun.png" />
                     </div>
                     <div class="list">
@@ -565,22 +565,22 @@
             <div class="form-input">
                 <div class="sever_list">
                 <div class="list">
-                    <input type="checkbox" name="" lay-skin="primary" title="" checked>
+                    <input type="checkbox" name="serve_list[0]" lay-skin="primary" title="" checked >
                     <span class="texts">7*24客服</span>
                     <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
                 </div>
                 <div class="list">
-                    <input type="checkbox" name="" lay-skin="primary" title="" checked>
+                    <input type="checkbox" name="serve_list[1]" lay-skin="primary" title="" checked >
                     <span class="texts">正品保障</span>
                     <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
                 </div>
                 <div class="list">
-                    <input type="checkbox" name="" lay-skin="primary" title="" checked>
+                    <input type="checkbox" name="serve_list[2]" lay-skin="primary" title="" checked checked >
                     <span class="texts">极速发货</span>
                     <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
                 </div>
                 <div class="list">
-                    <input type="checkbox" name="" lay-skin="primary" title="" checked>
+                    <input type="checkbox" name="serve_list[3]" lay-skin="primary" title="" checked checked >
                     <span class="texts">7天退换货</span>
                     <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
                 </div>
@@ -1029,33 +1029,33 @@
                     $(this).addClass("noshow");
                     $(this).siblings(".add-names").removeClass("noshow");
                 });
-                $("#general_content").on('click', ".guibtu-add", function() {
-                    var text = $(this).parent().siblings(".add-names").children("input").val();
-                    var data_id = $(this).data("id");
-                    $.ajax({
-                        type: "POST",
-                        url: "goods_name",
-                        data: {
-                            "goods_name": text
-                        },
-                        success: function(data) {
-                            data = eval("(" + data + ")");
-                            //                      console.log(data)
-                            layer.msg(data.info);
-                            if (data.info == "成功") {
-                                var dhtmls = "";
-                                dhtmls = '<option value="' + text + '">' + text + '</option> ';
-                                $(".universal_standard_name_" + data_id).prepend(dhtmls);
-                            }
+                // $("#general_content").on('click', ".guibtu-add", function() {
+                //     var text = $(this).parent().siblings(".add-names").children("input").val();
+                //     var data_id = $(this).data("id");
+                //     $.ajax({
+                //         type: "POST",
+                //         url: "goods_name",
+                //         data: {
+                //             "goods_name": text
+                //         },
+                //         success: function(data) {
+                //             data = eval("(" + data + ")");
+                //             //                      console.log(data)
+                //             layer.msg(data.info);
+                //             if (data.info == "成功") {
+                //                 var dhtmls = "";
+                //                 dhtmls = '<option value="' + text + '">' + text + '</option> ';
+                //                 $(".universal_standard_name_" + data_id).prepend(dhtmls);
+                //             }
 
-                            form.render('select');
-                        },
-                        error: function(data) {
-                            console.log(data)
-                        }
-                    });
+                //             form.render('select');
+                //         },
+                //         error: function(data) {
+                //             console.log(data)
+                //         }
+                //     });
 
-                });
+                // });
                 $(".tan").click(function() {
                     src = $(this).data("id");
                     $(".tanchuang").removeClass("noshow");
