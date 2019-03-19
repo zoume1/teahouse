@@ -661,7 +661,8 @@ Route::group("admin",[
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
     "added_service_index"=>"admin/General/added_service_index",    //增值服务(增值商品显示)
-    "order_package_index"=>"admin/General/order_package_index",    //订单套餐(显示)
+    "order_package_index"=>"admin/General/order_package_index",    //订单套餐
+    "order_package_show"=>"admin/General/order_package_show",      //订单套餐(显示)
 
  
     /*总控*/
@@ -673,10 +674,20 @@ Route::group("admin",[
     "control_meal_update"=>"admin/Control/control_meal_update",    //入驻套餐编辑保存
     "control_order_index"=>"admin/Control/control_order_index",    //入驻订单
     "control_order_add"=>"admin/Control/control_order_add",        //入驻订单编辑审核
+    "control_order_update"=>"admin/Control/control_order_update",  //入驻订单审核更新
+    "control_order_search"=>"admin/Control/control_order_search",  //入驻订单搜索
     "control_store_index"=>"admin/Control/control_store_index",    //店铺分析
 
-    "analyse_index"=>"admin/Analyse/analyse_index",                 //增值商品
-    "analyse_add"=>"admin/Analyse/analyse_add",                     //增值商品添加
+    "analyse_index"=>"admin/Analyse/analyse_index",          //增值商品
+    "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
+    "analyse_invented"=>"admin/Analyse/analyse_invented",    //增值虚拟商品添加
+    "analyse_edit"=>"admin/Analyse/analyse_edit",            //增值商品编辑
+    "analyse_update"=>"admin/Analyse/analyse_update",        //增值商品更新
+    "analyse_delete"=>"admin/Analyse/analyse_delete",        //增值商品删除
+    "analyse_search"=>"admin/Analyse/analyse_search",        //增值商品搜索
+
+
+
     "analyse_order_index"=>"admin/Analyse/analyse_order_index",     //增值订单
     "analyse_refund_index"=>"admin/Analyse/analyse_refund_index",   //退款维权
 

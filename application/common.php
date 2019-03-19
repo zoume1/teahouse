@@ -689,6 +689,18 @@ function show_order_statues($status){
         echo '<button type="button" class="state  cancel-btu" >退货</button>';
     }
 }
+/*入驻套餐审核状态显示*/
+function enter_status($status){
+    if($status==-1){
+        echo '<button type="button" class="state   close-btu" >不通过</button>';
+    }else if($status==1){
+        echo '<button type="button" class="state  payment-has-been" >审核通过</button>';
+    }else  if($status==2){
+        echo '<button type="button" class="state  shipmenting-btu" >审核中</button>';
+    }else  if($status==3){
+        echo '<button type="button" class="state  cancel-btu" >关闭</button>';
+    }
+}
 /**
  **************李火生*******************
  * @param Request $request

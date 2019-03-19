@@ -109,6 +109,12 @@
 				<input type="text" name="business_address"  value = "{$value.business_address}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
 			</div>
 		</div>
+		
+		<div class="form-item">
+				<label class="form-label">我们的风采</label>
+				<div class="form-input">
+				   <script id="editor" type="text/plain" name="text" style="width:800px;height:500px;">{$value.text}</script></div>
+			</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
@@ -130,6 +136,7 @@
 	<!--请在下方写此页面业务相关的脚本-->
 	{block name="bottom"}
 	<script type="text/javascript">
+	   var ue = UE.getEditor('editor');
 		layui.config({
 			base: "js/"
 		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
