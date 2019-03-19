@@ -71,22 +71,26 @@ class  Control extends  Controller{
             $enter = array(
                 "name" => $meal["name"],
                 "price" => $min,
-                "favourable" => $favour_min,
+                "favourable_price" => $favour_min,
                 "sort_number" => $meal["sort_number"],
                 "year" => 1,
                 "status" => $meal["status"],
                 "cost" => implode(",",$cost),
                 "favourable_cost" => implode(",",$favourable_cost),
             );
-            
+            $enter_id = db("enter_meal")->insertGetId($enter);
+
             foreach($year as $k => $v){
                 $values[$k]['year'] = $v;
                 $values[$k]['cost'] = $cost[$k];
                 $values[$k]['favourable_cost'] = $favourable_cost[$k];
+                $values[$k]['enter_id'] = $enter_id;
             }
             
-            $bool = db("enter_meal")->insertGetId($enter);
-            if ($bool) {
+            foreach($values as $kk => $vv){
+                $bool = db("enter_all")->insert($vv);
+            }
+            if ($enter_id || $bool) {
                 $this->success("添加成功", url("admin/Control/control_meal_index"));
             } else {
                 $this->success("添加失败", url('admin/Control/control_meal_index'));
