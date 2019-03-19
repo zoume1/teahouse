@@ -63,20 +63,30 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
+                    {if !empty($analyse)}{volist name="analyse" id="value"}
                     <tr>
-                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-                        <td>111</td>
-                        <td>111</td>
-                        <td>111</td>
-                        <td>111</td>
-                        <td>111</td>
-                        <td>111</td>
+                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+                        <td>{$value.goods_number}</td>
+                        <td class="">
+                            <div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_image}" /></div>
+                        </td>
+                        <td>{$value.goods_name}</td>
+                        <td class="td-status">
+                            {if $value.label == 1}
+                            <input type="checkbox" class="Status" name="status" value="{$value.label}" lay-skin="switch" lay-text="上架|下架" lay-filter="isShows" checked data-id="{$value.id}"> 
+                            {else}
+                                <input type="checkbox" class="Status" name="status" value="{$value.label}" lay-skin="switch" lay-text="上架|上架" lay-filter="isShows" data-id="{$value.id}">
+                            {/if}
+                        </td>
+                        <td>{$value.sort_number}</td>
+                        <td>{$value.goods_repertory}</td>
                           <td>
                             <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Goods/edit')}"> 编辑
                             </a>
                             <a href="{:url('admin/Goods/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                          </td>
                     </tr>
+                    {/volist}{/if}
                 </tbody>
             </table>
             <div id="page">
@@ -91,6 +101,9 @@
 					</button>
                 </div>
             </div>
+            {if !empty($analyse)}
+            {$analyse ->render()}
+            {/if}
 
         </div>
 
