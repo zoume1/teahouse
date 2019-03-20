@@ -8,7 +8,7 @@
     body {
         background: #fff;
     }
-    
+
     #page {
         width: 96%;
         height: 50px;
@@ -17,30 +17,30 @@
         padding-left: 50px;
         background: #FDFDFE;
     }
-    
+
     .on {
         color: #21A5FA !important;
         border-bottom: solid 3px #21A5FA;
     }
-    
+
     .distribution_list {
         margin-bottom: 10px;
         border-bottom: solid 1px #D7D7D7;
     }
-    
+
     .distribution_list ul {
         display: flex;
         width: 250px;
         justify-content: center;
         align-items: center;
     }
-    
+
     .distribution_list a {
         font-size: 17px;
         padding: 9px;
         color: #5E5E5E;
     }
-    
+
     .distribution_list ul li {
         flex: 1;
     }
@@ -51,7 +51,7 @@
 <body>
 
     {block name="content"}
-   
+
     <div class="childrenBody">
             <div class="distribution_list">
                     <ul>
@@ -64,34 +64,52 @@
                     </ul>
                 </div>
             <blockquote class="layui-elem-quote news_search">
-                    <form class="layui-form" action="{:url('admin/Goods/search')}">
+                    <form class="layui-form" action="{:url('admin/Control/control_order_search')}">
                         <div class="seach">
                             <div class="seach_list">
                                 <div class="seach_laber">入驻商名称</div>
                                 <div class="seach_input">
-                                    <input type="text" name="goods_number" lay-verify="title" autocomplete="off" placeholder="姓名/公司名" class="layui-input">
+                                    <input type="text" name="contact_name" lay-verify="title" autocomplete="off" placeholder="姓名/公司名" class="layui-input">
         
                                 </div>
                             </div>
-                            <div class="seach_list">
-                                <div class="seach_laber">入驻商等级</div>
-                                <div class="seach_input">
-                                    <select name="pid" >
-                                        <option value="" select>请选择入驻等级</option>
-                                    </select> 
+     
+
+                            <div class="form-item">
+                                    <label class="form-label">套餐</label>
+                                    <div class="form-input">
+                                        {if !empty($enter_meal)}
+                                        <select name="name" id="admin_role" class="role_list">
+                                            <option value="" select>请选择</option>
+                                            {volist name="enter_meal" id="val"}
+                                             <option value="{$val.name}">{$val.name}</option>
+                                            {/volist}
+                                        </select> 
+                                        {else}
+                                        <select name="name" class="role_list">
+                                            <option value="0">顶级</option>
+                                        </select>
+                                        {/if}
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+
+
                             
                             <button class="layui-btn" type="submit" id="seach">立即搜索</button>
                         </div>
-        
-                    </form>
-                </blockquote>
-     
+                    </div>
+
+                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+                </div>
+
+            </form>
+        </blockquote>
+
 
         <div class="layui-form news_list">
             <table class="layui-table">
-               
+
                 <thead>
                     <tr>
                         <th>用户账号手机号）</th>
@@ -107,27 +125,40 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                    {if !empty($order)}{ volist name="order" id="value"}
+                    {if !empty($order)}{volist name="order" id="value"}
 						<tr>
                             <td>{$value.phone_number}</td>
                             <td>{$value.contact_name}</td>
                             {if $value.is_business == 1}
+                            <td>个人</td>
+                            {/if}
+                            {if $value.is_business == 2}
+                            <td>公司</td>
+                            {/if}
+                            <td>{$value.address_real_data}</td>
+                            {if !empty($value.enter_meal)}
+                            <td>{$value.enter_meal}</td>
+                            <td>{$value.cost}</td>
+                            <td>{$value.start_time}</td>
+                            <td>{$value.end_time}</td>
+                            {else}
+                            <td>未选择套餐</td>
+                            <td>￥0</td>
                             <td></td>
-                            <td>1111</td>
-                            <td>1111</td>
-                            <td>1111</td>
-                            <td>1111</td>
-                            <td>1111</td>
-                            <td> 
-                                <input type="checkbox" class="Status" name="status" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id=""></td>
-							<td>
-								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_order_add')}"> 编辑
-								</a>
-							</td>
+                            <td></td>
+                            {/if}
+                            <td>
+                                {$value.status | enter_status}
+                            </td>
+                            <td>
+                                <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_order_add',['id'=>$value.id])}"> 编辑
+                                </a>
+                            </td>
                         </tr>
+                        {/volist}{/if}
                 </tbody>
             </table>
-         
+
 
         </div>
         {$order->render()}
@@ -145,12 +176,12 @@
     <script type="text/javascript">
         layui.config({
             base: "js/"
-        }).use(['form', 'layer', 'jquery', 'laypage'], function() {
+        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
             var form = layui.form(),
                 layer = parent.layer === undefined ? layui.layer : parent.layer,
                 laypage = layui.laypage,
                 $ = layui.jquery;
-                form.on('switch(isShow)', function(data) {
+            form.on('switch(isShow)', function (data) {
                 if ($(this).val() == 0) {
                     $(this).val(1);
                 } else {
@@ -166,17 +197,17 @@
                         "id": id,
                         "status": status
                     },
-                    success: function(data) {
+                    success: function (data) {
                         console.log("成功")
                     },
-                    error: function(data) {
+                    error: function (data) {
                         console.log("错误")
                     }
                 });
 
             })
-      
-       })
+
+        })
     </script>
 
     {/block}

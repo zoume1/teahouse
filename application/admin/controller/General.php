@@ -37,4 +37,62 @@ class  General extends  Controller{
     public function decoration_routine_index(){     
         return view("decoration_routine_index");
     }
+
+    /**
+     * [增值服务(增值商品显示)]
+     * 郭杨
+     */    
+    public function added_service_index(){     
+        return view("added_service_index");
+    }
+
+    /**
+     * [订单套餐]
+     * 郭杨
+     */    
+    public function order_package_index(){
+        $order_package = db("enter_meal")->where("status",1)->field("id,name,price,favourable_price,year")->select();
+        foreach($order_package as $key => $value){
+            $order_package[$key]['priceList'] = db("enter_all") -> where("enter_id",$order_package[$key]['id'])->select();
+        }       
+        return view("order_package_index");
+    }
+
+
+    /**
+     * [订单套餐(显示)]
+     * 郭杨
+     */    
+    public function order_package_show(){
+        $order_package = db("enter_meal")->where("status",1)->field("id,name,price,favourable_price,year")->select();
+        foreach($order_package as $key => $value){
+            $order_package[$key]['priceList'] = db("enter_all") -> where("enter_id",$order_package[$key]['id'])->select();
+        }
+        
+        if(!empty($order_package)){
+            return ajax_success('传输成功',$order_package);
+        } else {
+            return ajax_error('传输失败,请添加套餐');
+        }
+
+    }
+
+
+    /**
+     * [套餐购买]
+     * 郭杨
+     */    
+    public function order_package_buy(){
+        return view("order_package_buy");
+    }
+
+    
+    /**
+     * [套餐订购页面]
+     * 郭杨
+     */    
+    public function order_package_purchase(){
+        return view("order_package_purchase");
+    }
+
  }

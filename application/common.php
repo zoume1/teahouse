@@ -16,6 +16,8 @@
  * Date: 2018/5/26
  * Time: 10:53
  */
+use think\paginator\driver\Bootstrap;
+
 //手机验证码
 function phone($account= "",$password = '', $phone = "" ,$content = ""){
     $url = "http://120.26.38.54:8000/interface/smssend.aspx";
@@ -689,6 +691,18 @@ function show_order_statues($status){
         echo '<button type="button" class="state  cancel-btu" >退货</button>';
     }
 }
+/*入驻套餐审核状态显示*/
+function enter_status($status){
+    if($status==-1){
+        echo '<button type="button" class="state   close-btu" >不通过</button>';
+    }else if($status==1){
+        echo '<button type="button" class="state  payment-has-been" >审核通过</button>';
+    }else  if($status==2){
+        echo '<button type="button" class="state  shipmenting-btu" >审核中</button>';
+    }else  if($status==3){
+        echo '<button type="button" class="state  cancel-btu" >关闭</button>';
+    }
+}
 /**
  **************李火生*******************
  * @param Request $request
@@ -843,4 +857,22 @@ function base64_upload_flie($base64) {
     }
 }
 
+
+/**
+ **************郭杨*******************
+ *  分页函数 
+ */
+function paging_data($data,$url,$pag_number){
+    $all_idents = $data;//这里是需要分页的数据
+    $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+    $listRow = $pag_number;//每页20行记录
+    $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+    $data = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+        'var_page' => 'page',
+        'path' => url($url),//这里根据需要修改url
+        'query' => [],
+        'fragment' => '',
+    ]);
+    return $data;
+}
 

@@ -658,8 +658,13 @@ Route::group("admin",[
 
     /*店铺*/
     "general_index"=>"admin/General/general_index",             //店铺信息
-    "small_routine_index"=>"admin/General/small_routine_index", //小程序设置
+    "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
+    "added_service_index"=>"admin/General/added_service_index",      //增值服务(增值商品显示)
+    "order_package_index"=>"admin/General/order_package_index",      //订单套餐
+    "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
+    "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买
+    "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
  
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
@@ -669,11 +674,28 @@ Route::group("admin",[
     "control_meal_edit"=>"admin/Control/control_meal_edit",        //入驻套餐编辑
     "control_meal_update"=>"admin/Control/control_meal_update",    //入驻套餐编辑保存
     "control_order_index"=>"admin/Control/control_order_index",    //入驻订单
-    "control_order_add"=>"admin/Control/control_order_add",        //添加入驻订单
+    "control_order_add"=>"admin/Control/control_order_add",        //入驻订单编辑审核
+    "control_order_update"=>"admin/Control/control_order_update",  //入驻订单审核更新
+    "control_order_search"=>"admin/Control/control_order_search",  //入驻订单搜索
     "control_store_index"=>"admin/Control/control_store_index",    //店铺分析
 
-    "analyse_index"=>"admin/Analyse/analyse_index",                 //增值商品
-    "analyse_add"=>"admin/Analyse/analyse_add",                     //增值商品添加
+    "analyse_index"=>"admin/Analyse/analyse_index",          //增值商品
+    "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
+    "analyse_invented"=>"admin/Analyse/analyse_invented",    //增值虚拟商品添加
+    "analyse_edit"=>"admin/Analyse/analyse_edit",            //增值商品编辑
+    "analyse_update"=>"admin/Analyse/analyse_update",        //增值商品更新
+    "analyse_search"=>"admin/Analyse/analyse_search",        //增值商品搜索
+    "analyse_delete"=>"admin/Analyse/analyse_delete",        //增值商品删除
+    "analyse_images"=>"admin/Analyse/analyse_images",        //增值商品图片删除
+    "analyse_dels"=>"admin/Analyse/analyse_dels",            //增值商品批量删除
+    "analyse_photos"=>"admin/Analyse/analyse_photos",        //增值商品规格图片删除
+    "analyse_addphoto"=>"admin/Analyse/analyse_addphoto",    //增值商品规格图片添加
+    "analyse_value"=>"admin/Analyse/analyse_value",          //增值商品规格值修改
+    "analyse_ground"=>"admin/Analyse/analyse_ground",        //增值商品上架开关
+    
+
+
+
     "analyse_order_index"=>"admin/Analyse/analyse_order_index",     //增值订单
     "analyse_refund_index"=>"admin/Analyse/analyse_refund_index",   //退款维权
 
