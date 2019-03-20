@@ -24,7 +24,7 @@ class  Analyse extends  Controller{
                     {
                         $max[$key] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->max("price");//最高价格
                         $min[$key] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->min("price");//最低价格
-                        $analyse_data[$key]["goods_repertory"] = db("special")->where("goods_id", $analyse_data[$key]['id'])->sum("stock");//库存
+                        $analyse_data[$key]["goods_repertory"] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->sum("stock");//库存
                         $analyse_data[$key]["max_price"] = $max[$key];
                         $analyse_data[$key]["min_price"] = $min[$key];
                     }               
@@ -177,6 +177,13 @@ class  Analyse extends  Controller{
                     $goods_data["goods_show_image"] =  $list[0];
                     $goods_data["goods_type"] = 2;     //商品类型
                     $goods_data["goods_show_images"] = implode(',', $list);
+                }
+                
+                $bool = db("analyse_goods")->insert($goods_data);
+                if ($bool) {
+                    $this->success("添加成功", url("admin/Analyse/analyse_index"));
+                } else {
+                    $this->success("添加失败", url('admin/Analyse/analyse_index'));
                 }           
         }     
         return view("analyse_invented");
@@ -186,11 +193,63 @@ class  Analyse extends  Controller{
      * [增值商品编辑]
      * 郭杨
      */    
-    public function analyse_edit(){     
-        return view("analyse_edit");
+    public function analyse_edit($id){
+        $analyse = db("analyse_goods")->where("id", $id)->select();
+        $goods_standard = db("analyse_special")->where("goods_id", $id)->select();
+        
+        foreach ($analyse as $key => $value) {
+            if(!empty($analyse[$key]["goods_show_images"])){
+                $analyse[$key]["goods_show_images"] = explode(',', $analyse[$key]["goods_show_images"]);
+          }
+       }
+       foreach ($goods_standard as $k => $v) {
+            $goods_standard[$k]["title"] = explode('_', $v["name"]);
+            $res = explode(',', $v["lv1"]);         
+      }
+        $restel = $analyse[0]["goods_standard"]; //判断是否为通用或特殊
+        $goods_type = $analyse[0]["goods_type"]; //商品类型
+        if(($restel == 1) && ($goods_type == 1)){
+            return view("analyse_edit",["analyse"=>$analyse,"goods_standard" => $goods_standard]);
+        } else {
+            return view("analyse_edit",["analyse"=>$analyse]);
+        }
+        
     }
 
 
+    /**
+     * [增值商品图片删除]
+     * GY
+     */
+    public function analyse_images(Request $request)
+    {
+        if ($request->isPost()) {
+            $tid = $request->param();
+            $id = $tid["id"];
+            $image = db("analyse_goods")->where("id", $tid['pid'])->field("goods_show_images")->find();
+            if (!empty($image["goods_show_images"])) {
+                $se = explode(",", $image["goods_show_images"]);
+                foreach ($se as $key => $value) {
+                    if ($value == $id) {
+                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                    } else {
+                        $new_image[] = $value;
+                    }
+                }
+            }
+            if (!empty($new_image)) {
+                $new_imgs_url = implode(',', $new_image);
+                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
+            } else {
+                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
+            }
+            if ($res) {
+                return ajax_success('删除成功');
+            } else {
+                return ajax_success('删除失败');
+            }
+        }
+    }
 
     /**
      * [增值商品编辑更新]
@@ -206,7 +265,8 @@ class  Analyse extends  Controller{
      * [增值商品删除]
      * 郭杨
      */    
-    public function analyse_delete(){     
+    public function analyse_delete($id){
+             
         
     }
 

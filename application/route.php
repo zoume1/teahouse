@@ -683,6 +683,7 @@ Route::group("admin",[
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
     "analyse_invented"=>"admin/Analyse/analyse_invented",    //增值虚拟商品添加
     "analyse_edit"=>"admin/Analyse/analyse_edit",            //增值商品编辑
+    "analyse_images"=>"admin/Analyse/analyse_images",        //增值商品图片删除
     "analyse_update"=>"admin/Analyse/analyse_update",        //增值商品更新
     "analyse_delete"=>"admin/Analyse/analyse_delete",        //增值商品删除
     "analyse_search"=>"admin/Analyse/analyse_search",        //增值商品搜索
