@@ -94,7 +94,7 @@
                           <td>
                             <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Analyse/analyse_edit',['id'=>$value.id])}"> 编辑
                             </a>
-                            <a href="{:url('admin/Goods/del')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                            <a href="{:url('admin/Analyse/analyse_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                          </td>
                     </tr>
                     {/volist}{/if}
