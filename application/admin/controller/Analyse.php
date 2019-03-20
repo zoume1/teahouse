@@ -16,8 +16,24 @@ class  Analyse extends  Controller{
      * [增值商品]
      * 郭杨
      */    
-    public function analyse_index(){     
-        return view("analyse_index");
+    public function analyse_index(){
+        $analyse_data = db("analyse_goods")->where("label",1)->select();
+        if(!empty($analyse_data)){
+            foreach ($analyse_data as $key => $value) {
+                    if($analyse_data[$key]["goods_standard"] == "1")
+                    {
+                        $max[$key] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->max("price");//最高价格
+                        $min[$key] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->min("price");//最低价格
+                        $analyse_data[$key]["goods_repertory"] = db("special")->where("goods_id", $analyse_data[$key]['id'])->sum("stock");//库存
+                        $analyse_data[$key]["max_price"] = $max[$key];
+                        $analyse_data[$key]["min_price"] = $min[$key];
+                    }               
+                }
+            }   
+        $url = 'admin/Analyse/analyse_index';
+        $pag_number = 20;
+        $analyse = paging_data($analyse_data,$url,$pag_number);
+        return view("analyse_index",["analyse"=>$analyse]);
     }
 
     
@@ -44,12 +60,11 @@ class  Analyse extends  Controller{
                           
                
                 if ($goods_data["goods_standard"] == "0") {
-                    halt($goods_data);
-                    $bool = db("goods")->insert($goods_data);
+                    $bool = db("analyse_goods")->insert($goods_data);
                     if ($bool && (!empty($show_images))) {
-                        $this->success("添加成功", url("admin/Goods/index"));
+                        $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Goods/add'));
+                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
                 if ($goods_data["goods_standard"] == "1") {
@@ -102,11 +117,9 @@ class  Analyse extends  Controller{
                                 } else {
                                     $save[] = "0";
                                 }
-                            }
-                                
-                        }
-    
-                }
+                            }                              
+                        }   
+                   }
                     if (!empty($imgs)) {
                         foreach ($imgs as $k => $v) {
                             $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -136,20 +149,36 @@ class  Analyse extends  Controller{
                         $rest = db('analyse_special')->insertGetId($vw);
                     }    
                     if ($rest && (!empty($show_images))) {
-                        $this->success("添加成功", url("admin/Goods/index"));
+                        $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Goods/add'));
+                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
             }     
-                     return view("analyse_add");
+                 return view("analyse_add");
     }
 
     /**
      * [增值虚拟商品添加]
      * 郭杨
      */    
-    public function analyse_invented(){     
+    public function analyse_invented(Request $request){
+        if($request->isPost()){
+            $goods_data = $request->param(); 
+                $show_images = $request->file("goods_show_images");
+                $imgs = $request->file("imgs");
+                $list = [];
+    
+                if (!empty($show_images)) {              
+                    foreach ($show_images as $k=>$v) {
+                        $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                        $list[] = str_replace("\\", "/", $info->getSaveName());
+                    }            
+                    $goods_data["goods_show_image"] =  $list[0];
+                    $goods_data["goods_type"] = 2;     //商品类型
+                    $goods_data["goods_show_images"] = implode(',', $list);
+                }           
+        }     
         return view("analyse_invented");
     }
 
