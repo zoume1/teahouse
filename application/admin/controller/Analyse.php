@@ -16,8 +16,24 @@ class  Analyse extends  Controller{
      * [增值商品]
      * 郭杨
      */    
-    public function analyse_index(){     
-        return view("analyse_index");
+    public function analyse_index(){
+        $analyse_data = db("analyse_goods")->where("label",1)->select();
+        if(!empty($analyse_data)){
+            foreach ($analyse_data as $key => $value) {
+                    if($analyse_data[$key]["goods_standard"] == "1")
+                    {
+                        $max[$key] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->max("price");//最高价格
+                        $min[$key] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->min("price");//最低价格
+                        $analyse_data[$key]["goods_repertory"] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->sum("stock");//库存
+                        $analyse_data[$key]["max_price"] = $max[$key];
+                        $analyse_data[$key]["min_price"] = $min[$key];
+                    }               
+                }
+            }   
+        $url = 'admin/Analyse/analyse_index';
+        $pag_number = 20;
+        $analyse = paging_data($analyse_data,$url,$pag_number);
+        return view("analyse_index",["analyse"=>$analyse]);
     }
 
     
@@ -44,12 +60,11 @@ class  Analyse extends  Controller{
                           
                
                 if ($goods_data["goods_standard"] == "0") {
-                    halt($goods_data);
-                    $bool = db("goods")->insert($goods_data);
+                    $bool = db("analyse_goods")->insert($goods_data);
                     if ($bool && (!empty($show_images))) {
-                        $this->success("添加成功", url("admin/Goods/index"));
+                        $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Goods/add'));
+                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
                 if ($goods_data["goods_standard"] == "1") {
@@ -102,11 +117,9 @@ class  Analyse extends  Controller{
                                 } else {
                                     $save[] = "0";
                                 }
-                            }
-                                
-                        }
-    
-                }
+                            }                              
+                        }   
+                   }
                     if (!empty($imgs)) {
                         foreach ($imgs as $k => $v) {
                             $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -136,20 +149,43 @@ class  Analyse extends  Controller{
                         $rest = db('analyse_special')->insertGetId($vw);
                     }    
                     if ($rest && (!empty($show_images))) {
-                        $this->success("添加成功", url("admin/Goods/index"));
+                        $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Goods/add'));
+                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
             }     
-                     return view("analyse_add");
+                 return view("analyse_add");
     }
 
     /**
      * [增值虚拟商品添加]
      * 郭杨
      */    
-    public function analyse_invented(){     
+    public function analyse_invented(Request $request){
+        if($request->isPost()){
+            $goods_data = $request->param(); 
+                $show_images = $request->file("goods_show_images");
+                $imgs = $request->file("imgs");
+                $list = [];
+    
+                if (!empty($show_images)) {              
+                    foreach ($show_images as $k=>$v) {
+                        $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                        $list[] = str_replace("\\", "/", $info->getSaveName());
+                    }            
+                    $goods_data["goods_show_image"] =  $list[0];
+                    $goods_data["goods_type"] = 2;     //商品类型
+                    $goods_data["goods_show_images"] = implode(',', $list);
+                }
+                
+                $bool = db("analyse_goods")->insert($goods_data);
+                if ($bool) {
+                    $this->success("添加成功", url("admin/Analyse/analyse_index"));
+                } else {
+                    $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                }           
+        }     
         return view("analyse_invented");
     }
 
@@ -157,31 +193,247 @@ class  Analyse extends  Controller{
      * [增值商品编辑]
      * 郭杨
      */    
-    public function analyse_edit(){     
-        return view("analyse_edit");
+    public function analyse_edit($id){
+        $analyse = db("analyse_goods")->where("id", $id)->select();
+        $goods_standard = db("analyse_special")->where("goods_id", $id)->select();
+        
+        foreach ($analyse as $key => $value) {
+            if(!empty($analyse[$key]["goods_show_images"])){
+                $analyse[$key]["goods_show_images"] = explode(',', $analyse[$key]["goods_show_images"]);
+          }
+       }
+       foreach ($goods_standard as $k => $v) {
+            $goods_standard[$k]["title"] = explode('_', $v["name"]);
+            $res = explode(',', $v["lv1"]);         
+      }
+        $restel = $analyse[0]["goods_standard"]; //判断是否为通用或特殊
+        $goods_type = $analyse[0]["goods_type"]; //商品类型
+        if(($restel == 1) && ($goods_type == 1)){
+            return view("analyse_edit",["analyse"=>$analyse,"goods_standard" => $goods_standard]);
+        } else {
+            return view("analyse_edit",["analyse"=>$analyse]);
+        }
+        
     }
 
 
+    /**
+     * [增值商品图片删除]
+     * GY
+     */
+    public function analyse_images(Request $request)
+    {
+        if ($request->isPost()) {
+            $tid = $request->param();
+            $id = $tid["id"];
+            $image = db("analyse_goods")->where("id", $tid['pid'])->field("goods_show_images")->find();
+            if (!empty($image["goods_show_images"])) {
+                $se = explode(",", $image["goods_show_images"]);
+                foreach ($se as $key => $value) {
+                    if ($value == $id) {
+                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                    } else {
+                        $new_image[] = $value;
+                    }
+                }
+            }
+            if (!empty($new_image)) {
+                $new_imgs_url = implode(',', $new_image);
+                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
+            } else {
+                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
+            }
+            if ($res) {
+                return ajax_success('删除成功');
+            } else {
+                return ajax_success('删除失败');
+            }
+        }
+    }
 
     /**
      * [增值商品编辑更新]
      * 郭杨
      */    
-    public function analyse_update(){     
-        
+    public function analyse_update(Request $request){     
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $goods_data = $request->param();       
+            $show_images = $request->file("goods_show_images");
+          
+            $list = [];
+            if (!empty($show_images)) {
+                foreach ($show_images as $k => $v) {
+                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                    $list[] = str_replace("\\", "/", $show->getSaveName());
+                }               
+                    $liste = implode(',', $list);
+                    $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"]))
+                {
+                    $exper = $image["goods_show_images"];
+                    $montage = $exper . "," . $liste;
+                    $goods_data["goods_show_images"] = $montage;
+                } else {                   
+                    $montage = $liste;
+                    $goods_data["goods_show_image"] = $list[0];
+                    $goods_data["goods_show_images"] = $montage;
+                }
+            } else {
+                    $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"])){
+                    $goods_data["goods_show_images"] = $image["goods_show_images"];
+                } else {
+                    $goods_data["goods_show_images"] = null;
+                    $goods_data["goods_show_image"] = null;
+                }
+            } 
+            
+            $bool = db("analyse_goods")->where("id", $id)->update($goods_data);
+            if ($bool ){
+                $this->success("更新成功", url("admin/Analyse/analyse_index"));
+            } else {
+                $this->success("更新失败", url('admin/Analyse/analyse_index'));
+            }
+
+        }
     }
 
+
+    /**
+     * [增值商品列表组是否上架]
+     * 陈绪
+     */
+    public function analyse_ground(Request $request)
+    {
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("analyse_goods")->where("id", $id)->update(["label" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/Analyse/analyse_index"));
+                } else {
+                    $this->error("修改失败", url("admin/Analyse/analyse_index"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("analyse_goods")->where("id", $id)->update(["label" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/Analyse/analyse_index"));
+                } else {
+                    $this->error("修改失败", url("admin/Analyse/analyse_index"));
+                }
+            }
+        }
+    }
 
 
     /**
      * [增值商品删除]
      * 郭杨
      */    
-    public function analyse_delete(){     
-        
+    public function analyse_delete($id)
+    {
+        $bool = db("analyse_goods")-> where("id", $id)->delete();
+        $boole = db("analyse_special")->where("goods_id",$id)->delete();
+        if ($bool || $boole) {
+            $this->success("删除成功", url("admin/Analyse/analyse_index"));
+        } else {
+            $this->success("删除失败", url('admin/Analyse/analyse_index'));
+        }
+       
     }
 
 
+    /**
+     * [增值商品组批量删除]
+     * 陈绪
+     */
+    public function analyse_dels(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            if (is_array($id)) {
+                $where = 'id in(' . implode(',', $id) . ')';
+            } else {
+                $where = 'id=' . $id;
+            }
+            halt($where);
+            $list = Db::name('analyse_goods')->where($where)->delete();
+            if (empty($list)) {
+                return ajax_success('成功删除!', ['status' => 1]);
+            } else {
+                return ajax_error('删除失败', ['status' => 0]);
+            }
+        }
+    }
+
+    /**
+     * [增值商品规格图片删除]
+     * 郭杨
+     */
+    public function analyse_photos(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            if (!empty($id)) {
+                $photo = db("analyse_special")->where("id", $id)->update(["images" => null]);
+            }
+            if ($photo) {
+                return ajax_success('更新成功!');
+            } else {
+                return ajax_error('更新失败');
+            }
+        }
+    }
+
+
+    /**
+     * [增值商品规格值修改]
+     * 郭杨
+     */
+    public function analyse_value(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $value = $request->only(["value"])["value"];
+            $key = $request->only(["key"])["key"];
+            $valuet = db("analyse_special")->where("id", $id)->update([$key => $value]);
+
+            if (!empty($valuet)) {
+                return ajax_success('更新成功!');
+            } else {
+                return ajax_error('更新失败');
+            }
+        }
+    }
+
+
+
+
+    /**
+     * [增值商品规格图片添加]
+     * 郭杨
+     */
+    public function analyse_addphoto(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request -> only(["id"])["id"];
+            $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
+            $images = str_replace("\\", "/", $imag->getSaveName());
+
+            if(!empty($id)){
+                $bool = db("analyse_special")->where("id", $id)->update(["images" => $images]);
+            }
+             if ($bool) {
+                 return ajax_success('添加图片成功!');
+             } else {
+                 return ajax_error('添加图片失败');
+             }
+        }
+    }
 
     /**
      * [增值订单]
