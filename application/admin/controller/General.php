@@ -79,7 +79,7 @@ class  General extends  Controller{
 
 
     /**
-     * [套餐购买]
+     * [套餐购买下单]
      * 郭杨
      */    
     public function order_package_buy(){
@@ -88,7 +88,7 @@ class  General extends  Controller{
 
     
     /**
-     * [套餐订购页面]
+     * [套餐订购支付]
      * 郭杨
      */    
     public function order_package_purchase(){

@@ -436,6 +436,14 @@
             </div>
         </div>
         <div class="form-item">
+                <label class="form-label">生产日期</label>
+                <div class="form-input">
+                      <input type="text" name="birth" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                      <div class="tips">选填项</div>
+                </div>
+    
+            </div>
+        <div class="form-item">
             <label class="form-label">品牌</label>
             <div class="form-input">
                 <input type="text" name="brand" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
@@ -444,6 +452,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>商品编号</label>
             <div class="form-input">
@@ -568,7 +577,9 @@
                 <input type="radio" name="goods_standard" value="0" title="统一规格" lay-filter="guige" checked="">
                 <input type="radio" name="goods_standard" value="1" title="特殊规格" lay-filter="guige">
             </div>
+            
         </div>
+        <div class="tips" style="margin-left:110px">*1.统一规格添加的是单一商品；2.特俗规格添加的是多种属性商品例如颜色、尺码等；</div>
         <div class="nomal ">
             <div class="form-item">
                 <label class="form-label">包装规格</label>
@@ -584,12 +595,9 @@
                 
              </div>
              <div class="form-item">
-                    <label class="form-label"></label>
-                    <div class="tips">
-                        *最大包装单位例如：箱
-                    </div>
-                    <div class="tips">
-                        *非必选项，此处添加的“包装规格”单位，必须包含有“商品规格”中填写的“报价单位” ；且第一个单位数量需要填写为“1”
+                   
+                    <div class="tips"  style="margin-left:110px">
+                            *非必选项，此处添加了包装规格，商品售价单位变为可选
                     </div>
                  </div>
             <div class="form-item">
@@ -659,18 +667,24 @@
                 <div class="form-item general noshow generals" style=" align-items: center;">
                         <label class="form-label">包装规格</label>
                         <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
-                            <select name=""  class="packing packings">
+                            <select name=""  class="packing packings" style="margin-left: 24px">
                                 <option value="0">请选择规格编码</option>
                             </select>
                             <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  
                         </div>
-                    
+                     
                 </div>
+                <div class="tips" style="margin-left: 110px;">
+                        *非必选项，此处添加的“包装规格”单位，必须包含有“商品规格”中填写的“报价单位” ；且第一个单位数量需要填写为“1”
+                    </div>
                 <div class="form-item general noshow">
+
                     <label class="form-label"></label>
-                    <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;">
+                
+                    <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;margin-left: 8px;">
                         继续添加
                     </div>
+                
                 </div>
         </div>
         <div class="form-item">

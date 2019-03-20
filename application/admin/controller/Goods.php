@@ -821,8 +821,40 @@ class Goods extends Controller
      * [众筹商品添加]
      * 郭杨
      */    
-    public function crowd_add(){     
-        return view("crowd_add");
+    public function crowd_add(Request $request){
+        if($request->isPost()) {
+            $goods_data = $request->param(); 
+            $show_images = $request->file("goods_show_images");
+            $imgs = $request->file("imgs");
+            $time = time();
+            $list = [];
+            
+
+            if (!empty($show_images)) {              
+                foreach ($show_images as $k=>$v) {
+                    $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                    $list[] = str_replace("\\", "/", $info->getSaveName());
+                }            
+                $goods_data["goods_show_image"] =  $list[0];
+                $goods_data["goods_type"] = 1;     //商品类型
+                $goods_data["goods_show_images"] = implode(',', $list);
+                $goods_data["time"] = $time;
+            }
+
+            
+                      
+            halt($goods_data);
+            $bool = db("crowd_goods")->insert($goods_data);
+            if ($bool && (!empty($show_images))) {
+                $this->success("添加成功", url("admin/Goods/crowd_index"));
+            } else {
+                $this->success("添加失败", url('admin/Goods/crowd_index'));
+            }
+            
+   
+        }
+        $goods_list = getSelectList("wares");      
+        return view("crowd_add",["goods_list"=>$goods_list]);
     }
 
 
