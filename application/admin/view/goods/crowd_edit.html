@@ -729,259 +729,258 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
-    var ids=$("#ids").val();
-    var ue = UE.getEditor('editor');
-    var ue1 = UE.getEditor('editor1');
-    var codings=[];
-    function jiequ(str){
-      var arr = str.split("_");
-       return arr[1];
-    }
-   
-    for(var r=0;r<$(".coding").length;r++){
-        codings.push($(".coding")[r].value);
-    }
+        var ids=$("#ids").val();
+        var ue = UE.getEditor('editor');
+        var ue1 = UE.getEditor('editor1');
        
-        layui.config({
-            base: "js/"
-        }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
-            var form = layui.form(),
-                $ = layui.jquery;
-            form.render();
-
-            //			价格库存等修改事件
-            $(".inputs").change(function() {
-                var change_val = $(this).val();
-                var location_x = $(this).data("id");
-                var location_y = $(this).data("value");
-                if (change_val == '') {
-                    $(this).val($(this).data("title"));
-                   alert("修改的值不能为空");
-                }
-                else{
-                    $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Goods/value')}",
-                    data: {
-                        "id": location_x,
-                        "value": change_val,
-                        "key": location_y,
-                    },
-                    success: function(data) {
-                        $(this).data("title",change_val);
-                        data = eval("(" + data + ")");
-                        layer.msg(data.info);
-                        form.render('select');
-                    },
-                    error: function(data) {
-                        console.log("失败")
-                    }
-                });
-                }
-               
-            });
-            //			  开关修改事件
-            form.on('switch(isshelves)', function(data) {
-                if ($(this).val() == 0) {
-                    $(this).val(1);
-                } else {
-                    $(this).val(0);
-                }
-                var value = data.value;
-                if (value == 0) {
-                    value = 1;
-                } else {
-                    value = 0;
-                }
-                var id = data.elem.dataset.id;
-
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Goods/switches')}",
-                    data: {
-                        "id": id,
-                        "status": value,
-                    },
-                    success: function(data) {
-                        layer.msg("修改成功");
-                    },
-                    error: function(data) {
-                        console.log("失败")
-                    }
-                });
-
-            });
-            var phone_delect_id = '';
-            //          删除图片事件
-            $(".list_delet_img").click(function() {
-                phone_delect_id = $(this).data("id");
-
-            });
-            //			添加图片
-            $(".filedelect").change(function() {
-                //				alert(111);
-                var formData = new FormData();
-                var filess = $(this)[0].files[0];
-                var id = $(this).data("name");
-                formData.append("id", id);
-                formData.append("file", filess);
-                $.ajax({
-                            type: "POST",
-                            url: "{:url('admin/Goods/photos')}",
-                            data: {
-                                "id": id,
-                            },
-                            success: function(data) {
-                                $.ajax({
-                                        type: "POST",
-                                        url: "{:url('admin/Goods/addphoto')}",
-                                        processData: false,
-                                        contentType: false,
-                                        data: formData,
-                                        success: function(data) {
-                                            layer.msg("修改成功");
-                                        },
-                                        error: function(data) {
-                                            console.log("失败")
-                                        }
-                                    });
-                                
-                            },
-                            error: function(data) {
-                                console.log("失败")
-                            }
-                        });
-               
-            });
-
-            $("#hot").on('click', ".change_text", function() {
-                var texts = $(this).siblings('.texts');
-                layer.prompt({
-                        title: '请输入修改的文字',
-                        formType: 2
-                    },
-                    function(text, index) {
-                        texts.html(text);
-                        layer.close(index);
-
-                    });
-
-            });
-            $(".sever_list").on('click', ".change_text", function() {
-                        var texts = $(this).siblings('.texts');
-                        layer.prompt({
-                                title: '请输入修改的文字',
-                                formType: 2
-                            },
-                            function(text, index) {
-                                texts.html(text);
-                                layer.close(index);
-
-                            });
-
-                    })
-            $(".add_biao").click(function() {
-                var dhtml = "";
-                dhtml =
-                    '<div class="list"> <input type="checkbox" name="goods_sign" lay-skin="primary" title=""> <span class="texts">古色生香</span> <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> </div>'
-               $(this).before(dhtml);
+        function jiequ(str){
+          var arr = str.split("_");
+           return arr[1];
+        }
+       
+   
+            
+           
+            layui.config({
+                base: "js/"
+            }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
+                var form = layui.form(),
+                    $ = layui.jquery;
                 form.render();
-            });
-
-            //TODO点击取消按钮
-            $("#general_content").on('click', ".btu-cancel", function() {
-                $(this).parent(".add-names").addClass("noshow");
-                $(this).parent().siblings(".add-names").addClass("noshow");
-                $(this).parent().siblings(".add-name").removeClass("noshow");
-            });
-
-            // TODO商品规格变化
-            form.on('radio(guige)', function(data) {
-                var checkval = data.value;
-                console.log(checkval);
-                if (checkval == "统一规格") {
-                    $(".general").addClass("noshow");
-                    $(".nomal").removeClass("noshow");
-                    $("#general_content").children("div").remove();
-                    $(".nomal").children(".form-item").children(".form-input").children("input").attr("disabled", false)
-
-                } else {
-                    $(".nomal").children(".form-item").children(".form-input").children("input").attr("disabled", true)
-                    $(".nomal").addClass("noshow");
-                    $(".general ").removeClass("noshow");
-                }
-
-            });
-            var num = 0;
-            //TODO点击通用添加规格项目添加页面
-            //	TODO点击添加添加规格名
-            $("#general_content").on('click', ".add-name", function() {
-                $(this).addClass("noshow");
-                $(this).siblings(".add-names").removeClass("noshow");
-            });
-            $("#general_content").on('click', ".guibtu-add", function() {
-                var text = $(this).parent().siblings(".add-names").children("input").val();
-                var data_id = $(this).data("id");
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Goods/name')}",
-                    data: {
-                        "goods_name": text
-                    },
-                    success: function(data) {
-                        data = eval("(" + data + ")");
-                        layer.msg(data.info);
-                        if (data.info == "成功") {
-                            var dhtmls = "";
-                            dhtmls = '<option value="' + text + '">' + text + '</option> ';
-                            $(".universal_standard_name_" + data_id).prepend(dhtmls);
+    
+                //			价格库存等修改事件
+                $(".inputs").change(function() {
+                    var change_val = $(this).val();
+                    var location_x = $(this).data("id");
+                    var location_y = $(this).data("value");
+                    if (change_val == '') {
+                        $(this).val($(this).data("title"));
+                       alert("修改的值不能为空");
+                    }
+                    else{
+                        $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/Goods/value')}",
+                        data: {
+                            "id": location_x,
+                            "value": change_val,
+                            "key": location_y,
+                        },
+                        success: function(data) {
+                            $(this).data("title",change_val);
+                            data = eval("(" + data + ")");
+                            layer.msg(data.info);
+                            form.render('select');
+                        },
+                        error: function(data) {
+                            console.log("失败")
                         }
-
-                        form.render('select');
-                    },
-                    error: function(data) {
-                        console.log(data)
+                    });
                     }
+                   
                 });
-
-            });
-            $(".tan").click(function() {
-                src = $(this).data("id");
-                $(".tanchuang").removeClass("noshow");
-                $(".tanimg").attr("src", src);
-            });
-            $(".tanchuang").click(function() {
-                $(".tanchuang").addClass("noshow");
-            });
-
-            // 图片删除
-            $(".remove-img").click(function() {
-                var remove = $(this).parent();
-                var id = $(this).data("id");
-                var value = $(this).data("value");
-                var title = $(this).data("title");
-                remove.remove();
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Goods/images')}",
-                    data: {
-                        "id": id,
-                        "pid": title
-                    },
-                    dataType: "json",
-                    success: function(data) {
-
-                    },
-                    error: function(data) {
-                        console.log("错误");
+                //			  开关修改事件
+                form.on('switch(isshelves)', function(data) {
+                    if ($(this).val() == 0) {
+                        $(this).val(1);
+                    } else {
+                        $(this).val(0);
                     }
+                    var value = data.value;
+                    if (value == 0) {
+                        value = 1;
+                    } else {
+                        value = 0;
+                    }
+                    var id = data.elem.dataset.id;
+    
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/Goods/switches')}",
+                        data: {
+                            "id": id,
+                            "status": value,
+                        },
+                        success: function(data) {
+                            layer.msg("修改成功");
+                        },
+                        error: function(data) {
+                            console.log("失败")
+                        }
+                    });
+    
                 });
-
+                var phone_delect_id = '';
+                //          删除图片事件
+                $(".list_delet_img").click(function() {
+                    phone_delect_id = $(this).data("id");
+    
+                });
+                //			添加图片
+                $(".filedelect").change(function() {
+                   
+                    var formData = new FormData();
+                    var filess = $(this)[0].files[0];
+                    var id = $(this).data("name");
+                    formData.append("id", id);
+                    formData.append("file", filess);
+                    $.ajax({
+                                type: "POST",
+                                url: "{:url('admin/Goods/photos')}",
+                                data: {
+                                    "id": id,
+                                },
+                                success: function(data) {
+                                    $.ajax({
+                                            type: "POST",
+                                            url: "{:url('admin/Goods/addphoto')}",
+                                            processData: false,
+                                            contentType: false,
+                                            data: formData,
+                                            success: function(data) {
+                                                layer.msg("修改成功");
+                                            },
+                                            error: function(data) {
+                                                console.log("失败")
+                                            }
+                                        });
+                                    
+                                },
+                                error: function(data) {
+                                    console.log("失败")
+                                }
+                            });
+                   
+                });
+    
+                $("#hot").on('click', ".change_text", function() {
+                    var texts = $(this).siblings('.texts');
+                    layer.prompt({
+                            title: '请输入修改的文字',
+                            formType: 2
+                        },
+                        function(text, index) {
+                            texts.html(text);
+                            layer.close(index);
+    
+                        });
+    
+                });
+                $(".sever_list").on('click', ".change_text", function() {
+                            var texts = $(this).siblings('.texts');
+                            layer.prompt({
+                                    title: '请输入修改的文字',
+                                    formType: 2
+                                },
+                                function(text, index) {
+                                    texts.html(text);
+                                    layer.close(index);
+    
+                                });
+    
+                        })
+                $(".add_biao").click(function() {
+                    var dhtml = "";
+                    dhtml =
+                        '<div class="list"> <input type="checkbox" name="goods_sign" lay-skin="primary" title=""> <span class="texts">古色生香</span> <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> </div>'
+                   $(this).before(dhtml);
+                    form.render();
+                });
+    
+                //TODO点击取消按钮
+                $("#general_content").on('click', ".btu-cancel", function() {
+                    $(this).parent(".add-names").addClass("noshow");
+                    $(this).parent().siblings(".add-names").addClass("noshow");
+                    $(this).parent().siblings(".add-name").removeClass("noshow");
+                });
+    
+                // TODO商品规格变化
+                form.on('radio(guige)', function(data) {
+                    var checkval = data.value;
+                    console.log(checkval);
+                    if (checkval == "统一规格") {
+                        $(".general").addClass("noshow");
+                        $(".nomal").removeClass("noshow");
+                        $("#general_content").children("div").remove();
+                        $(".nomal").children(".form-item").children(".form-input").children("input").attr("disabled", false)
+    
+                    } else {
+                        $(".nomal").children(".form-item").children(".form-input").children("input").attr("disabled", true)
+                        $(".nomal").addClass("noshow");
+                        $(".general ").removeClass("noshow");
+                    }
+    
+                });
+                var num = 0;
+                //TODO点击通用添加规格项目添加页面
+                //	TODO点击添加添加规格名
+                $("#general_content").on('click', ".add-name", function() {
+                    $(this).addClass("noshow");
+                    $(this).siblings(".add-names").removeClass("noshow");
+                });
+                $("#general_content").on('click', ".guibtu-add", function() {
+                    var text = $(this).parent().siblings(".add-names").children("input").val();
+                    var data_id = $(this).data("id");
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/Goods/name')}",
+                        data: {
+                            "goods_name": text
+                        },
+                        success: function(data) {
+                            data = eval("(" + data + ")");
+                            layer.msg(data.info);
+                            if (data.info == "成功") {
+                                var dhtmls = "";
+                                dhtmls = '<option value="' + text + '">' + text + '</option> ';
+                                $(".universal_standard_name_" + data_id).prepend(dhtmls);
+                            }
+    
+                            form.render('select');
+                        },
+                        error: function(data) {
+                            console.log(data)
+                        }
+                    });
+    
+                });
+                $(".tan").click(function() {
+                    src = $(this).data("id");
+                    $(".tanchuang").removeClass("noshow");
+                    $(".tanimg").attr("src", src);
+                });
+                $(".tanchuang").click(function() {
+                    $(".tanchuang").addClass("noshow");
+                });
+    
+                // 图片删除
+                $(".remove-img").click(function() {
+                    var remove = $(this).parent();
+                    var id = $(this).data("id");
+                    var value = $(this).data("value");
+                    var title = $(this).data("title");
+                    remove.remove();
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/Goods/images')}",
+                        data: {
+                            "id": id,
+                            "pid": title
+                        },
+                        dataType: "json",
+                        success: function(data) {
+    
+                        },
+                        error: function(data) {
+                            console.log("错误");
+                        }
+                    });
+    
+                });
+                  
             });
-              
-        });
-     
-    </script>
+            
+        </script>
 
     {/block}
 
