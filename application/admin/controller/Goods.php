@@ -479,7 +479,7 @@ class Goods extends Controller
 
     /**
      * [商品列表组首页推荐]
-     * 陈绪
+     * 郭杨
      */
     public function status(Request $request)
     {

@@ -683,10 +683,16 @@ Route::group("admin",[
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
     "analyse_invented"=>"admin/Analyse/analyse_invented",    //增值虚拟商品添加
     "analyse_edit"=>"admin/Analyse/analyse_edit",            //增值商品编辑
-    "analyse_images"=>"admin/Analyse/analyse_images",        //增值商品图片删除
     "analyse_update"=>"admin/Analyse/analyse_update",        //增值商品更新
-    "analyse_delete"=>"admin/Analyse/analyse_delete",        //增值商品删除
     "analyse_search"=>"admin/Analyse/analyse_search",        //增值商品搜索
+    "analyse_delete"=>"admin/Analyse/analyse_delete",        //增值商品删除
+    "analyse_images"=>"admin/Analyse/analyse_images",        //增值商品图片删除
+    "analyse_dels"=>"admin/Analyse/analyse_dels",            //增值商品批量删除
+    "analyse_photos"=>"admin/Analyse/analyse_photos",        //增值商品规格图片删除
+    "analyse_addphoto"=>"admin/Analyse/analyse_addphoto",    //增值商品规格图片添加
+    "analyse_value"=>"admin/Analyse/analyse_value",          //增值商品规格值修改
+    "analyse_ground"=>"admin/Analyse/analyse_ground",        //增值商品上架开关
+    
 
 
 
