@@ -870,7 +870,7 @@
                 else{
                     $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/value')}",
+                    url: "{:url('admin/Goods/crowd_value')}",
                     data: {
                         "id": location_x,
                         "value": change_val,
@@ -906,7 +906,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/switches')}",
+                    url: "{:url('admin/Goods/crowd_switches')}",
                     data: {
                         "id": id,
                         "status": value,
@@ -936,14 +936,14 @@
                 formData.append("file", filess);
                 $.ajax({
                             type: "POST",
-                            url: "{:url('admin/Goods/photos')}",
+                            url: "{:url('admin/Goods/crowd_photos')}",
                             data: {
                                 "id": id,
                             },
                             success: function(data) {
                                 $.ajax({
                                         type: "POST",
-                                        url: "{:url('admin/Goods/addphoto')}",
+                                        url: "{:url('admin/Goods/crowd_addphoto')}",
                                         processData: false,
                                         contentType: false,
                                         data: formData,
@@ -1072,7 +1072,7 @@
                 remove.remove();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/images')}",
+                    url: "{:url('admin/Goods/crowd_images')}",
                     data: {
                         "id": id,
                         "pid": title
@@ -1103,7 +1103,7 @@
                 if(select!="0"){
                     $.ajax({
                             type: "POST",
-                            url:  "{:url('admin/Goods/standard')}",
+                            url:  "{:url('admin/Goods/crowd_standard')}",
                             data: {
                                 "id": ids,
                                 "coding": select
@@ -1220,7 +1220,7 @@
              var change_name= $(this).siblings(".danwei_content").children("input")
               $.ajax({
                     type: "POST",
-                    url:  "{:url('admin/Goods/standard')}",
+                    url:  "{:url('admin/Goods/crowd_standard')}",
                     data: {
                         "id": ids,
                         "coding": coding
