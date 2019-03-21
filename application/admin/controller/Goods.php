@@ -812,7 +812,7 @@ class Goods extends Controller
      * 郭杨
      */    
     public function crowd_index(){
-        $crowd_data = db("crowd_goods")->where("label",1)->select();
+        $crowd_data = db("crowd_goods")->select();
         if(!empty($crowd_data)){
             foreach ($crowd_data as $key => $value) {
                 $sum[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->sum("price");//众筹金额
@@ -993,8 +993,148 @@ class Goods extends Controller
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);         
         }
-    return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard]);
+        return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard]);
     }
+
+
+    /**
+     * [众筹商品列表组更新]
+     * GY
+     * 
+     */
+    public function crowd_update(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $goods_data = $request->param();       
+            $show_images = $request->file("goods_show_images");            
+            $list = [];
+            if (!empty($show_images)) {
+                foreach ($show_images as $k => $v) {
+                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                    $list[] = str_replace("\\", "/", $show->getSaveName());
+                }               
+                    $liste = implode(',', $list);
+                    $image = db("crowd_goods")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"]))
+                {
+                    $exper = $image["goods_show_images"];
+                    $montage = $exper . "," . $liste;
+                    $goods_data["goods_show_images"] = $montage;
+                } else {                   
+                    $montage = $liste;
+                    $goods_data["goods_show_image"] = $list[0];
+                    $goods_data["goods_show_images"] = $montage;
+                }
+            } else {
+                    $image = db("crowd_goods")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"])){
+                    $goods_data["goods_show_images"] = $image["goods_show_images"];
+                } else {
+                    $goods_data["goods_show_images"] = null;
+                    $goods_data["goods_show_image"] = null;
+                }
+            } 
+
+            $special_id = db("crowd_special")->where("goods_id",$id)->field("id")->select();
+            foreach($special_id as $pp => $qq){
+                $special[$pp] = $qq["id"];
+            }
+            foreach ($goods_data as $kn => $nl) {
+                if(substr($kn,strrpos($kn,"_")+1) == "num"){
+                    $num1[substr($kn,0,strrpos($kn,"_"))]["num"] = implode(",",$goods_data[$kn]);
+                    $num[substr($kn,0,strrpos($kn,"_"))]["num"] = $goods_data[$kn];
+                } 
+                if(substr($kn,strrpos($kn,"_")+1) == "unit"){
+                    $unit1[substr($kn,0,strrpos($kn,"_"))]["unit"] = implode(",",$goods_data[$kn]);
+                    $unit[substr($kn,0,strrpos($kn,"_"))]["unit"] = $goods_data[$kn]; 
+                }    
+                if(is_array($nl)){
+                    unset($goods_data[$kn]);                    
+                }
+            }
+            
+            foreach($special as $tt => $yy){ 
+                 if(isset($num1)){
+                    if(array_key_exists($yy,$num1)){        
+                    $bools[$tt] = db("crowd_special")->where("id",$yy)->update(["unit"=>$unit1[$yy]["unit"],"num"=>$num1[$yy]["num"],"element"=>unit_comment($num[$yy]["num"],$unit[$yy]["unit"])]);
+                    } else {
+                    $bools[$tt] = db("crowd_special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null]);
+                    }
+               } else {
+                    $bools[$tt] = db("crowd_special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null]);
+               }
+            }
+
+            foreach($bools as $xx => $cc){
+                if($cc = 1){
+                     $rest = 1;
+                } else {
+                    $rest = 0;
+                }
+            }
+             $bool = db("crowd_goods")->where("id", $id)->update($goods_data);
+             if ($bool || $rest) {
+                 $this->success("更新成功", url("admin/Goods/crowd_index"));
+             } else {
+                 $this->success("更新失败", url('admin/Goods/crowd_index'));
+             }                         
+        }
+    }
+
+
+
+    /**
+     * [众筹商品列表组删除]
+     * GY
+     */
+    public function crowd_delete($id)
+    {
+        $bool = db("crowd_goods")-> where("id", $id)->delete();
+        $boole = db("crowd_special")->where("goods_id",$id)->delete();
+
+        if ($bool || $boole) {
+            $this->success("删除成功", url("admin/Goods/crowd_index"));
+        } else {
+            $this->success("删除失败", url('admin/Goods/crowd_index'));
+        }
+    }
+
+    /**
+     * [众筹商品图片删除]
+     * GY
+     */
+    public function crowd_images(Request $request)
+    {
+        if ($request->isPost()) {
+            $tid = $request->param();
+            $id = $tid["id"];
+            $image = db("crowd_goods")->where("id", $tid['pid'])->field("goods_show_images")->find();
+            if (!empty($image["goods_show_images"])) {
+                $se = explode(",", $image["goods_show_images"]);
+                foreach ($se as $key => $value) {
+                    if ($value == $id) {
+                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                    } else {
+                        $new_image[] = $value;
+                    }
+                }
+            }
+            if (!empty($new_image)) {
+                $new_imgs_url = implode(',', $new_image);
+                $res = Db::name('crowd_goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
+            } else {
+                $res = Db::name('crowd_goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
+            }
+            if ($res) {
+                return ajax_success('删除成功');
+            } else {
+                return ajax_success('删除失败');
+            }
+        }
+    }
+
+
 
     /**
      * [众筹商品多规格列表单位编辑]
@@ -1025,11 +1165,9 @@ class Goods extends Controller
                 $unit1[$kk]["unit"] =  $rest1["unit"][$kk];
                 $unit1[$kk]["num"] =  $rest2["num"][$kk];
                 $unit1[$kk]["number"] =  $offers[$kk];
-                $unit1[$kk]["id"] =  $specail_id[$kk];
-                
-                            
-            }
-            
+                $unit1[$kk]["id"] =  $specail_id[$kk];                           
+            }  
+
             if(!empty($unit1)){
                 return ajax_success('传输成功', $unit1);
             } else {
@@ -1038,6 +1176,221 @@ class Goods extends Controller
         }
     }
 
+
+    /**
+     * [增值商品多规格列表单位id查找]
+     * 郭杨
+     */
+    public function crowd_standard(Request $request)
+    {
+        if ($request->isPost()) {
+            $coding = $request->only(["coding"])["coding"];
+            $id = $request->only(["id"])["id"];
+            $special = db("crowd_special")->where("goods_id",$id)->where("coding",$coding)->value("id");
+            if(!empty($special)){
+                return ajax_success('传输成功', $special);
+            } else {
+                return ajax_error("数据为空");
+            } 
+        }             
+    }
+
+    /**
+     * [商品列表组首页轮播推荐]
+     * 郭杨
+     */
+    public function crowd_status(Request $request)
+    {
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("crowd_goods")->where("id", $id)->update(["status" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/Goods/crowd_index"));
+                } else {
+                    $this->error("修改失败", url("admin/Goods/crowd_index"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("crowd_goods")->where("id", $id)->update(["status" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/Goods/crowd_index"));
+                } else {
+                    $this->error("修改失败", url("admin/Goods/_index"));
+                }
+            }
+        }
+    }
+
+
+    /**
+     * [众筹商品列表组是否上架]
+     * GY
+     */
+    public function crowd_ground(Request $request)
+    {
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("crowd_goods")->where("id", $id)->update(["label" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/Goods/crowd_index"));
+                } else {
+                    $this->error("修改失败", url("admin/Goods/crowd_index"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("crowd_goods")->where("id", $id)->update(["label" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/Goods/crowd_index"));
+                } else {
+                    $this->error("修改失败", url("admin/Goods/crowd_index"));
+                }
+            }
+        }
+    }
+
+
+    /**
+     * [众筹商品列表组批量删除]
+     * GY
+     */
+    public function crowd_dels(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            if (is_array($id)) {
+                $where = 'id in(' . implode(',', $id) . ')';
+            } else {
+                $where = 'id=' . $id;
+            }
+            halt($where);
+            $list = Db::name('crowd_goods')->where($where)->delete();
+            if (empty($list)) {
+                return ajax_success('成功删除!', ['status' => 1]);
+            } else {
+                return ajax_error('删除失败', ['status' => 0]);
+            }
+        }
+    }
+
+
+     /**
+     * [众筹商品列表规格图片删除]
+     * 郭杨
+     */
+    public function crowd_photos(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            if (!empty($id)) {
+                $photo = db("crowd_special")->where("id", $id)->update(["images" => null]);
+            }
+            if ($photo) {
+                return ajax_success('更新成功!');
+            } else {
+                return ajax_error('更新失败');
+            }
+        }
+    }
+
+    /**
+     * [众筹商品列表规格值修改]
+     * 郭杨
+     */
+    public function crowd_value(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $value = $request->only(["value"])["value"];
+            $key = $request->only(["key"])["key"];
+            $valuet = db("crowd_special")->where("id", $id)->update([$key => $value]);
+
+            if (!empty($valuet)) {
+                return ajax_success('更新成功!');
+            } else {
+                return ajax_error('更新失败');
+            }
+        }
+    }
+
+    /**
+     * [众筹商品列表规格开关]
+     * 郭杨
+     */
+    public function crowd_switches(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $status = $request->only(["status"])["status"];
+
+            if (!empty($id)) {
+                $ture = db("crowd_special")->where("id", $id)->update(["status" => $status]);
+            }
+            if ($ture) {
+                return ajax_success('更新成功!');
+            } else {
+                return ajax_error('更新失败');
+            }
+        }
+    }
+
+
+    /**
+     * [众筹商品列表规格图片添加]
+     * 郭杨
+     */
+    public function crowd_addphoto(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request -> only(["id"])["id"];
+            $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
+            $images = str_replace("\\", "/", $imag->getSaveName());
+
+            if(!empty($id)){
+                $bool = db("crowd_special")->where("id", $id)->update(["images" => $images]);
+            }
+             if ($bool) {
+                 return ajax_success('添加图片成功!');
+             } else {
+                 return ajax_error('添加图片失败');
+             }
+        }
+    }
+
+
+    /**
+     * [商品列表搜索]
+     * 郭杨
+     */
+    public function crowd_search()
+    {
+        $goods_number = input('project_name');
+        if(!empty($goods_number)){
+               $crowd_data = db("crowd_goods")
+                    ->where("project_name",$goods_number)
+                    ->select();
+            } else {
+                $crowd_data = db("crowd_goods")->select();
+            }
+      
+        if(!empty($crowd_data)){
+            foreach ($crowd_data as $key => $value) {
+                $sum[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->sum("price");//众筹金额
+                $crowd_data[$key]["sum_price"] = $sum[$key];
+            }
+        }   
+
+        $url = 'admin/Goods/crowd_index';
+        $pag_number = 20;
+        $crowd = paging_data($crowd_data,$url,$pag_number);     
+        return view("crowd_index",["crowd"=>$crowd]);
+
+    }
 
     /**
      * [专属定制商品显示]
