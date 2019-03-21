@@ -206,6 +206,7 @@ class Delivery extends  Controller{
     public function delivery_goods_add(Request $request){
         if($request->isPost()){
             $data = $request->param();
+            halt($data);
             $status = $data["status"];
             if($status == 1){ //按单位
                 $delivery = [
