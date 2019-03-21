@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>确认订单信息</title>
+    <link rel="stylesheet" href="__STATIC__/admin/common/css/z-comm.css">
+    <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
     <style>
         *{margin: 0; padding: 0;}
-        [v-cloak]{display: none;}
-        .cr{color: #f00;}
-        .td{text-decoration: line-through; color: #949494; font-size: 14px;}
+        i{font-style: normal;}
         .triangle::after{content: ''; position: absolute; left: 50%; top: 110%; margin-left: -4px; width: 0; height: 0; border: 5px solid transparent; border-top-color: #f00;}
         .wrapper{padding: 0 60px;}
-        .header{display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #bcbcbc; margin-bottom: 50px;}
+        .header{display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #bcbcbc; margin-bottom: 50px; min-width: 1200px;}
         .step{font-size: 14px; color: #868686; margin: 0 30px; line-height: 3em;}
         .step-on{font-size: 20px; color: #333; font-weight: 700;}
         .step-line{width: 35px; border-top: 1px dashed #868686;}
-        .main{width: 1000px; margin: 0 auto;}
-        .shop-name{font-size: 14px; color: #949494; margin-bottom: 10px;}
+        .main-bg{background-color: #f7f7f7; border: 1px solid #e4e4e4;}
+        .main{width: 1200px; min-height: 700px; margin: 0 auto; background-color: #fff; padding: 0 25px; box-sizing: border-box;}
+        .shop-name{font-size: 14px; color: #949494; padding: 25px 0;}
         .shop-name span{color: #000;}
-        .carts{border: 1px solid rgb(207, 236, 255);}
-        .carts-head{display: flex; align-items: center; justify-content: space-between; height: 40px; background-color: #cfecff; border-bottom: 1px solid rgb(168, 221, 255); padding: 0 8px;}
+        .cart-item{border: 1px solid rgb(207, 236, 255); margin-bottom: 20px;}
+        .carts-head{display: flex; align-items: center;height: 40px; background-color: #cfecff; border-bottom: 1px solid rgb(168, 221, 255); padding: 0 8px;}
         .carts-head div{text-align: center; font-size: 14px;}
         .carts-head .unit-text,
         .carts-head .money-text,
@@ -29,7 +30,33 @@
         .carts-head .order-number{flex-basis: 20%; text-align: left;}
         .carts-head .unit-text{flex-basis: 30%;}
         .carts-head .money-text{flex-basis: 30%;}
-
+        .goods-item{height: 100px; display: flex; align-items: center;}
+        .img-box{flex-basis: 10%; text-align: center;}
+        .goods-name{flex-basis: 20%; text-align: center; font-size: 15px; color: #333;}
+        .counter{flex-basis: 33%; text-align: center; font-size: 0;}
+        .counter .minus,
+        .counter .plus{width: 40px; border: 1px solid #e7e7e7; height: 30px; box-sizing: border-box; background-color: transparent; cursor: pointer; outline: none; font-size: 14px; color: #333;}
+        .counter .minus{border-right: 0; border-top-left-radius: 4px; border-bottom-left-radius: 4px;}
+        .counter .plus{border-left: 0; border-top-right-radius: 4px; border-bottom-right-radius: 4px;}
+        .counter input{width: 50px; text-align: center; height: 30px; box-sizing: border-box; border: 1px solid #e7e7e7; outline: none; font-size: 14px;}
+        .counter .unit{font-size: 16px; margin-left: 5px;}
+        .unit-price{flex-basis: 26%; text-align: center; font-size: 16px; color: #333;}
+        .total-price-box{flex-basis: 8%; text-align: center;}
+        .total-price-box .del-order{border: 0; background-color: transparent; font-size: 14px; color: #0099FF; outline: none; cursor: pointer;}
+        .total-price-box .total-price{font-size: 14px; color: #333; margin-bottom: 5px;}
+        .agreement{font-size: 14px; color: #333; margin-bottom: 10px;}
+        .agreement i{color: #0099FF; font-size: 13px; cursor: pointer;}
+        .invite-code{font-size: 14px; color: #333; margin-bottom: 10px;}
+        .invite-code span{color: #a1a1a1;}
+        .invite-code span i{color: #f00;}
+        .invite-code .invite-code-input{display: block; width: 270px;}
+        .settlement-cont{background-color: rgb(244, 251, 255); text-align: right; padding: 15px 20px;}
+        .settlement-cont p{margin-bottom: 10px;}
+        .settlement-cont .total{font-size: 15px; color: #333;}
+        .settlement-cont .discount{font-size: 13px; color: #949494;}
+        .settlement-cont .payment{font-size: 18px; color: #f44;}
+        .settlement-cont button{width: 140px; height: 40px; text-align: center; line-height: 40px; background-color: #f44; color: #fff; font-size: 16px; border: 0; outline: none; cursor: pointer;}
+        .settlement-cont button:disabled{background-color: #a1a1a1;}
     </style>
 </head>
 <body>
@@ -45,34 +72,166 @@
             <div class="step-line"></div>
             <div class="step">5.追加评论</div>
         </div>
-       <div class="main">
-           <p class="shop-name">订购店铺：<span>滴金茶叶</span></p>
-           <div class="carts">
-                <div class="carts-head">
-                    <input type="checkbox">
-                    <div class="time">20190319</div>
-                    <div class="order-number">订单号：1234567891523</div>
-                    <div class="unit-text">数量</div>
-                    <div class="money-text">金额</div>
-                    <div class="total-text">小计（元）</div>
+        <div class="main-bg">
+            <div class="main">
+                <p class="shop-name">订购店铺：<span>滴金茶叶</span></p>
+                <div class="carts">
+                    <div class="cart-item" v-for="(item, index) in goodsData">
+                        <div class="carts-head">
+                            <input type="checkbox" @change="selectGoods(item, index, $event)">
+                            <div class="time">{{item.time}}</div>
+                            <div class="order-number">订单号：{{item.orderNumber}}</div>
+                            <div class="unit-text">数量</div>
+                            <div class="money-text">金额</div>
+                            <div class="total-text">小计（元）</div>
+                        </div>
+                        <div class="goods-item">
+                            <div class="img-box">
+                                <img :src="item.imgUrl" width="50" height="50">
+                            </div>
+                            <div class="goods-name">{{item.name}}</div>
+                            <div class="counter">
+                                <button class="minus" @click="minusEvent(item)">-</button>
+                                <input type="num" 
+                                    :value="item.number"
+                                    @input="inputNumber(item, index)"
+                                    ref="num">
+                                <button class="plus" @click="plusEvent(item)">+</button>
+                                <span class="unit">{{item.unit}}</span>
+                            </div>
+                            <div class="unit-price">{{item.unitPrice.toFixed(2)}}</div>
+                            <div class="total-price-box">
+                                <p class="total-price">{{(item.number * item.unitPrice).toFixed(2)}}</p>
+                                <button class="del-order" @click="delEvent">删除订单</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-           </div>
-       </div>
+                <div class="agreement">
+                    <input type="checkbox" id="agreement" 
+                        :checked="protocolFlag"
+                        @change="agreement">
+                    <label for="agreement">我已阅读并同意<i>《智慧茶仓商家服务协议》</i></label>
+                </div>
+                <div class="invite-code">
+                    <input type="checkbox" id="invite-code"
+                        @change="useDiscount">
+                    <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
+                    <input type="text" class="invite-code-input" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
+                        v-show="discountFlag">
+                </div>
+                <div class="settlement-cont">
+                    <p class="total">合计：￥{{totalPrice}}</p>
+                    <p class="discount" v-show="discountFlag">优惠：￥{{discountPrice}}</p>
+                    <p class="payment">应付款：￥{{payment}}</p>
+                    <button 
+                        :disabled="!protocolFlag"
+                        @click="buy">立即付款</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="__STATIC__/admin/common/js/vue.js"></script>
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
     <script src="__STATIC__/admin/common/js/vue-router.js"></script>
-   <script>
-       var vm = new Vue({
-           el: '#app',
-           data: {
-               
-           },
-           methods: {
+    <script src="https://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+    <script>
 
-           }
-       })
-   </script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                discountFlag: false,
+                discountPrice: 30,
+                protocolFlag: true,
+                selectData: [],
+                goodsData: [
+                    {
+                        time: 20190320,
+                        orderNumber: 201903201138,
+                        imgUrl: '__STATIC__/admin/common/img/g1.png',
+                        name: '高清摄像头',
+                        number: 1,
+                        unitPrice: 399.00,
+                        unit: '个',
+                        stock: 10
+                    },{
+                        time: 20190320,
+                        orderNumber: 201903201138,
+                        imgUrl: '__STATIC__/admin/common/img/g2.png',
+                        name: '任天堂Nintendo Switch NX NS Joy-Con 左右手柄 双手柄红蓝色',
+                        number: 1,
+                        unitPrice: 15.00,
+                        unit: '件',
+                        stock: 5
+                    },
+                ]
+            },
+            methods: {
+                minusEvent: function(item){
+                    if(item.number > 1){
+                        item.number--;
+                    }
+                },
+                plusEvent: function(item){
+                    if(item.number < item.stock){
+                        item.number++;
+                    }else{
+                        layer.msg('不能大于库存！', {time: 1000});
+                    }
+                },
+                selectGoods: function(item, index, e){
+                    if(e.target.checked){
+                        this.$set(this.selectData, index, item);
+                    }else{
+                        this.selectData.splice(index, 1);
+                    }
+                },
+                // 输入购买数量
+                inputNumber: function(item, index){
+                    var num = this.$refs.num[index].value;
+                    item.number = num;
+                },
+                // 删除订单
+                delEvent: function(item){
+                    // if(confirm('您确定要删除该订单吗？')){
+                    //     alert('删除成功！');
+                    // }
+                },
+                // 是否使用邀请码
+                useDiscount: function(){
+                    this.discountFlag = !this.discountFlag;
+                },
+                // 同意协议
+                agreement: function(){
+                    this.protocolFlag = !this.protocolFlag;
+                },
+                // 立即购买
+                buy: function(){
+                    // alert('下单成功！');
+                },
+
+            },
+            computed: {
+                totalPrice: function(){
+                    let sum = 0;
+                    if(this.selectData){
+                        for(let item of this.selectData){
+                            sum += item.number * item.unitPrice;
+                        }
+                    }
+                    return sum.toFixed(2);
+                },
+                payment: function(){
+                    let sum = this.totalPrice;
+                    if(this.discountFlag){
+                        return (sum - this.discountPrice).toFixed(2);
+                    }else{
+                        return sum;
+                    }
+                }
+            }
+        })
+    </script>
 </body>
 </html>
