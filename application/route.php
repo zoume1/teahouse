@@ -482,6 +482,9 @@ Route::group("admin",[
     "crowd_index"=>"admin/Goods/crowd_index",   //众筹商品列表显示
     "crowd_add"=>"admin/Goods/crowd_add",       //众筹商品列表添加
     "crowd_edit"=>"admin/Goods/crowd_edit",     //众筹商品编辑
+    "crowd_offer"=>"admin/Goods/crowd_offer",   //众筹商品单位编辑
+    "crowd_delete"=>"admin/Goods/crowd_delete", //众筹商品删除
+    // "crowd_edit"=>"admin/Goods/crowd_edit",  //众筹商品编辑
 
     "exclusive_index"=>"admin/Goods/exclusive_index",   //专属定制商品显示
     "exclusive_add"=>"admin/Goods/exclusive_add",       //专属定制商品添加
