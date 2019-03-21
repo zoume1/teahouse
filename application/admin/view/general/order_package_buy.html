@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>确认订单信息</title>
     <link rel="stylesheet" href="__STATIC__/admin/common/css/z-comm.css">
+    <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
     <style>
         *{margin: 0; padding: 0;}
         i{font-style: normal;}
@@ -77,7 +78,7 @@
                 <div class="carts">
                     <div class="cart-item" v-for="(item, index) in goodsData">
                         <div class="carts-head">
-                            <input type="checkbox">
+                            <input type="checkbox" @change="selectGoods(item, index, $event)">
                             <div class="time">{{item.time}}</div>
                             <div class="order-number">订单号：{{item.orderNumber}}</div>
                             <div class="unit-text">数量</div>
@@ -91,7 +92,10 @@
                             <div class="goods-name">{{item.name}}</div>
                             <div class="counter">
                                 <button class="minus" @click="minusEvent(item)">-</button>
-                                <input type="num" :value="item.number">
+                                <input type="num" 
+                                    :value="item.number"
+                                    @input="inputNumber(item, index)"
+                                    ref="num">
                                 <button class="plus" @click="plusEvent(item)">+</button>
                                 <span class="unit">{{item.unit}}</span>
                             </div>
@@ -130,13 +134,17 @@
     <script src="__STATIC__/admin/common/js/vue.js"></script>
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
     <script src="__STATIC__/admin/common/js/vue-router.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
     <script>
+
         var vm = new Vue({
             el: '#app',
             data: {
                 discountFlag: false,
                 discountPrice: 30,
                 protocolFlag: true,
+                selectData: [],
                 goodsData: [
                     {
                         time: 20190320,
@@ -145,13 +153,17 @@
                         name: '高清摄像头',
                         number: 1,
                         unitPrice: 399.00,
-                        unit: '个'
+                        unit: '个',
+                        stock: 10
                     },{
+                        time: 20190320,
+                        orderNumber: 201903201138,
                         imgUrl: '__STATIC__/admin/common/img/g2.png',
                         name: '任天堂Nintendo Switch NX NS Joy-Con 左右手柄 双手柄红蓝色',
                         number: 1,
                         unitPrice: 15.00,
-                        unit: '件'
+                        unit: '件',
+                        stock: 5
                     },
                 ]
             },
@@ -162,7 +174,23 @@
                     }
                 },
                 plusEvent: function(item){
-                    item.number++;
+                    if(item.number < item.stock){
+                        item.number++;
+                    }else{
+                        layer.msg('不能大于库存！', {time: 1000});
+                    }
+                },
+                selectGoods: function(item, index, e){
+                    if(e.target.checked){
+                        this.$set(this.selectData, index, item);
+                    }else{
+                        this.selectData.splice(index, 1);
+                    }
+                },
+                // 输入购买数量
+                inputNumber: function(item, index){
+                    var num = this.$refs.num[index].value;
+                    item.number = num;
                 },
                 // 删除订单
                 delEvent: function(item){
@@ -178,15 +206,19 @@
                 agreement: function(){
                     this.protocolFlag = !this.protocolFlag;
                 },
+                // 立即购买
                 buy: function(){
                     // alert('下单成功！');
-                }
+                },
+
             },
             computed: {
                 totalPrice: function(){
                     let sum = 0;
-                    for(let item of this.goodsData){
-                        sum += item.number * item.unitPrice;
+                    if(this.selectData){
+                        for(let item of this.selectData){
+                            sum += item.number * item.unitPrice;
+                        }
                     }
                     return sum.toFixed(2);
                 },

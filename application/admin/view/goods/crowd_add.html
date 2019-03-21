@@ -446,13 +446,13 @@
 		</div>
     </div>
     
-    <form class="layui-form layui-form-lists" action="{:url('admin/Analyse/analyse_add')}" method="post" enctype="multipart/form-data">
+    <form class="layui-form layui-form-lists" action="{:url('admin/Goods/crowd_add')}" method="post" enctype="multipart/form-data">
        
         <div class="form-title">基础信息 </div>
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>项目名称</label>
             <div class="form-input">
-                <input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+                <input type="text" name="project_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
                 <div class="tips">
                     项目名称必须填写，最多100个字
                 </div>
@@ -461,7 +461,7 @@
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>筹款天数</label>
             <div class="form-input" style="position: relative;">
-                <input type="text" name="produce" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+                <input type="text" name="number_days" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
                 <div class="danwei" style="position: absolute;right: 20px;top: 7px;">天</div>
                 <div class="tips">
                     （10到90天，建议30天）
@@ -499,18 +499,22 @@
             </div>
         </div>
         <div class="form-item">
-            <label class="form-label"><span class="red">*</span>归属分类</label>
-            <div class="form-input">
-                <select name="product_type" id="admin_role" class="role_list">
-                        <option value="">请选择</option>
-					 <option value="硬件产品">硬件产品</option>
-                </select>
-                <div class="tips">
-                    *阶梯显示 ，选择包装分类，查无分类，可先添加分类
+                <label class="form-label"><span class="red">*</span>归属分类</label>
+                <div class="form-input">
+                    {if !empty($goods_list)}
+                    <select name="pid" id="admin_role" class="role_list">
+                        {volist name="goods_list" id="value"}
+                         <option value="{$value.id}">{$value.name}</option>
+                        {/volist}
+                    </select><br/> 
+                    {else}
+                    <select name="pid" class="role_list">
+                        <option value="0">顶级</option>
+                    </select><br/> 
+                    {/if}
+                    </select>
                 </div>
-                
             </div>
-        </div>
         <div class="form-item">
             <label class="form-label">商品排序</label>
             <div class="form-input">
@@ -527,18 +531,18 @@
                 <div class="list">
                   <img src="__STATIC__/admin/index/img/u159.png" alt="" style="width:20px">
                   <span>由</span>
-                  <input type="text" value="北京炫明科技" style="width:227px">
+                  <input type="text"  name="company_name" value="北京炫明科技" style="width:227px">
                   <span class="tips">特制商品&nbsp;&nbsp;&nbsp;&nbsp;*方框内填公司或工匠名</span>
                 </div>
                 <div class="list">
                     <img src="__STATIC__/admin/index/img/u159.png" alt="" style="width:20px">
                     <span>本产品为</span>
-                    <input type="text" value="北京炫明科技" style="width:156px">
+                    <input type="text" name="company_name1" value="北京炫明科技" style="width:156px">
                     <span class="tips">发货并提供售&nbsp;&nbsp;&nbsp;&nbsp;*方框内填公司或工匠名</span>
                   </div>
                   <div class="list">
                     <img src="__STATIC__/admin/index/img/u159.png" alt="" style="width:20px">
-                    <input type="text" value="预计2019年3月15日起开始发货" style="width:313px">
+                    <input type="text"  name="company_time" value="预计2019年3月15日起开始发货" style="width:313px">
                     <span class="tips">*方框内填预计发货时间</span>
                   </div>    
             </div>
@@ -566,6 +570,28 @@
                 </div>
             
             </div>
+            <div class="form-item general  generals" style=" align-items: center;">
+                <label class="form-label">包装规格</label>
+                <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
+                    <select name=""  class="packing packings" style="margin-left: 24px">
+                        <option value="0">请选择规格编码</option>
+                    </select>
+                    <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>  
+                </div>
+             
+        </div>
+        <div class="tips" style="margin-left: 110px;">
+                *非必选项，此处添加的“包装规格”单位，必须包含有“商品规格”中填写的“报价单位” ；且第一个单位数量需要填写为“1”
+            </div>
+        <div class="form-item general">
+
+            <label class="form-label"></label>
+        
+            <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;margin-left: 8px;">
+                继续添加
+            </div>
+        
+        </div>
         </div>
         <div class="form-item">
             <label class="form-label">项目折扣</label>
@@ -616,13 +642,13 @@
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>团队介绍</label>
             <div class="form-input">
-                <script id="editor1" type="text/plain" name="goods_text" style="width:800px;height:500px;"></script>
+                <script id="editor1" type="text/plain" name="team" style="width:800px;height:500px;"></script>
             </div>
         </div>
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>检测报告</label>
             <div class="form-input">
-                <script id="editor2" type="text/plain" name="goods_text" style="width:800px;height:500px;"></script>
+                <script id="editor2" type="text/plain" name="text" style="width:800px;height:500px;"></script>
             </div>
         </div>
         <div class="form-title">价格库存 </div>
@@ -662,8 +688,8 @@
         <div class="form-item">
             <label class="form-label">轮播推介</label>
             <div class="form-input">
-                <input type="radio" name="label" value="0" title="推荐" checked="">
-                <input type="radio" name="label" value="1" title="不推荐">
+                <input type="radio" name="status" value="1" title="推荐" checked="">
+                <input type="radio" name="status" value="2" title="不推荐">
             </div>
         </div>
         <div class="layui-form-item">
@@ -865,11 +891,11 @@
                                 }
                             }
 
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[price]"  required  /></td>';
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[stock]"  required /></td>';
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" class="coding" required /></td>';
-                            tableHTML += '			<th width="100px"><textarea name="" id="" cols="" rows="" style="vertical-align:top;outline:none;  text-align: center; height: 90px;" ></textarea>';
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[cost]" required /></td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[price]"  required  /></td>'; //众筹金额
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[stock]"  required /></td>'; // 众筹数量
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" class="coding" required /></td>'; //规格编码
+                            tableHTML += '			<th width="100px"><textarea name="sss' + name + '[story]" id="" cols="" rows="" style="vertical-align:top;outline:none;  text-align: center; height: 90px;" ></textarea>';//众筹故事
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[cost]" required /></td>'; //成本价
                             tableHTML += '			<td width="100px">';
                             tableHTML += '                         <div class="img-box full">';
                             tableHTML += '	                    <section class=" img-section">';
@@ -888,9 +914,9 @@
                             tableHTML += '                 </div>';
                             tableHTML += '            </aside>';
                             tableHTML += '             </td>';
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[line]" required /></td>';
-                            tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[save]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="issave" name="sss' + name + '[static]"></td>';
-                            tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[status]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[line]" required /></td>'; //每人限购
+                            tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[save]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="issave" name="sss' + name + '[static]"></td>'; //存茶开关
+                            tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[status]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>'; //上架
                             tableHTML += '		</tr>';
                         }
                         tableHTML += '	</tbody>';
@@ -1005,8 +1031,154 @@
         $("#hot").on('click', ".change_text", function() {
 			$(".popup").removeClass("noshow");
 		});
- });
+  // 包装规格
+  $(".add_danwei").click(function(){
+            var danwei=''
+            danwei+='<div class="fuhao">=</div>';
+            danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+            danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+            $(this).before(danwei);
+        });
+        $(".general_content").on("click",".add_danwei1",function(){
+           var i=parseInt($(this).data("id"));
+            var select=$(this).siblings(".packing").val()
+           if(select!="0"){
+        
+                var danwei1='';
+                danwei1+='<div class="danwei_content">';
+                danwei1+='<div class="fuhao">=</div>';
+                danwei1+='<input type="text" name="'+select+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
+                danwei1+='<input type="text" name="'+select+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
+                danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                danwei1+='</div>';
+            
+            $(this).before(danwei1);
+           }
+          else{
+              alert("请选择规格编码");
+          }
+          $(this).data("id",i+1);
+          
+        });
+        $(".add_danwei2").click(function(){
+            if($(".packings").find("option").length!=1){
+                var danwei2='';
+                danwei2+='<div class="form-item general generals" style=" align-items: center;position: relative;">';
+                danwei2+='<label class="form-label"></label>';
+                danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
+                danwei2+='<select name="" class="packing">';
+                danwei2+='<option value="0">请选择规格编码</option>';
+                for(var j=0;j<codings.length;j++){
+                    danwei2+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
+                }
+                danwei2+='</select>';
+                danwei2+='<div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>';
+                danwei2+='</div>';
+                danwei2+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
+                danwei2+=' </div>';
+                $(this).parent().before(danwei2)
+            }
+           else{
+                 alert("请先添加规格编码")
+           }
+        });
+            });
+        $(".general-kuang").on('focus', ".coding", function() {
+            $(this).data("id",$(this).val());
+        });
+        
+        $(".general-kuang").on('change', ".coding", function() {
+        
+           if($(this).data("id")==''){
+               var dhtmlq='';
+               dhtmlq+=' <option value="'+$(this).val()+'">'+$(this).val()+'</option>';
+             $(".packing").append(dhtmlq);
+             $(this).data("id",$(this).val());
+              codings.push($(this).val());
+           }
+           else{
+                $("input[name='"+$(this).data("id")+"_num[]']").attr('name',$(this).val()+"_num[]");   
+                $("input[name='"+$(this).data("id")+"_unit[]']").attr('name',$(this).val()+"_unit[]");  
+                $(".packing option[value='"+$(this).data("id")+"']").text($(this).val());
+                $(".packing option[value='"+$(this).data("id")+"']").val($(this).val());
+              
+                for(var i=0;i<codings.length;i++){
+                    console.log(codings[i]);
+                    console.log($(this).data("id"));
+                    console.log($(this).val());
+                    if(codings[i]==$(this).data("id")){
+                        codings[i]=$(this).val();
+                    }
+                }
+                $(this).data("id",$(this).val());
+           }
+        //    console.log(codings);
+        });
+        $(".general_content").on('click', ".delect_img", function() {
+           $(this).parent().siblings(".add_danwei1").data("id", parseInt($(this).parent().siblings(".add_danwei1").data("id"))-1);
+        
+           $(this).parent().remove();
+        })
+        $(".general_content").on('change', ".packing", function() {
+            console.log($(this).val())
+            if($(this).val()==0){
+                 $(this).siblings(".danwei_content").remove();
+            }
+            var k=0;
+          for(var q=0;q<$(".packing").length;q++){
+             if($(".packing")[q].value==$(this).val()){
+                 k++;
+             }
+          }
+          if(k>1){
+              console.log( $(this).find("option[value='0']"));
+            $(this).children("option").remove();
+            var danwei4='';
+            danwei4+='<option value="0">请选择规格编码</option>';
+            for(var j=0;j<codings.length;j++){
+                    danwei4+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
+             }
+
+             $(this).append(danwei4);
+          }
+           
+        })
+        $.fn.serializeObject = function()   
+      {   
+            var o = {};   
+            var a = this.serializeArray();   
+            $.each(a, function() {   
+                if (o[this.name]) {   
+                    if (!o[this.name].push) {   
+                        o[this.name] = [o[this.name]];   
+                    }   
+                    o[this.name].push(this.value || '');   
+                } else {   
+                    o[this.name] = this.value || '';   
+                }   
+            });   
+            return o;   
+            };  
         // 包装规格
+        // $("#submit").click(function(){
+        //     var para = $('form').serializeObject() ;  
+        //      para = JSON.stringify(para) ; 　      
+        //      var partb=eval("(" + para + ")");
+        //    var shuju=[];
+        //      for(var i=0;i<codings.length;i++){
+        //          var num="partb"+codings[i]+"_num"
+        //          var unit="partb"+codings[i]+"_unit"
+        //        if(num!=undefined){
+        //             // shuju[codings[i]].push(num);
+        //             // shuju[codings[i]].push(unit);
+        //        }
+        //      }
+        //      console.log(shuju);
+        // });
+        $("#lv_table").on("keyup",".offer",function(){
+            this.value=this.value.replace(/\s+/g,'');
+            this.value=this.value.replace(/_+/g,'');
+        })
        
            
       
