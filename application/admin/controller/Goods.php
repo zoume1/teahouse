@@ -811,8 +811,19 @@ class Goods extends Controller
      * [众筹商品显示]
      * 郭杨
      */    
-    public function crowd_index(){     
-        return view("crowd_index");
+    public function crowd_index(){
+        $crowd_data = db("crowd_goods")->where("label",1)->select();
+        if(!empty($crowd_data)){
+            foreach ($crowd_data as $key => $value) {
+                $sum[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->sum("price");//众筹金额
+                $crowd_data[$key]["sum_price"] = $sum[$key];
+            }
+        }   
+
+        $url = 'admin/Goods/crowd_index';
+        $pag_number = 20;
+        $crowd = paging_data($crowd_data,$url,$pag_number);     
+        return view("crowd_index",["crowd"=>$crowd]);
     }
 
 
@@ -823,32 +834,137 @@ class Goods extends Controller
      */    
     public function crowd_add(Request $request){
         if($request->isPost()) {
-            $goods_data = $request->param(); 
+            $goods_data = $request->param();
+            $goods_text =  isset($goods_data["goods_text"]) ? $goods_data["goods_text"]:null;
+            $team =  isset($goods_data["team"]) ? $goods_data["team"]:null;
+            $text =  isset($goods_data["text"]) ? $goods_data["text"]:null;
+            $result = isset($goods_data["lv1"]) ? $goods_data["lv1"]:null;
             $show_images = $request->file("goods_show_images");
+            $number_days = intval($goods_data["number_days"]);
             $imgs = $request->file("imgs");
             $time = time();
+            $end_time = strtotime(date('Y-m-d', strtotime ("+ $number_days day", $time)));
             $list = [];
-            
-
             if (!empty($show_images)) {              
                 foreach ($show_images as $k=>$v) {
                     $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $info->getSaveName());
                 }            
                 $goods_data["goods_show_image"] =  $list[0];
-                $goods_data["goods_type"] = 1;     //商品类型
                 $goods_data["goods_show_images"] = implode(',', $list);
                 $goods_data["time"] = $time;
             }
+            $goods = array(
+                "project_name" => $goods_data["project_name"],
+                "number_days" => $goods_data["number_days"],
+                "goods_sign" => $goods_data["goods_sign"],
+                "goods_describe" => $goods_data["goods_describe"],
+                "pid" => $goods_data["pid"],
+                "sort_number" => $goods_data["sort_number"],
+                "time"=> $time,
+                "end_time"=>$end_time,
+                "company_name" => $goods_data["company_name"],
+                "company_name1" => $goods_data["company_name"],
+                "company_time" => $goods_data["company_time"],
+                "goods_show_image" => $goods_data["goods_show_image"],
+                "goods_show_images" => $goods_data["goods_show_images"],
+                "goods_member" => $goods_data["goods_member"],
+                "video_link" => $goods_data["video_link"],
+                "goods_text" => $goods_text,
+                "team" => $team,
+                "text" => $text,
+                "goods_delivery" => $goods_data["goods_delivery"],
+                "goods_franking" => $goods_data["goods_franking"],
+                "templet_id" => $goods_data["templet_id"],
+                "label" => $goods_data["label"],
+                "status"=> $goods_data["status"]
+            );
 
-            
-                      
-            halt($goods_data);
-            $bool = db("crowd_goods")->insert($goods_data);
-            if ($bool && (!empty($show_images))) {
+            if(empty($result)){
+                $this->error("请添加规格值", url('admin/Goods/crowd_add'));
+            } else {
+                $goods_id = db('crowd_goods')->insertGetId($goods);
+                $standard = implode(",", $result);
+                if (!empty($goods_data)) {
+                    foreach ($goods_data as $kn => $nl) {
+                        if (substr($kn, 0, 3) == "sss") 
+                        {
+                            $price[] = $nl["price"];
+                            $stock[] = $nl["stock"];
+                            $coding[] = $nl["coding"];
+                            $story[] = $nl["story"];
+                            $cost[] = $nl["cost"];
+                            $line[] = isset($nl["line"])?$nl["line"]:null;
+                            $status[] = isset($nl["status"])? $nl["status"]:0;
+                            $save[] = isset($nl["save"]) ? $nl["save"]:0; 
+                        }
+                        if(substr($kn,strrpos($kn,"_")+1) == "num")
+                        {
+                            $num1[substr($kn,0,strrpos($kn,"_"))]["num"] = implode(",",$goods_data[$kn]);
+                            $num[substr($kn,0,strrpos($kn,"_"))]["num"] = $goods_data[$kn];
+                        } 
+                        if(substr($kn,strrpos($kn,"_")+1) == "unit")
+                        {
+                            $unit1[substr($kn,0,strrpos($kn,"_"))]["unit"] = implode(",",$goods_data[$kn]);
+                            $unit[substr($kn,0,strrpos($kn,"_"))]["unit"] = $goods_data[$kn]; 
+                        }                         
+                    }
+                }
+                if (!empty($imgs)) {
+                    foreach ($imgs as $k => $v) {
+                        $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                        $tab = str_replace("\\", "/", $shows->getSaveName());
+
+                        if (is_array($goods_data)) {
+                            foreach ($goods_data as $key => $value) {
+                                if (substr($key, 0, 3) == "sss") {
+                                    $str[] = substr($key, 3);
+                                    $values[$k]["name"] = $str[$k];
+                                    $values[$k]["price"] = $price[$k];
+                                    $values[$k]["lv1"] = $result;
+                                    $values[$k]["stock"] = $stock[$k];
+                                    $values[$k]["coding"] = $coding[$k];
+                                    if(isset($num1)){
+                                        if(array_key_exists($coding[$k],$num1)){
+                                            $values[$k]["num"] = $num1[$coding[$k]]["num"]; 
+                                        } else {
+                                            $values[$k]["num"] = null;
+                                        }
+                                    } else {
+                                            $values[$k]["num"] = null;
+                                    }
+                                    if(isset($unit1)){
+                                        if(array_key_exists($coding[$k],$unit1)){
+                                            $values[$k]["unit"] = $unit1[$coding[$k]]["unit"];
+                                            $values[$k]["element"] = unit_comment($num[$coding[$k]]["num"],$unit[$coding[$k]]["unit"]);
+                                        } else {
+                                            $values[$k]["unit"] = null;
+                                            $values[$k]["element"] = null;
+                                        }
+                                    } else {
+                                            $values[$k]["unit"] = null;
+                                            $values[$k]["element"] = null;
+                                    }
+                                    $values[$k]["status"] = $status[$k];
+                                    $values[$k]["story"] = $story[$K];
+                                    $values[$k]["save"] = $save[$k];
+                                    $values[$k]["cost"] = $cost[$k];
+                                    $values[$k]["limit"] = $line[$k];                                    
+                                    $values[$k]["images"] = $tab;
+                                    $values[$k]["goods_id"] = $goods_id;                                   
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            foreach ($values as $kz => $vw) {
+                $rest = db('crowd_special')->insertGetId($vw);
+            }
+            if ($rest || $goods_id) {
                 $this->success("添加成功", url("admin/Goods/crowd_index"));
             } else {
-                $this->success("添加失败", url('admin/Goods/crowd_index'));
+                $this->error("添加失败", url('admin/Goods/crowd_index'));
             }
             
    
@@ -862,8 +978,64 @@ class Goods extends Controller
      * [众筹商品编辑]
      * 郭杨
      */    
-    public function crowd_edit(){     
-        return view("crowd_edit");
+    public function crowd_edit($id){
+        $goods = db("crowd_goods") -> where("id",$id) -> select(); 
+        $goods_standard = db("crowd_special")->where("goods_id", $id)->select();
+        $goods_list = getSelectList("wares");
+
+        foreach ($goods as $key => $value) {
+            if(!empty($goods[$key]["goods_show_images"])){
+            $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
+        }
+     }
+
+     foreach ($goods_standard as $k => $v) {
+            $goods_standard[$k]["title"] = explode('_', $v["name"]);
+            $res = explode(',', $v["lv1"]);         
+        }
+    return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard]);
+    }
+
+    /**
+     * [众筹商品多规格列表单位编辑]
+     * 郭杨
+     */
+    public function crowd_offer(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $goods_standard = db("crowd_special")->where("goods_id", $id)->select();
+            $offer = db("crowd_special")->where("goods_id", $id)->field("coding,id")->select();
+
+            foreach($offer as $pp => $qq){
+                $offers[$pp] = $qq["coding"];
+                $specail_id[$pp] = $qq["id"];
+            }
+
+            foreach ($goods_standard as $k => $v) {
+                $goods_standard[$k]["title"] = explode('_', $v["name"]);
+                $res = explode(',', $v["lv1"]);      
+                $unit["unit"][] = explode(',', $v["unit"]);        
+                $num["num"][] = explode(',', $v["num"]);        
+            }
+
+            foreach($offers as $kk => $zz){
+                $rest1["unit"][$kk] = $unit["unit"][$kk];
+                $rest2["num"][$kk] = $num["num"][$kk];
+                $unit1[$kk]["unit"] =  $rest1["unit"][$kk];
+                $unit1[$kk]["num"] =  $rest2["num"][$kk];
+                $unit1[$kk]["number"] =  $offers[$kk];
+                $unit1[$kk]["id"] =  $specail_id[$kk];
+                
+                            
+            }
+            
+            if(!empty($unit1)){
+                return ajax_success('传输成功', $unit1);
+            } else {
+                return ajax_error("数据为空");
+            }
+        }
     }
 
 
