@@ -876,3 +876,18 @@ function paging_data($data,$url,$pag_number){
     return $data;
 }
 
+/**
+ * 单位分类
+ */
+function unit_list($unit){
+    foreach($unit as $kk => $yy)
+    {
+        $unit_list[$kk] = $yy["unit"];
+    }
+    $list_string = implode(",",$unit_list);
+    $list = explode(",",$list_string);
+    $list = array_flip($list);
+    $list = array_keys($list);
+    return $list;
+}
+

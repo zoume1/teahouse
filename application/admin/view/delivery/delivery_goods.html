@@ -101,21 +101,12 @@
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
 						<td>{$value.id + 100000}</td>
 						<td>{$value.name}</td>
-						{if $value.status ==1}
-						<td>按单位</td>
 						<td>{$value.unit}</td>
+						<td>按{$value.unit}</td>
 						<td>{$value.price}</td>
-						<td>1{$value.add}</td>
+						<td>1{$value.unit}</td>
 						<td>{$value.markup}</td>
 						<td>{$value.are}</td>
-						{else}
-						<td>按重量</td>
-						<td>{$value.unit}</td>
-						<td>{$value.price}</td>
-						<td>1{$value.add}</td>
-						<td>{$value.markup}</td>
-						<td>{$value.are}</td>
-						{/if}
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Delivery/delivery_goods_edit',['id'=>$value.id])}"> 编辑
 							</a>
