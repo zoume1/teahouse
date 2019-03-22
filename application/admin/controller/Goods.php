@@ -77,9 +77,10 @@ class Goods extends Controller
         if ($pid == 0) {
             $goods_list = getSelectList("wares");
         }
+        $expenses = db("express")->field("id,name")->select();
         $scope = db("member_grade")->field("member_grade_name")->select();
 
-        return view("goods_add", ["goods_list" => $goods_list,"scope"=>$scope]);
+        return view("goods_add", ["goods_list" => $goods_list,"scope"=>$scope,"expenses"=>$expenses]);
     }
 
 
