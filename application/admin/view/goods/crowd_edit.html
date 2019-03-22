@@ -395,7 +395,26 @@
        word-break:break-all
        }
        textarea::-webkit-scrollbar {display:none}
-      
+          /* 数据库展现图片样式 */
+    
+    .img {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+    }
+    
+    .imgcontent {
+        margin: 10px;
+    }
+    
+    .img>i {
+        display: inline-block;
+        width: 20px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    
 </style>
 
 {/block}
@@ -409,14 +428,14 @@
 
     </div>
 
-    <form class="layui-form layui-form-lists" action="{:url('admin/Goods/updata')}" method="post" enctype="multipart/form-data">
-        {volist name="goods" id="value"}
+    <form class="layui-form layui-form-lists" action="{:url('admin/Goods/crowd_update')}" method="post" enctype="multipart/form-data">
+        {if !empty($goods)}{volist name="goods" id="value"}
         <input type="hidden" name="id" id="ids" value="{$value.id}" />
         <div class="form-title">基础信息 </div>
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>项目名称</label>
             <div class="form-input">
-                <input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+                <input type="text" name="project_name"  value="{$value.project_name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
                 <div class="tips">
                     项目名称必须填写，最多100个字
                 </div>
@@ -425,7 +444,7 @@
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>筹款天数</label>
             <div class="form-input" style="position: relative;">
-                <input type="text" name="produce" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+                <input type="text" name="number_days" value="{$value.number_days}"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
                 <div class="danwei" style="position: absolute;right: 20px;top: 7px;">天</div>
                 <div class="tips">
                     （10到90天，建议30天）
@@ -456,7 +475,7 @@
         <div class="form-item">
             <label class="form-label">分享描述</label>
             <div class="form-input">
-                <input type="text" name="goods_describe" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" name="goods_describe" value="{$value.goods_describe}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
                 <div class="tips">
                     微信分享给好友时会显示，建议36个字以内<span class="tan" style="color: #0E90D2;" data-id="__STATIC__/admin/common/img/u27291.png">查看实例</span>
                 </div>
@@ -465,20 +484,23 @@
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>归属分类</label>
             <div class="form-input">
-                <select name="product_type" id="admin_role" class="role_list">
-                        <option value="">请选择</option>
-					 <option value="硬件产品">硬件产品</option>
+                {if !empty($goods_list)}
+                <select name="pid" id="admin_role" class="role_list" >
+					{volist name="goods_list" id="v"} {if condition="$value.pid eq $v.id"}
+					<option value="{$v.id}" selected="">{$v.name}</option>
+					{else}
+					<option value="{$v.id}">{$v.name}</option>
+					{/if} {/volist}
+				</select><br/> {else}
+                <select name="pid" class="role_list">
+				</select><br/> {/if}
                 </select>
-                <div class="tips">
-                    *阶梯显示 ，选择包装分类，查无分类，可先添加分类
-                </div>
-                
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">商品排序</label>
             <div class="form-input">
-                <input type="number" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="number" name="sort_number"  value="{$value.sort_number}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
                 <div class="tips">
                     *填写正整数，从大到小排序
                 </div>
@@ -491,18 +513,18 @@
                     <div class="list">
                       <img src="__STATIC__/admin/index/img/u159.png" alt="" style="width:20px">
                       <span>由</span>
-                      <input type="text" value="北京炫明科技" style="width:227px">
+                      <input type="text" name="company_name" value="{$value.company_name}" style="width:227px">
                       <span class="tips">特制商品&nbsp;&nbsp;&nbsp;&nbsp;*方框内填公司或工匠名</span>
                     </div>
                     <div class="list">
                         <img src="__STATIC__/admin/index/img/u159.png" alt="" style="width:20px">
                         <span>本产品为</span>
-                        <input type="text" value="北京炫明科技" style="width:156px">
+                        <input type="text" name="company_name1" value="{$value.company_name1}" style="width:156px">
                         <span class="tips">发货并提供售&nbsp;&nbsp;&nbsp;&nbsp;*方框内填公司或工匠名</span>
                       </div>
                       <div class="list">
                         <img src="__STATIC__/admin/index/img/u159.png" alt="" style="width:20px">
-                        <input type="text" value="预计2019年3月15日起开始发货" style="width:313px">
+                        <input type="text" name="company_time" value="{$value.company_time}" style="width:313px">
                         <span class="tips">*方框内填预计发货时间</span>
                       </div>    
                 </div>
@@ -515,7 +537,7 @@
             </div>
         </div>
      
-        
+          <div class="general_content">
             <div class="form-item general">
                 <div class="layui-input-block general-kuang">
 
@@ -534,7 +556,7 @@
                                             {/volist} {/if}
 
                                             <!--//循环这里-->
-                                            <tr>			
+                                         			
                                                 <th width="100px"><input value="众筹金额" readonly="" style="border:0;"></th>			
                                                 <th width="100px"><textarea name="" id="" cols="" rows="" style="vertical-align:top;outline:none;border:0;width: 100px;overflow: hidden;    text-align: center;" readonly="">众筹数量（多少起生产）</textarea></th>			
                                                 <th width="100px"><input value="规格编码" readonly="" style="border:0;"></th>			
@@ -543,7 +565,7 @@
                                                 <th width="100px"><input value="图片" readonly="" style="border:0;"></th>			
                                                 <th width="100px"><textarea name="" id="" cols="" rows="" style="vertical-align:top;outline:none;border:0;width: 100px;overflow: hidden;     text-align: center;" readonly="">每人限购（-1表示不限）</textarea>			</th><th width="100px"><input value="存茶开关" readonly="" style="border:0;"></th>			
                                                 <th width="100px"><input value="是否上架" readonly="" style="border:0;"></th>		
-                                            </tr>
+                                           
                                         </tr>
 
                                     </thead>
@@ -555,13 +577,12 @@
                                             <td width="50" rowspan="1" data-rc="1_1">
                                                 <input value="{$vs}" readonly="" style="border:0;">
                                             </td>
-                                            {/volist}
-                                                <td width="50" rowspan="1" data-rc="1_1"><input value="2" readonly="" style="border:0;"></td>			
-                                                <td width="100px"><input type="text" name="sss2[price]" required=""></td>			
-                                                <td width="100px"><input type="text" name="sss2[stock]" required=""></td>			
-                                                <td width="100px"><input type="text" name="sss2[coding]" class="coding" required=""></td>			
-                                                <td width="100px"><textarea name="" id="" cols="" rows="" style="vertical-align: top; outline: none; text-align: center; height: 90px;"></textarea>			</td>
-                                                <td width="100px"><input type="text" name="sss2[cost]" required=""></td>	
+                                            {/volist}			
+                                            <td width="100px"><input type="text" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs" data-title="{$ve.price}" ></td>
+                                            <td width="100px"><input type="text" value="{$ve.stock}" data-id="{$ve.id}" data-value="stock" class="inputs"  data-title="{$ve.stock}"></td>
+                                            <td width="100px"><input type="text" value="{$ve.coding}" data-id="{$ve.id}" data-value="coding" class="inputs coding" data-title="{$ve.coding}"></td>
+                                            <td width="100px"><textarea id="" cols="" rows="" style="vertical-align: top; outline: none; text-align: center; height: 90px;"></textarea>{$ve.story}</td>
+                                            <td width="100px"><input type="text" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost" class="inputs "   data-title="{$ve.cost}" > </td>	
                                                 <td width="100px"><div class="img-box full">
                                                             <section class=" img-section">
                                                                 <div class="z_photo upimg-div clear">
@@ -590,8 +611,8 @@
                                                             </div>
                                                         </aside>
                                                 </td>		
-                                                <td width="100px"><input type="text" name="sss2[line]" required=""></td>		
-                                        
+                                                <td width="100px"><input type="text" value="{$ve.limit}" data-id="{$ve.id}" data-value="limit" class="inputs"  data-title="{$ve.limit}"> </td>		
+                                            <td>
                                                 {if $ve.save == 0}
                                                 <input type="checkbox" class="Status" value="{$ve.save}" lay-skin="switch" lay-text="是|否" lay-filter="isshelves" data-id="{$ve.id}" data-value="status"> {else}
                                                 <input type="checkbox" class="Status" value="{$ve.save}" lay-skin="switch" lay-text="是|否" lay-filter="isshelves" checked data-id="{$ve.id}" data-value="status"> {/if}
@@ -610,72 +631,113 @@
                         </div>
                     </div>
                 </div>
-
+              
             </div>
-            <div class="form-item">
-                    <label class="form-label">项目折扣</label>
-                    <div class="form-input line">
-                        <input type="checkbox" name="goods_member" lay-skin="primary" title="参加会员折扣" value="1">
-                        <a href="">管理会员卡</a>
-                    </div>
+            <div class="form-item general ">
+                <label class="form-label"></label>
+                <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;">
+                    继续添加
                 </div>
+            </div>
+        </div>
+            <div class="form-item">
+                <label class="form-label">商品折扣</label>
+                <div class="form-input line">
+                    {if $value.goods_member == 1}
+                    <input type="checkbox" name="goods_member" value="1" lay-skin="primary" title="参加会员折扣"> {else}
+                    <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
+                    <a href="">管理会员卡</a>
+                </div>
+            </div>
                
-                <div class="form-item">
-                    <label class="form-label"><span class="red">*</span>项目图</label>
+            <div class="form-item">
+                <label class="form-label"><span class="red">*</span>项目图</label>
+                <div class="img-edit">
+                    {if !empty($value.goods_show_images) }
+                    <div class="imgcontent">
+                        {foreach name="$value.goods_show_images" id="val"}
+                        <span class="img">
+                        <img src="__UPLOADS__/{$val}" width="100%">
+                        <i class="remove-img"  data-id="{$val}" data-value="2" data-title = "{$value.id}"><img src="__STATIC__/admin/common/img/a7.png"></i>
+                        </span> {/foreach}
+                    </div>
                     <div class="form-input">
                         <div class="img-box full">
-                            <section class=" img-section">
+                            <section class=" img-section del_img_other">
                                 <div class="z_photo upimg-div clear">
                                     <section class="z_file fl">
                                         <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                        <input type="file" name="goods_show_images[]" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" required />
+                                        <input type="file" name="goods_show_images[]" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" />
                                     </section>
                                 </div>
                             </section>
                         </div>
-                        <aside class="mask works-mask">
+                        {else}
+                        <div class="form-input">
+                            <div class="img-box full">
+                                <section class=" img-section">
+                                    <div class="z_photo upimg-div clear">
+                                        <section class="z_file fl">
+                                            <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                            <input type="file" name="goods_show_images[]" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" />
+                                        </section>
+                                    </div>
+                                </section>
+                            </div>
+                            <aside class="mask works-mask">
+                                <div class="mask-content">
+                                    <p class="del-p ">您确定要删除作品图片吗？</p>
+                                    <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                                </div>
+                            </aside>
+                            <div class="tips">
+                                建议尺寸：800*800像素，其中第一张为主图，你可以拖拽图片调整顺序，最多上传15张
+                            </div>
+                        </div>
+                        {/if}
+                        <aside class="mask works-mask del_img_other">
                             <div class="mask-content">
                                 <p class="del-p ">您确定要删除作品图片吗？</p>
-                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                                <p class="check-p"><span class="del-com wsdel-ok ">确定</span><span class="wsdel-no">取消</span></p>
                             </div>
                         </aside>
-                        <div class="tips">  
-                            建议尺寸：800*800像素，其中第一张为主图，你可以拖拽图片调整顺序，最多上传15张
-                        </div>
                     </div>
-        
                 </div>
+            </div>
                 <div class="form-item">
                     <label class="form-label">主图视频链接</label>
                     <div class="form-input">
-                        <input type="text" name="video_link" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                        <input type="text" name="video_link"  value="{$value.video_link}"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
                         <div class="tips">*如何获取视频地址？免费上传视频到七牛云存储</div>
                     </div>
                 </div>
                 <div class="form-item">
                     <label class="form-label"><span class="red">*</span>项目详情</label>
                     <div class="form-input">
-                        <script id="editor" type="text/plain" name="goods_text" style="width:800px;height:500px;"></script>
+                        <script id="editor" type="text/plain" name="goods_text" style="width:800px;height:500px;">{$value.goods_text}</script>
                     </div>
                 </div>
                 <div class="form-item">
                     <label class="form-label"><span class="red">*</span>团队介绍</label>
                     <div class="form-input">
-                        <script id="editor1" type="text/plain" name="goods_text" style="width:800px;height:500px;"></script>
+                        <script id="editor1" type="text/plain" name="team" style="width:800px;height:500px;">{$value.team}</script>
                     </div>
                 </div>
                 <div class="form-item">
                     <label class="form-label"><span class="red">*</span>检测报告</label>
                     <div class="form-input">
-                        <script id="editor2" type="text/plain" name="goods_text" style="width:800px;height:500px;"></script>
+                        <script id="editor2" type="text/plain" name="text" style="width:800px;height:500px;">{$value.text}</script>
                     </div>
                 </div>
                 <div class="form-title">价格库存 </div>
                 <div class="form-item">
                     <label class="form-label">配送方式</label>
                     <div class="form-input line">
-                        <input type="checkbox" name="goods_delivery" lay-skin="primary" title="商家配送" value="1" checked="">
-                        <input type="checkbox" name="goods_delivery" lay-skin="primary" title="到店自提" value="2">
+                        {if $value.goods_delivery[0] == 1}
+                        <input type="checkbox" name="goods_delivery" value="1" lay-skin="primary" title="商家配送" checked="">
+                        <input type="checkbox" name="goods_delivery" value="2" lay-skin="primary" title="到店自提"> {else}
+                        <input type="checkbox" name="goods_delivery" value="1" lay-skin="primary" title="商家配送">
+                        <input type="checkbox" name="goods_delivery" value="2" lay-skin="primary" title="到店自提" checked="">{/if}
                     </div>
                 </div>
                 <div class="form-item">
@@ -683,13 +745,13 @@
                     <div style="display: flex;flex-direction:column">
                         <div class="form-input line" style="margin-bottom: 4px;">
                             <input type="radio" title="商家配送" checked="">
-                            <input type="number" name="goods_franking" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"> </input>
+                            <input type="number" name="goods_franking" value="{$value.goods_franking}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"> </input>
                             </input>
         
                         </div>
                         <div class="form-input line" style="margin-bottom: 4px;">
                             <input type="radio" title="运费模板">
-                            <input type="number" name="templet_id" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"> </input>
+                            <input type="number" name="templet_id"  value="{$value.templet_id}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"> </input>
                             </input>
                             <a href="">新建</a>
                         </div>
@@ -700,15 +762,21 @@
                 <div class="form-item">
                     <label class="form-label">状态</label>
                     <div class="form-input">
+                        {if $value.label==0}
                         <input type="radio" name="label" value="0" title="暂不上架" checked="">
-                        <input type="radio" name="label" value="1" title="立即上架">
+                        <input type="radio" name="label" value="1" title="立即上架"> {else}
+                        <input type="radio" name="label" value="0" title="暂不上架">
+                        <input type="radio" name="label" value="1" title="立即上架" checked="">{/if}
                     </div>
                 </div>
                 <div class="form-item">
-                    <label class="form-label">轮播推介</label>
+                    <label class="form-label">轮播介绍</label>
                     <div class="form-input">
-                        <input type="radio" name="label" value="0" title="推荐" checked="">
-                        <input type="radio" name="label" value="1" title="不推荐">
+                        {if $value.status == 1}
+                        <input type="radio" name="status" value="1" title="首页推荐" checked="">
+                        <input type="radio" name="status" value="0" title="首页不推荐"> {else}
+                        <input type="radio" name="status" value="1" title="首页推荐">
+                        <input type="radio" name="status" value="0" title="首页不推荐" checked="">{/if}
                     </div>
                 </div>
         <div class="layui-form-item">
@@ -717,7 +785,7 @@
                 <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
             </div>
         </div>
-        {/volist}
+        {/volist}{/if}
     </form>
 
     {/block}
@@ -742,6 +810,68 @@
         codings.push($(".coding")[r].value);
     }
        
+    $.ajax({
+            type: "POST",
+            url: "{:url('admin/Goods/crowd_offer')}",
+            data: {
+                "id": ids,
+            },
+            success: function(data) {
+                var data=eval('(' + data + ')');
+                console.log(data);
+                if(data.status=="1"){
+                    var dhtmlss='';  
+                    for(var i=0;i<data.data.length;i++){
+                       if(data.data[i].num[0]!=''){
+                                 //   <!-- 编码循环这里 -->
+                        dhtmlss+='<div class="form-item general" style=" align-items: center;position: relative;">';
+                            dhtmlss+='<label class="form-label">包装规格</label>';
+                            dhtmlss+=' <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">';
+                            dhtmlss+='<select name=""  class="packing packings" disabled="disabled">';
+                            dhtmlss+='  <option value="">请选择规格编码</option>';
+                            for(var w=0;w<codings.length;w++){
+                                if(data.data[i].number==codings[w]){
+                                    dhtmlss+=' <option value="'+codings[w]+'" selected>'+codings[w]+'</option>';
+                                }
+                                else{
+                                    dhtmlss+=' <option value="'+codings[w]+'">'+codings[w]+'</option>';
+                                }
+                                
+                            }
+                           
+                            dhtmlss+=' </select>';
+                            for(var j=0;j<data.data[i].num.length;j++){
+                                for(var q=0;q<data.data[i].unit.length;q++) {
+                                    if(j==q){
+                                        //  <!-- 单位循环这里 -->
+                                        dhtmlss+='<div class="danwei_content">';
+                                        dhtmlss+='<div class="fuhao">=</div>';
+                                        dhtmlss+='<input type="text" name="'+data.data[i].id+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="'+data.data[i].num[j]+'" >';
+                                        dhtmlss+='<input type="text" name="'+data.data[i].id+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="'+data.data[i].unit[q]+'" maxlength="2"> ';
+                                        dhtmlss+='<img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                                        dhtmlss+='</div>';
+                                        //   <!-- 单位循环这里 -->
+                                        }
+                                }
+                            }
+                        
+                            dhtmlss+=' <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div> ';
+                         dhtmlss+=' </div>';
+                         dhtmlss+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
+                         dhtmlss+=' </div>';
+                     //   <!-- 编码循环这里 -->
+                       }  
+                      
+                    }
+                    $(".add_danwei2").parent().before(dhtmlss);
+                }
+                
+            },
+            error: function(data) {
+                console.log("失败")
+            }
+           });
+  
         layui.config({
             base: "js/"
         }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
@@ -761,7 +891,7 @@
                 else{
                     $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/value')}",
+                    url: "{:url('admin/Goods/crowd_value')}",
                     data: {
                         "id": location_x,
                         "value": change_val,
@@ -797,7 +927,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/switches')}",
+                    url: "{:url('admin/Goods/crowd_switches')}",
                     data: {
                         "id": id,
                         "status": value,
@@ -827,14 +957,14 @@
                 formData.append("file", filess);
                 $.ajax({
                             type: "POST",
-                            url: "{:url('admin/Goods/photos')}",
+                            url: "{:url('admin/Goods/crowd_photos')}",
                             data: {
                                 "id": id,
                             },
                             success: function(data) {
                                 $.ajax({
                                         type: "POST",
-                                        url: "{:url('admin/Goods/addphoto')}",
+                                        url: "{:url('admin/Goods/crowd_addphoto')}",
                                         processData: false,
                                         contentType: false,
                                         data: formData,
@@ -963,7 +1093,7 @@
                 remove.remove();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/images')}",
+                    url: "{:url('admin/Goods/crowd_images')}",
                     data: {
                         "id": id,
                         "pid": title
@@ -978,6 +1108,169 @@
                 });
 
             });
+              // 包装规格
+        $(".add_danwei").click(function(){
+            var danwei=''
+            danwei+='<div class="fuhao">=</div>';
+            danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+            danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+            $(this).before(danwei);
+        });
+        $(".general_content").on("click",".add_danwei1",function(){
+           var i=parseInt($(this).data("id"));
+            var select=$(this).siblings(".packing").val();
+            var ids=$("#ids").val();
+             var thisa=$(this);
+                if(select!="0"){
+                    $.ajax({
+                            type: "POST",
+                            url:  "{:url('admin/Goods/crowd_standard')}",
+                            data: {
+                                "id": ids,
+                                "coding": select
+                            },
+                            async:false,
+                            dataType: "json",
+                            success: function(data) {
+                                console.log(data);
+                                    var danwei1='';
+                                    danwei1+='<div class="danwei_content">';
+                                    danwei1+='<div class="fuhao">=</div>';
+                                    danwei1+='<input type="text" name="'+data.data+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
+                                    danwei1+='<input type="text" name="'+data.data+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
+                                    danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                                    danwei1+='</div>';
+                                
+                                    thisa.before(danwei1);
+                                
+                            },
+                            error: function(data) {
+                                console.log("错误");
+                            }
+                        });
+                
+                }
+                else{
+                    alert("请选择规格编码");
+                }
+                $(this).data("id",i+1);
+          
+        });
+        $(".add_danwei2").click(function(){
+            if($(".packings").find("option").length!=1){
+                var danwei2='';
+                danwei2+='<div class="form-item general" style="align-items: center; position: relative;">';
+                danwei2+='<label class="form-label"></label>';
+                danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
+                danwei2+='<select name="" class="packing" >';
+                danwei2+='<option value="0">请选择规格编码</option>';
+                for(var j=0;j<codings.length;j++){
+                    danwei2+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
+                }
+                danwei2+='</select>';
+                danwei2+='<div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>';
+                danwei2+='</div>';
+                danwei2+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
+                danwei2+=' </div>';
+                $(this).parent().before(danwei2)
+            }
+           else{
+                 alert("请先添加规格编码")
+           }
+        });
+        
+        $(".general-kuang").on('focus', ".coding", function() {
+            $(this).data("title",$(this).val());
+        });
+        
+        $(".general-kuang").on('change', ".coding", function() {
+           var title=$(this).data("title");
+          
+           if($(this).data("title")==''){
+               var dhtmlq='';
+               dhtmlq+=' <option value="'+$(this).val()+'">'+$(this).val()+'</option>';
+             $(".packing").append(dhtmlq);
+             $(this).data("title",$(this).val());
+                codings.push($(this).val());
+           }
+           else{
+               
+            //   for(var qq=0;qq<$("input[name='"+title+"_num[]']").length;qq++){
+                    $("input[name='"+title+"_num[]']").attr('name',$(this).val()+"_num[]");   
+                    $("input[name='"+title+"_unit[]']").attr('name',$(this).val()+"_unit[]");  
+            //    }
+                $(".packing option[value='"+$(this).data("title")+"']").text($(this).val());
+                $(".packing option[value='"+$(this).data("title")+"']").val($(this).val());
+              
+                for(var i=0;i<codings.length;i++){
+                    if(codings[i]==$(this).data("title")){
+                        codings[i]=$(this).val();
+                    }
+                }
+                $(this).data("title",$(this).val());
+           }
+        //    console.log(codings);
+        });
+        $(".general_content").on('click', ".delect_img", function() {
+           $(this).parent().siblings(".add_danwei1").data("id", parseInt($(this).parent().siblings(".add_danwei1").data("id"))-1);
+        
+           $(this).parent().remove();
+        })
+        $(".general_content").on('change', ".packing", function() {
+            var k=0;
+          for(var q=0;q<$(".packing").length;q++){
+             if($(".packing")[q].value==$(this).val()){
+                 k++;
+             }
+          }
+          if(k>1){
+             
+            $(this).children("option").remove();
+            var danwei4='';
+            danwei4+='<option value="0">请选择规格编码</option>';
+            for(var j=0;j<codings.length;j++){
+                    danwei4+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
+             }
+
+             $(this).append(danwei4);
+          }
+          else{
+              var ids=$("#ids").val();
+             var coding=$(this).val();
+             var data_id=null;
+             var change_name= $(this).siblings(".danwei_content").children("input")
+              $.ajax({
+                    type: "POST",
+                    url:  "{:url('admin/Goods/crowd_standard')}",
+                    data: {
+                        "id": ids,
+                        "coding": coding
+                    },
+                    async:false,
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        for(var k=0;k<change_name.length;k++){
+                        if( jiequ(change_name[k].name)=="num[]"){
+                            $("input[name='"+change_name[k].name+"']").attr('name',data.data+"_num[]")
+                        }
+                        else if( jiequ(change_name[k].name)=="umit[]"){
+                            $("input[name='"+change_name[k].name+"']").attr('name',data.data+"_unit[]")
+                        }
+                    }
+                    },
+                    error: function(data) {
+                        console.log("错误");
+                    }
+                });
+
+             
+         
+            
+          }
+           
+        })
+        // 包装规格
               
         });
      

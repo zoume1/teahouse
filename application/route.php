@@ -479,9 +479,22 @@ Route::group("admin",[
     "goods_offer"=>"admin/Goods/offer",      //普通商品多规格列表单位编辑 
     "goods_standard"=>"admin/Goods/standard",//普通商品多规格列表单位id查找 
 
-    "crowd_index"=>"admin/Goods/crowd_index",   //众筹商品列表显示
-    "crowd_add"=>"admin/Goods/crowd_add",       //众筹商品列表添加
-    "crowd_edit"=>"admin/Goods/crowd_edit",     //众筹商品编辑
+    "crowd_index"=>"admin/Goods/crowd_index",        //众筹商品列表显示
+    "crowd_add"=>"admin/Goods/crowd_add",            //众筹商品列表添加
+    "crowd_edit"=>"admin/Goods/crowd_edit",          //众筹商品编辑
+    "crowd_offer"=>"admin/Goods/crowd_offer",        //众筹商品单位编辑
+    "crowd_update"=>"admin/Goods/crowd_update",      //众筹商品单位更新
+    "crowd_delete"=>"admin/Goods/crowd_delete",      //众筹商品删除
+    "crowd_standard"=>"admin/Goods/crowd_standard",  //众筹商品多规格列表单位id查找
+    "crowd_status"=>"admin/Goods/crowd_status",      //众筹商品首页轮播推荐
+    "crowd_ground"=>"admin/Goods/crowd_ground",      //众筹商品是否上架
+    "crowd_dels"=>"admin/Goods/crowd_dels",          //众筹商品批量删除
+    "crowd_photos"=>"admin/Goods/crowd_photos",      //众筹商品规格图片删除
+    "crowd_images"=>"admin/Goods/crowd_images",      //众筹商品项目图片删除
+    "crowd_value"=>"admin/Goods/crowd_value",        //众筹商品规格值修改
+    "crowd_switches"=>"admin/Goods/crowd_switches",  //众筹商品规格开关
+    "crowd_addphoto"=>"admin/Goods/crowd_addphoto",  //众筹商品规格图片添加
+    "crowd_search"=>"admin/Goods/crowd_search",      //众筹商品商品列表搜索
 
     "exclusive_index"=>"admin/Goods/exclusive_index",   //专属定制商品显示
     "exclusive_add"=>"admin/Goods/exclusive_add",       //专属定制商品添加
