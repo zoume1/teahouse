@@ -11,7 +11,7 @@
         *{margin: 0; padding: 0;}
         i{font-style: normal;}
         .triangle::after{content: ''; position: absolute; left: 50%; top: 110%; margin-left: -4px; width: 0; height: 0; border: 5px solid transparent; border-top-color: #f00;}
-        .wrapper{padding: 0 60px;}
+        .wrapper{padding: 0 60px; position: relative;}
         .header{display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #bcbcbc; margin-bottom: 50px; min-width: 1200px;}
         .step{font-size: 14px; color: #868686; margin: 0 30px; line-height: 3em;}
         .step-on{font-size: 20px; color: #333; font-weight: 700;}
@@ -57,6 +57,10 @@
         .settlement-cont .payment{font-size: 18px; color: #f44;}
         .settlement-cont button{width: 140px; height: 40px; text-align: center; line-height: 40px; background-color: #f44; color: #fff; font-size: 16px; border: 0; outline: none; cursor: pointer;}
         .settlement-cont button:disabled{background-color: #a1a1a1;}
+        
+        .payment-pop{position: absolute; top: 50%; left: 50%; margin: -280px 0 0 -280px; min-width: 560px; min-height: 560px; padding: 0 18px; box-sizing: border-box; border-radius: 5px; background-color: #fff;}
+        .pop-title{font-size: 16px; font-weight: 700;padding: 15px 0; border-bottom: 1px solid #e5e5e5; margin-bottom: 15px;}
+        /* .pop-title::after{content: '×';} */
     </style>
 </head>
 <body>
@@ -93,8 +97,8 @@
                             <div class="counter">
                                 <button class="minus" @click="minusEvent(item)">-</button>
                                 <input type="num" 
-                                    :value="item.number"
-                                    @input="inputNumber(item, index)"
+                                    v-model="item.number"
+                                    @keyup="inputNumber(item, index)"
                                     ref="num">
                                 <button class="plus" @click="plusEvent(item)">+</button>
                                 <span class="unit">{{item.unit}}</span>
@@ -127,6 +131,42 @@
                     <button 
                         :disabled="!protocolFlag"
                         @click="buy">立即付款</button>
+                </div>
+            </div>
+        </div>
+        <div class="mask" v-if="true"></div>
+        <div class="payment-pop">
+            <h3 class="pop-title">选择付款方式</h3>
+            <div class="select-way">
+                <div class="name">
+                    <div class="key">商家名称：</div>
+                    <div class="value">siring</div>
+                </div>
+                <div class="payment-amount">
+                    <div class="key">支付金额：</div>
+                    <div class="value">399.00</div>
+                </div>
+                <div class="method">
+                    <div class="key">支付方式：</div>
+                    <div class="value">
+                        <div>
+                            <input type="radio" name="way" id="scan">
+                            <label for="scan">扫码支付</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="way" id="remit">
+                            <label for="remit">汇款支付</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="way" id="balance">
+                            <label for="balance">余额支付</label>
+                            <div>
+                                <span>资金余额：1000.00</span>
+                                <button>立即充值</button>
+                                <span class="">余额不足，可立即充值</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -168,29 +208,23 @@
                 ]
             },
             methods: {
+                // 减
                 minusEvent: function(item){
-                    if(item.number > 1){
-                        item.number--;
-                    }
+                    item.number > 1 ? item.number-- : '';
                 },
+                // 加
                 plusEvent: function(item){
-                    if(item.number < item.stock){
-                        item.number++;
-                    }else{
-                        layer.msg('不能大于库存！', {time: 1000});
-                    }
+                    item.number < item.stock ? item.number++ : layer.msg('不能大于库存！', {time: 1000});
                 },
+                // 选中商品
                 selectGoods: function(item, index, e){
-                    if(e.target.checked){
-                        this.$set(this.selectData, index, item);
-                    }else{
-                        this.selectData.splice(index, 1);
-                    }
+                    e.target.checked ? this.$set(this.selectData, index, item) : this.selectData.splice(index, 1);
                 },
                 // 输入购买数量
                 inputNumber: function(item, index){
-                    var num = this.$refs.num[index].value;
-                    item.number = num;
+                    var num = +this.$refs.num[index].value || 1;
+                    if(num > item.stock) layer.msg('不能大于库存！', {time: 1000});
+                    this.$set(item, 'number', num > item.stock ? item.stock : (num < 0 ? 1 : num));
                 },
                 // 删除订单
                 delEvent: function(item){
@@ -200,7 +234,7 @@
                 },
                 // 是否使用邀请码
                 useDiscount: function(){
-                    this.discountFlag = !this.discountFlag;
+                    // this.discountFlag = !this.discountFlag;
                 },
                 // 同意协议
                 agreement: function(){
@@ -217,7 +251,9 @@
                     let sum = 0;
                     if(this.selectData){
                         for(let item of this.selectData){
-                            sum += item.number * item.unitPrice;
+                            if(item){
+                                sum += item.number * item.unitPrice;
+                            }
                         }
                     }
                     return sum.toFixed(2);
