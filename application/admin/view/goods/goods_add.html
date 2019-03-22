@@ -492,7 +492,7 @@
                         <img src="__STATIC__/admin/index/img/qingchang.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="" class="biaoqian">
                         <span class="texts">古色生香</span>
                         <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
                     </div>
@@ -850,7 +850,7 @@
                 });
                 $(".add_biao").click(function() {
                     var dhtml = "";
-                    dhtml +='<div class="list"> <input type="checkbox" name="goods_sign" lay-skin="primary" title=""> <span class="texts">古色生香</span> <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> </div>'
+                    dhtml +='<div class="list"> <input type="checkbox" name="goods_sign" lay-skin="primary" title="" class="biaoqian"> <span class="texts">古色生香</span> <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> </div>'
                     $(this).before(dhtml);
                     form.render();
                 });
@@ -1037,19 +1037,27 @@
                     });
                 });
 
-                // $("#hot").on('click', ".change_text", function() {
-                //         var texts = $(this).siblings('.texts');
-                //         layer.prompt({
-                //                 title: '请输入修改的文字',
-                //                 formType: 2
-                //             },
-                //             function(text, index) {
-                //                 texts.html(text);
-                //                 layer.close(index);
+                $("#hot").on('click', ".change_text", function() {
+                        var texts = $(this).siblings('.texts');
+                        var biaoqian = $(this).siblings('.biaoqian');
+                        var that=$(this).parent();
+                        console.log(that);
+                        layer.prompt({ 
+                             title: '请输入修改的文字',
+                             btn: ['确定', '删除标签',], //可以无限个按钮
+                             formType: 2,
+                            }, function(text, index){
+                                texts.html(text);
+                                biaoqian.val()
+                                layer.close(index);
+                            }, function(text, index){
+                                that.remove();
+                                layer.close(text);
+                             
+                            });
+                     
 
-                //             });
-
-                //     })
+                    })
                     $(".sever_list").on('click', ".change_text", function() {
                         var texts = $(this).siblings('.texts');
                         layer.prompt({
@@ -1149,9 +1157,7 @@
                 $(".popup_x").click(function(){
 			$(".popup").addClass("noshow");
 		});
-        $("#hot").on('click', ".change_text", function() {
-			$(".popup").removeClass("noshow");
-		});
+       
 
         // 包装规格
         $(".add_danwei").click(function(){
