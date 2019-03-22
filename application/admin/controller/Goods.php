@@ -272,7 +272,7 @@ class Goods extends Controller
         $goods = db("goods")->where("id", $id)->select();
         $scope = db("member_grade")->field("member_grade_name")->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
-
+        $expenses = db("express")->field("id,name")->select();
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
@@ -289,9 +289,9 @@ class Goods extends Controller
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"]; //判断是否为通用或特殊
         if ($restel == 0) {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope,"expenses"=>$expenses]);
         } else {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"expenses"=>$expenses]);
         }
     }
 
