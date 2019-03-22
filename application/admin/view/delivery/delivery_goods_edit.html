@@ -83,7 +83,7 @@
                                 <div class="form-item">
                                     <label class="form-label"><span class="red">*</span>目的地</label>
                                     <div class="form-input">
-                                        <select name="are"  class="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
+                                        <select name="are" id="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
                                                 <option value="">请选择</option>
                                         </select>
                                         <div class="tips">
@@ -164,6 +164,35 @@
 				$(".city").append("<option value='" + now_city + "'>" + now_city + "</option>");
                 formSelects.render();
             }
+            	// 取当前页面名称(不带后缀名)
+                function pageName() {
+                    var a = location.href;
+                    var b = a.split("/");
+                    var c = b.slice(b.length - 1, b.length).toString(String).split(".");
+                    return c.slice(0, 1)[0];
+                }
+                var citys=[];
+            $.ajax({
+				type: "POST",
+				url: "{:url('admin/Delivery/delivery_are')}",
+				data: {
+					id: pageName()
+				},
+				success: function(data) {
+					var data = eval('(' + data + ')');
+					console.log(data);
+					for(var i = 0; i < data.data.length; i++) {
+						citys.push(data.data[i]);
+					}
+                    console.log(citys);
+					layui.formSelects.value('city', citys);
+					formSelects.render();
+				},
+				error: function(data) {
+					console.log(data)
+				}
+			});
+		
             
             	// TODO商品规格变化
 			form.on('radio(guige)', function(data) {
