@@ -77,9 +77,10 @@ class Goods extends Controller
         if ($pid == 0) {
             $goods_list = getSelectList("wares");
         }
+        $expenses = db("express")->field("id,name")->select();
         $scope = db("member_grade")->field("member_grade_name")->select();
 
-        return view("goods_add", ["goods_list" => $goods_list,"scope"=>$scope]);
+        return view("goods_add", ["goods_list" => $goods_list,"scope"=>$scope,"expenses"=>$expenses]);
     }
 
 
@@ -271,7 +272,7 @@ class Goods extends Controller
         $goods = db("goods")->where("id", $id)->select();
         $scope = db("member_grade")->field("member_grade_name")->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
-
+        $expenses = db("express")->field("id,name")->select();
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
@@ -288,9 +289,9 @@ class Goods extends Controller
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"]; //判断是否为通用或特殊
         if ($restel == 0) {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope,"expenses"=>$expenses]);
         } else {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"expenses"=>$expenses]);
         }
     }
 
@@ -921,7 +922,7 @@ class Goods extends Controller
                                     $str[] = substr($key, 3);
                                     $values[$k]["name"] = $str[$k];
                                     $values[$k]["price"] = $price[$k];
-                                    $values[$k]["lv1"] = $result;
+                                    $values[$k]["lv1"] = $standard;
                                     $values[$k]["stock"] = $stock[$k];
                                     $values[$k]["coding"] = $coding[$k];
                                     if(isset($num1)){
@@ -946,7 +947,7 @@ class Goods extends Controller
                                             $values[$k]["element"] = null;
                                     }
                                     $values[$k]["status"] = $status[$k];
-                                    $values[$k]["story"] = $story[$K];
+                                    $values[$k]["story"] = $story[$k];
                                     $values[$k]["save"] = $save[$k];
                                     $values[$k]["cost"] = $cost[$k];
                                     $values[$k]["limit"] = $line[$k];                                    
@@ -993,6 +994,7 @@ class Goods extends Controller
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);         
         }
+        
         return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard]);
     }
 
@@ -1006,8 +1008,11 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
+            $time = time();
             $goods_data = $request->param();       
-            $show_images = $request->file("goods_show_images");            
+            $show_images = $request->file("goods_show_images");
+            $number_days = intval($goods_data["number_days"]);
+            $end_time = strtotime(date('Y-m-d', strtotime ("+ $number_days day", $time)));           
             $list = [];
             if (!empty($show_images)) {
                 foreach ($show_images as $k => $v) {
@@ -1035,7 +1040,7 @@ class Goods extends Controller
                     $goods_data["goods_show_image"] = null;
                 }
             } 
-
+            $goods_data["end_time"] = $end_time;
             $special_id = db("crowd_special")->where("goods_id",$id)->field("id")->select();
             foreach($special_id as $pp => $qq){
                 $special[$pp] = $qq["id"];
