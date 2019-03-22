@@ -1045,15 +1045,16 @@
                         layer.prompt({ 
                              title: '请输入修改的文字',
                              btn: ['确定', '删除标签',], //可以无限个按钮
-                             formType: 2,
-                            }, function(text, index){
+                             formType: 2
+                            ,yes:function(text, index){
                                 texts.html(text);
                                 biaoqian.val()
                                 layer.close(index);
-                            }, function(text, index){
+                            },btn2:function(text, index){
+                             
                                 that.remove();
                                 layer.close(text);
-                             
+                            }
                             });
                      
 
