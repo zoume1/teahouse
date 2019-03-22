@@ -205,39 +205,18 @@ class Delivery extends  Controller{
      */
     public function delivery_goods_add(Request $request){
         if($request->isPost()){
-            $data = $request->param();
-            halt($data);
-            $status = $data["status"];
-            if($status == 1){ //按单位
-                $delivery = [
-                    "name"=> $data["name"],
-                    "status"=> $data["status"],
-                    "unit"=> $data["unit1"],
-                    "price"=> $data["price1"],
-                    "add"=> $data["add1"],
-                    "markup"=> $data["markup1"],
-                    "are"=> $data["are"]
-                ];
-            } else { //按重量
-                $delivery = [
-                    "name"=> $data["name"],
-                    "status"=> $data["status"],
-                    "unit"=> $data["unit"],
-                    "price"=> $data["price"],
-                    "add"=> $data["add"],
-                    "markup"=> $data["markup"],
-                    "are"=> $data["are"]
-                ];
-            }
-            
-            $res =Db::name("express")->insert($delivery);
+            $data = $request->param();           
+            $res =Db::name("express")->insert($data);
             if($res){
                 $this->success("添加成功",'admin/Delivery/delivery_goods');
             }else{
                 $this->error("添加失败,请重试");
             }
         }
-        return view("delivery_goods_add");
+        $unit = db("special")->distinct(true)->field("unit")->select();
+        $list = unit_list($unit);
+
+        return view("delivery_goods_add",["list"=>$list]);
     }
 
 
@@ -245,10 +224,13 @@ class Delivery extends  Controller{
      * [快递发货编辑]
      * 郭杨
      */
-    public function delivery_goods_edit($id){
+    public function delivery_goods_edit($id)
+    {
+        $unit = db("special")->distinct(true)->field("unit")->select();
         $delivery_edit = db("express")->where("id",$id)->select();
-        $delivery_edit[0]["are"]= explode(",",$delivery_edit[0]["are"]);            
-        return view("delivery_goods_edit",["delivery_edit"=>$delivery_edit]);
+        $delivery_edit[0]["are"]= explode(",",$delivery_edit[0]["are"]); 
+        $list = unit_list($unit);           
+        return view("delivery_goods_edit",["delivery_edit"=>$delivery_edit,"list"=>$list]);
     }
 
     /**
@@ -259,7 +241,6 @@ class Delivery extends  Controller{
         if( $request->isPost()){
             $data = $request -> param();
             $bool = db("express")->where('id', $request->only(["id"])["id"])->update($data);
-
             if($bool){
                 $this->success("更新成功",url("admin/Delivery/delivery_goods"));
             } else {
@@ -291,9 +272,8 @@ class Delivery extends  Controller{
      * 郭杨
      */
     public function delivery_are(Request $request){
-        if( $request->isPost()){
+        if($request->isPost()){
             $id = $request->only(["id"])["id"];
-            halt($id);
             $are = db("express")->where('id', $id)->value("are");
             
             $adress = explode(",",$are);

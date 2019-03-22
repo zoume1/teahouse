@@ -581,7 +581,7 @@
                                             <td width="100px"><input type="text" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs" data-title="{$ve.price}" ></td>
                                             <td width="100px"><input type="text" value="{$ve.stock}" data-id="{$ve.id}" data-value="stock" class="inputs"  data-title="{$ve.stock}"></td>
                                             <td width="100px"><input type="text" value="{$ve.coding}" data-id="{$ve.id}" data-value="coding" class="inputs coding" data-title="{$ve.coding}"></td>
-                                            <td width="100px"><textarea id="" cols="" rows="" style="vertical-align: top; outline: none; text-align: center; height: 90px;"></textarea>{$ve.story}</td>
+                                            <td width="100px"><textarea id="" cols="" rows="" style="vertical-align: top; outline: none; text-align: center; height: 90px;">{$ve.story}</textarea></td>
                                             <td width="100px"><input type="text" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost" class="inputs "   data-title="{$ve.cost}" > </td>	
                                                 <td width="100px"><div class="img-box full">
                                                             <section class=" img-section">
@@ -644,7 +644,7 @@
                 <label class="form-label">商品折扣</label>
                 <div class="form-input line">
                     {if $value.goods_member == 1}
-                    <input type="checkbox" name="goods_member" value="1" lay-skin="primary" title="参加会员折扣"> {else}
+                    <input type="checkbox" name="goods_member" value="1" lay-skin="primary" title="参加会员折扣" checked=""> {else}
                     <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
                     <a href="">管理会员卡</a>
                 </div>
