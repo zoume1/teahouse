@@ -173,7 +173,8 @@ class  Analyse extends  Controller{
                     foreach ($show_images as $k=>$v) {
                         $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                         $list[] = str_replace("\\", "/", $info->getSaveName());
-                    }            
+                    }
+                    $goods_data["goods_standard"] = 0;            
                     $goods_data["goods_show_image"] =  $list[0];
                     $goods_data["goods_type"] = 2;     //商品类型
                     $goods_data["goods_show_images"] = implode(',', $list);
@@ -186,7 +187,7 @@ class  Analyse extends  Controller{
                     $this->success("添加失败", url('admin/Analyse/analyse_index'));
                 }           
         }     
-        return view("analyse_invented");
+            return view("analyse_invented");
     }
 
     /**
