@@ -425,13 +425,14 @@ class  Order extends  Controller
                                 ->having("integral_discount_setting_id","NEQ",NULL)
                                 ->group("integral_discount_setting_id")
                                 ->find();
-                            $data =[
+                            $data = [
                                 "status"=>9,
                                 "coupon_id"=>0,
                                 "cancel_order_description"=>$cancel_order_description
                             ];
                             $bool =Db::name("order_parts")->where("id",$v["id"])->update($data);
                         }
+
                         if($bool){
                             //取消订单退回积分到积余额
                             if(!empty( $is_use_integral)){
@@ -462,7 +463,7 @@ class  Order extends  Controller
                     }
                 }
             }else{
-                return ajax_error("所传参数不能为空",["status"=>0]);
+            return ajax_error("所传参数不能为空",["status"=>0]);
             }
         }
     }

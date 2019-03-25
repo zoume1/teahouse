@@ -38,13 +38,41 @@ class  General extends  Controller{
         return view("decoration_routine_index");
     }
 
+
     /**
      * [增值服务(增值商品显示)]
      * 郭杨
      */    
-    public function added_service_index(){     
-        return view("added_service_index");
+    public function added_service_index(){
+        $list = db("analyse_goods")->where("label",1)->field("id,goods_name,goods_standard,goods_selling,product_type,goods_new_money,goods_bottom_money,goods_volume,goods_show_images,goods_show_image")->select();    
+        if(!empty($list)){
+            foreach($list as $k => $v){
+                $list[$k]["goods_show_images"] = explode(",",$list[$k]["goods_show_images"]);
+                if($list[$k]["goods_standard"] == 1){
+                    $min[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("price");
+                    $line[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("line");
+                    $list[$k]["goods_new_money"] = $min[$k];
+                    $list[$k]["goods_bottom_money"] = $line[$k];
+                }
+            }        
+            $count = count($list);
+            if($count > 4){
+                $arandom = array_rand($list,4);
+                foreach($list as $key => $value){
+                    if(in_array($key,$arandom)){
+                        $arr[] = $value;
+                    }
+                }
+                $list["arandom"] = $arr;
+            } else {
+                $list["arandom"] = $list;
+            }
+
+            return view("added_service_index",["list"=>$list]);
+        }
     }
+
+
 
     /**
      * [订单套餐]
