@@ -18,7 +18,8 @@
         .col-left .top .filter-btn{background-color: #f00; color: #fff; font-size: 14px; border: 0; outline: none; cursor: pointer;}
         .col-left .top select{margin: 0 20px; height: 25px;}
         .col-left .goods-list{display: flex; flex-wrap: wrap; justify-content: space-between;}
-        .col-left .goods-list li.goods-item{width: 220px; height: 360px; border: 1px solid #f4f4f4;}
+        .col-left .goods-list li.goods-item{width: 220px; height: 360px; border: 1px solid #f4f4f4; cursor: pointer;}
+        .col-left .goods-list .goods-item:hover{border-color: #f40;}
         .col-left .goods-list li.holder{height: 0; margin: 0; padding: 0; width: 220px;}
         .col-left .goods-item .img-box{width: 100%; height: 220px;}
         .col-left .img-box img{width: 100%; height: 100%;}
@@ -34,7 +35,8 @@
         .col-left .oicq{float: right;}
         .col-left .oicq .qq-inline{display: inline-block; width: 20px; height: 20px; background: url(__STATIC__/admin/common/img/icon-qq.png) no-repeat; font-size: 0; background-size: contain;}
         .col-right .side-title{font-size: 16px; color: #555; border-bottom: 1px solid #f4f4f4; height: 40px; line-height: 40px; padding-top: 10px; margin-bottom: 14px; font-weight: 700;}
-        .col-right .side-item{width: 240px; height: 270px; border: 1px solid #f4f4f4; margin: 0 auto;}
+        .col-right .side-item{width: 240px; height: 270px; border: 1px solid #f4f4f4; margin: 0 auto 10px; cursor: pointer;}
+        .col-right .side-item:hover{border-color: #f40;}
         .col-right .side-item .img-box{width: 100%; height: 240px;}
         .col-right .img-box img{width: 100%; height: 100%;}
         .col-right .side-row{height: 18px; line-height: 18px; margin: 5px 0; font-size: 12px; color: #404040; padding: 0 10px;}
@@ -92,7 +94,7 @@
             <div class="col-right fr">
                 <div class="side-title">系统推荐</div>
                 <ul class="side-list">
-                    <li class="side-item">
+                    <li class="side-item" v-for="(v, i) in 2">
                         <div class="img-box">
                             <img src="https://img.alicdn.com/imgextra/i4/114611206/O1CN0115wIpl1KmOAHtj3Oa_!!0-saturn_solar.jpg_270x270.jpg">
                         </div>
