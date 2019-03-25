@@ -1041,19 +1041,27 @@
                         var texts = $(this).siblings('.texts');
                         var biaoqian = $(this).siblings('.biaoqian');
                         var that=$(this).parent();
-                        console.log(that);
+                        // console.log(that);
+                        // layer.prompt({title: '输入任何口令，并确认', formType: 1}, function(pass, index){
+                        //     layer.close(index);
+                        //     layer.prompt({title: '随便写点啥，并确认', formType: 2}, function(text, index){
+                        //         layer.close(index);
+                        //         layer.msg('演示完毕！您的口令：'+ pass +'<br>您最后写下了：'+text);
+                        //     });
+                        // });
                         layer.prompt({ 
                              title: '请输入修改的文字',
                              btn: ['确定', '删除标签',], //可以无限个按钮
                              formType: 2
-                            ,yes:function(text, index){
-                                texts.html(text);
-                                biaoqian.val()
-                                layer.close(index);
-                            },btn2:function(text, index){
-                             
-                                that.remove();
-                                layer.close(text);
+                            ,function(text, index){
+                               alert(111);
+                                // texts.html(text);
+                                // biaoqian.val()
+                                // layer.close(index);
+                            },function(text, index){
+                                alert(112);
+                                // that.remove();
+                                // layer.close(text);
                             }
                             });
                      
