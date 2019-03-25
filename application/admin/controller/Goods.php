@@ -423,10 +423,7 @@ class Goods extends Controller
                         unset($goods_data[$kn]);                    
                     }
                 }
-
-
-            
-            
+           
              foreach($special as $tt => $yy){ 
                  if(isset($num1)){
                     if(array_key_exists($yy,$num1)){        
@@ -970,8 +967,9 @@ class Goods extends Controller
             
    
         }
+        $expenses = db("express")->field("id,name")->select();
         $goods_list = getSelectList("wares");      
-        return view("crowd_add",["goods_list"=>$goods_list]);
+        return view("crowd_add",["goods_list"=>$goods_list,"expenses"=>$expenses]);
     }
 
 
@@ -983,6 +981,7 @@ class Goods extends Controller
         $goods = db("crowd_goods") -> where("id",$id) -> select(); 
         $goods_standard = db("crowd_special")->where("goods_id", $id)->select();
         $goods_list = getSelectList("wares");
+        $expenses = db("express")->field("id,name")->select();
 
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
@@ -994,8 +993,9 @@ class Goods extends Controller
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);         
         }
+    
         
-        return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard]);
+        return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"expenses"=>$expenses]);
     }
 
 

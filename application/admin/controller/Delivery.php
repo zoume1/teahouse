@@ -206,8 +206,8 @@ class Delivery extends  Controller{
     public function delivery_goods_add(Request $request){
         if($request->isPost()){
             $data = $request->param();           
-            $res =Db::name("express")->insert($data);
-            if($res){
+            $rest =Db::name("express")->insert($data);
+            if($rest){
                 $this->success("添加成功",'admin/Delivery/delivery_goods');
             }else{
                 $this->error("添加失败,请重试");
@@ -218,6 +218,8 @@ class Delivery extends  Controller{
 
         return view("delivery_goods_add",["list"=>$list]);
     }
+
+
 
 
     /**
