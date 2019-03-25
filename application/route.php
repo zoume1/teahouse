@@ -282,6 +282,12 @@ Route::group("",[
     "demand_collect"=>"index/Manage/demand_collect", //添加供求收藏
     "demand_data"=>"index/Manage/demand_data",       //供求收藏列表
 
+
+    /*快递费用*/
+    "express_charge"=>"index/Manage/express_charge",//快递费用结算
+
+
+
 ]);
 
 /**
