@@ -1,1 +1,134 @@
-增值服务
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>增值服务</title>
+    <link rel="stylesheet" href="__STATIC__/admin/common/css/z-comm.css">
+    
+    <style>
+        .container{border: 1px solid #e4e4e4; background-color: #f7f7f7;}
+        .inner-cont{width: 1200px; min-height: 700px; margin: 0 auto; background-color: #fff; padding: 0 10px; box-sizing: border-box;}
+        .col-left{width: 78%;}
+        .col-right{width: 21%;}
+        .col-left .top{display: flex; align-items: center; height: 40px; background-color: #f7f7f7; margin: 10px 0;}
+        .col-left .top .title{font-size: 14px; color: #0099FF; }
+        .col-left .top .filter-btn{background-color: #f00; color: #fff; font-size: 14px; border: 0; outline: none; cursor: pointer;}
+        .col-left .top select{margin: 0 20px; height: 25px;}
+        .col-left .goods-list{display: flex; flex-wrap: wrap; justify-content: space-between;}
+        .col-left .goods-list li.goods-item{width: 220px; height: 360px; border: 1px solid #f4f4f4; cursor: pointer;}
+        .col-left .goods-list .goods-item:hover{border-color: #f40;}
+        .col-left .goods-list li.holder{height: 0; margin: 0; padding: 0; width: 220px;}
+        .col-left .goods-item .img-box{width: 100%; height: 220px;}
+        .col-left .img-box img{width: 100%; height: 100%;}
+        .col-left .goods-item .row{padding: 0 10px; font-size: 12px; color: #404040;}
+        .col-left .row-1{margin-top: 10px; line-height: 22px; height: 22px; overflow: hidden;}
+        .col-left .row-1 .price{font-size: 16px; color: #f40; float: left;}
+        .col-left .row-1 .deal-cnt{float: right; font-size: 12px; color: #888; line-height: 22px;}
+        .col-left .row-2,
+        .col-left .row-3{margin-top: 6px;}
+        .col-left .row-4{margin-top: 10px;}
+        .col-left .row-4 .classify{float: left; height: 22px; line-height: 22px;}
+        .col-left .classify .dsr{margin-right: 4px;}
+        .col-left .oicq{float: right;}
+        .col-left .oicq .qq-inline{display: inline-block; width: 20px; height: 20px; background: url(__STATIC__/admin/common/img/icon-qq.png) no-repeat; font-size: 0; background-size: contain;}
+        .col-right .side-title{font-size: 16px; color: #555; border-bottom: 1px solid #f4f4f4; height: 40px; line-height: 40px; padding-top: 10px; margin-bottom: 14px; font-weight: 700;}
+        .col-right .side-item{width: 240px; height: 270px; border: 1px solid #f4f4f4; margin: 0 auto 10px; cursor: pointer;}
+        .col-right .side-item:hover{border-color: #f40;}
+        .col-right .side-item .img-box{width: 100%; height: 240px;}
+        .col-right .img-box img{width: 100%; height: 100%;}
+        .col-right .side-row{height: 18px; line-height: 18px; margin: 5px 0; font-size: 12px; color: #404040; padding: 0 10px;}
+        .col-right .side-price{color: #f40; font-size: 16px;}
+
+        .container .inner-cont .active{border-color: #f40;}
+    </style>
+</head>
+
+<body>
+    <div class="container" id="app">
+        <div class="inner-cont clearfix">
+            <div class="col-left fl">
+                <div class="top">
+                    <p class="title">全部商品</p>
+                    <select id="screen">
+                        <option value="选择商品分类">选择商品分类</option>
+                        <option value="软件功能">软件功能</option>
+                    </select>
+                    <button class="filter-btn">确定</button>
+                </div>
+                <ul class="goods-list">
+                    <li class="goods-item" v-for="(v, i) in 4">
+                        <div class="img-box">
+                            <img src="https://img.alicdn.com/imgextra/i3/1991926764/O1CN01ib6enq1zpxUxxzRiL_!!0-item_pic.jpg_430x430q90.jpg">
+                        </div>
+                        <div class="row row-1 clearfix">
+                            <div class="price">
+                                <span>￥</span>
+                                <strong>179.00</strong>
+                            </div>
+                            <div class="deal-cnt">1154人付款</div>
+                        </div>
+                        <div class="row row-2 txt-hid-one">
+                            海康威视萤石C6C/C6CN无线网络高清监控器摄像头家用手机wifi夜视
+                        </div>
+                        <div class="row row-3 txt-hid-two">
+                            360°水平全景 双向通话 智能追踪 镜头遮蔽
+                        </div>
+                        <div class="row row-4 clearfix">
+                            <div class="classify">
+                                <img class="dsr" src="__STATIC__/admin/common/img/icon-ld.png">
+                                <span>硬件设备</span>
+                            </div>
+                            <div class="oicq">
+                                <a href="http://wpa.qq.com/msgrd?v=3&uin=50087335&site=qq&menu=yes" class="qq-inline" target="_blank"></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="holder"></li>
+                    <li class="holder"></li>
+                    <li class="holder"></li>
+                </ul>
+            </div>
+            <div class="col-right fr">
+                <div class="side-title">系统推荐</div>
+                <ul class="side-list">
+                    <li class="side-item" v-for="(v, i) in 2">
+                        <div class="img-box">
+                            <img src="https://img.alicdn.com/imgextra/i4/114611206/O1CN0115wIpl1KmOAHtj3Oa_!!0-saturn_solar.jpg_270x270.jpg">
+                        </div>
+                        <div class="side-row clearfix">
+                            <div class="side-classify fl">
+                                <img class="side-dsr" src="__STATIC__/admin/common/img/icon-ld.png">
+                                <span>硬件设备</span>
+                            </div>
+                            <div class="side-price fr">
+                                <span>￥</span>
+                                <strong>179.00</strong>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="__STATIC__/admin/common/js/vue.js"></script>
+    <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
+    <script src="__STATIC__/admin/common/js/vue-router.js"></script>
+    <script src="__STATIC__/admin/common/js/jquery.js"></script>
+    
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                
+            },
+            methods: {
+
+            },
+        })
+    </script>
+</body>
+
+</html>
