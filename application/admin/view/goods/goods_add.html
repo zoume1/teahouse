@@ -950,32 +950,10 @@
             var unit1=[];
             var unit2=[];
         $(".form-item").on("blur",".units",function(){
-            for(var i=0;i<$(".units").length;i++){
-                if($(".units")[i].dataset.id=="1"){
-                    var num=0;
-                    for(var j=0;j<unit1.length;j++){
-                        if(unit1[j]==$(".units")[i].value){
-                            num++;
-                        }
-                    }
-                    if(num==0){
-                        unit1.push($(".units")[i].value);
-                    }
-                }
-                else{
-                    var num1=0;
-                    for(var j=0;j<unit2.length;j++){
-                        if(unit1[j]==$(".units")[i].value){
-                            num++;
-                        }
-                    }
-                    if(num1==0){
-                        unit2.push($(".units")[i].value);
-                    }
-                }
-            }
-          
-           console.log($(".units").dataset.id)
+           id=$(this).data("id");
+           if(id=="0"){
+               
+           }
         })
         // 运费模板
                 $(".change_danwei").click(function () {
