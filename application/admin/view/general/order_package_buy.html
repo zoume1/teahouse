@@ -58,10 +58,11 @@
         .settlement-cont button{width: 140px; height: 40px; text-align: center; line-height: 40px; background-color: #f44; color: #fff; font-size: 16px; border: 0; outline: none; cursor: pointer;}
         .settlement-cont button:disabled{background-color: #a1a1a1;}
         
-        .payment-pop{position: absolute; top: 50%; left: 50%; margin: -280px 0 0 -280px; min-height: 560px; width: 560px; padding: 0 18px; box-sizing: border-box; border-radius: 5px; background-color: #fff;}
+        .payment-pop,
+        .voucher-pop{position: absolute; top: 50%; left: 50%; margin: -280px 0 0 -280px; min-height: 560px; width: 560px; padding: 0 18px; box-sizing: border-box; border-radius: 5px; background-color: #fff;}
         .pop-title{position: relative; font-size: 16px; font-weight: 700;padding: 15px 0; border-bottom: 1px solid #e5e5e5; margin-bottom: 15px; color: #666;}
         .close{position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 20px; color: #949494; width: 20px; height: 20px; text-align: center; line-height: 20px; cursor: pointer;}
-        .select-way{color: #787878; border-bottom: 1px solid #e5e5e5; margin-bottom: 15px;}
+        .select-way{color: #787878; border-bottom: 1px solid #e5e5e5; margin-bottom: 10px;}
         .select-way .dpf{display: flex; align-items: baseline; margin-bottom: 15px;}
         .select-way .dpf .key{width: 80px; font-size: 14px;}
         .select-way .payment-amount .value{font-size: 20px; color: #ff6600;}
@@ -82,10 +83,20 @@
         .password-box .gif-box{position: absolute; top: 0; left: 0; width: 100%; height: 70px; display: flex; align-items: center; border: 1px solid #797979; box-sizing: border-box; cursor: text;}
         .password-box .gif-box i{flex: 1; height: 100%; display: flex; align-items: center; justify-content: center;}
         .password-box .gif-box i:not(:last-child){border-right: 1px solid #797979;}
-        .password-box .gif-box i.active{background: url(__STATIC__/admin/common/img/password-blink.gif) no-repeat center center;}
+        .password-box .gif-box i.active{background: url(__STATIC__/admin/common/img/password-blink.gif) no-repeat center center; border: 1px solid #f60;}
         .gif-box i b.activeDot{background: url(__STATIC__/admin/common/img/passeord-dot.png) no-repeat center center; display: block; width: 7px; height: 7px;}
         .forget-pwd{text-align: right; font-size: 14px; font-weight: 700; color: #0099FF; cursor: pointer;}
         .balance-comfirm{float: right; padding: 5px 25px; color: #fff; background-color: #0099ff; border: 0; outline: none; cursor: pointer; border-radius: 4px; margin-top: 10px;}
+
+        .payee-title,
+        .payer-title{font-size: 15px; color: #949494; margin: 10px 0;}
+        .k-label{display: inline-block; width: 120px; text-align: right; color: #666; margin-right: 10px;}
+        .payee-info{border-bottom: 1px dashed #797979;}
+        .payee-info .payee-p{margin-bottom: 20px;}
+        .v-span{font-size: 15px; color: #333; font-weight: 700;}
+        .payer-p{margin-bottom: 20px;}
+        .payer-p input{width: 220px; height: 35px; border-radius: 4px; padding-left: 10px; box-sizing: border-box; border: 1px solid #d7d8d9;}
+        .voucher-pop button{color: #fff; background-color: #3388ff; border-radius: 4px; border: 0; padding: 6px 20px; cursor: pointer; float: right; font-size: 16px; margin-top: 20px;}
     </style>
 </head>
 <body>
@@ -159,7 +170,7 @@
                 </div>
             </div>
         </div>
-        <div class="mask" v-if="showPayWay"></div>
+        <div class="mask" v-if="showPayWay||showVoucherPop"></div>
         <!-- 支付方式 -->
         <div class="payment-pop" v-if="showPayWay">
             <p class="pop-title">
@@ -174,23 +185,26 @@
                 </div>
                 <div class="payment-amount dpf">
                     <div class="key">支付金额：</div>
-                    <div class="value">399.00元</div>
+                    <div class="value">{{payment}}元</div>
                 </div>
                 <div class="method dpf">
                     <div class="key">支付方式：</div>
                     <div class="value">
                         <div>
-                            <input type="radio" name="way" id="scan" checked
+                            <input type="radio" name="way" id="scan"
+                                :checked="wayFlag==1"
                                 @change="changePayWay(1)">
                             <label for="scan">扫码支付</label>
                         </div>
                         <div>
                             <input type="radio" name="way" id="remit"
+                                :checked="wayFlag==2"
                                 @change="changePayWay(2)">
                             <label for="remit">汇款支付</label>
                         </div>
                         <div>
                             <input type="radio" name="way" id="balance"
+                                :checked="wayFlag==3"
                                 @change="changePayWay(3)">
                             <label for="balance">余额支付</label>
                             <div class="balance-show">
@@ -226,7 +240,7 @@
                         <p>收款方开户行：杭州88888公司</p>
                         <p>收款方账户：1234 4567 7890 159</p>
                     </div>
-                    <button>已转账汇款，我要上传凭证</button>
+                    <button @click="uploadVoucher">已转账汇款，我要上传凭证</button>
                 </div>
                 <!-- 余额 -->
                 <div class="balance-way" v-show="wayFlag==3">
@@ -254,12 +268,57 @@
             </div>
         </div>
         <!-- 上传凭证 -->
-
+        <div class="voucher-pop" v-if="showVoucherPop">
+            <p class="pop-title">
+                <span>线下汇款凭证</span>
+                <span class="close" @click="closeVoucher">×</span>
+            </p>
+            <div class="payee">
+                <p class="payee-title">收款方信息</p>
+                <div class="payee-info">
+                    <p class="payee-p">
+                        <span class="k-label">户名：</span>
+                        <span class="v-span">行货组有赞科技有限公司</span>
+                    </p>
+                    <p class="payee-p">
+                        <span class="k-label">开户行：</span>
+                        <span class="v-span">招商银行股份有限公司杭州分行</span>
+                    </p>
+                    <p class="payee-p">
+                        <span class="k-label">账户：</span>
+                        <span class="v-span">1234 5678 9123 123</span>
+                    </p>
+                </div>
+            </div>
+            <div class="payer">
+                <p class="payer-title">付款方信息</p>
+                <div class="payer-info">
+                    <p class="payer-p">
+                        <label for="payer-name" class="k-label must">付款户名：</label>
+                        <input type="text" id="payer-name">
+                    </p>
+                    <p class="payer-p">
+                        <label for="payer-account" class="k-label must">付款账号：</label>
+                        <input type="text" id="payer-account">
+                    </p>
+                    <p class="payer-p">
+                        <span class="k-label">金额：</span>
+                        <span>{{payment}}元</span>
+                    </p>
+                    <p class="payer-p">
+                        <label for="date" class="k-label must">付款时间：</label>
+                        <input type="text" id="date">
+                    </p>
+                </div>
+            </div>
+            <button @click="voucherConfirm">确认提交</button>
+        </div>
     </div>
     <script src="__STATIC__/admin/common/js/vue.js"></script>
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
     <script src="__STATIC__/admin/common/js/vue-router.js"></script>
     <script src="__STATIC__/admin/common/js/jquery.js"></script>
+    <script src="__STATIC__/admin/common/laydate/laydate.js"></script>
     <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
     <script>
         var vm = new Vue({
@@ -273,6 +332,7 @@
                 password: null,
                 wayFlag: 1,
                 showPayWay: false,
+                showVoucherPop: false,
                 goodsData: [
                     {
                         time: 20190320,
@@ -294,6 +354,9 @@
                         stock: 5
                     },
                 ]
+            },
+            mounted: function(){
+                laydate.render({elem: '#date'})
             },
             methods: {
                 // 减
@@ -327,7 +390,6 @@
                 // 同意协议
                 agreement: function(){
                     this.selectData.length?this.protocolFlag = !this.protocolFlag:'';
-                    
                 },
                 // 立即购买
                 buy: function(){
@@ -347,8 +409,22 @@
                 },
                 // 余额支付确认密码
                 comfirmPwd: function(){
-                    layer.alert('支付成功！');
-                }
+                    layer.alert('支付成功！我们将在3个工作日内审核完毕，通过后自动完成订购。');
+                },
+                // 上传凭证
+                uploadVoucher: function(){
+                    this.showVoucherPop = true;
+                    this.showPayWay = false;
+                },
+                // 上传凭证 确认
+                voucherConfirm: function(){
+                    layer.alert('凭证已提交，我们将在3个工作日内审核完毕，通过后自动完成订购。');
+                },
+                // 关闭 上传汇款凭证
+                closeVoucher: function(){
+                    this.showVoucherPop = false;
+                    this.showPayWay = true;
+                },
 
             },
             computed: {
