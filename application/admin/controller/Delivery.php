@@ -290,6 +290,21 @@ class Delivery extends  Controller{
     }
 
 
+    /**
+     * [快递模板]
+     * 郭杨
+     */
+    public function delivery_templet(Request $request){
+        if($request->isPost()){
+            $expenses = db("express")->field("id,name")->select();
+            if (!empty($expenses)) {
+                return ajax_success('传输成功', $expenses);
+            } else {
+                return ajax_error("数据为空");   
+            }                  
+        }
+    }
+
 
 
 }

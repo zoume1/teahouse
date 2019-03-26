@@ -637,6 +637,7 @@ Route::group("admin",[
     "delivery_goods_update"=>"admin/Delivery/delivery_goods_update",         //快递发货更新
     "delivery_goods_delete"=>"admin/Delivery/delivery_goods_delete",         //快递发货删除
     "delivery_are"=>"admin/Delivery/delivery_are",                           //快递地区编辑
+    "delivery_templet"=>"admin/Delivery/delivery_templet",                   //快递模板
     "delivery_goods_addd"=>"admin/Delivery/delivery_goods_addd",
    
 

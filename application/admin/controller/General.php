@@ -99,10 +99,12 @@ class  General extends  Controller{
             if(!empty($goods)){
                 $goods["goods_show_images"] = explode(",",$goods["goods_show_images"]);
                 if($goods["goods_standard"] == 1){
+                    $standard = db("analyse_special")->where("goods_id", $goods['id'])-> select();
                     $min = db("analyse_special")->where("goods_id", $goods['id'])-> min("price");
                     $line = db("analyse_special")->where("goods_id", $goods['id'])-> min("line");
                     $goods["goods_new_money"] = $min;
                     $goods["goods_bottom_money"] = $line;
+                    $goods["standard"] = $standard;
                 }
                 return ajax_success('传输成功', $goods);
             } else {
