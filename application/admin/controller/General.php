@@ -114,6 +114,93 @@ class  General extends  Controller{
         return view("added_service_show");
     }
 
+    /**
+     * [(增值商品详情再看看)]
+     * 郭杨
+     */    
+    public function added_service_look(Request $request){
+        if($request->isPost()){
+            $list = db("analyse_goods")->where("label",1)->field("id,goods_name,goods_standard,goods_selling,product_type,goods_new_money,goods_bottom_money,goods_volume,goods_show_images,goods_show_image")->select();    
+            if(!empty($list)){
+                foreach($list as $k => $v){
+                    $list[$k]["goods_show_images"] = explode(",",$list[$k]["goods_show_images"]);
+                    if($list[$k]["goods_standard"] == 1){
+                        $min[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("price");
+                        $line[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("line");
+                        $list[$k]["goods_new_money"] = $min[$k];
+                        $list[$k]["goods_bottom_money"] = $line[$k];
+                    }
+                }        
+                $count = count($list);
+                if($count > 4){
+                    $arandom = array_rand($list,4);
+                    foreach($list as $key => $value){
+                        if(in_array($key,$arandom)){
+                            $arr[] = $value;
+                        }
+                    }
+                    $goods_list = $arr;
+                } else {
+                    $goods_list = $list;
+                }
+                return ajax_success('传输成功', $goods_list);
+            } else {
+                return ajax_error("数据为空");
+            }
+        }
+    }
+
+
+    /**
+     * [(增值商品分类搜索)]
+     * 郭杨
+     */    
+    public function added_service_search(Request $request){
+        if($request->isPost()){
+            $product_type = $request->only("product_type")["product_type"];
+            if(!empty($product_type)){
+                $list = db("analyse_goods")
+                        ->where("label",1)
+                        ->where("product_type",$product_type)
+                        ->field("id,goods_name,goods_standard,goods_selling,product_type,goods_new_money,goods_bottom_money,goods_volume,goods_show_images,goods_show_image")
+                        ->select();    
+                if(!empty($list)){
+                    foreach($list as $k => $v){
+                        $list[$k]["goods_show_images"] = explode(",",$list[$k]["goods_show_images"]);
+                        if($list[$k]["goods_standard"] == 1){
+                            $min[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("price");
+                            $line[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("line");
+                            $list[$k]["goods_new_money"] = $min[$k];
+                            $list[$k]["goods_bottom_money"] = $line[$k];
+                        }
+                    }        
+                    return ajax_success('传输成功', $list);
+                } else {
+                    return ajax_error("数据为空");
+                }
+            } else {
+                $list = db("analyse_goods")
+                ->where("label",1)
+                ->field("id,goods_name,goods_standard,goods_selling,product_type,goods_new_money,goods_bottom_money,goods_volume,goods_show_images,goods_show_image")
+                ->select();
+                if(!empty($list)){
+                    foreach($list as $k => $v){
+                        $list[$k]["goods_show_images"] = explode(",",$list[$k]["goods_show_images"]);
+                        if($list[$k]["goods_standard"] == 1){
+                            $min[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("price");
+                            $line[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("line");
+                            $list[$k]["goods_new_money"] = $min[$k];
+                            $list[$k]["goods_bottom_money"] = $line[$k];
+                        }
+                    }        
+                    return ajax_success('传输成功', $list);
+                } else {
+                    return ajax_error("数据为空");
+                }
+            }
+        }
+    }
+
 
 
     /**

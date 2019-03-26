@@ -121,7 +121,7 @@ class  Order extends  Controller
                 $time=date("Y-m-d",time());
                 $v=explode('-',$time);
                 $time_second=date("H:i:s",time());
-                $vs=explode(':',$time_second);
+                $vs= explode(':',$time_second);
                 //1为选择直邮，2到店自提，3选择存茶
                 if($order_type ==1){
                     $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
@@ -197,7 +197,6 @@ class  Order extends  Controller
                         }
                     }
                 }
-
             }
         }
     }

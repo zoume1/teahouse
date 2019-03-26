@@ -684,6 +684,8 @@ Route::group("admin",[
     "added_service_index"=>"admin/General/added_service_index",      //增值服务(增值商品显示)
     "added_service_list"=>"admin/General/added_service_list",        //增值服务(增值商品列表)
     "added_service_show"=>"admin/General/added_service_show",        //增值服务(增值商品详情)
+    "added_service_look"=>"admin/General/added_service_look",        //增值服务(增值商品再看看)
+    "added_service_search"=>"admin/General/added_service_search",    //增值服务(增值商品分类搜索)
     "order_package_index"=>"admin/General/order_package_index",      //订单套餐
     "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
     "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买
