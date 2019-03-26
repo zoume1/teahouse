@@ -108,8 +108,8 @@ class  General extends  Controller{
             } else {
                 return ajax_error("数据为空");
             }
-
         }
+        return view("added_service_show");
     }
 
 
