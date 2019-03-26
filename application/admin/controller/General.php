@@ -75,6 +75,29 @@ class  General extends  Controller{
 
 
     /**
+     * [增值服务(增值商品详情)]
+     * 郭杨
+     */    
+    public function added_service_show(Request $request){
+        if($request->isPost()){
+            $id = $request->only("id")["id"];
+            $goods = db("analyse_goods")->where("id",$id)->find();    
+            if(!empty($goods)){
+                $goods["goods_show_images"] = explode(",",$goods["goods_show_images"]);
+                if($goods["goods_standard"] == 1){
+                    $min[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("price");
+                    $line[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("line");
+                    $list[$k]["goods_new_money"] = $min[$k];
+                    $list[$k]["goods_bottom_money"] = $line[$k];
+                }
+            }
+
+        }
+    }
+
+
+
+    /**
      * [订单套餐]
      * 郭杨
      */    
