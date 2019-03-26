@@ -125,8 +125,17 @@
                 
             },
             methods: {
-
+                getData: function(){
+                    this.$http.post('added_service_index').then(function(res){
+                        console.log(res);
+                    }, function(res){
+                        console.log(res.status, res.statusText);
+                    })
+                }
             },
+            mounted(){
+                this.getData();
+            }
         })
     </script>
 </body>
