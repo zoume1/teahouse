@@ -681,6 +681,7 @@ Route::group("admin",[
     "general_index"=>"admin/General/general_index",             //店铺信息
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
+    "xiaochengxu_edit"=>"admin/General/xiaochengxu_edit", //小程序装修
     "added_service_index"=>"admin/General/added_service_index",      //增值服务(增值商品显示)
     "added_service_list"=>"admin/General/added_service_list",        //增值服务(增值商品列表)
     "added_service_show"=>"admin/General/added_service_show",        //增值服务(增值商品详情)
