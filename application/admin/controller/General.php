@@ -93,9 +93,8 @@ class  General extends  Controller{
      * 郭杨
      */    
     public function added_service_show(Request $request){
-        if($request->isGet()){
-            // $id = $request->only("id")["id"];
-             $id = 218 ;
+        if($request->isPost()){
+            $id = $request->only("id")["id"];
             $goods = db("analyse_goods")->where("id",$id)->find();    
             if(!empty($goods)){
                 $goods["goods_show_images"] = explode(",",$goods["goods_show_images"]);
@@ -105,7 +104,6 @@ class  General extends  Controller{
                     $goods["goods_new_money"] = $min;
                     $goods["goods_bottom_money"] = $line;
                 }
-                halt($goods);
                 return ajax_success('传输成功', $goods);
             } else {
                 return ajax_error("数据为空");
