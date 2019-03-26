@@ -45,7 +45,7 @@ class  General extends  Controller{
      * 郭杨
      */    
     public function added_service_index(){
-        return view("added_service_index",["list"=>$list]);      
+        return view("added_service_index");      
     }
 
 
@@ -93,17 +93,22 @@ class  General extends  Controller{
      * 郭杨
      */    
     public function added_service_show(Request $request){
-        if($request->isPost()){
-            $id = $request->only("id")["id"];
+        if($request->isGet()){
+            // $id = $request->only("id")["id"];
+             $id = 218 ;
             $goods = db("analyse_goods")->where("id",$id)->find();    
             if(!empty($goods)){
                 $goods["goods_show_images"] = explode(",",$goods["goods_show_images"]);
                 if($goods["goods_standard"] == 1){
-                    $min[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("price");
-                    $line[$k] = db("analyse_special")->where("goods_id", $list[$k]['id'])-> min("line");
-                    $list[$k]["goods_new_money"] = $min[$k];
-                    $list[$k]["goods_bottom_money"] = $line[$k];
+                    $min = db("analyse_special")->where("goods_id", $goods['id'])-> min("price");
+                    $line = db("analyse_special")->where("goods_id", $goods['id'])-> min("line");
+                    $goods["goods_new_money"] = $min;
+                    $goods["goods_bottom_money"] = $line;
                 }
+                halt($goods);
+                return ajax_success('传输成功', $goods);
+            } else {
+                return ajax_error("数据为空");
             }
 
         }
