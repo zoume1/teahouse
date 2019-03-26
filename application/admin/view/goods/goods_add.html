@@ -649,13 +649,13 @@
                 <div class="form-input" id="packing_specification" style=" align-items: center;">
                     <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
                         class="layui-input" value="1" readonly>
-                    <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
-                        class="layui-input" maxlength="2">
+                    <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"  data-id="1"
+                        class="layui-input units" maxlength="2">
                     <div class="fuhao">=</div>
                     <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
                         class="layui-input">
-                    <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
-                        class="layui-input" maxlength="2">
+                    <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" data-id="1"
+                        class="layui-input units" maxlength="2">
                     <div class="add_danwei"> 继续添加单位</div>
                 </div>
 
@@ -862,7 +862,34 @@
                         {/volist}
                     </select><br />
                     {/if}
-                    </select>
+                    {if !empty($expenses)}
+                    <select name="templet_id" id="admin_role" class="role_list">
+                        <option value="">请选择</option>
+                        {volist name="expenses" id="va"}
+                        <option value="{$value.id}">{$va.name}</option>
+                        {/volist}
+                    </select><br />
+                    {/if}
+                    <a href="delivery_goods_add_number">新建</a>
+                </div>
+                <div class="form-input line" style="margin-bottom: 4px;">
+                    <input type="texr" title="运费模板" style="opacity: 0;width: 82px;">
+                    {if !empty($expenses)}
+                    <select name="templet_id" id="admin_role" class="role_list">
+                        <option value="">请选择</option>
+                        {volist name="expenses" id="va"}
+                        <option value="{$value.id}">{$va.name}</option>
+                        {/volist}
+                    </select><br />
+                    {/if}
+                    {if !empty($expenses)}
+                    <select name="templet_id" id="admin_role" class="role_list">
+                        <option value="">请选择</option>
+                        {volist name="expenses" id="va"}
+                        <option value="{$value.id}">{$va.name}</option>
+                        {/volist}
+                    </select><br />
+                    {/if}
                     <a href="delivery_goods_add_number">新建</a>
                 </div>
                 <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
@@ -919,6 +946,16 @@
                 var form = layui.form(),
                     $ = layui.jquery;
                 form.render();
+                  // 运费模板
+            var unit1=[];
+            var unit2=[];
+        $(".form-item").on("blur",".units",function(){
+           id=$(this).data("id");
+           if(id=="0"){
+               
+           }
+        })
+        // 运费模板
                 $(".change_danwei").click(function () {
                     layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
                         layer.close(index);
@@ -932,9 +969,8 @@
                     form.render();
                 });
                 $("#hot").on('click', ".delect_img", function () {
-                       
                         $(this).parent().remove();
-                    })
+                })
                 var vals = '';
                 var lv1HTML = '';
                 lv1HTML += '<div class="control-group lv1" style="padding: 10px;">';
@@ -1242,7 +1278,7 @@
                     var danwei = ''
                     danwei += '<div class="fuhao">=</div>';
                     danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-                    danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+                    danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="1">';
                     $(this).before(danwei);
                 });
                 $(".general_content").on("click", ".add_danwei1", function () {
@@ -1254,7 +1290,7 @@
                         danwei1 += '<div class="danwei_content">';
                         danwei1 += '<div class="fuhao">=</div>';
                         danwei1 += '<input type="text" name="' + select + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
-                        danwei1 += '<input type="text" name="' + select + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
+                        danwei1 += '<input type="text" name="' + select + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="2" >';
                         danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                         danwei1 += '</div>';
 
@@ -1384,6 +1420,8 @@
             this.value = this.value.replace(/\s+/g, '');
             this.value = this.value.replace(/_+/g, '');
         })
+
+
     </script>
 
     {/block}
