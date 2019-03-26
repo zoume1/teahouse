@@ -28,6 +28,8 @@
         .col-left .row-1 .price{font-size: 16px; color: #f40; float: left;}
         .col-left .row-1 .deal-cnt{float: right; font-size: 12px; color: #888; line-height: 22px;}
         .col-left .row-2{height: 18px; margin-top: 6px;}
+        .col-left .row-2:hover,
+        .col-left .row-3:hover{color: #f40; text-decoration: underline;}
         .col-left .row-3{height: 36px; margin-top: 6px;}
         .col-left .row-4{margin-top: 10px;}
         .col-left .row-4 .classify{float: left; height: 22px; line-height: 22px;}
@@ -59,8 +61,11 @@
                     <button class="filter-btn">确定</button>
                 </div>
                 <ul class="goods-list">
-                    <li class="goods-item" v-for="(v, i) in allGoodsList" :key="">
-                        <div class="img-box">
+                    <li class="goods-item" 
+                        v-for="(v, i) in allGoodsList" 
+                        :key="v.goods_name">
+                        <div class="img-box"
+                            @click="goodsDetail(v.id)">
                             <img :src=`__UPLOADS__/${v.goods_show_image}`>
                         </div>
                         <div class="row row-1 clearfix">
@@ -70,15 +75,17 @@
                             </div>
                             <div class="deal-cnt">{{v.goods_volume}}人付款</div>
                         </div>
-                        <div class="row row-2 txt-hid-one">{{v.goods_name}}</div>
-                        <div class="row row-3 txt-hid-two">{{v.goods_selling}}</div>
+                        <div class="row row-2 txt-hid-one"
+                            @click="goodsDetail(v.id)">{{v.goods_name}}</div>
+                        <div class="row row-3 txt-hid-two"
+                            @click="goodsDetail(v.id)">{{v.goods_selling}}</div>
                         <div class="row row-4 clearfix">
                             <div class="classify">
                                 <img class="dsr" src="__STATIC__/admin/common/img/icon-ld.png">
                                 <span>{{v.product_type}}</span>
                             </div>
                             <div class="oicq">
-                                <a href="http://wpa.qq.com/msgrd?v=3&uin=50087335&site=qq&menu=yes" class="qq-inline" target="_blank"></a>
+                                <a href="http://wpa.qq.com/msgrd?v=3&uin=415364124&site=qq&menu=yes" class="qq-inline" target="_blank"></a>
                             </div>
                         </div>
                     </li>
@@ -135,6 +142,9 @@
                         console.log(res.status, res.statusText);
                     })
                 },
+                goodsDetail: function(_id){
+                    alert(_id)
+                }
             },
             mounted(){
                 this.getData();
