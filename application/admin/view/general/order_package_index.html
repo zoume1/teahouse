@@ -144,12 +144,6 @@
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
     <script src="__STATIC__/admin/common/js/vue-router.js"></script>
     <script>
-        var routes = [
-            {path: 'order_package_buy'}
-        ]
-        var router = new VueRouter({
-            routes
-        })
         var vm = new Vue({
             el: '#app',
             data: {
@@ -159,7 +153,6 @@
                 versionData: [],
                 selectData: [],
             },
-            router,
             methods: {
                 // 选择年限
                 crimpComb: function(_index){
