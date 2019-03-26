@@ -717,6 +717,7 @@ Route::group("admin",[
     "analyse_addphoto"=>"admin/Analyse/analyse_addphoto",    //增值商品规格图片添加
     "analyse_value"=>"admin/Analyse/analyse_value",          //增值商品规格值修改
     "analyse_ground"=>"admin/Analyse/analyse_ground",        //增值商品上架开关
+    "analyse_status"=>"admin/Analyse/analyse_status",        //增值商品系统推荐
     
 
 
