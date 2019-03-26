@@ -637,6 +637,7 @@ Route::group("admin",[
     "delivery_goods_update"=>"admin/Delivery/delivery_goods_update",         //快递发货更新
     "delivery_goods_delete"=>"admin/Delivery/delivery_goods_delete",         //快递发货删除
     "delivery_are"=>"admin/Delivery/delivery_are",                           //快递地区编辑
+    "delivery_templet"=>"admin/Delivery/delivery_templet",                   //快递模板
     "delivery_goods_addd"=>"admin/Delivery/delivery_goods_addd",
    
 
@@ -680,9 +681,13 @@ Route::group("admin",[
     "general_index"=>"admin/General/general_index",             //店铺信息
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
+    "xiaochengxu_edit"=>"admin/General/xiaochengxu_edit", //小程序装修
+    "test_selecticon"=>"admin/Test/selecticon",//图标库
     "added_service_index"=>"admin/General/added_service_index",      //增值服务(增值商品显示)
     "added_service_list"=>"admin/General/added_service_list",        //增值服务(增值商品列表)
     "added_service_show"=>"admin/General/added_service_show",        //增值服务(增值商品详情)
+    "added_service_look"=>"admin/General/added_service_look",        //增值服务(增值商品再看看)
+    "added_service_search"=>"admin/General/added_service_search",    //增值服务(增值商品分类搜索)
     "order_package_index"=>"admin/General/order_package_index",      //订单套餐
     "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
     "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买
@@ -714,6 +719,7 @@ Route::group("admin",[
     "analyse_addphoto"=>"admin/Analyse/analyse_addphoto",    //增值商品规格图片添加
     "analyse_value"=>"admin/Analyse/analyse_value",          //增值商品规格值修改
     "analyse_ground"=>"admin/Analyse/analyse_ground",        //增值商品上架开关
+    "analyse_status"=>"admin/Analyse/analyse_status",        //增值商品系统推荐
     
 
 

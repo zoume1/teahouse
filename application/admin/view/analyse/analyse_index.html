@@ -58,6 +58,7 @@
                         <th>商品名称</th>
                         <th>价格</th>
                         <th>标签</th>
+                        <th>系统推荐</th>
                         <th>排序</th>
                         <th>库存</th>   
                         <th width="200px">操作</th>
@@ -89,8 +90,20 @@
                                 <input type="checkbox" class="Status" name="status" value="{$value.label}" lay-skin="switch" lay-text="上架|上架" lay-filter="isShows" data-id="{$value.id}">
                             {/if}
                         </td>
+                        <td>
+                            {if $value.status == 0}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}"
+                                lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}"
+                                lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}">
+                            {/if}
+                        </td>
                         <td>{$value.sort_number}</td>
+                        {if $value.goods_type == 1}
                         <td>{$value.goods_repertory}</td>
+                        {else}
+                        <td></td>
+                        {/if}
                           <td>
                             <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Analyse/analyse_edit',['id'=>$value.id])}"> 编辑
                             </a>
@@ -223,7 +236,7 @@
                 var status = $(this).val();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/status')}",
+                    url: "{:url('admin/Analyse/analyse_status')}",
                     data: {
                         "id": id,
                         "status": status
@@ -249,7 +262,7 @@
                 var status = $(this).val();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/ground')}",
+                    url: "{:url('admin/Analyse/analyse_ground')}",
                     data: {
                         "id": id,
                         "status": status
