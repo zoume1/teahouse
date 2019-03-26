@@ -65,7 +65,8 @@ class  General extends  Controller{
                         $list[$k]["goods_new_money"] = $min[$k];
                         $list[$k]["goods_bottom_money"] = $line[$k];
                     }
-                }        
+                }
+                $goods_list["goods_list"] = $list;        
                 $count = count($list);
                 if($count > 4){
                     $arandom = array_rand($list,4);
@@ -74,12 +75,11 @@ class  General extends  Controller{
                             $arr[] = $value;
                         }
                     }
-                    $list["arandom"] = $arr;
+                    $goods_list["arandom"] = $arr;
                 } else {
-                    $list["arandom"] = $list;
+                    $goods_list["arandom"] = $list;
                 }
-
-                return ajax_success('传输成功', $list);
+                return ajax_success('传输成功', $goods_list);
             } else {
                 return ajax_error("数据为空");
             }
