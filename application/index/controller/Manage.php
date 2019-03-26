@@ -309,7 +309,7 @@ class Manage extends Controller
      */
     public function demand_collect(Request $request)
     {
-        if ($request->isPost()) {
+        if ($request->isPost()){
             $data["member_id"] = $request->only(["member_id"])["member_id"];
             $data["activity_id"] = $request->only(["activity_id"])["activity_id"];
             $data["type"] = $request->only(["type"])["type"];
@@ -332,11 +332,11 @@ class Manage extends Controller
      */
     public function express_charge(Request $request)
     {
-        if ($request->isPost()) {
+        if ($request->isPost()){
             $templet_id = $request->only(["templet_id"])["templet_id"];
             $are = $request->only(["are"])["are"];         
             $express = db("express")->where("id",$templet_id)->find();
-            if(!empty($express)){
+            if(!empty($express)){ 
                 $express_are = explode(",",$express["are"]);
                 $rest = [
                     "first_price"=>$express["price"],
