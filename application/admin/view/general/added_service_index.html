@@ -27,8 +27,10 @@
         .col-left .row-1{margin-top: 10px; line-height: 22px; height: 22px; overflow: hidden;}
         .col-left .row-1 .price{font-size: 16px; color: #f40; float: left;}
         .col-left .row-1 .deal-cnt{float: right; font-size: 12px; color: #888; line-height: 22px;}
-        .col-left .row-2,
-        .col-left .row-3{margin-top: 6px;}
+        .col-left .row-2{height: 18px; margin-top: 6px;}
+        .col-left .row-2:hover,
+        .col-left .row-3:hover{color: #f40; text-decoration: underline;}
+        .col-left .row-3{height: 36px; margin-top: 6px;}
         .col-left .row-4{margin-top: 10px;}
         .col-left .row-4 .classify{float: left; height: 22px; line-height: 22px;}
         .col-left .classify .dsr{margin-right: 4px;}
@@ -59,30 +61,31 @@
                     <button class="filter-btn">确定</button>
                 </div>
                 <ul class="goods-list">
-                    <li class="goods-item" v-for="(v, i) in 4">
-                        <div class="img-box">
-                            <img src="https://img.alicdn.com/imgextra/i3/1991926764/O1CN01ib6enq1zpxUxxzRiL_!!0-item_pic.jpg_430x430q90.jpg">
+                    <li class="goods-item" 
+                        v-for="(v, i) in allGoodsList" 
+                        :key="v.goods_name">
+                        <div class="img-box"
+                            @click="goodsDetail(v.id)">
+                            <img :src=`__UPLOADS__/${v.goods_show_image}`>
                         </div>
                         <div class="row row-1 clearfix">
                             <div class="price">
                                 <span>￥</span>
-                                <strong>179.00</strong>
+                                <strong>{{v.goods_new_money}}</strong>
                             </div>
-                            <div class="deal-cnt">1154人付款</div>
+                            <div class="deal-cnt">{{v.goods_volume}}人付款</div>
                         </div>
-                        <div class="row row-2 txt-hid-one">
-                            海康威视萤石C6C/C6CN无线网络高清监控器摄像头家用手机wifi夜视
-                        </div>
-                        <div class="row row-3 txt-hid-two">
-                            360°水平全景 双向通话 智能追踪 镜头遮蔽
-                        </div>
+                        <div class="row row-2 txt-hid-one"
+                            @click="goodsDetail(v.id)">{{v.goods_name}}</div>
+                        <div class="row row-3 txt-hid-two"
+                            @click="goodsDetail(v.id)">{{v.goods_selling}}</div>
                         <div class="row row-4 clearfix">
                             <div class="classify">
                                 <img class="dsr" src="__STATIC__/admin/common/img/icon-ld.png">
-                                <span>硬件设备</span>
+                                <span>{{v.product_type}}</span>
                             </div>
                             <div class="oicq">
-                                <a href="http://wpa.qq.com/msgrd?v=3&uin=50087335&site=qq&menu=yes" class="qq-inline" target="_blank"></a>
+                                <a href="http://wpa.qq.com/msgrd?v=3&uin=415364124&site=qq&menu=yes" class="qq-inline" target="_blank"></a>
                             </div>
                         </div>
                     </li>
@@ -94,18 +97,18 @@
             <div class="col-right fr">
                 <div class="side-title">系统推荐</div>
                 <ul class="side-list">
-                    <li class="side-item" v-for="(v, i) in 2">
+                    <li class="side-item" v-for="(v, i) in recommendList">
                         <div class="img-box">
-                            <img src="https://img.alicdn.com/imgextra/i4/114611206/O1CN0115wIpl1KmOAHtj3Oa_!!0-saturn_solar.jpg_270x270.jpg">
+                            <img :src=`__UPLOADS__/${v.goods_show_image}`>
                         </div>
                         <div class="side-row clearfix">
                             <div class="side-classify fl">
                                 <img class="side-dsr" src="__STATIC__/admin/common/img/icon-ld.png">
-                                <span>硬件设备</span>
+                                <span>{{v.product_type}}</span>
                             </div>
                             <div class="side-price fr">
                                 <span>￥</span>
-                                <strong>179.00</strong>
+                                <strong>{{v.goods_new_money}}</strong>
                             </div>
                         </div>
                     </li>
@@ -122,11 +125,30 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                
+                recommendList: [],
+                allGoodsList: [],
+                imgUrl: '__UPLOADS__/',
             },
             methods: {
-
+                getData: function(){
+                    this.$http.post('added_service_list').then(function(res){
+                        if(res.body.status == 1){
+                            this.recommendList = res.body.data.arandom;
+                            this.allGoodsList = res.body.data.goods_list;
+                        }
+                        console.log(this.allGoodsList);
+                        console.log(this.recommendList);
+                    }, function(res){
+                        console.log(res.status, res.statusText);
+                    })
+                },
+                goodsDetail: function(_id){
+                    alert(_id)
+                }
             },
+            mounted(){
+                this.getData();
+            }
         })
     </script>
 </body>
