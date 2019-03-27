@@ -424,7 +424,7 @@
             <img src="" class="tanimg" />
         </div>
 
-    </div>
+    </div> 
     <div class="popup popup_one noshow">
         <div class="popup_doms">
 
@@ -492,8 +492,10 @@
         <div class="form-item">
             <label class="form-label">生产日期</label>
             <div class="form-input">
-                <input type="text" name="date" lay-verify="title" autocomplete="off" placeholder="请输入"
-                    class="layui-input">
+                <span class="time">
+                    <input name="date_min" type="text" class="text datetimepicker layui-input" readonly="readonly"
+                        id="beginTime" value="">
+                </span>
                 <div class="tips">选填项</div>
             </div>
 
@@ -894,9 +896,7 @@
 
         </div>
     </form>
-
     {/block}
-
     <!--_footer 作为公共模版分离出去-->
     {include file="template/_footer" /}
     <!--/_footer 作为公共模版分离出去-->
@@ -1144,7 +1144,8 @@
                         alert("相同的单位不能两套模板")
                         return false;
                     }
-                    if(val=="0"){
+                    if(vals=="1"){
+                        if(val=="0"){
                         console.log($(".muban").length);
                         console.log(unit1_a.length);
                       if($(".muban").length!=unit1_a.length) {
@@ -1160,8 +1161,11 @@
                           return false;
                       }
                     }
+                    }
+                   
                  
                 });
+                
                 // 运费模板
                 $(".change_danwei").click(function () {
                     layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
