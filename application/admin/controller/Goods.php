@@ -94,12 +94,11 @@ class Goods extends Controller
     {
         
         if ($request->isPost()) {
-            $goods_data = $request->param();
-            halt($goods_data); 
+            $goods_data = $request->param(); 
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];
-
+            unset($goods_data["aaa"]);
             if (!empty($show_images)) {              
                 foreach ($show_images as $k=>$v) {
                     $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -112,8 +111,12 @@ class Goods extends Controller
                 $goods_data["scope"] = implode(',', $goods_data["scope"]);
             } else {
                 $goods_data["scope"] = "";
-            } 
-                      
+            }
+            
+        
+            $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
+            $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
+                           
             if(empty($goods_data["num"][1]) && empty($goods_data["unit"][0])){ //存             
                 $goods_data["num"] = array();
                 $goods_data["unit"] = array();
@@ -122,7 +125,7 @@ class Goods extends Controller
                 $goods_data["num"] = implode(",",$goods_data["num"]);
                 $goods_data["unit"] = implode(",",$goods_data["unit"]);
             }
-            
+            halt($goods_data);
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
                 if ($bool && (!empty($show_images))) {
@@ -151,6 +154,8 @@ class Goods extends Controller
                 $goods_special["label"] = $goods_data["label"];
                 $goods_special["status"] = $goods_data["status"];
                 $goods_special["scope"] = $goods_data["scope"];
+                $goods_special["templet_id"] = $goods_data["templet_id"];
+                $goods_special["templet_name"] = $goods_data["templet_neme"];
 
                 if (isset($goods_data["goods_text"])) {
                     $goods_special["goods_text"] = $goods_data["goods_text"];
@@ -277,6 +282,8 @@ class Goods extends Controller
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
             $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
             $goods[$key]["unit"] = explode(',', $goods[$key]["element"]);
+            $goods[$key]["templet_name"] = explode(',', $goods[$key]["templet_name"]);
+            $goods[$key]["templet_id"] = explode(',', $goods[$key]["templet_id"]);
         }
      }
         foreach ($goods_standard as $k => $v) {
