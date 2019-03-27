@@ -136,6 +136,7 @@ class Goods extends Controller
                 $goods_special["goods_name"] = $goods_data["goods_name"];
                 $goods_special["produce"] = $goods_data["produce"];
                 $goods_special["brand"] = $goods_data["brand"];
+                $goods_special["date"] = $goods_data["date"];
                 $goods_special["goods_number"] = $goods_data["goods_number"];
                 $goods_special["goods_standard"] = $goods_data["goods_standard"];
                 $goods_special["goods_selling"] = $goods_data["goods_selling"];
@@ -196,12 +197,9 @@ class Goods extends Controller
                         if(substr($kn,strrpos($kn,"_")+1) == "unit"){
                             $unit1[substr($kn,0,strrpos($kn,"_"))]["unit"] = implode(",",$goods_data[$kn]);
                             $unit[substr($kn,0,strrpos($kn,"_"))]["unit"] = $goods_data[$kn]; 
-                        } 
- 
-                        
+                        }                        
                     }
-
-            }
+                }
                 if (!empty($imgs)) {
                     foreach ($imgs as $k => $v) {
                         $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
