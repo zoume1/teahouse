@@ -429,9 +429,9 @@
             },
             computed: {
                 totalPrice: function(){
-                    let sum = 0;
+                    var sum = 0;
                     if(this.selectData){
-                        for(let item of this.selectData){
+                        for(var item in this.selectData){
                             if(item){
                                 sum += item.number * item.unitPrice;
                             }
@@ -440,7 +440,7 @@
                     return sum.toFixed(2);
                 },
                 payment: function(){
-                    let sum = this.totalPrice;
+                    var sum = this.totalPrice;
                     if(this.discountFlag){
                         return (sum - this.discountPrice).toFixed(2);
                     }else{

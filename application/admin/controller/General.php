@@ -888,6 +888,7 @@ class  General extends  Controller{
    public function added_service_list(Request $request){
        if($request->isPost()){
             $list = db("analyse_goods")->where("label",1)->field("id,goods_name,goods_standard,goods_selling,product_type,goods_new_money,goods_bottom_money,goods_volume,goods_show_images,goods_show_image")->select();    
+            $list_one = db("analyse_goods")->where("label",1)->where("status",1)->field("id,goods_name,goods_standard,goods_selling,product_type,goods_new_money,goods_bottom_money,goods_volume,goods_show_images,goods_show_image")->select();    
             if(!empty($list)){
                 foreach($list as $k => $v){
                     $list[$k]["goods_show_images"] = explode(",",$list[$k]["goods_show_images"]);
@@ -898,18 +899,30 @@ class  General extends  Controller{
                         $list[$k]["goods_bottom_money"] = $line[$k];
                     }
                 }
-                $goods_list["goods_list"] = $list;        
-                $count = count($list);
-                if($count > 4){
-                    $arandom = array_rand($list,4);
-                    foreach($list as $key => $value){
-                        if(in_array($key,$arandom)){
-                            $arr[] = $value;
+                $goods_list["goods_list"] = $list; 
+                
+                if(!empty($list_one)){
+                    foreach($list_one as $ke => $vl){
+                        $list_one[$ke]["goods_show_images"] = explode(",",$list_one[$ke]["goods_show_images"]);
+                        if($list_one[$ke]["goods_standard"] == 1){
+                            $min_one[$ke] = db("analyse_special")->where("goods_id", $list_one[$ke]['id'])-> min("price");
+                            $line_one[$ke] = db("analyse_special")->where("goods_id", $list_one[$ke]['id'])-> min("line");
+                            $list_one[$ke]["goods_new_money"] = $min_one[$ke];
+                            $list_one[$ke]["goods_bottom_money"] = $line_one[$ke];
                         }
                     }
-                    $goods_list["arandom"] = $arr;
-                } else {
-                    $goods_list["arandom"] = $list;
+                    $count = count($list_one);
+                    if($count > 4){
+                        $arandom = array_rand($list_one,4);
+                        foreach($list_one as $key => $value){
+                            if(in_array($key,$arandom)){
+                                $arr[] = $value;
+                            }
+                        }
+                        $goods_list["arandom"] = $arr;
+                    } else {
+                        $goods_list["arandom"] = $list_one;
+                    }
                 }
                 return ajax_success('传输成功', $goods_list);
             } else {
@@ -927,7 +940,7 @@ class  General extends  Controller{
     public function added_service_show(Request $request){
         if($request->isPost()){
             $id = $request->only("id")["id"];
-            $goods = db("analyse_goods")->where("id",$id)->find();    
+            $goods = db("analyse_goods")->where("id",$id)->field("id,goods_name,goods_selling,goods_type,goods_new_money,goods_sign,goods_describe,goods_bottom_money,comment,trade,goods_standard,goods_show_images,goods_show_image,goods_text,goods_delivery,goods_franking,templet_id")->find();    
             if(!empty($goods)){
                 $goods["goods_show_images"] = explode(",",$goods["goods_show_images"]);
                 if($goods["goods_standard"] == 1){
@@ -938,6 +951,7 @@ class  General extends  Controller{
                     $goods["goods_bottom_money"] = $line;
                     $goods["standard"] = $standard;
                 }
+                
                 return ajax_success('传输成功', $goods);
             } else {
                 return ajax_error("数据为空");
