@@ -679,6 +679,7 @@ Route::group("admin",[
 
     /*店铺*/
     "general_index"=>"admin/General/general_index",             //店铺信息
+    "general_update"=>"admin/General/general_update",             //店铺信息编辑
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
     "small_routine_edit"=>"admin/General/small_routine_edit",           //小程序设置添加编辑功能
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修

@@ -12,13 +12,37 @@ use think\Request;
 use think\paginator\driver\Bootstrap;
 
 class  General extends  Controller{
-    
+
     /**
-     * [店铺概况]
-     * 郭杨
-     */    
-    public function general_index(){     
-        return view("general_index");
+     **************李火生*******************
+     * @param Request $request
+     * Notes:[店铺概况]
+     **************************************
+     * @return \think\response\View
+     */
+    public function general_index(){
+        $data =Db::table("tb_store")
+            ->field("is_business,enter_meal,store_number,contact_name,id_card,store_logo,store_qq,phone_number,store_introduction")
+            ->find();
+        return view("general_index",["data"=>$data]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺编辑
+     **************************************
+     */
+    public function  general_update(Request $request,$id=null){
+        if($request->isPost()){
+            $array = $request->param();
+            $bool =Db::table("tb_store")->where("id",$id)->update($array);
+            if($bool){
+                $this->success("修改成功");
+            }else{
+                $this->error("请重新修改");
+            }
+        }
     }
 
 
