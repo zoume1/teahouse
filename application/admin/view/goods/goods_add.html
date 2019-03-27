@@ -1129,7 +1129,18 @@
                     var unit2_a=unit2.unique3();
                     var val = $('input[name="goods_standard"]:checked').val(); 
                     var vals = $('input[name="aaa"]:checked').val(); 
-                    console.log(val);
+                    var text=$(".monomer").val();
+                    var nums=0;
+                        for(var i=0;i<unit1_a.length;i++){
+                            if(unit1_a[i]==text){
+                                  nums++;
+                            }
+                        }
+                        if(nums==0){
+                          alert("你输入的单位前面没有添加");
+                          return false;
+                        }
+                        
                     var num=0;
                     for(var i=0;i<$(".muban_list").length;i++){
                         for(var j=i+1;j<$(".muban_list").length;j++){
@@ -1168,10 +1179,23 @@
                 
                 // 运费模板
                 $(".change_danwei").click(function () {
+                    var unit1_a=unit1.unique3();
                     layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
                         layer.close(index);
-                        $(".danwei").html("/" + text);
-                        $(".monomer").val(text);
+                        var num=0;
+                        for(var i=0;i<unit1_a.length;i++){
+                            if(unit1_a[i]==text){
+                                  num++;
+                            }
+                        }
+                        if(num==0){
+                          alert("你输入的单位前面没有添加");
+                        }
+                        else{
+                            $(".danwei").html("/" + text);
+                            $(".monomer").val(text);
+                        }
+                      
                     });
                 });
                 $(".add_biao").click(function () {
