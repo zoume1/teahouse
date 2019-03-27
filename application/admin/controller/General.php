@@ -21,13 +21,49 @@ class  General extends  Controller{
         return view("general_index");
     }
 
-    
+
     /**
-     * [小程序设置]
-     * 郭杨
-     */    
-    public function small_routine_index(){     
-        return view("small_routine_index");
+     **************李火生*******************
+     * @param Request $request
+     * Notes:小程序设置
+     **************************************
+     * @return \think\response\View
+     */
+    public function small_routine_index(){
+        $appletid =1;
+        $data =Db::table("applet")
+            ->field("id,name,appID,appSecret,mchid,signkey")
+            ->where("id",$appletid)
+            ->find();
+        return view("small_routine_index",["data"=>$data]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:
+     **************************************
+     */
+    public function  small_routine_edit(Request $request,$id=null){
+            //编辑
+            if($request->isPost()){
+                $appletid =$id;
+                $app = array(
+                    "name" => trim(input("name")),
+                    "appID" => trim(input("appID")),
+                    "appSecret" => trim(input("appSecret")),
+                    "mchid" => trim(input("mchid")),
+                    "signkey" => trim(input("signkey"))
+                );
+                $app_is = Db::table("applet")->where("id",$appletid)->update($app);
+                if($app_is){
+                    $this->success("添加成功");
+                }else{
+                    $this->error("未改动数据");
+                }
+            }else{
+                $this->error("请求失败");
+            }
     }
 
 
