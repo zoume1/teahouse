@@ -707,6 +707,11 @@ Route::group("admin",[
     "control_order_update"=>"admin/Control/control_order_update",  //入驻订单审核更新
     "control_order_search"=>"admin/Control/control_order_search",  //入驻订单搜索
     "control_store_index"=>"admin/Control/control_store_index",    //店铺分析
+    "control_store_templet"=>"admin/Control/control_store_templet",//增值商品运费模板
+    "control_templet_add"=>"admin/Control/control_store_add",      //增值商品运费添加
+    "control_templet_delete"=>"admin/Control/control_templet_delete",//增值商品运费模板删除
+    "control_templet_edit"=>"admin/Control/control_templet_edit",   //增值商品运费模板编辑
+    "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //增值商品
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
