@@ -43,7 +43,6 @@ class  General extends  Controller{
                 "store_introduction"=>$array['store_introduction'],
             ];
             $store_img =$request->file("store_logo");
-            halt($store_img);
             if(!empty($store_img)){
                 $info = $store_img->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $data["store_logo"] = str_replace("\\","/",$info->getSaveName());
@@ -54,6 +53,25 @@ class  General extends  Controller{
             }else{
                 $this->error("请重新修改");
             }
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺logo删除
+     **************************************
+     */
+    public function general_logo_del(Request $request){
+        if($request->isPost()){
+            $id =$request->only(['id'])['id'];
+            $img_logo =Db::table('tb_store')->where("id",$id)->value('store_logo');
+            if(!empty($img_logo)){
+                unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$img_logo);
+            }
+            Db::table('tb_store')->where("id",$id)->update(['store_logo'=>null]);
+            return ajax_success("删除成功");
         }
     }
 
