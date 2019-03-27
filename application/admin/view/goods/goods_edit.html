@@ -861,36 +861,26 @@
                                 </input>
                                 {/if}
                             </div>
-                            {if !empty($value.templet_id)}
+                            {if !empty($value.templet_name)}
                             <div class="form-input line" style="margin-bottom: 4px;">
-                                <input type="radio" title="运费模板" checked="">
-                                {if !empty($expenses)}
-                                <select name="templet_id" id="admin_role" class="role_list">
-                                    {volist name="expenses" id="va"} {if condition="$value.templet_id eq $va.id"}
-                                    <option value="{$value.templet_id}" selected="">{$va.name}</option>
-                                    {else}
-                                    <option value="{$va.id}">{$va.name}</option>
-                                    {/if}{/volist}
-                                </select><br />
-                                {/if}
-                                </select>
-                                <a href="{:url('admin/Delivery/delivery_goods_add')}">新建</a>
-                            </div>
-                            {else}
-                            <div class="form-input line" style="margin-bottom: 4px;">
-                                <input type="radio" title="运费模板">
-                                {if !empty($expenses)}
-                                <select name="templet_id" id="admin_role" class="role_list">
-                                    <option value="">请选择</option>
-                                    {volist name="expenses" id="va"}
-                                    <option value="{$va.id}">{$va.name}</option>
+                                <input type="radio" title="运费模板" checked="">                              
+                                <select name="templet_name[]" id="admin_role" class="role_list">
+                                    {volist name="$value.templet_name" id="va"} 
+                                    <option value="{$va}" >{$va}</option>
                                     {/volist}
                                 </select><br />
-                                {/if}
                                 </select>
+                                {/if}   
+                                {if !empty($temp)}
+                                <select name="templet_id[]" id="admin_role" class="role_list">
+                                    {volist name="temp" id="vale"} 
+                                    <option value="{$vale.id}">{$vale.name}</option>
+                                    {/volist}
+                                </select>                               
+                                {/if}
                                 <a href="{:url('admin/Delivery/delivery_goods_add')}">新建</a>
                             </div>
-                            {/if}
+
                             <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
                         </div>
 
