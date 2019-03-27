@@ -424,7 +424,7 @@
             <img src="" class="tanimg" />
         </div>
 
-    </div>
+    </div> 
     <div class="popup popup_one noshow">
         <div class="popup_doms">
 
@@ -492,8 +492,10 @@
         <div class="form-item">
             <label class="form-label">生产日期</label>
             <div class="form-input">
-                <input type="text" name="birth" lay-verify="title" autocomplete="off" placeholder="请输入"
-                    class="layui-input">
+                <span class="time">
+                    <input name="date_min" type="text" class="text datetimepicker layui-input" readonly="readonly"
+                        id="beginTime" value="">
+                </span>
                 <div class="tips">选填项</div>
             </div>
 
@@ -649,13 +651,13 @@
 
         <div class="nomal ">
             <div class="form-item" style="margin-top:15px">
-                <label class="form-label">包装规格</label>
+                <label class="form-label"><span class="red">*</span>包装规格</label>
                 <div class="form-input" id="packing_specification" style=" align-items: center;">
                     <div class="danwei_a">
                         <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
-                            class="layui-input" value="1" readonly>
+                            class="layui-input" value="1" readonly required>
                         <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
-                            data-id="1" data-value="" class="layui-input units" maxlength="2">
+                            data-id="1" data-value="" class="layui-input units" maxlength="2" required>
                     </div>
 
                     <div class="add_danwei"> 继续添加单位</div>
@@ -666,7 +668,7 @@
             <div class="form-item">
 
                 <div class="tips" style="margin-left:110px">
-                    *非必选项，此处添加了包装规格，商品售价单位变为可选
+                    *必选项，此处添加了包装规格，商品售价单位变为可选
                 </div>
             </div>
             <div class="form-item">
@@ -676,6 +678,7 @@
                         class="layui-input">
                     <span class="change_danwei">修改单位</span>
                     <span class="danwei">/片</span>
+                    <input type="hidden" name="monomer" value="片" class="monomer">
                 </div>
             </div>
             <div class="form-item">
@@ -741,7 +744,7 @@
                 </div>-->
             </div>
             <div class="form-item general noshow generals" style=" align-items: center;">
-                <label class="form-label">包装规格</label>
+                <label class="form-label"><span class="red">*</span>包装规格</label>
                 <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
                     <select name="" class="packing packings" style="margin-left: 10px">
                         <option value="0">请选择规格编码</option>
@@ -754,9 +757,7 @@
                 *非必选项，此处添加的“包装规格”单位，必须包含有“商品规格”中填写的“报价单位” ；且第一个单位数量需要填写为“1”
             </div>
             <div class="form-item general noshow">
-
                 <label class="form-label"></label>
-
                 <div class="form-input add_danwei2"
                     style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;margin-left: 8px;">
                     继续添加
@@ -848,14 +849,14 @@
             <label class="form-label">快递运费</label>
             <div style="display: flex;flex-direction:column">
                 <div class="form-input line" style="margin-bottom: 4px;">
-                    <input type="radio" title="统一邮费" checked="" name="aaa">
+                    <input type="radio" title="统一邮费" checked="" name="aaa" value="0">
                     <input type="number" name="goods_franking" lay-verify="title" autocomplete="off"
                         placeholder="请输入                          元" class="layui-input"> </input>
                     </input>
 
                 </div>
                 <div class="form-input line" style="margin-bottom: 4px;">
-                    <input type="radio" title="运费模板" name="aaa">
+                    <input type="radio" title="运费模板" name="aaa"  value="1">
 
                 </div>
 
@@ -895,9 +896,7 @@
 
         </div>
     </form>
-
     {/block}
-
     <!--_footer 作为公共模版分离出去-->
     {include file="template/_footer" /}
     <!--/_footer 作为公共模版分离出去-->
@@ -1071,12 +1070,12 @@
                             var add_muban = '';
                             add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
                             add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
-                            add_muban += '<select name="templet_id"  class="role_list muban_list" >';
+                            add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
                             for(var n=0;n<unit1_a.length;n++){
                                 add_muban += ' <option value="'+unit1_a[n]+'">'+unit1_a[n]+'</option>';
                             }
                             add_muban += '</select><br />';
-                            add_muban += '<select name="templet_id"  class="role_list">';
+                            add_muban += '<select name="templet_id[]"  class="role_list">';
                             for(var h=0;h<templet.length;h++){
                                 add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
                             }
@@ -1100,18 +1099,16 @@
                    else{
                     if(unit2_a.length>0){
                         var add_muban = '';
-                            add_muban += ' <div class="form-input line" style="margin-bottom: 4px;position: relative;">';
+                             add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
                             add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
-                            add_muban += '<select name="templet_name[]"  class="role_list">';
-                            add_muban += ' <option value="">请选择</option>';
+                            add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
                             for(var n=0;n<unit2_a.length;n++){
                                 add_muban += ' <option value="'+unit2_a[n]+'">'+unit2_a[n]+'</option>';
                             }
-                        
                             add_muban += '</select><br />';
                             add_muban += '<select name="templet_id[]"  class="role_list">';
-                            add_muban += ' <option value="">请选择</option>';
                             for(var h=0;h<templet.length;h++){
+
                                 add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
                             }
                             add_muban += '</select><br />';
@@ -1131,7 +1128,19 @@
                     var unit1_a=unit1.unique3();
                     var unit2_a=unit2.unique3();
                     var val = $('input[name="goods_standard"]:checked').val(); 
-                    console.log($(".muban_list"))
+                    var vals = $('input[name="aaa"]:checked').val(); 
+                    var text=$(".monomer").val();
+                    var nums=0;
+                        for(var i=0;i<unit1_a.length;i++){
+                            if(unit1_a[i]==text){
+                                  nums++;
+                            }
+                        }
+                        if(nums==0){
+                          alert("你输入的单位前面没有添加");
+                          return false;
+                        }
+                        
                     var num=0;
                     for(var i=0;i<$(".muban_list").length;i++){
                         for(var j=i+1;j<$(".muban_list").length;j++){
@@ -1146,25 +1155,47 @@
                         alert("相同的单位不能两套模板")
                         return false;
                     }
-                    if(val=="0"){
+                    if(vals=="1"){
+                        if(val=="0"){
+                        console.log($(".muban").length);
+                        console.log(unit1_a.length);
                       if($(".muban").length!=unit1_a.length) {
                           alert("你填写的单位必须有对应的模板");
                           return false;
                       }
                     }
                     else{
+                        console.log($(".muban").length);
+                        console.log(unit2_a.length);
                         if($(".muban").length!=unit2_a.length) {
                           alert("你填写的单位必须有对应的模板");
                           return false;
                       }
                     }
+                    }
+                   
                  
                 });
+                
                 // 运费模板
                 $(".change_danwei").click(function () {
+                    var unit1_a=unit1.unique3();
                     layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
                         layer.close(index);
-                        $(".danwei").html("/" + text);
+                        var num=0;
+                        for(var i=0;i<unit1_a.length;i++){
+                            if(unit1_a[i]==text){
+                                  num++;
+                            }
+                        }
+                        if(num==0){
+                          alert("你输入的单位前面没有添加");
+                        }
+                        else{
+                            $(".danwei").html("/" + text);
+                            $(".monomer").val(text);
+                        }
+                      
                     });
                 });
                 $(".add_biao").click(function () {

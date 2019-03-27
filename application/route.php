@@ -374,9 +374,11 @@ Route::group("admin",[
 
 
     /* TODO:图片库开始*/
-	"photo_index"=>"admin/Photo/index",
-    "images_online_push"=>"admin/Photo/images_online_push", //上传图片库
-    "photo_del"=>"admin/Photo/delete", //删除单张图片
+    "photo_index"=>"admin/Photo/index", //图片库进入页面
+    "phone_information"=>"admin/Photo/phone_information", //图片库页面
+    "imgupload"=>"admin/Photo/imgupload", //图片上传
+    "makegroup"=>"admin/Photo/makegroup", //创建相册
+    "phone_del"=>"admin/Photo/phone_del", //删除相册
     /* TODO:图片库结束*/
 
 
@@ -467,23 +469,24 @@ Route::group("admin",[
      "active_order_search"=>"admin/ActiveOrder/search", //评论管理组模糊搜索
 
     /*商品列表*/
-    "goods_index"=>"admin/Goods/index",      //普通商品列表显示
-    "goods_add"=>"admin/Goods/add",          //普通商品列表组添加
-    "goods_save"=>"admin/Goods/save",        //普通商品列表组保存入库
-    "goods_edit"=>"admin/Goods/edit",        //普通商品列表组编辑
-    "goods_updata"=>"admin/Goods/updata",    //普通商品列表组更新
-    "goods_status"=>"admin/Goods/status",    //普通商品列表组首页推荐
-    "goods_ground"=>"admin/Goods/ground",    //普通商品列表组是否上架
-    "goods_del"=>"admin/Goods/del",          //普通商品列表组删除
-    "goods_dels"=>"admin/Goods/dels",        //普通商品列表组批量删除
-    "goods_search"=>"admin/Goods/search",    //普通商品列表组模糊搜索
-    "goods_images"=>"admin/Goods/images",    //普通商品列表组图片删除
-    "goods_photos"=>"admin/Goods/photos",    //普通商品列表规格图片删除
-    "goods_value"=>"admin/Goods/value",      //普通商品列表规格值修改
-    "goods_switches"=>"admin/Goods/switches",//普通商品列表规格开关
-    "goods_addphoto"=>"admin/Goods/addphoto",//普通商品列表规格图片添加 
-    "goods_offer"=>"admin/Goods/offer",      //普通商品多规格列表单位编辑 
-    "goods_standard"=>"admin/Goods/standard",//普通商品多规格列表单位id查找 
+    "goods_index"=>"admin/Goods/index",          //普通商品列表显示
+    "goods_add"=>"admin/Goods/add",              //普通商品列表组添加
+    "goods_save"=>"admin/Goods/save",            //普通商品列表组保存入库
+    "goods_edit"=>"admin/Goods/edit",            //普通商品列表组编辑
+    "goods_updata"=>"admin/Goods/updata",        //普通商品列表组更新
+    "goods_status"=>"admin/Goods/status",        //普通商品列表组首页推荐
+    "goods_ground"=>"admin/Goods/ground",        //普通商品列表组是否上架
+    "goods_del"=>"admin/Goods/del",              //普通商品列表组删除
+    "goods_dels"=>"admin/Goods/dels",            //普通商品列表组批量删除
+    "goods_search"=>"admin/Goods/search",        //普通商品列表组模糊搜索
+    "goods_images"=>"admin/Goods/images",        //普通商品列表组图片删除
+    "goods_photos"=>"admin/Goods/photos",        //普通商品列表规格图片删除
+    "goods_value"=>"admin/Goods/value",          //普通商品列表规格值修改
+    "goods_switches"=>"admin/Goods/switches",    //普通商品列表规格开关
+    "goods_addphoto"=>"admin/Goods/addphoto",    //普通商品列表规格图片添加 
+    "goods_offer"=>"admin/Goods/offer",          //普通商品多规格列表单位编辑 
+    "goods_standard"=>"admin/Goods/standard",    //普通商品多规格列表单位id查找 
+    "goods_templet"=>"admin/Goods/goods_templet",//普通商品运费模板编辑 
 
     "crowd_index"=>"admin/Goods/crowd_index",        //众筹商品列表显示
     "crowd_add"=>"admin/Goods/crowd_add",            //众筹商品列表添加
@@ -679,7 +682,10 @@ Route::group("admin",[
 
     /*店铺*/
     "general_index"=>"admin/General/general_index",             //店铺信息
+    "general_update"=>"admin/General/general_update",             //店铺信息编辑
+    "general_logo_del"=>"admin/General/general_logo_del",             //店铺信息logo图删除
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
+    "small_routine_edit"=>"admin/General/small_routine_edit",           //小程序设置添加编辑功能
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
     "xiaochengxu_edit"=>"admin/General/xiaochengxu_edit", //小程序装修
     "test_selecticon"=>"admin/Test/selecticon",//图标库
@@ -705,6 +711,11 @@ Route::group("admin",[
     "control_order_update"=>"admin/Control/control_order_update",  //入驻订单审核更新
     "control_order_search"=>"admin/Control/control_order_search",  //入驻订单搜索
     "control_store_index"=>"admin/Control/control_store_index",    //店铺分析
+    "control_store_templet"=>"admin/Control/control_store_templet",//增值商品运费模板
+    "control_templet_add"=>"admin/Control/control_store_add",      //增值商品运费添加
+    "control_templet_delete"=>"admin/Control/control_templet_delete",//增值商品运费模板删除
+    "control_templet_edit"=>"admin/Control/control_templet_edit",   //增值商品运费模板编辑
+    "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //增值商品
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加

@@ -12,22 +12,112 @@ use think\Request;
 use think\paginator\driver\Bootstrap;
 
 class  General extends  Controller{
-    
+
     /**
-     * [店铺概况]
-     * 郭杨
-     */    
-    public function general_index(){     
-        return view("general_index");
+     **************李火生*******************
+     * @param Request $request
+     * Notes:[店铺概况]
+     **************************************
+     * @return \think\response\View
+     */
+    public function general_index(){
+        $data =Db::table("tb_store")
+            ->field("id,is_business,enter_meal,store_number,contact_name,id_card,store_logo,store_qq,phone_number,store_introduction,store_name")
+            ->find();
+        return view("general_index",["data"=>$data]);
     }
 
-    
     /**
-     * [小程序设置]
-     * 郭杨
-     */    
-    public function small_routine_index(){     
-        return view("small_routine_index");
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺编辑
+     **************************************
+     */
+    public function  general_update(Request $request,$id=null){
+        if($request->isPost()){
+            $array = $request->param();
+            $data=[
+                "store_name"=>$array['store_name'],
+                "store_number"=>$array['store_number'],
+                "store_qq"=>$array['store_qq'],
+                "store_introduction"=>$array['store_introduction'],
+            ];
+            $store_img =$request->file("store_logo");
+            if(!empty($store_img)){
+                $info = $store_img->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $data["store_logo"] = str_replace("\\","/",$info->getSaveName());
+            }
+            $bool =Db::table("tb_store")->where("id",$id)->update($data);
+            if($bool){
+                $this->success("修改成功");
+            }else{
+                $this->error("请重新修改");
+            }
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺logo删除
+     **************************************
+     */
+    public function general_logo_del(Request $request){
+        if($request->isPost()){
+            $id =$request->only(['id'])['id'];
+            $img_logo =Db::table('tb_store')->where("id",$id)->value('store_logo');
+            if(!empty($img_logo)){
+                unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$img_logo);
+            }
+            Db::table('tb_store')->where("id",$id)->update(['store_logo'=>null]);
+            return ajax_success("删除成功");
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:小程序设置
+     **************************************
+     * @return \think\response\View
+     */
+    public function small_routine_index(){
+        $appletid =1;
+        $data =Db::table("applet")
+            ->field("id,name,appID,appSecret,mchid,signkey")
+            ->where("id",$appletid)
+            ->find();
+        return view("small_routine_index",["data"=>$data]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:
+     **************************************
+     */
+    public function  small_routine_edit(Request $request,$id=null){
+            //编辑
+            if($request->isPost()){
+                $appletid =$id;
+                $app = array(
+                    "name" => trim(input("name")),
+                    "appID" => trim(input("appID")),
+                    "appSecret" => trim(input("appSecret")),
+                    "mchid" => trim(input("mchid")),
+                    "signkey" => trim(input("signkey"))
+                );
+                $app_is = Db::table("applet")->where("id",$appletid)->update($app);
+                if($app_is){
+                    $this->success("添加成功");
+                }else{
+                    $this->error("未改动数据");
+                }
+            }else{
+                $this->error("请求失败");
+            }
     }
 
 
