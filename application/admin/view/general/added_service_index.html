@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="__STATIC__/admin/common/css/z-comm.css">
     
     <style>
+        .inner-cont{padding: 0 10px;}
         .col-left{width: 78%;}
         .col-right{width: 21%;}
         .col-left .top{display: flex; align-items: center; height: 40px; background-color: #f7f7f7; margin: 10px 0;}
@@ -143,7 +144,7 @@
                     })
                 },
                 goodsDetail: function(_id){
-                    alert(_id)
+                    location.href = 'added_service_show?id=' + _id;
                 },
                 // 搜索 选择
                 selectScreen: function(e){
