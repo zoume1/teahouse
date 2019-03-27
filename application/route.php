@@ -469,23 +469,24 @@ Route::group("admin",[
      "active_order_search"=>"admin/ActiveOrder/search", //评论管理组模糊搜索
 
     /*商品列表*/
-    "goods_index"=>"admin/Goods/index",      //普通商品列表显示
-    "goods_add"=>"admin/Goods/add",          //普通商品列表组添加
-    "goods_save"=>"admin/Goods/save",        //普通商品列表组保存入库
-    "goods_edit"=>"admin/Goods/edit",        //普通商品列表组编辑
-    "goods_updata"=>"admin/Goods/updata",    //普通商品列表组更新
-    "goods_status"=>"admin/Goods/status",    //普通商品列表组首页推荐
-    "goods_ground"=>"admin/Goods/ground",    //普通商品列表组是否上架
-    "goods_del"=>"admin/Goods/del",          //普通商品列表组删除
-    "goods_dels"=>"admin/Goods/dels",        //普通商品列表组批量删除
-    "goods_search"=>"admin/Goods/search",    //普通商品列表组模糊搜索
-    "goods_images"=>"admin/Goods/images",    //普通商品列表组图片删除
-    "goods_photos"=>"admin/Goods/photos",    //普通商品列表规格图片删除
-    "goods_value"=>"admin/Goods/value",      //普通商品列表规格值修改
-    "goods_switches"=>"admin/Goods/switches",//普通商品列表规格开关
-    "goods_addphoto"=>"admin/Goods/addphoto",//普通商品列表规格图片添加 
-    "goods_offer"=>"admin/Goods/offer",      //普通商品多规格列表单位编辑 
-    "goods_standard"=>"admin/Goods/standard",//普通商品多规格列表单位id查找 
+    "goods_index"=>"admin/Goods/index",          //普通商品列表显示
+    "goods_add"=>"admin/Goods/add",              //普通商品列表组添加
+    "goods_save"=>"admin/Goods/save",            //普通商品列表组保存入库
+    "goods_edit"=>"admin/Goods/edit",            //普通商品列表组编辑
+    "goods_updata"=>"admin/Goods/updata",        //普通商品列表组更新
+    "goods_status"=>"admin/Goods/status",        //普通商品列表组首页推荐
+    "goods_ground"=>"admin/Goods/ground",        //普通商品列表组是否上架
+    "goods_del"=>"admin/Goods/del",              //普通商品列表组删除
+    "goods_dels"=>"admin/Goods/dels",            //普通商品列表组批量删除
+    "goods_search"=>"admin/Goods/search",        //普通商品列表组模糊搜索
+    "goods_images"=>"admin/Goods/images",        //普通商品列表组图片删除
+    "goods_photos"=>"admin/Goods/photos",        //普通商品列表规格图片删除
+    "goods_value"=>"admin/Goods/value",          //普通商品列表规格值修改
+    "goods_switches"=>"admin/Goods/switches",    //普通商品列表规格开关
+    "goods_addphoto"=>"admin/Goods/addphoto",    //普通商品列表规格图片添加 
+    "goods_offer"=>"admin/Goods/offer",          //普通商品多规格列表单位编辑 
+    "goods_standard"=>"admin/Goods/standard",    //普通商品多规格列表单位id查找 
+    "goods_templet"=>"admin/Goods/goods_templet",//普通商品运费模板编辑 
 
     "crowd_index"=>"admin/Goods/crowd_index",        //众筹商品列表显示
     "crowd_add"=>"admin/Goods/crowd_add",            //众筹商品列表添加

@@ -125,7 +125,7 @@ class Goods extends Controller
                 $goods_data["num"] = implode(",",$goods_data["num"]);
                 $goods_data["unit"] = implode(",",$goods_data["unit"]);
             }
-            halt($goods_data);
+            
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
                 if ($bool && (!empty($show_images))) {
@@ -155,7 +155,7 @@ class Goods extends Controller
                 $goods_special["status"] = $goods_data["status"];
                 $goods_special["scope"] = $goods_data["scope"];
                 $goods_special["templet_id"] = $goods_data["templet_id"];
-                $goods_special["templet_name"] = $goods_data["templet_neme"];
+                $goods_special["templet_name"] = $goods_data["templet_name"];
 
                 if (isset($goods_data["goods_text"])) {
                     $goods_special["goods_text"] = $goods_data["goods_text"];
@@ -286,6 +286,14 @@ class Goods extends Controller
             $goods[$key]["templet_id"] = explode(',', $goods[$key]["templet_id"]);
         }
      }
+        $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
+        
+        if(!empty($team)){
+            foreach($team as $ke => $val){
+                $temp[$ke] = db("express")->where("id",$team[$ke])->field("name,id")->find();
+            }
+        }
+       
         foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);         
@@ -295,9 +303,9 @@ class Goods extends Controller
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"]; //判断是否为通用或特殊
         if ($restel == 0) {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope,"expenses"=>$expenses]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope,"expenses"=>$expenses,"temp"=>$temp]);
         } else {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"expenses"=>$expenses]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"expenses"=>$expenses,"temp"=>$temp]);
         }
     }
 
@@ -379,7 +387,8 @@ class Goods extends Controller
             } else {
                 $goods_data["scope"] = "";
             }
-            
+            $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
+            $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
             $list = [];
             if (!empty($show_images)) {
                 foreach ($show_images as $k => $v) {
@@ -479,6 +488,38 @@ class Goods extends Controller
         }
 
     }
+
+
+
+    /**
+     * [商品列表运费模板编辑]
+     * 郭杨
+     */
+    public function goods_templet(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $id = 221;
+            $templet = db("goods")->where("id",$id)->field("templet_id,templet_name")->find();
+            $templet_id = explode(",",$templet["templet_id"]);
+            $templet["templet_id"] = $templet_id;
+            if(!empty($templet_id)){
+                foreach($templet_id as $ke => $val){
+                    $temp[$ke] = db("express")->where("id",$val)->field("name,id")->find();
+                }
+            }
+            $rest["templet_unit"] = explode(",",$templet["templet_name"]);
+            $rest["templet_name"] = $temp;
+            if (!empty($rest)) {
+                return ajax_success('传输成功', $rest);
+            } else {
+                return ajax_error("数据为空");
+
+            }
+
+        }
+    }
+
 
 
     /**
