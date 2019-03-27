@@ -847,14 +847,14 @@
             <label class="form-label">快递运费</label>
             <div style="display: flex;flex-direction:column">
                 <div class="form-input line" style="margin-bottom: 4px;">
-                    <input type="radio" title="统一邮费" checked="" name="aaa">
+                    <input type="radio" title="统一邮费" checked="" name="aaa" value="0">
                     <input type="number" name="goods_franking" lay-verify="title" autocomplete="off"
                         placeholder="请输入                          元" class="layui-input"> </input>
                     </input>
 
                 </div>
                 <div class="form-input line" style="margin-bottom: 4px;">
-                    <input type="radio" title="运费模板" name="aaa">
+                    <input type="radio" title="运费模板" name="aaa"  value="1">
 
                 </div>
 
@@ -1128,6 +1128,7 @@
                     var unit1_a=unit1.unique3();
                     var unit2_a=unit2.unique3();
                     var val = $('input[name="goods_standard"]:checked').val(); 
+                    var vals = $('input[name="aaa"]:checked').val(); 
                     console.log(val);
                     var num=0;
                     for(var i=0;i<$(".muban_list").length;i++){
