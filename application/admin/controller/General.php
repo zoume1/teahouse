@@ -22,7 +22,7 @@ class  General extends  Controller{
      */
     public function general_index(){
         $data =Db::table("tb_store")
-            ->field("is_business,enter_meal,store_number,contact_name,id_card,store_logo,store_qq,phone_number,store_introduction")
+            ->field("id,is_business,enter_meal,store_number,contact_name,id_card,store_logo,store_qq,phone_number,store_introduction,store_name")
             ->find();
         return view("general_index",["data"=>$data]);
     }
@@ -36,7 +36,19 @@ class  General extends  Controller{
     public function  general_update(Request $request,$id=null){
         if($request->isPost()){
             $array = $request->param();
-            $bool =Db::table("tb_store")->where("id",$id)->update($array);
+            $data=[
+                "store_name"=>$array['store_name'],
+                "store_number"=>$array['store_number'],
+                "store_qq"=>$array['store_qq'],
+                "store_introduction"=>$array['store_introduction'],
+            ];
+            $store_img =$request->file("store_logo");
+            halt($store_img);
+            if(!empty($store_img)){
+                $info = $store_img->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $data["store_logo"] = str_replace("\\","/",$info->getSaveName());
+            }
+            $bool =Db::table("tb_store")->where("id",$id)->update($data);
             if($bool){
                 $this->success("修改成功");
             }else{
