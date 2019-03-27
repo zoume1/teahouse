@@ -53,7 +53,8 @@
     <div class="container" id="app" v-cloak>
         <div class="inner-cont">
             <div class="detail clearfix">
-                <div class="detail-meta fl">
+                <div class="detail-meta fl"
+                    v-for="">
                     <div class="clearfix">
                         <div class="property fl">
                             <div class="wrap">
@@ -101,7 +102,7 @@
                         </div>
                         <div class="gallery fl">
                             <div class="booth">
-                                <img src="https://img.alicdn.com/imgextra/i3/1991926764/O1CN01ib6enq1zpxUxxzRiL_!!0-item_pic.jpg_430x430q90.jpg">
+                                <img src="">
                             </div>
                             <div class="thumb-wrap">
                                 <ul class="thumb">
@@ -134,6 +135,7 @@
                 selectedIndex: 0,
                 selectedImgUrl: '',
                 specSelectedIndex: 0,
+                dataObj: {},
             },
             methods: {
                 selectedImg: function(_index){
@@ -142,7 +144,20 @@
                 // 选择规格
                 selectSpec: function(_index){
                     this.specSelectedIndex = _index;
+                },
+                getData: function(){
+                    this.$http.post('added_service_show').then(function(res){
+                        console.log(res);
+                        if(res.body.status == 1){
+                            this.dataObj = res.body.data;
+                        }
+                    }, function(res){
+                        console.log(res.status, res.statusText);
+                    })
                 }
+            },
+            mounted: function(){
+                this.getData();
             }
         })
     </script>
