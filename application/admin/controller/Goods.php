@@ -387,7 +387,8 @@ class Goods extends Controller
             } else {
                 $goods_data["scope"] = "";
             }
-            
+            $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
+            $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
             $list = [];
             if (!empty($show_images)) {
                 foreach ($show_images as $k => $v) {
@@ -487,6 +488,38 @@ class Goods extends Controller
         }
 
     }
+
+
+
+    /**
+     * [商品列表运费模板编辑]
+     * 郭杨
+     */
+    public function goods_templet(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $id = 221;
+            $templet = db("goods")->where("id",$id)->field("templet_id,templet_name")->find();
+            $templet_id = explode(",",$templet["templet_id"]);
+            $templet["templet_id"] = $templet_id;
+            if(!empty($templet_id)){
+                foreach($templet_id as $ke => $val){
+                    $temp[$ke] = db("express")->where("id",$val)->field("name,id")->find();
+                }
+            }
+            $rest["templet_unit"] = explode(",",$templet["templet_name"]);
+            $rest["templet_name"] = $temp;
+            if (!empty($rest)) {
+                return ajax_success('传输成功', $rest);
+            } else {
+                return ajax_error("数据为空");
+
+            }
+
+        }
+    }
+
 
 
     /**
