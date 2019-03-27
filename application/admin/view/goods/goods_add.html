@@ -1071,12 +1071,12 @@
                             var add_muban = '';
                             add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
                             add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
-                            add_muban += '<select name="templet_id"  class="role_list muban_list" >';
+                            add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
                             for(var n=0;n<unit1_a.length;n++){
                                 add_muban += ' <option value="'+unit1_a[n]+'">'+unit1_a[n]+'</option>';
                             }
                             add_muban += '</select><br />';
-                            add_muban += '<select name="templet_id"  class="role_list">';
+                            add_muban += '<select name="templet_id[]"  class="role_list">';
                             for(var h=0;h<templet.length;h++){
                                 add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
                             }
@@ -1102,13 +1102,14 @@
                         var add_muban = '';
                              add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
                             add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
-                            add_muban += '<select name="templet_id"  class="role_list muban_list" >';
+                            add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
                             for(var n=0;n<unit2_a.length;n++){
                                 add_muban += ' <option value="'+unit2_a[n]+'">'+unit2_a[n]+'</option>';
                             }
                             add_muban += '</select><br />';
-                            add_muban += '<select name="templet_id"  class="role_list">';
+                            add_muban += '<select name="templet_id[]"  class="role_list">';
                             for(var h=0;h<templet.length;h++){
+
                                 add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
                             }
                             add_muban += '</select><br />';
