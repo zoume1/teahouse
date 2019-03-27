@@ -16,7 +16,7 @@
         .col-left .top .filter-btn{background-color: #f00; color: #fff; font-size: 14px; border: 0; outline: none; cursor: pointer;}
         .col-left .top select{margin: 0 20px; height: 25px;}
         .col-left .goods-list{display: flex; flex-wrap: wrap; justify-content: space-between;}
-        .col-left .goods-list li.goods-item{width: 220px; height: 360px; border: 1px solid #f4f4f4; cursor: pointer;}
+        .col-left .goods-list li.goods-item{width: 220px; height: 360px; border: 1px solid #f4f4f4; cursor: pointer; margin-bottom: 10px;}
         .col-left .goods-list .goods-item:hover{border-color: #f40;}
         .col-left .goods-list li.holder{height: 0; margin: 0; padding: 0; width: 220px;}
         .col-left .goods-item .img-box{width: 100%; height: 220px;}
@@ -160,7 +160,7 @@
                     })
                 }
             },
-            mounted(){
+            mounted: function(){
                 this.getData();
             }
         })

@@ -947,6 +947,85 @@
                 // 运费模板
                 var unit1 = [];
                 var unit2 = [];
+                
+                $(".general_content").on("blur", ".units", function () {
+                    id = $(this).data("id");
+                    if($(this).data("value")!=$(this).val()){
+                        $(".muban").remove();
+                    }
+                    // 普通规格
+                    if (id == "1") {
+                        // 填入的值不为空
+                        if ($(this).val() != '') {
+                            // 本来无值（存入）
+                            if ($(this).data("value") == '') {
+                                unit1.push($(this).val());
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit1.length; k++) {
+                                    if (unit1[k] == $(this).data("value")) {
+                                        unit1[k] = $(this).val();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        //   填入的值为空
+                        else {
+                            // 本来无值（存入）
+                            if ($(this).data("value") == '') {
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit1.length; k++) {
+                                    if (unit1[k] == $(this).data("value")) {
+                                        unit1.splice(k, 1);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
+
+                    }
+                    else {
+                        // 填入的值不为空
+                        if ($(this).val() != '') {
+                            // 本来无值（存入）
+                            if ($(this).data("value") == '') {
+                                unit2.push($(this).val());
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit2.length; k++) {
+                                    if (unit2[k] == $(this).data("value")) {
+                                        unit2[k] = $(this).val();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        //   填入的值为空
+                        else {
+                            // 本来无值（存入）
+                            if ($(this).data("value") == '') {
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit2.length; k++) {
+                                    if (unit2[k] == $(this).data("value")) {
+                                        unit2.splice(k, 1);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    $(this).data("value", $(this).val());
+                })
+               
                 $(".form-item").on("blur", ".units", function () {
                     id = $(this).data("id");
                     if($(this).data("value")!=$(this).val()){
