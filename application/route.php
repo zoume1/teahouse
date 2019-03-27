@@ -374,9 +374,11 @@ Route::group("admin",[
 
 
     /* TODO:图片库开始*/
-	"photo_index"=>"admin/Photo/index",
-    "images_online_push"=>"admin/Photo/images_online_push", //上传图片库
-    "photo_del"=>"admin/Photo/delete", //删除单张图片
+    "photo_index"=>"admin/Photo/index", //图片库进入页面
+    "phone_information"=>"admin/Photo/phone_information", //图片库页面
+    "imgupload"=>"admin/Photo/imgupload", //图片上传
+    "makegroup"=>"admin/Photo/makegroup", //创建相册
+    "phone_del"=>"admin/Photo/phone_del", //删除相册
     /* TODO:图片库结束*/
 
 
@@ -680,6 +682,7 @@ Route::group("admin",[
     /*店铺*/
     "general_index"=>"admin/General/general_index",             //店铺信息
     "general_update"=>"admin/General/general_update",             //店铺信息编辑
+    "general_logo_del"=>"admin/General/general_logo_del",             //店铺信息logo图删除
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
     "small_routine_edit"=>"admin/General/small_routine_edit",           //小程序设置添加编辑功能
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
