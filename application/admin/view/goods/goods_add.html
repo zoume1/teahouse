@@ -649,13 +649,13 @@
 
         <div class="nomal ">
             <div class="form-item" style="margin-top:15px">
-                <label class="form-label">包装规格</label>
+                <label class="form-label"><span class="red">*</span>包装规格</label>
                 <div class="form-input" id="packing_specification" style=" align-items: center;">
                     <div class="danwei_a">
                         <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
-                            class="layui-input" value="1" readonly>
+                            class="layui-input" value="1" readonly required>
                         <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
-                            data-id="1" data-value="" class="layui-input units" maxlength="2">
+                            data-id="1" data-value="" class="layui-input units" maxlength="2" required>
                     </div>
 
                     <div class="add_danwei"> 继续添加单位</div>
@@ -666,7 +666,7 @@
             <div class="form-item">
 
                 <div class="tips" style="margin-left:110px">
-                    *非必选项，此处添加了包装规格，商品售价单位变为可选
+                    *必选项，此处添加了包装规格，商品售价单位变为可选
                 </div>
             </div>
             <div class="form-item">
@@ -676,6 +676,7 @@
                         class="layui-input">
                     <span class="change_danwei">修改单位</span>
                     <span class="danwei">/片</span>
+                    <input type="hidden" name="monomer" value="片" class="monomer">
                 </div>
             </div>
             <div class="form-item">
@@ -741,7 +742,7 @@
                 </div>-->
             </div>
             <div class="form-item general noshow generals" style=" align-items: center;">
-                <label class="form-label">包装规格</label>
+                <label class="form-label"><span class="red">*</span>包装规格</label>
                 <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">
                     <select name="" class="packing packings" style="margin-left: 10px">
                         <option value="0">请选择规格编码</option>
@@ -754,9 +755,7 @@
                 *非必选项，此处添加的“包装规格”单位，必须包含有“商品规格”中填写的“报价单位” ；且第一个单位数量需要填写为“1”
             </div>
             <div class="form-item general noshow">
-
                 <label class="form-label"></label>
-
                 <div class="form-input add_danwei2"
                     style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;margin-left: 8px;">
                     继续添加
@@ -1167,6 +1166,7 @@
                     layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
                         layer.close(index);
                         $(".danwei").html("/" + text);
+                        $(".monomer").val(text);
                     });
                 });
                 $(".add_biao").click(function () {
