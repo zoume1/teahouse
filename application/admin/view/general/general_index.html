@@ -163,7 +163,7 @@
                             <div class="imgcontent" >
                            <span class="img">
                                <img src="__UPLOADS__/{$data['store_logo']}" width="100%">
-                               <i class="remove-img" name="icon_image" value="" data-id="" data-value="2">
+                               <i class="remove-img" name="icon_image" value="" data-id="{$data['id']}" data-value="2">
                                    <img src="__STATIC__/admin/common/img/a7.png"></i>
                            </span>
                             </div>
@@ -323,13 +323,15 @@
             console.log(id);
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Category/images')}",
+                    url: "{:url('admin/General/general_logo_del')}",
                     data: {
                         "id": id
                     },
                     dataType: "json",
                     success: function(data) {
                         remove.remove();
+                        alert(data.info);
+                        location.reload();
                     },
                     error: function(data) {
                         console.log("错误");
