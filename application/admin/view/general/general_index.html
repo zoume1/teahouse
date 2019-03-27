@@ -1,27 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>店铺概况</title>
-    <style>
-        *{margin: 0; padding: 0;}
-        .wrapper{padding: 20px;}
-        .title{border-bottom: 1px solid #c9c9c9; padding-bottom: 5px;}
-        .title span{color: #0066FF; border-bottom: 2px solid #21a5fa; padding: 0 10px 5px; font-size: 18px;}
-        .items{margin-top: 30px;}
-        .item{display: flex; margin-bottom: 20px;}
-        .item .item-key{width: 200px; text-align: right; font-size: 16px; color: #666;}
-        .item .item-value{color: #333;}
-        .item .item-value input{height: 25px; padding-left: 5px;}
-        textarea{width: 400px; height: 100px; resize: none; padding: 10px; box-sizing: border-box; font-size: 16px;}
-        .save{margin-left: 200px; padding: 3px 25px; color: #fff; background-color: #169bd5; border: 0; border-radius: 2px; cursor: pointer; outline: none;}
-        .update{background-color: #fff; border: 0; color: #169bd5; cursor: pointer; outline: none;}
-        .imgUpload{opacity: 0; filter: alpha(opacity = 0);}
-    </style>
+{include file="template/_meta" /}
+<title></title>
 </head>
+
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+      body{
+          background: #fff;
+      }
+        .wrapper {
+            padding: 20px;
+        }
+
+        .title {
+            border-bottom: 1px solid #c9c9c9;
+            padding-bottom: 5px;
+        }
+
+        .title span {
+            color: #0066FF;
+            border-bottom: 2px solid #21a5fa;
+            padding: 0 10px 5px;
+            font-size: 18px;
+        }
+
+        .items {
+            margin-top: 30px;
+        }
+
+        .item {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .item .item-key {
+            width: 200px;
+            text-align: right;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .item .item-value {
+            color: #333;
+        }
+
+        .item .item-value input {
+            height: 25px;
+            padding-left: 5px;
+        }
+
+        textarea {
+            width: 400px;
+            height: 100px;
+            resize: none;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .save {
+            margin-left: 200px;
+            padding: 3px 25px;
+            color: #fff;
+            background-color: #169bd5;
+            border: 0;
+            border-radius: 2px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .update {
+            background-color: #fff;
+            border: 0;
+            color: #169bd5;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .imgUpload {
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+        /* 数据库展现图片样式 */
+
+        .img {
+            position: relative;
+            display: inline-block;
+            width: 100px;
+        }
+
+        .imgcontent {
+            margin: 10px;
+        }
+
+
+        .img>i {
+            display: inline-block;
+            width: 20px;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    </style>
+
+{/block}
+
 <body>
+	{block name="content"}
     <div class="wrapper">
         <div class="title">
             <span>店铺信息</span>
@@ -61,10 +151,36 @@
             <div class="item">
                 <div class="item-key">店铺logo：</div>
                 <div class="item-value">
-                    <img src="">
-                    <input type="file" class="imgUpload">
+                    <div class="img-edit">
+                        <div class="imgcontent" >
+                           <span class="img">
+                               <img src="__STATIC__/admin/common/img/a11.png" width="100%">
+                               <i class="remove-img" name="icon_image" value="" data-id="" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+                           </span>
+                       </div>
+                   <div class="form-input">
+                       <div class="img-box full">
+                           <section class=" img-section">
+                               <div class="z_photo upimg-div clear">
+                                   <section class="z_file fl">
+                                       <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                       <input type="file" name="icon_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                                   </section>
+                               </div>
+                           </section>
+                       </div>
+                       <aside class="mask works-mask">
+                           <div class="mask-content">
+                               <p class="del-p ">您确定要删除作品图片吗？</p>
+                               <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                           </div>
+                       </aside>
+       
+                   </div>
+                   </div>
                 </div>
             </div>
+          
             <div class="item">
                 <div class="item-key">店长QQ：</div>
                 <div class="item-value">
@@ -84,5 +200,38 @@
             <button class="save">保存</button>
         </div>
     </div>
-</body>
-</html>
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script>
+        		// 图片删除
+                $(".remove-img").click(function() {
+            var remove = $(this).parent();
+            var id = $(this).data("id");
+            var value = $(this).data("value");
+            console.log(value)
+            console.log(id);
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Category/images')}",
+                    data: {
+                        "id": id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        remove.remove();
+                    },
+                    error: function(data) {
+                        console.log("错误");
+                    }
+                });
+         
+
+        });
+    </script>
+    {/block}
