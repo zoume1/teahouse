@@ -55,7 +55,7 @@
         .detail .tb-btn-back{margin-right: 20px;}
         .detail .tb-btn-back button{background-color: #ffeded; color: #ff0036; font-size: 16px;}
         .detail .tb-btn-buy button{background-color: #ff0036; color: #fff; font-size: 16px;}
-        .detail .tb-btn-buy button:disabled{background-color: #e3e4e5;}
+        .detail .tb-btn-buy button:disabled{background-color: #e3e4e5; border-color: #e3e4e5;}
         .detail .aside-right{width: 220px; padding-left: 10px;}
         .aside-right .ald-hd{font-size: 14px; padding: 15px 0; line-height: 20px;}
         .aside-right .ald-hd .icon-refresh{width: 14px; height: 14px; background: url(__STATIC__/admin/common/img/icon-r.png) no-repeat; background-size: 100%; margin-top: 3px;}
@@ -292,7 +292,7 @@
                 specSelectedIndex: 0, //商品规格 索引
                 selectPrice: 0, //选择规格后的价格
                 selectDelPrice: 0, //选择规格后的划线价
-                selectStock: 111, // 选择规格后的库存
+                selectStock: 0, // 选择规格后的库存
                 number: 1, //购买数量
                 outStock: false, //输入数量超出库存
                 dataObj: [],
@@ -314,14 +314,15 @@
             },
             methods: {
                 inputNumber: function(){
-                    this.number > this.selectStock ? this.outStock = true : '';
+                    this.number > this.selectStock ? this.outStock = true : this.outStock = false;
                 },
                 decrease: function(){
                     this.number > 1 ? this.number -- : '';
                     this.number <= this.selectStock ? this.outStock = false : '';
                 },
                 increase: function(){
-                    this.number < this.selectStock ? this.number ++ : this.outStock = true;
+                    this.number ++;
+                    this.number < this.selectStock ? '' : this.outStock = true;
                 },
                 // 返回
                 backPage: function(){
@@ -391,7 +392,8 @@
                         }).then(function(res){
                             if(res.body.status == 1){
                                 this.$set(this.dataObj, 0, res.body.data);
-                                console.log(this.dataObj)
+                                this.selectStock = this.dataObj[0].goods_repertory;
+                                console.log(this.dataObj);
                             }
                         }, function(res){
                             console.log(res.status, res.statusText);
