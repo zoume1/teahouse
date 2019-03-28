@@ -284,7 +284,11 @@ Route::group("",[
 
 
     /*快递费用*/
-    "express_charge"=>"index/Manage/express_charge",//快递费用结算
+    "express_charge"=>"index/Manage/express_charge",//快递费用结算crowd_index
+
+
+    /*众筹商品*/
+    "crowd_index"=>"index/Crowd/crowd_index",//众筹商品首页显示
 
 
 

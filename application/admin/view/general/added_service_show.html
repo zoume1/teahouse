@@ -8,9 +8,9 @@
     <title>增值商品详情</title>
     <link rel="stylesheet" href="__STATIC__/admin/common/css/z-comm.css">
     <style>
-        .detail{min-height: 520px;}
-        .detail .detail-meta{width: 990px;}
-        .detail .detail-meta .gallery{width: 460px; z-index: 3; margin-left: -100%;}
+        .detail{min-height: 520px; padding: 0 10px; margin-bottom: 10px;}
+        .detail .detail-meta{width: 930px;}
+        .detail .detail-meta .gallery{width: 420px; z-index: 3; margin-left: -100%;}
         .gallery .booth{width: 420px; height: 420px; margin: 20px auto;}
         .gallery .booth img{width: 100%; height: 100%;}
         .gallery .thumb-wrap{width: 420px; margin: 0 auto; overflow-x: auto;}
@@ -21,9 +21,9 @@
         .gallery .thumb a{width: 60px; height: 60px; overflow: hidden;}
         .gallery .thumb img{max-width: 60px; max-height: 60px; position: relative;}
         .detail .detail-meta .property{width: 100%; color: #404040;}
-        .detail .property .wrap{margin-left: 460px;}
-        .detail .property .detail-hd{padding: 16px 0 10px;}
-        .detail .detail-hd h1{font-size: 16px; line-height: 2em;}
+        .detail .property .wrap{margin-left: 420px;}
+        .detail .property .detail-hd{padding: 16px 0 15px;}
+        .detail .detail-hd h1{font-size: 16px; padding-bottom: .2em;}
         .detail .detail-hd .sell-p{font-size: 14px;}
         .detail .price-wrap{height: 60px; background-color: rgb(255, 232, 225); margin: 0 10px 20px 0; display: flex; align-items: center; justify-content: space-between; padding: 0 20px 0 15px; font-size: 14px;}
         .detail .detail-price span{width: 60px;}
@@ -34,83 +34,143 @@
         .detail .tb-spec{font-size: 14px; margin-bottom: 20px;}
         .detail .tb-spec ul{margin-left: 80px;}
         .spec-metatit{width: 80px; color: #999; line-height: 30px;}
-        .detail .spec-wrap li{line-height: 30px; margin: 0 4px 8px 0;}
+        .detail .spec-wrap li{line-height: 30px; margin: 0 8px 8px 0;}
         .detail .spec-wrap a{display: inline-block; border: 1px solid #b8b7bd; padding: 0 10px; color: #000; text-decoration: none; min-width: 10px;;}
         .detail .spec-wrap a:hover{border: 2px solid #FF0036; margin: -1px;}
         .detail .spec-wrap a.selected{border: 2px solid #ff0036; background: url(__STATIC__/admin/common/img/icon-s.png) no-repeat right bottom; margin: -1px;}
-        .detail .tb-amount-wrap{font-size: 0; display: flex; align-items: center;}
+        .detail .tb-amount{margin-bottom: 25px;}
+        .detail .tb-amount .msg{margin: 8px 0 0 80px; font-size: 12px; color: #f00; border: 1px solid #e4e4e4; display: inline-block; padding: 3px 10px; background-color: #fbfbfb;}
+        .detail .tb-amount-wrap{ display: flex; align-items: center;}
         .detail .tb-amount-wrap .amount-decrease,
         .detail .tb-amount-wrap .amount-increase{display: inline-block; width: 40px; border: 1px solid #e7e7e7; height: 30px; box-sizing: border-box; background-color: transparent; cursor: pointer; outline: none; font-size: 14px; color: #333; text-align: center; line-height: 30px;}
         .detail .tb-amount-wrap .amount-decrease{border-right: 0; border-top-left-radius: 3px; border-bottom-left-radius: 3px;}
         .detail .tb-amount-wrap .amount-increase{border-left: 0; border-top-right-radius: 3px; border-bottom-right-radius: 3px;}
-        .detail .tb-amount-wrap .amount-input{width: 40px; text-align: center; height: 30px; box-sizing: border-box; border: 1px solid #e7e7e7; outline: none; font-size: 14px;}        
-        .detail .aside-right{width: 220px;}
-
+        .detail .tb-amount-wrap .amount-input{width: 40px; text-align: center; height: 30px; box-sizing: border-box; border: 1px solid #e7e7e7; outline: none; font-size: 14px;}   
+        .detail .tb-ser{margin-bottom: 25px;}
+        .detail .ser-promise{margin-left: 80px;}
+        .detail .ser-promise li::before{content: ''; display: inline-block; background: url(__STATIC__/admin/common/img/icon-c.png) no-repeat; background-size: 100%;vertical-align: top; width: 20px; height: 20px;}
+        .detail .ser-promise li{margin-right: 20px;}
+        .detail .tb-action{margin-left: 80px;}
+        .detail .tb-action button{width: 178px; height: 38px; border: 1px solid #ff0036;}
+        .detail .tb-btn-back{margin-right: 20px;}
+        .detail .tb-btn-back button{background-color: #ffeded; color: #ff0036; font-size: 16px;}
+        .detail .tb-btn-buy button{background-color: #ff0036; color: #fff; font-size: 16px;}
+        .detail .tb-btn-buy button:disabled{background-color: #e3e4e5; border-color: #e3e4e5;}
+        .detail .aside-right{width: 220px; padding-left: 10px;}
+        .aside-right .ald-hd{font-size: 14px; padding: 15px 0; line-height: 20px;}
+        .aside-right .ald-hd .icon-refresh{width: 14px; height: 14px; background: url(__STATIC__/admin/common/img/icon-r.png) no-repeat; background-size: 100%; margin-top: 3px;}
+        .aside-right .ald-item .img-box{width: 100px; height: 100px; overflow: hidden;}
+        .aside-right .ald-item img{width: 100%; height: 100%;}
+        .aside-right .ald-item .ald-row{text-align: center; color: #f40; font-size: 14px; padding: 4px 0;}
+        .aside-right .ald-item{border: 1px solid #e4e4e4;}
+        .aside-right .ald-item:nth-of-type(2n-1){margin: 0 10px 10px 0;}
+        .bd .tabbar{border: 1px solid #e4e4e4;}
+        .bd .tabbar li{height: 48px; line-height: 48px; font-size: 16px; color: #404040; padding: 0 25px;}
+        .bd .tabbar li:not(:last-of-type){border-right: 1px solid #e4e4e4;}
+        .bd .tabbar li.tbselected{background-color: #199ed8;}
+        .bd .tbselected a{color: #fff;}
+        .bd  .addqq img{vertical-align: text-bottom;}
+        .bd li a{color: #404040; text-decoration: none; display: inline-block; height: 48px;}
+        .bd .p20{padding: 20px;}
+        .bd .attributes{text-align: center;}
+        .bd .attributes img{width: 90%;}
+        .rate-grid{min-height: 800px;}
+        .rate-grid .author-img{width: 100px;}
+        .rate-grid tr{vertical-align: top;}
+        .rate-grid .master .author-info{font-size: 16px; color: #666; line-height: 3em;}
+        .rate-grid .author-info strong{color: #222;}
+        .rate-grid .author-info .author-name{margin-right: 100px;}
+        .rate-grid .master .fulltxt{font-size: 16px; color: #333;}
+        .rate-grid .reply{padding: 10px; background-color: #e4e4e4;}
+        .rate-grid .reply span{color: #f10;}
+        .rate-grid .master .time{font-size: 14px; color: #666; margin-bottom: 8px;}
     </style>
 </head>
 
 <body>
     <div class="container" id="app" v-cloak>
-        <div class="inner-cont">
+        <div class="inner-cont"
+            v-for="(v, k, i) in dataObj">
             <div class="detail clearfix">
                 <div class="detail-meta fl">
                     <div class="clearfix">
                         <div class="property fl">
                             <div class="wrap">
                                 <div class="detail-hd">
-                                    <h1>海康威视萤石C6C/C6CN无线网络高清监控器摄像头家用手机wifi夜视</h1>
-                                    <p class="sell-p">360°水平全景 双向通话 智能追踪 镜头遮蔽</p>
+                                    <h1>{{v.goods_name}}</h1>
+                                    <p class="sell-p">{{v.goods_describe}}</p>
                                 </div>
                                 <div class="price-wrap">
                                     <div class="detail-price clearfix">
                                         <span class="fl">价格</span>
-                                        <strong>￥456.00</strong>
-                                        <del>￥1234.00</del>
+                                        <strong>￥{{selectPrice ? selectPrice : v.goods_new_money}}</strong>
+                                        <del>￥{{selectDelPrice ? selectDelPrice : v.goods_bottom_money}}</del>
                                     </div>
                                     <div class="detail-eva clearfix">
                                         <div class="eva-wrap fl">
-                                            <span>12</span>
+                                            <span>{{v.comment}}</span>
                                             <p>累计评论</p>
                                         </div>
                                         <div class="deal-succ fl">
-                                            <span>21</span>
+                                            <span>{{v.trade}}</span>
                                             <p>交易成功</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tb-spec">
+                                <div class="tb-spec" v-if="v.standard">
                                     <span class="fl spec-metatit">商品规格</span>
                                     <ul class="spec-wrap clearfix">
                                         <li class="fl"
-                                            v-for="(v, i) in 8">
+                                            v-for="(v, i) in v.standard">
                                             <a href="javascript:void(0);" 
                                                 :class="{selected: specSelectedIndex == i}"
-                                                @click="selectSpec(i)">128GB</a>
+                                                @click="selectSpec(i, v)">{{v.name}}</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="tb-amount">
                                     <span class="fl spec-metatit">购买数量</span>
                                     <div class="tb-amount-wrap">
-                                        <span class="amount-decrease">-</span>
-                                        <input type="text" class="amount-input" value="1">
-                                        <span class="amount-increase">+</span>
+                                        <span class="amount-decrease"
+                                            @click="decrease">-</span>
+                                        <input type="text" class="amount-input"
+                                            v-model="number"
+                                            @keyup="inputNumber">
+                                        <span class="amount-increase"
+                                            @click="increase">+</span>
+                                    </div>
+                                    <div class="msg" v-if="outStock">您所填写的数量超过库存！</div>
+                                </div>
+                                <div class="tb-ser">
+                                    <ul class="ser-promise clearfix">
+                                        <li class="fl">7*24客服</li>
+                                        <li class="fl">正品保障</li>
+                                        <li class="fl">急速发货</li>
+                                        <li class="fl">7天退换货</li>
+                                    </ul>
+                                </div>
+                                <div class="tb-action clearfix">
+                                    <div class="tb-btn-back fl">
+                                        <button @click="backPage">返回</button>
+                                    </div>
+                                    <div class="tb-btn-buy fl">
+                                        <button :disabled="outStock">立即购买</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="gallery fl">
                             <div class="booth">
-                                <img src="https://img.alicdn.com/imgextra/i3/1991926764/O1CN01ib6enq1zpxUxxzRiL_!!0-item_pic.jpg_430x430q90.jpg">
+                                <img :src='getImgUrl(v.goods_show_image)'>
                             </div>
                             <div class="thumb-wrap">
                                 <ul class="thumb">
                                     <li class="clearfix"
-                                        v-for="(v, i) in 5"
+                                        v-for="(v, i) in v.goods_show_images"
                                         :class="{selected: selectedIndex == i}"
-                                        @mouseenter="selectedImg(i)">
+                                        @mouseenter="selectedImg(i, v)">
                                         <a href="javascript:void(0);" class="fl">
-                                            <img src="https://img.alicdn.com/imgextra/i3/1991926764/O1CN01ib6enq1zpxUxxzRiL_!!0-item_pic.jpg_430x430q90.jpg">
+                                            <img :src=`__UPLOADS__/${v}`>
                                         </a>
                                     </li>
                                 </ul>
@@ -118,32 +178,245 @@
                         </div>
                     </div>
                 </div>
-                <div class="aside-right fr"></div>
+                <div class="aside-right fr">
+                    <div class="ald-hd clearfix">
+                        <span>再看看</span>
+                        <span class="fr icon-refresh"
+                            @click="asideData"></span>
+                    </div>
+                    <ul class="ald-item-list clearfix">
+                        <li class="ald-item fl"
+                            v-for="(v, i) in aldData">
+                            <div class="img-box">
+                                <img :src=`__UPLOADS__/${v.goods_show_image}`>
+                            </div>
+                            <div class="ald-row">
+                                <strong>￥{{v.goods_new_money}}</strong>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="bd"></div>
+            <div class="bd">
+                <div class="tabbar-box">
+                    <ul class="tabbar clearfix">
+                        <li class="fl"
+                            :class="{tbselected: switchTabBd}"
+                            @click="switchTabBd = !switchTabBd">
+                            <a href="javascript:void(0);">商品详情</a>
+                        </li>
+                        <li class="fl"
+                            :class="{tbselected: !switchTabBd}"
+                            @click="switchTabBd = !switchTabBd">
+                            <a href="javascript:void(0);">
+                                累计评价
+                                <span>12</span>
+                            </a>
+                        </li>
+                        <li class="fr addqq">
+                            <a href="http://wpa.qq.com/msgrd?v=3&uin=415364124&site=qq&menu=yes" target="_blank">客服咨询
+                                <img src="__STATIC__/admin/common/img/icon-qq.png" width="22" height="22">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="attributes p20" v-show="switchTabBd">
+                    <div v-html="v.goods_text"></div>
+                </div>
+                <div class="rate p20" v-show="!switchTabBd">
+                    <div class="rate-grid">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="author-img">
+                                        <img src="__STATIC__/admin/common/img/icon-qq.png" width="50" height="50">
+                                    </td>
+                                    <td class="master">
+                                        <div class="author-info clearfix">
+                                            <p class="author-name fl">店铺：<strong>滴金茶叶</strong></p>
+                                            <p class="author-code fl">邀请码：<strong>1234</strong></p>
+                                        </div>
+                                        <div class=" fulltxt">香港就如《攻壳机动队》里描绘的那样，垂直，密集的建筑，有着挂毯一样的美丽质感。 但在这个全球最密集的城市，“死后能住进棺材”纯属是妄念</div>
+                                        <div class="tm-m-photos">
+                                            <ul class="tm-m-photos-thumb">
+                                                <li v-for="(v, i) in comImgList"
+                                                    @click="zoomImg(i, v)"
+                                                    :class="{tmCurrent: tmCurrKey==i}">
+                                                    <img :src="v">
+                                                    <b class="tm-photos-arrow"></b>
+                                                </li>
+                                            </ul>
+                                            <div class="tm-m-photo-viewer"
+                                                v-show="tmCurrKey!=-1"
+                                                :style="showImgWH">
+                                                <img :src="showImgUrl"
+                                                    @click="zoomImg(tmCurrKey)"> 
+                                                <a class="tm-m-photo-viewer-navleft"
+                                                    :class="{hov: hovKey==1}"
+                                                    @mouseenter="showPrevNext(1)"
+                                                    @mouseleave="showPrevNext(0)">
+                                                    <i @click="prevImg(comImgList[tmCurrKey-1])"></i>
+                                                </a>
+                                                <a class="tm-m-photo-viewer-navright"
+                                                    :class="{hov: hovKey==2}"
+                                                    @mouseenter="showPrevNext(2)"
+                                                    @mouseleave="showPrevNext(0)">
+                                                    <i @click="nextImg(comImgList[tmCurrKey+1])"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <p class="time">2018-10-26</p>
+                                        <div class="reply">
+                                            <div class="fulltxt"><span>官方回复：</span>香港就如《攻壳机动队》里描绘的那样，垂直，密集的建筑，有着挂毯一样的美丽质感。 但在这个全球最密集的城市，“死后能住进棺材”纯属是妄念。</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
     <script src="__STATIC__/admin/common/js/vue.js"></script>
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
     <script src="__STATIC__/admin/common/js/vue-router.js"></script>
+
     <script>
         var vm = new Vue({
             el: '#app',
             data: {
-                selectedIndex: 0,
-                selectedImgUrl: '',
-                specSelectedIndex: 0,
+                selectedIndex: 0, //商品展示图 索引
+                selectedImgUrl: '', //商品展示图 url
+                specSelectedIndex: 0, //商品规格 索引
+                selectPrice: 0, //选择规格后的价格
+                selectDelPrice: 0, //选择规格后的划线价
+                selectStock: 0, // 选择规格后的库存
+                number: 1, //购买数量
+                outStock: false, //输入数量超出库存
+                dataObj: [],
+                aldData: [],//再看看data
+                switchBd: true,//tab商品详情，累计评价
+                switchTabBd: true,//tab 商品详情，累计评价内容
+                tmCurrKey: -1,//放大缩小图片样式索引
+                showImgUrl: '',//放大图片路径
+                showImgWH: {
+                    width: '0px',//放大图片 宽高
+                    height: '0px',
+                },
+                hovKey: 0,
+                id: null,
+                comImgList: [
+                    'https://img.alicdn.com/bao/uploaded/i3/O1CN01zEVRla1yKWhRqgQO4_!!0-rate.jpg_400x400.jpg',
+                    'https://img.alicdn.com/bao/uploaded/i3/O1CN01uhZHPm1yKWhSq7dqy_!!0-rate.jpg_400x400.jpg'
+                ]
             },
             methods: {
-                selectedImg: function(_index){
+                inputNumber: function(){
+                    this.number > this.selectStock ? this.outStock = true : this.outStock = false;
+                },
+                decrease: function(){
+                    this.number > 1 ? this.number -- : '';
+                    this.number <= this.selectStock ? this.outStock = false : '';
+                },
+                increase: function(){
+                    this.number ++;
+                    this.number < this.selectStock ? '' : this.outStock = true;
+                },
+                // 返回
+                backPage: function(){
+                    location.href = 'added_service_index';
+                },
+                showPrevNext: function(num){
+                    if(this.tmCurrKey == 0){
+                        num == 1 ? '' : this.hovKey = num;
+                    }else if(this.tmCurrKey == this.comImgList.length-1){
+                        num == 2 ? '' : this.hovKey = num;
+                    }
+                },
+                // 获取图片宽高
+                getImgWH: function(url){
+                    var img = new Image(),
+                        _this = this;
+                    img.src = url;
+                    img.onload = function(){
+                        _this.showImgWH.width = img.width + 'px';
+                        _this.showImgWH.height = img.height + 'px';
+                    }
+                },
+                // 查看图片 放大
+                zoomImg: function(i, v){
+                    if(this.tmCurrKey == i){
+                        // 缩小
+                        this.tmCurrKey = -1;
+                    }else{
+                        // 放大
+                        this.tmCurrKey = i;
+                        this.showImgUrl = v;
+                        this.getImgWH(v);
+                    }
+                },
+                // 上一张
+                prevImg: function(url){
+                    this.showImgUrl = url;
+                    this.getImgWH(url);
+                    this.tmCurrKey --;
+                },
+                // 下一张
+                nextImg: function(url){
+                    this.showImgUrl = url;
+                    this.getImgWH(url);
+                    this.tmCurrKey ++;
+                },
+                selectedImg: function(_index, imgUrl){
                     this.selectedIndex = _index;
+                    this.selectedImgUrl = imgUrl;
                 },
                 // 选择规格
-                selectSpec: function(_index){
+                selectSpec: function(_index, v){
                     this.specSelectedIndex = _index;
-                }
+                    this.selectPrice = v.price;
+                    this.selectDelPrice = v.line;
+                    this.selectStock = +v.stock;
+                },
+                // 拼接图片url
+                getImgUrl: function(url){
+                    return '__UPLOADS__/' + (this.selectedImgUrl || url);
+                },
+                getData: function(){
+                    location.search ? this.id = +location.search.split('=')[1] : '';
+                    if(this.id){
+                        this.$http.post('added_service_show', {
+                            id: this.id
+                        }).then(function(res){
+                            if(res.body.status == 1){
+                                this.$set(this.dataObj, 0, res.body.data);
+                                this.selectStock = this.dataObj[0].goods_repertory;
+                                console.log(this.dataObj);
+                            }
+                        }, function(res){
+                            console.log(res.status, res.statusText);
+                        })
+                    }
+                },
+                // 再看看
+                asideData: function(){
+                    this.$http.post('added_service_look').then(function(res){
+                        if(res.body.status == 1){
+                            this.aldData = res.body.data;
+                        }
+                    }, function(res){
+                        console.log(res.status, res.statusText);
+                    })
+                },
+               
+            },
+            mounted: function(){
+                this.getData();
+                this.asideData();
             }
         })
+
     </script>
 </html>
