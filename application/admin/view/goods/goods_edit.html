@@ -236,7 +236,8 @@
 
     .add_danwei,
     .add_danwei1,
-    .add_danwei2 {
+    .add_danwei2,
+    .add_muban {
         cursor: pointer;
     }
 
@@ -258,11 +259,12 @@
         top: 0;
     }
 
-    /* 包装规格 */
     .add_danwei,
-    .add_biao {
+    .add_biao,
+    .add_muban {
         color: #20A0FF
     }
+
 
     .list span {
         cursor: pointer;
@@ -446,8 +448,7 @@
             <div class="form-input">
                 {if $value.goods_standard == "0"}
                 <input type="radio" name="goods_standard" value="0" title="统一规格" checked="" lay-filter="guige">
-                <input type="radio" name="goods_standard" value="1" title="特殊规格" lay-filter="guige"> {else}
-                <input type="radio" name="goods_standard" value="0" title="统一规格" lay-filter="guige">
+                {else}
                 <input type="radio" name="goods_standard" value="1" title="特殊规格" lay-filter="guige" checked="">{/if}
 
             </div>
@@ -460,19 +461,16 @@
                     {if !empty($value.unit)}{foreach name="$value.unit" item ="w" key="x"}
                     {if $x % 2 == 0}
                     <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
-                        class="layui-input" value="{$w}" readonly>
+                        class="layui-input" value="{$w}" >
                     {else}
                     <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
-                        class="layui-input" value="{$w}" maxlength="2">
+                        class="layui-input units" value="{$w}" maxlength="2" data-id="0">
                     <div class="fuhao">=</div>
                     {/if}
                     {/foreach}
                     {/if}
                     <div class="add_danwei"> 继续添加单位</div>
-
                 </div>
-
-
             </div>
             <div class="form-item">
                 <label class="form-label"></label>
@@ -851,13 +849,13 @@
                                 {if !empty($value.goods_franking)}
                                 <input type="radio" title="统一邮费" checked="">
                                 <input type="number" name="goods_franking" $value="{$value.goods_franking}"
-                                    lay-verify="title" autocomplete="off" placeholder="请输入                          元"
+                                    lay-verify="title" autocomplete="off" placeholder="请输入  元"
                                     class="layui-input"> </input>
                                 </input>
                                 {else}
                                 <input type="radio" title="统一邮费">
                                 <input type="number" name="goods_franking" lay-verify="title" autocomplete="off"
-                                    placeholder="请输入                          元" class="layui-input"> </input>
+                                    placeholder="请输入 元" class="layui-input"> </input>
                                 </input>
                                 {/if}
                             </div>
@@ -879,7 +877,13 @@
                                 </select>                               
                                 {/if}
                                 <a href="{:url('admin/Delivery/delivery_goods_add')}">新建</a>
+                                
                             </div>
+                            <div class="form-input line" style="margin-bottom: 4px;">
+                                <input type="texr" title="运费模板" style="opacity: 0;width: 82px;">
+                                <div class="add_muban"> 添加运费模板</div>
+                            </div>
+                            
 
                             <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
                         </div>
@@ -975,7 +979,7 @@
                                         dhtmlss += '<div class="danwei_content">';
                                         dhtmlss += '<div class="fuhao">=</div>';
                                         dhtmlss += '<input type="text" name="' + data.data[i].id + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="' + data.data[i].num[j] + '" >';
-                                        dhtmlss += '<input type="text" name="' + data.data[i].id + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" value="' + data.data[i].unit[q] + '" maxlength="2"> ';
+                                        dhtmlss += '<input type="text" name="' + data.data[i].id + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" value="' + data.data[i].unit[q] + '" maxlength="2" data-id="1"> ';
                                         dhtmlss += '<img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                                         dhtmlss += '</div>';
                                         //   <!-- 单位循环这里 -->
@@ -1006,16 +1010,113 @@
             var form = layui.form(),
                 $ = layui.jquery;
             form.render();
-                    // 运费模板
-                    var unit1 = [];
+             // 运费模板
+             Array.prototype.unique3 = function () {
+                    var res = [];
+                    var json = {};
+                    for (var i = 0; i < this.length; i++) {
+                        if (!json[this[i]]) {
+                            res.push(this[i]);
+                            json[this[i]] = 1;
+                        }
+                    }
+                    return res;
+                }
+                var unit1 = [];
                 var unit2 = [];
-                $(".form-item").on("blur", ".units", function () {
+                var templet=[];
+                for(var qq=0;qq<$(".units").length;qq++){
+                    // 普通规格
+                    if($(".units")[qq].dataset.id=="0"){
+                        unit1.push($(".units")[qq].value);
+                    }
+                    else{
+                        unit2.push($(".units")[qq].value);
+                    }
+                }
+                // console.log(unit1);
+                // console.log(unit2);
+                $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/Delivery/delivery_templet')}",
+                        data: {
+                            
+                        },
+                        success: function (data) {
+                            data = eval("(" + data + ")");
+                            templet=data.data;
+                           
+                        },
+                        error: function (data) {
+                            console.log(data)
+                        }
+                    });
+                    var ids = $("#ids").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/Goods/goods_templet')}",
+                        data: {
+                            id:ids
+                        },
+                        success: function (data) {
+                            data = eval("(" + data + ")");
+                            console.log(data)
+                        },
+                        error: function (data) {
+                           
+                        }
+                    });
+
+                $(".general_content").on("blur", ".units", function () {
                     id = $(this).data("id");
                     if($(this).data("value")!=$(this).val()){
                         $(".muban").remove();
                     }
-                    // 普通规格
-                    if (id == "1") {
+                    
+                        // 填入的值不为空
+                        if ($(this).val() != '') {
+                           console.log($(this).data("value"))
+                            // 本来无值（存入）
+                            if ($(this).data("value") ==undefined) {
+                              
+                                unit2.push($(this).val());
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit2.length; k++) {
+                                    if (unit2[k] == $(this).data("value")) {
+                                        unit2[k] = $(this).val();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        //   填入的值为空
+                        else {
+                            // 本来无值（存入）
+                            if ($(this).data("value") == '') {
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit2.length; k++) {
+                                    if (unit2[k] == $(this).data("value")) {
+                                        unit2.splice(k, 1);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
+                    console.log(unit2);
+                    $(this).data("value", $(this).val());
+                })
+               
+                $(".nomal").on("blur", ".units", function () {
+                    id = $(this).data("id");
+                    if($(this).data("value")!=$(this).val()){
+                        $(".muban").remove();
+                    }
+                 
                         // 填入的值不为空
                         if ($(this).val() != '') {
                             // 本来无值（存入）
@@ -1049,41 +1150,8 @@
 
                         }
 
-                    }
-                    else {
-                        // 填入的值不为空
-                        if ($(this).val() != '') {
-                            // 本来无值（存入）
-                            if ($(this).data("value") == '') {
-                                unit2.push($(this).val());
-                            }
-                            // 本来有值（修改）
-                            else {
-                                for (var k = 0; k < unit2.length; k++) {
-                                    if (unit2[k] == $(this).data("value")) {
-                                        unit2[k] = $(this).val();
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        //   填入的值为空
-                        else {
-                            // 本来无值（存入）
-                            if ($(this).data("value") == '') {
-                            }
-                            // 本来有值（修改）
-                            else {
-                                for (var k = 0; k < unit2.length; k++) {
-                                    if (unit2[k] == $(this).data("value")) {
-                                        unit2.splice(k, 1);
-                                        break;
-                                    }
-                                }
-                            }
-
-                        }
-                    }
+                    
+                  
                     $(this).data("value", $(this).val());
                 })
                 $(".general_content").on('click', ".delect_img", function () {
@@ -1122,12 +1190,12 @@
                             var add_muban = '';
                             add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
                             add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
-                            add_muban += '<select name="templet_id"  class="role_list muban_list" >';
+                            add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
                             for(var n=0;n<unit1_a.length;n++){
                                 add_muban += ' <option value="'+unit1_a[n]+'">'+unit1_a[n]+'</option>';
                             }
                             add_muban += '</select><br />';
-                            add_muban += '<select name="templet_id"  class="role_list">';
+                            add_muban += '<select name="templet_id[]"  class="role_list">';
                             for(var h=0;h<templet.length;h++){
                                 add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
                             }
@@ -1151,18 +1219,16 @@
                    else{
                     if(unit2_a.length>0){
                         var add_muban = '';
-                            add_muban += ' <div class="form-input line" style="margin-bottom: 4px;position: relative;">';
+                             add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
                             add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
-                            add_muban += '<select name="templet_name[]"  class="role_list">';
-                            add_muban += ' <option value="">请选择</option>';
+                            add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
                             for(var n=0;n<unit2_a.length;n++){
                                 add_muban += ' <option value="'+unit2_a[n]+'">'+unit2_a[n]+'</option>';
                             }
-                        
                             add_muban += '</select><br />';
                             add_muban += '<select name="templet_id[]"  class="role_list">';
-                            add_muban += ' <option value="">请选择</option>';
                             for(var h=0;h<templet.length;h++){
+
                                 add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
                             }
                             add_muban += '</select><br />';
@@ -1182,7 +1248,24 @@
                     var unit1_a=unit1.unique3();
                     var unit2_a=unit2.unique3();
                     var val = $('input[name="goods_standard"]:checked').val(); 
-                    console.log($(".muban_list"))
+                    var vals = $('input[name="aaa"]:checked').val(); 
+                    var text=$(".monomer").val();
+                    var nums=0;
+                    for(var i=0;i<unit1_a.length;i++){
+                            if(unit1_a[i]==text){
+                                  nums++;
+                            }
+                        }
+                    if(val=="0"){
+                        if(nums==0){
+                          alert("你输入的单位前面没有添加");
+                          return false;
+                        }
+                     
+                    }
+                      
+                      
+                        
                     var num=0;
                     for(var i=0;i<$(".muban_list").length;i++){
                         for(var j=i+1;j<$(".muban_list").length;j++){
@@ -1197,27 +1280,29 @@
                         alert("相同的单位不能两套模板")
                         return false;
                     }
-                    if(val=="0"){
+                    if(vals=="1"){
+                        if(val=="0"){
+                        console.log($(".muban").length);
+                        console.log(unit1_a.length);
                       if($(".muban").length!=unit1_a.length) {
                           alert("你填写的单位必须有对应的模板");
                           return false;
                       }
                     }
                     else{
+                        console.log($(".muban").length);
+                        console.log(unit2_a.length);
                         if($(".muban").length!=unit2_a.length) {
                           alert("你填写的单位必须有对应的模板");
                           return false;
                       }
                     }
+                    }
+                   
                  
                 });
-                console.log($(".units"));
-                var units_num=[];
-                for(var ii=0;ii<$(".units").length;ii++){
-                    units_num.push($(".units")[ii].value);
-                }
+                
                 // 运费模板
-
             //			价格库存等修改事件
             $(".inputs").change(function () {
                 var change_val = $(this).val();
@@ -1462,7 +1547,7 @@
             var danwei = ''
             danwei += '<div class="fuhao">=</div>';
             danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-            danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+            danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="0">';
             $(this).before(danwei);
         });
         $(".general_content").on("click", ".add_danwei1", function () {
@@ -1486,7 +1571,7 @@
                         danwei1 += '<div class="danwei_content">';
                         danwei1 += '<div class="fuhao">=</div>';
                         danwei1 += '<input type="text" name="' + data.data + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
-                        danwei1 += '<input type="text" name="' + data.data + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
+                        danwei1 += '<input type="text" name="' + data.data + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="1">';
                         danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                         danwei1 += '</div>';
 
