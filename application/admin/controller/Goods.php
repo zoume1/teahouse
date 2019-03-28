@@ -512,7 +512,6 @@ class Goods extends Controller
             } else {
                 return ajax_error("数据为空");
             }
-
         }
     }
 
