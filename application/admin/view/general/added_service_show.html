@@ -55,6 +55,7 @@
         .detail .tb-btn-back{margin-right: 20px;}
         .detail .tb-btn-back button{background-color: #ffeded; color: #ff0036; font-size: 16px;}
         .detail .tb-btn-buy button{background-color: #ff0036; color: #fff; font-size: 16px;}
+        .detail .tb-btn-buy button:disabled{background-color: #e3e4e5;}
         .detail .aside-right{width: 220px; padding-left: 10px;}
         .aside-right .ald-hd{font-size: 14px; padding: 15px 0; line-height: 20px;}
         .aside-right .ald-hd .icon-refresh{width: 14px; height: 14px; background: url(__STATIC__/admin/common/img/icon-r.png) no-repeat; background-size: 100%; margin-top: 3px;}
@@ -134,7 +135,7 @@
                                             @click="decrease">-</span>
                                         <input type="text" class="amount-input"
                                             v-model="number"
-                                            @keyup="">
+                                            @keyup="inputNumber">
                                         <span class="amount-increase"
                                             @click="increase">+</span>
                                     </div>
@@ -153,7 +154,7 @@
                                         <button @click="backPage">返回</button>
                                     </div>
                                     <div class="tb-btn-buy fl">
-                                        <button>立即购买</button>
+                                        <button :disabled="outStock">立即购买</button>
                                     </div>
                                 </div>
                             </div>
@@ -312,6 +313,9 @@
                 ]
             },
             methods: {
+                inputNumber: function(){
+                    this.number > this.selectStock ? this.outStock = true : '';
+                },
                 decrease: function(){
                     this.number > 1 ? this.number -- : '';
                     this.number <= this.selectStock ? this.outStock = false : '';
