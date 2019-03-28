@@ -1131,11 +1131,14 @@
                     var vals = $('input[name="aaa"]:checked').val(); 
                     var text=$(".monomer").val();
                     var nums=0;
+                    if(val=="0"){
                         for(var i=0;i<unit1_a.length;i++){
                             if(unit1_a[i]==text){
                                   nums++;
                             }
                         }
+                    }
+                      
                         if(nums==0){
                           alert("你输入的单位前面没有添加");
                           return false;
