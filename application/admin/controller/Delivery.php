@@ -206,8 +206,8 @@ class Delivery extends  Controller{
     public function delivery_goods_add(Request $request){
         if($request->isPost()){
             $data = $request->param();           
-            $res =Db::name("express")->insert($data);
-            if($res){
+            $rest =Db::name("express")->insert($data);
+            if($rest){
                 $this->success("添加成功",'admin/Delivery/delivery_goods');
             }else{
                 $this->error("添加失败,请重试");
@@ -218,6 +218,8 @@ class Delivery extends  Controller{
 
         return view("delivery_goods_add",["list"=>$list]);
     }
+
+
 
 
     /**
@@ -287,6 +289,21 @@ class Delivery extends  Controller{
         }
     }
 
+
+    /**
+     * [快递模板]
+     * 郭杨
+     */
+    public function delivery_templet(Request $request){
+        if($request->isPost()){
+            $expenses = db("express")->field("id,name")->select();
+            if (!empty($expenses)) {
+                return ajax_success('传输成功', $expenses);
+            } else {
+                return ajax_error("数据为空");   
+            }                  
+        }
+    }
 
 
 

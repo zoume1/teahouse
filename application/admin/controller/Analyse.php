@@ -85,6 +85,7 @@ class  Analyse extends  Controller{
                     $goods_special["goods_franking"] = $goods_data["goods_franking"];
                     $goods_special["templet_id"] = $goods_data["templet_id"];
                     $goods_special["label"] = $goods_data["label"];
+                    $goods_special["status"] = $goods_data["status"];
                     
     
                     if (isset($goods_data["goods_text"])) {
@@ -179,14 +180,94 @@ class  Analyse extends  Controller{
                     $goods_data["goods_show_images"] = implode(',', $list);
                 }
                 
-                $bool = db("analyse_goods")->insert($goods_data);
-                if ($bool) {
-                    $this->success("添加成功", url("admin/Analyse/analyse_index"));
-                } else {
-                    $this->success("添加失败", url('admin/Analyse/analyse_index'));
-                }           
-        }     
-        return view("analyse_invented");
+                if ($goods_data["goods_standard"] == "0") {
+                    $bool = db("analyse_goods")->insert($goods_data);
+                    if ($bool && (!empty($show_images))) {
+                        $this->success("添加成功", url("admin/Analyse/analyse_index"));
+                    } else {
+                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                    }
+                }
+                if ($goods_data["goods_standard"] == "1") {
+                    $goods_special = [];
+                    $goods_special["goods_name"] = $goods_data["goods_name"];
+                    $goods_special["goods_type"] = $goods_data["goods_type"];
+                    $goods_special["goods_number"] = $goods_data["goods_number"];
+                    $goods_special["goods_standard"] = $goods_data["goods_standard"];
+                    $goods_special["goods_selling"] = $goods_data["goods_selling"];
+                    $goods_special["goods_sign"] = $goods_data["goods_sign"];
+                    $goods_special["product_type"] = $goods_data["product_type"];
+                    $goods_special["sort_number"] = $goods_data["sort_number"];
+                    $goods_special["video_link"] = $goods_data["video_link"];
+                    $goods_special["label"] = $goods_data["label"];
+                    $goods_special["status"] = $goods_data["status"];
+                    
+                       
+                    if (isset($goods_data["goods_text"])) {
+                        $goods_special["goods_text"] = $goods_data["goods_text"];
+                    } else {
+                        $goods_special["goods_text"] = null;
+                        $goods_data["goods_text"] = null;
+                    }
+
+                    $goods_special["goods_show_images"] = $goods_data["goods_show_images"];
+                    $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
+                    $result = implode(",", $goods_data["lv1"]);
+                    $goods_id = db('analyse_goods')->insertGetId($goods_special);
+                    
+                    if (!empty($goods_data)) {
+                        foreach ($goods_data as $kn => $nl) {
+                            if (substr($kn, 0, 3) == "sss") {
+                                $price[] = $nl["price"];
+                                $coding[] = $nl["coding"];
+                                $cost[] = $nl["cost"];
+                                $line[] = $nl["line"];
+                                if (isset($nl["status"])) {
+                                    $status[] = $nl["status"];
+                                } else {
+                                    $status[] = "0";
+                                }
+                                if (isset($nl["save"])) {
+                                    $save[] = $nl["save"];
+                                } else {
+                                    $save[] = "0";
+                                }
+                            }                              
+                        }   
+                   }
+                    if (!empty($imgs)) {
+                        foreach ($imgs as $k => $v) {
+                            $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                            $tab = str_replace("\\", "/", $shows->getSaveName());   
+                            if (is_array($goods_data)) {
+                                foreach ($goods_data as $key => $value) {
+                                    if (substr($key, 0, 3) == "sss") {
+                                        $str[] = substr($key, 3);
+                                        $values[$k]["name"] = $str[$k];
+                                        $values[$k]["price"] = $price[$k];
+                                        $values[$k]["lv1"] = $result;
+                                        $values[$k]["coding"] = $coding[$k];
+                                        $values[$k]["save"] = $save[$k];
+                                        $values[$k]["cost"] = $cost[$k];
+                                        $values[$k]["line"] = $line[$k];                                    
+                                        $values[$k]["images"] = $tab;
+                                        $values[$k]["goods_id"] = $goods_id;                                       
+                                    }
+                                }
+                            }
+                        }
+                    }   
+                    foreach ($values as $kz => $vw) {
+                        $rest = db('analyse_special')->insertGetId($vw);
+                    }    
+                    if ($rest && (!empty($show_images))) {
+                        $this->success("添加成功", url("admin/Analyse/analyse_index"));
+                    } else {
+                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                    }
+                }
+           }     
+            return view("analyse_invented");
     }
 
     /**
@@ -211,7 +292,7 @@ class  Analyse extends  Controller{
         if(($restel == 1) && ($goods_type == 1)){
             return view("analyse_edit",["analyse"=>$analyse,"goods_standard" => $goods_standard]);
         } else {
-            return view("analyse_edit",["analyse"=>$analyse]);
+            return view("analyse_edit",["analyse"=>$analyse,"goods_standard" => $goods_standard]);
         }
         
     }
@@ -296,6 +377,37 @@ class  Analyse extends  Controller{
                 $this->success("更新失败", url('admin/Analyse/analyse_index'));
             }
 
+        }
+    }
+
+
+
+    /**
+     * [商品列表组首页推荐]
+     * 郭杨
+     */
+    public function analyse_status(Request $request)
+    {
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("analyse_goods")->where("id", $id)->update(["status" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/Analyse/analyse_index"));
+                } else {
+                    $this->error("修改失败", url("admin/Analyse/analyse_index"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("analyse_goods")->where("id", $id)->update(["status" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/Analyse/analyse_index"));
+                } else {
+                    $this->error("修改失败", url("admin/Analyse/analyse_index"));
+                }
+            }
         }
     }
 

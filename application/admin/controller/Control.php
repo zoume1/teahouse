@@ -268,5 +268,53 @@ class  Control extends  Controller{
     public function control_store_index(){     
         return view("control_store_index");
     }
+
+
+    /**
+     * [增值商品运费模板]
+     * 郭杨
+     */    
+    public function control_store_templet(){     
+        return view("control_store_templet");
+    }
+
+
+
+    /**
+     * [增值商品运费模板添加]
+     * 郭杨
+     */    
+    public function control_templet_add(){     
+        return view("control_templet_add");
+    }
+
+
+    /**
+     * [增值商品运费模板删除]
+     * 郭杨
+     */    
+    public function control_templet_delete(){     
+        return view("control_templet_add");
+    }
+
+
+    /**
+     * [增值商品运费模板编辑]
+     * 郭杨
+     */    
+    public function control_templet_edit(){     
+        return view("control_templet_edit");
+    }
+
+
+
+        /**
+     * [增值商品运费模板更新]
+     * 郭杨
+     */    
+    public function control_templet_update(){     
+        return view("control_templet_add");
+    }
+    
     
  }

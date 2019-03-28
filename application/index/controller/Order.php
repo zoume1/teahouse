@@ -121,7 +121,7 @@ class  Order extends  Controller
                 $time=date("Y-m-d",time());
                 $v=explode('-',$time);
                 $time_second=date("H:i:s",time());
-                $vs=explode(':',$time_second);
+                $vs= explode(':',$time_second);
                 //1为选择直邮，2到店自提，3选择存茶
                 if($order_type ==1){
                     $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
@@ -197,7 +197,6 @@ class  Order extends  Controller
                         }
                     }
                 }
-
             }
         }
     }
@@ -425,13 +424,14 @@ class  Order extends  Controller
                                 ->having("integral_discount_setting_id","NEQ",NULL)
                                 ->group("integral_discount_setting_id")
                                 ->find();
-                            $data =[
+                            $data = [
                                 "status"=>9,
                                 "coupon_id"=>0,
                                 "cancel_order_description"=>$cancel_order_description
                             ];
                             $bool =Db::name("order_parts")->where("id",$v["id"])->update($data);
                         }
+
                         if($bool){
                             //取消订单退回积分到积余额
                             if(!empty( $is_use_integral)){
@@ -462,7 +462,7 @@ class  Order extends  Controller
                     }
                 }
             }else{
-                return ajax_error("所传参数不能为空",["status"=>0]);
+            return ajax_error("所传参数不能为空",["status"=>0]);
             }
         }
     }

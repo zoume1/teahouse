@@ -98,7 +98,7 @@ class Goods extends Controller
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];
-
+            unset($goods_data["aaa"]);
             if (!empty($show_images)) {              
                 foreach ($show_images as $k=>$v) {
                     $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -111,8 +111,12 @@ class Goods extends Controller
                 $goods_data["scope"] = implode(',', $goods_data["scope"]);
             } else {
                 $goods_data["scope"] = "";
-            } 
-                      
+            }
+            
+        
+            $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
+            $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
+                           
             if(empty($goods_data["num"][1]) && empty($goods_data["unit"][0])){ //存             
                 $goods_data["num"] = array();
                 $goods_data["unit"] = array();
@@ -135,6 +139,7 @@ class Goods extends Controller
                 $goods_special["goods_name"] = $goods_data["goods_name"];
                 $goods_special["produce"] = $goods_data["produce"];
                 $goods_special["brand"] = $goods_data["brand"];
+                $goods_special["date"] = $goods_data["date"];
                 $goods_special["goods_number"] = $goods_data["goods_number"];
                 $goods_special["goods_standard"] = $goods_data["goods_standard"];
                 $goods_special["goods_selling"] = $goods_data["goods_selling"];
@@ -149,6 +154,8 @@ class Goods extends Controller
                 $goods_special["label"] = $goods_data["label"];
                 $goods_special["status"] = $goods_data["status"];
                 $goods_special["scope"] = $goods_data["scope"];
+                $goods_special["templet_id"] = $goods_data["templet_id"];
+                $goods_special["templet_name"] = $goods_data["templet_name"];
 
                 if (isset($goods_data["goods_text"])) {
                     $goods_special["goods_text"] = $goods_data["goods_text"];
@@ -195,12 +202,9 @@ class Goods extends Controller
                         if(substr($kn,strrpos($kn,"_")+1) == "unit"){
                             $unit1[substr($kn,0,strrpos($kn,"_"))]["unit"] = implode(",",$goods_data[$kn]);
                             $unit[substr($kn,0,strrpos($kn,"_"))]["unit"] = $goods_data[$kn]; 
-                        } 
- 
-                        
+                        }                        
                     }
-
-            }
+                }
                 if (!empty($imgs)) {
                     foreach ($imgs as $k => $v) {
                         $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -278,8 +282,18 @@ class Goods extends Controller
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
             $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
             $goods[$key]["unit"] = explode(',', $goods[$key]["element"]);
+            $goods[$key]["templet_name"] = explode(',', $goods[$key]["templet_name"]);
+            $goods[$key]["templet_id"] = explode(',', $goods[$key]["templet_id"]);
         }
      }
+        $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
+        
+        if(!empty($team)){
+            foreach($team as $ke => $val){
+                $temp[$ke] = db("express")->where("id",$team[$ke])->field("name,id")->find();
+            }
+        }
+       
         foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);         
@@ -289,9 +303,9 @@ class Goods extends Controller
         $goods_list = getSelectList("wares");
         $restel = $goods[0]["goods_standard"]; //判断是否为通用或特殊
         if ($restel == 0) {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope,"expenses"=>$expenses]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope,"expenses"=>$expenses,"temp"=>$temp]);
         } else {
-            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"expenses"=>$expenses]);
+            return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"scope" => $scope,"expenses"=>$expenses,"temp"=>$temp]);
         }
     }
 
@@ -373,7 +387,8 @@ class Goods extends Controller
             } else {
                 $goods_data["scope"] = "";
             }
-            
+            $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
+            $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
             $list = [];
             if (!empty($show_images)) {
                 foreach ($show_images as $k => $v) {
@@ -423,10 +438,7 @@ class Goods extends Controller
                         unset($goods_data[$kn]);                    
                     }
                 }
-
-
-            
-            
+           
              foreach($special as $tt => $yy){ 
                  if(isset($num1)){
                     if(array_key_exists($yy,$num1)){        
@@ -476,6 +488,33 @@ class Goods extends Controller
         }
 
     }
+
+
+
+    /**
+     * [商品列表运费模板编辑]
+     * 郭杨
+     */
+    public function goods_templet(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $templet = db("goods")->where("id",$id)->field("templet_id,templet_name")->find();
+            if(!empty($templet)){
+                $templet_id = explode(",",$templet["templet_id"]);
+                $templet["templet_id"] = $templet_id;
+                foreach($templet_id as $ke => $val){
+                    $temp[$ke] = db("express")->where("id",$val)->field("name,id")->find();
+                }
+                $rest["templet_unit"] = explode(",",$templet["templet_name"]);
+                $rest["templet_name"] = $temp;
+                return ajax_success('传输成功', $rest);
+            } else {
+                return ajax_error("数据为空");
+            }
+        }
+    }
+
 
 
     /**
@@ -970,8 +1009,9 @@ class Goods extends Controller
             
    
         }
+        $expenses = db("express")->field("id,name")->select();
         $goods_list = getSelectList("wares");      
-        return view("crowd_add",["goods_list"=>$goods_list]);
+        return view("crowd_add",["goods_list"=>$goods_list,"expenses"=>$expenses]);
     }
 
 
@@ -983,6 +1023,7 @@ class Goods extends Controller
         $goods = db("crowd_goods") -> where("id",$id) -> select(); 
         $goods_standard = db("crowd_special")->where("goods_id", $id)->select();
         $goods_list = getSelectList("wares");
+        $expenses = db("express")->field("id,name")->select();
 
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
@@ -994,8 +1035,9 @@ class Goods extends Controller
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);         
         }
+    
         
-        return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard]);
+        return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"expenses"=>$expenses]);
     }
 
 

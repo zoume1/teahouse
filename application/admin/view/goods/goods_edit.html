@@ -8,27 +8,29 @@
     body {
         background: #fff;
     }
-    
+
     #hot {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
     }
-    .sever_list{
+
+    .sever_list {
         background: #fff;
         display: flex;
     }
+
     .list {
         margin-right: 10px;
         margin-bottom: 6px;
         display: flex;
     }
-    
+
     .list img {
         margin-left: 4px;
         height: 20px;
     }
-    
+
     .list .texts {
         margin-left: 4px;
         width: 78px;
@@ -40,7 +42,7 @@
         border: solid 1px #669900;
         border-radius: 6px;
     }
-    
+
     .title {
         height: 50px;
         background: #F2F2F2;
@@ -49,24 +51,24 @@
         padding-left: 20px;
         font-weight: bold;
     }
-    
+
     .special,
     .general,
     .special .layui-form-item,
     .general .layui-form-item {
         min-width: 100%;
     }
-    
+
     .add-content {
         background: #F2F2F2;
         width: 100%;
     }
-    
+
     .general-kuang {
         border: solid 1px #E4E4E4;
         padding-left: 10px;
     }
-    
+
     .btus {
         background: #fff;
         border: solid 1px #E4E4E4;
@@ -75,65 +77,66 @@
         display: inline-block;
         margin: 10px;
     }
-    
+
     #general-content .layui-form-item {
         width: 100%;
     }
-    
+
     .sky-blue {
         color: #0099FF;
     }
-    
+
     .bgwhite {
         background: #fff;
     }
-    
+
     .noshow {
         display: none;
     }
-    
+
     .special .layui-form-item {
         width: 100%;
     }
-    
+
     .general .layui-form-item {
         width: 100%;
     }
-    
+
     .special .layui-form-item label {
         width: 10%;
     }
-    
+
     .general .layui-form-item label {
         width: 10%;
     }
-    
+
     .operation-btus {
         width: 60px;
         height: 40px;
         border-radius: 3px;
         color: #fff;
     }
-    
+
     .btu-delet {
         background: #FF0000;
     }
-    
+
     .btu-cancel {}
-    
+
     .btu-add {
         background: #0099FF;
     }
-    
+
     .num-content {
         overflow: hidden;
     }
-    
+
     #general_content>div {
         margin-top: 6px;
     }
+
     /* 弹窗 */
-    
+
     .tanchuang {
         width: 100%;
         min-height: 1000px;
@@ -141,18 +144,19 @@
         position: fixed;
         z-index: 9999;
     }
+
     /* 数据库展现图片样式 */
-    
+
     .img {
         position: relative;
         display: inline-block;
         width: 100px;
     }
-    
+
     .imgcontent {
         margin: 10px;
     }
-    
+
     .img>i {
         display: inline-block;
         width: 20px;
@@ -160,88 +164,115 @@
         right: 0;
         top: 0;
     }
-    
+
     table .full {
         width: 100px !important;
         min-width: 100px !important;
     }
-    
+
     table input {
         width: 80px !important;
         min-width: 80px !important;
     }
-    
+
     table .z_photo {
         padding: 0;
     }
+
     table td {
         text-align: center;
     }
-    table td input{  
+
+    table td input {
         border: 1px #DDDDDD solid;
-       margin-top: 30px;
+        margin-top: 30px;
     }
-    table td .layui-unselect{  
-       margin-top: 30px;
+
+    table td .layui-unselect {
+        margin-top: 30px;
     }
-    
-    
+
+
     .tan {
         cursor: pointer;
     }
+
     /* 包装规格 */
-   #packing_specification{
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-   }
-   #packing_specification input{
-     width: 60px;
-     margin-right: 5px;
-   }
-   .fuhao{
-    font-size: 32px;
-    color: #a2a2a2;
-   }
-  .packing_specifications{
-    display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      
-  }
-  .packing_specifications  select{
-    display:block
-  }
-  .packing_specifications  .layui-form-select{
-    display: none;
-  }
-  .packing_specifications input{
-     width: 60px;
-     margin-right: 5px;
-   }
-   .add_danwei,.add_danwei1,.add_danwei2{
-    cursor: pointer;
-   }
-   .packing{
-       height: 38px;
-       margin-right: 5px
-       
-   }
-   .danwei_content{
-    display: flex;
-    align-items: center; 
-    position: relative;
-   }
-   .delect_img{
-    width: 14px;
-    position: absolute;
-    right: 0;
-    top: 0;
-   }
-       /* 包装规格 */
-  .add_danwei,.add_biao{
-       color: #20A0FF
-   }
+    #packing_specification {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    #packing_specification input {
+        width: 60px;
+        margin-right: 5px;
+    }
+
+    .fuhao {
+        font-size: 32px;
+        color: #a2a2a2;
+    }
+
+    .packing_specifications {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+
+    }
+
+    .packing_specifications select {
+        display: block
+    }
+
+    .packing_specifications .layui-form-select {
+        display: none;
+    }
+
+    .packing_specifications input {
+        width: 60px;
+        margin-right: 5px;
+    }
+
+    .add_danwei,
+    .add_danwei1,
+    .add_danwei2,
+    .add_muban {
+        cursor: pointer;
+    }
+
+    .packing {
+        height: 38px;
+        margin-right: 5px
+    }
+
+    .danwei_content {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .delect_img {
+        width: 14px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .add_danwei,
+    .add_biao,
+    .add_muban {
+        color: #20A0FF
+    }
+
+
+    .list span {
+        cursor: pointer;
+    }
+
+    .add_biao {
+        cursor: pointer;
+    }
 </style>
 
 {/block}
@@ -255,14 +286,16 @@
 
     </div>
 
-    <form class="layui-form layui-form-lists" action="{:url('admin/Goods/updata')}" method="post" enctype="multipart/form-data">
+    <form class="layui-form layui-form-lists" action="{:url('admin/Goods/updata')}" method="post"
+        enctype="multipart/form-data">
         {volist name="goods" id="value"}
         <input type="hidden" name="id" id="ids" value="{$value.id}" />
         <div class="form-title">基础信息 </div>
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>商品名称</label>
             <div class="form-input">
-                <input type="text" name="goods_name" value="{$value.goods_name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" name="goods_name" value="{$value.goods_name}" lay-verify="title" autocomplete="off"
+                    placeholder="请输入" class="layui-input">
                 <div class="tips">
                     商品名称必须填写，最多100个字
                 </div>
@@ -271,7 +304,8 @@
         <div class="form-item">
             <label class="form-label">出品商</label>
             <div class="form-input">
-                <input type="text" name="produce" value="{$value.produce}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" name="produce" value="{$value.produce}" lay-verify="title" autocomplete="off"
+                    placeholder="请输入" class="layui-input">
                 <div class="tips">
                     选填项
                 </div>
@@ -280,7 +314,8 @@
         <div class="form-item">
             <label class="form-label">品牌</label>
             <div class="form-input">
-                <input type="text" name="brand" value="{$value.brand}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" name="brand" value="{$value.brand}" lay-verify="title" autocomplete="off"
+                    placeholder="请输入" class="layui-input">
                 <div class="tips">
                     选填项
                 </div>
@@ -289,7 +324,8 @@
         <div class="form-item">
             <label class="form-label">商品编号</label>
             <div class="form-input">
-                <input type="text" name="goods_number" value="{$value.goods_number}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" name="goods_number" value="{$value.goods_number}" lay-verify="title"
+                    autocomplete="off" placeholder="请输入" class="layui-input">
                 <div class="tips">
                     *可自行设定规则按照2位大写字母+4位数字设定（例如：NB0001)
                 </div>
@@ -298,9 +334,11 @@
         <div class="form-item">
             <label class="form-label">商品卖点</label>
             <div class="form-input">
-                <input type="text" name="goods_selling" value="{$value.goods_selling}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" name="goods_selling" value="{$value.goods_selling}" lay-verify="title"
+                    autocomplete="off" placeholder="请输入" class="layui-input">
                 <div class="tips">
-                    *在商品列表页、详情页标题下面展示卖点信息，建议60字以内 <span class="tan" style="color: #0E90D2;" data-id="__STATIC__/admin/common/img/u27672.png">查看实例</span>
+                    *在商品列表页、详情页标题下面展示卖点信息，建议60字以内 <span class="tan" style="color: #0E90D2;"
+                        data-id="__STATIC__/admin/common/img/u27672.png">查看实例</span>
                 </div>
             </div>
         </div>
@@ -335,14 +373,16 @@
                 </div>
 
             </div>
-            
+
         </div>
         <div class="form-item">
             <label class="form-label">分享描述</label>
             <div class="form-input">
-                <input type="text" name="goods_describe" value="{$value.goods_describe}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" name="goods_describe" value="{$value.goods_describe}" lay-verify="title"
+                    autocomplete="off" placeholder="请输入" class="layui-input">
                 <div class="tips">
-                    微信分享给好友时会显示，建议36个字以内<span class="tan" style="color: #0E90D2;" data-id="__STATIC__/admin/common/img/u27291.png">查看实例</span>
+                    微信分享给好友时会显示，建议36个字以内<span class="tan" style="color: #0E90D2;"
+                        data-id="__STATIC__/admin/common/img/u27291.png">查看实例</span>
                 </div>
             </div>
         </div>
@@ -350,22 +390,23 @@
             <label class="form-label"><span class="red">*</span>归属分类</label>
             <div class="form-input">
                 {if !empty($goods_list)}
-                <select name="pid" id="admin_role" class="role_list" >
-					{volist name="goods_list" id="v"} {if condition="$value.pid eq $v.id"}
-					<option value="{$v.id}" selected="">{$v.name}</option>
-					{else}
-					<option value="{$v.id}">{$v.name}</option>
-					{/if} {/volist}
-				</select><br/> {else}
+                <select name="pid" id="admin_role" class="role_list">
+                    {volist name="goods_list" id="v"} {if condition="$value.pid eq $v.id"}
+                    <option value="{$v.id}" selected="">{$v.name}</option>
+                    {else}
+                    <option value="{$v.id}">{$v.name}</option>
+                    {/if} {/volist}
+                </select><br /> {else}
                 <select name="pid" class="role_list">
-				</select><br/> {/if}
+                </select><br /> {/if}
                 </select>
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">商品排序</label>
             <div class="form-input">
-                <input type="number" name="sort_number" value="{$value.sort_number}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="number" name="sort_number" value="{$value.sort_number}" lay-verify="title"
+                    autocomplete="off" placeholder="请输入" class="layui-input">
                 <div class="tips">
                     *填写正整数，从大到小排序
                 </div>
@@ -373,9 +414,9 @@
         </div>
         <div class="form-title">价格库存 </div>
         <div class="form-item">
-                <label class="form-label">服务承诺</label>
-                <div class="form-input">
-                    <div class="sever_list">
+            <label class="form-label">服务承诺</label>
+            <div class="form-input">
+                <div class="sever_list">
                     <div class="list">
                         <input type="checkbox" name="" lay-skin="primary" title="" checked>
                         <span class="texts">7*24客服</span>
@@ -397,18 +438,17 @@
                         <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
                     </div>
                 </div>
-                    <div class="tips">
-                      *前端可显示和不显示，点击文字可修改，单项不超过5个字 
-                    </div>
+                <div class="tips">
+                    *前端可显示和不显示，点击文字可修改，单项不超过5个字
                 </div>
             </div>
+        </div>
         <div class="form-item">
             <label class="form-label">商品规格</label>
             <div class="form-input">
                 {if $value.goods_standard == "0"}
                 <input type="radio" name="goods_standard" value="0" title="统一规格" checked="" lay-filter="guige">
-                <input type="radio" name="goods_standard" value="1" title="特殊规格" lay-filter="guige"> {else}
-                <input type="radio" name="goods_standard" value="0" title="统一规格" lay-filter="guige">
+                {else}
                 <input type="radio" name="goods_standard" value="1" title="特殊规格" lay-filter="guige" checked="">{/if}
 
             </div>
@@ -418,47 +458,49 @@
             <div class="form-item">
                 <label class="form-label">包装规格</label>
                 <div class="form-input" id="packing_specification" style=" align-items: center;">
-                    {if !empty($value.unit)}{foreach name="$value.unit" item ="w" key="x"}                  
+                    {if !empty($value.unit)}{foreach name="$value.unit" item ="w" key="x"}
                     {if $x % 2 == 0}
-                        <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="{$w}" readonly>
+                    <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
+                        class="layui-input" value="{$w}" >
                     {else}
-                        <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="{$w}" maxlength="2" >
-                        <div class="fuhao">=</div>
+                    <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
+                        class="layui-input units" value="{$w}" maxlength="2" data-id="0">
+                    <div class="fuhao">=</div>
                     {/if}
                     {/foreach}
                     {/if}
                     <div class="add_danwei"> 继续添加单位</div>
-
                 </div>
-               
-                
+            </div>
+            <div class="form-item">
+                <label class="form-label"></label>
+                <div class="tips">
+                    *最大包装单位例如：箱
                 </div>
-                <div class="form-item">
-                    <label class="form-label"></label>
-                    <div class="tips">
-                        *最大包装单位例如：箱
-                    </div>
-                    <div class="tips">
-                        *非必选项，此处添加了包装规格，商品售价单位变为可选
-                    </div>
+                <div class="tips">
+                    *非必选项，此处添加了包装规格，商品售价单位变为可选
+                </div>
             </div>
             <div class="form-item">
                 <label class="form-label"><span class="red"></span>商品售价</label>
                 <div class="form-input line">
-                    <input type="number" name="goods_new_money" value="{$value.goods_new_money}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                    <input type="number" name="goods_new_money" value="{$value.goods_new_money}" lay-verify="title"
+                        autocomplete="off" placeholder="请输入" class="layui-input">
                 </div>
             </div>
             <div class="form-item">
                 <label class="form-label">商品划线价</label>
                 <div class="form-input line">
-                    <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                    <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}" lay-verify="title"
+                        autocomplete="off" placeholder="请输入" class="layui-input">
                     <span href="" class="tan" data-id="__STATIC__/admin/common/img/u27291.png"> 查看示例</span>
                 </div>
             </div>
             <div class="form-item">
                 <label class="form-label"><span class="red"></span>商品成本价</label>
                 <div class="form-input line">
-                    <input type="number" name="goods_cost" value="{$value.goods_cost}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                    <input type="number" name="goods_cost" value="{$value.goods_cost}" lay-verify="title"
+                        autocomplete="off" placeholder="请输入" class="layui-input">
                     <div class="tips">
                         *成本价不显示到客户端，适用于利润分析等
                     </div>
@@ -468,10 +510,11 @@
             <div class="form-item">
                 <label class="form-label"><span class="red">*</span>库存</label>
                 <div class="form-input line">
-                    <input type="number" name="goods_repertory" value="{$value.goods_repertory}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                    <input type="number" name="goods_repertory" value="{$value.goods_repertory}" lay-verify="title"
+                        autocomplete="off" placeholder="请输入" class="layui-input">
                 </div>
             </div>
-           
+
         </div>
         <div class="form-item general noshow">
 
@@ -482,20 +525,23 @@
                 <div class="form-item">
                     <label class="form-label"><span class="red"></span>商品售价</label>
                     <div class="form-input line">
-                        <input type="number" name="goods_new_money" value="{$value.goods_new_money}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                        <input type="number" name="goods_new_money" value="{$value.goods_new_money}" lay-verify="title"
+                            autocomplete="off" placeholder="请输入" class="layui-input">
                     </div>
                 </div>
                 <div class="form-item">
                     <label class="form-label">商品划线价</label>
                     <div class="form-input line">
-                        <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                        <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}"
+                            lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
                         <span href="" class="tan" data-id="__STATIC__/admin/common/img/u27291.png"> 查看示例</span>
                     </div>
                 </div>
                 <div class="form-item">
                     <label class="form-label"><span class="red"></span>商品成本价</label>
                     <div class="form-input line">
-                        <input type="number" name="goods_cost" name="{$value.goods_cost}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                        <input type="number" name="goods_cost" name="{$value.goods_cost}" lay-verify="title"
+                            autocomplete="off" placeholder="请输入" class="layui-input">
                         <div class="tips">
                             *成本价不显示到客户端，适用于利润分析等
                         </div>
@@ -505,14 +551,16 @@
                 <div class="form-item">
                     <label class="form-label"><span class="red">*</span>库存</label>
                     <div class="form-input line">
-                        <input type="number" name="goods_repertory" value="{$value.goods_repertory}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                        <input type="number" name="goods_repertory" value="{$value.goods_repertory}" lay-verify="title"
+                            autocomplete="off" placeholder="请输入" class="layui-input">
                     </div>
                 </div>
                 <div class="form-item">
                     <label class="form-label">商品折扣</label>
                     <div class="form-input line">
                         {if $value.goods_member == 1}
-                        <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked="" title="参加会员折扣"> {else}
+                        <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked=""
+                            title="参加会员折扣"> {else}
                         <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
                         <a href="">管理会员卡</a>
                     </div>
@@ -522,293 +570,354 @@
                     <label class="form-label">面向范围</label>
                     <div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap; ">
                         {volist name="scope" id="val" }
-                        <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val['member_grade_name']}" value="{$val['member_grade_name']}"  {if condition = "in_array($val['member_grade_name'],$value.scope)"}
-                        checked='checked'
-                        type="checkbox" name="scope[]" lay-skin="primary"
-                        {else}
-                        type="checkbox" name="scope[]" lay-skin="primary"
-                        {/if}>
-                        {/volist}
+                        <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val['member_grade_name']}"
+                            value="{$val['member_grade_name']}" {if
+                            condition="in_array($val['member_grade_name'],$value.scope)" } checked='checked'
+                            type="checkbox" name="scope[]" lay-skin="primary" {else} type="checkbox" name="scope[]"
+                            lay-skin="primary" {/if}> {/volist} </div> </div> {/if} </div> <div
+                            class="form-item general">
+                        <div class="layui-input-block general-kuang">
+
+                            <div id="lv_table_con" class="control-group" style="">
+                                <label class="control-label">规格项目表</label>
+                                <div class="controls" style="">
+                                    <div id="lv_table" style="padding: 10px;">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <!--//循环这里规格名称-->
+                                                    {if !empty($res)} {volist name="res" id="val"}
+                                                    <th width="50">
+                                                        <input value="{$val}" readonly="" style="border:0;">
+                                                    </th>
+                                                    {/volist} {/if}
+
+                                                    <!--//循环这里-->
+                                                    <th width="100px"><input value="价格（元）" readonly=""
+                                                            style="border:0;"></th>
+                                                    <th width="100px"><input value="库存" readonly="" style="border:0;">
+                                                    </th>
+                                                    <th width="100px"><input value="规格编码" readonly="" style="border:0;">
+                                                    </th>
+                                                    <th width="100px"><input value="成本价" readonly="" style="border:0;">
+                                                    </th>
+                                                    <th width="100px"><input value="划线价" readonly="" style="border:0;">
+                                                    </th>
+                                                    <th width="100px"><input value="报价单位" readonly="" style="border:0;">
+                                                    </th>
+                                                    <th width="100px"><input value="图片" readonly="" style="border:0;">
+                                                    </th>
+                                                    <th width="100px"><input value="存茶开关" readonly="" style="border:0;">
+                                                    </th>
+                                                    <th width="100px"><input value="上架开关" readonly="" style="border:0;">
+                                                    </th>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+                                                {if !empty($goods_standard)} {volist name="goods_standard" id="ve"}
+                                                <!--//规格值循环这里-->
+                                                <tr data-row="1">
+                                                    {volist name="$ve['title']" id="vs"}
+                                                    <td width="50" rowspan="1" data-rc="1_1">
+                                                        <input value="{$vs}" readonly="" style="border:0;">
+                                                    </td>
+                                                    {/volist}
+                                                    <td width="100px"><input type="text" value="{$ve.price}"
+                                                            data-id="{$ve.id}" data-value="price" class="inputs"
+                                                            data-title="{$ve.price}"></td>
+                                                    <td width="100px"><input type="text" value="{$ve.stock}"
+                                                            data-id="{$ve.id}" data-value="stock" class="inputs"
+                                                            data-title="{$ve.stock}"></td>
+                                                    <td width="100px"><input type="text" value="{$ve.coding}"
+                                                            data-id="{$ve.id}" data-value="coding" class="inputs coding"
+                                                            data-title="{$ve.coding}"></td>
+                                                    <td width="100px"><input type="text" value="{$ve.cost}"
+                                                            data-id="{$ve.id}" data-value="cost" class="inputs "
+                                                            data-title="{$ve.cost}"> </td>
+                                                    <td width="100px"><input type="text" value="{$ve.line}"
+                                                            data-id="{$ve.id}" data-value="line" class="inputs"
+                                                            data-title="{$ve.line}"> </td>
+                                                    <td width="100px"><input type="text" value="{$ve.offer}"
+                                                            data-id="{$ve.id}" data-value="offer" class="inputs"
+                                                            data-title="{$ve.offer}"> </td>
+                                                    <td width="100px">
+                                                        <div class="img-box full">
+                                                            <section class=" img-section">
+                                                                <div class="z_photo upimg-div clear">
+                                                                    <section class="up-section fl">
+                                                                        <span class="up-span"></span><img
+                                                                            class="close-upimg"
+                                                                            src="/siring_ow/public/static/admin/common/upfile/img/a7.png">
+                                                                        <!--图片放这里-->
+
+                                                                        <img class="up-img"
+                                                                            src="__UPLOADS__/{$ve.images}">
+                                                                        <!--图片放这里-->
+
+                                                                        <p class="img-name-p">u4594.png</p><input
+                                                                            id="taglocation"
+                                                                            value="__UPLOADS__/{$ve.images}"
+                                                                            type="hidden">
+                                                                        <input id="tags" value="" type="hidden">
+                                                                    </section>
+                                                                    <section class="z_file fl" style="display: none;">
+                                                                        <img src="/teahouse/public/static/admin/common/upfile/img/a11.png"
+                                                                            class="add-img">
+                                                                        <input type="file" id="file_0"
+                                                                            class="file filedelect" value=""
+                                                                            accept="image/jpg,image/jpeg,image/png,image/bmp"
+                                                                            multiple="" data-id="1" data-value="images"
+                                                                            data-name="{$ve.id}"> </section>
+
+                                                                </div>
+                                                            </section>
+                                                        </div>
+                                                        <aside class="mask works-mask">
+                                                            <div class="mask-content">
+                                                                <p class="del-p ">您确定要删除作品图片吗？</p>
+                                                                <p class="check-p">
+                                                                    <span class="del-com wsdel-ok list_delet_img"
+                                                                        data-id="{$ve.id}" data-value="images">确定</span>
+                                                                    <span class="wsdel-no">取消</span>
+                                                                </p>
+                                                            </div>
+                                                        </aside>
+                                                    </td>
+                                                    <td>
+                                                        {if $ve.save == 0}
+                                                        <input type="checkbox" class="Status" value="{$ve.save}"
+                                                            lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
+                                                            data-id="{$ve.id}" data-value="status"> {else}
+                                                        <input type="checkbox" class="Status" value="{$ve.save}"
+                                                            lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
+                                                            checked data-id="{$ve.id}" data-value="status"> {/if}
+                                                    </td>
+                                                    <td>
+                                                        {if $ve.status == 0}
+                                                        <input type="checkbox" class="Status" value="{$ve.status}"
+                                                            lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
+                                                            data-id="{$ve.id}" data-value="status"> {else}
+                                                        <input type="checkbox" class="Status" value="{$ve.status}"
+                                                            lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
+                                                            checked data-id="{$ve.id}" data-value="status"> {/if}
+                                                    </td>
+                                                </tr>
+                                                {/volist} {/if}
+                                                <!--//规格值循环这里-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-item general">
+                        <label class="form-label"></label>
+                        <div class="form-input add_danwei2"
+                            style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;">
+                            继续添加
+                        </div>
                     </div>
                 </div>
                 {/if}
-            </div>
-            <div class="form-item general">
-                <div class="layui-input-block general-kuang">
+                <div class="form-item">
+                    <label class="form-label">商品折扣</label>
+                    <div class="form-input line">
+                        {if $value.goods_member == 1}
+                        <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked=""
+                            title="参加会员折扣"> {else}
+                        <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
+                        <a href="">管理会员卡</a>
+                    </div>
+                </div>
 
-                    <div id="lv_table_con" class="control-group" style="">
-                        <label class="control-label">规格项目表</label>
-                        <div class="controls" style="">
-                            <div id="lv_table" style="padding: 10px;">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <!--//循环这里规格名称-->
-                                            {if !empty($res)} {volist name="res" id="val"}
-                                            <th width="50">
-                                                <input value="{$val}" readonly="" style="border:0;">
-                                            </th>
-                                            {/volist} {/if}
-
-                                            <!--//循环这里-->
-                                            <th width="100px"><input value="价格（元）" readonly="" style="border:0;"></th>
-                                            <th width="100px"><input value="库存" readonly="" style="border:0;"></th>
-                                            <th width="100px"><input value="规格编码" readonly="" style="border:0;"></th>
-                                            <th width="100px"><input value="成本价" readonly="" style="border:0;"></th>
-                                            <th width="100px"><input value="划线价" readonly="" style="border:0;"></th>
-                                            <th width="100px"><input value="报价单位" readonly="" style="border:0;"></th>
-                                            <th width="100px"><input value="图片" readonly="" style="border:0;"></th>
-                                            <th width="100px"><input value="存茶开关" readonly="" style="border:0;"></th>
-                                            <th width="100px"><input value="上架开关" readonly="" style="border:0;"></th>
-                                        </tr>
-
-                                    </thead>
-                                    <tbody>
-                                        {if !empty($goods_standard)} {volist name="goods_standard" id="ve"}
-                                        <!--//规格值循环这里-->
-                                        <tr data-row="1">
-                                            {volist name="$ve['title']" id="vs"}
-                                            <td width="50" rowspan="1" data-rc="1_1">
-                                                <input value="{$vs}" readonly="" style="border:0;">
-                                            </td>
-                                            {/volist}
-                                            <td width="100px"><input type="text" value="{$ve.price}" data-id="{$ve.id}" data-value="price" class="inputs" data-title="{$ve.price}" ></td>
-                                            <td width="100px"><input type="text" value="{$ve.stock}" data-id="{$ve.id}" data-value="stock" class="inputs"  data-title="{$ve.stock}"></td>
-                                            <td width="100px"><input type="text" value="{$ve.coding}" data-id="{$ve.id}" data-value="coding" class="inputs coding" data-title="{$ve.coding}"></td>
-                                            <td width="100px"><input type="text" value="{$ve.cost}" data-id="{$ve.id}" data-value="cost" class="inputs "   data-title="{$ve.cost}" > </td>
-                                            <td width="100px"><input type="text" value="{$ve.line}" data-id="{$ve.id}" data-value="line" class="inputs"  data-title="{$ve.line}"> </td>
-                                            <td width="100px"><input type="text" value="{$ve.offer}" data-id="{$ve.id}" data-value="offer" class="inputs"  data-title="{$ve.offer}"> </td>
-                                            <td width="100px">
-                                                <div class="img-box full">
-                                                    <section class=" img-section">
-                                                        <div class="z_photo upimg-div clear">
-                                                            <section class="up-section fl">
-                                                                <span class="up-span"></span><img class="close-upimg" src="/siring_ow/public/static/admin/common/upfile/img/a7.png">
-                                                                <!--图片放这里-->
-
-                                                                <img class="up-img" src="__UPLOADS__/{$ve.images}">
-                                                                <!--图片放这里-->
-
-                                                                <p class="img-name-p">u4594.png</p><input id="taglocation" value="__UPLOADS__/{$ve.images}" type="hidden">
-                                                                <input id="tags" value="" type="hidden"></section>
-                                                            <section class="z_file fl" style="display: none;"> <img src="/teahouse/public/static/admin/common/upfile/img/a11.png" class="add-img">
-                                                                <input type="file" id="file_0" class="file filedelect" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="" data-id="1" data-value="images" data-name="{$ve.id}"> </section>
-
-                                                        </div>
-                                                    </section>
-                                                </div>
-                                                <aside class="mask works-mask">
-                                                    <div class="mask-content">
-                                                        <p class="del-p ">您确定要删除作品图片吗？</p>
-                                                        <p class="check-p">
-                                                            <span class="del-com wsdel-ok list_delet_img" data-id="{$ve.id}" data-value="images">确定</span>
-                                                            <span class="wsdel-no">取消</span>
-                                                        </p>
-                                                    </div>
-                                                </aside>
-                                            </td>
-                                            <td>
-                                                {if $ve.save == 0}
-                                                <input type="checkbox" class="Status" value="{$ve.save}" lay-skin="switch" lay-text="是|否" lay-filter="isshelves" data-id="{$ve.id}" data-value="status"> {else}
-                                                <input type="checkbox" class="Status" value="{$ve.save}" lay-skin="switch" lay-text="是|否" lay-filter="isshelves" checked data-id="{$ve.id}" data-value="status"> {/if}
-                                            </td>
-                                            <td>
-                                                {if $ve.status == 0}
-                                                <input type="checkbox" class="Status" value="{$ve.status}" lay-skin="switch" lay-text="是|否" lay-filter="isshelves" data-id="{$ve.id}" data-value="status"> {else}
-                                                <input type="checkbox" class="Status" value="{$ve.status}" lay-skin="switch" lay-text="是|否" lay-filter="isshelves" checked data-id="{$ve.id}" data-value="status"> {/if}
-                                            </td>
-                                        </tr>
-                                        {/volist} {/if}
-                                        <!--//规格值循环这里-->
-                                    </tbody>
-                                </table>
+                {if !empty($value.scope)}
+                <div class="form-item">
+                    <label class="form-label">面向范围</label>
+                    <div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap; ">
+                        {volist name="scope" id="val" }
+                        <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val['member_grade_name']}"
+                            value="{$val['member_grade_name']}" {if
+                            condition="in_array($val['member_grade_name'],$value.scope)" } checked='checked'
+                            type="checkbox" name="scope[]" lay-skin="primary" {else} type="checkbox" name="scope[]"
+                            lay-skin="primary" {/if}> {/volist} </div> </div> {/if} <div class="form-item">
+                        <label class="form-label"><span class="red">*</span>第一级菜单图</label>
+                        <div class="img-edit">
+                            {if !empty($value.goods_show_images) }
+                            <div class="imgcontent">
+                                {foreach name="$value.goods_show_images" id="val"}
+                                <span class="img">
+                                    <img src="__UPLOADS__/{$val}" width="100%">
+                                    <i class="remove-img" data-id="{$val}" data-value="2" data-title="{$value.id}"><img
+                                            src="__STATIC__/admin/common/img/a7.png"></i>
+                                </span> {/foreach}
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            
-                <div class="form-item general">
-                    <label class="form-label"></label>
-                    <div class="form-input add_danwei2" style=" align-items: center;  color: #20A0FF;width: 61px;height: 20px;">
-                        继续添加
-                    </div>
-                </div>
-       </div>
-        {/if}
-        <div class="form-item">
-            <label class="form-label">商品折扣</label>
-            <div class="form-input line">
-                {if $value.goods_member == 1}
-                <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked="" title="参加会员折扣"> {else}
-                <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
-                <a href="">管理会员卡</a>
-            </div>
-        </div>
-
-        {if !empty($value.scope)}
-        <div class="form-item">
-            <label class="form-label">面向范围</label>
-            <div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap; ">
-                {volist name="scope" id="val" }
-                <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val['member_grade_name']}" value="{$val['member_grade_name']}"  {if condition = "in_array($val['member_grade_name'],$value.scope)"}
-                checked='checked'
-                type="checkbox" name="scope[]" lay-skin="primary"
-                {else}
-                type="checkbox" name="scope[]" lay-skin="primary"
-                {/if}>
-                {/volist}
-            </div>
-            
-        </div>
-        {/if}
-
-        <div class="form-item">
-            <label class="form-label"><span class="red">*</span>第一级菜单图</label>
-            <div class="img-edit">
-                {if !empty($value.goods_show_images) }
-                <div class="imgcontent">
-                    {foreach name="$value.goods_show_images" id="val"}
-                    <span class="img">
-					<img src="__UPLOADS__/{$val}" width="100%">
-					<i class="remove-img"  data-id="{$val}" data-value="2" data-title = "{$value.id}"><img src="__STATIC__/admin/common/img/a7.png"></i>
-					</span> {/foreach}
-                </div>
-                <div class="form-input">
-                    <div class="img-box full">
-                        <section class=" img-section del_img_other">
-                            <div class="z_photo upimg-div clear">
-                                <section class="z_file fl">
-                                    <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                    <input type="file" name="goods_show_images[]" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" />
-                                </section>
-                            </div>
-                        </section>
-                    </div>
-                    {else}
-                    <div class="form-input">
-                        <div class="img-box full">
-                            <section class=" img-section">
-                                <div class="z_photo upimg-div clear">
-                                    <section class="z_file fl">
-                                        <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                        <input type="file" name="goods_show_images[]" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" />
+                            <div class="form-input">
+                                <div class="img-box full">
+                                    <section class=" img-section del_img_other">
+                                        <div class="z_photo upimg-div clear">
+                                            <section class="z_file fl">
+                                                <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                                <input type="file" name="goods_show_images[]" id="file" class="file"
+                                                    value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple
+                                                    data-id="15" />
+                                            </section>
+                                        </div>
                                     </section>
                                 </div>
-                            </section>
-                        </div>
-                        <aside class="mask works-mask">
-                            <div class="mask-content">
-                                <p class="del-p ">您确定要删除作品图片吗？</p>
-                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                                {else}
+                                <div class="form-input">
+                                    <div class="img-box full">
+                                        <section class=" img-section">
+                                            <div class="z_photo upimg-div clear">
+                                                <section class="z_file fl">
+                                                    <img src="__STATIC__/admin/common/upfile/img/a11.png"
+                                                        class="add-img">
+                                                    <input type="file" name="goods_show_images[]" id="file" class="file"
+                                                        value="" accept="image/jpg,image/jpeg,image/png,image/bmp"
+                                                        multiple data-id="15" />
+                                                </section>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <aside class="mask works-mask">
+                                        <div class="mask-content">
+                                            <p class="del-p ">您确定要删除作品图片吗？</p>
+                                            <p class="check-p"><span class="del-com wsdel-ok">确定</span><span
+                                                    class="wsdel-no">取消</span></p>
+                                        </div>
+                                    </aside>
+                                    <div class="tips">
+                                        建议尺寸：800*800像素，其中第一张为主图，你可以拖拽图片调整顺序，最多上传15张
+                                    </div>
+                                </div>
+                                {/if}
+                                <aside class="mask works-mask del_img_other">
+                                    <div class="mask-content">
+                                        <p class="del-p ">您确定要删除作品图片吗？</p>
+                                        <p class="check-p"><span class="del-com wsdel-ok ">确定</span><span
+                                                class="wsdel-no">取消</span></p>
+                                    </div>
+                                </aside>
                             </div>
-                        </aside>
-                        <div class="tips">
-                            建议尺寸：800*800像素，其中第一张为主图，你可以拖拽图片调整顺序，最多上传15张
                         </div>
                     </div>
-                    {/if}
-                    <aside class="mask works-mask del_img_other">
-                        <div class="mask-content">
-                            <p class="del-p ">您确定要删除作品图片吗？</p>
-                            <p class="check-p"><span class="del-com wsdel-ok ">确定</span><span class="wsdel-no">取消</span></p>
+                    <div class="form-item">
+                        <label class="form-label">主图视频链接</label>
+                        <div class="form-input">
+                            <input type="text" name="video_link" value="{$value.video_link}" lay-verify="title"
+                                autocomplete="off" placeholder="请输入" class="layui-input">
+                            <div class="tips">*如何获取视频地址？免费上传视频到七牛云存储</div>
                         </div>
-                    </aside>
-                </div>
-            </div>
-        </div>
-        <div class="form-item">
-            <label class="form-label">主图视频链接</label>
-            <div class="form-input">
-                <input type="text" name="video_link" value="{$value.video_link}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-                <div class="tips">*如何获取视频地址？免费上传视频到七牛云存储</div>
-            </div>
-        </div>
-        <div class="form-item">
-            <label class="form-label"><span class="red">*</span>商品详情</label>
-            <div class="form-input">
-                <script id="editor" type="text/plain" name="goods_text" style="width:800px;height:500px;">{$value.goods_text}</script>
-            </div>
-        </div>
-        <div class="form-item">
-                <label class="form-label">检测报告</label>
-                <div class="form-input">
-                    <script id="editor1" type="text/plain" name="text" style="width:800px;height:500px;">{$value.text}</script>
-                </div>
-            </div>
-        <div class="form-title">价格库存 </div>
-        <div class="form-item">
-            <label class="form-label">配送方式</label>
-            <div class="form-input line">
-                {if $value.goods_delivery[0] == 1}
-                <input type="checkbox" name="goods_delivery" value="1" lay-skin="primary" title="商家配送" checked="">
-                <input type="checkbox" name="goods_delivery" value="2" lay-skin="primary" title="到店自提"> {else}
-                <input type="checkbox" name="goods_delivery" value="1" lay-skin="primary" title="商家配送">
-                <input type="checkbox" name="goods_delivery" value="2" lay-skin="primary" title="到店自提" checked="">{/if}
-
-            </div>
-        </div>
-        <div class="form-item">
-                <label class="form-label">快递运费</label>
-                <div style="display: flex;flex-direction:column">
-                    <div class="form-input line" style="margin-bottom: 4px;">
-                        {if !empty($value.goods_franking)}
-                        <input type="radio" title="统一邮费" checked="">
-                        <input type="number" name="goods_franking" lay-verify="title" autocomplete="off" placeholder="请输入                          元" class="layui-input"> </input>
-                        </input>
-                        {else}
-                        <input type="radio" title="统一邮费" >
-                        <input type="number" name="goods_franking" lay-verify="title" autocomplete="off" placeholder="请输入                          元" class="layui-input"> </input>
-                        </input>
-                        {/if}
                     </div>
-                    <div class="form-input line" style="margin-bottom: 4px;">
-                            <input type="radio" title="运费模板"name="aaa">
-                            {if !empty($expenses)}
-                            <select name="templet_id" id="admin_role" class="role_list">
-                                {volist name="expenses" id="va"} {if condition="$value.templet_id eq $va.id"}
-                                 <option value="{$value.templet_id}" selected="">{$va.name}</option>
-                                 {else}
-                                 <option value="{$va.id}">{$va.name}</option>
-                                {/if}{/volist}
-                            </select><br/> 
-                            {/if}
-                            </select>
-                            <a href="delivery_goods_add_number">新建</a>
+                    <div class="form-item">
+                        <label class="form-label"><span class="red">*</span>商品详情</label>
+                        <div class="form-input">
+                            <script id="editor" type="text/plain" name="goods_text"
+                                style="width:800px;height:500px;">{$value.goods_text}</script>
                         </div>
-                        <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
-                   </div>
-                   
-             </div>
-        <div class="form-item">
-            <label class="form-label">状态</label>
-            <div class="form-input">
-                {if $value.label==0}
-                <input type="radio" name="label" value="0" title="暂不上架" checked="">
-                <input type="radio" name="label" value="1" title="立即上架"> {else}
-                <input type="radio" name="label" value="0" title="暂不上架">
-                <input type="radio" name="label" value="1" title="立即上架" checked="">{/if}
-            </div>
-        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label">检测报告</label>
+                        <div class="form-input">
+                            <script id="editor1" type="text/plain" name="text"
+                                style="width:800px;height:500px;">{$value.text}</script>
+                        </div>
+                    </div>
+                    <div class="form-title">价格库存 </div>
+                    <div class="form-item">
+                        <label class="form-label">配送方式</label>
+                        <div class="form-input line">
+                            {if $value.goods_delivery[0] == 1}
+                            <input type="checkbox" name="goods_delivery" value="1" lay-skin="primary" title="商家配送"
+                                checked="">
+                            <input type="checkbox" name="goods_delivery" value="2" lay-skin="primary" title="到店自提">
+                            {else}
+                            <input type="checkbox" name="goods_delivery" value="1" lay-skin="primary" title="商家配送">
+                            <input type="checkbox" name="goods_delivery" value="2" lay-skin="primary" title="到店自提"
+                                checked="">{/if}
 
-        <div class="form-item">
-            <label class="form-label">首页推荐</label>
-            <div class="form-input">
-                {if $value.status == 1}
-                <input type="radio" name="status" value="1" title="首页推荐" checked="">
-                <input type="radio" name="status" value="0" title="首页不推荐"> {else}
-                <input type="radio" name="status" value="1" title="首页推荐">
-                <input type="radio" name="status" value="0" title="首页不推荐" checked="">{/if}
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
-                <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
-            </div>
-        </div>
-        {/volist}
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label">快递运费</label>
+                        <div style="display: flex;flex-direction:column">
+                            <div class="form-input line" style="margin-bottom: 4px;">
+                                {if !empty($value.goods_franking)}
+                                <input type="radio" title="统一邮费" checked="">
+                                <input type="number" name="goods_franking" $value="{$value.goods_franking}"
+                                    lay-verify="title" autocomplete="off" placeholder="请输入  元"
+                                    class="layui-input"> </input>
+                                </input>
+                                {else}
+                                <input type="radio" title="统一邮费">
+                                <input type="number" name="goods_franking" lay-verify="title" autocomplete="off"
+                                    placeholder="请输入 元" class="layui-input"> </input>
+                                </input>
+                                {/if}
+                            </div>
+                            {if !empty($value.templet_name)}
+                            <div class="form-input line" style="margin-bottom: 4px;">
+                                <input type="radio" title="运费模板" checked="">                              
+                                <select name="templet_name[]" id="admin_role" class="role_list">
+                                    {volist name="$value.templet_name" id="va"} 
+                                    <option value="{$va}" >{$va}</option>
+                                    {/volist}
+                                </select><br />
+                                </select>
+                                {/if}   
+                                {if !empty($temp)}
+                                <select name="templet_id[]" id="admin_role" class="role_list">
+                                    {volist name="temp" id="vale"} 
+                                    <option value="{$vale.id}">{$vale.name}</option>
+                                    {/volist}
+                                </select>                               
+                                {/if}
+                                <a href="{:url('admin/Delivery/delivery_goods_add')}">新建</a>
+                                
+                            </div>
+                            <div class="form-input line" style="margin-bottom: 4px;">
+                                <input type="texr" title="运费模板" style="opacity: 0;width: 82px;">
+                                <div class="add_muban"> 添加运费模板</div>
+                            </div>
+                            
+
+                            <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
+                        </div>
+
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label">状态</label>
+                        <div class="form-input">
+                            {if $value.label==0}
+                            <input type="radio" name="label" value="0" title="暂不上架" checked="">
+                            <input type="radio" name="label" value="1" title="立即上架"> {else}
+                            <input type="radio" name="label" value="0" title="暂不上架">
+                            <input type="radio" name="label" value="1" title="立即上架" checked="">{/if}
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <label class="form-label">首页推荐</label>
+                        <div class="form-input">
+                            {if $value.status == 1}
+                            <input type="radio" name="status" value="1" title="首页推荐" checked="">
+                            <input type="radio" name="status" value="0" title="首页不推荐"> {else}
+                            <input type="radio" name="status" value="1" title="首页推荐">
+                            <input type="radio" name="status" value="0" title="首页不推荐" checked="">{/if}
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+                            <button type="button" class="layui-btn layui-btn-primary"
+                                onClick="javascript :history.back(-1);">返回</button>
+                        </div>
+                    </div>
+                    {/volist}
     </form>
 
     {/block}
@@ -820,121 +929,413 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
-    var ids=$("#ids").val();
-    var ue = UE.getEditor('editor');
-    var ue1 = UE.getEditor('editor1');
-    var codings=[];
-    function jiequ(str){
-      var arr = str.split("_");
-       return arr[1];
-    }
-   
-    for(var r=0;r<$(".coding").length;r++){
-        codings.push($(".coding")[r].value);
-    }
-        
-         $.ajax({
+        var ids = $("#ids").val();
+        var ue = UE.getEditor('editor');
+        var ue1 = UE.getEditor('editor1');
+        var codings = [];
+        function jiequ(str) {
+            var arr = str.split("_");
+            return arr[1];
+        }
+
+        for (var r = 0; r < $(".coding").length; r++) {
+            codings.push($(".coding")[r].value);
+        }
+       
+        $.ajax({
             type: "POST",
             url: "{:url('admin/Goods/offer')}",
             data: {
                 "id": ids,
             },
-            success: function(data) {
-                var data=eval('(' + data + ')');
+            success: function (data) {
+                var data = eval('(' + data + ')');
                 console.log(data);
-                if(data.status=="1"){
-                    var dhtmlss='';  
-                    for(var i=0;i<data.data.length;i++){
-                       if(data.data[i].num[0]!=''){
-                                 //   <!-- 编码循环这里 -->
-                        dhtmlss+='<div class="form-item general" style=" align-items: center;position: relative;">';
-                            dhtmlss+='<label class="form-label">包装规格</label>';
-                            dhtmlss+=' <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">';
-                            dhtmlss+='<select name=""  class="packing packings" disabled="disabled">';
-                            dhtmlss+='  <option value="">请选择规格编码</option>';
-                            for(var w=0;w<codings.length;w++){
-                                if(data.data[i].number==codings[w]){
-                                    dhtmlss+=' <option value="'+codings[w]+'" selected>'+codings[w]+'</option>';
+                if (data.status == "1") {
+                    var dhtmlss = '';
+                    for (var i = 0; i < data.data.length; i++) {
+                        if (data.data[i].num[0] != '') {
+                            //   <!-- 编码循环这里 -->
+                            dhtmlss += '<div class="form-item general" style=" align-items: center;position: relative;">';
+                            dhtmlss += '<label class="form-label">包装规格</label>';
+                            dhtmlss += ' <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">';
+                            dhtmlss += '<select name=""  class="packing packings" disabled="disabled">';
+                            dhtmlss += '  <option value="">请选择规格编码</option>';
+                            for (var w = 0; w < codings.length; w++) {
+                                if (data.data[i].number == codings[w]) {
+                                    dhtmlss += ' <option value="' + codings[w] + '" selected>' + codings[w] + '</option>';
                                 }
-                                else{
-                                    dhtmlss+=' <option value="'+codings[w]+'">'+codings[w]+'</option>';
+                                else {
+                                    dhtmlss += ' <option value="' + codings[w] + '">' + codings[w] + '</option>';
                                 }
-                                
+
                             }
-                           
-                            dhtmlss+=' </select>';
-                            for(var j=0;j<data.data[i].num.length;j++){
-                                for(var q=0;q<data.data[i].unit.length;q++) {
-                                    if(j==q){
+
+                            dhtmlss += ' </select>';
+                            for (var j = 0; j < data.data[i].num.length; j++) {
+                                for (var q = 0; q < data.data[i].unit.length; q++) {
+                                    if (j == q) {
                                         //  <!-- 单位循环这里 -->
-                                        dhtmlss+='<div class="danwei_content">';
-                                        dhtmlss+='<div class="fuhao">=</div>';
-                                        dhtmlss+='<input type="text" name="'+data.data[i].id+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="'+data.data[i].num[j]+'" >';
-                                        dhtmlss+='<input type="text" name="'+data.data[i].id+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="'+data.data[i].unit[q]+'" maxlength="2"> ';
-                                        dhtmlss+='<img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
-                                        dhtmlss+='</div>';
+                                        dhtmlss += '<div class="danwei_content">';
+                                        dhtmlss += '<div class="fuhao">=</div>';
+                                        dhtmlss += '<input type="text" name="' + data.data[i].id + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="' + data.data[i].num[j] + '" >';
+                                        dhtmlss += '<input type="text" name="' + data.data[i].id + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" value="' + data.data[i].unit[q] + '" maxlength="2" data-id="1"> ';
+                                        dhtmlss += '<img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                                        dhtmlss += '</div>';
                                         //   <!-- 单位循环这里 -->
-                                        }
+                                    }
                                 }
                             }
-                        
-                            dhtmlss+=' <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div> ';
-                         dhtmlss+=' </div>';
-                         dhtmlss+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
-                         dhtmlss+=' </div>';
-                     //   <!-- 编码循环这里 -->
-                       }  
-                      
+
+                            dhtmlss += ' <div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div> ';
+                            dhtmlss += ' </div>';
+                            dhtmlss += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
+                            dhtmlss += ' </div>';
+                            //   <!-- 编码循环这里 -->
+                        }
+
                     }
                     $(".add_danwei2").parent().before(dhtmlss);
                 }
-                
+
             },
-            error: function(data) {
+            error: function (data) {
                 console.log("失败")
             }
-           });
-  
+        });
+
         layui.config({
             base: "js/"
-        }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
+        }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function () {
             var form = layui.form(),
                 $ = layui.jquery;
             form.render();
+             // 运费模板
+             Array.prototype.unique3 = function () {
+                    var res = [];
+                    var json = {};
+                    for (var i = 0; i < this.length; i++) {
+                        if (!json[this[i]]) {
+                            res.push(this[i]);
+                            json[this[i]] = 1;
+                        }
+                    }
+                    return res;
+                }
+                var unit1 = [];
+                var unit2 = [];
+                var templet=[];
+                for(var qq=0;qq<$(".units").length;qq++){
+                    // 普通规格
+                    if($(".units")[qq].dataset.id=="0"){
+                        unit1.push($(".units")[qq].value);
+                    }
+                    else{
+                        unit2.push($(".units")[qq].value);
+                    }
+                }
+                // console.log(unit1);
+                // console.log(unit2);
+                $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/Delivery/delivery_templet')}",
+                        data: {
+                            
+                        },
+                        success: function (data) {
+                            data = eval("(" + data + ")");
+                            templet=data.data;
+                           
+                        },
+                        error: function (data) {
+                            console.log(data)
+                        }
+                    });
+                    var ids = $("#ids").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/Goods/goods_templet')}",
+                        data: {
+                            id:ids
+                        },
+                        success: function (data) {
+                            data = eval("(" + data + ")");
+                            console.log(data)
+                        },
+                        error: function (data) {
+                           
+                        }
+                    });
 
+                $(".general_content").on("blur", ".units", function () {
+                    id = $(this).data("id");
+                    if($(this).data("value")!=$(this).val()){
+                        $(".muban").remove();
+                    }
+                    
+                        // 填入的值不为空
+                        if ($(this).val() != '') {
+                           console.log($(this).data("value"))
+                            // 本来无值（存入）
+                            if ($(this).data("value") ==undefined) {
+                              
+                                unit2.push($(this).val());
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit2.length; k++) {
+                                    if (unit2[k] == $(this).data("value")) {
+                                        unit2[k] = $(this).val();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        //   填入的值为空
+                        else {
+                            // 本来无值（存入）
+                            if ($(this).data("value") == '') {
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit2.length; k++) {
+                                    if (unit2[k] == $(this).data("value")) {
+                                        unit2.splice(k, 1);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
+                    console.log(unit2);
+                    $(this).data("value", $(this).val());
+                })
+               
+                $(".nomal").on("blur", ".units", function () {
+                    id = $(this).data("id");
+                    if($(this).data("value")!=$(this).val()){
+                        $(".muban").remove();
+                    }
+                 
+                        // 填入的值不为空
+                        if ($(this).val() != '') {
+                            // 本来无值（存入）
+                            if ($(this).data("value") == '') {
+                                unit1.push($(this).val());
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit1.length; k++) {
+                                    if (unit1[k] == $(this).data("value")) {
+                                        unit1[k] = $(this).val();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        //   填入的值为空
+                        else {
+                            // 本来无值（存入）
+                            if ($(this).data("value") == '') {
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit1.length; k++) {
+                                    if (unit1[k] == $(this).data("value")) {
+                                        unit1.splice(k, 1);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
+
+                    
+                  
+                    $(this).data("value", $(this).val());
+                })
+                $(".general_content").on('click', ".delect_img", function () {
+                    if ($(this).siblings(".units").val() != '') {
+                        for (var k = 0; k < unit2.length; k++) {
+                            if (unit2[k] == $(this).siblings(".units").val()) {
+                                unit2.splice(k, 1);
+                                break;
+                            }
+                        }
+                    }
+                    $(this).parent().remove();
+                })
+                $(".nomal").on('click', ".delect_img", function () {
+                    if ($(this).siblings(".units").val() != '') {
+                        for (var k = 0; k < unit1.length; k++) {
+                            if (unit1[k] == $(this).siblings(".units").val()) {
+                                unit1.splice(k, 1);
+                                break;
+                            }
+                        }
+                    }
+                    $(this).parent().remove();
+                })
+                $(".form-item").on('click', ".delect_img", function () {
+
+                    $(this).parent().remove();
+                })
+                $(".add_muban").click(function () {
+                    var val = $('input[name="goods_standard"]:checked').val(); 
+                    var unit1_a=unit1.unique3();
+                    var unit2_a=unit2.unique3();
+                   if(val=="0"){
+                       if(unit1_a.length>0){
+                           if(unit1_a.length>$(".muban").length){
+                            var add_muban = '';
+                            add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
+                            add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
+                            add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
+                            for(var n=0;n<unit1_a.length;n++){
+                                add_muban += ' <option value="'+unit1_a[n]+'">'+unit1_a[n]+'</option>';
+                            }
+                            add_muban += '</select><br />';
+                            add_muban += '<select name="templet_id[]"  class="role_list">';
+                            for(var h=0;h<templet.length;h++){
+                                add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
+                            }
+                            add_muban += '</select><br />';
+                            add_muban += '<a href="delivery_goods_add_number">新建</a>';
+                            add_muban += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
+                            add_muban += '</div>';
+                            $(this).parent().before(add_muban);
+                            form.render();
+                           }
+                           else{
+                            alert("运费模板不能大于单位");
+                           }
+                     
+                       }
+                       else{
+                           alert("请输入单位")
+                       }
+                
+                   }
+                   else{
+                    if(unit2_a.length>0){
+                        var add_muban = '';
+                             add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
+                            add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
+                            add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
+                            for(var n=0;n<unit2_a.length;n++){
+                                add_muban += ' <option value="'+unit2_a[n]+'">'+unit2_a[n]+'</option>';
+                            }
+                            add_muban += '</select><br />';
+                            add_muban += '<select name="templet_id[]"  class="role_list">';
+                            for(var h=0;h<templet.length;h++){
+
+                                add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
+                            }
+                            add_muban += '</select><br />';
+                            add_muban += '<a href="delivery_goods_add_number">新建</a>';
+                            add_muban += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
+                            add_muban += '</div>';
+                            $(this).parent().before(add_muban);
+                            form.render();
+                       }
+                       else{
+                           alert("请输入单位")
+                       }
+                   }
+                   
+                })
+                $("form").submit(function(e){
+                    var unit1_a=unit1.unique3();
+                    var unit2_a=unit2.unique3();
+                    var val = $('input[name="goods_standard"]:checked').val(); 
+                    var vals = $('input[name="aaa"]:checked').val(); 
+                    var text=$(".monomer").val();
+                    var nums=0;
+                    for(var i=0;i<unit1_a.length;i++){
+                            if(unit1_a[i]==text){
+                                  nums++;
+                            }
+                        }
+                    if(val=="0"){
+                        if(nums==0){
+                          alert("你输入的单位前面没有添加");
+                          return false;
+                        }
+                     
+                    }
+                      
+                      
+                        
+                    var num=0;
+                    for(var i=0;i<$(".muban_list").length;i++){
+                        for(var j=i+1;j<$(".muban_list").length;j++){
+                            if($(".muban_list")[i].value==$(".muban_list")[j].value){
+                                   num++;
+                                   break;
+                            }
+
+                        }    
+                    }
+                    if(num>0){
+                        alert("相同的单位不能两套模板")
+                        return false;
+                    }
+                    if(vals=="1"){
+                        if(val=="0"){
+                        console.log($(".muban").length);
+                        console.log(unit1_a.length);
+                      if($(".muban").length!=unit1_a.length) {
+                          alert("你填写的单位必须有对应的模板");
+                          return false;
+                      }
+                    }
+                    else{
+                        console.log($(".muban").length);
+                        console.log(unit2_a.length);
+                        if($(".muban").length!=unit2_a.length) {
+                          alert("你填写的单位必须有对应的模板");
+                          return false;
+                      }
+                    }
+                    }
+                   
+                 
+                });
+                
+                // 运费模板
             //			价格库存等修改事件
-            $(".inputs").change(function() {
+            $(".inputs").change(function () {
                 var change_val = $(this).val();
                 var location_x = $(this).data("id");
                 var location_y = $(this).data("value");
                 if (change_val == '') {
                     $(this).val($(this).data("title"));
-                   alert("修改的值不能为空");
+                    alert("修改的值不能为空");
                 }
-                else{
+                else {
                     $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Goods/value')}",
-                    data: {
-                        "id": location_x,
-                        "value": change_val,
-                        "key": location_y,
-                    },
-                    success: function(data) {
-                        $(this).data("title",change_val);
-                        data = eval("(" + data + ")");
-                        layer.msg(data.info);
-                        form.render('select');
-                    },
-                    error: function(data) {
-                        console.log("失败")
-                    }
-                });
+                        type: "POST",
+                        url: "{:url('admin/Goods/value')}",
+                        data: {
+                            "id": location_x,
+                            "value": change_val,
+                            "key": location_y,
+                        },
+                        success: function (data) {
+                            $(this).data("title", change_val);
+                            data = eval("(" + data + ")");
+                            layer.msg(data.info);
+                            form.render('select');
+                        },
+                        error: function (data) {
+                            console.log("失败")
+                        }
+                    });
                 }
-               
+
             });
             //			  开关修改事件
-            form.on('switch(isshelves)', function(data) {
+            form.on('switch(isshelves)', function (data) {
                 if ($(this).val() == 0) {
                     $(this).val(1);
                 } else {
@@ -955,10 +1356,10 @@
                         "id": id,
                         "status": value,
                     },
-                    success: function(data) {
+                    success: function (data) {
                         layer.msg("修改成功");
                     },
-                    error: function(data) {
+                    error: function (data) {
                         console.log("失败")
                     }
                 });
@@ -966,12 +1367,12 @@
             });
             var phone_delect_id = '';
             //          删除图片事件
-            $(".list_delet_img").click(function() {
+            $(".list_delet_img").click(function () {
                 phone_delect_id = $(this).data("id");
 
             });
             //			添加图片
-            $(".filedelect").change(function() {
+            $(".filedelect").change(function () {
                 //				alert(111);
                 var formData = new FormData();
                 var filess = $(this)[0].files[0];
@@ -979,79 +1380,85 @@
                 formData.append("id", id);
                 formData.append("file", filess);
                 $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Goods/photos')}",
+                    data: {
+                        "id": id,
+                    },
+                    success: function (data) {
+                        $.ajax({
                             type: "POST",
-                            url: "{:url('admin/Goods/photos')}",
-                            data: {
-                                "id": id,
+                            url: "{:url('admin/Goods/addphoto')}",
+                            processData: false,
+                            contentType: false,
+                            data: formData,
+                            success: function (data) {
+                                layer.msg("修改成功");
                             },
-                            success: function(data) {
-                                $.ajax({
-                                        type: "POST",
-                                        url: "{:url('admin/Goods/addphoto')}",
-                                        processData: false,
-                                        contentType: false,
-                                        data: formData,
-                                        success: function(data) {
-                                            layer.msg("修改成功");
-                                        },
-                                        error: function(data) {
-                                            console.log("失败")
-                                        }
-                                    });
-                                
-                            },
-                            error: function(data) {
+                            error: function (data) {
                                 console.log("失败")
                             }
                         });
-               
+
+                    },
+                    error: function (data) {
+                        console.log("失败")
+                    }
+                });
+
             });
 
-            $("#hot").on('click', ".change_text", function() {
-                        var texts = $(this).siblings('.texts');
-                        layer.prompt({ 
-                             title: '请输入修改的文字',
-                             btn: ['确定', '删除标签',], //可以无限个按钮
-                             formType: 2,
-                            }, function(text, index){
-                                texts.html(text);
-                                layer.close(index);
-                            }, function(index){
-                                layer.close(index);
-                            });
-                     
+            $("#hot").on('click', ".change_text", function () {
+                var texts = $(this).siblings('.texts');
+                var biaoqian = $(this).siblings('.biaoqian');
+                var that = $(this).parent();
+                layer.prompt({
+                    title: '请输入修改的文字',
+                    btn: ['确定', '取消',], //可以无限个按钮
+                    formType: 2
+                }, function (text, index) {
+                    console.log(text);
+                    texts.html(text);
+                    biaoqian.val()
+                    layer.close(index);
+                }
 
-                    })
-            $(".sever_list").on('click', ".change_text", function() {
-                        var texts = $(this).siblings('.texts');
-                        layer.prompt({
-                                title: '请输入修改的文字',
-                                formType: 2
-                            },
-                            function(text, index) {
-                                texts.html(text);
-                                layer.close(index);
+                );
 
-                            });
+            })
+            $(".sever_list").on('click', ".change_text", function () {
+                var texts = $(this).siblings('.texts');
+                layer.prompt({
+                    title: '请输入修改的文字',
+                    formType: 2
+                },
+                    function (text, index) {
+                        texts.html(text);
+                        layer.close(index);
 
-                    })
-            $(".add_biao").click(function() {
+                    });
+
+            })
+            $(".add_biao").click(function () {
                 var dhtml = "";
-                dhtml =
-                    '<div class="list"> <input type="checkbox" name="goods_sign" lay-skin="primary" title="" class="biaoqian"> <span class="texts">古色生香</span> <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> </div>'
-               $(this).before(dhtml);
+                dhtml += '<div class="list" style="position: relative;"> <input type="checkbox" name="goods_sign" lay-skin="primary" title="" class="biaoqian"> <span class="texts">古色生香</span> <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="width: 14px;height: 14px;    left: 15px;top: -5px;"></div>'
+                $(this).before(dhtml);
                 form.render();
             });
+            $("#hot").on('click', ".delect_img", function () {
+
+                $(this).parent().remove();
+            })
 
             //TODO点击取消按钮
-            $("#general_content").on('click', ".btu-cancel", function() {
+            $("#general_content").on('click', ".btu-cancel", function () {
                 $(this).parent(".add-names").addClass("noshow");
                 $(this).parent().siblings(".add-names").addClass("noshow");
                 $(this).parent().siblings(".add-name").removeClass("noshow");
             });
 
             // TODO商品规格变化
-            form.on('radio(guige)', function(data) {
+            form.on('radio(guige)', function (data) {
                 var checkval = data.value;
                 console.log(checkval);
                 if (checkval == "统一规格") {
@@ -1070,11 +1477,11 @@
             var num = 0;
             //TODO点击通用添加规格项目添加页面
             //	TODO点击添加添加规格名
-            $("#general_content").on('click', ".add-name", function() {
+            $("#general_content").on('click', ".add-name", function () {
                 $(this).addClass("noshow");
                 $(this).siblings(".add-names").removeClass("noshow");
             });
-            $("#general_content").on('click', ".guibtu-add", function() {
+            $("#general_content").on('click', ".guibtu-add", function () {
                 var text = $(this).parent().siblings(".add-names").children("input").val();
                 var data_id = $(this).data("id");
                 $.ajax({
@@ -1083,7 +1490,7 @@
                     data: {
                         "goods_name": text
                     },
-                    success: function(data) {
+                    success: function (data) {
                         data = eval("(" + data + ")");
                         layer.msg(data.info);
                         if (data.info == "成功") {
@@ -1094,23 +1501,23 @@
 
                         form.render('select');
                     },
-                    error: function(data) {
+                    error: function (data) {
                         console.log(data)
                     }
                 });
 
             });
-            $(".tan").click(function() {
+            $(".tan").click(function () {
                 src = $(this).data("id");
                 $(".tanchuang").removeClass("noshow");
                 $(".tanimg").attr("src", src);
             });
-            $(".tanchuang").click(function() {
+            $(".tanchuang").click(function () {
                 $(".tanchuang").addClass("noshow");
             });
 
             // 图片删除
-            $(".remove-img").click(function() {
+            $(".remove-img").click(function () {
                 var remove = $(this).parent();
                 var id = $(this).data("id");
                 var value = $(this).data("value");
@@ -1124,178 +1531,178 @@
                         "pid": title
                     },
                     dataType: "json",
-                    success: function(data) {
+                    success: function (data) {
 
                     },
-                    error: function(data) {
+                    error: function (data) {
                         console.log("错误");
                     }
                 });
 
             });
-              
+
         });
-         // 包装规格
-        $(".add_danwei").click(function(){
-            var danwei=''
-            danwei+='<div class="fuhao">=</div>';
-            danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-            danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+        // 包装规格
+        $(".add_danwei").click(function () {
+            var danwei = ''
+            danwei += '<div class="fuhao">=</div>';
+            danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+            danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="0">';
             $(this).before(danwei);
         });
-        $(".general_content").on("click",".add_danwei1",function(){
-           var i=parseInt($(this).data("id"));
-            var select=$(this).siblings(".packing").val();
-            var ids=$("#ids").val();
-             var thisa=$(this);
-                if(select!="0"){
-                    $.ajax({
-                            type: "POST",
-                            url:  "{:url('admin/Goods/standard')}",
-                            data: {
-                                "id": ids,
-                                "coding": select
-                            },
-                            async:false,
-                            dataType: "json",
-                            success: function(data) {
-                                console.log(data);
-                                    var danwei1='';
-                                    danwei1+='<div class="danwei_content">';
-                                    danwei1+='<div class="fuhao">=</div>';
-                                    danwei1+='<input type="text" name="'+data.data+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
-                                    danwei1+='<input type="text" name="'+data.data+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
-                                    danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
-                                    danwei1+='</div>';
-                                
-                                    thisa.before(danwei1);
-                                
-                            },
-                            error: function(data) {
-                                console.log("错误");
-                            }
-                        });
-                
-                }
-                else{
-                    alert("请选择规格编码");
-                }
-                $(this).data("id",i+1);
-          
-        });
-        $(".add_danwei2").click(function(){
-            if($(".packings").find("option").length!=1){
-                var danwei2='';
-                danwei2+='<div class="form-item general" style="align-items: center; position: relative;">';
-                danwei2+='<label class="form-label"></label>';
-                danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
-                danwei2+='<select name="" class="packing" >';
-                danwei2+='<option value="0">请选择规格编码</option>';
-                for(var j=0;j<codings.length;j++){
-                    danwei2+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
-                }
-                danwei2+='</select>';
-                danwei2+='<div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>';
-                danwei2+='</div>';
-                danwei2+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
-                danwei2+=' </div>';
-                $(this).parent().before(danwei2)
-            }
-           else{
-                 alert("请先添加规格编码")
-           }
-        });
-        
-        $(".general-kuang").on('focus', ".coding", function() {
-            $(this).data("title",$(this).val());
-        });
-        
-        $(".general-kuang").on('change', ".coding", function() {
-           var title=$(this).data("title");
-          
-           if($(this).data("title")==''){
-               var dhtmlq='';
-               dhtmlq+=' <option value="'+$(this).val()+'">'+$(this).val()+'</option>';
-             $(".packing").append(dhtmlq);
-             $(this).data("title",$(this).val());
-                codings.push($(this).val());
-           }
-           else{
-               
-            //   for(var qq=0;qq<$("input[name='"+title+"_num[]']").length;qq++){
-                    $("input[name='"+title+"_num[]']").attr('name',$(this).val()+"_num[]");   
-                    $("input[name='"+title+"_unit[]']").attr('name',$(this).val()+"_unit[]");  
-            //    }
-                $(".packing option[value='"+$(this).data("title")+"']").text($(this).val());
-                $(".packing option[value='"+$(this).data("title")+"']").val($(this).val());
-              
-                for(var i=0;i<codings.length;i++){
-                    if(codings[i]==$(this).data("title")){
-                        codings[i]=$(this).val();
-                    }
-                }
-                $(this).data("title",$(this).val());
-           }
-        //    console.log(codings);
-        });
-        $(".general_content").on('click', ".delect_img", function() {
-           $(this).parent().siblings(".add_danwei1").data("id", parseInt($(this).parent().siblings(".add_danwei1").data("id"))-1);
-        
-           $(this).parent().remove();
-        })
-        $(".general_content").on('change', ".packing", function() {
-            var k=0;
-          for(var q=0;q<$(".packing").length;q++){
-             if($(".packing")[q].value==$(this).val()){
-                 k++;
-             }
-          }
-          if(k>1){
-             
-            $(this).children("option").remove();
-            var danwei4='';
-            danwei4+='<option value="0">请选择规格编码</option>';
-            for(var j=0;j<codings.length;j++){
-                    danwei4+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
-             }
-
-             $(this).append(danwei4);
-          }
-          else{
-              var ids=$("#ids").val();
-             var coding=$(this).val();
-             var data_id=null;
-             var change_name= $(this).siblings(".danwei_content").children("input")
-              $.ajax({
+        $(".general_content").on("click", ".add_danwei1", function () {
+            var i = parseInt($(this).data("id"));
+            var select = $(this).siblings(".packing").val();
+            var ids = $("#ids").val();
+            var thisa = $(this);
+            if (select != "0") {
+                $.ajax({
                     type: "POST",
-                    url:  "{:url('admin/Goods/standard')}",
+                    url: "{:url('admin/Goods/standard')}",
                     data: {
                         "id": ids,
-                        "coding": coding
+                        "coding": select
                     },
-                    async:false,
+                    async: false,
                     dataType: "json",
-                    success: function(data) {
+                    success: function (data) {
                         console.log(data);
-                        for(var k=0;k<change_name.length;k++){
-                        if( jiequ(change_name[k].name)=="num[]"){
-                            $("input[name='"+change_name[k].name+"']").attr('name',data.data+"_num[]")
-                        }
-                        else if( jiequ(change_name[k].name)=="umit[]"){
-                            $("input[name='"+change_name[k].name+"']").attr('name',data.data+"_unit[]")
-                        }
-                    }
+                        var danwei1 = '';
+                        danwei1 += '<div class="danwei_content">';
+                        danwei1 += '<div class="fuhao">=</div>';
+                        danwei1 += '<input type="text" name="' + data.data + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
+                        danwei1 += '<input type="text" name="' + data.data + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="1">';
+                        danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                        danwei1 += '</div>';
+
+                        thisa.before(danwei1);
+
                     },
-                    error: function(data) {
+                    error: function (data) {
                         console.log("错误");
                     }
                 });
 
-             
-         
-            
-          }
-           
+            }
+            else {
+                alert("请选择规格编码");
+            }
+            $(this).data("id", i + 1);
+
+        });
+        $(".add_danwei2").click(function () {
+            if ($(".packings").find("option").length != 1) {
+                var danwei2 = '';
+                danwei2 += '<div class="form-item general" style="align-items: center; position: relative;">';
+                danwei2 += '<label class="form-label"></label>';
+                danwei2 += '<div class="form-input packing_specifications" style=" align-items: center;">';
+                danwei2 += '<select name="" class="packing" >';
+                danwei2 += '<option value="0">请选择规格编码</option>';
+                for (var j = 0; j < codings.length; j++) {
+                    danwei2 += '<option value="' + codings[j] + '">' + codings[j] + '</option>';
+                }
+                danwei2 += '</select>';
+                danwei2 += '<div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>';
+                danwei2 += '</div>';
+                danwei2 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
+                danwei2 += ' </div>';
+                $(this).parent().before(danwei2)
+            }
+            else {
+                alert("请先添加规格编码")
+            }
+        });
+
+        $(".general-kuang").on('focus', ".coding", function () {
+            $(this).data("title", $(this).val());
+        });
+
+        $(".general-kuang").on('change', ".coding", function () {
+            var title = $(this).data("title");
+
+            if ($(this).data("title") == '') {
+                var dhtmlq = '';
+                dhtmlq += ' <option value="' + $(this).val() + '">' + $(this).val() + '</option>';
+                $(".packing").append(dhtmlq);
+                $(this).data("title", $(this).val());
+                codings.push($(this).val());
+            }
+            else {
+
+                //   for(var qq=0;qq<$("input[name='"+title+"_num[]']").length;qq++){
+                $("input[name='" + title + "_num[]']").attr('name', $(this).val() + "_num[]");
+                $("input[name='" + title + "_unit[]']").attr('name', $(this).val() + "_unit[]");
+                //    }
+                $(".packing option[value='" + $(this).data("title") + "']").text($(this).val());
+                $(".packing option[value='" + $(this).data("title") + "']").val($(this).val());
+
+                for (var i = 0; i < codings.length; i++) {
+                    if (codings[i] == $(this).data("title")) {
+                        codings[i] = $(this).val();
+                    }
+                }
+                $(this).data("title", $(this).val());
+            }
+            //    console.log(codings);
+        });
+        $(".general_content").on('click', ".delect_img", function () {
+            $(this).parent().siblings(".add_danwei1").data("id", parseInt($(this).parent().siblings(".add_danwei1").data("id")) - 1);
+
+            $(this).parent().remove();
+        })
+        $(".general_content").on('change', ".packing", function () {
+            var k = 0;
+            for (var q = 0; q < $(".packing").length; q++) {
+                if ($(".packing")[q].value == $(this).val()) {
+                    k++;
+                }
+            }
+            if (k > 1) {
+
+                $(this).children("option").remove();
+                var danwei4 = '';
+                danwei4 += '<option value="0">请选择规格编码</option>';
+                for (var j = 0; j < codings.length; j++) {
+                    danwei4 += '<option value="' + codings[j] + '">' + codings[j] + '</option>';
+                }
+
+                $(this).append(danwei4);
+            }
+            else {
+                var ids = $("#ids").val();
+                var coding = $(this).val();
+                var data_id = null;
+                var change_name = $(this).siblings(".danwei_content").children("input")
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Goods/standard')}",
+                    data: {
+                        "id": ids,
+                        "coding": coding
+                    },
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        for (var k = 0; k < change_name.length; k++) {
+                            if (jiequ(change_name[k].name) == "num[]") {
+                                $("input[name='" + change_name[k].name + "']").attr('name', data.data + "_num[]")
+                            }
+                            else if (jiequ(change_name[k].name) == "umit[]") {
+                                $("input[name='" + change_name[k].name + "']").attr('name', data.data + "_unit[]")
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        console.log("错误");
+                    }
+                });
+
+
+
+
+            }
+
         })
         // 包装规格
     </script>
