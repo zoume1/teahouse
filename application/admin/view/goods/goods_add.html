@@ -932,6 +932,9 @@
                             console.log(data)
                         }
                     });
+                    // 运费模板
+                var unit1 = [];
+                var unit2 = [];
 
                 Array.prototype.unique3 = function () {
                     var res = [];
@@ -944,9 +947,7 @@
                     }
                     return res;
                 }
-                // 运费模板
-                var unit1 = [];
-                var unit2 = [];
+                
                 
                 $(".general_content").on("blur", ".units", function () {
                     id = $(this).data("id");
