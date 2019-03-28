@@ -998,7 +998,7 @@ class  General extends  Controller{
             if(!empty($goods)){
                 $goods["goods_show_images"] = explode(",",$goods["goods_show_images"]);
                 if($goods["goods_standard"] == 1){
-                    $standard = db("analyse_special")->where("goods_id", $goods['id'])-> select();
+                    $standard = db("analyse_special")->where("goods_id", $goods['id'])->order('price asc')-> select();
                     $min = db("analyse_special")->where("goods_id", $goods['id'])-> min("price");
                     $line = db("analyse_special")->where("goods_id", $goods['id'])-> min("line");
                     $goods["goods_new_money"] = $min;
@@ -1007,6 +1007,7 @@ class  General extends  Controller{
                     $goods["goods_repertory"] = $standard[0]["stock"];
 
                 }
+
                 return ajax_success('传输成功', $goods);
             } else {
                 return ajax_error("数据为空");
