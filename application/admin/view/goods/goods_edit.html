@@ -844,64 +844,77 @@
                     </div>
                     <div class="form-item">
                         <label class="form-label">快递运费</label>
+                     
                         <div style="display: flex;flex-direction:column">
+                            {if !empty($value.goods_franking)}
                             <div class="form-input line" style="margin-bottom: 4px;">
-                                {if !empty($value.goods_franking)}
-                                <input type="radio" title="统一邮费" checked="">
+                                <input type="radio" title="统一邮费" checked="" name="aaa" value="0">
                                 <input type="number" name="goods_franking" $value="{$value.goods_franking}"
                                     lay-verify="title" autocomplete="off" placeholder="请输入  元" class="layui-input">
                                 </input>
                                 </input>
-                                {else}
-                                <input type="radio" title="统一邮费">
-                                <input type="number" name="goods_franking" lay-verify="title" autocomplete="off"
-                                    placeholder="请输入 元" class="layui-input"> </input>
+
+                            </div>
+                            <div class="form-input line" style="margin-bottom: 4px;">
+                                <input type="radio" title="运费模板" name="goods_franking" value="1" name="aaa">
+
+                            </div>
+                      
+                        {else}
+                            <div class="form-input line" style="margin-bottom: 4px;">
+                                <input type="radio" title="统一邮费" name="aaa" value="0">
+                                <input type="number" name="goods_franking" value="" lay-verify="title"
+                                    autocomplete="off" placeholder="请输入  元" class="layui-input">
                                 </input>
-                                {/if}
-                            </div>
-                            <div class="form-input line" style="margin-bottom: 4px;">
-                                <input type="radio" title="运费模板" name="aaa" value="1">
+                                </input>
 
                             </div>
                             <div class="form-input line" style="margin-bottom: 4px;">
-                                <input type="texr" title="运费模板" style="opacity: 0;width: 82px;">
-                                <div class="add_muban"> 添加运费模板</div>
+                                <input type="radio" title="运费模板" name="aaa" value="1" name="aaa" checked="">
+
                             </div>
-
-
-                            <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
+                            {/if}
+                      
+                       
+                        <div class="form-input line" style="margin-bottom: 4px;">
+                            <input type="texr" title="运费模板" style="opacity: 0;width: 82px;">
+                            <div class="add_muban"> 添加运费模板</div>
                         </div>
-
-                    </div>
-                    <div class="form-item">
-                        <label class="form-label">状态</label>
-                        <div class="form-input">
-                            {if $value.label==0}
-                            <input type="radio" name="label" value="0" title="暂不上架" checked="">
-                            <input type="radio" name="label" value="1" title="立即上架"> {else}
-                            <input type="radio" name="label" value="0" title="暂不上架">
-                            <input type="radio" name="label" value="1" title="立即上架" checked="">{/if}
-                        </div>
+                        
+                        <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
+                 
                     </div>
 
-                    <div class="form-item">
-                        <label class="form-label">首页推荐</label>
-                        <div class="form-input">
-                            {if $value.status == 1}
-                            <input type="radio" name="status" value="1" title="首页推荐" checked="">
-                            <input type="radio" name="status" value="0" title="首页不推荐"> {else}
-                            <input type="radio" name="status" value="1" title="首页推荐">
-                            <input type="radio" name="status" value="0" title="首页不推荐" checked="">{/if}
-                        </div>
+                </div>
+                <div class="form-item">
+                    <label class="form-label">状态</label>
+                    <div class="form-input">
+                        {if $value.label==0}
+                        <input type="radio" name="label" value="0" title="暂不上架" checked="">
+                        <input type="radio" name="label" value="1" title="立即上架"> {else}
+                        <input type="radio" name="label" value="0" title="暂不上架">
+                        <input type="radio" name="label" value="1" title="立即上架" checked="">{/if}
                     </div>
-                    <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
-                            <button type="button" class="layui-btn layui-btn-primary"
-                                onClick="javascript :history.back(-1);">返回</button>
-                        </div>
+                </div>
+
+                <div class="form-item">
+                    <label class="form-label">首页推荐</label>
+                    <div class="form-input">
+                        {if $value.status == 1}
+                        <input type="radio" name="status" value="1" title="首页推荐" checked="">
+                        <input type="radio" name="status" value="0" title="首页不推荐"> {else}
+                        <input type="radio" name="status" value="1" title="首页推荐">
+                        <input type="radio" name="status" value="0" title="首页不推荐" checked="">{/if}
                     </div>
-                    {/volist}
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+                        <button type="button" class="layui-btn layui-btn-primary"
+                            onClick="javascript :history.back(-1);">返回</button>
+                    </div>
+                </div>
+                {/volist}
     </form>
 
     {/block}
@@ -1067,7 +1080,8 @@
                             add_muban1 += '</select><br />';
                             add_muban1 += '<select name="templet_id[]"  class="role_list">';
                             for (var h = 0; h < templet.length; h++) {
-                                if (data.data.templet_name[i] == templet[h].name) {
+
+                                if (data.data.templet_name[i].name == templet[h].name) {
                                     add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
                                 }
                                 else {
@@ -1103,7 +1117,8 @@
                             add_muban1 += '</select><br />';
                             add_muban1 += '<select name="templet_id[]"  class="role_list">';
                             for (var h = 0; h < templet.length; h++) {
-                                if (data.data.templet_name[i] == templet[h].name) {
+
+                                if (data.data.templet_name[i].name == templet[h].name) {
                                     add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
                                 }
                                 else {
@@ -1309,6 +1324,7 @@
                 var unit2_a = unit2.unique3();
                 var val = $('input[name="goods_standard"]:checked').val();
                 var vals = $('input[name="aaa"]:checked').val();
+                console.log($('input[name="aaa"]:checked'));
                 var text = $(".monomer").val();
                 var nums = 0;
                 for (var i = 0; i < unit1_a.length; i++) {
@@ -1340,10 +1356,10 @@
                     alert("相同的单位不能两套模板")
                     return false;
                 }
+                console.log(vals);
+                console.log(val);
                 if (vals == "1") {
                     if (val == "0") {
-                        console.log($(".muban").length);
-                        console.log(unit1_a.length);
                         if ($(".muban").length != unit1_a.length) {
                             alert("你填写的单位必须有对应的模板");
                             return false;
@@ -1358,7 +1374,6 @@
                         }
                     }
                 }
-
 
             });
 
