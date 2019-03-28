@@ -140,10 +140,6 @@ return [
 
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-        // "__AdminCss__"=>"/static/admin/static",
-        // "__UPLOADS__"=>"/teahouse/public/uploads",
-        // "__UPLOAD__"=>"/teahouse/public/upload",
-        // "__UEDITOR__"=>"/teahouse/public/ueditor",
         "__UPLOADS__"=>"/uploads",
         "__UPLOAD__"=>"/upload",
         "__UEDITOR__"=>"/ueditor",
