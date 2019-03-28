@@ -493,7 +493,7 @@
             <label class="form-label">生产日期</label>
             <div class="form-input">
                 <span class="time">
-                    <input name="date_min" type="text" class="text datetimepicker layui-input" readonly="readonly"
+                    <input name="date" type="text" class="text datetimepicker layui-input" readonly="readonly"
                         id="beginTime" value="">
                 </span>
                 <div class="tips">选填项</div>
@@ -529,6 +529,7 @@
                 <div class="tips">
                     *在商品列表页、详情页标题下面展示卖点信息，建议60字以内 <span class="tan" style="color: #0E90D2;"
                         data-id="__STATIC__/admin/common/img/u27672.png">查看实例</span>
+
                 </div>
             </div>
         </div>
@@ -931,6 +932,9 @@
                             console.log(data)
                         }
                     });
+                    // 运费模板
+                var unit1 = [];
+                var unit2 = [];
 
                 Array.prototype.unique3 = function () {
                     var res = [];
@@ -943,9 +947,7 @@
                     }
                     return res;
                 }
-                // 运费模板
-                var unit1 = [];
-                var unit2 = [];
+                
                 
                 $(".general_content").on("blur", ".units", function () {
                     id = $(this).data("id");
@@ -1131,15 +1133,20 @@
                     var vals = $('input[name="aaa"]:checked').val(); 
                     var text=$(".monomer").val();
                     var nums=0;
-                        for(var i=0;i<unit1_a.length;i++){
+                    for(var i=0;i<unit1_a.length;i++){
                             if(unit1_a[i]==text){
                                   nums++;
                             }
                         }
+                    if(val=="0"){
                         if(nums==0){
                           alert("你输入的单位前面没有添加");
                           return false;
                         }
+                     
+                    }
+                      
+                      
                         
                     var num=0;
                     for(var i=0;i<$(".muban_list").length;i++){
