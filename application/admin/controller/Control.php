@@ -184,7 +184,6 @@ class  Control extends  Controller{
             'query' => request()->param(),
         ]);
         $enter_meal = db("enter_meal")->field("name")->select();
-           
         return view("control_order_index",["order"=>$order,"enter_meal"=>$enter_meal]);
     }
 
@@ -196,7 +195,6 @@ class  Control extends  Controller{
     public function control_order_add($id){
         $store_order = db("store")->where("id",1)->select();
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
-             
         return view("control_order_add",["store_order"=>$store_order]);
     }
 
