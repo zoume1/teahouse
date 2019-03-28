@@ -70,7 +70,19 @@
         .bd .tbselected a{color: #fff;}
         .bd  .addqq img{vertical-align: text-bottom;}
         .bd li a{color: #404040; text-decoration: none; display: inline-block; height: 48px;}
-        .bd .p20{padding: 0 20px;}
+        .bd .p20{padding: 20px;}
+        .bd .attributes{text-align: center;}
+        .bd .attributes img{width: 90%;}
+        .rate-grid{min-height: 800px;}
+        .rate-grid .author-img{width: 100px;}
+        .rate-grid tr{vertical-align: top;}
+        .rate-grid .master .author-info{font-size: 16px; color: #666; line-height: 3em;}
+        .rate-grid .author-info strong{color: #222;}
+        .rate-grid .author-info .author-name{margin-right: 100px;}
+        .rate-grid .master .fulltxt{font-size: 16px; color: #333;}
+        .rate-grid .reply{padding: 10px; background-color: #e4e4e4;}
+        .rate-grid .reply span{color: #f10;}
+        .rate-grid .master .time{font-size: 14px; color: #666; margin-bottom: 8px;}
     </style>
 </head>
 
@@ -90,8 +102,8 @@
                                 <div class="price-wrap">
                                     <div class="detail-price clearfix">
                                         <span class="fl">价格</span>
-                                        <strong>￥{{v.goods_new_money}}</strong>
-                                        <del>￥{{v.goods_bottom_money}}</del>
+                                        <strong>￥{{selectPrice ? selectPrice : v.goods_new_money}}</strong>
+                                        <del>￥{{selectDelPrice ? selectDelPrice : v.goods_bottom_money}}</del>
                                     </div>
                                     <div class="detail-eva clearfix">
                                         <div class="eva-wrap fl">
@@ -111,16 +123,20 @@
                                             v-for="(v, i) in v.standard">
                                             <a href="javascript:void(0);" 
                                                 :class="{selected: specSelectedIndex == i}"
-                                                @click="selectSpec(i)">{{v.name}}</a>
+                                                @click="selectSpec(i, v)">{{v.name}}</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="tb-amount">
                                     <span class="fl spec-metatit">购买数量</span>
                                     <div class="tb-amount-wrap">
-                                        <span class="amount-decrease">-</span>
-                                        <input type="text" class="amount-input" value="1">
-                                        <span class="amount-increase">+</span>
+                                        <span class="amount-decrease"
+                                            @click="decrease">-</span>
+                                        <input type="text" class="amount-input"
+                                            v-model="number"
+                                            @keyup="">
+                                        <span class="amount-increase"
+                                            @click="increase">+</span>
                                     </div>
                                     <div class="msg" v-if="outStock">您所填写的数量超过库存！</div>
                                 </div>
@@ -134,7 +150,7 @@
                                 </div>
                                 <div class="tb-action clearfix">
                                     <div class="tb-btn-back fl">
-                                        <button>返回</button>
+                                        <button @click="backPage">返回</button>
                                     </div>
                                     <div class="tb-btn-buy fl">
                                         <button>立即购买</button>
@@ -206,7 +222,58 @@
                 <div class="attributes p20" v-show="switchTabBd">
                     <div v-html="v.goods_text"></div>
                 </div>
-                <div class="rate p20" v-show="!switchTabBd">222</div>
+                <div class="rate p20" v-show="!switchTabBd">
+                    <div class="rate-grid">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="author-img">
+                                        <img src="__STATIC__/admin/common/img/icon-qq.png" width="50" height="50">
+                                    </td>
+                                    <td class="master">
+                                        <div class="author-info clearfix">
+                                            <p class="author-name fl">店铺：<strong>滴金茶叶</strong></p>
+                                            <p class="author-code fl">邀请码：<strong>1234</strong></p>
+                                        </div>
+                                        <div class=" fulltxt">香港就如《攻壳机动队》里描绘的那样，垂直，密集的建筑，有着挂毯一样的美丽质感。 但在这个全球最密集的城市，“死后能住进棺材”纯属是妄念</div>
+                                        <div class="tm-m-photos">
+                                            <ul class="tm-m-photos-thumb">
+                                                <li v-for="(v, i) in comImgList"
+                                                    @click="zoomImg(i, v)"
+                                                    :class="{tmCurrent: tmCurrKey==i}">
+                                                    <img :src="v">
+                                                    <b class="tm-photos-arrow"></b>
+                                                </li>
+                                            </ul>
+                                            <div class="tm-m-photo-viewer"
+                                                v-show="tmCurrKey!=-1"
+                                                :style="showImgWH">
+                                                <img :src="showImgUrl"
+                                                    @click="zoomImg(tmCurrKey)"> 
+                                                <a class="tm-m-photo-viewer-navleft"
+                                                    :class="{hov: hovKey==1}"
+                                                    @mouseenter="showPrevNext(1)"
+                                                    @mouseleave="showPrevNext(0)">
+                                                    <i @click="prevImg(comImgList[tmCurrKey-1])"></i>
+                                                </a>
+                                                <a class="tm-m-photo-viewer-navright"
+                                                    :class="{hov: hovKey==2}"
+                                                    @mouseenter="showPrevNext(2)"
+                                                    @mouseleave="showPrevNext(0)">
+                                                    <i @click="nextImg(comImgList[tmCurrKey+1])"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <p class="time">2018-10-26</p>
+                                        <div class="reply">
+                                            <div class="fulltxt"><span>官方回复：</span>香港就如《攻壳机动队》里描绘的那样，垂直，密集的建筑，有着挂毯一样的美丽质感。 但在这个全球最密集的城市，“死后能住进棺材”纯属是妄念。</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -214,28 +281,99 @@
     <script src="__STATIC__/admin/common/js/vue.js"></script>
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
     <script src="__STATIC__/admin/common/js/vue-router.js"></script>
+
     <script>
         var vm = new Vue({
             el: '#app',
             data: {
-                selectedIndex: 0,
-                selectedImgUrl: '',
-                specSelectedIndex: 0,
+                selectedIndex: 0, //商品展示图 索引
+                selectedImgUrl: '', //商品展示图 url
+                specSelectedIndex: 0, //商品规格 索引
+                selectPrice: 0, //选择规格后的价格
+                selectDelPrice: 0, //选择规格后的划线价
+                selectStock: 111, // 选择规格后的库存
+                number: 1, //购买数量
+                outStock: false, //输入数量超出库存
                 dataObj: [],
-                aldData: [],
-                outStock: false,
-                switchBd: true,
-                switchTabBd: true,
+                aldData: [],//再看看data
+                switchBd: true,//tab商品详情，累计评价
+                switchTabBd: true,//tab 商品详情，累计评价内容
+                tmCurrKey: -1,//放大缩小图片样式索引
+                showImgUrl: '',//放大图片路径
+                showImgWH: {
+                    width: '0px',//放大图片 宽高
+                    height: '0px',
+                },
+                hovKey: 0,
                 id: null,
+                comImgList: [
+                    'https://img.alicdn.com/bao/uploaded/i3/O1CN01zEVRla1yKWhRqgQO4_!!0-rate.jpg_400x400.jpg',
+                    'https://img.alicdn.com/bao/uploaded/i3/O1CN01uhZHPm1yKWhSq7dqy_!!0-rate.jpg_400x400.jpg'
+                ]
             },
             methods: {
+                decrease: function(){
+                    this.number > 1 ? this.number -- : '';
+                    this.number <= this.selectStock ? this.outStock = false : '';
+                },
+                increase: function(){
+                    this.number < this.selectStock ? this.number ++ : this.outStock = true;
+                },
+                // 返回
+                backPage: function(){
+                    location.href = 'added_service_index';
+                },
+                showPrevNext: function(num){
+                    if(this.tmCurrKey == 0){
+                        num == 1 ? '' : this.hovKey = num;
+                    }else if(this.tmCurrKey == this.comImgList.length-1){
+                        num == 2 ? '' : this.hovKey = num;
+                    }
+                },
+                // 获取图片宽高
+                getImgWH: function(url){
+                    var img = new Image(),
+                        _this = this;
+                    img.src = url;
+                    img.onload = function(){
+                        _this.showImgWH.width = img.width + 'px';
+                        _this.showImgWH.height = img.height + 'px';
+                    }
+                },
+                // 查看图片 放大
+                zoomImg: function(i, v){
+                    if(this.tmCurrKey == i){
+                        // 缩小
+                        this.tmCurrKey = -1;
+                    }else{
+                        // 放大
+                        this.tmCurrKey = i;
+                        this.showImgUrl = v;
+                        this.getImgWH(v);
+                    }
+                },
+                // 上一张
+                prevImg: function(url){
+                    this.showImgUrl = url;
+                    this.getImgWH(url);
+                    this.tmCurrKey --;
+                },
+                // 下一张
+                nextImg: function(url){
+                    this.showImgUrl = url;
+                    this.getImgWH(url);
+                    this.tmCurrKey ++;
+                },
                 selectedImg: function(_index, imgUrl){
                     this.selectedIndex = _index;
                     this.selectedImgUrl = imgUrl;
                 },
                 // 选择规格
-                selectSpec: function(_index){
+                selectSpec: function(_index, v){
                     this.specSelectedIndex = _index;
+                    this.selectPrice = v.price;
+                    this.selectDelPrice = v.line;
+                    this.selectStock = +v.stock;
                 },
                 // 拼接图片url
                 getImgUrl: function(url){
@@ -266,11 +404,13 @@
                         console.log(res.status, res.statusText);
                     })
                 },
+               
             },
             mounted: function(){
                 this.getData();
                 this.asideData();
             }
         })
+
     </script>
 </html>
