@@ -306,7 +306,6 @@ class  Wxapps extends  Controller{
                                     $data['msmk'] = [];
                                 }
                             }
-                            halt($v);
                         }else if ($v['id'] == "pt") {
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
@@ -781,6 +780,7 @@ class  Wxapps extends  Controller{
                     }
                 }
             }
+            halt(111);
         }
         $pageset = Db::table("ims_sudu8_page_diypageset")->where("uniacid", $uniacid)->find();
         if ($pageset) {
