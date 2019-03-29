@@ -84,7 +84,6 @@ class  Wxapps extends  Controller{
             ->where("id", $pageid)
             ->where("uniacid", $uniacid)
             ->find();
-        halt($data);
         $data['foot'] = $foot['foot_is'] ? $foot['foot_is'] : 1;
         if ($data['page'] != '') {
             //将已序列化的字符串还原回 PHP 的值
@@ -118,6 +117,7 @@ class  Wxapps extends  Controller{
 
                             $array1=array_merge($a,$b);
                             $array2=array_merge($array1,$c);
+                            halt($array2);
                             $date = array_column($array2, 'creattime');
                             array_multisort($date,SORT_ASC,$array2);
                             $v['count']=array();
