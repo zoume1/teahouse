@@ -578,7 +578,6 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if($v['id'] == "anniu"){
-                            halt($v);
                             if(isset($v['params']['linktype'])){
                                 if($v['params']['linktype'] == 'mini'){
                                     if(strpos($v['params']['link'], ",") !== false){
@@ -626,6 +625,7 @@ class  Wxapps extends  Controller{
                                 }
 
                             }
+                            halt($vy);
                         }else if ($v['id'] == "picturew") {
                             $count = count($v['data']);
                             $data['items'][$k]['count'] = $count;
