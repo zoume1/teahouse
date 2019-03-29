@@ -53,4 +53,90 @@ class Crowd extends Controller
     }
 
 
+
+    /**
+     * [正在众筹商品]
+     * 郭杨
+     */
+    public function crowd_now(Request $request)
+    {
+        if ($request->isPost()) {
+            $date_time = time();
+            $record = Db::name("crowd_goods")
+            ->where("label",1)
+            ->where("status",1)
+            ->count();
+
+            $crowd = Db::name("crowd_goods")
+                ->where("label",1)
+                ->where("status",1)
+                ->field("id,project_name,end_time,goods_show_image")
+                ->select();
+                
+            if(!empty($crowd)){
+                foreach($crowd as $key => $value)
+                {
+                    $crowd[$key]["days"] = intval(($crowd[$key]["end_time"]-$date_time)/86400);
+                    $special[$key] = db("crowd_special")
+                        ->where("goods_id",$crowd[$key]["id"])
+                        ->field("price,cost,collecting_money,collecting")
+                        ->limit(1)
+                        ->order("cost asc")
+                        ->find();
+                    $crowd[$key]["cost"] = $special[$key]["cost"];
+                    $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
+                    $crowd[$key]["collecting"] = $special[$key]["collecting"];
+                    
+                }
+                $count = count($crowd);
+                $arandom = array_rand($crowd,$count);
+                foreach($crowd as $key => $value){
+                    if(in_array($key,$arandom)){
+                        $arr[] = $value;
+                    }
+                }
+                ajax_success('传输成功', $arr);
+            } else {
+                return ajax_error("数据为空");
+            }
+        }
+    }
+
+
+    /**
+     * [支持众筹商品]
+     * 郭杨
+     */
+    public function crowd_support(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only('id')['id'];
+            $date_time = time();
+            $crowd = Db::name("crowd_goods")
+                ->where("id",$id)
+                ->field("id,project_name,end_time,goods_show_image,goods_show_images,company_name,company_name1,company_time,goods_text,team,text")
+                ->select();   
+            if(!empty($crowd)){
+                foreach($crowd as $key => $value)
+                {
+                    $crowd[$key]["days"] = intval(($crowd[$key]["end_time"]-$date_time)/86400);
+                    $special[$key] = db("crowd_special")
+                        ->where("goods_id",$crowd[$key]["id"])
+                        ->field("price,cost,collecting_money,collecting")
+                        ->limit(1)
+                        ->order("cost asc")
+                        ->find();
+                    $crowd[$key]["cost"] = $special[$key]["cost"];
+                    $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
+                    $crowd[$key]["collecting"] = $special[$key]["collecting"];
+                    
+                }
+                
+                ajax_success('传输成功', $crowd);
+            } else {
+                return ajax_error("数据为空");
+            }
+        }
+    }
+
 }
