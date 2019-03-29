@@ -288,7 +288,9 @@ Route::group("",[
 
 
     /*众筹商品*/
-    "crowd_index"=>"index/Crowd/crowd_index",//众筹商品首页显示
+    "crowd_index"=>"index/Crowd/crowd_index",       //众筹商品首页显示
+    "crowd_now"=>"index/Crowd/crowd_now",           //正在众筹商品
+    "crowd_support"=>"index/Crowd/crowd_support",   //众筹商品去支持
 
 
 
