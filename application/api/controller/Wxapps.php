@@ -936,5 +936,42 @@ class  Wxapps extends  Controller{
         $res['data'] = $newuserinfo;
         return json_encode($res);
     }
+    /*原默认方法*/
+    public function doPageAppbase()
+    {
+        $uniacid = input("uniacid");
+        $code = input("code");
+        $app = Db::table('applet')->where("id", $uniacid)->find();
+        $appid = $app['appID'];
+        $appsecret = $app['appSecret'];
+        $url = "https://api.weixin.qq.com/sns/jscode2session?appid=" . $appid . "&secret=" . $appsecret . "&js_code=" . $code . "&grant_type=authorization_code";
+        $weixin = file_get_contents($url);
+        $jsondecode = json_decode($weixin); //对JSON格式的字符串进行编码
+        $array = get_object_vars($jsondecode);//转换成数组
+        if (isset($array['errcode'])) {
+            $data['res'] = 2;
+            $result['data'] = $data;
+            return json_encode($result);
+            exit;
+        }
+        $openid = $array['openid'];//输出openid
+        if ($openid) {
+            $data = array(
+                "uniacid" => $uniacid,
+                "openid" => $openid,
+                "createtime" => time(),
+            );
+            $userinfo = Db::table('ims_sudu8_page_user')->where("openid", $openid)->where("uniacid", $uniacid)->find();
+            if (count($userinfo) == 0) {
+                Db::table('ims_sudu8_page_user')->insert($data);
+                $data['res'] = 1;
+                $adata['data'] = $data;
+                return json_encode($adata);
+            } else {
+                $adata['data'] = $userinfo;
+                return json_encode($adata);
+            }
+        }
+    }
 
 }
