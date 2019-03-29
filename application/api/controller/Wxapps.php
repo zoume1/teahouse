@@ -65,6 +65,7 @@ class  Wxapps extends  Controller{
         return json_encode($result);
     }
 
+
     public function doPageDiypage()
     {
         $uniacid = input("uniacid");
@@ -472,7 +473,8 @@ class  Wxapps extends  Controller{
                         }else if (isset($v['params']['noticedata']) && intval($v['params']['noticedata']) == 0) {
                             /*读取系统公告*/
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
-                                $sourceid = explode(':', $v['params']['sourceid'])[1];
+//                                $sourceid = explode(':', $v['params']['sourceid'])[1];
+                                $sourceid = explode(':', $v['params']['sourceid'])[0];
                                 $count = $v['params']['noticenum'];
                                 $list = Db::query("SELECT id,title FROM ims_sudu8_page_products WHERE `uniacid` = {$uniacid} AND `type` = 'showArt' AND `is_sale`=0 AND (`cid` = {$sourceid} or `pcid` = {$sourceid} ) ORDER BY id DESC LIMIT 0,{$count}");
                                 if ($list) {
@@ -791,6 +793,8 @@ class  Wxapps extends  Controller{
         return json_encode($result);
     }
 
+
+
     public function doPageGetFoot()
     {
         $uniacid = input("uniacid");
@@ -904,6 +908,70 @@ class  Wxapps extends  Controller{
         }
         $adata['guiz'] = Db::table('ims_sudu8_page_fx_gz')->where("uniacid", $uniacid)->field("one_bili,two_bili,three_bili,uniacid")->find();
         //return $this->result(0, 'success',$isbindfxs);
+    }
+
+    // 获取全局情况
+    public function dopageglobaluserinfo()
+    {
+        $uniacid = input('uniacid');
+        $openid = input('openid');
+        $newuserinfo = Db::table('ims_sudu8_page_user')->where("uniacid", $uniacid)->where("openid", $openid)->find();
+        $parent_id = $newuserinfo['parent_id'];
+        if ($parent_id != '0') {
+            $tjr = Db::table('ims_sudu8_page_user')->where("uniacid", $uniacid)->where("openid", $parent_id)->field("openid,fxs")->find();
+            $tjrname = Db::table('ims_sudu8_page_user')->where("uniacid", $uniacid)->where("openid", $tjr['openid'])->field("nickname")->find();
+            if ($tjr['fxs'] == 2) {
+                $newuserinfo['tjr'] = rawurldecode($tjrname['nickname']);
+            } else {
+                $newuserinfo['tjr'] = "您是由平台方推荐";
+            }
+        } else {
+            $newuserinfo['tjr'] = "您是由平台方推荐";
+        }
+
+        if(isset($newuserinfo['nickname'])){
+            $newuserinfo['nickname'] = rawurldecode($newuserinfo['nickname']);
+        }
+
+        $res['data'] = $newuserinfo;
+        return json_encode($res);
+    }
+    /*原默认方法*/
+    public function doPageAppbase()
+    {
+        $uniacid = input("uniacid");
+        $code = input("code");
+        $app = Db::table('applet')->where("id", $uniacid)->find();
+        $appid = $app['appID'];
+        $appsecret = $app['appSecret'];
+        $url = "https://api.weixin.qq.com/sns/jscode2session?appid=" . $appid . "&secret=" . $appsecret . "&js_code=" . $code . "&grant_type=authorization_code";
+        $weixin = file_get_contents($url);
+        $jsondecode = json_decode($weixin); //对JSON格式的字符串进行编码
+        $array = get_object_vars($jsondecode);//转换成数组
+        if (isset($array['errcode'])) {
+            $data['res'] = 2;
+            $result['data'] = $data;
+            return json_encode($result);
+            exit;
+        }
+        $openid = $array['openid'];//输出openid
+        if ($openid) {
+            $data = array(
+                "uniacid" => $uniacid,
+                "openid" => $openid,
+                "createtime" => time(),
+            );
+            $userinfo = Db::table('ims_sudu8_page_user')->where("openid", $openid)->where("uniacid", $uniacid)->find();
+            if (count($userinfo) == 0) {
+                Db::table('ims_sudu8_page_user')->insert($data);
+                $data['res'] = 1;
+                $adata['data'] = $data;
+                return json_encode($adata);
+            } else {
+                $adata['data'] = $userinfo;
+                return json_encode($adata);
+            }
+        }
     }
 
 }

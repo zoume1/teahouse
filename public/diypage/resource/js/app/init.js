@@ -684,7 +684,7 @@ define(['jquery', 'bootstrap'], function($, bs) {
 
 
 
-		var url = "/index/diypage/selecturl";
+		var url = "/admin/test_select_url";
 
 		$.ajax(url, {
 
