@@ -199,7 +199,6 @@ class  Wxapps extends  Controller{
                         }
                         if ($v['id'] == "banner") {
                             $v['data'] = array_values($v['data']);
-                            halt($v['data']);
                             if ($v['data']) {
                                 $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
                                 $v['params']['imgw'] = explode('"', $imginfo[0])[1];
