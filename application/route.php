@@ -755,6 +755,14 @@ Route::group("admin",[
 
 ]);
 
+Route::group("api",[
+    "doPagehomepage"=>"api/Wxapps/doPagehomepage",//Diy方法开始
+    "doPagegetNewSessionkey"=>"api/Wxapps/doPagegetNewSessionkey",//手机号自动获取时的sessionkey
+    "doPageDiypage"=>"api/Wxapps/doPageDiypage", //http://teahouse.com/api/doPageDiypage?uniacid=1&pageid=1
+    "doPageGetFoot"=>"api/Wxapps/doPageGetFoot", //http://teahouse.com/api/doPageGetFoot?uniacid=1&foot=1
+    "doPagebindfxs"=>"api/Wxapps/doPagebindfxs", //http://teahouse.com/api/doPageGetFoot?uniacid=1&foot=1
+]);
+
 Route::miss("public/miss");
 
 

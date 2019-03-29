@@ -139,8 +139,18 @@ class Login extends Controller{
                         ->find();
                     if($ress)
                     {
+                        // 前台使用
                         Session::set("user",$ress["id"]);
                         Session::set('member',$datas);
+                        //后台使用
+                        $userInfo = db("admin")
+                            ->where("account",$user_mobile)
+                            ->where("status","<>",1)
+                            ->select();
+                        if($userInfo){
+                            Session("user_id", $userInfo[0]["id"]);
+                            Session("user_info", $userInfo);
+                        }
                         return ajax_success('登录成功',$datas);
                     }else{
                         ajax_error('此用户已被管理员设置停用',$datas);
@@ -161,8 +171,12 @@ class Login extends Controller{
      */
     public function logout(Request $request){
         if($request->isPost()){
+            //前台退出
             Session('member',null);
             Session::delete("user");//用户推出
+            //后台退出
+            Session("user_id",null);
+            Session("user_info", null);
             return ajax_success('退出成功',['status'=>1]);
         }
     }
