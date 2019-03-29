@@ -139,6 +139,7 @@ class Photo extends Controller{
 
             $pathinfo = pathinfo($oringal_name);
 
+
             // var_dump($pathinfo);exit;
             // 要上传图片的本地路径
             $ext = $pathinfo['extension'];
@@ -167,7 +168,8 @@ class Photo extends Controller{
                 $data['imgurl'] = $ret['key'];
                 $data['type'] = 2;
                 $pid = Db::table("ims_sudu8_page_pic")->insertGetId($data);
-                $arr = array("url"=>$qiniu_info['domain'].'/'.$ret['key'],"pid"=>$pid);
+//                $arr = array("url"=>$qiniu_info['domain'].'/'.$ret['key'],"pid"=>$pid);
+                $arr = array("url"=>"/".$ret['key'],"pid"=>$pid);
                 return json_encode($arr);
             }
         }else if($remote == 3) {
