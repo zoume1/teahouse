@@ -96,6 +96,7 @@ class  Wxapps extends  Controller{
             $data['items'] = array_values(unserialize($data['items']));
             include 'VideoInfo.php';
             $videoInfo = new videoInfo();
+            halt($videoInfo);
             // dump($data['items']);die;
             foreach ($data['items'] as $k => &$v) {
                 if (is_array($v)) {
@@ -114,10 +115,9 @@ class  Wxapps extends  Controller{
                             $a=Db::table('ims_sudu8_page_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
                             $b=Db::table('ims_sudu8_page_pt_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
                             $c=Db::table('ims_sudu8_page_duo_products_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
-
                             $array1=array_merge($a,$b);
                             $array2=array_merge($array1,$c);
-                            halt($array2);
+
                             $date = array_column($array2, 'creattime');
                             array_multisort($date,SORT_ASC,$array2);
                             $v['count']=array();
