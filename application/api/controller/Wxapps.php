@@ -578,6 +578,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if($v['id'] == "anniu"){
+                            halt($v);
                             if(isset($v['params']['linktype'])){
                                 if($v['params']['linktype'] == 'mini'){
                                     if(strpos($v['params']['link'], ",") !== false){
@@ -780,7 +781,6 @@ class  Wxapps extends  Controller{
                     }
                 }
             }
-            halt(111);
         }
         $pageset = Db::table("ims_sudu8_page_diypageset")->where("uniacid", $uniacid)->find();
         if ($pageset) {
