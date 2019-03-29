@@ -688,6 +688,7 @@ Route::group("admin",[
 
     /*店铺*/
     "general_index"=>"admin/General/general_index",             //店铺信息
+    "general_address"=>"admin/General/general_address",             //店铺信息收货地址
     "general_update"=>"admin/General/general_update",             //店铺信息编辑
     "general_logo_del"=>"admin/General/general_logo_del",             //店铺信息logo图删除
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
@@ -695,6 +696,9 @@ Route::group("admin",[
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
     "xiaochengxu_edit"=>"admin/General/xiaochengxu_edit", //小程序装修
     "test_selecticon"=>"admin/Test/selecticon",//图标库
+    "test_select_url"=>"admin/Test/select_url",//轮播图功能库
+    "test_select_source"=>"admin/Test/select_source",//公告来源栏目
+
     "added_service_index"=>"admin/General/added_service_index",      //增值服务(增值商品显示)
     "added_service_list"=>"admin/General/added_service_list",        //增值服务(增值商品列表)
     "added_service_show"=>"admin/General/added_service_show",        //增值服务(增值商品详情)
@@ -755,6 +759,16 @@ Route::group("admin",[
     /*TODO:*/
 
 
+]);
+
+Route::group("api",[
+    "doPagehomepage"=>"api/Wxapps/doPagehomepage",//Diy方法开始
+    "doPageAppbase"=>"api/Wxapps/doPageAppbase",//Diy方法开始
+    "doPagegetNewSessionkey"=>"api/Wxapps/doPagegetNewSessionkey",//手机号自动获取时的sessionkey
+    "doPageDiypage"=>"api/Wxapps/doPageDiypage", //http://teahouse.com/api/doPageDiypage?uniacid=1&pageid=1
+    "doPageGetFoot"=>"api/Wxapps/doPageGetFoot", //http://teahouse.com/api/doPageGetFoot?uniacid=1&foot=1
+    "doPagebindfxs"=>"api/Wxapps/doPagebindfxs", //http://teahouse.com/api/doPageGetFoot?uniacid=1&foot=1
+    "dopageglobaluserinfo"=>"api/Wxapps/dopageglobaluserinfo", //http://teahouse.com/api/dopageglobaluserinfo?openid=o9NMH0ber2GnkHvkYEhrJamfNNPg&uniacid=1
 ]);
 
 Route::miss("public/miss");

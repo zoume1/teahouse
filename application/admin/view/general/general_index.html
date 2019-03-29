@@ -5,118 +5,38 @@
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <style type="text/css">
-        * {
-            margin: 0;
-            padding: 0;
-        }
-      body{
-          background: #fff;
-      }
-        .wrapper {
-            padding: 20px;
-        }
+    * {margin: 0;padding: 0;}
+    body {background: #fff;}
+    .wrapper {padding: 20px;}
+    .title {border-bottom: 1px solid #c9c9c9;padding-bottom: 5px;}
+    .title a{font-size: 18px; padding: 0 10px 5px; color: #333;}
+    .title .tit-on {color: #0066FF;border-bottom: 2px solid #21a5fa;}
+    .items {margin-top: 30px;}
+    .item {display: flex;margin-bottom: 20px;}
+    .item .item-key {width: 200px;text-align: right;font-size: 16px;color: #666;}
+    .item .item-value {color: #333;}
+    .item .item-value input {height: 25px;padding-left: 5px;}
+    textarea {width: 400px;height: 100px;resize: none;padding: 10px;box-sizing: border-box;font-size: 16px;}
+    .save {margin-left: 200px;padding: 3px 25px;color: #fff;background-color: #169bd5;border: 0;border-radius: 2px;cursor: pointer;outline: none;}
+    .update {background-color: #fff;border: 0;color: #169bd5;cursor: pointer;outline: none;}
+    .imgUpload {opacity: 0;filter: alpha(opacity=0);}
+    /* 数据库展现图片样式 */
+    .img {position: relative;display: inline-block;width: 100px;}
+    .imgcontent {margin: 10px;}
+    .img>i {display: inline-block;width: 20px;position: absolute;right: 0;top: 0;}
 
-        .title {
-            border-bottom: 1px solid #c9c9c9;
-            padding-bottom: 5px;
-        }
-
-        .title span {
-            color: #0066FF;
-            border-bottom: 2px solid #21a5fa;
-            padding: 0 10px 5px;
-            font-size: 18px;
-        }
-
-        .items {
-            margin-top: 30px;
-        }
-
-        .item {
-            display: flex;
-            margin-bottom: 20px;
-        }
-
-        .item .item-key {
-            width: 200px;
-            text-align: right;
-            font-size: 16px;
-            color: #666;
-        }
-
-        .item .item-value {
-            color: #333;
-        }
-
-        .item .item-value input {
-            height: 25px;
-            padding-left: 5px;
-        }
-
-        textarea {
-            width: 400px;
-            height: 100px;
-            resize: none;
-            padding: 10px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        .save {
-            margin-left: 200px;
-            padding: 3px 25px;
-            color: #fff;
-            background-color: #169bd5;
-            border: 0;
-            border-radius: 2px;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .update {
-            background-color: #fff;
-            border: 0;
-            color: #169bd5;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .imgUpload {
-            opacity: 0;
-            filter: alpha(opacity=0);
-        }
-
-        /* 数据库展现图片样式 */
-
-        .img {
-            position: relative;
-            display: inline-block;
-            width: 100px;
-        }
-
-        .imgcontent {
-            margin: 10px;
-        }
-
-
-        .img>i {
-            display: inline-block;
-            width: 20px;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-    </style>
+</style>
 
 {/block}
 
 <body>
-	{block name="content"}
+    {block name="content"}
     {if !empty($data)}
-    <form action="{:url('admin/General/general_update',['id'=>$data.id])}" method="post"  enctype="multipart/form-data" >
+    <form action="{:url('admin/General/general_update',['id'=>$data.id])}" method="post" enctype="multipart/form-data">
         <div class="wrapper">
             <div class="title">
-                <span>店铺信息</span>
+                <a href="javascript:void(0);" class="tit-on">店铺信息</a>
+                <a href="general_address" title="收货地址">收货地址</a>
             </div>
             <div class="items">
                 <div class="item">
@@ -154,18 +74,18 @@
                     <div class="item-key">证件号码：</div>
                     <div class="item-value">{$data['id_card']}</div>
                 </div>
-
                 <div class="item">
                     <div class="item-key">店铺logo：</div>
                     <div class="item-value">
                         <div class="img-edit">
                             {if !empty($data['store_logo'])}
-                            <div class="imgcontent" >
-                           <span class="img">
-                               <img src="__UPLOADS__/{$data['store_logo']}" width="100%">
-                               <i class="remove-img" name="icon_image" value="" data-id="{$data['id']}" data-value="2">
-                                   <img src="__STATIC__/admin/common/img/a7.png"></i>
-                           </span>
+                            <div class="imgcontent">
+                                <span class="img">
+                                    <img src="__UPLOADS__/{$data['store_logo']}" width="100%">
+                                    <i class="remove-img" name="icon_image" value="" data-id="{$data['id']}"
+                                        data-value="2">
+                                        <img src="__STATIC__/admin/common/img/a7.png"></i>
+                                </span>
                             </div>
                             {else}
                             <div class="form-input">
@@ -174,7 +94,9 @@
                                         <div class="z_photo upimg-div clear">
                                             <section class="z_file fl">
                                                 <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                                <input type="file" name="store_logo" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" style="height:95px" />
+                                                <input type="file" name="store_logo" id="file" class="file" value=""
+                                                    accept="image/jpg,image/jpeg,image/png,image/bmp" multiple
+                                                    data-id="1" style="height:95px" />
                                             </section>
                                         </div>
                                     </section>
@@ -182,7 +104,8 @@
                                 <aside class="mask works-mask">
                                     <div class="mask-content">
                                         <p class="del-p ">您确定要删除作品图片吗？</p>
-                                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span
+                                                class="wsdel-no">取消</span></p>
                                     </div>
                                 </aside>
 
@@ -192,7 +115,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="item">
                     <div class="item-key">店长QQ：</div>
                     <div class="item-value">
@@ -209,6 +131,7 @@
                         <textarea name="store_introduction">{$data['store_introduction']}</textarea>
                     </div>
                 </div>
+
                 <button class="save">保存</button>
             </div>
         </div>
@@ -217,7 +140,8 @@
     <form action="{:url('admin/General/general_update')}" method="post">
         <div class="wrapper">
             <div class="title">
-                <span>店铺信息</span>
+                <a href="javascript:void(0);" class="tit-on">店铺信息</a>
+                <a href="general_address" title="收货地址">收货地址</a>
             </div>
             <div class="items">
                 <div class="item">
@@ -255,11 +179,12 @@
                     <div class="item-key">店铺logo：</div>
                     <div class="item-value">
                         <div class="img-edit">
-                            <div class="imgcontent" >
-                           <span class="img">
-                               <img src="__STATIC__/admin/common/img/a11.png" width="100%">
-                               <i class="remove-img" name="icon_image" value="" data-id="" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
-                           </span>
+                            <div class="imgcontent">
+                                <span class="img">
+                                    <img src="__STATIC__/admin/common/img/a11.png" width="100%">
+                                    <i class="remove-img" name="icon_image" value="" data-id="" data-value="2"><img
+                                            src="__STATIC__/admin/common/img/a7.png"></i>
+                                </span>
                             </div>
                             <div class="form-input">
                                 <div class="img-box full">
@@ -267,7 +192,9 @@
                                         <div class="z_photo upimg-div clear">
                                             <section class="z_file fl">
                                                 <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                                <input type="file" name="icon_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                                                <input type="file" name="icon_image" id="file" class="file" value=""
+                                                    accept="image/jpg,image/jpeg,image/png,image/bmp" multiple
+                                                    data-id="1" />
                                             </section>
                                         </div>
                                     </section>
@@ -275,7 +202,8 @@
                                 <aside class="mask works-mask">
                                     <div class="mask-content">
                                         <p class="del-p ">您确定要删除作品图片吗？</p>
-                                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span
+                                                class="wsdel-no">取消</span></p>
                                     </div>
                                 </aside>
 
@@ -305,39 +233,39 @@
         </div>
     </form>
     {/if}
-	{/block}
+    {/block}
 
-	<!--_footer 作为公共模版分离出去-->
-	{include file="template/_footer" /}
-	<!--/_footer 作为公共模版分离出去-->
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
 
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script>
-        		// 图片删除
-                $(".remove-img").click(function() {
+        // 图片删除
+        $(".remove-img").click(function () {
             var remove = $(this).parent();
             var id = $(this).data("id");
             var value = $(this).data("value");
             console.log(value)
             console.log(id);
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/General/general_logo_del')}",
-                    data: {
-                        "id": id
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        remove.remove();
-                        alert(data.info);
-                        location.reload();
-                    },
-                    error: function(data) {
-                        console.log("错误");
-                    }
-                });
-         
+            $.ajax({
+                type: "POST",
+                url: "{:url('admin/General/general_logo_del')}",
+                data: {
+                    "id": id
+                },
+                dataType: "json",
+                success: function (data) {
+                    remove.remove();
+                    alert(data.info);
+                    location.reload();
+                },
+                error: function (data) {
+                    console.log("错误");
+                }
+            });
+
 
         });
     </script>
