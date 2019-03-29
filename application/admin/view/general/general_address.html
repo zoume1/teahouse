@@ -13,6 +13,7 @@
     .title {border-bottom: 1px solid #c9c9c9;padding-bottom: 5px;}        
     .title a {font-size: 18px;padding: 0 10px 5px;color: #333; text-decoration: none;}        
     .title .tit-on {color: #0066FF;border-bottom: 2px solid #21a5fa;}        
+    .form-group .layui-form-select {display: none;}
 </style>
 
 {/block}
@@ -24,7 +25,24 @@
             <a href="general_address" title="店铺信息">店铺信息</a>
             <a href="javascript:void(0);" class="tit-on">收货地址</a>
         </div>
-        
+     
+				<div class="form-inline">
+					<div data-toggle="distpicker">
+						<div class="form-group">
+							<label class="sr-only" for="province2">Province</label>
+							<select class="form-control" name="address_city1" id="province2" data-province="---- 选择省 ----"></select>
+						</div>
+						<div class="form-group">
+							<label class="sr-only" for="city2">City</label>
+							<select class="form-control" name="address_city2" id="city2" data-city="---- 选择市 ----"></select>
+						</div>
+						<div class="form-group">
+							<label class="sr-only" for="district2">District</label>
+							<select class="form-control" name="address_city3" id="district2" data-district="---- 选择区 ----"></select>
+						</div>
+					</div>
+				</div>
+      
     </div>
 
     {/block}
