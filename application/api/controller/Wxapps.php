@@ -145,8 +145,9 @@ class  Wxapps extends  Controller{
                                     }
                                 }
                             }
+
                         }else if ($v['id'] == 'contact') {
-                            halt(55);
+
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -165,7 +166,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'video') {
-                            halt(66);
+
                             if (isset($v['params']['backgroundimg']) && $v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -177,7 +178,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'logo' || $v['id'] == 'dp') {
-                            halt(77);
+
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -189,7 +190,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'footmenu') {
-                            halt(88);
+
                             if ($v['data']) {
                                 foreach ($v['data'] as $ki => $vi) {
                                     if ($vi['imgurl'] != "") {
@@ -577,6 +578,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if($v['id'] == "anniu"){
+                            halt($v);
                             if(isset($v['params']['linktype'])){
                                 if($v['params']['linktype'] == 'mini'){
                                     if(strpos($v['params']['link'], ",") !== false){
