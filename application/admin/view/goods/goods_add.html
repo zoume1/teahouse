@@ -650,7 +650,7 @@
 
         </div>
 
-        <div class="nomal ">
+        <div class="nomal">
             <div class="form-item" style="margin-top:15px">
                 <label class="form-label"><span class="red">*</span>包装规格</label>
                 <div class="form-input" id="packing_specification" style=" align-items: center;">
@@ -1037,6 +1037,7 @@
                     $(this).data("value", $(this).val());
                 })
                 $(".general_content").on('click', ".delect_img", function () {
+                 
                     if ($(this).siblings(".units").val() != '') {
                         for (var k = 0; k < unit2.length; k++) {
                             if (unit2[k] == $(this).siblings(".units").val()) {
@@ -1045,23 +1046,23 @@
                             }
                         }
                     }
+                    $(".muban").remove();
                     $(this).parent().remove();
                 })
                 $(".nomal").on('click', ".delect_img", function () {
-                    if ($(this).siblings(".units").val() != '') {
+                    if ($(this).siblings(".units").val()!= '') {
                         for (var k = 0; k < unit1.length; k++) {
                             if (unit1[k] == $(this).siblings(".units").val()) {
                                 unit1.splice(k, 1);
                                 break;
                             }
                         }
+                     
                     }
+                    $(".muban").remove();
                     $(this).parent().remove();
                 })
-                $(".form-item").on('click', ".delect_img", function () {
-
-                    $(this).parent().remove();
-                })
+               
                 $(".add_muban").click(function () {
                     var val = $('input[name="goods_standard"]:checked').val(); 
                     var unit1_a=unit1.unique3();
@@ -1089,7 +1090,7 @@
                             form.render();
                            }
                            else{
-                            alert("运费模板不能大于单位");
+                            alert("您还需要选择其他单位的运费模版");
                            }
                      
                        }
@@ -1140,7 +1141,7 @@
                         }
                     if(val=="0"){
                         if(nums==0){
-                          alert("你输入的单位前面没有添加");
+                          alert("你输入的单位“包装规格”中没有添加");
                           return false;
                         }
                      
@@ -1159,7 +1160,7 @@
                         }    
                     }
                     if(num>0){
-                        alert("相同的单位不能两套模板")
+                        alert("相同的单位不能有两套运费模板")
                         return false;
                     }
                     if(vals=="1"){
@@ -1167,7 +1168,7 @@
                         console.log($(".muban").length);
                         console.log(unit1_a.length);
                       if($(".muban").length!=unit1_a.length) {
-                          alert("你填写的单位必须有对应的模板");
+                          alert("包装规格”中的单位需要全部添加对应运费模版");
                           return false;
                       }
                     }
@@ -1175,7 +1176,7 @@
                         console.log($(".muban").length);
                         console.log(unit2_a.length);
                         if($(".muban").length!=unit2_a.length) {
-                          alert("你填写的单位必须有对应的模板");
+                          alert("包装规格”中的单位需要全部添加对应运费模版");
                           return false;
                       }
                     }
@@ -1183,7 +1184,7 @@
                    
                  
                 });
-                
+               
                 // 运费模板
                 $(".change_danwei").click(function () {
                     var unit1_a=unit1.unique3();
