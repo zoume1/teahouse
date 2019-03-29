@@ -1072,7 +1072,6 @@ define(['jquery', 'bootstrap'], function($, bs) {
                 $(document).off("click", '#selectUrl_url nav').on("click", '#selectUrl_url nav', function() {
 
                     var _href = $.trim($(this).data("href")); //获取链接的地址
-
                     $(_input).val(_href).trigger('change')
 
                     modal.find(".close").click()
