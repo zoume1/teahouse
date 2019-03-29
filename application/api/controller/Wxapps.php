@@ -112,7 +112,6 @@ class  Wxapps extends  Controller{
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
                         }else if($v['id']=='ddlb'){
-                            halt(33);
                             $a=Db::table('ims_sudu8_page_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
                             $b=Db::table('ims_sudu8_page_pt_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
                             $c=Db::table('ims_sudu8_page_duo_products_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
@@ -132,7 +131,6 @@ class  Wxapps extends  Controller{
                             }
 
                         }else if ($v['id'] == 'bigimg' || $v['id'] == 'classfit' || $v['id'] == 'banner' || $v['id'] == 'menu' || $v['id'] == 'picture' || $v['id'] == 'picturew') {
-                          halt(44);
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
