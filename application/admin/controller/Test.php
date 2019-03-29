@@ -74,4 +74,80 @@ class Test extends  Controller{
         return $this->fetch('selecturl');
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:公告来源
+     **************************************
+     * @return mixed
+     */
+    public function select_source(){
+        $uniacid = input("appletid");
+        $type = input('type');
+        switch ($type){
+            case 'noticcate':
+                $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showArt")->where("cid",0)->field("id,name")->select();
+                foreach ($list as $key => &$value) {
+                    $subcate = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showArt")->where("cid",$value['id'])->field("id,name")->select();
+                    $value['subcate'] = $subcate;
+                }
+                break;
+            case 'goodscate':
+                $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPro")->where("cid",0)->field("id,name")->select();
+                foreach ($list as $key => &$value) {
+                    $subcate = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPro")->where("cid",$value['id'])->field("id,name")->select();
+                    $value['subcate'] = $subcate;
+                }
+                break;
+            case 'piccate':
+                $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPic")->where("cid",0)->field("id,name")->select();
+                foreach ($list as $key => &$value) {
+                    $subcate = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPic")->where("cid",$value['id'])->field("id,name")->select();
+                    $value['subcate'] = $subcate;
+                }
+                break;
+
+            case 'picartcate':
+
+                $list = Db::query("SELECT id,name,type FROM ims_sudu8_page_cate WHERE `uniacid` = {$uniacid} AND `cid` = 0 AND (`type` = 'showPic' or `type` = 'showArt')");
+                foreach ($list as $key => &$value) {
+                    $subcate = Db::query("SELECT id,name,type FROM ims_sudu8_page_cate WHERE `uniacid` = {$uniacid} AND (`type` = 'showPic' or `type` = 'showArt') AND cid = {$value['id']}");
+                    $value['subcate'] = $subcate;
+                }
+                break;
+
+            case 'articlecate':
+
+
+                $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showArt")->where("cid",0)->field("id,name")->select();
+                foreach ($list as $key => &$value) {
+                    $subcate = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showArt")->where("cid",$value['id'])->field("id,name")->select();
+                    $value['subcate'] = $subcate;
+                }
+                break;
+            case 'ptcate':
+
+                $list = Db::table("ims_sudu8_page_pt_cate")->where("uniacid",$uniacid)->field("id,title as name")->select();
+                foreach ($list as $key => &$value) {
+                    $value['subcate'] = "";
+                }
+                break;
+            case 'formcate':
+
+                $list = Db::table("ims_sudu8_page_formlist")->where("uniacid",$uniacid)->field("id,formname as name")->select();
+                foreach ($list as $key => &$value) {
+                    $value['subcate'] = "";
+                }
+                break;
+
+        }
+        $this->assign("type",$type);
+
+        $this->assign("list",$list);
+
+        $this->assign("uniacid",$uniacid);
+        return $this->fetch('selectsource');
+
+    }
+
 }
