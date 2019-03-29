@@ -18,7 +18,7 @@
         .step-line{width: 35px; border-top: 1px dashed #868686;}
         .main-bg{background-color: #f7f7f7; border: 1px solid #e4e4e4;}
         .main{width: 1200px; min-height: 700px; margin: 0 auto; background-color: #fff; padding: 0 25px; box-sizing: border-box;}
-        .shop-name{font-size: 14px; color: #949494; padding: 25px 0;}
+        .shop-name{font-size: 14px; color: #949494; padding: 5px 0;}
         .shop-name span{color: #000;}
         .cart-item{border: 1px solid rgb(207, 236, 255); margin-bottom: 20px;}
         .carts-head{display: flex; align-items: center;height: 40px; background-color: #cfecff; border-bottom: 1px solid rgb(168, 221, 255); padding: 0 8px;}
@@ -97,6 +97,31 @@
         .payer-p{margin-bottom: 20px;}
         .payer-p input{width: 220px; height: 35px; border-radius: 4px; padding-left: 10px; box-sizing: border-box; border: 1px solid #d7d8d9;}
         .voucher-pop button{color: #fff; background-color: #3388ff; border-radius: 4px; border: 0; padding: 6px 20px; cursor: pointer; float: right; font-size: 16px; margin-top: 20px;}
+
+        .addrs .addrs-tit{font-size: 14px; color: #333; margin: 15px 0; line-height: 25px; font-weight: 700;}
+        .addrs .addr{display: inline-block; position: relative; vertical-align: top; width: 237px; margin: 0 14px 14px 0; color: #666; cursor: pointer;}
+        .addrs .addr .inner{position: relative; padding: 11px 15px; z-index: 2;font-size: 12px; background: url(__STATIC__/admin/common/img/icon-a.png) no-repeat; min-height: 106px; box-sizing: border-box;}
+        /* .addrs .addr-active .inner, */
+        .addrs .addr-cur .inner,
+        .addrs .addr .inner:hover{background-image: url(__STATIC__/admin/common/img/icon-a2.png);}
+        .addrs .addr .cur-marker{position: absolute; right: 1px; top: 77px; width: 28px; height: 28px; background: url(__STATIC__/admin/common/img/icon-s2.png) no-repeat; z-index: 3; visibility: hidden;}
+        .addrs .addr-cur .cur-marker{visibility: visible;}
+        .addrs .addr-set.addr-cur:hover .set-default{display: block;}
+        .addrs .addr .set-default,
+        .addrs .addr .default-tip{position: absolute; top: 0; right: 0; padding: 0 2px; text-decoration: 0; z-index: 3; opacity: .7; filter: alpha(opacity=70); display: none;}
+        .addrs .addr-cur .set-default:hover{color: #c97;}
+        .addrs .addr .set-default{background-color: #fff; color: #666;}
+        .addrs .addr .default-tip{background-color: #ccc; color: #fff;}
+        .addrs .addr .addr-hd{width: 100%; padding: 0 0 5px; border-bottom: 1px solid #f2f2f2; margin-bottom: 5px; white-space: nowrap; text-overflow: ellipsis; line-height: 18px;}
+        .addrs .addr .addr-hd span{display: inline-block; vertical-align: top; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+        .addrs .addr .city{font-weight: 700; margin-right: 10px; max-width: 64px;}
+        .addrs .addr .addr-bd{height: 55px; overflow: hidden; word-break: break-all; word-wrap: break-word;}
+        .addrs .addr-cur .addr-bd{height: 36px;}
+        .addrs .addr .addr-bd span{margin-right: 3px; word-break: break-all; word-wrap: break-word;}
+        .addrs .addr .addr-toolbar{display: none;}
+        .addrs .addr-cur .addr-toolbar{display: block;}
+        .addrs .addr a{color: #c97; text-decoration: none;}
+        .addrs .addr a:hover{color: #ff0036;}
     </style>
 </head>
 <body>
@@ -114,8 +139,41 @@
         </div>
         <div class="main-bg">
             <div class="main">
-                <p class="shop-name">订购店铺：<span>滴金茶叶</span></p>
+                <div class="addrs">
+                    <h2 class="addrs-tit">选择收货地址</h2>
+                    <div class="addr-list">
+                        <div class="addr"
+                            v-for="(v, i) in addrData"
+                            :class="{'addr-cur': addrSelectedIdx==i, 'addr-set': !v.default}">
+                            <div class="inner"
+                                @click="selectAddr(i)">
+                                <div class="addr-hd">
+                                    <span class="prov">{{v.prov}}</span>
+                                    <span class="city">{{v.city}}</span>
+                                    <span>（</span>
+                                    <span>{{v.name}}</span>
+                                    <span>收）</span>
+                                </div>
+                                <div class="addr-bd">
+                                    <span class="dist">{{v.dist}}</span>
+                                    <span class="street">{{v.street}}</span>
+                                    <span class="phone">{{v.phone}}</span>
+                                </div>
+                                <div class="addr-toolbar">
+                                    <a href="javascript:void(0);"
+                                        @click="modifyAddr">修改</a>
+                                </div>
+                            </div>
+                            <div class="cur-marker"></div>
+                            <div class="set-default" title="设置当前地址为默认"
+                                @click="setDefaultAddr">设为默认</div>
+                            <div class="default-tip" style="display: block;"
+                                v-if="v.default">默认地址</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="carts">
+                    <p class="shop-name">订购店铺：<span>滴金茶叶</span></p>
                     <div class="cart-item" v-for="(item, index) in goodsData">
                         <div class="carts-head">
                             <input type="checkbox" @change="selectGoods(item, index, $event)">
@@ -353,12 +411,52 @@
                         unit: '件',
                         stock: 5
                     },
-                ]
+                ],
+                addrData: [
+                    {
+                        prov: '广东',
+                        city: '深圳',
+                        dist: '福田',
+                        street: '中电信息大厦东座1518',
+                        name: '刘德华',
+                        phone: '13691853045',
+                        default: true,
+                    },{
+                        prov: '广东',
+                        city: '深圳',
+                        dist: '南山',
+                        street: '西丽深圳职业技术学院东区',
+                        name: '张雪有',
+                        phone: '18675509994',
+                        default: false,
+                    },{
+                        prov: '广东',
+                        city: '深圳',
+                        dist: '福田',
+                        street: '莲花街道华强职业技术学校',
+                        name: '张家辉',
+                        phone: '13615842245',
+                        default: false,
+                    }
+                ],
+                addrSelectedIdx: 0,
             },
             mounted: function(){
                 laydate.render({elem: '#date'})
             },
             methods: {
+                // 修改地址
+                modifyAddr: function(){
+                    alert('修改地址');
+                },
+                // 设置默认地址
+                setDefaultAddr: function(){
+                    alert('设置默认地址');
+                },
+                // 选择收货地址
+                selectAddr: function(i){
+                    this.addrSelectedIdx = i;
+                },
                 // 减
                 minusEvent: function(item){
                     item.number > 1 ? item.number-- : '';
@@ -431,9 +529,9 @@
                 totalPrice: function(){
                     var sum = 0;
                     if(this.selectData){
-                        for(var item in this.selectData){
-                            if(item){
-                                sum += item.number * item.unitPrice;
+                        for(var i = 0, len = this.selectData.length; i < len; i++){
+                            if(this.selectData[i]){
+                                sum += this.selectData[i].number * this.selectData[i].unitPrice;
                             }
                         }
                     }

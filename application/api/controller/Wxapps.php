@@ -66,6 +66,7 @@ class  Wxapps extends  Controller{
     }
 
 
+
     public function doPageDiypage()
     {
         $uniacid = input("uniacid");
@@ -104,6 +105,7 @@ class  Wxapps extends  Controller{
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
                         } else if ($v['id'] == 'xnlf') {
+                            halt(22);
                             $num = Db::table('ims_sudu8_page_base')->where("uniacid", $uniacid)->find();
                             $v['params']['fwl'] = $v['params']['fwl'] * 1 + $num['visitnum'] * 1;
                             if ($v['params']['backgroundimg'] != "") {
@@ -113,7 +115,6 @@ class  Wxapps extends  Controller{
                             $a=Db::table('ims_sudu8_page_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
                             $b=Db::table('ims_sudu8_page_pt_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
                             $c=Db::table('ims_sudu8_page_duo_products_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
-
                             $array1=array_merge($a,$b);
                             $array2=array_merge($array1,$c);
                             $date = array_column($array2, 'creattime');
@@ -145,6 +146,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'contact') {
+                            halt(55);
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -163,6 +165,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'video') {
+                            halt(66);
                             if (isset($v['params']['backgroundimg']) && $v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -174,6 +177,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'logo' || $v['id'] == 'dp') {
+                            halt(77);
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -185,6 +189,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'footmenu') {
+                            halt(88);
                             if ($v['data']) {
                                 foreach ($v['data'] as $ki => $vi) {
                                     if ($vi['imgurl'] != "") {
@@ -197,6 +202,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }
+                        //轮播图
                         if ($v['id'] == "banner") {
                             $v['data'] = array_values($v['data']);
                             if ($v['data']) {
@@ -204,6 +210,7 @@ class  Wxapps extends  Controller{
                                 $v['params']['imgw'] = explode('"', $imginfo[0])[1];
                                 $v['params']['imgh'] = explode('"', $imginfo[1])[1];
                             }
+                            //富文本
                         }else if ($v['id'] == "richtext") {
                             $v['richtext'] = base64_decode($v['params']['content']);
                         }else if ($v['id'] == "feedback") {
@@ -792,6 +799,8 @@ class  Wxapps extends  Controller{
         $result['data'] = $data;
         return json_encode($result);
     }
+
+
 
 
 
