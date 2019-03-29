@@ -22,7 +22,7 @@ class Test extends  Controller{
      **************************************
      * @return mixed
      */
-    public function selectUrl(){
+    public function select_url(){
         $uniacid = input('appletid');
         $tplid = input('tplid_only'); //模板id
         if(!$tplid){
