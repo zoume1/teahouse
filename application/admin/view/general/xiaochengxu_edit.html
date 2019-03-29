@@ -101,10 +101,10 @@
 </head>
 
 <body style="height:100%;" onload="footmenus()">
-<form id='myupload' action="{:Url('Diypage/imgupload')}?uniacid=<?php echo $_GET['appletid'];?>"  method='post' enctype='multipart/form-data'>
+<form id='myupload' action="/admin/imgupload?uniacid=<?php echo $_GET['appletid'];?>"  method='post' enctype='multipart/form-data'>
     <input type="file" id="uploadphoto" name="uploadfile" value="请点击上传图片" accept="image/png,image/jpeg,image/gif"  style="display:none" />
 </form>
-<form id='myupload1' action="{:Url('Diypage/imgupload')}?uniacid=<?php echo $_GET['appletid'];?>" method='post' enctype='multipart/form-data'>
+<form id='myupload1' action="/admin/imgupload?uniacid=<?php echo $_GET['appletid'];?>" method='post' enctype='multipart/form-data'>
     <input type="file" id="uploadphoto1" name="uploadfile" value="请点击上传图片" accept="image/png,image/jpeg,image/gif"  style="display:none" />
 </form>
 

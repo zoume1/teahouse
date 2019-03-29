@@ -30,6 +30,18 @@ class  General extends  Controller{
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:店铺收货地址
+     **************************************
+     * @return \think\response\View
+     */
+    public function general_address(){
+        return view("general_address");
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:店铺编辑
      **************************************
      */
