@@ -145,6 +145,8 @@ class  Wxapps extends  Controller{
                                     }
                                 }
                             }
+                            halt($v);
+
                         }else if ($v['id'] == 'contact') {
                             halt(55);
                             if ($v['params']['backgroundimg'] != "") {
