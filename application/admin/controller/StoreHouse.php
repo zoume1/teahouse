@@ -97,7 +97,7 @@ class StoreHouse extends Controller{
         $unit = db("special")->distinct(true)->field("unit")->select();
         if(!empty($unit)){
             $list = unit_list($unit);
-            return ajax_success('传输成功', $arr);
+            return ajax_success('传输成功', $list);
         } else {
             return ajax_error('数据为空');
         }      
