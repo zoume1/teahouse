@@ -8,24 +8,24 @@
     body {
         background: #fff;
     }
-    
+
     #hot {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
     }
-    
+
     .list {
+        margin-right: 10px;
+        margin-bottom: 6px;
         display: flex;
-        align-items: center;
-        margin: 10px 0;
     }
-    
+
     .list img {
         margin-left: 4px;
         height: 20px;
     }
-    
+
     .list .texts {
         margin-left: 4px;
         width: 78px;
@@ -37,7 +37,7 @@
         border: solid 1px #669900;
         border-radius: 6px;
     }
-    
+
     .title {
         height: 50px;
         background: #F2F2F2;
@@ -46,24 +46,24 @@
         padding-left: 20px;
         font-weight: bold;
     }
-    
+
     .special,
     .general,
     .special .layui-form-item,
     .general .layui-form-item {
         min-width: 100%;
     }
-    
+
     .add-content {
         background: #F2F2F2;
         width: 100%;
     }
-    
+
     .general-kuang {
         border: solid 1px #E4E4E4;
         padding-left: 10px;
     }
-    
+
     .btus {
         background: #fff;
         border: solid 1px #E4E4E4;
@@ -72,65 +72,66 @@
         display: inline-block;
         margin: 10px;
     }
-    
+
     #general-content .layui-form-item {
         width: 100%;
     }
-    
+
     .sky-blue {
         color: #0099FF;
     }
-    
+
     .bgwhite {
         background: #fff;
     }
-    
+
     .noshow {
         display: none;
     }
-    
+
     .special .layui-form-item {
         width: 100%;
     }
-    
+
     .general .layui-form-item {
         width: 100%;
     }
-    
+
     .special .layui-form-item label {
         width: 10%;
     }
-    
+
     .general .layui-form-item label {
         width: 10%;
     }
-    
+
     .operation-btus {
         width: 60px;
         height: 40px;
         border-radius: 3px;
         color: #fff;
     }
-    
+
     .btu-delet {
         background: #FF0000;
     }
-    
+
     .btu-cancel {}
-    
+
     .btu-add {
         background: #0099FF;
     }
-    
+
     .num-content {
         overflow: hidden;
     }
-    
+
     #general_content>div {
         margin-top: 6px;
     }
+
     /* 弹窗 */
-    
+
     .tanchuang {
         width: 100%;
         min-height: 1000px;
@@ -138,264 +139,280 @@
         position: fixed;
         z-index: 9999;
     }
-    
+
     table .full {
         width: 100px !important;
         min-width: 100px !important;
     }
-    
+
     table input {
         text-align: center;
         width: 80px !important;
         min-width: 80px !important;
     }
-    
+
     table .z_photo {
         padding: 0;
     }
-    
+
     table th {
         text-align: center;
     }
-    
+
     table td {
         text-align: center;
     }
-    table td input{  
+
+    table td input {
         border: 1px #DDDDDD solid;
-       margin-top: 30px;
+        margin-top: 30px;
     }
-    table td .layui-unselect{  
-       margin-top: 30px;
+
+    table td .layui-unselect {
+        margin-top: 30px;
     }
-    
+
     .tan {
         cursor: pointer;
     }
-    
+
     .danwei {
         position: absolute;
         left: 175px;
     }
-    
+
     .line {
         position: relative;
     }
-    .change_danwei{
+
+    .change_danwei {
         color: #333;
         cursor: pointer;
     }
-    .sever_list{
+
+    .sever_list {
         background: #fff;
         display: flex;
     }
-    	/*
+
+    /*
      * 弹窗
      */
-	 	/*
+    /*
      * 弹窗
      */
-	.popup {
-		width: 100%;
-		height: 100%;
-		position: fixed;
-		background: rgba(0, 0, 0, 0.5);
-		z-index: 99999;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border: solid 1px #D7D7D7;
-		box-sizing: border-box;
-	}
-	
-	.submit_btns {
-		width: 100px;
-		height: 38px;
-		color: #fff;
-		background: #169BD5;
-		border-radius:10px ;
-	}
-	.popup_doms{
-		width: 790px;
-		height: 400px;
-		background: #fff;
-	}
-	.popup_doms1{
-		width: 900px;
-		height: 500px;
-		background: #fff;
-	}
-	.popup_content{
-		padding: 20px;
-	}
-	.popup_title{
-		height: 40px;
-		line-height: 40px;
-		color: #66662B;
-		background: #EEF7EA;
-		padding-left: 20px;
-	}
-	.span{
-		display: inline-block;
-		width: 80px;
-		text-align: left;
-		margin-right: 20px;
-	}
-	.repany .layui-input{
-		width: 530px;
-	}
-	.repany{
-		margin-bottom: 10px;
-	}
-	.operation{
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	.chat{
-		height: 210px;
-	}
-	.danhao{
-		width: 200px;
-		margin-right: 10px;
-	}
-	.operation select{
-		width: 130px;
-		height: 40px;
-		border-color:#ABADB3 ;
-		color: #000;
-		background: #fff;
-	}
-	.operation div{
-		margin-right: 10px;
-	}
-	.noshow{
-		display: none;
-	}
-	.popup_title{
-		position: relative;
-	}
-	.popup_x{
-	    width: 25px;
-    position: absolute;
-    right: 12px;
-    top: -4px;
-	}
-	.repay_tip{
-	    display: inline-block;
-		width: 100px;
-		height: 30px;
-		text-align: center;
-		line-height: 30px;
-		color: #fff;
-		background: #669900;
-	}
+    .popup {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: solid 1px #D7D7D7;
+        box-sizing: border-box;
+    }
 
-	.button{
-		width: 100px;
-    line-height: 30px;
-    text-align: center;
-    border: 1px solid #a2a2a2;
-    border-radius: 10px;
-	}
-	.button_all{
-		display: flex;
-  justify-content: space-around;
-	margin-top: 30PX;
-	}
-	.quxiao{
+    .submit_btns {
+        width: 100px;
+        height: 38px;
+        color: #fff;
+        background: #169BD5;
+        border-radius: 10px;
+    }
 
-	}
-	.queding{
-		background: #169BD5;
-		color: #fff;
-	}
+    .popup_doms {
+        width: 790px;
+        height: 400px;
+        background: #fff;
+    }
+
+    .popup_doms1 {
+        width: 900px;
+        height: 500px;
+        background: #fff;
+    }
+
+    .popup_content {
+        padding: 20px;
+    }
+
+    .popup_title {
+        height: 40px;
+        line-height: 40px;
+        color: #66662B;
+        background: #EEF7EA;
+        padding-left: 20px;
+    }
+
+    .span {
+        display: inline-block;
+        width: 80px;
+        text-align: left;
+        margin-right: 20px;
+    }
+
+    .repany .layui-input {
+        width: 530px;
+    }
+
+    .repany {
+        margin-bottom: 10px;
+    }
+
+    .operation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .chat {
+        height: 210px;
+    }
+
+    .danhao {
+        width: 200px;
+        margin-right: 10px;
+    }
+
+    .operation select {
+        width: 130px;
+        height: 40px;
+        border-color: #ABADB3;
+        color: #000;
+        background: #fff;
+    }
+
+    .operation div {
+        margin-right: 10px;
+    }
+
+    .noshow {
+        display: none;
+    }
+
+    .popup_title {
+        position: relative;
+    }
+
+    .popup_x {
+        width: 25px;
+        position: absolute;
+        right: 12px;
+        top: -4px;
+    }
+
+    .repay_tip {
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        color: #fff;
+        background: #669900;
+    }
+
+    .button {
+        width: 100px;
+        line-height: 30px;
+        text-align: center;
+        border: 1px solid #a2a2a2;
+        border-radius: 10px;
+    }
+
+    .button_all {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30PX;
+    }
+
+    .quxiao {}
+
+    .queding {
+        background: #169BD5;
+        color: #fff;
+    }
+
     /* 包装规格 */
-   #packing_specification{
-      display: flex;
-      align-items: center;
-      flex-wrap:wrap;
-      width: 768px;
-   }
-   #packing_specification input{
-     width: 60px;
-     margin-right: 5px;
-   }
-   .fuhao{
-    font-size: 32px;
-    color: #a2a2a2;
-   }
-  .packing_specifications{
-    display: flex;
-      align-items: center;
-      flex-wrap:wrap;
-      width: 768px;
+    #packing_specification {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 768px;
+    }
 
-  }
-  .packing_specifications  select{
-    display:block
-  }
-  .packing_specifications  .layui-form-select{
-    display: none;
-  }
-  .packing_specifications input{
-     width: 60px;
-     margin-right: 5px;
-   }
-   .add_danwei,.add_danwei1,.add_danwei2{
-    cursor: pointer;
-   }
-   .packing{
-       height: 38px;
-       margin-right: 5px
-       
-   }
-   .danwei_content{
-    display: flex;
-    align-items: center; 
-    position: relative;
-   }
-   .delect_img{
-    width: 14px;
-    position: absolute;
-    right: 0;
-    top: 0;
-   }
-   .add_danwei,.add_biao{
-       color: #20A0FF
-   }
-       /* 包装规格 */
-       /* 顶部导航 */
-       .nav{
-           display: flex;
-           margin: 20px 0;  
-       }
+    #packing_specification input {
+        width: 60px;
+        margin-right: 5px;
+    }
 
-       .nav a{
-           color: #000;
-           display: flex;
-           width: 200px;
-           height: 80px;
-           border: solid 1px #000;
-           flex-direction:column;
-           align-items: center;
-           justify-content: center;
-           margin-left: 20px;
-       }
-       .logistics{
-           color: #bbb;
-       }
-       .ons{
-           color: #20A0FF !important;
-           border-color: #20A0FF !important;
-       }
-       input{
-        white-space:normal;
-       word-wrap:break-word;
-       word-break:break-all
-       }
-       textarea::-webkit-scrollbar {display:none}
-      
+    .fuhao {
+        font-size: 32px;
+        color: #a2a2a2;
+    }
+
+    .packing_specifications {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 768px;
+
+    }
+
+    .packing_specifications select {
+        display: block
+    }
+
+    .packing_specifications .layui-form-select {
+        display: none;
+    }
+
+    .packing_specifications input {
+        width: 60px;
+        margin-right: 5px;
+    }
+
+    .add_danwei,
+    .add_danwei1,
+    .add_danwei2,
+    .add_muban {
+        cursor: pointer;
+    }
+
+    .packing {
+        height: 38px;
+        margin-right: 5px
+    }
+
+    .danwei_content {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .delect_img {
+        width: 14px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .add_danwei,
+    .add_biao,
+    .add_muban {
+        color: #20A0FF
+    }
+
+    .list span {
+        cursor: pointer;
+    }
+
+    .add_biao {
+        cursor: pointer;
+    }
+
+    /* 包装规格 */
 </style>
 
 {/block}
@@ -661,30 +678,26 @@
         </div>
         <div class="form-item">
                 <label class="form-label">快递运费</label>
-                <div style="display: flex;flex-direction:column">
+                <div style="display: flex;flex-direction:column" class="yunfei">
                     <div class="form-input line" style="margin-bottom: 4px;">
-                        <input type="radio" title="统一邮费" checked="" name="aaa">
-                        <input type="number" name="goods_franking" lay-verify="title" autocomplete="off" placeholder="请输入                          元" class="layui-input"> </input>
+                        <input type="radio" title="统一邮费" checked="" name="aaa" value="0">
+                        <input type="number" name="goods_franking" lay-verify="title" autocomplete="off"
+                            placeholder="请输入                          元" class="layui-input"> </input>
                         </input>
     
                     </div>
                     <div class="form-input line" style="margin-bottom: 4px;">
-                            <input type="radio" title="运费模板"name="aaa">
-                            {if !empty($expenses)}
-                            <select name="templet_id" id="admin_role" class="role_list">
-                                <option value="">请选择</option>
-                                {volist name="expenses" id="va"}
-                                 <option value="{$value.id}">{$va.name}</option>
-                                {/volist}
-                            </select><br/> 
-                            {/if}
-                            </select>
-                            <a href="delivery_goods_add_number">新建</a>
-                        </div>
+                        <input type="radio" title="运费模板" name="aaa"  value="1">
                         <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
-                   </div>
-                   
-             </div>
+                    </div>
+    
+                    <div class="form-input line" style="margin-bottom: 4px;">
+                        <input type="texr" title="运费模板" style="opacity: 0;width: 82px;">
+                        <div class="add_muban"> 添加运费模板</div>
+                    </div>
+                </div>
+    
+            </div>
         <div class="form-item">
             <label class="form-label">状态</label>
             <div class="form-input">
@@ -720,26 +733,218 @@
     <script type="text/javascript">
         var ue = UE.getEditor('editor');
         var ue1 = UE.getEditor('editor1');
-        var ue2 = UE.getEditor('editor2');
-        $("#lv_table").on( "keyup","textarea",function(){
-           var h=parseInt($(this).val().length/12);
-           console.log(h);
-           if(h<=5){
-            $(this).css("height",'90px')
-           }
-           else{
-            $(this).css("height",(h+1)*16+'px')
-           }
-           
-        });
-        var codings=[];
+        var codings = [];
         layui.config({
             base: "js/"
         }).use(['form', 'layer', 'jquery', 'laypage', 'upload'],
-            function() {
+            function () {
                 var form = layui.form(),
                     $ = layui.jquery;
                 form.render();
+                var templet=[];
+                $.ajax({
+                        type: "POST",
+                        url: "delivery_templet",
+                        data: {
+                            
+                        },
+                        success: function (data) {
+                            data = eval("(" + data + ")");
+                            templet=data.data;
+                           
+                        },
+                        error: function (data) {
+                            console.log(data)
+                        }
+                    });
+                    // 运费模板
+                var unit2 = [];
+
+                Array.prototype.unique3 = function () {
+                    var res = [];
+                    var json = {};
+                    for (var i = 0; i < this.length; i++) {
+                        if (!json[this[i]]) {
+                            res.push(this[i]);
+                            json[this[i]] = 1;
+                        }
+                    }
+                    return res;
+                }
+                
+                
+                $(".general_content").on("blur", ".units", function () {
+                    id = $(this).data("id");
+                    if($(this).data("value")!=$(this).val()){
+                        $(".muban").remove();
+                    }
+                    
+                        // 填入的值不为空
+                        if ($(this).val() != '') {
+                           console.log($(this).data("value"))
+                            // 本来无值（存入）
+                            if ($(this).data("value") ==undefined) {
+                              
+                                unit2.push($(this).val());
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit2.length; k++) {
+                                    if (unit2[k] == $(this).data("value")) {
+                                        unit2[k] = $(this).val();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        //   填入的值为空
+                        else {
+                            // 本来无值（存入）
+                            if ($(this).data("value") == '') {
+                            }
+                            // 本来有值（修改）
+                            else {
+                                for (var k = 0; k < unit2.length; k++) {
+                                    if (unit2[k] == $(this).data("value")) {
+                                        unit2.splice(k, 1);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
+                    console.log(unit2);
+                    $(this).data("value", $(this).val());
+                })
+               
+                $(".general_content").on('click', ".delect_img", function () {
+                 
+                    if ($(this).siblings(".units").val() != '') {
+                        for (var k = 0; k < unit2.length; k++) {
+                            if (unit2[k] == $(this).siblings(".units").val()) {
+                                unit2.splice(k, 1);
+                                break;
+                            }
+                        }
+                    }
+                    $(".muban").remove();
+                    $(this).parent().remove();
+                })
+               
+                $(".add_muban").click(function () {
+                
+                    var unit2_a=unit2.unique3();
+                
+                    if(unit2_a.length>0){
+                        var add_muban = '';
+                             add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
+                            add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
+                            add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
+                            for(var n=0;n<unit2_a.length;n++){
+                                add_muban += ' <option value="'+unit2_a[n]+'">'+unit2_a[n]+'</option>';
+                            }
+                            add_muban += '</select><br />';
+                            add_muban += '<select name="templet_id[]"  class="role_list">';
+                            for(var h=0;h<templet.length;h++){
+
+                                add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
+                            }
+                            add_muban += '</select><br />';
+                            add_muban += '<a href="delivery_goods_add_number">新建</a>';
+                            add_muban += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
+                            add_muban += '</div>';
+                            $(this).parent().before(add_muban);
+                            form.render();
+                       }
+                       else{
+                           alert("请输入单位")
+                       }
+                   
+                   
+                })
+                $("form").submit(function(e){
+                    var unit2_a=unit2.unique3();
+                    var vals = $('input[name="aaa"]:checked').val(); 
+             
+                    var num=0;
+                    for(var i=0;i<$(".muban_list").length;i++){
+                        for(var j=i+1;j<$(".muban_list").length;j++){
+                            if($(".muban_list")[i].value==$(".muban_list")[j].value){
+                                   num++;
+                                   break;
+                            }
+
+                        }    
+                    }
+                    if(num>0){
+                        alert("相同的单位不能有两套运费模板")
+                        return false;
+                    }
+                    if(vals=="1"){
+                        if($(".muban").length!=unit2_a.length) {
+                          alert("包装规格”中的单位需要全部添加对应运费模版");
+                          return false;
+                      }
+                    }
+                    
+                    return false;
+                 
+                });
+                $(".yunfei").on('click', ".delect_img", function () {
+                 
+                 $(this).parent().remove();
+             })
+                // 运费模板
+                
+                $(".change_danwei").click(function () {
+                    var unit1_a=unit1.unique3();
+                    layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
+                        layer.close(index);
+                        var num=0;
+                        for(var i=0;i<unit1_a.length;i++){
+                            if(unit1_a[i]==text){
+                                  num++;
+                            }
+                        }
+                        if(num==0){
+                          alert("你输入的单位前面没有添加");
+                        }
+                        else{
+                            $(".danwei").html("/" + text);
+                            $(".monomer").val(text);
+                        }
+                      
+                    });
+                });
+                $(".add_biao").click(function () {
+                    var dhtml = "";
+                    dhtml += '<div class="list" style="position: relative;"> <input type="checkbox" name="goods_sign" lay-skin="primary" title="" class="biaoqian"> <span class="texts">古色生香</span> <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="width: 14px;height: 14px;    left: 15px;top: -5px;"></div>'
+                    $(this).before(dhtml);
+                    form.render();
+                });
+                $("#hot").on('click', ".delect_img", function () {
+                    $(this).parent().remove();
+                })
+              
+
+                $("#hot").on('click', ".change_text", function () {
+                    var texts = $(this).siblings('.texts');
+                    var biaoqian = $(this).siblings('.biaoqian');
+                    var that = $(this).parent();
+                    layer.prompt({
+                        title: '请输入修改的文字',
+                        btn: ['确定', '取消',], //可以无限个按钮
+                        formType: 2
+                    }, function (text, index) {
+                        console.log(text);
+                        texts.html(text);
+                        biaoqian.val()
+                        layer.close(index);
+                    }
+
+                    );
+
+                })
                 $(".change_danwei").click(function(){
                     layer.prompt({title: '请输入你要修改的单位', formType: 2}, function(text, index){
                         layer.close(index);
@@ -935,29 +1140,15 @@
                     });
                 });
 
-           
-                    $(".sever_list").on('click', ".change_text", function() {
-                        var texts = $(this).siblings('.texts');
-                        layer.prompt({
-                                title: '请输入修改的文字',
-                                formType: 2
-                            },
-                            function(text, index) {
-                                texts.html(text);
-                                layer.close(index);
-
-                            });
-
-                    })
-                    //TODO点击取消按钮
-                $("#general_content").on('click', ".btu-cancel", function() {
+                //TODO点击取消按钮
+                $("#general_content").on('click', ".btu-cancel", function () {
                     $(this).parent(".add-names").addClass("noshow");
                     $(this).parent().siblings(".add-names").addClass("noshow");
                     $(this).parent().siblings(".add-name").removeClass("noshow");
                 });
 
                 // TODO商品规格变化
-                form.on('radio(guige)', function(data) {
+                form.on('radio(guige)', function (data) {
                     var checkval = data.value;
                     console.log(checkval)
                     if (checkval == "0") { //统一规格
@@ -965,18 +1156,18 @@
                         $(".general").addClass("noshow");
                         $(".nomal").removeClass("noshow");
                         $("#general_content").children("div").remove();
-                        $(".nomal").children(".form-item").children(".form-input").children("input").attr("disabled", false)
+                        $(".nomal").children(".form-item").children(".form-input").children(".danwei_a").children("input").attr("disabled", false)
                         $(".table-bordered").empty();
 
                     } else {
-                        $(".nomal").children(".form-item").children(".form-input").children("input").attr("disabled", true)
+                        $(".nomal").children(".form-item").children(".form-input").children(".danwei_a").children("input").attr("disabled", true)
                         $(".nomal").addClass("noshow");
                         $(".general ").removeClass("noshow");
                     }
 
                 });
 
-                form.on('switch(isShow)', function(data) {
+                form.on('switch(isShow)', function (data) {
                     if ($(this).val() == 0) {
                         $(this).val(1);
                     } else {
@@ -984,7 +1175,7 @@
                     }
 
                 });
-                form.on('switch(issave)', function(data) {
+                form.on('switch(issave)', function (data) {
                     if ($(this).val() == 0) {
                         $(this).val(1);
                     } else {
@@ -993,11 +1184,11 @@
 
                 });
                 //	TODO点击添加添加规格名
-                $("#general_content").on('click', ".add-name", function() {
+                $("#general_content").on('click', ".add-name", function () {
                     $(this).addClass("noshow");
                     $(this).siblings(".add-names").removeClass("noshow");
                 });
-                $("#general_content").on('click', ".guibtu-add", function() {
+                $("#general_content").on('click', ".guibtu-add", function () {
                     var text = $(this).parent().siblings(".add-names").children("input").val();
                     var data_id = $(this).data("id");
                     $.ajax({
@@ -1006,7 +1197,7 @@
                         data: {
                             "goods_name": text
                         },
-                        success: function(data) {
+                        success: function (data) {
                             data = eval("(" + data + ")");
                             //                      console.log(data)
                             layer.msg(data.info);
@@ -1018,154 +1209,152 @@
 
                             form.render('select');
                         },
-                        error: function(data) {
+                        error: function (data) {
                             console.log(data)
                         }
                     });
 
                 });
-                $(".tan").click(function() {
+                $(".tan").click(function () {
                     src = $(this).data("id");
                     $(".tanchuang").removeClass("noshow");
                     $(".tanimg").attr("src", src);
                 });
-                $(".tanchuang").click(function() {
+                $(".tanchuang").click(function () {
                     $(".tanchuang").addClass("noshow");
                 });
-                $(".popup_x").click(function(){
-			$(".popup").addClass("noshow");
-		});
-        $("#hot").on('click', ".change_text", function() {
-			$(".popup").removeClass("noshow");
-		});
-  // 包装规格
-  $(".add_danwei").click(function(){
-            var danwei=''
-            danwei+='<div class="fuhao">=</div>';
-            danwei+='<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-            danwei+='<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
-            $(this).before(danwei);
-        });
-        $(".general_content").on("click",".add_danwei1",function(){
-           var i=parseInt($(this).data("id"));
-            var select=$(this).siblings(".packing").val()
-           if(select!="0"){
-        
-                var danwei1='';
-                danwei1+='<div class="danwei_content">';
-                danwei1+='<div class="fuhao">=</div>';
-                danwei1+='<input type="text" name="'+select+'_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
-                danwei1+='<input type="text" name="'+select+'_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
-                danwei1+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
-                danwei1+='</div>';
-            
-            $(this).before(danwei1);
-           }
-          else{
-              alert("请选择规格编码");
-          }
-          $(this).data("id",i+1);
-          
-        });
-        $(".add_danwei2").click(function(){
-            if($(".packings").find("option").length!=1){
-                var danwei2='';
-                danwei2+='<div class="form-item general generals" style=" align-items: center;position: relative;">';
-                danwei2+='<label class="form-label"></label>';
-                danwei2+='<div class="form-input packing_specifications" style=" align-items: center;">';
-                danwei2+='<select name="" class="packing">';
-                danwei2+='<option value="0">请选择规格编码</option>';
-                for(var j=0;j<codings.length;j++){
-                    danwei2+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
-                }
-                danwei2+='</select>';
-                danwei2+='<div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>';
-                danwei2+='</div>';
-                danwei2+=' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
-                danwei2+=' </div>';
-                $(this).parent().before(danwei2)
-            }
-           else{
-                 alert("请先添加规格编码")
-           }
-        });
+                $(".popup_x").click(function () {
+                    $(".popup").addClass("noshow");
+                });
+
+
+                // 包装规格
+                $(".add_danwei").click(function () {
+                    var danwei = ''
+                    danwei += '<div class="danwei_a" style=" position: relative; display: flex;align-items: center;">';
+                    danwei += '<div class="fuhao">=</div>';
+                    danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+                    danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="1" data-value="">';
+                    danwei += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                    danwei += '</div>';
+                    $(this).before(danwei);
+                });
+                $(".general_content").on("click", ".add_danwei1", function () {
+                    var i = parseInt($(this).data("id"));
+                    var select = $(this).siblings(".packing").val()
+                    if (select != "0") {
+
+                        var danwei1 = '';
+                        danwei1 += '<div class="danwei_content">';
+                        danwei1 += '<div class="fuhao">=</div>';
+                        danwei1 += '<input type="text" name="' + select + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
+                        danwei1 += '<input type="text" name="' + select + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="2" >';
+                        danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                        danwei1 += '</div>';
+
+                        $(this).before(danwei1);
+                    }
+                    else {
+                        alert("请选择规格编码");
+                    }
+                    $(this).data("id", i + 1);
+
+                });
+                $(".add_danwei2").click(function () {
+                    if ($(".packings").find("option").length != 1) {
+                        var danwei2 = '';
+                        danwei2 += '<div class="form-item general generals" style=" align-items: center;position: relative;">';
+                        danwei2 += '<label class="form-label"></label>';
+                        danwei2 += '<div class="form-input packing_specifications" style=" align-items: center;">';
+                        danwei2 += '<select name="" class="packing">';
+                        danwei2 += '<option value="0">请选择规格编码</option>';
+                        for (var j = 0; j < codings.length; j++) {
+                            danwei2 += '<option value="' + codings[j] + '">' + codings[j] + '</option>';
+                        }
+                        danwei2 += '</select>';
+                        danwei2 += '<div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>';
+                        danwei2 += '</div>';
+                        danwei2 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
+                        danwei2 += ' </div>';
+                        $(this).parent().before(danwei2)
+                    }
+                    else {
+                        alert("请先添加规格编码")
+                    }
+                });
             });
-        $(".general-kuang").on('focus', ".coding", function() {
-            $(this).data("id",$(this).val());
+        $(".general-kuang").on('focus', ".coding", function () {
+            $(this).data("id", $(this).val());
         });
-        
-        $(".general-kuang").on('change', ".coding", function() {
-        
-           if($(this).data("id")==''){
-               var dhtmlq='';
-               dhtmlq+=' <option value="'+$(this).val()+'">'+$(this).val()+'</option>';
-             $(".packing").append(dhtmlq);
-             $(this).data("id",$(this).val());
-              codings.push($(this).val());
-           }
-           else{
-                $("input[name='"+$(this).data("id")+"_num[]']").attr('name',$(this).val()+"_num[]");   
-                $("input[name='"+$(this).data("id")+"_unit[]']").attr('name',$(this).val()+"_unit[]");  
-                $(".packing option[value='"+$(this).data("id")+"']").text($(this).val());
-                $(".packing option[value='"+$(this).data("id")+"']").val($(this).val());
-              
-                for(var i=0;i<codings.length;i++){
+
+        $(".general-kuang").on('change', ".coding", function () {
+
+            if ($(this).data("id") == '') {
+                var dhtmlq = '';
+                dhtmlq += ' <option value="' + $(this).val() + '">' + $(this).val() + '</option>';
+                $(".packing").append(dhtmlq);
+                $(this).data("id", $(this).val());
+                codings.push($(this).val());
+            }
+            else {
+                $("input[name='" + $(this).data("id") + "_num[]']").attr('name', $(this).val() + "_num[]");
+                $("input[name='" + $(this).data("id") + "_unit[]']").attr('name', $(this).val() + "_unit[]");
+                $(".packing option[value='" + $(this).data("id") + "']").text($(this).val());
+                $(".packing option[value='" + $(this).data("id") + "']").val($(this).val());
+
+                for (var i = 0; i < codings.length; i++) {
                     console.log(codings[i]);
                     console.log($(this).data("id"));
                     console.log($(this).val());
-                    if(codings[i]==$(this).data("id")){
-                        codings[i]=$(this).val();
+                    if (codings[i] == $(this).data("id")) {
+                        codings[i] = $(this).val();
                     }
                 }
-                $(this).data("id",$(this).val());
-           }
-        //    console.log(codings);
-        });
-        $(".general_content").on('click', ".delect_img", function() {
-           $(this).parent().siblings(".add_danwei1").data("id", parseInt($(this).parent().siblings(".add_danwei1").data("id"))-1);
-        
-           $(this).parent().remove();
-        })
-        $(".general_content").on('change', ".packing", function() {
-            console.log($(this).val())
-            if($(this).val()==0){
-                 $(this).siblings(".danwei_content").remove();
+                $(this).data("id", $(this).val());
             }
-            var k=0;
-          for(var q=0;q<$(".packing").length;q++){
-             if($(".packing")[q].value==$(this).val()){
-                 k++;
-             }
-          }
-          if(k>1){
-              console.log( $(this).find("option[value='0']"));
-            $(this).children("option").remove();
-            var danwei4='';
-            danwei4+='<option value="0">请选择规格编码</option>';
-            for(var j=0;j<codings.length;j++){
-                    danwei4+='<option value="'+codings[j]+'">'+codings[j]+'</option>';
-             }
+            //    console.log(codings);
+        });
 
-             $(this).append(danwei4);
-          }
-           
+
+        $(".general_content").on('change', ".packing", function () {
+            console.log($(this).val())
+            if ($(this).val() == 0) {
+                $(this).siblings(".danwei_content").remove();
+            }
+            var k = 0;
+            for (var q = 0; q < $(".packing").length; q++) {
+                if ($(".packing")[q].value == $(this).val()) {
+                    k++;
+                }
+            }
+            if (k > 1) {
+                console.log($(this).find("option[value='0']"));
+                $(this).children("option").remove();
+                var danwei4 = '';
+                danwei4 += '<option value="0">请选择规格编码</option>';
+                for (var j = 0; j < codings.length; j++) {
+                    danwei4 += '<option value="' + codings[j] + '">' + codings[j] + '</option>';
+                }
+
+                $(this).append(danwei4);
+            }
+
         })
-        $.fn.serializeObject = function()   
-      {   
-            var o = {};   
-            var a = this.serializeArray();   
-            $.each(a, function() {   
-                if (o[this.name]) {   
-                    if (!o[this.name].push) {   
-                        o[this.name] = [o[this.name]];   
-                    }   
-                    o[this.name].push(this.value || '');   
-                } else {   
-                    o[this.name] = this.value || '';   
-                }   
-            });   
-            return o;   
-            };  
+        $.fn.serializeObject = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
         // 包装规格
         // $("#submit").click(function(){
         //     var para = $('form').serializeObject() ;  
@@ -1182,14 +1371,14 @@
         //      }
         //      console.log(shuju);
         // });
-        $("#lv_table").on("keyup",".offer",function(){
-            this.value=this.value.replace(/\s+/g,'');
-            this.value=this.value.replace(/_+/g,'');
+        $("#lv_table").on("keyup", ".offer", function () {
+            this.value = this.value.replace(/\s+/g, '');
+            this.value = this.value.replace(/_+/g, '');
         })
-       
-           
-      
+
+
     </script>
+
 
     {/block}
 
