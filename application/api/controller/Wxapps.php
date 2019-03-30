@@ -625,7 +625,6 @@ class  Wxapps extends  Controller{
                                 }
 
                             }
-                            halt($vy);
                         }else if ($v['id'] == "picturew") {
                             $count = count($v['data']);
                             $data['items'][$k]['count'] = $count;
