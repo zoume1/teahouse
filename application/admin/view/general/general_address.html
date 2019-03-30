@@ -18,11 +18,26 @@
     .form-group .layui-form-select {display: none;}
     .addr-block{margin: 30px 0;}
     .addr-block .addr-label{width: 88px; padding-right: 12px; text-align: right;}
-    .addr-block .addr-label::before{content: '*'; color: #f00;}
+    .addr-block .addr-label[required]::before{content: '*'; color: #f00;}
     .addr-block li{line-height: 34px; margin-bottom: 15px;}
     .addr-block textarea{resize: none; width: 444px; height: 40px; border-radius: 4px; border: 1px solid #ccc; padding: 8px;}
-    .addr-block input{width: 448px; border-radius: 4px; border: 1px solid #ccc; padding-left: 10px;}
-
+    .addr-block input[type=text]{width: 448px; border-radius: 4px; border: 1px solid #ccc; padding-left: 10px;}
+    .save-btn{background-color: #5584ff; border: 1px solid transparent; border-radius: 4px; color: #fff; padding: 0 12px; height: 28px; line-height: 26px;}
+    .addressList{width: 850px;}
+    .maximum{padding: 12px; background-color: #e3f2fd; border-color: #e3f2fd; border-radius: 3px; width: 826px; margin-bottom: 20px;}
+    .maximum .icon-prompt{width: 16px; height: 16px; background: url(__STATIC__/admin/common/img/icon-prompt.png) no-repeat; background-size: contain;}
+    .maximum .max-message{padding-left: 20px; color: #666; font-size: 12px;}
+    .next-table table{width: 100%; border-spacing: 0; border-collapse: collapse; background: #fff; font-size: 12px;}
+    .next-table th{padding: 0; background-color: #ebecf0; color: #333; text-align: left; font-weight: 400; border: 1px solid #dcdee3;}
+    .next-table .next-table-cell-wrapper{padding: 12px 16px; overflow: hidden; text-overflow: ellipsis; word-break: break-all;}
+    .next-table-bd .next-table-row{transition: all .3s ease;}
+    .next-table-bd .next-table-row:hover{background-color: #f2f3f7;}
+    .next-table td{border: 1px solid #dcdee3; padding: 0;}
+    table .t-default{display: block; width: 80px; height: 30px; line-height: 30px; border: 1px solid #ff5000; color: #f30; background-color: #ffd6cc; border-radius: 3px; text-align: center;}
+    table a{color: #333;}
+    table a:hover{color: #f40;}
+    table .t-delete:hover{color: #f40; cursor: pointer;}
+    table .t-setDefault:hover{cursor: pointer; color: #f40;}
 </style>
 
 {/block}
@@ -36,7 +51,7 @@
         <div class="addr-block">
             <ul>
                 <li class="clearfix">
-                    <label class="fl addr-label">地址信息:</label>
+                    <label required class="fl addr-label">地址信息:</label>
                     <div class="form-inline fl">
                         <div data-toggle="distpicker">
                             <div class="form-group">
@@ -55,25 +70,157 @@
                     </div>
                 </li>
                 <li class="clearfix">
-                    <label class="addr-label fl">详细地址:</label>
+                    <label required class="addr-label fl">详细地址:</label>
                     <div class="fl">
                         <textarea placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"></textarea>
                     </div>
                 </li>
                 <li class="clearfix">
-                    <label class="addr-label fl">联系电话:</label>
+                    <label class="addr-label fl">邮政编码:</label>
+                    <div class="fl">
+                        <input type="text" placeholder="请填写邮编">
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <label required class="addr-label fl">联系电话:</label>
                     <div class="fl">
                         <input type="text" placeholder="填写联系电话">
                     </div>
                 </li>
                 <li class="clearfix">
-                    <label class="addr-label fl">收货人姓名:</label>
+                    <label required class="addr-label fl">收货人姓名:</label>
                     <div class="fl">
-                        <input type="text" placeholder="填写收货人姓名(长度不超过25个字符)">
+                        <input type="text" placeholder="长度不超过25个字符">
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <label class="addr-label fl"></label>
+                    <div class="fl">
+                        <input type="checkbox" id="set-def">
+                        <label for="set-def">设置为默认收货地址</label>
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <label class="addr-label fl"></label>
+                    <div class="fl">
+                        <button class="save-btn">保存</button>
                     </div>
                 </li>
             </ul>
-            
+        </div>
+        <div class="addressList">
+            <div class="maximum">
+                <i class="icon-prompt fl"></i>
+                <div class="max-message">已保存2了条地址，还能保存3条地址</div>
+            </div>
+            <div class="next-table">
+                <table>
+                    <colgroup>
+                        <col style="width: 70px;">
+                        <col>
+                        <col style="width: 200px;">
+                        <col style="width: 100px;">
+                        <col style="width: 140px;">
+                        <col style="width: 110px;">
+                        <col style="width: 90px;">
+                    </colgroup>
+                    <thead class="next-table-hd">
+                        <tr>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-wrapper">收货人</div>
+                            </th>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-wrapper">所在地区</div>
+                            </th>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-wrapper">详细地址</div>
+                            </th>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-wrapper">邮编</div>
+                            </th>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-wrapper">电话/手机</div>
+                            </th>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-wrapper">操作</div>
+                            </th>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-wrapper"></div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="next-table-bd">
+                        <tr class="next-table-row">
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">刘德华</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">广东深 深圳市 福田区 莲花街道</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">中电信息大厦东座1518</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">518000</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">13691853045</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">
+                                    <div class="tAction">
+                                        <a href="javascript:void(0);" target="_self">修改</a>
+                                        <span class="t-line">|</span>
+                                        <span class="t-delete">删除</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">
+                                    <!-- <span class="t-setDefault">设为默认</span> -->
+                                    <div>
+                                        <span class="t-default">默认地址</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="next-table-row">
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">刘德华</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">广东深 深圳市 福田区 莲花街道</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">中电信息大厦东座1518</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">518000</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">13691853045</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">
+                                    <div class="tAction">
+                                        <a href="javascript:void(0);" target="_self">修改</a>
+                                        <span class="t-line">|</span>
+                                        <span class="t-delete">删除</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-wrapper">
+                                    <span class="t-setDefault">设为默认</span>
+                                    <!-- <div>
+                                        <span class="t-default">默认地址</span>
+                                    </div> -->
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
