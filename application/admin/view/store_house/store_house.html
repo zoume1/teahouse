@@ -39,6 +39,7 @@
 						<th>仓库保管费</th>
 						<th>仓库描述</th>
 						<th>仓库管理员</th>
+						<th>默认入仓</th>
 						<th>电话</th>
 						<th>操作</th>
 					</tr>
@@ -61,11 +62,14 @@
 						<td>整存散取</td>
 						{/if}
 						<td>{$value.manager}</td>
+						<td>
+							<input type="checkbox" class="Status" name="status" value=""
+							lay-skin="switch" lay-text="是|否" lay-filter="isShow"  data-id="">
+						</td>
 						
 						<td>{$value.phone}</td>
 						<td>
-							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/StoreHouse/store_house_edit',['id'=>$value.id])}"> 编辑
-							</a>
+							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/StoreHouse/store_house_edit',['id'=>$value.id])}"> 编辑</a>
 							
 							<a href="{:url('admin/StoreHouse/store_house_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
