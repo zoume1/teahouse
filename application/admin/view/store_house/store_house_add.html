@@ -240,7 +240,6 @@
 	{block name="bottom"}
 
 	<script type="text/javascript">
-		var ue = UE.getEditor('editor');
 		layui.config({
 			base: "js/"
 		}).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
@@ -264,11 +263,14 @@
                             console.log(data)
                         }
                     });
-					console.log(templet);
 			var danwei='';
 			danwei+='<div class="form-input line" style="position: relative;">';
-			danwei+='<select name="pid" id="admin_role" class="role_list">';
+			danwei+='<select name="pid"  class="role_list"  lay-filter="danwei">';
 			danwei+='<option value="">请选择</option>';
+			for(var i=0;i<templet.length;i++){
+				danwei+='<option value="'+templet[i]+'">'+templet[i]+'</option>';
+			}
+
 			danwei+='</select>';
 			danwei+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">';
 			danwei+='<div class=""> /元/天</div>';
@@ -281,6 +283,34 @@
 		 $(".danwei_content").on('click', ".delect_img", function () {
 				 $(this).parent().remove();
 			 })
+			 form.on('select(danwei)', function(data){
+				 var num=0;
+				 var danwei1='';
+				var selected=$(".danwei_content select option:selected");
+				for(var i=0;i<selected.length;i++){
+				
+                   if(data.value==selected[i].value){
+					   num++;
+				
+				   }
+				 
+				}
+				console.log(num);
+				if(num>1){
+						$(this).parent().parent().siblings("select"). children().remove();
+					
+						danwei1+='<option value="">请选择</option>';
+						for(var j=0;j<templet.length;j++){
+							danwei1+='<option value="'+templet[j]+'">'+templet[j]+'</option>';
+						}
+						console.log(danwei1);
+						$(this).parent().parent().siblings("select").append(danwei1);
+						alert("相同的单位不能有两个仓库保管费")
+							form.render();
+						
+				   }
+			
+			})
 		});
 	</script>
 
