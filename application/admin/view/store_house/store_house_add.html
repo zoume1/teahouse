@@ -247,6 +247,24 @@
 			var form = layui.form(),
 				$ = layui.jquery;
 			form.render();
+			var templet=[];
+                $.ajax({
+                        type: "POST",
+                        url:"{:url('admin/StoreHouse/store_house_unit')}",
+						async:false,
+                        data: {
+                            
+                        },
+                        success: function (data) {
+                            data = eval("(" + data + ")");
+                            templet=data.data;
+                           
+                        },
+                        error: function (data) {
+                            console.log(data)
+                        }
+                    });
+					console.log(templet);
 			var danwei='';
 			danwei+='<div class="form-input line" style="position: relative;">';
 			danwei+='<select name="pid" id="admin_role" class="role_list">';
