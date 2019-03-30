@@ -125,6 +125,16 @@
         position: absolute;
         left: 152px;
     }
+	.add_danwei{
+        color: #20A0FF;
+		cursor: pointer;
+    }
+	.delect_img {
+        width: 14px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
 </style>
 
 {/block}
@@ -182,18 +192,13 @@
 				<div class="tips">*不超过20个字</div>
 			</div>
 		</div>
-	
-			
             <div class="form-item" >
 				<label class="form-label">仓库保管费</label>
-				<div class="form-input line" style="position: relative;">
-					<select name="pid" id="admin_role" class="role_list">
-						 <option value="">111</option>
-					</select>
-					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-					<div class=""> /元/天</div>
+				<div class="danwei_content">
+				
+					<div class="add_danwei"> 继续添加单位</div>
 					<div class="tips">*此处包含您添加的商品所有包装规格</div>
-				</div>
+			  </div>
 			</div>
 			<div class="form-item" >
 				<label class="form-label">仓库保险费率</label>
@@ -210,6 +215,13 @@
 					<a href="">管理会员卡</a>
 				</div>
 			</div>
+			<div class="form-item">
+					<label class="form-label">默认入仓</label>
+					<div class="form-input">
+						<input type="radio" name="status" value="1" title="默认入仓" checked="">
+						<input type="radio" name="status" value="0" title="默认不入仓">
+					</div>
+				</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
@@ -228,13 +240,77 @@
 	{block name="bottom"}
 
 	<script type="text/javascript">
-		var ue = UE.getEditor('editor');
 		layui.config({
 			base: "js/"
 		}).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
 			var form = layui.form(),
 				$ = layui.jquery;
 			form.render();
+			var templet=[];
+                $.ajax({
+                        type: "POST",
+                        url:"{:url('admin/StoreHouse/store_house_unit')}",
+						async:false,
+                        data: {
+                            
+                        },
+                        success: function (data) {
+                            data = eval("(" + data + ")");
+                            templet=data.data;
+                           
+                        },
+                        error: function (data) {
+                            console.log(data)
+                        }
+                    });
+			var danwei='';
+			danwei+='<div class="form-input line" style="position: relative;">';
+			danwei+='<select name="pid"  class="role_list"  lay-filter="danwei">';
+			danwei+='<option value="">请选择</option>';
+			for(var i=0;i<templet.length;i++){
+				danwei+='<option value="'+templet[i]+'">'+templet[i]+'</option>';
+			}
+
+			danwei+='</select>';
+			danwei+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">';
+			danwei+='<div class=""> /元/天</div>';
+			danwei += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:300px">';
+			danwei+='</div>';
+         $(".add_danwei").click(function(){
+			$(this).before(danwei);
+			form.render();
+		 })
+		 $(".danwei_content").on('click', ".delect_img", function () {
+				 $(this).parent().remove();
+			 })
+			 form.on('select(danwei)', function(data){
+				 var num=0;
+				 var danwei1='';
+				var selected=$(".danwei_content select option:selected");
+				for(var i=0;i<selected.length;i++){
+				
+                   if(data.value==selected[i].value){
+					   num++;
+				
+				   }
+				 
+				}
+				console.log(num);
+				if(num>1){
+						$(this).parent().parent().siblings("select"). children().remove();
+					
+						danwei1+='<option value="">请选择</option>';
+						for(var j=0;j<templet.length;j++){
+							danwei1+='<option value="'+templet[j]+'">'+templet[j]+'</option>';
+						}
+						console.log(danwei1);
+						$(this).parent().parent().siblings("select").append(danwei1);
+						alert("相同的单位不能有两个仓库保管费")
+							form.render();
+						
+				   }
+			
+			})
 		});
 	</script>
 

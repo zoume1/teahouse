@@ -115,10 +115,12 @@ class Crowd extends Controller
             $crowd = Db::name("crowd_goods")
                 ->where("id",$id)
                 ->field("id,project_name,end_time,goods_show_image,goods_show_images,company_name,company_name1,company_time,goods_text,team,text")
-                ->select();   
+                ->select();
+            
             if(!empty($crowd)){
                 foreach($crowd as $key => $value)
                 {
+                    $crowd[$key]["goods_show_images"] =  explode(",",$crowd[$key]["goods_show_images"]);
                     $crowd[$key]["days"] = intval(($crowd[$key]["end_time"]-$date_time)/86400);
                     $special[$key] = db("crowd_special")
                         ->where("goods_id",$crowd[$key]["id"])
