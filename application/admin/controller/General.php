@@ -1019,7 +1019,6 @@ class  General extends  Controller{
                     $goods["goods_repertory"] = $standard[0]["stock"];
 
                 }
-
                 return ajax_success('传输成功', $goods);
             } else {
                 return ajax_error("数据为空");

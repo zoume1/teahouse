@@ -89,6 +89,20 @@ class StoreHouse extends Controller{
 
     }
 
+    /**
+     * [仓库所有单位]
+     * 郭杨
+     */
+    public function store_house_unit(){
+        $unit = db("special")->distinct(true)->field("unit")->select();
+        if(!empty($unit)){
+            $list = unit_list($unit);
+            return ajax_success('传输成功', $arr);
+        } else {
+            return ajax_error('数据为空');
+        }      
+    }
+
 
     /**
      * [仓库入仓]
