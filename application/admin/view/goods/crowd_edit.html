@@ -734,6 +734,16 @@
                 <a href="">管理会员卡</a>
             </div>
         </div>
+        {if !empty($value.scope)}
+        <div class="form-item">
+            <label class="form-label">面向范围</label>
+            <div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap; ">
+                {volist name="scope" id="val" }
+                <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val['member_grade_name']}"
+                    value="{$val['member_grade_name']}" {if
+                    condition="in_array($val['member_grade_name'],$value.scope)" } checked='checked'
+                    type="checkbox" name="scope[]" lay-skin="primary" {else} type="checkbox" name="scope[]"
+                    lay-skin="primary" {/if}> {/volist} </div> </div> {/if}
 
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>项目图</label>

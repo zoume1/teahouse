@@ -879,6 +879,10 @@ class Goods extends Controller
             $team =  isset($goods_data["team"]) ? $goods_data["team"]:null;
             $text =  isset($goods_data["text"]) ? $goods_data["text"]:null;
             $result = isset($goods_data["lv1"]) ? $goods_data["lv1"]:null;
+            $scope = isset($goods_data["scope"]) ? implode(",",$goods_data["scope"]):null;
+            $goods_sign = isset($goods_data["goods_sign"]) ? $goods_data["goods_sign"]:null;
+            $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
+            $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
             $show_images = $request->file("goods_show_images");
             $number_days = intval($goods_data["number_days"]);
             $imgs = $request->file("imgs");
@@ -897,7 +901,7 @@ class Goods extends Controller
             $goods = array(
                 "project_name" => $goods_data["project_name"],
                 "number_days" => $goods_data["number_days"],
-                "goods_sign" => $goods_data["goods_sign"],
+                "goods_sign" => $goods_sign,
                 "goods_describe" => $goods_data["goods_describe"],
                 "pid" => $goods_data["pid"],
                 "sort_number" => $goods_data["sort_number"],
@@ -916,8 +920,10 @@ class Goods extends Controller
                 "goods_delivery" => $goods_data["goods_delivery"],
                 "goods_franking" => $goods_data["goods_franking"],
                 "templet_id" => $goods_data["templet_id"],
+                "templet_name" => $goods_data["templet_name"],
                 "label" => $goods_data["label"],
-                "status"=> $goods_data["status"]
+                "status"=> $goods_data["status"],
+                "scope"=> $scope
             );
 
             if(empty($result)){
@@ -1009,9 +1015,10 @@ class Goods extends Controller
             
    
         }
+        $scope = db("member_grade")->field("member_grade_name")->select();
         $expenses = db("express")->field("id,name")->select();
         $goods_list = getSelectList("wares");      
-        return view("crowd_add",["goods_list"=>$goods_list,"expenses"=>$expenses]);
+        return view("crowd_add",["goods_list"=>$goods_list,"expenses"=>$expenses,"scope"=>$scope]);
     }
 
 
@@ -1024,6 +1031,8 @@ class Goods extends Controller
         $goods_standard = db("crowd_special")->where("goods_id", $id)->select();
         $goods_list = getSelectList("wares");
         $expenses = db("express")->field("id,name")->select();
+        $scope = db("member_grade")->field("member_grade_name")->select();
+
 
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
@@ -1037,7 +1046,7 @@ class Goods extends Controller
         }
     
         
-        return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"expenses"=>$expenses]);
+        return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"expenses"=>$expenses,"scope" => $scope]);
     }
 
 
