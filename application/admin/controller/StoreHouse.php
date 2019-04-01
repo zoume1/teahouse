@@ -29,7 +29,7 @@ class StoreHouse extends Controller{
         $pag_number = 20;
         $store = paging_data($store_data,$url,$pag_number);
         return view("store_house",["store"=>$store]);
-    }
+    } 
 
     
     /**
@@ -39,8 +39,10 @@ class StoreHouse extends Controller{
     public function store_house_add(Request $request){
         if($request->isPost()){
             $data = $request->param();
+            $data["type"] = isset($data["type"])?$data["type"]:0;
             $data["unit"] = implode(",",$data["unit"]);
             $data["cost"] = implode(",",$data["cost"]);
+
             $res =Db::name("store_house")->insert($data);           
             if($res){
                 $this -> success("添加成功","admin/StoreHouse/store_house");
@@ -56,7 +58,7 @@ class StoreHouse extends Controller{
      * 郭杨
      */    
     public function delivery_goods_update(Request $request){
-        if( $request->isPost()){
+        if($request->isPost()){
             $data = $request -> param();
             $bool = db("express")->where('id', $request->only(["id"])["id"])->update($data);
 
