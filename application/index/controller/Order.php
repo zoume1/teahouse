@@ -1749,7 +1749,10 @@ class  Order extends  Controller
             $data =Db::name("store_house")
                 ->where("label",1)
                 ->find();
+            
             if(!empty($data)){
+                $data["unit"] = explode(",",$data["unit"]);
+                $data["cost"] = explode(",",$data["cost"]);
                 return ajax_success("返回成功",$data);
             }else{
                 return ajax_error("没有默认收货地址");
