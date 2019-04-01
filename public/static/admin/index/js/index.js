@@ -6,6 +6,8 @@ var width=$(document.body).width();
 console.log(width);
 //console.log(height);
 $(".recontent").height(height);//直接设置元素的高
+$(".UCleft").height(height);//直接设置元素的高
+
 $(".recontent").width(width-140);//直接设置元素的高
 //	抽屉效果;
 $(".UCleft-fixed").children("dl").on("click","dt",function(){
