@@ -117,7 +117,7 @@ class StoreHouse extends Controller{
     public function store_house_cost(Request $request){
         if($request -> isPost()){
             $id = $request ->only("id")["id"];
-            $cost = db("strore_house") -> where('id',$id) ->field("cost,unit,id") ->find();
+            $cost = db("store_house") -> where('id',$id) ->field("cost,unit,id")->find();
             $cost['cost'] = explode(",",$cost['cost']);
             $cost['unit'] = explode(",",$cost['unit']);
         }
