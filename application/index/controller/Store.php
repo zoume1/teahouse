@@ -258,6 +258,15 @@ class  Store extends  Controller{
             }elseif ($status==3){
                 return ajax_error("店铺已放弃，不能进入后台");
             }else{
+                //后台使用
+                $userInfo = db("admin")
+                    ->where("store_id",$id)
+                    ->where("status","<>",1)
+                    ->select();
+                if($userInfo){
+                    Session("user_id", $userInfo[0]["id"]);
+                    Session("user_info", $userInfo);
+                }
                 //进行记录是哪个店铺
                 Session("store_id", $id);
              return ajax_success("成功匹配,可以跳转后台");

@@ -220,6 +220,7 @@ class  Control extends  Controller{
                     //审核通过则在后台添加一个登录账号，不通过则不添加
                  $is_set =   Db::name("admin")->where("store_id",$id)->find();
                  if(!$is_set){
+                     //先判断该店铺是否已经添加过admin表
                      //插入到后台
                      $array =[
                          "account"=>$user_data['phone_number'], //手机号
