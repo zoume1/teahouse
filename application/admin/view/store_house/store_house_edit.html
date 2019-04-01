@@ -150,7 +150,7 @@
 
 	<form class="layui-form layui-form-lists" action="{:url('admin/StoreHouse/store_house_update')}" method="post" enctype="multipart/form-data">
         {if !empty($house)} {volist name="house" id="value"}
-        <input type="hidden" name="id" id="" value="{$value.id}" />
+        <input type="hidden" name="id" id="ids" value="{$value.id}" />
         <div class="form-title">基础信息 </div>
 		<div class="form-item">
 			<label class="form-label">仓库编号</label>
@@ -242,6 +242,22 @@
 			var form = layui.form(),
 				$ = layui.jquery;
 			form.render();
+			$.ajax({
+                        type: "POST",
+                        url:"{:url('admin/StoreHouse/store_house_cost')}",
+						async:false,
+                        data: {
+                            id:$("#ids").val(),
+                        },
+                        success: function (data) {
+                            data = eval("(" + data + ")");
+                            templet=data.data;
+                           
+                        },
+                        error: function (data) {
+                            console.log(data)
+                        }
+                    });
 			var templet=[];
                 $.ajax({
                         type: "POST",
