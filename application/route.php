@@ -167,6 +167,7 @@ Route::group("",[
     "teacenter_comment"=>"index/TeaCenter/teacenter_comment",         //茶圈活动评论存储
     "teacenter_comment_show"=>"index/TeaCenter/teacenter_comment_show", //茶圈活动评论显示
     "teacenter_comment_updata"=>"index/TeaCenter/teacenter_comment_updata", //茶圈活动评论点赞
+    "tacitly_adress"=>"index/TeaCenter/tacitly_adress", //收货地址详情
 
 
     /*商品管理*/
