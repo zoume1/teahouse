@@ -54,7 +54,11 @@
 						<td >
 							{$value.adress}
 						</td>
-						<td>{$value.cost}</td>
+						{if $value.min != $value.max}
+						<td>￥{$value.min}~￥{$value.max}</td>
+						{else}
+						<td>￥{$value.min}</td>
+						{/if}
 						<td>{$value.describe}</td>				
 						<td>{$value.manager}</td>
                         <td>
