@@ -186,7 +186,14 @@
 				<input type="text" name="phone" value="{$value.phone}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
 			</div>
 		</div>
-        <div class="form-title">详细信息 </div>
+		<div class="form-title">详细信息 </div>
+		<div class="form-item">
+			<label class="form-label">仓库描述</label>
+			<div class="form-input">
+				<input type="text" name="describe" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+				<div class="tips">*不超过20个字</div>
+			</div>
+		</div>
 		<div class="form-item" >
 				<label class="form-label">仓库保管费</label>
 				<div class="danwei_content">
@@ -285,7 +292,6 @@
 				   }
 				 
 				}
-				console.log(num);
 				if(num>1){
 						$(this).parent().parent().siblings("select"). children().remove();
 					
