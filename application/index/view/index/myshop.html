@@ -275,11 +275,11 @@
                         <label class="content-title">详细地址：</label>
                         <div>
                             <div data-toggle="distpicker" id="p-dist">
-                                <select></select>
-                                <select></select>
-                                <select></select>
+                                <select data-province="---- 选择省 ----"></select>
+                                <select data-city="---- 选择市 ----"></select>
+                                <select data-district="---- 选择区 ----"></select>
                             </div>
-                            <input type="text" id="p-dt-add"placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
+                            <input type="text" id="p-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
                         </div>
                     </div>
                     <div class="content-item id-item">
@@ -586,7 +586,12 @@
                     if(res.data.is_business == 1){
                         myEvent.changeNatureItem('personal');
                         $('#personal').prop('checked', true);
-
+                        $('#p-id').val(res.data.contact_name);
+                        $('#p-name').val(res.data.id_card);
+                        $('#p-dist select').eq(0).attr('data-province', res.data.address_data.split(',')[0]);
+                        $('#p-dist select').eq(1).attr('data-city', res.data.address_data.split(',')[1]);
+                        $('#p-dist select').eq(2).attr('data-district', res.data.address_data.split(',')[2]);
+                        $('#p-dt-add').val(res.data.address_real_data);
                     }else{
                         myEvent.changeNatureItem('company');
                         $('#company').prop('checked', true);
