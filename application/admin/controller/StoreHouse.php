@@ -18,9 +18,16 @@ class StoreHouse extends Controller{
      * 郭杨
      */    
     public function store_house(){
-         $store = db("store_house")->paginate(20 ,false, [
-             'query' => request()->param(),
-         ]);
+        $store_data = db("store_house")->select();
+        if(!empty($store_data)){
+            foreach($store_data as $key => $value){
+                $store_data[$key]["max"] = max(explode(',',$store_data[$key]['cost']));
+                $store_data[$key]["min"] = min(explode(',',$store_data[$key]['cost']));
+            }
+        }
+        $url = 'admin/StoreHouse/store_house';
+        $pag_number = 20;
+        $store = paging_data($store_data,$url,$pag_number);
         return view("store_house",["store"=>$store]);
     }
 
