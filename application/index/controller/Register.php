@@ -104,17 +104,17 @@ class Register extends  Controller{
                     $res =Db::name('pc_user')->insertGetId($datas);
                     if($res){
                             //插入到后台
-                            $array =[
-                                "account"=>$mobile,
-                                "passwd"=>$passwords,
-                                "sex"=>1,
-                                "stime"=>date("Y-m-d H:i:s"),
-                                "role_id"=>8,//普通访客
-                                "phone"=>$passwords,
-                                "status"=>0,//0可以登录后台，1被禁用
-                                "name"=>$mobile
-                            ];
-                            Db::name("admin")->insertGetId($array);
+//                            $array =[
+//                                "account"=>$mobile,
+//                                "passwd"=>$passwords,
+//                                "sex"=>1,
+//                                "stime"=>date("Y-m-d H:i:s"),
+//                                "role_id"=>8,//普通访客
+//                                "phone"=>$passwords,
+//                                "status"=>1,//0可以登录后台，1被禁用
+//                                "name"=>$mobile
+//                            ];
+//                            Db::name("admin")->insertGetId($array);
                         //注册成功
                         return ajax_success('注册成功',$res);
                     }else{

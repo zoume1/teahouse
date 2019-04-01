@@ -35,6 +35,8 @@ Route::group("",[
     "store_add"=>"index/Store/store_add",//创建店铺
     "store_return"=>"index/Store/store_return",//店铺信息返回
     "store_edit"=>"index/Store/store_edit",//店铺信息编辑
+    "store_give_up"=>"index/Store/store_give_up",//店铺放弃再次申请
+    "store_goto_admin"=>"index/Store/store_goto_admin",//店铺跳转后台
     "store_all_data"=>"index/Store/store_all_data",//所有店铺信息返回
     /*TODO:PC端店铺结束*/
 

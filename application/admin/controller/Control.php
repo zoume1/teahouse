@@ -38,7 +38,7 @@ class  Control extends  Controller{
     public function control_meal_index(){
         $control_meal = db("enter_meal")->paginate(20,false, [
             'query' => request()->param(),
-        ]);     
+        ]);
         return view("control_meal_index",["control_meal"=>$control_meal]);
     }
 
@@ -193,7 +193,7 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_order_add($id){
-        $store_order = db("store")->where("id",1)->select();
+        $store_order = db("store")->where("id",$id)->select();
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
         return view("control_order_add",["store_order"=>$store_order]);
     }
@@ -208,7 +208,6 @@ class  Control extends  Controller{
             $id = $request -> only(["id"])["id"];
             $data = $request -> param();
             $bool = db("store")->where("id",$id)->update($data);
-            
             if($bool){
                 $this->success("审核成功",url("admin/Control/control_order_index"));
             } else {
