@@ -115,17 +115,17 @@ class StoreHouse extends Controller{
      * 郭杨
      */
     public function store_house_cost(Request $request){
-        if($request -> isPost()){
-            $id = $request ->only("id")["id"];
+        if($request->isPost()){
+            $id = $request->only(["id"])["id"];
             $cost = db("store_house") -> where('id',$id) ->field("cost,unit,id")->find();
             $cost['cost'] = explode(",",$cost['cost']);
             $cost['unit'] = explode(",",$cost['unit']);
-        }
-        if(!empty($cost)){
-            return ajax_success('传输成功', $cost);
-        } else {
-            return ajax_error('数据为空');
-        }      
+            if(!empty($cost)){
+                return ajax_success('传输成功', $cost);
+            } else {
+                return ajax_error('数据为空');
+            } 
+        }     
     }
 
 
