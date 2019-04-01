@@ -156,13 +156,13 @@
     
     </div>
 	{if !empty($store_order)}{volist name="store_order" id="value"}
-	<form class="layui-form layui-form-lists" action="{:url('admin/Control/control_order_update')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form layui-form-lists" action="{:url('admin/Control/control_order_update',['id'=>$value.id])}" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="id"  value="{$value.id}" />
 		<div class="form-title">基础信息 </div>
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>店铺名称</label>
 			<div class="form-input">
-				<input type="text"  value="{$value.store_name}" lay-verify="title" autocomplete="off" placeholder="天天果园" class="layui-input">
+				<input type="text"  value="{$value.store_name}" lay-verify="title" autocomplete="off" placeholder="店铺名称" class="layui-input">
 				
 			</div>
 		</div>
@@ -182,15 +182,15 @@
 					<div data-toggle="distpicker">
 						<div class="form-group">
 							<label class="sr-only" for="province3">Province</label>
-							<select class="form-control" id="province3" value="{$value.address_data[0]}" ata-province="" ></select>
+							<select class="form-control" id="province3"  data-province="{$value.address_data[0]}" ></select>
 						</div>
 						<div class="form-group">
 							<label class="sr-only" for="city3">City</label>
-							<select class="form-control" id="city3"  value="{$value.address_data[1]}" data-city="" ></select>
+							<select class="form-control" id="city3"  data-city="{$value.address_data[1]}" ></select>
 						</div>
 						<div class="form-group">
 							<label class="sr-only" for="district3">District</label>
-							<select class="form-control" id="district3" value="{$value.address_data[2]}" data-district="" ></select>
+							<select class="form-control" id="district3"  data-district="{$value.address_data[2]}" ></select>
 						</div>
 					</div>
 				</div>
@@ -226,6 +226,7 @@
 						src="__STATIC__/admin/common/img/a7.png"></i>
 					</span>
 			</div>
+			{if !empty($value.card_side)}
 			<div class="imgcontent">
 				<span class="img">
 						<img src="__UPLOADS__/{$value.card_side}" width="100%">
@@ -233,7 +234,9 @@
 						src="__STATIC__/admin/common/img/a7.png"></i>
 					</span>
 			</div>
+			{/if}
 		</div>
+		{if !empty($value.licence_no)}
 		<div class="form-item">
 			<label class="form-label">营业执照</label>
 			<div class="imgcontent">
@@ -244,7 +247,7 @@
 					</span>
 			</div>
 		</div>
-	
+		{/if}
 		<div class="form-title">支付信息 </div>
 		{if $value.pay_status == 1}
 		<div class="form-item">

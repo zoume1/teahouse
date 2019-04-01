@@ -112,15 +112,16 @@
 
                 <thead>
                     <tr>
-                        <th>用户账号手机号）</th>
-                        <th>联系人姓名）</th>
+                        <th>用户账号手机号</th>
+                        <th>联系人姓名</th>
                         <th>入驻商主体</th>
                         <th>地址</th>
                         <th>套餐选择</th>
                         <th>金额</th>
                         <th>生效时间</th>
                         <th>到期时间</th>
-                        <th>审核状态</th>
+                        <th>店铺审核状态</th>
+                        <th>付款审核状态</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -148,8 +149,9 @@
                             <td></td>
                             {/if}
                             <td>
-                                {$value.status | enter_status}
+                                {$value.status|enter_status}
                             </td>
+                            <td></td>
                             <td>
                                 <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_order_add',['id'=>$value.id])}"> 编辑
                                 </a>
