@@ -256,22 +256,6 @@
 			var form = layui.form(),
 				$ = layui.jquery;
 			form.render();
-			$.ajax({
-                        type: "POST",
-                        url:"{:url('admin/StoreHouse/store_house_cost')}",
-						async:false,
-                        data: {
-                            id:$("#ids").val(),
-                        },
-                        success: function (data) {
-                            data = eval("(" + data + ")");
-                            templet=data.data;
-                           
-                        },
-                        error: function (data) {
-                            console.log(data)
-                        }
-                    });
 			var templet=[];
                 $.ajax({
                         type: "POST",
@@ -289,6 +273,46 @@
                             console.log(data)
                         }
                     });
+			    $.ajax({
+                        type: "POST",
+                        url:"{:url('admin/StoreHouse/store_house_cost')}",
+						async:false,
+                        data: {
+                            id:$("#ids").val(),
+                        },
+                        success: function (data) {
+                            data = eval("(" + data + ")");
+							console.log(data);
+							var danwei9='';
+							for(var f=0;f<data.data.cost.length;f++){
+							
+								danwei9+='<div class="form-input line" style="position: relative;">';
+								danwei9+='<select name="pid"  class="role_list"  lay-filter="danwei">';
+								danwei9+='<option value="">请选择</option>';
+								for(var i=0;i<templet.length;i++){
+									if(data.data.unit[f]==templet[i]){
+										danwei9+='<option value="'+templet[i]+'" selected>'+templet[i]+'</option>';
+									}
+									else{
+										danwei9+='<option value="'+templet[i]+'">'+templet[i]+'</option>';
+									}
+									
+								}
+								danwei9+='</select>';
+								danwei9+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" value="'+data.data.cost[f]+'">';
+								danwei9+='<div class=""> /元/天</div>';
+								danwei9+= ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:300px">';
+								danwei9+='</div>';
+							}
+
+                           $(".add_danwei").before(danwei9);
+						   form.render();
+                        },
+                        error: function (data) {
+                            console.log(data)
+                        }
+                    });
+		
 			var danwei='';
 			danwei+='<div class="form-input line" style="position: relative;">';
 			danwei+='<select name="pid"  class="role_list"  lay-filter="danwei">';
@@ -296,7 +320,6 @@
 			for(var i=0;i<templet.length;i++){
 				danwei+='<option value="'+templet[i]+'">'+templet[i]+'</option>';
 			}
-
 			danwei+='</select>';
 			danwei+='<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">';
 			danwei+='<div class=""> /元/天</div>';
