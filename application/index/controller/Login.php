@@ -142,15 +142,6 @@ class Login extends Controller{
                         // 前台使用
                         Session::set("user",$ress["id"]);
                         Session::set('member',$datas);
-                        //后台使用
-                        $userInfo = db("admin")
-                            ->where("account",$user_mobile)
-                            ->where("status","<>",1)
-                            ->select();
-                        if($userInfo){
-                            Session("user_id", $userInfo[0]["id"]);
-                            Session("user_info", $userInfo);
-                        }
                         return ajax_success('登录成功',$datas);
                     }else{
                         ajax_error('此用户已被管理员设置停用',$datas);

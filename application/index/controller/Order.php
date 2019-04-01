@@ -1761,4 +1761,28 @@ class  Order extends  Controller
     }
 
 
+        /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:默认存茶收货地址列表
+     **************************************
+     */
+    public function tacitly_list(Request $request){
+        if($request->isPost()){
+            $data =Db::name("store_house")
+                ->select();
+
+            if(!empty($data)){
+                foreach($data as $key => $value){
+                    $data[$key]["unit"] = explode(",",$data[$key]["unit"]);
+                    $data[$key]["cost"] = explode(",",$data[$key]["cost"]);
+                }
+                return ajax_success("返回成功",$data);
+            }else{
+                return ajax_error("没有默认收货地址");
+            }
+        }
+    }
+
+
 }

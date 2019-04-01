@@ -53,7 +53,10 @@ class Login extends Controller{
         if ($request->isPost()){
             $username = $request->only("account")["account"];
             $passwd = $request->only("passwd")["passwd"];
-            $userInfo = db("admin")->where("account",$username)->where("status","<>",1)->select();
+            $userInfo = db("admin")
+                ->where("account",$username)
+                ->where("status","<>",1)
+                ->select();
             if($username !="admin"){
                 $this->success("商户请在前台登录","admin/Login/index");
             }
