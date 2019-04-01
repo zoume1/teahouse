@@ -35,6 +35,8 @@ Route::group("",[
     "store_add"=>"index/Store/store_add",//创建店铺
     "store_return"=>"index/Store/store_return",//店铺信息返回
     "store_edit"=>"index/Store/store_edit",//店铺信息编辑
+    "store_give_up"=>"index/Store/store_give_up",//店铺放弃再次申请
+    "store_goto_admin"=>"index/Store/store_goto_admin",//店铺跳转后台
     "store_all_data"=>"index/Store/store_all_data",//所有店铺信息返回
     /*TODO:PC端店铺结束*/
 
@@ -99,6 +101,9 @@ Route::group("",[
     "order_details"=>"index/Order/order_details",//订单详情
     "ios_api_order_del"=>"index/Order/ios_api_order_del",//买家删除订单接口(ajax)
     "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
+    "tacitly_approve"=>"index/Order/tacitly_approve",//存茶默认收货地址
+    "tacitly_list"=>"index/Order/tacitly_list",//存茶默认收货地址列表
+
     /*TODO:订单结束*/
     /*TODO:快递100物流信息开始*/
     "express_hundred"=>"index/Api/express_hundred",//快递100实时物流
