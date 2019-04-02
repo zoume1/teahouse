@@ -63,9 +63,9 @@
 						<td>{$value.manager}</td>
                         <td>
                             {if $value.label == 0}
-                            <input type="checkbox" class="Status" name="label" value="{$value.label}"
+                            <input type="checkbox" class="Status" name="status" value="{$value.label}"
                                 lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
-                            <input type="checkbox" class="Status" name="label" value="{$value.label}"
+                            <input type="checkbox" class="Status" name="status" value="{$value.label}"
                                 lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}">
                             {/if}
                         </td>
@@ -116,13 +116,13 @@
 				var status = $(this).val();
 				$.ajax({
 					type: "POST",
-					url: "{:url('')}",
+					url: "{:url('admin/StoreHouse/store_house_status')}",
 					data: {
 						"id": id,
 						"status": status
 					},
 					success: function(data) {
-						console.log("成功")
+						location.reload();
 					},
 					error: function(data) {
 						console.log("错误")
