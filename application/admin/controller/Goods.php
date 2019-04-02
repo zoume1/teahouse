@@ -379,7 +379,8 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
-            $goods_data = $request->param();       
+            $goods_data = $request->param();  
+            unset($goods_data["aaa"]);
             $show_images = $request->file("goods_show_images");
 
             if(!empty($goods_data["scope"])){

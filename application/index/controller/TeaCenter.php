@@ -364,7 +364,7 @@ class TeaCenter extends Controller
         if($request->isPost()){
             $id = $request->only(["id"])["id"];
             $data =Db::name("store_house")->where("id",$id)
-                ->find();
+                ->find();            
             $data["unit"] = explode(",",$data["unit"]);
             $data["cost"] = explode(",",$data["cost"]);
                 return ajax_success("返回成功",$data);
