@@ -22,14 +22,12 @@ class Admin extends Controller
             foreach ($account_list as $key=>$value){
                 $account_list[$key]["role_name"] = db("role")->where("id",$value["role_id"])->value("name");
             }
-            //halt($account_list);
             $roleList = getSelectList("role");
         }else{
             $account_list = db("admin")->where("store_id",$store_id)->order("id")->select();
             foreach ($account_list as $key=>$value){
                 $account_list[$key]["role_name"] = db("role")->where("id",$value["role_id"])->value("name");
             }
-            //halt($account_list);
             $roleList = getSelectList("role");
         }
         return view("index",["account_list"=>$account_list,"roleList"=>$roleList]);
@@ -40,8 +38,14 @@ class Admin extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
      */
     public function add(){
-        $roles = db("role")->where("status","1")->field("id,name")->select();
-        $roleList = getSelectList("role");
+        $store_id =Session::get("store_id");
+        if(!empty($store_id)){
+            $roles = db("role")->where("store_id",$store_id)->where("status","1")->field("id,name")->select();
+            $roleList = db("role")->where("store_id",$store_id)->field("id,name")->select();
+        }else{
+            $roles = db("role")->where("status","1")->field("id,name")->select();
+            $roleList = getSelectList("role");
+        }
         return view("save",["role"=>$roles,"roleList"=>$roleList]);
     }
 
@@ -51,6 +55,10 @@ class Admin extends Controller
      */
     public function save(Request $request){
         $data = $request->param();
+        $store_id =Session::get("store_id");
+        if(!empty($store_id)){
+            $data["store_id"] =$store_id;
+        }
         $data["passwd"] = password_hash($data["passwd"],PASSWORD_DEFAULT);
         $data["stime"] = date("Y-m-d H:i:s");
         $boolData = model("Admin")->sSave($data);
