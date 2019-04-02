@@ -290,7 +290,7 @@ Route::group("",[
 
 
     /*快递费用*/
-    "express_charge"=>"index/Manage/express_charge",//快递费用结算crowd_index
+    "express_charge"=>"index/Manage/express_charge",//快递费用结算
 
 
     /*众筹商品*/
@@ -669,6 +669,7 @@ Route::group("admin",[
     "store_house_update" =>"admin/StoreHouse/store_house_update",       //仓库管理更新
     "store_house_unit" =>"admin/StoreHouse/store_house_unit",           //仓库管理更新所有单位
     "store_house_cost" =>"admin/StoreHouse/store_house_cost",           //仓库编辑价格单位
+    "store_house_status" =>"admin/StoreHouse/store_house_status",       //仓库编辑默认入仓
     "stores_divergence" =>"admin/StoreHouse/stores_divergence",         //入仓
     "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out", //出仓
 
