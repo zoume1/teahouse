@@ -17,7 +17,7 @@ class Commodity extends Controller
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
             foreach($goods_type as $key => $value)
             {
-                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("label",1)->where("status,1")->select();
+                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("label",1)->select();
  
             }
             return ajax_success("获取成功",array("goods_type"=>$goods_type));
