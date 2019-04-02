@@ -15,12 +15,23 @@ class Admin extends Controller
      * @return \think\response\View
      */
     public function index(Request $request){
-        $account_list = db("admin")->order("id")->select();
-        foreach ($account_list as $key=>$value){
-            $account_list[$key]["role_name"] = db("role")->where("id",$value["role_id"])->value("name");
+        $store_id =Session::get("store_id");
+        //admin进来
+        if(empty($store_id)){
+            $account_list = db("admin")->order("id")->select();
+            foreach ($account_list as $key=>$value){
+                $account_list[$key]["role_name"] = db("role")->where("id",$value["role_id"])->value("name");
+            }
+            //halt($account_list);
+            $roleList = getSelectList("role");
+        }else{
+            $account_list = db("admin")->where("store_id",$store_id)->order("id")->select();
+            foreach ($account_list as $key=>$value){
+                $account_list[$key]["role_name"] = db("role")->where("id",$value["role_id"])->value("name");
+            }
+            //halt($account_list);
+            $roleList = getSelectList("role");
         }
-        //halt($account_list);
-        $roleList = getSelectList("role");
         return view("index",["account_list"=>$account_list,"roleList"=>$roleList]);
     }
 
@@ -43,7 +54,6 @@ class Admin extends Controller
         $data["passwd"] = password_hash($data["passwd"],PASSWORD_DEFAULT);
         $data["stime"] = date("Y-m-d H:i:s");
         $boolData = model("Admin")->sSave($data);
-
         if($boolData){
             $this->redirect("admin/admin/index");
         }else{
