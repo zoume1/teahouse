@@ -81,10 +81,11 @@ class Delivery extends  Controller{
                 "extract_address"=>$extract_address,
                 "extract_real_address" =>$data["extract_real_address"],
                 "phone_num"=>$data["phone_num"],
+                "label"=>$data["label"],
                 "status"=>1
             ];
             if($datas["label"] == 1){
-                $where = "update tb_store_house set label = 0";
+                $where = "update tb_extract_address set label = 0";
                 $rest = Db::query($where);
             }
             $res =Db::name("extract_address")->insert($datas);
@@ -133,10 +134,11 @@ class Delivery extends  Controller{
                 "extract_name" => $data["extract_name"],
                 "extract_address" => $extract_address,
                 "extract_real_address" => $data["extract_real_address"],
-                "phone_num" => $data["phone_num"]
+                "phone_num" => $data["phone_num"],
+                "label" => $data["label"]
             ];
             if($datas["label"] = 1){
-                $where = "update tb_store_house set label = 0";
+                $where = "update tb_extract_address set label = 0";
                 $rest = Db::query($where);
             }
             $res = Db::name("extract_address")->where("id", $id)->update($datas);
@@ -315,7 +317,7 @@ class Delivery extends  Controller{
 
     
     /**
-     * [仓库默认入仓编辑]
+     * [默认自提地址]
      * 郭杨
      */
     public function delivery_label(Request $request){

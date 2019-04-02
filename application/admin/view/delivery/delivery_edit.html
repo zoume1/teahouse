@@ -62,8 +62,12 @@
     <div class="form-item">
         <label class="form-label"><span class="red">*</span>默认自提点</label>
         <div class="form-input">
+            {if $data.label == 1}
             <input type="radio" name="label" value="1" title="默认自提点" checked="">
-            <input type="radio" name="label" value="0" title="非默认自提点">
+            <input type="radio" name="label" value="0" title="非默认自提点">{else}
+            <input type="radio" name="label" value="1" title="默认自提点" >
+            <input type="radio" name="label" value="0" title="非默认自提点" checked="">
+            {/if}
         </div>
     </div>
     <div class="layui-form-item">
