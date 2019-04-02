@@ -360,7 +360,7 @@ class TeaCenter extends Controller
      **************************************
      */
     public function tacitly_adress(Request $request){
-        
+
         if($request->isPost()){
             $id = $request->only(["id"])["id"];
             $data =Db::name("store_house")->where("id",$id)
