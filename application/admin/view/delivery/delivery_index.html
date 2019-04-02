@@ -253,6 +253,7 @@
 					type: "POST",
 					url: "{:url('admin/Delivery/delivery_label')}",
 					data: {
+						"id":id,
 						"status": status
 					},
 					success: function(data) {

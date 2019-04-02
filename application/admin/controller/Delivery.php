@@ -81,6 +81,7 @@ class Delivery extends  Controller{
                 "extract_address"=>$extract_address,
                 "extract_real_address" =>$data["extract_real_address"],
                 "phone_num"=>$data["phone_num"],
+                "label"=>$data["label"],
                 "status"=>1
             ];
             if($datas["label"] == 1){
@@ -133,7 +134,8 @@ class Delivery extends  Controller{
                 "extract_name" => $data["extract_name"],
                 "extract_address" => $extract_address,
                 "extract_real_address" => $data["extract_real_address"],
-                "phone_num" => $data["phone_num"]
+                "phone_num" => $data["phone_num"],
+                "label" => $data["label"]
             ];
             if($datas["label"] = 1){
                 $where = "update tb_extract_address set label = 0";
