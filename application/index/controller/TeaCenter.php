@@ -352,4 +352,25 @@ class TeaCenter extends Controller
         }
 
     }
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:收货地址详情
+     **************************************
+     */
+    public function tacitly_adress(Request $request){
+
+        if($request->isPost()){
+            $id = $request->only(["id"])["id"];
+            $data =Db::name("store_house")->where("id",$id)
+                ->find();            
+            $data["unit"] = explode(",",$data["unit"]);
+            $data["cost"] = explode(",",$data["cost"]);
+                return ajax_success("返回成功",$data);
+            }else{
+                return ajax_error("没有默认收货地址");
+            }
+        }
+    
 }

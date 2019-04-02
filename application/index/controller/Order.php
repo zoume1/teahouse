@@ -46,6 +46,7 @@ class  Order extends  Controller
                     $data[$key]["special_info"] = null;
                     $data[$key]["number"] =$number[$key];
                     $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
+                    $data[$key]["unit"]=$goods_data['monomer'];
                     } else{
                     $data[$key]["goods_info"] = $goods_data;
                     if($special_id[$key] != 0){
@@ -54,9 +55,11 @@ class  Order extends  Controller
                             ->find();
                         $data[$key]["special_info"] =$info;
                         $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $info["price"];
+                        $data[$key]["unit"]=$info['offer'];
                     }else{
                         $data[$key]["goods_info"] = $goods_data;
                         $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data["goods_new_money"];
+                        $data[$key]["unit"]=$goods_data['monomer'];
                     }
                     $data[$key]["number"] =$number[$key];
                     $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];

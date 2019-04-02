@@ -167,6 +167,7 @@ Route::group("",[
     "teacenter_comment"=>"index/TeaCenter/teacenter_comment",         //茶圈活动评论存储
     "teacenter_comment_show"=>"index/TeaCenter/teacenter_comment_show", //茶圈活动评论显示
     "teacenter_comment_updata"=>"index/TeaCenter/teacenter_comment_updata", //茶圈活动评论点赞
+    "tacitly_adress"=>"index/TeaCenter/tacitly_adress", //收货地址详情
 
 
     /*商品管理*/
@@ -289,7 +290,7 @@ Route::group("",[
 
 
     /*快递费用*/
-    "express_charge"=>"index/Manage/express_charge",//快递费用结算crowd_index
+    "express_charge"=>"index/Manage/express_charge",//快递费用结算
 
 
     /*众筹商品*/
@@ -643,6 +644,7 @@ Route::group("admin",[
     "delivery_edit"=>"admin/Delivery/delivery_edit",//上门自提编辑
     "delivery_del"=>"admin/Delivery/del",//上门自提删除
     "delivery_dels"=>"admin/Delivery/dels",//上门自提批量删除
+    "delivery_label"=>"admin/Delivery/delivery_label",//上门字体状态编辑
 
 
     "delivery_goods"=>"admin/Delivery/delivery_goods",                       //快递发货显示
@@ -668,6 +670,7 @@ Route::group("admin",[
     "store_house_update" =>"admin/StoreHouse/store_house_update",       //仓库管理更新
     "store_house_unit" =>"admin/StoreHouse/store_house_unit",           //仓库管理更新所有单位
     "store_house_cost" =>"admin/StoreHouse/store_house_cost",           //仓库编辑价格单位
+    "store_house_status" =>"admin/StoreHouse/store_house_status",       //仓库编辑默认入仓
     "stores_divergence" =>"admin/StoreHouse/stores_divergence",         //入仓
     "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out", //出仓
 

@@ -8,7 +8,7 @@
 .app-scene-container .app-scene-article{padding: 0 115px 20px;}
 .app-scene-container .app-scene-article .app-scene-article-title{text-align: center; font-size: 32px; font-weight: 700; color: #515151; padding-bottom: 18px; border-bottom: 18px solid #eee;}
 .app-scene-container .app-scene-article .app-scene-article-subtitle{text-align: center; font-size: 18px; font-weight: 700; color: #515151; margin: 30px 0;}
-.app-scene-container .app-scene-article-content .article-paragraph{font-size: 18px; color: #515151; line-height: 48px; text-indent: 36px;}
+.app-scene-container .app-scene-article-content .article-paragraph{font-size: 15px; line-height: 48px; color: #515151; text-indent: 36px;}
 .app-scene-container .article-img-box{text-align: center;}
 
 .app-scene-container .moment-article-icon{width: 700px; margin: 0 auto 30px;; display: flex; justify-content: space-between;}
