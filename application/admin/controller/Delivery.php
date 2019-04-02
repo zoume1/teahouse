@@ -83,6 +83,10 @@ class Delivery extends  Controller{
                 "phone_num"=>$data["phone_num"],
                 "status"=>1
             ];
+            if($datas["label"] == 1){
+                $where = "update tb_store_house set label = 0";
+                $rest = Db::query($where);
+            }
             $res =Db::name("extract_address")->insert($datas);
             if($res){
                 $this->success("添加成功",'admin/Delivery/delivery_index');
@@ -131,6 +135,10 @@ class Delivery extends  Controller{
                 "extract_real_address" => $data["extract_real_address"],
                 "phone_num" => $data["phone_num"]
             ];
+            if($datas["label"] = 1){
+                $where = "update tb_store_house set label = 0";
+                $rest = Db::query($where);
+            }
             $res = Db::name("extract_address")->where("id", $id)->update($datas);
             if ($res) {
                 $this->success("修改成功", 'admin/Delivery/delivery_index');
@@ -272,7 +280,7 @@ class Delivery extends  Controller{
     /**
      * [快递发货区域]
      * 郭杨
-     */
+     */  
     public function delivery_are(Request $request){
         if($request->isPost()){
             $id = $request->only(["id"])["id"];
@@ -305,6 +313,35 @@ class Delivery extends  Controller{
         }
     }
 
+    
+    /**
+     * [仓库默认入仓编辑]
+     * 郭杨
+     */
+    public function delivery_label(Request $request){
+        $status = $request->only(["status"])["status"];
+        if ($status == 0) {
+            $id = $request->only(["id"])["id"];
+            $bool = db("extract_address")->where("id", $id)->update(["label" => 0]);
+            if ($bool) {
+                $this->redirect(url("admin/Delivery/delivery_index"));
+            } else {
+                $this->error("修改失败", url("admin/Delivery/delivery_index"));
+            }
+        }
+        if ($status == 1) {
+            $where = "update tb_extract_address set label = 0";
+            $rest = Db::query($where);
+            $id = $request->only(["id"])["id"];
+            $bool = db("extract_address")->where("id", $id)->update(["label" => 1]);
+            if ($bool) {
+                $this->redirect(url("admin/Delivery/delivery_index"));
+            } else {
+                $this->error("修改失败", url("admin/Delivery/delivery_index"));
+            }
+        }
+         
+    }
 
 
 }
