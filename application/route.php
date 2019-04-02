@@ -175,6 +175,9 @@ Route::group("",[
     "commodity_list"=>"index/Commodity/commodity_list",          //商品列表
     "commodity_detail"=>"index/Commodity/commodity_detail",      //商品详情
     "commodity_recommend"=>"index/Commodity/commodity_recommend",//商品首页推荐
+    "approve_list"=>"index/Commodity/approve_list",              //默认自提地址列表
+    "approve_detailed"=>"index/Commodity/approve_detailed",      //选择自提地址详情
+    "approve_address"=>"index/Commodity/approve_address",        //默认上门自提地址
 
     /*优惠券*/
     "coupon_untapped"=>"index/Coupon/coupon_untapped",        //未使用优惠券显示
