@@ -225,7 +225,6 @@ class Delivery extends  Controller{
         }
         $unit = db("special")->distinct(true)->field("unit")->select();
         $list = unit_list($unit);
-
         return view("delivery_goods_add",["list"=>$list]);
     }
 
