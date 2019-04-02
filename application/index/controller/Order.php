@@ -55,7 +55,7 @@ class  Order extends  Controller
                             ->find();
                         $data[$key]["special_info"] =$info;
                         $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"]* $info["price"];
-                        $data[$key]["unit"]=$info['unit'];
+                        $data[$key]["unit"]=$info['offer'];
                     }else{
                         $data[$key]["goods_info"] = $goods_data;
                         $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data["goods_new_money"];
