@@ -581,22 +581,21 @@
                 })
             }()).then(function(res){
                 console.log(res);
-                // if(res.status == 1){
-                //     $('.add-shop-li').click();
-                //     if(res.data.is_business == 1){
-                //         myEvent.changeNatureItem('personal');
-                //         $('#personal').prop('checked', true);
-                //         $('#p-id').val(res.data.contact_name);
-                //         $('#p-name').val(res.data.id_card);
-                //         $('#p-dist select').eq(0).attr('data-province', res.data.address_data.split(',')[0]);
-                //         $('#p-dist select').eq(1).attr('data-city', res.data.address_data.split(',')[1]);
-                //         $('#p-dist select').eq(2).attr('data-district', res.data.address_data.split(',')[2]);
-                //         $('#p-dt-add').val(res.data.address_real_data);
-                //     }else{
-                //         myEvent.changeNatureItem('company');
-                //         $('#company').prop('checked', true);
-                //     }
-                // }
+                if(res.status == 1){
+                    $('.add-shop-li').click();
+                    if(res.data.is_business == 1){
+                        myEvent.changeNatureItem('personal');
+                        $('#personal').prop('checked', true);
+                        myEvent.data.natureTag = res.data.is_business;
+                        myEvent.data.userName = res.data.contact_name;
+                        myEvent.data.idCardNum = res.data.id_card;
+                        myEvent.data.addressStr = res.data.is_business;
+                        myEvent.data.addressStr2 = res.data.is_business;
+                    }else{
+                        myEvent.changeNatureItem('company');
+                        $('#company').prop('checked', true);
+                    }
+                }
             })
         }
 
