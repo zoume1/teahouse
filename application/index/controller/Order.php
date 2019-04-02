@@ -83,7 +83,7 @@ class  Order extends  Controller
      * @param Request $request
      */
     public function order_place(Request $request){
-        if ($request->isPost()) {
+        if ($request->isPost()){
             $open_id = $request->only("open_id")["open_id"];//open_id
             $address_id = $request->param("address_id");//address_id
             $coupon_id =$request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
@@ -140,7 +140,7 @@ class  Order extends  Controller
                         $normal_time =Db::name("order_setting")->find();//订单设置的时间
                         $normal_future_time = strtotime("+". $normal_time['normal_time']." minute");
 
-                        if (!empty($goods_data)) {
+                        if (!empty($goods_data)){
 //                        if(!empty($data["buy_message"])){
 //                            $buy_message =$data["buy_message"];
 //                        }else{
