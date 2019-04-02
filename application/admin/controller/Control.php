@@ -38,7 +38,7 @@ class  Control extends  Controller{
     public function control_meal_index(){
         $control_meal = db("enter_meal")->paginate(20,false, [
             'query' => request()->param(),
-        ]);     
+        ]);
         return view("control_meal_index",["control_meal"=>$control_meal]);
     }
 
@@ -193,7 +193,7 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_order_add($id){
-        $store_order = db("store")->where("id",1)->select();
+        $store_order = db("store")->where("id",$id)->select();
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
         return view("control_order_add",["store_order"=>$store_order]);
     }
@@ -208,8 +208,34 @@ class  Control extends  Controller{
             $id = $request -> only(["id"])["id"];
             $data = $request -> param();
             $bool = db("store")->where("id",$id)->update($data);
-            
             if($bool){
+                if($data['status'] ==1){
+                    $user_id =db("store")
+                        ->where("id",$id)
+                        ->value("user_id");
+                    $user_data =Db::table("tb_pc_user")
+                        ->field("phone_number,password")
+                        ->where("id",$user_id)
+                        ->find();
+                    //审核通过则在后台添加一个登录账号，不通过则不添加
+                 $is_set =   Db::name("admin")->where("store_id",$id)->find();
+                 if(!$is_set){
+                     //先判断该店铺是否已经添加过admin表
+                     //插入到后台
+                     $array =[
+                         "account"=>$user_data['phone_number'], //手机号
+                         "passwd"=>$user_data['password'],//登录密码
+                         "sex"=>1,
+                         "stime"=>date("Y-m-d H:i:s"),
+                         "role_id"=>8,//普通访客
+                         "phone"=>$user_data['phone_number'],
+                         "status"=>0,//0可以登录后台，1被禁用
+                         "name"=>$user_data['phone_number'],
+                         "store_id"=>$id
+                     ];
+                     Db::name("admin")->insertGetId($array);
+                 }
+                }
                 $this->success("审核成功",url("admin/Control/control_order_index"));
             } else {
                 $this->error("审核失败,请编辑后再提交",url("admin/Control/control_order_index"));

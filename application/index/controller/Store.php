@@ -223,5 +223,59 @@ class  Store extends  Controller{
         }
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺放弃
+     **************************************
+     */
+    public function store_give_up(Request $request){
+        if($request->isPost()){
+            $id =$request->only(["id"])["id"];
+            $bool =Db::name("store")->where("id",$id)->update(["status"=>3]);
+            if($bool){
+                return ajax_success("放弃成功");
+            }else{
+                return ajax_error("请重启请求");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:pc端店铺指向后台页面
+     **************************************
+     */
+    public function store_goto_admin(Request $request){
+        if($request->isPost()){
+            $id =$request->only(["id"])['id'];//店铺的id
+            $status =Db::name("store")->where("id",$id)->value("status");
+            if($status==-1){
+                return ajax_error("店铺审核不通过，不能进入后台");
+            }elseif ($status==2){
+                return ajax_error("店铺审核中，不能进入后台");
+            }elseif ($status==3){
+                return ajax_error("店铺已放弃，不能进入后台");
+            }else{
+                //后台使用
+                $userInfo = db("admin")
+                    ->where("store_id",$id)
+                    ->where("status","<>",1)
+                    ->select();
+                if($userInfo){
+                    Session("user_id", $userInfo[0]["id"]);
+                    Session("user_info", $userInfo);
+                }
+                //进行记录是哪个店铺
+                Session("store_id", $id);
+             return ajax_success("成功匹配,可以跳转后台");
+            }
+        }
+    }
+
+
+
+
 
 }
