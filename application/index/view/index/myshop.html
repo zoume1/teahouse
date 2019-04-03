@@ -275,9 +275,9 @@
                         <label class="content-title">详细地址：</label>
                         <div>
                             <div data-toggle="distpicker" id="p-dist">
-                                <select data-province="---- 选择省 ----"></select>
-                                <select data-city="---- 选择市 ----"></select>
-                                <select data-district="---- 选择区 ----"></select>
+                                <select id="province" data-province="---- 选择省 ----"></select>
+                                <select id="city" data-city="---- 选择市 ----"></select>
+                                <select id="district" data-district="---- 选择区 ----"></select>
                             </div>
                             <input type="text" id="p-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
                         </div>
@@ -330,7 +330,7 @@
                                 <select></select>
                                 <select></select>
                             </div>
-                            <input type="text" id="c-dt-addr" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
+                            <input type="text" id="c-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
                         </div>
                     </div>
                     <div class="content-item">
@@ -561,7 +561,6 @@
                 })
                 // 继续编辑
                 $('.continue').click(function(){
-                    // $('.addshop-button').click();
                     var id = $(this).data('id');
                     modifyShop(id);
                 })
@@ -583,17 +582,35 @@
                 console.log(res);
                 if(res.status == 1){
                     $('.add-shop-li').click();
+                    myEvent.data.natureTag = res.data.is_business;
+                    myEvent.data.userName = res.data.contact_name;
+                    myEvent.data.idCardNum = res.data.id_card;
+                    myEvent.data.addressStr = res.data.address_data;
+                    myEvent.data.addressStr2 = res.data.address_real_data;
+                    myEvent.data.storeDesc = res.data.store_introduction;
                     if(res.data.is_business == 1){
                         myEvent.changeNatureItem('personal');
                         $('#personal').prop('checked', true);
-                        myEvent.data.natureTag = res.data.is_business;
-                        myEvent.data.userName = res.data.contact_name;
-                        myEvent.data.idCardNum = res.data.id_card;
-                        myEvent.data.addressStr = res.data.is_business;
-                        myEvent.data.addressStr2 = res.data.is_business;
+                        $('#p-name').val(res.data.contact_name);
+                        $('#p-id').val(res.data.id_card);
+                        // $('#dist1').attr('data-province', res.data.address_data.split(',')[0]);
+                        $('#p-dt-add').val(res.data.address_real_data);
+                        $('#p-imgf').attr('src', '__UPLOADS__/'+res.data.card_positive);
+                        $('#p-imgb').attr('src', '__UPLOADS__/'+res.data.card_side);
+                        $('#p-intr').val(res.data.store_introduction);
                     }else{
                         myEvent.changeNatureItem('company');
                         $('#company').prop('checked', true);
+                        myEvent.data.compName = res.data.business_name;
+                        myEvent.data.licenceNum = res.data.licence_no;
+                        $('#c-name').val(res.data.contact_name);
+                        $('#c-id').val(res.data.id_card);
+                        $('#c-dt-add').val(res.data.address_real_data);
+                        $('#c-cpname').val(res.data.business_name);
+                        $('#c-cpnum').val(res.data.licence_no);
+                        $('#c-imgf').attr('src', '__UPLOADS__/'+res.data.card_positive);
+                        $('#c-imgb').attr('src', '__UPLOADS__/'+res.data.card_side);
+                        $('#c-intr').val(res.data.store_introduction);
                     }
                 }
             })
