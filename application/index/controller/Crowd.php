@@ -28,6 +28,7 @@ class Crowd extends Controller
             $crowd = db("crowd_goods")
                 ->where("label",1)
                 ->where("status",1)
+                ->where("state",1)
                 ->field("id,project_name,goods_describe,end_time,goods_show_image")
                 ->select();
             if(!empty($crowd)){
@@ -65,12 +66,12 @@ class Crowd extends Controller
             $record = Db::name("crowd_goods")
             ->where("label",1)
             ->where("status",1)
-            ->where("state,1")
             ->count();
 
             $crowd = Db::name("crowd_goods")
                 ->where("label",1)
                 ->where("status",1)
+                ->where("state",1)
                 ->field("id,project_name,end_time,goods_show_image")
                 ->select();
                 
