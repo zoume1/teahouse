@@ -312,7 +312,7 @@ Route::group("",[
 Route::group("admin",[
     /*首页*/
     "/$"=>"admin/index/index",
-    "get_id_return_info"=>"admin/index/get_id_return_info",//获取点击二级菜单权限菜单
+    "get_id_return_info"=>"admin/index/get_id_return_info",//获取点击二级菜单下三级菜单的权限菜单
 
     /* 后台首页 */
     "home_index"=>"admin/Home/index",
