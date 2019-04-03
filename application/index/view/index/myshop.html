@@ -326,9 +326,9 @@
                         <label class="content-title">详细地址：</label>
                         <div>
                             <div data-toggle="distpicker" id="c-dist">
-                                <select></select>
-                                <select></select>
-                                <select></select>
+                                <select id="province2" data-province="---- 选择省 ----"></select>
+                                <select id="city2" data-city="---- 选择市 ----"></select>
+                                <select id="district2" data-district="---- 选择区 ----"></select>
                             </div>
                             <input type="text" id="c-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
                         </div>
@@ -463,6 +463,7 @@
             $('.pop-close').click(function(){
                 $('.mask').hide();
                 $(this).parents('.pop').hide();
+                location.reload();
             })
         }());
 
@@ -470,7 +471,8 @@
         (function(){
             $('.addshop-button').click(function(){
                 var addrArr = [],
-                    select;
+                    select,
+                    id = this.id;
                 if(myEvent.data.natureTag == 1){
                     select = document.querySelectorAll('#p-dist select');
                 }else{
@@ -481,10 +483,11 @@
                 })
                 myEvent.data.addressStr = addrArr.join(',');
                 $.ajax({
-                    url: 'store_add',
+                    url: myEvent.data.isEdit?'store_edit':'store_add',
                     type: 'POST',
                     dataType: 'JSON',
                     data: {
+                        id: id,
                         is_business: myEvent.data.natureTag,
                         id_card: myEvent.data.idCardNum,
                         contact_name: myEvent.data.userName,
@@ -495,6 +498,7 @@
                         store_introduction: myEvent.data.storeDesc,
                         business_name: myEvent.data.compName,
                         licence_no: myEvent.data.licenceNum,
+                        
                     },
                     success: function(res){
                         console.log('添加店铺成功',res);
@@ -562,6 +566,7 @@
                 // 继续编辑
                 $('.continue').click(function(){
                     var id = $(this).data('id');
+                    $('.addshop-button').attr('id', id);
                     modifyShop(id);
                 })
             }
@@ -582,6 +587,7 @@
                 console.log(res);
                 if(res.status == 1){
                     $('.add-shop-li').click();
+                    myEvent.data.isEdit = true;
                     myEvent.data.natureTag = res.data.is_business;
                     myEvent.data.userName = res.data.contact_name;
                     myEvent.data.idCardNum = res.data.id_card;
@@ -593,7 +599,12 @@
                         $('#personal').prop('checked', true);
                         $('#p-name').val(res.data.contact_name);
                         $('#p-id').val(res.data.id_card);
-                        // $('#dist1').attr('data-province', res.data.address_data.split(',')[0]);
+                        // 三级联动
+                        $('#p-dist').distpicker('destroy').distpicker({autoSelect: false});
+                        $('#province').val(res.data.address_data.split(',')[0]).trigger('change');
+                        $('#city').val(res.data.address_data.split(',')[1]).trigger('change');
+                        $('#district').val(res.data.address_data.split(',')[2]).trigger('change');
+
                         $('#p-dt-add').val(res.data.address_real_data);
                         $('#p-imgf').attr('src', '__UPLOADS__/'+res.data.card_positive);
                         $('#p-imgb').attr('src', '__UPLOADS__/'+res.data.card_side);
@@ -605,6 +616,12 @@
                         myEvent.data.licenceNum = res.data.licence_no;
                         $('#c-name').val(res.data.contact_name);
                         $('#c-id').val(res.data.id_card);
+                        // 三级联动
+                        $('#c-dist').distpicker('destroy').distpicker({autoSelect: false});
+                        $('#province2').val(res.data.address_data.split(',')[0]).trigger('change');
+                        $('#city2').val(res.data.address_data.split(',')[1]).trigger('change');
+                        $('#district2').val(res.data.address_data.split(',')[2]).trigger('change');
+
                         $('#c-dt-add').val(res.data.address_real_data);
                         $('#c-cpname').val(res.data.business_name);
                         $('#c-cpnum').val(res.data.licence_no);
@@ -656,6 +673,7 @@
 
         (function(myEvent){
             myEvent.data = {
+                isEdit: false,
                 natureTag: 1,
                 userName: '',
                 idCardNum: null,
@@ -763,7 +781,9 @@
             $('.mask').show();
             $('.pop-changephone').show();
         })
-        $('.add-shop').add('.add-shop-li').add('.rejected .continue').click(function(){
+
+        $('.add-shop').add('.add-shop-li').click(function(){
+            myEvent.data.isEdit = false;
             $('.mask').show();
             $('.pop-addshop').show();
         })
