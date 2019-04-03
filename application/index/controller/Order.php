@@ -1826,13 +1826,15 @@ class  Order extends  Controller
                                 $data["collect"] = $rest["price_two"];//首费
                                 $data["markup"] = $rest["markup_two"];//续费
                             }
+                        } else {
+                            return ajax_error("没有运费模板");
                         }
                     }
                     array_push($res,$data);                    
                 }
                 return ajax_success("返回成功",$res);
             } else {
-                return ajax_error("没有默认收货地址");
+                return ajax_error("没有运费模板");
             }
         }
 

@@ -131,6 +131,7 @@ class Crowd extends Controller
                     $crowd[$key]["cost"] = $special[$key]["cost"];
                     $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
+                    $crowd[$key]["collecting_money"] = $special[$key]["collecting_money"];
                     
                 }
                 
