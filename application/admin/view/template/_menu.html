@@ -11,7 +11,7 @@
 			<dd>
 				{volist name="$value.sub" id="val"}
 				<!--<p  class="" data-url="{:url($val['url'])}">{$val.name}</p>-->
-				<p  class="" data-url="{:url($val['url'])}" data-id="{$val.id}">{$val.name}</p>
+				<p  class="" data-url="{:url($val['url'])}" data-id="{$val.id}" data-value="{$val['url']}">{$val.name}</p>
 				{/volist}
 			</dd>
 		</dl>
