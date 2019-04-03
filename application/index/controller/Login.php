@@ -153,14 +153,19 @@ class Login extends Controller{
                     ->where("account",$user_mobile)
                     ->where("status","<>",1)
                     ->select();
-                if(password_verify($password,$res_admin[0]["passwd"])){
-                    Session("user_id", $res_admin[0]["id"]);
-                    Session("user_info", $res_admin);
-                    Session("store_id", $res_admin[0]["store_id"]);
-                    exit(json_encode(array("status"=>2,"info"=>"登录成功")));
+                if(!empty($res_admin)){
+                    if(password_verify($password,$res_admin[0]["passwd"])){
+                        Session("user_id", $res_admin[0]["id"]);
+                        Session("user_info", $res_admin);
+                        Session("store_id", $res_admin[0]["store_id"]);
+                        exit(json_encode(array("status"=>2,"info"=>"登录成功")));
+                    }else{
+                        return ajax_error('用户或密码错误',['status'=>0]);
+                    }
                 }else{
-                    return ajax_error('密码错误',['status'=>0]);
+                    return ajax_error('用户或密码错误',['status'=>0]);
                 }
+
             }
 
         }

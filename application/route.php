@@ -312,6 +312,7 @@ Route::group("",[
 Route::group("admin",[
     /*首页*/
     "/$"=>"admin/index/index",
+    "get_id_return_info"=>"admin/index/get_id_return_info",
 
     /* 后台首页 */
     "home_index"=>"admin/Home/index",
@@ -346,13 +347,14 @@ Route::group("admin",[
 
 
     /*角色列表*/
-    "role_index"=>"admin/role/index",
-    "role_add"=>"admin/role/add",
-    "role_save"=>"admin/role/save",
-    "role_del"=>"admin/role/del",
-    "role_edit"=>"admin/role/edit",
-    "role_updata"=>"admin/role/updata",
-    "role_status"=>"admin/role/status",
+    "role_index"=>"admin/role/index",//列表
+    "role_search"=>"admin/role/role_search",//列表查询
+    "role_add"=>"admin/role/add",//角色添加
+    "role_save"=>"admin/role/save",//角色保存
+    "role_del"=>"admin/role/del",//角色删除
+    "role_edit"=>"admin/role/edit",//角色编辑
+    "role_updata"=>"admin/role/updata",//角色数据更新
+    "role_status"=>"admin/role/status",//角色状态修改
 
 
 
