@@ -28,6 +28,7 @@ class Crowd extends Controller
             $crowd = db("crowd_goods")
                 ->where("label",1)
                 ->where("status",1)
+                ->where("state",1)
                 ->field("id,project_name,goods_describe,end_time,goods_show_image")
                 ->select();
             if(!empty($crowd)){
@@ -70,6 +71,7 @@ class Crowd extends Controller
             $crowd = Db::name("crowd_goods")
                 ->where("label",1)
                 ->where("status",1)
+                ->where("state",1)
                 ->field("id,project_name,end_time,goods_show_image")
                 ->select();
                 
@@ -123,14 +125,23 @@ class Crowd extends Controller
                     $crowd[$key]["goods_show_images"] =  explode(",",$crowd[$key]["goods_show_images"]);
                     $crowd[$key]["days"] = intval(($crowd[$key]["end_time"]-$date_time)/86400);
                     $special[$key] = db("crowd_special")
-                        ->where("goods_id",$crowd[$key]["id"])
-                        ->field("price,cost,collecting_money,collecting")
+                        ->where("goods_id",$id)
+                        ->field("price,cost,collecting_money,collecting,state")
                         ->limit(1)
                         ->order("cost asc")
                         ->find();
+                    $standard = db("crowd_special")
+                        ->where("goods_id",$id)
+                        ->field("id,name,images,cost,story,stock,limit")
+                        ->order("cost asc")
+                        ->select();
+                    $crowd[$key]["state"] = $special[$key]["state"];
                     $crowd[$key]["cost"] = $special[$key]["cost"];
                     $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
+                    $crowd[$key]["collecting_money"] = $special[$key]["collecting_money"];
+                    $crowd[$key]["standard"] = $standard;
+                    
                     
                 }
                 

@@ -103,6 +103,7 @@ Route::group("",[
     "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
     "tacitly_approve"=>"index/Order/tacitly_approve",//存茶默认收货地址
     "tacitly_list"=>"index/Order/tacitly_list",//存茶默认收货地址列表
+    "transportation"=>"index/Order/transportation",//对应模板
 
     /*TODO:订单结束*/
     /*TODO:快递100物流信息开始*/
