@@ -1,7 +1,6 @@
 
 <div class="distribution_list">
     <ul>
-
         <li>
             <a href="{:url('admin/admin/index')}" >账号管理</a>
         </li>
@@ -11,6 +10,31 @@
         <li>
             <a href="{:url('admin/menu/index')}">菜单管理</a>
         </li>
-
     </ul>
 </div>
+<script>
+    // 取当前页面名称(不带后缀名)
+		function pageName() {
+			var a = location.href;
+			var b = a.split("/");
+			var c = b.slice(b.length - 1, b.length).toString(String).split(".");
+			return c.slice(0, 1)[0];
+		}
+    
+     $.ajax({
+                    type:"POST",
+                    url:"{:url('admin/index/get_id_return_info')}",
+                    data:{
+                        id:pageName()
+                    },
+                    async:false,
+                    timeout:5000,
+                    dataType:"json",
+                    success:function (data) {
+                        console.log(data)
+                    },
+                    error:function () {
+                        console.log("错误");
+                    }
+                })
+</script>
