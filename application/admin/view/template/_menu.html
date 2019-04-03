@@ -4,14 +4,14 @@
 
 		<!--<p class="index_text">首页</p>-->
 
-
 		{volist name="menu_list" id="value"}
 		{if isset($value["sub"])}
 		<dl class="">
 			<dt href="#"><span class="iconfont {$value['img']}"></span>{$value.name}<font class="iconfont1"></font></dt>
 			<dd>
 				{volist name="$value.sub" id="val"}
-				<p  class="" data-url="{:url($val['url'])}">{$val.name}</p>
+				<!--<p  class="" data-url="{:url($val['url'])}">{$val.name}</p>-->
+				<p  class="" data-url="{:url($val['url'],['id'=>$val.id])}">{$val.name}</p>
 				{/volist}
 			</dd>
 		</dl>

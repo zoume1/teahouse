@@ -111,6 +111,8 @@ class  Store extends  Controller{
             $store_introduction =$request->only(["store_introduction"])["store_introduction"];
             $business_name =$request->only(["business_name"])["business_name"];
             $licence_no =$request->only(["licence_no"])["licence_no"];
+            $card_positive_images = null;
+            $card_side_file = null;
             if(empty($id_card) || empty($contact_name) || empty($address_data) ||empty($address_real_data) ||empty($store_introduction) ){
                 return ajax_error("请注意填写完所有资料");
             }
@@ -190,7 +192,7 @@ class  Store extends  Controller{
             $bool =Db::name("store")->where("id",$id)->where("user_id",$user_id)->update($data);
             if($bool){
                 //删除图片
-                    if($card_positive_images != null){
+                if($card_positive_images != null){
                     unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$ole_positive_url);
                 }
                 if($card_side_file != null){
@@ -273,6 +275,7 @@ class  Store extends  Controller{
             }
         }
     }
+
 
 
 

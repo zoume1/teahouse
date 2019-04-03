@@ -20,8 +20,9 @@
 {/block}
 <body>
 {block name="content"}
-<form class="layui-form layui-form-lists" action="{:url('admin/admin/updata')}" method="post">
-	{volist name="admin" id="value"}
+{volist name="admin" id="value"}
+<form class="layui-form layui-form-lists" action="{:url('admin/admin/updata',['id'=>$value.id])}" method="post">
+
 	<div class="form-item">
 			<label class="form-label"><span class="red">*</span>账号</label>
 			<div class="form-input">
@@ -87,8 +88,8 @@
 			<label class="form-label"><span class="red">*</span>状态</label>
 			<div class="form-input">
 				<select name="status" id="admin_status">
-				<option value="1" selected="">启用</option>
-				<option value="2">禁用</option>
+				<option value="0" selected="">启用</option>
+				<option value="1">禁用</option>
 			</select>
 			</div>
 		</div>	
@@ -100,8 +101,9 @@
 		</div>
 	
 	
-	{/volist}
+
 </form>
+{/volist}
 {/block}
 
 <!--_footer 作为公共模版分离出去-->

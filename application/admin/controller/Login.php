@@ -1,9 +1,10 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: CHEN
- * Date: 2018/7/14
- * Time: 22:00
+ * User: Administrator
+ * Date: 2018/12/27 0027
+ * 订单
+ * Time: 15:20
  */
 namespace app\admin\controller;
 
@@ -15,17 +16,23 @@ use think\captcha\Captcha;
 class Login extends Controller{
 
     /**
-     * [用户登录]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:用户登录
+     **************************************
+     * @return \think\response\View
      */
     public function index(){
         return view("login");
     }
 
 
-	/**
-     * [验证码]
-     * @author 陈绪
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:验证码
+     **************************************
+     * @return \think\Response
      */
     public function captchas(){
         $captcha = new Captcha([
@@ -40,8 +47,10 @@ class Login extends Controller{
 
 
     /**
-     * [登录检测并取出对应的角色]
-     * @author 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:登录检测并取出对应的角色
+     **************************************
      * @param Request $request
      */
     public function login(Request $request){
@@ -77,15 +86,23 @@ class Login extends Controller{
     }
 
 
-
     /**
-     * [退出]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:[退出]
+     **************************************
      */
     public function logout(){
+        $store_id =Session::get("store_id");
         Session::delete("user_id");
         Session::delete("user_info");
-        $this->redirect("admin/Login/index");
+        Session::delete("store_id");
+        if(!empty($store_id)){
+            $this->redirect("index/index/sign_in");
+        }else{
+            $this->redirect("admin/Login/index");
+        }
+
     }
 
 
