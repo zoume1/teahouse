@@ -70,8 +70,8 @@ class Crowd extends Controller
 
             $crowd = Db::name("crowd_goods")
                 ->where("label",1)
-                ->where("status",1)
                 ->where("state",1)
+                ->where("end_time",">=",$date_time)
                 ->field("id,project_name,end_time,goods_show_image")
                 ->select();
                 
@@ -146,6 +146,50 @@ class Crowd extends Controller
                 }
                 
                 ajax_success('传输成功', $crowd);
+            } else {
+                return ajax_error("数据为空");
+            }
+        }
+    }
+
+
+    /**
+     * [往期众筹商品]
+     * 郭杨
+     */
+    public function crowd_period(Request $request)
+    {
+        if ($request->isPost()){
+            $time = time();
+            $crowd = Db::name("crowd_goods")
+            ->where("label",1)
+            ->where("end_time","<=",$time)
+            ->field("id,project_name,end_time,goods_show_image")
+            ->select();
+
+            if(!empty($crowd)){
+                foreach($crowd as $key => $value)
+                {
+                    $crowd[$key]["days"] = intval(($crowd[$key]["end_time"]-$date_time)/86400);
+                    $special[$key] = db("crowd_special")
+                        ->where("goods_id",$crowd[$key]["id"])
+                        ->field("price,cost,collecting_money,collecting")
+                        ->limit(1)
+                        ->order("cost asc")
+                        ->find();
+                    $crowd[$key]["cost"] = $special[$key]["cost"];
+                    $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
+                    $crowd[$key]["collecting"] = $special[$key]["collecting"];
+                    
+                }
+                $count = count($crowd);
+                $arandom = array_rand($crowd,$count);
+                foreach($crowd as $key => $value){
+                    if(in_array($key,$arandom)){
+                        $arr[] = $value;
+                    }
+                }
+                ajax_success('传输成功', $arr);
             } else {
                 return ajax_error("数据为空");
             }
