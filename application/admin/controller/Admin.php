@@ -34,13 +34,20 @@ class Admin extends Controller
     }
 
     /**
-     * [管理员查询]
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
+     **************李火生*******************
+     * @param Request $request
+     * Notes:管理员查询
+     **************************************
+     * @return \think\response\View
      */
     public function add(){
         $store_id =Session::get("store_id");
         if(!empty($store_id)){
-            $roles = db("role")->where("store_id",$store_id)->where("status","1")->field("id,name")->select();
+            $roles = db("role")
+                ->where("store_id",$store_id)
+                ->where("status","1")
+                ->field("id,name")
+                ->select();
             $roleList = db("role")->where("store_id",$store_id)->field("id,name")->select();
         }else{
             $roles = db("role")->where("status","1")->field("id,name")->select();
@@ -50,8 +57,11 @@ class Admin extends Controller
     }
 
     /**
-     * [管理员添加入库]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:管理员添加入库
+     **************************************
+     * @param Request $request
      */
     public function save(Request $request){
         $data = $request->param();
@@ -70,8 +80,11 @@ class Admin extends Controller
     }
 
     /**
-     * [管理员删除]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:管理员删除
+     **************************************
+     * @param $id
      */
     public function del($id){
         $bool = model("Admin")->where("id",$id)->delete();
@@ -83,19 +96,31 @@ class Admin extends Controller
     }
 
     /**
-     * [管理员编辑]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:管理员编辑
+     **************************************
+     * @param $id
+     * @return \think\response\View
      */
     public function edit($id){
-        $admin = db("Admin")->where("id","$id")->select();
-        $roleList = getSelectList("role");
-
+        $store_id =Session::get("store_id");
+        if(!empty($store_id)){
+            $admin = db("Admin")->where("id","$id")->where("store_id",$store_id)->select();
+            $roleList = db("role")->where("store_id",$store_id)->field("id,name")->select();
+        }else{
+            $admin = db("Admin")->where("id","$id")->select();
+            $roleList = getSelectList("role");
+        }
         return view("edit",["admin"=>$admin,"roleList"=>$roleList]);
     }
 
     /**
-     * [管理员修改]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:管理员修改
+     **************************************
+     * @param Request $request
      */
     public function updata(Request $request){
         $data = $request->param();
@@ -111,10 +136,12 @@ class Admin extends Controller
     }
 
 
-
     /**
-     * 管理员状态修改
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:管理员状态修改
+     **************************************
+     * @param Request $request
      */
     public function status(Request $request){
         if($request->isPost()) {
@@ -141,11 +168,12 @@ class Admin extends Controller
     }
 
 
-
-
     /**
-     * 密码修改
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:密码修改
+     **************************************
+     * @param Request $request
      */
     public function passwd(Request $request){
         $id = $request->only(['id'])['id'];

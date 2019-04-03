@@ -40,41 +40,41 @@
     {block name="content"}
 
     <div class="childrenBody">
-        	<div class="distribution_list">
-                    <ul>
-                        <li>
-                            <a href="{:url('admin/admin/index')}" >账号管理</a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/role/index')}" class="on" >角色管理</a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/menu/index')}">菜单管理</a>
-                        </li>
-                    </ul>
-                </div>
+        {include file="template/_top" /}
+        	<!--<div class="distribution_list">-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/admin/index')}" >账号管理</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/role/index')}" class="on" >角色管理</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/menu/index')}">菜单管理</a>-->
+                        <!--</li>-->
+
+                    <!--</ul>-->
+                <!--</div>-->
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="{:url('admin/role/role_search')}" >
            <div class="seach">
 					<div class="seach_list">
-						<div class="seach_laber">账号</div>
+						<div class="seach_laber">账号/用户名</div>
 						<div class="seach_input">
-							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-
+							<input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
 						</div>
 					</div>
-					<div class="seach_list">
-						<div class="seach_laber">用户名</div>
-						<div class="seach_input">
-							  <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-                       
-						</div>
-					</div>
-				
-					<div class="seach_list">
+					<!--<div class="seach_list">-->
+						<!--<div class="seach_laber">用户名</div>-->
+						<!--<div class="seach_input">-->
+							  <!--<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">-->
+                       <!---->
+						<!--</div>-->
+					<!--</div>-->
+					<div class="seach_list" style="display: none">
 						<div class="seach_laber">角色</div>
 						<div class="seach_input">
-							<select name="">
+							<select name="search_b" >
 								<option value="" selected="">全部</option>
 								<option value="1">已显示</option>
 								<option value="0">已禁用</option>

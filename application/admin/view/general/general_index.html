@@ -31,6 +31,11 @@
 
 <body>
     {block name="content"}
+
+    <!--<div class="title">-->
+    <!--<a href="javascript:void(0);" class="tit-on">店铺信息</a>-->
+    <!--<a href="general_address" title="收货地址">收货地址</a>-->
+    <!--</div>-->
     {if !empty($data)}
     <form action="{:url('admin/General/general_update',['id'=>$data.id])}" method="post" enctype="multipart/form-data">
         <div class="wrapper">

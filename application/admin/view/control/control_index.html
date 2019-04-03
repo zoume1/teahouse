@@ -53,16 +53,17 @@
     {block name="content"}
 
     <div class="childrenBody">
-        <div class="distribution_list">
-            <ul>
-                <li>
-                    <a href="{:url('admin/Control/control_meal_index')}" class="on">入驻套餐</a>
-                </li>
-                <li>
-                    <a href="{:url('admin/Control/control_order_index')}">入驻订单</a>
-                </li>
-            </ul>
-        </div>
+        {include file="template/_top"/}
+        <!--<div class="distribution_list">-->
+            <!--<ul>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/Control/control_meal_index')}" class="on">入驻套餐</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/Control/control_order_index')}">入驻订单</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
         <a class="layui-btn layui-btn-danger batchDel" href="control_meal_add">添加套餐</a>
         <div class="layui-form news_list">
             <table class="layui-table">
