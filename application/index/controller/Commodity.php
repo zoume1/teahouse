@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Request;
+use think\Db;
 
 class Commodity extends Controller
 {
@@ -163,5 +164,66 @@ class Commodity extends Controller
             }
         }
 
+    }
+
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:上门自提默认收获地址
+     **************************************
+     */
+    public function approve_address(Request $request){
+        if($request->isPost()){
+            $data =Db::name("extract_address")->where("label",1)
+                ->find();            
+            if(!empty($data)){
+                return ajax_success("返回成功",$data);
+            }else{
+                return ajax_error("没有默认自提地址");
+            }
+        }
+   }
+
+
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:默认自提地址列表
+     **************************************
+     */
+    public function approve_list(Request $request){
+        if($request->isPost()){
+            $data =Db::name("extract_address")->select();            
+            if($data){
+                return ajax_success("返回成功",$data);
+            }else{
+                return ajax_error("没有默认自提地址");
+            }
+        }
+    }
+
+
+
+
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:选择自提地址详情
+     **************************************
+     */
+    public function approve_detailed(Request $request){
+        if($request->isPost()){
+            $id = $request->only(["id"])["id"];
+            $data =Db::name("extract_address")->where("id",$id)
+                ->find();            
+            if(!empty($data)){
+                return ajax_success("返回成功",$data);
+            }else{
+                return ajax_error("参数有误");
+            }
+        }
     }
 }

@@ -170,7 +170,10 @@
                             setTimeout(function(){
                                 location.href = 'my_shop';
                             }, 1000);
-                        }else{
+                        }else if(res.status == 2){
+                            location.href ="/admin";
+                        }else
+                        {
                             layer.msg(res.info);
                         }
                     },

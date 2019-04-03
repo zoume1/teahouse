@@ -130,7 +130,7 @@ class Login extends Controller{
             $datas =[
                 'phone_number'=> $user_mobile,
             ];
-            if(password_verify($password , $res["password"])){
+            if(password_verify($password,$res["password"])){
                 if($res){
                     $ress =Db::name('pc_user')
                         ->where('phone_number',$user_mobile)
@@ -148,7 +148,19 @@ class Login extends Controller{
                     }
                 }
             }else{
-                return ajax_error('密码错误',['status'=>0]);
+                //直接登录后台页面（如某个商家的客服）
+                $res_admin =Db::name('admin')
+                    ->where("account",$user_mobile)
+                    ->where("status","<>",1)
+                    ->select();
+                if(password_verify($password,$res_admin[0]["passwd"])){
+                    Session("user_id", $res_admin[0]["id"]);
+                    Session("user_info", $res_admin);
+                    Session("store_id", $res_admin[0]["store_id"]);
+                    exit(json_encode(array("status"=>2,"info"=>"登录成功")));
+                }else{
+                    return ajax_error('密码错误',['status'=>0]);
+                }
             }
 
         }

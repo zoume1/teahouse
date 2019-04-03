@@ -96,11 +96,7 @@
 						<th>自提点名称</th>
 						<th>详细地址</th>
 						<th>联系电话</th>
-						<td>
-                            <input type="checkbox" class="Status" name="label" value="{$value.label}"
-                                lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id=""> 
-                           
-                        </td>
+						<th>默认地址</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -112,6 +108,14 @@
 						<td>{$vo.extract_name}</td>
 						<td>{$vo.extract_address}{$vo.extract_real_address}</td>
 						<td>{$vo.phone_num}</td>
+						<td>
+							{if $vo.label == 0}
+							<input type="checkbox" class="Status" name="status" value="{$vo.label}"
+								lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$vo.id}"> {else}
+							<input type="checkbox" class="Status" name="status" value="{$vo.label}"
+								lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$vo.id}">
+							{/if}
+						</td>
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Delivery/delivery_edit',['id'=>$vo.id])}"> 编辑
 							</a>
@@ -247,8 +251,9 @@
 				var status = $(this).val();
 				$.ajax({
 					type: "POST",
-					url: "{:url('admin/Delivery/delivery_status')}",
+					url: "{:url('admin/Delivery/delivery_label')}",
 					data: {
+						"id":id,
 						"status": status
 					},
 					success: function(data) {

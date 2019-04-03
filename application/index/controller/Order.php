@@ -83,7 +83,7 @@ class  Order extends  Controller
      * @param Request $request
      */
     public function order_place(Request $request){
-        if ($request->isPost()) {
+        if ($request->isPost()){
             $open_id = $request->only("open_id")["open_id"];//open_id
             $address_id = $request->param("address_id");//address_id
             $coupon_id =$request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
@@ -140,7 +140,7 @@ class  Order extends  Controller
                         $normal_time =Db::name("order_setting")->find();//订单设置的时间
                         $normal_future_time = strtotime("+". $normal_time['normal_time']." minute");
 
-                        if (!empty($goods_data)) {
+                        if (!empty($goods_data)){
 //                        if(!empty($data["buy_message"])){
 //                            $buy_message =$data["buy_message"];
 //                        }else{
@@ -222,7 +222,6 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
-             
             $member_grade_id =Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
@@ -250,8 +249,6 @@ class  Order extends  Controller
                 $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
                 $numbers =$request->only("order_quantity")["order_quantity"];
                 $order_type =$request->only("order_type")["order_type"]; //1为选择直邮，2到店自提，3选择存茶
-
-
                 $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
                 $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
                 $time=date("Y-m-d",time());
