@@ -32,6 +32,8 @@ $(function () {
 		$(this).parent("dd").parent("dl").siblings().children("dd").children("p").css('font-weight', '500');
 		var url = $(this).data("url");
 		var id = $(this).data("id");
+		var value=$(this).data("value")
+		setCookie("item_id", value);
 		setCookie("page_id", id);
 		var dk = $(window.parent.document).find("#add").attr("src");
 		$.ajax({
