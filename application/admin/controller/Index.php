@@ -17,11 +17,14 @@ class Index extends Controller
 {
 
     /**
-     * [后台首页]
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\think\response\View
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:后台首页
+     **************************************
+     * @param Request $request
+     * @return \think\response\View
      */
-    public function index(Request $request)
+    public function index()
     {
         $menu_list = Config::get("menu_list");
         return view("index", ["menu_list" => $menu_list]);
@@ -30,7 +33,7 @@ class Index extends Controller
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:通过菜单栏id获取他权限内的信息
+     * Notes:通过菜单栏id获取二级下面的三级权限内的信息
      **************************************
      */
     public function get_id_return_info(Request $request)
