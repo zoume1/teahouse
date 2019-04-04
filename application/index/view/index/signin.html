@@ -131,6 +131,7 @@
     </div>
     <script src="__STATIC__/index/js/jquery.js"></script>
     <script src="__STATIC__/index/js/layer/layer.js"></script>
+    <script src="__STATIC__/index/js/base64.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
         var phone = document.querySelector('#phone');
@@ -167,13 +168,14 @@
                         console.log(res);
                         if(res.status == 1){
                             layer.msg(res.info);
+                            myEvent.setCookie(btoa('phone'), btoa($phone), 7); //保存帐号到cookie，有效期7天
+                            myEvent.setCookie(btoa('password'), btoa($password), 7); //保存帐号到cookie，有效期7天
                             setTimeout(function(){
                                 location.href = 'my_shop';
                             }, 1000);
                         }else if(res.status == 2){
                             location.href ="/admin";
-                        }else
-                        {
+                        }else{
                             layer.msg(res.info);
                         }
                     },
