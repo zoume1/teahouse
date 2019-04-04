@@ -490,7 +490,7 @@ class Operate extends  Controller{
             $common = $request->only(["common"])["common"];
             $senior = $request->only(["senior"])["senior"];
             if(($common > 30 ) ||  ($senior > 30)  || ($senior < 0) || ($common < 0)){
-                $this ->error("请参照","admin/operate/operate_receipt_index");
+                $this ->error("更新失败,请参照输入规则","admin/operate/operate_receipt_index");
             } else {
                 $data=[
                     'common'=>$common,
