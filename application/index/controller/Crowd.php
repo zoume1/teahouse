@@ -160,10 +160,10 @@ class Crowd extends Controller
     public function crowd_period(Request $request)
     {
         if ($request->isPost()){
-            $time = time();
+            $date_time = time();
             $crowd = Db::name("crowd_goods")
             ->where("label",1)
-            ->where("end_time","<=",$time)
+            ->where("end_time","<=",$date_time)
             ->field("id,project_name,end_time,goods_show_image")
             ->select();
 
@@ -183,11 +183,15 @@ class Crowd extends Controller
                     
                 }
                 $count = count($crowd);
-                $arandom = array_rand($crowd,$count);
-                foreach($crowd as $key => $value){
-                    if(in_array($key,$arandom)){
-                        $arr[] = $value;
+                if($count > 1){
+                    $arandom = array_rand($crowd,$count);
+                    foreach($crowd as $key => $value){
+                        if(in_array($key,$arandom)){
+                            $arr[] = $value;
+                        }
                     }
+                } else {
+                    $arr = $crowd;
                 }
                 ajax_success('传输成功', $arr);
             } else {
