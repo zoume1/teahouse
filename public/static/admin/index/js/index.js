@@ -23,7 +23,13 @@ $(function () {
 		var date = new Date();
 		date.setDate(date.getDate() + day);
 		document.cookie = name + '=' + value + ';expires=' + date;
+		alert(222);
 	};
+	//删除cookie
+		function delCookie(name) {
+			setCookie(name, null, -1);
+			alert(111);
+		};
 
 	$(".UCleft-fixed").children("dl").children("dd").on("click", "p", function () {
 
@@ -33,6 +39,7 @@ $(function () {
 		var url = $(this).data("url");
 		var id = $(this).data("id");
 		var value=$(this).data("value")
+		delCookie("item_id");
 		setCookie("item_id", value);
 		setCookie("page_id", id);
 		var dk = $(window.parent.document).find("#add").attr("src");
