@@ -67,7 +67,7 @@ Route::group("",[
      "notify"=>"index/order/notify",//小程序支付回调（活动）
      "order_notify"=>"index/order/order_notify",//小程序订单支付回调
      "recharge_notify"=>"index/order/recharge_notify",//小程序充值支付回调
-
+     "reward_pay"=>"index/order/reward_pay",//众筹商品支付
     /*TODO:end*/
 
     /*TODO:地址管理开始*/
@@ -301,6 +301,7 @@ Route::group("",[
     "crowd_index"=>"index/Crowd/crowd_index",       //众筹商品首页显示
     "crowd_now"=>"index/Crowd/crowd_now",           //正在众筹商品
     "crowd_support"=>"index/Crowd/crowd_support",   //众筹商品去支持
+    "crowd_period"=>"index/Crowd/crowd_period",     //往期众筹商品
 
 
 
@@ -410,6 +411,7 @@ Route::group("admin",[
     "order_closed"=>"admin/Order/order_closed",//初始订单已关闭
     "order_confirm_shipment"=>"admin/Order/order_confirm_shipment",//初始订单卖家确认发货
     "order_information_return"=>"admin/Order/order_information_return",//初始订单基本信息
+   
 
     "order_integral"=>"admin/Order/order_integral",//积分订单
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
