@@ -67,7 +67,7 @@ Route::group("",[
      "notify"=>"index/order/notify",//小程序支付回调（活动）
      "order_notify"=>"index/order/order_notify",//小程序订单支付回调
      "recharge_notify"=>"index/order/recharge_notify",//小程序充值支付回调
-
+     "reward_pay"=>"index/order/reward_pay",//众筹商品支付
     /*TODO:end*/
 
     /*TODO:地址管理开始*/
@@ -103,6 +103,7 @@ Route::group("",[
     "ios_api_order_no_pay_cancel"=>"index/Order/ios_api_order_no_pay_cancel",//订单状态修改（未付款买家取消订单）
     "tacitly_approve"=>"index/Order/tacitly_approve",//存茶默认收货地址
     "tacitly_list"=>"index/Order/tacitly_list",//存茶默认收货地址列表
+    "transportation"=>"index/Order/transportation",//对应模板
 
     /*TODO:订单结束*/
     /*TODO:快递100物流信息开始*/
@@ -300,6 +301,7 @@ Route::group("",[
     "crowd_index"=>"index/Crowd/crowd_index",       //众筹商品首页显示
     "crowd_now"=>"index/Crowd/crowd_now",           //正在众筹商品
     "crowd_support"=>"index/Crowd/crowd_support",   //众筹商品去支持
+    "crowd_period"=>"index/Crowd/crowd_period",     //往期众筹商品
 
 
 
@@ -312,6 +314,7 @@ Route::group("",[
 Route::group("admin",[
     /*首页*/
     "/$"=>"admin/index/index",
+    "get_id_return_info"=>"admin/index/get_id_return_info",//获取点击二级菜单下三级菜单的权限菜单
 
     /* 后台首页 */
     "home_index"=>"admin/Home/index",
@@ -346,13 +349,14 @@ Route::group("admin",[
 
 
     /*角色列表*/
-    "role_index"=>"admin/role/index",
-    "role_add"=>"admin/role/add",
-    "role_save"=>"admin/role/save",
-    "role_del"=>"admin/role/del",
-    "role_edit"=>"admin/role/edit",
-    "role_updata"=>"admin/role/updata",
-    "role_status"=>"admin/role/status",
+    "role_index"=>"admin/role/index",//列表
+    "role_search"=>"admin/role/role_search",//列表查询
+    "role_add"=>"admin/role/add",//角色添加
+    "role_save"=>"admin/role/save",//角色保存
+    "role_del"=>"admin/role/del",//角色删除
+    "role_edit"=>"admin/role/edit",//角色编辑
+    "role_updata"=>"admin/role/updata",//角色数据更新
+    "role_status"=>"admin/role/status",//角色状态修改
 
 
 
@@ -407,6 +411,7 @@ Route::group("admin",[
     "order_closed"=>"admin/Order/order_closed",//初始订单已关闭
     "order_confirm_shipment"=>"admin/Order/order_confirm_shipment",//初始订单卖家确认发货
     "order_information_return"=>"admin/Order/order_information_return",//初始订单基本信息
+   
 
     "order_integral"=>"admin/Order/order_integral",//积分订单
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置

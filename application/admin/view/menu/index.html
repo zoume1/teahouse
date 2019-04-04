@@ -51,19 +51,21 @@
     {block name="content"}
 
     <div class="childrenBody">
-        	<div class="distribution_list">
-                    <ul>
-                        <li>
-                            <a href="{:url('admin/admin/index')}" >账号管理</a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/role/index')}" >角色管理</a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/menu/index')}"  class="on">菜单管理</a>
-                        </li>
-                    </ul>
-                </div>
+		{include file="template/_top" /}
+		
+        	<!--<div class="distribution_list">-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/admin/index')}" >账号管理</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/role/index')}" >角色管理</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/menu/index')}"  class="on">菜单管理</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
 			<div class="layui-inline line">
 				<a class="layui-btn layui-btn-danger bataadtwo" href="{:url('admin/Menu/add')}">添加</a>

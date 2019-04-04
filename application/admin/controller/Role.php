@@ -22,7 +22,10 @@ class Role extends Controller
             $role_lists = db("role")->where("store_id",$store_id)->select();
             foreach($role_lists as $key=>$value){
                 if($value["pid"]){
-                    $rs = db("role")->where("id",$value['pid'])->where("store_id",$store_id)->field("name")->find();
+                    $rs = db("role")
+                        ->where("id",$value['pid'])
+                        ->field("name")
+                        ->find();
                     $role_lists[$key]["parent_depart_name"] = $rs["name"];
                 }
             }
@@ -38,6 +41,83 @@ class Role extends Controller
         return view("index",["role_lists"=>$role_lists]);
     }
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:角色搜索
+     **************************************
+     * @param Request $request
+     */
+    public function role_search(){
+        $search_a =input("search_a") ? input("search_a"):null;
+        $search_b  =input("search_b") ? input("search_b"):null;
+        $store_id =Session::get("store_id");
+        if(!empty($store_id)){
+            if(!empty($search_a)){
+                $condition =" `name` like '%{$search_a}%'";
+                $role_lists = db("role")->where($condition)->where("store_id",$store_id)->select();
+                foreach($role_lists as $key=>$value){
+                    if($value["pid"]){
+                        $rs = db("role")
+                            ->where("id",$value['pid'])
+                            ->field("name")
+                            ->find();
+                        $role_lists[$key]["parent_depart_name"] = $rs["name"];
+                    }
+                }
+            }else{
+                if(!empty($search_b)){
+                    $condition =" `status` = '{$search_b}'";
+                    $role_lists = db("role")->where($condition)->where("store_id",$store_id)->select();
+                    foreach($role_lists as $key=>$value){
+                        if($value["pid"]){
+                            $rs = db("role")
+                                ->where("id",$value['pid'])
+                                ->field("name")
+                                ->find();
+                            $role_lists[$key]["parent_depart_name"] = $rs["name"];
+                        }
+                    }
+                }else{
+                    $this->redirect("admin/role/index");
+                }
+            }
+        }else{
+            if(!empty($search_a)){
+                $condition =" `name` like '%{$search_a}%'";
+                $role_lists = db("role")->where($condition)->select();
+                foreach($role_lists as $key=>$value){
+                    if($value["pid"]){
+                        $rs = db("role")
+                            ->where("id",$value['pid'])
+                            ->field("name")
+                            ->find();
+                        $role_lists[$key]["parent_depart_name"] = $rs["name"];
+                    }
+                }
+            }else{
+                if(!empty($search_b)){
+                    $condition =" `status` = '{$search_b}'";
+                    $role_lists = db("role")->where($condition)->select();
+                    foreach($role_lists as $key=>$value){
+                        if($value["pid"]){
+                            $rs = db("role")
+                                ->where("id",$value['pid'])
+                                ->field("name")
+                                ->find();
+                            $role_lists[$key]["parent_depart_name"] = $rs["name"];
+                        }
+                    }
+                }else{
+                    $this->redirect("admin/role/index");
+                }
+            }
+        }
+        return view("index",["role_lists"=>$role_lists]);
+    }
+
+
     /**
      **************李火生*******************
      * @param Request $request
@@ -51,7 +131,11 @@ class Role extends Controller
         if(!empty($store_id)){
             $role_id =db("admin")->where("store_id",$store_id)->value("role_id");
             $roles = db("role")->where("id",$role_id)->field("id,name")->select();
-            $menu_list = db("menu")->where("status", "<>", 0)->where("pid","NEQ",172)->select();
+            $menu_list = db("menu")
+                ->where("status", "<>", 0)
+                ->where("pid","NEQ",172)
+                ->where("id","NEQ",172)
+                ->select();
             $menu_lists = _tree_hTree(_tree_sort($menu_list, "sort_number"));
         }else{
             $roles = db("role")->field("id,name")->select();
@@ -108,17 +192,36 @@ class Role extends Controller
      * @return \think\response\View
      */
     public function edit($id){
-        $roles = db("role")->where("id",$id)->select();
-        $role_name = db("role")->where("id",$roles[0]["pid"])->field("name,id")->select();
-        $menu_list = db("menu")->where("status","<>",0)->select();
-        $menu_lists = _tree_hTree(_tree_sort($menu_list,"sort_number"));
+        $store_id =Session::get("store_id");
+        if(!empty($store_id)){
+            $roles = db("role")->where("id",$id)->select();
+            $role_name = db("role")
+                ->where("id",$roles[0]["pid"])
+                ->field("name,id")
+                ->select();
+            $menu_list = db("menu")
+                ->where("status", "<>", 0)
+                ->where("pid","NEQ",172)
+                ->where("id","NEQ",172)
+                ->select();
+            $menu_lists = _tree_hTree(_tree_sort($menu_list, "sort_number"));
+        }else{
+            $roles = db("role")->where("id",$id)->select();
+            $role_name = db("role")->where("id",$roles[0]["pid"])->field("name,id")->select();
+            $menu_list = db("menu")->where("status","<>",0)->select();
+            $menu_lists = _tree_hTree(_tree_sort($menu_list,"sort_number"));
+        }
         return view("edit",["roles"=>$roles,"menu_lists"=>$menu_lists,"role_name"=>$role_name]);
     }
 
 
     /**
-     * [角色修改]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:[角色修改]
+     **************************************
+     * @param Request $request
+     * @param $id
      */
     public function updata(Request $request,$id){
         $data = $request->only(["name","pid","status","desc"]);
@@ -133,7 +236,10 @@ class Role extends Controller
 
 
     /**
-     * 角色状态修改
+     **************李火生*******************
+     * @param Request $request
+     * Notes:角色状态修改
+     **************************************
      * @param Request $request
      */
     public function status(Request $request){
