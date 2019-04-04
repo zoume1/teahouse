@@ -24,7 +24,7 @@ class Admin extends Controller
             }
             $roleList = getSelectList("role");
         }else{
-            $account_list = db("admin")->where("store_id",$store_id)->order("id")->select();
+            $account_list = db("admin")->where("store_id",$store_id)->where("role_id","NEQ",7)->order("id")->select();
             foreach ($account_list as $key=>$value){
                 $account_list[$key]["role_name"] = db("role")->where("id",$value["role_id"])->value("name");
             }
