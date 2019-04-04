@@ -200,4 +200,30 @@ class Crowd extends Controller
         }
     }
 
+
+   /**
+     * [众筹商品打赏]
+     * 郭杨
+     */
+    public function crowd_reward(Request $request)
+    {
+        if($request->isPost()){
+            $member_id = $request->only('member_id')['member_id'];
+            $money = $request->only('money')['money'];
+            $id = $request->only('id')['id'];
+            $crowd = db("special_crowd")->where("goods_id",$id)->value('id');
+
+            $create_time = time();
+            $time=date("Y-m-d",time());
+            $v=explode('-',$time);
+            $time_second=date("H:i:s",time());
+            $vs=explode(':',$time_second);
+            
+            $parts_order_number ="DS".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+
+
+        }
+    }
+    
+
 }

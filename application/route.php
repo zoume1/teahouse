@@ -642,6 +642,12 @@ Route::group("admin",[
     "operate_broadcast_delete"=>"admin/operate/operate_broadcast_delete",  //广播消息删除
     "operate_broadcast_save"=>"admin/operate/operate_broadcast_save",      //广播消息保存
     "operate_broadcast_status"=>"admin/operate/operate_broadcast_status",  //广播消息显示状态编辑
+   
+    "operate_receipt_index"=>"admin/operate/operate_receipt_index",  //发票显示状态
+    "operate_receipt_update"=>"admin/operate/operate_receipt_update",  //发票显示状态编辑
+
+
+
     
 
 

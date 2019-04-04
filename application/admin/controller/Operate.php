@@ -471,4 +471,28 @@ class Operate extends  Controller{
         }
     }
 
+
+    /**
+     * 发票显示
+     * GY
+    */
+    public function operate_receipt_index(){
+        return view('operate_receipt_index');
+    }
+
+    /**
+     * 发票更新
+     * GY
+    */
+    public function operate_receipt_update(Request $request){
+        if($request -> isPost()){
+            $common = $request->only(["common"])["common"];
+            $senior = $request->only(["senior"])["senior"];
+            if(($common > 30 ) &&  ($senior > 30)){
+                $this ->error("更新失败","admin/operate/operate_receipt_index");
+            }
+        }
+        
+    }
+
 }
