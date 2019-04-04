@@ -471,4 +471,21 @@ class Operate extends  Controller{
         }
     }
 
+
+    /**
+     * 发票显示
+     * GY
+    */
+    public function operate_receipt_index(){
+        return('operate_receipt_index');
+    }
+
+    /**
+     * 发票显示
+     * GY
+    */
+    public function operate_receipt_update(){
+        return('operate_receipt_index');
+    }
+
 }
