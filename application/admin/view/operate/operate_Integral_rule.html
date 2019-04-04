@@ -57,28 +57,29 @@
 </style>
 
 {/block} {block name="content"}
-<div class="distribution_list">
-    <ul>
-        <li>
-            <a href="{:url('admin/operate/operate_problem')}">常见问题</a>
-        </li>
-        <li>
-            <a href="{:url('admin/operate/operate_contract')}"  >协议合同</a>
-        </li>
-        <li>
-            <a href="{:url('admin/operate/operate_message')}">消息提醒</a>
-        </li>
-        <li>
-            <a href="{:url('admin/operate/operate_integral_rule')}" class="on" >积分规则</a>
-        </li>
-        <li>
-            <a href="{:url('admin/operate/operate_about_index')}" >关于我们</a>
-        </li>
-        <li>
-                <a href="{:url('admin/operate/operate_broadcast')}" >广播消息</a>
-            </li>
-    </ul>
-</div>
+{include file="template/_top" /}
+<!--<div class="distribution_list">-->
+    <!--<ul>-->
+        <!--<li>-->
+            <!--<a href="{:url('admin/operate/operate_problem')}">常见问题</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="{:url('admin/operate/operate_contract')}"  >协议合同</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="{:url('admin/operate/operate_message')}">消息提醒</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="{:url('admin/operate/operate_integral_rule')}" class="on" >积分规则</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="{:url('admin/operate/operate_about_index')}" >关于我们</a>-->
+        <!--</li>-->
+        <!--<li>-->
+                <!--<a href="{:url('admin/operate/operate_broadcast')}" >广播消息</a>-->
+            <!--</li>-->
+    <!--</ul>-->
+<!--</div>-->
 <form action="{:url('admin/operate/operate_integral_update')}" method="post">
     <h4 style="padding: 10px;">推荐奖励积分设置：</h4>
     <div class="content">
