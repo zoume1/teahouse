@@ -115,6 +115,27 @@ $('.aside-item:eq(3)').click(function () {
         }
         return this;
     }
+    
+    //设置cookie
+    myEvent.setCookie = function (name, value, day) {
+        var date = new Date();
+        date.setDate(date.getDate() + day);
+        document.cookie = name + '=' + value + ';expires=' + date;
+    };
+    //获取cookie
+    myEvent.getCookie = function (name) {
+        var reg = RegExp(name + '=([^;]+)');
+        var arr = document.cookie.match(reg);
+        if (arr) {
+            return arr[1];
+        } else {
+            return '';
+        }
+    };
+    //删除cookie
+    myEvent.delCookie = function (name) {
+        myEvent.setCookie(name, null, -1);
+    };
 
     // 上传图片
     window.myEvent = myEvent;
@@ -143,25 +164,7 @@ function getIdentifyingCode($el, url, phone) {
         }
     })
 }
-// 判断是否登录
-// (function(){
-//     $.ajax({
-//         url: 'isLogin',
-//         type: 'POST',
-//         dataType: 'JSON',
-//         success: function(res){
-//             console.log(res);
-//             if(res.status == 1){
-//                 $('.login').hide();
-//                 $('.loaded-common').show();
-//                 $('.loaded-mobile').text(res.data.phone_number);
-//             }
-//         },
-//         error: function(res){
-//             console.log(res.status, res.statusText);
-//         }
-//     })
-// })()
+
 // 退出登录
 $('.logout').click(function () {
     $.ajax({
@@ -171,6 +174,8 @@ $('.logout').click(function () {
         success: function (res) {
             console.log(res);
             if (res.status == 1) {
+                myEvent.delCookie(btoa('phone'));
+                myEvent.delCookie(btoa('password'));
                 location.href = 'sign_in';
             }
         },
