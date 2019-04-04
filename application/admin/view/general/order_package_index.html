@@ -23,7 +23,7 @@
         .industry{border-color: #821001; box-shadow: 0 5px 10px #821001;}
         .progress{border-color: #ff2c2e; box-shadow: 0 5px 10px #ff2c2e;}
         .item-top{position: relative; background-color: #fffbf4; padding: 15px 4px 15px;}
-        .version-name{margin: 0 auto 15px; width: 100px; height: 30px; line-height: 30px; text-align: center; box-sizing: border-box; color: #fff; border-radius: 15px; font-size: 14px; font-weight: 700;}
+        .version-name{margin: 0 auto 15px; width: 100px; height: 30px; line-height: 30px; text-align: center; box-sizing: border-box; color: #fff; border-radius: 15px; font-size: 14px; font-weight: 700; background: linear-gradient(to right, #ddd, #a1a2a3);}
         .universal-name{background: linear-gradient(to right, #e4c28b, #dd9522);}
         .industry-name{background: linear-gradient(to right, #bb6a62, #821006);}
         .progress-name{background: linear-gradient(to right, #da8485, #ff2c2e);}
@@ -32,8 +32,8 @@
         .version-cost .td{font-weight: normal;}
         .order{display: block; background-color: #f00; color: #fff; font-size: 14px; width: 90%; height: 35px; cursor: pointer; margin: 0 auto; border: 0; outline: none;}
         .select-comb{position: relative; text-align: center; font-size: 13px; width: 90%; margin: 10px auto 0; cursor: pointer;}
-        .comb-container{width: 200px; height: 250px; position: absolute; left: 50%; bottom: -108%; margin-left: -100px; overflow: hidden;}
-        .comb-list{position: absolute; left: 0; top: -100%; width: 100%; height: 100%; box-sizing: border-box; background-color: #fff; z-index: 2; transition: all .6s; overflow: hidden;}
+        .comb-container{width: 270px; height: 250px; position: absolute; left: 50%; bottom: -108%; margin-left: -135px; overflow: hidden;}
+        .comb-list{position: absolute; left: 0; top: -100%; width: 100%; height: 100%; box-sizing: border-box; background-color: #fff; z-index: 2; transition: all .6s; overflow: hidden; border: 1px solid rgb(255, 223, 223); border-top: 0; box-sizing: border-box;}
         .movelist{top: 0;}
         .comb-list .comb-item{display: flex; align-items: center; justify-content: space-between; height: 40px;}
         .comb-list .comb-p{cursor: pointer;}
@@ -61,6 +61,7 @@
             <div class="step">5.追加评论</div>
         </div>
         <div class="versions">
+            <!-- :class="selectClassName[index === selectFlag && index]" -->
             <div class="version-item"
                 v-for="(item, index) in versionData"
                 :class="selectClassName[index === selectFlag && index]"
@@ -68,7 +69,7 @@
                 @mouseenter="selectEvent(index)">
                 <div class="item-top">
                     <div class="version-name" 
-                        :class="[index==0?'universal-name':(index==1?'industry-name':'progress-name')]">{{item.name}}</div>
+                        :class="titNameArr[index === selectFlag && index]">{{item.name}}</div>
                     <p class="version-suggest" v-if="index == 0">适合小微团队开店，满足<span class="cr">大批发，新零售商品</span>销售、推广营销等基础经营需求</p>
                     <p class="version-suggest" v-else-if="index == 1">本版本能够在万用版的基础上，实现和满足<span class="cr">传统电商无法提供给垂直茶行业</span>经销商、消费者的深度需求</p>
                     <p class="version-suggest" v-else-if="index == 2">解决大型的规模化的<span class="cr">茶厂、茶商柔性化、定制化生产</span>所遇见的全部所需功能 及需求</p>
@@ -150,6 +151,7 @@
                 crimpFlag: [false, false, false],
                 selectFlag: 0,
                 selectClassName: ['universal', 'industry', 'progress'],
+                titNameArr: ['universal-name', 'industry-name', 'progress-name'],
                 versionData: [],
                 selectData: [],
             },
