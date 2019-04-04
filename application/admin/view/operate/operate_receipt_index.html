@@ -54,13 +54,13 @@
 	<div class="childrenBody">
 		{include file="template/_top" /}
 		
-	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_message_save')}" method="post" enctype="multipart/form-data">
-	
+	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_receipt_update')}" method="post" enctype="multipart/form-data">
+	{if !empty($data)}{volist name="data" id="value"}
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>开普通发票费率</label>
 			<div class="form-input">
                 <div class="line" >
-                    <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required">
+                    <input type="text" name="common" value="{$value.common}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required">
                     <div class="danweo">%</div>
                 </div>
 				<div class="tips">
@@ -73,7 +73,7 @@
 			<label class="form-label"><span class="red">*</span>开增值税发票费率</label>
             <div class="form-input">
                     <div class="line" >
-                        <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required">
+                        <input type="text" name="senior" value="{$value.senior}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required">
                         <div class="danweo">%</div>
                     </div>
                     <div class="tips">
@@ -82,7 +82,7 @@
                 </div>
 		</div>
 		
-
+        {/volist}{/if}
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
