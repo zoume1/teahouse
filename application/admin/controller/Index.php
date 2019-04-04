@@ -27,7 +27,9 @@ class Index extends Controller
     public function index()
     {
         $menu_list = Config::get("menu_list");
-        return view("index", ["menu_list" => $menu_list]);
+        $user_info =Session::get("user_info");
+        $account =$user_info[0]["account"];
+        return view("index", ["menu_list" => $menu_list,"account"=>$account]);
     }
 
     /**
@@ -73,7 +75,12 @@ class Index extends Controller
                         }
                     }
 //                    $menu_list = _tree_hTree(_tree_sort($menu_list, "sort_number"));
-                    return ajax_success("成功获取", $menu_list);
+                    if(!empty($menu_list)){
+                        foreach ($menu_list as $val_data){
+                            $menu_lists[] =$val_data;
+                        }
+                    }
+                    return ajax_success("成功获取", $menu_lists);
                 } else {
                     return ajax_error("没有获取到id");
                 }
