@@ -1806,6 +1806,7 @@ class  Order extends  Controller
                     $data["goods_id"] = $value;
                     if($goods['goods_franking'] != 0){
                         $data["collect"] = $goods["goods_franking"]; //统一邮费
+                        $data["markup"] = 0; //统一邮费
                     }else{
                         $templet_name = explode(",",$goods["templet_name"]);
                         $templet_id = explode(",",$goods["templet_id"]);
