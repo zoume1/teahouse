@@ -135,6 +135,7 @@ class Role extends Controller
                 ->where("status", "<>", 0)
                 ->where("pid","NEQ",172)
                 ->where("id","NEQ",172)
+                ->where("id","NEQ",185)
                 ->select();
             $menu_lists = _tree_hTree(_tree_sort($menu_list, "sort_number"));
         }else{
@@ -202,6 +203,7 @@ class Role extends Controller
             $menu_list = db("menu")
                 ->where("status", "<>", 0)
                 ->where("pid","NEQ",172)
+                ->where("id","NEQ",185)
                 ->where("id","NEQ",172)
                 ->select();
             $menu_lists = _tree_hTree(_tree_sort($menu_list, "sort_number"));

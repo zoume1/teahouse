@@ -1061,7 +1061,8 @@ class Goods extends Controller
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $time = time();
-            $goods_data = $request->param();       
+            $goods_data = $request->param();
+            unset($goods_data["aaa"]);
             $show_images = $request->file("goods_show_images");
             $number_days = intval($goods_data["number_days"]);
             $end_time = strtotime(date('Y-m-d', strtotime ("+ $number_days day", $time)));           
