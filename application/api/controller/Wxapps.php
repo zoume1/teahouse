@@ -311,7 +311,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == "pt") {
-                         
+
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['goodsnum'];
@@ -486,7 +486,6 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if (isset($v['params']['noticedata']) && intval($v['params']['noticedata']) == 0) {
-                            halt(16);
                             /*读取系统公告*/
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
 //                                $sourceid = explode(':', $v['params']['sourceid'])[1];
