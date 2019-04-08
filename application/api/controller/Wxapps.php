@@ -206,7 +206,6 @@ class  Wxapps extends  Controller{
                         }
                         //轮播图
                         if ($v['id'] == "banner") {
-                            halt(8);
                             $v['data'] = array_values($v['data']);
                             if ($v['data']) {
                                 $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
@@ -215,10 +214,10 @@ class  Wxapps extends  Controller{
                             }
                             //富文本
                         }else if ($v['id'] == "richtext") {
-                            halt(9);
+
                             $v['richtext'] = base64_decode($v['params']['content']);
                         }else if ($v['id'] == "feedback") {
-                            halt(10);
+
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $data['forminfo'] = Db::table('ims_sudu8_page_formlist')->where("uniacid", $uniacid)->where("id", $sourceid)->find();
@@ -244,7 +243,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == "msmk") {
-                            halt(12);
+
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['goodsnum'];
@@ -312,7 +311,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == "pt") {
-                            halt(13);
+                         
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['goodsnum'];
