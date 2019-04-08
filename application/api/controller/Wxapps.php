@@ -509,7 +509,6 @@ class  Wxapps extends  Controller{
                                 $data['sec'] = $v['params']['sec'];
                             }
                         }else if ($v['id'] == "goods") {
-                            halt(17);
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['goodsnum'];
