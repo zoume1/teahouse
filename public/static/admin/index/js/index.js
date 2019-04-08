@@ -23,12 +23,12 @@ $(function () {
 		var date = new Date();
 		date.setDate(date.getDate() + day);
 		document.cookie = name + '=' + value + ';expires=' + date;
-		alert(222);
+		// alert(222);
 	};
 	//删除cookie
 		function delCookie(name) {
 			setCookie(name, null, -1);
-			alert(111);
+			// alert(111);
 		};
 
 	$(".UCleft-fixed").children("dl").children("dd").on("click", "p", function () {
