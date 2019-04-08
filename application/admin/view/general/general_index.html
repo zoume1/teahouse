@@ -24,6 +24,26 @@
     .img {position: relative;display: inline-block;width: 100px;}
     .imgcontent {margin: 10px;}
     .img>i {display: inline-block;width: 20px;position: absolute;right: 0;top: 0;}
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 17px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    
 
 </style>
 
@@ -36,10 +56,11 @@
     <!--<a href="javascript:void(0);" class="tit-on">店铺信息</a>-->
     <!--<a href="general_address" title="收货地址">收货地址</a>-->
     <!--</div>-->
-    {include file="template/_top" /}
+   
     {if !empty($data)}
     <form action="{:url('admin/General/general_update',['id'=>$data.id])}" method="post" enctype="multipart/form-data">
         <div class="wrapper">
+                {include file="template/_top" /}
             <!--<div class="title">-->
                 <!--<a href="javascript:void(0);" class="tit-on">店铺信息</a>-->
                 <!--<a href="general_address" title="收货地址">收货地址</a>-->
