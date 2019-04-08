@@ -38,13 +38,33 @@
     table a:hover{color: #f40;}
     table .t-delete:hover{color: #f40; cursor: pointer;}
     table .t-setDefault:hover{cursor: pointer; color: #f40;}
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 17px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
 </style>
 
 {/block}
 <body>
-{include file="template/_top" /}
+
     {block name="content"}
     <div class="wrapper">
+            {include file="template/_top" /}
         <!--<div class="title">-->
             <!--<a href="general_index" title="店铺信息">店铺信息</a>-->
             <!--<a href="javascript:void(0);" class="tit-on">收货地址</a>-->

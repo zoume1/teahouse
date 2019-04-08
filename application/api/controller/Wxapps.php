@@ -191,7 +191,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'footmenu') {
-                                halt(7);
+                               //自定义菜单部分
                             if ($v['data']) {
                                 foreach ($v['data'] as $ki => $vi) {
                                     if ($vi['imgurl'] != "") {
@@ -243,7 +243,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == "msmk") {
-
+                            //商品分类
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['goodsnum'];
@@ -556,7 +556,6 @@ class  Wxapps extends  Controller{
                                     foreach ($list as $kk => $vv) {
                                         if ($vv['type'] == "showPro" && $vv['is_more'] == 0) {
                                             $list[$kk]['linkurl'] = "/sudu8_page/showPro/showPro?id=" . $vv['id'];
-
                                             $items_orders = Db::table('ims_sudu8_page_order') ->where('pid', $vv['id']) ->where('uniacid', $uniacid) ->select();
                                             $items_pro_num = 0;
                                             if($items_orders) {
