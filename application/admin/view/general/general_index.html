@@ -8,9 +8,11 @@
     * {margin: 0;padding: 0;}
     body {background: #fff;}
     .wrapper {padding: 20px;}
+
     .title {border-bottom: 1px solid #c9c9c9;padding-bottom: 5px;}
     .title a{font-size: 18px; padding: 0 10px 5px; color: #333;}
     .title .tit-on {color: #0066FF;border-bottom: 2px solid #21a5fa;}
+    
     .items {margin-top: 30px;}
     .item {display: flex;margin-bottom: 20px;}
     .item .item-key {width: 200px;text-align: right;font-size: 16px;color: #666;}
@@ -145,10 +147,10 @@
     {else}
     <form action="{:url('admin/General/general_update')}" method="post">
         <div class="wrapper">
-            <div class="title">
+            <!-- <div class="title">
                 <a href="javascript:void(0);" class="tit-on">店铺信息</a>
                 <a href="general_address" title="收货地址">收货地址</a>
-            </div>
+            </div> -->
             <div class="items">
                 <div class="item">
                     <div class="item-key">店铺名称：</div>
