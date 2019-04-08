@@ -100,18 +100,20 @@ class  Wxapps extends  Controller{
             foreach ($data['items'] as $k => &$v) {
                 if (is_array($v)) {
                     if (isset($v['id'])) {
+                        halt(0);
                         if ($v['id'] == 'title2' || $v['id'] == 'title' || $v['id'] == 'line' || $v['id'] == 'blank' || $v['id'] == 'anniu' || $v['id'] == 'notice' || $v['id'] == 'service' || $v['id'] == 'listmenu' || $v['id'] == 'joblist' || $v['id'] == 'personlist' || $v['id'] == 'msmk' || $v['id'] == 'multiple' || $v['id'] == 'mlist' || $v['id'] == 'goods' || $v['id'] == 'tabbar' || $v['id'] == 'cases' || $v['id'] == 'listdesc' || $v['id'] == 'pt' || $v['id'] == 'dt' || $v['id'] == 'ssk' || $v['id'] == 'yhq' || $v['id'] == 'dnfw' || $v['id'] == 'yuyin' || $v['id'] == 'feedback') {
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
                         } else if ($v['id'] == 'xnlf') {
-                            halt(22);
+                            halt(1);
                             $num = Db::table('ims_sudu8_page_base')->where("uniacid", $uniacid)->find();
                             $v['params']['fwl'] = $v['params']['fwl'] * 1 + $num['visitnum'] * 1;
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
                         }else if($v['id']=='ddlb'){
+                            halt(2);
                             $a=Db::table('ims_sudu8_page_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
                             $b=Db::table('ims_sudu8_page_pt_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
                             $c=Db::table('ims_sudu8_page_duo_products_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
@@ -131,6 +133,7 @@ class  Wxapps extends  Controller{
                             }
 
                         }else if ($v['id'] == 'bigimg' || $v['id'] == 'classfit' || $v['id'] == 'banner' || $v['id'] == 'menu' || $v['id'] == 'picture' || $v['id'] == 'picturew') {
+                           halt(3);
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -147,7 +150,7 @@ class  Wxapps extends  Controller{
                             }
 
                         }else if ($v['id'] == 'contact') {
-
+                            halt(4);
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -166,7 +169,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'video') {
-
+                            halt(5);
                             if (isset($v['params']['backgroundimg']) && $v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -178,7 +181,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'logo' || $v['id'] == 'dp') {
-
+                            halt(6);
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -190,7 +193,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'footmenu') {
-
+                                halt(7);
                             if ($v['data']) {
                                 foreach ($v['data'] as $ki => $vi) {
                                     if ($vi['imgurl'] != "") {
@@ -205,6 +208,7 @@ class  Wxapps extends  Controller{
                         }
                         //轮播图
                         if ($v['id'] == "banner") {
+                            halt(8);
                             $v['data'] = array_values($v['data']);
                             if ($v['data']) {
                                 $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
@@ -213,8 +217,10 @@ class  Wxapps extends  Controller{
                             }
                             //富文本
                         }else if ($v['id'] == "richtext") {
+                            halt(9);
                             $v['richtext'] = base64_decode($v['params']['content']);
                         }else if ($v['id'] == "feedback") {
+                            halt(10);
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $data['forminfo'] = Db::table('ims_sudu8_page_formlist')->where("uniacid", $uniacid)->where("id", $sourceid)->find();
@@ -240,6 +246,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == "msmk") {
+                            halt(12);
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['goodsnum'];
@@ -307,6 +314,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == "pt") {
+                            halt(13);
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['goodsnum'];
@@ -364,6 +372,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == "cases") {
+                            halt(14);
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['casenum'];
@@ -420,6 +429,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == "listdesc") {
+                            halt(15);
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['newsnum'];
@@ -479,6 +489,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if (isset($v['params']['noticedata']) && intval($v['params']['noticedata']) == 0) {
+                            halt(16);
                             /*读取系统公告*/
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
 //                                $sourceid = explode(':', $v['params']['sourceid'])[1];
@@ -502,6 +513,7 @@ class  Wxapps extends  Controller{
                                 $data['sec'] = $v['params']['sec'];
                             }
                         }else if ($v['id'] == "goods") {
+                            halt(17);
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['goodsnum'];
