@@ -366,11 +366,52 @@ class  Order extends  Controller
                         
                         $key = array_search($unit,$datas['unit']);
                         switch($key){
+                            case 0:
+                                $data["store_number"] = $data["order_quantity"].','.$data["store_unit"];
+                                break;
                             case 1:
-                                $data["store_number"] = $data["order_quantity"].$data["store_unit"];
+                                $number_one = $datas['unit'][$key];    //等级单位
+                                $num_one = $datas['num'][$key];        //等级数量
+                                $number_zero = $datas['unit'][$key-1]; //等级单位
+                                $num_zero = $datas['num'][$key]-1;     //等级数量
+
+                                $number = $datas['order_quantity']/$num_one;
+                                if($number > 1){
+                                    $remainder = $datas['order_quantity']%$num_one;
+                                    $datas["store_number"] = $number.','.$number_zero.','.$remainder.','.$num_one;
+                                } else {
+                                    $number = 0;
+                                    $datas["store_number"] = $number.','.$number_zero.','.$datas['order_quantity'].','.$num_one;
+                                }
                                 break;
                             case 2: 
-                                $number = $datas['unit'][$key];
+                                $number_two = $datas['unit'][$key];    //等级单位
+                                $num_two = $datas['num'][$key];        //等级数量
+                                $number_one = $datas['unit'][$key-1];  //等级单位
+                                $num_one = $datas['num'][$key-1];      //等级数量
+                                $number_zero = $datas['unit'][$key-2]; //等级单位
+                                $num_zero = $datas['num'][$key-2];     //等级数量
+
+                                $rank_one = $datas['order_quantity']/$number_two; //第二个数量
+                                if($rank_one > 1){
+                                    $three = $datas['order_quantity'] % $num_two; //第三个数量
+                                    $two = $rank_one/$number_one ;//第一个数量
+                                    if($two > 1){
+                                        $foure = $rank_one % $number_one ;//第二个数量
+                                        $datas["store_number"] = $two.','.$number_zero.','.$foure.','.$number_one.','.$rank_one.','.$number_two;
+                                    } else {
+                                        $two = 0;
+                                        $datas["store_number"] = $two.','.$number_zero.','.$rank_one.','.$number_one.','.$three.','.$number_two;
+                                    }
+                                } else {
+                                    $two = 0;
+                                    $rank_six = 0;
+                                    $datas["store_number"] = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$rank_one.','.$number_two;
+                                }
+                                break;
+                                
+                                
+                                
                         }
                         
                     }
