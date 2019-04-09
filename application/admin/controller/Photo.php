@@ -10,7 +10,7 @@ use think\Controller;
 use think\Request;
 use think\Db;
 
-class Photo extends Controller{
+class Photo extends Base{
 
     /**
      **************李火生*******************
