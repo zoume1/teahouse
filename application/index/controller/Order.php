@@ -366,94 +366,63 @@ class  Order extends  Controller
                         
                         $key = array_search($unit,$datas['unit']);
                         switch($key){
+                            case 0:
+                                $data["store_number"] = $data["order_quantity"].','.$data["store_unit"];
+                                break;
                             case 1:
-                                $data["store_number"] = $data["order_quantity"].$data["store_unit"];
+                                $number_one = $datas['unit'][$key];    //等级单位
+                                $num_one = $datas['num'][$key];        //等级数量
+                                $number_zero = $datas['unit'][$key-1]; //等级单位
+                                $num_zero = $datas['num'][$key]-1;     //等级数量
+
+                                $number = $datas['order_quantity']/$num_one;
+                                if($number > 1){
+                                    $remainder = $datas['order_quantity']%$num_one;
+                                    $datas["store_number"] = $number.','.$number_zero.','.$remainder.','.$num_one;
+                                } else {
+                                    $number = 0;
+                                    $datas["store_number"] = $number.','.$number_zero.','.$datas['order_quantity'].','.$num_one;
+                                }
                                 break;
                             case 2: 
-                                $number = $datas['unit'][$key];
+                                $number_two = $datas['unit'][$key];    //等级单位
+                                $num_two = $datas['num'][$key];        //等级数量
+                                $number_one = $datas['unit'][$key-1];  //等级单位
+                                $num_one = $datas['num'][$key-1];      //等级数量
+                                $number_zero = $datas['unit'][$key-2]; //等级单位
+                                $num_zero = $datas['num'][$key-2];     //等级数量
+
+                                $rank_one = $datas['order_quantity']/$number_two; //第二个数量
+                                if($rank_one > 1){
+                                    $three = $datas['order_quantity'] % $num_two; //第三个数量
+                                    $two = $rank_one/$number_one ;//第一个数量
+                                    if($two > 1){
+                                        $foure = $rank_one % $number_one ;//第二个数量
+                                        $datas["store_number"] = $two.','.$number_zero.','.$foure.','.$number_one.','.$rank_one.','.$number_two;
+                                    } else {
+                                        $two = 0;
+                                        $datas["store_number"] = $two.','.$number_zero.','.$rank_one.','.$number_one.','.$three.','.$number_two;
+                                    }
+                                } else {
+                                    $two = 0;
+                                    $rank_six = 0;
+                                    $datas["store_number"] = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$rank_one.','.$number_two;
+                                }
+                                break;                                                             
                         }
-                        
-                    }
-
-            }
-            
-
-
-                //1为选择直邮，2到店自提，3选择存茶
-                if($order_type ==1){
-                    $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
-                }else if($order_type ==2){
-                    $parts_order_number ="ZT".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
-                }else if($order_type ==3){
-                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                        $res = Db::name('house_order')->insertGetId($datas);
+                        if ($res) {
+                            $order_datas =Db::name("house_order")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number")
+                                ->where('id',$res)
+                                ->where("member_id",$user_id)
+                                ->find();
+                            return ajax_success('下单成功',$order_datas);
+                        }else{
+                            return ajax_error('失败',['status'=>0]);
+                    }         
                 }
-                foreach ($commodity_id as $keys=>$values){
-                    if (!empty($commodity_id)){
-                        $goods_data = Db::name('goods')->where('id',$values)->find();
-                        $create_time = time();//下单时间
-                        $normal_time =Db::name("order_setting")->find();//订单设置的时间
-                        $normal_future_time = strtotime("+". $normal_time['normal_time']." minute");
-
-                        if (!empty($goods_data)){
-//                        if(!empty($data["buy_message"])){
-//                            $buy_message =$data["buy_message"];
-//                        }else{
-                            $buy_message = NUll;
-//                        }
-                            //判断是通用
-                            if($goods_data["goods_standard"]==0){
-                                $datas['goods_image'] = $goods_data['goods_show_image'];//图片
-                                $datas["goods_money"]= $goods_data['goods_new_money']* $member_consumption_discount["member_consumption_discount"];//商品价钱
-                            }else{
-                                //图片
-                                $special_data =Db::name("special")
-                                    ->where("id",$goods_standard_id[$keys])
-                                    ->find();
-                                $datas['goods_image'] = $special_data['images'];//图片
-                                $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
-                                $datas['goods_standard'] = $special_data["name"]; //商品规格
-                            }
-                            $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
-                            $datas["distribution"] =$goods_data["distribution"];//是否分销
-                            $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
-                            $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
-                            $datas["order_quantity"] =$numbers[$keys];//订单数量
-                            $datas["member_id"] =$user_id;//用户id
-                            $datas["user_account_name"] =$user_information["member_name"];//用户名
-                            $datas["user_phone_number"] =$user_information["member_phone_num"];//用户名手机号
-                            $datas["harvester"] =$is_address_status['harvester'];
-                            $datas["harvest_phone_num"] =$is_address_status['harvester_phone_num'];
-                            $datas["harvester_address"] =$harvest_address;
-                            $datas["order_create_time"] =$create_time;
-                            $datas["order_amount"] =$datas["goods_money"]*$numbers[$keys];//订单金额
-                            $datas["order_real_pay"] =$all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
-                            $datas["status"] =1;
-                            $datas["goods_id"] =$values;
-                            $datas["parts_order_number"] =$parts_order_number;//时间+4位随机数+用户id构成订单号
-                            $datas["buy_message"] =$buy_message;//买家留言
-                            $datas["normal_future_time"] =$normal_future_time;//未来时间
-                            $datas["special_id"] =$goods_standard_id[$keys];//规格id
-                            $datas["coupon_id"] =$coupon_id;
-                            $datas["refund_amount"] =$all_money;
-
-                            
-                            if(!empty($coupon_id)){ //优惠券金额
-                                $datas["coupon_deductible"] = db("coupon")->where("id",$coupon_id)->value("money");
-                            }
-                            $res = Db::name('order')->insertGetId($datas);
-                            if ($res) {
-                                $order_datas =Db::name("order")
-                                    ->field("order_real_pay,parts_goods_name,parts_order_number")
-                                    ->where('id',$res)
-                                    ->where("member_id",$user_id)
-                                    ->find();
-                                return ajax_success('下单成功',$order_datas);
-                            }else{
-                                return ajax_error('失败',['status'=>0]);
-                            }
-                        }
-                    }
-                }
+            }           
         }
     }
 
