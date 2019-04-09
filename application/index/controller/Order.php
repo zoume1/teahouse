@@ -333,7 +333,7 @@ class  Order extends  Controller
                                 ->find();
                             return ajax_success('下单成功',$order_datas);
                         }else{
-                            
+
                             return ajax_error('失败',['status'=>0]);
                         }
                     } else {
@@ -354,7 +354,7 @@ class  Order extends  Controller
                         $datas["member_id"] = $user_id;//用户id
                         $datas["user_account_name"] = $user_information["member_name"];//用户名
                         $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
-                        $datas["harvest_phone_num"] = $harvest_phone_num;
+                        $datas["harvest_phone_num"] = $harvester_phone_num;
                         $datas["harvester_address"] = $harvest_address;
                         $datas["order_create_time"] = $create_time;
                         $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
