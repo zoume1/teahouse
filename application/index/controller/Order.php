@@ -283,20 +283,22 @@ class  Order extends  Controller
                                 $harvester = $is_address_status['harvester'];
                                 $harvester_phone_num = $is_address_status['harvester_phone_num'];
                         } 
-                    } else if ($order_type == 2) {
-                        $parts_order_number ="ZT".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
-                        if (empty($is_address) ) {
-                            return ajax_error('请填写到店自提地址',['status'=>0]);
-                        } else {
-                            $is_address_status = Db::name('extract_address')
-                                ->where('id',$address_id)
-                                ->find();
-                                $harvest_address_city = str_replace(',','',$is_address_status['extract_address']);
-                                $harvest_address = $harvest_address_city.$is_address_status['extract_real_address']; //收货人地址  
-                                $harvester = null;
-                                $harvester_phone_num = $is_address_status['phone_num'];              
-                        } 
                     }
+                     
+                if ($order_type == 2) {
+                    $parts_order_number ="ZT".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                    if (empty($is_address) ) {
+                        return ajax_error('请填写到店自提地址',['status'=>0]);
+                    } else {
+                        $is_address_status = Db::name('extract_address')
+                            ->where('id',$address_id)
+                            ->find();
+                            $harvest_address_city = str_replace(',','',$is_address_status['extract_address']);
+                            $harvest_address = $harvest_address_city.$is_address_status['extract_real_address']; //收货人地址  
+                            $harvester = null;
+                            $harvester_phone_num = $is_address_status['phone_num'];              
+                    } 
+                }
                     $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
                     $datas["distribution"] = $goods_data["distribution"];//是否分销
                     $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
