@@ -219,10 +219,10 @@ class  Order extends  Controller
             $coupon_id = $request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $order_type = $request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $commodity_id = $request->only("goods_id")["goods_id"];//商品id
-            $all_money =$request->only("order_amount")["order_amount"];//总价钱
-            $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
-            $numbers =$request->only("order_quantity")["order_quantity"];//商品对应数量
-            $unit =$request->only("unit")["unit"];//商品单位
+            $all_money = $request->only("order_amount")["order_amount"];//总价钱
+            $goods_standard_id = $request->only("goods_standard_id")["goods_standard_id"];//规格id
+            $numbers = $request->only("order_quantity")["order_quantity"];//商品对应数量
+            $unit = $request->only("unit")["unit"];//商品单位
             
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
@@ -319,7 +319,7 @@ class  Order extends  Controller
                     $datas["special_id"] = $goods_standard_id[$keys];//规格id
                     $datas["coupon_id"] = $coupon_id;
                     $datas["refund_amount"] = $all_money;
-                    $datas["unit"] = $data['unit'][$keys];
+                    $datas["unit"] = $unit[$keys];
                                       
                     $res = Db::name('order')->insertGetId($datas);
                     if ($res) {
@@ -338,7 +338,7 @@ class  Order extends  Controller
                         $is_address_status = Db::name('store_house')
                         ->where('id',$address_id)
                         ->find();
-                        $year =$request->only("year")["year"];//存茶年限
+                        $year = $request->only("year")["year"];//存茶年限
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
@@ -363,10 +363,11 @@ class  Order extends  Controller
                         $datas["special_id"] = $goods_standard_id[$keys];//规格id
                         $datas["coupon_id"] = $coupon_id;
                         $datas["store_name"] = $store_name;
-                        $datas["store_unit"] = $unit;
+                        $datas["store_unit"] = $unit[$keys];
+                        $datas['end_time'] = date('Y-m-d H:i:s',$create_time+$year*365*24*60*60);
                         
                         
-                        $key = array_search($unit,$datas['unit']);
+                        $key = array_search($unit[$keys],$datas['unit']);
                         switch($key){
                             case 0:
                                 $data["store_number"] = $data["order_quantity"].','.$data["store_unit"];
