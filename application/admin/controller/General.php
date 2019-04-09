@@ -10,8 +10,22 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\paginator\driver\Bootstrap;
+use think\Session;
 
-class  General extends  Controller{
+class  General extends  Base {
+
+    private  $store_ids;
+
+    public function _initialize()
+    {
+       $isset_store = Session::get("store_id");
+       if($isset_store){
+           $this->store_ids =$isset_store;
+       }else{
+           $this->success("该店铺信息不存在","admin/Home/index");
+       }
+    }
+
 
     /**
      **************李火生*******************
@@ -23,6 +37,7 @@ class  General extends  Controller{
     public function general_index(){
         $data =Db::table("tb_store")
             ->field("id,is_business,enter_meal,store_number,contact_name,id_card,store_logo,store_qq,phone_number,store_introduction,store_name")
+            ->where("id",$this->store_ids)
             ->find();
         return view("general_index",["data"=>$data]);
     }
@@ -35,6 +50,7 @@ class  General extends  Controller{
      * @return \think\response\View
      */
     public function general_address(){
+
         return view("general_address");
     }
 
@@ -100,6 +116,7 @@ class  General extends  Controller{
         $data =Db::table("applet")
             ->field("id,name,appID,appSecret,mchid,signkey")
             ->where("id",$appletid)
+            ->where("store_id",$this->store_ids)
             ->find();
         return view("small_routine_index",["data"=>$data]);
     }
@@ -141,7 +158,9 @@ class  General extends  Controller{
      * @return \think\response\View
      */
     public function decoration_routine_index(){
-        $list =Db::table("applet")->select();
+        $list =Db::table("applet")
+            ->where("store_id",$this->store_ids)
+            ->select();
         return view("decoration_routine_index",["list"=>$list]);
     }
 
