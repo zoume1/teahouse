@@ -265,77 +265,78 @@ class  Order extends  Controller
                     $data['num'] = $goods_data['num'];
 
                 }
-                if($order_type == 1){
-                        $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号 
-                        $is_address = Db::name('user_address')
-                        ->where("id",$address_id)
-                        ->where('user_id', $user_id)
+                if($order_type != 3){
+                    if($order_type == 1){
+                            $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号 
+                            $is_address = Db::name('user_address')
+                            ->where("id",$address_id)
+                            ->where('user_id', $user_id)
+                            ->find();
+                            if (empty($is_address) ) {
+                                return ajax_error('请填写收货地址',['status'=>0]);
+                            } else {
+                                $is_address_status = Db::name('user_address')
+                                    ->where('user_id', $user_id)
+                                    ->where('id',$address_id)
+                                    ->find();
+                                    $harvest_address_city = str_replace(',','',$is_address_status['address_name']);
+                                    $harvest_address = $harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
+                                    $harvester = $is_address_status['harvester'];
+                                    $harvester_phone_num = $is_address_status['harvester_phone_num'];
+                            } 
+                        }
+
+                    if ($order_type == 2) {
+                        $parts_order_number ="ZT".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                        $is_address_status = Db::name('extract_address')
+                        ->where('id',$address_id)
                         ->find();
-                        if (empty($is_address) ) {
-                            return ajax_error('请填写收货地址',['status'=>0]);
+                        if(empty($is_address_status)){
+                            return ajax_error('请填写到店自提地址',['status'=>0]);
                         } else {
-                            $is_address_status = Db::name('user_address')
-                                ->where('user_id', $user_id)
-                                ->where('id',$address_id)
-                                ->find();
-                                $harvest_address_city = str_replace(',','',$is_address_status['address_name']);
-                                $harvest_address = $harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
-                                $harvester = $is_address_status['harvester'];
-                                $harvester_phone_num = $is_address_status['harvester_phone_num'];
+                            $harvest_address_city = str_replace(',','',$is_address_status['extract_address']);
+                            $harvest_address = $harvest_address_city.$is_address_status['extract_real_address']; //收货人地址  
+                            $harvester = null;
+                            $harvester_phone_num = $is_address_status['phone_num'];              
                         } 
                     }
-
-                if ($order_type == 2) {
-                    $parts_order_number ="ZT".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
-                    $is_address_status = Db::name('extract_address')
-                    ->where('id',$address_id)
-                    ->find();
-                    if(empty($is_address_status)){
-                        return ajax_error('请填写到店自提地址',['status'=>0]);
+                        $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
+                        $datas["distribution"] = $goods_data["distribution"];//是否分销
+                        $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
+                        $datas["parts_goods_name"] = $goods_data["goods_name"];//名字
+                        $datas["order_quantity"] = $numbers[$keys];//订单数量
+                        $datas["member_id"] = $user_id;//用户id
+                        $datas["user_account_name"] = $user_information["member_name"];//用户名
+                        $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
+                        $datas["harvester"] = $harvester;
+                        $datas["harvest_phone_num"] = $harvester_phone_num;
+                        $datas["harvester_address"] = $harvest_address;
+                        $datas["order_create_time"] = $create_time;
+                        $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
+                        $datas["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                        $datas["status"] = 1;
+                        $datas["goods_id"] = $values;
+                        $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
+                        $datas["buy_message"] = $buy_message;//买家留言
+                        $datas["normal_future_time"] = $normal_future_time;//未来时间
+                        $datas["special_id"] = $goods_standard_id[$keys];//规格id
+                        $datas["coupon_id"] = $coupon_id;
+                        $datas["refund_amount"] = $all_money;
+                        $datas["unit"] = $unit[$keys];
+                                        
+                        $res = Db::name('order')->insertGetId($datas);
+                        if ($res) {
+                            $order_datas =Db::name("order")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number")
+                                ->where('id',$res)
+                                ->where("member_id",$user_id)
+                                ->find();
+                            return ajax_success('下单成功',$order_datas);
+                        }else{
+                            
+                            return ajax_error('失败',['status'=>0]);
+                        }
                     } else {
-                        $harvest_address_city = str_replace(',','',$is_address_status['extract_address']);
-                        $harvest_address = $harvest_address_city.$is_address_status['extract_real_address']; //收货人地址  
-                        $harvester = null;
-                        $harvester_phone_num = $is_address_status['phone_num'];              
-                    } 
-                }
-                    $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
-                    $datas["distribution"] = $goods_data["distribution"];//是否分销
-                    $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
-                    $datas["parts_goods_name"] = $goods_data["goods_name"];//名字
-                    $datas["order_quantity"] = $numbers[$keys];//订单数量
-                    $datas["member_id"] = $user_id;//用户id
-                    $datas["user_account_name"] = $user_information["member_name"];//用户名
-                    $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
-                    $datas["harvester"] = $harvester;
-                    $datas["harvest_phone_num"] = $harvester_phone_num;
-                    $datas["harvester_address"] = $harvest_address;
-                    $datas["order_create_time"] = $create_time;
-                    $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                    $datas["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
-                    $datas["status"] = 1;
-                    $datas["goods_id"] = $values;
-                    $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
-                    $datas["buy_message"] = $buy_message;//买家留言
-                    $datas["normal_future_time"] = $normal_future_time;//未来时间
-                    $datas["special_id"] = $goods_standard_id[$keys];//规格id
-                    $datas["coupon_id"] = $coupon_id;
-                    $datas["refund_amount"] = $all_money;
-                    $datas["unit"] = $unit[$keys];
-                                      
-                    $res = Db::name('order')->insertGetId($datas);
-                    if ($res) {
-                        $order_datas =Db::name("order")
-                            ->field("order_real_pay,parts_goods_name,parts_order_number")
-                            ->where('id',$res)
-                            ->where("member_id",$user_id)
-                            ->find();
-                        return ajax_success('下单成功',$order_datas);
-                    }else{
-                        return ajax_error('失败',['status'=>0]);
-                    }
-
-                    if($order_type == 3){
                         $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
                         ->where('id',$address_id)
