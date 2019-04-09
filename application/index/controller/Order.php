@@ -223,6 +223,7 @@ class  Order extends  Controller
             $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
             $numbers =$request->only("order_quantity")["order_quantity"];//商品对应数量
             $unit =$request->only("unit")["unit"];//商品单位
+            
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
@@ -305,7 +306,7 @@ class  Order extends  Controller
                     $datas["user_account_name"] = $user_information["member_name"];//用户名
                     $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
                     $datas["harvester"] = $harvester;
-                    $datas["harvest_phone_num"] = $harvest_phone_num;
+                    $datas["harvest_phone_num"] = $harvester_phone_num;
                     $datas["harvester_address"] = $harvest_address;
                     $datas["order_create_time"] = $create_time;
                     $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
@@ -314,7 +315,7 @@ class  Order extends  Controller
                     $datas["goods_id"] = $values;
                     $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                     $datas["buy_message"] = $buy_message;//买家留言
-                    $datas["normal_future_time"] =$normal_future_time;//未来时间
+                    $datas["normal_future_time"] = $normal_future_time;//未来时间
                     $datas["special_id"] = $goods_standard_id[$keys];//规格id
                     $datas["coupon_id"] = $coupon_id;
                     $datas["refund_amount"] = $all_money;
@@ -336,7 +337,7 @@ class  Order extends  Controller
                         $is_address_status = Db::name('store_house')
                         ->where('id',$address_id)
                         ->find();
-
+                        $year =$request->only("year")["year"];//存茶年限
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
