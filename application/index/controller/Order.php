@@ -255,8 +255,8 @@ class  Order extends  Controller
                 if($goods_data["goods_standard"]==0){
                     $datas['goods_image'] = $goods_data['goods_show_image'];//图片
                     $datas["goods_money"]=$goods_data['goods_new_money']* $member_consumption_discount["member_consumption_discount"];//商品价钱
-                    $datas['unit'] = $goods_data['unit'];
-                    $datas['num'] = $goods_data['num'];
+                    $data['unit'] = $goods_data['unit'];
+                    $data['num'] = $goods_data['num'];
                 } else {
                     //图片
                     $special_data =Db::name("special")
@@ -265,8 +265,8 @@ class  Order extends  Controller
                     $datas['goods_image'] = $special_data['images'];//图片
                     $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                     $datas['goods_standard'] = $special_data["name"]; //商品规格
-                    $datas['unit'] = $goods_data['unit'];
-                    $datas['num'] = $goods_data['num'];
+                    $data['unit'] = $goods_data['unit'];
+                    $data['num'] = $goods_data['num'];
 
                 }
                 if($order_type == 1){
@@ -319,7 +319,8 @@ class  Order extends  Controller
                     $datas["special_id"] = $goods_standard_id[$keys];//规格id
                     $datas["coupon_id"] = $coupon_id;
                     $datas["refund_amount"] = $all_money;
-                    
+                    $datas["unit"] = $data['unit'][$keys];
+                                      
                     $res = Db::name('order')->insertGetId($datas);
                     if ($res) {
                         $order_datas =Db::name("order")
@@ -371,43 +372,43 @@ class  Order extends  Controller
                                 $data["store_number"] = $data["order_quantity"].','.$data["store_unit"];
                                 break;
                             case 1:
-                                $number_one = $datas['unit'][$key];    //等级单位
-                                $num_one = $datas['num'][$key];        //等级数量
-                                $number_zero = $datas['unit'][$key-1]; //等级单位
-                                $num_zero = $datas['num'][$key]-1;     //等级数量
+                                $number_one = $data['unit'][$key];    //等级单位
+                                $num_one = $data['num'][$key];        //等级数量
+                                $number_zero = $data['unit'][$key-1]; //等级单位
+                                $num_zero = $data['num'][$key]-1;     //等级数量
 
-                                $number = $datas['order_quantity']/$num_one;
+                                $number = $data['order_quantity']/$num_one;
                                 if($number > 1){
-                                    $remainder = $datas['order_quantity']%$num_one;
-                                    $datas["store_number"] = $number.','.$number_zero.','.$remainder.','.$num_one;
+                                    $remainder = $data['order_quantity']%$num_one;
+                                    $data["store_number"] = $number.','.$number_zero.','.$remainder.','.$num_one;
                                 } else {
                                     $number = 0;
-                                    $datas["store_number"] = $number.','.$number_zero.','.$datas['order_quantity'].','.$num_one;
+                                    $data["store_number"] = $number.','.$number_zero.','.$data['order_quantity'].','.$num_one;
                                 }
                                 break;
                             case 2: 
-                                $number_two = $datas['unit'][$key];    //等级单位
-                                $num_two = $datas['num'][$key];        //等级数量
-                                $number_one = $datas['unit'][$key-1];  //等级单位
-                                $num_one = $datas['num'][$key-1];      //等级数量
-                                $number_zero = $datas['unit'][$key-2]; //等级单位
-                                $num_zero = $datas['num'][$key-2];     //等级数量
+                                $number_two = $data['unit'][$key];    //等级单位
+                                $num_two = $data['num'][$key];        //等级数量
+                                $number_one = $data['unit'][$key-1];  //等级单位
+                                $num_one = $data['num'][$key-1];      //等级数量
+                                $number_zero = $data['unit'][$key-2]; //等级单位
+                                $num_zero = $data['num'][$key-2];     //等级数量
 
                                 $rank_one = $datas['order_quantity']/$number_two; //第二个数量
                                 if($rank_one > 1){
-                                    $three = $datas['order_quantity'] % $num_two; //第三个数量
+                                    $three = $data['order_quantity'] % $num_two; //第三个数量
                                     $two = $rank_one/$number_one ;//第一个数量
                                     if($two > 1){
                                         $foure = $rank_one % $number_one ;//第二个数量
-                                        $datas["store_number"] = $two.','.$number_zero.','.$foure.','.$number_one.','.$rank_one.','.$number_two;
+                                        $data["store_number"] = $two.','.$number_zero.','.$foure.','.$number_one.','.$rank_one.','.$number_two;
                                     } else {
                                         $two = 0;
-                                        $datas["store_number"] = $two.','.$number_zero.','.$rank_one.','.$number_one.','.$three.','.$number_two;
+                                        $data["store_number"] = $two.','.$number_zero.','.$rank_one.','.$number_one.','.$three.','.$number_two;
                                     }
                                 } else {
                                     $two = 0;
                                     $rank_six = 0;
-                                    $datas["store_number"] = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$rank_one.','.$number_two;
+                                    $data["store_number"] = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$rank_one.','.$number_two;
                                 }
                                 break;                                                             
                         }
