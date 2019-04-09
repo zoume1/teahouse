@@ -88,6 +88,7 @@ Route::group("",[
 
     /*TODO:订单开始*/
     "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
+    "order_places"=>"index/Order/order_places",//下订单
     "order_place"=>"index/Order/order_place",//下订单
     "order_place_by_shopping"=>"index/Order/order_place_by_shopping",//购物车下订单
     "order_detail"=>"index/Order/order_detail",//订单详情（未需要）
