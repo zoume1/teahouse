@@ -120,13 +120,30 @@
 				<input type="text" name="address_street" lay-verify="title" autocomplete="off" placeholder="请填写具体地址" class="layui-input" id="sort_number">
 
             </div>
-        </div>
+		</div>
 		<div class="form-item">
-            <label class="form-label">活动时间</label>
-            <div class="form-input">
-				<input type="text" name="start_time" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker" />
-            </div>
-        </div>
+				<label class="form-label">活动时间</label>
+				<div class="form-input " >
+						<div class="form-item">
+								<label class="form-label">开始时间</label>
+								<div class="form-input line" >
+									<input type="text" name="start_time" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker" />
+									<input type="text" name="start_time" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker1" />
+								</div>
+							</div>
+							<div class="form-item">
+								<label class="form-label">结束时间</label>
+								<div class="form-input" >
+									<div class="line">
+											<input type="text" name="start_time" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker2" />
+											<input type="text" name="start_time" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker3" />
+									</div>
+									<div class="tips">不选择表示该活动长期有效</div>
+								</div>
+							</div>
+				</div>
+			</div>
+		
 		
 		<div class="form-item">
 			<label class="form-label">卖点标签</label>
@@ -343,6 +360,18 @@
 		var ue = UE.getEditor('editor');
 
 		$('#datetimepicker').datetimepicker({
+			format: 'Y/m/d H:m',
+			step: 1,
+		});
+		$('#datetimepicker1').datetimepicker({
+			format: 'Y/m/d H:m',
+			step: 1,
+		});
+		$('#datetimepicker2').datetimepicker({
+			format: 'Y/m/d H:m',
+			step: 1,
+		});
+		$('#datetimepicker3').datetimepicker({
 			format: 'Y/m/d H:m',
 			step: 1,
 		});
