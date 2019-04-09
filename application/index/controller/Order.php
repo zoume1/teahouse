@@ -370,7 +370,7 @@ class  Order extends  Controller
                         $datas['end_time'] = date('Y-m-d H:i:s',$create_time+$year*365*24*60*60);
                         
                         
-                        $key = array_search($unit[$keys],$datas['unit']);
+                        $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
                             case 0:
                                 $data["store_number"] = $data["order_quantity"].','.$data["store_unit"];
@@ -398,7 +398,7 @@ class  Order extends  Controller
                                 $number_zero = $data['unit'][$key-2]; //等级单位
                                 $num_zero = $data['num'][$key-2];     //等级数量
 
-                                $rank_one = $datas['order_quantity']/$number_two; //第二个数量
+                                $rank_one = $data['order_quantity']/$number_two; //第二个数量
                                 if($rank_one > 1){
                                     $three = $data['order_quantity'] % $num_two; //第三个数量
                                     $two = $rank_one/$number_one ;//第一个数量
