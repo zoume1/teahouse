@@ -141,7 +141,7 @@ class  General extends  Controller{
      * @return \think\response\View
      */
     public function decoration_routine_index(){
-        $list =Db::table("applet")->paginate(20);
+        $list =Db::table("applet")->select();
         return view("decoration_routine_index",["list"=>$list]);
     }
 
