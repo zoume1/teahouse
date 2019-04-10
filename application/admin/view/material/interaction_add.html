@@ -1,10 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{include file="template/_meta" /}
+<title>温湿传感-添加编辑</title>
+
+{block name="css"}
+<style>
+    *{margin: 0; padding: 0; list-style: none;}
+    .wrapper{padding: 20px; background-color: #fff;}
+</style>
+{/block}
+
 </head>
 <body>
-温湿传感添加编辑
+    {block name="content"}
+        <div class="wrapper">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择仓库</label>
+                    <div class="layui-input-block my-input-block">
+                        <select name="storeHouse">
+                            <option value="all">全部</option>
+                            <option value="0">茶仓</option>
+                            <option value="1">茶山</option>
+                            <option value="2">茶厂</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">直播标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">温湿传感器序列号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="liveNum" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">实时温度</label>
+                    <div class="layui-input-block">
+                        <p>45℃</p>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">实时湿度</label>
+                    <div class="layui-input-block">
+                        <p>45℃</p>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button class="layui-btn layui-btn-primary" onclick="javascript:history.back(-1);">返回</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery'], function () {
+            var form = layui.form,
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                $ = layui.jquery,
+                upload = layui.upload;
+        })
+    </script>
+
+    {/block}
 </body>
 </html>
