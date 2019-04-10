@@ -91,6 +91,7 @@ Route::group("",[
     "order_places"=>"index/Order/order_places",//下订单
     "order_place"=>"index/Order/order_place",//下订单
     "order_place_by_shopping"=>"index/Order/order_place_by_shopping",//购物车下订单
+    "order_place_by_shoppings"=>"index/Order/order_place_by_shoppings",//购物车下订单
     "order_detail"=>"index/Order/order_detail",//订单详情（未需要）
     "order_detail_cancel"=>"index/Order/order_detail_cancel",//未付款判断时间是否过了订单设置的时间，过了则进行自动关闭（优惠券未实现）
     "ios_api_order_all"=>"index/Order/ios_api_order_all",//我的所有订单
