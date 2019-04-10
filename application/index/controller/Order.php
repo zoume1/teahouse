@@ -345,7 +345,7 @@ class  Order extends  Controller
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
-
+                        $datas["store_house_id"] = $address_id;
                         $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datas["parts_goods_name"] = $goods_data["goods_name"];//名字
                         $datas["distribution"] = $goods_data["distribution"];//是否分销
@@ -367,7 +367,8 @@ class  Order extends  Controller
                         $datas["coupon_id"] = $coupon_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
-                        $datas['end_time'] = date('Y-m-d H:i:s',$create_time+$year*365*24*60*60);                       
+                        $datas['end_time'] = date('Y-m-d H:i:s',strtotime("+($year)year",$create_time));  
+                        $datats["age_limit"] = $year;                     
                         $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
                             case 0:
