@@ -1185,7 +1185,7 @@ class  General extends  Base {
         if($request->isPost()){
             $store_id =$this->store_ids; //店铺id
             if(empty($store_id)){
-                return ajax_error("请使用店铺购买");
+                return ajax_error("请登录店铺进行购买");
             }
         }
     }
