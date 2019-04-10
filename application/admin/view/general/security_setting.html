@@ -1,0 +1,35 @@
+{include file="template/_meta" /}
+<title>安全设置</title>
+</head>
+
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<style type="text/css">
+    * {margin: 0;padding: 0;}
+    body {background: #fff;}
+    .wrapper {padding: 20px;}
+    .on {color: #21A5FA !important; border-bottom: solid 3px #21A5FA;}
+    .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
+    .distribution_list ul {display: flex; align-items: center;}
+    .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+    
+
+</style>
+
+{/block}
+
+<body>
+    {block name="content"}
+    <div class="wrapper">
+    {include file="template/_top" /}
+   
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+   
+    {/block}

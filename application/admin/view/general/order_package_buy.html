@@ -17,7 +17,7 @@
         .step-on{font-size: 20px; color: #333; font-weight: 700;}
         .step-line{width: 35px; border-top: 1px dashed #868686;}
         .main-bg{background-color: #f7f7f7; border: 1px solid #e4e4e4;}
-        .main{width: 1200px; min-height: 700px; margin: 0 auto; background-color: #fff; padding: 0 25px; box-sizing: border-box;}
+        .main{width: 1300px; min-height: 700px; margin: 0 auto; background-color: #fff; padding: 0 25px; box-sizing: border-box;}
         .shop-name{font-size: 14px; color: #949494; padding: 5px 0;}
         .shop-name span{color: #000;}
         .cart-item{border: 1px solid rgb(207, 236, 255); margin-bottom: 20px;}
@@ -59,7 +59,7 @@
         .settlement-cont button:disabled{background-color: #a1a1a1;}
         
         .payment-pop,
-        .voucher-pop{position: absolute; top: 50%; left: 50%; margin: -280px 0 0 -280px; min-height: 560px; width: 560px; padding: 0 18px; box-sizing: border-box; border-radius: 5px; background-color: #fff;}
+        .voucher-pop{position: absolute; top: 50%; left: 50%; margin: -280px 0 0 -280px; min-height: 560px; width: 560px; padding: 0 18px; box-sizing: border-box; border-radius: 5px; background-color: #fff; z-index: 99;}
         .pop-title{position: relative; font-size: 16px; font-weight: 700;padding: 15px 0; border-bottom: 1px solid #e5e5e5; margin-bottom: 15px; color: #666;}
         .close{position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 20px; color: #949494; width: 20px; height: 20px; text-align: center; line-height: 20px; cursor: pointer;}
         .select-way{color: #787878; border-bottom: 1px solid #e5e5e5; margin-bottom: 10px;}
@@ -100,6 +100,7 @@
 
         .addrs .addrs-tit{font-size: 14px; color: #333; margin: 15px 0; line-height: 25px; font-weight: 700;}
         .addrs .addr{display: inline-block; position: relative; vertical-align: top; width: 237px; margin: 0 14px 14px 0; color: #666; cursor: pointer;}
+        .addrs .addr:last-of-type{margin-right: 0;}
         .addrs .addr .inner{position: relative; padding: 11px 15px; z-index: 2;font-size: 12px; background: url(__STATIC__/admin/common/img/icon-a.png) no-repeat; min-height: 106px; box-sizing: border-box;}
         /* .addrs .addr-active .inner, */
         .addrs .addr-cur .inner,
@@ -122,6 +123,8 @@
         .addrs .addr-cur .addr-toolbar{display: block;}
         .addrs .addr a{color: #c97; text-decoration: none;}
         .addrs .addr a:hover{color: #ff0036;}
+        .addrs .operate-addr{font-size: 12px; color: #c97; cursor: pointer; margin-bottom: 20px;}
+        .addrs .operate-addr span:hover{color: #ff0036;}
     </style>
 </head>
 <body>
@@ -170,6 +173,9 @@
                             <div class="default-tip" style="display: block;"
                                 v-if="v.default">默认地址</div>
                         </div>
+                    </div>
+                    <div class="operate-addr">
+                        <span>管理收货地址</span>
                     </div>
                 </div>
                 <div class="carts">
@@ -428,6 +434,22 @@
                         street: '西丽深圳职业技术学院东区',
                         name: '张雪有',
                         phone: '18675509994',
+                        default: false,
+                    },{
+                        prov: '广东',
+                        city: '深圳',
+                        dist: '福田',
+                        street: '莲花街道华强职业技术学校',
+                        name: '张家辉',
+                        phone: '13615842245',
+                        default: false,
+                    },{
+                        prov: '广东',
+                        city: '深圳',
+                        dist: '福田',
+                        street: '莲花街道华强职业技术学校',
+                        name: '张家辉',
+                        phone: '13615842245',
                         default: false,
                     },{
                         prov: '广东',

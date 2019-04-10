@@ -736,9 +736,17 @@ Route::group("admin",[
     "added_service_search"=>"admin/General/added_service_search",    //增值服务(增值商品分类搜索)
     "order_package_index"=>"admin/General/order_package_index",      //订单套餐
     "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
-    "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买
+    "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买页面
+    "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
- 
+    "capital_management"=>"admin/General/capital_management",//资金管理资金明细
+    "capital_management_details"=>"admin/General/capital_management_details",//资金管理资金详情
+    "unline_recharge_record"=>"admin/General/unline_recharge_record",//资金管理线下充值记录
+    "unline_withdrawal_record"=>"admin/General/unline_withdrawal_record",//资金管理提现记录
+    "agency_invitation"=>"admin/General/agency_invitation",//代理分销邀请
+    "now_agency_invitation"=>"admin/General/now_agency_invitation",//立即分销邀请
+    "security_setting"=>"admin/General/security_setting",//安全设置
+
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
     "control_meal_index"=>"admin/Control/control_meal_index",      //入驻套餐
