@@ -367,9 +367,7 @@ class  Order extends  Controller
                         $datas["coupon_id"] = $coupon_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
-                        $datas['end_time'] = date('Y-m-d H:i:s',$create_time+$year*365*24*60*60);
-                        
-                        
+                        $datas['end_time'] = date('Y-m-d H:i:s',$create_time+$year*365*24*60*60);                       
                         $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
                             case 0:
