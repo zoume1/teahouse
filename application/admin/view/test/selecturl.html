@@ -36,11 +36,11 @@
             <ul class="nav nav-tabs" id="selectUrlTab">
                 <li class="active"><a href="#sut_diypage">页面</a></li>
                 <li class=""><a href="#sut_notice">功能</a></li>
-                <li class=""><a href="#sut_news">文章</a></li>
-                <li class=""><a href="#sut_pic">组图</a></li>
+                <!--<li class=""><a href="#sut_news">文章</a></li>-->
+                <!--<li class=""><a href="#sut_pic">组图</a></li>-->
                 <li class=""><a href="#sut_goods">商品</a></li>
-                <li class=""><a href="#sut_cate">栏目</a></li>
-                <li class=""><a href="#sut_sapp">系统</a></li>
+                <li class=""><a href="#sut_cate">活动栏目</a></li>
+                <!--<li class=""><a href="#sut_sapp">系统</a></li>-->
             </ul>
             <div class="tab-content ">
                 <div class="tab-pane active" id="sut_diypage">
@@ -48,6 +48,7 @@
                         选择自定义页面后，点击链接将跳转到自定义好的页面
                     </div>
                     <div id="select-diypage-list">
+                       <!--页面-->
                         {if $diypage}
                         {foreach $diypage as $v}
                         <div class="line">
@@ -216,6 +217,7 @@
                         <span class="input-group-addon btn btn-default select-btn" data-type="news">搜索</span>
                     </div>
                     <div id="select-news-list">
+                        <!--文章-->
                         {if $article}
                         {foreach $article as $v}
                         <div class="line">
@@ -229,18 +231,19 @@
                 </div>
                 <div class="tab-pane" id="sut_cate">
                     <div id="select-news-list">
+                        <!--栏目-->
                         {if $cates}
                         {foreach $cates as $v}
                         <div class="line">
                             <div class="icon icon-link1"></div>
-                            <nav data-href="/sudu8_page/{$v['type']}/{$v['type']}?cid={$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <nav data-href="" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">{$v['name']}</div>
                         </div>
                         {if $v['subcate']}
                         {foreach $v['subcate'] as $vi}
                         <div class="line">
                             <div class="icon icon-link1"></div>
-                            <nav data-href="/sudu8_page/{$vi['type']}/{$vi['type']}?cid={$vi['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <nav data-href="/commodity_detail?goods_id={$vi['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">--- {$vi['name']}</div>
                         </div>
                         {/foreach}
@@ -255,30 +258,23 @@
                         <span class="input-group-addon btn btn-default select-btn" data-type="pic">搜索</span>
                     </div>
                     <div id="select-pic-list">
-                        {if $pic}
-                        {foreach $pic as $v}
-                        <div class="line">
-                            <div class="icon icon-link1"></div>
-                            <nav data-href="/sudu8_page/showPic/showPic?id={$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
-                            <div class="text">{$v['title']}</div>
-                        </div>
-                        {/foreach}
-                        {/if}
+                        <!--组图-->
                     </div>
                 </div>
 
                 <div class="tab-pane" id="sut_goods">
                     <div class="input-group">
-                        <input type="text" placeholder="请输入产品标题或直接点击搜索" id="select-goods-kw" value="" class="form-control">
-                        <span class="input-group-addon btn btn-default select-btn" data-type="goods">搜索</span>
+                        <!--<input type="text" placeholder="请输入产品标题或直接点击搜索" id="select-goods-kw" value="" class="form-control">-->
+                        <!--<span class="input-group-addon btn btn-default select-btn" data-type="goods">搜索</span>-->
                     </div>
                     <div id="select-goods-list">
+                        <!--商品-->
                         {if $pro}
                         {foreach $pro as $v}
                         <div class="line">
                             <div class="icon icon-link1"></div>
-                            <nav data-href="/sudu8_page/{$v['type']}/{$v['type']}?id={$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
-                            <div class="text">{$v['title']}</div>
+                            <nav data-href="/commodity_detail?goods_id={$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">{$v['goods_name']}</div>
                         </div>
                         {/foreach}
                         {/if}
@@ -294,6 +290,7 @@
 
                     </div>
                 </div>
+
                 <div class="tab-pane" id="sut_weburl" style="min-height: 100px;">
                     <div class="row" style="margin: 50px 80px;">
                         <div class="alert alert-alt alert-danger alert-dismissible" role="alert">
@@ -313,6 +310,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="tab-pane" id="sut_sapp" style="min-height: 100px;">
                     <div class="row" style="margin: 50px 80px 30px">
                         <div class="alert alert-alt alert-danger alert-dismissible" role="alert">
@@ -353,7 +351,6 @@
                                 <span class="btn btn-primary select-btn" data-type="diysys">确认使用</span>
                                 <nav id="select-diy-sysurl"></nav>
                             </div>
-
                         </div>
                     </div>
                 </div>

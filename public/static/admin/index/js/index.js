@@ -19,47 +19,53 @@ $(function () {
 		}
 
 	});
+	function getCookie(name) {
+		var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+		if (arr = document.cookie.match(reg))
+			return unescape(arr[2]);
+		else
+			return null;
+	}
+
 	function setCookie(name, value, day) {
 		var date = new Date();
 		date.setDate(date.getDate() + day);
-		document.cookie = name + '=' + value + ';expires=' + date;
-		// alert(222);
-	};
-	//删除cookie
-		function delCookie(name) {
-			setCookie(name, null, -1);
-			// alert(111);
-		};
-
-	$(".UCleft-fixed").children("dl").children("dd").on("click", "p", function () {
-
-		$(this).css('font-weight', 'bold');
-		$(this).siblings().css('font-weight', '500');
-		$(this).parent("dd").parent("dl").siblings().children("dd").children("p").css('font-weight', '500');
-		var url = $(this).data("url");
-		var id = $(this).data("id");
-		var value=$(this).data("value")
-		delCookie("item_id");
-		setCookie("item_id", value);
-		setCookie("page_id", id);
-		var dk = $(window.parent.document).find("#add").attr("src");
-		$.ajax({
-			type: "get",
-			url: url,
-			cache: true,
-			success: function (html) {
-				$('#add').attr('src', url);
-			}
-
-
-		});
-	});
-	$(".childrenBody").on("click", "#distribution_list a", function () {
-		var id=$(this).data("id");
-		setCookie("item_id", id);
-	})
-
+		document.cookie = name + '=' + value + ';expires=' + date+";path=/;";
 	
+	};
+
+
+
+$(".UCleft-fixed").children("dl").children("dd").on("click", "p", function () {
+
+	$(this).css('font-weight', 'bold');
+	$(this).siblings().css('font-weight', '500');
+	$(this).parent("dd").parent("dl").siblings().children("dd").children("p").css('font-weight', '500');
+	var url = $(this).data("url");
+	var id = $(this).data("id");
+	var value = $(this).data("value")
+	// delCookie("item_id");
+	setCookie("item_id", value);
+	setCookie("page_id", id);
+	var dk = $(window.parent.document).find("#add").attr("src");
+	$.ajax({
+		type: "get",
+		url: url,
+		cache: true,
+		success: function (html) {
+			$('#add').attr('src', url);
+		}
+
+
+
+	});
+});
+$(".childrenBody").on("click", "#distribution_list a", function () {
+	var id = $(this).data("id");
+	setCookie("item_id", id);
+})
+
+
 
 
 

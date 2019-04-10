@@ -29,42 +29,57 @@ class Test extends  Controller{
             $tplid = Db::table('ims_sudu8_page_diypagetpl')->where("uniacid",$uniacid)->where("status",1)->find()['id'];
         }
         $pageid = explode(",",Db::table('ims_sudu8_page_diypagetpl')->where("uniacid",$uniacid)->where("id",$tplid)->field("pageid")->find()['pageid']); //当前模板拥有的页面id
+        //页面模板（自定义）
         $diypage = Db::table('ims_sudu8_page_diypage')->where("uniacid",$uniacid)->where("id","in",$pageid)->field("id,tpl_name")->select();
-
+       //文章
         $article = Db::table('ims_sudu8_page_products')->where("uniacid",$uniacid)->where("type","showArt")->field("id,title")->select();
-        $pro = Db::table('ims_sudu8_page_products')->where("uniacid",$uniacid)->where("type","neq","showArt")->where("type","neq","showPic")->where("type","neq","wxapp")->field("id,title,type,is_more")->select();
-        if($pro){
-            foreach ($pro as $k => $v) {
-                if($v['is_more'] == 1){
-                    $pro[$k]['type'] = "showPro_lv";
-                }
-            }
+        //商品
+//        $pro = Db::table('ims_sudu8_page_products')->where("uniacid",$uniacid)->where("type","neq","showArt")->where("type","neq","showPic")->where("type","neq","wxapp")->field("id,title,type,is_more")->select();
+//        $pro = Db::table('ims_sudu8_page_products')->where("uniacid",$uniacid)->where("type","neq","showArt")->where("type","neq","showPic")->where("type","neq","wxapp")->field("id,title,type,is_more")->select();
+//        if($pro){
+//            foreach ($pro as $k => $v) {
+//                if($v['is_more'] == 1){
+//                    $pro[$k]['type'] = "showPro_lv";
+//                }
+//            }
+//        }
+        $pro =Db::table("tb_goods")->field("id,goods_name")->select();
+
+        //栏目
+//       $pic = Db::table('ims_sudu8_page_products')->where("uniacid",$uniacid)->where("type","showPic")->field("id,title")->select();
+       //二级栏目
+//        $cates = Db::table('ims_sudu8_page_cate')
+//            ->where("uniacid",$uniacid)
+//            ->where("cid",0)
+//            ->field("id,name,type")
+//            ->select();
+//        if($cates){
+//            foreach ($cates as $k => $v) {
+//                if($v['type'] == "showPro"){
+//                    $cates[$k]['type'] = "listPro";
+//                }
+//                if($v['type'] == "showPic" || $v['type'] == "showArt"){
+//                    $cates[$k]['type'] = "listPic";
+//                }
+//                $subcate = Db::table('ims_sudu8_page_cate')->where("uniacid",$uniacid)->where("cid",$v['id'])->field("id,name,type")->select();
+//                foreach ($subcate as $ki=> $vi) {
+//                    if($vi['type'] == "showPro"){
+//                        $subcate[$ki]['type'] = "listPro";
+//                    }
+//                    if($vi['type'] == "showPic" || $vi['type'] == "showArt"){
+//                        $subcate[$ki]['type'] = "listPic";
+//                    }
+//                }
+//                $cates[$k]['subcate'] = $subcate;
+//            }
+//
+//        }
+        $pic =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select();
+        $cates =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select(); //一级
+        foreach ($cates as $key=>&$value){
+            $catess =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
+            $value['subcate'] =$catess;
         }
-        $pic = Db::table('ims_sudu8_page_products')->where("uniacid",$uniacid)->where("type","showPic")->field("id,title")->select();
-        $cates = Db::table('ims_sudu8_page_cate')->where("uniacid",$uniacid)->where("cid",0)->field("id,name,type")->select();
-        if($cates){
-            foreach ($cates as $k => $v) {
-                if($v['type'] == "showPro"){
-                    $cates[$k]['type'] = "listPro";
-                }
-                if($v['type'] == "showPic" || $v['type'] == "showArt"){
-                    $cates[$k]['type'] = "listPic";
-                }
-                $subcate = Db::table('ims_sudu8_page_cate')->where("uniacid",$uniacid)->where("cid",$v['id'])->field("id,name,type")->select();
-
-                foreach ($subcate as $ki=> $vi) {
-                    if($vi['type'] == "showPro"){
-                        $subcate[$ki]['type'] = "listPro";
-                    }
-                    if($vi['type'] == "showPic" || $vi['type'] == "showArt"){
-                        $subcate[$ki]['type'] = "listPic";
-                    }
-                }
-                $cates[$k]['subcate'] = $subcate;
-            }
-
-        }
-
         $this->assign("diypage",$diypage);
         $this->assign("article",$article);
         $this->assign("pro",$pro);
@@ -85,19 +100,34 @@ class Test extends  Controller{
         $uniacid = input("appletid");
         $type = input('type');
         switch ($type){
+            //公告栏目
             case 'noticcate':
                 $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showArt")->where("cid",0)->field("id,name")->select();
                 foreach ($list as $key => &$value) {
                     $subcate = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showArt")->where("cid",$value['id'])->field("id,name")->select();
                     $value['subcate'] = $subcate;
                 }
+//                $list=Db::table("tb_broadcast")->field("id,title")->select();
+//                foreach ($list as $key =>$value){
+//                    $list[$key]['name'] =$value["title"];
+//                    $subcate=Db::table("tb_broadcast")->field("id,title name")->select();
+//                    $value['subcate'] =$subcate;
+//                }
                 break;
+                //这是商品栏目的来源
             case 'goodscate':
-                $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPro")->where("cid",0)->field("id,name")->select();
-                foreach ($list as $key => &$value) {
-                    $subcate = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPro")->where("cid",$value['id'])->field("id,name")->select();
-                    $value['subcate'] = $subcate;
+//                $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPro")->where("cid",0)->field("id,name")->select();
+//
+//                foreach ($list as $key => &$value) {
+//                    $subcate = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPro")->where("cid",$value['id'])->field("id,name")->select();
+//                    $value['subcate'] = $subcate;
+//                }
+                $list =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select();
+                foreach ($list as $key=>&$value){
+                    $subcate =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
+                    $value['subcate'] =$subcate;
                 }
+//                halt($list);
                 break;
             case 'piccate':
                 $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPic")->where("cid",0)->field("id,name")->select();
@@ -117,8 +147,6 @@ class Test extends  Controller{
                 break;
 
             case 'articlecate':
-
-
                 $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showArt")->where("cid",0)->field("id,name")->select();
                 foreach ($list as $key => &$value) {
                     $subcate = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showArt")->where("cid",$value['id'])->field("id,name")->select();
@@ -139,12 +167,9 @@ class Test extends  Controller{
                     $value['subcate'] = "";
                 }
                 break;
-
         }
         $this->assign("type",$type);
-
         $this->assign("list",$list);
-
         $this->assign("uniacid",$uniacid);
         return $this->fetch('selectsource');
 

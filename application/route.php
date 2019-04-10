@@ -88,6 +88,7 @@ Route::group("",[
 
     /*TODO:订单开始*/
     "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
+    "order_places"=>"index/Order/order_places",//下订单
     "order_place"=>"index/Order/order_place",//下订单
     "order_place_by_shopping"=>"index/Order/order_place_by_shopping",//购物车下订单
     "order_detail"=>"index/Order/order_detail",//订单详情（未需要）
@@ -720,8 +721,8 @@ Route::group("admin",[
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
     "xiaochengxu_edit"=>"admin/General/xiaochengxu_edit", //小程序装修
     "test_selecticon"=>"admin/Test/selecticon",//图标库
-    "test_select_url"=>"admin/Test/select_url",//轮播图功能库
-    "test_select_source"=>"admin/Test/select_source",//公告来源栏目
+    "test_select_url"=>"admin/Test/select_url",//轮播图功能库（数据来源）
+    "test_select_source"=>"admin/Test/select_source",//公告来源栏目（数据来源）
 
     "added_service_index"=>"admin/General/added_service_index",      //增值服务(增值商品显示)
     "added_service_list"=>"admin/General/added_service_list",        //增值服务(增值商品列表)
