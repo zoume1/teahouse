@@ -1,0 +1,110 @@
+{include file="template/_meta" /}
+<title>直播列表</title>
+
+{block name="css"}
+<style>
+    *{margin: 0; padding: 0; list-style: none;}
+    .wrapper{padding: 20px; background-color: #fff;}
+    .redStar::before{content: '*'; color: #f00;}
+    .my-input-block{display: flex;}
+    .my-input-block>div{flex: 1; margin-right: 20px;}
+</style>
+{/block}
+
+</head>
+<body>
+    {block name="content"}
+        <div class="wrapper">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">直播分类</label>
+                    <div class="layui-input-block my-input-block">
+                        <select name="city">
+                            <option value="all">全部</option>
+                            <option value="0">茶仓</option>
+                            <option value="1">茶山</option>
+                            <option value="2">茶厂</option>
+                        </select>
+                        <button class="layui-btn">添加分类</button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label redStar">直播标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label redStar">介绍内容</label>
+                    <div class="layui-input-block">
+                        <textarea name="desc" required lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">直播链接</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="liveUrl" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设备序列号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="liveNum" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属仓库</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="storeHouse" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">声音</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="voice" lay-skin="switch">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">视频</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="video" lay-skin="switch">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">单选框</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="onOrOff" value="公开" title="公开" checked>
+                        <input type="radio" name="onOrOff" value="私有" title="私有">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button class="layui-btn layui-btn-primary" onclick="javascript:history.back(-1);">返回</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery'], function () {
+            var form = layui.form,
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                $ = layui.jquery,
+                upload = layui.upload;
+
+        })
+    </script>
+
+    {/block}
+</body>
+</html>
