@@ -1,5 +1,5 @@
 {include file="template/_meta" /}
-<title>防伪溯源</title>
+<title>直播列表</title>
 
 {block name="css"}
 <style>
@@ -36,7 +36,7 @@
         <div class="inner">
             <div class="title">
                 <a href="javascript:void(0);" title="直播列表" class="tit-on">直播列表</a>
-                <a href="javascript:void(0);" title="直播分类">直播分类</a>
+                <a href="direct_seeding_classification" title="直播分类">直播分类</a>
             </div>
             <div class="search-hd">
                 <div class="search-box layui-form">
@@ -70,7 +70,7 @@
                 <div class="layui-form">
                     <div class="import-box">
                         <span>数据列表</span>
-                        <button class="layui-btn">添加设备</button>
+                        <a href="direct_seeding_add" class="layui-btn">添加设备</a>
                     </div>
                     <div class="layui-form-item my-form-select">
                         <select name="interest" lay-filter="tiaoshu">
@@ -82,13 +82,13 @@
                     </div>
                 </div>
             </div>
-            <div class="table">
+            <div class="table layui-form">
                 <table class="layui-table">
                     <thead>
                         <tr>
                             <th class="table-cell">
                                 <div class="table-cell-div">
-                                    <input type="checkbox">
+                                    <input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose">
                                 </div>
                             </th>
                             <th class="table-cell">
@@ -136,7 +136,7 @@
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <input type="checkbox">
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
                                 </div>
                             </td>
                             <td class="table-cell">
@@ -233,7 +233,7 @@
                     layer.confirm('你确认要删除吗？', {
                         btn: ['确认', '取消'] //按钮
                     }, function () {
-                        var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
+                        var child = $("tbody").find('input[name="singleChoose"]:checked');
                         for (var i = 0; i < child.length; i++) {
                             data_id.push($(child[i])[0].dataset.id);
                         }
@@ -272,14 +272,14 @@
                 }
 
             });
-            // //全选
-            // form.on('checkbox(allChoose)', function (data) {
-            //     var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-            //     child.each(function (index, item) {
-            //         item.checked = data.elem.checked;
-            //     });
-            //     form.render('checkbox');
-            // });
+            //全选
+            form.on('checkbox(allChoose)', function (data) {
+                var child = $(data.elem).parents('table').find('tbody input[name="singleChoose"]');
+                child.each(function (index, item) {
+                    item.checked = data.elem.checked;
+                });
+                form.render('checkbox');
+            });
 
             // //通过判断文章是否全部选中来确定全选按钮是否选中
             // form.on("checkbox(choose)", function (data) {

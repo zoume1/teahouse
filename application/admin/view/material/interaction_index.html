@@ -1,10 +1,228 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{include file="template/_meta" /}
+<title>温湿感应</title>
+
+{block name="css"}
+<style>
+    *{margin: 0; padding: 0; list-style: none;}
+    .wrapper{padding: 20px; background-color: #fff;}
+    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 40px; margin-bottom: 20px;}
+    .search-box{display: flex; align-items: center; font-size: 14px; color: #333;}
+    .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
+    .s-input{margin-right: 20px;}
+    .search-box input::placeholder{color: #b2b2b2;}
+    .search-box button{position: relative; width: 70px; height: 35px; padding: 0 10px 0 20px; border: 1px solid #e4e4e4; border-radius: 4px; color: #999; background-color: #fff;}
+    .search-box button .s-icon{position: absolute; left: 5px; top: 10px; background: url(__STATIC__/admin/common/img/fdj.png) no-repeat; background-size: 100%; width: 14px; height: 14px;}
+    .operate-hd{background-color: #f2f2f2; padding: 10px 20px;}
+    .operate-hd>div{display: flex; justify-content: space-between; align-items: center;}
+    .operate-hd .import-box span{font-size: 14px; margin-right: 20px;}
+    .my-form-select{margin: 0; width: 120px; display: flex; margin-right: 20px;}
+    .operate-hd .layui-edge{right: 20px;}
+    .search-hd label{margin-bottom: 0; margin-right: 10px; height: 35px;}
+    .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
+    .bot-operate .opation{float: left}
+    .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
+    .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
+</style>
+{/block}
+
 </head>
 <body>
-wenshichuanggan
+    {block name="content"}
+
+    <div class="wrapper">
+        <div class="inner">
+            <div class="search-hd">
+                <div class="search-box layui-form">
+                    <div class="s-input">
+                        <label>选择仓库：</label>
+                        <input type="text" placeholder="编号/名称" id="searchTxt">
+                    </div>
+                    <button class="search-btn">
+                        <i class="s-icon"></i>
+                        搜索
+                    </button>
+                </div>
+            </div>
+            <div class="operate-hd">
+                <div class="layui-form">
+                    <div class="import-box">
+                        <span>数据列表</span>
+                        <a href="interaction_add" class="layui-btn">添加设备</a>
+                    </div>
+                    <div class="layui-form-item my-form-select">
+                        <select name="interest" lay-filter="tiaoshu">
+                            <option value="0">显示条数</option>
+                            <option value="1">1</option>
+                            <option value="2">10</option>
+                            <option value="3">20</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="table layui-form">
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th class="table-cell">
+                                <div class="table-cell-div">
+                                    <input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose">
+                                </div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">采集点名称</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">温湿度传感器序列号</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">实时温度</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">实时湿度</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">操作</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table-cell">
+                                <div class="table-cell-div">
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
+                                </div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">2</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">9</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">10</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">11</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">
+                                    <button class="layui-btn">编辑</button>
+                                    <button class="layui-btn">删除</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bot-operate">
+                <div class="opation">
+                    <select>
+                        <option check="" value="0">请选择</option>
+                        <option value="1">批量删除</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" id="operation-btn" class="operation-btn">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage', 'laydate'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery,
+                laydate = layui.laydate;
+            var vals = $("input").data("id");
+            //点击操作确认按钮
+            var data_id = [];
+            $("#operation-btn").click(function () {
+                var opration_val = $(".opation select option:selected").val();
+                if (opration_val == 0) {
+                    layer.alert('请选择操作', {
+                        skin: 'layui-layer-molv' //样式类名
+                        ,
+                        closeBtn: 0
+                    });
+                } else if (opration_val == 1) {
+                    layer.confirm('你确认要删除吗？', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
+                        var child = $("tbody").find('input[name="singleChoose"]:checked');
+                        for (var i = 0; i < child.length; i++) {
+                            data_id.push($(child[i])[0].dataset.id);
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "{:url('admin/Goods/dels')}",
+                            data: {
+                                "id": data_id,
+                            },
+                            success: function (data) {
+                                console.log("成功");
+                                console.log(data);
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                location.reload();
+                                data_id.splice(0, data_id.length);
+                            },
+                            error: function (data) {
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                console.log(data); 
+                                console.log("错误");
+                                data_id.splice(0, data_id.length);
+                            }
+                        });
+                    });
+
+                }
+
+            });
+            //全选
+            form.on('checkbox(allChoose)', function (data) {
+                var child = $(data.elem).parents('table').find('tbody input[name="singleChoose"]');
+                child.each(function (index, item) {
+                    item.checked = data.elem.checked;
+                });
+                form.render('checkbox');
+            });
+
+            // //通过判断文章是否全部选中来确定全选按钮是否选中
+            // form.on("checkbox(choose)", function (data) {
+            //     var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+            //     var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
+            //     if (childChecked.length == child.length) {
+            //         $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
+            //     } else {
+            //         $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
+            //     }
+            //     form.render('checkbox');
+            // })
+            
+        })
+    </script>
+
+    {/block}
 </body>
 </html>
