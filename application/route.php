@@ -91,6 +91,7 @@ Route::group("",[
     "order_places"=>"index/Order/order_places",//下订单
     "order_place"=>"index/Order/order_place",//下订单
     "order_place_by_shopping"=>"index/Order/order_place_by_shopping",//购物车下订单
+    "order_place_by_shoppings"=>"index/Order/order_place_by_shoppings",//购物车下订单
     "order_detail"=>"index/Order/order_detail",//订单详情（未需要）
     "order_detail_cancel"=>"index/Order/order_detail_cancel",//未付款判断时间是否过了订单设置的时间，过了则进行自动关闭（优惠券未实现）
     "ios_api_order_all"=>"index/Order/ios_api_order_all",//我的所有订单
@@ -705,7 +706,11 @@ Route::group("admin",[
     /*物联*/
     "anti_fake" =>"admin/Material/anti_fake",                 //防伪溯源
     "direct_seeding" =>"admin/Material/direct_seeding",       //视频直播
+    "direct_seeding_add" =>"admin/Material/direct_seeding_add",       //视频直播添加设备
+    "direct_seeding_classification" =>"admin/Material/direct_seeding_classification",       //视频直播分类
+    "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加编辑
     "interaction_index" =>"admin/Material/interaction_index", //温湿感应
+    "interaction_add" =>"admin/Material/interaction_add", //温湿感应
 
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况
@@ -731,7 +736,8 @@ Route::group("admin",[
     "added_service_search"=>"admin/General/added_service_search",    //增值服务(增值商品分类搜索)
     "order_package_index"=>"admin/General/order_package_index",      //订单套餐
     "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
-    "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买
+    "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买页面
+    "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
  
     /*总控*/

@@ -1,5 +1,5 @@
 {include file="template/_meta" /}
-<title>直播列表</title>
+<title>直播分类</title>
 
 {block name="css"}
 <style>
@@ -8,19 +8,11 @@
     .title {border-bottom: 1px solid #c9c9c9;padding-bottom: 5px; margin-bottom: 20px;}
     .title a{font-size: 18px; padding: 0 10px 5px; color: #333;}
     .title .tit-on {color: #0066FF;border-bottom: 2px solid #21a5fa;}
-    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 40px; margin-bottom: 20px;}
-    .search-box{display: flex; align-items: center; font-size: 14px; color: #333;}
-    .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
-    .s-input{margin-right: 20px;}
-    .search-box input::placeholder{color: #b2b2b2;}
-    .search-box button{position: relative; width: 70px; height: 35px; padding: 0 10px 0 20px; border: 1px solid #e4e4e4; border-radius: 4px; color: #999; background-color: #fff;}
-    .search-box button .s-icon{position: absolute; left: 5px; top: 10px; background: url(__STATIC__/admin/common/img/fdj.png) no-repeat; background-size: 100%; width: 14px; height: 14px;}
     .operate-hd{background-color: #f2f2f2; padding: 10px 20px;}
     .operate-hd>div{display: flex; justify-content: space-between; align-items: center;}
     .operate-hd .import-box span{font-size: 14px; margin-right: 20px;}
     .my-form-select{margin: 0; width: 220px; display: flex; margin-right: 20px;}
     .operate-hd .layui-edge{right: 20px;}
-    .search-hd label{margin-bottom: 0; margin-right: 10px; height: 35px;}
     .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
@@ -35,42 +27,13 @@
     <div class="wrapper">
         <div class="inner">
             <div class="title">
-                <a href="javascript:void(0);" title="直播列表" class="tit-on">直播列表</a>
-                <a href="direct_seeding_classification" title="直播分类">直播分类</a>
-            </div>
-            <div class="search-hd">
-                <div class="search-box layui-form">
-                    <div class="layui-form-item my-form-select">
-                        <label>状态</label>
-                        <select name="interest" lay-filter="zhuagntai">
-                            <option value="0">全部</option>
-                            <option value="1">开</option>
-                            <option value="2">关</option>
-                        </select>
-                    </div>
-                    <div class="layui-form-item my-form-select">
-                        <label>开放</label>
-                        <select name="interest" lay-filter="kaifang">
-                            <option value="0">全部</option>
-                            <option value="1">公开</option>
-                            <option value="2">私有</option>
-                        </select>
-                    </div>
-                    <div class="s-input">
-                        <label>直播类型：</label>
-                        <input type="text" placeholder="请输入" id="searchTxt">
-                    </div>
-                    <button class="search-btn">
-                        <i class="s-icon"></i>
-                        搜索
-                    </button>
-                </div>
+                <a href="direct_seeding" title="直播列表">直播列表</a>
+                <a href="javascript:void(0);" title="直播分类" class="tit-on">直播分类</a>
             </div>
             <div class="operate-hd">
                 <div class="layui-form">
                     <div class="import-box">
                         <span>数据列表</span>
-                        <a href="direct_seeding_add" class="layui-btn">添加设备</a>
                     </div>
                     <div class="layui-form-item my-form-select">
                         <select name="interest" lay-filter="tiaoshu">
@@ -92,40 +55,13 @@
                                 </div>
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">直播分类</div>
+                                <div class="table-cell-div">分类名称</div>
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">点播次数</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">评论次数</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">点赞次数</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">分享次数</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">直播标题</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">查看</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">设备序列号</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">所属仓库</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">声音</div>
+                                <div class="table-cell-div">分类图表</div>
                             </th>
                             <th class="table-cell">
                                 <div class="table-cell-div">状态</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">开放</div>
                             </th>
                             <th class="table-cell">
                                 <div class="table-cell-div">操作</div>
@@ -140,46 +76,19 @@
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">2</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">3</div>
-                            </td>
-                            <td class="table-cell">
                                 <div class="table-cell-div">4</div>
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">5</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">6</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">7</div>
-                            </td>
-                            <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <button class="layui-btn">查看</button>
+                                    <input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭" checked>
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">9</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">10</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">11</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">开</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">公开</div>
-                            </td>
-                            <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <button class="layui-btn">编辑</button>
+                                    <a href="direct_seeding_classification_add" class="layui-btn">编辑</a>
                                     <button class="layui-btn">删除</button>
                                 </div>
                             </td>
