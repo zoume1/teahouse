@@ -1168,11 +1168,24 @@ class  General extends  Base {
 
 
     /**
-     * [套餐购买下单]
+     * [套餐购买下单页面]
      * 郭杨
      */    
     public function order_package_buy(){
         return view("order_package_buy");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:套餐购买下单操作
+     **************************************
+     */
+    public function order_package_do_by(Request $request){
+        if($request->isPost()){
+            $store_id =$this->store_ids; //店铺id
+
+        }
     }
 
     
@@ -1183,5 +1196,7 @@ class  General extends  Base {
     public function order_package_purchase(){
         return view("order_package_purchase");
     }
+
+
 
  }
