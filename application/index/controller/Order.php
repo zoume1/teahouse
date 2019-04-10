@@ -367,7 +367,7 @@ class  Order extends  Controller
                         $datas["coupon_id"] = $coupon_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
-                        $datas['end_time'] = strtotime(date('Y-m-d H:i:s',strtotime("+($year)year",$create_time)));  
+                        $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;                     
                         $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
