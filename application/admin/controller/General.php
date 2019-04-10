@@ -1185,7 +1185,7 @@ class  General extends  Base {
         if($request->isPost()){
             $store_id =$this->store_ids; //店铺id
             if(empty($store_id)){
-                return ajax_error("请使用店铺购买");
+                return ajax_error("请登录店铺进行购买");
             }
         }
     }
@@ -1199,6 +1199,72 @@ class  General extends  Base {
         return view("order_package_purchase");
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:资金管理资金明细
+     **************************************
+     */
+    public function capital_management(){
+        return view("capital_management");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:资金详情
+     **************************************
+     * @return \think\response\View
+     */
+    public function capital_management_details(){
+        return view("capital_management_details");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:线下充值记录
+     **************************************
+     */
+    public function unline_recharge_record(){
+        return view("unline_recharge_record");
+    }
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:提现记录
+     **************************************
+     */
+    public function unline_withdrawal_record(){
+        return view("unline_withdrawal_record");
+    }
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:代理邀请
+     **************************************
+     */
+    public function agency_invitation(){
+        return view("agency_invitation");
+    }
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:立即分销邀请
+     **************************************
+     */
+    public function now_agency_invitation(){
+        return view("now_agency_invitation");
+    }
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:安全设置
+     **************************************
+     */
+    public function security_setting(){
+        return view("security_setting");
+    }
 
 
  }
