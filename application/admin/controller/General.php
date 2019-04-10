@@ -1184,7 +1184,9 @@ class  General extends  Base {
     public function order_package_do_by(Request $request){
         if($request->isPost()){
             $store_id =$this->store_ids; //店铺id
-
+            if(empty($store_id)){
+                return ajax_error("请使用店铺购买");
+            }
         }
     }
 
