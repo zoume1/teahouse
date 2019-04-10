@@ -67,7 +67,7 @@ class Login extends Controller{
                 ->where("status","<>",1)
                 ->select();
             if($username !="admin"){
-                $this->success("商户请在前台登录","admin/Login/index");
+                $this->success("商户请在前台登录","index/index/sign_in");
             }
             if (!$userInfo) {
                 $this->success("账户名不正确或管理员以被停用","admin/Login/index");
@@ -75,7 +75,6 @@ class Login extends Controller{
             if (password_verify($passwd , $userInfo[0]["passwd"])) {
                 Session("user_id", $userInfo[0]["id"]);
                 unset($userInfo->user_passwd);
-
                 Session("user_info", $userInfo);
                // $this->redirect(url("admin/index/index"));
                 $this->success("登录成功","admin/Index/index");
