@@ -75,22 +75,24 @@ class Advertisement extends Controller
     {
         if ($request->isPost()) {
             $data = $request->param();
-
             $data["start_time"] = strtotime($data["start_time"]);
+            $data["start_two"] = strtotime($data["start_two"]);
+            $data["end_one"] = strtotime($data["end_one"]);
+            $data["end_two"] = strtotime($data["end_two"]);
             $address = [$data["address_city2"], $data["address_city3"], $data["address_street"]];
             $addressed = [$data["address_city1"], $data["address_city2"], $data["address_city3"], $data["address_street"]];
             $data["addressed"] = implode(",", $addressed);
             $data["address"] = implode("", $address);
             
-
             foreach ($data as $k => $v) {
                 if (in_array($v, $addressed)) {
                     unset($data[$k]);
                 }
             }
-
+            
             $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
             $data["classify_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            halt($data);
             $bool = db("teahost")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Advertisement/index"));

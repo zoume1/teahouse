@@ -32,7 +32,7 @@ class Pay extends  Controller{
         $input->SetOut_trade_no($order_numbers);
         //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
         $input->SetTotal_fee($cost_moneny*100);
-        $return_url =config("domain.url")."notify";
+        $return_url = config("domain.url")."notify";
         $input->SetNotify_url($return_url);//需要自己写的notify.php
         $input->SetTrade_type("JSAPI");
         //         由小程序端传给后端或者后端自己获取，写自己获取到的，
