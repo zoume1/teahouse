@@ -10,7 +10,7 @@
     .wrapper {padding: 20px;}
     .on {color: #21A5FA !important; border-bottom: solid 3px #21A5FA;}
     .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
-    .distribution_list ul {display: flex; align-items: center;}
+    .distribution_list ul {display: flex; align-items: center; margin-bottom: 10px;}
     .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
     .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 40px; margin-bottom: 20px;}
     .search-box{display: flex; align-items: center; font-size: 14px; color: #333;}
@@ -36,8 +36,8 @@
                 <div class="search-box layui-form">
                     <div class="date-input">
                         <label>时间：</label>
-                        <input type="text" id="searchDateStart">~
-                        <input type="text" id="searchDateend">
+                        <input type="text" data-type="date" id="searchDateStart">~
+                        <input type="text" data-type="date" id="searchDateend">
                     </div>
                     <div>
                         <label class="layui-form-label">类型：</label>
@@ -166,98 +166,18 @@
     </div>
 {/block}
 
-<!--_footer 作为公共模版分离出去-->
-{include file="template/_footer" /}
-<!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
 {block name="bottom"}
-<script type="text/javascript">
-    layui.config({
-        base: "js/"
-    }).use(['form', 'layer', 'jquery', 'laypage', 'laydate'], function () {
-        var form = layui.form(),
-            layer = parent.layer === undefined ? layui.layer : parent.layer,
-            laypage = layui.laypage,
-            $ = layui.jquery,
-            laydate = layui.laydate;
-        var vals = $("input").data("id");
-        // 日期
-        laydate.render({elem: '#searchDateStart'});
-        //点击操作确认按钮
-        var data_id = [];
-        $("#operation-btn").click(function () {
-            var opration_val = $(".opation select option:selected").val();
-            if (opration_val == 0) {
-                layer.alert('请选择操作', {
-                    skin: 'layui-layer-molv' //样式类名
-                    ,
-                    closeBtn: 0
-                });
-            } else if (opration_val == 1) {
-                layer.confirm('你确认要删除吗？', {
-                    btn: ['确认', '取消'] //按钮
-                }, function () {
-                    var child = $("tbody").find('input[name="singleChoose"]:checked');
-                    for (var i = 0; i < child.length; i++) {
-                        data_id.push($(child[i])[0].dataset.id);
-                    }
-                    $.ajax({
-                        type: "POST",
-                        url: "{:url('admin/Goods/dels')}",
-                        data: {
-                            "id": data_id,
-                        },
-                        success: function (data) {
-                            console.log("成功");
-                            console.log(data);
-                            var data = $.parseJSON(data);
-                            layer.alert(data.info, {
-                                skin: 'layui-layer-molv' //样式类名
-                                ,
-                                closeBtn: 0
-                            });
-                            location.reload();
-                            data_id.splice(0, data_id.length);
-                        },
-                        error: function (data) {
-                            var data = $.parseJSON(data);
-                            layer.alert(data.info, {
-                                skin: 'layui-layer-molv' //样式类名
-                                ,
-                                closeBtn: 0
-                            });
-                            console.log(data); 
-                            console.log("错误");
-                            data_id.splice(0, data_id.length);
-                        }
-                    });
-                });
-
-            }
-
-        });
-        //全选
-        form.on('checkbox(allChoose)', function (data) {
-            var child = $(data.elem).parents('table').find('tbody input[name="singleChoose"]');
-            child.each(function (index, item) {
-                item.checked = data.elem.checked;
-            });
-            form.render('checkbox');
-        });
-
-        // //通过判断文章是否全部选中来确定全选按钮是否选中
-        // form.on("checkbox(choose)", function (data) {
-        //     var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-        //     var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
-        //     if (childChecked.length == child.length) {
-        //         $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
-        //     } else {
-        //         $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
-        //     }
-        //     form.render('checkbox');
-        // })
-        
+<script src="__STATIC__/admin/common/layui/layui.js"></script>
+<script>
+    layui.use(['laydate', 'jquery'], function(){
+        var laydate = layui.laydate;
+        $('input[data-type="date"]').each(function(idx, elem){
+            laydate.render({
+                elem: elem
+            })
+        })
     })
 </script>
 {/block}
