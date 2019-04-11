@@ -207,13 +207,27 @@ class Role extends Controller
                 ->where("id","NEQ",172)
                 ->select();
             $menu_lists = _tree_hTree(_tree_sort($menu_list, "sort_number"));
+            $menu_role =explode(",",$roles[0]["menu_role_id"]);
+            $memu_check =db("menu")->where("status","<>",0)->where("id","in",$menu_role)->field("id")->select();
+            foreach ($memu_check as $keys=>$vals){
+                $menu_array[] =$vals["id"];
+            }
         }else{
             $roles = db("role")->where("id",$id)->select();
             $role_name = db("role")->where("id",$roles[0]["pid"])->field("name,id")->select();
             $menu_list = db("menu")->where("status","<>",0)->select();
             $menu_lists = _tree_hTree(_tree_sort($menu_list,"sort_number"));
+            $menu_role =explode(",",$roles[0]["menu_role_id"]);
+            $memu_check =db("menu")
+                ->where("status","<>",0)
+                ->where("id","in",$menu_role)
+                ->field("id")
+                ->select();
+            foreach ($memu_check as $keys=>$vals){
+                $menu_array[] =$vals["id"];
+            }
         }
-        return view("edit",["roles"=>$roles,"menu_lists"=>$menu_lists,"role_name"=>$role_name]);
+        return view("edit",["roles"=>$roles,"menu_lists"=>$menu_lists,"role_name"=>$role_name,"memu_check"=>$menu_array]);
     }
 
 

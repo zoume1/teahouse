@@ -10,26 +10,151 @@
     .wrapper {padding: 20px;}
     .on {color: #21A5FA !important; border-bottom: solid 3px #21A5FA;}
     .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
-    .distribution_list ul {display: flex; align-items: center;}
+    .distribution_list ul {display: flex; align-items: center; margin-bottom: 10px;}
     .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
-    
+    .wallet{background-color: rgb(236, 255, 255); padding: 14px 20px;}
+    .wallet>div{display: flex; align-items: center;}
+    .wallet span{font-size: 20px; color: #f00; margin-right: 10px;}
+    .wallet button{height: 30px; line-height: 30px; background-color: #f00; color: #fff;}
+    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 40px; margin-bottom: 20px;}
+    .search-box{display: flex; align-items: center; font-size: 14px; color: #333;}
+    .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
+    .search-box button{margin-left: 20px; height: 35px; line-height: 35px;}
+    .search-box input::placeholder{color: #b2b2b2;}
+    .search-box .layui-form-label{margin-bottom: 0;}
+    .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
+    .bot-operate .opation{float: left}
+    .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
+    .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
 
 </style>
 
 {/block}
 
 <body>
-    {block name="content"}
+{block name="content"}
     <div class="wrapper">
-    {include file="template/_top" /}
-   
-    {/block}
+        {include file="template/_top" /}
+        <div class="wallet">
+            <div>
+                <span>店铺余额：100.0元</span>
+                <button class="layui-btn">充值</button>
+                <button class="layui-btn">提现</button>
+            </div>
+        </div>
+        <div class="inner">
+            <div class="search-hd">
+                <div class="search-box layui-form">
+                    <div class="date-input">
+                        <label>时间：</label>
+                        <input type="text" data-type="date" id="searchDateStart">~
+                        <input type="text" data-type="date" id="searchDateend">
+                    </div>
+                    <div>
+                        <label class="layui-form-label">类型：</label>
+                        <div class="layui-input-block">
+                            <select name="recharge-type">
+                                <option value="">请选择</option>
+                                <option value="0">充值</option>
+                                <option value="1">提现</option>
+                                <option value="2">订单</option>
+                                <option value="3">代理收入</option>
+                                <option value="4">退款</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="layui-btn">搜索</button>
+                </div>
+            </div>
+            <div class="layui-form" lay-filter="test2">
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th class="table-cell">
+                                <div class="table-cell-div">
+                                    <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose">
+                                </div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">流水号</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">日期</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">收入（元）</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">支出（元）</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">类型</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">操作</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table-cell">
+                                <div class="table-cell-div">
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
+                                </div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">2</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">3</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">4</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">5</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">6</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">
+                                    <button class="layui-btn">详情</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bot-operate">
+                <div class="opation">
+                    <select>
+                        <option check="" value="0">请选择</option>
+                        <option value="1">批量删除</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" id="operation-btn" class="operation-btn">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
 
-    <!--_footer 作为公共模版分离出去-->
-    {include file="template/_footer" /}
-    <!--/_footer 作为公共模版分离出去-->
 
-    <!--请在下方写此页面业务相关的脚本-->
-    {block name="bottom"}
-   
-    {/block}
+<!--请在下方写此页面业务相关的脚本-->
+{block name="bottom"}
+<script src="__STATIC__/admin/common/layui/layui.js"></script>
+<script>
+    layui.use(['laydate', 'jquery', 'form'], function(){
+        var laydate = layui.laydate,
+            form = layui.form;
+        $('input[data-type="date"]').each(function(idx, elem){
+            laydate.render({
+                elem: elem
+            })
+        })
+        form.render();
+    })
+</script>
+{/block}

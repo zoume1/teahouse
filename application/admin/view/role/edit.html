@@ -127,38 +127,39 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">权限设置</label>
 			</div>
-			<div class="quanxian">
-				<div class="tables">
-					{volist name="menu_lists" id="values"}
-					<div class="list">
-						<p class="title">
-							<input type="checkbox" value="{$values.id}" data-id="12" lay-skin="primary" title="{$values.name}" name="menu_role_id[]" lay-filter="allChoose" class="allChoose">
-							<span>
+
+
+		<div class="quanxian">
+			<div class="tables">
+				{volist name="menu_lists" id="values"}
+				<div class="list">
+					<p class="title">
+						<input type="checkbox" value="{$values.id}" data-id="12" lay-skin="primary" title="{$values.name}" name="menu_role_id[]" lay-filter="allChoose" class="allChoose"  {if condition="in_array($values['id'],$memu_check)" } checked='checked'{/if}>
+						<span>
 					</span>
-						</p>
-						<div class="ultable">
-							<ul>
-								{volist name="$values.sub" id="val"}
-								<li>
-									<input type="checkbox" value="{$val.id}" data-id="12" lay-skin="primary" title="{$val.name}" name="menu_role_id[]" lay-filter="choose" class="aaa">
-									<div class="list-three">
-										<ul>
-											{if !empty($val.sub)} {volist name="$val.sub" id="v"}
-											<li>
-												<input type="checkbox" value="{$v.id}" data-id="12" lay-skin="primary" title="{$v.name}" name="menu_role_id[]" lay-filter="three-choose">
-											</li>
-											{/volist} {/if}
-										</ul>
-									</div>
-								</li>
-								{/volist}
-							</ul>
-						</div>
+					</p>
+					<div class="ultable">
+						<ul>
+							{volist name="$values.sub" id="val"}
+							<li>
+								<input type="checkbox" value="{$val.id}" data-id="12" lay-skin="primary" title="{$val.name}" name="menu_role_id[]" lay-filter="choose" class="aaa"  {if condition="in_array($val['id'],$memu_check)" } checked='checked'{/if}>
+								<div class="list-three">
+									<ul>
+										{if !empty($val.sub)} {volist name="$val.sub" id="v"}
+										<li>
+											<input type="checkbox" value="{$v.id}" data-id="12" lay-skin="primary" title="{$v.name}" name="menu_role_id[]" lay-filter="three-choose"  {if condition="in_array($v['id'],$memu_check)" } checked='checked'{/if}>
+										</li>
+										{/volist} {/if}
+									</ul>
+								</div>
+							</li>
+							{/volist}
+						</ul>
 					</div>
-					{/volist}
 				</div>
+				{/volist}
 			</div>
-			
+		</div>
 
 				<div class="layui-form-item">
 			<div class="layui-input-block">
