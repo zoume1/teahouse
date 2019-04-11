@@ -739,10 +739,10 @@ class  Order extends  Controller
                                 $number = $datas['order_quantity']/$num_one;
                                 if($number > 1){
                                     $remainder = $datas['order_quantity']%$num_one;
-                                    $datas["store_number"] = $number.','.$number_zero.','.$remainder.','.$num_one;
+                                    $datas["store_number"] = $number.','.$number_zero.','.$remainder.','.$number_one;
                                 } else {
                                     $number = 0;
-                                    $datas["store_number"] = $number.','.$number_zero.','.$datas['order_quantity'].','.$num_one;
+                                    $datas["store_number"] = $number.','.$number_zero.','.$datas['order_quantity'].','.$number_one;
                                 }
                                 break;
                             case 2: 

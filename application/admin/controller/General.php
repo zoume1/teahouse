@@ -1211,7 +1211,7 @@ class  General extends  Base {
                 return ajax_error("请使用本店铺商家账号进行购买");
             }
             $enter_data =Db::table("tb_enter_all")->where("id",$enter_all_id)->find();
-            $meal_name =Db::name("tb_enter_meal")->where("id",$enter_data['enter_id'])->value("name");
+            $meal_name =Db::table("tb_enter_meal")->where("id",$enter_data['enter_id'])->value("name");
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
