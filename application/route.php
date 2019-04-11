@@ -736,7 +736,7 @@ Route::group("admin",[
     "added_service_search"=>"admin/General/added_service_search",    //增值服务(增值商品分类搜索)
     "order_package_index"=>"admin/General/order_package_index",      //订单套餐
     "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
-    "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买页面
+    "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买页面（ajax订单信息返回）
     "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
     "capital_management"=>"admin/General/capital_management",//资金管理资金明细
