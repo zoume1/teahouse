@@ -148,8 +148,8 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                crimpFlag: [false, false, false],
-                selectFlag: 0,
+                crimpFlag: [false, false, false], // 选择年限下拉框key值
+                selectFlag: 0, //mouseenter 给div[index]添加颜色
                 selectClassName: ['universal', 'industry', 'progress'],
                 titNameArr: ['universal-name', 'industry-name', 'progress-name'],
                 versionData: [],
@@ -160,7 +160,7 @@
                 crimpComb: function(_index){
                     this.$set(this.crimpFlag, _index, !this.crimpFlag[_index]);
                 },
-                // 
+                //mouseenter 给div[index]添加颜色
                 selectEvent: function(_index){
                     this.selectFlag = _index;
                 },
@@ -169,13 +169,13 @@
                     // _index:版本 _idx:套餐
                     this.crimpComb(_index);
                     this.$set(this.selectData, _index, this.versionData[_index].priceList[_idx]);
-                    console.log(this.selectData);
+                    // console.log(this.selectData);
                 },
                 getAllData: function(){
                     this.$http.post('order_package_show').then(function(res){
                         if(res.body.status == 1){
                             this.versionData = res.body.data;
-                            // console.log(this.versionData);
+                            console.log(this.versionData);
                         }
                     }, function(res){
                         console.log(res.status, res.statusText);
