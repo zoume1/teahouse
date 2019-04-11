@@ -1176,10 +1176,12 @@ class  General extends  Base {
      */
     public function order_package_buy(Request $request){
         if($request->isPost()){
+            $id =$request->only(["id"])["id"];
             $data =Db::table("tb_set_meal_order")
                 ->field("id,order_number,create_time,goods_name,goods_quantity,amount_money,store_id,images_url")
                 ->where("store_id",$this->store_ids)
                 ->where("status",-1)
+                ->where("id",$id)
                 ->select();
             if($data){
                 return ajax_success("订单信息返回成功",$data);

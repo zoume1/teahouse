@@ -1,9 +1,22 @@
-{include file="template/_meta" /}
-<title>安全设置</title>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>安全设置</title>
 </head>
+<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
 
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<link rel="stylesheet" href="__STATIC__/admin/index/css/index.css">
 <style type="text/css">
     * {margin: 0;padding: 0;}
     body {background: #fff;}
@@ -16,10 +29,9 @@
     .wallet>div{display: flex; align-items: center;}
     .wallet span{font-size: 20px; color: #f00; margin-right: 10px;}
     .wallet button{height: 30px; line-height: 30px; background-color: #f00; color: #fff;}
-    .layui-form{display: flex; flex-direction: column; align-items: center;}
-    .layui-form .layui-input-block{display: flex;}
+    .layui-form{display: flex; align-items: center; flex-direction: column;}
+    .layui-form .layui-input-block{display: flex; align-items: center;}
     .layui-form .layui-input-block input{flex: 1;}
-
 </style>
 
 {/block}
@@ -69,7 +81,7 @@
 {block name="bottom"}
 <script src="__STATIC__/admin/common/layui/layui.js"></script>
 <script>
-    layui.use(['laydate', 'jquery', 'form'], function(){
+    layui.use(['laydate', 'form'], function(){
         var laydate = layui.laydate,
             form = layui.form;
         $('input[data-type="date"]').each(function(idx, elem){
