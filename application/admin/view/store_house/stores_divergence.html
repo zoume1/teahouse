@@ -124,18 +124,19 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+					{if !empty($stores_divergence)}{volist name="stores_divergence" id="value"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>1000001</td>
-						
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+						<td>{$value.parts_order_number}</td>		
+						<td>{$value.parts_goods_name}</td>
+						<td>{$value.user_account_name}</td>
+						<td>{$value.store_name}</td>
+						<td>{$value.store_number}</td>
+						<td>{$value.order_create_time|date="Y-m-d H:i",###}</td>
+						<td>{$value.end_time|date="Y-m-d H:i",###}</td>
 						
 					</tr>
+					{/volist}{/if}
 				</tbody>
 			</table>
 			<div id="page">
@@ -150,6 +151,9 @@
 					</button>
 				</div>
 			</div>
+			{if !empty($stores_divergence)}
+			{$stores_divergence->render()}
+			{/if}
 
 		</div>
 

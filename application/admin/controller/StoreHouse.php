@@ -175,8 +175,18 @@ class StoreHouse extends Controller{
      * [仓库入仓]
      * 郭杨
      */    
-    public function stores_divergence(){     
-        return view("stores_divergence");
+    public function stores_divergence()
+    { 
+        $store_order = db("house_order")->where("status",">",0)->field("id,parts_order_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time")->select();
+
+        foreach($store_order as $key => $value){
+            $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
+        }    
+
+        $url = 'admin/StoreHouse/stores_divergence';
+        $pag_number = 20;
+        $stores_divergence = paging_data($store_order,$url,$pag_number);
+        return view("stores_divergence",["stores_divergence"=>$stores_divergence]);
     }
 
     /**

@@ -208,7 +208,7 @@ class  Order extends  Controller
     /**
      **************郭杨*******************
      * @param Request $request
-     * Notes:提交订单
+     * Notes:提交订单(修改过的)
      **************************************
      * @param Request $request
      */
@@ -573,7 +573,7 @@ class  Order extends  Controller
         /**
      **************李火生*******************
      * @param Request $request
-     * Notes:购物车提交订单
+     * Notes:购物车提交订单(修改过的)
      **************************************
      * @param Request $request
      */
@@ -627,8 +627,8 @@ class  Order extends  Controller
                     $datas['goods_image'] = $special_data['images'];//图片
                     $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                     $datas['goods_standard'] = $special_data["name"]; //商品规格
-                    $data['unit'] = explode(",",$goods_data['unit']);
-                    $data['num'] = explode(",",$goods_data['num']);
+                    $data['unit'] = explode(",",$special_data['unit']);
+                    $data['num'] = explode(",",$special_data['num']);
 
                 }
                 if($order_type != 3){
@@ -688,33 +688,15 @@ class  Order extends  Controller
                         $datas["special_id"] = $goods_standard_id[$keys];//规格id
                         $datas["coupon_id"] = $coupon_id;
                         $datas["refund_amount"] = $all_money;
-                        $datas["unit"] = $unit[$keys];
-                                        
+                        $datas["unit"] = $unit[$keys];                                       
                         $res = Db::name('order')->insertGetId($datas);
-                        if ($res) {
-                            $order_datas =Db::name("order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number")
-                                ->where('id',$res)
-                                ->where("member_id",$user_id)
-                                ->find();
-                         //清空购物车数据
-                        if(is_array($shopping_id)){
-                            $where ='id in('.implode(',',$shopping_id).')';
-                        }else{
-                            $where ='id='.$shopping_id;
-                        }
-                        $list =  Db::name('shopping')->where($where)->delete();    
-                            return ajax_success('下单成功',$order_datas);
-                        }else{
-
-                            return ajax_error('失败',['status'=>0]);
-                        }
                     } else {
                         $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
                         ->where('id',$address_id)
                         ->find();
                         $year = $request->only("year")["year"];//存茶年限
+                        $house_price = $request->only("house_price")["house_price"];//存茶年限
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
@@ -741,7 +723,8 @@ class  Order extends  Controller
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
-                        $datas["age_limit"] = $year;                     
+                        $datas["age_limit"] = $year;
+                        $datas["house_price"] = $house_price[$keys];                    
                         $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
                             case 0:
@@ -773,7 +756,7 @@ class  Order extends  Controller
                                 $rank_one = $datas['order_quantity']/$number_two; //第二个数量
                                 if($rank_one > 1){
                                     $three = $datas['order_quantity'] % $num_two; //第三个数量
-                                    $two = $rank_one/$number_one ;//第一个数量
+                                    $two = $rank_one/$number_one ; //第一个数量
                                     if($two > 1){
                                         $foure = $rank_one % $number_one ;//第二个数量
                                         $datas["store_number"] = $two.','.$number_zero.','.$foure.','.$number_one.','.$rank_one.','.$number_two;
@@ -787,27 +770,48 @@ class  Order extends  Controller
                                     $datas["store_number"] = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$datas['order_quantity'].','.$number_two;
                                 }
                                 break;                                                             
-                        }
-                        $res = Db::name('house_order')->insertGetId($datas);
-                        if ($res) {
-                            $order_datas =Db::name("house_order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number")
-                                ->where('id',$res)
-                                ->where("member_id",$user_id)
-                                ->find();
-                        //清空购物车数据
-                        if(is_array($shopping_id)){
-                            $where ='id in('.implode(',',$shopping_id).')';
-                        }else{
-                            $where ='id='.$shopping_id;
-                        }
-                        $list =  Db::name('shopping')->where($where)->delete();
-                            return ajax_success('下单成功',$order_datas);
-                        }else{
-                            return ajax_error('失败',['status'=>0]);
-                    }         
+                            }
+                        $res = Db::name('house_order')->insertGetId($datas);        
+                    }
                 }
-            }           
+            if($order_type != 3){
+                if ($res) {
+                    $order_datas =Db::name("order")
+                        ->field("order_real_pay,parts_goods_name,parts_order_number")
+                        ->where('id',$res)
+                        ->where("member_id",$user_id)
+                        ->find();
+                //清空购物车数据
+                if(is_array($shopping_id)){
+                    $where ='id in('.implode(',',$shopping_id).')';
+                }else{
+                    $where ='id='.$shopping_id;
+                }
+                $list =  Db::name('shopping')->where($where)->delete();    
+                    return ajax_success('下单成功',$order_datas);
+                }else{
+
+                    return ajax_error('失败',['status'=>0]);
+                } 
+            } else {
+                if ($res) {
+                    $order_datas =Db::name("house_order")
+                        ->field("order_real_pay,parts_goods_name,parts_order_number")
+                        ->where('id',$res)
+                        ->where("member_id",$user_id)
+                        ->find();
+                //清空购物车数据
+                if(is_array($shopping_id)){
+                    $where ='id in('.implode(',',$shopping_id).')';
+                }else{
+                    $where ='id='.$shopping_id;
+                }
+                $list =  Db::name('shopping')->where($where)->delete();
+                    return ajax_success('下单成功',$order_datas);
+                }else{
+                    return ajax_error('失败',['status'=>0]);
+                } 
+            }          
         }
     }
 
