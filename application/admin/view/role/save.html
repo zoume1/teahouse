@@ -48,7 +48,7 @@
 	.ultable {
 		height: auto;
 		padding-left: 10px;
-		
+
 	}
 
 	.layui-form-checkbox[lay-skin=primary] span {
@@ -70,7 +70,7 @@
 
 	.list-three ul li {
 		text-align: center;
-	
+
 	}
 
 	.ultable>ul>li>.layui-form-checkbox {
@@ -126,8 +126,8 @@
 				</select>
 			</div>
 		</div>
-		
-		
+
+
 		<div class="layui-form-item">
 			<label class="layui-form-label">权限设置</label>
 		</div>
@@ -144,6 +144,7 @@
 				<div class="ultable">
 					<ul>
 						{volist name="$value.sub" id="val"}
+
 						<li>
 							<input type="checkbox" value="{$val.id}" data-id="12" lay-skin="primary" title="{$val.name}" name="menu_role_id[]" lay-filter="choose"
 							 class="aaa">
@@ -159,6 +160,7 @@
 								</ul>
 							</div>
 						</li>
+
 						{/volist}
 					</ul>
 				</div>
@@ -203,7 +205,7 @@
 				});
 				form.render('checkbox');
 			});
-			
+
 
 			//全部选中来确定全选按钮是否选中
 			form.on('checkbox(choose)', function(data) {
@@ -216,7 +218,7 @@
 					'ul li input[type="checkbox"]:not([name="show"])');
 				var childChecked = $(data.elem).parents('.list').children('.ultable').find(
 					'ul li input[type="checkbox"]:not([name="show"]):checked')
-			
+
 				if (childChecked.length == child.length) {
 					$(data.elem).parents('.list').children('.title').find(' input.allChoose').get(0).checked = true;
 				}
@@ -244,7 +246,7 @@
 				}
 						form.render('checkbox');
 					})
-		
+
 });
 
 		$("#submits").click(function() {
