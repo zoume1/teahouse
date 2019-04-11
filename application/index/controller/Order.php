@@ -734,7 +734,7 @@ class  Order extends  Controller
                                 $number_one = $data['unit'][$key];    //等级单位
                                 $num_one = $data['num'][$key];        //等级数量
                                 $number_zero = $data['unit'][$key-1]; //等级单位
-                                $num_zero = $data['num'][$key]-1;     //等级数量
+                                $num_zero = $data['num'][$key-1];     //等级数量
 
                                 $number = $datas['order_quantity']/$num_one;
                                 if($number > 1){
