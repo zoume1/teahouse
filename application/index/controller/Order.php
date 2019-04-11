@@ -696,6 +696,7 @@ class  Order extends  Controller
                         ->where('id',$address_id)
                         ->find();
                         $year = $request->only("year")["year"];//存茶年限
+                        $house_price = $request->only("house_price")["house_price"];//存茶年限
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
@@ -722,7 +723,8 @@ class  Order extends  Controller
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
-                        $datas["age_limit"] = $year;                     
+                        $datas["age_limit"] = $year;
+                        $datas["house_price"] = $house_price[$keys];                    
                         $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
                             case 0:
@@ -754,7 +756,7 @@ class  Order extends  Controller
                                 $rank_one = $datas['order_quantity']/$number_two; //第二个数量
                                 if($rank_one > 1){
                                     $three = $datas['order_quantity'] % $num_two; //第三个数量
-                                    $two = $rank_one/$number_one ;//第一个数量
+                                    $two = $rank_one/$number_one ; //第一个数量
                                     if($two > 1){
                                         $foure = $rank_one % $number_one ;//第二个数量
                                         $datas["store_number"] = $two.','.$number_zero.','.$foure.','.$number_one.','.$rank_one.','.$number_two;
