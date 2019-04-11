@@ -184,6 +184,12 @@
                 // 下订单
                 getOrder: function(){
                     // location.href = 'order_package_buy';
+                    console.log(this.selectData)
+                    this.$http.post('order_package_do_by',{id: this.selectData.id}).then(function(res){
+                        console.log(res);
+                    }, function(res){
+                        console.log(res.status, res.statusText);
+                    })
                 }
             },
             mounted: function(){
