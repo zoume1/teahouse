@@ -64,10 +64,11 @@ Route::group("",[
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
     "wx_order_index"=>"index/Pay/order_index",//小程序订单支付
     "wx_recharge_pay"=>"index/Pay/recharge_pay",//小程序充值支付
+    "reward_pay"=>"index/Pay/reward_pay",   //众筹商品打赏支付
      "notify"=>"index/order/notify",//小程序支付回调（活动）
      "order_notify"=>"index/order/order_notify",//小程序订单支付回调
      "recharge_notify"=>"index/order/recharge_notify",//小程序充值支付回调
-     "reward_pay"=>"index/order/reward_pay",//众筹商品支付
+     "reward_notify"=>"index/order/reward_notify",//打赏订单支付成功回来修改状态
     /*TODO:end*/
 
     /*TODO:地址管理开始*/
@@ -304,6 +305,7 @@ Route::group("",[
     "crowd_now"=>"index/Crowd/crowd_now",           //正在众筹商品
     "crowd_support"=>"index/Crowd/crowd_support",   //众筹商品去支持
     "crowd_period"=>"index/Crowd/crowd_period",     //往期众筹商品
+    "crowd_reward"=>"index/Crowd/crowd_reward",     //众筹商品打赏订单
 
 
 
