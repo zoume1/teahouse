@@ -2232,7 +2232,7 @@ class  Order extends  Controller
                     "user_id"=>$information["member_id"],//用户ID
                     "wallet_operation"=> $information["money"],//消费金额
                     "wallet_type"=>-1,//消费操作(1入，-1出)
-                    "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "operation_time"=> date("Y-m-d H:i:s"),//操作时间
                     "operation_linux_time"=>time(), //操作时间
                     "wallet_remarks"=>"订单号：".$val["out_trade_no"]."众筹打赏".$information["money"]."元",//消费备注
                     "wallet_img"=>" ",//图标
