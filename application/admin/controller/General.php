@@ -1168,10 +1168,25 @@ class  General extends  Base {
 
 
     /**
-     * [套餐购买下单页面]
-     * 郭杨
-     */    
-    public function order_package_buy(){
+     **************李火生*******************
+     * @param Request $request
+     * Notes:套餐购买下单页面
+     **************************************
+     * @return \think\response\View
+     */
+    public function order_package_buy(Request $request){
+        if($request->isPost()){
+            $data =Db::table("tb_set_meal_order")
+                ->field("id,order_number,create_time,goods_name,goods_quantity,amount_money,store_id,images_url")
+                ->where("store_id",$this->store_ids)
+                ->where("status",-1)
+                ->select();
+            if($data){
+                return ajax_success("订单信息返回成功",$data);
+            }else{
+                return ajax_error("没有订单信息");
+            }
+        }
         return view("order_package_buy");
     }
 
@@ -1184,11 +1199,44 @@ class  General extends  Base {
     public function order_package_do_by(Request $request){
         if($request->isPost()){
             $store_id =$this->store_ids; //店铺id
+            $enter_all_id =$request->only(['id'])['id'];//套餐id
             if(empty($store_id)){
                 return ajax_error("请登录店铺进行购买");
             }
+            $account = Db::table("tb_admin")->where("store_id",$store_id)->where("status",0)->value("account");
+            $is_business =Db::table("tb_pc_user")->where("phone_number",$account)->where("status",1)->value("id");
+            if(empty($is_business)){
+                return ajax_error("请使用本店铺商家账号进行购买");
+            }
+            $enter_data =Db::table("tb_enter_all")->where("id",$enter_all_id)->find();
+            $meal_name =Db::name("tb_enter_meal")->where("id",$enter_data['enter_id'])->value("name");
+            $time=date("Y-m-d",time());
+            $v=explode('-',$time);
+            $time_second=date("H:i:s",time());
+            $vs= explode(':',$time_second);
+            $order_number ="TC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].$is_business; //订单编号
+            $data =[
+                "order_number"=>$order_number, //订单号
+                "create_time"=>time(), //创建订单的时间
+                "goods_name"=>"套餐订购:".$meal_name,//套餐名称
+                "goods_quantity"=>1, //数量
+                "amount _money"=>$enter_data["favourable_cost"],//金额
+                "store_id"=>$store_id,//店铺id
+                "enter_all_id"=>$enter_all_id,//套餐id
+                "status"=>-1,//订单状态（-1为未付款，1为已付款）
+                "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
+            ];
+            $set_meal_id =Db::table("tb_set_meal_order")->insertGetId($data);
+            if($set_meal_id >0){
+                return ajax_success("下单成功",["id"=>$set_meal_id]);
+            }else{
+                return ajax_error("下单失败，请重新下单");
+            }
         }
     }
+
+
+
 
     
     /**

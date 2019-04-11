@@ -37,8 +37,7 @@
             dhtmlqq += '<div class="distribution_list" id="distribution_list">';
             dhtmlqq += ' <ul>';
             for (var i = 0; i < data.data.length; i++) {
-                console.log(data.data[i].url)
-                console.log( getCookie("item_id"))
+               
                 if (data.data[i].url != getCookie("item_id")) {
                     dhtmlqq += ' <li >';
                     dhtmlqq += '     <a href="' + data.data[i].url + '"  data-id="' + data.data[i].url + '">' + data.data[i].name + '</a>';

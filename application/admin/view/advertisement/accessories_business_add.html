@@ -128,15 +128,15 @@
 								<label class="form-label">开始时间</label>
 								<div class="form-input line" >
 									<input type="text" name="start_time" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker" />
-									<input type="text" name="start_time" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker1" />
+									<input type="text" name="start_two" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker1" />
 								</div>
 							</div>
 							<div class="form-item">
 								<label class="form-label">结束时间</label>
 								<div class="form-input" >
 									<div class="line">
-											<input type="text" name="start_time" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker2" />
-											<input type="text" name="start_time" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker3" />
+											<input type="text" name="end_one" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker2" />
+											<input type="text" name="end_two" value="" class="layui-input" placeholder="请选择活动开始时间" id="datetimepicker3" />
 									</div>
 									<div class="tips">不选择表示该活动长期有效</div>
 								</div>
@@ -204,7 +204,7 @@
 		<div class="form-item">
             <label class="form-label">活动排序</label>
             <div class="form-input">
-				<input type="number" name="order_ing" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" id="sort_number">
+				<input type="number" name="order_ing" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" >
 				<div class="tips">
 					*填写正整数，从大到小排序
 				</div>
@@ -217,7 +217,7 @@
 		<div class="form-item">
             <label class="form-label">开放要求</label>
             <div class="form-input">
-					<input type="radio" name="open_request" value="0" title="对所有人开放" checked>
+					<input type="radio" name="open_request" value="0" title="对所有人开放" checked="">
 					<input type="radio" name="open_request" value="1" title="对会员开放">
             </div>
 		</div>
@@ -236,7 +236,7 @@
             </div>
 		</div>
 		<div class="form-item">
-            <label class="form-label"><span class="red">*</span>活动上限人数</label>
+            <label class="form-label"><span class="red">*</span>每日活动上限人数</label>
             <div class="form-input">
 				<input type="number" name="participats" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" id="sort_number">
 				<div class="tips">
@@ -256,7 +256,7 @@
 		<div class="form-item">
             <label class="form-label"><span>*</span>活动规格</label>
             <div class="form-input line">
-				<input type="checkbox" name="specification" lay-skin="primary" title="参加会员折扣" checked="">
+				<input type="checkbox" name="specification" value="1" lay-skin="primary" title="参加会员折扣" >
 				管理会员卡
             </div>
 		</div>
@@ -268,7 +268,7 @@
 						<div class="z_photo upimg-div clear">
 							<section class="z_file fl">
 								<img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-								<input type="file" name="classify_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" />
+								<input type="file" name="classify_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="10" />
 							</section>
 						</div>
 					</section>
@@ -285,7 +285,7 @@
             </div>
 		</div>
 		<div class="form-item">
-            <label class="form-label">商品描述</label>
+            <label class="form-label">活动描述</label>
             <div class="form-input">
 				<script id="editor" type="text/plain" name="commodity" style="width:800px;height:500px;"></script>
             </div>

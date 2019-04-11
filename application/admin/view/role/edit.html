@@ -57,7 +57,7 @@
 	
 	.list-three ul li {
 		text-align: center;
-		flex: 1;
+		
 	}
 	
 	.ultable>ul>li>.layui-form-checkbox {
@@ -210,9 +210,11 @@
 					'ul li input[type="checkbox"]:not([name="show"]):checked')
 				if(childChecked.length == child.length) {
 					$(data.elem).parents('.list').children('.title').find(' input.allChoose').get(0).checked = true;
-				} else if(childChecked.length == 0) {
-					$(data.elem).parents('.list').children('.title').find(' input.allChoose').get(0).checked = false;
-				} else {
+				}
+				//  else if(childChecked.length == 0) {
+				// 	$(data.elem).parents('.list').children('.title').find(' input.allChoose').get(0).checked = false;
+				// } 
+				else {
 					$(data.elem).parents('.list').children('.title').find(' input.allChoose').get(0).checked = true;
 				}
 				form.render('checkbox');
@@ -225,10 +227,12 @@
 					'ul li input[type="checkbox"]:not([name="show"]):checked')
 				if(childChecked.length == child.length - 1) {
 					$(data.elem).parents('li').find(' input.aaa').get(0).checked = true;
-				} else if(childChecked.length == 0) {
-					$(data.elem).parents('li').find(' input.aaa').get(0).checked = false;
+				} 
+				// else if(childChecked.length == 0) {
+				// 	$(data.elem).parents('li').find(' input.aaa').get(0).checked = false;
 
-				} else {
+				// } 
+				else {
 					$(data.elem).parents('li').find(' input.aaa').get(0).checked = true;
 
 				}
