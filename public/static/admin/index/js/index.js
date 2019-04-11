@@ -54,7 +54,7 @@ $(".UCleft-fixed").children("dl").children("dd").on("click", "p", function () {
 
 	});
 });
-$(".childrenBody").on("click", "#distribution_list a", function () {
+$("body").on("click", "#distribution_list a", function () {
 	var id = $(this).data("id");
 	setCookie("item_id", id);
 })
