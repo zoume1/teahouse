@@ -133,18 +133,15 @@ class Crowd extends Controller
                     $standard = db("crowd_special")
                         ->where("goods_id",$id)
                         ->field("id,name,images,cost,story,stock,limit")
-                        ->order("cost asc")
+                        ->order("cost asc")                                                                                                                                                                                                                                                                                                                                                                                                                                                          
                         ->select();
                     $crowd[$key]["state"] = $special[$key]["state"];
                     $crowd[$key]["cost"] = $special[$key]["cost"];
                     $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
                     $crowd[$key]["collecting_money"] = $special[$key]["collecting_money"];
-                    $crowd[$key]["standard"] = $standard;
-                    
-                    
-                }
-                
+                    $crowd[$key]["standard"] = $standard;                  
+                }             
                 ajax_success('传输成功', $crowd);
             } else {
                 return ajax_error("数据为空");
@@ -202,7 +199,7 @@ class Crowd extends Controller
 
 
    /**
-     * [众筹商品打赏]
+     * [众筹商品打赏生成订单]
      * 郭杨
      */
     public function crowd_reward(Request $request)
@@ -211,16 +208,37 @@ class Crowd extends Controller
             $member_id = $request->only('member_id')['member_id'];
             $money = $request->only('money')['money'];
             $id = $request->only('id')['id'];
-            $crowd = db("special_crowd")->where("goods_id",$id)->value('id');
-            
+            $crowd = db("crowd_special")->where("id",$id)->find();       
+            $user_information = db("member")->where("member_id",$member_id)->find();
             $create_time = time();
-            $time=date("Y-m-d",time());
-            $v=explode('-',$time);
-            $time_second=date("H:i:s",time());
-            $vs=explode(':',$time_second);
+            $time = date("Y-m-d",time());
+            $v = explode('-',$time);
+            $time_second = date("H:i:s",time());
+            $vs = explode(':',$time_second);
+            $order_number ="DS".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($member_id+1001); //订单编号
 
-            $parts_order_number ="DS".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+            $data = array(
+                "money"=>$money,
+                "special_id"=>$id,
+                "member_id"=>$member_id,
+                "user_name"=>$user_information["member_name"],
+                "create_time"=>$create_time,
+                "order_number"=>$order_number,
+                "crowd_name"=>$crowd["name"],
+                "status" => 1
+            );
 
+            $rest_id = db("reward")->insertGetid($data);
+            if($rest_id){
+                $order_datas = db("reward")
+                            ->field("money,order_number,crowd_name")
+                            ->where('id',$rest_id)
+                            ->where('member_id',$member_id)
+                            ->find();
+                return ajax_success('下单成功',$order_datas);
+            } else {
+                return ajax('失败',['status'=>0]);
+            }
 
         }
     }
