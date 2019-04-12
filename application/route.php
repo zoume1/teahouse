@@ -307,6 +307,9 @@ Route::group("",[
     "crowd_period"=>"index/Crowd/crowd_period",     //往期众筹商品
     "crowd_reward"=>"index/Crowd/crowd_reward",     //众筹商品打赏订单
 
+    /*发票*/
+    "bill"=>"index/Receipt/bill",  //添加新户名
+
 
 
 ]);
