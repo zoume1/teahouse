@@ -60,7 +60,8 @@
 			<label class="form-label"><span class="red">*</span>开普通发票费率</label>
 			<div class="form-input">
                 <div class="line" >
-                    <input type="text" name="common" value="{$value.common}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required">
+					 <input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+                    <input type="text" name="common" value="{$value.common}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required" style="    margin-left: 10px;">
                     <div class="danweo">%</div>
                 </div>
 				<div class="tips">
@@ -73,7 +74,8 @@
 			<label class="form-label"><span class="red">*</span>开增值税发票费率</label>
             <div class="form-input">
                     <div class="line" >
-                        <input type="text" name="senior" value="{$value.senior}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required">
+					    <input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+                        <input type="text" name="senior" value="{$value.senior}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required" style="    margin-left: 10px;">
                         <div class="danweo">%</div>
                     </div>
                     <div class="tips">
