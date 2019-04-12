@@ -13,7 +13,7 @@
         .td{text-decoration: line-through; color: #949494; font-size: 14px;}
         .triangle::after{content: ''; position: absolute; left: 50%; top: 110%; margin-left: -4px; width: 0; height: 0; border: 5px solid transparent; border-top-color: #f00;}
         .wrapper{padding: 0 60px;}
-        .header{display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #bcbcbc; margin-bottom: 50px;}
+        .header{display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #bcbcbc; width: 1300px; margin: 0 auto 50px;}
         .step{font-size: 14px; color: #868686; margin: 0 30px; line-height: 3em;}
         .step-on{font-size: 20px; color: #333; font-weight: 700;}
         .step-line{width: 35px; border-top: 1px dashed #868686;}
@@ -188,15 +188,25 @@
                 // 下订单
                 getOrder: function(_index){
                     // 接收一个index, 区分是万用版  茶行业版， 茶进阶版
-                    // location.href = 'order_package_buy';
+                    
                     var param = {
                         id: this.selectData[_index].id
                     }
                     this.$http.post('order_package_do_by', param).then(function(res){
-                        console.log(res);
+                        console.log(res)
+                        if(res.body.status == 1){
+                            this.setCookie('TCid', res.body.data.id, 7);
+                            location.href = 'order_package_buy';
+                        }
                     }, function(res){
                         console.log(res.status, res.statusText);
                     })
+                },
+                // 设置cookie
+                setCookie: function(name, value, day){
+                    var date = new Date();
+                    date.setDate(date.getDate() + day);
+                    document.cookie = name + '=' + value + ';wxpires=' + date;
                 }
             },
             mounted: function(){
