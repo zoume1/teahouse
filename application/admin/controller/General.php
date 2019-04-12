@@ -50,8 +50,25 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function general_address(){
-
         return view("general_address");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:地址添加编辑
+     **************************************
+     */
+    public function  general_address_add($id =null,Request $request){
+        if($request->isPost()){
+            if($id){
+                //地址编辑
+
+
+            }else{
+                //地址添加
+            }
+        }
     }
 
 

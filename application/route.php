@@ -725,6 +725,7 @@ Route::group("admin",[
     /*店铺*/
     "general_index"=>"admin/General/general_index",             //店铺信息
     "general_address"=>"admin/General/general_address",             //店铺信息收货地址
+    "general_address_add"=>"admin/General/general_address_add",             //店铺信息地址添加编辑
     "general_update"=>"admin/General/general_update",             //店铺信息编辑
     "general_logo_del"=>"admin/General/general_logo_del",             //店铺信息logo图删除
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
