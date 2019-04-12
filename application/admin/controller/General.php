@@ -30,7 +30,7 @@ class  General extends  Base {
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:[店铺概况]
+     * Notes:店铺概况
      **************************************
      * @return \think\response\View
      */
@@ -1222,7 +1222,7 @@ class  General extends  Base {
                 "create_time"=>time(), //创建订单的时间
                 "goods_name"=>"套餐订购:".$meal_name,//套餐名称
                 "goods_quantity"=>1, //数量
-                "amount _money"=>$enter_data["favourable_cost"],//金额
+                "amount_money"=>$enter_data["favourable_cost"],//金额
                 "store_id"=>$store_id,//店铺id
                 "enter_all_id"=>$enter_all_id,//套餐id
                 "status"=>-1,//订单状态（-1为未付款，1为已付款）
@@ -1230,7 +1230,7 @@ class  General extends  Base {
             ];
             $set_meal_id =Db::table("tb_set_meal_order")->insertGetId($data);
             if($set_meal_id >0){
-                return ajax_success("下单成功",["id"=>$set_meal_id]);
+                return ajax_success("下单成功",["id"=>intval($set_meal_id)]);
             }else{
                 return ajax_error("下单失败，请重新下单");
             }
