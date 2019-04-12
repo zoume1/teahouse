@@ -1227,11 +1227,10 @@ class  General extends  Base {
                 "enter_all_id"=>$enter_all_id,//套餐id
                 "status"=>-1,//订单状态（-1为未付款，1为已付款）
                 "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
-
             ];
             $set_meal_id =Db::table("tb_set_meal_order")->insertGetId($data);
             if($set_meal_id >0){
-                return ajax_success("下单成功",["id"=>$set_meal_id]);
+                return ajax_success("下单成功",["id"=>intval($set_meal_id)]);
             }else{
                 return ajax_error("下单失败，请重新下单");
             }
