@@ -308,8 +308,9 @@ Route::group("",[
     "crowd_reward"=>"index/Crowd/crowd_reward",     //众筹商品打赏订单
 
     /*发票*/
-    "bill"=>"index/Receipt/bill",                      //添加新户名
+    "bill"=>"index/Receipt/bill",                      //添加企业新户名
     "receipt_status"=>"index/Receipt/receipt_status",  //所有发票状态
+    "people"=>"index/Receipt/people",                  //添加个人新户名
 
 
 
