@@ -60,7 +60,11 @@
 			<label class="form-label"><span class="red">*</span>开普通发票费率</label>
 			<div class="form-input">
                 <div class="line" >
-					 <input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+					 {if ($value.status == 1) || ($value.status == 3)}						
+					 <input type="checkbox" name="status[0]" lay-skin="primary"  value="1" title="" checked=" ">
+					 {else}
+					 <input type="checkbox" name="status[0]" lay-skin="primary"  value="1" title="" >
+					 {/if}
                     <input type="text" name="common" value="{$value.common}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required" style="    margin-left: 10px;">
                     <div class="danweo">%</div>
                 </div>
@@ -74,7 +78,11 @@
 			<label class="form-label"><span class="red">*</span>开增值税发票费率</label>
             <div class="form-input">
                     <div class="line" >
-					    <input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+						{if ($value.status == 2) || ($value.status == 3)}
+						<input type="checkbox" name="status[1]" lay-skin="primary" value="2" title="" checked=" ">
+						{else}
+						<input type="checkbox" name="status[1]" lay-skin="primary"  value="2" title="" >
+						{/if}
                         <input type="text" name="senior" value="{$value.senior}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required="required" style="    margin-left: 10px;">
                         <div class="danweo">%</div>
                     </div>
