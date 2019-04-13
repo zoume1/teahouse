@@ -1,10 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>立即分销邀请</title>
 </head>
+<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<style type="text/css">
+    * {margin: 0;padding: 0;}
+    body {background: #fff;}
+    .wrapper {padding: 20px; text-align: center;}
+    .wrapper h2{color: #f00; font-size: 20px; font-weight: 700;}
+    .subtitle{margin: 20px 0; font-size: 18px;}
+    .layui-input-block{display: flex; justify-content: center;}
+    .layui-input-block input{width: 800px;}
+    .tips{color: #f00;}
+    
+</style>
+
+{/block}
+
 <body>
-立即分销邀请
-</body>
-</html>
+{block name="content"}
+    <div class="wrapper layui-form">
+        <div class="way1">
+            <h2>方法一</h2>
+            <p class="subtitle">
+                <span>链接邀请</span>
+            </p>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="text" id="url-input" readonly class="layui-input" value="111">
+                    <button class="layui-btn layui-btn-danger copy">复制</button>
+                </div>
+            </div>
+            <p class="tips">系统为您生成专属邀请链接，您可妥善保存；快快推荐给您的好友吧，分享好友订购，彼此都可获得奖励！</p>
+            <p class="subtitle">
+                <span>或者分享链接二维码</span>
+            </p>
+            <div>
+                <img src="https://qr.api.cli.im/qr?data=%25E8%25BF%2599%25E6%2598%25AF%25E4%25B8%2580%25E4%25B8%25AA%25E4%25BA%258C%25E7%25BB%25B4%25E7%25A0%2581&level=H&transparent=false&bgcolor=%23FFFFFF&forecolor=&blockpixel=12&marginblock=2&logourl=%2F%2Fstatic.clewm.net%2Fcli%2Fimages%2Fbeautify%2Flogo%2Ficon12.png%3Fv%3D20170417&size=400&text=&logoshape=no&fontsize=30&fontfamily=msyh.ttf&fontcolor=%23000000&incolor=&outcolor=&qrcode_eyes=&background=&wper=0&hper=0&tper=0&lper=0&eye_use_fore=1&qrpad=10&kid=bizcliim&time=1555137185&key=9b1823eeaa643c712e823262ff74fdda" width="200" height="200">
+            </div>
+        </div>
+        <div class="way2">
+            <h2>方法二</h2>
+            <p class="subtitle">
+                <span>或者分享邀请码</span>
+            </p>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="text" id="yqm-input" readonly class="layui-input" value="222">
+                    <button class="layui-btn layui-btn-danger copy">复制</button>
+                </div>
+            </div>
+            <p class="tips">系统为您生成专属4位邀请码，您可妥善保存；快快推荐给您的好友吧，分享好友注册，彼此都可获得奖励！</p>
+        </div>
+    </div>
+{/block}
+
+
+<!--请在下方写此页面业务相关的脚本-->
+{block name="bottom"}
+<script src="__STATIC__/admin/common/layui/layui.js"></script>
+<script>
+    layui.use(['laydate', 'form'], function(){
+        var laydate = layui.laydate,
+            form = layui.form;
+        $('input[data-type="date"]').each(function(idx, elem){
+            laydate.render({
+                elem: elem
+            })
+        })
+        form.render();
+        $('.copy').click(function(){
+            var code = document.getElementById(this.previousElementSibling.id);
+            code.select();
+            document.execCommand('Copy');
+            layer.msg('复制成功！');
+        })
+    })
+    
+</script>
+{/block}

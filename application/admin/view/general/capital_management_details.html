@@ -1,10 +1,246 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>资金详情</title>
 </head>
+<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<style type="text/css">
+    * {margin: 0;padding: 0;}
+    body {background: #fff;}
+    .wrapper {padding: 20px;}
+    
+
+</style>
+
+{/block}
+
 <body>
-资金详情
-</body>
-</html>
+{block name="content"}
+    <div class="wrapper">
+        <!-- 订单基本信息 -->
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col>
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th colspan="4">订单基本信息</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>店铺账号</td>
+                    <td>13922830809</td>
+                    <td>订单号</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>商品名称</td>
+                    <td>13922830809</td>
+                    <td>商品数量</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>下单时间</td>
+                    <td>13922830809</td>
+                    <td>订单金额</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>订单类型</td>
+                    <td>13922830809</td>
+                    <td>订单配送费用</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>收货人信息</td>
+                    <td>详细地址北京市东城区hhr
+                        收件人更好黄何
+                        联系电话13244445555</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- 商品退款/退货 -->
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col>
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th colspan="4">商品退款/退货</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>店铺账号</td>
+                    <td>13922830809</td>
+                    <td>流水号</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>申请时间</td>
+                    <td>13922830809</td>
+                    <td>退款/退货时间</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>退款/退货类型:</td>
+                    <td>13922830809</td>
+                    <td>退款金额</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>配送类型</td>
+                    <td>13922830809</td>
+                    <td>退货配送费用</td>
+                    <td>2018062803890</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- 代理收入 -->
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col>
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th colspan="4">代理收入</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>店铺账号</td>
+                    <td>13922830809</td>
+                    <td>邀请人订单流水</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>邀请人订单项目</td>
+                    <td>13922830809</td>
+                    <td>邀请人订单金额</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>邀请人订单时间</td>
+                    <td>13922830809</td>
+                    <td>邀请人邀请码</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>代收入费</td>
+                    <td>13922830809</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- 充值 -->
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col>
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th colspan="4">充值</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>店铺账号</td>
+                    <td>13922830809</td>
+                    <td>订单号</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>充值日期</td>
+                    <td>13922830809</td>
+                    <td>账户余额</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>充值方式</td>
+                    <td>13922830809</td>
+                    <td>充值金额</td>
+                    <td>2018062803890</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- 提现 -->
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col>
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th colspan="4">提现</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>店铺账号</td>
+                    <td>13922830809</td>
+                    <td>订单号</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>提现日期</td>
+                    <td>13922830809</td>
+                    <td>账户余额</td>
+                    <td>2018062803890</td>
+                </tr>
+                <tr>
+                    <td>提现方式</td>
+                    <td>13922830809</td>
+                    <td>提现金额</td>
+                    <td>2018062803890</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{/block}
+
+
+<!--请在下方写此页面业务相关的脚本-->
+{block name="bottom"}
+<script src="__STATIC__/admin/common/layui/layui.js"></script>
+<script>
+    layui.use(['laydate', 'form'], function(){
+        var laydate = layui.laydate,
+            form = layui.form;
+        $('input[data-type="date"]').each(function(idx, elem){
+            laydate.render({
+                elem: elem
+            })
+        })
+        form.render();
+    })
+</script>
+{/block}

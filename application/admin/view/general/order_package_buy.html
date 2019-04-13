@@ -179,7 +179,7 @@
                     </div>
                 </div>
                 <div class="carts" v-for="(item, index) in orderInfo">
-                    <p class="shop-name">订购店铺：<span>滴金茶叶</span></p>
+                    <p class="shop-name">订购店铺：<span>{{item.store_name}}</span></p>
                     <div class="cart-item">
                         <div class="carts-head">
                             <input type="checkbox" checked @change="selectGoods(item, index, $event)">
@@ -565,6 +565,7 @@
                             // }
                         // }
                     // }
+                    console.log(this.orderInfo)
                     if(this.orderInfo.length > 0){
                         return (this.orderInfo[0].goods_quantity * this.orderInfo[0].amount_money).toFixed(2);
                     }
