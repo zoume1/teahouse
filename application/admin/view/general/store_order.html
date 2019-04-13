@@ -1,10 +1,228 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>增值订单</title>
 </head>
+<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
+<script src="__STATIC__/admin/index/js/index.js"></script>
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<style type="text/css">
+    * {margin: 0;padding: 0;}
+    body {background: #fff;}
+    .wrapper {padding: 20px;}
+    .on {color: #21A5FA !important; border-bottom: solid 3px #21A5FA;}
+    .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
+    .distribution_list ul {display: flex; align-items: center; margin-bottom: 10px;}
+    .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 40px; margin-bottom: 20px;}
+    .search-box{display: flex; flex-wrap: wrap; font-size: 14px; color: #333;}
+    .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
+    .search-box button{margin-left: 20px; height: 35px; line-height: 35px;}
+    .search-box input::placeholder{color: #b2b2b2;}
+    .search-box .layui-form-label{margin-bottom: 0;}
+    .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
+    .bot-operate .opation{float: left}
+    .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
+    .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
+    .btn-dfk{background-color: rgb(204, 51, 102)}
+    .btn-dfh{background-color: rgb(204, 0, 204)}
+    .btn-yfh{background-color: rgb(255, 0,0)}
+    .btn-ywc{background-color: rgb(102, 153, 0)}
+    .btn-ygb{background-color: rgb(161, 161, 161)}
+    .btn-ytk{background-color: rgb(204, 153, 0)}
+    .btn-yqx{background-color: rgb(131, 22, 38)}
+</style>
+
+{/block}
+
 <body>
-增值订单
-</body>
-</html>
+{block name="content"}
+    <div class="wrapper">
+        {include file="template/_top" /}
+        <div class="inner">
+            <div class="search-hd">
+                <div class="search-box layui-form">
+                    <div>
+                        <label class="layui-form-label">订单编号</label>
+                        <input type="text" class="layui-input">
+                    </div>
+                    <div>
+                        <label class="layui-form-label">商品名称</label>
+                        <input type="text" class="layui-input">
+                    </div>
+                    <div>
+                        <label class="layui-form-label">订单类型</label>
+                        <div class="layui-input-block">
+                            <select name="recharge-type">
+                                <option value="">全部</option>
+                                <option value="0">直邮</option>
+                                <option value="1">入仓</option>
+                                <option value="2">到店自提</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="layui-form-label">订单状态</label>
+                        <div class="layui-input-block">
+                            <select name="recharge-type">
+                                <option value="">全部</option>
+                                <option value="0">待发货</option>
+                                <option value="1">待付款</option>
+                                <option value="2">已发货</option>
+                                <option value="3">已完成</option>
+                                <option value="4">已关闭</option>
+                                <option value="5">已退款</option>
+                                <option value="6">已入仓</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="date-input">
+                        <label class="layui-form-label">下单时间</label>
+                        <input type="text" data-type="date" id="searchDateStart">~
+                        <input type="text" data-type="date" id="searchDateend">
+                    </div>
+                    <div>
+                        <label class="layui-form-label">开票状态</label>
+                        <div class="layui-input-block">
+                            <select name="recharge-type">
+                                <option value="">全部</option>
+                                <option value="0">已开票</option>
+                                <option value="1">未开票</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="layui-btn">搜索</button>
+                </div>
+            </div>
+            <div>
+                <button class="layui-btn layui-btn-danger">待付款→支付</button>
+                <button class="layui-btn layui-btn-warm">待收货→售后</button>
+                <button class="layui-btn">已完成→评论</button>
+            </div>
+            <div class="layui-form" lay-filter="test2">
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th class="table-cell">
+                                <div class="table-cell-div">
+                                    <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose">
+                                </div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">订单号</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">商品图片</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">产品名称</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">订单数量</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">下单时间</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">订单金额</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">填写邀请码奖励</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">实付金额</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">操作</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table-cell">
+                                <div class="table-cell-div">
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
+                                </div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">2</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">3</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">4</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">5</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">5</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">5</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">5</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">6</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">
+                                    <a href="capital_management_details" class="layui-btn">详情</a>
+                                    <button class="layui-btn btn-dfk">待付款</button>
+                                    <!-- <button class="layui-btn btn-dfh">待收货</button>
+                                    <button class="layui-btn btn-yfh">已发货</button>
+                                    <button class="layui-btn btn-ywc">已完成</button>
+                                    <button class="layui-btn btn-ygb">已关闭</button>
+                                    <button class="layui-btn btn-ytk">已退款</button>
+                                    <button class="layui-btn btn-yqx">已取消</button> -->
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bot-operate">
+                <div class="opation">
+                    <select>
+                        <option check="" value="0">请选择</option>
+                        <option value="1">批量删除</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" id="operation-btn" class="operation-btn">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+
+
+<!--请在下方写此页面业务相关的脚本-->
+{block name="bottom"}
+<script src="__STATIC__/admin/common/layui/layui.js"></script>
+<script>
+    layui.use(['laydate', 'form'], function(){
+        var laydate = layui.laydate,
+            form = layui.form;
+        $('input[data-type="date"]').each(function(idx, elem){
+            laydate.render({
+                elem: elem
+            })
+        })
+        form.render();
+    })
+</script>
+{/block}
