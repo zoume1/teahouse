@@ -311,6 +311,8 @@ Route::group("",[
     "bill"=>"index/Receipt/bill",                      //添加企业新户名
     "receipt_status"=>"index/Receipt/receipt_status",  //所有发票状态
     "people"=>"index/Receipt/people",                  //添加个人新户名
+    "corporation"=>"index/Receipt/corporation",        //企业户名列表
+    "individual"=>"index/Receipt/individual",          //个人户名列表
 
 
 
