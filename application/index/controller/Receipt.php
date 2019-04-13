@@ -25,7 +25,8 @@ class Receipt extends Controller
             $data["default"] = 1;
             $member_id = $data["member_id"];
             if(!empty($data)){
-                $where = "update tb_member_receipt where type = 1 and member_id = $member_id set default = 0";
+                $where = "update tb_member_receipt where type = 1 and where member_id = $member_id set default = 0";
+                
                 $rest = Db::query($where);
                 $bool = db("member_receipt")->insert($data);
                 if($bool){
