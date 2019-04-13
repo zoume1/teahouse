@@ -22,11 +22,10 @@ class Receipt extends Controller
             $time = time();
             $data = $request->param();
             $data["create_time"] = $time;
-            $data["default"] = 1;
+            $data["label"] = 1;
             $member_id = $data["member_id"];
             if(!empty($data)){
-                $where = "update tb_member_receipt where type = 1 and where member_id = $member_id set default = 0";
-                
+                $where = "update tb_member_receipt set label = 0 where type = 1 and member_id = $member_id";
                 $rest = Db::query($where);
                 $bool = db("member_receipt")->insert($data);
                 if($bool){
@@ -69,10 +68,10 @@ class Receipt extends Controller
             $data = $request->param();
             $member_id = $data["member_id"];
             $data["create_time"] = $time;
-            $data["default"] = 1;
+            $data["label"] = 1;
 
             if(!empty($data)){
-                $where = "update tb_member_receipt where type = 2 and member_id = $member_id set default = 0";
+                $where = "update tb_member_receipt set label = 0 where type = 2 and member_id = $member_id ";
                 $rest = Db::query($where);
                 $bool = db("member_receipt")->insert($data);
                 if($bool){
@@ -87,13 +86,13 @@ class Receipt extends Controller
     }
 
     /**
-     * [企业户名]
+     * [企业户名列表]
      * 郭杨
      */
     public function corporation(Request $request){
         if($request->isPost()){ 
             $member_id = $request->only(["member_id"])["member_id"];  
-            $data = db("member_receipt")->where("type",1)->where("member_id",$member_id)->field("id,member_id,type,company,company_number,status,default")->select();       
+            $data = db("member_receipt")->where("type",1)->where("member_id",$member_id)->field("id,member_id,type,company,company_number,status,label")->select();       
             if(!empty($data)){ 
                 return ajax_success('发送成功',$data);
             } else {
@@ -105,13 +104,48 @@ class Receipt extends Controller
 
 
     /**
-     * [个人户名]
+     * [个人户名列表]
      * 郭杨
      */
     public function individual(Request $request){
         if($request->isPost()){  
             $member_id = $request->only(["member_id"])["member_id"]; 
-            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->field("id,member_id,type,name,user_phone,email,default")->select();       
+            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->field("id,member_id,type,name,user_phone,email,label")->select();       
+            if(!empty($data)){ 
+                return ajax_success('发送成功',$data);
+            } else {
+                return ajax_error("发送失败");
+            }
+        }
+
+    }
+
+    /**
+     * [默认个人户名]
+     * 郭杨
+     */
+    public function approve_individual(Request $request){
+        if($request->isPost()){  
+            $member_id = $request->only(["member_id"])["member_id"]; 
+            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->where("label",1)->field("id,member_id,type,name,user_phone,email,label")->select();       
+            if(!empty($data)){ 
+                return ajax_success('发送成功',$data);
+            } else {
+                return ajax_error("发送失败");
+            }
+        }
+
+    }
+
+
+    /**
+     * [默认公司户名]
+     * 郭杨
+     */
+    public function approve_corporation(Request $request){
+        if($request->isPost()){  
+            $member_id = $request->only(["member_id"])["member_id"]; 
+            $data = db("member_receipt")->where("type",1)->where("member_id",$member_id)->where("label",1)->field("id,member_id,type,company,company_number,status,label")->select();       
             if(!empty($data)){ 
                 return ajax_success('发送成功',$data);
             } else {

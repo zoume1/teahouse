@@ -313,6 +313,8 @@ Route::group("",[
     "people"=>"index/Receipt/people",                  //添加个人新户名
     "corporation"=>"index/Receipt/corporation",        //企业户名列表
     "individual"=>"index/Receipt/individual",          //个人户名列表
+    "approve_corporation"=>"index/Receipt/approve_corporation",        //默认企业户名
+    "approve_individual"=>"index/Receipt/approve_individual",          //默认户名
 
 
 
