@@ -201,8 +201,6 @@ class  General extends  Base {
     }
 
 
-
-
     /**
      **************李火生*******************
      * @param Request $request
@@ -231,7 +229,6 @@ class  General extends  Base {
             }
         }
     }
-
 
     /**
      **************李火生*******************
@@ -1383,6 +1380,31 @@ class  General extends  Base {
                 return ajax_success("下单成功",["id"=>intval($set_meal_id)]);
             }else{
                 return ajax_error("下单失败，请重新下单");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:套餐订单删除
+     **************************************
+     */
+    public function order_package_del(Request $request){
+        if($request->isPost()){
+            $id =$request->only('id')['id'];
+            if($id){
+                $bool =Db::name('set_meal_order')
+                    ->where("id",":id")
+                    ->bind(["id"=>[$id,\PDO::PARAM_INT]])
+                    ->delete();
+                if($bool){
+                    return ajax_success('删除成功');
+                }else{
+                    return ajax_error('删除失败');
+                }
+            }else{
+                return ajax_error('这条信息不正确');
             }
         }
     }

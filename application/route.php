@@ -313,6 +313,10 @@ Route::group("",[
     "people"=>"index/Receipt/people",                  //添加个人新户名
     "corporation"=>"index/Receipt/corporation",        //企业户名列表
     "individual"=>"index/Receipt/individual",          //个人户名列表
+    "approve_corporation"=>"index/Receipt/approve_corporation",        //默认企业户名
+    "approve_individual"=>"index/Receipt/approve_individual",          //默认户名
+    "set_default"=>"index/Receipt/set_default",        //默认户名
+    "bill_delete"=>"index/Receipt/bill_delete",        //删除默认户名
 
 
 
@@ -752,6 +756,8 @@ Route::group("admin",[
     "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
     "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买页面（ajax订单信息返回）
     "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
+    "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
+
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
     "capital_management"=>"admin/General/capital_management",//资金管理资金明细
     "capital_management_details"=>"admin/General/capital_management_details",//资金管理资金详情
