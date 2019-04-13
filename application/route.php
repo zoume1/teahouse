@@ -732,6 +732,7 @@ Route::group("admin",[
     "general_address_del"=>"admin/General/general_address_del",             //店铺地址删除
     "general_address_edit_info"=>"admin/General/general_address_edit_info",             //店铺地址编辑数据返回
     "general_address_return_info"=>"admin/General/general_address_return_info",             //店铺地址编辑所有数据返回
+    "general_address_status"=>"admin/General/general_address_status",             //店铺地址设置默认
     "general_update"=>"admin/General/general_update",             //店铺信息编辑
     "general_logo_del"=>"admin/General/general_logo_del",             //店铺信息logo图删除
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置

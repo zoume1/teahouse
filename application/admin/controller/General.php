@@ -94,7 +94,10 @@ class  General extends  Base {
                 $id =Db::name("pc_store_address")->insertGetId($data);
                 if($id){
                     if($default ==1){
-                        Db::name("pc_store_address")->where("store_id",$store_id)->where("id","NEQ",$id)->update(["default"=>0]);
+                        Db::name("pc_store_address")
+                            ->where("store_id",$store_id)
+                            ->where("id","NEQ",$id)
+                            ->update(["default"=>0]);
                     }
                     return ajax_success("添加成功");
                 }else {
@@ -168,7 +171,34 @@ class  General extends  Base {
     }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺地址默认值设置
+     **************************************
+     */
+    public function general_address_status(Request $request){
+        if($request->isPost()){
+            $id =$request->only('id')['id'];
+            $store_id =$this->store_ids; //店铺id
+            if(!empty($id)){
+                $bool=  Db::name('pc_store_address')
+                    ->where("store_id",$store_id)
+                    ->where("id","EQ",$id)
+                    ->update(['default'=>1]);
+                if($bool){
+                    Db::name('pc_store_address')
+                        ->where("store_id",$store_id)
+                        ->where("id","NEQ",$id)
+                        ->update(['default'=>0]);
+                    return ajax_success("设置成功");
+                }else{
+                    return ajax_error('设置失败');
+                }
 
+            }
+        }
+    }
 
 
 
