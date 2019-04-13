@@ -754,6 +754,11 @@ Route::group("admin",[
     "agency_invitation"=>"admin/General/agency_invitation",//代理分销邀请
     "now_agency_invitation"=>"admin/General/now_agency_invitation",//立即分销邀请
     "security_setting"=>"admin/General/security_setting",//安全设置
+    "store_set_meal_order"=>"admin/General/store_set_meal_order",//套餐订单
+    "store_order"=>"admin/General/store_order",//增值订单
+    "go_to_pay"=>"admin/General/go_to_pay",//我要支付
+    "store_after_sale"=>"admin/General/store_after_sale",//售后维权
+    "additional_comments"=>"admin/General/additional_comments",//追加评论
 
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
