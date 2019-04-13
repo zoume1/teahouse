@@ -50,9 +50,157 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function general_address(){
-
         return view("general_address");
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:地址添加编辑
+     **************************************
+     */
+    public function  general_address_add(Request $request){
+        if($request->isPost()){
+            $id =$request->only(["id"])["id"];
+            $address = $request->only(["address"])["address"];//三级城市逗号隔开
+            $street = $request->only(["street"])["street"];//详细地址
+            $zip = $request->only(["zip"])["zip"];//邮政编号
+            $phone = $request->only(["phone"])["phone"];//电话号码
+            $name = $request->only(["name"])["name"];//收货人姓名
+            $default =$request->only(["default"])["default"]; //设置默认收货地址（1为默认，0为非默认）
+            $store_id =$this->store_ids; //店铺id
+            $data =[
+                "address"=>$address,
+                "street"=>$street,
+                "zip"=>$zip,
+                "phone"=>$phone,
+                "name"=>$name,
+                "default"=>$default,
+                "store_id"=>$store_id
+            ];
+            if($id){
+                //地址编辑
+                $bool =Db::name("pc_store_address")->where("store_id",$store_id)->where("id",$id)->update($data);
+                if($bool){
+                    if($default ==1){
+                        Db::name("pc_store_address")->where("store_id",$store_id)->where("id","NEQ",$id)->update(["default"=>0]);
+                    }
+                    return ajax_success("修改成功");
+                }else {
+                    return ajax_error("修改失败");
+                }
+            }else{
+                //地址添加
+                $id =Db::name("pc_store_address")->insertGetId($data);
+                if($id){
+                    if($default ==1){
+                        Db::name("pc_store_address")
+                            ->where("store_id",$store_id)
+                            ->where("id","NEQ",$id)
+                            ->update(["default"=>0]);
+                    }
+                    return ajax_success("添加成功");
+                }else {
+                    return ajax_error("添加失败");
+                }
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺地址删除
+     **************************************
+     * @param Request $request
+     */
+    public function general_address_del(Request $request){
+        if($request->isPost()){
+            $id =$request->only('id')['id'];
+            if($id){
+                $bool =Db::name('pc_store_address')
+                    ->where("id",":id")
+                    ->bind(["id"=>[$id,\PDO::PARAM_INT]])
+                    ->delete();
+                if($bool){
+                    return ajax_success('删除成功');
+                }else{
+                    return ajax_error('删除失败');
+                }
+            }else{
+                return ajax_error('这条地址信息不正确');
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺地址编辑数据返回
+     **************************************
+     */
+    public function general_address_edit_info(Request $request){
+        if($request->isPost()){
+            $id =$request->only(["id"])["id"];
+            $data =Db::name("pc_store_address")->where('id',$id)->find();
+            if(!empty($data)){
+                return ajax_success('地址信息返回成功',$data);
+            }else{
+                return ajax_error('地址信息返回失败');
+            }
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺地址所有信息返回成功
+     **************************************
+     */
+    public function  general_address_return_info(Request $request){
+        $store_id =$this->store_ids ;
+        if($request->isPost()){
+            $data =Db::name("pc_store_address")->where('store_id',$store_id)->select();
+            if(!empty($data)){
+                return ajax_success('所有地址信息返回成功',$data);
+            }else{
+                return ajax_error('所有地址信息返回失败');
+            }
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺地址默认值设置
+     **************************************
+     */
+    public function general_address_status(Request $request){
+        if($request->isPost()){
+            $id =$request->only('id')['id'];
+            $store_id =$this->store_ids; //店铺id
+            if(!empty($id)){
+                $bool=  Db::name('pc_store_address')
+                    ->where("store_id",$store_id)
+                    ->where("id","EQ",$id)
+                    ->update(['default'=>1]);
+                if($bool){
+                    Db::name('pc_store_address')
+                        ->where("store_id",$store_id)
+                        ->where("id","NEQ",$id)
+                        ->update(['default'=>0]);
+                    return ajax_success("设置成功");
+                }else{
+                    return ajax_error('设置失败');
+                }
+
+            }
+        }
+    }
+
+
 
 
     /**
@@ -1157,7 +1305,6 @@ class  General extends  Base {
         foreach($order_package as $key => $value){
             $order_package[$key]['priceList'] = db("enter_all") -> where("enter_id",$order_package[$key]['id'])->select();
         }
-        
         if(!empty($order_package)){
             return ajax_success('传输成功',$order_package);
         } else {
@@ -1240,11 +1387,6 @@ class  General extends  Base {
         }
     }
 
-
-
-
-
-
     
     /**
      * [套餐订购支付]
@@ -1319,6 +1461,58 @@ class  General extends  Base {
      */
     public function security_setting(){
         return view("security_setting");
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:套餐订单
+     **************************************
+     */
+    public function store_set_meal_order(){
+        return view("store_set_meal_order");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:增值订单
+     **************************************
+     */
+    public function store_order(){
+        return view("store_order");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:我要支付
+     **************************************
+     */
+    public function  go_to_pay(){
+        return view("go_to_pay");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权
+     **************************************
+     * @return mixed
+     */
+    public function  store_after_sale(){
+        return view('store_after_sale');
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:追加评论
+     **************************************
+     */
+    public function additional_comments(){
+        return view("additional_comments");
     }
 
 

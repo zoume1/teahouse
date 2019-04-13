@@ -308,8 +308,11 @@ Route::group("",[
     "crowd_reward"=>"index/Crowd/crowd_reward",     //众筹商品打赏订单
 
     /*发票*/
-    "bill"=>"index/Receipt/bill",                      //添加新户名
+    "bill"=>"index/Receipt/bill",                      //添加企业新户名
     "receipt_status"=>"index/Receipt/receipt_status",  //所有发票状态
+    "people"=>"index/Receipt/people",                  //添加个人新户名
+    "corporation"=>"index/Receipt/corporation",        //企业户名列表
+    "individual"=>"index/Receipt/individual",          //个人户名列表
 
 
 
@@ -725,6 +728,11 @@ Route::group("admin",[
     /*店铺*/
     "general_index"=>"admin/General/general_index",             //店铺信息
     "general_address"=>"admin/General/general_address",             //店铺信息收货地址
+    "general_address_add"=>"admin/General/general_address_add",             //店铺信息地址添加编辑
+    "general_address_del"=>"admin/General/general_address_del",             //店铺地址删除
+    "general_address_edit_info"=>"admin/General/general_address_edit_info",             //店铺地址编辑数据返回
+    "general_address_return_info"=>"admin/General/general_address_return_info",             //店铺地址编辑所有数据返回
+    "general_address_status"=>"admin/General/general_address_status",             //店铺地址设置默认
     "general_update"=>"admin/General/general_update",             //店铺信息编辑
     "general_logo_del"=>"admin/General/general_logo_del",             //店铺信息logo图删除
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
@@ -752,6 +760,11 @@ Route::group("admin",[
     "agency_invitation"=>"admin/General/agency_invitation",//代理分销邀请
     "now_agency_invitation"=>"admin/General/now_agency_invitation",//立即分销邀请
     "security_setting"=>"admin/General/security_setting",//安全设置
+    "store_set_meal_order"=>"admin/General/store_set_meal_order",//套餐订单
+    "store_order"=>"admin/General/store_order",//增值订单
+    "go_to_pay"=>"admin/General/go_to_pay",//我要支付
+    "store_after_sale"=>"admin/General/store_after_sale",//售后维权
+    "additional_comments"=>"admin/General/additional_comments",//追加评论
 
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
