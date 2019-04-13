@@ -63,6 +63,9 @@ class  General extends  Base {
         if($request->isPost()){
             if($id){
                 //地址编辑
+                $address =$request->only(["address"])["address"];//三级城市逗号隔开
+                $street =$request->only(["street"])["street"];//详细地址
+                $zip=$request->only(["zip"])["zip"];//邮政编号
 
 
             }else{
@@ -1337,6 +1340,59 @@ class  General extends  Base {
     public function security_setting(){
         return view("security_setting");
     }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:套餐订单
+     **************************************
+     */
+    public function store_set_meal_order(){
+        return view("store_set_meal_order");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:增值订单
+     **************************************
+     */
+    public function store_order(){
+        return view("store_order");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:我要支付
+     **************************************
+     */
+    public function  go_to_pay(){
+        return view("go_to_pay");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权
+     **************************************
+     * @return mixed
+     */
+    public function  store_after_sale(){
+        return view('store_after_sale');
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:追加评论
+     **************************************
+     */
+    public function additional_comments(){
+        return view("additional_comments");
+    }
+
 
 
  }
