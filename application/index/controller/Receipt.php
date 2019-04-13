@@ -131,7 +131,7 @@ class Receipt extends Controller
             if(!empty($data)){ 
                 return ajax_success('发送成功',$data);
             } else {
-                return ajax_error("发送失败");
+                return ajax_error("没有默认户名,请前往设置");
             }
         }
 
@@ -149,7 +149,7 @@ class Receipt extends Controller
             if(!empty($data)){ 
                 return ajax_success('发送成功',$data);
             } else {
-                return ajax_error("发送失败");
+                return ajax_error("没有默认户名,请前往设置");
             }
         }
 
@@ -160,7 +160,7 @@ class Receipt extends Controller
      * [设为默认]
      * 郭杨
      */
-    public function set_default (Request $request){
+    public function set_default(Request $request){
         if($request->isPost()){  
             $member_id = $request->only(["member_id"])["member_id"]; 
             $type = $request->only(["type"])["type"];
@@ -174,6 +174,24 @@ class Receipt extends Controller
                 return ajax_error("设置失败");
             }
         }
+    }
 
+
+    
+    /**
+     * [删除户名]
+     * 郭杨
+     */
+    public function bill_delete(Request $request){
+        if($request->isPost()){  
+            $member_id = $request->only(["member_id"])["member_id"]; 
+            $id =  $request->only(["id"])["id"];
+            $data = db("member_receipt")->where("id",$id)->where("member_id",$member_id)->delete();       
+            if($data){ 
+                return ajax_success('删除成功');
+            } else {
+                return ajax_error("删除失败");
+            }
+        }
     }
 }
