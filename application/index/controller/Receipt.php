@@ -154,4 +154,26 @@ class Receipt extends Controller
         }
 
     }
+
+
+    /**
+     * [设为默认]
+     * 郭杨
+     */
+    public function set_default (Request $request){
+        if($request->isPost()){  
+            $member_id = $request->only(["member_id"])["member_id"]; 
+            $type = $request->only(["type"])["type"];
+            $id =  $request->only(["id"])["id"];
+            $where = "update tb_member_receipt set label = 0 where type = $type and member_id = $member_id ";
+            $rest = Db::query($where);
+            $data = db("member_receipt")->where("id",$id)->where("member_id",$member_id)->update(["label"=>1]);       
+            if($data){ 
+                return ajax_success('设置成功');
+            } else {
+                return ajax_error("设置失败");
+            }
+        }
+
+    }
 }

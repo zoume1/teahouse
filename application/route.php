@@ -315,6 +315,7 @@ Route::group("",[
     "individual"=>"index/Receipt/individual",          //个人户名列表
     "approve_corporation"=>"index/Receipt/approve_corporation",        //默认企业户名
     "approve_individual"=>"index/Receipt/approve_individual",          //默认户名
+    "set_default"=>"index/Receipt/set_default",        //默认户名
 
 
 
