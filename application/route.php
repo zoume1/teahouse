@@ -734,6 +734,7 @@ Route::group("admin",[
     "general_address_del"=>"admin/General/general_address_del",             //店铺地址删除
     "general_address_edit_info"=>"admin/General/general_address_edit_info",             //店铺地址编辑数据返回
     "general_address_return_info"=>"admin/General/general_address_return_info",             //店铺地址编辑所有数据返回
+    "general_address_status"=>"admin/General/general_address_status",             //店铺地址设置默认
     "general_update"=>"admin/General/general_update",             //店铺信息编辑
     "general_logo_del"=>"admin/General/general_logo_del",             //店铺信息logo图删除
     "small_routine_index"=>"admin/General/small_routine_index",           //小程序设置
@@ -753,6 +754,8 @@ Route::group("admin",[
     "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
     "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买页面（ajax订单信息返回）
     "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
+    "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
+
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
     "capital_management"=>"admin/General/capital_management",//资金管理资金明细
     "capital_management_details"=>"admin/General/capital_management_details",//资金管理资金详情
