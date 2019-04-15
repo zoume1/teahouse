@@ -516,6 +516,18 @@ class  Wxapps extends  Controller{
                                 $con_key = $v['params']['con_key'];
                                 //在这里返回数据
 
+                                $member_grade_name = "普通会员"; //会员等级
+                                $member_id = "o_lMv5VTbQDkQxK08EkllWXtX-kY";
+                                $list = db("goods")
+                                    ->where("pid",$sourceid)
+                                    ->where("status",1)
+//                                    ->field("goods_name,id,goods_selling,goods_show_images,goods_new_money,scope,goods_volume")
+                                    ->select();
+                                $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
+                                $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
+                                halt($discount);
+
+
 
                                 $where = "";
                                 if ($con_type == 1 && $con_key == 1) {
