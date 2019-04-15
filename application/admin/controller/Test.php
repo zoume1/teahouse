@@ -130,12 +130,19 @@ class Test extends  Controller{
 //                    $subcate = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPro")->where("cid",$value['id'])->field("id,name")->select();
 //                    $value['subcate'] = $subcate;
 //                }
-                $list =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select();
+
+                //商品栏目
+//                $pic =Db::table("tb_wares")->where("pid",0)->field("id,name")->select();
+//                $cates =Db::table("tb_wares")->where("pid",0)->field("id,name")->select(); //一级
+//                foreach ($cates as $key=>$value){
+//                    $catess =Db::table("tb_goods")->where("pid",$value['id'])->field("id,goods_name name")->select();
+//                    $cates[$key]['subcate'] =$catess;
+//                }
+                //商品分类
+                $list =Db::table("tb_wares")->where("pid",0)->field("id,name")->select();
                 foreach ($list as $key=>&$value){
-                    $subcate =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
-                    $value['subcate'] =$subcate;
+                    $list[$key]['subcate'] =null;
                 }
-//                halt($list);
                 break;
             case 'piccate':
                 $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPic")->where("cid",0)->field("id,name")->select();
