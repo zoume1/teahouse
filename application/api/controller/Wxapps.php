@@ -69,6 +69,7 @@ class  Wxapps extends  Controller{
 
     public function doPageDiypage()
     {
+
         $uniacid = input("uniacid");
         $pageid = input("pageid");
         $foot = Db::table('ims_sudu8_page_diypageset')->where("uniacid", $uniacid)->field("foot_is")->find();
@@ -714,8 +715,7 @@ class  Wxapps extends  Controller{
                             }
                             $data['items'][$k]['data'] = $store;
                         }
-
-
+                        //底部菜单
                         if ($v['id'] == "footmenu") {
                             $count = count($v['data']);
                             $data['items'][$k]['count'] = $count;
@@ -733,9 +733,7 @@ class  Wxapps extends  Controller{
                                     }
                                 }
                             }
-
                             $text_is = $v['params']['textshow'];
-
                             if ($text_is == 1) {
                                 $data['footmenuh'] = $v['style']['paddingleft'] * 2 + $v['style']['textfont'] + $v['style']['paddingtop'] * 2 + $v['style']['iconfont'] + 1;
                                 $data['foottext'] = 1;
@@ -783,9 +781,13 @@ class  Wxapps extends  Controller{
     }
 
 
-
-
-
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:获取底部导航的数据
+     **************************************
+     * @return string
+     */
     public function doPageGetFoot()
     {
         $uniacid = input("uniacid");
