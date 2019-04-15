@@ -515,116 +515,77 @@ class  Wxapps extends  Controller{
                                 $con_type = $v['params']['con_type']; //
                                 $con_key = $v['params']['con_key'];
                                 //在这里返回数据
-                                $member_grade_name = "普通会员"; //会员等级
-                                $member_id = "o_lMv5VTbQDkQxK08EkllWXtX-kY";
-                                $list = db("goods")
-                                    ->where("status",1)
-//                                    ->field("goods_name,id,goods_selling,goods_show_images,goods_new_money,scope,goods_volume")
-                                    ->select();
-                                $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
-                                $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
-                                //所有商品
-                                foreach ($list as $kks => $vvs){
-                                    if(!empty($list[$kks]["scope"])){
-                                        $list[$kks]["scope"] = explode(",",$list[$kks]["scope"]);
-                                    }
-                                    $list[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=".$vvs["id"]; //跳转详情链接
-                                    $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
-                                    if($list[$kks]["goods_standard"] == 1){
-                                        $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->select();
-                                        $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])-> min("price") * $discount;//最低价格
-                                        $list[$kks]["goods_standard"] = $standard[$kks];
-                                        $list[$kks]["shareimg"] = explode(",", $list[$kks]["goods_show_images"]); //图片
-                                        $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
-                                        $list[$kks]["price"] = $min[$kks]; //价钱
-                                        if(!empty($list[$kks]["scope"])){
-                                            if(!in_array($member_grade_name,$list[$kks]["scope"])){
-                                                unset($list[$kks]);
-                                            }
-                                        }
-                                    } else {
-                                        $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount;
-                                        $list[$kks]["shareimg"] = explode(",", $list[$kks]["goods_show_images"]); //图片
-                                        if(!empty($list[$kks]["scope"])){
-                                            if(!in_array($member_grade_name,$list[$kks]["scope"])){
-                                                unset($list[$kks]);
-                                            }
-                                        }
-                                    }
 
+
+                                $where = "";
+                                if ($con_type == 1 && $con_key == 1) {
+                                    $where = 'ORDER BY id DESC';
                                 }
-                                $goods_new = array_values($list);
-                                halt($goods_new);
-
-//                                $where = "";
-//                                if ($con_type == 1 && $con_key == 1) {
-//                                    $where = 'ORDER BY id DESC';
-//                                }
-//                                if ($con_type == 2 && $con_key == 1) {
-//                                    $where = 'AND type_x=1 ORDER BY id DESC';
-//                                }
-//                                if ($con_type == 3 && $con_key == 1) {
-//                                    $where = 'AND type_y=1 ORDER BY id DESC';
-//                                }
-//                                if ($con_type == 4 && $con_key == 1) {
-//                                    $where = 'AND type_i=1 ORDER BY id DESC';
-//                                }
-//                                if ($con_type == 1 && $con_key == 2) {
-//                                    $where = 'ORDER BY hits DESC';
-//                                }
-//                                if ($con_type == 2 && $con_key == 2) {
-//                                    $where = 'AND type_x=1 ORDER BY hits DESC';
-//                                }
-//                                if ($con_type == 3 && $con_key == 2) {
-//                                    $where = 'AND type_y=1 ORDER BY hits DESC';
-//                                }
-//                                if ($con_type == 4 && $con_key == 2) {
-//                                    $where = 'AND type_i=1 ORDER BY hits DESC';
-//                                }
-//                                if ($con_type == 1 && $con_key == 3) {
-//                                    $where = 'ORDER BY num DESC';
-//                                }
-//                                if ($con_type == 2 && $con_key == 3) {
-//                                    $where = 'AND type_x=1 ORDER BY num DESC';
-//                                }
-//                                if ($con_type == 3 && $con_key == 3) {
-//                                    $where = 'AND type_y=1 ORDER BY num DESC';
-//                                }
-//                                if ($con_type == 4 && $con_key == 3) {
-//                                    $where = 'AND type_i=1 ORDER BY num DESC';
-//                                }
-//                                $list = Db::query("SELECT * FROM ims_sudu8_page_products WHERE `uniacid` = {$uniacid}  AND `is_sale`=0 AND (`cid` = {$sourceid} or `pcid` = {$sourceid} ) " . $where . " LIMIT 0,{$count}");
-////                                halt($list);
-//                                if ($list) {
-//                                    foreach ($list as $kk => $vv) {
-//                                        if ($vv['type'] == "showPro" && $vv['is_more'] == 0) {
-//                                            $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=228";
-////                                            $items_orders = Db::table('ims_sudu8_page_order') ->where('pid', $vv['id']) ->where('uniacid', $uniacid) ->select();
-////                                            $items_pro_num = 0;
-////                                            if($items_orders) {
-////                                                foreach ($items_orders as $rec) {
-////                                                    $items_pro_num+= $rec['num'];
-////                                                }
-////                                            }
-//                                            //销售数量
-////                                            $list[$kk]['sale_num'] = $list[$kk]['sale_num'] + $items_pro_num;
-//                                            $list[$kk]['sale_num'] = 0;
-//                                            //price价钱 ，title商品名字 ，desc规格
-//                                        } else if ($vv['is_more'] == 1) {
-////                                            $list[$kk]['linkurl'] = "/sudu8_page/showPro_lv/showPro_lv?id=" . $vv['id'];
-//                                            $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=229";
-//                                            $list[$kk]['sale_num'] = $list[$kk]['sale_num'] + $list[$kk]['sale_tnum'];
-//                                        } else {
-//                                            $values = Db::table("ims_sudu8_page_duo_products_type_value")->where("pid", $vv['id'])->select();
-//                                            foreach ($values as $ks => $vs) {
-//                                                $list[$kk]['sale_num']=$list[$kk]['sale_num']+$vs['salenum']+$vs['vsalenum'];
+                                if ($con_type == 2 && $con_key == 1) {
+                                    $where = 'AND type_x=1 ORDER BY id DESC';
+                                }
+                                if ($con_type == 3 && $con_key == 1) {
+                                    $where = 'AND type_y=1 ORDER BY id DESC';
+                                }
+                                if ($con_type == 4 && $con_key == 1) {
+                                    $where = 'AND type_i=1 ORDER BY id DESC';
+                                }
+                                if ($con_type == 1 && $con_key == 2) {
+                                    $where = 'ORDER BY hits DESC';
+                                }
+                                if ($con_type == 2 && $con_key == 2) {
+                                    $where = 'AND type_x=1 ORDER BY hits DESC';
+                                }
+                                if ($con_type == 3 && $con_key == 2) {
+                                    $where = 'AND type_y=1 ORDER BY hits DESC';
+                                }
+                                if ($con_type == 4 && $con_key == 2) {
+                                    $where = 'AND type_i=1 ORDER BY hits DESC';
+                                }
+                                if ($con_type == 1 && $con_key == 3) {
+                                    $where = 'ORDER BY num DESC';
+                                }
+                                if ($con_type == 2 && $con_key == 3) {
+                                    $where = 'AND type_x=1 ORDER BY num DESC';
+                                }
+                                if ($con_type == 3 && $con_key == 3) {
+                                    $where = 'AND type_y=1 ORDER BY num DESC';
+                                }
+                                if ($con_type == 4 && $con_key == 3) {
+                                    $where = 'AND type_i=1 ORDER BY num DESC';
+                                }
+                                $list = Db::query("SELECT * FROM ims_sudu8_page_products WHERE `uniacid` = {$uniacid}  AND `is_sale`=0 AND (`cid` = {$sourceid} or `pcid` = {$sourceid} ) " . $where . " LIMIT 0,{$count}");
+//                                halt($list);
+                                if ($list) {
+                                    foreach ($list as $kk => $vv) {
+                                        if ($vv['type'] == "showPro" && $vv['is_more'] == 0) {
+                                            $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=228";
+//                                            $items_orders = Db::table('ims_sudu8_page_order') ->where('pid', $vv['id']) ->where('uniacid', $uniacid) ->select();
+//                                            $items_pro_num = 0;
+//                                            if($items_orders) {
+//                                                foreach ($items_orders as $rec) {
+//                                                    $items_pro_num+= $rec['num'];
+//                                                }
 //                                            }
-//                                            $list[$kk]['linkurl'] =  "/pages/goods_detail/goods_detail?title=231";
-//                                        }
-//                                        if (strpos($vv['thumb'], 'http') === false && $vv['thumb'] != "") {
-//                                            $list[$kk]['thumb'] = remote($uniacid, $vv['thumb'], 1);
-//                                        }
-//                                    }
+                                            //销售数量
+//                                            $list[$kk]['sale_num'] = $list[$kk]['sale_num'] + $items_pro_num;
+                                            $list[$kk]['sale_num'] = 0;
+                                            //price价钱 ，title商品名字 ，desc规格
+                                        } else if ($vv['is_more'] == 1) {
+//                                            $list[$kk]['linkurl'] = "/sudu8_page/showPro_lv/showPro_lv?id=" . $vv['id'];
+                                            $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=229";
+                                            $list[$kk]['sale_num'] = $list[$kk]['sale_num'] + $list[$kk]['sale_tnum'];
+                                        } else {
+                                            $values = Db::table("ims_sudu8_page_duo_products_type_value")->where("pid", $vv['id'])->select();
+                                            foreach ($values as $ks => $vs) {
+                                                $list[$kk]['sale_num']=$list[$kk]['sale_num']+$vs['salenum']+$vs['vsalenum'];
+                                            }
+                                            $list[$kk]['linkurl'] =  "/pages/goods_detail/goods_detail?title=231";
+                                        }
+                                        if (strpos($vv['thumb'], 'http') === false && $vv['thumb'] != "") {
+                                            $list[$kk]['thumb'] = remote($uniacid, $vv['thumb'], 1);
+                                        }
+                                    }
                                     $data['items'][$k]['data'] = $list;
                                 } else {
                                     $data['items'][$k]['data'] = [];
