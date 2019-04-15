@@ -509,7 +509,6 @@ class  Wxapps extends  Controller{
                                 $data['sec'] = $v['params']['sec'];
                             }
                         }else if ($v['id'] == "goods") {
-
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1]; //这是商品栏目的分类id
                                 $count = $v['params']['goodsnum']; //goodsnum数据分组
@@ -521,7 +520,7 @@ class  Wxapps extends  Controller{
                                 $goods = db("goods")
                                     ->where("status",1)
                                     ->where("label",1)
-                                    ->field("goods_name,id,goods_selling,goods_show_images,goods_new_money,scope,goods_volume")
+//                                    ->field("goods_name,id,goods_selling,goods_show_images,goods_new_money,scope,goods_volume")
                                     ->select();
                                 $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
                                 $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
@@ -556,9 +555,6 @@ class  Wxapps extends  Controller{
 
                                 }
                                 $goods_new = array_values($goods);
-
-
-
                                 halt($goods_new);
 
 //                                $where = "";
