@@ -106,7 +106,7 @@ class My extends Controller
                  $appid = 'wx301c1368929fdba8';
                  $secret = '94477ab333493c79f806f948f036f1e3';//AppSecret(小程序密钥)
                  //halt($secret);
-                 $url_access_token = 'http://teahouse.siring.com.cn/teahouse/?id=123'.$appid.'&secret='.$secret;
+                 $url_access_token = config("domain.url").'/?id=123'.$appid.'&secret='.$secret;
                  $json_access_token = $this -> sendCmd($url_access_token,array());
                  $arr_access_token = json_decode($json_access_token,true);
                  $access_token = $arr_access_token['access_token'];
