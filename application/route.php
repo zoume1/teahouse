@@ -317,6 +317,7 @@ Route::group("",[
     "approve_individual"=>"index/Receipt/approve_individual",          //默认户名
     "set_default"=>"index/Receipt/set_default",        //默认户名
     "bill_delete"=>"index/Receipt/bill_delete",        //删除默认户名
+    "proportion"=>"index/Receipt/proportion",          //查询发票费率
 
 
 
