@@ -511,11 +511,11 @@ class  Wxapps extends  Controller{
                         }else if ($v['id'] == "goods") {
 
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
-                                $sourceid = explode(':', $v['params']['sourceid'])[1];
-                                halt($sourceid);
+                                $sourceid = explode(':', $v['params']['sourceid'])[1]; //这是商品栏目的分类id
                                 $count = $v['params']['goodsnum'];
                                 $con_type = $v['params']['con_type'];
                                 $con_key = $v['params']['con_key'];
+                                halt($v);
                                 $where = "";
                                 if ($con_type == 1 && $con_key == 1) {
                                     $where = 'ORDER BY id DESC';
