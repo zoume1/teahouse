@@ -559,25 +559,26 @@ class  Wxapps extends  Controller{
                                         if ($vv['type'] == "showPro" && $vv['is_more'] == 0) {
 //                                            $list[$kk]['linkurl'] = "/sudu8_page/showPro/showPro?id=" . $vv['id'];
                                             $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=".$vv['id'];
-                                            $items_orders = Db::table('ims_sudu8_page_order') ->where('pid', $vv['id']) ->where('uniacid', $uniacid) ->select();
-                                            $items_pro_num = 0;
-                                            if($items_orders) {
-                                                foreach ($items_orders as $rec) {
-                                                    $items_pro_num+= $rec['num'];
-                                                }
-                                            }
+//                                            $items_orders = Db::table('ims_sudu8_page_order') ->where('pid', $vv['id']) ->where('uniacid', $uniacid) ->select();
+//                                            $items_pro_num = 0;
+//                                            if($items_orders) {
+//                                                foreach ($items_orders as $rec) {
+//                                                    $items_pro_num+= $rec['num'];
+//                                                }
+//                                            }
                                             //销售数量
 //                                            $list[$kk]['sale_num'] = $list[$kk]['sale_num'] + $items_pro_num;
                                             $list[$kk]['sale_num'] = 0;
                                         } else if ($vv['is_more'] == 1) {
-                                            $list[$kk]['linkurl'] = "/sudu8_page/showPro_lv/showPro_lv?id=" . $vv['id'];
+//                                            $list[$kk]['linkurl'] = "/sudu8_page/showPro_lv/showPro_lv?id=" . $vv['id'];
+                                            $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=".$vv['id'];
                                             $list[$kk]['sale_num'] = $list[$kk]['sale_num'] + $list[$kk]['sale_tnum'];
                                         } else {
                                             $values = Db::table("ims_sudu8_page_duo_products_type_value")->where("pid", $vv['id'])->select();
                                             foreach ($values as $ks => $vs) {
                                                 $list[$kk]['sale_num']=$list[$kk]['sale_num']+$vs['salenum']+$vs['vsalenum'];
                                             }
-                                            $list[$kk]['linkurl'] = "/sudu8_page/showProMore/showProMore?id=" . $vv['id'];
+                                            $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=".$vv['id'];
                                         }
                                         if (strpos($vv['thumb'], 'http') === false && $vv['thumb'] != "") {
                                             $list[$kk]['thumb'] = remote($uniacid, $vv['thumb'], 1);
