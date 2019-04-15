@@ -517,7 +517,7 @@ class  Wxapps extends  Controller{
                                 $con_key = $v['params']['con_key'];
 
                                 //在这里返回数据
-                                $list =Db::table("tb_goods")->where("pid",$sourceid)->field("goods_name title,id,goods_standard")->where("status",1)->select();
+                                $list =Db::table("tb_goods")->where("pid",$sourceid)->where("status",1)->select();
                                 $member_grade_name = "普通会员"; //会员等级
                                 foreach ($list as $kks => $vvs)
                                 {
