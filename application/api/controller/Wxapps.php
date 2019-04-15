@@ -517,45 +517,43 @@ class  Wxapps extends  Controller{
                                 //在这里返回数据
                                 $member_grade_name = "普通会员"; //会员等级
                                 $member_id = "o_lMv5VTbQDkQxK08EkllWXtX-kY";
-                                $goods = db("goods")
+                                $list = db("goods")
                                     ->where("status",1)
-                                    ->where("label",1)
 //                                    ->field("goods_name,id,goods_selling,goods_show_images,goods_new_money,scope,goods_volume")
                                     ->select();
-                                halt($goods);
                                 $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
                                 $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
-                                foreach ($goods as $kks => $vvs) //所有商品
-                                {
-                                    if(!empty($goods[$kks]["scope"])){
-                                        $goods[$kks]["scope"] = explode(",",$goods[$kks]["scope"]);
+                                //所有商品
+                                foreach ($list as $kks => $vvs){
+                                    if(!empty($list[$kks]["scope"])){
+                                        $list[$kks]["scope"] = explode(",",$list[$kks]["scope"]);
                                     }
-                                    $goods[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=".$vvs["id"]; //跳转详情链接
+                                    $list[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=".$vvs["id"]; //跳转详情链接
                                     $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
-                                    if($goods[$kks]["goods_standard"] == 1){
-                                        $standard[$kks] = db("special")->where("goods_id", $goods[$kks]['id'])->select();
-                                        $min[$kks] = db("special")->where("goods_id", $goods[$kks]['id'])-> min("price") * $discount;//最低价格
-                                        $goods[$kks]["goods_standard"] = $standard[$kks];
+                                    if($list[$kks]["goods_standard"] == 1){
+                                        $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->select();
+                                        $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])-> min("price") * $discount;//最低价格
+                                        $list[$kks]["goods_standard"] = $standard[$kks];
                                         $list[$kks]["shareimg"] = explode(",", $list[$kks]["goods_show_images"]); //图片
                                         $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
-                                        $goods[$kks]["price"] = $min[$kks]; //价钱
-                                        if(!empty($goods[$kks]["scope"])){
-                                            if(!in_array($member_grade_name,$goods[$kks]["scope"])){
-                                                unset($goods[$kks]);
+                                        $list[$kks]["price"] = $min[$kks]; //价钱
+                                        if(!empty($list[$kks]["scope"])){
+                                            if(!in_array($member_grade_name,$list[$kks]["scope"])){
+                                                unset($list[$kks]);
                                             }
                                         }
                                     } else {
-                                        $goods[$kks]["price"] = $goods[$kks]["goods_new_money"] * $discount;
+                                        $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount;
                                         $list[$kks]["shareimg"] = explode(",", $list[$kks]["goods_show_images"]); //图片
-                                        if(!empty($goods[$kks]["scope"])){
-                                            if(!in_array($member_grade_name,$goods[$kks]["scope"])){
-                                                unset($goods[$kks]);
+                                        if(!empty($list[$kks]["scope"])){
+                                            if(!in_array($member_grade_name,$list[$kks]["scope"])){
+                                                unset($list[$kks]);
                                             }
                                         }
                                     }
 
                                 }
-                                $goods_new = array_values($goods);
+                                $goods_new = array_values($list);
                                 halt($goods_new);
 
 //                                $where = "";
