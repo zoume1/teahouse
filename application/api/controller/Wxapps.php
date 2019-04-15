@@ -515,6 +515,23 @@ class  Wxapps extends  Controller{
                                 $count = $v['params']['goodsnum']; //goodsnum数据分组
                                 $con_type = $v['params']['con_type']; //
                                 $con_key = $v['params']['con_key'];
+
+                                //在这里返回数据
+                                $list =Db::table("tb_goods")->where("pid",$sourceid)->field("goods_name title,id,goods_standard")->where("status",1)->select();
+                                $member_grade_name = "普通会员"; //会员等级
+                                foreach ($list as $kks => $vvs)
+                                {
+                                    $list[$kks]["goods_show_images"] = (explode(",", $list[$kks]["goods_show_images"])[0]);
+                                    if(!empty($list[$kks]["scope"])){
+                                        $list[$k]["scope"] = explode(",",$list[$kks]["scope"]);
+                                        if(!in_array($member_grade_name,$list[$kks]["scope"])){
+                                            unset($list[$kks]);
+                                        }
+                                    }
+                                }
+                                $new_goods = array_values($list);
+                                halt($new_goods);
+
                                 $where = "";
                                 if ($con_type == 1 && $con_key == 1) {
                                     $where = 'ORDER BY id DESC';
@@ -557,8 +574,6 @@ class  Wxapps extends  Controller{
                                 if ($list) {
                                     foreach ($list as $kk => $vv) {
                                         if ($vv['type'] == "showPro" && $vv['is_more'] == 0) {
-//                                            $list[$kk]['linkurl'] = "/sudu8_page/showPro/showPro?id=" . $vv['id'];
-//                                            $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=".$vv['id'];
                                             $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=228";
 //                                            $items_orders = Db::table('ims_sudu8_page_order') ->where('pid', $vv['id']) ->where('uniacid', $uniacid) ->select();
 //                                            $items_pro_num = 0;
