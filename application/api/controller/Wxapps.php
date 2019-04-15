@@ -573,14 +573,14 @@ class  Wxapps extends  Controller{
                                             //price价钱 ，title商品名字 ，desc规格
                                         } else if ($vv['is_more'] == 1) {
 //                                            $list[$kk]['linkurl'] = "/sudu8_page/showPro_lv/showPro_lv?id=" . $vv['id'];
-                                            $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=".$vv['id'];
+                                            $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=229";
                                             $list[$kk]['sale_num'] = $list[$kk]['sale_num'] + $list[$kk]['sale_tnum'];
                                         } else {
                                             $values = Db::table("ims_sudu8_page_duo_products_type_value")->where("pid", $vv['id'])->select();
                                             foreach ($values as $ks => $vs) {
                                                 $list[$kk]['sale_num']=$list[$kk]['sale_num']+$vs['salenum']+$vs['vsalenum'];
                                             }
-                                            $list[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=".$vv['id'];
+                                            $list[$kk]['linkurl'] =  "/pages/goods_detail/goods_detail?title=231";
                                         }
                                         if (strpos($vv['thumb'], 'http') === false && $vv['thumb'] != "") {
                                             $list[$kk]['thumb'] = remote($uniacid, $vv['thumb'], 1);
