@@ -34,13 +34,16 @@
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
     .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
-    .btn-dfk{background-color: rgb(204, 51, 102)}
+    .btn-dfk{background-color: rgb(0, 102, 255)}
     .btn-dfh{background-color: rgb(204, 0, 204)}
     .btn-yfh{background-color: rgb(255, 0,0)}
     .btn-ywc{background-color: rgb(102, 153, 0)}
     .btn-ygb{background-color: rgb(161, 161, 161)}
     .btn-ytk{background-color: rgb(204, 153, 0)}
     .btn-yqx{background-color: rgb(131, 22, 38)}
+    .line-exam{background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
+    .line-ing{background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
+    .line-pass{background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}
 </style>
 
 {/block}
@@ -56,58 +59,21 @@
                         <label class="layui-form-label">订单编号</label>
                         <input type="text" class="layui-input">
                     </div>
-                    <div>
-                        <label class="layui-form-label">商品名称</label>
-                        <input type="text" class="layui-input">
-                    </div>
-                    <div>
-                        <label class="layui-form-label">订单类型</label>
-                        <div class="layui-input-block">
-                            <select name="recharge-type">
-                                <option value="">全部</option>
-                                <option value="0">直邮</option>
-                                <option value="1">入仓</option>
-                                <option value="2">到店自提</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="layui-form-label">订单状态</label>
-                        <div class="layui-input-block">
-                            <select name="recharge-type">
-                                <option value="">全部</option>
-                                <option value="0">待发货</option>
-                                <option value="1">待付款</option>
-                                <option value="2">已发货</option>
-                                <option value="3">已完成</option>
-                                <option value="4">已关闭</option>
-                                <option value="5">已退款</option>
-                                <option value="6">已入仓</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="date-input">
                         <label class="layui-form-label">下单时间</label>
                         <input type="text" data-type="date" id="searchDateStart">~
                         <input type="text" data-type="date" id="searchDateend">
                     </div>
-                    <div>
-                        <label class="layui-form-label">开票状态</label>
-                        <div class="layui-input-block">
-                            <select name="recharge-type">
-                                <option value="">全部</option>
-                                <option value="0">已开票</option>
-                                <option value="1">未开票</option>
-                            </select>
-                        </div>
-                    </div>
                     <button class="layui-btn">搜索</button>
                 </div>
             </div>
             <div>
-                <button class="layui-btn layui-btn-danger">待付款→支付</button>
-                <button class="layui-btn layui-btn-warm">待收货→售后</button>
-                <button class="layui-btn">已完成→评论</button>
+                <a href="#" class="layui-btn">全部</a>
+                <a href="#" class="layui-btn">待付款</a>
+                <a href="#" class="layui-btn">待收货</a>
+                <a href="#" class="layui-btn">已收货</a>
+                <a href="#" class="layui-btn">已完成</a>
+                <a href="#" class="layui-btn">已关闭</a>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">

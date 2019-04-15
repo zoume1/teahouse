@@ -28,7 +28,30 @@
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
     .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
-
+    .btn-exam{background-color: rgb(0, 0, 255);}
+    .btn-pass{background-color: rgb(102, 153, 0);}
+    .btn-fail{background-color: rgb(255, 0, 0);}
+    .line-exam{background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
+    .line-ing{background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
+    .line-pass{background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}
+    .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
+    .pop{ position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 650px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9;}
+    .pop .head{position: relative; padding-left: 16px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
+    .pop .head p{height: 35px; line-height: 36px; font-size: 13px;}
+    .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer;}
+    .content{padding: 0 16px;}
+    .top, .mid, .bot{padding: 0 30px;}
+    .top{height: 50px; line-height: 50px;}
+    .lb{font-size: 16px; font-weight: 700; color: #333; margin-right: 30px;}
+    .top span{font-size: 24px; color: #f00; font-weight: 700;}
+    .mid{border: 1px dashed #d2d2d2; border-left: 0; border-right: 0;}
+    .mid>div{height: 50px; line-height: 50px; display: flex; align-items: baseline;}
+    .address p{line-height: normal; flex: 1;}
+    .change-addr{text-align: right;height: 35px; line-height: 35px; }
+    .change-addr a{color: #199ED8;}
+    .bot li{height: 65px; line-height: 65px; list-style: disc;}
+    .bot li button{background-color: #669900;}
+    .bot li a{color: #669900;}
 </style>
 
 {/block}
@@ -43,11 +66,6 @@
                     <thead>
                         <tr>
                             <th class="table-cell">
-                                <div class="table-cell-div">
-                                    <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose">
-                                </div>
-                            </th>
-                            <th class="table-cell">
                                 <div class="table-cell-div">用户账号（手机号）</div>
                             </th>
                             <th class="table-cell">
@@ -55,9 +73,6 @@
                             </th>
                             <th class="table-cell">
                                 <div class="table-cell-div">入驻商主体</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">地址</div>
                             </th>
                             <th class="table-cell">
                                 <div class="table-cell-div">套餐选择</div>
@@ -72,17 +87,21 @@
                                 <div class="table-cell-div">到期时间</div>
                             </th>
                             <th class="table-cell">
+                                <div class="table-cell-div">支付方式</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">到账情况</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">店铺开通</div>
+                            </th>
+                            <th class="table-cell">
                                 <div class="table-cell-div">操作</div>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="table-cell">
-                                <div class="table-cell-div">
-                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
-                                </div>
-                            </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">2</div>
                             </td>
@@ -105,11 +124,23 @@
                                 <div class="table-cell-div">5</div>
                             </td>
                             <td class="table-cell">
+                                <div class="table-cell-div">5</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">5</div>
+                            </td>
+                            <td class="table-cell">
                                 <div class="table-cell-div">6</div>
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <a href="capital_management_details" class="layui-btn">详情</a>
+                                    <a href="#" class="layui-btn btn-exam">汇款待审核</a>
+                                    <!-- <a href="#" class="layui-btn btn-pass">到账审核通过</a>
+                                    <a href="#" class="layui-btn btn-fail">汇款未到账</a>
+                                    <a href="#" class="layui-btn btn-pass">线上付款通过</a>
+                                    <button class="layui-btn line-exam">未申请开票</button>
+                                    <button class="layui-btn line-ing">已申请开票</button>
+                                    <button class="layui-btn line-pass">已开票完成</button> -->
                                 </div>
                             </td>
                         </tr>
@@ -129,6 +160,55 @@
             </div>
         </div>
     </div>
+    <div class="mask" style="display: none;"></div>
+    <!-- 弹窗 -->
+    <div class="pop" style="display: none;">
+        <div class="head">
+            <p>请填写</p>
+            <i class="close">×</i>
+        </div>
+        <div class="content">
+            <div class="top">
+                <div class="invoice-money">
+                    <label class="lb">开票金额</label>
+                    <span>￥123</span>
+                </div>
+            </div>
+            <div class="mid">
+                <div class="invoice-head"> 
+                    <label class="lb">发票抬头</label>
+                    <input type="text" placeholder="请填写公司名">
+                </div>
+                <div class="invoice-num">
+                    <label class="lb">企业税号</label>
+                    <input type="text" placeholder="请填写企业税号">
+                </div>
+                <div class="address">
+                    <label for="" class="lb">邮寄地址</label>
+                    <p>广东省 广州市 天河区 珠吉街道 珠吉路58号津安创意园(李三 收)18451401025 默认地址</p>
+                </div>
+                <p class="change-addr">
+                    <a href="#">管理收货地址</a>
+                </p>
+            </div>
+            <div class="bot">
+                <ul>
+                    <li>
+                        <span>请确认好开票信息，发票开出后，不在重开，如已确认，你可</span>
+                        <button class="layui-btn">立即开票</button>
+                    </li>
+                    <!-- <li>
+                        <span>您已申请开票，如有任何疑问，请及时与平台</span>
+                        <a href="#">客服沟通</a>
+                    </li>
+                    <li>
+                        <span>您的发票已开具，如有任何疑问，请及时与平台</span>
+                        <a href="#">客服沟通</a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
 {/block}
 
 
@@ -137,14 +217,7 @@
 <script src="__STATIC__/admin/common/layui/layui.js"></script>
 <script>
     layui.use(['laydate', 'form'], function(){
-        var laydate = layui.laydate,
-            form = layui.form;
-        $('input[data-type="date"]').each(function(idx, elem){
-            laydate.render({
-                elem: elem
-            })
-        })
-        form.render();
+        
     })
 </script>
 {/block}
