@@ -512,10 +512,9 @@ class  Wxapps extends  Controller{
 
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1]; //这是商品栏目的分类id
-                                $count = $v['params']['goodsnum'];
-                                $con_type = $v['params']['con_type'];
+                                $count = $v['params']['goodsnum']; //goodsnum数据分组
+                                $con_type = $v['params']['con_type']; //
                                 $con_key = $v['params']['con_key'];
-                                halt($v);
                                 $where = "";
                                 if ($con_type == 1 && $con_key == 1) {
                                     $where = 'ORDER BY id DESC';
@@ -554,6 +553,8 @@ class  Wxapps extends  Controller{
                                     $where = 'AND type_i=1 ORDER BY num DESC';
                                 }
                                 $list = Db::query("SELECT * FROM ims_sudu8_page_products WHERE `uniacid` = {$uniacid}  AND `is_sale`=0 AND (`cid` = {$sourceid} or `pcid` = {$sourceid} ) " . $where . " LIMIT 0,{$count}");
+
+                                halt($list);
                                 if ($list) {
                                     foreach ($list as $kk => $vv) {
                                         if ($vv['type'] == "showPro" && $vv['is_more'] == 0) {
