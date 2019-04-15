@@ -27,9 +27,9 @@ class Receipt extends Controller
             if(!empty($data)){
                 $where = "update tb_member_receipt set label = 0 where type = 1 and member_id = $member_id";
                 $rest = Db::query($where);
-                $bool = db("member_receipt")->insert($data);
+                $bool = db("member_receipt")->insertGetId($data);
                 if($bool){
-                    return ajax_success('发送成功');
+                    return ajax_success('发送成功',['receipt_id'=>$bool]);
                 } else {
                     return ajax_error("发送失败");
                 }
@@ -73,9 +73,9 @@ class Receipt extends Controller
             if(!empty($data)){
                 $where = "update tb_member_receipt set label = 0 where type = 2 and member_id = $member_id ";
                 $rest = Db::query($where);
-                $bool = db("member_receipt")->insert($data);
+                $bool = db("member_receipt")->insertGetId($data);
                 if($bool){
-                    return ajax_success('发送成功');
+                    return ajax_success('发送成功',['receipt_id'=>$bool]);
                 } else {
                     return ajax_error("发送失败");
                 }
