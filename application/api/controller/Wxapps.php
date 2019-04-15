@@ -84,7 +84,6 @@ class  Wxapps extends  Controller{
             ->where("id", $pageid)
             ->where("uniacid", $uniacid)
             ->find();
-        halt($data);
         $data['foot'] = $foot['foot_is'] ? $foot['foot_is'] : 1;
         if ($data['page'] != '') {
             //将已序列化的字符串还原回 PHP 的值
@@ -510,8 +509,10 @@ class  Wxapps extends  Controller{
                                 $data['sec'] = $v['params']['sec'];
                             }
                         }else if ($v['id'] == "goods") {
+
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
+                                halt($sourceid);
                                 $count = $v['params']['goodsnum'];
                                 $con_type = $v['params']['con_type'];
                                 $con_key = $v['params']['con_key'];
