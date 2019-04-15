@@ -769,8 +769,9 @@ Route::group("admin",[
     "security_setting"=>"admin/General/security_setting",//安全设置
     "store_set_meal_order"=>"admin/General/store_set_meal_order",//套餐订单
     "store_order"=>"admin/General/store_order",//增值订单
+    "store_order_after"=>"admin/General/store_order_after",//售后维权
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
-    "store_after_sale"=>"admin/General/store_after_sale",//售后维权
+//    "store_after_sale"=>"admin/General/store_after_sale",//售后维权
     "additional_comments"=>"admin/General/additional_comments",//追加评论
 
     /*总控*/
