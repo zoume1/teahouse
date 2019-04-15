@@ -69,6 +69,7 @@ class Receipt extends Controller
             $member_id = $data["member_id"];
             $data["create_time"] = $time;
             $data["label"] = 1;
+            $data["status"] = 2;
 
             if(!empty($data)){
                 $where = "update tb_member_receipt set label = 0 where type = 2 and member_id = $member_id ";
@@ -191,6 +192,29 @@ class Receipt extends Controller
                 return ajax_success('删除成功');
             } else {
                 return ajax_error("删除失败");
+            }
+        }
+    }
+
+
+    /**
+     * [查询发票费率]
+     * 郭杨
+     */
+    public function proportion(Request $request){
+        if($request->isPost()){  
+            $receipt_id =  $request->only(["receipt_id"])["receipt_id"];
+            $receipt_type = db("member_receipt")->where('id',$receipt_id)->value("status");
+         
+            if(!empty($receipt_id)){
+                if($receipt_type == 1 ){  //普通发票
+                    $proportion = db("receipt")->where("id",1)->value('common');  
+                } else {  //增值税发票
+                    $proportion = db("receipt")->where("id",1)->value('senior');
+                }
+                return ajax_success('发送成功',$proportion);
+            } else {
+                return ajax_error("参数错误");
             }
         }
     }
