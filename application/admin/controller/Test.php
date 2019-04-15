@@ -74,12 +74,20 @@ class Test extends  Controller{
 //            }
 //
 //        }
-        $pic =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select();
-        $cates =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select(); //一级
-        foreach ($cates as $key=>&$value){
-            $catess =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
-            $value['subcate'] =$catess;
+        //商品栏目
+        $pic =Db::table("tb_wares")->where("pid",0)->field("id,name")->select();
+        $cates =Db::table("tb_wares")->where("pid",0)->field("id,name")->select(); //一级
+        foreach ($cates as $key=>$value){
+            $catess =Db::table("tb_goods")->where("pid",$value['id'])->field("id,goods_name name")->select();
+            $cates[$key]['subcate'] =$catess;
         }
+        //活动栏目
+//        $pic =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select();
+//        $cates =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select(); //一级
+//        foreach ($cates as $key=>&$value){
+//            $catess =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
+//            $value['subcate'] =$catess;
+//        }
         $this->assign("diypage",$diypage);
         $this->assign("article",$article);
         $this->assign("pro",$pro);
