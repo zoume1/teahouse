@@ -523,7 +523,7 @@ class  Wxapps extends  Controller{
                                 {
                                     $list[$kks]["goods_show_images"] = (explode(",", $list[$kks]["goods_show_images"])[0]);
                                     if(!empty($list[$kks]["scope"])){
-                                        $list[$k]["scope"] = explode(",",$list[$kks]["scope"]);
+                                        $list[$kks]["scope"] = explode(",",$list[$kks]["scope"]);
                                         if(!in_array($member_grade_name,$list[$kks]["scope"])){
                                             unset($list[$kks]);
                                         }
