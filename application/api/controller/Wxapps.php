@@ -522,6 +522,7 @@ class  Wxapps extends  Controller{
                                     ->where("label",1)
 //                                    ->field("goods_name,id,goods_selling,goods_show_images,goods_new_money,scope,goods_volume")
                                     ->select();
+                                halt($goods);
                                 $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
                                 $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
                                 foreach ($goods as $kks => $vvs) //所有商品
