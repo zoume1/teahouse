@@ -1052,3 +1052,17 @@ function audit_status($status){
         echo '未通过';
     }
 }
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:判断是商家还是个人
+ **************************************
+ */
+function is_business($status){
+    if($status==1){
+        echo '个人';
+    }else  if($status==2){
+        echo '公司';
+    }
+}

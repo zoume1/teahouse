@@ -772,6 +772,7 @@ Route::group("admin",[
     "store_set_meal_order"=>"admin/General/store_set_meal_order",//套餐订单
     "store_order"=>"admin/General/store_order",//增值订单
     "store_order_after"=>"admin/General/store_order_after",//售后维权
+    "store_order_after_edit"=>"admin/General/store_order_after_edit",//售后维权详情
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
     "additional_comments"=>"admin/General/additional_comments",//追加评论
     "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
