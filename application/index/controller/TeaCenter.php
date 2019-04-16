@@ -226,8 +226,10 @@ class TeaCenter extends Controller
         if ($request->isPost()){
             $activity_id = $request->only(['activity_id'])['activity_id'];
             $open_id = $request->only(['open_id'])['open_id'];
+            $start_time = $request->only(['start_time'])['start_time'];
+            $index = $request->only(['index'])['index'];
             $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
-            $data = db("teahost")->where('id',$activity_id)->field("activity_name,classify_image,address,pid,cost_moneny,start_time,peoples")->find();
+            $data = db("teahost")->where('id',$activity_id)->field("activity_name,classify_image,address,pid,cost_moneny,peoples")->find();
             $account = db("member")->where('member_openid',$open_id)->value('member_phone_num');
             $names = db("goods_type")->where("id",$data['pid'])->value("name");
 
@@ -241,12 +243,13 @@ class TeaCenter extends Controller
             $data['account'] =  $account;
             $data['status'] =  1;
             $data['names'] =  $names;
+            $data['start_time'] = $start_time; //活动开始时间
             $data['parts_order_number'] =  $parts_order_number;
             $bool = db("activity_order")->insert($data);
             if (!empty($bool)) {
-                return ajax_success('传输成功', $data);
+                return ajax_success('下单成功', $data['parts_order_number']);
             } else {
-                return ajax_error("数据为空");
+                return ajax_error("下单失败");
             }
         }
     }
