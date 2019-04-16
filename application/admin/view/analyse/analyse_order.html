@@ -102,50 +102,45 @@
                 </tr>
                 </thead>
                 <tbody>
-                {if !empty($data)}
-                {volist name="data" id="vo"}
+
                 <tr>
                     <td class="table-cell">
-                        <div class="table-cell-div">{$vo.phone_number}</div>
-                    </td>
-                    <td class="table-cell">
-                        <div class="table-cell-div">{$vo.contact_name}</div>
-                    </td>
-                    <td class="table-cell">
-                        <div class="table-cell-div">{$vo.is_business}</div>
-                    </td>
-                    <td class="table-cell">
-                        <div class="table-cell-div">{$vo.goods_name}</div>
-                    </td>
-                    <td class="table-cell">
-                        <div class="table-cell-div">{$vo.amount_money}</div>
-                    </td>
-                    <td class="table-cell">
-                        {if !empty($vo['start_time'])}
-                        <div class="table-cell-div">{$vo.start_time}</div>
-                        {/if}
-                    </td>
-                    <td class="table-cell">
-                        {if !empty($vo['end_time'])}
-                        <div class="table-cell-div">{$vo.end_time}</div>
-                        {else}
                         <div class="table-cell-div"></div>
-                        {/if}
                     </td>
                     <td class="table-cell">
-                        {if !empty($vo['pay_type'])}
-                        <div class="table-cell-div">{$vo.pay_type}</div>
-                        {else}
-                        <div class="table-cell-div">未支付</div>
-                        {/if}
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+
+                        <div class="table-cell-div"></div>
+
 
                     </td>
                     <td class="table-cell">
-                        {if !empty($vo['pay_status'])}
-                        <div class="table-cell-div">{$vo.pay_status}</div>
-                        {else}
+
+                        <div class="table-cell-div"></div>
+
+
+                    </td>
+                    <td class="table-cell">
+
+                        <div class="table-cell-div"></div>
+
                         <div class="table-cell-div">待审核</div>
-                        {/if}
+
                     </td>
                     <td class="table-cell">
                         <div class="table-cell-div"></div>
@@ -162,8 +157,7 @@
                         </div>
                     </td>
                 </tr>
-                {/volist}
-                {/if}
+
                 </tbody>
             </table>
         </div>
