@@ -840,10 +840,18 @@ class  Wxapps extends  Controller{
             $result['data'] = $baseInfo;
             return json_encode($result);
         } else {
-            $data = Db::table("ims_sudu8_page_diypage")->where("index", 1)->where("uniacid", $uniacid)->find();
-            if ($data['copyimg']) {
-                $data['copyimg'] = remote($uniacid, $data['copyimg'], 1);
+            $data = Db::table("ims_sudu8_page_diypage")
+                ->where("index", 1)
+                ->where("uniacid", $uniacid)
+                ->find();
+            $baseInfo = Db::table('ims_sudu8_page_base')->where("uniacid", $uniacid)->find();
+            if ($baseInfo['copyimg']) {
+                $baseInfo['copyimg'] = remote($uniacid, $baseInfo['copyimg'], 1);
             }
+
+//            if ($data['copyimg']) {
+//                $data['copyimg'] = remote($uniacid, $data['copyimg'], 1);
+//            }
             if ($data['items'] != '') {
                 $data['items'] = unserialize($data['items']);
                 foreach ($data['items'] as $k => &$v) {
