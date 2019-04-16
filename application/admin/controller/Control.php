@@ -180,27 +180,85 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_order_index(){
-        $order = db("store")->paginate(20,false, [
-            'query' => request()->param(),
-        ]);
+        $order =Db::table('tb_set_meal_order')
+            ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
+            ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
+            ->where("is_del",1)
+            ->order("tb_set_meal_order.create_time","desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         $enter_meal = db("enter_meal")->field("name")->select();
         return view("control_order_index",["order"=>$order,"enter_meal"=>$enter_meal]);
     }
 
 
     /**
-     * [入驻订单编辑]
+     * [入驻订单店铺信息编辑]
      * 郭杨
      */    
     public function control_order_add($id){
-        $store_order = db("store")->where("id",$id)->select();
+        $store_order = db("store")
+            ->where("id",$id)
+            ->select();
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
         return view("control_order_add",["store_order"=>$store_order]);
     }
 
 
     /**
-     * [入驻订单状态更新]
+     **************李火生*******************
+     * @param Request $request
+     * Notes:入驻订单套餐数据返回
+     **************************************
+     * @param $id
+     */
+    public function control_order_status($id){
+        //先检查店铺审核状态(未审核不能点进来审核订单)
+        $store_id =Db::table("tb_set_meal_order")->where("id",$id)->value("store_id");
+        $store_info =Db::table("tb_store")->where("id",$store_id)->where("status",1)->value("id");
+        if(!$store_info){
+            $this->error("请先进行店铺审核操作");
+        }
+        $store_information =Db::table("tb_store")->where("id",$store_id)->where("store_del",1)->value("id");
+        if(!$store_information){
+            $this->error("该店铺已被删除，无法进行以下操作");
+        }
+        $store_order = Db::table('tb_set_meal_order')
+            ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status,tb_store.address_data,tb_store.id_card,tb_store.card_positive,tb_store.store_introduction,tb_store.store_qq,tb_store.explain")
+            ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
+            ->where("is_del",1)
+            ->select();
+        $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
+        return view("control_order_status",["store_order"=>$store_order]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:入驻订单编辑审核操作
+     **************************************
+     */
+    public function control_order_status_update(Request $request){
+        if($request -> isPost()) {
+            $id = $request->only(["id"])["id"];
+            $data = $request->param();
+            $is_pay = db("set_meal_order")->where("id", $id)->value("pay_type");
+            if(!$is_pay){
+                $this->error("此订单未付款不能审核操作");
+            }
+            $bool = db("set_meal_order")->where("id", $id)->update($data);
+            if ($bool) {
+                $this->success("审核成功", url("admin/Control/control_order_index"));
+            } else {
+                $this->error("审核失败,请编辑后再提交");
+            }
+
+        }
+    }
+
+    /**
+     * [入驻订单店铺审核操作]
      * 郭杨
      */    
     public function control_order_update(Request $request){
