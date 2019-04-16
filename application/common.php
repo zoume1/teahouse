@@ -1027,11 +1027,8 @@ function upload_img(){
  * @param string $day2
  * @return number
  */
-function diffBetweenTwoDays ($day1, $day2)
-{
-  $second1 = strtotime($day1);
-  $second2 = strtotime($day2);
-    
+function diffBetweenTwoDays ($second1, $second2)
+{  
   if ($second1 < $second2) {
     $tmp = $second2;
     $second2 = $second1;
