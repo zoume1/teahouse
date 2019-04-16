@@ -120,6 +120,7 @@ class TeaCenter extends Controller
             $data = array(
                 'id'=>$actdata['id'],
                 'requirements'=>$actdata['requirements'],
+                'open_request'=>$actdata['open_request'],
                 'activity_name'=>$actdata['activity_name'],
                 'classify_image'=>$actdata['classify_image'],
                 'address'=>$actdata['address'],
