@@ -36,7 +36,29 @@ class  Analyse extends  Controller{
         return view("analyse_index",["analyse"=>$analyse]);
     }
 
-    
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:总控增值订单
+     **************************************
+     */
+    public function  analyse_order(){
+        return view("analyse_order");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:总控增值退款维权
+     **************************************
+     * @return \think\response\View
+     */
+    public function  analyse_after_sale(){
+        return view("analyse_after_sale");
+    }
+
+
+
     /**
      * [增值物流商品添加]
      * 郭杨
