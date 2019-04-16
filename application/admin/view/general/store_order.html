@@ -56,7 +56,7 @@
     .mid{border: 1px dashed #d2d2d2; border-left: 0; border-right: 0;}
     .mid h2{height: 60px; line-height: 60px; text-align: center; font-size: 20px; color: rgb(0, 153, 255);}
     .mid li{height: 50px; line-height: 50px; list-style: disc; font-size: 13px;}
-    .mid li a{color: rgb(102, 153, 0);}
+    .mid li a.kf{color: rgb(102, 153, 0);}
     .bot{height: 65px; display: flex; align-items: center;}
     .bot>div{flex: 1;}
 </style>
@@ -212,20 +212,20 @@
             <div class="mid">
                 <h2>温馨提示</h2>
                 <!-- 待付款 -->
-                <ul>
+                <!-- <ul>
                     <li>
                         <span>您订购的该商品未完成支付，如果您确定需要该商品，请点击</span>
                         <button class="layui-btn btn-yfh">立即支付</button>
                     </li>
                     <li>
                         <span>如果您有不清楚的地方，请及时与</span>
-                        <a href="#">客服沟通</a>
+                        <a href="#" class="kf">客服沟通</a>
                     </li>
                     <li>
                         <span>如果您确实无需该商品，您还可 </span>
                         <button class="layui-btn btn-ygb">关闭订单</button>
                     </li>
-                </ul>
+                </ul> -->
                 <!-- 待发货 -->
                 <!-- <ul>
                     <li>
@@ -233,11 +233,11 @@
                     </li>
                     <li>
                         <span>如果您有不清楚的地方，请及时与</span>
-                        <a href="#">客服沟通</a>
+                        <a href="#" class="kf">客服沟通</a>
                     </li>
                     <li>
-                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#">客服沟通</a>，如沟通后任不满意，您还可</span>
-                        <button class="layui-btn btn-ygb">售后维权</button>
+                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
+                        <button class="layui-btn layui-btn-danger">售后维权</button>
                     </li>
                 </ul> -->
                 <!-- 已发货 -->
@@ -247,27 +247,27 @@
                     </li>
                     <li>
                         <span>如果您已收到货，且对商品满意，请点击</span>
-                        <button class="layui-btn">确认收货</button>
+                        <button class="layui-btn btn-ywc">确认收货</button>
                     </li>
                     <li>
-                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#">客服沟通</a>，如沟通后任不满意，您还可</span>
-                        <button class="layui-btn btn-ygb">售后维权</button>
+                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
+                        <button class="layui-btn layui-btn-danger">售后维权</button>
                     </li>
                 </ul> -->
                 <!-- 已完成 -->
-                <!-- <ul>
+                <ul>
                     <li>
                         <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
                     </li>
                     <li>
                         <span>您已收到货，您还可以</span>
-                        <button class="layui-btn">追加评论</button>
+                        <a href="additional_comments" class="layui-btn layui-btn-normal">追加评论</a>
                     </li>
                     <li>
-                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#">客服沟通</a>，如沟通后任不满意，您还可</span>
-                        <button class="layui-btn btn-ygb">售后维权</button>
+                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
+                        <a href="store_order_after" class="layui-btn layui-btn-danger">售后维权</a>
                     </li>
-                </ul> -->
+                </ul>
                 <!-- 已关闭 -->
                 <!-- <ul>
                     <li>
@@ -275,7 +275,7 @@
                     </li>
                     <li>
                         <span>如果您有不清楚的地方，请及时与</span>
-                        <a href="#">客服沟通</a>
+                        <a href="#" class="kf">客服沟通</a>
                     </li>
                     <li>
                         <span>如果您确实无需该商品，您还可 </span>
