@@ -223,6 +223,9 @@ class  Order extends  Controller
             $goods_standard_id = $request->only("goods_standard_id")["goods_standard_id"];//规格id
             $numbers = $request->only("order_quantity")["order_quantity"];//商品对应数量
             $unit = $request->only("unit")["unit"];//商品单位
+            $receipt_status = $request->only("receipt_status")["receipt_status"];//是否开发票
+            $receipt_id = $request->only("receipt_id")["receipt_id"];//发票id
+            $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额
             
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
@@ -323,6 +326,9 @@ class  Order extends  Controller
                         $datas["coupon_id"] = $coupon_id;
                         $datas["refund_amount"] = $all_money;
                         $datas["unit"] = $unit[$keys];
+                        $datas["receipt_status"] = $receipt_status; 
+                        $datas["receipt_id"] = $receipt_id;
+                        $datas["receipt_price"] = $receipt_price ;
                                         
                         $res = Db::name('order')->insertGetId($datas);
                         if ($res) {
@@ -368,7 +374,10 @@ class  Order extends  Controller
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
-                        $datas["age_limit"] = $year;                     
+                        $datas["age_limit"] = $year;  
+                        $datas["receipt_status"] = $receipt_status; 
+                        $datas["receipt_id"] = $receipt_id;
+                        $datas["receipt_price"] = $receipt_price ;                   
                         $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
                             case 0:
@@ -589,6 +598,9 @@ class  Order extends  Controller
             $goods_standard_id = $request->only("goods_standard_id")["goods_standard_id"];//规格id
             $numbers = $request->only("order_quantity")["order_quantity"];//商品对应数量
             $unit = $request->only("unit")["unit"];//商品单位
+            $receipt_status = $request->only("receipt_status")["receipt_status"];//是否开发票
+            $receipt_id = $request->only("receipt_id")["receipt_id"];//发票id
+            $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额
             
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
@@ -688,7 +700,10 @@ class  Order extends  Controller
                         $datas["special_id"] = $goods_standard_id[$keys];//规格id
                         $datas["coupon_id"] = $coupon_id;
                         $datas["refund_amount"] = $all_money;
-                        $datas["unit"] = $unit[$keys];                                       
+                        $datas["unit"] = $unit[$keys]; 
+                        $datas["receipt_status"] = $receipt_status; 
+                        $datas["receipt_id"] = $receipt_id;
+                        $datas["receipt_price"] = $receipt_price ;                                        
                         $res = Db::name('order')->insertGetId($datas);
                     } else {
                         $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
@@ -724,7 +739,10 @@ class  Order extends  Controller
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;
-                        $datas["house_price"] = $house_price[$keys];                    
+                        $datas["house_price"] = $house_price[$keys];
+                        $datas["receipt_status"] = $receipt_status; 
+                        $datas["receipt_id"] = $receipt_id;
+                        $datas["receipt_price"] = $receipt_price ;                      
                         $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
                             case 0:

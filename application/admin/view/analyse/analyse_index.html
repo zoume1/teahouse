@@ -17,14 +17,17 @@
         padding-left: 50px;
         background: #FDFDFE;
     }
+    .change-addr a{color: #199ED8;}
+    .bot li{height: 65px; line-height: 65px; list-style: disc;}
+    .bot li button{background-color: #669900;}
+    .bot li a{color: #669900;}
 </style>
 
 {/block}
 
 <body>
-
     {block name="content"}
-
+    {include file="template/_top" /}
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="{:url('admin/Goods/search')}">
@@ -132,7 +135,6 @@
         </div>
 
     </div>
-
     {/block}
 
     <!--_footer 作为公共模版分离出去-->
