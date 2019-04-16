@@ -773,8 +773,8 @@ Route::group("admin",[
     "store_order"=>"admin/General/store_order",//增值订单
     "store_order_after"=>"admin/General/store_order_after",//售后维权
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
-//    "store_after_sale"=>"admin/General/store_after_sale",//售后维权
     "additional_comments"=>"admin/General/additional_comments",//追加评论
+    "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
 
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
@@ -794,7 +794,9 @@ Route::group("admin",[
     "control_templet_edit"=>"admin/Control/control_templet_edit",   //增值商品运费模板编辑
     "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
 
-    "analyse_index"=>"admin/Analyse/analyse_index",          //增值商品
+    "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
+    "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单
+    "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",          //总控增值退款维权
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
     "analyse_invented"=>"admin/Analyse/analyse_invented",    //增值虚拟商品添加
     "analyse_edit"=>"admin/Analyse/analyse_edit",            //增值商品编辑
