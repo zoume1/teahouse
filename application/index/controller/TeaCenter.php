@@ -116,7 +116,7 @@ class TeaCenter extends Controller
         if ($request->isPost()){
             $resd = $request->only(['id'])['id'];
             $actdata = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,peoples,requirements,address,pid')->where("label", 1)->where("id",$resd)->select();
-            
+        
             foreach($actdata as $key => $value){
                 $actdata[$key]["start_time"] = date('Y-m-d H:i',$actdata[$key]["start_time"]);
             }
@@ -174,7 +174,7 @@ class TeaCenter extends Controller
     public function recommend(Request $request)
     {
         if ($request->isPost()){
-            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid,status,open_request')->where("label", 1)->where('status',1)->order("start_time")->select();
+            $data = Db::name("teahost")->where("status",1)->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid,status,open_request')->where("label", 1)->where('status',1)->order("start_time")->select();
             foreach($data as $key => $value){
                 if($value){
                     $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
@@ -372,6 +372,29 @@ class TeaCenter extends Controller
                 return ajax_error("没有默认收货地址");
             }
         }
+
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:日期测试
+     **************************************
+     */
+    public function day_test(Request $request){
+
+        if($request->isPost()){
+            $time = time();
+            $beginToday=mktime(0,0,0,date('m'),date('d'),date('Y'));
+            $min = "15:11:0";
+            $min_array = explode(":",$min);
+            
+            $time = date('Y-m-d H:i:s', strtotime ("+$min_array[0] hours $min_array[1] minute", $beginToday));
+                return ajax_success("返回成功",$time);
+            }else{
+                return ajax_error("没有默认收货地址");
+            }
+        }
+
 
 
 
