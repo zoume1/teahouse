@@ -14,10 +14,17 @@
         .header{height: 70px; line-height: 70px; border-bottom: 1px solid #CFECFF;}
         .header span{color: #f00;}
         .shop{font-size: 16px; height: 60px; line-height: 60px;}
+        .next-table{margin-bottom: 20px;}
         .next-table table{width: 100%; border-spacing: 0; border-collapse: collapse; font-size: 13px; background-color: #fff; border: 1px solid #CFECFF;}
         .next-table th{border: 1px solid #CFECFF; color: #333; background-color: #CFECFF; text-align: left;}
         .next-table .next-table-cell-box{padding: 12px 16px; overflow: hidden; text-overflow: ellipsis; word-break: break-all;}
         .next-table-cell-box a{color: #0099FF; text-decoration: none;}
+        .star::after{content: '*'; color: #f00;}
+        .after-type{display: flex; align-items: center;}
+        .after-type input{width: 120px;}
+        .after-type span{color: #f00; margin-right: 20px;}
+        .btn-box{text-align: center;}
+        .btn-box button{margin-right: 50px;}
     </style>
 </head>
 <body>
@@ -79,13 +86,50 @@
                 </tbody>
             </table>
         </div>
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label star">请选择</label>
+                <div class="layui-input-block after-type">
+                    <input type="radio" name="afterType" title="要求退货退款金额：" value="退货退款" checked>
+                    <input type="text" name="afterMoney">
+                    <span>元</span>
+                    <input type="radio" name="afterType" title="换货" value="换货">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label star">请说明理由</label>
+                <div class="layui-input-block after-type">
+                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label star">提交图片</label>
+                <div class="layui-input-block after-type">
+                    <button type="button" class="layui-btn" id="upload">上传图片(最多三张)</button>
+                </div>
+            </div>
+            <div class="layui-form-item btn-box">
+                <button class="layui-btn layui-btn-primary">返回</button>
+                <button class="layui-btn layui-btn-danger">确定提交</button>
+            </div>
+        </div>
     </div>
 
     <script src="__STATIC__/admin/common/layui/layui.js"></script>
     <script>
-        layui.use(['form'], function(){
-            var form = layui.form;
+        layui.use(['form', 'upload'], function(){
+            var form = layui.form,
+                upload = layui.upload;
             form.render();
+
+            var uploadInst = upload.render({
+                elem: '#upload',
+                url: '', 
+                done: function (res) {
+                    console.log(res);
+                }, 
+                error: function () {}
+            });
         })
     </script>
 </body>
