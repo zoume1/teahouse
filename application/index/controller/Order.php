@@ -2019,7 +2019,15 @@ class  Order extends  Controller
             file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("activity_order")
                 ->where("parts_order_number",$val["out_trade_no"])
-                ->update(["status"=>1]);
+                ->update(["status"=>2]);
+            $activity = Db::name("activity_order")->where("parts_order_number",$val["out_trade_no"])->find();
+            $day_array = Db::name("teahost")->where("id",$activity['teahost_id'])->value("day_array");
+            $new_array = explode(",",$day_array);
+            $index = $activity['index'];
+            $new_array[$index] = $new_array[$index]-1;
+            $intest = implode(",",$new_array);
+            $rest_order = Db::name("teahost")->where("id",$activity['teahost_id'])->update(["day_array",$intest]);
+            
             if($res){
                 //做消费记录
                 $information =Db::name("activity_order")
