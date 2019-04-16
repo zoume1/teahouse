@@ -783,9 +783,11 @@ Route::group("admin",[
     "control_meal_status"=>"admin/Control/control_meal_status",    //入驻套餐首页显示
     "control_meal_edit"=>"admin/Control/control_meal_edit",        //入驻套餐编辑
     "control_meal_update"=>"admin/Control/control_meal_update",    //入驻套餐编辑保存
-    "control_order_index"=>"admin/Control/control_order_index",    //入驻订单
-    "control_order_add"=>"admin/Control/control_order_add",        //入驻订单编辑审核
-    "control_order_update"=>"admin/Control/control_order_update",  //入驻订单审核更新
+    "control_order_index"=>"admin/Control/control_order_index",    //入驻订单页面
+    "control_order_add"=>"admin/Control/control_order_add",        //入驻订单店铺编辑审核
+    "control_order_update"=>"admin/Control/control_order_update",  //入驻订单店铺审核更新操作
+    "control_order_status"=>"admin/Control/control_order_status",        //入驻订单编辑审核
+    "control_order_status_update"=>"admin/Control/control_order_status_update",        //入驻订单编辑审核操作
     "control_order_search"=>"admin/Control/control_order_search",  //入驻订单搜索
     "control_store_index"=>"admin/Control/control_store_index",    //店铺分析
     "control_store_templet"=>"admin/Control/control_store_templet",//增值商品运费模板

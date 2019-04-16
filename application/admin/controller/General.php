@@ -1406,6 +1406,7 @@ class  General extends  Base {
         }
     }
 
+
     /**
      **************李火生*******************
      * @param Request $request
@@ -1521,7 +1522,7 @@ class  General extends  Base {
         }
         //检测店铺是否删除
             $data =Db::table('tb_set_meal_order')
-                ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.start_time,tb_store.end_time")
+                ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business")
                 ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
                 ->where("is_del",1)
                 ->where("store_id",$store_id)

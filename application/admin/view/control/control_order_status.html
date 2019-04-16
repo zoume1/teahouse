@@ -1,0 +1,438 @@
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<style type="text/css">
+    body {
+        background: #fff;
+    }
+
+    #hot {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .list {
+        margin-right: 10px;
+        margin-bottom: 6px;
+    }
+
+    .title {
+        height: 50px;
+        background: #F2F2F2;
+        font-size: 20px;
+        line-height: 50px;
+        padding-left: 20px;
+        font-weight: bold;
+    }
+
+    .special,
+    .general,
+    .special .layui-form-item,
+    .general .layui-form-item {
+        min-width: 100%;
+    }
+
+    .add-content {
+        background: #F2F2F2;
+        width: 100%;
+    }
+
+    .general-kuang {
+        border: solid 1px #E4E4E4;
+        width: 1000px;
+        padding-left: 10px;
+    }
+
+    .btus {
+        background: #fff;
+        border: solid 1px #E4E4E4;
+        color: #0099FF;
+        width: 141px;
+        display: inline-block;
+        margin: 10px;
+    }
+
+    #general-content .layui-form-item {
+        width: 100%;
+    }
+
+    .sky-blue {
+        color: #0099FF;
+    }
+
+    .bgwhite {
+        background: #fff;
+    }
+
+    .noshow {
+        display: none;
+    }
+
+    .special .layui-form-item {
+        width: 100%;
+    }
+
+    .general .layui-form-item {
+        width: 100%;
+    }
+
+    .special .layui-form-item label {
+        width: 10%;
+    }
+
+    .general .layui-form-item label {
+        width: 10%;
+    }
+
+    .operation-btus {
+        width: 60px;
+        height: 40px;
+        border-radius: 3px;
+        color: #fff;
+    }
+
+    .btu-delet {
+        background: #FF0000;
+    }
+
+    .btu-cancel {}
+
+    .btu-add {
+        background: #0099FF;
+    }
+
+    .num-content {
+        overflow: hidden;
+    }
+
+    #general_content>div {
+        margin-top: 6px;
+    }
+    /* 弹窗 */
+    .tanchuang {
+        width: 100%;
+        min-height: 1000px;
+        background: RGBA(0, 0, 0, 0.3);
+        position: fixed;
+        z-index: 9999;
+    }
+
+    /* 数据库展现图片样式 */
+
+    .img {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+    }
+    .imgcontent{
+        margin: 10px;
+    }
+
+
+    .img>i {
+        display: inline-block;
+        width: 20px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    .form-group .layui-form-select {
+        display: none;
+    }
+</style>
+
+{/block}
+
+<body>
+{block name="content"}
+<div class="tanchuang noshow">
+    <div style="width: 395px;height: 527px;margin: 10% auto;">
+        <img src="" class="tanimg"/>
+    </div>
+
+</div>
+{if !empty($store_order)}{volist name="store_order" id="value"}
+<form class="layui-form layui-form-lists" action="{:url('admin/Control/control_order_status_update',['id'=>$value.id])}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id"  value="{$value.id}" />
+    <div class="form-title">基础信息 </div>
+    <div class="form-item">
+        <label class="form-label"><span class="red">*</span>店铺名称</label>
+        <div class="form-input">
+            <input type="text"  value="{$value.store_name}" lay-verify="title" autocomplete="off" placeholder="店铺名称" class="layui-input">
+
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">用户账号</label>
+        <div class="form-input">
+            <input type="text"  value="{$value.phone_number}"lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+            <div class="tips">
+                选填项
+            </div>
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">联系地址</label>
+        <div class="form-input">
+            <div class="form-inline">
+                <div data-toggle="distpicker">
+                    <div class="form-group">
+                        <label class="sr-only" for="province3">Province</label>
+                        <select class="form-control" id="province3"  data-province="{$value.address_data[0]}" ></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="city3">City</label>
+                        <select class="form-control" id="city3"  data-city="{$value.address_data[1]}" ></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="district3">District</label>
+                        <select class="form-control" id="district3"  data-district="{$value.address_data[2]}" ></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label"></label>
+        <div class="form-input">
+            <input type="text" value="{$value.address_real_data}" lay-verify="title" autocomplete="off" placeholder="新闻路1号" class="layui-input" required>
+
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">联系人姓名</label>
+        <div class="form-input">
+            <input type="text" value="{$value.contact_name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">联系人身份证</label>
+        <div class="form-input">
+            <input type="text"  value="{$value.id_card}"lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+        </div>
+    </div>
+
+    <div class="form-item">
+        <label class="form-label">身份证正反面</label>
+        <div class="imgcontent">
+				<span class="img">
+						<img src="__UPLOADS__/{$value.card_positive}" width="100%">
+						<i class="remove-img"  value="__UPLOADS__/{$value.card_positive}" data-id="{$value.id}" data-value="2"><img
+                                src="__STATIC__/admin/common/img/a7.png"></i>
+					</span>
+        </div>
+        {if !empty($value.card_side)}
+        <div class="imgcontent">
+				<span class="img">
+						<img src="__UPLOADS__/{$value.card_side}" width="100%">
+						<i class="remove-img" value="__UPLOADS__/{$value.card_side}" data-id="{$value.id}" data-value="2"><img
+                                src="__STATIC__/admin/common/img/a7.png"></i>
+					</span>
+        </div>
+        {/if}
+    </div>
+    {if !empty($value.licence_no)}
+    <div class="form-item">
+        <label class="form-label">营业执照</label>
+        <div class="imgcontent">
+				<span class="img">
+						<img src="__UPLOADS__/{$value.licence_no}" width="100%">
+						<i class="remove-img" value="__UPLOADS__/{$value.licence_no}" data-id="{$value.id}" data-value="2"><img
+                                src="__STATIC__/admin/common/img/a7.png"></i>
+					</span>
+        </div>
+    </div>
+    {/if}
+    <div class="form-item">
+        <label class="form-label">店铺简介</label>
+        <div class="form-input line">
+            <textarea cols="60" rows="10">{$value.store_introduction}</textarea>
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">店铺QQ</label>
+        <div class="form-input">
+            <input type="text" value="{$value.store_qq}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+        </div>
+    </div>
+    <div class="form-title">支付信息 </div>
+    {if $value.pay_type == 2}
+    <div class="form-item">
+        <label class="form-label">支付方式</label>
+        <div class="form-input">
+            <input type="radio"  title="汇款支付" checked="" lay-filter="guige">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">付款姓名</label>
+        <div class="form-input">
+            <input type="text" value="{$value.pay_name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">付款账号</label>
+        <div class="form-input">
+            <input type="text" value="{$value.pay_account}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">付款金额</label>
+        <div class="form-input">
+            <input type="text" value="{$value.pay_cost}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">付款时间</label>
+        <div class="form-input">
+            <input type="text" value="{$value.pay_time}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+            <div class="tips">*通过时间即为生效时间</div>
+        </div>
+    </div>
+    {/if}
+    {if $value.pay_type == 1}
+    <div class="form-item">
+        <label class="form-label">支付方式</label>
+        <div class="form-input">
+            <input type="radio"  title="扫码支付" checked="" lay-filter="guige">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">付款金额</label>
+        <div class="form-input">
+            <input type="text" value="{$value.pay_cost}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">付款时间</label>
+        <div class="form-input">
+            <input type="text" value="{$value.pay_time}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+            <div class="tips">*通过时间即为生效时间</div>
+        </div>
+    </div>
+    {/if}
+    {if $value.pay_type ==3}
+    <div class="form-item">
+        <label class="form-label">支付方式</label>
+        <div class="form-input">
+            <input type="radio"  title="余额支付" checked="" lay-filter="guige">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">付款姓名</label>
+        <div class="form-input">
+            <input type="text" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">付款账号</label>
+        <div class="form-input">
+            <input type="text"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">付款金额</label>
+        <div class="form-input">
+            <input type="text"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">付款时间</label>
+        <div class="form-input">
+            <input type="text"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+            <div class="tips">*通过时间即为生效时间</div>
+        </div>
+    </div>
+    {/if}
+    {if empty($value.pay_type)}
+    <div class="form-item">
+        <label class="form-label">支付方式</label>
+        <div class="form-input">
+            <input type="radio"  title=" 用户未付款" checked="" lay-filter="guige">
+        </div>
+    </div>
+    {/if}
+
+    <div class="form-title">选择套餐信息 </div>
+
+    <div class="form-item">
+        <label class="form-label">选择套餐</label>
+        <div class="form-input">
+            <input type="text" value="{$value.goods_name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">套餐金额</label>
+        <div class="form-input">
+            <input type="text" value="{$value.amount_money}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">审核状态</label>
+        <div class="form-input">
+            {if $value.audit_status == 1}
+            <input type="radio" name="audit_status" value="1" title="通过"  checked="">
+            <input type="radio" name="audit_status" value="-1" title="不通过" >
+            {/if}
+            {if $value.audit_status == -1}
+            <input type="radio" name="audit_status" value="1" title="通过">
+            <input type="radio" name="audit_status" value="-1" title="不通过" checked="">
+            {/if}
+            {if $value.audit_status == 0}
+            <input type="radio" name="audit_status" value="1" title="通过">
+            <input type="radio" name="audit_status" value="-1" title="不通过" >
+            {/if}
+
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="form-label">审核说明</label>
+        <div class="form-input">
+            <input type="text" name="explains" value="{$value.explains}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >
+            <div class="tips">
+                *少于20字
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+            <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+        </div>
+    </div>
+
+</form>
+{/volist}{/if}
+
+{/block}
+
+<!--_footer 作为公共模版分离出去-->
+{include file="template/_footer" /}
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+{block name="bottom"}
+
+<script type="text/javascript">
+    var ue = UE.getEditor('editor');
+    layui.config({
+        base: "js/"
+    }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
+        var form = layui.form(),
+            $ = layui.jquery;
+        form.render();
+
+
+
+    });
+</script>
+
+{/block}
+
+</body>
+
+</html>
