@@ -772,6 +772,12 @@ Route::group("admin",[
     "store_set_meal_order"=>"admin/General/store_set_meal_order",//套餐订单
     "store_order"=>"admin/General/store_order",//增值订单
     "store_order_after"=>"admin/General/store_order_after",//售后维权
+    "store_order_after_ing"=>"admin/General/store_order_after_ing",//售后维权申请中
+    "store_order_after_refuse"=>"admin/General/store_order_after_refuse",//售后维权已拒绝
+    "store_order_after_handle"=>"admin/General/store_order_after_handle",//售后维权处理中
+    "store_order_after_close"=>"admin/General/store_order_after_close",//售后维权已关闭
+    "store_order_after_replace"=>"admin/General/store_order_after_replace",//售后维权完成换货
+    "store_order_after_complete"=>"admin/General/store_order_after_complete",//售后维权完成退款
     "store_order_after_edit"=>"admin/General/store_order_after_edit",//售后维权详情
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
     "additional_comments"=>"admin/General/additional_comments",//追加评论

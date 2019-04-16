@@ -1066,3 +1066,39 @@ function is_business($status){
         echo '公司';
     }
 }
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:支付类型（1扫码支付，2汇款支付，3余额支付）
+ **************************************
+ */
+function pay_type($status){
+    if($status==1){
+        echo '扫码支付';
+    }else  if($status==2){
+        echo '汇款支付';
+    }else if($status==3){
+        echo '余额支付';
+    }else{
+        echo '未支付';
+    }
+}
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:到账状态
+ **************************************
+ * @param $status
+ */
+function pay_status($status){
+    if($status==1){
+        echo '已到账';
+    }else  if($status==2){
+        echo '待审核';
+    }else if($status==1){
+        echo '已到账';
+    }
+}
+
