@@ -193,13 +193,13 @@
             <div class="form-input line">
 				{if !empty($teahost_name)}
 					<select name="pid" id="admin_role" class="role_list">
-						<option value="0">顶级</option>
-						{volist name="teahost_name" id="value"}
-						<option value="{$value.id}">{$value.name}</option>
-						{/volist}
+						<option value="0" class="aaa">顶级</option>
+						{foreach name="teahost_name" item="value" key="abc"}
+						<option value="{$value.id}" class="aaa_{$abc}">{$value.name}</option>
+						{/foreach}
 					</select><br/> {else}
-					<select name="pid" class="role_list">
-						<option value="0">顶级</option>
+					<select name="pid" class="role_list" id="admin_role">
+						<option value="0"  class="aaa">顶级</option>
 					</select><br/> {/if}
 					</select>
 					<a href="{:url('admin/Category/add')}" style="line-height: 40px;">添加分类</a>
@@ -345,6 +345,25 @@
 					});
 
 			});
+			var goods_type_id=$("#admin_role option");
+			console.log(goods_type_id);
+			 for(var i=0;i<goods_type_id.length;i++){
+			     var Cts = goods_type_id[i].innerHTML;
+			     if(Cts.indexOf("&nbsp;")==0)
+				{	
+				
+				}
+				else{
+					// if(goods_type_id[i].className!="aaa"){
+						console.log(goods_type_id[i])
+						$("."+goods_type_id[i].className).attr('disabled','disabled');
+					// }
+				
+//					console.log("."+$("option")[i].className)
+				   
+				}
+			  }
+			  form.render();
 			$(".add_biao").click(function() {
 				var dhtml = "";
 				dhtml =
