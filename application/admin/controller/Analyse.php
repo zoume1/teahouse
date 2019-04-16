@@ -569,22 +569,7 @@ class  Analyse extends  Controller{
         }
     }
 
-    /**
-     * [增值订单]
-     * 郭杨
-     */    
-    public function analyse_order_index(){     
-        return view("analyse_order_index");
-    }
 
-
-    /**
-     * [退款维权]
-     * 郭杨
-     */    
-    public function analyse_refund_index(){     
-        return view("analyse_refund_index");
-    }
 
 
     /**
