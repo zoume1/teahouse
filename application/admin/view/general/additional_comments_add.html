@@ -2,9 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>评论</title>
+    <link rel="stylesheet" href="__STATIC__/admin/common/css/z-comm.css">
+    <style>
+        *{margin: 0; padding: 0;}
+        .triangle::after{content: ''; position: absolute; left: 50%; top: 110%; margin-left: -4px; width: 0; height: 0; border: 5px solid transparent; border-top-color: #f00;}
+        .wrapper{padding: 0 60px; position: relative;}
+        .header{display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #bcbcbc; width: 1300px; margin: 0 auto 50px;}
+        .step{font-size: 14px; color: #868686; margin: 0 30px; line-height: 3em;}
+        .step-on{font-size: 20px; color: #333; font-weight: 700;}
+        .step-line{width: 35px; border-top: 1px dashed #868686;}
+        
+    </style>
 </head>
 <body>
-我要评论
+    <div class="wrapper" id="app">
+        <div class="header">
+            <div class="step">1.选择服务</div>
+            <div class="step-line"></div>
+            <div class="step">2.确认订单信息</div>
+            <div class="step-line"></div>
+            <div class="step">3.确认付款</div>
+            <div class="step-line"></div>
+            <div class="step">4.完成订购</div>
+            <div class="step-line"></div>
+            <div class="step step-on">5.追加评论</div>
+        </div>
+        <div>
+            <div>
+                <img src="" width="100" height="100">
+                <span>放假的山卡拉图二为卡柔儿忘记了发生大健康分机无人克拉维积分拿的身份李经理</span>
+            </div>
+            <textarea placeholder="期待您的好评"></textarea>
+            <div>
+                <button>确定提交</button>
+            </div>
+        </div>
+        
+    </div>
+    <script>
+       
+    </script>
 </body>
 </html>
