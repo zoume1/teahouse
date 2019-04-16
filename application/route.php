@@ -795,8 +795,6 @@ Route::group("admin",[
     "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
-    "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单
-    "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",          //总控增值退款维权
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
     "analyse_invented"=>"admin/Analyse/analyse_invented",    //增值虚拟商品添加
     "analyse_edit"=>"admin/Analyse/analyse_edit",            //增值商品编辑
@@ -810,7 +808,10 @@ Route::group("admin",[
     "analyse_value"=>"admin/Analyse/analyse_value",          //增值商品规格值修改
     "analyse_ground"=>"admin/Analyse/analyse_ground",        //增值商品上架开关
     "analyse_status"=>"admin/Analyse/analyse_status",        //增值商品系统推荐
-    
+
+    "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单
+    "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",          //总控增值退款维权
+
 
     "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index",   //SEO优化
     "analyse_optimize_update"=>"admin/Analyse/analyse_optimize_update", //SEO优化编辑
