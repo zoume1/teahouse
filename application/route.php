@@ -774,6 +774,7 @@ Route::group("admin",[
     "store_order_after"=>"admin/General/store_order_after",//售后维权
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
     "additional_comments"=>"admin/General/additional_comments",//追加评论
+    "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
 
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺

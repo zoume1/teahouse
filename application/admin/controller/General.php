@@ -1585,5 +1585,18 @@ class  General extends  Base {
         return view("additional_comments");
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:我要评论
+     **************************************
+     * @return \think\response\View
+     */
+    public function additional_comments_add(){
+        return view("additional_comments_add");
+    }
+
+
+
 
  }
