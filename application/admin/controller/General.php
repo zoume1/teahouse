@@ -1387,7 +1387,7 @@ class  General extends  Base {
             $data =[
                 "order_number"=>$order_number, //订单号
                 "create_time"=>time(), //创建订单的时间
-                "goods_name"=>"套餐订购:".$meal_name,//套餐名称
+                "goods_name"=>$meal_name,//套餐名称
                 "goods_quantity"=>1, //数量
                 "unit"=>"套", //单位
                 "store_name"=>$store_name, //单位
@@ -1521,17 +1521,16 @@ class  General extends  Base {
         }
         //检测店铺是否删除
             $data =Db::table('tb_set_meal_order')
-                ->field("tb_set_meal_order.*,tb_store.name ,tb_store.phone_number, tb_store.contact_name, tb_store.is_business, ")
-                ->join("tb_store","tb_order_parts.user_id=tb_user.id",'left')
+                ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.start_time,tb_store.end_time")
+                ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
                 ->where("is_del",1)
                 ->where("store_id",$store_id)
                 ->order("tb_set_meal_order.create_time","desc")
-                ->select();
-//                ->paginate(20 ,false, [
-//                    'query' => request()->param(),
-//                ]);
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         halt($data);
-        return view("store_set_meal_order");
+        return view("store_set_meal_order",["data"=>$data]);
     }
 
     /**
