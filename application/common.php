@@ -1036,3 +1036,33 @@ function diffBetweenTwoDays ($second1, $second2)
   }
   return ($second1 - $second2) / 86400;
 }
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:总控套餐订单审核
+ **************************************
+ */
+function audit_status($status){
+    if($status==0){
+        echo '待审核';
+    }else  if($status==1){
+        echo '已通过';
+    }else  if($status==-1){
+        echo '未通过';
+    }
+}
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:判断是商家还是个人
+ **************************************
+ */
+function is_business($status){
+    if($status==1){
+        echo '个人';
+    }else  if($status==2){
+        echo '公司';
+    }
+}

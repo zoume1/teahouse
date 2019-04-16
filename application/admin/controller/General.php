@@ -36,9 +36,21 @@ class  General extends  Base {
      */
     public function general_index(){
         $data =Db::table("tb_store")
-            ->field("id,is_business,enter_meal,store_number,contact_name,id_card,store_logo,store_qq,phone_number,store_introduction,store_name")
+            ->field("id,is_business,store_number,contact_name,id_card,store_logo,store_qq,phone_number,store_introduction,store_name")
             ->where("id",$this->store_ids)
             ->find();
+        $goods_name=Db::table("tb_set_meal_order")
+            ->where("store_id",$this->store_ids)
+            ->where("is_del",1)
+            ->where("status",1)
+            ->where("pay_type","NEQ",-1)
+            ->where("audit_status",1)
+            ->value("goods_name");
+        if($goods_name){
+            $data["enter_meal"]  =$goods_name;
+        }else{
+            $data["enter_meal"] ="未购买套餐版本";
+        }
         return view("general_index",["data"=>$data]);
     }
 
@@ -1406,6 +1418,7 @@ class  General extends  Base {
         }
     }
 
+
     /**
      **************李火生*******************
      * @param Request $request
@@ -1521,7 +1534,7 @@ class  General extends  Base {
         }
         //检测店铺是否删除
             $data =Db::table('tb_set_meal_order')
-                ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.start_time,tb_store.end_time")
+                ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business")
                 ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
                 ->where("is_del",1)
                 ->where("store_id",$store_id)
@@ -1551,6 +1564,16 @@ class  General extends  Base {
      */
     public function  store_order_after(){
         return view("store_order_after");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权详情页面
+     **************************************
+     */
+    public function  store_order_after_edit(){
+        return view("store_order_after_edit");
     }
 
     /**
