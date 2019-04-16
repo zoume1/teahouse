@@ -43,6 +43,7 @@ class  Analyse extends  Controller{
      **************************************
      */
     public function  analyse_order(){
+
         return view("analyse_order");
     }
 
@@ -494,7 +495,6 @@ class  Analyse extends  Controller{
             } else {
                 $where = 'id=' . $id;
             }
-            halt($where);
             $list = Db::name('analyse_goods')->where($where)->delete();
             if (empty($list)) {
                 return ajax_success('成功删除!', ['status' => 1]);
@@ -569,22 +569,7 @@ class  Analyse extends  Controller{
         }
     }
 
-    /**
-     * [增值订单]
-     * 郭杨
-     */    
-    public function analyse_order_index(){     
-        return view("analyse_order_index");
-    }
 
-
-    /**
-     * [退款维权]
-     * 郭杨
-     */    
-    public function analyse_refund_index(){     
-        return view("analyse_refund_index");
-    }
 
 
     /**

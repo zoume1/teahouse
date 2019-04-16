@@ -848,10 +848,6 @@ class  Wxapps extends  Controller{
             if ($baseInfo['copyimg']) {
                 $baseInfo['copyimg'] = remote($uniacid, $baseInfo['copyimg'], 1);
             }
-
-//            if ($data['copyimg']) {
-//                $data['copyimg'] = remote($uniacid, $data['copyimg'], 1);
-//            }
             if ($data['items'] != '') {
                 $data['items'] = unserialize($data['items']);
                 foreach ($data['items'] as $k => &$v) {
