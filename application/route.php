@@ -794,7 +794,9 @@ Route::group("admin",[
     "control_templet_edit"=>"admin/Control/control_templet_edit",   //增值商品运费模板编辑
     "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
 
-    "analyse_index"=>"admin/Analyse/analyse_index",          //增值商品
+    "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
+    "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单
+    "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",          //总控增值退款维权
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
     "analyse_invented"=>"admin/Analyse/analyse_invented",    //增值虚拟商品添加
     "analyse_edit"=>"admin/Analyse/analyse_edit",            //增值商品编辑

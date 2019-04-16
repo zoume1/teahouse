@@ -1529,7 +1529,7 @@ class  General extends  Base {
                 ->paginate(20 ,false, [
                     'query' => request()->param(),
                 ]);
-        halt($data);
+//        halt($data);
         return view("store_set_meal_order",["data"=>$data]);
     }
 
