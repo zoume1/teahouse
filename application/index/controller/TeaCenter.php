@@ -115,14 +115,30 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()){
             $resd = $request->only(['id'])['id'];
-            $actdata = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,peoples,requirements,address,pid')->where("label", 1)->where("id",$resd)->select();
-        
-            foreach($actdata as $key => $value){
-                $actdata[$key]["start_time"] = date('Y-m-d H:i',$actdata[$key]["start_time"]);
-            }
+            $actdata = Db::name("teahost")->where("label", 1)->where("id",$resd)->find();
 
-            if (!empty($actdata)) {
-                return ajax_success('传输成功', $actdata);
+            $data = array(
+                'id'=>$actdata['id'],
+                'requirements'=>$actdata['requirements'],
+                'activity_name'=>$actdata['activity_name'],
+                'classify_image'=>$actdata['classify_image'],
+                'address'=>$actdata['address'],
+                'cost_moneny'=>$actdata['cost_moneny'],
+                'start_time'=>date('Y-m-d',$actdata['start_time']),
+                'end_time'=>date('Y-m-d ',$actdata['end_time']),
+                'day_start_time'=>$actdata['day_start_time'],
+                'day_end_time'=>$actdata['day_end_time'],
+                'participats'=>$actdata['participats'],
+                'describe'=>$actdata['describe'],
+                'commodity'=>$actdata['commodity'],
+                'peoples'=>$actdata['peoples'],
+                'goods_sign'=>$actdata['goods_sign'],
+                'day_array'=>explode(",",$actdata['day_array']),
+                'day_number'=>$actdata['day_number']              
+            );
+        
+            if (!empty($data)) {
+                return ajax_success('传输成功', $data);
             } else {
                 return ajax_error("数据为空");
 
