@@ -1569,6 +1569,16 @@ class  General extends  Base {
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:售后维权详情页面
+     **************************************
+     */
+    public function  store_order_after_edit(){
+        return view("store_order_after_edit");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:我要支付
      **************************************
      */
