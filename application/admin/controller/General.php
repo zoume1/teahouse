@@ -257,10 +257,10 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function small_routine_index(){
-        $appletid =1;
+//        $appletid =1;
         $data =Db::table("applet")
             ->field("id,name,appID,appSecret,mchid,signkey")
-            ->where("id",$appletid)
+//            ->where("id",$appletid)
             ->where("store_id",$this->store_ids)
             ->find();
         return view("small_routine_index",["data"=>$data]);
@@ -269,25 +269,47 @@ class  General extends  Base {
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:
+     * Notes:小程序设置添加编辑功能
      **************************************
      */
     public function  small_routine_edit(Request $request,$id=null){
             //编辑
             if($request->isPost()){
-                $appletid =$id;
-                $app = array(
-                    "name" => trim(input("name")),
-                    "appID" => trim(input("appID")),
-                    "appSecret" => trim(input("appSecret")),
-                    "mchid" => trim(input("mchid")),
-                    "signkey" => trim(input("signkey"))
-                );
-                $app_is = Db::table("applet")->where("id",$appletid)->update($app);
-                if($app_is){
-                    $this->success("添加成功");
-                }else{
-                    $this->error("未改动数据");
+                $store_id =$this->store_ids;
+                if($id){
+                    $appletid =$id;
+                    $app = array(
+                        "name" => trim(input("name")),
+                        "appID" => trim(input("appID")),
+                        "appSecret" => trim(input("appSecret")),
+                        "mchid" => trim(input("mchid")),
+                        "signkey" => trim(input("signkey"))
+                    );
+                    $app_is = Db::table("applet")->where("store_id",$store_id)->where("id",$appletid)->update($app);
+                    if($app_is){
+                        $this->success("编辑成功");
+                    }else{
+                        $this->error("未改动数据");
+                    }
+                }else {
+                    $is_set =Db::table("applet")->where("store_id",$store_id)->value("id");
+                    if($is_set){
+                        $this->error("此店铺小程序已存在，无法再添加");
+                    }
+                    $app = array(
+                        "name" => trim(input("name")),
+                        "appID" => trim(input("appID")),
+                        "appSecret" => trim(input("appSecret")),
+                        "mchid" => trim(input("mchid")),
+                        "signkey" => trim(input("signkey")),
+                        "store_id"=>$store_id
+                    );
+                    $app_is = Db::table("applet")->insertGetId($app);
+                    if($app_is){
+                        $this->success("添加成功");
+                    }else{
+                        $this->error("未改动数据");
+                    }
                 }
             }else{
                 $this->error("请求失败");
@@ -1365,7 +1387,7 @@ class  General extends  Base {
             $data =[
                 "order_number"=>$order_number, //订单号
                 "create_time"=>time(), //创建订单的时间
-                "goods_name"=>"套餐订购:".$meal_name,//套餐名称
+                "goods_name"=>$meal_name,//套餐名称
                 "goods_quantity"=>1, //数量
                 "unit"=>"套", //单位
                 "store_name"=>$store_name, //单位
@@ -1493,7 +1515,22 @@ class  General extends  Base {
      **************************************
      */
     public function store_set_meal_order(){
-        return view("store_set_meal_order");
+        $store_id =$this->store_ids; //店铺id
+        if(!$store_id){
+            $this->error("只给商家进行查看");
+        }
+        //检测店铺是否删除
+            $data =Db::table('tb_set_meal_order')
+                ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.start_time,tb_store.end_time")
+                ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
+                ->where("is_del",1)
+                ->where("store_id",$store_id)
+                ->order("tb_set_meal_order.create_time","desc")
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+        halt($data);
+        return view("store_set_meal_order",["data"=>$data]);
     }
 
     /**
@@ -1547,6 +1584,19 @@ class  General extends  Base {
     public function additional_comments(){
         return view("additional_comments");
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:我要评论
+     **************************************
+     * @return \think\response\View
+     */
+    public function additional_comments_add(){
+        return view("additional_comments_add");
+    }
+
+
 
 
  }
