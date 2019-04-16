@@ -69,6 +69,7 @@ class  Wxapps extends  Controller{
 
     public function doPageDiypage()
     {
+
         $uniacid = input("uniacid");
         $pageid = input("pageid");
         $foot = Db::table('ims_sudu8_page_diypageset')->where("uniacid", $uniacid)->field("foot_is")->find();
@@ -510,79 +511,54 @@ class  Wxapps extends  Controller{
                             }
                         }else if ($v['id'] == "goods") {
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
-                                $sourceid = explode(':', $v['params']['sourceid'])[1];
-                                $count = $v['params']['goodsnum'];
-                                $con_type = $v['params']['con_type'];
+                                $sourceid = explode(':', $v['params']['sourceid'])[1]; //这是商品栏目的分类id
+                                $count = $v['params']['goodsnum']; //goodsnum数据分组
+                                $con_type = $v['params']['con_type']; //
                                 $con_key = $v['params']['con_key'];
-                                $where = "";
-                                if ($con_type == 1 && $con_key == 1) {
-                                    $where = 'ORDER BY id DESC';
-                                }
-                                if ($con_type == 2 && $con_key == 1) {
-                                    $where = 'AND type_x=1 ORDER BY id DESC';
-                                }
-                                if ($con_type == 3 && $con_key == 1) {
-                                    $where = 'AND type_y=1 ORDER BY id DESC';
-                                }
-                                if ($con_type == 4 && $con_key == 1) {
-                                    $where = 'AND type_i=1 ORDER BY id DESC';
-                                }
-                                if ($con_type == 1 && $con_key == 2) {
-                                    $where = 'ORDER BY hits DESC';
-                                }
-                                if ($con_type == 2 && $con_key == 2) {
-                                    $where = 'AND type_x=1 ORDER BY hits DESC';
-                                }
-                                if ($con_type == 3 && $con_key == 2) {
-                                    $where = 'AND type_y=1 ORDER BY hits DESC';
-                                }
-                                if ($con_type == 4 && $con_key == 2) {
-                                    $where = 'AND type_i=1 ORDER BY hits DESC';
-                                }
-                                if ($con_type == 1 && $con_key == 3) {
-                                    $where = 'ORDER BY num DESC';
-                                }
-                                if ($con_type == 2 && $con_key == 3) {
-                                    $where = 'AND type_x=1 ORDER BY num DESC';
-                                }
-                                if ($con_type == 3 && $con_key == 3) {
-                                    $where = 'AND type_y=1 ORDER BY num DESC';
-                                }
-                                if ($con_type == 4 && $con_key == 3) {
-                                    $where = 'AND type_i=1 ORDER BY num DESC';
-                                }
-                                $list = Db::query("SELECT * FROM ims_sudu8_page_products WHERE `uniacid` = {$uniacid}  AND `is_sale`=0 AND (`cid` = {$sourceid} or `pcid` = {$sourceid} ) " . $where . " LIMIT 0,{$count}");
-                                if ($list) {
-                                    foreach ($list as $kk => $vv) {
-                                        if ($vv['type'] == "showPro" && $vv['is_more'] == 0) {
-                                            $list[$kk]['linkurl'] = "/sudu8_page/showPro/showPro?id=" . $vv['id'];
-                                            $items_orders = Db::table('ims_sudu8_page_order') ->where('pid', $vv['id']) ->where('uniacid', $uniacid) ->select();
-                                            $items_pro_num = 0;
-                                            if($items_orders) {
-                                                foreach ($items_orders as $rec) {
-                                                    $items_pro_num+= $rec['num'];
-                                                }
+                                //在这里返回数据
+                                $member_grade_name = "普通会员"; //会员等级
+                                $member_id = "o_lMv5VTbQDkQxK08EkllWXtX-kY";
+
+                                $list = db("goods")
+                                    ->where("pid", $sourceid)
+                                    ->where("status", 1)
+                                    ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard")
+                                    ->select();
+                                $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
+                                $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
+                                foreach ($list as $kks => $vvs) {
+                                    if (!empty($list[$kks]["scope"])) {
+                                        $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
+                                    }
+                                    $list[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vvs["id"]; //跳转详情链接
+                                    $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
+                                    if ($list[$kks]["goods_standard"] == 1) {
+                                        $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->select();
+                                        $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") * $discount;//最低价格
+                                        $list[$kks]["goods_standard"] = $standard[$kks];
+                                        $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
+                                        $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
+                                        $list[$kks]["price"] = $min[$kks]; //价钱
+                                        if (!empty($list[$kks]["scope"])) {
+                                            if (!in_array($member_grade_name, $list[$kks]["scope"])) {
+                                                unset($list[$kks]);
                                             }
-                                            $list[$kk]['sale_num'] = $list[$kk]['sale_num'] + $items_pro_num;
-                                        } else if ($vv['is_more'] == 1) {
-                                            $list[$kk]['linkurl'] = "/sudu8_page/showPro_lv/showPro_lv?id=" . $vv['id'];
-                                            $list[$kk]['sale_num'] = $list[$kk]['sale_num'] + $list[$kk]['sale_tnum'];
-                                        } else {
-                                            $values = Db::table("ims_sudu8_page_duo_products_type_value")->where("pid", $vv['id'])->select();
-                                            foreach ($values as $ks => $vs) {
-                                                $list[$kk]['sale_num']=$list[$kk]['sale_num']+$vs['salenum']+$vs['vsalenum'];
-                                            }
-                                            $list[$kk]['linkurl'] = "/sudu8_page/showProMore/showProMore?id=" . $vv['id'];
                                         }
-                                        if (strpos($vv['thumb'], 'http') === false && $vv['thumb'] != "") {
-                                            $list[$kk]['thumb'] = remote($uniacid, $vv['thumb'], 1);
+                                    } else {
+                                        $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount;
+                                        $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
+                                        if (!empty($list[$kks]["scope"])) {
+                                            if (!in_array($member_grade_name, $list[$kks]["scope"])) {
+                                                unset($list[$kks]);
+                                            }
                                         }
                                     }
-                                    $data['items'][$k]['data'] = $list;
-                                } else {
+                                }
+                                $list = array_values($list);
+                                $data['items'][$k]['data'] = $list;
+                            }else {
                                     $data['items'][$k]['data'] = [];
                                 }
-                            }
                         }else if($v['id'] == "anniu"){
                             if(isset($v['params']['linktype'])){
                                 if($v['params']['linktype'] == 'mini'){
@@ -739,8 +715,7 @@ class  Wxapps extends  Controller{
                             }
                             $data['items'][$k]['data'] = $store;
                         }
-
-
+                        //底部菜单
                         if ($v['id'] == "footmenu") {
                             $count = count($v['data']);
                             $data['items'][$k]['count'] = $count;
@@ -758,9 +733,7 @@ class  Wxapps extends  Controller{
                                     }
                                 }
                             }
-
                             $text_is = $v['params']['textshow'];
-
                             if ($text_is == 1) {
                                 $data['footmenuh'] = $v['style']['paddingleft'] * 2 + $v['style']['textfont'] + $v['style']['paddingtop'] * 2 + $v['style']['iconfont'] + 1;
                                 $data['foottext'] = 1;
@@ -808,9 +781,13 @@ class  Wxapps extends  Controller{
     }
 
 
-
-
-
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:获取底部导航的数据
+     **************************************
+     * @return string
+     */
     public function doPageGetFoot()
     {
         $uniacid = input("uniacid");

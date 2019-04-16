@@ -101,7 +101,6 @@ class Commodity extends Controller
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $goods_pid = $request->only(["id"])["id"];
             $goods = db("goods")->where("pid",$goods_pid)->where("label",1)->where("status",1)->select();
-            
             foreach ($goods as $k => $v)
             {
                 $goods[$k]["goods_show_images"] = (explode(",", $goods[$k]["goods_show_images"])[0]);
@@ -111,7 +110,6 @@ class Commodity extends Controller
                         unset($goods[$k]);
                     }
                 }
-
             }
             $new_goods = array_values($goods);
             if(!empty($new_goods) && !empty($goods_pid)){

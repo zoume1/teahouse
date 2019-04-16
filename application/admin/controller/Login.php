@@ -98,7 +98,7 @@ class Login extends Controller{
         Session::delete("user_info");
         Session::delete("store_id");
         if(!empty($store_id)){
-            $this->redirect("index/index/sign_in");
+            $this->redirect("index/index/my_shop");
         }else{
             $this->redirect("admin/Login/index");
         }

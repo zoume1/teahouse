@@ -34,13 +34,31 @@
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
     .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
-    .btn-dfk{background-color: rgb(204, 51, 102)}
+    .btn-dfk{background-color: rgb(0, 102, 255)}
     .btn-dfh{background-color: rgb(204, 0, 204)}
     .btn-yfh{background-color: rgb(255, 0,0)}
     .btn-ywc{background-color: rgb(102, 153, 0)}
     .btn-ygb{background-color: rgb(161, 161, 161)}
     .btn-ytk{background-color: rgb(204, 153, 0)}
     .btn-yqx{background-color: rgb(131, 22, 38)}
+    .line-exam{background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
+    .line-ing{background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
+    .line-pass{background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}
+    .table-cell .dtl{color: rgb(0, 153, 255);}
+
+    .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
+    .pop{ position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 680px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9; color: #333;}
+    .pop .head{position: relative; padding-left: 16px; height: 35px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
+    .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer;}
+    .content{padding: 0 16px;}
+    .top, .mid, .bot{padding: 0 20px;}
+    .top{height: 50px; line-height: 50px; font-size: 13px;}
+    .mid{border: 1px dashed #d2d2d2; border-left: 0; border-right: 0;}
+    .mid h2{height: 60px; line-height: 60px; text-align: center; font-size: 20px; color: rgb(0, 153, 255);}
+    .mid li{height: 50px; line-height: 50px; list-style: disc; font-size: 13px;}
+    .mid li a{color: rgb(102, 153, 0);}
+    .bot{height: 65px; display: flex; align-items: center;}
+    .bot>div{flex: 1;}
 </style>
 
 {/block}
@@ -56,58 +74,21 @@
                         <label class="layui-form-label">订单编号</label>
                         <input type="text" class="layui-input">
                     </div>
-                    <div>
-                        <label class="layui-form-label">商品名称</label>
-                        <input type="text" class="layui-input">
-                    </div>
-                    <div>
-                        <label class="layui-form-label">订单类型</label>
-                        <div class="layui-input-block">
-                            <select name="recharge-type">
-                                <option value="">全部</option>
-                                <option value="0">直邮</option>
-                                <option value="1">入仓</option>
-                                <option value="2">到店自提</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="layui-form-label">订单状态</label>
-                        <div class="layui-input-block">
-                            <select name="recharge-type">
-                                <option value="">全部</option>
-                                <option value="0">待发货</option>
-                                <option value="1">待付款</option>
-                                <option value="2">已发货</option>
-                                <option value="3">已完成</option>
-                                <option value="4">已关闭</option>
-                                <option value="5">已退款</option>
-                                <option value="6">已入仓</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="date-input">
                         <label class="layui-form-label">下单时间</label>
                         <input type="text" data-type="date" id="searchDateStart">~
                         <input type="text" data-type="date" id="searchDateend">
                     </div>
-                    <div>
-                        <label class="layui-form-label">开票状态</label>
-                        <div class="layui-input-block">
-                            <select name="recharge-type">
-                                <option value="">全部</option>
-                                <option value="0">已开票</option>
-                                <option value="1">未开票</option>
-                            </select>
-                        </div>
-                    </div>
                     <button class="layui-btn">搜索</button>
                 </div>
             </div>
             <div>
-                <button class="layui-btn layui-btn-danger">待付款→支付</button>
-                <button class="layui-btn layui-btn-warm">待收货→售后</button>
-                <button class="layui-btn">已完成→评论</button>
+                <a href="#" class="layui-btn">全部</a>
+                <a href="#" class="layui-btn btn-dfk">待付款</a>
+                <a href="#" class="layui-btn btn-dfh">待发货</a>
+                <a href="#" class="layui-btn btn-yfh">已发货</a>
+                <a href="#" class="layui-btn btn-ywc">已完成</a>
+                <a href="#" class="layui-btn btn-ygb">已关闭</a>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
@@ -180,7 +161,6 @@
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <a href="capital_management_details" class="layui-btn">详情</a>
                                     <button class="layui-btn btn-dfk">待付款</button>
                                     <!-- <button class="layui-btn btn-dfh">待收货</button>
                                     <button class="layui-btn btn-yfh">已发货</button>
@@ -188,6 +168,10 @@
                                     <button class="layui-btn btn-ygb">已关闭</button>
                                     <button class="layui-btn btn-ytk">已退款</button>
                                     <button class="layui-btn btn-yqx">已取消</button> -->
+                                    <button class="layui-btn line-exam">未申请开票</button>
+                                    <!-- <button class="layui-btn line-ing">已申请开票</button>
+                                    <button class="layui-btn line-pass">已开票完成</button> -->
+                                    <a href="capital_management_details" class="dtl">订单详情</a>
                                 </div>
                             </td>
                         </tr>
@@ -204,6 +188,104 @@
                 <div>
                     <button type="button" id="operation-btn" class="operation-btn">确定</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mask"></div>
+    <!-- 弹窗 -->
+    <div class="pop">
+        <div class="head">
+            <i class="close">×</i>
+        </div>
+        <div class="content">
+            <div class="top">
+                <p>
+                    当前订单状态：
+                    <span>待付款</span>
+                    <span>待发货</span>
+                    <span>已发货</span>
+                    <span>已完成</span>
+                    <span>已关闭</span>
+                </p>
+            </div>
+            <div class="mid">
+                <h2>温馨提示</h2>
+                <!-- 待付款 -->
+                <ul>
+                    <li>
+                        <span>您订购的该商品未完成支付，如果您确定需要该商品，请点击</span>
+                        <button class="layui-btn btn-yfh">立即支付</button>
+                    </li>
+                    <li>
+                        <span>如果您有不清楚的地方，请及时与</span>
+                        <a href="#">客服沟通</a>
+                    </li>
+                    <li>
+                        <span>如果您确实无需该商品，您还可 </span>
+                        <button class="layui-btn btn-ygb">关闭订单</button>
+                    </li>
+                </ul>
+                <!-- 待发货 -->
+                <!-- <ul>
+                    <li>
+                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
+                    </li>
+                    <li>
+                        <span>如果您有不清楚的地方，请及时与</span>
+                        <a href="#">客服沟通</a>
+                    </li>
+                    <li>
+                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#">客服沟通</a>，如沟通后任不满意，您还可</span>
+                        <button class="layui-btn btn-ygb">售后维权</button>
+                    </li>
+                </ul> -->
+                <!-- 已发货 -->
+                <!-- <ul>
+                    <li>
+                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
+                    </li>
+                    <li>
+                        <span>如果您已收到货，且对商品满意，请点击</span>
+                        <button class="layui-btn">确认收货</button>
+                    </li>
+                    <li>
+                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#">客服沟通</a>，如沟通后任不满意，您还可</span>
+                        <button class="layui-btn btn-ygb">售后维权</button>
+                    </li>
+                </ul> -->
+                <!-- 已完成 -->
+                <!-- <ul>
+                    <li>
+                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
+                    </li>
+                    <li>
+                        <span>您已收到货，您还可以</span>
+                        <button class="layui-btn">追加评论</button>
+                    </li>
+                    <li>
+                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#">客服沟通</a>，如沟通后任不满意，您还可</span>
+                        <button class="layui-btn btn-ygb">售后维权</button>
+                    </li>
+                </ul> -->
+                <!-- 已关闭 -->
+                <!-- <ul>
+                    <li>
+                        <span>您订购的该商品未完成支付，现已关闭 </span>
+                    </li>
+                    <li>
+                        <span>如果您有不清楚的地方，请及时与</span>
+                        <a href="#">客服沟通</a>
+                    </li>
+                    <li>
+                        <span>如果您确实无需该商品，您还可 </span>
+                        <button class="layui-btn btn-ygb">永久删除</button>
+                    </li>
+                </ul> -->
+            </div>
+            <div class="bot">
+                <div>快递单号：<span>123456789</span></div>
+                <div>物流跟踪：<span>山西同城物流中心</span></div>
             </div>
         </div>
     </div>

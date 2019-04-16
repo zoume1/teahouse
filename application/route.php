@@ -172,6 +172,8 @@ Route::group("",[
     "teacenter_comment_show"=>"index/TeaCenter/teacenter_comment_show", //茶圈活动评论显示
     "teacenter_comment_updata"=>"index/TeaCenter/teacenter_comment_updata", //茶圈活动评论点赞
     "tacitly_adress"=>"index/TeaCenter/tacitly_adress", //收货地址详情
+    "day_test"=>"index/TeaCenter/day_test", //时间测试
+    
 
 
     /*商品管理*/
@@ -317,6 +319,7 @@ Route::group("",[
     "approve_individual"=>"index/Receipt/approve_individual",          //默认户名
     "set_default"=>"index/Receipt/set_default",        //默认户名
     "bill_delete"=>"index/Receipt/bill_delete",        //删除默认户名
+    "proportion"=>"index/Receipt/proportion",          //查询发票费率
 
 
 
@@ -768,8 +771,9 @@ Route::group("admin",[
     "security_setting"=>"admin/General/security_setting",//安全设置
     "store_set_meal_order"=>"admin/General/store_set_meal_order",//套餐订单
     "store_order"=>"admin/General/store_order",//增值订单
+    "store_order_after"=>"admin/General/store_order_after",//售后维权
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
-    "store_after_sale"=>"admin/General/store_after_sale",//售后维权
+//    "store_after_sale"=>"admin/General/store_after_sale",//售后维权
     "additional_comments"=>"admin/General/additional_comments",//追加评论
 
     /*总控*/
