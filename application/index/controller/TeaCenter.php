@@ -227,7 +227,7 @@ class TeaCenter extends Controller
             $activity_id = isset($request->only(['activity_id'])['activity_id'])?$request->only(['activity_id'])['activity_id']:null;
             $open_id = isset($request->only(['open_id'])['open_id'])?$request->only(['open_id'])['open_id']:null;
             $start_time = isset($request->only(['start_time'])['start_time'])?$request->only(['start_time'])['start_time']:null;
-            $index = isset($request->only(['index'])['index'])?$request->only(['index'])['index']:null;
+            $index = $request->only(['index'])['index'];
 
             if(!empty($activity_id) && !empty($open_id) && !empty($start_time) ){                     
                 $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
@@ -244,6 +244,7 @@ class TeaCenter extends Controller
                 $data['teahost_id'] =  $activity_id;
                 $data['account'] =  $account;
                 $data['status'] =  1;
+                $data['index'] =  $index;
                 $data['names'] =  $names;
                 $data['start_time'] = $start_time; //活动开始时间
                 $data['parts_order_number'] =  $parts_order_number;
