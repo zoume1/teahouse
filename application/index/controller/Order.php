@@ -375,7 +375,6 @@ class  Order extends  Controller
                         $datas["receipt_price"] = $receipt_price ;   
 
                         $rest_id = Db::name('order')->insertGetId($datas);
-                        $datas["order_id"] = $rest_id;
                         $datas["store_house_id"] = $address_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
@@ -740,7 +739,6 @@ class  Order extends  Controller
                         $datas["coupon_id"] = $coupon_id;
 
                         $rest_id = Db::name('order')->insertGetId($datas);
-                        $datas["order_id"] = $rest_id;
                         $datas["store_house_id"] = $address_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
