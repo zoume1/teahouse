@@ -57,7 +57,6 @@ class  Wxapps extends  Controller{
         $appsecret = $app['appSecret'];
         $code = input('code');
         $url = "https://api.weixin.qq.com/sns/jscode2session?appid=" . $appid . "&secret=" . $appsecret . "&js_code=" . $code . "&grant_type=authorization_code";
-       halt($url);
         $weixin = file_get_contents($url);
         $jsondecode = json_decode($weixin); //对JSON格式的字符串进行编码
         $array = get_object_vars($jsondecode);//转换成数组
