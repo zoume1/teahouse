@@ -418,7 +418,6 @@ Route::group("admin",[
     "phone_del"=>"admin/Photo/phone_del", //删除相册
     /* TODO:图片库结束*/
 
-
     /*TODO:订单开始*/
     "order_index"=>"admin/Order/order_index",//初始订单页面
     "order_search"=>"admin/Order/order_search",//初始订单搜索
@@ -791,6 +790,7 @@ Route::group("admin",[
     "control_meal_edit"=>"admin/Control/control_meal_edit",        //入驻套餐编辑
     "control_meal_update"=>"admin/Control/control_meal_update",    //入驻套餐编辑保存
     "control_order_index"=>"admin/Control/control_order_index",    //入驻订单页面
+    "control_store_return"=>"admin/Control/control_store_return",    //入驻资料审核页面
     "control_order_add"=>"admin/Control/control_order_add",        //入驻订单店铺编辑审核
     "control_order_update"=>"admin/Control/control_order_update",  //入驻订单店铺审核更新操作
     "control_order_status"=>"admin/Control/control_order_status",        //入驻订单编辑审核
