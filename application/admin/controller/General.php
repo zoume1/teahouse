@@ -1045,6 +1045,8 @@ class  General extends  Base {
                 $key_id = input('key_id') ? input('key_id') : $diypage['id'];  //显示页面id
                 if($key_id>0){
                     $data = Db::table("ims_sudu8_page_diypage")->where("id",$key_id)->where("uniacid",$appletid)->find();
+                  halt($data);
+
                     $data['page'] = unserialize($data['page']);
                     if(isset($data['page']['url']) && $data['page']['url'] != ""){
                         $data['page']['url'] = remote($appletid,$data['page']['url'],1);
@@ -1565,6 +1567,76 @@ class  General extends  Base {
     public function  store_order_after(){
         return view("store_order_after");
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权申请中
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_ing(){
+        return view("store_order_after_ing");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权已拒绝
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_refuse(){
+        return view("store_order_after_refuse");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权处理中
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_handle(){
+        return view("store_order_after_handle");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权已关闭
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_close(){
+        return view("store_order_after_close");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权完成换货
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_replace(){
+        return view("store_order_after_replace");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权完成退款
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_complete(){
+        return view("store_order_after_complete");
+    }
+
+
+
+
 
     /**
      **************李火生*******************
