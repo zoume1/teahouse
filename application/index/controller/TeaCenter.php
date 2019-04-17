@@ -246,7 +246,8 @@ class TeaCenter extends Controller
                 $data['status'] =  1;
                 $data['index'] =  $index;
                 $data['names'] =  $names;
-                $data['start_time'] = $start_time; //活动开始时间
+                $data['create_time'] = time();
+                $data['start_time'] = strtotime($start_time); //活动开始时间
                 $data['parts_order_number'] =  $parts_order_number;
                 $bool = db("activity_order")->insert($data);
                 if (!empty($bool)) {
