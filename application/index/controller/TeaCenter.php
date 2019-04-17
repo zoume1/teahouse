@@ -327,7 +327,7 @@ class TeaCenter extends Controller
                     ->where("activity_name",$activity_name)
                     ->value('status');
 
-            if ($rest == 1) {
+            if ($rest == 2) {
                 return ajax_success('该用户已报名', $rest);
             } else {
                 $rest = 0;
