@@ -25,14 +25,17 @@ class Login extends Controller{
      */
     public function wechatlogin()
     {
+
         $get = input('get.');
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
-        $params['appid'] = 'wx301c1368929fdba8';//客户公司
+//        $params['appid'] = 'wx301c1368929fdba8';//客户公司
+        $params['appid'] = 'wx59817e3659c9e51a';//客户公司11
 //        $params['appid'] = 'wxe81efe5d23e83c7d';
 //        $params['appid'] = 'wxee81c196c106311f';
 //        $params['secret'] = '7b19ad668d1e24ca3b0323fcdb97236e';//公司
-        $params['secret'] = '94477ab333493c79f806f948f036f1e3';//客户公司
+//        $params['secret'] = '94477ab333493c79f806f948f036f1e3';//客户公司
+        $params['secret'] = '947039919752797b42317dbbf0838c8b';//客户公司11
 //        $params['secret'] = '055128687ca3e2eb2756307cd03a5544';
 //        $params['secret'] = 'b1aafb5fc38e091481432ccfe5712dfc';
         $params['js_code'] = define_str_replace($get['code']);
