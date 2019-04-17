@@ -35,7 +35,7 @@ class Login extends Controller{
 //        $params['appid'] = 'wxee81c196c106311f';
 //        $params['secret'] = '7b19ad668d1e24ca3b0323fcdb97236e';//公司
 //        $params['secret'] = '94477ab333493c79f806f948f036f1e3';//客户公司
-        $params['secret'] = '947039919752797b42317dbbf0838c8b';//客户公司11
+        $params['secret'] = '5209ee767302a8f97fcc2bdb12dc2cf8';//客户公司11
 //        $params['secret'] = '055128687ca3e2eb2756307cd03a5544';
 //        $params['secret'] = 'b1aafb5fc38e091481432ccfe5712dfc';
         $params['js_code'] = define_str_replace($get['code']);
