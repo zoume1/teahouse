@@ -289,6 +289,13 @@ class  General extends  Base {
             if($request->isPost()){
                 $store_id =$this->store_ids;
                 if($id){
+                    $is_set_appid =Db::table("applet")
+                        ->where("store_id","NEQ",$store_id)
+                        ->where("appID",trim(input("appID")))
+                        ->value("id");
+                    if($is_set_appid){
+                        $this->error("此小程序appID已存在，请更换其他小程序appid");
+                    }
                     $appletid =$id;
                     $app = array(
                         "name" => trim(input("name")),
@@ -310,6 +317,13 @@ class  General extends  Base {
                     $is_set =Db::table("applet")->where("store_id",$store_id)->value("id");
                     if($is_set){
                         $this->error("此店铺小程序已存在，无法再添加");
+                    }
+                   $is_set_appid =Db::table("applet")
+                       ->where("store_id","NEQ",$store_id)
+                       ->where("appID",trim(input("appID")))
+                       ->value("id");
+                    if($is_set_appid){
+                        $this->error("此小程序appID已存在，请更换其他小程序appid");
                     }
                     $app = array(
                         "name" => trim(input("name")),
