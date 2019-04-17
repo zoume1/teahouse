@@ -2029,12 +2029,13 @@ class  Order extends  Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2]);
             $activity = Db::name("activity_order")->where("parts_order_number",$val["out_trade_no"])->find();
-            $day_array = Db::name("teahost")->where("id",$activity['teahost_id'])->value("day_array");
-            $new_array = explode(",",$day_array);
+            $day_array = Db::name("teahost")->where("id",$activity['teahost_id'])->find();
+            $new_array = explode(",",$day_array["day_array"]);
             $index = $activity['index'];
             $new_array[$index] = $new_array[$index]-1;
             $intest = implode(",",$new_array);
-            $rest_order = Db::name("teahost")->where("id",$activity['teahost_id'])->update(["day_array",$intest]);
+            $peoples = $day_array["peoples"] + 1;
+            $rest_order = Db::name("teahost")->where("id",$activity['teahost_id'])->update(["day_array"=>$intest,"peoples"=>$peoples]);
             
             if($res){
                 //做消费记录
