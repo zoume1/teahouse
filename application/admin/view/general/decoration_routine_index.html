@@ -83,9 +83,8 @@
 {block name="content"}
 
 <div class="childrenBody">
-
+    {if !empty($list)}
  <div class="list">
-     {if !empty($list)}
      {volist name="list" id="vo"}
      <div class="imgcontent">
          <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
@@ -93,10 +92,9 @@
      </div>
      <div class="btns">
          <div class="btns_a">初始模板</div>
-         <a href="/admin/xiaochengxu_edit?appletid={$vo.id}&tplid=1"><div class="btns_b">历史编辑</div></a>
+         <a href="/admin/xiaochengxu_edit?appletid={$vo.id}&tplid={$vo.tplid}"><div class="btns_b">历史编辑</div></a>
      </div>
      {/volist}
-     {/if}
  </div>
  <div class="list">
     <div class="imgcontent">
@@ -119,7 +117,7 @@
         <div class="btns_b">切换版本</div>
     </div>
 </div>
-
+    {/if}
 </div>
 
 {/block}
