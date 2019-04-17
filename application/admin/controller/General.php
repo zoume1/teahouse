@@ -1045,6 +1045,8 @@ class  General extends  Base {
                 $key_id = input('key_id') ? input('key_id') : $diypage['id'];  //显示页面id
                 if($key_id>0){
                     $data = Db::table("ims_sudu8_page_diypage")->where("id",$key_id)->where("uniacid",$appletid)->find();
+                  halt($data);
+
                     $data['page'] = unserialize($data['page']);
                     if(isset($data['page']['url']) && $data['page']['url'] != ""){
                         $data['page']['url'] = remote($appletid,$data['page']['url'],1);
