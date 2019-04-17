@@ -351,7 +351,6 @@ class  Order extends  Controller
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
-                        $datas["store_house_id"] = $address_id;
                         $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datas["parts_goods_name"] = $goods_data["goods_name"];//名字
                         $datas["distribution"] = $goods_data["distribution"];//是否分销
@@ -371,13 +370,18 @@ class  Order extends  Controller
                         $datas["normal_future_time"] =$normal_future_time;//未来时间
                         $datas["special_id"] = $goods_standard_id[$keys];//规格id
                         $datas["coupon_id"] = $coupon_id;
+                        $datas["receipt_status"] = $receipt_status; 
+                        $datas["receipt_id"] = $receipt_id;
+                        $datas["receipt_price"] = $receipt_price ;   
+
+                        $rest_id = Db::name('order')->insertGetId($datas);
+                        $datas["order_id"] = $rest_id;
+                        $datas["store_house_id"] = $address_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;  
-                        $datas["receipt_status"] = $receipt_status; 
-                        $datas["receipt_id"] = $receipt_id;
-                        $datas["receipt_price"] = $receipt_price ;                   
+                
                         $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
                             case 0:
@@ -715,7 +719,6 @@ class  Order extends  Controller
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
-                        $datas["store_house_id"] = $address_id;
                         $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datas["parts_goods_name"] = $goods_data["goods_name"];//名字
                         $datas["distribution"] = $goods_data["distribution"];//是否分销
@@ -735,6 +738,10 @@ class  Order extends  Controller
                         $datas["normal_future_time"] =$normal_future_time;//未来时间
                         $datas["special_id"] = $goods_standard_id[$keys];//规格id
                         $datas["coupon_id"] = $coupon_id;
+
+                        $rest_id = Db::name('order')->insertGetId($datas);
+                        $datas["order_id"] = $rest_id;
+                        $datas["store_house_id"] = $address_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
@@ -2349,13 +2356,9 @@ class  Order extends  Controller
                     }else{
                         $templet_name = explode(",",$goods["templet_name"]);
                         $templet_id = explode(",",$goods["templet_id"]);
-                        // halt($templet_name);
                         $monomer = $goods["monomer"];
-                        // halt($monomer);
                         $tempid = array_search($monomer,$templet_name);
-                        // halt($tempid);
                         $express_id = $templet_id[$tempid];
-                        // halt($express_id);
                         $rest = db("express")->where("id",$express_id)->find();
                         if(!empty($rest)){
                             $are_block = explode(",",$rest["are"]);
