@@ -268,8 +268,20 @@ class  Control extends  Controller{
                         ->where("is_own",1)
                         ->update(["role_id"=>7]);
                     //审核通过的时候先判断是否有小程序模板，没有的话则进行添加，有的话则不需要
-                    $is_set = Db::table("ims_sudu8_page_diypageset")->where("store_id",$id)->find();
+                    $is_set = Db::table("ims_sudu8_page_diypageset")->where("store_id",$is_pay["store_id"])->find();
                     if(!$is_set){
+                        $is_uniacid =Db::table("ims_sudu8_page_base")->where("uniacid",$is_pay["store_id"])->find();
+                        if(!$is_uniacid){
+                            $insert_data =[
+                                "uniacid"=>$is_pay["store_id"],
+                                "index_style"=>"header",
+                                "copyimg"=>"",
+                                "base_color_t"=>"",
+                                "tabnum_new"=>5,
+                                "homepage"=>2,
+                            ];
+                            Db::table("ims_sudu8_page_base")->insert($insert_data);
+                        }
                         $array =[
                             "go_home"=>1,
                             "uniacid"=>$is_pay["store_id"],
@@ -286,7 +298,7 @@ class  Control extends  Controller{
                             "pid"=>0,
                             "store_id"=>$is_pay["store_id"],
                         ];
-                        Db::table("ims_sudu8_page_diypageset")->insertGetId($array);
+                        Db::table("ims_sudu8_page_diypageset")->insert($array);
                         $arr=[
                             "uniacid"=>$is_pay["store_id"],
                             "index"=>1,
