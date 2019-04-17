@@ -229,7 +229,7 @@ class TeaCenter extends Controller
             $start_time = isset($request->only(['start_time'])['start_time'])?$request->only(['start_time'])['start_time']:null;
             $index = isset($request->only(['index'])['index'])?$request->only(['index'])['index']:null;
 
-            if(!empty($activity_id) && !empty($open_id) && !empty($start_time) && !empty($index)){                     
+            if(!empty($activity_id) && !empty($open_id) && !empty($start_time) ){                     
                 $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
                 $data = db("teahost")->where('id',$activity_id)->field("activity_name,classify_image,address,pid,cost_moneny,peoples")->find();
                 $account = db("member")->where('member_openid',$open_id)->value('member_phone_num');
