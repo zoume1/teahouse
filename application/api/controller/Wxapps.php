@@ -60,7 +60,6 @@ class  Wxapps extends  Controller{
         $weixin = file_get_contents($url);
         $jsondecode = json_decode($weixin); //对JSON格式的字符串进行编码
         $array = get_object_vars($jsondecode);//转换成数组
-        halt($array);
         $sessionKey = $array['session_key'];
         $result['data'] = $sessionKey;
         return json_encode($result);
