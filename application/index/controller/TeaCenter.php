@@ -247,7 +247,7 @@ class TeaCenter extends Controller
             $data['parts_order_number'] =  $parts_order_number;
             $bool = db("activity_order")->insert($data);
             if (!empty($bool)) {
-                return ajax_success('下单成功', $data['parts_order_number']);
+                return ajax_success('下单成功', $data);
             } else {
                 return ajax_error("下单失败");
             }
