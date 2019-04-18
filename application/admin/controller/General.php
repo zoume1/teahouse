@@ -1482,15 +1482,11 @@ class  General extends  Base {
             $store_name =Db::table("tb_store")
                 ->where("id",$store_id)
                 ->value("store_name");
-            //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
-            $isset_id = Db::name("set_meal_order")
+            //先判断这单是否需要重新申请，需要把之前未支付的删除
+            $bools = Db::name("set_meal_order")
                 ->where("store_id",$store_id)
-                ->where("enter_all_id",$enter_all_id)
-                ->value("id");
-            if($isset_id){
-                return ajax_error("套餐已下单，请先删除或者升级其他套餐");
-            }
-
+                ->where("pay_type",null)
+                ->delete();
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
