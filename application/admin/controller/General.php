@@ -119,11 +119,6 @@ class  General extends  Base {
                             ->where("store_id",$store_id)
                             ->where("id","NEQ",$ids)
                             ->update(["default"=>0]);
-                    }else{
-                        Db::name("pc_store_address")
-                            ->where("store_id",$store_id)
-                            ->where("id","EQ",$ids)
-                            ->update(["default"=>1]);
                     }
                     return ajax_success("添加成功");
                 }else {
