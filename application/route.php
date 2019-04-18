@@ -757,6 +757,7 @@ Route::group("admin",[
     "order_package_index"=>"admin/General/order_package_index",      //订单套餐
     "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
     "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买页面（ajax订单信息返回）
+    "order_package_condition"=>"admin/General/order_package_condition",          //下套餐之前需要判断的条件
     "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
 

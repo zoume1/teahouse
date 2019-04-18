@@ -66,7 +66,13 @@ class  Wxapps extends  Controller{
     }
 
 
-
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:返回小程序数据给前端小程序
+     **************************************
+     * @return string
+     */
     public function doPageDiypage()
     {
 
@@ -93,6 +99,7 @@ class  Wxapps extends  Controller{
                 $data['page']['url'] = remote($uniacid, $data['page']['url'], 1);
             }
         }
+
         if ($data['items'] != '') {
             $data['items'] = array_values(unserialize($data['items']));
             include 'VideoInfo.php';
@@ -516,16 +523,22 @@ class  Wxapps extends  Controller{
                                 $con_type = $v['params']['con_type']; //
                                 $con_key = $v['params']['con_key'];
                                 //在这里返回数据
-                                $member_grade_name = "普通会员"; //会员等级
-                                $member_id = "o_lMv5VTbQDkQxK08EkllWXtX-kY";
-
+                                $member_grade_name = input("member_grade_name");; //会员等级
+                                $member_id =  input("open_id");  //open-ID
                                 $list = db("goods")
                                     ->where("pid", $sourceid)
                                     ->where("status", 1)
                                     ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard")
                                     ->select();
-                                $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
-                                $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
+                                $member_grade_id = db("member")
+                                    ->where("member_openid", $member_id)
+                                    ->value("member_grade_id");
+                                $discount = db("member_grade")
+                                    ->where("member_grade_id", $member_grade_id)
+                                    ->value("member_consumption_discount");
+                                $member_grade_img = db("member_grade")
+                                    ->where("member_grade_id", $member_grade_id)
+                                    ->value("member_grade_img");
                                 foreach ($list as $kks => $vvs) {
                                     if (!empty($list[$kks]["scope"])) {
                                         $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
@@ -537,6 +550,7 @@ class  Wxapps extends  Controller{
                                         $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") * $discount;//最低价格
                                         $list[$kks]["goods_standard"] = $standard[$kks];
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
+                                        $list[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
                                         $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
                                         $list[$kks]["price"] = $min[$kks]; //价钱
                                         if (!empty($list[$kks]["scope"])) {
@@ -547,6 +561,7 @@ class  Wxapps extends  Controller{
                                     } else {
                                         $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount;
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
+                                        $list[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
                                                 unset($list[$kks]);
@@ -760,6 +775,7 @@ class  Wxapps extends  Controller{
                 }
             }
         }
+
         $pageset = Db::table("ims_sudu8_page_diypageset")->where("uniacid", $uniacid)->find();
         if ($pageset) {
             if (strpos($pageset['kp'], 'http') === false) {

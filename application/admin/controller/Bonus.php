@@ -258,6 +258,7 @@ class Bonus extends Controller
                 }
                 unset($data["goods_id"]);
             }
+            halt($data);
             $coupon_id = db("coupon")->insertGetId($data);
             if (!empty($goods)) {
                 foreach ($goods as $key => $value) {
