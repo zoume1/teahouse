@@ -1569,7 +1569,9 @@ class  General extends  Base {
      **************************************
      */
     public function capital_management(){
-        return view("capital_management");
+        $store_wallet =$this->store_wallet($this->store_ids);
+        return view("capital_management",["store_wallet"=>$store_wallet]);
+
     }
 
     /**
@@ -1590,7 +1592,8 @@ class  General extends  Base {
      **************************************
      */
     public function unline_recharge_record(){
-        return view("unline_recharge_record");
+        $store_wallet =$this->store_wallet($this->store_ids);
+        return view("unline_recharge_record",["store_wallet"=>$store_wallet]);
     }
     /**
      **************李火生*******************
@@ -1599,7 +1602,8 @@ class  General extends  Base {
      **************************************
      */
     public function unline_withdrawal_record(){
-        return view("unline_withdrawal_record");
+        $store_wallet =$this->store_wallet($this->store_ids);
+        return view("unline_withdrawal_record",["store_wallet"=>$store_wallet]);
     }
     /**
      **************李火生*******************
@@ -1608,7 +1612,8 @@ class  General extends  Base {
      **************************************
      */
     public function agency_invitation(){
-        return view("agency_invitation");
+        $store_wallet =$this->store_wallet($this->store_ids);
+        return view("agency_invitation",["store_wallet"=>$store_wallet]);
     }
     /**
      **************李火生*******************
@@ -1619,6 +1624,20 @@ class  General extends  Base {
     public function now_agency_invitation(){
         return view("now_agency_invitation");
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:钱包
+     **************************************
+     * @param $store_id
+     * @return mixed
+     */
+    private  function store_wallet($store_id){
+        $store_wallet =Db::name("store")->where("id",$store_id)->value("store_wallet");
+        return $store_wallet;
+    }
+
     /**
      **************李火生*******************
      * @param Request $request
@@ -1626,7 +1645,8 @@ class  General extends  Base {
      **************************************
      */
     public function security_setting(){
-        return view("security_setting");
+        $store_wallet =$this->store_wallet($this->store_ids);
+        return view("security_setting",["store_wallet"=>$store_wallet]);
     }
 
 
