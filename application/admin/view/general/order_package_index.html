@@ -188,7 +188,35 @@
                 // 下订单
                 getOrder: function(_index){
                     // 接收一个index, 区分是万用版  茶行业版， 茶进阶版
+                    var param = {
+                        id: this.selectData[_index].id,
+                        year: this.selectData[_index].year
+                    }
+                    this.$http.post('order_package_condition', param).then(function(res){
+                        console.log(res)
+                        // 1 正常下单  2有历史订单，可删除或继续支付 3不能购买降级套餐  4 不能升级为年份少于之前的年份
+                        var status = res.body.status;
+                        if(status == 1){
+                            normalOrder(_index);
+                        }else if(status){
+                            if(confirm(res.body.info)){
+                                this.setCookie('TCid', res.body.data.id, 7);
+                                location.href = 'order_package_buy';
+                            }else{
+                                normalOrder(_index);
+                            }
+                        }else{
+                            layer.msg(res.body.info, {time: 1000});
+                        }
+                    }, function(res){
+                        console.log(res.status, res.statusText);
+                        layer.msg(res.body.info, {time: 1000});
+                    })
                     
+                },
+                // 正常下单 给后台发送数据
+                normalOrder: function(index){
+                    // 接收一个index, 区分是万用版  茶行业版， 茶进阶版
                     var param = {
                         id: this.selectData[_index].id
                     }
@@ -202,6 +230,7 @@
                         console.log(res.status, res.statusText);
                     })
                 },
+
                 // 设置cookie
                 setCookie: function(name, value, day){
                     var date = new Date();

@@ -1420,7 +1420,7 @@ class  General extends  Base {
                 ->where("audit_status","NEQ",1)
                 ->value("id");
             if($isset_id){
-                exit(json_encode(array("status"=>2,"info"=>"套餐已下单，请先删除订单套餐或者前往继续支付","data"=>$isset_id)));
+                exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
             }else{
                 //不能购买降级购买套餐
                 $isset_ids =Db::name("set_meal_order")
@@ -1428,7 +1428,7 @@ class  General extends  Base {
                     ->where("audit_status","EQ",1)
                     ->value("id");
                 if($isset_ids){
-                    exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>$isset_ids)));
+                    exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
                 }
                 //不能升级为年份少于之前的年份
                 //这是查找id方便查找年份
@@ -1438,10 +1438,10 @@ class  General extends  Base {
                 if($set_id){
                     $year =Db::name("tb_enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
                     if($year>=$years){
-                        exit(json_encode(array("status"=>4,"info"=>"不能购买降级购买套餐,请重新选择套餐","data"=>$set_id)));
+                        exit(json_encode(array("status"=>4,"info"=>"不能升级为年份少于之前的年份","data"=>["id"=>$set_id])));
                     }
                 }else{
-                    exit(json_encode(array("status"=>1,"info"=>"正常购买成功","data"=>$enter_all_id)));
+                    exit(json_encode(array("status"=>1,"info"=>"正常购买成功","data"=>["id"=>$enter_all_id])));
                 }
             }
 
@@ -1482,16 +1482,11 @@ class  General extends  Base {
             $store_name =Db::table("tb_store")
                 ->where("id",$store_id)
                 ->value("store_name");
-            //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
-            $isset_id = Db::name("set_meal_order")
+            //先判断这单是否需要重新申请，需要把之前未支付的删除
+            $bools = Db::name("set_meal_order")
                 ->where("store_id",$store_id)
-                ->where("enter_all_id",$enter_all_id)
-                ->value("id");
-            if($isset_id){
-                return ajax_error("套餐已下单，请先删除或者升级其他套餐");
-            }
-
-
+                ->where("pay_type",null)
+                ->delete();
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
@@ -1518,6 +1513,19 @@ class  General extends  Base {
             }
         }
     }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:支付
+     **************************************
+     */
+    public function  order_package_remittance(){
+
+    }
+
+
 
 
     /**
