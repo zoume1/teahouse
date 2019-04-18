@@ -142,7 +142,6 @@
                         <col style="width: 90px;">
                     </colgroup>
                     <thead class="next-table-hd">
-
                         <tr>
                             <th class="next-table-cell">
                                 <div class="next-table-cell-wrapper">收货人</div>
@@ -166,7 +165,6 @@
                                 <div class="next-table-cell-wrapper"></div>
                             </th>
                         </tr>
-
                     </thead>
                     <tbody class="next-table-bd">
                     {if !empty($data)}
@@ -205,7 +203,6 @@
                                         <span class="t-default">默认地址</span>
                                     </div>
                                     {/if}
-
                                 </div>
                             </td>
                         </tr>
@@ -226,31 +223,72 @@
 
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
     <script>
         (function(){
+            
+            // ajax post
+            function postData(url, param, callback){
+                $.post(url, param, function(data, status){
+                    callback(JSON.parse(data));
+                })
+            }
+            // 保存按钮
             $('.save-btn').click(function(){
-                postData();
-            })
-            // 保存 发送数据
-            function postData(){
                 var address = $('#province').val() + ',' + $('#city').val() + ',' + $('#district').val(),
                     street = $('#street').val(),
                     zip = $('#zip').val(),
                     phone = $('#phone').val(),
                     name = $('#name').val(),
-                    def = $('#default')[0].checked ? 1 : 0;
-                $.post('general_address_add', {
-                    id: '',
+                    def = $('#default')[0].checked ? 1 : 0,
+                    id = this.getAttribute('data-id') == null ? '' : this.getAttribute('data-id');
+                var param = {
+                    id: id,
                     address: address,
                     street: street,
                     zip: zip,
                     phone: phone,
                     name: name,
                     default:def
-                }, function(data, status){
-                    console.log(JSON.parse(data));
-                })
+                }
+                postData('general_address_add', param, saveData);
+            })
+            
+            // 保存发送数据 回调
+            function saveData(data){
+                if(data.status == 1){
+                    layer.msg(data.info, {time: 1000});
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1100)
+                }
             }
+            // 设置默认
+            $('.t-setDefault').click(function(){
+                var id = this.getAttribute('data-id');
+                var param = {
+                    id: id
+                }
+                postData('general_address_status', param, combineCallBack);
+            })
+            // 设为默认 回调
+            function combineCallBack(data){
+                if(data.status == 1){
+                    layer.msg(data.info, {time: 1000});
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1100)
+                }
+            }
+
+            // 删除
+            $('.t-delete').click(function(){
+                var id = this.getAttribute('data-id');
+                var param = {
+                    id: id
+                }
+                postData('general_address_del', param, combineCallBack);
+            })
 
         })()
         // $('#p-dist').distpicker('destroy').distpicker({autoSelect: false});
