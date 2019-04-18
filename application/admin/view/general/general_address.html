@@ -64,71 +64,67 @@
 
     {block name="content"}
     <div class="wrapper">
-            {include file="template/_top" /}
-        <form action="{:url('admin/General/general_address_add')}">
-            <div class="addr-block">
-                <ul>
-                    <li class="clearfix">
-                        <label required class="fl addr-label">地址信息:</label>
-                        <div class="form-inline fl">
-                            <div data-toggle="distpicker">
-                                <div class="form-group">
-                                    <label class="sr-only" for="province2">Province</label>
-                                    <select class="form-control" name="address_city[]" id="province" data-province="---- 选择省 ----"></select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="city2">City</label>
-                                    <select class="form-control" name="address_city[]" id="city" data-city="---- 选择市 ----"></select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="district2">District</label>
-                                    <select class="form-control" name="address_city[]" id="district" data-district="---- 选择区 ----"></select>
-                                </div>
+        {include file="template/_top" /}
+        <div class="addr-block">
+            <ul>
+                <li class="clearfix">
+                    <label required class="fl addr-label">地址信息:</label>
+                    <div class="form-inline fl">
+                        <div data-toggle="distpicker">
+                            <div class="form-group">
+                                <label class="sr-only" for="province2">Province</label>
+                                <select class="form-control" name="address_city[]" id="province" data-province="---- 选择省 ----"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="city2">City</label>
+                                <select class="form-control" name="address_city[]" id="city" data-city="---- 选择市 ----"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="district2">District</label>
+                                <select class="form-control" name="address_city[]" id="district" data-district="---- 选择区 ----"></select>
                             </div>
                         </div>
-                    </li>
-                    <li class="clearfix">
-                        <label required class="addr-label fl">详细地址:</label>
-                        <div class="fl">
-                            <textarea placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息" name="street"></textarea>
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <label class="addr-label fl">邮政编码:</label>
-                        <div class="fl">
-                            <input type="text" placeholder="请填写邮编" name="zip">
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <label required class="addr-label fl">联系电话:</label>
-                        <div class="fl">
-                            <input type="text" placeholder="填写联系电话" name="phone">
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <label required class="addr-label fl">收货人姓名:</label>
-                        <div class="fl">
-                            <input type="text" placeholder="长度不超过25个字符" name="name">
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <label class="addr-label fl"></label>
-                        <div class="fl">
-                            <input type="checkbox" id="set-def" name="default" value="">
-                            <label for="set-def">设置为默认收货地址</label>
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <label class="addr-label fl"></label>
-                        <div class="fl">
-                            <button class="save-btn">保存</button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </form>
-
-
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <label required class="addr-label fl">详细地址:</label>
+                    <div class="fl">
+                        <textarea placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息" name="street" id="street"></textarea>
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <label class="addr-label fl">邮政编码:</label>
+                    <div class="fl">
+                        <input type="text" placeholder="请填写邮编" name="zip" id="zip">
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <label required class="addr-label fl">联系电话:</label>
+                    <div class="fl">
+                        <input type="text" placeholder="填写联系电话" name="phone" id="phone">
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <label required class="addr-label fl">收货人姓名:</label>
+                    <div class="fl">
+                        <input type="text" placeholder="长度不超过25个字符" name="name" id="name">
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <label class="addr-label fl"></label>
+                    <div class="fl">
+                        <input type="checkbox" name="default" value="" id="default">
+                        <label for="default">设置为默认收货地址</label>
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <label class="addr-label fl"></label>
+                    <div class="fl">
+                        <button class="save-btn">保存</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
         <div class="addressList">
             <div class="maximum">
                 <i class="icon-prompt fl"></i>
@@ -255,6 +251,34 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script>
+        (function(){
+            $('.save-btn').click(function(){
+                postData();
+            })
+            function postData(){
+                var address = $('#province').val() + ',' + $('#city').val() + ',' + $('#district').val(),
+                    street = $('#street').val(),
+                    zip = $('#zip').val(),
+                    phone = $('#phone').val(),
+                    name = $('#name').val(),
+                    def = $('#default')[0].checked ? 1 : 0;
+                $.post('general_address_add', {
+                    id: '',
+                    address: address,
+                    street: street,
+                    zip: zip,
+                    phone: phone,
+                    name: name,
+                    default:def
+                }, function(data, status){
+                    console.log(JSON.parse(data));
+                })
+            }
+        })()
+        // $('#p-dist').distpicker('destroy').distpicker({autoSelect: false});
+        // $('#province').val(res.data.address_data.split(',')[0]).trigger('change');
+        // $('#city').val(res.data.address_data.split(',')[1]).trigger('change');
+        // $('#district').val(res.data.address_data.split(',')[2]).trigger('change');
 
     </script>
     {/block}
