@@ -201,8 +201,7 @@ class Coupon extends Controller
             $open_id = $datas['open_id'];
             $money = $datas['money'];
             $member_grade_name = $datas['member_grade_name'];
-
-
+                     
             $coupons = Db::name("coupon")->where("use_price","<=",$money)->field('id,use_price,scope,start_time,end_time,money,suit,label,suit_price')->select();
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
             $coupon_id = Db::name("order")->where("member_id",$member_id)//已使用优惠券
@@ -239,6 +238,7 @@ class Coupon extends Controller
                     $values['scope'] = explode(",",$values['scope']);
                     $values['start_time'] = strtotime($values['start_time']);
                     $values['end_time'] = strtotime($values['end_time']);
+                    $values['suit_price'] = strtotime($values['suit_price']);
                     if(in_array($member_grade_name,$values['scope']) && $values['end_time'] > $time){
                         $data[] = $values;
                     }
