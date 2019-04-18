@@ -1442,9 +1442,9 @@ class  General extends  Base {
             if($isset_id){
                 return ajax_error("套餐已下单，请先删除或者升级其他套餐");
             }
-            $is_min = Db::name("set_meal_order")
-                ->where("store_id",$store_id)
-                ->
+//            $is_min = Db::name("set_meal_order")
+//                ->where("store_id",$store_id)
+//                ->
 
 
 
