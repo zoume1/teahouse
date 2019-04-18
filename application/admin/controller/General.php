@@ -64,6 +64,7 @@ class  General extends  Base {
     public function general_address(){
         $store_id =$this->store_ids ;
         $data =Db::name("pc_store_address")->where('store_id',$store_id)->select();
+//        halt($data);
         return view("general_address",["data"=>$data]);
     }
 
