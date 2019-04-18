@@ -1518,11 +1518,65 @@ class  General extends  Base {
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:支付
+     * Notes:订单套餐支付汇款
      **************************************
      */
-    public function  order_package_remittance(){
+    public function  order_package_remittance(Request $request){
+        if($request->isPost()){
+            $meal_order_id =$request->only(["id"])["id"]; //套餐订购的ids
+            $store_id =$this->store_ids;
+            $money =$request->only(["money"])["money"];
+            $remittance_name =$request->only(["remittance_name"])["remittance_name"];
+            $remittance_account =$request->only(["remittance_account"])["remittance_account"];//汇款账号
+            $data =[
+                "store_id"=>$store_id,
+                "money"=>$money,
+                "remittance_name"=>$remittance_name,
+                "remittance_account"=>$remittance_account,
+                "create_time"=>time(),
+                "meal_order_id"=>$meal_order_id
+            ];
+            $bool =Db::name("meal_pay_form")->insertGetId($data);
+            if($bool){
+                //对订单表进行审核操作
+                return ajax_success("已提交，请等待审核");
+            }else{
+                return ajax_error("失败，请重新提交");
+            }
+        }
+    }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:订单套餐余额支付
+     **************************************
+     */
+    public function  order_package_balance(Request $request){
+        if($request->isPost()){
+            $password =$request->only(["password"])["password"];
+            $meal_order_id =$request->only(["id"])["id"];//订单的id
+            $store_pass =Db::name("store")
+                ->where("id",$this->store_ids)
+                ->field("store_pay_pass,store_wallet")
+                ->find();
+            if(md5($password) !==$store_pass["store_pay_pass"]){
+                return ajax_error("支付密码错误");
+            }
+            //进行钱包减
+            $amount_money =Db::name("set_meal_order")->where("id",$meal_order_id)->value("amount_money");
+            if($store_pass["store_wallet"]<$amount_money){
+                return ajax_error("账号余额不足");
+            }
+            //进行账号余额减然后插入消费表中
+            $new_wallet =Db::name("store")->where("id",$this->store_ids)->setDec("store_wallet",$amount_money);
+            if($new_wallet){
+                return ajax_success("支付成功");
+            }else{
+                return ajax_error("支付失败");
+            }
+
+        }
     }
 
 
