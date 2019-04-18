@@ -264,6 +264,7 @@ class Bonus extends Controller
         
             unset($data["suit_price3"]);
 
+            halt($data);
             if (!empty($data["goods_id"])) {
                 foreach ($data["goods_id"] as $key => $value) {
                     $goods[$key] = db("goods")->where("id", $data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,label")->find();
