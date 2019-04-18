@@ -142,6 +142,7 @@
                         <col style="width: 90px;">
                     </colgroup>
                     <thead class="next-table-hd">
+
                         <tr>
                             <th class="next-table-cell">
                                 <div class="next-table-cell-wrapper">收货人</div>
@@ -165,42 +166,51 @@
                                 <div class="next-table-cell-wrapper"></div>
                             </th>
                         </tr>
+
                     </thead>
                     <tbody class="next-table-bd">
-                        <!-- <tr class="next-table-row">
+                    {if !empty($data)}
+                    {volist name="data" id="vo"}
+                        <tr class="next-table-row">
                             <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">刘德华</div>
+                                <div class="next-table-cell-wrapper">{$vo.name}</div>
                             </td>
                             <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">广东深 深圳市 福田区 莲花街道</div>
+                                <div class="next-table-cell-wrapper">{$vo.address}</div>
                             </td>
                             <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">中电信息大厦东座1518</div>
+                                <div class="next-table-cell-wrapper">{$vo.street}</div>
                             </td>
                             <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">518000</div>
+                                <div class="next-table-cell-wrapper">{$vo.zip}</div>
                             </td>
                             <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">13691853045</div>
+                                <div class="next-table-cell-wrapper">{$vo.phone}</div>
                             </td>
                             <td class="next-table-cell">
                                 <div class="next-table-cell-wrapper">
                                     <div class="tAction">
-                                        <a href="javascript:void(0);" target="_self">修改</a>
+                                        <a href="javascript:void(0);" target="_self" data-id="{$vo.id}">修改</a>
                                         <span class="t-line">|</span>
-                                        <span class="t-delete">删除</span>
+                                        <span class="t-delete" data-id="{$vo.id}">删除</span>
                                     </div>
                                 </div>
                             </td>
                             <td class="next-table-cell">
                                 <div class="next-table-cell-wrapper">
-                                    <span class="t-setDefault">设为默认</span>
+                                    {if $vo['default']==0}
+                                    <span class="t-setDefault" data-id="{$vo.id}">设为默认</span>
+                                    {else}
                                     <div>
                                         <span class="t-default">默认地址</span>
                                     </div>
+                                    {/if}
+
                                 </div>
                             </td>
-                        </tr> -->
+                        </tr>
+                    {/volist}
+                    {/if}
                     </tbody>
                 </table>
             </div>
