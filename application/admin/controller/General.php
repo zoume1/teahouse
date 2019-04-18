@@ -1414,14 +1414,26 @@ class  General extends  Base {
             if(empty($store_id)){
                 return ajax_error("请登录店铺进行购买");
             }
-            $account = Db::table("tb_admin")->where("store_id",$store_id)->where("status",0)->value("account");
-            $is_business =Db::table("tb_pc_user")->where("phone_number",$account)->where("status",1)->value("id");
+            $account = Db::table("tb_admin")
+                ->where("store_id",$store_id)
+                ->where("status",0)
+                ->value("account");
+            $is_business =Db::table("tb_pc_user")
+                ->where("phone_number",$account)
+                ->where("status",1)
+                ->value("id");
             if(empty($is_business)){
                 return ajax_error("请使用本店铺商家账号进行购买");
             }
-            $enter_data =Db::table("tb_enter_all")->where("id",$enter_all_id)->find();
+            $enter_data =Db::table("tb_enter_all")
+                ->where("id",$enter_all_id)
+                ->find();
             $meal_name =Db::table("tb_enter_meal")->where("id",$enter_data['enter_id'])->value("name");
-            $store_name =Db::table("tb_store")->where("id",$store_id)->value("store_name");
+            $store_name =Db::table("tb_store")
+                ->where("id",$store_id)
+                ->value("store_name");
+            //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级（）
+//            $id =Db::name("set_meal_order")->where("store_id",$store_id)->where("")
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
