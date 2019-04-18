@@ -539,7 +539,6 @@ class  Wxapps extends  Controller{
                                 $member_grade_img = db("member_grade")
                                     ->where("member_grade_id", $member_grade_id)
                                     ->value("member_grade_img");
-                                halt($member_grade_img);
                                 foreach ($list as $kks => $vvs) {
                                     if (!empty($list[$kks]["scope"])) {
                                         $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
