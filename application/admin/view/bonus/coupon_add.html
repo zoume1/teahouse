@@ -164,7 +164,7 @@
 						<div class="seach_list">
 							<div class="seach_laber">选择商品</div>
 							<div class="seach_input">
-								<select name="order_type" id="coupon_type">
+								<select  id="coupon_type">
 									<option value="1" selected="">普通商品</option>
 									<option value="2">众筹商品</option>
 
@@ -365,7 +365,7 @@
 							if (num == 0) {
 								seach_goods.push(data[i]);
 								dhtml += '<tr>';
-								dhtml += '<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="' + data[i].id + '" name="goods_id[]"></td>';
+								dhtml += '<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="' + data[i].id + '" name="goods_id['+coupon_type+']"></td>';
 								dhtml += '<td>' + data[i].goods_number + '</td>';
 								dhtml += '<td class="">';
 								dhtml += '<div class="tdimg"><img src="__UPLOADS__/' + data[i].goods_show_images + '" /></div>';
