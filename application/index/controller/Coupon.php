@@ -238,7 +238,7 @@ class Coupon extends Controller
                     $values['scope'] = explode(",",$values['scope']);
                     $values['start_time'] = strtotime($values['start_time']);
                     $values['end_time'] = strtotime($values['end_time']);
-                    $values['suit_price'] = strtotime($values['suit_price']);
+                    $values['suit_price'] = explode(",",$values['suit_price']);
                     if(in_array($member_grade_name,$values['scope']) && $values['end_time'] > $time){
                         $data[] = $values;
                     }
