@@ -112,5 +112,17 @@ class Register extends  Controller{
         }
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺支付密码获取验证码
+     **************************************
+     */
+//    public function StoreMobile(Request $request){
+//        if($request->isPost()){
+//
+//        }
+//    }
+
 
 }

@@ -264,6 +264,7 @@ Route::group("",[
     "sendMobileCode"=>"index/MobileVerification/sendMobileCode",//这是新绑定手机验证码验证
     "sendMobileCodeBank"=>"index/MobileVerification/sendMobileCodeBank",//这是银行卡绑定时需手机验证码验证
     "sendMobileCodePay"=>"index/MobileVerification/sendMobileCodePay",//忘记支付密码（找回密码验证码）
+    "StoreMobile"=>"index/MobileVerification/StoreMobile",//店铺支付密码（找回密码验证码）
     /*TODO:短信验证结束*/
 
 
