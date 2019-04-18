@@ -206,7 +206,7 @@
                             <div class="unit-price">{{item.amount_money.toFixed(2)}}</div>
                             <div class="total-price-box">
                                 <p class="total-price">{{(item.goods_quantity * item.amount_money).toFixed(2)}}</p>
-                                <button class="del-order" @click="delEvent">删除订单</button>
+                                <button class="del-order" @click="delEvent(item.id)">删除订单</button>
                             </div>
                         </div>
                     </div>
@@ -507,10 +507,22 @@
                     this.$set(item, 'number', num > item.stock ? item.stock : (num < 0 ? 1 : num));
                 },
                 // 删除订单
-                delEvent: function(item){
-                    // if(confirm('您确定要删除该订单吗？')){
-                    //     alert('删除成功！');
-                    // }
+                delEvent: function(id){
+                    if(confirm('您确定要删除该订单吗？')){
+                        var param = {'id': id};
+                        this.$http.post('order_package_del', param).then(function(res){
+                            console.log(res);
+                            if(res.body.status == 1){
+                                layer.msg(res.body.info, {time: 1000});
+                                setTimeout(function(){
+                                    location.href = 'order_package_index';
+                                }, 1100)
+                            }
+                        }, function(res){
+                            console.log(res.status, res.statusText);
+                            layer.msg(res.body.info, {time: 1000});
+                        })
+                    }
                 },
                 // 是否使用邀请码
                 useDiscount: function(){

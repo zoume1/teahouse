@@ -188,19 +188,30 @@
                 // 下订单
                 getOrder: function(_index){
                     // 接收一个index, 区分是万用版  茶行业版， 茶进阶版
-                    
                     var param = {
-                        id: this.selectData[_index].id
+                        id: this.selectData[_index].id,
+                        year: this.selectData[_index].year
                     }
-                    this.$http.post('order_package_do_by', param).then(function(res){
+                    console.log(param)
+                    this.$http.post('order_package_condition', param).then(function(res){
                         console.log(res)
-                        if(res.body.status == 1){
-                            this.setCookie('TCid', res.body.data.id, 7);
-                            location.href = 'order_package_buy';
-                        }
+                        // if(res.body.status == 1){
+                        //     this.setCookie('TCid', res.body.data.id, 7);
+                        //     location.href = 'order_package_buy';
+                        // }
                     }, function(res){
                         console.log(res.status, res.statusText);
                     })
+
+                    // this.$http.post('order_package_do_by', param).then(function(res){
+                    //     console.log(res)
+                    //     if(res.body.status == 1){
+                    //         this.setCookie('TCid', res.body.data.id, 7);
+                    //         location.href = 'order_package_buy';
+                    //     }
+                    // }, function(res){
+                    //     console.log(res.status, res.statusText);
+                    // })
                 },
                 // 设置cookie
                 setCookie: function(name, value, day){
