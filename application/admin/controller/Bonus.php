@@ -420,7 +420,12 @@ class Bonus extends Controller
     public function coupon_search(Request $request)
     {
         $goods_number = input("goods_number");
-        $goods = db("goods")->where("goods_number", $goods_number)->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")->select();
+        $coupon_type = input("coupon_type");
+        $goods = db("goods")
+        ->where("goods_number", $goods_number)
+        ->where("coupon_type",$coupon_type)
+        ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
+        ->select();
         if(!empty($goods)){
             foreach ($goods as $key => $value) {
                 if ($goods[$key]["goods_standard"] == 1) {
