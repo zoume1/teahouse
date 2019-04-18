@@ -66,7 +66,13 @@ class  Wxapps extends  Controller{
     }
 
 
-
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:返回小程序数据给前端小程序
+     **************************************
+     * @return string
+     */
     public function doPageDiypage()
     {
 
@@ -85,6 +91,7 @@ class  Wxapps extends  Controller{
             ->where("id", $pageid)
             ->where("uniacid", $uniacid)
             ->find();
+        halt($data);
         $data['foot'] = $foot['foot_is'] ? $foot['foot_is'] : 1;
         if ($data['page'] != '') {
             //将已序列化的字符串还原回 PHP 的值

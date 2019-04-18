@@ -1428,12 +1428,27 @@ class  General extends  Base {
             $enter_data =Db::table("tb_enter_all")
                 ->where("id",$enter_all_id)
                 ->find();
-            $meal_name =Db::table("tb_enter_meal")->where("id",$enter_data['enter_id'])->value("name");
+            $meal_name =Db::table("tb_enter_meal")
+                ->where("id",$enter_data['enter_id'])
+                ->value("name");
             $store_name =Db::table("tb_store")
                 ->where("id",$store_id)
                 ->value("store_name");
-            //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级（）
-//            $id =Db::name("set_meal_order")->where("store_id",$store_id)->where("")
+            //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
+            $isset_id = Db::name("set_meal_order")
+                ->where("store_id",$store_id)
+                ->where("enter_all_id",$enter_all_id)
+                ->value("id");
+            if($isset_id){
+                return ajax_error("套餐已下单，请先删除或者升级其他套餐");
+            }
+            $is_min = Db::name("set_meal_order")
+                ->where("store_id",$store_id)
+                ->
+
+
+
+
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
