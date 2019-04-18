@@ -759,6 +759,7 @@ Route::group("admin",[
     "order_package_condition"=>"admin/General/order_package_condition",          //下套餐之前需要判断的条件
     "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
     "order_package_remittance"=>"admin/General/order_package_remittance",          //订单套餐支付汇款
+    "order_package_balance"=>"admin/General/order_package_balance",          //订单套餐余额支付
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
 
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)

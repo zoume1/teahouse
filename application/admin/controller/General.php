@@ -62,7 +62,9 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function general_address(){
-        return view("general_address");
+        $store_id =$this->store_ids ;
+        $data =Db::name("pc_store_address")->where('store_id',$store_id)->select();
+        return view("general_address",["data"=>$data]);
     }
 
     /**
@@ -92,10 +94,16 @@ class  General extends  Base {
             ];
             if($id){
                 //地址编辑
-                $bool =Db::name("pc_store_address")->where("store_id",$store_id)->where("id",$id)->update($data);
+                $bool =Db::name("pc_store_address")
+                    ->where("store_id",$store_id)
+                    ->where("id",$id)
+                    ->update($data);
                 if($bool){
                     if($default ==1){
-                        Db::name("pc_store_address")->where("store_id",$store_id)->where("id","NEQ",$id)->update(["default"=>0]);
+                        Db::name("pc_store_address")
+                            ->where("store_id",$store_id)
+                            ->where("id","NEQ",$id)
+                            ->update(["default"=>0]);
                     }
                     return ajax_success("修改成功");
                 }else {
@@ -103,12 +111,12 @@ class  General extends  Base {
                 }
             }else{
                 //地址添加
-                $id =Db::name("pc_store_address")->insertGetId($data);
-                if($id){
+                $ids =Db::name("pc_store_address")->insertGetId($data);
+                if($ids){
                     if($default ==1){
                         Db::name("pc_store_address")
                             ->where("store_id",$store_id)
-                            ->where("id","NEQ",$id)
+                            ->where("id","NEQ",$ids)
                             ->update(["default"=>0]);
                     }
                     return ajax_success("添加成功");
