@@ -203,10 +203,11 @@ class Coupon extends Controller
             $member_grade_name = $datas['member_grade_name'];
 
 
-            $coupons = Db::name("coupon")->where("use_price","<=",$money)->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
+            $coupons = Db::name("coupon")->where("use_price","<=",$money)->field('id,use_price,scope,start_time,end_time,money,suit,label,suit_price')->select();
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
             $coupon_id = Db::name("order")->where("member_id",$member_id)//已使用优惠券
                         ->where("coupon_id",'<>',0)
+                        ->where("status",2)
                         ->distinct($member_id)
                         ->field("coupon_id")
                         ->select();

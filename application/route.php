@@ -237,9 +237,9 @@ Route::group("",[
     "recharge_setting_return"=>"index/Wallet/recharge_setting_return",//账户充值页面对应的储值规则数据返回
     "member_balance_recharge"=>"index/Wallet/member_balance_recharge",//账户余额充值
     "wallet_recharge_del"=>"index/wallet/recharge_del",     //钱包充值下单未付款自动关闭取消删除(ajax)
-    "withdrawal_return"=>"index/wallet/withdrawal_return",     //钱包提现页面数据返回
-    "withdrawal"=>"index/wallet/withdrawal",     //钱包银行卡提现
-    "wechat_withdrawal"=>"index/wallet/wechat_withdrawal",     //钱包微信提现
+    "withdrawal_return"=>"index/wallet/withdrawal_return",  //钱包提现页面数据返回
+    "withdrawal"=>"index/wallet/withdrawal",                //钱包银行卡提现
+    "wechat_withdrawal"=>"index/wallet/wechat_withdrawal",  //钱包微信提现
 
     /*TODO:充值提现结束*/
 
@@ -249,10 +249,10 @@ Route::group("",[
     "user_phone_return"=>"index/My/user_phone_return",//手机号绑定数据返回
     "user_phone_bingding"=>"index/My/user_phone_bingding",//手机号绑定
     "user_phone_bingding_update"=>"index/My/user_phone_bingding_update",//手机号绑定修改
-    "user_name_return"=>"index/My/user_name_return",//用户昵称绑定数据返回
-    "user_name_update"=>"index/My/user_name_update",//用户昵称绑定修改
-    "user_img_return"=>"index/My/user_img_return",//用户头像绑定数据返回
-    "user_img_update"=>"index/My/user_img_update",//用户头像修改
+    "user_name_return"=>"index/My/user_name_return", //用户昵称绑定数据返回
+    "user_name_update"=>"index/My/user_name_update", //用户昵称绑定修改
+    "user_img_return"=>"index/My/user_img_return",  //用户头像绑定数据返回
+    "user_img_update"=>"index/My/user_img_update",  //用户头像修改
     /*TODO:手机号头像昵称绑定结束*/
 
     /*TODO:我的账单开始*/
@@ -261,10 +261,11 @@ Route::group("",[
     /*TODO:我的账单结束*/
 
     /*TODO:短信验证开始*/
-    "sendMobileCode"=>"index/MobileVerification/sendMobileCode",//这是新绑定手机验证码验证
+    "sendMobileCode"=>"index/MobileVerification/sendMobileCode",        //这是新绑定手机验证码验证
     "sendMobileCodeBank"=>"index/MobileVerification/sendMobileCodeBank",//这是银行卡绑定时需手机验证码验证
     "sendMobileCodePay"=>"index/MobileVerification/sendMobileCodePay",//忘记支付密码（找回密码验证码）
     "StoreMobile"=>"index/MobileVerification/StoreMobile",//店铺支付密码（找回密码验证码）
+
     /*TODO:短信验证结束*/
 
 
@@ -405,11 +406,9 @@ Route::group("admin",[
 	"capital_del"=>"admin/Capital/del", //资金管理删除del
 	"capital_status"=>"admin/Capital/status", //资金管理状态修改
     /*TODO:会员储值结束*/
-
     /*TODO：会员余额开始*/
     "member_balance"=>"admin/Money/balance",//
     /*TODO：会员余额结束*/
-
 
     /* TODO:图片库开始*/
     "photo_index"=>"admin/Photo/index", //图片库进入页面
@@ -430,7 +429,6 @@ Route::group("admin",[
     "order_confirm_shipment"=>"admin/Order/order_confirm_shipment",//初始订单卖家确认发货
     "order_information_return"=>"admin/Order/order_information_return",//初始订单基本信息
    
-
     "order_integral"=>"admin/Order/order_integral",//积分订单
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
     "order_setting_update"=>"admin/Order/order_setting_update",//更新
@@ -721,8 +719,8 @@ Route::group("admin",[
 
     /*物联*/
     "anti_fake" =>"admin/Material/anti_fake",                 //防伪溯源
-    "direct_seeding" =>"admin/Material/direct_seeding",       //视频直播
-    "direct_seeding_add" =>"admin/Material/direct_seeding_add",       //视频直播添加设备
+    "direct_seeding" =>"admin/Material/direct_seeding",      //视频直播
+    "direct_seeding_add" =>"admin/Material/direct_seeding_add", //视频直播添加设备
     "direct_seeding_classification" =>"admin/Material/direct_seeding_classification",       //视频直播分类
     "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加编辑
     "interaction_index" =>"admin/Material/interaction_index", //温湿感应
@@ -758,8 +756,12 @@ Route::group("admin",[
     "order_package_index"=>"admin/General/order_package_index",      //订单套餐
     "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
     "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买页面（ajax订单信息返回）
+<<<<<<< HEAD
+    "order_package_do_by"=>"admin/General/order_package_do_by",      //订单套餐购买操作
+=======
     "order_package_condition"=>"admin/General/order_package_condition",          //下套餐之前需要判断的条件
     "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
+>>>>>>> 027b59aaea1ae9e60c878d21369493fda8853b75
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
 
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
@@ -792,11 +794,11 @@ Route::group("admin",[
     "control_meal_edit"=>"admin/Control/control_meal_edit",        //入驻套餐编辑
     "control_meal_update"=>"admin/Control/control_meal_update",    //入驻套餐编辑保存
     "control_order_index"=>"admin/Control/control_order_index",    //入驻订单页面
-    "control_store_return"=>"admin/Control/control_store_return",    //入驻资料审核页面
+    "control_store_return"=>"admin/Control/control_store_return",  //入驻资料审核页面
     "control_order_add"=>"admin/Control/control_order_add",        //入驻订单店铺编辑审核
     "control_order_update"=>"admin/Control/control_order_update",  //入驻订单店铺审核更新操作
-    "control_order_status"=>"admin/Control/control_order_status",        //入驻订单编辑审核
-    "control_order_status_update"=>"admin/Control/control_order_status_update",        //入驻订单编辑审核操作
+    "control_order_status"=>"admin/Control/control_order_status",  //入驻订单编辑审核
+    "control_order_status_update"=>"admin/Control/control_order_status_update",       //入驻订单编辑审核操作
     "control_order_search"=>"admin/Control/control_order_search",  //入驻订单搜索
     "control_store_index"=>"admin/Control/control_store_index",    //店铺分析
     "control_store_templet"=>"admin/Control/control_store_templet",//增值商品运费模板
@@ -821,7 +823,7 @@ Route::group("admin",[
     "analyse_status"=>"admin/Analyse/analyse_status",        //增值商品系统推荐
 
     "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单
-    "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",          //总控增值退款维权
+    "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",//总控增值退款维权
 
 
     "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index",   //SEO优化
