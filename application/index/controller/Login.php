@@ -57,7 +57,10 @@ class Login extends Controller{
                 ->where("id","1")
                 ->value("register_integral");//授权通过即送积分
             if(!empty($errCode )){
-                $is_register =Db::name('member')->where('member_openid',$errCode['openId'])->find();
+                $is_register =Db::name('member')
+                    ->where("store_id",$get["uniacid"])
+                    ->where('member_openid',$errCode['openId'])
+                    ->find();
                 if(empty($is_register)){
                     $data['member_openid'] =$errCode['openId'];
                     $data['member_head_img'] =$errCode['avatarUrl'];
@@ -67,8 +70,12 @@ class Login extends Controller{
                     $data['member_grade_id']=1;
                     $data['member_status']=1;
                     $data['member_integral_wallet'] = $register_login;
-                    $grade_name =Db::name('member_grade')->field('member_grade_name')->where('member_grade_id',1)->find();
+                    $grade_name =Db::name('member_grade')
+                        ->field('member_grade_name')
+                        ->where('member_grade_id',1)
+                        ->find();
                     $data['member_grade_name'] =$grade_name['member_grade_name'];
+                    $data["store_id"] =$get["uniacid"]; //店铺id
                     $bool = Db::name('member')->insertGetId($data);
                 if($register_login > 0){
                     //插入积分记录

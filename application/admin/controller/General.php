@@ -1401,6 +1401,54 @@ class  General extends  Base {
         return view("order_package_buy");
     }
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:下套餐之前需要判断的条件
+     **************************************
+     * @param Request $request
+     */
+    public function order_package_condition(Request $request){
+        if($request->isPost()){
+            $store_id =$this->store_ids; //店铺id
+            $enter_all_id =$request->only(['id'])['id'];//套餐id
+            $years =$request->only(["year"])["year"];//年份
+            //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
+            $isset_id = Db::name("set_meal_order")
+                ->where("store_id",$store_id)
+                ->where("audit_status","NEQ",1)
+                ->value("id");
+            if($isset_id){
+                exit(json_encode(array("status"=>2,"info"=>"套餐已下单，请先删除订单套餐或者前往继续支付","data"=>$isset_id)));
+            }else{
+                //不能购买降级购买套餐
+                $isset_ids =Db::name("set_meal_order")
+                    ->where("enter_all_id",">",$enter_all_id)
+                    ->where("audit_status","EQ",1)
+                    ->value("id");
+                if($isset_ids){
+                    exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>$isset_ids)));
+                }
+                //不能升级为年份少于之前的年份
+                //这是查找id方便查找年份
+               $set_id =Db::name("set_meal_order")
+                   ->where("audit_status","EQ",1)
+                   ->value("enter_all_id");
+                if($set_id){
+                    $year =Db::name("tb_enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
+                    if($year>=$years){
+                        exit(json_encode(array("status"=>4,"info"=>"不能购买降级购买套餐,请重新选择套餐","data"=>$set_id)));
+                    }
+                }else{
+                    exit(json_encode(array("status"=>1,"info"=>"正常购买成功","data"=>$enter_all_id)));
+                }
+            }
+
+        }
+    }
+
+
     /**
      **************李火生*******************
      * @param Request $request
@@ -1414,14 +1462,36 @@ class  General extends  Base {
             if(empty($store_id)){
                 return ajax_error("请登录店铺进行购买");
             }
-            $account = Db::table("tb_admin")->where("store_id",$store_id)->where("status",0)->value("account");
-            $is_business =Db::table("tb_pc_user")->where("phone_number",$account)->where("status",1)->value("id");
+            $account = Db::table("tb_admin")
+                ->where("store_id",$store_id)
+                ->where("status",0)
+                ->value("account");
+            $is_business =Db::table("tb_pc_user")
+                ->where("phone_number",$account)
+                ->where("status",1)
+                ->value("id");
             if(empty($is_business)){
                 return ajax_error("请使用本店铺商家账号进行购买");
             }
-            $enter_data =Db::table("tb_enter_all")->where("id",$enter_all_id)->find();
-            $meal_name =Db::table("tb_enter_meal")->where("id",$enter_data['enter_id'])->value("name");
-            $store_name =Db::table("tb_store")->where("id",$store_id)->value("store_name");
+            $enter_data =Db::table("tb_enter_all")
+                ->where("id",$enter_all_id)
+                ->find();
+            $meal_name =Db::table("tb_enter_meal")
+                ->where("id",$enter_data['enter_id'])
+                ->value("name");
+            $store_name =Db::table("tb_store")
+                ->where("id",$store_id)
+                ->value("store_name");
+            //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
+            $isset_id = Db::name("set_meal_order")
+                ->where("store_id",$store_id)
+                ->where("enter_all_id",$enter_all_id)
+                ->value("id");
+            if($isset_id){
+                return ajax_error("套餐已下单，请先删除或者升级其他套餐");
+            }
+
+
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());

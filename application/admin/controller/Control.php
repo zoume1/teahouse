@@ -256,9 +256,9 @@ class  Control extends  Controller{
             $id = $request->only(["id"])["id"];
             $data = $request->param();
             $is_pay = db("set_meal_order")->where("id", $id)->field("pay_type,store_id")->find();
-//            if(!$is_pay["pay_type"]){
-//                $this->error("此订单未付款不能审核操作");
-//            }
+            if(!$is_pay["pay_type"]){
+                $this->error("此订单未付款不能审核操作");
+            }
             $bool = db("set_meal_order")->where("id", $id)->update($data);
             if ($bool) {
                 //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
@@ -347,16 +347,13 @@ class  Control extends  Controller{
     }
 
 
-
-
-
-
-
-
     /**
-     * [入驻订单店铺审核操作]
-     * 郭杨
-     */    
+     **************李火生*******************
+     * @param Request $request
+     * Notes:入驻订单店铺审核操作
+     **************************************
+     * @param Request $request
+     */
     public function control_order_update(Request $request){
         if($request -> isPost()){
             $id = $request -> only(["id"])["id"];
