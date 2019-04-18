@@ -4,37 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>追加评论</title>
+    <title>售后维权</title>
     <link rel="stylesheet" href="__STATIC__/admin/common/css/z-comm.css">
     <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
     <style>
         *{margin: 0; padding: 0;}
         .triangle::after{content: ''; position: absolute; left: 50%; top: 110%; margin-left: -4px; width: 0; height: 0; border: 5px solid transparent; border-top-color: #f00;}
-        .wrapper{padding: 0 60px; position: relative;}
-        .header{display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #bcbcbc; width: 1300px; margin: 0 auto 50px;}
-        .step{font-size: 14px; color: #868686; margin: 0 30px; line-height: 3em;}
-        .step-on{font-size: 20px; color: #333; font-weight: 700;}
-        .step-line{width: 35px; border-top: 1px dashed #868686;}
+        .wrapper{padding: 0 60px; position: relative; font-size: 18px;}
+        .header{height: 70px; line-height: 70px; border-bottom: 1px solid #CFECFF;}
+        .header span{color: #f00;}
+        .shop{font-size: 16px; height: 60px; line-height: 60px;}
+        .next-table{margin-bottom: 20px;}
         .next-table table{width: 100%; border-spacing: 0; border-collapse: collapse; font-size: 13px; background-color: #fff; border: 1px solid #CFECFF;}
         .next-table th{border: 1px solid #CFECFF; color: #333; background-color: #CFECFF; text-align: left;}
         .next-table .next-table-cell-box{padding: 12px 16px; overflow: hidden; text-overflow: ellipsis; word-break: break-all;}
         .next-table-cell-box a{color: #0099FF; text-decoration: none;}
+        .star::after{content: '*'; color: #f00;}
+        .after-type{display: flex; align-items: center;}
+        .after-type input{width: 120px;}
+        .after-type span{color: #f00; margin-right: 20px;}
+        .btn-box{text-align: center;}
+        .btn-box button{margin-right: 50px;}
     </style>
 </head>
 <body>
-    <div class="wrapper" id="app" v-cloak>
+    <div class="wrapper" id="app">
         <div class="header">
-            <div class="step">1.选择服务</div>
-            <div class="step-line"></div>
-            <div class="step">2.确认订单信息</div>
-            <div class="step-line"></div>
-            <div class="step">3.确认付款</div>
-            <div class="step-line"></div>
-            <div class="step">4.完成订购</div>
-            <div class="step-line"></div>
-            <div class="step step-on">5.追加评论</div>
+            <p>当前售后维权状态：<span>提交申请</span></p>
         </div>
-        <div>订购店铺：滴金茶叶</div>
+        <div class="shop">订购店铺：滴金茶叶</div>
         <div class="next-table">
             <table>
                 <colgroup>
@@ -82,23 +80,56 @@
                         <td class="next-table-cell">
                             <div class="next-table-cell-box">
                                 <p>659.00</p>
-                                <a href="additional_comments_add">我要评论</a>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label star">请选择</label>
+                <div class="layui-input-block after-type">
+                    <input type="radio" name="afterType" title="要求退货退款金额：" value="退货退款" checked>
+                    <input type="text" name="afterMoney">
+                    <span>元</span>
+                    <input type="radio" name="afterType" title="换货" value="换货">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label star">请说明理由</label>
+                <div class="layui-input-block after-type">
+                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label star">提交图片</label>
+                <div class="layui-input-block after-type">
+                    <button type="button" class="layui-btn" id="upload">上传图片(最多三张)</button>
+                </div>
+            </div>
+            <div class="layui-form-item btn-box">
+                <button class="layui-btn layui-btn-primary">返回</button>
+                <button class="layui-btn layui-btn-danger">确定提交</button>
+            </div>
+        </div>
     </div>
-    <script src="__STATIC__/admin/common/js/vue.js"></script>
-    <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
-    <script src="__STATIC__/admin/common/js/vue-router.js"></script>
-    <script src="__STATIC__/admin/common/js/jquery.js"></script>
-    <script src="__STATIC__/admin/common/laydate/laydate.js"></script>
-    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+
+    <script src="__STATIC__/admin/common/layui/layui.js"></script>
     <script>
-        var vm = new Vue({
-            el: '#app'
+        layui.use(['form', 'upload'], function(){
+            var form = layui.form,
+                upload = layui.upload;
+            form.render();
+
+            var uploadInst = upload.render({
+                elem: '#upload',
+                url: '', 
+                done: function (res) {
+                    console.log(res);
+                }, 
+                error: function () {}
+            });
         })
     </script>
 </body>

@@ -36,9 +36,21 @@ class  General extends  Base {
      */
     public function general_index(){
         $data =Db::table("tb_store")
-            ->field("id,is_business,enter_meal,store_number,contact_name,id_card,store_logo,store_qq,phone_number,store_introduction,store_name")
+            ->field("id,is_business,store_number,contact_name,id_card,store_logo,store_qq,phone_number,store_introduction,store_name")
             ->where("id",$this->store_ids)
             ->find();
+        $goods_name=Db::table("tb_set_meal_order")
+            ->where("store_id",$this->store_ids)
+            ->where("is_del",1)
+            ->where("status",1)
+            ->where("pay_type","NEQ",-1)
+            ->where("audit_status",1)
+            ->value("goods_name");
+        if($goods_name){
+            $data["enter_meal"]  =$goods_name;
+        }else{
+            $data["enter_meal"] ="未购买套餐版本";
+        }
         return view("general_index",["data"=>$data]);
     }
 
@@ -277,6 +289,13 @@ class  General extends  Base {
             if($request->isPost()){
                 $store_id =$this->store_ids;
                 if($id){
+                    $is_set_appid =Db::table("applet")
+                        ->where("store_id","NEQ",$store_id)
+                        ->where("appID",trim(input("appID")))
+                        ->value("id");
+                    if($is_set_appid){
+                        $this->error("此小程序appID已存在，请更换其他小程序appid");
+                    }
                     $appletid =$id;
                     $app = array(
                         "name" => trim(input("name")),
@@ -285,7 +304,10 @@ class  General extends  Base {
                         "mchid" => trim(input("mchid")),
                         "signkey" => trim(input("signkey"))
                     );
-                    $app_is = Db::table("applet")->where("store_id",$store_id)->where("id",$appletid)->update($app);
+                    $app_is = Db::table("applet")
+                        ->where("store_id",$store_id)
+                        ->where("id",$appletid)
+                        ->update($app);
                     if($app_is){
                         $this->success("编辑成功");
                     }else{
@@ -296,13 +318,21 @@ class  General extends  Base {
                     if($is_set){
                         $this->error("此店铺小程序已存在，无法再添加");
                     }
+                   $is_set_appid =Db::table("applet")
+                       ->where("store_id","NEQ",$store_id)
+                       ->where("appID",trim(input("appID")))
+                       ->value("id");
+                    if($is_set_appid){
+                        $this->error("此小程序appID已存在，请更换其他小程序appid");
+                    }
                     $app = array(
                         "name" => trim(input("name")),
                         "appID" => trim(input("appID")),
                         "appSecret" => trim(input("appSecret")),
                         "mchid" => trim(input("mchid")),
                         "signkey" => trim(input("signkey")),
-                        "store_id"=>$store_id
+                        "store_id"=>$store_id,
+                        "id"=>$store_id
                     );
                     $app_is = Db::table("applet")->insertGetId($app);
                     if($app_is){
@@ -328,6 +358,13 @@ class  General extends  Base {
         $list =Db::table("applet")
             ->where("store_id",$this->store_ids)
             ->select();
+        if(!empty($list)){
+            foreach ($list as $k=>$v){
+                $list[$k]["tplid"] =Db::table("ims_sudu8_page_diypagetpl")->where("store_id",$this->store_ids)->value("id");
+            }
+        }else{
+            $this->success("请先编辑小程序设置","admin/General/small_routine_index");
+        }
         return view("decoration_routine_index",["list"=>$list]);
     }
 
@@ -339,7 +376,7 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function xiaochengxu_edit(){
-        $appletid = input("appletid");
+        $appletid = input("appletid");//每一个用户返回不一样的
         $res = Db::table('applet')->where("id",$appletid)->find();
         $a=Db::table('ims_sudu8_page_base')->where("uniacid",$appletid)->find();
         $bg_music=$a['diy_bg_music'];
@@ -348,7 +385,7 @@ class  General extends  Base {
         }
         $this->assign('applet',$res);
         $op=input("op");
-        $tplid=input("tplid");
+        $tplid=input("tplid"); //打印出来是1(因为是写死，现在需要使用到store-id)
         if($op){
             if($op=="setindex"){
                 $val = input('v');
@@ -499,7 +536,10 @@ class  General extends  Base {
             }
             if ($op == 'delpage'){
                 $tpl_id = input("tplid");
-                $tpl_pages = Db::table('ims_sudu8_page_diypagetpl')->where("uniacid",$appletid)->where("id",$tpl_id)->find()['pageid'];
+                $tpl_pages = Db::table('ims_sudu8_page_diypagetpl')
+                    ->where("uniacid",$appletid)
+                    ->where("id",$tpl_id)
+                    ->find()['pageid'];
 
                 $tpl_pages_arr = explode(",",$tpl_pages);
                 $tpl_pages_count = Db::table('ims_sudu8_page_diypage')->where("uniacid",$appletid)->where("id","in",$tpl_pages_arr)->count();
@@ -872,7 +912,7 @@ class  General extends  Base {
                 }
             }
         }else{
-            //页面设置
+            //页面设置 //需要提前设置好
             $setsave = Db::table("ims_sudu8_page_diypageset")->where("uniacid",$appletid)->find();
             if(!$setsave){
                 $foot_is = 1;
@@ -886,7 +926,7 @@ class  General extends  Base {
                 }
                 $foot_is = 0;
             }
-            //查出当前模板关联页面id
+            //查出当前模板关联页面id(没有关联的则为空)
             $type = input('type');
             if($type){
                 $temp = Db::table("ims_sudu8_page_diypagetpl_sys")->where("id",$tplid)->find();
@@ -997,7 +1037,10 @@ class  General extends  Base {
 
                 }
             }else{
-                $temp = Db::table("ims_sudu8_page_diypagetpl")->where("id",$tplid)->find();
+                //综合商城模板
+                $temp = Db::table("ims_sudu8_page_diypagetpl")
+                    ->where("id",$tplid)
+                    ->find();
                 if($temp['thumb']){
                     $temp['thumb'] = remote($appletid,$temp['thumb'],1);
                 }
@@ -1020,8 +1063,8 @@ class  General extends  Base {
                     }
                 }
                 Db::table("ims_sudu8_page_diypagetpl")->where("id",$tplid)->update(array("status"=>1));
-                $pageidArray = explode(',',$temp['pageid']);
-                //查出当前模板所有的页面
+                $pageidArray = explode(',',$temp['pageid']); //这是ims_sudo8_page_diypag表的数据（针对是哪个商家）
+                //查出当前模板所有的页面(新添加的则没有)
                 $list = Db::table("ims_sudu8_page_diypage")->where("uniacid",$appletid)->where("id","in",$pageidArray)->field("id,tpl_name,index")->select();
                 //页面操作
                 $diypage = Db::table("ims_sudu8_page_diypage")->where("uniacid",$appletid)->where("id","in",$pageidArray)->where("index",1)->find();
@@ -1371,14 +1414,41 @@ class  General extends  Base {
             if(empty($store_id)){
                 return ajax_error("请登录店铺进行购买");
             }
-            $account = Db::table("tb_admin")->where("store_id",$store_id)->where("status",0)->value("account");
-            $is_business =Db::table("tb_pc_user")->where("phone_number",$account)->where("status",1)->value("id");
+            $account = Db::table("tb_admin")
+                ->where("store_id",$store_id)
+                ->where("status",0)
+                ->value("account");
+            $is_business =Db::table("tb_pc_user")
+                ->where("phone_number",$account)
+                ->where("status",1)
+                ->value("id");
             if(empty($is_business)){
                 return ajax_error("请使用本店铺商家账号进行购买");
             }
-            $enter_data =Db::table("tb_enter_all")->where("id",$enter_all_id)->find();
-            $meal_name =Db::table("tb_enter_meal")->where("id",$enter_data['enter_id'])->value("name");
-            $store_name =Db::table("tb_store")->where("id",$store_id)->value("store_name");
+            $enter_data =Db::table("tb_enter_all")
+                ->where("id",$enter_all_id)
+                ->find();
+            $meal_name =Db::table("tb_enter_meal")
+                ->where("id",$enter_data['enter_id'])
+                ->value("name");
+            $store_name =Db::table("tb_store")
+                ->where("id",$store_id)
+                ->value("store_name");
+            //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
+            $isset_id = Db::name("set_meal_order")
+                ->where("store_id",$store_id)
+                ->where("enter_all_id",$enter_all_id)
+                ->value("id");
+            if($isset_id){
+                return ajax_error("套餐已下单，请先删除或者升级其他套餐");
+            }
+//            $is_min = Db::name("set_meal_order")
+//                ->where("store_id",$store_id)
+//                ->
+
+
+
+
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
@@ -1405,6 +1475,7 @@ class  General extends  Base {
             }
         }
     }
+
 
     /**
      **************李火生*******************
@@ -1521,7 +1592,7 @@ class  General extends  Base {
         }
         //检测店铺是否删除
             $data =Db::table('tb_set_meal_order')
-                ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.start_time,tb_store.end_time")
+                ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business")
                 ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
                 ->where("is_del",1)
                 ->where("store_id",$store_id)
@@ -1551,6 +1622,86 @@ class  General extends  Base {
      */
     public function  store_order_after(){
         return view("store_order_after");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权申请中
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_ing(){
+        return view("store_order_after_ing");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权已拒绝
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_refuse(){
+        return view("store_order_after_refuse");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权处理中
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_handle(){
+        return view("store_order_after_handle");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权已关闭
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_close(){
+        return view("store_order_after_close");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权完成换货
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_replace(){
+        return view("store_order_after_replace");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权完成退款
+     **************************************
+     * @return \think\response\View
+     */
+    public function  store_order_after_complete(){
+        return view("store_order_after_complete");
+    }
+
+
+
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后维权详情页面
+     **************************************
+     */
+    public function  store_order_after_edit(){
+        return view("store_order_after_edit");
     }
 
     /**

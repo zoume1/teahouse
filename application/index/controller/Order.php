@@ -351,33 +351,37 @@ class  Order extends  Controller
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
+                        $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
+                        $datase["parts_goods_name"] = $goods_data["goods_name"];//名字
+                        $datase["distribution"] = $goods_data["distribution"];//是否分销
+                        $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
+                        $datase["order_quantity"] = $numbers[$keys];//订单数量
+                        $datase["member_id"] = $user_id;//用户id
+                        $datase["user_account_name"] = $user_information["member_name"];//用户名
+                        $datase["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
+                        $datase["harvest_phone_num"] = $harvester_phone_num;
+                        $datase["harvester_address"] = $harvest_address;
+                        $datase["order_create_time"] = $create_time;
+                        $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
+                        $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                        $datase["status"] = 1;
+                        $datase["goods_id"] = $values;
+                        $datase["buy_message"] = $buy_message;//买家留言
+                        $datase["normal_future_time"] =$normal_future_time;//未来时间
+                        $datase["special_id"] = $goods_standard_id[$keys];//规格id
+                        $datase["coupon_id"] = $coupon_id;
+                        $datase["receipt_status"] = $receipt_status; 
+                        $datase["receipt_id"] = $receipt_id;
+                        $datase["receipt_price"] = $receipt_price ;   
+
+                        $rest_id = Db::name('order')->insertGetId($datase);
+                        $datas = $datase;
                         $datas["store_house_id"] = $address_id;
-                        $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
-                        $datas["parts_goods_name"] = $goods_data["goods_name"];//名字
-                        $datas["distribution"] = $goods_data["distribution"];//是否分销
-                        $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
-                        $datas["order_quantity"] = $numbers[$keys];//订单数量
-                        $datas["member_id"] = $user_id;//用户id
-                        $datas["user_account_name"] = $user_information["member_name"];//用户名
-                        $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
-                        $datas["harvest_phone_num"] = $harvester_phone_num;
-                        $datas["harvester_address"] = $harvest_address;
-                        $datas["order_create_time"] = $create_time;
-                        $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                        $datas["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
-                        $datas["status"] = 1;
-                        $datas["goods_id"] = $values;
-                        $datas["buy_message"] = $buy_message;//买家留言
-                        $datas["normal_future_time"] =$normal_future_time;//未来时间
-                        $datas["special_id"] = $goods_standard_id[$keys];//规格id
-                        $datas["coupon_id"] = $coupon_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;  
-                        $datas["receipt_status"] = $receipt_status; 
-                        $datas["receipt_id"] = $receipt_id;
-                        $datas["receipt_price"] = $receipt_price ;                   
+                
                         $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
                             case 0:
@@ -715,34 +719,38 @@ class  Order extends  Controller
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
+                        $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
+                        $datase["parts_goods_name"] = $goods_data["goods_name"];//名字
+                        $datase["distribution"] = $goods_data["distribution"];//是否分销
+                        $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
+                        $datase["order_quantity"] = $numbers[$keys];//订单数量
+                        $datase["member_id"] = $user_id;//用户id
+                        $datase["user_account_name"] = $user_information["member_name"];//用户名
+                        $datase["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
+                        $datase["harvest_phone_num"] = $harvester_phone_num;
+                        $datase["harvester_address"] = $harvest_address;
+                        $datase["order_create_time"] = $create_time;
+                        $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
+                        $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                        $datase["status"] = 1;
+                        $datase["goods_id"] = $values;
+                        $datase["buy_message"] = $buy_message;//买家留言
+                        $datase["normal_future_time"] =$normal_future_time;//未来时间
+                        $datase["special_id"] = $goods_standard_id[$keys];//规格id
+                        $datase["coupon_id"] = $coupon_id;
+                        $datase["receipt_status"] = $receipt_status; 
+                        $datase["receipt_id"] = $receipt_id;
+                        $datase["receipt_price"] = $receipt_price ;
+
+                        $rest_id = Db::name('order')->insertGetId($datase);
+                        $datas = $datase;
                         $datas["store_house_id"] = $address_id;
-                        $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
-                        $datas["parts_goods_name"] = $goods_data["goods_name"];//名字
-                        $datas["distribution"] = $goods_data["distribution"];//是否分销
-                        $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
-                        $datas["order_quantity"] = $numbers[$keys];//订单数量
-                        $datas["member_id"] = $user_id;//用户id
-                        $datas["user_account_name"] = $user_information["member_name"];//用户名
-                        $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
-                        $datas["harvest_phone_num"] = $harvester_phone_num;
-                        $datas["harvester_address"] = $harvest_address;
-                        $datas["order_create_time"] = $create_time;
-                        $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                        $datas["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
-                        $datas["status"] = 1;
-                        $datas["goods_id"] = $values;
-                        $datas["buy_message"] = $buy_message;//买家留言
-                        $datas["normal_future_time"] =$normal_future_time;//未来时间
-                        $datas["special_id"] = $goods_standard_id[$keys];//规格id
-                        $datas["coupon_id"] = $coupon_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;
                         $datas["house_price"] = $house_price[$keys];
-                        $datas["receipt_status"] = $receipt_status; 
-                        $datas["receipt_id"] = $receipt_id;
-                        $datas["receipt_price"] = $receipt_price ;                      
+                      
                         $key = array_search($unit[$keys],$data['unit']);
                         switch($key){
                             case 0:
@@ -2019,7 +2027,16 @@ class  Order extends  Controller
             file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("activity_order")
                 ->where("parts_order_number",$val["out_trade_no"])
-                ->update(["status"=>1]);
+                ->update(["status"=>2]);
+            $activity = Db::name("activity_order")->where("parts_order_number",$val["out_trade_no"])->find();
+            $day_array = Db::name("teahost")->where("id",$activity['teahost_id'])->find();
+            $new_array = explode(",",$day_array["day_array"]);
+            $index = $activity['index'];
+            $new_array[$index] = $new_array[$index]-1;
+            $intest = implode(",",$new_array);
+            $peoples = $day_array["peoples"] + 1;
+            $rest_order = Db::name("teahost")->where("id",$activity['teahost_id'])->update(["day_array"=>$intest,"peoples"=>$peoples]);
+            
             if($res){
                 //做消费记录
                 $information =Db::name("activity_order")
@@ -2065,6 +2082,10 @@ class  Order extends  Controller
         if($val["result_code"] == "SUCCESS" ){
              file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("order")
+                ->where("parts_order_number",$val["out_trade_no"])
+                ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+
+                $host_rest = Db::name("house_order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
             if($res){
@@ -2341,13 +2362,9 @@ class  Order extends  Controller
                     }else{
                         $templet_name = explode(",",$goods["templet_name"]);
                         $templet_id = explode(",",$goods["templet_id"]);
-                        // halt($templet_name);
                         $monomer = $goods["monomer"];
-                        // halt($monomer);
                         $tempid = array_search($monomer,$templet_name);
-                        // halt($tempid);
                         $express_id = $templet_id[$tempid];
-                        // halt($express_id);
                         $rest = db("express")->where("id",$express_id)->find();
                         if(!empty($rest)){
                             $are_block = explode(",",$rest["are"]);

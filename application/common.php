@@ -1036,3 +1036,69 @@ function diffBetweenTwoDays ($second1, $second2)
   }
   return ($second1 - $second2) / 86400;
 }
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:总控套餐订单审核
+ **************************************
+ */
+function audit_status($status){
+    if($status==0){
+        echo '待审核';
+    }else  if($status==1){
+        echo '已通过';
+    }else  if($status==-1){
+        echo '未通过';
+    }
+}
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:判断是商家还是个人
+ **************************************
+ */
+function is_business($status){
+    if($status==1){
+        echo '个人';
+    }else  if($status==2){
+        echo '公司';
+    }
+}
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:支付类型（1扫码支付，2汇款支付，3余额支付）
+ **************************************
+ */
+function pay_type($status){
+    if($status==1){
+        echo '扫码支付';
+    }else  if($status==2){
+        echo '汇款支付';
+    }else if($status==3){
+        echo '余额支付';
+    }else{
+        echo '未支付';
+    }
+}
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:到账状态
+ **************************************
+ * @param $status
+ */
+function pay_status($status){
+    if($status==1){
+        echo '已到账';
+    }else  if($status==2){
+        echo '待审核';
+    }else if($status==1){
+        echo '已到账';
+    }
+}
+

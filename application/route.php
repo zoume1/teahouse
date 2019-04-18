@@ -418,7 +418,6 @@ Route::group("admin",[
     "phone_del"=>"admin/Photo/phone_del", //删除相册
     /* TODO:图片库结束*/
 
-
     /*TODO:订单开始*/
     "order_index"=>"admin/Order/order_index",//初始订单页面
     "order_search"=>"admin/Order/order_search",//初始订单搜索
@@ -772,6 +771,13 @@ Route::group("admin",[
     "store_set_meal_order"=>"admin/General/store_set_meal_order",//套餐订单
     "store_order"=>"admin/General/store_order",//增值订单
     "store_order_after"=>"admin/General/store_order_after",//售后维权
+    "store_order_after_ing"=>"admin/General/store_order_after_ing",//售后维权申请中
+    "store_order_after_refuse"=>"admin/General/store_order_after_refuse",//售后维权已拒绝
+    "store_order_after_handle"=>"admin/General/store_order_after_handle",//售后维权处理中
+    "store_order_after_close"=>"admin/General/store_order_after_close",//售后维权已关闭
+    "store_order_after_replace"=>"admin/General/store_order_after_replace",//售后维权完成换货
+    "store_order_after_complete"=>"admin/General/store_order_after_complete",//售后维权完成退款
+    "store_order_after_edit"=>"admin/General/store_order_after_edit",//售后维权详情
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
     "additional_comments"=>"admin/General/additional_comments",//追加评论
     "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
@@ -783,9 +789,12 @@ Route::group("admin",[
     "control_meal_status"=>"admin/Control/control_meal_status",    //入驻套餐首页显示
     "control_meal_edit"=>"admin/Control/control_meal_edit",        //入驻套餐编辑
     "control_meal_update"=>"admin/Control/control_meal_update",    //入驻套餐编辑保存
-    "control_order_index"=>"admin/Control/control_order_index",    //入驻订单
-    "control_order_add"=>"admin/Control/control_order_add",        //入驻订单编辑审核
-    "control_order_update"=>"admin/Control/control_order_update",  //入驻订单审核更新
+    "control_order_index"=>"admin/Control/control_order_index",    //入驻订单页面
+    "control_store_return"=>"admin/Control/control_store_return",    //入驻资料审核页面
+    "control_order_add"=>"admin/Control/control_order_add",        //入驻订单店铺编辑审核
+    "control_order_update"=>"admin/Control/control_order_update",  //入驻订单店铺审核更新操作
+    "control_order_status"=>"admin/Control/control_order_status",        //入驻订单编辑审核
+    "control_order_status_update"=>"admin/Control/control_order_status_update",        //入驻订单编辑审核操作
     "control_order_search"=>"admin/Control/control_order_search",  //入驻订单搜索
     "control_store_index"=>"admin/Control/control_store_index",    //店铺分析
     "control_store_templet"=>"admin/Control/control_store_templet",//增值商品运费模板

@@ -9,6 +9,7 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use think\Session;
 
 class Photo extends Base{
 
@@ -20,7 +21,8 @@ class Photo extends Base{
      * @return \think\response\View
      */
     public function index(){
-        $list =Db::table("applet")->paginate(20);
+        $store_id =Session::get("store_id");
+        $list =Db::table("applet")->where("store_id",$store_id)->paginate(20);
         return view("photo_index",["list"=>$list]);
     }
 

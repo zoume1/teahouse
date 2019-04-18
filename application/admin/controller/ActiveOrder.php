@@ -20,10 +20,7 @@ class  ActiveOrder extends  Controller{
 
         $active = db("activity_order")->select();        
         foreach($active as $key => $value){
-            if($value["pid"]){
-                $res = db("goods_type")->where("id",$value['pid'])->field("name")->find();
-                $active[$key]["names"] = $res["name"];
-            }
+            $active[$key]['peoples'] = db("teahost")->where('id',$active[$key]['teahost_id'])->value("peoples");
         }
         
         $all_idents = $active ;//这里是需要分页的数据
