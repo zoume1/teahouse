@@ -203,7 +203,7 @@
                                 this.setCookie('TCid', res.body.data.id, 7);
                                 location.href = 'order_package_buy';
                             }else{
-                                normalOrder(_index);
+                               this.normalOrder(_index);
                             }
                         }else{
                             layer.msg(res.body.info, {time: 1000});
@@ -218,7 +218,7 @@
                 normalOrder: function(index){
                     // 接收一个index, 区分是万用版  茶行业版， 茶进阶版
                     var param = {
-                        id: this.selectData[_index].id
+                        id: this.selectData[index].id
                     }
                     this.$http.post('order_package_do_by', param).then(function(res){
                         console.log(res)
