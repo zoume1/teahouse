@@ -756,12 +756,8 @@ Route::group("admin",[
     "order_package_index"=>"admin/General/order_package_index",      //订单套餐
     "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
     "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买页面（ajax订单信息返回）
-<<<<<<< HEAD
-    "order_package_do_by"=>"admin/General/order_package_do_by",      //订单套餐购买操作
-=======
     "order_package_condition"=>"admin/General/order_package_condition",          //下套餐之前需要判断的条件
     "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
->>>>>>> 027b59aaea1ae9e60c878d21369493fda8853b75
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
 
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
