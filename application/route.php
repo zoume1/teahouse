@@ -768,6 +768,10 @@ Route::group("admin",[
     "agency_invitation"=>"admin/General/agency_invitation",//代理分销邀请
     "now_agency_invitation"=>"admin/General/now_agency_invitation",//立即分销邀请
     "security_setting"=>"admin/General/security_setting",//安全设置
+    "store_update_password"=>"admin/Store/store_update_password",//店铺的支付密码修改
+
+
+
     "store_set_meal_order"=>"admin/General/store_set_meal_order",//套餐订单
     "store_order"=>"admin/General/store_order",//增值订单
     "store_order_after"=>"admin/General/store_order_after",//售后维权
