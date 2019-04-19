@@ -63,7 +63,11 @@ class Crowd extends Controller
     {
         if ($request->isPost()) {
             $date_time = time();
-            $member_id = $request->only('member_id')['member_id'];
+            $member_id = $request->only('member_id')['member_id'];//会员id
+            $member = db("member")->where('member_id',$member)->find(); //会员等级
+            $member_grade_name = $member['member_grade_name']; //会员名称
+            $member_grade_id = $member['member_grade_id'];
+            $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");//会员优惠比例 
             $record = Db::name("crowd_goods")
             ->where("label",1)
             ->where("status",1)
@@ -73,12 +77,15 @@ class Crowd extends Controller
                 ->where("label",1)
                 ->where("state",1)
                 ->where("end_time",">=",$date_time)
-                ->field("id,project_name,end_time,goods_show_image")
+                ->field("id,project_name,end_time,goods_show_image,scope")
                 ->select();
                 
             if(!empty($crowd)){
                 foreach($crowd as $key => $value)
                 {
+                    if(!empty($goods[$k]["scope"])){
+                        $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
+                    }
                     $crowd[$key]["days"] = intval(($crowd[$key]["end_time"]-$date_time)/86400);
                     $special[$key] = db("crowd_special")
                         ->where("goods_id",$crowd[$key]["id"])
@@ -89,8 +96,15 @@ class Crowd extends Controller
                     $crowd[$key]["cost"] = $special[$key]["cost"];
                     $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
+
+                    if(!empty($$crowd[$k]["scope"])){
+                        if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                            unset($$crowd[$k]);
+                        }
+                    }
                     
                 }
+
                 $count = count($crowd);
                 $arandom = array_rand($crowd,$count);
                 foreach($crowd as $key => $value){
