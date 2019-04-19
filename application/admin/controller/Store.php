@@ -13,6 +13,32 @@ use think\Session;
 use think\Db;
 
 class Store extends  Controller{
+
+
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:检测是否进行了支付密码设置，没有设置则前往设置
+     **************************************
+     */
+    public function store_isset_password(Request $request){
+        if($request->isPost()){
+            $store_id =Session::get("store_id");
+            $is_set =Db::name("store")
+                ->where("id",$store_id)
+                ->value("store_pay_pass");
+            if(empty($is_set)){
+               return ajax_error("没有设置支付密码，请前往设置");
+            }else{
+                return ajax_success("已检测到支付密码");
+            }
+
+        }
+    }
+
+
     /**
      **************李火生*******************
      * @param Request $request
