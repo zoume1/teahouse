@@ -886,7 +886,7 @@
 
                 </div>
                 <div class="form-input line" style="margin-bottom: 4px;">
-                    <input type="radio" title="运费模板" name="aaa" value="1" name="aaa" checked="">
+                    <input type="radio" title="运费模板" name="aaa" value="1"  checked="">
                     <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
                 </div>
                 {/if}
@@ -991,8 +991,8 @@
                                         //  <!-- 单位循环这里 -->
                                         dhtmlss += '<div class="danwei_content">';
                                         dhtmlss += '<div class="fuhao">=</div>';
-                                        dhtmlss += '<input type="text" name="' + data.data[i].id + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="' + data.data[i].num[j] + '" >';
-                                        dhtmlss += '<input type="text" name="' + data.data[i].id + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" value="' + data.data[i].unit[q] + '" maxlength="2"> ';
+                                        dhtmlss += '<input type="text" name="' + data.data[i].id + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input " value="' + data.data[i].num[j] + '" >';
+                                        dhtmlss += '<input type="text" name="' + data.data[i].id + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" value="' + data.data[i].unit[q] + '" maxlength="2" data-id="1"> ';
                                         dhtmlss += '<img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                                         dhtmlss += '</div>';
                                         //   <!-- 单位循环这里 -->
@@ -1046,7 +1046,7 @@
             for (var qq = 0; qq < $(".units").length; qq++) {
 
                 // 普通规格
-                if ($(".units")[qq].dataset.id == "0") {
+                if ($(".units")[qq].dataset.id == "1") {
 
                     unit1.push($(".units")[qq].value);
                 }
@@ -1055,6 +1055,7 @@
                     unit2.push($(".units")[qq].value);
                 }
             }
+            console.log($(".units").length);
             $.ajax({
                 type: "POST",
                 url: "{:url('admin/Delivery/delivery_templet')}",
@@ -1066,7 +1067,7 @@
                 success: function (data) {
                     data = eval("(" + data + ")");
                     templet = data.data;
-                    console.log(templet);
+                    // console.log(templet);
                 },
                 error: function (data) {
                 }
@@ -1075,7 +1076,7 @@
             var ids = $("#ids").val();
             $.ajax({
                 type: "POST",
-                url: "{:url('admin/Goods/goods_templet')}",
+                url: "{:url('admin/Goods/crowd_templet')}",
                 data: {
                     id: ids
                 },
@@ -1083,10 +1084,12 @@
                 success: function (data) {
                     data = eval("(" + data + ")");
                     var unit1_a = unit1.unique3();
+                   
                     var unit2_a = unit2.unique3();
-                    var val = $('input[name="goods_standard"]:checked').val();
+                    // var val = $('input[name="goods_standard"]:checked').val();
                     var vals = $('input[name="aaa"]:checked').val();
-                    if (val == "0") {
+             
+                    // if (val == "0") {
                         if(vals=="1"){
                             for (var i = 0; i < data.data.templet_name.length; i++) {
                             var add_muban1 = '';
@@ -1117,6 +1120,7 @@
                             add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
                             add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
                             add_muban1 += '</div>';
+
                             $(".add_muban").parent().before(add_muban1);
                             form.render();
 
@@ -1125,47 +1129,47 @@
 
                         }
                        
-                    }
-                    else {
-                        if(vals=="1"){
-                            for (var i = 0; i < data.data.templet_name.length; i++) {
-                            var add_muban1 = '';
-                            add_muban1 += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
-                            add_muban1 += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
-                            add_muban1 += '<select name="templet_name[]"  class="role_list muban_list" >';
-                            for (var n = 0; n < unit2_a.length; n++) {
-                                if (data.data.templet_unit[i] == unit2_a[n]) {
-                                    add_muban1 += ' <option value="' + unit2_a[n] + '" selected="selected">' + unit2_a[n] + '</option>';
-                                }
-                                else {
-                                    add_muban1 += ' <option value="' + unit2_a[n] + '">' + unit2_a[n] + '</option>';
-                                }
-                            }
-                            add_muban1 += '</select><br />';
-                            add_muban1 += '<select name="templet_id[]"  class="role_list">';
-                            for (var h = 0; h < templet.length; h++) {
+                    // }
+                    // else {
+                    //     if(vals=="1"){
+                    //         for (var i = 0; i < data.data.templet_name.length; i++) {
+                    //         var add_muban1 = '';
+                    //         add_muban1 += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
+                    //         add_muban1 += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
+                    //         add_muban1 += '<select name="templet_name[]"  class="role_list muban_list" >';
+                    //         for (var n = 0; n < unit2_a.length; n++) {
+                    //             if (data.data.templet_unit[i] == unit2_a[n]) {
+                    //                 add_muban1 += ' <option value="' + unit2_a[n] + '" selected="selected">' + unit2_a[n] + '</option>';
+                    //             }
+                    //             else {
+                    //                 add_muban1 += ' <option value="' + unit2_a[n] + '">' + unit2_a[n] + '</option>';
+                    //             }
+                    //         }
+                    //         add_muban1 += '</select><br />';
+                    //         add_muban1 += '<select name="templet_id[]"  class="role_list">';
+                    //         for (var h = 0; h < templet.length; h++) {
 
-                                if (data.data.templet_name[i].name == templet[h].name) {
-                                    add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
-                                }
-                                else {
-                                    add_muban1 += ' <option value="' + templet[h].id + '" >' + templet[h].name + '</option>';
-                                }
+                    //             if (data.data.templet_name[i].name == templet[h].name) {
+                    //                 add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
+                    //             }
+                    //             else {
+                    //                 add_muban1 += ' <option value="' + templet[h].id + '" >' + templet[h].name + '</option>';
+                    //             }
 
-                            }
-                            add_muban1 += '</select><br />';
-                            add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
-                            add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
-                            add_muban1 += '</div>';
-                            $(".add_muban").parent().before(add_muban1);
-                            form.render();
+                    //         }
+                    //         add_muban1 += '</select><br />';
+                    //         add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
+                    //         add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
+                    //         add_muban1 += '</div>';
+                    //         $(".add_muban").parent().before(add_muban1);
+                    //         form.render();
 
 
-                        }
+                    //     }
 
-                        }
+                    //     }
                         
-                    }
+                    // }
 
                 },
                 error: function (data) {
@@ -1525,7 +1529,7 @@
                 var danwei = ''
                 danwei += '<div class="fuhao">=</div>';
                 danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-                danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2">';
+                danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="1">';
                 $(this).before(danwei);
             });
             $(".general_content").on("click", ".add_danwei1", function () {
@@ -1549,7 +1553,7 @@
                             danwei1 += '<div class="danwei_content">';
                             danwei1 += '<div class="fuhao">=</div>';
                             danwei1 += '<input type="text" name="' + data.data + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
-                            danwei1 += '<input type="text" name="' + data.data + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input" maxlength="2" required>';
+                            danwei1 += '<input type="text" name="' + data.data + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required data-id="1">';
                             danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                             danwei1 += '</div>';
 
