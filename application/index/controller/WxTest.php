@@ -33,7 +33,6 @@ class WxTest extends Controller
         $input->SetTrade_type("NATIVE");
         $input->SetProduct_id("123456789");//商品id
         $result = \WxPayApi::unifiedOrder($config, $input);
-
         if($result['result_code']=='SUCCESS' && $result['return_code']=='SUCCESS') {
             $url = $result["code_url"];
             $this->assign('url',$url);
