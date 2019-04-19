@@ -257,44 +257,63 @@ class Bonus extends Controller
             $data["suit_price"][2] = isset($data["suit_price3"])?$data["suit_price3"]:0;         
             $data["suit_price"] = implode(",", $data["suit_price"]);
 
-  
             unset($data["suit_price1"]);
-
-            unset($data["suit_price2"]);
-        
+            unset($data["suit_price2"]);    
             unset($data["suit_price3"]);
+            unset($data["goods_number"]);
 
-            foreach($data["goods_id"] as $k => $v){
-                $str[$k] = substr($data["goods_id"][$k], 0, strrpos($data["goods_id"][$k],"_" ));  //商品id
-                $sts[$k] = substr($data["goods_id"][$k], 0, strrpos($data["goods_id"][$k],"_" )+1);//商品类型
-            }
-            halt($str);
-            if (!empty($data["goods_id"])) {
-                foreach ($data["goods_id"] as $key => $value) {
-                    $goods[$key] = db("goods")->where("id", $data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,label")->find();
+            if(!empty($data["goods_id"])){
+                foreach($data["goods_id"] as $k => $v){
+                    $str[$k] = substr($data["goods_id"][$k], 0, strrpos($data["goods_id"][$k],"_" ));  //商品id
+                    $sts[$k] = substr($data["goods_id"][$k], -1, strrpos($data["goods_id"][$k],"_" ));//商品类型 1=>普通 2=>众筹
+                }               
+                if (!empty($str)) {
+                    foreach ($sts as $key => $value) {
+                        if($sts[$key] == 1){
+                        $goods[$key] = db("goods")->where("id", $str[$key])->field("id,goods_number,goods_show_image,goods_name,goods_standard,goods_repertory,label,coupon_type")->find();
+                    } else {
+                        $goods[$key] = db("crowd_goods")->where("id", $str[$key])->find();
+                    }
                 }
                 unset($data["goods_id"]);
             }
+        }
+        $coupon_id = db("coupon")->insertGetId($data);
 
-            $coupon_id = db("coupon")->insertGetId($data);
-            if (!empty($goods)) {
-                foreach ($goods as $key => $value) {
-                    $goods[$key]["goods_id"] = $goods[$key]["id"];
-                    $goods[$key]["coupon_id"] = $coupon_id;
-
+        if (!empty($goods)) {
+            foreach ($goods as $key => $value) {
+                if($goods[$key]["coupon_type"] == 1){
+                    $new_goods[$key]["goods_id"] = $goods[$key]["id"];
+                    $new_goods[$key]["label"] = $goods[$key]["label"];
+                    $new_goods[$key]["coupon_type"] = $goods[$key]["coupon_type"];
+                    $new_goods[$key]["coupon_id"] = $coupon_id;
+                    $new_goods[$key]["goods_show_images"] = $goods[$key]["goods_show_image"];
+                    $new_goods[$key]["goods_name"] = $goods[$key]["goods_name"];
+                    $new_goods[$key]["goods_number"] = $goods[$key]["goods_number"];
+                    $new_goods[$key]["goods_standard"] = $goods[$key]["goods_standard"];
                     if ($goods[$key]["goods_standard"] == 1) {
-                        $goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]["id"])->sum("stock");
-                        $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
+                        $new_goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]["id"])->sum("stock");
                     } else {
-                        $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
-                    }
-                    unset($goods[$key]["id"]);
-                }
-
-                foreach ($goods as $k => $v) {
-                    $rest = db("join")->insert($v);
+                        $new_goods[$key]["goods_repertory"] = $goods[$key]["goods_repertory"];
+                    }  
+                } 
+                if($goods[$key]["coupon_type"] == 2) {
+                    $new_goods[$key]["goods_id"] = $goods[$key]["id"];
+                    $new_goods[$key]["label"] = $goods[$key]["label"];
+                    $new_goods[$key]["coupon_type"] = $goods[$key]["coupon_type"];
+                    $new_goods[$key]["coupon_id"] = $coupon_id;
+                    $new_goods[$key]["goods_show_images"] = $goods[$key]["goods_show_image"];
+                    $new_goods[$key]["goods_number"] = $goods[$key]["id"];
+                    $new_goods[$key]["goods_name"] = $goods[$key]["project_name"];
+                    $new_goods[$key]["goods_standard"] = 1;
+                    $new_goods[$key]["goods_repertory"] = db("crowd_special")->where("goods_id", $goods[$key]["id"])->sum("stock");
                 }
             }
+        }
+                halt($new_goods);
+            foreach ($new_goods as $k => $v) {
+                    $rest = db("join")->insert($v);
+                }
             if ($coupon_id || $rest) {
                 $this->success("添加成功", url("admin/Bonus/coupon_index"));
             } else {
