@@ -152,6 +152,11 @@
                 $('.signin-form-wrap').show();
             }
         })
+        document.onkeydown = function(e){
+            if(e.keyCode == 13){
+                $('.button-primary').click();
+            }
+        }
         // 登录
         $('.button-primary').click(function(){
             var $phone = $('#phone').val(),
