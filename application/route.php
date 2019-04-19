@@ -264,7 +264,7 @@ Route::group("",[
     "sendMobileCode"=>"index/MobileVerification/sendMobileCode",        //这是新绑定手机验证码验证
     "sendMobileCodeBank"=>"index/MobileVerification/sendMobileCodeBank",//这是银行卡绑定时需手机验证码验证
     "sendMobileCodePay"=>"index/MobileVerification/sendMobileCodePay",//忘记支付密码（找回密码验证码）
-    "StoreMobile"=>"index/MobileVerification/StoreMobile",//店铺支付密码（找回密码验证码）
+    "StoreMobile"=>"index/Register/StoreMobile",//店铺支付密码（找回密码验证码）
 
     /*TODO:短信验证结束*/
 
@@ -770,6 +770,7 @@ Route::group("admin",[
     "agency_invitation"=>"admin/General/agency_invitation",//代理分销邀请
     "now_agency_invitation"=>"admin/General/now_agency_invitation",//立即分销邀请
     "security_setting"=>"admin/General/security_setting",//安全设置
+//    "store_mobile"=>"admin/General/store_mobile",//店铺支付密码（找回密码验证码）
     "store_update_password"=>"admin/Store/store_update_password",//店铺的支付密码修改
     "store_wallet_add"=>"admin/Store/store_wallet_add",//店铺的钱包充值
     "store_isset_password"=>"admin/Store/store_isset_password",//店铺检测是否进行了支付密码设置，没有设置则前往设置
