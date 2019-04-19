@@ -63,6 +63,7 @@ class Crowd extends Controller
     {
         if ($request->isPost()) {
             $date_time = time();
+            $member_id = $request->only('member_id')['member_id'];
             $record = Db::name("crowd_goods")
             ->where("label",1)
             ->where("status",1)
@@ -112,6 +113,7 @@ class Crowd extends Controller
     public function crowd_support(Request $request)
     {
         if ($request->isPost()) {
+            $member_id = $request->only('member_id')['member_id'];
             $id = $request->only('id')['id'];
             $date_time = time();
             $crowd = Db::name("crowd_goods")
@@ -158,6 +160,7 @@ class Crowd extends Controller
     {
         if ($request->isPost()){
             $date_time = time();
+            $member_id = $request->only('member_id')['member_id'];
             $crowd = Db::name("crowd_goods")
             ->where("label",1)
             ->where("end_time","<=",$date_time)
