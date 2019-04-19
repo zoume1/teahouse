@@ -188,7 +188,7 @@
                             <td class="next-table-cell">
                                 <div class="next-table-cell-wrapper">
                                     <div class="tAction">
-                                        <a href="javascript:void(0);" target="_self" data-id="{$vo.id}">修改</a>
+                                        <a href="javascript:void(0);" target="_self" class="editAddr" data-id="{$vo.id}">修改</a>
                                         <span class="t-line">|</span>
                                         <span class="t-delete" data-id="{$vo.id}">删除</span>
                                     </div>
@@ -235,7 +235,7 @@
             }
             // 保存按钮
             $('.save-btn').click(function(){
-                var address = $('#province').val() + ',' + $('#city').val() + ',' + $('#district').val(),
+                var address = $('#province').val() + ' ' + $('#city').val() + ' ' + $('#district').val(),
                     street = $('#street').val(),
                     zip = $('#zip').val(),
                     phone = $('#phone').val(),
@@ -284,17 +284,35 @@
             // 删除
             $('.t-delete').click(function(){
                 var id = this.getAttribute('data-id');
-                var param = {
-                    id: id
+                var param = {id: id};
+                if(confirm('删除本条地址？')){
+                    postData('general_address_del', param, combineCallBack);
                 }
-                postData('general_address_del', param, combineCallBack);
             })
 
+            // 修改地址 按钮
+            $('.editAddr').click(function(){
+                var id = this.getAttribute('data-id');
+                var param = {id: id};
+                postData('general_address_edit_info', param, editFunc);
+            })
+            // 修改地址 回调
+            function editFunc(data){
+                console.log(data);
+                $('#p-dist').distpicker('destroy').distpicker({autoSelect: false});
+                $('#province').val(data.data.address.split(' ')[0]).trigger('change');
+                $('#city').val(data.data.address.split(' ')[1]).trigger('change');
+                $('#district').val(data.data.address.split(' ')[2]).trigger('change');
+                $('#street').val(data.data.street);
+                $('#zip').val(data.data.zip);
+                $('#phone').val(data.data.phone);
+                $('#name').val(data.data.name);
+                data.data.default ? $('#default').prop('checked', true) : $('#default').prop('checked', false);
+                $('.save-btn').attr('data-id', data.data.id);
+            }
+
         })()
-        // $('#p-dist').distpicker('destroy').distpicker({autoSelect: false});
-        // $('#province').val(res.data.address_data.split(',')[0]).trigger('change');
-        // $('#city').val(res.data.address_data.split(',')[1]).trigger('change');
-        // $('#district').val(res.data.address_data.split(',')[2]).trigger('change');
+        
 
     </script>
     {/block}
