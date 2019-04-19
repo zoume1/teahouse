@@ -184,7 +184,23 @@ class  General extends  Base {
         if($request->isPost()){
             $data =Db::name("pc_store_address")->where('store_id',$store_id)->select();
             if(!empty($data)){
-                return ajax_success('所有地址信息返回成功',$data);
+                $list=array();
+                foreach ($data as $key=>$value){
+                    $list[$key]["prov"] =explode(" ",$value["address"])[0];
+                    $list[$key]["city"] =explode(" ",$value["address"])[1];
+                    $lists =count(explode(" ",$value["address"]));
+                    if($lists=3){
+                        $list[$key]["dist"] =explode(" ",$value["address"])[2];;
+                    }else{
+                        $list[$key]["dist"] =NULL;
+                    }
+                    $list[$key]["street"] =$value["street"];
+                    $list[$key]["zip"] =$value["zip"];
+                    $list[$key]["name"] =$value["name"];
+                    $list[$key]["phone"] =$value["phone"];
+                    $list[$key]["default"] =$value["default"];
+                }
+                return ajax_success('所有地址信息返回成功',$list);
             }else{
                 return ajax_error('所有地址信息返回失败');
             }
