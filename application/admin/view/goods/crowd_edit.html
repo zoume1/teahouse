@@ -1066,7 +1066,7 @@
                 success: function (data) {
                     data = eval("(" + data + ")");
                     templet = data.data;
-                    console.log(templet);
+                    // console.log(templet);
                 },
                 error: function (data) {
                 }
@@ -1075,7 +1075,7 @@
             var ids = $("#ids").val();
             $.ajax({
                 type: "POST",
-                url: "{:url('admin/Goods/goods_templet')}",
+                url: "{:url('admin/Goods/crowd_templet')}",
                 data: {
                     id: ids
                 },
