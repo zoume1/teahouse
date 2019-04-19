@@ -202,6 +202,7 @@ class  General extends  Base {
                     $list[$key]["name"] =$value["name"];
                     $list[$key]["phone"] =$value["phone"];
                     $list[$key]["default"] =$value["default"];
+                    $lists[$key]["id"]=$value['id'];
                 }
                 return ajax_success('所有地址信息返回成功',$list);
             }else{

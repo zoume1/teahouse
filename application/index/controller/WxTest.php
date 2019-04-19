@@ -19,7 +19,7 @@ class WxTest extends Controller
         $input = new \WxPayUnifiedOrder();//统一下单
 //        $config = new \WxPayConfig();//配置参数
         //$paymoney = input('post.paymoney'); //支付金额
-        $paymoney = 1; //测试写死
+        $paymoney = 0.01; //测试写死
         $out_trade_no = 'WXPAY'.date("YmdHis"); //商户订单号(自定义)
         $goods_name = '扫码支付'.$paymoney.'元'; //商品名称(自定义)
         $input->SetBody($goods_name);
@@ -32,6 +32,7 @@ class WxTest extends Controller
         $input->SetNotify_url("http://www.xxx.com/wxpaynotifyurl"); //回调地址
         $input->SetTrade_type("NATIVE");
         $input->SetProduct_id("123456789");//商品id
+        halt($input);
 //        $result = \WxPayApi::unifiedOrder($config, $input);
         $result = \WxPayApi::unifiedOrder($input);
         halt($result);
