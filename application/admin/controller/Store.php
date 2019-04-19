@@ -69,7 +69,27 @@ class Store extends  Controller{
     }
 
 
-
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺余额返回
+     **************************************
+     */
+    public function store_wallet_return(Request $request){
+        if($request->isPost()){
+            $store_id =Session::get("store_id");
+            $id  = Db::name("store")
+                ->where("id",$store_id)
+                ->value("id");
+            if(!$id){
+                return ajax_error("店铺信息有误");
+            }
+            $wallet  = Db::name("store")
+                ->where("id",$store_id)
+                ->value("store_wallet");
+            return ajax_success("余额返回成功",$wallet);
+        }
+    }
 
     /**
      **************李火生*******************

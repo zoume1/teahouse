@@ -7,6 +7,7 @@ use think\Session;
 
 class Index extends Controller
 {
+
     public function index()
     {
         $phone_num =  $this->commons();
