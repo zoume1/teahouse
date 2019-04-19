@@ -771,6 +771,7 @@ Route::group("admin",[
     "now_agency_invitation"=>"admin/General/now_agency_invitation",//立即分销邀请
     "security_setting"=>"admin/General/security_setting",//安全设置
     "store_update_password"=>"admin/Store/store_update_password",//店铺的支付密码修改
+    "store_wallet_add"=>"admin/Store/store_wallet_add",//店铺的钱包充值
 
 
 

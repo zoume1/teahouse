@@ -264,6 +264,11 @@ class Bonus extends Controller
         
             unset($data["suit_price3"]);
 
+            foreach($data["goods_id"] as $k => $v){
+                $str[$k] = substr($data["goods_id"][$k], 0, strrpos($data["goods_id"][$k],"_" ));  //商品id
+                $sts[$k] = substr($data["goods_id"][$k], 0, strrpos($data["goods_id"][$k],"_" )+1);//商品类型
+            }
+            halt($str);
             if (!empty($data["goods_id"])) {
                 foreach ($data["goods_id"] as $key => $value) {
                     $goods[$key] = db("goods")->where("id", $data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,label")->find();
