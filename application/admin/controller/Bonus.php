@@ -252,16 +252,8 @@ class Bonus extends Controller
             if(isset($data["scope"])){     
                 $data["scope"] = implode(",", $data["scope"]);
             }
-            $data["suit_price"][0] = isset($data["suit_price1"])?$data["suit_price1"]:0;
-            $data["suit_price"][1] = isset($data["suit_price2"])?$data["suit_price2"]:0;
-            $data["suit_price"][2] = isset($data["suit_price3"])?$data["suit_price3"]:0;         
-            $data["suit_price"] = implode(",", $data["suit_price"]);
 
-            unset($data["suit_price1"]);
-            unset($data["suit_price2"]);    
-            unset($data["suit_price3"]);
             unset($data["goods_number"]);
-
             if(!empty($data["goods_id"])){
                 foreach($data["goods_id"] as $k => $v){
                     $str[$k] = substr($data["goods_id"][$k], 0, strrpos($data["goods_id"][$k],"_" ));  //商品id
@@ -309,11 +301,12 @@ class Bonus extends Controller
                     $new_goods[$key]["goods_repertory"] = db("crowd_special")->where("goods_id", $goods[$key]["id"])->sum("stock");
                 }
             }
-        }
-                halt($new_goods);
+
             foreach ($new_goods as $k => $v) {
                     $rest = db("join")->insert($v);
-                }
+            }
+        }
+
             if ($coupon_id || $rest) {
                 $this->success("添加成功", url("admin/Bonus/coupon_index"));
             } else {
@@ -332,7 +325,6 @@ class Bonus extends Controller
         $coupons = db("coupon")->where("id", $id)->select();
         foreach ($coupons as $k => $v) {
             $coupons[$k]["scope"] = explode(",", $coupons[$k]["scope"]);
-            $coupons[$k]["suit_price"] = explode(",", $coupons[$k]["suit_price"]);
         }
         
         $scope = db("member_grade")->field("member_grade_name")->select();
@@ -375,15 +367,7 @@ class Bonus extends Controller
             if(isset($data["scope"])){
                 $data["scope"] = implode(",", $data["scope"]);
             }
-            $data["suit_price"][0] = isset($data["suit_price1"])?$data["suit_price1"]:0;
-            $data["suit_price"][1] = isset($data["suit_price2"])?$data["suit_price2"]:0;
-            $data["suit_price"][2] = isset($data["suit_price3"])?$data["suit_price3"]:0;         
-            $data["suit_price"] = implode(",", $data["suit_price"]);
-  
-            unset($data["suit_price1"]);
-            unset($data["suit_price2"]);
-            unset($data["suit_price3"]);
-
+            
             if (!empty($data["goods_id"])) {
                 foreach ($data["goods_id"] as $key => $value) {
                     $goodes[$key] = db("goods")->where("id", $data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
@@ -428,7 +412,7 @@ class Bonus extends Controller
     {
         $bool = db("coupon")->where("id", $id)->delete();
         $boole = db("join")->where("coupon_id", $id)->delete();
-        if ($bool && $boole) {
+        if ($bool || $boole) {
             $this->success("删除成功", url("admin/Bonus/coupon_index"));
         } else {
             $this->error("删除失败", url("admin/Bonus/coupon_index"));
