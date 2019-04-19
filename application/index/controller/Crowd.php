@@ -97,7 +97,7 @@ class Crowd extends Controller
                     $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
 
-                    if(!empty($$crowd[$k]["scope"])){
+                    if(!empty($crowd[$k]["scope"])){
                         if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
                             unset($$crowd[$k]);
                         }

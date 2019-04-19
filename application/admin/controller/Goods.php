@@ -524,7 +524,7 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
-            $templet = db("goods")->where("id",$id)->field("templet_id,templet_name")->find();
+            $templet = db("crowd_goods")->where("id",$id)->field("templet_id,templet_name")->find();
             if(!empty($templet)){
                 $templet_id = explode(",",$templet["templet_id"]);
                 $templet["templet_id"] = $templet_id;
