@@ -276,7 +276,7 @@
                                     <span class="fund-balance">资金余额：1000.00</span>
                                     <button>立即充值</button>
                                 </div>
-                                <span class="">余额不足，可立即充值</span>
+                                <span>余额不足，可立即充值</span>
                             </div>
                         </div>
                     </div>
@@ -299,7 +299,7 @@
                 <!-- 转账 -->
                 <div class="remit-way" v-show="wayFlag==2">
                     <div class="remit-info-box">
-                        <p>你需汇款<span class="remit-money">399.00</span>至以下账户，汇款成功后上传凭证信息，审核通过后到账</p>
+                        <p>你需汇款<span class="remit-money">{{payment}}</span>至以下账户，汇款成功后上传凭证信息，审核通过后到账</p>
                         <p>收款方户名：杭州88888公司</p>
                         <p>收款方开户行：杭州88888公司</p>
                         <p>收款方账户：1234 4567 7890 159</p>
@@ -441,20 +441,37 @@
                         default: false,
                     }
                 ],
-                addrSelectedIdx: 0,
+                addrSelectedIdx: 0, //被选中收货地址 索引
+                accountMoney: 0, //用户账户余额
             },
             mounted: function(){
                 laydate.render({elem: '#date'});
                 this.getOrderInfo();
             },
             methods: {
+                // 获取数据
+                myAjax: function(url, param, callback){
+                    this.$http.post(url, param).then(function(res){
+                        callback(res);
+                    }, function(res){
+                        console.log(res.status, res.statusText);
+                        layer.msg(res.body.info, {time: 1000});
+                    })
+                },
+                // 获取所有地址信息
+                getAllAddr: function(){
+                    this.myAjax('general_address_return_info', '', this.getAddr);
+                },
+                // 获取地址回调
+                getAddr: function(data){
+                    console.log(data.data);
+                },
                 // 获取订单信息
                 getOrderInfo: function(){
                     var param = {
                         id: this.getCookie('TCid')
                     }
                     this.$http.post('order_package_buy', param).then(function(res){
-                        // console.log(res);
                         if(res.body.status == 1){
                             this.orderInfo = res.body.data;
                         }
@@ -510,18 +527,16 @@
                 delEvent: function(id){
                     if(confirm('您确定要删除该订单吗？')){
                         var param = {'id': id};
-                        this.$http.post('order_package_del', param).then(function(res){
-                            console.log(res);
-                            if(res.body.status == 1){
-                                layer.msg(res.body.info, {time: 1000});
-                                setTimeout(function(){
-                                    location.href = 'order_package_index';
-                                }, 1100)
-                            }
-                        }, function(res){
-                            console.log(res.status, res.statusText);
-                            layer.msg(res.body.info, {time: 1000});
-                        })
+                        this.myAjax('order_package_del', param, this.delCallBack);
+                    }
+                },
+                // 删除订单 回调函数
+                delCallBack: function(data){
+                    if(res.body.status == 1){
+                        layer.msg(res.body.info, {time: 1000});
+                        setTimeout(function(){
+                            location.href = 'order_package_index';
+                        }, 1100)
                     }
                 },
                 // 是否使用邀请码
@@ -569,6 +584,7 @@
 
             },
             computed: {
+                // 商品合计金额
                 totalPrice: function(){
                     // if(this.selectData.length > 0){
                         // for(var i = 0, len = this.selectData.length; i < len; i++){
@@ -577,11 +593,12 @@
                             // }
                         // }
                     // }
-                    console.log(this.orderInfo)
+                    // console.log(this.orderInfo)
                     if(this.orderInfo.length > 0){
                         return (this.orderInfo[0].goods_quantity * this.orderInfo[0].amount_money).toFixed(2);
                     }
                 },
+                // 最终付款金额
                 payment: function(){
                     var sum = this.totalPrice;
                     if(this.discountFlag){
