@@ -941,6 +941,7 @@ class Goods extends Controller
                             $coding[] = $nl["coding"];
                             $story[] = $nl["story"];
                             $cost[] = $nl["cost"];
+                            $offer[] = $nl["offer"];
                             $line[] = isset($nl["line"])?$nl["line"]:null;
                             $status[] = isset($nl["status"])? $nl["status"]:0;
                             $save[] = isset($nl["save"]) ? $nl["save"]:0; 
@@ -970,6 +971,7 @@ class Goods extends Controller
                                     $values[$k]["price"] = $price[$k];
                                     $values[$k]["lv1"] = $standard;
                                     $values[$k]["stock"] = $stock[$k];
+                                    $values[$k]["offer"] = $offer[$k];
                                     $values[$k]["coding"] = $coding[$k];
                                     if(isset($num1)){
                                         if(array_key_exists($coding[$k],$num1)){
@@ -1038,6 +1040,7 @@ class Goods extends Controller
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
+            $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
         }
      }
 
