@@ -1025,7 +1025,10 @@
             form.render();
             // 运费模板
             var unit2 = [];
-
+            $(".yunfei").on('click', ".delect_img", function () {
+                 
+                 $(this).parent().remove();
+             })
             Array.prototype.unique3 = function () {
                 var res = [];
                 var json = {};
@@ -1037,7 +1040,138 @@
                 }
                 return res;
             }
+            var unit1 = [];
+            var unit2 = [];
+            var templet = [];
+            for (var qq = 0; qq < $(".units").length; qq++) {
 
+                // 普通规格
+                if ($(".units")[qq].dataset.id == "0") {
+
+                    unit1.push($(".units")[qq].value);
+                }
+                else {
+
+                    unit2.push($(".units")[qq].value);
+                }
+            }
+            $.ajax({
+                type: "POST",
+                url: "{:url('admin/Delivery/delivery_templet')}",
+                async: false,
+                data: {
+
+                },
+                async: false,
+                success: function (data) {
+                    data = eval("(" + data + ")");
+                    templet = data.data;
+                    console.log(templet);
+                },
+                error: function (data) {
+                }
+            });
+
+            var ids = $("#ids").val();
+            $.ajax({
+                type: "POST",
+                url: "{:url('admin/Goods/goods_templet')}",
+                data: {
+                    id: ids
+                },
+                async: false,
+                success: function (data) {
+                    data = eval("(" + data + ")");
+                    var unit1_a = unit1.unique3();
+                    var unit2_a = unit2.unique3();
+                    var val = $('input[name="goods_standard"]:checked').val();
+                    var vals = $('input[name="aaa"]:checked').val();
+                    if (val == "0") {
+                        if(vals=="1"){
+                            for (var i = 0; i < data.data.templet_name.length; i++) {
+                            var add_muban1 = '';
+                            add_muban1 += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
+                            add_muban1 += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
+                            add_muban1 += '<select name="templet_name[]"  class="role_list muban_list" >';
+                            for (var n = 0; n < unit1_a.length; n++) {
+                                if (data.data.templet_unit[i] == unit1_a[n]) {
+                                    add_muban1 += ' <option value="' + unit1_a[n] + '" selected="selected">' + unit1_a[n] + '</option>';
+                                }
+                                else {
+                                    add_muban1 += ' <option value="' + unit1_a[n] + '">' + unit1_a[n] + '</option>';
+                                }
+                            }
+                            add_muban1 += '</select><br />';
+                            add_muban1 += '<select name="templet_id[]"  class="role_list">';
+                            for (var h = 0; h < templet.length; h++) {
+                               
+                                if (data.data.templet_name[i].name == templet[h].name) {
+                                    add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
+                                }
+                                else {
+                                    add_muban1 += ' <option value="' + templet[h].id + '" >' + templet[h].name + '</option>';
+                                }
+
+                            }
+                            add_muban1 += '</select><br />';
+                            add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
+                            add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
+                            add_muban1 += '</div>';
+                            $(".add_muban").parent().before(add_muban1);
+                            form.render();
+
+
+                        }
+
+                        }
+                       
+                    }
+                    else {
+                        if(vals=="1"){
+                            for (var i = 0; i < data.data.templet_name.length; i++) {
+                            var add_muban1 = '';
+                            add_muban1 += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
+                            add_muban1 += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
+                            add_muban1 += '<select name="templet_name[]"  class="role_list muban_list" >';
+                            for (var n = 0; n < unit2_a.length; n++) {
+                                if (data.data.templet_unit[i] == unit2_a[n]) {
+                                    add_muban1 += ' <option value="' + unit2_a[n] + '" selected="selected">' + unit2_a[n] + '</option>';
+                                }
+                                else {
+                                    add_muban1 += ' <option value="' + unit2_a[n] + '">' + unit2_a[n] + '</option>';
+                                }
+                            }
+                            add_muban1 += '</select><br />';
+                            add_muban1 += '<select name="templet_id[]"  class="role_list">';
+                            for (var h = 0; h < templet.length; h++) {
+
+                                if (data.data.templet_name[i].name == templet[h].name) {
+                                    add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
+                                }
+                                else {
+                                    add_muban1 += ' <option value="' + templet[h].id + '" >' + templet[h].name + '</option>';
+                                }
+
+                            }
+                            add_muban1 += '</select><br />';
+                            add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
+                            add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
+                            add_muban1 += '</div>';
+                            $(".add_muban").parent().before(add_muban1);
+                            form.render();
+
+
+                        }
+
+                        }
+                        
+                    }
+
+                },
+                error: function (data) {
+
+                }
+            });
 
             $(".general_content").on("blur", ".units", function () {
                 id = $(this).data("id");
@@ -1047,7 +1181,7 @@
 
                 // 填入的值不为空
                 if ($(this).val() != '') {
-                    console.log($(this).data("value"))
+                    // console.log($(this).data("value"))
                     // 本来无值（存入）
                     if ($(this).data("value") == undefined) {
 
@@ -1420,7 +1554,7 @@
                             danwei1 += '</div>';
 
                             thisa.before(danwei1);
-
+          
                         },
                         error: function (data) {
                             console.log("错误");
