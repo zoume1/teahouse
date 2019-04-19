@@ -1057,6 +1057,7 @@
                         tableHTML += '			<th width="100px"><input value="众筹故事"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="价格"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="图片"  readonly style="border:0;"></th>';
+                        tableHTML += '			<th width="100px"><input value="报价单位"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><textarea name="" id="" cols="" rows="" style="vertical-align:top;outline:none;border:0;width: 100px;overflow: hidden;     text-align: center;" readonly>每人限购（-1表示不限）</textarea>';
                         tableHTML += '			<th width="100px"><input value="存茶开关"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="是否上架"  readonly style="border:0;"></th>';
@@ -1136,6 +1137,7 @@
                             tableHTML += '                 </div>';
                             tableHTML += '            </aside>';
                             tableHTML += '             </td>';
+                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[offer]" class="offer" /></td>';
                             tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[line]" required /></td>'; //每人限购
                             tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[save]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="issave" name="sss' + name + '[static]"></td>'; //存茶开关
                             tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[status]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>'; //上架
