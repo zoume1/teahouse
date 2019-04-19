@@ -169,13 +169,13 @@
                             </div>
                             <div class="cur-marker"></div>
                             <div class="set-default" title="设置当前地址为默认"
-                                @click="setDefaultAddr">设为默认</div>
+                                @click="setDefaultAddr(v.id)">设为默认</div>
                             <div class="default-tip" style="display: block;"
                                 v-if="v.default">默认地址</div>
                         </div>
                     </div>
                     <div class="operate-addr">
-                        <span>管理收货地址</span>
+                        <span @click="toEditAddr">管理收货地址</span>
                     </div>
                 </div>
                 <div class="carts" v-for="(item, index) in orderInfo">
@@ -398,49 +398,7 @@
                 showPayWay: false,
                 showVoucherPop: false,
                 orderInfo: '',
-                addrData: [
-                    {
-                        prov: '广东',
-                        city: '深圳',
-                        dist: '福田',
-                        street: '中电信息大厦东座1518',
-                        name: '刘德华',
-                        phone: '13691853045',
-                        default: true,
-                    },{
-                        prov: '广东',
-                        city: '深圳',
-                        dist: '南山',
-                        street: '西丽深圳职业技术学院东区',
-                        name: '张雪有',
-                        phone: '18675509994',
-                        default: false,
-                    },{
-                        prov: '广东',
-                        city: '深圳',
-                        dist: '福田',
-                        street: '莲花街道华强职业技术学校',
-                        name: '张家辉',
-                        phone: '13615842245',
-                        default: false,
-                    },{
-                        prov: '广东',
-                        city: '深圳',
-                        dist: '福田',
-                        street: '莲花街道华强职业技术学校',
-                        name: '张家辉',
-                        phone: '13615842245',
-                        default: false,
-                    },{
-                        prov: '广东',
-                        city: '深圳',
-                        dist: '福田',
-                        street: '莲花街道华强职业技术学校',
-                        name: '张家辉',
-                        phone: '13615842245',
-                        default: false,
-                    }
-                ],
+                addrData: [], // 收货地址数组
                 addrSelectedIdx: 0, //被选中收货地址 索引
                 accountMoney: 0, //用户账户余额
             },
@@ -465,7 +423,8 @@
                 },
                 // 获取地址回调
                 getAddr: function(data){
-                    console.log(data.data);
+                    this.addrData = data.body.data;
+                    console.log(this.addrData)
                 },
                 // 获取订单信息
                 getOrderInfo: function(){
@@ -494,13 +453,22 @@
                     var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
                     return Y+M+D;
                 },
+                // 管理地址
+                toEditAddr: function(){
+                    location.href = 'general_address';
+                },
                 // 修改地址
                 modifyAddr: function(){
                     alert('修改地址');
                 },
                 // 设置默认地址
-                setDefaultAddr: function(){
-                    alert('设置默认地址');
+                setDefaultAddr: function(id){
+                    var param = {id: id};
+                    this.myAjax('general_address_status', param, setDefCallBack);
+                },
+                // 设置默认地址 回调
+                setDefCallBack: function(data){
+                    console.log(data);
                 },
                 // 选择收货地址
                 selectAddr: function(i){
