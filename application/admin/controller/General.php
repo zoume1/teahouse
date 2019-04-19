@@ -182,7 +182,10 @@ class  General extends  Base {
     public function  general_address_return_info(Request $request){
         $store_id =$this->store_ids ;
         if($request->isPost()){
-            $data =Db::name("pc_store_address")->where('store_id',$store_id)->select();
+            $data =Db::name("pc_store_address")
+                ->where('store_id',$store_id)
+                ->order("default","desc")
+                ->select();
             if(!empty($data)){
                 $list=array();
                 foreach ($data as $key=>$value){
@@ -190,7 +193,7 @@ class  General extends  Base {
                     $list[$key]["city"] =explode(" ",$value["address"])[1];
                     $lists =count(explode(" ",$value["address"]));
                     if($lists=3){
-                        $list[$key]["dist"] =explode(" ",$value["address"])[2];;
+                        $list[$key]["dist"] =explode(" ",$value["address"])[2];
                     }else{
                         $list[$key]["dist"] =NULL;
                     }
@@ -199,6 +202,7 @@ class  General extends  Base {
                     $list[$key]["name"] =$value["name"];
                     $list[$key]["phone"] =$value["phone"];
                     $list[$key]["default"] =$value["default"];
+                    $list[$key]["id"]=$value['id'];
                 }
                 return ajax_success('所有地址信息返回成功',$list);
             }else{
