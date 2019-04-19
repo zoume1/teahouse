@@ -525,6 +525,7 @@ Route::group("admin",[
     "goods_offer"=>"admin/Goods/offer",          //普通商品多规格列表单位编辑 
     "goods_standard"=>"admin/Goods/standard",    //普通商品多规格列表单位id查找 
     "goods_templet"=>"admin/Goods/goods_templet",//普通商品运费模板编辑 
+    "crowd_templet"=>"admin/Goods/crowd_templet",//众筹商品运费模板编辑 
 
     "crowd_index"=>"admin/Goods/crowd_index",        //众筹商品列表显示
     "crowd_add"=>"admin/Goods/crowd_add",            //众筹商品列表添加

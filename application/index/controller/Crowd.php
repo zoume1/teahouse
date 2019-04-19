@@ -29,6 +29,7 @@ class Crowd extends Controller
                 ->where("label",1)
                 ->where("status",1)
                 ->where("state",1)
+                ->where("end_time",">=",$date_time)
                 ->field("id,project_name,goods_describe,end_time,goods_show_image")
                 ->select();
             if(!empty($crowd)){
@@ -63,7 +64,11 @@ class Crowd extends Controller
     {
         if ($request->isPost()) {
             $date_time = time();
-            $member_id = $request->only('member_id')['member_id'];
+            $member_id = $request->only('member_id')['member_id'];//会员id
+            $member = db("member")->where('member_id',$member_id)->find(); //会员等级
+            $member_grade_name = $member['member_grade_name']; //会员名称
+            $member_grade_id = $member['member_grade_id'];
+            $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");//会员优惠比例 
             $record = Db::name("crowd_goods")
             ->where("label",1)
             ->where("status",1)
@@ -73,12 +78,15 @@ class Crowd extends Controller
                 ->where("label",1)
                 ->where("state",1)
                 ->where("end_time",">=",$date_time)
-                ->field("id,project_name,end_time,goods_show_image")
+                ->field("id,project_name,end_time,goods_show_image,scope,goods_member")
                 ->select();
                 
             if(!empty($crowd)){
                 foreach($crowd as $key => $value)
                 {
+                    if(!empty($crowd[$key]["scope"])){
+                        $crowd[$key]["scope"] = explode(",",$crowd[$key]["scope"]);
+                    }
                     $crowd[$key]["days"] = intval(($crowd[$key]["end_time"]-$date_time)/86400);
                     $special[$key] = db("crowd_special")
                         ->where("goods_id",$crowd[$key]["id"])
@@ -87,17 +95,22 @@ class Crowd extends Controller
                         ->order("cost asc")
                         ->find();
                     $crowd[$key]["cost"] = $special[$key]["cost"];
+
+                    if($crowd[$key]["goods_member"] == 1){
+                        $crowd[$key]["cost"] = $special[$key]["cost"] * $discount ;
+                    }
                     $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
+
+                    if(!empty($crowd[$key]["scope"])){
+                        if(!in_array($member_grade_name,$crowd[$key]["scope"])){ 
+                            unset($crowd[$key]);
+                        }
+                    }
                     
                 }
-                $count = count($crowd);
-                $arandom = array_rand($crowd,$count);
-                foreach($crowd as $key => $value){
-                    if(in_array($key,$arandom)){
-                        $arr[] = $value;
-                    }
-                }
+
+                $arr = array_values($crowd);           
                 ajax_success('传输成功', $arr);
             } else {
                 return ajax_error("数据为空");
@@ -114,11 +127,15 @@ class Crowd extends Controller
     {
         if ($request->isPost()) {
             $member_id = $request->only('member_id')['member_id'];
+            $member = db("member")->where('member_id',$member_id)->find(); //会员等级
+            $member_grade_name = $member['member_grade_name']; //会员名称
+            $member_grade_id = $member['member_grade_id'];
+            $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");//会员优惠比例 
             $id = $request->only('id')['id'];
             $date_time = time();
             $crowd = Db::name("crowd_goods")
                 ->where("id",$id)
-                ->field("id,project_name,end_time,goods_show_image,goods_show_images,company_name,company_name1,company_time,goods_text,team,text")
+                ->field("id,project_name,end_time,goods_show_image,goods_show_images,company_name,company_name1,company_time,goods_text,team,text,scope,goods_member")
                 ->select();
             
             if(!empty($crowd)){
@@ -139,12 +156,21 @@ class Crowd extends Controller
                         ->select();
                     $crowd[$key]["state"] = $special[$key]["state"];
                     $crowd[$key]["cost"] = $special[$key]["cost"];
+                    
+                    if($crowd[$key]["goods_member"] == 1){
+                        $crowd[$key]["cost"] = $special[$key]["cost"] * $discount ;
+                        foreach($standard as $m => $n){
+                            $standard[$m]["cost"] = $standard[$m]["cost"]* $discount ;
+                        }
+                    }
+                    $crowd[$key]["standard"] = $standard;
                     $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
                     $crowd[$key]["collecting_money"] = $special[$key]["collecting_money"];
-                    $crowd[$key]["standard"] = $standard;                  
+                                      
                 }             
                 ajax_success('传输成功', $crowd);
+                
             } else {
                 return ajax_error("数据为空");
             }
@@ -161,6 +187,11 @@ class Crowd extends Controller
         if ($request->isPost()){
             $date_time = time();
             $member_id = $request->only('member_id')['member_id'];
+            $member_id = $request->only('member_id')['member_id'];//会员id
+            $member = db("member")->where('member_id',$member_id)->find(); //会员等级
+            $member_grade_name = $member['member_grade_name']; //会员名称
+            $member_grade_id = $member['member_grade_id'];
+            $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");//会员优惠比例
             $crowd = Db::name("crowd_goods")
             ->where("label",1)
             ->where("end_time","<=",$date_time)
@@ -170,6 +201,9 @@ class Crowd extends Controller
             if(!empty($crowd)){
                 foreach($crowd as $key => $value)
                 {
+                    if(!empty($crowd[$key]["scope"])){
+                        $crowd[$key]["scope"] = explode(",",$crowd[$key]["scope"]);
+                    }
                     $crowd[$key]["days"] = intval(($crowd[$key]["end_time"]-$date_time)/86400);
                     $special[$key] = db("crowd_special")
                         ->where("goods_id",$crowd[$key]["id"])
@@ -178,10 +212,19 @@ class Crowd extends Controller
                         ->order("cost asc")
                         ->find();
                     $crowd[$key]["cost"] = $special[$key]["cost"];
+                    if($crowd[$key]["goods_member"] == 1){
+                        $crowd[$key]["cost"] = $special[$key]["cost"] * $discount ;
+                    }
                     $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
                     
+                    if(!empty($crowd[$key]["scope"])){
+                        if(!in_array($member_grade_name,$crowd[$key]["scope"])){ 
+                            unset($crowd[$key]);
+                        }
+                    }
                 }
+                $crowd = array_values($crowd);
                 $count = count($crowd);
                 if($count > 1){
                     $arandom = array_rand($crowd,$count);
