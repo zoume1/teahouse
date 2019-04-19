@@ -7,17 +7,17 @@
  */
 namespace app\index\controller;
 use think\Controller;
-include('../extend/WxpayAPI/lib/WxPay.Api.php');
-include('../extend/WxpayAPI/example/WxPay.NativePay.php');
-include('../extend/WxpayAPI/lib/WxPay.Notify.php');
-include('../extend/WxpayAPI/example/log.php');
+include('../extend/WxpayAll/lib/WxPay.Api.php');
+include('../extend/WxpayAll/example/WxPay.NativePay.php');
+include('../extend/WxpayAll/lib/WxPay.Notify.php');
+include('../extend/WxpayAll/example/log.php');
 class WxTest extends Controller
 {
     public function index(){
         header("Content-type:text/html;charset=utf-8");
 //        require EXTEND_PATH.'/wxpay/WxPay.Api.php'; //引入微信支付
         $input = new \WxPayUnifiedOrder();//统一下单
-        $config = new \WxPayConfig();//配置参数
+//        $config = new \WxPayConfig();//配置参数
         //$paymoney = input('post.paymoney'); //支付金额
         $paymoney = 1; //测试写死
         $out_trade_no = 'WXPAY'.date("YmdHis"); //商户订单号(自定义)
@@ -32,7 +32,9 @@ class WxTest extends Controller
         $input->SetNotify_url("http://www.xxx.com/wxpaynotifyurl"); //回调地址
         $input->SetTrade_type("NATIVE");
         $input->SetProduct_id("123456789");//商品id
-        $result = \WxPayApi::unifiedOrder($config, $input);
+//        $result = \WxPayApi::unifiedOrder($config, $input);
+        $result = \WxPayApi::unifiedOrder($input);
+        halt($result);
         if($result['result_code']=='SUCCESS' && $result['return_code']=='SUCCESS') {
             $url = $result["code_url"];
             $this->assign('url',$url);
