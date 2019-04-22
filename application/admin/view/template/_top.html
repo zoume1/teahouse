@@ -33,6 +33,7 @@
         timeout: 5000,
         dataType: "json",
         success: function (data) {
+            console.log(data)
             var dhtmlqq = '';
             dhtmlqq += '<div class="distribution_list" id="distribution_list">';
             dhtmlqq += ' <ul>';
@@ -48,7 +49,7 @@
                     dhtmlqq += '     <a href="' + data.data[i].url + '"  data-id="' + data.data[i].url + '" class="on">' + data.data[i].name + '</a>';
                     dhtmlqq += ' </li>';
                 }
-
+                
             }
             dhtmlqq += ' </ul>';
             dhtmlqq += '</div>';
