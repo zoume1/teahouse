@@ -816,6 +816,10 @@ Route::group("admin",[
     "control_templet_delete"=>"admin/Control/control_templet_delete",//增值商品运费模板删除
     "control_templet_edit"=>"admin/Control/control_templet_edit",   //增值商品运费模板编辑
     "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
+    "control_online_charging"=>"admin/Control/control_online_charging",//线下充值申请
+    "control_charging_edit"=>"admin/Control/control_charging_edit",//线下充值申请编辑
+    "control_withdraw_deposit"=>"admin/Control/control_withdraw_deposit",//提现申请
+    "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加

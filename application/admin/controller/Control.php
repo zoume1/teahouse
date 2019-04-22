@@ -484,7 +484,7 @@ class  Control extends  Controller{
 
 
 
-        /**
+    /**
      * [增值商品运费模板更新]
      * 郭杨
      */    
@@ -493,4 +493,40 @@ class  Control extends  Controller{
     }
     
     
+
+    /**
+     * [线下充值申请]
+     * 郭杨
+     */    
+    public function control_online_charging(){     
+        return view("control_online_charging");
+    }
+
+
+    /**
+     * [线下充值申请编辑]
+     * 郭杨
+     */    
+    public function control_charging_edit(){     
+        return view("control_charging_edit");
+    }
+
+
+    /**
+     * [提现申请]
+     * 郭杨
+     */    
+    public function control_withdraw_deposit(){     
+        return view("control_withdraw_deposit");
+    }
+
+
+    /**
+     * [提现申请编辑]
+     * 郭杨
+     */    
+    public function control_withdraw_edit(){     
+        return view("control_withdraw_edit");
+    }
+
  }
