@@ -325,6 +325,9 @@ Route::group("",[
     "bill_delete"=>"index/Receipt/bill_delete",        //删除默认户名
     "proportion"=>"index/Receipt/proportion",          //查询发票费率
 
+    /*众筹订单*/
+    "crowd_order_return"=>"index/Crowdfinancing/crowd_order_return" //立即购买过去清单数据返回
+
 
 
 ]);
