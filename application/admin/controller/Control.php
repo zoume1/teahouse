@@ -38,7 +38,7 @@ class  Control extends  Controller{
     public function control_meal_index(){
         $control_meal = db("enter_meal")->paginate(20,false, [
             'query' => request()->param(),
-        ]);     
+        ]);
         return view("control_meal_index",["control_meal"=>$control_meal]);
     }
 
@@ -176,40 +176,218 @@ class  Control extends  Controller{
     }
 
     /**
-     * [入驻订单]
-     * 郭杨
-     */    
+     **************李火生*******************
+     * @param Request $request
+     * Notes:入驻订单
+     **************************************
+     * @return \think\response\View
+     */
     public function control_order_index(){
-        $order = db("store")->paginate(20,false, [
-            'query' => request()->param(),
-        ]);
+        $order =Db::table('tb_set_meal_order')
+            ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
+            ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
+            ->where("is_del",1)
+            ->order("tb_set_meal_order.create_time","desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         $enter_meal = db("enter_meal")->field("name")->select();
         return view("control_order_index",["order"=>$order,"enter_meal"=>$enter_meal]);
     }
 
 
     /**
-     * [入驻订单编辑]
+     * [入驻订单店铺信息编辑]
      * 郭杨
      */    
     public function control_order_add($id){
-        $store_order = db("store")->where("id",1)->select();
+        $store_order = db("store")
+            ->where("id",$id)
+            ->select();
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
         return view("control_order_add",["store_order"=>$store_order]);
     }
 
 
     /**
-     * [入驻订单状态更新]
-     * 郭杨
-     */    
+     **************李火生*******************
+     * @param Request $request
+     * Notes:入驻订单套餐数据返回
+     **************************************
+     * @param $id
+     */
+    public function control_order_status($id){
+        //先检查店铺审核状态(未审核不能点进来审核订单)
+        $store_id =Db::table("tb_set_meal_order")
+            ->where("id",$id)
+            ->value("store_id");
+        $store_info =Db::table("tb_store")
+            ->where("id",$store_id)
+            ->where("status",1)
+            ->value("id");
+        if(!$store_info){
+            $this->error("请先进行店铺审核操作");
+        }
+        $store_information =Db::table("tb_store")
+            ->where("id",$store_id)
+            ->where("store_del",1)
+            ->value("id");
+        if(!$store_information){
+            $this->error("该店铺已被删除，无法进行以下操作");
+        }
+        $store_order = Db::table('tb_set_meal_order')
+            ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status,tb_store.address_data,tb_store.id_card,tb_store.card_positive,tb_store.store_introduction,tb_store.store_qq,tb_store.explain")
+            ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
+            ->where("is_del",1)
+            ->where("store_id",$store_id)
+            ->select();
+        $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
+        return view("control_order_status",["store_order"=>$store_order]);
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:入驻订单编辑审核操作
+     **************************************
+     */
+    public function control_order_status_update(Request $request){
+        if($request -> isPost()) {
+            $id = $request->only(["id"])["id"];
+            $data = $request->param();
+            $is_pay = db("set_meal_order")->where("id", $id)->field("pay_type,store_id")->find();
+            if(!$is_pay["pay_type"]){
+                $this->error("此订单未付款不能审核操作");
+            }
+            $bool = db("set_meal_order")->where("id", $id)->update($data);
+            if ($bool) {
+                //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
+                if($data["audit_status"] ==1){
+                    Db::table("tb_admin")
+                        ->where("store_id",$is_pay["store_id"])
+                        ->where("is_own",1)
+                        ->update(["role_id"=>7]);
+                    //审核通过的时候先判断是否有小程序模板，没有的话则进行添加，有的话则不需要
+                    $is_set = Db::table("ims_sudu8_page_diypageset")->where("store_id",$is_pay["store_id"])->find();
+                    if(!$is_set){
+                        $is_uniacid =Db::table("ims_sudu8_page_base")->where("uniacid",$is_pay["store_id"])->find();
+                        if(!$is_uniacid){
+                            $insert_data =[
+                                "uniacid"=>$is_pay["store_id"],
+                                "index_style"=>"header",
+                                "copyimg"=>"",
+                                "base_color_t"=>"",
+                                "tabnum_new"=>5,
+                                "homepage"=>2,
+                            ];
+                            Db::table("ims_sudu8_page_base")->insert($insert_data);
+                        }
+                        $array =[
+                            "go_home"=>1,
+                            "uniacid"=>$is_pay["store_id"],
+                            "kp"=>"/diypage/resource/images/diypage/default/default_start.jpg",
+                            "kp_is"=>2,
+                            "kp_url"=>"",
+                            "kp_urltype"=>"",
+                            "kp_m"=>2,
+                            "tc"=>"/diypage/resource/images/diypage/default/tcgg.jpg",
+                            "tc_is"=>2,
+                            "tc_url"=>"",
+                            "tc_urltype"=>"",
+                            "foot_is"=>2,
+                            "pid"=>0,
+                            "store_id"=>$is_pay["store_id"],
+                        ];
+                        Db::table("ims_sudu8_page_diypageset")->insert($array);
+                        $arr=[
+                            "uniacid"=>$is_pay["store_id"],
+                            "index"=>1,
+                            "page"=>'a:7:{s:10:"background";s:7:"#f1f1f1";s:13:"topbackground";s:7:"#ffffff";s:8:"topcolor";s:1:"1";s:9:"styledata";s:1:"0";s:5:"title";s:21:"小程序页面标题";s:4:"name";s:23:"后台页面名称11111";s:10:"visitlevel";a:2:{s:6:"member";s:0:"";s:10:"commission";s:0:"";}}',
+                            "items"=>"",
+                            "tpl_name"=>"首页"
+                        ];
+                       $diy_id = Db::table("ims_sudu8_page_diypage")->insertGetId($arr);
+                        $new_array =[
+                            "uniacid"=>$is_pay["store_id"],
+                            "pageid"=>$diy_id,
+                            "template_name"=>"综合商城模板",
+                            "thumb"=>"/diypage/template_img/template_shop/cover.png",
+                            "create_time"=>time(),
+                            "status"=>1,
+                            "store_id"=>$is_pay["store_id"]
+                        ];
+                        Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
+                    }
+                }
+
+                $this->success("审核成功", url("admin/Control/control_order_index"));
+            } else {
+                $this->error("审核失败,请编辑后再提交");
+            }
+
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:入驻资料店铺页面
+     **************************************
+     */
+    public function control_store_return(){
+        $order =Db::table('tb_store')
+            ->field("phone_number,contact_name,is_business,address_real_data,status store_status,store_name,id")
+            ->where("store_del",1)
+            ->order('id',"desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        return view("control_store_return",["order"=>$order]);
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:入驻订单店铺审核操作
+     **************************************
+     * @param Request $request
+     */
     public function control_order_update(Request $request){
         if($request -> isPost()){
             $id = $request -> only(["id"])["id"];
             $data = $request -> param();
             $bool = db("store")->where("id",$id)->update($data);
-            
             if($bool){
+                if($data['status'] ==1){
+                    $user_id =db("store")
+                        ->where("id",$id)
+                        ->value("user_id");
+                    $user_data =Db::table("tb_pc_user")
+                        ->field("phone_number,password")
+                        ->where("id",$user_id)
+                        ->find();
+                    //审核通过则在后台添加一个登录账号，不通过则不添加
+                 $is_set = Db::name("admin")->where("store_id",$id)->find();
+                 if(!$is_set){
+                     //先判断该店铺是否已经添加过admin表
+                     //插入到后台
+                     $array =[
+                         "account"=>$user_data['phone_number'], //手机号
+                         "passwd"=>$user_data['password'],//登录密码
+                         "sex"=>1,
+                         "stime"=>date("Y-m-d H:i:s"),
+                         "role_id"=>8,//普通访客
+                         "phone"=>$user_data['phone_number'],
+                         "status"=>0,//0可以登录后台，1被禁用
+                         "name"=>$user_data['phone_number'],
+                         "store_id"=>$id,
+                         "is_own"=>1, //1为商家，0为商家下面的员工或者admin
+                     ];
+                     Db::name("admin")->insertGetId($array);
+                 }
+                }
                 $this->success("审核成功",url("admin/Control/control_order_index"));
             } else {
                 $this->error("审核失败,请编辑后再提交",url("admin/Control/control_order_index"));

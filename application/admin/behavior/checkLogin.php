@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: CHEN
- * Date: 2018/7/15
- * Time: 18:52
- */
+
 
 namespace app\admin\behavior;
 use think\Controller;
@@ -47,9 +42,8 @@ class checkLogin extends Controller {
                 }
             }
             $menu_list = _tree_hTree(_tree_sort($menu_list,"sort_number"));
-            config("menu_list",$menu_list);
+            config("menu_list",$menu_list);//节点信息
             //halt(Config::get("menu_list"));
         }
     }
-
 }

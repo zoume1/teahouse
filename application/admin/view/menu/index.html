@@ -27,20 +27,16 @@
     
     .distribution_list ul {
         display: flex;
-        width: 380px;
-        justify-content: center;
         align-items: center;
     }
     
     .distribution_list a {
-        font-size: 17px;
+        font-size: 14px;
         padding: 9px;
         color: #5E5E5E;
     }
     
-    .distribution_list ul li {
-        flex: 1;
-    }
+   
 
 </style>
 
@@ -51,22 +47,28 @@
     {block name="content"}
 
     <div class="childrenBody">
-        	<div class="distribution_list">
-                    <ul>
-                        <li>
-                            <a href="{:url('admin/admin/index')}" >账号管理</a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/role/index')}" >角色管理</a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/menu/index')}" class="on" >菜单管理</a>
-                        </li>
-                    </ul>
-                </div>
+		{include file="template/_top" /}
+		
+        	<!--<div class="distribution_list">-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/admin/index')}" >账号管理</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/role/index')}" >角色管理</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/menu/index')}"  class="on">菜单管理</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
-			<div class="layui-inline">
+			<div class="layui-inline line">
 				<a class="layui-btn layui-btn-danger bataadtwo" href="{:url('admin/Menu/add')}">添加</a>
+				<div class="tip" style="display:flex;align-items: center;">
+					<img src="__STATIC__/admin/index/img/u39113.png" alt="" class="laba" style="width:16px;margin-right: 10px;margin-left: 10px;">
+					<span style="font-size: 13px;color: #333333;">菜单管理为系统板块，个人严禁删除和编辑，如因此造成的系统软件无法运行，数据丢失，后果自付！</span>
+				</div>
 			</div>
 
 		</blockquote>

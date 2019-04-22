@@ -115,14 +115,31 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()){
             $resd = $request->only(['id'])['id'];
-            $actdata = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,peoples,requirements,address,pid')->where("label", 1)->where("id",$resd)->select();
-            
-            foreach($actdata as $key => $value){
-                $actdata[$key]["start_time"] = date('Y-m-d H:i',$actdata[$key]["start_time"]);
-            }
+            $actdata = Db::name("teahost")->where("label", 1)->where("id",$resd)->find();
 
-            if (!empty($actdata)) {
-                return ajax_success('传输成功', $actdata);
+            $data = array(
+                'id'=>$actdata['id'],
+                'requirements'=>$actdata['requirements'],
+                'open_request'=>$actdata['open_request'],
+                'activity_name'=>$actdata['activity_name'],
+                'classify_image'=>$actdata['classify_image'],
+                'address'=>$actdata['address'],
+                'cost_moneny'=>$actdata['cost_moneny'],
+                'start_time'=>$actdata['start_time'],
+                'end_time'=>$actdata['end_time'],
+                'day_start_time'=>$actdata['day_start_time'],
+                'day_end_time'=>$actdata['day_end_time'],
+                'participats'=>$actdata['participats'],
+                'describe'=>$actdata['describe'],
+                'commodity'=>$actdata['commodity'],
+                'peoples'=>$actdata['peoples'],
+                'goods_sign'=>$actdata['goods_sign'],
+                'day_array'=>explode(",",$actdata['day_array']),
+                'day_number'=>$actdata['day_number']              
+            );
+        
+            if (!empty($data)) {
+                return ajax_success('传输成功', $data);
             } else {
                 return ajax_error("数据为空");
 
@@ -174,7 +191,7 @@ class TeaCenter extends Controller
     public function recommend(Request $request)
     {
         if ($request->isPost()){
-            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid,status,open_request')->where("label", 1)->where('status',1)->order("start_time")->select();
+            $data = Db::name("teahost")->where("status",1)->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid,status,open_request')->where("label", 1)->where('status',1)->order("start_time")->select();
             foreach($data as $key => $value){
                 if($value){
                     $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
@@ -207,26 +224,39 @@ class TeaCenter extends Controller
     public function activity_order(Request $request)
     {
         if ($request->isPost()){
-            $activity_id = $request->only(['activity_id'])['activity_id'];
-            $open_id = $request->only(['open_id'])['open_id'];
-            $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
-            $data = db("teahost")->where('id',$activity_id)->field("activity_name,classify_image,address,pid,cost_moneny,start_time,peoples")->find();
-            $account = db("member")->where('member_openid',$open_id)->value('member_phone_num');
+            $activity_id = isset($request->only(['activity_id'])['activity_id'])?$request->only(['activity_id'])['activity_id']:null;
+            $open_id = isset($request->only(['open_id'])['open_id'])?$request->only(['open_id'])['open_id']:null;
+            $start_time = isset($request->only(['start_time'])['start_time'])?$request->only(['start_time'])['start_time']:null;
+            $index = $request->only(['index'])['index'];
 
-            $time=date("Y-m-d",time());
-            $v=explode('-',$time);
-            $time_second=date("H:i:s",time());
-            $vs=explode(':',$time_second);
-//            $parts_order_number =$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999).($user_id+100000); //订单编号
-            $parts_order_number =$user_id + intval($v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2]); //订单编号
-            $data['member_openid'] =  $open_id;
-            $data['account'] =  $account;
-            $data['parts_order_number'] =  $parts_order_number;
-            $bool = db("activity_order")->insert($data);
-            if (!empty($bool)) {
-                return ajax_success('传输成功', $data);
+            if(!empty($activity_id) && !empty($open_id) && !empty($start_time) ){                     
+                $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+                $data = db("teahost")->where('id',$activity_id)->field("activity_name,classify_image,address,pid,cost_moneny,peoples")->find();
+                $account = db("member")->where('member_openid',$open_id)->value('member_phone_num');
+                $names = db("goods_type")->where("id",$data['pid'])->value("name");
+
+                $time=date("Y-m-d",time());
+                $v=explode('-',$time);
+                $time_second=date("H:i:s",time());
+                $vs=explode(':',$time_second);
+                $parts_order_number ="HD".($user_id + intval($v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2])); //订单编号
+                $data['member_openid'] =  $open_id;
+                $data['teahost_id'] =  $activity_id;
+                $data['account'] =  $account;
+                $data['status'] =  1;
+                $data['index'] =  $index;
+                $data['names'] =  $names;
+                $data['create_time'] = time();
+                $data['start_time'] = strtotime($start_time); //活动开始时间
+                $data['parts_order_number'] =  $parts_order_number;
+                $bool = db("activity_order")->insert($data);
+                if (!empty($bool)) {
+                    return ajax_success('下单成功', $data['parts_order_number']);
+                } else {
+                    return ajax_error("下单失败");
+                }
             } else {
-                return ajax_error("数据为空");
+                return ajax_error("参数错误");
             }
         }
     }
@@ -297,7 +327,7 @@ class TeaCenter extends Controller
                     ->where("activity_name",$activity_name)
                     ->value('status');
 
-            if ($rest == 1) {
+            if ($rest == 2) {
                 return ajax_success('该用户已报名', $rest);
             } else {
                 $rest = 0;
@@ -352,4 +382,51 @@ class TeaCenter extends Controller
         }
 
     }
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:收货地址详情
+     **************************************
+     */
+    public function tacitly_adress(Request $request){
+
+        if($request->isPost()){
+            $id = $request->only(["id"])["id"];
+            $data =Db::name("store_house")->where("id",$id)
+                ->find();            
+            $data["unit"] = explode(",",$data["unit"]);
+            $data["cost"] = explode(",",$data["cost"]);
+                return ajax_success("返回成功",$data);
+            }else{
+                return ajax_error("没有默认收货地址");
+            }
+        }
+
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:日期测试
+     **************************************
+     */
+    public function day_test(Request $request){
+
+        if($request->isPost()){
+            $time = time();
+            $beginToday=mktime(0,0,0,date('m'),date('d'),date('Y'));
+            $min = "15:11:0";
+            $min_array = explode(":",$min);
+            
+            $time = date('Y-m-d H:i:s', strtotime ("+$min_array[0] hours $min_array[1] minute", $beginToday));
+                return ajax_success("返回成功",$time);
+            }else{
+                return ajax_error("没有默认收货地址");
+            }
+        }
+
+
+
+
+    
 }

@@ -4833,8 +4833,9 @@
 
         <div class="col-sm-10">
 
-            <label class="radio-inline"><input type="radio" name="noticedata" value="0" class="diy-bind" data-bind-child="params" data-bind="noticedata" data-bind-init="true" <%if params.noticedata=='0'%>checked="checked"<%/if%> > 读取系统公告</label>
+            <!-- <label class="radio-inline"><input type="radio" name="noticedata" value="0" class="diy-bind" data-bind-child="params" data-bind="noticedata" data-bind-init="true" <%if params.noticedata=='0'%>checked="checked"<%/if%> > 读取系统公告</label> -->
 
+            <!--<label class="radio-inline"><input type="radio" name="noticedata" value="1" class="diy-bind" data-bind-child="params" data-bind="noticedata" data-bind-init="true" <%if params.noticedata=='1'%>checked="checked"<%/if%>> 手动填写</label>-->
             <label class="radio-inline"><input type="radio" name="noticedata" value="1" class="diy-bind" data-bind-child="params" data-bind="noticedata" data-bind-init="true" <%if params.noticedata=='1'%>checked="checked"<%/if%>> 手动填写</label>
 
         </div>
@@ -4915,41 +4916,41 @@
 
     <%if params.noticedata=='0'%>
 
-    <div class="form-group">
+    <!--<div class="form-group">-->
 
-        <div class="col-sm-2 control-label">读取数量</div>
+        <!--<div class="col-sm-2 control-label">读取数量</div>-->
 
-        <div class="col-sm-10">
+        <!--<div class="col-sm-10">-->
 
-            <label class="radio-inline"><input type="radio" name="noticenum" value="5" class="diy-bind" data-bind-child="params" data-bind="noticenum" <%if params.noticenum=='5'%>checked="checked"<%/if%> > 5条</label>
+            <!--<label class="radio-inline"><input type="radio" name="noticenum" value="5" class="diy-bind" data-bind-child="params" data-bind="noticenum" <%if params.noticenum=='5'%>checked="checked"<%/if%> > 5条</label>-->
 
-            <label class="radio-inline"><input type="radio" name="noticenum" value="10" class="diy-bind" data-bind-child="params" data-bind="noticenum" <%if params.noticenum=='10'%>checked="checked"<%/if%>> 10条</label>
+            <!--<label class="radio-inline"><input type="radio" name="noticenum" value="10" class="diy-bind" data-bind-child="params" data-bind="noticenum" <%if params.noticenum=='10'%>checked="checked"<%/if%>> 10条</label>-->
 
-            <label class="radio-inline"><input type="radio" name="noticenum" value="20" class="diy-bind" data-bind-child="params" data-bind="noticenum" <%if params.noticenum=='20'%>checked="checked"<%/if%>> 20条</label>
+            <!--<label class="radio-inline"><input type="radio" name="noticenum" value="20" class="diy-bind" data-bind-child="params" data-bind="noticenum" <%if params.noticenum=='20'%>checked="checked"<%/if%>> 20条</label>-->
 
-        </div>
+        <!--</div>-->
 
-    </div>
+    <!--</div>-->
 
-    <div class="form-group">
+    <!--<div class="form-group">-->
 
-        <div class="col-sm-2 control-label">数据来源</div>
+        <!--<div class="col-sm-2 control-label">数据来源</div>-->
 
-        <div class="col-sm-10">
+        <!--<div class="col-sm-10">-->
 
-            <div class="input-group">
+            <!--<div class="input-group">-->
 
-                <input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="sourceid" value="<%params.sourceid%>" id="noticcateid" />
+                <!--<input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="sourceid" value="<%params.sourceid%>" id="noticcateid" />-->
 
-                <span data-input="#noticcateid" data-toggle="selectSource" data-uniacid="<?php echo $_GET['appletid']?>" data-source="noticcate" class="input-group-addon btn btn-default">选择栏目</span>
+                <!--<span data-input="#noticcateid" data-toggle="selectSource" data-uniacid="<?php echo $_GET['appletid']?>" data-source="noticcate" class="input-group-addon btn btn-default">选择栏目</span>-->
 
-                <!-- <span style="display: inline-block;width:80px;padding:0;margin-top:5px;line-height:30px;" data-input="#titlelink" data-linktype=".kp_urltype" data-toggle="selectUrl" data-uniacid="<?php echo $_GET['appletid']?>" class="btn btn-default">选择链接</span> -->
+                <!--&lt;!&ndash; <span style="display: inline-block;width:80px;padding:0;margin-top:5px;line-height:30px;" data-input="#titlelink" data-linktype=".kp_urltype" data-toggle="selectUrl" data-uniacid="<?php echo $_GET['appletid']?>" class="btn btn-default">选择链接</span> &ndash;&gt;-->
 
-            </div>
+            <!--</div>-->
 
-        </div>
+        <!--</div>-->
 
-    </div>
+    <!--</div>-->
 
     <%/if%>
 
@@ -15214,7 +15215,6 @@
             <div class="input-group">
                 <input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="sourceid" value="<%params.sourceid%>" id="cateid-<%itemid%>" />
                 <span data-input="#cateid-<%itemid%>" data-toggle="selectSource" data-uniacid="<?php echo $_GET['appletid']?>" data-source="articlecate" class="input-group-addon btn btn-default">选择栏目</span>
-
             </div>
 
         </div>

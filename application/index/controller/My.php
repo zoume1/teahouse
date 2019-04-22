@@ -68,7 +68,7 @@ class My extends Controller
                 $data['share_url'] = $share_code; //生成的二维码
                 $data['member_grade_name'] =$member_information['member_grade_name'];
                 $data['member_grade_id'] =$member_information['member_grade_id'];
-                $member_data = Db::name('member_grade')->where('introduction_display', 1)->select();
+                $member_data = Db::name('member_grade')->where('introduction_display', 1)->whereOr("member_grade_id",$member_information['member_grade_id'])->select();
                 foreach ($member_data as $k => $v) {
                     $grade['member_grade_id'] = $v['member_grade_id'];           //会员等级ID
                     $grade['member_grade_name'] = $v['member_grade_name'];       //等级名称
@@ -106,7 +106,7 @@ class My extends Controller
                  $appid = 'wx301c1368929fdba8';
                  $secret = '94477ab333493c79f806f948f036f1e3';//AppSecret(小程序密钥)
                  //halt($secret);
-                 $url_access_token = 'http://teahouse.siring.com.cn/teahouse/?id=123'.$appid.'&secret='.$secret;
+                 $url_access_token = config("domain.url").'/?id=123'.$appid.'&secret='.$secret;
                  $json_access_token = $this -> sendCmd($url_access_token,array());
                  $arr_access_token = json_decode($json_access_token,true);
                  $access_token = $arr_access_token['access_token'];

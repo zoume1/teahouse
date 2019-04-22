@@ -111,6 +111,8 @@ class  Store extends  Controller{
             $store_introduction =$request->only(["store_introduction"])["store_introduction"];
             $business_name =$request->only(["business_name"])["business_name"];
             $licence_no =$request->only(["licence_no"])["licence_no"];
+            $card_positive_images = null;
+            $card_side_file = null;
             if(empty($id_card) || empty($contact_name) || empty($address_data) ||empty($address_real_data) ||empty($store_introduction) ){
                 return ajax_error("请注意填写完所有资料");
             }
@@ -190,7 +192,7 @@ class  Store extends  Controller{
             $bool =Db::name("store")->where("id",$id)->where("user_id",$user_id)->update($data);
             if($bool){
                 //删除图片
-                    if($card_positive_images != null){
+                if($card_positive_images != null){
                     unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$ole_positive_url);
                 }
                 if($card_side_file != null){
@@ -222,6 +224,61 @@ class  Store extends  Controller{
             }
         }
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺放弃
+     **************************************
+     */
+    public function store_give_up(Request $request){
+        if($request->isPost()){
+            $id =$request->only(["id"])["id"];
+            $bool =Db::name("store")->where("id",$id)->update(["status"=>3]);
+            if($bool){
+                return ajax_success("放弃成功");
+            }else{
+                return ajax_error("请重启请求");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:pc端店铺指向后台页面
+     **************************************
+     */
+    public function store_goto_admin(Request $request){
+        if($request->isPost()){
+            $id =$request->only(["id"])['id'];//店铺的id
+            $status =Db::name("store")->where("id",$id)->value("status");
+            if($status==-1){
+                return ajax_error("店铺审核不通过，不能进入后台");
+            }elseif ($status==2){
+                return ajax_error("店铺审核中，不能进入后台");
+            }elseif ($status==3){
+                return ajax_error("店铺已放弃，不能进入后台");
+            }else{
+                //后台使用
+                $userInfo = db("admin")
+                    ->where("store_id",$id)
+                    ->where("status","<>",1)
+                    ->select();
+                if($userInfo){
+                    Session("user_id", $userInfo[0]["id"]);
+                    Session("user_info", $userInfo);
+                }
+                //进行记录是哪个店铺
+                Session("store_id", $id);
+             return ajax_success("成功匹配,可以跳转后台");
+            }
+        }
+    }
+
+
+
+
 
 
 }

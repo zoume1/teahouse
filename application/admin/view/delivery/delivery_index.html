@@ -29,20 +29,16 @@
     
     .distribution_list ul {
         display: flex;
-        width: 250px;
-        justify-content: center;
         align-items: center;
     }
     
     .distribution_list a {
-        font-size: 17px;
+        font-size: 14px;
         padding: 9px;
         color: #5E5E5E;
     }
     
-    .distribution_list ul li {
-        flex: 1;
-    }
+   
 
 </style>
 
@@ -53,17 +49,18 @@
     {block name="content"}
 
     <div class="childrenBody">
-        	<div class="distribution_list">
-                    <ul>
-                        <li>
-                            <a href="{:url('admin/Delivery/delivery_index')}"  class="on">上门自提</a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/Delivery/delivery_goods')}" >快递发货</a>
-                        </li>
-                       
-                    </ul>
-                </div>
+		{include file="template/_top" /}
+        	<!--<div class="distribution_list">-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/Delivery/delivery_index')}"  class="on">上门自提</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/Delivery/delivery_goods')}" >快递发货</a>-->
+                        <!--</li>-->
+                       <!---->
+                    <!--</ul>-->
+                <!--</div>-->
 		<blockquote class="layui-elem-quote">
 				<div class="layui-form" action="{:url('admin/User/search')}">
 					{if !empty($data_status)}
@@ -96,6 +93,7 @@
 						<th>自提点名称</th>
 						<th>详细地址</th>
 						<th>联系电话</th>
+						<th>默认地址</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -107,6 +105,14 @@
 						<td>{$vo.extract_name}</td>
 						<td>{$vo.extract_address}{$vo.extract_real_address}</td>
 						<td>{$vo.phone_num}</td>
+						<td>
+							{if $vo.label == 0}
+							<input type="checkbox" class="Status" name="status" value="{$vo.label}"
+								lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$vo.id}"> {else}
+							<input type="checkbox" class="Status" name="status" value="{$vo.label}"
+								lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$vo.id}">
+							{/if}
+						</td>
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Delivery/delivery_edit',['id'=>$vo.id])}"> 编辑
 							</a>
@@ -242,8 +248,9 @@
 				var status = $(this).val();
 				$.ajax({
 					type: "POST",
-					url: "{:url('admin/Delivery/delivery_status')}",
+					url: "{:url('admin/Delivery/delivery_label')}",
 					data: {
+						"id":id,
 						"status": status
 					},
 					success: function(data) {

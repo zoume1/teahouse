@@ -269,8 +269,18 @@ a{
 	width: 107px;
 	margin-top: 60px;
 	min-width: 107px;
+	overflow: scroll;
+}
+.UCleft::-webkit-scrollbar {
+    display: none;
 }
 
+.recontent{
+	overflow: scroll;
+}
+.recontent::-webkit-scrollbar {
+    display: none;
+}
 .UCleft-fixed {
 	background: #fff;
 }
@@ -518,7 +528,6 @@ a{
 }
 /*å³è¾¹å†…å®¹*/
 .right-content{
-	min-height: 910px;
 	margin-top: 60px;
 	background: #fff;
 }

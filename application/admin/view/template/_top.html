@@ -1,0 +1,61 @@
+<div id="muen_id" style="display:none"></div>
+<script>
+
+    function getCookie(c_name) {
+        //判断document.cookie对象里面是否存有cookie
+        if (document.cookie.length > 0) {
+            c_start = document.cookie.indexOf(c_name + "=")
+            //如果document.cookie对象里面有cookie则查找是否有指定的cookie，如果有则返回指定的cookie值，如果没有则返回空字符串
+            if (c_start != -1) {
+                c_start = c_start + c_name.length + 1
+                c_end = document.cookie.indexOf(";", c_start)
+                if (c_end == -1) c_end = document.cookie.length
+                return unescape(document.cookie.substring(c_start, c_end))
+            }
+        }
+        return ""
+    }
+    // 取当前页面名称(不带后缀名)
+    function pageName() {
+        var a = location.href;
+        var b = a.split("/");
+        var c = b.slice(b.length - 1, b.length).toString(String).split(".");
+        return b;
+        // return c.slice(0, 1)[0];
+    }
+    $.ajax({
+        type: "POST",
+        url: "{:url('admin/index/get_id_return_info')}",
+        data: {
+            id: getCookie("page_id"),
+        },
+        async: false,
+        timeout: 5000,
+        dataType: "json",
+        success: function (data) {
+            var dhtmlqq = '';
+            dhtmlqq += '<div class="distribution_list" id="distribution_list">';
+            dhtmlqq += ' <ul>';
+            for (var i = 0; i < data.data.length; i++) {
+               
+                if (data.data[i].url != getCookie("item_id")) {
+                    dhtmlqq += ' <li >';
+                    dhtmlqq += '     <a href="' + data.data[i].url + '"  data-id="' + data.data[i].url + '">' + data.data[i].name + '</a>';
+                    dhtmlqq += ' </li>';
+                }
+                else {
+                    dhtmlqq += ' <li >';
+                    dhtmlqq += '     <a href="' + data.data[i].url + '"  data-id="' + data.data[i].url + '" class="on">' + data.data[i].name + '</a>';
+                    dhtmlqq += ' </li>';
+                }
+
+            }
+            dhtmlqq += ' </ul>';
+            dhtmlqq += '</div>';
+            $("#muen_id").before(dhtmlqq);
+        },
+        error: function () {
+            console.log("错误");
+        }
+    })
+</script>

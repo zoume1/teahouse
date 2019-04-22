@@ -29,20 +29,16 @@
     
     .distribution_list ul {
         display: flex;
-        width: 250px;
-        justify-content: center;
         align-items: center;
     }
     
     .distribution_list a {
-        font-size: 17px;
+        font-size: 14px;
         padding: 9px;
         color: #5E5E5E;
     }
     
-    .distribution_list ul li {
-        flex: 1;
-    }
+   
 
 </style>
 
@@ -53,17 +49,18 @@
     {block name="content"}
 
     <div class="childrenBody">
-        	<div class="distribution_list">
-                    <ul>
-                        <li>
-                            <a href="{:url('admin/Delivery/delivery_index')}" >上门自提</a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/Delivery/delivery_goods')}"  class="on" >快递发货</a>
-                        </li>
-                       
-                    </ul>
-                </div>
+		{include file="template/_top" /}
+        	<!--<div class="distribution_list">-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/Delivery/delivery_index')}" >上门自提</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/Delivery/delivery_goods')}"  class="on" >快递发货</a>-->
+                        <!--</li>-->
+                       <!---->
+                    <!--</ul>-->
+                <!--</div>-->
 		<blockquote class="layui-elem-quote">
 				<div class="layui-form" action="{:url('admin/User/search')}">
 					<input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">

@@ -25,14 +25,23 @@ class Login extends Controller{
      */
     public function wechatlogin()
     {
+
         $get = input('get.');
+        $user_data =Db::table("applet")
+            ->where("id",$get["uniacid"])
+            ->field("appID,appSecret")
+            ->find();
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
-        $params['appid'] = 'wx301c1368929fdba8';//客户公司
+        $params['appid'] = $user_data["appID"];//客户公司
+//        $params['appid'] = 'wx301c1368929fdba8';//客户公司
+//        $params['appid'] = 'wx59817e3659c9e51a';//客户公司11
 //        $params['appid'] = 'wxe81efe5d23e83c7d';
 //        $params['appid'] = 'wxee81c196c106311f';
 //        $params['secret'] = '7b19ad668d1e24ca3b0323fcdb97236e';//公司
-        $params['secret'] = '94477ab333493c79f806f948f036f1e3';//客户公司
+//        $params['secret'] = '94477ab333493c79f806f948f036f1e3';//客户公司
+        $params['secret'] = $user_data["appSecret"];//客户公司
+//        $params['secret'] = '5209ee767302a8f97fcc2bdb12dc2cf8';//客户公司11
 //        $params['secret'] = '055128687ca3e2eb2756307cd03a5544';
 //        $params['secret'] = 'b1aafb5fc38e091481432ccfe5712dfc';
         $params['js_code'] = define_str_replace($get['code']);
@@ -48,7 +57,10 @@ class Login extends Controller{
                 ->where("id","1")
                 ->value("register_integral");//授权通过即送积分
             if(!empty($errCode )){
-                $is_register =Db::name('member')->where('member_openid',$errCode['openId'])->find();
+                $is_register =Db::name('member')
+                    ->where("store_id",$get["uniacid"])
+                    ->where('member_openid',$errCode['openId'])
+                    ->find();
                 if(empty($is_register)){
                     $data['member_openid'] =$errCode['openId'];
                     $data['member_head_img'] =$errCode['avatarUrl'];
@@ -58,8 +70,12 @@ class Login extends Controller{
                     $data['member_grade_id']=1;
                     $data['member_status']=1;
                     $data['member_integral_wallet'] = $register_login;
-                    $grade_name =Db::name('member_grade')->field('member_grade_name')->where('member_grade_id',1)->find();
+                    $grade_name =Db::name('member_grade')
+                        ->field('member_grade_name')
+                        ->where('member_grade_id',1)
+                        ->find();
                     $data['member_grade_name'] =$grade_name['member_grade_name'];
+                    $data["store_id"] =$get["uniacid"]; //店铺id
                     $bool = Db::name('member')->insertGetId($data);
                 if($register_login > 0){
                     //插入积分记录
@@ -130,7 +146,7 @@ class Login extends Controller{
             $datas =[
                 'phone_number'=> $user_mobile,
             ];
-            if(password_verify($password , $res["password"])){
+            if(password_verify($password,$res["password"])){
                 if($res){
                     $ress =Db::name('pc_user')
                         ->where('phone_number',$user_mobile)
@@ -142,22 +158,30 @@ class Login extends Controller{
                         // 前台使用
                         Session::set("user",$ress["id"]);
                         Session::set('member',$datas);
-                        //后台使用
-                        $userInfo = db("admin")
-                            ->where("account",$user_mobile)
-                            ->where("status","<>",1)
-                            ->select();
-                        if($userInfo){
-                            Session("user_id", $userInfo[0]["id"]);
-                            Session("user_info", $userInfo);
-                        }
                         return ajax_success('登录成功',$datas);
                     }else{
                         ajax_error('此用户已被管理员设置停用',$datas);
                     }
                 }
             }else{
-                return ajax_error('密码错误',['status'=>0]);
+                //直接登录后台页面（如某个商家的客服）
+                $res_admin =Db::name('admin')
+                    ->where("account",$user_mobile)
+                    ->where("status","<>",1)
+                    ->select();
+                if(!empty($res_admin)){
+                    if(password_verify($password,$res_admin[0]["passwd"])){
+                        Session("user_id", $res_admin[0]["id"]);
+                        Session("user_info", $res_admin);
+                        Session("store_id", $res_admin[0]["store_id"]);
+                        exit(json_encode(array("status"=>2,"info"=>"登录成功")));
+                    }else{
+                        return ajax_error('用户或密码错误',['status'=>0]);
+                    }
+                }else{
+                    return ajax_error('用户或密码错误',['status'=>0]);
+                }
+
             }
 
         }

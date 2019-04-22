@@ -34,7 +34,6 @@
                         <div class="seach_input">
                             <input type="text" name="goods_number" lay-verify="title" autocomplete="off"
                                 placeholder="商品编号" class="layui-input">
-
                         </div>
                     </div>
                     <div class="seach_list">
@@ -54,10 +53,8 @@
                             {/if}
                         </div>
                     </div>
-                 
                     <button class="layui-btn" type="submit" id="seach">立即搜索</button>
                 </div>
-
             </form>
         </blockquote>
 
@@ -90,8 +87,7 @@
                 <tbody class="news_content">
                     {volist name="goods" id="value"}
                     <tr>
-                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"
-                                data-id="{$value.id}"></td>
+                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
                         <td>{$value.goods_number}</td>
                         <td class="">
                             <div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_images}" /></div>

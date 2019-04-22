@@ -30,19 +30,17 @@
 	
 	.distribution_list ul {
 		display: flex;
-		width: 200px;
-		justify-content: center;
 		align-items: center;
 	}
 	
 	.distribution_list a {
-		font-size: 17px;
+		font-size: 14px;
 		padding: 9px;
 		color: #5E5E5E;
 	}
 	
 	.distribution_list ul li {
-		flex: 1;
+	
 	}
 	
 	.static_btus {
@@ -255,17 +253,18 @@
 	</div>
 
 	<div class="childrenBody">
-		<div class="distribution_list">
-			<ul>
-				<li>
-					<a href="order_index"  style="text-decoration:none;">初始订单</a>
-				</li>
-				<li>
-					<a href="order_integral"  class="on"  style="text-decoration:none;">积分订单</a>
-				</li>
+		{include file="template/_top" /}
+		<!--<div class="distribution_list">-->
+			<!--<ul>-->
+				<!--<li>-->
+					<!--<a href="order_index"  style="text-decoration:none;">初始订单</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="order_integral"  class="on"  style="text-decoration:none;">积分订单</a>-->
+				<!--</li>-->
 
-			</ul>
-		</div>
+			<!--</ul>-->
+		<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
 			<form class="layui-form" action="{:url('admin/Category/search')}">
 				<div class="seach">

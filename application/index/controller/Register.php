@@ -103,24 +103,57 @@ class Register extends  Controller{
                 ];
                     $res =Db::name('pc_user')->insertGetId($datas);
                     if($res){
-                            //插入到后台
-                            $array =[
-                                "account"=>$mobile,
-                                "passwd"=>$passwords,
-                                "sex"=>1,
-                                "stime"=>date("Y-m-d H:i:s"),
-                                "role_id"=>8,//普通访客
-                                "phone"=>$passwords,
-                                "status"=>0,//0可以登录后台，1被禁用
-                                "name"=>$mobile
-                            ];
-                            Db::name("admin")->insertGetId($array);
                         //注册成功
                         return ajax_success('注册成功',$res);
                     }else{
                         return ajax_error('请重新注册',['status'=>0]);
                     }
             }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺支付密码获取验证码
+     **************************************
+     */
+    public function StoreMobile(Request $request){
+        if($request->isPost()){
+            $store_id =Session::get("store_id");
+            $mobile =Db::name("store")->where("id",$store_id)->value("phone_number");
+            $pattern = '/^1[3456789]\d{9}$/';
+            if(preg_match($pattern,$mobile)) {
+                $mobileCode = rand(100000, 999999);
+                $arr = json_decode($mobile, true);
+                $mobiles = strlen($arr);
+                if (isset($mobiles) != 11) {
+                    return ajax_error("手机号码不正确",['status'=>0]);
+                }
+                //存入session中
+                if (strlen($mobileCode)> 0) {
+                    session('mobileCodes',$mobileCode);
+                    $_SESSION['mobiles'] = $mobile;
+                }
+                $content = "尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
+                $url = "http://120.26.38.54:8000/interface/smssend.aspx";
+                $post_data = array("account" => "chacang", "password" => "123qwe", "mobile" => "$mobile", "content" => $content);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+                $output = curl_exec($ch);
+                curl_close($ch);
+                if ($output) {
+                    return ajax_success("发送成功", $output);
+                } else {
+                    return ajax_error("发送失败",['status'=>0]);
+                }
+            }else{
+                return ajax_error("请填写正确的手机号",['status'=>0]);
+            }
+
         }
     }
 

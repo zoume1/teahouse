@@ -30,20 +30,16 @@
     
     .distribution_list ul {
         display: flex;
-        width: 600px;
-        justify-content: center;
         align-items: center;
     }
     
     .distribution_list a {
-        font-size: 17px;
+        font-size: 14px;
         padding: 9px;
         color: #5E5E5E;
     }
     
-    .distribution_list ul li {
-        flex: 1;
-    }
+   
 </style>
 
 {/block}
@@ -53,28 +49,29 @@
     {block name="content"}
 
     <div class="childrenBody">
-        <div class="distribution_list">
-            <ul>
-                <li>
-                    <a href="{:url('admin/operate/operate_problem')}"  class="on">常见问题</a>
-                </li>
-                <li>
-                    <a href="{:url('admin/operate/operate_contract')}" >协议合同</a>
-                </li>
-                <li>
-                    <a href="{:url('admin/operate/operate_message')}">消息提醒</a>
-                </li>
-                <li>
-                    <a href="{:url('admin/operate/operate_integral_rule')}" >积分规则</a>
-                </li>
-                <li>
-                    <a href="{:url('admin/operate/operate_about_index')}" >关于我们</a>
-                </li>
-                <li>
-                    <a href="{:url('admin/operate/operate_broadcast')}" >广播消息</a>
-                </li>
-            </ul>
-        </div>
+        {include file="template/_top" /}
+        <!--<div class="distribution_list">-->
+            <!--<ul>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/operate/operate_problem')}"  class="on">常见问题</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/operate/operate_contract')}" >协议合同</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/operate/operate_message')}">消息提醒</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/operate/operate_integral_rule')}" >积分规则</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/operate/operate_about_index')}" >关于我们</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/operate/operate_broadcast')}" >广播消息</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="{:url('admin/Category/search')}">
                 <div class="seach">

@@ -70,8 +70,6 @@
 
 	.distribution_list ul {
 		display: flex;
-		width: 200px;
-		justify-content: center;
 		align-items: center;
 	}
 
@@ -82,25 +80,25 @@
 
 
 	.distribution_list a {
-		font-size: 17px;
+		font-size: 14px;
 		padding: 9px;
 		color: #5E5E5E;
 	}
 
 	.distribution_list ul li {
-		flex: 1;
+	
 	}
 
-	.static_btus{
+	.static_btus {
 		border-radius: 5px;
 	}
-	
+
 
 	.state {
 		width: 100px;
 		height: 30px;
 		line-height: 30px;
-		border-radius: 8px;
+		border-radius: 4px;
 		/* background: #007AFF; */
 		color: #fff;
 		margin: 0 auto;
@@ -227,7 +225,7 @@
 		line-height: 30px;
 		text-align: center;
 		border: 1px solid #a2a2a2;
-		border-radius: 10px;
+		border-radius: 2px;
 	}
 
 	.button_all {
@@ -250,6 +248,7 @@
 	.seach_button_all {}
 
 	.seach_button {
+		border-radius: 4px;
 		display: inline-block;
 		width: 80px;
 		line-height: 30px;
@@ -379,17 +378,18 @@
 		</div>
 	</div>
 	<div class="childrenBody">
-		<div class="distribution_list">
-			<ul>
-				<li>
-					<a href="order_index" class="on" style="text-decoration:none;">初始订单</a>
-				</li>
-				<li>
-					<a href="order_integral" style="text-decoration:none;">积分订单</a>
-				</li>
+		{include file="template/_top" /}
+		<!--<div class="distribution_list">-->
+		<!--<ul>-->
+		<!--<li>-->
+		<!--<a href="order_index" class="on" style="text-decoration:none;">初始订单</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="order_integral" style="text-decoration:none;">积分订单</a>-->
+		<!--</li>-->
 
-			</ul>
-		</div>
+		<!--</ul>-->
+		<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
 
 			<form class="layui-form" action="{:url('admin/Order/order_search')}">
@@ -397,8 +397,8 @@
 					<div class="seach_list">
 						<div class="seach_laber">请搜索：</div>
 						<div class="seach_input">
-							<input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="订单编号/商品名称/用户账号"
-								class="layui-input">
+							<input type="text" name="search_a" lay-verify="title" autocomplete="off"
+								placeholder="订单编号/商品名称/用户账号" class="layui-input">
 						</div>
 					</div>
 					<!--<div class="seach_list">-->
@@ -448,8 +448,8 @@
 						<div class="seach_laber">开始时间</div>
 						<div class="seach_input">
 							<span class="time">
-								<input name="date_min" type="text" class="text datetimepicker layui-input" readonly="readonly"
-									id="beginTime" value="">
+								<input name="date_min" type="text" class="text datetimepicker layui-input"
+									readonly="readonly" id="beginTime" value="">
 							</span>
 						</div>
 					</div>
@@ -457,8 +457,8 @@
 						<div class="seach_laber">结束时间</div>
 						<div class="seach_input">
 							<span class="time">
-								<input name="date_max" type="text" class=" text datetimepicker layui-input" readonly="readonly"
-									id="endTime" value="">
+								<input name="date_max" type="text" class=" text datetimepicker layui-input"
+									readonly="readonly" id="endTime" value="">
 							</span>
 						</div>
 					</div>
@@ -501,7 +501,8 @@
 					{if !empty($data)}
 					{volist name="data" id="vo"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}"></td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
+						</td>
 						<td>
 							<!-- <div class="overflow"> -->
 							{$vo.parts_order_number}
@@ -749,6 +750,7 @@
 			dhtml1 += '<option value="ganzhongnengda">能达</option>';
 			dhtml1 += '<option value="youshuwuliu">优速</option>';
 			dhtml1 += '<option value="quanfengkuaidi">全峰</option>';
+			dhtml1 += '<option value="quanfengkuaidi">其他物流</option>';
 
 			dhtml1 += '</select>';
 			dhtml1 += '</div>';
@@ -780,6 +782,7 @@
 			dhtml2 += '<option value="ganzhongnengda">能达</option>';
 			dhtml2 += '<option value="youshuwuliu">优速</option>';
 			dhtml2 += '<option value="quanfengkuaidi">全峰</option>';
+			dhtml2 += '<option value="quanfengkuaidi">其他物流</option>';
 			dhtml2 += '</select>';
 			dhtml2 += '</div>';
 			dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  >';

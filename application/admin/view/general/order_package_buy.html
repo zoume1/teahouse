@@ -12,12 +12,12 @@
         i{font-style: normal;}
         .triangle::after{content: ''; position: absolute; left: 50%; top: 110%; margin-left: -4px; width: 0; height: 0; border: 5px solid transparent; border-top-color: #f00;}
         .wrapper{padding: 0 60px; position: relative;}
-        .header{display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #bcbcbc; margin-bottom: 50px; min-width: 1200px;}
+        .header{display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #bcbcbc; width: 1300px; margin: 0 auto 50px;}
         .step{font-size: 14px; color: #868686; margin: 0 30px; line-height: 3em;}
         .step-on{font-size: 20px; color: #333; font-weight: 700;}
         .step-line{width: 35px; border-top: 1px dashed #868686;}
         .main-bg{background-color: #f7f7f7; border: 1px solid #e4e4e4;}
-        .main{width: 1200px; min-height: 700px; margin: 0 auto; background-color: #fff; padding: 0 25px; box-sizing: border-box;}
+        .main{width: 1300px; min-height: 700px; margin: 0 auto; background-color: #fff; padding: 0 25px; box-sizing: border-box;}
         .shop-name{font-size: 14px; color: #949494; padding: 5px 0;}
         .shop-name span{color: #000;}
         .cart-item{border: 1px solid rgb(207, 236, 255); margin-bottom: 20px;}
@@ -59,7 +59,7 @@
         .settlement-cont button:disabled{background-color: #a1a1a1;}
         
         .payment-pop,
-        .voucher-pop{position: absolute; top: 50%; left: 50%; margin: -280px 0 0 -280px; min-height: 560px; width: 560px; padding: 0 18px; box-sizing: border-box; border-radius: 5px; background-color: #fff;}
+        .voucher-pop{position: absolute; top: 50%; left: 50%; margin: -280px 0 0 -280px; min-height: 560px; width: 560px; padding: 0 18px; box-sizing: border-box; border-radius: 5px; background-color: #fff; z-index: 99;}
         .pop-title{position: relative; font-size: 16px; font-weight: 700;padding: 15px 0; border-bottom: 1px solid #e5e5e5; margin-bottom: 15px; color: #666;}
         .close{position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 20px; color: #949494; width: 20px; height: 20px; text-align: center; line-height: 20px; cursor: pointer;}
         .select-way{color: #787878; border-bottom: 1px solid #e5e5e5; margin-bottom: 10px;}
@@ -100,6 +100,7 @@
 
         .addrs .addrs-tit{font-size: 14px; color: #333; margin: 15px 0; line-height: 25px; font-weight: 700;}
         .addrs .addr{display: inline-block; position: relative; vertical-align: top; width: 237px; margin: 0 14px 14px 0; color: #666; cursor: pointer;}
+        .addrs .addr:last-of-type{margin-right: 0;}
         .addrs .addr .inner{position: relative; padding: 11px 15px; z-index: 2;font-size: 12px; background: url(__STATIC__/admin/common/img/icon-a.png) no-repeat; min-height: 106px; box-sizing: border-box;}
         /* .addrs .addr-active .inner, */
         .addrs .addr-cur .inner,
@@ -122,6 +123,8 @@
         .addrs .addr-cur .addr-toolbar{display: block;}
         .addrs .addr a{color: #c97; text-decoration: none;}
         .addrs .addr a:hover{color: #ff0036;}
+        .addrs .operate-addr{font-size: 12px; color: #c97; cursor: pointer; margin-bottom: 20px;}
+        .addrs .operate-addr span:hover{color: #ff0036;}
     </style>
 </head>
 <body>
@@ -171,36 +174,39 @@
                                 v-if="v.default">默认地址</div>
                         </div>
                     </div>
+                    <div class="operate-addr">
+                        <span>管理收货地址</span>
+                    </div>
                 </div>
-                <div class="carts">
-                    <p class="shop-name">订购店铺：<span>滴金茶叶</span></p>
-                    <div class="cart-item" v-for="(item, index) in goodsData">
+                <div class="carts" v-for="(item, index) in orderInfo">
+                    <p class="shop-name">订购店铺：<span>{{item.store_name}}</span></p>
+                    <div class="cart-item">
                         <div class="carts-head">
-                            <input type="checkbox" @change="selectGoods(item, index, $event)">
-                            <div class="time">{{item.time}}</div>
-                            <div class="order-number">订单号：{{item.orderNumber}}</div>
+                            <input type="checkbox" checked @change="selectGoods(item, index, $event)">
+                            <div class="time">{{timetrans(item.create_time)}}</div>
+                            <div class="order-number">订单号：{{item.order_number}}</div>
                             <div class="unit-text">数量</div>
                             <div class="money-text">金额</div>
                             <div class="total-text">小计（元）</div>
                         </div>
                         <div class="goods-item">
                             <div class="img-box">
-                                <img :src="item.imgUrl" width="50" height="50">
+                                <img :src="item.images_url" width="50" height="50">
                             </div>
-                            <div class="goods-name">{{item.name}}</div>
+                            <div class="goods-name">{{item.goods_name}}</div>
                             <div class="counter">
                                 <button class="minus" @click="minusEvent(item)">-</button>
                                 <input type="num" 
-                                    v-model="item.number"
+                                    v-model="item.goods_quantity"
                                     @keyup="inputNumber(item, index)"
                                     ref="num">
                                 <button class="plus" @click="plusEvent(item)">+</button>
                                 <span class="unit">{{item.unit}}</span>
                             </div>
-                            <div class="unit-price">{{item.unitPrice.toFixed(2)}}</div>
+                            <div class="unit-price">{{item.amount_money.toFixed(2)}}</div>
                             <div class="total-price-box">
-                                <p class="total-price">{{(item.number * item.unitPrice).toFixed(2)}}</p>
-                                <button class="del-order" @click="delEvent">删除订单</button>
+                                <p class="total-price">{{(item.goods_quantity * item.amount_money).toFixed(2)}}</p>
+                                <button class="del-order" @click="delEvent(item.id)">删除订单</button>
                             </div>
                         </div>
                     </div>
@@ -223,7 +229,7 @@
                     <p class="discount" v-show="discountFlag">优惠：￥{{discountPrice}}</p>
                     <p class="payment">应付款：￥{{payment}}</p>
                     <button 
-                        :disabled="selectData.length?!protocolFlag:protocolFlag"
+                        :disabled="orderInfo.length?!protocolFlag:protocolFlag"
                         @click="buy">立即付款</button>
                 </div>
             </div>
@@ -270,7 +276,7 @@
                                     <span class="fund-balance">资金余额：1000.00</span>
                                     <button>立即充值</button>
                                 </div>
-                                <span class="">余额不足，可立即充值</span>
+                                <span>余额不足，可立即充值</span>
                             </div>
                         </div>
                     </div>
@@ -293,7 +299,7 @@
                 <!-- 转账 -->
                 <div class="remit-way" v-show="wayFlag==2">
                     <div class="remit-info-box">
-                        <p>你需汇款<span class="remit-money">399.00</span>至以下账户，汇款成功后上传凭证信息，审核通过后到账</p>
+                        <p>你需汇款<span class="remit-money">{{payment}}</span>至以下账户，汇款成功后上传凭证信息，审核通过后到账</p>
                         <p>收款方户名：杭州88888公司</p>
                         <p>收款方开户行：杭州88888公司</p>
                         <p>收款方账户：1234 4567 7890 159</p>
@@ -391,27 +397,7 @@
                 wayFlag: 1,
                 showPayWay: false,
                 showVoucherPop: false,
-                goodsData: [
-                    {
-                        time: 20190320,
-                        orderNumber: 201903201138,
-                        imgUrl: '__STATIC__/admin/common/img/g1.png',
-                        name: '高清摄像头',
-                        number: 1,
-                        unitPrice: 399.00,
-                        unit: '个',
-                        stock: 10
-                    },{
-                        time: 20190320,
-                        orderNumber: 201903201138,
-                        imgUrl: '__STATIC__/admin/common/img/g2.png',
-                        name: '任天堂Nintendo Switch NX NS Joy-Con 左右手柄 双手柄红蓝色',
-                        number: 1,
-                        unitPrice: 15.00,
-                        unit: '件',
-                        stock: 5
-                    },
-                ],
+                orderInfo: '',
                 addrData: [
                     {
                         prov: '广东',
@@ -437,14 +423,77 @@
                         name: '张家辉',
                         phone: '13615842245',
                         default: false,
+                    },{
+                        prov: '广东',
+                        city: '深圳',
+                        dist: '福田',
+                        street: '莲花街道华强职业技术学校',
+                        name: '张家辉',
+                        phone: '13615842245',
+                        default: false,
+                    },{
+                        prov: '广东',
+                        city: '深圳',
+                        dist: '福田',
+                        street: '莲花街道华强职业技术学校',
+                        name: '张家辉',
+                        phone: '13615842245',
+                        default: false,
                     }
                 ],
-                addrSelectedIdx: 0,
+                addrSelectedIdx: 0, //被选中收货地址 索引
+                accountMoney: 0, //用户账户余额
             },
             mounted: function(){
-                laydate.render({elem: '#date'})
+                laydate.render({elem: '#date'});
+                this.getOrderInfo();
+                this.getAllAddr();
             },
             methods: {
+                // 获取数据
+                myAjax: function(url, param, callback){
+                    this.$http.post(url, param).then(function(res){
+                        callback(res);
+                    }, function(res){
+                        console.log(res.status, res.statusText);
+                        layer.msg(res.body.info, {time: 1000});
+                    })
+                },
+                // 获取所有地址信息
+                getAllAddr: function(){
+                    this.myAjax('general_address_return_info', '', this.getAddr);
+                },
+                // 获取地址回调
+                getAddr: function(data){
+                    console.log(data.data);
+                },
+                // 获取订单信息
+                getOrderInfo: function(){
+                    var param = {
+                        id: this.getCookie('TCid')
+                    }
+                    this.$http.post('order_package_buy', param).then(function(res){
+                        if(res.body.status == 1){
+                            this.orderInfo = res.body.data;
+                        }
+                    }, function(res){
+                        console.log(res.status, res.statusText);
+                    })
+                },
+                // get cookie
+                getCookie: function(name){
+                    var reg = RegExp(name + '=([^;]+)'),
+                        arr = document.cookie.match(reg);
+                    return arr ? arr[1] : '';
+                },
+                // 转换时间戳
+                timetrans: function(date){
+                    var date = new Date(date*1000);//如果date为13位不需要乘1000
+                    var Y = date.getFullYear() + '-';
+                    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                    var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());
+                    return Y+M+D;
+                },
                 // 修改地址
                 modifyAddr: function(){
                     alert('修改地址');
@@ -466,9 +515,9 @@
                     item.number < item.stock ? item.number++ : layer.msg('不能大于库存！', {time: 1000});
                 },
                 // 选中商品
-                selectGoods: function(item, index, e){
-                    e.target.checked ? this.$set(this.selectData, index, item) : this.selectData.splice(index, 1);
-                },
+                // selectGoods: function(item, index, e){
+                //     e.target.checked ? this.$set(this.selectData, index, item) : this.selectData.splice(index, 1);
+                // },
                 // 输入购买数量
                 inputNumber: function(item, index){
                     var num = +this.$refs.num[index].value || 1;
@@ -476,10 +525,20 @@
                     this.$set(item, 'number', num > item.stock ? item.stock : (num < 0 ? 1 : num));
                 },
                 // 删除订单
-                delEvent: function(item){
-                    // if(confirm('您确定要删除该订单吗？')){
-                    //     alert('删除成功！');
-                    // }
+                delEvent: function(id){
+                    if(confirm('您确定要删除该订单吗？')){
+                        var param = {'id': id};
+                        this.myAjax('order_package_del', param, this.delCallBack);
+                    }
+                },
+                // 删除订单 回调函数
+                delCallBack: function(data){
+                    if(res.body.status == 1){
+                        layer.msg(res.body.info, {time: 1000});
+                        setTimeout(function(){
+                            location.href = 'order_package_index';
+                        }, 1100)
+                    }
                 },
                 // 是否使用邀请码
                 useDiscount: function(){
@@ -526,17 +585,21 @@
 
             },
             computed: {
+                // 商品合计金额
                 totalPrice: function(){
-                    var sum = 0;
-                    if(this.selectData){
-                        for(var i = 0, len = this.selectData.length; i < len; i++){
-                            if(this.selectData[i]){
-                                sum += this.selectData[i].number * this.selectData[i].unitPrice;
-                            }
-                        }
+                    // if(this.selectData.length > 0){
+                        // for(var i = 0, len = this.selectData.length; i < len; i++){
+                            // if(this.selectData[i]){
+                                // sum += this.selectData[0].goods_quantity * this.selectData[0].amount_money;
+                            // }
+                        // }
+                    // }
+                    // console.log(this.orderInfo)
+                    if(this.orderInfo.length > 0){
+                        return (this.orderInfo[0].goods_quantity * this.orderInfo[0].amount_money).toFixed(2);
                     }
-                    return sum.toFixed(2);
                 },
+                // 最终付款金额
                 payment: function(){
                     var sum = this.totalPrice;
                     if(this.discountFlag){

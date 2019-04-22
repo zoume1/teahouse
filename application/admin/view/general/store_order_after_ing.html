@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>售后维权</title>
+    <link rel="stylesheet" href="__STATIC__/admin/common/css/z-comm.css">
+    <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+    <style>
+        *{margin: 0; padding: 0;}
+        .container{background-color: #f7f7f7;}
+        .triangle::after{content: ''; position: absolute; left: 50%; top: 110%; margin-left: -4px; width: 0; height: 0; border: 5px solid transparent; border-top-color: #f00;}
+        .wrapper{padding: 0 60px; position: relative; font-size: 18px; width: 1000px; margin: 0 auto; background-color: #fff;}
+        .header{height: 70px; line-height: 70px; border-bottom: 1px solid #CFECFF;}
+        .header span{color: #f00;}
+        .shop{font-size: 16px; height: 60px; line-height: 60px;}
+        .next-table{margin-bottom: 20px;}
+        .next-table table{width: 100%; border-spacing: 0; border-collapse: collapse; font-size: 13px; background-color: #fff; border: 1px solid #CFECFF;}
+        .next-table th{border: 1px solid #CFECFF; color: #333; background-color: #CFECFF; text-align: left;}
+        .next-table .next-table-cell-box{padding: 12px 16px; overflow: hidden; text-overflow: ellipsis; word-break: break-all;}
+        
+        .as-header{padding: 20px 30px; background-color: #FE0034; color: #fff;}
+        .as-header .header-txt{font-size: 24px; font-weight: 700;}
+        .as-header .header-time{font-size: 18px;}
+        .as-subtitle{padding: 0 20px;}
+        .as-subtitle>div{padding: 0 20px; border-bottom: 1px solid #d2d2d2; font-size: 18px; color: #797979; height: 60px; line-height: 60px;}
+        .as-subtitle p{display: flex; justify-content: space-between; align-items: center;}
+        .as-guide{padding: 0 40px; color: #797979;}
+        .as-guide li{list-style: disc; font-size: 16px; padding: 10px 0;}
+        .as-guide .subtitle-btn{text-align: right;}
+        .as-guide .subtitle-btn a{margin-right: 20px; text-decoration: none;}
+        .as-guide .subtitle-btn a.gray{background-color: #fff; border: 1px solid #a1a1a1; color: #333;}
+        .as-guide .subtitle-btn a.orange{background-color: #fff; border: 1px solid #FF3300; color: #FF3300;}
+        .as-info{padding: 20px 40px; border: 10px solid #f2f2f2; border-left: 0; border-right: 0; margin: 30px 0;}
+        .as-info>div{padding: 10px 0; font-size: 16px; color: #777;}
+        .as-info span.lbe{color: #333;}
+        .as-info .as-info-img img{margin-right: 20px;}
+        .as-reply{padding: 20px 40px;}
+        .as-reply .time-item{text-align: center; font-size: 16px; color: #777;}
+        .as-reply .os-reply{color: #f00; padding: 10px 0;}
+        .as-reply .os-reply span{color: #333;}
+        .as-reply .cus-reply{color: #3366FF; text-align: right; padding: 10px 0;}
+        .as-reply .cus-reply span{color: #333; margin-right: 20px;}
+        .as-reply .reply-cont .reply-btn{display: flex; justify-content: center;}
+        .as-reply .reply-cont .reply-btn a{text-decoration: none;}
+        .as-reply .reply-cont textarea{width: 100%; height: 100px; resize: none; margin-bottom: 10px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="wrapper" id="app">
+            <div class="header">
+                <p>当前售后维权状态：
+                    <span>提交申请</span>
+                    <span>申请中</span>
+                    <span>已撤销</span>
+                    <span>已拒绝</span>
+                    <span>处理中</span>
+                    <span>已关闭</span>
+                    <span>已完成</span>
+                </p>
+            </div>
+            <div class="shop">订购店铺：滴金茶叶</div>
+            <div class="next-table">
+                <table>
+                    <colgroup>
+                        <col width="15%">
+                        <col width="25%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="20%">
+                    </colgroup>
+                    <thead class="next-table-hd">
+                        <tr>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-box">2019-04-16</div>
+                            </th>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-box">订单号：7895646517156</div>
+                            </th>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-box">数量</div>
+                            </th>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-box">金额</div>
+                            </th>
+                            <th class="next-table-cell">
+                                <div class="next-table-cell-box">小计（元）</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="next-table-bd">
+                        <tr class="next-table-row">
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-box">
+                                    <img src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=fefbdd85a4014c080d3620f76b12696d/d4628535e5dde711873013daaaefce1b9d16613f.jpg" width="50" height="50">
+                                </div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-box">小程序申请及开通店铺全套服务</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-box">1套</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-box">365.00</div>
+                            </td>
+                            <td class="next-table-cell">
+                                <div class="next-table-cell-box">
+                                    <p>659.00</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="as">
+                <div class="as-header">
+                    <div class="header-txt">
+                        <!-- <span>请等待商家处理</span>
+                        <span>您已成功撤销售后/退款申请</span>
+                        <span>平台已拒绝，您需要及时处理</span>
+                        <span>退货退款关闭</span> -->
+                        <span>您的售后已完成</span>
+                    </div>
+                    <div class="header-time">
+                        <!-- <span>还剩余2天22时30分</span> -->
+                        <span>2019年3月12日 16:34</span>
+                    </div>
+                </div>
+                <div class="as-subtitle">
+                    <div>
+                        <!-- <p>您已成功发起退款申请，请耐心等待商家处理</p>
+                        <p>您已成功发起撤销申请</p>
+                        <p>平台已拒绝，详情查阅官方回复</p> -->
+                        <p>
+                            <span>退款总金额</span>
+                            <span>￥100</span>
+                        </p>
+                        <!-- <p>您的换货已成功</p> -->
+                        <!-- <p>您已主动撤销售后申请</p> -->
+                    </div>
+                </div>
+                <div class="as-guide">
+                    <ul>
+                        <li>平台同意后，请按照给出的退货地址退货，并请记录退货运单号</li>
+                        <li>如平台拒绝，您可以修改申请后再次发起，商家会重新处理</li>
+                        <li>平台超过5个工作日后超时未处理，退货申请将达成，请按系统给的退货地址退货</li>
+                        <!-- <li>因您超时未处理，本次申请关闭</li>
+                        <li>如您的问题未解决，您可以重新发起申请</li>
+                        <li>因您撤销售后申请，售后维权已关闭，交易将正常进行。</li>
+                        <li>退款金额退到您微信账号或余额中</li>
+                        <li>您还可以在个人账单记录中查询流水信息</li>
+                        <li>请及时查询换货物流信息</li>
+                        <li>顺丰：7885858585858</li> -->
+                    </ul>
+                    <div class="subtitle-btn">
+                        <a href="#" class="layui-btn gray">修改申请</a>
+                        <a href="#" class="layui-btn orange">撤销申请</a>
+                        <!-- <a href="#" class="layui-btn orange">已撤销</a>
+                        <a href="#" class="layui-btn orange">已完成</a>
+                        <a href="#" class="layui-btn" orange>查看物流</a> -->
+                    </div>
+                </div>
+                <div class="as-info">
+                    <div class="as-info-time">
+                        <div>
+                            <span class="lbe">申请时间：</span>
+                            <span>2018-10-11  12:15</span>
+                        </div>
+                    </div>
+                    <div class="as-info-money">
+                        <div>
+                            <span class="lbe">退款金额：</span>
+                            <span>￥80</span>
+                        </div>
+                    </div>
+                    <div class="as-info-num">
+                        <div>
+                            <span class="lbe">退款编号：</span>
+                            <span>1234567489798</span>
+                        </div>
+                    </div>
+                    <div class="as-info-reason">
+                        <div>
+                            <span class="lbe">退款原因：</span>
+                            <span>312412</span>
+                        </div>
+                    </div>
+                    <div class="as-info-img">
+                        <div>
+                            <img src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=fefbdd85a4014c080d3620f76b12696d/d4628535e5dde711873013daaaefce1b9d16613f.jpg" width="100" height="100">
+                            <img src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=fefbdd85a4014c080d3620f76b12696d/d4628535e5dde711873013daaaefce1b9d16613f.jpg" width="100" height="100">
+                            <img src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=fefbdd85a4014c080d3620f76b12696d/d4628535e5dde711873013daaaefce1b9d16613f.jpg" width="100" height="100">
+                        </div>
+                    </div>
+                </div>
+                <div class="as-reply">
+                    <div>
+                        <div class="as-reply-item">
+                            <p class="time-item">2019-04-17</p>
+                            <p class="os-reply">官方回复：<span>不给退</span></p>
+                        </div>
+                        <div class="as-reply-item">
+                            <p class="time-item">2019-04-17</p>
+                            <p class="cus-reply"><span>给退</span>我的回复</p>
+                        </div>
+                    </div>
+                    <div class="reply-cont">
+                        <textarea placeholder="请输入回复信息"></textarea>
+                        <div class="reply-btn">
+                            <a href="#" class="layui-btn layui-btn-primary">返回</a>
+                            <a href="#" class="layui-btn layui-btn-danger">确认提交</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="__STATIC__/admin/common/layui/layui.js"></script>
+    <script>
+        layui.use(['form', 'upload'], function(){
+            var form = layui.form,
+                upload = layui.upload;
+            form.render();
+
+        })
+    </script>
+</body>
+</html>

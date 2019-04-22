@@ -40,64 +40,60 @@
     
     .distribution_list ul {
         display: flex;
-        width: 600px;
-        justify-content: center;
         align-items: center;
     }
     
     .distribution_list a {
-        font-size: 17px;
+        font-size: 14px;
         padding: 9px;
         color: #5E5E5E;
     }
     
-    .distribution_list ul li {
-        flex: 1;
-    }
+   
 </style>
 
 {/block} {block name="content"}
-<div class="distribution_list">
-    <ul>
-        <li>
-            <a href="{:url('admin/operate/operate_problem')}">常见问题</a>
-        </li>
-        <li>
-            <a href="{:url('admin/operate/operate_contract')}"  >协议合同</a>
-        </li>
-        <li>
-            <a href="{:url('admin/operate/operate_message')}">消息提醒</a>
-        </li>
-        <li>
-            <a href="{:url('admin/operate/operate_integral_rule')}" class="on" >积分规则</a>
-        </li>
-        <li>
-            <a href="{:url('admin/operate/operate_about_index')}" >关于我们</a>
-        </li>
-        <li>
-                <a href="{:url('admin/operate/operate_broadcast')}" >广播消息</a>
-            </li>
-    </ul>
-</div>
+{include file="template/_top" /}
+<!--<div class="distribution_list">-->
+    <!--<ul>-->
+        <!--<li>-->
+            <!--<a href="{:url('admin/operate/operate_problem')}">常见问题</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="{:url('admin/operate/operate_contract')}"  >协议合同</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="{:url('admin/operate/operate_message')}">消息提醒</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="{:url('admin/operate/operate_integral_rule')}" class="on" >积分规则</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="{:url('admin/operate/operate_about_index')}" >关于我们</a>-->
+        <!--</li>-->
+        <!--<li>-->
+                <!--<a href="{:url('admin/operate/operate_broadcast')}" >广播消息</a>-->
+            <!--</li>-->
+    <!--</ul>-->
+<!--</div>-->
 <form action="{:url('admin/operate/operate_integral_update')}" method="post">
-    <h4 style="padding: 10px;">推荐奖励积分设置：</h4>
+    
     <div class="content">
         {if !empty($recommend_data)} {volist name="recommend_data" id="vo"}
-        <div class="addcontents">
-            <div style="" class="text"><span style="display: inline-block; width: 200px;text-align: right;">每成功推荐1名送</span><input type="text" name="recommend_integral" id="" value="{$vo.recommend_integral}" />积分<span style="color:#CCCFDA;">（A推荐B,  B注册后,A可以得到一定的积分）</span></div>
-            <div style="" class="text"><span style="display: inline-block; width: 200px;text-align: right;">注册成功送</span><input type="text" name="register_integral" id="" value="{$vo.register_integral}" />积分</div>
-            <div style="" class="text"><span style="display: inline-block; width: 200px;text-align: right;">消费满</span><input type="text" name="coin" id="" value="{$vo.coin}" />元送<input type="text" name="consume_integral" id="" value="{$vo.consume_integral}" />积分</div>
-            <div style="" class="text"><span style="display: inline-block; width: 200px;text-align: right;">全部完善资料送</span><input type="text" name="datum_integral" id="" value="{$vo.datum_integral}" />积分</div>
-
+        <div class="addcontents" style="margin-right:720px;">
+            <div  class="text"><span style="display: inline-block; width: 200px;text-align: left;">每成功推荐1名送</span><input type="text" name="recommend_integral" id="" value="{$vo.recommend_integral}" />积分<span style="color:#CCCFDA;">（A推荐B,  B注册后,A可以得到一定的积分）</span></div>
+            <div  class="text"><span style="display: inline-block; width: 200px;text-align: left;">注册成功送</span><input type="text" name="register_integral" id="" value="{$vo.register_integral}" />积分</div>
+            <div  class="text"><span style="display: inline-block; width: 200px;text-align: left;">消费满</span><input type="text" name="coin" id="" value="{$vo.coin}" />元送<input type="text" name="consume_integral" id="" value="{$vo.consume_integral}" />积分<div style="margin-left: 30px;color: #CCCFDA;">*此处指商品和充值时通过现金消费</div></div>
+            <div  class="text"><span style="display: inline-block; width: 200px;text-align: left;">全部完善资料送</span><input type="text" name="datum_integral" id="" value="{$vo.datum_integral}" />积分</div>
         </div>
         {/volist} {/if}
     </div>
     <!--<div class="bts" style="text-align: center;margin-top: 20px;">-->
     <!--<button type="button" class="add-bts" style="background: #FFF; width: 100px; color: #0099FF; border:solid 1px #0099FF;border-radius:4px ;">+添加</button>-->
     <!--</div>-->
-    <div style="margin-top: 30px; text-align: center;">
+    <div style="margin-top: 30px; text-align: left;margin-left: 125px">
         <button type="button" class="layui-btn  layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
-        <button class="layui-btn" type="submit" id="submits" style="margin-left: 190px;">保存</button>
+        <button class="layui-btn" type="submit" id="submits" style="margin-left:100px;">保存</button>
     </div>
 </form>
 {/block}

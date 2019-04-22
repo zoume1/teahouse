@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Request;
+use think\Db;
 
 class Commodity extends Controller
 {
@@ -40,9 +41,8 @@ class Commodity extends Controller
             $member_id = $request->only(["open_id"])["open_id"];
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
-            $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
-            $goods = db("goods")->where("status",1)->select();
+            $goods = db("goods")->where("status",1)->where("label",1)->select();
 
             foreach ($goods as $k => $v) //所有商品
             {
@@ -99,8 +99,7 @@ class Commodity extends Controller
         if($request->isPost()){
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $goods_pid = $request->only(["id"])["id"];
-            $goods = db("goods")->where("pid",$goods_pid)->where("label",1)->select();
-            
+            $goods = db("goods")->where("pid",$goods_pid)->where("label",1)->where("status",1)->select();
             foreach ($goods as $k => $v)
             {
                 $goods[$k]["goods_show_images"] = (explode(",", $goods[$k]["goods_show_images"])[0]);
@@ -110,7 +109,6 @@ class Commodity extends Controller
                         unset($goods[$k]);
                     }
                 }
-
             }
             $new_goods = array_values($goods);
             if(!empty($new_goods) && !empty($goods_pid)){
@@ -156,12 +154,73 @@ class Commodity extends Controller
                 $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
             }
-            if (!empty($goods) && !empty($goods_id)) {
+            if (!empty($goods) && !empty($goods_id)){
                 return ajax_success("获取成功", $goods);
             } else {
                 return ajax_error("获取失败");
             }
         }
 
+    }
+
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:上门自提默认收获地址
+     **************************************
+     */
+    public function approve_address(Request $request){
+        if($request->isPost()){
+            $data =Db::name("extract_address")->where("label",1)
+                ->find();            
+            if(!empty($data)){
+                return ajax_success("返回成功",$data);
+            }else{
+                return ajax_error("没有默认自提地址");
+            }
+        }
+   }
+
+
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:默认自提地址列表
+     **************************************
+     */
+    public function approve_list(Request $request){
+        if($request->isPost()){
+            $data =Db::name("extract_address")->select();            
+            if($data){
+                return ajax_success("返回成功",$data);
+            }else{
+                return ajax_error("没有默认自提地址");
+            }
+        }
+    }
+
+
+
+
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:选择自提地址详情
+     **************************************
+     */
+    public function approve_detailed(Request $request){
+        if($request->isPost()){
+            $id = $request->only(["id"])["id"];
+            $data =Db::name("extract_address")->where("id",$id)
+                ->find();            
+            if(!empty($data)){
+                return ajax_success("返回成功",$data);
+            }else{
+                return ajax_error("参数有误");
+            }
+        }
     }
 }

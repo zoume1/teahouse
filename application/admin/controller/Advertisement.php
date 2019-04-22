@@ -75,20 +75,34 @@ class Advertisement extends Controller
     {
         if ($request->isPost()) {
             $data = $request->param();
+            $participats = isset($data["participats"])?$data["participats"]:0;//活动人数
+            //活动日期
+            $data["start_time"] = isset($data["start_time"])?strtotime($data["start_time"]):null;
+            $data["end_time"] = isset($data["end_time"])?strtotime($data["end_time"]):null;
+            
+            //如果需要预约,且有人数限制
 
-            $data["start_time"] = strtotime($data["start_time"]);
+            if(!empty($data["start_time"]) && !empty($data["end_time"]) ){
+                $day_number = diffBetweenTwoDays($data["start_time"],$data["end_time"]);
+                $data["day_number"] = $day_number;
+                for($i = 0;$i <= $day_number;$i++){
+                    $day_array[$i] = $participats;
+                }
+                $data["day_array"] = implode(",",$day_array);
+                
+            }
+
             $address = [$data["address_city2"], $data["address_city3"], $data["address_street"]];
             $addressed = [$data["address_city1"], $data["address_city2"], $data["address_city3"], $data["address_street"]];
             $data["addressed"] = implode(",", $addressed);
             $data["address"] = implode("", $address);
             
-
             foreach ($data as $k => $v) {
                 if (in_array($v, $addressed)) {
                     unset($data[$k]);
                 }
             }
-
+            
             $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
             $data["classify_image"] = str_replace("\\", "/", $show_images->getSaveName());
             $bool = db("teahost")->insert($data);
@@ -110,6 +124,8 @@ class Advertisement extends Controller
     {
 
         $teahost = db("teahost")->where("id", $id)->select();
+        $teahost[0]['start_time'] = date("Y-m-d H:i",$teahost[0]['start_time']);
+        $teahost[0]['end_time'] = date("Y-m-d H:i",$teahost[0]['end_time']);
         $teahost_names = [];
         if ($pid == 0) {
             $teahost_names = getSelectList("goods_type");
@@ -130,12 +146,29 @@ class Advertisement extends Controller
     {
         if ($request->isPost()) {
             $data = $request->param();
+
+            $participats = isset($data["participats"])?$data["participats"]:0;//活动人数
+            //活动日期
+            $data["start_time"] = isset($data["start_time"])?strtotime($data["start_time"]):null;
+            $data["end_time"] = isset($data["end_time"])?strtotime($data["end_time"]):null;
+            
+            //如果需要预约,且有人数限制
+            if(!empty($data["start_time"]) && !empty($data["end_time"]) ){
+                $day_number = diffBetweenTwoDays($data["start_time"],$data["end_time"]);
+                $data["day_number"] = $day_number;
+                for($i = 0;$i <= $day_number;$i++){
+                    $day_array[$i] = $participats;
+                }
+                $data["day_array"] = implode(",",$day_array);
+                
+            }
+
             $show_images = $request->file("classify_image");
             if ($show_images) {
                 $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $data["classify_image"] = str_replace("\\", "/", $show_images->getSaveName());
             }
-            $data["start_time"] = strtotime($data["start_time"]);
+            
             $address = [$data["address_city2"], $data["address_city3"], $data["address_street"]];
             $addressed = [$data["address_city1"], $data["address_city2"], $data["address_city3"], $data["address_street"]];
             $data["addressed"] = implode(",", $addressed);

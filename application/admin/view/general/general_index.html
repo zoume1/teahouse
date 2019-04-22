@@ -8,9 +8,11 @@
     * {margin: 0;padding: 0;}
     body {background: #fff;}
     .wrapper {padding: 20px;}
+
     .title {border-bottom: 1px solid #c9c9c9;padding-bottom: 5px;}
     .title a{font-size: 18px; padding: 0 10px 5px; color: #333;}
     .title .tit-on {color: #0066FF;border-bottom: 2px solid #21a5fa;}
+    
     .items {margin-top: 30px;}
     .item {display: flex;margin-bottom: 20px;}
     .item .item-key {width: 200px;text-align: right;font-size: 16px;color: #666;}
@@ -24,6 +26,26 @@
     .img {position: relative;display: inline-block;width: 100px;}
     .imgcontent {margin: 10px;}
     .img>i {display: inline-block;width: 20px;position: absolute;right: 0;top: 0;}
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 14px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    
 
 </style>
 
@@ -31,16 +53,23 @@
 
 <body>
     {block name="content"}
+    <div class="wrapper">
+    {include file="template/_top" /}
+    <!--<div class="title">-->
+    <!--<a href="javascript:void(0);" class="tit-on">店铺信息</a>-->
+    <!--<a href="general_address" title="收货地址">收货地址</a>-->
+    <!--</div>-->
+   
     {if !empty($data)}
     <form action="{:url('admin/General/general_update',['id'=>$data.id])}" method="post" enctype="multipart/form-data">
         <div class="wrapper">
-            <div class="title">
+            <!-- <div class="title">
                 <a href="javascript:void(0);" class="tit-on">店铺信息</a>
                 <a href="general_address" title="收货地址">收货地址</a>
-            </div>
+            </div> -->
             <div class="items">
                 <div class="item">
-                    <div class="item-key">店铺名称:</div>
+                    <div class="item-key">店铺名称：</div>
                     <div class="item-value">
                         <input type="text" class="shop-name" name="store_name" value="{$data.store_name}">
                     </div>
@@ -108,10 +137,8 @@
                                                 class="wsdel-no">取消</span></p>
                                     </div>
                                 </aside>
-
                             </div>
                             {/if}
-
                         </div>
                     </div>
                 </div>
@@ -139,10 +166,10 @@
     {else}
     <form action="{:url('admin/General/general_update')}" method="post">
         <div class="wrapper">
-            <div class="title">
+            <!-- <div class="title">
                 <a href="javascript:void(0);" class="tit-on">店铺信息</a>
                 <a href="general_address" title="收货地址">收货地址</a>
-            </div>
+            </div> -->
             <div class="items">
                 <div class="item">
                     <div class="item-key">店铺名称：</div>
@@ -232,6 +259,7 @@
         </div>
     </form>
     {/if}
+    </div>
     {/block}
 
     <!--_footer 作为公共模版分离出去-->
@@ -264,8 +292,6 @@
                     console.log("错误");
                 }
             });
-
-
         });
     </script>
     {/block}

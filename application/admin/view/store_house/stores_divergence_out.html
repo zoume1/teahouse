@@ -30,13 +30,11 @@
 	
 	.distribution_list ul {
 		display: flex;
-		width: 200px;
-		justify-content: center;
 		align-items: center;
 	}
 	
 	.distribution_list a {
-		font-size: 17px;
+		font-size: 14px;
 		padding: 9px;
 		color: #5E5E5E;
 	}
@@ -229,17 +227,18 @@
 	</div>
 
 	<div class="childrenBody">
-		<div class="distribution_list">
-			<ul>
-                <li>
-                    <a href="{:url('admin/StoreHouse/stores_divergence')}"   >订单入仓</a>
-                </li>
-                <li>
-                    <a href="{:url('admin/StoreHouse/stores_divergence_out')}" class="on">订单出仓</a>
-                </li>
+		{include file="template/_top" /}
+		<!--<div class="distribution_list">-->
+			<!--<ul>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/StoreHouse/stores_divergence')}"   >订单入仓</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/StoreHouse/stores_divergence_out')}" class="on">订单出仓</a>-->
+                <!--</li>-->
 
-			</ul>
-		</div>
+			<!--</ul>-->
+		<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
 			<form class="layui-form" action="{:url('admin/Category/search')}">
 				<div class="seach">

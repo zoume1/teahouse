@@ -36,27 +36,134 @@
             <ul class="nav nav-tabs" id="selectUrlTab">
                 <li class="active"><a href="#sut_diypage">页面</a></li>
                 <li class=""><a href="#sut_notice">功能</a></li>
-                <li class=""><a href="#sut_news">文章</a></li>
-                <li class=""><a href="#sut_pic">组图</a></li>
+                <!--<li class=""><a href="#sut_news">文章</a></li>-->
+                <!--<li class=""><a href="#sut_pic">组图</a></li>-->
                 <li class=""><a href="#sut_goods">商品</a></li>
-                <li class=""><a href="#sut_cate">栏目</a></li>
-                <li class=""><a href="#sut_sapp">系统</a></li>
+                <!--<li class=""><a href="#sut_cate">栏目商品</a></li>-->
+                <!--<li class=""><a href="#sut_sapp">系统</a></li>-->
             </ul>
-            <div class="tab-content ">
+            <div class="tab-content">
                 <div class="tab-pane active" id="sut_diypage">
                     <div class="alert alert-alt alert-danger alert-dismissible" role="alert">
                         选择自定义页面后，点击链接将跳转到自定义好的页面
                     </div>
                     <div id="select-diypage-list">
-                        {if $diypage}
+                       <!--页面-->
+                        <!-- {if $diypage}
                         {foreach $diypage as $v}
                         <div class="line">
                             <div class="icon icon-link1"></div>
-                            <nav data-href="/sudu8_page/index/index?pageid={$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <nav data-href="/pages/index/index?pageid={$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">{$v['tpl_name']}</div>
                         </div>
                         {/foreach}
-                        {/if}
+                        {/if} -->
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/diy/index/index" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">首页</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/mine/mine" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">个人中心</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/circle/circle" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">茶圈</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/members/members" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">会员</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/code/code" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">会员码</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/good/good" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">商品分类</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/select_address/select_address" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">选择地址</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/buy/buy" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">购物车</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/about/about" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">关于我们</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/contract/contract" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">合同</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/order/order" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">订单</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/problement/problement" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">常见问题</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/account/account" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">我的账户</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/integral_center/integral_center" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">个人中心</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/integral_center/integral_center" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">积分商城</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/after_sales/after_sales" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">售后</div>
+                        </div>
+
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/seach/seach" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">搜索</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/mine/mine" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">我的</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/pages/storage/view/view" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">茶仓</div>
+                        </div>
+                        <div class="line">
+                            <div class="icon icon-link1"></div>
+                            <nav data-href="/live/index/index" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">直播</div>
+                        </div>
+
+
+                        
+                        
+                        
                     </div>
                 </div>
 
@@ -216,6 +323,7 @@
                         <span class="input-group-addon btn btn-default select-btn" data-type="news">搜索</span>
                     </div>
                     <div id="select-news-list">
+                        <!--文章-->
                         {if $article}
                         {foreach $article as $v}
                         <div class="line">
@@ -229,19 +337,20 @@
                 </div>
                 <div class="tab-pane" id="sut_cate">
                     <div id="select-news-list">
+                        <!--栏目-->
                         {if $cates}
                         {foreach $cates as $v}
                         <div class="line">
                             <div class="icon icon-link1"></div>
-                            <nav data-href="/sudu8_page/{$v['type']}/{$v['type']}?cid={$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <nav data-href="" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">{$v['name']}</div>
                         </div>
                         {if $v['subcate']}
                         {foreach $v['subcate'] as $vi}
                         <div class="line">
                             <div class="icon icon-link1"></div>
-                            <nav data-href="/sudu8_page/{$vi['type']}/{$vi['type']}?cid={$vi['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
-                            <div class="text">--- {$vi['name']}</div>
+                            <nav data-href="/pages/goods_detail/goods_detail?title={$vi['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">---{$vi['name']}</div>
                         </div>
                         {/foreach}
                         {/if}
@@ -255,30 +364,23 @@
                         <span class="input-group-addon btn btn-default select-btn" data-type="pic">搜索</span>
                     </div>
                     <div id="select-pic-list">
-                        {if $pic}
-                        {foreach $pic as $v}
-                        <div class="line">
-                            <div class="icon icon-link1"></div>
-                            <nav data-href="/sudu8_page/showPic/showPic?id={$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
-                            <div class="text">{$v['title']}</div>
-                        </div>
-                        {/foreach}
-                        {/if}
+                        <!--组图-->
                     </div>
                 </div>
 
                 <div class="tab-pane" id="sut_goods">
                     <div class="input-group">
-                        <input type="text" placeholder="请输入产品标题或直接点击搜索" id="select-goods-kw" value="" class="form-control">
-                        <span class="input-group-addon btn btn-default select-btn" data-type="goods">搜索</span>
+                        <!--<input type="text" placeholder="请输入产品标题或直接点击搜索" id="select-goods-kw" value="" class="form-control">-->
+                        <!--<span class="input-group-addon btn btn-default select-btn" data-type="goods">搜索</span>-->
                     </div>
                     <div id="select-goods-list">
+                        <!--商品-->
                         {if $pro}
                         {foreach $pro as $v}
                         <div class="line">
                             <div class="icon icon-link1"></div>
-                            <nav data-href="/sudu8_page/{$v['type']}/{$v['type']}?id={$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
-                            <div class="text">{$v['title']}</div>
+                            <nav data-href="/pages/goods_detail/goods_detail?title={$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                            <div class="text">{$v['goods_name']}</div>
                         </div>
                         {/foreach}
                         {/if}
@@ -294,6 +396,7 @@
 
                     </div>
                 </div>
+
                 <div class="tab-pane" id="sut_weburl" style="min-height: 100px;">
                     <div class="row" style="margin: 50px 80px;">
                         <div class="alert alert-alt alert-danger alert-dismissible" role="alert">
@@ -313,6 +416,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="tab-pane" id="sut_sapp" style="min-height: 100px;">
                     <div class="row" style="margin: 50px 80px 30px">
                         <div class="alert alert-alt alert-danger alert-dismissible" role="alert">
@@ -353,7 +457,6 @@
                                 <span class="btn btn-primary select-btn" data-type="diysys">确认使用</span>
                                 <nav id="select-diy-sysurl"></nav>
                             </div>
-
                         </div>
                     </div>
                 </div>

@@ -29,20 +29,16 @@
     
     .distribution_list ul {
         display: flex;
-        width: 250px;
-        justify-content: center;
         align-items: center;
     }
     
     .distribution_list a {
-        font-size: 17px;
+        font-size: 14px;
         padding: 9px;
         color: #5E5E5E;
     }
     
-    .distribution_list ul li {
-        flex: 1;
-    }
+   
 </style>
 
 {/block}
@@ -52,16 +48,17 @@
 	{block name="content"}
 
 	<div class="childrenBody">
-		<div class="distribution_list">
-            <ul>
-                <li>
-                    <a href="{:url('admin/Property/property_day')}"  >日汇总</a>
-                </li>
-                <li>
-                    <a href="{:url('admin/Property/property_month')}"  class="on">月汇总</a>
-                </li>
-            </ul>
-        </div>
+		{include file="template/_top" /}
+		<!--<div class="distribution_list">-->
+            <!--<ul>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/Property/property_day')}"  >日汇总</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/Property/property_month')}"  class="on">月汇总</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
 
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">

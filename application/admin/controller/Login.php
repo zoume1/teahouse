@@ -1,9 +1,10 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: CHEN
- * Date: 2018/7/14
- * Time: 22:00
+ * User: Administrator
+ * Date: 2018/12/27 0027
+ * 订单
+ * Time: 15:20
  */
 namespace app\admin\controller;
 
@@ -15,17 +16,23 @@ use think\captcha\Captcha;
 class Login extends Controller{
 
     /**
-     * [用户登录]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:用户登录
+     **************************************
+     * @return \think\response\View
      */
     public function index(){
         return view("login");
     }
 
 
-	/**
-     * [验证码]
-     * @author 陈绪
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:验证码
+     **************************************
+     * @return \think\Response
      */
     public function captchas(){
         $captcha = new Captcha([
@@ -40,8 +47,10 @@ class Login extends Controller{
 
 
     /**
-     * [登录检测并取出对应的角色]
-     * @author 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:登录检测并取出对应的角色
+     **************************************
      * @param Request $request
      */
     public function login(Request $request){
@@ -53,7 +62,13 @@ class Login extends Controller{
         if ($request->isPost()){
             $username = $request->only("account")["account"];
             $passwd = $request->only("passwd")["passwd"];
-            $userInfo = db("admin")->where("account",$username)->where("status","<>",1)->select();
+            $userInfo = db("admin")
+                ->where("account",$username)
+                ->where("status","<>",1)
+                ->select();
+            if($username !="admin"){
+                $this->success("商户请在前台登录","index/index/sign_in");
+            }
             if (!$userInfo) {
                 $this->success("账户名不正确或管理员以被停用","admin/Login/index");
             }
@@ -71,15 +86,23 @@ class Login extends Controller{
     }
 
 
-
     /**
-     * [退出]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:[退出]
+     **************************************
      */
     public function logout(){
+        $store_id =Session::get("store_id");
         Session::delete("user_id");
         Session::delete("user_info");
-        $this->redirect("admin/Login/index");
+        Session::delete("store_id");
+        if(!empty($store_id)){
+            $this->redirect("index/index/my_shop");
+        }else{
+            $this->redirect("admin/Login/index");
+        }
+
     }
 
 

@@ -30,20 +30,16 @@
 
     .distribution_list ul {
         display: flex;
-        width: 250px;
-        justify-content: center;
         align-items: center;
     }
 
     .distribution_list a {
-        font-size: 17px;
+        font-size: 14px;
         padding: 9px;
         color: #5E5E5E;
     }
 
-    .distribution_list ul li {
-        flex: 1;
-    }
+   
 </style>
 
 {/block}
@@ -53,16 +49,17 @@
     {block name="content"}
 
     <div class="childrenBody">
-            <div class="distribution_list">
-                    <ul>
-                        <li>
-                            <a href="{:url('admin/Control/control_meal_index')}"  >入驻套餐</a>
-                        </li>
-                        <li>
-                            <a href="{:url('admin/Control/control_order_index')}"  class="on">入驻订单</a>
-                        </li>
-                    </ul>
-                </div>
+        {include file="template/_top"/}
+            <!--<div class="distribution_list">-->
+                    <!--<ul>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/Control/control_meal_index')}"  >入驻套餐</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="{:url('admin/Control/control_order_index')}"  class="on">入驻订单</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
             <blockquote class="layui-elem-quote news_search">
                     <form class="layui-form" action="{:url('admin/Control/control_order_search')}">
                         <div class="seach">
@@ -112,16 +109,18 @@
 
                 <thead>
                     <tr>
-                        <th>用户账号手机号）</th>
-                        <th>联系人姓名）</th>
+                        <th>用户账号手机号</th>
+                        <th>联系人姓名</th>
+                        <th>店铺名</th>
                         <th>入驻商主体</th>
                         <th>地址</th>
                         <th>套餐选择</th>
                         <th>金额</th>
                         <th>生效时间</th>
                         <th>到期时间</th>
-                        <th>审核状态</th>
-                        <th>操作</th>
+                        <th>店铺审核状态</th>
+                        <th>付款审核状态</th>
+                        <!--<th>操作</th>-->
                     </tr>
                 </thead>
                 <tbody class="news_content">
@@ -129,6 +128,7 @@
 						<tr>
                             <td>{$value.phone_number}</td>
                             <td>{$value.contact_name}</td>
+                            <td>{$value.store_name}</td>
                             {if $value.is_business == 1}
                             <td>个人</td>
                             {/if}
@@ -138,7 +138,7 @@
                             <td>{$value.address_real_data}</td>
                             {if !empty($value.enter_meal)}
                             <td>{$value.enter_meal}</td>
-                            <td>{$value.cost}</td>
+                            <td>{$value.amount_money}</td>
                             <td>{$value.start_time}</td>
                             <td>{$value.end_time}</td>
                             {else}
@@ -148,12 +148,15 @@
                             <td></td>
                             {/if}
                             <td>
-                                {$value.status | enter_status}
+                                <a href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
                             </td>
                             <td>
-                                <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_order_add',['id'=>$value.id])}"> 编辑
-                                </a>
+                                <a href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
                             </td>
+                            <!--<td>-->
+                                <!--<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_order_add',['id'=>$value.id])}"> 编辑-->
+                                <!--</a>-->
+                            <!--</td>-->
                         </tr>
                         {/volist}{/if}
                 </tbody>

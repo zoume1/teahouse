@@ -30,13 +30,11 @@
 	
 	.distribution_list ul {
 		display: flex;
-		width: 200px;
-		justify-content: center;
 		align-items: center;
 	}
 	
 	.distribution_list a {
-		font-size: 17px;
+		font-size: 14px;
 		padding: 9px;
 		color: #5E5E5E;
 	}
@@ -49,8 +47,7 @@
 		width: 100px;
 		height: 30px;
 		line-height: 30px;
-		border-radius: 10px;
-		background: #007AFF;
+		
 		color: #fff;
 		margin: 0 auto;
 	}
@@ -185,6 +182,7 @@
 		line-height: 30px;
 		color: #fff;
 		text-align: center;
+		border-radius: 4px;
 	}
 	
 	.all0 {
@@ -347,7 +345,7 @@
 							</div>
 						</td>
 						<td>
-							<div class="static_btus" data-id="{$vo.id}" id="static_btus">
+							<div class="static_btus" data-id="{$vo.id}" id="static_btus" style="border-radius:4px;overflow:hidden">
 								{:after_sale_status($vo.status,$vo.who_handle)}
 							</div>
 						</td>

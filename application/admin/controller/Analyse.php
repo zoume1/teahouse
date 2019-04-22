@@ -36,7 +36,30 @@ class  Analyse extends  Controller{
         return view("analyse_index",["analyse"=>$analyse]);
     }
 
-    
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:总控增值订单
+     **************************************
+     */
+    public function  analyse_order(){
+
+        return view("analyse_order");
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:总控增值退款维权
+     **************************************
+     * @return \think\response\View
+     */
+    public function  analyse_after_sale(){
+        return view("analyse_after_sale");
+    }
+
+
+
     /**
      * [增值物流商品添加]
      * 郭杨
@@ -472,7 +495,6 @@ class  Analyse extends  Controller{
             } else {
                 $where = 'id=' . $id;
             }
-            halt($where);
             $list = Db::name('analyse_goods')->where($where)->delete();
             if (empty($list)) {
                 return ajax_success('成功删除!', ['status' => 1]);
@@ -547,22 +569,7 @@ class  Analyse extends  Controller{
         }
     }
 
-    /**
-     * [增值订单]
-     * 郭杨
-     */    
-    public function analyse_order_index(){     
-        return view("analyse_order_index");
-    }
 
-
-    /**
-     * [退款维权]
-     * 郭杨
-     */    
-    public function analyse_refund_index(){     
-        return view("analyse_refund_index");
-    }
 
 
     /**

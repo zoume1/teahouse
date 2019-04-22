@@ -28,20 +28,16 @@
 	.distribution_list ul{
 		
 		display: flex;
-		width: 400px;
-		justify-content: center;
 		align-items: center;
 		
 	}
 	.distribution_list a{
 	
-		font-size: 17px;
+		font-size: 14px;
 		padding: 9px;
 		color: #5E5E5E;
 	}
-	.distribution_list ul li{
-		flex: 1;
-	}
+	
 </style>
 
 {/block}
@@ -51,14 +47,15 @@
 	{block name="content"}
 
 	<div class="childrenBody">
-	<div class="distribution_list">
-		<ul>
-			<li ><a href="distribution_setting_index" >分销设置</a></li>
-			<li><a href="distribution_goods_index">分销商品</a></li>
-			<li><a href="distribution_record_index" >分销记录</a></li>
-			<li><a href="distribution_member_index" class="on">分销成员</a></li>
-		</ul>
-	</div>
+		{include file="template/_top" /}
+	<!--<div class="distribution_list">-->
+		<!--<ul>-->
+			<!--<li ><a href="distribution_setting_index" >分销设置</a></li>-->
+			<!--<li><a href="distribution_goods_index">分销商品</a></li>-->
+			<!--<li><a href="distribution_record_index" >分销记录</a></li>-->
+			<!--<li><a href="distribution_member_index" class="on">分销成员</a></li>-->
+		<!--</ul>-->
+	<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
 			<form class="layui-form" action="{:url('admin/Category/search')}">
 				<div class="seach">

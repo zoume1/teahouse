@@ -46,7 +46,8 @@
         .shop-innerbox .audit-status .status-txt{font-size: 16px; line-height: 2em; text-align: center; padding: 0 20px;}
         .shop-innerbox .auditing .status-txt{margin-top: 20px;}
         .shop-innerbox .audit-status .giveup{color: #f00; cursor: pointer;}
-        .shop-innerbox .audit-status .continue{color: #00BBFF; cursor: pointer;}
+        .shop-innerbox .audit-status .continue,
+        .shop-innerbox .audit-status .cVersion{color: #00BBFF; cursor: pointer;}
         .copyright{text-align: center; margin-top: 50px;color: #515151;}
         .copyright a{color: #515151;}
         /* 修改手机号弹窗 */
@@ -132,7 +133,7 @@
                                     <div class="status-txt">您的店铺申请已通过，请选择店铺版本</div>
                                     <div class="clearfix">
                                         <span class="fl giveup">放弃</span>
-                                        <span class="fr continue">选择店铺版本>></span>
+                                        <span class="fr cVersion">选择店铺版本>></span>
                                     </div>
                                 </li> -->
                                 <!-- <li class="shop-item universal-shop">
@@ -259,26 +260,26 @@
                 <!-- 个人 -->
                 <div class="personal-item" style="display: block;">
                     <div class="content-item">
-                        <label class="content-title">姓名：</label>
+                        <label class="content-title" for="p-name">姓名：</label>
                         <div>
-                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 1);">
+                            <input type="text" id="p-name" onblur="myEvent.onBlurGetInfo(this.value, 1);">
                         </div>
                     </div>
                     <div class="content-item">
-                        <label class="content-title">身份证号码：</label>
+                        <label class="content-title" for="p-id">身份证号码：</label>
                         <div>
-                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 2)">
+                            <input type="text" id="p-id" onblur="myEvent.onBlurGetInfo(this.value, 2)">
                         </div>
                     </div>
                     <div class="content-item address-item">
                         <label class="content-title">详细地址：</label>
                         <div>
                             <div data-toggle="distpicker" id="p-dist">
-                                <select></select>
-                                <select></select>
-                                <select></select>
+                                <select id="province" data-province="---- 选择省 ----"></select>
+                                <select id="city" data-city="---- 选择市 ----"></select>
+                                <select id="district" data-district="---- 选择区 ----"></select>
                             </div>
-                            <input type="text" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
+                            <input type="text" id="p-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
                         </div>
                     </div>
                     <div class="content-item id-item">
@@ -286,14 +287,14 @@
                         <div class="id-box">
                             <div class="positive">
                                 <div>
-                                    <img src="__STATIC__/index/img/id1.png" width="150" height="98">
+                                    <img src="__STATIC__/index/img/id1.png" id='p-imgf' width="150" height="98">
                                     <input type="file" id="p-f">
                                 </div>
                                 <p class="id-tips">身份证正面(国徽)</p>
                             </div>
                             <div class="back">
                                 <div>
-                                    <img src="__STATIC__/index/img/id2.png" width="150" height="98">
+                                    <img src="__STATIC__/index/img/id2.png" id="p-imgb" width="150" height="98">
                                     <input type="file" id="p-b">
                                 </div>
                                 <p class="id-tips">身份证反面(人像)</p>
@@ -301,47 +302,47 @@
                         </div>
                     </div>
                     <div class="content-item introduce-item">
-                        <label class="content-title">店铺介绍：</label>
+                        <label class="content-title" for="p-intr">店铺介绍：</label>
                         <div>
-                            <textarea onblur="myEvent.onBlurGetInfo(this.value, 4)"></textarea>
+                            <textarea onblur="myEvent.onBlurGetInfo(this.value, 4)" id="p-intr"></textarea>
                         </div>
                     </div>
                 </div>
                 <!-- 公司 -->
                 <div class="company-item" style="display: none;">
                     <div class="content-item">
-                        <label class="content-title">联系人姓名：</label>
+                        <label class="content-title" for="c-name">联系人姓名：</label>
                         <div>
-                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 1)">
+                            <input type="text" id="c-name" onblur="myEvent.onBlurGetInfo(this.value, 1)">
                         </div>
                     </div>
                     <div class="content-item">
-                        <label class="content-title">联系人身份证号：</label>
+                        <label class="content-title" for="c-id">联系人身份证号：</label>
                         <div>
-                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 2)">
+                            <input type="text" id="c-id" onblur="myEvent.onBlurGetInfo(this.value, 2)">
                         </div>
                     </div>
                     <div class="content-item address-item">
                         <label class="content-title">详细地址：</label>
                         <div>
                             <div data-toggle="distpicker" id="c-dist">
-                                <select></select>
-                                <select></select>
-                                <select></select>
+                                <select id="province2" data-province="---- 选择省 ----"></select>
+                                <select id="city2" data-city="---- 选择市 ----"></select>
+                                <select id="district2" data-district="---- 选择区 ----"></select>
                             </div>
-                            <input type="text" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
+                            <input type="text" id="c-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
                         </div>
                     </div>
                     <div class="content-item">
-                        <label class="content-title">企业名称：</label>
+                        <label class="content-title" for="c-cpname">企业名称：</label>
                         <div>
-                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 5)">
+                            <input type="text" id="c-cpname" onblur="myEvent.onBlurGetInfo(this.value, 5)">
                         </div>
                     </div>
                     <div class="content-item">
-                        <label class="content-title">企业执照号：</label>
+                        <label class="content-title" for="c-cpnum">企业执照号：</label>
                         <div>
-                            <input type="text" onblur="myEvent.onBlurGetInfo(this.value, 6)">
+                            <input type="text" id="c-cpnum" onblur="myEvent.onBlurGetInfo(this.value, 6)">
                         </div>
                     </div>
                     <div class="content-item id-item">
@@ -349,14 +350,14 @@
                         <div class="id-box">
                             <div class="positive">
                                 <div>
-                                    <img src="__STATIC__/index/img/id1.png" width="150" height="98">
+                                    <img src="__STATIC__/index/img/id1.png" id="c-imgf" width="150" height="98">
                                     <input type="file" id="c-f">
                                 </div>
                                 <p class="id-tips">身份证正面(国徽)</p>
                             </div>
                             <div class="back">
                                 <div>
-                                    <img src="__STATIC__/index/img/id3.png" width="120">
+                                    <img src="__STATIC__/index/img/id3.png" id="c-imgb" width="120">
                                     <input type="file" id="c-b">
                                 </div>
                                 <p class="id-tips">企业营业执照(人像)</p>
@@ -364,9 +365,9 @@
                         </div>
                     </div>
                     <div class="content-item introduce-item">
-                        <label class="content-title">店铺介绍：</label>
+                        <label class="content-title" for="c-intr">店铺介绍：</label>
                         <div>
-                            <textarea onblur="myEvent.onBlurGetInfo(this.value, 4)"></textarea>
+                            <textarea id="c-intr" onblur="myEvent.onBlurGetInfo(this.value, 4)"></textarea>
                         </div>
                     </div>
                 </div>
@@ -383,6 +384,12 @@
     <script src="__STATIC__/index/js/distpicker.js"></script>
     <script src="__STATIC__/index/js/layer/layer.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
+    <script>
+        // 判断是否登录
+        if(!myEvent.getCookie(btoa('phone')) && !myEvent.getCookie(btoa('password'))){
+            location.pathname.indexOf('sign_in') == -1 ? location.href = 'sign_in' : '';
+        }
+    </script>
     <script>
         // 国际电话区号
         (function(){
@@ -408,57 +415,61 @@
                 ready : function() {},
                 success : function(e) {
                     // alert('验证匹配！');
-                    var oldPhoneCode = $('#oldPhoneCode').val(),
-                        newphone = $('#newphone').val(),
-                        newPhoneCode = $('#newPhoneCode').val(),
-                        newPhonePwd = $('#newPhonePwd').val(),
-                        newPhonePwd2 = $('#newPhonePwd2').val();
-                    if(oldPhoneCode && newphone && newPhoneCode && newPhonePwd && newPhonePwd2){
-                        if(newPhonePwd === newPhonePwd2){
-                            (function(){
-                                $.ajax({
-                                    url: 'new_phone_update',
-                                    type: 'POST',
-                                    // contentType: 'application/x-www-form-unencoded',
-                                    dataType: 'JSON',
-                                    data: {
-                                        mobiles: newphone,
-                                        mobile_code: oldPhoneCode,
-                                        mobile_codes: newPhoneCode,
-                                        password: newPhonePwd,
-                                        confirm_password: newPhonePwd2
-                                    },
-                                    success: function(res){
-                                        console.log('修改手机成功');
-                                        if(res.status == 1){
-                                            layer.msg('修改成功！');
-                                            setTimeout(function(){location.reload()}, 1000);
-                                        }else{
-                                            layer.msg(res.info);
-                                        }
-                                    },
-                                    error: function(){console.log('修改手机失败')}
-                                })
-                            }())
-                        }else{
-                            layer.msg('前后密码不一致！');
-                        }
-                    }else{
-                        layer.msg('请填写信息！');
-                    }
-                    
+                    changePhone();
                 },
                 error : function() {
                     alert('验证码不匹配！');
                 }
             });
         }('#mpanel', 'changephone-button'));
+
+        // 修改手机号
+        function changePhone(){
+            var oldPhoneCode = $('#oldPhoneCode').val(),
+                newphone = $('#newphone').val(),
+                newPhoneCode = $('#newPhoneCode').val(),
+                newPhonePwd = $('#newPhonePwd').val(),
+                newPhonePwd2 = $('#newPhonePwd2').val();
+            if(oldPhoneCode && newphone && newPhoneCode && newPhonePwd && newPhonePwd2){
+                if(newPhonePwd === newPhonePwd2){
+                    (function(){
+                        $.ajax({
+                            url: 'new_phone_update',
+                            type: 'POST',
+                            dataType: 'JSON',
+                            data: {
+                                mobiles: newphone,
+                                mobile_code: oldPhoneCode,
+                                mobile_codes: newPhoneCode,
+                                password: newPhonePwd,
+                                confirm_password: newPhonePwd2
+                            },
+                            success: function(res){
+                                console.log('修改手机成功');
+                                if(res.status == 1){
+                                    layer.msg('修改成功！');
+                                    setTimeout(function(){location.reload()}, 1000);
+                                }else{
+                                    layer.msg(res.info);
+                                }
+                            },
+                            error: function(){console.log('修改手机失败')}
+                        })
+                    }())
+                }else{
+                    layer.msg('前后密码不一致！');
+                }
+            }else{
+                layer.msg('请填写信息！');
+            }
+        }
         
         // 关闭弹窗
         (function(){
             $('.pop-close').click(function(){
                 $('.mask').hide();
                 $(this).parents('.pop').hide();
+                location.reload();
             })
         }());
 
@@ -466,7 +477,8 @@
         (function(){
             $('.addshop-button').click(function(){
                 var addrArr = [],
-                    select;
+                    select,
+                    id = this.id;
                 if(myEvent.data.natureTag == 1){
                     select = document.querySelectorAll('#p-dist select');
                 }else{
@@ -477,10 +489,11 @@
                 })
                 myEvent.data.addressStr = addrArr.join(',');
                 $.ajax({
-                    url: 'store_add',
+                    url: myEvent.data.isEdit?'store_edit':'store_add',
                     type: 'POST',
                     dataType: 'JSON',
                     data: {
+                        id: id,
                         is_business: myEvent.data.natureTag,
                         id_card: myEvent.data.idCardNum,
                         contact_name: myEvent.data.userName,
@@ -491,6 +504,7 @@
                         store_introduction: myEvent.data.storeDesc,
                         business_name: myEvent.data.compName,
                         licence_no: myEvent.data.licenceNum,
+                        
                     },
                     success: function(res){
                         console.log('添加店铺成功',res);
@@ -524,7 +538,7 @@
                         domStr += '<li class="shop-item audit-status rejected">\
                                         <div class="status-txt">您的店铺资料不完整，请重新申请</div>\
                                         <div class="clearfix">\
-                                            <span class="fl giveup">放弃</span>\
+                                            <span class="fl giveup" data-id="'+v.id+'">放弃</span>\
                                             <span class="fr continue" data-id="'+v.id+'">继续编辑>></span>\
                                         </div>\
                                     </li>';
@@ -532,8 +546,8 @@
                         domStr += '<li class="shop-item audit-status passed">\
                                         <div class="status-txt">您的店铺申请已通过，请选择店铺版本</div>\
                                         <div class="clearfix">\
-                                            <span class="fl giveup">放弃</span>\
-                                            <span class="fr continue">选择店铺版本>></span>\
+                                            <span class="fl giveup" data-id="'+v.id+'">放弃</span>\
+                                            <span class="fr cVersion" data-id="'+v.id+'">选择店铺版本>></span>\
                                         </div>\
                                     </li>';
                     }else if(v.status == 2){
@@ -543,11 +557,129 @@
                     }
                 })
                 $('.add-shop-li').after(domStr);
+                // 放弃
+                $('.giveup').click(function(){
+                    if(confirm('是否放弃？')){
+                        var id = $(this).data('id');
+                        deleteShop(id);
+                    }
+                })
+                // 选择版本
+                $('.cVersion').click(function(){
+                    var id = $(this).data('id');
+                    selectVeri(id);
+                })
+                // 继续编辑
+                $('.continue').click(function(){
+                    var id = $(this).data('id');
+                    $('.addshop-button').attr('id', id);
+                    modifyShop(id);
+                })
             }
-        })
+        });
 
-        ;(function(myEvent){
+        // 继续编辑
+        function modifyShop(id){
+            (function(){
+                return $.ajax({
+                    url: 'store_return',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        id: id
+                    }
+                })
+            }()).then(function(res){
+                console.log(res);
+                if(res.status == 1){
+                    $('.add-shop-li').click();
+                    myEvent.data.isEdit = true;
+                    myEvent.data.natureTag = res.data.is_business;
+                    myEvent.data.userName = res.data.contact_name;
+                    myEvent.data.idCardNum = res.data.id_card;
+                    myEvent.data.addressStr = res.data.address_data;
+                    myEvent.data.addressStr2 = res.data.address_real_data;
+                    myEvent.data.storeDesc = res.data.store_introduction;
+                    if(res.data.is_business == 1){
+                        myEvent.changeNatureItem('personal');
+                        $('#personal').prop('checked', true);
+                        $('#p-name').val(res.data.contact_name);
+                        $('#p-id').val(res.data.id_card);
+                        // 三级联动
+                        $('#p-dist').distpicker('destroy').distpicker({autoSelect: false});
+                        $('#province').val(res.data.address_data.split(',')[0]).trigger('change');
+                        $('#city').val(res.data.address_data.split(',')[1]).trigger('change');
+                        $('#district').val(res.data.address_data.split(',')[2]).trigger('change');
+
+                        $('#p-dt-add').val(res.data.address_real_data);
+                        $('#p-imgf').attr('src', '__UPLOADS__/'+res.data.card_positive);
+                        $('#p-imgb').attr('src', '__UPLOADS__/'+res.data.card_side);
+                        $('#p-intr').val(res.data.store_introduction);
+                    }else{
+                        myEvent.changeNatureItem('company');
+                        $('#company').prop('checked', true);
+                        myEvent.data.compName = res.data.business_name;
+                        myEvent.data.licenceNum = res.data.licence_no;
+                        $('#c-name').val(res.data.contact_name);
+                        $('#c-id').val(res.data.id_card);
+                        // 三级联动
+                        $('#c-dist').distpicker('destroy').distpicker({autoSelect: false});
+                        $('#province2').val(res.data.address_data.split(',')[0]).trigger('change');
+                        $('#city2').val(res.data.address_data.split(',')[1]).trigger('change');
+                        $('#district2').val(res.data.address_data.split(',')[2]).trigger('change');
+
+                        $('#c-dt-add').val(res.data.address_real_data);
+                        $('#c-cpname').val(res.data.business_name);
+                        $('#c-cpnum').val(res.data.licence_no);
+                        $('#c-imgf').attr('src', '__UPLOADS__/'+res.data.card_positive);
+                        $('#c-imgb').attr('src', '__UPLOADS__/'+res.data.card_side);
+                        $('#c-intr').val(res.data.store_introduction);
+                    }
+                }
+            })
+        }
+
+        // 选择店铺版本
+        function selectVeri(id){
+            $.ajax({
+                url: 'store_goto_admin',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    id: id
+                },
+                success: function(res){
+                    if(res.status == 1){
+                        location.href = 'admin';
+                    }
+                },
+                error: function(res){console.log(res.status, res.statusText);}
+            })
+        }
+        // 放弃店铺
+        function deleteShop(id){
+            $.ajax({
+                url: 'store_give_up',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    id: id
+                },
+                success: function(res){
+                    if(res.status == 1){
+                        layer.msg(res.info);
+                        setTimeout(function(){
+                            location.reload();
+                        }, 1000)
+                    }
+                },
+                error: function(res){console.log(res.status, res.statusText);}
+            })
+        }
+
+        (function(myEvent){
             myEvent.data = {
+                isEdit: false,
                 natureTag: 1,
                 userName: '',
                 idCardNum: null,
@@ -655,7 +787,9 @@
             $('.mask').show();
             $('.pop-changephone').show();
         })
-        $('.add-shop').add('.add-shop-li').add('.rejected .continue').click(function(){
+
+        $('.add-shop').add('.add-shop-li').click(function(){
+            myEvent.data.isEdit = false;
             $('.mask').show();
             $('.pop-addshop').show();
         })

@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>套餐订单</title>
+</head>
+<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
+<script src="__STATIC__/admin/index/js/index.js"></script>
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<style type="text/css">
+    * {margin: 0;padding: 0;}
+    body {background: #fff;}
+    .wrapper {padding: 20px;}
+    .on {color: #21A5FA !important; border-bottom: solid 3px #21A5FA;}
+    .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
+    .distribution_list ul {display: flex; align-items: center; margin-bottom: 10px;}
+    .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+    .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
+    .bot-operate .opation{float: left}
+    .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
+    .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
+    .btn-exam{background-color: rgb(0, 0, 255);}
+    .btn-pass{background-color: rgb(102, 153, 0);}
+    .btn-fail{background-color: rgb(255, 0, 0);}
+    .line-exam{background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
+    .line-ing{background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
+    .line-pass{background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}
+    .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
+    .pop{ position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 650px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9;}
+    .pop .head{position: relative; padding-left: 16px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
+    .pop .head p{height: 35px; line-height: 36px; font-size: 13px;}
+    .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer;}
+    .content{padding: 0 16px;}
+    .top, .mid, .bot{padding: 0 30px;}
+    .top{height: 50px; line-height: 50px;}
+    .lb{font-size: 16px; font-weight: 700; color: #333; margin-right: 30px;}
+    .top span{font-size: 24px; color: #f00; font-weight: 700;}
+    .mid{border: 1px dashed #d2d2d2; border-left: 0; border-right: 0;}
+    .mid>div{height: 50px; line-height: 50px; display: flex; align-items: baseline;}
+    .address p{line-height: normal; flex: 1;}
+    .change-addr{text-align: right;height: 35px; line-height: 35px; }
+    .change-addr a{color: #199ED8;}
+    .bot li{height: 65px; line-height: 65px; list-style: disc;}
+    .bot li button{background-color: #669900;}
+    .bot li a{color: #669900;}
+</style>
+
+{/block}
+
+<body>
+{block name="content"}
+
+<div class="wrapper">
+    {include file="template/_top" /}
+    <div class="inner">
+        <div class="layui-form" lay-filter="test2">
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th class="table-cell">
+                        <div class="table-cell-div">用户账号（手机号）</div>
+                    </th>
+                    <th class="table-cell">
+                        <div class="table-cell-div">联系人姓名</div>
+                    </th>
+                    <th class="table-cell">
+                        <div class="table-cell-div">入驻商主体</div>
+                    </th>
+                    <th class="table-cell">
+                        <div class="table-cell-div">套餐选择</div>
+                    </th>
+                    <th class="table-cell">
+                        <div class="table-cell-div">金额</div>
+                    </th>
+                    <th class="table-cell">
+                        <div class="table-cell-div">生效时间</div>
+                    </th>
+                    <th class="table-cell">
+                        <div class="table-cell-div">到期时间</div>
+                    </th>
+                    <th class="table-cell">
+                        <div class="table-cell-div">支付方式</div>
+                    </th>
+                    <th class="table-cell">
+                        <div class="table-cell-div">到账情况</div>
+                    </th>
+                    <th class="table-cell">
+                        <div class="table-cell-div">店铺开通</div>
+                    </th>
+                    <th class="table-cell">
+                        <div class="table-cell-div">操作</div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td class="table-cell">
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+
+                        <div class="table-cell-div"></div>
+
+
+                    </td>
+                    <td class="table-cell">
+
+                        <div class="table-cell-div"></div>
+
+
+                    </td>
+                    <td class="table-cell">
+
+                        <div class="table-cell-div"></div>
+
+                        <div class="table-cell-div">待审核</div>
+
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-div"></div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="table-cell-div">
+                            <a href="#" class="layui-btn btn-exam">汇款待审核</a>
+                            <!-- <a href="#" class="layui-btn btn-pass">到账审核通过</a>
+                            <a href="#" class="layui-btn btn-fail">汇款未到账</a>
+                            <a href="#" class="layui-btn btn-pass">线上付款通过</a>
+                            <button class="layui-btn line-exam">未申请开票</button>
+                            <button class="layui-btn line-ing">已申请开票</button>
+                            <button class="layui-btn line-pass">已开票完成</button> -->
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="bot-operate">
+            <div class="opation">
+                <select>
+                    <option check="" value="0">请选择</option>
+                    <option value="1">批量删除</option>
+                </select>
+            </div>
+            <div>
+                <button type="button" id="operation-btn" class="operation-btn">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mask" style="display: none;"></div>
+<!-- 弹窗 -->
+<div class="pop" style="display: none;">
+    <div class="head">
+        <p>请填写</p>
+        <i class="close">×</i>
+    </div>
+    <div class="content">
+        <div class="top">
+            <div class="invoice-money">
+                <label class="lb">开票金额</label>
+                <span>￥123</span>
+            </div>
+        </div>
+        <div class="mid">
+            <div class="invoice-head">
+                <label class="lb">发票抬头</label>
+                <input type="text" placeholder="请填写公司名">
+            </div>
+            <div class="invoice-num">
+                <label class="lb">企业税号</label>
+                <input type="text" placeholder="请填写企业税号">
+            </div>
+            <div class="address">
+                <label for="" class="lb">邮寄地址</label>
+                <p>广东省 广州市 天河区 珠吉街道 珠吉路58号津安创意园(李三 收)18451401025 默认地址</p>
+            </div>
+            <p class="change-addr">
+                <a href="#">管理收货地址</a>
+            </p>
+        </div>
+        <div class="bot">
+            <ul>
+                <li>
+                    <span>请确认好开票信息，发票开出后，不在重开，如已确认，你可</span>
+                    <button class="layui-btn">立即开票</button>
+                </li>
+                <!-- <li>
+                    <span>您已申请开票，如有任何疑问，请及时与平台</span>
+                    <a href="#">客服沟通</a>
+                </li>
+                <li>
+                    <span>您的发票已开具，如有任何疑问，请及时与平台</span>
+                    <a href="#">客服沟通</a>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+
+
+<!--请在下方写此页面业务相关的脚本-->
+{block name="bottom"}
+<script src="__STATIC__/admin/common/layui/layui.js"></script>
+<script>
+    layui.use(['laydate', 'form'], function(){
+
+    })
+</script>
+{/block}

@@ -38,16 +38,33 @@
     table a:hover{color: #f40;}
     table .t-delete:hover{color: #f40; cursor: pointer;}
     table .t-setDefault:hover{cursor: pointer; color: #f40;}
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 14px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
 </style>
 
 {/block}
 <body>
+
     {block name="content"}
     <div class="wrapper">
-        <div class="title">
-            <a href="general_index" title="店铺信息">店铺信息</a>
-            <a href="javascript:void(0);" class="tit-on">收货地址</a>
-        </div>
+        {include file="template/_top" /}
         <div class="addr-block">
             <ul>
                 <li class="clearfix">
@@ -56,15 +73,15 @@
                         <div data-toggle="distpicker">
                             <div class="form-group">
                                 <label class="sr-only" for="province2">Province</label>
-                                <select class="form-control" name="address_city1" id="province2" data-province="---- 选择省 ----"></select>
+                                <select class="form-control" name="address_city[]" id="province" data-province="---- 选择省 ----"></select>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="city2">City</label>
-                                <select class="form-control" name="address_city2" id="city2" data-city="---- 选择市 ----"></select>
+                                <select class="form-control" name="address_city[]" id="city" data-city="---- 选择市 ----"></select>
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="district2">District</label>
-                                <select class="form-control" name="address_city3" id="district2" data-district="---- 选择区 ----"></select>
+                                <select class="form-control" name="address_city[]" id="district" data-district="---- 选择区 ----"></select>
                             </div>
                         </div>
                     </div>
@@ -72,32 +89,32 @@
                 <li class="clearfix">
                     <label required class="addr-label fl">详细地址:</label>
                     <div class="fl">
-                        <textarea placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息"></textarea>
+                        <textarea placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元等信息" name="street" id="street"></textarea>
                     </div>
                 </li>
                 <li class="clearfix">
                     <label class="addr-label fl">邮政编码:</label>
                     <div class="fl">
-                        <input type="text" placeholder="请填写邮编">
+                        <input type="text" placeholder="请填写邮编" name="zip" id="zip">
                     </div>
                 </li>
                 <li class="clearfix">
                     <label required class="addr-label fl">联系电话:</label>
                     <div class="fl">
-                        <input type="text" placeholder="填写联系电话">
+                        <input type="text" placeholder="填写联系电话" name="phone" id="phone">
                     </div>
                 </li>
                 <li class="clearfix">
                     <label required class="addr-label fl">收货人姓名:</label>
                     <div class="fl">
-                        <input type="text" placeholder="长度不超过25个字符">
+                        <input type="text" placeholder="长度不超过25个字符" name="name" id="name">
                     </div>
                 </li>
                 <li class="clearfix">
                     <label class="addr-label fl"></label>
                     <div class="fl">
-                        <input type="checkbox" id="set-def">
-                        <label for="set-def">设置为默认收货地址</label>
+                        <input type="checkbox" name="default" value="" id="default">
+                        <label for="default">设置为默认收货地址</label>
                     </div>
                 </li>
                 <li class="clearfix">
@@ -150,74 +167,47 @@
                         </tr>
                     </thead>
                     <tbody class="next-table-bd">
+                    {if !empty($data)}
+                    {volist name="data" id="vo"}
                         <tr class="next-table-row">
                             <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">刘德华</div>
+                                <div class="next-table-cell-wrapper">{$vo.name}</div>
                             </td>
                             <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">广东深 深圳市 福田区 莲花街道</div>
+                                <div class="next-table-cell-wrapper">{$vo.address}</div>
                             </td>
                             <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">中电信息大厦东座1518</div>
+                                <div class="next-table-cell-wrapper">{$vo.street}</div>
                             </td>
                             <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">518000</div>
+                                <div class="next-table-cell-wrapper">{$vo.zip}</div>
                             </td>
                             <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">13691853045</div>
+                                <div class="next-table-cell-wrapper">{$vo.phone}</div>
                             </td>
                             <td class="next-table-cell">
                                 <div class="next-table-cell-wrapper">
                                     <div class="tAction">
-                                        <a href="javascript:void(0);" target="_self">修改</a>
+                                        <a href="javascript:void(0);" target="_self" class="editAddr" data-id="{$vo.id}">修改</a>
                                         <span class="t-line">|</span>
-                                        <span class="t-delete">删除</span>
+                                        <span class="t-delete" data-id="{$vo.id}">删除</span>
                                     </div>
                                 </div>
                             </td>
                             <td class="next-table-cell">
                                 <div class="next-table-cell-wrapper">
-                                    <!-- <span class="t-setDefault">设为默认</span> -->
+                                    {if $vo['default']==0}
+                                    <span class="t-setDefault" data-id="{$vo.id}">设为默认</span>
+                                    {else}
                                     <div>
                                         <span class="t-default">默认地址</span>
                                     </div>
+                                    {/if}
                                 </div>
                             </td>
                         </tr>
-                        <tr class="next-table-row">
-                            <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">刘德华</div>
-                            </td>
-                            <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">广东深 深圳市 福田区 莲花街道</div>
-                            </td>
-                            <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">中电信息大厦东座1518</div>
-                            </td>
-                            <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">518000</div>
-                            </td>
-                            <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">13691853045</div>
-                            </td>
-                            <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">
-                                    <div class="tAction">
-                                        <a href="javascript:void(0);" target="_self">修改</a>
-                                        <span class="t-line">|</span>
-                                        <span class="t-delete">删除</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="next-table-cell">
-                                <div class="next-table-cell-wrapper">
-                                    <span class="t-setDefault">设为默认</span>
-                                    <!-- <div>
-                                        <span class="t-default">默认地址</span>
-                                    </div> -->
-                                </div>
-                            </td>
-                        </tr>
+                    {/volist}
+                    {/if}
                     </tbody>
                 </table>
             </div>
@@ -233,7 +223,95 @@
 
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
     <script>
+        (function(){
+            
+            // ajax post
+            function postData(url, param, callback){
+                $.post(url, param, function(data, status){
+                    callback(JSON.parse(data));
+                })
+            }
+            // 保存按钮
+            $('.save-btn').click(function(){
+                var address = $('#province').val() + ' ' + $('#city').val() + ' ' + $('#district').val(),
+                    street = $('#street').val(),
+                    zip = $('#zip').val(),
+                    phone = $('#phone').val(),
+                    name = $('#name').val(),
+                    def = $('#default')[0].checked ? 1 : 0,
+                    id = this.getAttribute('data-id') == null ? '' : this.getAttribute('data-id');
+                var param = {
+                    id: id,
+                    address: address,
+                    street: street,
+                    zip: zip,
+                    phone: phone,
+                    name: name,
+                    default:def
+                }
+                postData('general_address_add', param, saveData);
+            })
+            
+            // 保存发送数据 回调
+            function saveData(data){
+                if(data.status == 1){
+                    layer.msg(data.info, {time: 1000});
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1100)
+                }
+            }
+            // 设置默认
+            $('.t-setDefault').click(function(){
+                var id = this.getAttribute('data-id');
+                var param = {
+                    id: id
+                }
+                postData('general_address_status', param, combineCallBack);
+            })
+            // 设为默认 回调
+            function combineCallBack(data){
+                if(data.status == 1){
+                    layer.msg(data.info, {time: 1000});
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1100)
+                }
+            }
+
+            // 删除
+            $('.t-delete').click(function(){
+                var id = this.getAttribute('data-id');
+                var param = {id: id};
+                if(confirm('删除本条地址？')){
+                    postData('general_address_del', param, combineCallBack);
+                }
+            })
+
+            // 修改地址 按钮
+            $('.editAddr').click(function(){
+                var id = this.getAttribute('data-id');
+                var param = {id: id};
+                postData('general_address_edit_info', param, editFunc);
+            })
+            // 修改地址 回调
+            function editFunc(data){
+                console.log(data);
+                $('#p-dist').distpicker('destroy').distpicker({autoSelect: false});
+                $('#province').val(data.data.address.split(' ')[0]).trigger('change');
+                $('#city').val(data.data.address.split(' ')[1]).trigger('change');
+                $('#district').val(data.data.address.split(' ')[2]).trigger('change');
+                $('#street').val(data.data.street);
+                $('#zip').val(data.data.zip);
+                $('#phone').val(data.data.phone);
+                $('#name').val(data.data.name);
+                data.data.default ? $('#default').prop('checked', true) : $('#default').prop('checked', false);
+                $('.save-btn').attr('data-id', data.data.id);
+            }
+        })()
+        
 
     </script>
     {/block}

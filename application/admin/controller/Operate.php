@@ -471,4 +471,65 @@ class Operate extends  Controller{
         }
     }
 
+
+    /**
+     * 发票显示
+     * GY
+    */
+    public function operate_receipt_index(){
+        $data = db("receipt") ->select();
+        return view('operate_receipt_index',['data'=>$data]);
+    }
+
+    /**
+     * 发票更新
+     * GY
+    */
+    public function operate_receipt_update(Request $request){
+        if($request -> isPost()){
+            $status = isset($request->only(["status"])["status"])?$request->only(["status"])["status"]:null;
+            $common = $request->only(["common"])["common"];
+            $senior = $request->only(["senior"])["senior"];
+            if(($common > 30 ) ||  ($senior > 30)  || ($senior < 0) || ($common < 0)){
+                $this ->error("更新失败,请参照输入规则","admin/operate/operate_receipt_index");
+            } 
+            if(empty($status)){
+                $data=[
+                    'common'=>$common,
+                    'senior'=>$senior
+                ];
+            } else {
+                if(count($status) == 1){
+                    if(isset($status[0])){
+                        $data=[
+                            'status'=>$status[0],
+                            'common'=>$common,
+                            'senior'=>$senior
+                        ];
+                    } else {
+                        $data=[
+                            'status'=>$status[1],
+                            'common'=>$common,
+                            'senior'=>$senior
+                        ]; 
+                    }
+                } else {
+                    $data=[
+                        'status'=> 3,
+                        'common'=>$common,
+                        'senior'=>$senior
+                    ];
+                }
+            }
+     
+            $bool = db("receipt") -> where("id",1) -> update($data);
+            if($bool){
+                $this->success('更新成功', 'admin/operate/operate_receipt_index');
+            } else {
+                $this->error('更新失败，请稍后重试', 'admin/operate/operate_receipt_index');
+                
+            }           
+        }     
+    }
+
 }

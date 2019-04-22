@@ -638,31 +638,65 @@ function order_type_status($label){
  **************************************
  * @param $status
  */
+//function show_order_status($status){
+//    if($status==0){
+//        echo '<button type="button" class="state   close-btu" >已关闭</button>';
+//    }else if($status==1){
+//        echo '<button type="button" class="state  obligation" >待支付</button>';
+////    }else if($status==2){
+////        echo '<button type="button" class="state  payment-has-been" >已付款</button>';
+//    }else  if($status==2 || $status==3){
+//        echo '<button type="button" class="state  shipmenting-btu" >待发货</button>';
+////    }else  if($status==4){
+////        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
+//    }else  if($status==4 || $status==5){
+//        echo '<button type="button" class="state  gooding-btu" >待收货</button>';
+//    }else  if($status==6){
+//        echo '<button type="button" class="state  gooded-btu" >已收货</button>';
+//    }else  if($status==7){
+//        echo '<button type="button" class="state  obligation" >待评价</button>';
+//    } else  if($status==8){
+//        echo '<button type="button" class="state  finish-btu" >已完成</button>';
+////    }else  if($status==9){
+////        echo '<button type="button" class="state  cancel-btu" >取消订单</button>';
+//    }else  if($status==9 || $status==10){
+//        echo '<button type="button" class="state  cancel-btu" >已关闭</button>';
+//    }else  if($status==11){
+//        echo '<button type="button" class="state  cancel-btu" >退货</button>';
+//    }
+//}
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:初始订单后台显示订单状态
+ **************************************
+ * @param $status
+ */
 function show_order_status($status){
     if($status==0){
-        echo '<button type="button" class="state   close-btu" >已关闭</button>';
+        echo '<button type="button" class="state color9" >已关闭</button>';
     }else if($status==1){
-        echo '<button type="button" class="state  obligation" >待支付</button>';
+        echo '<button type="button" class="state color1" >待支付</button>';
 //    }else if($status==2){
 //        echo '<button type="button" class="state  payment-has-been" >已付款</button>';
     }else  if($status==2 || $status==3){
-        echo '<button type="button" class="state  shipmenting-btu" >待发货</button>';
+        echo '<button type="button" class="state color2" >待发货</button>';
 //    }else  if($status==4){
 //        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
     }else  if($status==4 || $status==5){
-        echo '<button type="button" class="state  gooding-btu" >待收货</button>';
+        echo '<button type="button" class="state color3" >待收货</button>';
     }else  if($status==6){
-        echo '<button type="button" class="state  gooded-btu" >已收货</button>';
+        echo '<button type="button" class="state color3" >已收货</button>';
     }else  if($status==7){
-        echo '<button type="button" class="state  obligation" >待评价</button>';
+        echo '<button type="button" class="state color3" >待评价</button>';
     } else  if($status==8){
-        echo '<button type="button" class="state  finish-btu" >已完成</button>';
+        echo '<button type="button" class="state color4" >已完成</button>';
 //    }else  if($status==9){
 //        echo '<button type="button" class="state  cancel-btu" >取消订单</button>';
     }else  if($status==9 || $status==10){
-        echo '<button type="button" class="state  cancel-btu" >已关闭</button>';
+        echo '<button type="button" class="state color5" >已关闭</button>';
     }else  if($status==11){
-        echo '<button type="button" class="state  cancel-btu" >退货</button>';
+        echo '<button type="button" class="state color6" >退货</button>';
     }
 }
 
@@ -692,6 +726,9 @@ function show_order_statues($status){
         echo '<button type="button" class="state  cancel-btu" >退货</button>';
     }
 }
+
+
+
 /*入驻套餐审核状态显示*/
 function enter_status($status){
     if($status==-1){
@@ -730,19 +767,19 @@ function operation_recharge_status($status){
  */
 function after_sale_status($status,$who_handle){
    if($status==1){
-        echo '<div type="button" class="state  payment-has-been " >申请中</div>';
+        echo '<div type="button" class="state  all1 " >申请中</div>';
     }else  if($status==2){
-        echo '<div  type="button" class="state  shipmenting-btu" >收货中</button>';
+        echo '<div  type="button" class="state  all2" >收货中</button>';
     }else  if($status==3){
-        echo '<div  type="button" class="state  shipmented-btu" >处理中</button>';
+        echo '<div  type="button" class="state  all1" >处理中</button>';
     }else  if($status==4){
-        echo '<div  type="button" class="state  gooding-btu" >换货成功</button>';
+        echo '<div  type="button" class="state  all3" >换货成功</button>';
     }else  if($status==5 && $who_handle ==1){
-        echo '<div  type="button" class="state  gooded-btu" >用户撤销</button>';
+        echo '<div  type="button" class="state  all5" >用户撤销</button>';
     }else  if($status==5 && $who_handle ==2){
-       echo '<div  type="button" class="state  gooded-btu" >用户撤销</button>';
+       echo '<div  type="button" class="state  all5" >用户撤销</button>';
    }else  if($status==5 && $who_handle ==3){
-       echo '<div  type="button" class="state  gooded-btu" >拒绝</button>';
+       echo '<div  type="button" class="state  all5" >拒绝</button>';
    }
 }
 
@@ -982,3 +1019,86 @@ function upload_img(){
     return $dir;
 }
 /*TODO:小程序结束*/
+
+/**
+ * 求两个日期之间相差的天数
+ * (针对1970年1月1日之后，求之前可以采用泰勒公式)
+ * @param string $day1
+ * @param string $day2
+ * @return number
+ */
+function diffBetweenTwoDays ($second1, $second2)
+{  
+  if ($second1 < $second2) {
+    $tmp = $second2;
+    $second2 = $second1;
+    $second1 = $tmp;
+  }
+  return ($second1 - $second2) / 86400;
+}
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:总控套餐订单审核
+ **************************************
+ */
+function audit_status($status){
+    if($status==0){
+        echo '待审核';
+    }else  if($status==1){
+        echo '已通过';
+    }else  if($status==-1){
+        echo '未通过';
+    }
+}
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:判断是商家还是个人
+ **************************************
+ */
+function is_business($status){
+    if($status==1){
+        echo '个人';
+    }else  if($status==2){
+        echo '公司';
+    }
+}
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:支付类型（1扫码支付，2汇款支付，3余额支付）
+ **************************************
+ */
+function pay_type($status){
+    if($status==1){
+        echo '扫码支付';
+    }else  if($status==2){
+        echo '汇款支付';
+    }else if($status==3){
+        echo '余额支付';
+    }else{
+        echo '未支付';
+    }
+}
+
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:到账状态
+ **************************************
+ * @param $status
+ */
+function pay_status($status){
+    if($status==1){
+        echo '已到账';
+    }else  if($status==2){
+        echo '待审核';
+    }else if($status==1){
+        echo '已到账';
+    }
+}
+

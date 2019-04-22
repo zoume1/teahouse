@@ -17,6 +17,63 @@
         padding-left: 50px;
         background: #FDFDFE;
     }
+    .childrenBody{
+        display: flex;
+        align-items: center;
+        padding: 34px;
+        flex-wrap: wrap;
+    }
+    .img{
+        width: 186px;
+        height: 186px;
+    }
+    .imgcontent{
+    position: relative;
+    }
+    .text{
+        border-width: 0px;
+        width: 186px;
+        height: 27px;
+        background: inherit;
+        background-color: rgba(0, 0, 0, 0.686274509803922);
+        border: none;
+        border-bottom: 0px;
+        border-radius: 28px;
+        border-bottom-right-radius: 50px;
+        border-bottom-left-radius: 50px;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        font-size: 18px;
+        color: #FFFFFF;
+        position: absolute;
+        top: 0;
+        text-align: center;
+        font-weight: 700;
+    }
+    .btns{
+        display: flex;
+        align-items: center;
+        margin-top: 14px;
+    }
+    .btns div{
+        width: 95px;
+        height: 26px;
+        font-size: 16px;
+        color: #FFFFFF;
+        border-radius: 48px;
+        text-align: center;
+        line-height: 26px;
+    }
+    .btns_a{
+        background-color: rgba(0, 0, 153, 0.737254901960784);  
+    }
+    .btns_b{
+        background-color: rgba(204, 0, 0, 0.737254901960784);
+    }
+    .list{
+        margin-right: 34px;
+    }
 </style>
 
 {/block}
@@ -26,39 +83,41 @@
 {block name="content"}
 
 <div class="childrenBody">
-
-    <div class="layui-form news_list">
-        <table class="layui-table">
-            <colgroup>
-                <col width="3%">
-            </colgroup>
-            <thead>
-            <tr>
-                <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
-                <th>小程序名称</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody class="news_content">
-            {volist name="list" id="value"}
-            <tr>
-                <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
-                <td>{$value.name}</td>
-                <td>
-                    <a class="layui-btn layui-btn-mini edit" href="/admin/xiaochengxu_edit.html?appletid={$value.id}&tplid=1" onclick=""><i class="iconfont icon-edit"></i> 编辑
-                    </a>
-                    <a href="" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
-                </td>
-            </tr>
-            {/volist}
-            </tbody>
-        </table>
-        <div id="page">
-
-        </div>
-
+    {if !empty($list)}
+ <div class="list">
+     {volist name="list" id="vo"}
+     <div class="imgcontent">
+         <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
+         <div class="text">万用模版</div>
+     </div>
+     <div class="btns">
+         <div class="btns_a">初始模板</div>
+         <a href="/admin/xiaochengxu_edit?appletid={$vo.id}&tplid={$vo.tplid}"><div class="btns_b">历史编辑</div></a>
+     </div>
+     {/volist}
+ </div>
+ <div class="list">
+    <div class="imgcontent">
+        <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
+        <div class="text">茶行业版</div>
     </div>
+    <div class="btns">
+        <a href=""><div class="btns_a">初始模板</div></a>
+        <div class="btns_b">切换版本</div>
+    </div>
+</div>
 
+<div class="list">
+    <div class="imgcontent">
+        <div class="img"><img src="__STATIC__/admin/index/img/u14561.png" alt=""></div>
+        <div class="text">茶进阶版</div>
+    </div>
+    <div class="btns">
+        <div class="btns_a">初始模板</div>
+        <div class="btns_b">切换版本</div>
+    </div>
+</div>
+    {/if}
 </div>
 
 {/block}
