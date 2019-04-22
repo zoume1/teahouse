@@ -41,7 +41,6 @@ class Commodity extends Controller
             $member_id = $request->only(["open_id"])["open_id"];
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
-            $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
             $goods = db("goods")->where("status",1)->where("label",1)->select();
 

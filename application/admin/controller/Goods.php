@@ -516,6 +516,30 @@ class Goods extends Controller
         }
     }
 
+    /**
+     * [众筹商品列表运费模板编辑]
+     * 郭杨
+     */
+    public function crowd_templet(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            $templet = db("crowd_goods")->where("id",$id)->field("templet_id,templet_name")->find();
+            if(!empty($templet)){
+                $templet_id = explode(",",$templet["templet_id"]);
+                $templet["templet_id"] = $templet_id;
+                foreach($templet_id as $ke => $val){
+                    $temp[$ke] = db("express")->where("id",$val)->field("name,id")->find();
+                }
+                $rest["templet_unit"] = explode(",",$templet["templet_name"]);
+                $rest["templet_name"] = $temp;
+                return ajax_success('传输成功', $rest);
+            } else {
+                return ajax_error("数据为空");
+            }
+        }
+    }
+
 
 
     /**
@@ -941,6 +965,7 @@ class Goods extends Controller
                             $coding[] = $nl["coding"];
                             $story[] = $nl["story"];
                             $cost[] = $nl["cost"];
+                            $offer[] = $nl["offer"];
                             $line[] = isset($nl["line"])?$nl["line"]:null;
                             $status[] = isset($nl["status"])? $nl["status"]:0;
                             $save[] = isset($nl["save"]) ? $nl["save"]:0; 
@@ -970,6 +995,7 @@ class Goods extends Controller
                                     $values[$k]["price"] = $price[$k];
                                     $values[$k]["lv1"] = $standard;
                                     $values[$k]["stock"] = $stock[$k];
+                                    $values[$k]["offer"] = $offer[$k];
                                     $values[$k]["coding"] = $coding[$k];
                                     if(isset($num1)){
                                         if(array_key_exists($coding[$k],$num1)){
@@ -1038,6 +1064,7 @@ class Goods extends Controller
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
+            $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
         }
      }
 

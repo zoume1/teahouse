@@ -18,12 +18,14 @@ use think\Image;
 class Crowdfinancing extends Controller
 {
     /**
-     * []
+     * [立即购买过去清单数据返回]
      * 郭杨
      */
     public function crowd_order_return(Request $request)
     {
-
+        if($request->isPost()){
+            
+        }
     }
 
 }

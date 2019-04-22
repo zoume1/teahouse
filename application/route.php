@@ -18,7 +18,8 @@ use think\Route;
  */
 Route::group("",[
     /*首页*/
-    "weixintest"=>"index/WxTest/index",
+    "weixintest"=>"index/WxTest/index", //微信扫码支付宝扫码测试
+    "qrcode"=>"index/WxTest/qrcode",//
     "/$"=>"index/index/index",
     /*TODO:PC端注册登录开始*/
     "PcsendMobileCode"=>"index/Register/PcsendMobileCode",//PC端注册验证码
@@ -324,6 +325,9 @@ Route::group("",[
     "bill_delete"=>"index/Receipt/bill_delete",        //删除默认户名
     "proportion"=>"index/Receipt/proportion",          //查询发票费率
 
+    /*众筹订单*/
+    "crowd_order_return"=>"index/Crowdfinancing/crowd_order_return" //立即购买过去清单数据返回
+
 
 
 ]);
@@ -524,6 +528,7 @@ Route::group("admin",[
     "goods_offer"=>"admin/Goods/offer",          //普通商品多规格列表单位编辑 
     "goods_standard"=>"admin/Goods/standard",    //普通商品多规格列表单位id查找 
     "goods_templet"=>"admin/Goods/goods_templet",//普通商品运费模板编辑 
+    "crowd_templet"=>"admin/Goods/crowd_templet",//众筹商品运费模板编辑 
 
     "crowd_index"=>"admin/Goods/crowd_index",        //众筹商品列表显示
     "crowd_add"=>"admin/Goods/crowd_add",            //众筹商品列表添加
@@ -811,6 +816,10 @@ Route::group("admin",[
     "control_templet_delete"=>"admin/Control/control_templet_delete",//增值商品运费模板删除
     "control_templet_edit"=>"admin/Control/control_templet_edit",   //增值商品运费模板编辑
     "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
+    "control_online_charging"=>"admin/Control/control_online_charging",//线下充值申请
+    "control_charging_edit"=>"admin/Control/control_charging_edit",//线下充值申请编辑
+    "control_withdraw_deposit"=>"admin/Control/control_withdraw_deposit",//提现申请
+    "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
