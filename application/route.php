@@ -325,6 +325,21 @@ Route::group("",[
     "bill_delete"=>"index/Receipt/bill_delete",        //删除默认户名
     "proportion"=>"index/Receipt/proportion",          //查询发票费率
 
+    /*众筹订单*/
+    "crowd_order_return"=>"index/Crowdfinancing/crowd_order_return", //立即购买过去清单数据返回
+
+
+
+    /*TODO:众筹商品购物车开始*/
+    "crowd_shopping_index"=>"index/CrowdShopping/crowd_shopping_index",                     //购物车列表信息返回
+    "get_crowd_goods_id_to_shopping"=>"index/CrowdShopping/get_crowd_goods_id_to_shopping", //获取商品id 存入购物车
+    "crowd_shopping_information_add"=>"index/CrowdShopping/crowd_shopping_information_add", //购物车添加商品数量
+    "crowd_shopping_information_del"=>"index/CrowdShopping/crowd_shopping_information_del", //购物车减少商品数量
+    "crowd_shopping_del"=>"index/CrowdShopping/crowd_shopping_del",                        //购物车删除
+    "crowd_shopping_numbers"=>"index/CrowdShopping/crowd_shopping_numbers",                //购物车数量返回
+
+    /*TODO:购物车结束*/
+
 
 
 ]);
@@ -813,6 +828,10 @@ Route::group("admin",[
     "control_templet_delete"=>"admin/Control/control_templet_delete",//增值商品运费模板删除
     "control_templet_edit"=>"admin/Control/control_templet_edit",   //增值商品运费模板编辑
     "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
+    "control_online_charging"=>"admin/Control/control_online_charging",//线下充值申请
+    "control_charging_edit"=>"admin/Control/control_charging_edit",//线下充值申请编辑
+    "control_withdraw_deposit"=>"admin/Control/control_withdraw_deposit",//提现申请
+    "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
