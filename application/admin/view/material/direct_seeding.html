@@ -1,26 +1,34 @@
-{include file="template/_meta" /}
-<title>直播列表</title>
+<!doctype html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>视频直播</title>
+</head>
+<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
+<script src="__STATIC__/admin/index/js/index.js"></script>
 {block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
 <style>
     *{margin: 0; padding: 0; list-style: none;}
     .wrapper{padding: 20px; background-color: #fff;}
     .title {border-bottom: 1px solid #c9c9c9;padding-bottom: 5px; margin-bottom: 20px;}
     .title a{font-size: 18px; padding: 0 10px 5px; color: #333;}
     .title .tit-on {color: #0066FF;border-bottom: 2px solid #21a5fa;}
-    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 40px; margin-bottom: 20px;}
+    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 20px; margin-bottom: 10px; border-left: 5px solid #009688;}
     .search-box{display: flex; align-items: center; font-size: 14px; color: #333;}
     .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
     .s-input{margin-right: 20px;}
     .search-box input::placeholder{color: #b2b2b2;}
-    .search-box button{position: relative; width: 70px; height: 35px; padding: 0 10px 0 20px; border: 1px solid #e4e4e4; border-radius: 4px; color: #999; background-color: #fff;}
-    .search-box button .s-icon{position: absolute; left: 5px; top: 10px; background: url(__STATIC__/admin/common/img/fdj.png) no-repeat; background-size: 100%; width: 14px; height: 14px;}
-    .operate-hd{background-color: #f2f2f2; padding: 10px 20px;}
-    .operate-hd>div{display: flex; justify-content: space-between; align-items: center;}
-    .operate-hd .import-box span{font-size: 14px; margin-right: 20px;}
     .my-form-select{margin: 0; width: 220px; display: flex; margin-right: 20px;}
-    .operate-hd .layui-edge{right: 20px;}
-    .search-hd label{margin-bottom: 0; margin-right: 10px; height: 35px;}
+    .search-hd label{margin-bottom: 0; margin-right: 10px; height: 35px; line-height: 35px;}
     .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
@@ -60,27 +68,11 @@
                         <label>直播类型：</label>
                         <input type="text" placeholder="请输入" id="searchTxt">
                     </div>
-                    <button class="search-btn">
-                        <i class="s-icon"></i>
-                        搜索
-                    </button>
+                    <button class="layui-btn search-btn">立即搜索</button>
                 </div>
             </div>
             <div class="operate-hd">
-                <div class="layui-form">
-                    <div class="import-box">
-                        <span>数据列表</span>
-                        <a href="direct_seeding_add" class="layui-btn">添加设备</a>
-                    </div>
-                    <div class="layui-form-item my-form-select">
-                        <select name="interest" lay-filter="tiaoshu">
-                            <option value="0">显示条数</option>
-                            <option value="1">1</option>
-                            <option value="2">10</option>
-                            <option value="3">20</option>
-                        </select>
-                    </div>
-                </div>
+                <a href="direct_seeding_add" class="layui-btn layui-btn-danger">添加设备</a>
             </div>
             <div class="table layui-form">
                 <table class="layui-table">
@@ -202,100 +194,16 @@
     </div>
 
     {/block}
-
-    <!--_footer 作为公共模版分离出去-->
-    {include file="template/_footer" /}
-    <!--/_footer 作为公共模版分离出去-->
-
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
-    <script type="text/javascript">
-        layui.config({
-            base: "js/"
-        }).use(['form', 'layer', 'jquery', 'laypage', 'laydate'], function () {
-            var form = layui.form(),
-                layer = parent.layer === undefined ? layui.layer : parent.layer,
-                laypage = layui.laypage,
-                $ = layui.jquery,
-                laydate = layui.laydate;
-            var vals = $("input").data("id");
-            //点击操作确认按钮
-            var data_id = [];
-            $("#operation-btn").click(function () {
-                var opration_val = $(".opation select option:selected").val();
-                if (opration_val == 0) {
-                    layer.alert('请选择操作', {
-                        skin: 'layui-layer-molv' //样式类名
-                        ,
-                        closeBtn: 0
-                    });
-                } else if (opration_val == 1) {
-                    layer.confirm('你确认要删除吗？', {
-                        btn: ['确认', '取消'] //按钮
-                    }, function () {
-                        var child = $("tbody").find('input[name="singleChoose"]:checked');
-                        for (var i = 0; i < child.length; i++) {
-                            data_id.push($(child[i])[0].dataset.id);
-                        }
-                        $.ajax({
-                            type: "POST",
-                            url: "{:url('admin/Goods/dels')}",
-                            data: {
-                                "id": data_id,
-                            },
-                            success: function (data) {
-                                console.log("成功");
-                                console.log(data);
-                                var data = $.parseJSON(data);
-                                layer.alert(data.info, {
-                                    skin: 'layui-layer-molv' //样式类名
-                                    ,
-                                    closeBtn: 0
-                                });
-                                location.reload();
-                                data_id.splice(0, data_id.length);
-                            },
-                            error: function (data) {
-                                var data = $.parseJSON(data);
-                                layer.alert(data.info, {
-                                    skin: 'layui-layer-molv' //样式类名
-                                    ,
-                                    closeBtn: 0
-                                });
-                                console.log(data); 
-                                console.log("错误");
-                                data_id.splice(0, data_id.length);
-                            }
-                        });
-                    });
-
-                }
-
-            });
-            //全选
-            form.on('checkbox(allChoose)', function (data) {
-                var child = $(data.elem).parents('table').find('tbody input[name="singleChoose"]');
-                child.each(function (index, item) {
-                    item.checked = data.elem.checked;
-                });
-                form.render('checkbox');
-            });
-
-            // //通过判断文章是否全部选中来确定全选按钮是否选中
-            // form.on("checkbox(choose)", function (data) {
-            //     var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-            //     var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
-            //     if (childChecked.length == child.length) {
-            //         $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
-            //     } else {
-            //         $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
-            //     }
-            //     form.render('checkbox');
-            // })
-            
+    <script src="__STATIC__/admin/common/layui/layui.js"></script>
+    <script>
+        layui.use(['laydate', 'form'], function(){
+            var laydate = layui.laydate,
+                form = layui.form;
+            form.render();
         })
     </script>
-
     {/block}
 </body>
 </html>

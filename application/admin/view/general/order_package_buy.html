@@ -147,6 +147,7 @@
                     <div class="addr-list">
                         <div class="addr"
                             v-for="(v, i) in addrData"
+                            :key="i"
                             :class="{'addr-cur': addrSelectedIdx==i, 'addr-set': !v.default}">
                             <div class="inner"
                                 @click="selectAddr(i)">
@@ -178,7 +179,10 @@
                         <span @click="toEditAddr">管理收货地址</span>
                     </div>
                 </div>
-                <div class="carts" v-for="(item, index) in orderInfo">
+                <div class="carts" 
+                    v-for="(item, index) in orderInfo"
+                    :key="index"
+                >
                     <p class="shop-name">订购店铺：<span>{{item.store_name}}</span></p>
                     <div class="cart-item">
                         <div class="carts-head">
@@ -230,7 +234,8 @@
                     <p class="payment">应付款：￥{{payment}}</p>
                     <button 
                         :disabled="orderInfo.length?!protocolFlag:protocolFlag"
-                        @click="buy">立即付款</button>
+                        @click="buy"
+                    >立即付款</button>
                 </div>
             </div>
         </div>
@@ -239,8 +244,10 @@
         <div class="payment-pop" v-if="showPayWay">
             <p class="pop-title">
                 <span>选择付款方式</span>
-                <span class="close"
-                    @click="closePop">×</span>
+                <span 
+                    class="close"
+                    @click="closePop"
+                >×</span>
             </p>
             <div class="select-way">
                 <div class="name dpf">
@@ -255,28 +262,40 @@
                     <div class="key">支付方式：</div>
                     <div class="value">
                         <div>
-                            <input type="radio" name="way" id="scan"
+                            <input 
+                                type="radio" 
+                                name="way" 
+                                id="scan"
                                 :checked="wayFlag==1"
-                                @change="changePayWay(1)">
+                                @change="changePayWay(1)"
+                            >
                             <label for="scan">扫码支付</label>
                         </div>
                         <div>
-                            <input type="radio" name="way" id="remit"
+                            <input 
+                                type="radio" 
+                                name="way" 
+                                id="remit"
                                 :checked="wayFlag==2"
-                                @change="changePayWay(2)">
+                                @change="changePayWay(2)"
+                            >
                             <label for="remit">汇款支付</label>
                         </div>
                         <div>
-                            <input type="radio" name="way" id="balance"
+                            <input 
+                                type="radio" 
+                                name="way" 
+                                id="balance"
                                 :checked="wayFlag==3"
-                                @change="changePayWay(3)">
+                                @change="changePayWay(3)"
+                            >
                             <label for="balance">余额支付</label>
                             <div class="balance-show">
                                 <div>
-                                    <span class="fund-balance">资金余额：1000.00</span>
+                                    <span class="fund-balance">资金余额：{{accountMoney}}</span>
                                     <button>立即充值</button>
                                 </div>
-                                <span>余额不足，可立即充值</span>
+                                <span v-if="payment>accountMoney">余额不足，可立即充值</span>
                             </div>
                         </div>
                     </div>
@@ -300,9 +319,9 @@
                 <div class="remit-way" v-show="wayFlag==2">
                     <div class="remit-info-box">
                         <p>你需汇款<span class="remit-money">{{payment}}</span>至以下账户，汇款成功后上传凭证信息，审核通过后到账</p>
-                        <p>收款方户名：杭州88888公司</p>
-                        <p>收款方开户行：杭州88888公司</p>
-                        <p>收款方账户：1234 4567 7890 159</p>
+                        <p>收款方户名：北京宣铭科技有限公司</p>
+                        <p>收款方开户行：北京农村商业银行股份有限公司</p>
+                        <p>收款方账户：0203210103000015884</p>
                     </div>
                     <button @click="uploadVoucher">已转账汇款，我要上传凭证</button>
                 </div>
@@ -318,8 +337,11 @@
                                 @blur="password?'':gifFlag=-1"
                                 v-model="password">
                             <div class="gif-box">
-                                <i :class="{active: gifFlag==i}"
-                                    v-for="(v, i) in 6">
+                                <i 
+                                    :class="{active: gifFlag==i}"
+                                    v-for="(v, i) in 6"
+                                    :key="i"
+                                >
                                     <b :class="{activeDot: gifFlag>i}"></b>
                                 </i>
                             </div>
@@ -342,15 +364,15 @@
                 <div class="payee-info">
                     <p class="payee-p">
                         <span class="k-label">户名：</span>
-                        <span class="v-span">行货组有赞科技有限公司</span>
+                        <span class="v-span">北京宣铭科技有限公司</span>
                     </p>
                     <p class="payee-p">
                         <span class="k-label">开户行：</span>
-                        <span class="v-span">招商银行股份有限公司杭州分行</span>
+                        <span class="v-span">北京农村商业银行股份有限公司</span>
                     </p>
                     <p class="payee-p">
                         <span class="k-label">账户：</span>
-                        <span class="v-span">1234 5678 9123 123</span>
+                        <span class="v-span">0203210103000015884</span>
                     </p>
                 </div>
             </div>
@@ -391,21 +413,23 @@
                 discountFlag: false,
                 discountPrice: 30,
                 protocolFlag: true,
-                selectData: [],
+                // selectData: [],
                 gifFlag: -1,
                 password: null,
                 wayFlag: 1,
                 showPayWay: false,
                 showVoucherPop: false,
-                orderInfo: '',
+                orderInfo: [],
                 addrData: [], // 收货地址数组
                 addrSelectedIdx: 0, //被选中收货地址 索引
                 accountMoney: 0, //用户账户余额
             },
             mounted: function(){
                 laydate.render({elem: '#date'});
-                this.getOrderInfo();
-                this.getAllAddr();
+                console.log(laydate)
+                this.getOrderInfo(); //订单信息
+                this.getAllAddr(); // 收货地址
+                this.getacountMoney(); //用户账户余额
             },
             methods: {
                 // 获取数据
@@ -413,31 +437,34 @@
                     this.$http.post(url, param).then(function(res){
                         callback(res);
                     }, function(res){
-                        console.log(res.status, res.statusText);
                         layer.msg(res.body.info, {time: 1000});
                     })
                 },
+                // 获取用户余额
+                getacountMoney: function(){
+                    var _this = this;
+                    _this.myAjax('store_wallet_return', '', function(data){
+                        if(data.body.status == 1){
+                            _this.accountMoney = data.body.data;
+                        }
+                    });
+                },
                 // 获取所有地址信息
                 getAllAddr: function(){
-                    this.myAjax('general_address_return_info', '', this.getAddr);
-                },
-                // 获取地址回调
-                getAddr: function(data){
-                    this.addrData = data.body.data;
-                    console.log(this.addrData)
+                    var _this = this;
+                    _this.myAjax('general_address_return_info', '', function(data){
+                        _this.addrData = data.body.data;
+                    });
                 },
                 // 获取订单信息
                 getOrderInfo: function(){
-                    var param = {
-                        id: this.getCookie('TCid')
-                    }
-                    this.$http.post('order_package_buy', param).then(function(res){
-                        if(res.body.status == 1){
-                            this.orderInfo = res.body.data;
+                    var param = {id: this.getCookie('TCid')};
+                    var _this = this;
+                    this.myAjax('order_package_buy', param, function(data){
+                        if(data.body.status == 1){
+                            _this.orderInfo = data.body.data;
                         }
-                    }, function(res){
-                        console.log(res.status, res.statusText);
-                    })
+                    });
                 },
                 // get cookie
                 getCookie: function(name){
@@ -464,11 +491,11 @@
                 // 设置默认地址
                 setDefaultAddr: function(id){
                     var param = {id: id};
-                    this.myAjax('general_address_status', param, setDefCallBack);
-                },
-                // 设置默认地址 回调
-                setDefCallBack: function(data){
-                    console.log(data);
+                    this.myAjax('general_address_status', param, function(data){
+                        if(data.body.status == 1){
+                            location.reload();
+                        }
+                    });
                 },
                 // 选择收货地址
                 selectAddr: function(i){
@@ -496,16 +523,14 @@
                 delEvent: function(id){
                     if(confirm('您确定要删除该订单吗？')){
                         var param = {'id': id};
-                        this.myAjax('order_package_del', param, this.delCallBack);
-                    }
-                },
-                // 删除订单 回调函数
-                delCallBack: function(data){
-                    if(res.body.status == 1){
-                        layer.msg(res.body.info, {time: 1000});
-                        setTimeout(function(){
-                            location.href = 'order_package_index';
-                        }, 1100)
+                        this.myAjax('order_package_del', param, function(data){
+                            if(data.body.status == 1){
+                                layer.msg(data.body.info, {time: 1000});
+                                setTimeout(function(){
+                                    location.href = 'order_package_index';
+                                }, 1100)
+                            }
+                        });
                     }
                 },
                 // 是否使用邀请码
@@ -514,7 +539,7 @@
                 },
                 // 同意协议
                 agreement: function(){
-                    this.selectData.length?this.protocolFlag = !this.protocolFlag:'';
+                    this.orderInfo.length?this.protocolFlag = !this.protocolFlag:'';
                 },
                 // 立即购买
                 buy: function(){
@@ -550,7 +575,6 @@
                     this.showVoucherPop = false;
                     this.showPayWay = true;
                 },
-
             },
             computed: {
                 // 商品合计金额
