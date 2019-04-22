@@ -74,12 +74,7 @@
       
 	<form class="layui-form layui-form-lists" action="{:url('admin/operate/operate_about_update')}" method="post" enctype="multipart/form-data">
 	{if !empty($about)} {volist name="about" id ="value"}
-		<div class="form-item">
-			<label class="form-label"><span class="red">*</span> 官方网址</label>
-			<div class="form-input">
-				<input type="text" name="url"  value = "{$value.url}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
-			</div>
-		</div>
+		
 		<div class="form-item">
 			<label class="form-label">官方邮箱</label>
 			<div class="form-input">
