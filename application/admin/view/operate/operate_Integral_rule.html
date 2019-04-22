@@ -80,20 +80,22 @@
     
     <div class="content">
         {if !empty($recommend_data)} {volist name="recommend_data" id="vo"}
-        <div class="addcontents" style="margin-right:720px;">
-            <div  class="text"><span style="display: inline-block; width: 200px;text-align: left;">每成功推荐1名送</span><input type="text" name="recommend_integral" id="" value="{$vo.recommend_integral}" />积分<span style="color:#CCCFDA;">（A推荐B,  B注册后,A可以得到一定的积分）</span></div>
-            <div  class="text"><span style="display: inline-block; width: 200px;text-align: left;">注册成功送</span><input type="text" name="register_integral" id="" value="{$vo.register_integral}" />积分</div>
-            <div  class="text"><span style="display: inline-block; width: 200px;text-align: left;">消费满</span><input type="text" name="coin" id="" value="{$vo.coin}" />元送<input type="text" name="consume_integral" id="" value="{$vo.consume_integral}" />积分<div style="margin-left: 30px;color: #CCCFDA;">*此处指商品和充值时通过现金消费</div></div>
-            <div  class="text"><span style="display: inline-block; width: 200px;text-align: left;">全部完善资料送</span><input type="text" name="datum_integral" id="" value="{$vo.datum_integral}" />积分</div>
+        <div class="addcontents" style="float:left">
+            <div  class="text"><span style="display: inline-block; width: 200px;text-align: center;">每成功推荐1名送</span><input type="text" name="recommend_integral" id="" value="{$vo.recommend_integral}" />积分<span style="color:#CCCFDA;">（A推荐B,  B注册后,A可以得到一定的积分）</span></div>
+            <div  class="text"><span style="display: inline-block; width: 200px;text-align: center;">注册成功送</span><input type="text" name="register_integral" id="" value="{$vo.register_integral}" />积分</div>
+            
+            <div  class="text"><span style="display: inline-block; width: 200px;text-align: center;">全部完善资料送</span><input type="text" name="datum_integral" id="" value="{$vo.datum_integral}" />积分</div>
+            <button type="button" class="layui-btn  layui-btn-primary" onClick="javascript :history.back(-1);" style="margin-right: 50px;"> 返回</button>
+            <button class="layui-btn" type="submit" id="submits" >保存</button> 
         </div>
+       
         {/volist} {/if}
     </div>
     <!--<div class="bts" style="text-align: center;margin-top: 20px;">-->
     <!--<button type="button" class="add-bts" style="background: #FFF; width: 100px; color: #0099FF; border:solid 1px #0099FF;border-radius:4px ;">+添加</button>-->
     <!--</div>-->
-    <div style="margin-top: 30px; text-align: left;margin-left: 125px">
-        <button type="button" class="layui-btn  layui-btn-primary" onClick="javascript :history.back(-1);"> 返回</button>
-        <button class="layui-btn" type="submit" id="submits" style="margin-left:100px;">保存</button>
+    <div style="float: left;">
+        
     </div>
 </form>
 {/block}

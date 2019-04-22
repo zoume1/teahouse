@@ -27,8 +27,10 @@
 
 <body>
     {block name="content"}
-    {include file="template/_top" /}
+ 
     <div class="childrenBody">
+            {include file="template/_top" /}
+            
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="{:url('admin/Goods/search')}">
                 <div class="seach">
@@ -41,7 +43,7 @@
                     </div>
                     <button class="layui-btn" type="submit" id="seach">立即搜索</button>
                 </div>
-
+  
             </form>
         </blockquote>
 
