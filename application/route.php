@@ -326,7 +326,19 @@ Route::group("",[
     "proportion"=>"index/Receipt/proportion",          //查询发票费率
 
     /*众筹订单*/
-    "crowd_order_return"=>"index/Crowdfinancing/crowd_order_return" //立即购买过去清单数据返回
+    "crowd_order_return"=>"index/Crowdfinancing/crowd_order_return", //立即购买过去清单数据返回
+
+
+
+    /*TODO:众筹商品购物车开始*/
+    "crowd_shopping_index"=>"index/CrowdShopping/crowd_shopping_index",                     //购物车列表信息返回
+    "get_crowd_goods_id_to_shopping"=>"index/CrowdShopping/get_crowd_goods_id_to_shopping", //获取商品id 存入购物车
+    "crowd_shopping_information_add"=>"index/CrowdShopping/crowd_shopping_information_add", //购物车添加商品数量
+    "crowd_shopping_information_del"=>"index/CrowdShopping/crowd_shopping_information_del", //购物车减少商品数量
+    "crowd_shopping_del"=>"index/CrowdShopping/crowd_shopping_del",                        //购物车删除
+    "crowd_shopping_numbers"=>"index/CrowdShopping/crowd_shopping_numbers",                //购物车数量返回
+
+    /*TODO:购物车结束*/
 
 
 
