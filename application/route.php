@@ -126,7 +126,6 @@ Route::group("",[
     "after_sale_images_del"=>"index/AfterSale/after_sale_images_del",//售后图片删除（取消申请，和修改申请进行删除）
     "apply_after_sale"=>"index/AfterSale/apply_after_sale",//用户申请售后
     "update_time_automatic"=>"index/AfterSale/update_time_automatic",//时间倒计时自动确认
-    "update_application"=>"index/AfterSale/update_application",//修改售后
     "after_sale_is_set"=>"index/AfterSale/after_sale_is_set",//判断用户是否申请过该订单售后
     "add_express_information"=>"index/AfterSale/add_express_information",//售后添加物流信息
     "after_sale_order_return"=>"index/AfterSale/after_sale_order_return",//售后订单信息返回（未用到）
