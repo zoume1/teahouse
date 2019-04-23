@@ -1593,20 +1593,23 @@ class  General extends  Base {
                 ->where("id",$this->store_ids)
                 ->field("store_pay_pass,store_wallet")
                 ->find();
+            if(empty( $store_pass['store_pay_pass'])){
+                exit(json_encode(array("status" => 2, "info" => "没有设置支付密码，请前往设置")));
+            }
             if(md5($password) !==$store_pass["store_pay_pass"]){
-                return ajax_error("支付密码错误");
+                exit(json_encode(array("status" => 3, "info" => "支付密码错误")));
             }
             //进行钱包减
             $amount_money =Db::name("set_meal_order")->where("id",$meal_order_id)->value("amount_money");
             if($store_pass["store_wallet"]<$amount_money){
-                return ajax_error("账号余额不足");
+                exit(json_encode(array("status" => 3, "info" => "账号余额不足")));
             }
             //进行账号余额减然后插入消费表中
             $new_wallet =Db::name("store")->where("id",$this->store_ids)->setDec("store_wallet",$amount_money);
             if($new_wallet){
-                return ajax_success("支付成功");
+                exit(json_encode(array("status" => 1, "info" => "支付成功")));
             }else{
-                return ajax_error("支付失败");
+                exit(json_encode(array("status" => 3, "info" => "支付失败")));
             }
 
         }
@@ -1902,7 +1905,6 @@ class  General extends  Base {
     public function additional_comments_add(){
         return view("additional_comments_add");
     }
-
 
 
 
