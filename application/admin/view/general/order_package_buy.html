@@ -354,7 +354,7 @@
             </div>
         </div>
         <!-- 上传凭证 -->
-        <div class="voucher-pop" v-if="showVoucherPop">
+        <div class="voucher-pop" v-show="showVoucherPop">
             <p class="pop-title">
                 <span>线下汇款凭证</span>
                 <span class="close" @click="closeVoucher">×</span>
@@ -381,11 +381,19 @@
                 <div class="payer-info">
                     <p class="payer-p">
                         <label for="payer-name" class="k-label must">付款户名：</label>
-                        <input type="text" id="payer-name">
+                        <input 
+                            type="text" 
+                            id="payer-name"
+                            v-model="remittanceInfo.name"
+                        >
                     </p>
                     <p class="payer-p">
                         <label for="payer-account" class="k-label must">付款账号：</label>
-                        <input type="text" id="payer-account">
+                        <input 
+                            type="text" 
+                            id="payer-account"
+                            v-model="remittanceInfo.account"
+                        >
                     </p>
                     <p class="payer-p">
                         <span class="k-label">金额：</span>
@@ -393,7 +401,12 @@
                     </p>
                     <p class="payer-p">
                         <label for="date" class="k-label must">付款时间：</label>
-                        <input type="text" id="date">
+                        <input 
+                            type="text" 
+                            id="remitTime"
+                            v-model="remittanceInfo.time"
+                            @focus="getRemitTime"
+                        >
                     </p>
                 </div>
             </div>
@@ -404,8 +417,8 @@
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
     <script src="__STATIC__/admin/common/js/vue-router.js"></script>
     <script src="__STATIC__/admin/common/js/jquery.js"></script>
-    <script src="__STATIC__/admin/common/laydate/laydate.js"></script>
     <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+    <script src="__STATIC__/admin/common/laydate/laydate.js"></script>
     <script>
         var vm = new Vue({
             el: '#app',
@@ -422,11 +435,15 @@
                 orderInfo: [],
                 addrData: [], // 收货地址数组
                 addrSelectedIdx: 0, //被选中收货地址 索引
-                accountMoney: 0, //用户账户余额
+                accountMoney: 0, //用户账户余额,
+                remittanceInfo: {
+                    name: null,
+                    account: null,
+                    time: null
+                }
             },
             mounted: function(){
-                laydate.render({elem: '#date'});
-                console.log(laydate)
+                this.getRemitTime();
                 this.getOrderInfo(); //订单信息
                 this.getAllAddr(); // 收货地址
                 this.getacountMoney(); //用户账户余额
@@ -439,6 +456,16 @@
                     }, function(res){
                         layer.msg(res.body.info, {time: 1000});
                     })
+                },
+                // 选择汇款时间
+                getRemitTime: function(){
+                    var _this = this;
+                    laydate.render({
+                        elem: '#remitTime',
+                        done: function(val){
+                            _this.remittanceInfo.time = val;
+                        }
+                    });
                 },
                 // 获取用户余额
                 getacountMoney: function(){
@@ -535,7 +562,7 @@
                 },
                 // 是否使用邀请码
                 useDiscount: function(){
-                    // this.discountFlag = !this.discountFlag;
+                    this.discountFlag = !this.discountFlag;
                 },
                 // 同意协议
                 agreement: function(){
@@ -568,7 +595,28 @@
                 },
                 // 上传凭证 确认
                 voucherConfirm: function(){
-                    layer.alert('凭证已提交，我们将在3个工作日内审核完毕，通过后自动完成订购。');
+                    var param = {
+                        id: this.orderInfo[0].id,
+                        money: this.payment,
+                        remittance_name: this.remittanceInfo.name,
+                        remittance_account: this.remittanceInfo.account
+                    }
+                    this.remittanceInfo.name ? 
+                    (this.remittanceInfo.account ? 
+                    (this.remittanceInfo.time ? 
+                    this.myAjax('order_package_remittance', param, function(data){
+                        console.log(data);
+                        if(data.body.status == 1){
+                            layer.alert('凭证已提交，我们将在3个工作日内审核完毕，通过后自动完成订购。', function(index){
+                                layer.close(index);
+                                location.href = 'store_set_meal_order';
+                            });
+                        }
+                    }) : 
+                    layer.msg('请选择付款时间！')) : 
+                    layer.msg('请填写付款账号！')) : 
+                    layer.msg('请填写付款户名！');
+                    
                 },
                 // 关闭 上传汇款凭证
                 closeVoucher: function(){
