@@ -1556,7 +1556,7 @@ class  General extends  Base {
             $money =$request->only(["money"])["money"];
             $remittance_name =$request->only(["remittance_name"])["remittance_name"];
             $remittance_account =$request->only(["remittance_account"])["remittance_account"];//汇款账号
-            $pay_mite =$request->only(["pay_time"])["pay_time"];//汇款时间
+            $pay_time =$request->only(["pay_time"])["pay_time"];//汇款时间
             $data =[
                 "store_id"=>$store_id,
                 "money"=>$money,
@@ -1564,7 +1564,7 @@ class  General extends  Base {
                 "remittance_account"=>$remittance_account,
                 "create_time"=>time(),
                 "meal_order_id"=>$meal_order_id,
-                "pay_mite"=>$pay_mite
+                "pay_time"=>$pay_time
             ];
             $bool =Db::name("meal_pay_form")->insertGetId($data);
             if($bool){

@@ -94,12 +94,24 @@ class Store extends  Controller{
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:店铺的钱包充值
+     * Notes:店铺的钱包充值页面
      **************************************
      */
     public function store_wallet_add(){
-
+        return view("store_wallet_add");
     }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺的提现页面
+     **************************************
+     */
+    public function store_wallet_reduce(){
+        return view("store_wallet_reduce");
+    }
+
 
 
 
