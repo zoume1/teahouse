@@ -126,7 +126,6 @@ Route::group("",[
     "after_sale_images_del"=>"index/AfterSale/after_sale_images_del",//售后图片删除（取消申请，和修改申请进行删除）
     "apply_after_sale"=>"index/AfterSale/apply_after_sale",//用户申请售后
     "update_time_automatic"=>"index/AfterSale/update_time_automatic",//时间倒计时自动确认
-    "update_application"=>"index/AfterSale/update_application",//修改售后
     "after_sale_is_set"=>"index/AfterSale/after_sale_is_set",//判断用户是否申请过该订单售后
     "add_express_information"=>"index/AfterSale/add_express_information",//售后添加物流信息
     "after_sale_order_return"=>"index/AfterSale/after_sale_order_return",//售后订单信息返回（未用到）
@@ -787,8 +786,10 @@ Route::group("admin",[
     "unline_withdrawal_record"=>"admin/General/unline_withdrawal_record",//资金管理提现记录
     "agency_invitation"=>"admin/General/agency_invitation",//代理分销邀请
     "now_agency_invitation"=>"admin/General/now_agency_invitation",//立即分销邀请
+    "security_setting"=>"admin/General/security_setting",//立即分销邀请
     "store_update_password"=>"admin/Store/store_update_password",//店铺的支付密码修改
-    "store_wallet_add"=>"admin/Store/store_wallet_add",//店铺的钱包充值
+    "store_wallet_add"=>"admin/Store/store_wallet_add",//店铺的钱包充值页面
+    "store_wallet_reduce"=>"admin/Store/store_wallet_reduce",//店铺的钱包提现页面
     "store_wallet_return"=>"admin/Store/store_wallet_return",//店铺的钱包返回
     "store_isset_password"=>"admin/Store/store_isset_password",//店铺检测是否进行了支付密码设置，没有设置则前往设置
 

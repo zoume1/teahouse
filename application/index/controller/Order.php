@@ -230,7 +230,7 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
-            $member_grade_id =Db::name("member")->where("member_id",$user_id)->find();
+            $member_grade_id = Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
@@ -261,11 +261,11 @@ class  Order extends  Controller
                     $special_data =Db::name("special")
                         ->where("id",$goods_standard_id[$keys])
                         ->find();
-                    $datas['goods_image'] = $special_data['images'];//图片
+                    $datas['goods_image'] = $special_data['images'];   //图片
                     $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
-                    $datas['goods_standard'] = $special_data["name"]; //商品规格
-                    $data['unit'] = explode(",",$goods_data['unit']);
-                    $data['num'] = explode(",",$goods_data['num']);
+                    $datas['goods_standard'] = $special_data["name"]; //商品规格  
+                    $data['unit'] = explode(",",$special_data['unit']);
+                    $data['num'] = explode(",",$special_data['num']);
 
                 }
                 if($order_type != 3){
@@ -719,10 +719,14 @@ class  Order extends  Controller
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
+                        $datase['goods_image'] = $datas['goods_image'];
+                        $datase["goods_money"] = $datas["goods_money"];
+                        $datase['goods_standard'] = $datas['goods_standard'];
                         $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datase["parts_goods_name"] = $goods_data["goods_name"];//名字
                         $datase["distribution"] = $goods_data["distribution"];//是否分销
                         $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
+                        $datase["coupon_type"] = $goods_data["coupon_type"];//卖点
                         $datase["order_quantity"] = $numbers[$keys];//订单数量
                         $datase["member_id"] = $user_id;//用户id
                         $datase["user_account_name"] = $user_information["member_name"];//用户名
@@ -2024,7 +2028,7 @@ class  Order extends  Controller
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
-            file_put_contents(EXTEND_PATH."data.txt",$val);
+//            file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("activity_order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2]);
@@ -2301,7 +2305,6 @@ class  Order extends  Controller
             $data =Db::name("store_house")
                 ->where("label",1)
                 ->find();
-            
             if(!empty($data)){
                 $data["unit"] = explode(",",$data["unit"]);
                 $data["cost"] = explode(",",$data["cost"]);

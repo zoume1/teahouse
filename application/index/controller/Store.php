@@ -215,6 +215,7 @@ class  Store extends  Controller{
         if($request->isPost()){
             $user_id =Session::get("user");
             $data =Db::name("store")
+                ->where("status","NEQ",3)
                 ->where("user_id",$user_id)
                 ->select();
             if(!empty($data)){

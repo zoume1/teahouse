@@ -64,7 +64,6 @@ class  General extends  Base {
     public function general_address(){
         $store_id =$this->store_ids ;
         $data =Db::name("pc_store_address")->where('store_id',$store_id)->select();
-//        halt($data);
         return view("general_address",["data"=>$data]);
     }
 
@@ -1553,17 +1552,22 @@ class  General extends  Base {
     public function  order_package_remittance(Request $request){
         if($request->isPost()){
             $meal_order_id =$request->only(["id"])["id"]; //套餐订购的ids
-            $store_id =$this->store_ids;
-            $money =$request->only(["money"])["money"];
-            $remittance_name =$request->only(["remittance_name"])["remittance_name"];
+            $store_id =$this->store_ids; //店铺id
+            $money =$request->only(["money"])["money"]; //钱
+            $remittance_name =$request->only(["remittance_name"])["remittance_name"];//汇款户名
             $remittance_account =$request->only(["remittance_account"])["remittance_account"];//汇款账号
+            $pay_time =$request->only(["pay_time"])["pay_time"];//汇款时间如果大于当前时间
+            if(strtotime($pay_time)>time()){
+                return ajax_error("汇款时间不能大于当前时间");
+            }
             $data =[
                 "store_id"=>$store_id,
                 "money"=>$money,
                 "remittance_name"=>$remittance_name,
                 "remittance_account"=>$remittance_account,
                 "create_time"=>time(),
-                "meal_order_id"=>$meal_order_id
+                "meal_order_id"=>$meal_order_id,
+                "pay_time"=>$pay_time
             ];
             $bool =Db::name("meal_pay_form")->insertGetId($data);
             if($bool){
@@ -1589,26 +1593,27 @@ class  General extends  Base {
                 ->where("id",$this->store_ids)
                 ->field("store_pay_pass,store_wallet")
                 ->find();
+            if(empty( $store_pass['store_pay_pass'])){
+                exit(json_encode(array("status" => 2, "info" => "没有设置支付密码，请前往设置")));
+            }
             if(md5($password) !==$store_pass["store_pay_pass"]){
-                return ajax_error("支付密码错误");
+                exit(json_encode(array("status" => 3, "info" => "支付密码错误")));
             }
             //进行钱包减
             $amount_money =Db::name("set_meal_order")->where("id",$meal_order_id)->value("amount_money");
             if($store_pass["store_wallet"]<$amount_money){
-                return ajax_error("账号余额不足");
+                exit(json_encode(array("status" => 3, "info" => "账号余额不足")));
             }
             //进行账号余额减然后插入消费表中
             $new_wallet =Db::name("store")->where("id",$this->store_ids)->setDec("store_wallet",$amount_money);
             if($new_wallet){
-                return ajax_success("支付成功");
+                exit(json_encode(array("status" => 1, "info" => "支付成功")));
             }else{
-                return ajax_error("支付失败");
+                exit(json_encode(array("status" => 3, "info" => "支付失败")));
             }
 
         }
     }
-
-
 
 
     /**
@@ -1900,7 +1905,6 @@ class  General extends  Base {
     public function additional_comments_add(){
         return view("additional_comments_add");
     }
-
 
 
 
