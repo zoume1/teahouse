@@ -1,10 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>提现</title>
 </head>
+<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
+<script src="__STATIC__/admin/index/js/index.js"></script>
+
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<style type="text/css">
+    * {margin: 0;padding: 0;}
+    body {background: #fff;}
+    .wrapper {padding: 20px;}
+    .star::before{content: '*'; color: #f00;}
+    .hd{background-color: #f2f2f2; padding: 12px 20px; color: #333; margin-bottom: 40px;}
+    
+</style>
+
+{/block}
+
 <body>
-提现页面
-</body>
-</html>
+{block name="content"}
+    <div class="wrapper" id="wrapper">
+        <div class="hd">
+            <div>我要提现</div>
+        </div>
+        
+    </div>
+{/block}
+
+
+<!--请在下方写此页面业务相关的脚本-->
+{block name="bottom"}
+<script src="__STATIC__/admin/common/layui/layui.js"></script>
+
+<script>
+    layui.use(['laydate', 'form'], function(){
+        var laydate = layui.laydate,
+            form = layui.form;
+        laydate.render({elem: '#remitTime'});
+        form.render();
+        
+        // 切换充值方式
+        form.on('radio(filter)', function(data){
+            var val = data.value;
+            if(val == 0){
+                $('.bank-item').hide();
+                $('.online-item').show();
+            }else{
+                $('.bank-item').show();
+                $('.online-item').hide();
+            }
+        })
+    })
+    
+</script>
+{/block}
