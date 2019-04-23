@@ -59,14 +59,11 @@ class WxTest extends Controller
             "subject" => "支付表单的名称先不管你支付就知道了",
             "total_fee" => number_format('0.01', 2, '.', ''),
         );
-
         if (isset($arr_order['paymethod']) && isset($arr_order['defaultbank']) && $arr_order['paymethod'] === "bankPay" && $arr_order['defaultbank'] != "") {
-
             $arr_data['paymethod'] = "bankPay";
             $arr_data['defaultbank'] = $arr_order['defaultbank'];
         }
         $str_pay_html = $obj_alipay->make_form($arr_data, true);
-//        halt($str_pay_html);
         return view("index",["url2"=>$url2,"str_pay_html"=>$str_pay_html]);
     }
 
