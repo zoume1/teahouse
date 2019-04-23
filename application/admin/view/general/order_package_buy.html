@@ -142,7 +142,7 @@
         </div>
         <div class="main-bg">
             <div class="main">
-                <div class="addrs">
+                <div class="addrs" v-if="virtualTag">
                     <h2 class="addrs-tit">选择收货地址</h2>
                     <div class="addr-list">
                         <div class="addr"
@@ -440,13 +440,15 @@
                     name: null,
                     account: null,
                     time: null
-                }
+                },
+                virtualTag: true,
             },
             mounted: function(){
-                this.getRemitTime();
+                this.getRemitTime(); //初始化日期选择
                 this.getOrderInfo(); //订单信息
                 this.getAllAddr(); // 收货地址
                 this.getacountMoney(); //用户账户余额
+                this.virtualTag = JSON.parse(this.getCookie('virtual'));
             },
             methods: {
                 // 获取数据

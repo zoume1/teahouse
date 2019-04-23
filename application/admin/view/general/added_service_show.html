@@ -314,10 +314,22 @@
                     'https://img.alicdn.com/bao/uploaded/i3/O1CN01uhZHPm1yKWhSq7dqy_!!0-rate.jpg_400x400.jpg'
                 ]
             },
+            mounted: function(){
+                this.getData();
+                this.asideData();
+            },
             methods: {
+                // 获取数据
+                myAjax: function(url, param, callback){
+                    this.$http.post(url, param).then(function(res){
+                        callback(res);
+                    }, function(res){
+                        layer.msg(res.body.info, {time: 1000});
+                    })
+                },
                 // 立即购买
                 tbBuy: function(){
-                    alert('后面还没做完')
+                    alert('未完待续');
                 },
                 inputNumber: function(){
                     this.number > this.selectStock ? this.outStock = true : this.outStock = false;
@@ -392,35 +404,28 @@
                 },
                 getData: function(){
                     location.search ? this.id = +location.search.split('=')[1] : '';
+                    var _this = this;
                     if(this.id){
-                        this.$http.post('added_service_show', {
-                            id: this.id
-                        }).then(function(res){
-                            if(res.body.status == 1){
-                                this.$set(this.dataObj, 0, res.body.data);
-                                this.selectStock = this.dataObj[0].goods_repertory;
-                                console.log(this.dataObj);
+                        var param = {id: _this.id};
+                        _this.myAjax('added_service_show', param, function(data){
+                            if(data.body.status == 1){
+                                _this.$set(_this.dataObj, 0, data.body.data);
+                                _this.selectStock = _this.dataObj[0].goods_repertory;
+                                console.log(_this.dataObj);
                             }
-                        }, function(res){
-                            console.log(res.status, res.statusText);
                         })
                     }
                 },
                 // 再看看
                 asideData: function(){
-                    this.$http.post('added_service_look').then(function(res){
-                        if(res.body.status == 1){
-                            this.aldData = res.body.data;
+                    var _this = this;
+                    this.myAjax('added_service_look', '', function(data){
+                        if(data.body.status == 1){
+                            _this.aldData = data.body.data;
                         }
-                    }, function(res){
-                        console.log(res.status, res.statusText);
                     })
                 },
                
-            },
-            mounted: function(){
-                this.getData();
-                this.asideData();
             }
         })
 

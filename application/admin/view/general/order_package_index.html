@@ -201,6 +201,7 @@
                         }else if(status){
                             if(confirm(res.body.info)){
                                 this.setCookie('TCid', res.body.data.id, 7);
+                                this.setCookie('virtual', false, 7); //结算页判断是虚拟商品 隐藏收货地址
                                 location.href = 'order_package_buy';
                             }else{
                                this.normalOrder(_index);
@@ -224,6 +225,7 @@
                         console.log(res)
                         if(res.body.status == 1){
                             this.setCookie('TCid', res.body.data.id, 7);
+                            this.setCookie('virtual', false, 7);//结算页判断是虚拟商品 隐藏收货地址
                             location.href = 'order_package_buy';
                         }
                     }, function(res){

@@ -152,28 +152,29 @@ class  CrowdShopping extends  Controller{
      */
     public function crowd_shopping_information_del(Request $request){
         if($request->isPost()){
-            $open_id = $request->only("open_id")["open_id"];
-            $member_id = Db::name("member")->where("member_openid", $open_id)->find();
+            $member_id = $request->only("member_id")["member_id"];
+            $goods_unit = $request->only(['goods_unit'])['goods_unit'];//商品数量
+            $shopping_id = $request->only(['shopping_id'])['shopping_id'];//crowd_shopping表中的id
+   
             if(empty($member_id)){
                 return ajax_error("请登录",["status"=>0]);
                 exit(json_encode(array("status" => 2, "info" => "请登录")));
             }
-            $goods_unit = $request->only(['goods_unit'])['goods_unit'];//商品数量
-            $shopping_id = $request->only(['shopping_id'])['shopping_id'];//shopping表中的id
+
             if(!empty($goods_unit)){
-                $shopping_data = Db::name("shopping")
+                $shopping_data = Db::name("crowd_shopping")
                     ->where("id",$shopping_id)
-                    ->where("user_id",$member_id["member_id"])
+                    ->where("user_id",$member_id)
                     ->find();
-                $goods_units =$shopping_data["goods_unit"]-$goods_unit;
-                $bool = Db::name("shopping")
+                    $goods_units =$shopping_data["goods_unit"]-$goods_unit;
+                $bool = Db::name("crowd_shopping")
                     ->where("id",$shopping_id)
-                    ->where("user_id",$member_id["member_id"])
+                    ->where("user_id",$member_id)
                     ->update(["goods_unit"=>$goods_units]);
                 if($bool){
-                    exit(json_encode(array("status" => 1, "info" => "删除成功","data"=>$bool)));
+                    exit(json_encode(array("status" => 1, "info" => "添加成功","data"=>$bool)));
                 }else{
-                    exit(json_encode(array("status" => 0, "info" => "删除失败","data"=>["status"=>0])));
+                    exit(json_encode(array("status" => 0, "info" => "添加失败","data"=>["status"=>0])));
                 }
             }
         }
@@ -189,19 +190,18 @@ class  CrowdShopping extends  Controller{
      */
     public function  crowd_shopping_del(Request $request){
         if($request->isPost()){
-            $id =$request->only("shopping_id")["shopping_id"];
+            $id = $request->only("shopping_id")["shopping_id"];
             if(is_array($id)){
                 $where ='id in('.implode(',',$id).')';
             }else{
                 $where ='id='.$id;
             }
-            $list =  Db::name('shopping')->where($where)->delete();
+            $list =  Db::name('crowd_shopping')->where($where)->delete();
             if($list!==false)
             {
                 exit(json_encode(array("status" => 1, "info" => "成功删除","data"=>$list)));
             }else{
                 exit(json_encode(array("status" => 0, "info" => "删除失败","data"=>["status"=>0])));
-
             }
         }
     }
@@ -215,8 +215,8 @@ class  CrowdShopping extends  Controller{
      */
     public function crowd_shopping_numbers(Request $request){
         if($request->isPost()){
-            $user_id =$request->only(["member_id"])["member_id"];
-            $number =Db::name("shopping")->where("user_id",$user_id)->sum("goods_unit");
+            $user_id = $request->only(["member_id"])["member_id"];
+            $number =Db::name("crowd_shopping")->where("user_id",$user_id)->sum("goods_unit");
             if($number > 0){
                 return ajax_success("购物车数量返回成功",$number);
             }else{

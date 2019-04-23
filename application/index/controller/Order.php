@@ -230,7 +230,7 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
-            $member_grade_id =Db::name("member")->where("member_id",$user_id)->find();
+            $member_grade_id = Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
@@ -261,11 +261,11 @@ class  Order extends  Controller
                     $special_data =Db::name("special")
                         ->where("id",$goods_standard_id[$keys])
                         ->find();
-                    $datas['goods_image'] = $special_data['images'];//图片
+                    $datas['goods_image'] = $special_data['images'];   //图片
                     $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
-                    $datas['goods_standard'] = $special_data["name"]; //商品规格
-                    $data['unit'] = explode(",",$goods_data['unit']);
-                    $data['num'] = explode(",",$goods_data['num']);
+                    $datas['goods_standard'] = $special_data["name"]; //商品规格  
+                    $data['unit'] = explode(",",$special_data['unit']);
+                    $data['num'] = explode(",",$special_data['num']);
 
                 }
                 if($order_type != 3){
