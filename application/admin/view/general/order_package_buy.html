@@ -628,6 +628,8 @@
                                 layer.close(index);
                                 location.href = 'store_set_meal_order';
                             });
+                        }else{
+                            layer.msg(data.body.info);
                         }
                     }) : 
                     layer.msg('请选择付款时间！')) : 
