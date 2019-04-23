@@ -20,17 +20,116 @@
     * {margin: 0;padding: 0;}
     body {background: #fff;}
     .wrapper {padding: 20px;}
-
+    .star::before{content: '*'; color: #f00;}
+    .hd{background-color: #f2f2f2; padding: 12px 20px; color: #333; margin-bottom: 40px;}
+    .bd{display: flex;}
+    .bd-left{width: 700px;}
+    .bd-left>div{margin: 0 auto; width: 550px; border-right: 1px solid #ccc;}
+    .layui-input-block{display: flex; width: 300px; position: relative; line-height: 36px;}
+    .bank-item .add-bank{border: 1px solid #f00; background-color: #fff; color: #f00;}
+    .unit{border: 1px solid #ccc; color: #333; background-color: #f2f2f2; width: 45px; height: 36px; line-height: 38px; text-align: center;}
+    .confirm{width: 100%; background-color: #E62D31; color: #fff; margin-top: 20px;}
+    .tips{padding: 10px 0; color: #333; font-size: 13px; margin-left: 110px;}
+    .bd-right-tip{font-size: 16px; margin-bottom: 20px; color: #f00;}
+    .bank-card{border: 1px solid #ccc; width: 300px;}
+    .bank-card .bank-card-hd{background-color: #fff; border-bottom: 1px solid #ccc; padding: 8px 10px;}
+    .bank-card .bank-card-bd{background-color: #f2f2f2; color: #333; font-size: 14px; padding: 10px 20px;}
 </style>
 
 {/block}
 
 <body>
 {block name="content"}
-    <div class="wrapper">
-        {include file="template/_top" /}
-        充值
-        
+    <div class="wrapper" id="wrapper">
+        <div class="hd">
+            <div>我要充值</div>
+        </div>
+        <div class="bd">
+            <div class="bd-left">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">充值类型：</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="rechargeWay" lay-filter="filter" value="0" title="在线充值">
+                            <input type="radio" name="rechargeWay" lay-filter="filter" value="1" title="银行转账" checked>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="bank-item">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label star">充值银行：</label>
+                                <div class="layui-input-block">
+                                    <select name="city" lay-verify="required">
+                                        <option value="">如没有添加银行卡，请添加 →</option>
+                                        <option value="0">卡一：569699698877777</option>
+                                    </select>
+                                    <a href="javascript:void(0);" class="layui-btn add-bank">+银行卡</a>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label star">充值金额：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" required lay-verify="required" class="layui-input">
+                                    <span class="unit">元</span>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label star">充值时间：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" readonly id="remitTime" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">留言</label>
+                                <div class="layui-input-block">
+                                    <textarea name="desc" class="layui-textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn confirm">确定</button>
+                                </div>
+                                <p class="tips">单笔充值金额应不少于¥1000.00元</p>
+                            </div>
+                        </div>
+                        <div class="online-item" style="display: none;">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label star">用户名：</label>
+                                <div class="layui-input-block">13691853045</div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label star">充值金额：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" required lay-verify="required" class="layui-input">
+                                    <span class="unit">元</span>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn confirm">确定</button>
+                                </div>
+                                <p class="tips">单笔充值金额应不少于¥100.00元</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bd-right">
+                <div class="bd-right-tip">转账以下任意收款账号：</div>
+                <div class="banks">
+                    <div class="bank-card">
+                        <div class="bank-card-hd">
+                            <img src="__STATIC__/admin/common/img/u25463.png" width="100" height="20">
+                        </div>
+                        <div class="bank-card-bd">
+                            <div>账户名：焦广华</div>
+                            <div>开户银行：中国工商银行深圳深圳湾支行</div>
+                            <div>账号：62122640000660</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {/block}
 
@@ -38,7 +137,26 @@
 <!--请在下方写此页面业务相关的脚本-->
 {block name="bottom"}
 <script src="__STATIC__/admin/common/layui/layui.js"></script>
+
 <script>
+    layui.use(['laydate', 'form'], function(){
+        var laydate = layui.laydate,
+            form = layui.form;
+        laydate.render({elem: '#remitTime'});
+        form.render();
+        
+        // 切换充值方式
+        form.on('radio(filter)', function(data){
+            var val = data.value;
+            if(val == 0){
+                $('.bank-item').hide();
+                $('.online-item').show();
+            }else{
+                $('.bank-item').show();
+                $('.online-item').hide();
+            }
+        })
+    })
     
 </script>
 {/block}
