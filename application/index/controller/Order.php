@@ -719,10 +719,14 @@ class  Order extends  Controller
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
+                        $datase['goods_image'] = $datas['goods_image'];
+                        $datase["goods_money"] = $datas["goods_money"];
+                        $datase['goods_standard'] = $datas['goods_standard'];
                         $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datase["parts_goods_name"] = $goods_data["goods_name"];//名字
                         $datase["distribution"] = $goods_data["distribution"];//是否分销
                         $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
+                        $datase["coupon_type"] = $goods_data["coupon_type"];//卖点
                         $datase["order_quantity"] = $numbers[$keys];//订单数量
                         $datase["member_id"] = $user_id;//用户id
                         $datase["user_account_name"] = $user_information["member_name"];//用户名
