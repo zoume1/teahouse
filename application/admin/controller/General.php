@@ -64,7 +64,6 @@ class  General extends  Base {
     public function general_address(){
         $store_id =$this->store_ids ;
         $data =Db::name("pc_store_address")->where('store_id',$store_id)->select();
-//        halt($data);
         return view("general_address",["data"=>$data]);
     }
 
@@ -1557,13 +1556,15 @@ class  General extends  Base {
             $money =$request->only(["money"])["money"];
             $remittance_name =$request->only(["remittance_name"])["remittance_name"];
             $remittance_account =$request->only(["remittance_account"])["remittance_account"];//汇款账号
+            $pay_mite =$request->only(["pay_time"])["pay_time"];//汇款时间
             $data =[
                 "store_id"=>$store_id,
                 "money"=>$money,
                 "remittance_name"=>$remittance_name,
                 "remittance_account"=>$remittance_account,
                 "create_time"=>time(),
-                "meal_order_id"=>$meal_order_id
+                "meal_order_id"=>$meal_order_id,
+                "pay_mite"=>$pay_mite
             ];
             $bool =Db::name("meal_pay_form")->insertGetId($data);
             if($bool){
