@@ -1552,11 +1552,14 @@ class  General extends  Base {
     public function  order_package_remittance(Request $request){
         if($request->isPost()){
             $meal_order_id =$request->only(["id"])["id"]; //套餐订购的ids
-            $store_id =$this->store_ids;
-            $money =$request->only(["money"])["money"];
-            $remittance_name =$request->only(["remittance_name"])["remittance_name"];
+            $store_id =$this->store_ids; //店铺id
+            $money =$request->only(["money"])["money"]; //钱
+            $remittance_name =$request->only(["remittance_name"])["remittance_name"];//汇款户名
             $remittance_account =$request->only(["remittance_account"])["remittance_account"];//汇款账号
-            $pay_time =$request->only(["pay_time"])["pay_time"];//汇款时间
+            $pay_time =$request->only(["pay_time"])["pay_time"];//汇款时间如果大于当前时间
+            if(strtotime($pay_time)>time()){
+                return ajax_error("汇款时间不能大于当前时间");
+            }
             $data =[
                 "store_id"=>$store_id,
                 "money"=>$money,
