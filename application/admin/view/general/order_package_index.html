@@ -110,7 +110,7 @@
                         <li class="right right-on">一键生成微信小程序</li>
                         <li class="right right-on">分销、购物券、邀请码推广工具</li>
                         <li class="right right-on">等级会员积分奖励等工具</li>
-                        <li class="right right-on">赠送1万条短信</li>
+                        <li class="right right-on">开通短信群发账号，赠送一定量短信</li>
                         <li class="right right-off">友圈社交线下活动新玩法</li>
                         <li class="right right-off">众筹定制再生产新玩法</li>
                         <li class="right right-off">创意个性化产品及包装新玩法</li>
@@ -121,7 +121,7 @@
                         <li class="right right-on">一键生成微信小程序</li>
                         <li class="right right-on">分销、购物券、邀请码推广工具</li>
                         <li class="right right-on">等级会员积分奖励等工具</li>
-                        <li class="right right-on">赠送1万条短信</li>
+                        <li class="right right-on">开通短信群发账号，赠送一定量短信</li>
                         <li class="right right-on">友圈社交线下活动新玩法</li>
                         <li class="right right-off">众筹定制再生产新玩法</li>
                         <li class="right right-off">创意个性化产品及包装新玩法</li>
@@ -132,7 +132,7 @@
                         <li class="right right-on">一键生成微信小程序</li>
                         <li class="right right-on">分销、购物券、邀请码推广工具</li>
                         <li class="right right-on">等级会员积分奖励等工具</li>
-                        <li class="right right-on">赠送1万条短信</li>
+                        <li class="right right-on">开通短信群发账号，赠送一定量短信</li>
                         <li class="right right-on">友圈社交线下活动新玩法</li>
                         <li class="right right-on">众筹定制再生产新玩法</li>
                         <li class="right right-on">创意个性化产品及包装新玩法</li>
@@ -201,6 +201,7 @@
                         }else if(status){
                             if(confirm(res.body.info)){
                                 this.setCookie('TCid', res.body.data.id, 7);
+                                this.setCookie('virtual', false, 7); //结算页判断是虚拟商品 隐藏收货地址
                                 location.href = 'order_package_buy';
                             }else{
                                this.normalOrder(_index);
@@ -224,6 +225,7 @@
                         console.log(res)
                         if(res.body.status == 1){
                             this.setCookie('TCid', res.body.data.id, 7);
+                            this.setCookie('virtual', false, 7);//结算页判断是虚拟商品 隐藏收货地址
                             location.href = 'order_package_buy';
                         }
                     }, function(res){

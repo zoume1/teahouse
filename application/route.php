@@ -18,8 +18,8 @@ use think\Route;
  */
 Route::group("",[
     /*首页*/
-    "weixintest"=>"index/WxTest/index",
-    "qrcode"=>"index/WxTest/qrcode",
+    "weixintest"=>"index/WxTest/index", //微信扫码支付宝扫码测试
+    "qrcode"=>"index/WxTest/qrcode",//
     "/$"=>"index/index/index",
     /*TODO:PC端注册登录开始*/
     "PcsendMobileCode"=>"index/Register/PcsendMobileCode",//PC端注册验证码
@@ -126,7 +126,6 @@ Route::group("",[
     "after_sale_images_del"=>"index/AfterSale/after_sale_images_del",//售后图片删除（取消申请，和修改申请进行删除）
     "apply_after_sale"=>"index/AfterSale/apply_after_sale",//用户申请售后
     "update_time_automatic"=>"index/AfterSale/update_time_automatic",//时间倒计时自动确认
-    "update_application"=>"index/AfterSale/update_application",//修改售后
     "after_sale_is_set"=>"index/AfterSale/after_sale_is_set",//判断用户是否申请过该订单售后
     "add_express_information"=>"index/AfterSale/add_express_information",//售后添加物流信息
     "after_sale_order_return"=>"index/AfterSale/after_sale_order_return",//售后订单信息返回（未用到）
@@ -324,6 +323,21 @@ Route::group("",[
     "set_default"=>"index/Receipt/set_default",        //默认户名
     "bill_delete"=>"index/Receipt/bill_delete",        //删除默认户名
     "proportion"=>"index/Receipt/proportion",          //查询发票费率
+
+    /*众筹订单*/
+    "crowd_order_return"=>"index/Crowdfinancing/crowd_order_return", //立即购买过去清单数据返回
+
+
+
+    /*TODO:众筹商品购物车开始*/
+    "crowd_shopping_index"=>"index/CrowdShopping/crowd_shopping_index",                     //购物车列表信息返回
+    "get_crowd_goods_id_to_shopping"=>"index/CrowdShopping/get_crowd_goods_id_to_shopping", //获取商品id 存入购物车
+    "crowd_shopping_information_add"=>"index/CrowdShopping/crowd_shopping_information_add", //购物车添加商品数量
+    "crowd_shopping_information_del"=>"index/CrowdShopping/crowd_shopping_information_del", //购物车减少商品数量
+    "crowd_shopping_del"=>"index/CrowdShopping/crowd_shopping_del",                        //购物车删除
+    "crowd_shopping_numbers"=>"index/CrowdShopping/crowd_shopping_numbers",                //购物车数量返回
+
+    /*TODO:购物车结束*/
 
 
 
@@ -772,8 +786,10 @@ Route::group("admin",[
     "unline_withdrawal_record"=>"admin/General/unline_withdrawal_record",//资金管理提现记录
     "agency_invitation"=>"admin/General/agency_invitation",//代理分销邀请
     "now_agency_invitation"=>"admin/General/now_agency_invitation",//立即分销邀请
+    "security_setting"=>"admin/General/security_setting",//立即分销邀请
     "store_update_password"=>"admin/Store/store_update_password",//店铺的支付密码修改
-    "store_wallet_add"=>"admin/Store/store_wallet_add",//店铺的钱包充值
+    "store_wallet_add"=>"admin/Store/store_wallet_add",//店铺的钱包充值页面
+    "store_wallet_reduce"=>"admin/Store/store_wallet_reduce",//店铺的钱包提现页面
     "store_wallet_return"=>"admin/Store/store_wallet_return",//店铺的钱包返回
     "store_isset_password"=>"admin/Store/store_isset_password",//店铺检测是否进行了支付密码设置，没有设置则前往设置
 
@@ -813,6 +829,10 @@ Route::group("admin",[
     "control_templet_delete"=>"admin/Control/control_templet_delete",//增值商品运费模板删除
     "control_templet_edit"=>"admin/Control/control_templet_edit",   //增值商品运费模板编辑
     "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
+    "control_online_charging"=>"admin/Control/control_online_charging",//线下充值申请
+    "control_charging_edit"=>"admin/Control/control_charging_edit",//线下充值申请编辑
+    "control_withdraw_deposit"=>"admin/Control/control_withdraw_deposit",//提现申请
+    "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
