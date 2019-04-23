@@ -326,8 +326,11 @@ Route::group("",[
     "proportion"=>"index/Receipt/proportion",          //查询发票费率
 
     /*众筹订单*/
-    "crowd_order_return"=>"index/Crowdfinancing/crowd_order_return", //立即购买过去清单数据返回
-
+    "crowd_order_return"=>"index/Crowdfinancing/crowd_order_return",                         //立即购买过去清单数据返回
+    "crowd_order_place"=>"index/Crowdfinancing/crowd_order_place",                           //提交订单
+    "crowd_order_place_by_shoppings"=>"index/Crowdfinancing/crowd_order_place_by_shoppings", //购物车提交订单
+    "crowd_order_detail"=>"index/Crowdfinancing/crowd_order_detail",                         //订单详情页面信息
+    
 
 
     /*TODO:众筹商品购物车开始*/
