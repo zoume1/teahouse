@@ -600,6 +600,11 @@
                                 layer.close(index);
                                 location.href = 'store_set_meal_order';
                             });
+                        }else if(data.body.status == 2){
+                            layer.alert('您还未设置支付密码，是否跳转去设置？', function(index){
+                                layer.close(index);
+                                location.href = 'security_setting';
+                            });
                         }else{
                             layer.msg(data.body.info);
                         }
