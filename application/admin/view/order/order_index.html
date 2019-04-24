@@ -85,9 +85,7 @@
 		color: #5E5E5E;
 	}
 
-	.distribution_list ul li {
-	
-	}
+	.distribution_list ul li {}
 
 	.static_btus {
 		border-radius: 5px;
@@ -171,7 +169,7 @@
 	.operation {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		/* justify-content: space-between; */
 	}
 
 	.chat {
@@ -213,11 +211,12 @@
 	.repay_tip {
 		display: inline-block;
 		width: 100px;
-		height: 30px;
+		height: 35px;
 		text-align: center;
-		line-height: 30px;
+		line-height: 35px;
 		color: #fff;
 		background: #669900;
+		border-radius: 5px;
 	}
 
 	.button {
@@ -328,6 +327,21 @@
 	.color9 {
 		background: #831626;
 	}
+
+	.chenge_money {
+		display:flex;
+		margin-left: 10px;
+		text-align: center;
+		padding-top: 20px;
+		border-top: 2px dashed rgb(223, 223, 223)
+	}
+
+	.danwei {
+		position: absolute;
+		top: 10px;
+		left: 170px;
+		
+	}
 </style>
 
 {/block}
@@ -354,9 +368,20 @@
 				<div class="chat">
 
 				</div>
-				<div class="operation" data-id="">
+				<div  class="chenge_money" data-id="" >
+					<div style="position:relative; margin-right: 100px;">
+						订单金额  <input type="text" name="title" required placeholder="" autocomplete="off"
+							class="layui-input" style="width:150px;"><span class="danwei">元</span>
 
+					</div>
+					<div style="position:relative">
+						修改订单金额  <input type="text" name="title" required lay-verify="required" placeholder="请输入"
+							autocomplete="off" class="layui-input" style="width:190px;"><span class="danwei" style="left: 240px;">元</span>
+
+					</div>
+					<div style="margin-left:45px;"><button class="layui-btn" style="background-color:rgb(22, 155, 213);border-radius: 5px;">确定改价</button></div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -639,26 +664,26 @@
 			});
 
 			//全选
-            form.on('checkbox(allChoose)', function (data) {
-                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
-                child.each(function (index, item) {
-                    item.checked = data.elem.checked;
-                });
-                form.render('checkbox');
-            });
-            //通过判断文章是否全部选中来确定全选按钮是否选中
-            form.on("checkbox(choose)", function (data) {
-                // console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
-                
-                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
-                var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
-                if (childChecked.length === child.length) {
-                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
-                } else {
-                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
-                }
-                form.render('checkbox');
-            })
+			form.on('checkbox(allChoose)', function (data) {
+				var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+				child.each(function (index, item) {
+					item.checked = data.elem.checked;
+				});
+				form.render('checkbox');
+			});
+			//通过判断文章是否全部选中来确定全选按钮是否选中
+			form.on("checkbox(choose)", function (data) {
+				// console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
+
+				var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+				var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
+				if (childChecked.length === child.length) {
+					$(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
+				} else {
+					$(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
+				}
+				form.render('checkbox');
+			})
 
 			form.on('switch(isShow)', function (data) {
 				if ($(this).val() == 0) {
