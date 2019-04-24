@@ -112,6 +112,11 @@ class Store extends  Controller{
         return view("store_wallet_reduce");
     }
 
+    public function store_add_bankcard(){
+        return view("store_add_bankcard");
+    }
+
+
 
 
 

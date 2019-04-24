@@ -790,6 +790,8 @@ Route::group("admin",[
     "store_update_password"=>"admin/Store/store_update_password",//店铺的支付密码修改
     "store_wallet_add"=>"admin/Store/store_wallet_add",//店铺的钱包充值页面
     "store_wallet_reduce"=>"admin/Store/store_wallet_reduce",//店铺的钱包提现页面
+    "store_add_bankcard"=>"admin/Store/store_add_bankcard",//店铺的银行卡页面
+
     "store_wallet_return"=>"admin/Store/store_wallet_return",//店铺的钱包返回
     "store_isset_password"=>"admin/Store/store_isset_password",//店铺检测是否进行了支付密码设置，没有设置则前往设置
 
