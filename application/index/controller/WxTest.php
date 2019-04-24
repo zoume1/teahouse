@@ -45,27 +45,27 @@ class WxTest extends Controller
         $result = $notify->GetPayUrl($input);
         $url2 = $result["code_url"];
         //支付宝二维码
-        header("Content-type:text/html;charset=utf-8");
-        include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
-        $int_order_id = intval(12);
-        $obj_alipay = new \alipay();
-        $arr_data = array(
-            "return_url" => trim("http://teahouse.siring.com.cn/index.html"),
-            "notify_url" => trim("http://teahouse.siring.com.cn/"),
-            "service" => "create_direct_pay_by_user",
-            "payment_type" => 1, //
-            "seller_email" => 'bill.nie@hotmail.com',
-            "out_trade_no" => 'mall' . $int_order_id,
-            "subject" => "支付表单的名称先不管你支付就知道了",
-            "total_fee" => number_format('0.01', 2, '.', ''),
-        );
-        if (isset($arr_order['paymethod']) && isset($arr_order['defaultbank']) && $arr_order['paymethod'] === "bankPay" && $arr_order['defaultbank'] != "") {
-            $arr_data['paymethod'] = "bankPay";
-            $arr_data['defaultbank'] = $arr_order['defaultbank'];
-        }
-        $str_pay_html = $obj_alipay->make_form($arr_data, true);
-        return view("index",["url2"=>$url2,"str_pay_html"=>$str_pay_html]);
-//        return view("index",["url2"=>$url2]);
+//        header("Content-type:text/html;charset=utf-8");
+//        include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
+//        $int_order_id = intval(12);
+//        $obj_alipay = new \alipay();
+//        $arr_data = array(
+//            "return_url" => trim("http://teahouse.siring.com.cn/index.html"),
+//            "notify_url" => trim("http://teahouse.siring.com.cn/"),
+//            "service" => "create_direct_pay_by_user",
+//            "payment_type" => 1, //
+//            "seller_email" => 'bill.nie@hotmail.com',
+//            "out_trade_no" => 'mall' . $int_order_id,
+//            "subject" => "支付表单的名称先不管你支付就知道了",
+//            "total_fee" => number_format('0.01', 2, '.', ''),
+//        );
+//        if (isset($arr_order['paymethod']) && isset($arr_order['defaultbank']) && $arr_order['paymethod'] === "bankPay" && $arr_order['defaultbank'] != "") {
+//            $arr_data['paymethod'] = "bankPay";
+//            $arr_data['defaultbank'] = $arr_order['defaultbank'];
+//        }
+//        $str_pay_html = $obj_alipay->make_form($arr_data, true);
+//        return view("index",["url2"=>$url2,"str_pay_html"=>$str_pay_html]);
+        return view("index",["url2"=>$url2]);
     }
 
     /**
