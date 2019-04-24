@@ -81,15 +81,14 @@ class Crowdfinancing extends Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
-            $user_information =Db::name("member")->where("member_id",$user_id)->find();
+            $user_information = Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount = Db::name("member_grade")
             ->where("member_grade_id",$user_information["member_grade_id"])
             ->find();
-            $member_grade_name = $user_information['member_grade_name']; //会员等级
             foreach ($commodity_id as $keys=>$values){
                 $goods_data = Db::name('crowd_goods')->where('id',$values)->find();
                 $create_time = time();//下单时间
-                $normal_time =Db::name("order_setting")->find();//订单设置的时间
+                $normal_time = Db::name("order_setting")->find();//订单设置的时间
                 if(!empty($normal_time)){
                     $normal_future_time = strtotime("+". $normal_time['normal_time']." minute");
                 } else {
@@ -188,9 +187,12 @@ class Crowdfinancing extends Controller
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
+                        $datase['goods_image'] = $datas['goods_image'];   //图片
+                        $datase["goods_money"]= $datas["goods_money"];//商品价钱
+                        $datase['goods_standard'] = $datas['goods_standard']; //商品规格  
                         $datase["coupon_type"] = $goods_data["coupon_type"];//商品类型
                         $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
-                        $datase["parts_goods_name"] = $goods_data["goods_name"];//名字
+                        $datase["parts_goods_name"] = $goods_data["project_name"];//名字
                         $datase["distribution"] = $goods_data["distribution"];//是否分销
                         $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datase["order_quantity"] = $numbers[$keys];//订单数量
@@ -205,12 +207,12 @@ class Crowdfinancing extends Controller
                         $datase["status"] = 1;
                         $datase["goods_id"] = $values;
                         $datase["buy_message"] = $buy_message; //买家留言
-                        $datase["normal_future_time"] =$normal_future_time;//未来时间
+                        $datase["normal_future_time"] = $normal_future_time;//未来时间
                         $datase["special_id"] = $goods_standard_id[$keys];//规格id
                         $datase["coupon_id"] = $coupon_id;
                         $datase["receipt_status"] = $receipt_status; 
                         $datase["receipt_id"] = $receipt_id;
-                        $datase["receipt_price"] = $receipt_price ;   
+                        $datase["receipt_price"] = $receipt_price;   
 
                         $rest_id = Db::name('crowd_order')->insertGetId($datase);
                         $datas = $datase;
@@ -413,9 +415,11 @@ class Crowdfinancing extends Controller
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
+                        $datase['goods_image'] = $datas['goods_image'];
+                        $datase["goods_money"] = $datas["goods_money"];
+                        $datase['goods_standard'] = $datas['goods_standard']; //商品规格  
                         $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
-                        $datase["parts_goods_name"] = $goods_data["goods_name"];//名字
-                        $datase["distribution"] = $goods_data["distribution"];//是否分销
+                        $datase["parts_goods_name"] = $goods_data["project_name"];//名字
                         $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datase["coupon_type"] = $goods_data["coupon_type"];//商品类型
                         $datase["order_quantity"] = $numbers[$keys];//订单数量

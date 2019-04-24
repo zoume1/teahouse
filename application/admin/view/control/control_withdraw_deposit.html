@@ -1,1 +1,266 @@
-提现申请
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+    body {
+        background: #fff;
+    }
+
+    #page {
+        width: 96%;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #E2E2E2;
+        padding-left: 50px;
+        background: #FDFDFE;
+    }
+    .distribution_list {
+		margin-bottom: 10px;
+		border-bottom: solid 1px #D7D7D7;
+	}
+	.on {
+		color: #21A5FA !important;
+		border-bottom: solid 3px #21A5FA;
+	}
+
+	.distribution_list ul {
+		display: flex;
+		align-items: center;
+	}
+
+
+	.line {
+		justify-content: center;
+	}
+
+
+	.distribution_list a {
+		font-size: 14px;
+		padding: 9px;
+		color: #5E5E5E;
+	}
+
+	.distribution_list ul li {
+	
+	}
+</style>
+
+{/block}
+
+<body>
+
+    {block name="content"}
+
+    <div class="childrenBody">
+        {include file="template/_top"/}
+        <blockquote class="layui-elem-quote news_search">
+            <form class="layui-form" action="{:url('admin/Goods/search')}">
+                <div class="seach">
+                    <div class="seach_list">
+						<div class="seach_laber">开始时间</div>
+						<div class="seach_input">
+							<span class="time">
+								<input name="date_min" type="text" class="text datetimepicker layui-input"
+                                    placeholder="请选择日期" readonly="readonly" id="beginTime" value="">
+							</span>
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">结束时间</div>
+						<div class="seach_input">
+							<span class="time">
+								<input name="date_max" type="text" class=" text datetimepicker layui-input"
+                                    placeholder="请选择日期" readonly="readonly" id="endTime" value="">
+							</span>
+						</div>
+                    </div>
+                    <div class="seach_list">
+                        <div class="seach_laber">用户账号</div>
+                        <div class="seach_input">
+                            <input type="text" name="goods_number" lay-verify="title" autocomplete="off"
+                                placeholder="请输入账号" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="seach_list">
+                        <div class="seach_laber">交易状态</div>
+                        <div class="seach_input">
+                            <select name="interest" lay-filter="aihao">
+                                <option value=""></option>
+                                <option value="0" selected="">全部</option>
+                                <option value="1" >申请中</option>
+                                <option value="2">已到账</option>
+                                <option value="3">已驳回</option>
+                              </select>
+                        </div>
+                    </div>
+                    <button class="layui-btn" type="submit" id="seach">查询</button>
+                </div>
+            </form>
+        </blockquote>
+
+
+        <div class="layui-form news_list">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="3%">
+
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+                        <th>用户账号</th>
+                        <th>银行名称</th>
+                        <th>银行账号</th>
+                        <th>提现金额</th>
+                        <th>手续费</th>
+                        <th>提现时间</th>
+                        <th>用户留言</th>
+
+                        <th width="200px">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="news_content">
+                 
+                    <tr>
+                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="}"></td>
+                     
+                        <td>1111</td>
+                      
+                        <td>111</td>
+                       
+                      
+                        <td>111</td>
+                        <td>111</td>
+                        <td>11</td>
+                        <td>111</td>
+                        <td>111</td>
+                        <td>
+                            <a href="{:url('admin/Control/control_withdraw_edit')}">申请中</a>
+                        </td>
+                    </tr>
+               
+                </tbody>
+            </table>
+            <div id="page">
+                <div class="opation" style="width: 200px; float: left;">
+                    <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
+                        <option check="" value="0">请选择</option>
+                        <option value="1">批量删除</option>
+                    </select>
+                </div>
+                <div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
+                    <button type="button" id="opration_btu"
+                        style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
+                    </button>
+                </div>
+               
+            </div>
+
+        </div>
+
+    </div>
+
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery;
+            var vals = $("input").data("id");
+            //点击操作确认按钮
+            var data_id = [];
+            $("#opration_btu").click(function () {
+                var opration_val = $(".opation select option:selected").val();
+                if (opration_val == 0) {
+                    layer.alert('请选择操作', {
+                        skin: 'layui-layer-molv' //样式类名
+                        ,
+                        closeBtn: 0
+                    });
+                } else if (opration_val == 1) {
+                    layer.confirm('你确认要删除吗？', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
+                        var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
+                        for (var i = 0; i < child.length; i++) {
+                            data_id.push($(child[i])[0].dataset.id);
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "{:url('admin/Goods/dels')}",
+                            data: {
+                                "id": data_id,
+                            },
+                            success: function (data) {
+                                console.log("成功");
+                                console.log(data);
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                location.reload();
+                                data_id.splice(0, data_id.length);
+                            },
+                            error: function (data) {
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                console.log(data);
+                                console.log("错误");
+                                data_id.splice(0, data_id.length);
+                            }
+                        });
+                    });
+
+                }
+
+            });
+
+            //全选
+            form.on('checkbox(allChoose)', function (data) {
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                child.each(function (index, item) {
+                    item.checked = data.elem.checked;
+                });
+                form.render('checkbox');
+            });
+            //通过判断文章是否全部选中来确定全选按钮是否选中
+            form.on("checkbox(choose)", function (data) {
+                // console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
+                
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
+                if (childChecked.length === child.length) {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
+                } else {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
+                }
+                form.render('checkbox');
+            })
+            
+        })
+    </script>
+
+    {/block}
+
+</body>
+
+</html>

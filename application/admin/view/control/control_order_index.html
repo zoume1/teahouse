@@ -39,7 +39,22 @@
         color: #5E5E5E;
     }
 
-   
+    .static_btus {
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 8px;
+        
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    .static_btus > a {
+        color: #fff;
+    }
+
+    .static_btus button {
+        width: 100%;
+    }
 </style>
 
 {/block}
@@ -50,121 +65,124 @@
 
     <div class="childrenBody">
         {include file="template/_top"/}
-            <!--<div class="distribution_list">-->
-                    <!--<ul>-->
-                        <!--<li>-->
-                            <!--<a href="{:url('admin/Control/control_meal_index')}"  >入驻套餐</a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a href="{:url('admin/Control/control_order_index')}"  class="on">入驻订单</a>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-            <blockquote class="layui-elem-quote news_search">
-                    <form class="layui-form" action="{:url('admin/Control/control_order_search')}">
-                        <div class="seach">
-                            <div class="seach_list">
-                                <div class="seach_laber">入驻商名称</div>
-                                <div class="seach_input">
-                                    <input type="text" name="contact_name" lay-verify="title" autocomplete="off" placeholder="姓名/公司名" class="layui-input">
-        
-                                </div>
-                            </div>
-     
+        <!--<div class="distribution_list">-->
+        <!--<ul>-->
+        <!--<li>-->
+        <!--<a href="{:url('admin/Control/control_meal_index')}"  >入驻套餐</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="{:url('admin/Control/control_order_index')}"  class="on">入驻订单</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <blockquote class="layui-elem-quote news_search">
+            <form class="layui-form" action="{:url('admin/Control/control_order_search')}">
+                <div class="seach">
+                    <div class="seach_list">
+                        <div class="seach_laber">入驻商名称</div>
+                        <div class="seach_input">
+                            <input type="text" name="contact_name" lay-verify="title" autocomplete="off"
+                                placeholder="姓名/公司名" class="layui-input">
 
-                            <div class="form-item">
-                                    <label class="form-label">套餐</label>
-                                    <div class="form-input">
-                                        {if !empty($enter_meal)}
-                                        <select name="name" id="admin_role" class="role_list">
-                                            <option value="" select>请选择</option>
-                                            {volist name="enter_meal" id="val"}
-                                             <option value="{$val.name}">{$val.name}</option>
-                                            {/volist}
-                                        </select> 
-                                        {else}
-                                        <select name="name" class="role_list">
-                                            <option value="0">顶级</option>
-                                        </select>
-                                        {/if}
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                            
-                            <button class="layui-btn" type="submit" id="seach">立即搜索</button>
                         </div>
                     </div>
 
+
+                    <div class="form-item">
+                        <label class="form-label">套餐</label>
+                        <div class="form-input">
+                            {if !empty($enter_meal)}
+                            <select name="name" id="admin_role" class="role_list">
+                                <option value="" select>请选择</option>
+                                {volist name="enter_meal" id="val"}
+                                <option value="{$val.name}">{$val.name}</option>
+                                {/volist}
+                            </select>
+                            {else}
+                            <select name="name" class="role_list">
+                                <option value="0">顶级</option>
+                            </select>
+                            {/if}
+                            </select>
+                        </div>
+                    </div>
+
+
+
                     <button class="layui-btn" type="submit" id="seach">立即搜索</button>
                 </div>
+    </div>
 
-            </form>
-        </blockquote>
+    </div>
 
-
-        <div class="layui-form news_list">
-            <table class="layui-table">
-
-                <thead>
-                    <tr>
-                        <th>用户账号手机号</th>
-                        <th>联系人姓名</th>
-                        <th>店铺名</th>
-                        <th>入驻商主体</th>
-                        <th>地址</th>
-                        <th>套餐选择</th>
-                        <th>金额</th>
-                        <th>生效时间</th>
-                        <th>到期时间</th>
-                        <th>店铺审核状态</th>
-                        <th>付款审核状态</th>
-                        <!--<th>操作</th>-->
-                    </tr>
-                </thead>
-                <tbody class="news_content">
-                    {if !empty($order)}{volist name="order" id="value"}
-						<tr>
-                            <td>{$value.phone_number}</td>
-                            <td>{$value.contact_name}</td>
-                            <td>{$value.store_name}</td>
-                            {if $value.is_business == 1}
-                            <td>个人</td>
-                            {/if}
-                            {if $value.is_business == 2}
-                            <td>公司</td>
-                            {/if}
-                            <td>{$value.address_real_data}</td>
-                            {if !empty($value.enter_meal)}
-                            <td>{$value.enter_meal}</td>
-                            <td>{$value.amount_money}</td>
-                            <td>{$value.start_time}</td>
-                            <td>{$value.end_time}</td>
-                            {else}
-                            <td>未选择套餐</td>
-                            <td>￥0</td>
-                            <td></td>
-                            <td></td>
-                            {/if}
-                            <td>
-                                <a href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
-                            </td>
-                            <td>
-                                <a href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
-                            </td>
-                            <!--<td>-->
-                                <!--<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_order_add',['id'=>$value.id])}"> 编辑-->
-                                <!--</a>-->
-                            <!--</td>-->
-                        </tr>
-                        {/volist}{/if}
-                </tbody>
-            </table>
+    </form>
+    </blockquote>
 
 
-        </div>
-        {$order->render()}
+    <div class="layui-form news_list">
+        <table class="layui-table">
+
+            <thead>
+                <tr>
+                    <th>用户账号手机号</th>
+                    <th>联系人姓名</th>
+                    <th>店铺名</th>
+                    <th>入驻商主体</th>
+                    <th>地址</th>
+                    <th>套餐选择</th>
+                    <th>金额</th>
+                    <th>生效时间</th>
+                    <th>到期时间</th>
+                    <th>店铺审核状态</th>
+                    <th>付款审核状态</th>
+                    <!--<th>操作</th>-->
+                </tr>
+            </thead>
+            <tbody class="news_content">
+                {if !empty($order)}{volist name="order" id="value"}
+                <tr>
+                    <td>{$value.phone_number}</td>
+                    <td>{$value.contact_name}</td>
+                    <td>{$value.store_name}</td>
+                    {if $value.is_business == 1}
+                    <td>个人</td>
+                    {/if}
+                    {if $value.is_business == 2}
+                    <td>公司</td>
+                    {/if}
+                    <td>{$value.address_real_data}</td>
+                    {if !empty($value.enter_meal)}
+                    <td>{$value.enter_meal}</td>
+                    <td>{$value.amount_money}</td>
+                    <td>{$value.start_time}</td>
+                    <td>{$value.end_time}</td>
+                    {else}
+                    <td>未选择套餐</td>
+                    <td>￥0</td>
+                    <td></td>
+                    <td></td>
+                    {/if}
+                    <td>
+                        <div class="static_btus" data-id="{$value.store_id}" data-value="{$value.store_status}">
+                            <a href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <a
+                            href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
+                    </td>
+                    <!--<td>-->
+                    <!--<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_order_add',['id'=>$value.id])}"> 编辑-->
+                    <!--</a>-->
+                    <!--</td>-->
+                </tr>
+                {/volist}{/if}
+            </tbody>
+        </table>
+
+
+    </div>
+    {$order->render()}
 
     </div>
 

@@ -1,1 +1,289 @@
-线下充值申请编辑
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+    body {
+        background: #fff;
+    }
+
+    #page {
+        width: 96%;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #E2E2E2;
+        padding-left: 50px;
+        background: #FDFDFE;
+    }
+
+    .sign {
+        font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';
+        font-weight: 700;
+        font-style: normal;
+        font-size: 12px;
+        line-height: 28px;
+        width: 20%;
+    }
+
+    .change {
+        margin-top: 30px;
+        line-height: 1px;
+    }
+
+    .bottun_select {
+        text-align: center;
+        margin: auto;
+        margin-top: 50px;
+
+    }
+
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+
+    .distribution_list ul {
+        display: flex;
+        align-items: center;
+    }
+
+
+    .line {
+        justify-content: center;
+    }
+
+
+    .distribution_list a {
+        font-size: 14px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+
+    .distribution_list ul li {}
+
+    .input_bottom {
+        margin-bottom:20px;
+    }
+</style>
+
+{/block}
+
+<body>
+
+    {block name="content"}
+
+    <div class="childrenBody">
+        {include file="template/_top"/}
+        <div class="layui-form news_list">
+            <div class="form-title">充值</div>
+            <table class="layui-table" style="cellMinWidth: 120; ">
+                <tbody class="news_content" >
+                    <tr>
+                        <td class="sign">账号：</td>
+                        <td>11</td>
+                        <td class="sign">流水号：</td>
+                        <td>11</td>
+                    </tr>
+                    <tr>
+                        <td class="sign">充值日期：</td>
+                        <td>11</td>
+                        <td class="sign">充值金额：</td>
+                        <td>11</td>
+                    </tr>
+                    <tr>
+                        <td class="sign">充值方式：</td>
+                        <td>11</td>
+                        <td class="sign">银行账户</td>
+                        <td>11</td>
+                    </tr>
+                    <tr>
+                        <td class="sign">用户留言</td>
+                        <td>11</td>
+                        <td class="sign"></td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <div class="form-title">审核</div>
+            <div class="change">
+                <label class="layui-form-label" style="margin: 0 130px;color: #5E5E5E;">选择操作</label>
+                <div class="input_bottom">
+                    <input type="radio" name="counter" value="通过" title="通过">
+                    <span>恭喜您，充值成功</span></br><span style="color:#949494;margin-left: 80px;">*弹框内容</span>
+                </div>
+                <div style="margin-left:340px;">
+                    <input type="radio" name="counter" value="驳回" title="驳回">
+                    <span>资金未到帐，请自检确认，如需帮助请联系客服</span></br><span style="color:#949494; margin-left: 80px;">*弹框内容</span>
+                </div>
+
+            </div>
+            <div class="bottun_select">
+                <button class="layui-btn layui-btn-primary" style="width:120px;margin-right: 80px">返回</button>
+                <button class="layui-btn layui-btn-normal" style="width:120px">确定</button>
+            </div>
+        </div>
+
+
+    </div>
+
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery;
+            var vals = $("input").data("id");
+            //点击操作确认按钮
+            var data_id = [];
+            $("#opration_btu").click(function () {
+                var opration_val = $(".opation select option:selected").val();
+                if (opration_val == 0) {
+                    layer.alert('请选择操作', {
+                        skin: 'layui-layer-molv' //样式类名
+                        ,
+                        closeBtn: 0
+                    });
+                } else if (opration_val == 1) {
+                    layer.confirm('你确认要删除吗？', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
+                        var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
+                        for (var i = 0; i < child.length; i++) {
+                            data_id.push($(child[i])[0].dataset.id);
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "{:url('admin/Goods/dels')}",
+                            data: {
+                                "id": data_id,
+                            },
+                            success: function (data) {
+                                console.log("成功");
+                                console.log(data);
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                location.reload();
+                                data_id.splice(0, data_id.length);
+                            },
+                            error: function (data) {
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                console.log(data);
+                                console.log("错误");
+                                data_id.splice(0, data_id.length);
+                            }
+                        });
+                    });
+
+                }
+
+            });
+
+            //全选
+            form.on('checkbox(allChoose)', function (data) {
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                child.each(function (index, item) {
+                    item.checked = data.elem.checked;
+                });
+                form.render('checkbox');
+            });
+            //通过判断文章是否全部选中来确定全选按钮是否选中
+            form.on("checkbox(choose)", function (data) {
+                // console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
+                
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
+                if (childChecked.length === child.length) {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
+                } else {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
+                }
+                form.render('checkbox');
+            })
+            //   首页推荐
+            form.on('switch(isShow)', function (data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+                var vals = data.value;
+                var id = $(this).data("id");
+                var status = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Goods/status')}",
+                    data: {
+                        "id": id,
+                        "status": status
+                    },
+                    success: function (data) {
+                        console.log("成功")
+                    },
+                    error: function (data) {
+                        console.log("错误")
+                    }
+                });
+
+            })
+            // 上架路由
+            form.on('switch(isShows)', function (data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+                var vals = data.value;
+                var id = $(this).data("id");
+                var status = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Goods/ground')}",
+                    data: {
+                        "id": id,
+                        "status": status
+                    },
+                    success: function (data) {
+                        console.log("成功")
+                    },
+                    error: function (data) {
+                        console.log("错误")
+                    }
+                });
+
+            })
+        })
+    </script>
+
+    {/block}
+
+</body>
+
+</html>

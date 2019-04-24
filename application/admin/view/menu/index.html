@@ -6,72 +6,70 @@
 	body {
 		background: #fff;
 	}
-	
-	#page{
-	width: 96%;
-    height: 50px;
-    line-height: 50px;
-    border: solid 1px #E2E2E2;
-   padding-left: 50px;
-   background: #FDFDFE;
-	}
-	.on {
-        color: #21A5FA !important;
-        border-bottom: solid 3px #21A5FA;
-    }
-    
-    .distribution_list {
-        margin-bottom: 10px;
-        border-bottom: solid 1px #D7D7D7;
-    }
-    
-    .distribution_list ul {
-        display: flex;
-        align-items: center;
-    }
-    
-    .distribution_list a {
-        font-size: 14px;
-        padding: 9px;
-        color: #5E5E5E;
-    }
-    
-   
 
+	#page {
+		width: 96%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+	}
+
+	.on {
+		color: #21A5FA !important;
+		border-bottom: solid 3px #21A5FA;
+	}
+
+	.distribution_list {
+		margin-bottom: 10px;
+		border-bottom: solid 1px #D7D7D7;
+	}
+
+	.distribution_list ul {
+		display: flex;
+		align-items: center;
+	}
+
+	.distribution_list a {
+		font-size: 14px;
+		padding: 9px;
+		color: #5E5E5E;
+	}
 </style>
 
 {/block}
 
 <body>
 
-    {block name="content"}
+	{block name="content"}
 
-    <div class="childrenBody">
+	<div class="childrenBody">
 		{include file="template/_top" /}
-		
-        	<!--<div class="distribution_list">-->
-                    <!--<ul>-->
-                        <!--<li>-->
-                            <!--<a href="{:url('admin/admin/index')}" >账号管理</a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a href="{:url('admin/role/index')}" >角色管理</a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a href="{:url('admin/menu/index')}"  class="on">菜单管理</a>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-		<blockquote class="layui-elem-quote news_search">
-			<div class="layui-inline line">
-				<a class="layui-btn layui-btn-danger bataadtwo" href="{:url('admin/Menu/add')}">添加</a>
-				<div class="tip" style="display:flex;align-items: center;">
-					<img src="__STATIC__/admin/index/img/u39113.png" alt="" class="laba" style="width:16px;margin-right: 10px;margin-left: 10px;">
-					<span style="font-size: 13px;color: #333333;">菜单管理为系统板块，个人严禁删除和编辑，如因此造成的系统软件无法运行，数据丢失，后果自付！</span>
-				</div>
-			</div>
 
-		</blockquote>
+		<!--<div class="distribution_list">-->
+		<!--<ul>-->
+		<!--<li>-->
+		<!--<a href="{:url('admin/admin/index')}" >账号管理</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="{:url('admin/role/index')}" >角色管理</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="{:url('admin/menu/index')}"  class="on">菜单管理</a>-->
+		<!--</li>-->
+		<!--</ul>-->
+		<!--</div>-->
+		<!-- <blockquote class="layui-elem-quote news_search">
+		</blockquote> -->
+		<div class="layui-inline line">
+			<a class="layui-btn layui-btn-danger bataadtwo" href="{:url('admin/Menu/add')}">添加</a>
+			<div class="tip" style="display:flex;align-items: center;">
+				<img src="__STATIC__/admin/index/img/u39113.png" alt="" class="laba"
+					style="width:16px;margin-right: 10px;margin-left: 10px;">
+				<span style="font-size: 13px;color: #333333;">菜单管理为系统板块，个人严禁删除和编辑，如因此造成的系统软件无法运行，数据丢失，后果自付！</span>
+			</div>
+		</div>
 		<div class="layui-form news_list">
 			<table class="layui-table">
 				<colgroup>
@@ -83,7 +81,7 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th >ID</th>
+						<th>ID</th>
 						<th>菜单名称</th>
 						<th>URL</th>
 						<th>上级ID</th>
@@ -98,13 +96,17 @@
 					<td>{$value.url}</td>
 					<td>{$value.pid}</td>
 					<td>
-						<a href="{:url('admin/menu/edit',['id'=>$value.id])}" class="layui-btn layui-btn-mini account_edit"> 编辑</a>
-						<a href="{:url('admin/menu/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+						<a href="{:url('admin/menu/edit',['id'=>$value.id])}"
+							class="layui-btn layui-btn-mini account_edit"> 编辑</a>
+						<a href="{:url('admin/menu/del',['id'=>$value.id])}"
+							onclick="if(!confirm('确定要删除吗？')) return false"
+							class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i
+								class="layui-icon"></i> 删除</a>
 					</td>
 				</tr>
 				{/volist}
 			</table>
-			
+
 		</div>
 		<div id="page">
 			{$page}
@@ -119,22 +121,22 @@
 		<!--请在下方写此页面业务相关的脚本-->
 		{block name="bottom"}
 		<script>
-            (function(){
-                $.ajax({
-                    type:"POST",
-                    url:"{:url('admin/menu/index')}",
-                    data:{},
-                    async:false,
-                    timeout:5000,
-                    dataType:"json",
-                    success:function (data) {
-                        console.log(data)
-                    },
-                    error:function () {
-                        console.log("错误");
-                    }
-                })
-            })()
+			(function () {
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/menu/index')}",
+					data: {},
+					async: false,
+					timeout: 5000,
+					dataType: "json",
+					success: function (data) {
+						console.log(data)
+					},
+					error: function () {
+						console.log("错误");
+					}
+				})
+			})()
 		</script>
 		<!--自定义内容-->
 		{/block}
