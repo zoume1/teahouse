@@ -632,7 +632,8 @@
                         if(data.body.status == 1){
                             layer.alert('凭证已提交，我们将在3个工作日内审核完毕，通过后自动完成订购。', function(index){
                                 layer.close(index);
-                                location.href = 'store_set_meal_order';
+//                                location.href = 'store_set_meal_order';
+                                location.href = '/admin';
                             });
                         }else{
                             layer.msg(data.body.info);

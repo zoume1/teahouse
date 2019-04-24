@@ -112,6 +112,18 @@ class Store extends  Controller{
         return view("store_wallet_reduce");
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:店铺资金管理银行卡列表
+     **************************************
+     * @return \think\response\View
+     */
+    public function store_add_bankcard(){
+        return view("store_add_bankcard");
+    }
+
+
 
 
 
