@@ -94,7 +94,9 @@
             <div class="inner-wrap">
                 <div class="head">
                     <a href="./">
-                        <img src="__STATIC__/index/img/logo3.png" width="100" height="23">
+                        <!-- <img src="__STATIC__/index/img/logo3.png" width="100" height="23"> -->
+                        <img src="__STATIC__/index/img/u9238.jpg" width="50" height="50">
+                        <span style="font-size:35px; font-weight:bolder; margin-left: 7px; vertical-align: text-bottom; color: #333;">智慧茶仓</span>
                     </a>
                     <span class="sep"></span>
                     <h2>选择店铺</h2>
@@ -582,6 +584,7 @@
                 // 选择版本
                 $('.cVersion').click(function(){
                     var id = $(this).data('id');
+                    // myEvent.setCookie('cvt', 1, 1);
                     selectVeri(id);
                 })
                 // 继续编辑
@@ -665,7 +668,7 @@
                 },
                 success: function(res){
                     if(res.status == 1){
-                        location.href = 'admin';
+                        location.href = '/admin/order_package_index';
                     }
                 },
                 error: function(res){console.log(res.status, res.statusText);}

@@ -45,7 +45,7 @@
         .rights .right-on::before{content: '√'; color: #66cc00;}
         .rights .right-off{color: #949494;}
         .rights .right-off::before{content: '×'; color: #f00;}
-        
+
     </style>
 </head>
 <body>
@@ -69,14 +69,14 @@
                 :key="item.id"
                 @mouseenter="selectEvent(index)">
                 <div class="item-top">
-                    <div class="version-name" 
+                    <div class="version-name"
                         :class="titNameArr[index === selectFlag && index]">{{item.name}}</div>
                     <p class="version-suggest" v-if="index == 0">适合小微团队开店，满足<span class="cr">大批发，新零售商品</span>销售、推广营销等基础经营需求</p>
                     <p class="version-suggest" v-else-if="index == 1">本版本能够在万用版的基础上，实现和满足<span class="cr">传统电商无法提供给垂直茶行业</span>经销商、消费者的深度需求</p>
                     <p class="version-suggest" v-else-if="index == 2">解决大型的规模化的<span class="cr">茶厂、茶商柔性化、定制化生产</span>所遇见的全部所需功能 及需求</p>
                     <div class="version-cost">
-                        {{selectData[index]?selectData[index].year:item.year}}年 
-                        <span class="cr">￥{{selectData[index]?selectData[index].favourable_cost:item.favourable_price}}</span> 
+                        {{selectData[index]?selectData[index].year:item.year}}年
+                        <span class="cr">￥{{selectData[index]?selectData[index].favourable_cost:item.favourable_price}}</span>
                         <span class="td">￥{{selectData[index]?selectData[index].cost:item.price}}</span>
                     </div>
                     <button class="order"
@@ -93,7 +93,7 @@
                                 <p>原价</p>
                                 <p class="cr">优惠价</p>
                             </li>
-                            <li class="comb-item comb-p" 
+                            <li class="comb-item comb-p"
                                 v-for="(item, idx) in item.priceList"
                                 @click="selectComb(index, idx)">
                                 <p>{{item.year}}</p>
@@ -213,7 +213,7 @@
                         console.log(res.status, res.statusText);
                         layer.msg(res.body.info, {time: 1000});
                     })
-                    
+
                 },
                 // 正常下单 给后台发送数据
                 normalOrder: function(index){
