@@ -87,7 +87,7 @@
                 <tbody class="news_content">
                     {volist name="goods" id="value"}
                     <tr>
-                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+                        <td><input type="checkbox" name="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
                         <td>{$value.goods_number}</td>
                         <td class="">
                             <div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_images}" /></div>
@@ -241,21 +241,22 @@
 
             //全选
             form.on('checkbox(allChoose)', function (data) {
-                var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
                 child.each(function (index, item) {
                     item.checked = data.elem.checked;
                 });
                 form.render('checkbox');
             });
-
             //通过判断文章是否全部选中来确定全选按钮是否选中
             form.on("checkbox(choose)", function (data) {
-                var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-                var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
-                if (childChecked.length == child.length) {
-                    $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
+                // console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
+                
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
+                if (childChecked.length === child.length) {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
                 } else {
-                    $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
                 }
                 form.render('checkbox');
             })
