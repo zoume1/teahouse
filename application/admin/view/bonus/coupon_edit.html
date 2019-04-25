@@ -182,7 +182,7 @@
 						<div class="seach_list">
 								<div class="seach_laber">选择商品</div>
 								<div class="seach_input">
-									<select name="order_type">
+									<select name="order_type" id="order_type">
 										<option value="1" selected="">普通商品</option>
 										<option value="2">众筹商品</option>
 	
@@ -298,11 +298,14 @@
 			var seach_goods=[];
 			$("#seach_button").click(function() {
 				var seach_val=$("#seach_val").val();
+				var order_type=$("#order_type option:selected").val();
+				// console.log(order_type)
 				$.ajax({
                     type: "POST",
                     url: "{:url('admin/Bonus/coupon_search')}",
                     data: {
                         "goods_number": seach_val,
+						"coupon_type":order_type
                     },
                     success: function(data) {
 						var data=eval("("+data+")").data;
