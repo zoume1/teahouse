@@ -47,8 +47,6 @@ class Login extends Controller{
         define("STAS",$user_data["appSecret"]);
         define("MCID",$user_data["mchid"]);
         define("SIKY",$user_data["signkey"]);
-        dump(STAS);
-        halt(STID);
         $params['js_code'] = define_str_replace($get['code']);
         $params['grant_type'] = 'authorization_code';
         $http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $params, 'GET');
