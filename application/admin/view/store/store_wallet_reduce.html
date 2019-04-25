@@ -26,8 +26,9 @@
     .bd{display: flex;}
     .bd-left{width: 650px;}
     .bd-left>div{margin: 0 auto; width: 550px; border-right: 1px solid #ccc;}
-    .layui-input-block{display: flex; width: 300px; position: relative; line-height: 36px;}
-    .bank-item .add-bank{border: 1px solid #f00; background-color: #fff; color: #f00;}
+    .layui-input-block{display: flex; width: 400px; position: relative; line-height: 36px;}
+    .layui-form-select{flex: 1;}
+    .bd .add-bank{border: 1px solid #f00; background-color: #fff; color: #f00;}
     .unit{border: 1px solid #ccc; color: #333; background-color: #f2f2f2; width: 45px; height: 36px; line-height: 38px; text-align: center;}
     .confirm{width: 100%; background-color: #E62D31; color: #fff; margin-top: 20px;}
     .tips{padding: 10px 0; color: #333; font-size: 13px; margin-left: 110px;}
@@ -41,10 +42,10 @@
 {/block}
 
 <body>
-{block name="content"}
+{block name="content"}  
     <div class="wrapper" id="wrapper">
         <div class="hd">
-            <div>我要提现</div>
+            <div>提现</div>
         </div>
         <div class="bd">
             <div class="bd-left">
@@ -62,9 +63,9 @@
                         <div class="layui-input-block">
                             <select name="city" lay-verify="required">
                                 <option value="">如没有添加银行卡，请添加 →</option>
-                                <option value="0">卡一：569699698877777</option>
+                                <option value="0">卡一：569699698877777 中国银行福田分行</option>
                             </select>
-                            <a href="javascript:void(0);" class="layui-btn add-bank">+银行卡</a>
+                            <a href="store_add_bankcard" class="layui-btn add-bank">+银行卡</a>
                         </div>
                     </div>
                     <div class="layui-form-item">
