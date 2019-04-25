@@ -29,7 +29,7 @@ class Login extends Controller{
         $get = input('get.');
         $user_data =Db::table("applet")
             ->where("id",$get["uniacid"])
-            ->field("appID,appSecret")
+            ->field("appID,appSecret,,mchid,signkey")
             ->find();
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
@@ -44,15 +44,10 @@ class Login extends Controller{
 //        $params['secret'] = '5209ee767302a8f97fcc2bdb12dc2cf8';//客户公司11
 //        $params['secret'] = '055128687ca3e2eb2756307cd03a5544';
 //        $params['secret'] = 'b1aafb5fc38e091481432ccfe5712dfc';
-        $store_id =$get["uniacid"];
-        $uniacid_data =Db::table("applet")
-            ->where("id",$store_id)
-            ->field("appID,appSecret,mchid,signkey")
-            ->find();
-        define("STID",$uniacid_data["appID"]);
-        define("STAS",$uniacid_data["appSecret"]);
-        define("MCID",$uniacid_data["mchid"]);
-        define("SIKY",$uniacid_data["signkey"]);
+        define("STID",$user_data["appID"]);
+        define("STAS",$user_data["appSecret"]);
+        define("MCID",$user_data["mchid"]);
+        define("SIKY",$user_data["signkey"]);
         $params['js_code'] = define_str_replace($get['code']);
         $params['grant_type'] = 'authorization_code';
         $http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $params, 'GET');
