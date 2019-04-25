@@ -39,7 +39,7 @@ class Crowdfinancing extends Controller
             foreach($goods_id as $key => $value){
                 $goods_data = Db::name("crowd_goods")->where("id", $goods_id[$key])->find();
                 $info = Db::name("crowd_special")
-                ->where("goods_id", $special_id[$key])
+                ->where("id", $special_id[$key])
                 ->find();
 
                 $data[$key]["goods_info"] = $goods_data;
