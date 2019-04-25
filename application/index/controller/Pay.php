@@ -4,6 +4,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use  think\Db;
+use think\Cache;
 
 include('../extend/WxpayAPI/lib/WxPay.Api.php');
 include('../extend/WxpayAPI/example/WxPay.NativePay.php');
@@ -19,6 +20,13 @@ class Pay extends  Controller{
      * @param Request $request
      */
     function index(Request $request) {
+        $store_id =$request->only(["uniacid"])["uniacid"];
+        $uniacid_data =Db::table("applet")
+            ->where("id",$store_id)
+            ->field("appID,appSecret,mchid,signkey")
+            ->find();
+        define("UNDATA",$uniacid_data,false);
+        Cache::set('uniacid_data',$uniacid_data,3600);
         $open_ids = $request->param("open_id");//open_id
         $activity_name = $request->param("activity_name");//名称
         $cost_moneny = $request->param("cost_moneny");//金额
