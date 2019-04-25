@@ -20,15 +20,6 @@ class Pay extends  Controller{
      * @param Request $request
      */
     function index(Request $request) {
-        $store_id =$request->only(["uniacid"])["uniacid"];
-        $uniacid_data =Db::table("applet")
-            ->where("id",$store_id)
-            ->field("appID,appSecret,mchid,signkey")
-            ->find();
-        define("STID",$uniacid_data["appID"]);
-        define("STAS",$uniacid_data["appSecret"]);
-        define("MCID",$uniacid_data["mchid"]);
-        define("SIKY",$uniacid_data["signkey"]);
         $open_ids = $request->param("open_id");//open_id
         $activity_name = $request->param("activity_name");//名称
         $cost_moneny = $request->param("cost_moneny");//金额
