@@ -6,9 +6,14 @@ use think\Request;
 class Menu extends Controller
 {
    protected $status = ["禁用","启用"];
+
     /**
-     * [节点显示]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:节点显示
+     **************************************
+     * @param Request $request
+     * @return \think\response\View
      */
     public function index(Request $request){
         $menu_lists = db("Menu")->order("sort_number")->paginate(20 ,false, [
@@ -27,8 +32,11 @@ class Menu extends Controller
     }
 
     /**
-     * [节点添加入库]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:节点添加入库
+     **************************************
+     * @param Request $request
      */
     public function save(Request $request){
        $data = $request->param();
@@ -43,8 +51,10 @@ class Menu extends Controller
     }
 
     /**
-     * [菜单删除]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:菜单删除
+     **************************************
      * @param $id
      */
     public function del($id){
@@ -57,8 +67,13 @@ class Menu extends Controller
     }
 
     /**
-     * [菜单编辑]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:菜单编辑
+     **************************************
+     * @param int $pid
+     * @param $id
+     * @return \think\response\View
      */
     public function edit($pid=0,$id){
         $menu = db("Menu")->where("id","$id")->select();
@@ -73,8 +88,12 @@ class Menu extends Controller
     }
 
     /**
-     * [菜单更新入库]
-     * 陈绪
+     **************李火生*******************
+     * @param Request $request
+     * Notes:菜单更新入库
+     **************************************
+     * @param Request $request
+     * @param $id
      */
     public function updata(Request $request,$id){
         $data = $request->param();
