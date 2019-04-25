@@ -25,7 +25,9 @@ class Pay extends  Controller{
             ->where("id",$store_id)
             ->field("appID,appSecret,mchid,signkey")
             ->find();
-        define("UNDATA",$uniacid_data,false);
+        define("UNDATA",serialize($uniacid_data));
+        $ba =unserialize(UNDATA);
+        halt($ba);
         Cache::set('uniacid_data',$uniacid_data,3600);
         $open_ids = $request->param("open_id");//open_id
         $activity_name = $request->param("activity_name");//名称
