@@ -54,9 +54,9 @@ class WxTest extends Controller
             "notify_url" => trim("http://teahouse.siring.com.cn/"),
             "service" => "create_direct_pay_by_user",
             "payment_type" => 1, //
-            "seller_email" => 'bill.nie@hotmail.com',
-            "out_trade_no" => 'mall' . $int_order_id,
-            "subject" => "支付表单的名称先不管你支付就知道了",
+            "seller_email" => '50087335@qq.com',
+            "out_trade_no" => time(),
+            "subject" => "siring支付测试", //商品订单的名称
             "total_fee" => number_format('0.01', 2, '.', ''),
         );
         if (isset($arr_order['paymethod']) && isset($arr_order['defaultbank']) && $arr_order['paymethod'] === "bankPay" && $arr_order['defaultbank'] != "") {

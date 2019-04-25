@@ -64,7 +64,8 @@ Route::group("",[
     "my_qrcode"=>"index/My/qrcode",  //会员二维码
     "my_index"=>"index/My/my_index",  //我的页面
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
-    "wx_order_index"=>"index/Pay/order_index",//小程序订单支付
+    "wx_order_index"=>"index/Pay/order_index",//小程序普通商品订单支付
+    "crowd_order_index"=>"index/Pay/crowd_order_index",//小程序众筹订单支付
     "wx_recharge_pay"=>"index/Pay/recharge_pay",//小程序充值支付
     "reward_pay"=>"index/Pay/reward_pay",   //众筹商品打赏支付
      "notify"=>"index/order/notify",//小程序支付回调（活动）
@@ -109,8 +110,8 @@ Route::group("",[
     "tacitly_approve"=>"index/Order/tacitly_approve",//存茶默认收货地址
     "tacitly_list"=>"index/Order/tacitly_list",//存茶默认收货地址列表
     "transportation"=>"index/Order/transportation",//对应模板
-
     /*TODO:订单结束*/
+
     /*TODO:快递100物流信息开始*/
     "express_hundred"=>"index/Api/express_hundred",//快递100实时物流
     /*TODO:快递100物流信息结束*/
@@ -328,7 +329,17 @@ Route::group("",[
     "crowd_order_return"=>"index/Crowdfinancing/crowd_order_return",                         //立即购买过去清单数据返回
     "crowd_order_place"=>"index/Crowdfinancing/crowd_order_place",                           //提交订单
     "crowd_order_place_by_shoppings"=>"index/Crowdfinancing/crowd_order_place_by_shoppings", //购物车提交订单
-    "crowd_order_detail"=>"index/Crowdfinancing/crowd_order_detail",                         //订单详情页面信息
+    "crowd_detail_cancel"=>"index/Crowdfinancing/crowd_detail_cancel",                       //未付款判断时间是否过了订单设置的时间，过了则进行自动关闭（优惠券未实现）
+    "crowd_order_all"=>"index/Crowdfinancing/crowd_order_all",                               //我的所有订单
+    "crowd_wait_pay"=>"index/Crowdfinancing/crowd_wait_pay",                                 //我的待支付订单
+    "crowd_wait_send"=>"index/Crowdfinancing/crowd_wait_send",                               //我的待发货订单
+    "crowd_wait_deliver"=>"index/Crowdfinancing/crowd_wait_deliver",                         //我的待收货订单
+    "crowd_wait_evaluate"=>"index/Crowdfinancing/crowd_wait_evaluate",                       //我待评价订单
+    "crowd_collect_goods"=>"index/Crowdfinancing/crowd_collect_goods",                       //买家确认收货
+    "crowd_order_details"=>"index/Crowdfinancing/crowd_order_details",                       //订单详情
+    "crowd_order_del"=>"index/Crowdfinancing/crowd_order_del",                               //买家删除订单接口(ajax)
+    "crowd_no_pay_cancel"=>"index/Crowdfinancing/crowd_no_pay_cancel",                       //订单状态修改（未付款买家取消订单）
+    "crowd_order_notify"=>"index/Crowdfinancing/crowd_order_notify",                         //小程序订单支付成功回来修改状态
     
 
 

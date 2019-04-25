@@ -1004,6 +1004,7 @@
                     }
                     $(".add_danwei2").parent().before(dhtmlss);
                 }
+                
 
             },
             error: function (data) {
@@ -1081,6 +1082,7 @@
                     var vals = $('input[name="aaa"]:checked').val();
                     if (val == "0") {
                         if(vals=="1"){
+                            // console.log(data)
                             for (var i = 0; i < data.data.templet_name.length; i++) {
                             var add_muban1 = '';
                             add_muban1 += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
@@ -1165,7 +1167,6 @@
 
                 }
             });
-
             $(".general_content").on("blur", ".units", function () {
                 id = $(this).data("id");
                 if ($(this).data("value") != $(this).val()) {
@@ -1351,13 +1352,13 @@
                 var unit2_a = unit2.unique3();
                 var val = $('input[name="goods_standard"]:checked').val();
                 var vals = $('input[name="aaa"]:checked').val();
-                console.log($('input[name="aaa"]:checked'));
+                // console.log($('input[name="aaa"]:checked'));
                 var text = $(".monomer").val();
                 var nums = 0;
                 for (var i = 0; i < unit1_a.length; i++) {
-                    if (unit1_a[i] == text) {
+                    // if (unit1_a[i] == text) {
                         nums++;
-                    }
+                    // }
                 }
                 if (val == "0") {
                     if (nums == 0) {
