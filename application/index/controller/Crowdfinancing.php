@@ -68,7 +68,7 @@ class Crowdfinancing extends Controller
     public function crowd_order_place(Request $request){
         if ($request->isPost()){
             $user_id = $request->only("member_id")["member_id"];//member_id
-            $address_id = $request->param("address_id");//address_id
+            $address_id = $request->only("address_id")["address_id"];//address_id
             $coupon_id = $request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $order_type = $request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $commodity_id = $request->only("goods_id")["goods_id"];//商品id
@@ -98,14 +98,18 @@ class Crowdfinancing extends Controller
                 }
                 //图片
                 $special_data =Db::name("crowd_special")
-                    ->where("id",$values)
+                    ->where("id",$goods_standard_id[$keys])
                     ->find();
                 $datas['goods_image'] = $special_data['images'];   //图片
                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                 $datas['goods_standard'] = $special_data["name"]; //商品规格  
                 $data['unit'] = explode(",",$special_data['unit']);
                 $data['num'] = explode(",",$special_data['num']);
-
+                $time = date("Y-m-d",time());
+                $v = explode('-',$time);
+                $time_second = date("H:i:s",time());
+                $vs = explode(':',$time_second);
+                $buy_message = null; //买家留言
                 
                 if($order_type != 3){
                     if($order_type == 1){
@@ -114,6 +118,7 @@ class Crowdfinancing extends Controller
                             ->where("id",$address_id)
                             ->where('user_id', $user_id)
                             ->find();
+                            
                             if (empty($is_address) ) {
                                 return ajax_error('请填写收货地址',['status'=>0]);
                             } else {
