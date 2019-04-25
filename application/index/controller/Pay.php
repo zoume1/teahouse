@@ -4,6 +4,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use  think\Db;
+use think\Cache;
 
 include('../extend/WxpayAPI/lib/WxPay.Api.php');
 include('../extend/WxpayAPI/example/WxPay.NativePay.php');
