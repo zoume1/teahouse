@@ -25,7 +25,6 @@ class Login extends Controller{
      */
     public function wechatlogin()
     {
-
         $get = input('get.');
         $user_data =Db::table("applet")
             ->where("id",$get["uniacid"])
