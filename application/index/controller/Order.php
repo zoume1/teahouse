@@ -36,7 +36,7 @@ class  Order extends  Controller
                 return ajax_error("商品信息有误，请返回重新提交", ["status" => 0]);
             }
             foreach ($goods_id as  $key=>$value){
-                $goods_data =null;
+                $goods_data = null;
                 $goods_data = Db::name("goods")->where("id", $value)->find();
                 //判断是为专用还是通用
                 //专用规格
@@ -2174,7 +2174,7 @@ class  Order extends  Controller
                     ->where("recharge_order_number",$val["out_trade_no"])
                     ->find();
                 //充值送积分
-                $list =Db::name("recharge_full_setting")
+                $list = Db::name("recharge_full_setting")
                     ->field("recharge_setting_send_integral,recharge_setting_full_money")
                     ->select();
                 $lists =0;

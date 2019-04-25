@@ -113,14 +113,12 @@ class  Wxapps extends  Controller{
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
                         } else if ($v['id'] == 'xnlf') {
-                            halt(1);
                             $num = Db::table('ims_sudu8_page_base')->where("uniacid", $uniacid)->find();
                             $v['params']['fwl'] = $v['params']['fwl'] * 1 + $num['visitnum'] * 1;
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
                         }else if($v['id']=='ddlb'){
-                            halt(2);
                             $a=Db::table('ims_sudu8_page_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
                             $b=Db::table('ims_sudu8_page_pt_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
                             $c=Db::table('ims_sudu8_page_duo_products_order')->alias('o')->join('ims_sudu8_page_user u','o.openid=u.openid')->where("o.uniacid",$uniacid)->order('o.creattime','desc')->limit(5)->field('u.nickname,u.avatar,o.creattime')->select();
@@ -156,7 +154,6 @@ class  Wxapps extends  Controller{
                             }
 
                         }else if ($v['id'] == 'contact') {
-                            halt(4);
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -175,7 +172,6 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'video') {
-                            halt(5);
                             if (isset($v['params']['backgroundimg']) && $v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -187,7 +183,6 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == 'logo' || $v['id'] == 'dp') {
-                            halt(6);
                             if ($v['params']['backgroundimg'] != "") {
                                 $v['params']['backgroundimg'] = remote($uniacid, $v['params']['backgroundimg'], 1);
                             }
@@ -254,7 +249,7 @@ class  Wxapps extends  Controller{
                             //商品分类
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
-                                $count = $v['params']['goodsnum'];
+                                $count = $v['params']['goodsnum']; //数量
                                 $con_type = $v['params']['con_type'];
                                 $con_key = $v['params']['con_key'];
                                 $where = "";
@@ -377,7 +372,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == "cases") {
-                            halt(14);
+
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['casenum'];
@@ -434,7 +429,7 @@ class  Wxapps extends  Controller{
                                 }
                             }
                         }else if ($v['id'] == "listdesc") {
-                            halt(15);
+
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['newsnum'];
@@ -518,8 +513,9 @@ class  Wxapps extends  Controller{
                             }
                         }else if ($v['id'] == "goods") {
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
+                                halt($v["params"]);
                                 $sourceid = explode(':', $v['params']['sourceid'])[1]; //这是商品栏目的分类id
-                                $count = $v['params']['goodsnum']; //goodsnum数据分组
+                                $count = intval($v['params']['goodsnum']) +1; //goodsnum数据分组
                                 $con_type = $v['params']['con_type']; //
                                 $con_key = $v['params']['con_key'];
                                 //在这里返回数据
@@ -528,6 +524,7 @@ class  Wxapps extends  Controller{
                                 $list = db("goods")
                                     ->where("pid", $sourceid)
                                     ->where("status", 1)
+                                    ->limit(1,$count)
                                     ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard")
                                     ->select();
                                 $member_grade_id = db("member")
@@ -587,7 +584,7 @@ class  Wxapps extends  Controller{
                                     }
                                 }
                             }
-
+                        //菜单
                         }else if($v['id'] == "menu"){
                             foreach($v['data'] as $ky => &$vy){
                                 if(isset($vy['linktype'])){
@@ -734,20 +731,7 @@ class  Wxapps extends  Controller{
                         if ($v['id'] == "footmenu") {
                             $count = count($v['data']);
                             $data['items'][$k]['count'] = $count;
-                            foreach($v['data'] as $ky => &$vy){
-                                if(isset($vy['linktype'])){
-                                    if($vy['linktype'] == 'mini'){
-                                        if(strpos($vy['linkurl'], ",") !== false){
-                                            $link = explode(",", $vy['linkurl']);
-                                            $vy['linkurl'] = substr($link[0], 6);
-                                            $vy['pageurl'] = substr($link[1], 9);
-                                        }else{
-                                            $vy['linkurl'] = substr($data['items'][$k]['data'][$ky]['linkurl'], 6);
-                                            $vy['pageurl'] = "";
-                                        }
-                                    }
-                                }
-                            }
+
                             $text_is = $v['params']['textshow'];
                             if ($text_is == 1) {
                                 $data['footmenuh'] = $v['style']['paddingleft'] * 2 + $v['style']['textfont'] + $v['style']['paddingtop'] * 2 + $v['style']['iconfont'] + 1;
