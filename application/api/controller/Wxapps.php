@@ -519,7 +519,7 @@ class  Wxapps extends  Controller{
                         }else if ($v['id'] == "goods") {
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1]; //这是商品栏目的分类id
-                                $count = $v['params']['goodsnum']; //goodsnum数据分组
+                                $count = intval($v['params']['goodsnum']) +1; //goodsnum数据分组
                                 $con_type = $v['params']['con_type']; //
                                 $con_key = $v['params']['con_key'];
                                 //在这里返回数据
