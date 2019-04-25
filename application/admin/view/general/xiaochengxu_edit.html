@@ -29,7 +29,7 @@
     <link rel="stylesheet" type="text/css" href="/diypage/resource/css/font-awesome.min.css" />
 
     <link rel="stylesheet" type="text/css" href="/diypage/resource/components/confirm/jquery-confirm.css" />
-
+    
 
     <script type="text/javascript">
 
@@ -19470,6 +19470,7 @@
     function footmenus(){
 
         var footis = {if $setsave}{$setsave['foot_is']}{else}{$foot_is}{/if};
+        console.log(footis)
         if(footis==1){
             $(".icon-caidan").hide();
         }
