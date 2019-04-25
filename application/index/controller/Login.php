@@ -29,7 +29,7 @@ class Login extends Controller{
         $get = input('get.');
         $user_data =Db::table("applet")
             ->where("id",$get["uniacid"])
-            ->field("appID,appSecret,,mchid,signkey")
+            ->field("appID,appSecret,mchid,signkey")
             ->find();
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
