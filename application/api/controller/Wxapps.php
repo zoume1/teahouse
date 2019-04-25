@@ -517,7 +517,7 @@ class  Wxapps extends  Controller{
                                 $count = intval($v['params']['goodsnum']) +1; //goodsnum数据分组
                                 $con_type = $v['params']['con_type']; //
                                 $con_key = $v['params']['con_key'];
-                                $goodsiconsrc =config("domain.url").$v["params"]["goodsiconsrc"];  //自定义图标
+                                $v['params']['goodsiconsrc'] =config("domain.url").$v["params"]["goodsiconsrc"];  //自定义图标
                                 //在这里返回数据
                                 $member_grade_name = input("member_grade_name");; //会员等级
                                 $member_id =  input("open_id");  //open-ID
@@ -550,7 +550,6 @@ class  Wxapps extends  Controller{
                                         $list[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
                                         $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
                                         $list[$kks]["price"] = $min[$kks]; //价钱
-                                        $list[$kks]["goodsiconsrc"] =$goodsiconsrc;//自定义图标
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
                                                 unset($list[$kks]);
@@ -560,7 +559,6 @@ class  Wxapps extends  Controller{
                                         $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount;
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
                                         $list[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
-                                        $list[$kks]["goodsiconsrc"] =$goodsiconsrc;//自定义图标
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
                                                 unset($list[$kks]);
