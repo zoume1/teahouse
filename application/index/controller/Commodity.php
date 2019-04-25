@@ -153,6 +153,8 @@ class Commodity extends Controller
             } else {
                 $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
+                $goods[0]["min_line"] = $goods[0]["goods_bottom_money"] ;
+
             }
             if (!empty($goods) && !empty($goods_id)){
                 return ajax_success("获取成功", $goods);
