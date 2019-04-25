@@ -517,7 +517,9 @@ class  Wxapps extends  Controller{
                                 $count = intval($v['params']['goodsnum']) +1; //goodsnum数据分组
                                 $con_type = $v['params']['con_type']; //
                                 $con_key = $v['params']['con_key'];
-                                $v['params']['goodsiconsrc'] =config("domain.url").$v["params"]["goodsiconsrc"];  //自定义图标
+                                if(!empty($v['params']['goodsiconsrc'])){
+                                    $v['params']['goodsiconsrc'] =config("domain.url").$v["params"]["goodsiconsrc"];  //自定义图标
+                                }
                                 //在这里返回数据
                                 $member_grade_name = input("member_grade_name");; //会员等级
                                 $member_id =  input("open_id");  //open-ID
