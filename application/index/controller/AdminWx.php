@@ -28,7 +28,7 @@ class  AdminWx extends Controller{
             $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
             $val = json_decode(json_encode($xml_data), true);
             if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){
-                file_put_contents(EXTEND_PATH."data.txt",$val);
+//                file_put_contents(EXTEND_PATH."data.txt",$val);
                 $enter_all_id =Db::name("set_meal_order")
                     ->where("order_number",$val["out_trade_no"])
                     ->value("enter_all_id");
@@ -60,8 +60,18 @@ class  AdminWx extends Controller{
                     if($res){
                         //把之前的套餐订单删掉
                        $result = Db::name("set_meal_order")->where("order_number",$is_set_order["$is_set_order"])->delete();
+                        if($result){
+                            echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                        }else{
+                            return "fail";
+                        }
                     }else{
                         $result =0;
+                        if($result){
+                            echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                        }else{
+                            return "fail";
+                        }
                     }
                 }else{
                     //这是新加入套餐的情况
@@ -76,12 +86,13 @@ class  AdminWx extends Controller{
                     $result =Db::name("set_meal_order")
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
+                    if($result){
+                        echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                    }else{
+                        return "fail";
+                    }
                 }
-                if($result){
-                    echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
-                }else{
-                    return "fail";
-                }
+
             }
         }
     }
