@@ -28,14 +28,10 @@ class  AdminWx extends Controller{
             $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
             $val = json_decode(json_encode($xml_data), true);
             if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){
-//                file_put_contents(EXTEND_PATH."data.txt",$val);
-                $enter_all_id =Db::name("set_meal_order")
-                    ->where("order_number",$val["out_trade_no"])
-                    ->value("enter_all_id");
                 $enter_all_data=Db::name("set_meal_order")
                     ->where("order_number",$val["out_trade_no"])
                     ->find();
-                $year =Db::name("enter_all")->where("id",$enter_all_id)->value("year");
+                $year =Db::name("enter_all")->where("id",$enter_all_data['enter_all_id'])->value("year");
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除之前已付款的订单
@@ -58,7 +54,7 @@ class  AdminWx extends Controller{
                         ->update($data);
                     if($res){
                         //把之前的套餐订单删掉
-                       $result = Db::name("set_meal_order")->where("order_number",$is_set_order["$is_set_order"])->delete();
+                       $result = Db::name("set_meal_order")->where("order_number",$is_set_order["order_number"])->delete();
                         if($result){
                             echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                         }else{
