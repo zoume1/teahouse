@@ -1415,12 +1415,23 @@ class  General extends  Base {
         if($request->isPost()){
             $id =$request->only(["id"])["id"];
             $data =Db::table("tb_set_meal_order")
-                ->field("id,order_number,create_time,goods_name,goods_quantity,amount_money,store_id,images_url,store_name,unit")
+                ->field("id,order_number,create_time,goods_name,goods_quantity,amount_money,store_id,images_url,store_name,unit,cost")
                 ->where("store_id",$this->store_ids)
                 ->where("status",-1)
                 ->where("id",$id)
                 ->select();
             if($data){
+                foreach ($data as $k=>$v){
+                    $last_money =Db::name("set_meal_order")
+                        ->where("store_id",$v['store_id'])
+                        ->where("audit_status",1)
+                        ->value("amount_money");
+                    if($last_money){
+                        $data[$k]["last_money"] =$last_money;
+                    }else{
+                        $data[$k]["last_money"] =0;
+                    }
+                }
                 return ajax_success("订单信息返回成功",$data);
             }else{
                 return ajax_error("没有订单信息");
@@ -1464,9 +1475,11 @@ class  General extends  Base {
                    ->where("audit_status","EQ",1)
                    ->value("enter_all_id");
                 if($set_id){
-                    $year =Db::name("tb_enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
+                    $year =Db::name("enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
                     if($year>=$years){
                         exit(json_encode(array("status"=>4,"info"=>"不能升级为年份少于之前的年份","data"=>["id"=>$set_id])));
+                    }else{
+                        exit(json_encode(array("status"=>1,"info"=>"可以升级","data"=>["id"=>$enter_all_id])));
                     }
                 }else{
                     exit(json_encode(array("status"=>1,"info"=>"正常购买成功","data"=>["id"=>$enter_all_id])));
@@ -1511,7 +1524,7 @@ class  General extends  Base {
                 ->where("id",$store_id)
                 ->value("store_name");
             //先判断这单是否需要重新申请，需要把之前未支付的删除
-            $bools = Db::name("set_meal_order")
+            Db::name("set_meal_order")
                 ->where("store_id",$store_id)
                 ->where("pay_type",null)
                 ->delete();
@@ -1528,6 +1541,7 @@ class  General extends  Base {
                 "unit"=>"套", //单位
                 "store_name"=>$store_name, //单位
                 "amount_money"=>$enter_data["favourable_cost"],//金额
+                "cost" =>$enter_data["cost"],//原价
                 "store_id"=>$store_id,//店铺id
                 "enter_all_id"=>$enter_all_id,//套餐id
                 "status"=>-1,//订单状态（-1为未付款，1为已付款）
@@ -1578,6 +1592,74 @@ class  General extends  Base {
             }
         }
     }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:套餐订购微信二维码扫码支付
+     **************************************
+     * @param Request $request
+     */
+    public function  order_code_pay(Request $request){
+        if($request->isPost()){
+            $money =$request->only(["money"])["money"];//支付钱数
+            $order_number =$request->only(["order_number"])["order_number"];//订单编号
+            $goods_name =$request->only(["goods_name"])["goods_name"];//商品名称
+            header("Content-type: text/html; charset=utf-8");
+            ini_set('date.timezone', 'Asia/Shanghai');
+            include('../extend/WxpayAll/lib/WxPay.Api.php');
+            include('../extend/WxpayAll/example/WxPay.NativePay.php');
+            include('../extend/WxpayAll/example/log.php');
+            $notify = new \NativePay();
+            $input = new \WxPayUnifiedOrder();//统一下单
+            $paymoney = 0.01; //支付金额
+            $out_trade_no = $order_number; //商户订单号
+            $goods_name = $goods_name.'套餐'; //商品名称
+            $goods_id =123456789; //商品Id
+            $input->SetBody($goods_name);//设置商品或支付单简要描述
+            $input->SetAttach($goods_name);//设置附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+            $input->SetOut_trade_no($out_trade_no);//设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
+            $input->SetTotal_fee($paymoney * 100);//金额乘以100
+            $input->SetTime_start(date("YmdHis")); //设置订单生成时间,格式为yyyyMMddHHmmss
+            $input->SetTime_expire(date("YmdHis", time() + 600)); //设置订单失效时间
+            $input->SetGoods_tag("test"); //设置商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+            $input->SetNotify_url(config("domain.url")."/set_meal_notify"); //回调地址
+            $input->SetTrade_type("NATIVE"); //交易类型(扫码)
+            $input->SetProduct_id($goods_id);//设置trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
+            $result = $notify->GetPayUrl($input);
+            $url2 = $result["code_url"];
+            if($url2){
+                return ajax_success("微信二维码返回成功",["url"=>"/qrcode?url2=".$url2]);
+            }else{
+                return ajax_error("二维码生成失败");
+            }
+
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:轮询操作（判断该订单是否支付）
+     **************************************
+     * @param Request $request
+     */
+    public function  check_code_apy(Request $request){
+        $order_number =$request->only(["order_number"])["order_number"];
+        $result =Db::name("set_meal_order")
+            ->where("order_number",$order_number)
+            ->where("status",1)
+            ->find();
+        if($result){
+            return ajax_success("付款成功");
+        }else{
+            return ajax_error("未付款成功");
+        }
+    }
+
+
 
     /**
      **************李火生*******************

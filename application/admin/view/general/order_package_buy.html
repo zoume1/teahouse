@@ -305,13 +305,17 @@
                 <!-- 扫码 -->
                 <div class="scan-way" v-show="wayFlag==1">
                     <div class="code-box">
-                        <img src="__STATIC__/admin/common/img/code.png" width="200" height="200">
+                        <img :src="onlinePayImg" width="200" height="200">
                     </div>
                     <div class="support">
-                        <img src="__STATIC__/admin/common/img/g3.png" width="32" height="32">
-                        <span>微信支付</span>
-                        <img src="__STATIC__/admin/common/img/g4.png" width="32" height="32">
-                        <span>支付宝</span>
+                        <a href="javascript:void(0);">
+                            <img src="__STATIC__/admin/common/img/g3.png" width="32" height="32">
+                            <span>微信支付</span>
+                        </a>
+                        <a href="javascript:void(0);">
+                            <img src="__STATIC__/admin/common/img/g4.png" width="32" height="32">
+                            <span>支付宝</span>
+                        </a>
                     </div>
                     <p class="scan-tip">扫一扫完成支付</p>
                 </div>
@@ -433,7 +437,7 @@
                 wayFlag: 1,
                 showPayWay: false,
                 showVoucherPop: false,
-                orderInfo: [],
+                orderInfo: [],  //订单信息
                 addrData: [], // 收货地址数组
                 addrSelectedIdx: 0, //被选中收货地址 索引
                 accountMoney: 0, //用户账户余额,
@@ -442,7 +446,9 @@
                     account: null,
                     time: null
                 },
-                virtualTag: true,
+                virtualTag: true,//显示隐藏收货地址
+                onlinePayImg: '', //微信、支付宝在线支付二维码路径
+                onlinePayInterval: null, //在线支付 监听定时器
             },
             mounted: function(){
                 this.getRemitTime(); //初始化日期选择
@@ -458,6 +464,39 @@
                         callback(res);
                     }, function(res){
                         layer.msg(res.body.info, {time: 1000});
+                    })
+                },
+                // 监听支付是否成功
+                monitorOnlinePay: function(orderNum){
+                    var param = {order_number: orderNum};
+                    var _this = this;
+                    this.myAjax('check_code_apy', param, function(data){
+                        console.log(data);
+                        if(data.body.status == 1){
+                            layer.msg(data.body.info);
+                            setTimeout(function(){
+                                clearInterval(_this.onlinePayInterval);
+                                location.href = 'store_set_meal_order';
+                            }, 2000)
+                        }
+                    })
+                },
+                // 获取微信支付二维码
+                getWxCode: function(){
+                    var param = {
+                        money: this.payment,
+                        order_number: this.orderInfo[0].order_number,
+                        goods_name: this.orderInfo[0].goods_name,
+                    }
+                    var _this = this;
+                    this.myAjax('order_code_pay', param, function(data){
+                        // 付款二维码生成成功， 监听支付
+                        if(data.body.status == 1){
+                            _this.onlinePayImg = data.body.data.url;
+                            _this.onlinePayInterval = setInterval(function(){
+                                _this.monitorOnlinePay(param.order_number);
+                            }, 2000)
+                        }
                     })
                 },
                 // 选择汇款时间
@@ -491,6 +530,7 @@
                     var param = {id: this.getCookie('TCid')};
                     var _this = this;
                     this.myAjax('order_package_buy', param, function(data){
+                        console.log(data)
                         if(data.body.status == 1){
                             _this.orderInfo = data.body.data;
                         }
@@ -574,6 +614,7 @@
                 // 立即购买
                 buy: function(){
                     this.showPayWay = true;
+                    this.getWxCode(); //获取微信支付二维码
                     // alert('下单成功！');
                 },
                 // 关闭支付弹窗
@@ -661,6 +702,7 @@
                         // }
                     // }
                     // console.log(this.orderInfo)
+                    var orderInfo = this.orderInfo[0];
                     if(this.orderInfo.length > 0){
                         return (this.orderInfo[0].goods_quantity * this.orderInfo[0].amount_money).toFixed(2);
                     }
