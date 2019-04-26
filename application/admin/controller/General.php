@@ -1599,9 +1599,9 @@ class  General extends  Base {
             include('../extend/WxpayAll/example/log.php');
             $notify = new \NativePay();
             $input = new \WxPayUnifiedOrder();;//统一下单
-            $paymoney = $money*100; //支付金额
+            $paymoney = 0.01; //支付金额
             $out_trade_no = 'TC'.$order_number; //商户订单号
-            $goods_name = '套餐购买'.$goods_name; //商品名称
+            $goods_name = $goods_name.'套餐'; //商品名称
             $goods_id =123456789; //商品Id
             $input->SetBody($goods_name);//设置商品或支付单简要描述
             $input->SetAttach($goods_name);//设置附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
@@ -1616,7 +1616,7 @@ class  General extends  Base {
             $result = $notify->GetPayUrl($input);
             $url2 = $result["code_url"];
             if($url2){
-                return ajax_success("微信二维码返回成功",["url"=>"qrcode?url2=".$url2]);
+                return ajax_success("微信二维码返回成功",["url"=>"/qrcode?url2=".$url2]);
             }else{
                 return ajax_error("二维码生成失败");
             }
