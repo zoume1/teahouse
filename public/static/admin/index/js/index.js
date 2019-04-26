@@ -36,7 +36,6 @@ $(".UCleft-fixed").children("dl").children("dd").on("click", "p", function () {
 	var url = $(this).data("url");
 	var id = $(this).data("id");
 	var value = $(this).data("value")
-	console.log(id, value)
 	// delCookie("item_id");
 	setCookie("item_id", value);
 	setCookie("page_id", id);
@@ -55,7 +54,17 @@ $("body").on("click", "#distribution_list a", function () {
 	setCookie("item_id", id);
 })
 
-
+$('.header-url').click(function(){
+	var url = $(this).data('url');
+	$.ajax({
+		type: "get",
+		url: url,
+		cache: true,
+		success: function () {
+			$('#add').attr('src', url);
+		}
+	});
+})
 
 
 
