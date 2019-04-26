@@ -2261,7 +2261,7 @@ class  Order extends  Controller
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
-             file_put_contents(EXTEND_PATH."data.txt",$val);
+//             file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("reward")
                 ->where("order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time()]);

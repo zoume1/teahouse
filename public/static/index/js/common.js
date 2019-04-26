@@ -1,6 +1,6 @@
 
 var phoneReg = /^1[34578]\d{9}$/,
-    pwdReg = /^[a-zA-Z0-9]{8,20}$/;
+    pwdReg = /^[a-zA-Z]{6,15}$|^[\d]{6,15}$/;
 
 var $partnerContainer = $('.partner-items');
 for (var i = 1; i <= 12; i++) {
