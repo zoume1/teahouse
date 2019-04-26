@@ -41,7 +41,8 @@ class  AdminWx extends Controller{
                 $data["start_time"] =time();//开始时间
                 $data["end_time"] =strtotime("+$year  year");//开始时间
                 $data["explains"] ="扫码支付直接通过";//审核说明
-                $data["status"] =1;
+                $data["status"] =1; //订单状态（-1为未付款，1已付款）
+                $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核）
                 $result =Db::name("set_meal_order")
                     ->where("order_number",$val["out_trade_no"])
                     ->update($data);
