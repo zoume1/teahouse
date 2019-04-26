@@ -1625,6 +1625,27 @@ class  General extends  Base {
     }
 
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:轮询操作（判断该订单是否支付）
+     **************************************
+     * @param Request $request
+     */
+    public function  check_code_apy(Request $request){
+        $order_number =$request->only(["order_number"])["order_number"];
+        $result =Db::name("set_meal_order")
+            ->where("order_number",$order_number)
+            ->where("status",1)
+            ->find();
+        if($result){
+            return ajax_success("付款成功");
+        }else{
+            return ajax_error("未付款成功");
+        }
+    }
+
+
 
     /**
      **************李火生*******************

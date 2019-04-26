@@ -10,6 +10,7 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
+use think\Db;
 
 
 class  AdminWx extends Controller{
@@ -29,7 +30,14 @@ class  AdminWx extends Controller{
             if($val["result_code"] == "SUCCESS"){
                 file_put_contents(EXTEND_PATH."data.txt",$val);
                 //进行逻辑处理
-                echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                $result =Db::name("set_meal_order")
+                    ->where("order_number",$val["out_trade_no"])
+                    ->update(["status"=>1]);
+                if($result){
+                    echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                }else{
+                    return "fail";
+                }
             }
         }
     }
