@@ -9,7 +9,6 @@ $(function () {
 	$(".recontent").width(width - 140);//直接设置元素的高
 	//	抽屉效果;
 	$(".UCleft-fixed").children("dl").on("click", "dt", function () {
-		// alert(111);
 		if ($(this).parent("dl").hasClass("curr")) {
 			$(this).parent("dl").removeClass("curr");
 		}
@@ -31,7 +30,6 @@ $(function () {
 
 
 $(".UCleft-fixed").children("dl").children("dd").on("click", "p", function () {
-
 	$(this).css('font-weight', 'bold');
 	$(this).siblings().css('font-weight', '500');
 	$(this).parent("dd").parent("dl").siblings().children("dd").children("p").css('font-weight', '500');
@@ -41,7 +39,7 @@ $(".UCleft-fixed").children("dl").children("dd").on("click", "p", function () {
 	// delCookie("item_id");
 	setCookie("item_id", value);
 	setCookie("page_id", id);
-	var dk = $(window.parent.document).find("#add").attr("src");
+	// var dk = $(window.parent.document).find("#add").attr("src");
 	$.ajax({
 		type: "get",
 		url: url,
@@ -49,9 +47,6 @@ $(".UCleft-fixed").children("dl").children("dd").on("click", "p", function () {
 		success: function (html) {
 			$('#add').attr('src', url);
 		}
-
-
-
 	});
 });
 $("body").on("click", "#distribution_list a", function () {
@@ -59,7 +54,17 @@ $("body").on("click", "#distribution_list a", function () {
 	setCookie("item_id", id);
 })
 
-
+$('.header-url').click(function(){
+	var url = $(this).data('url');
+	$.ajax({
+		type: "get",
+		url: url,
+		cache: true,
+		success: function () {
+			$('#add').attr('src', url);
+		}
+	});
+})
 
 
 
