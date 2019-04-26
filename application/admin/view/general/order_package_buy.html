@@ -308,10 +308,14 @@
                         <img src="__STATIC__/admin/common/img/code.png" width="200" height="200">
                     </div>
                     <div class="support">
-                        <img src="__STATIC__/admin/common/img/g3.png" width="32" height="32">
-                        <span>微信支付</span>
-                        <img src="__STATIC__/admin/common/img/g4.png" width="32" height="32">
-                        <span>支付宝</span>
+                        <a href="javascript:void(0);">
+                            <img src="__STATIC__/admin/common/img/g3.png" width="32" height="32">
+                            <span>微信支付</span>
+                        </a>
+                        <a href="javascript:void(0);">
+                            <img src="__STATIC__/admin/common/img/g4.png" width="32" height="32">
+                            <span>支付宝</span>
+                        </a>
                     </div>
                     <p class="scan-tip">扫一扫完成支付</p>
                 </div>
@@ -442,7 +446,7 @@
                     account: null,
                     time: null
                 },
-                virtualTag: true,
+                virtualTag: true,//显示隐藏收货地址
             },
             mounted: function(){
                 this.getRemitTime(); //初始化日期选择
@@ -458,6 +462,17 @@
                         callback(res);
                     }, function(res){
                         layer.msg(res.body.info, {time: 1000});
+                    })
+                },
+                // 获取微信支付二维码
+                getWxCode: function(){
+                    var param = {
+                        money: this.payment,
+                        order_number: 11,
+                        goods_name: 11
+                    }
+                    this.myAjax('order_code_pay', param, function(data){
+                        console.log(data)
                     })
                 },
                 // 选择汇款时间
