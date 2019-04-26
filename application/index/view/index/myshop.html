@@ -584,7 +584,7 @@
                 // 选择版本
                 $('.cVersion').click(function(){
                     var id = $(this).data('id');
-                    // myEvent.setCookie('cvt', 1, 1);
+                    myEvent.setCookie('cvt', 1, 1);
                     selectVeri(id);
                 })
                 // 继续编辑
@@ -668,7 +668,7 @@
                 },
                 success: function(res){
                     if(res.status == 1){
-                        location.href = '/admin/order_package_index';
+                        location.href = 'admin';
                     }
                 },
                 error: function(res){console.log(res.status, res.statusText);}

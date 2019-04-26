@@ -109,30 +109,37 @@
 			});
 		});
 
-		// (function(){
-		// 	function setCookie(name, value, day) {
-		// 		var date = new Date();
-		// 		date.setDate(date.getDate() + day);
-		// 		document.cookie = name + '=' + value + ';expires=' + date;
-		// 	};
-		// 	function getCookie(name) {
-		// 		var reg = RegExp(name + '=([^;]+)');
-		// 		var arr = document.cookie.match(reg);
-		// 		if (arr) {
-		// 			return arr[1];
-		// 		} else {
-		// 			return '';
-		// 		}
-		// 	};
-		// 	function delCookie(name) {
-		// 		setCookie(name, null, -1);
-		// 	};
-		// 	console.log(getCookie('cvt'));
-		// 	if(getCookie('cvt') == 1){
-		// 		delCookie('cvt');
-		// 		location.href = '/admin/order_package_index';
-		// 	}
-		// })()
+		(function(){
+			function setCookie(name, value, day) {
+				var date = new Date();
+				date.setDate(date.getDate() + day);
+				document.cookie = name + '=' + value + ';expires=' + date;
+			};
+			function getCookie(name) {
+				var reg = RegExp(name + '=([^;]+)');
+				var arr = document.cookie.match(reg);
+				if (arr) {
+					return arr[1];
+				} else {
+					return '';
+				}
+			};
+			function delCookie(name) {
+				setCookie(name, null, -1);
+			};
+			console.log(getCookie('cvt'));
+			if(getCookie('cvt') == 1){
+				delCookie('cvt');
+				$.ajax({
+					type: "get",
+					url: '/admin/order_package_index.html',
+					cache: true,
+					success: function () {
+						$('#add').attr('src', '/admin/order_package_index.html');
+					}
+				});
+			}
+		})()
 	</script>
 	{/block}
 </body>
