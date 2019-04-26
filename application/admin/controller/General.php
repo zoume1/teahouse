@@ -1415,12 +1415,23 @@ class  General extends  Base {
         if($request->isPost()){
             $id =$request->only(["id"])["id"];
             $data =Db::table("tb_set_meal_order")
-                ->field("id,order_number,create_time,goods_name,goods_quantity,amount_money,store_id,images_url,store_name,unit")
+                ->field("id,order_number,create_time,goods_name,goods_quantity,amount_money,store_id,images_url,store_name,unit,cost")
                 ->where("store_id",$this->store_ids)
                 ->where("status",-1)
                 ->where("id",$id)
                 ->select();
             if($data){
+                foreach ($data as $k=>$v){
+                    $last_money =Db::name("set_meal_order")
+                        ->where("store_id",$v['store_id'])
+                        ->where("audit_status",1)
+                        ->value("amount_money");
+                    if($last_money){
+                        $data[$k]["last_money"] =$last_money;
+                    }else{
+                        $data[$k]["last_money"] =0;
+                    }
+                }
                 return ajax_success("订单信息返回成功",$data);
             }else{
                 return ajax_error("没有订单信息");
@@ -1530,6 +1541,7 @@ class  General extends  Base {
                 "unit"=>"套", //单位
                 "store_name"=>$store_name, //单位
                 "amount_money"=>$enter_data["favourable_cost"],//金额
+                "cost" =>$enter_data["cost"],//原价
                 "store_id"=>$store_id,//店铺id
                 "enter_all_id"=>$enter_all_id,//套餐id
                 "status"=>-1,//订单状态（-1为未付款，1为已付款）
