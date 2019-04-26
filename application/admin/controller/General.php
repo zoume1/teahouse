@@ -1614,7 +1614,6 @@ class  General extends  Base {
             $input->SetTrade_type("NATIVE"); //交易类型(扫码)
             $input->SetProduct_id($goods_id);//设置trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
             $result = $notify->GetPayUrl($input);
-            halt($result);
             $url2 = $result["code_url"];
             if($url2){
                 return ajax_success("微信二维码返回成功",["url"=>"/qrcode?url2=".$url2]);
