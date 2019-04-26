@@ -1616,7 +1616,7 @@ class  General extends  Base {
             $result = $notify->GetPayUrl($input);
             $url2 = $result["code_url"];
             if($url2){
-                return ajax_success("微信二维码返回成功",["url"=>$url2]);
+                return ajax_success("微信二维码返回成功",["url"=>"qrcode?url2=".$url2]);
             }else{
                 return ajax_error("二维码生成失败");
             }
