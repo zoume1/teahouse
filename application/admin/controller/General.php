@@ -1464,7 +1464,7 @@ class  General extends  Base {
                    ->where("audit_status","EQ",1)
                    ->value("enter_all_id");
                 if($set_id){
-                    $year =Db::name("tb_enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
+                    $year =Db::name("enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
                     if($year>=$years){
                         exit(json_encode(array("status"=>4,"info"=>"不能升级为年份少于之前的年份","data"=>["id"=>$set_id])));
                     }
