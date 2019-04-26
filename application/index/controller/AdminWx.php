@@ -42,7 +42,6 @@ class  AdminWx extends Controller{
                 $is_set_order =Db::name("set_meal_order")
                     ->where("store",$enter_all_data["store_id"])
                     ->where("audit_status",1)
-                    ->where("end_time","<",time())
                     ->find();
                 if($is_set_order){
                     //这是套餐升级的情况
