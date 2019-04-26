@@ -437,7 +437,7 @@
                 wayFlag: 1,
                 showPayWay: false,
                 showVoucherPop: false,
-                orderInfo: [],
+                orderInfo: [],  //订单信息
                 addrData: [], // 收货地址数组
                 addrSelectedIdx: 0, //被选中收货地址 索引
                 accountMoney: 0, //用户账户余额,
@@ -468,9 +468,10 @@
                 getWxCode: function(){
                     var param = {
                         money: this.payment,
-                        order_number: 11,
-                        goods_name: 11
+                        order_number: this.orderInfo[0].order_number,
+                        goods_name: this.orderInfo[0].goods_name,
                     }
+                    console.log(param)
                     this.myAjax('order_code_pay', param, function(data){
                         console.log(data)
                     })
@@ -589,6 +590,7 @@
                 // 立即购买
                 buy: function(){
                     this.showPayWay = true;
+                    this.getWxCode(); //获取微信支付二维码
                     // alert('下单成功！');
                 },
                 // 关闭支付弹窗
