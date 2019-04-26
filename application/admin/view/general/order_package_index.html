@@ -145,6 +145,8 @@
     <script src="__STATIC__/admin/common/js/vue.js"></script>
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
     <script src="__STATIC__/admin/common/js/vue-router.js"></script>
+    <script src="__STATIC__/admin/common/js/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
     <script>
         var vm = new Vue({
             el: '#app',
@@ -195,7 +197,6 @@
                     this.$http.post('order_package_condition', param).then(function(res){
                         // 1 正常下单  2有历史订单，可删除或继续支付 3不能购买降级套餐  4 不能升级为年份少于之前的年份
                         var status = res.body.status;
-                        alert(status)
                         if(status == 1){
                             this.normalOrder(_index);
                         }else if(status == 2){
@@ -207,7 +208,8 @@
                                this.normalOrder(_index);
                             }
                         }else{
-                            layer.msg(res.body.info, {time: 1000});
+                            console.log(res)
+                            layer.msg(res.body.info, {time: 2000});
                         }
                     }, function(res){
                         console.log(res.status, res.statusText);
