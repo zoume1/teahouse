@@ -332,7 +332,6 @@ class Operate extends  Controller{
         {
             $data = $request -> param();
             $bool = db("recommend_integral") -> where('id',1) -> update($data);
-
             if ($bool) {
                 $this->success("编辑成功", url("admin/operate/operate_integral_rule"));
             } else {
