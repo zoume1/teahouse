@@ -56,12 +56,12 @@ class  Api extends  Controller{
         if ($result['result_code'] == 'SUCCESS' && $result['return_code'] == 'SUCCESS') {
             $result['code'] = 1;
             $result['data'] =  $result['transaction_id'];
-          return ajax_success("支付成功",$result);
+          return ajax_success("成功",$result);
         }
         else {
             $result['code'] = 0;
             $result['msg'] =  $result['err_code'];
-          return ajax_error("支付失败",$result);
+          return ajax_error("失败",$result);
         }
 
     }

@@ -14,7 +14,7 @@ use think\Route;
 
 /**
  * [前端路由]
- * 陈绪
+ *
  */
 Route::group("",[
     /*首页*/
@@ -359,7 +359,7 @@ Route::group("",[
 
 /**
  * [后台路由]
- * 陈绪
+ *
  */
 Route::group("admin",[
     /*首页*/
@@ -871,17 +871,15 @@ Route::group("admin",[
 
     "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index",   //SEO优化
     "analyse_optimize_update"=>"admin/Analyse/analyse_optimize_update", //SEO优化编辑
-    
-
-
-
-
 
     /*TODO:*/
 
 
 ]);
 
+/**
+ * 小程序装修部分
+ */
 Route::group("api",[
     "doPagehomepage"=>"api/Wxapps/doPagehomepage",//Diy方法开始
     "doPageAppbase"=>"api/Wxapps/doPageAppbase",//Diy方法开始

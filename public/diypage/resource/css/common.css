@@ -27301,6 +27301,7 @@ td.module-img .img .module-img,.select-module .img .module-img,.combo-list-add .
 }
 
 .msgbox {
+    display: none;
     position: fixed;
     margin: auto;
     height: 32px;
@@ -27330,7 +27331,8 @@ td.module-img .img .module-img,.select-module .img .module-img,.combo-list-add .
     min-width: 350px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    margin-top: ;
+    margin-top: 100px;
+    
 }
 
 .msgbox .msg.msg-success {
