@@ -29,7 +29,7 @@ class  AdminWx extends Controller{
             if($val["result_code"] == "SUCCESS"){
                 file_put_contents(EXTEND_PATH."data.txt",$val);
                 //进行逻辑处理
-                $this->success("支付成功");
+                echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }
         }
     }
