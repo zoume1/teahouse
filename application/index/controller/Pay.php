@@ -45,6 +45,15 @@ class Pay extends  Controller{
         header("Content-Type: application/json");
         echo $this->getJsApiParameters($order);
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     **************************************
+     * @param $UnifiedOrderResult
+     * @return string
+     * @throws \WxPayException
+     */
     private function getJsApiParameters($UnifiedOrderResult)
     {    //判断是否统一下单返回了prepay_id
         if(!array_key_exists("appid", $UnifiedOrderResult)
@@ -192,7 +201,7 @@ class Pay extends  Controller{
     }
 
 
-        /**
+    /**
      **************李火生*******************
      * @param Request $request
      * Notes:小程序众筹商品订单支付
