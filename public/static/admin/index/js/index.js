@@ -56,6 +56,10 @@ $("body").on("click", "#distribution_list a", function () {
 
 $('.header-url').click(function(){
 	var url = $(this).data('url');
+	var id = $(this).data("id");
+	var value = $(this).data("value");
+	setCookie("item_id", value);
+	setCookie("page_id", id);
 	$.ajax({
 		type: "get",
 		url: url,
