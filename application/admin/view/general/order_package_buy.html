@@ -448,6 +448,7 @@
                 },
                 virtualTag: true,//显示隐藏收货地址
                 onlinePayImg: '', //微信、支付宝在线支付二维码路径
+                onlinePayInterval: null, //在线支付 监听定时器
             },
             mounted: function(){
                 this.getRemitTime(); //初始化日期选择
@@ -465,6 +466,20 @@
                         layer.msg(res.body.info, {time: 1000});
                     })
                 },
+                // 监听支付是否成功
+                monitorOnlinePay: function(orderNum){
+                    var param = {order_number: orderNum};
+                    this.myAjax('check_code_apy', param, function(data){
+                        console.log(data);
+                        if(data.body.status == 1){
+                            layer.msg(data.body.info);
+                            setTimeout(function(){
+                                clearInterval(onlinePayInterval);
+                                location.href = 'store_set_meal_order';
+                            }, 1000)
+                        }
+                    })
+                },
                 // 获取微信支付二维码
                 getWxCode: function(){
                     var param = {
@@ -474,8 +489,12 @@
                     }
                     var _this = this;
                     this.myAjax('order_code_pay', param, function(data){
+                        // 付款二维码生成成功， 监听支付
                         if(data.body.status == 1){
                             _this.onlinePayImg = data.body.data.url;
+                            _this.onlinePayInterval = setInterval(function(){
+                                monitorOnlinePay(param.order_number);
+                            }, 2000)
                         }
                     })
                 },
@@ -510,6 +529,7 @@
                     var param = {id: this.getCookie('TCid')};
                     var _this = this;
                     this.myAjax('order_package_buy', param, function(data){
+                        console.log(data)
                         if(data.body.status == 1){
                             _this.orderInfo = data.body.data;
                         }
