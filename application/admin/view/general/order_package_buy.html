@@ -469,14 +469,15 @@
                 // 监听支付是否成功
                 monitorOnlinePay: function(orderNum){
                     var param = {order_number: orderNum};
+                    var _this = this;
                     this.myAjax('check_code_apy', param, function(data){
                         console.log(data);
                         if(data.body.status == 1){
                             layer.msg(data.body.info);
                             setTimeout(function(){
-                                clearInterval(onlinePayInterval);
+                                clearInterval(_this.onlinePayInterval);
                                 location.href = 'store_set_meal_order';
-                            }, 1000)
+                            }, 2000)
                         }
                     })
                 },
@@ -493,7 +494,7 @@
                         if(data.body.status == 1){
                             _this.onlinePayImg = data.body.data.url;
                             _this.onlinePayInterval = setInterval(function(){
-                                monitorOnlinePay(param.order_number);
+                                _this.monitorOnlinePay(param.order_number);
                             }, 2000)
                         }
                     })
