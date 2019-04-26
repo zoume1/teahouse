@@ -305,7 +305,7 @@
                 <!-- 扫码 -->
                 <div class="scan-way" v-show="wayFlag==1">
                     <div class="code-box">
-                        <img src="__STATIC__/admin/common/img/code.png" width="200" height="200">
+                        <img :src="onlinePayImg" width="200" height="200">
                     </div>
                     <div class="support">
                         <a href="javascript:void(0);">
@@ -447,6 +447,7 @@
                     time: null
                 },
                 virtualTag: true,//显示隐藏收货地址
+                onlinePayImg: '', //微信、支付宝在线支付二维码路径
             },
             mounted: function(){
                 this.getRemitTime(); //初始化日期选择
@@ -471,8 +472,11 @@
                         order_number: this.orderInfo[0].order_number,
                         goods_name: this.orderInfo[0].goods_name,
                     }
+                    var _this = this;
                     this.myAjax('order_code_pay', param, function(data){
-                        console.log(data)
+                        if(data.body.status == 1){
+                            _this.onlinePayImg = data.body.data.url;
+                        }
                     })
                 },
                 // 选择汇款时间
