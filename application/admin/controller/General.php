@@ -1610,7 +1610,7 @@ class  General extends  Base {
             $input->SetTime_start(date("YmdHis")); //设置订单生成时间,格式为yyyyMMddHHmmss
             $input->SetTime_expire(date("YmdHis", time() + 600)); //设置订单失效时间
             $input->SetGoods_tag("test"); //设置商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
-            $input->SetNotify_url(config("domain.url")."/wxpaynotifyurl"); //回调地址
+            $input->SetNotify_url(config("domain.url")."/set_meal_notify"); //回调地址
             $input->SetTrade_type("NATIVE"); //交易类型(扫码)
             $input->SetProduct_id($goods_id);//设置trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
             $result = $notify->GetPayUrl($input);
