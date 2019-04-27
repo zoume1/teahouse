@@ -343,6 +343,7 @@ Route::group("",[
     "crowd_order_del"=>"index/Crowdfinancing/crowd_order_del",                               //买家删除订单接口(ajax)
     "crowd_no_pay_cancel"=>"index/Crowdfinancing/crowd_no_pay_cancel",                       //订单状态修改（未付款买家取消订单）
     "crowd_order_notify"=>"index/Crowdfinancing/crowd_order_notify",                         //小程序订单支付成功回来修改状态
+    "ceshi"=>"index/Crowdfinancing/ceshi",                         
     
 
 
