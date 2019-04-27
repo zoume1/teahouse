@@ -92,6 +92,22 @@ class  AdminWx extends Controller{
         }
     }
 
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:后台套餐订购订单支付宝扫码支付回调
+     **************************************
+     */
+    public function set_meal_notify_alipay(){
+        include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
+        $obj_alipay = new \alipay();
+        if (!$obj_alipay->verify_notify()) {//验证未通过
+            file_put_contents(EXTEND_PATH."data121212.txt",1111);
+            echo "fail";
+            exit();
+        }
+    }
+
 
 
 
