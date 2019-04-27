@@ -54,7 +54,7 @@ class WxTest extends Controller
             "notify_url" => trim("http://teahouse.siring.com.cn/"),
             "service" => "create_direct_pay_by_user",
             "payment_type" => 1, //
-            "seller_email" => '50087335@qq.com',
+            "seller_email" => '717797081@qq.com',
             "out_trade_no" => time(),
             "subject" => "siring支付测试", //商品订单的名称
             "total_fee" => number_format('0.01', 2, '.', ''),
