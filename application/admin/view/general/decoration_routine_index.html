@@ -17,20 +17,24 @@
         padding-left: 50px;
         background: #FDFDFE;
     }
-    .childrenBody{
+
+    .childrenBody {
         display: flex;
         align-items: center;
         padding: 34px;
         flex-wrap: wrap;
     }
-    .img{
+
+    .img {
         width: 186px;
         height: 186px;
     }
-    .imgcontent{
-    position: relative;
+
+    .imgcontent {
+        position: relative;
     }
-    .text{
+
+    .text {
         border-width: 0px;
         width: 186px;
         height: 27px;
@@ -51,12 +55,26 @@
         text-align: center;
         font-weight: 700;
     }
-    .btns{
+
+    .use {
+        position: absolute;
+        width: 30px;
+        height: 28px;
+        color: #FFFFFF;
+        background-color: rgb(186, 28, 40);
+        font-size: 12px;
+        text-align: center;
+        bottom: 0;
+        line-height: 13px;
+    }
+
+    .btns {
         display: flex;
         align-items: center;
         margin-top: 14px;
     }
-    .btns div{
+
+    .btns div {
         width: 95px;
         height: 26px;
         font-size: 16px;
@@ -65,13 +83,16 @@
         text-align: center;
         line-height: 26px;
     }
-    .btns_a{
-        background-color: rgba(0, 0, 153, 0.737254901960784);  
+
+    .btns_a {
+        background-color: rgba(0, 0, 153, 0.737254901960784);
     }
-    .btns_b{
+
+    .btns_b {
         background-color: rgba(204, 0, 0, 0.737254901960784);
     }
-    .list{
+
+    .list {
         margin-right: 34px;
     }
 </style>
@@ -80,178 +101,185 @@
 
 <body>
 
-{block name="content"}
+    {block name="content"}
 
-<div class="childrenBody">
-    {if !empty($list)}
- <div class="list">
-     {volist name="list" id="vo"}
-     <div class="imgcontent">
-         <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
-         <div class="text">万用模版</div>
-     </div>
-     <div class="btns">
-         <div class="btns_a">初始模板</div>
-         <a href="/admin/xiaochengxu_edit?appletid={$vo.id}&tplid={$vo.tplid}"><div class="btns_b">历史编辑</div></a>
-     </div>
-     {/volist}
- </div>
- <div class="list">
-    <div class="imgcontent">
-        <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
-        <div class="text">茶行业版</div>
+    <div class="childrenBody">
+        {if !empty($list)}
+        <div class="list">
+            {volist name="list" id="vo"}
+            <div class="imgcontent">
+                <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
+                <div class="text">万用模版</div>
+                <div class="use">当前使用</div>
+            </div>
+            <div class="btns">
+                <div class="btns_a">初始模板</div>
+                <a href="/admin/xiaochengxu_edit?appletid={$vo.id}&tplid={$vo.tplid}">
+                    <div class="btns_b">历史编辑</div>
+                </a>
+            </div>
+            {/volist}
+        </div>
+        <div class="list">
+            <div class="imgcontent">
+                <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
+                <div class="text">茶行业版</div>
+                <div class="use" style="display:none">当前使用</div>
+            </div>
+            <div class="btns">
+                <a href="">
+                    <div class="btns_a">初始模板</div>
+                </a>
+                <div class="btns_b">切换版本</div>
+            </div>
+        </div>
+
+        <div class="list">
+            <div class="imgcontent">
+                <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
+                <div class="text">茶进阶版</div>
+                <div class="use" style="display:none">当前使用</div>
+            </div>
+            <div class="btns">
+                <div class="btns_a">初始模板</div>
+                <div class="btns_b">切换版本</div>
+            </div>
+        </div>
+        {/if}
     </div>
-    <div class="btns">
-        <a href=""><div class="btns_a">初始模板</div></a>
-        <div class="btns_b">切换版本</div>
-    </div>
-</div>
 
-<div class="list">
-    <div class="imgcontent">
-        <div class="img"><img src="__STATIC__/admin/index/img/u14561.png" alt=""></div>
-        <div class="text">茶进阶版</div>
-    </div>
-    <div class="btns">
-        <div class="btns_a">初始模板</div>
-        <div class="btns_b">切换版本</div>
-    </div>
-</div>
-    {/if}
-</div>
+    {/block}
 
-{/block}
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
 
-<!--_footer 作为公共模版分离出去-->
-{include file="template/_footer" /}
-<!--/_footer 作为公共模版分离出去-->
-
-<!--请在下方写此页面业务相关的脚本-->
-{block name="bottom"}
-<script type="text/javascript">
-    function save_id(id) {
-        setCookie("edit_id",id,1);
-    }
-    //设置cookie
-    function setCookie(name, value, day) {
-        var date = new Date();
-        date.setDate(date.getDate() + day);
-        document.cookie = name + '=' + value + ';expires=' + date;
-    };
-    layui.config({
-        base: "js/"
-    }).use(['form', 'layer', 'jquery', 'laypage'], function() {
-        var form = layui.form(),
-            layer = parent.layer === undefined ? layui.layer : parent.layer,
-            laypage = layui.laypage,
-            $ = layui.jquery;
-        var vals = $("input").data("id");
-        //点击操作确认按钮
-        var data_id = [];
-        $("#opration_btu").click(function() {
-            var opration_val = $(".opation select option:selected").val();
-            if (opration_val == 0) {
-                layer.alert('请选择操作', {
-                    skin: 'layui-layer-molv' //样式类名
-                    ,
-                    closeBtn: 0
-                });
-            } else if (opration_val == 1) {
-                layer.confirm('你确认要删除吗？', {
-                    btn: ['确认', '取消'] //按钮
-                },  function(index) {
-                    layer.close(index);
-                    var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
-                    for (var i = 0; i < child.length; i++) {
-                        data_id.push($(child[i])[0].dataset.id);
-                    }
-                    $.ajax({
-                        type: "POST",
-                        url: "{:url('')}",
-                        data: {
-                            "id": data_id,
-                        },
-                        success: function(data) {
-                            console.log("成功");
-                            console.log(data);
-                            var data = $.parseJSON(data);
-                            layer.alert(data.info, {
-                                skin: 'layui-layer-molv' //样式类名
-                                ,
-                                closeBtn: 0
-                            });
-                            location.reload();
-                            data_id.splice(0, data_id.length);
-                        },
-                        error: function(data) {
-                            var data = $.parseJSON(data);
-                            layer.alert(data.info, {
-                                skin: 'layui-layer-molv' //样式类名
-                                ,
-                                closeBtn: 0
-                            });
-                            console.log(data);
-                            console.log("错误");
-                            data_id.splice(0, data_id.length);
-                        }
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        function save_id(id) {
+            setCookie("edit_id", id, 1);
+        }
+        //设置cookie
+        function setCookie(name, value, day) {
+            var date = new Date();
+            date.setDate(date.getDate() + day);
+            document.cookie = name + '=' + value + ';expires=' + date;
+        };
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery;
+            var vals = $("input").data("id");
+            //点击操作确认按钮
+            var data_id = [];
+            $("#opration_btu").click(function () {
+                var opration_val = $(".opation select option:selected").val();
+                if (opration_val == 0) {
+                    layer.alert('请选择操作', {
+                        skin: 'layui-layer-molv' //样式类名
+                        ,
+                        closeBtn: 0
                     });
+                } else if (opration_val == 1) {
+                    layer.confirm('你确认要删除吗？', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function (index) {
+                        layer.close(index);
+                        var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
+                        for (var i = 0; i < child.length; i++) {
+                            data_id.push($(child[i])[0].dataset.id);
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "{:url('')}",
+                            data: {
+                                "id": data_id,
+                            },
+                            success: function (data) {
+                                console.log("成功");
+                                console.log(data);
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                location.reload();
+                                data_id.splice(0, data_id.length);
+                            },
+                            error: function (data) {
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                console.log(data);
+                                console.log("错误");
+                                data_id.splice(0, data_id.length);
+                            }
+                        });
+                    });
+
+                }
+
+            });
+
+            //全选
+            form.on('checkbox(allChoose)', function (data) {
+                var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+                child.each(function (index, item) {
+                    item.checked = data.elem.checked;
+                });
+                form.render('checkbox');
+            });
+
+            //通过判断文章是否全部选中来确定全选按钮是否选中
+            form.on("checkbox(choose)", function (data) {
+                var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+                var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
+                if (childChecked.length == child.length) {
+                    $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
+                } else {
+                    $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
+                }
+                form.render('checkbox');
+            })
+
+            form.on('switch(isShow)', function (data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+                var vals = data.value;
+                var id = $(this).data("id");
+                var status = $(this).val();
+                console.log(status);
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('')}",
+                    data: {
+                        "id": id,
+                        "status": status
+                    },
+                    success: function (data) {
+                        console.log("成功")
+                    },
+                    error: function (data) {
+                        console.log("错误")
+                    }
                 });
 
-            }
-
-        });
-
-        //全选
-        form.on('checkbox(allChoose)', function(data) {
-            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-            child.each(function(index, item) {
-                item.checked = data.elem.checked;
-            });
-            form.render('checkbox');
-        });
-
-        //通过判断文章是否全部选中来确定全选按钮是否选中
-        form.on("checkbox(choose)", function(data) {
-            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-            var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
-            if (childChecked.length == child.length) {
-                $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
-            } else {
-                $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
-            }
-            form.render('checkbox');
+            })
         })
+    </script>
 
-        form.on('switch(isShow)', function(data) {
-            if ($(this).val() == 0) {
-                $(this).val(1);
-            } else {
-                $(this).val(0);
-            }
-            var vals = data.value;
-            var id = $(this).data("id");
-            var status = $(this).val();
-            console.log(status);
-            $.ajax({
-                type: "POST",
-                url: "{:url('')}",
-                data: {
-                    "id": id,
-                    "status": status
-                },
-                success: function(data) {
-                    console.log("成功")
-                },
-                error: function(data) {
-                    console.log("错误")
-                }
-            });
-
-        })
-    })
-</script>
-
-{/block}
+    {/block}
 
 </body>
 
