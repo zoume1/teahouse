@@ -36,7 +36,7 @@ class  AdminWx extends Controller{
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除之前已付款的订单
                 $is_set_order =Db::name("set_meal_order")
-                    ->where("store",$enter_all_data["store_id"])
+                    ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",1)
                     ->find();
                 if($is_set_order){
@@ -91,5 +91,24 @@ class  AdminWx extends Controller{
             }
         }
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:后台套餐订购订单支付宝扫码支付回调
+     **************************************
+     */
+    public function set_meal_notify_alipay(){
+        include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
+        $obj_alipay = new \alipay();
+        if (!$obj_alipay->verify_notify()) {//验证未通过
+            file_put_contents(EXTEND_PATH."data121212.txt",1111);
+            echo "fail";
+            exit();
+        }
+    }
+
+
+
 
 }

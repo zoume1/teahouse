@@ -73,6 +73,7 @@ Route::group("",[
      "recharge_notify"=>"index/order/recharge_notify",//小程序充值支付回调
      "reward_notify"=>"index/order/reward_notify",//打赏订单支付成功回来修改状态
      "set_meal_notify"=>"index/AdminWx/set_meal_notify",//后台套餐订购订单微信扫码支付回调
+     "set_meal_notify_alipay"=>"index/AdminWx/set_meal_notify_alipay",//后台套餐订购订单支付宝扫码支付回调
 
     /*TODO:end*/
 
@@ -342,6 +343,7 @@ Route::group("",[
     "crowd_order_del"=>"index/Crowdfinancing/crowd_order_del",                               //买家删除订单接口(ajax)
     "crowd_no_pay_cancel"=>"index/Crowdfinancing/crowd_no_pay_cancel",                       //订单状态修改（未付款买家取消订单）
     "crowd_order_notify"=>"index/Crowdfinancing/crowd_order_notify",                         //小程序订单支付成功回来修改状态
+    "ceshi"=>"index/Crowdfinancing/ceshi",                         
     
 
 
@@ -793,6 +795,7 @@ Route::group("admin",[
     "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
     "order_code_pay"=>"admin/General/order_code_pay",                    //套餐订购微信二维码扫码支付
     "check_code_apy"=>"admin/General/check_code_apy",                    //轮询套餐订购微信二维码扫码支付是否成功
+    "order_code_alipay"=>"admin/General/order_code_alipay",                    //套餐订购支付宝二维码扫码支付
     "order_package_remittance"=>"admin/General/order_package_remittance",          //订单套餐支付汇款
     "order_package_balance"=>"admin/General/order_package_balance",          //订单套餐余额支付
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除

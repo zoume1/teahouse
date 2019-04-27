@@ -1,9 +1,7 @@
 <div class="UCleft">
 	<input type="hidden" class="navlayout_parentMenu" value="HXY_FinanceCenter">
 	<div class="UCleft-fixed">
-
 		<!--<p class="index_text">首页</p>-->
-
 		{volist name="menu_list" id="value"}
 		{if isset($value["sub"])}
 		<dl class="">
@@ -11,7 +9,12 @@
 			<dd>
 				{volist name="$value.sub" id="val"}
 				<!--<p  class="" data-url="{:url($val['url'])}">{$val.name}</p>-->
+				{if $val['id'] ==104}
+				<!--图片库-->
+				<p  class="" data-url="{:url($val['url'])}?appletid={$phone_id}&type=1" data-id="{$val.id}" data-value="{$val['url']}">{$val.name}</p>
+				{else}
 				<p  class="" data-url="{:url($val['url'])}" data-id="{$val.id}" data-value="{$val['url']}">{$val.name}</p>
+				{/if}
 				{/volist}
 			</dd>
 		</dl>
