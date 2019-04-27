@@ -1545,8 +1545,8 @@ class  General extends  Base {
                 "create_time"=>time(), //创建订单的时间
                 "goods_name"=>$meal_name,//套餐名称
                 "goods_quantity"=>1, //数量
-                "unit"=>"套", //单位
-                "store_name"=>$store_name, //单位
+                "unit"=>"年", //单位
+                "store_name"=>$store_name, //店铺名字
                 "amount_money"=>$enter_data["favourable_cost"],//金额
                 "cost" =>$enter_data["cost"],//原价
                 "store_id"=>$store_id,//店铺id
