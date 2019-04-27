@@ -1400,7 +1400,6 @@ class  General extends  Base {
         } else {
             return ajax_error('传输失败,请添加套餐');
         }
-
     }
 
 
@@ -1546,8 +1545,8 @@ class  General extends  Base {
                 "create_time"=>time(), //创建订单的时间
                 "goods_name"=>$meal_name,//套餐名称
                 "goods_quantity"=>1, //数量
-                "unit"=>"套", //单位
-                "store_name"=>$store_name, //单位
+                "unit"=>"年", //单位
+                "store_name"=>$store_name, //店铺名字
                 "amount_money"=>$enter_data["favourable_cost"],//金额
                 "cost" =>$enter_data["cost"],//原价
                 "store_id"=>$store_id,//店铺id
@@ -1645,6 +1644,47 @@ class  General extends  Base {
 
         }
     }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:套餐订购支付宝二维码支付
+     **************************************
+     * @param Request $request
+     */
+    public function  order_code_alipay(Request $request){
+        if($request->isPost()){
+            //支付宝二维码
+            $money =$request->only(["money"])["money"];//支付钱数
+            $order_number =$request->only(["order_number"])["order_number"];//订单编号
+            $goods_name =$request->only(["goods_name"])["goods_name"];//商品名称
+            header("Content-type:text/html;charset=utf-8");
+            include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
+            $obj_alipay = new \alipay();
+            $arr_data = array(
+                "return_url" => trim(config("domain.url")."/admin/store_set_meal_order.html"),
+                "notify_url" => trim(config("domain.url")."/set_meal_notify_alipay.html"),
+                "service" => "create_direct_pay_by_user",
+                "payment_type" => 1, //
+                "seller_email" => '50087335@qq.com',
+                "out_trade_no" => $order_number,
+                "subject" => $goods_name, //商品订单的名称
+                "total_fee" => number_format($money, 2, '.', ''),
+            );
+            if (isset($arr_order['paymethod']) && isset($arr_order['defaultbank']) && $arr_order['paymethod'] === "bankPay" && $arr_order['defaultbank'] != "") {
+                $arr_data['paymethod'] = "bankPay";
+                $arr_data['defaultbank'] = $arr_order['defaultbank'];
+            }
+            $str_pay_html = $obj_alipay->make_form($arr_data, true);
+            if($str_pay_html){
+                return ajax_success("二维码成功",["url"=>$str_pay_html]);
+            }else{
+                return ajax_error("生成二维码失败");
+            }
+        }
+    }
+
 
 
     /**
