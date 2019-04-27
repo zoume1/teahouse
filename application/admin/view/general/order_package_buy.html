@@ -229,11 +229,9 @@
                         v-show="discountFlag">
                 </div>
                 <div class="settlement-cont">
-                    <p class="total">合计：￥
-                        {{virtualTag ? totalPrice : 1}}
-                    </p>
+                    <p class="total">合计：￥{{virtualTag ? totalPrice : virtualPriceDetail}}</p>
                     <p class="discount" v-show="discountFlag">优惠：￥{{discountPrice}}</p>
-                    <p class="payment">应付款：￥{{payment}}</p>
+                    <p class="payment">应付款：￥{{virtualTag ? payment : virtualPayment}}</p>
                     <button 
                         :disabled="orderInfo.length?!protocolFlag:protocolFlag"
                         @click="buy"
@@ -258,7 +256,7 @@
                 </div>
                 <div class="payment-amount dpf">
                     <div class="key">支付金额：</div>
-                    <div class="value">{{payment}}元</div>
+                    <div class="value">{{virtualTag ? payment : virtualPayment}}元</div>
                 </div>
                 <div class="method dpf">
                     <div class="key">支付方式：</div>
@@ -324,7 +322,7 @@
                 <!-- 转账 -->
                 <div class="remit-way" v-show="wayFlag==2">
                     <div class="remit-info-box">
-                        <p>你需汇款<span class="remit-money">{{payment}}</span>至以下账户，汇款成功后上传凭证信息，审核通过后到账</p>
+                        <p>你需汇款<span class="remit-money">{{virtualTag ? payment : virtualPayment}}</span>至以下账户，汇款成功后上传凭证信息，审核通过后到账</p>
                         <p>收款方户名：北京宣铭科技有限公司</p>
                         <p>收款方开户行：北京农村商业银行股份有限公司</p>
                         <p>收款方账户：0203210103000015884</p>
@@ -538,7 +536,6 @@
                         if(data.body.status == 1){
                             _this.orderInfo = data.body.data;
                         }
-                        console.log(_this.orderInfo[0].cost)
                     });
                 },
                 // get cookie
@@ -636,7 +633,10 @@
                 inputPwd: function(e){
                     e.keyCode === 8 ? (this.gifFlag === 0 ? 0 : this.gifFlag -= 1) : (this.gifFlag === 6 ? 6 : this.gifFlag += 1);
                 },
+                // 选择支付方式
                 changePayWay: function(index){
+                    // 用户选择扫码支付（index==1) 执行获取二维码监听支付   否则清除监听
+                    index == 1? this.getWxCode() : clearInterval(this.onlinePayInterval);
                     this.wayFlag = index;
                 },
                 // 余额支付确认密码
@@ -725,6 +725,27 @@
                         return (sum - this.discountPrice).toFixed(2);
                     }else{
                         return sum;
+                    }
+                },
+                // 虚拟商品 详细展示优惠
+                virtualPriceDetail: function(){
+                    var orderInfo = this.orderInfo[0];
+                    // 如果用户购买了套餐， 更新高级套餐需要减去 低级套餐的价钱  否则只展示当前套餐的优惠详情
+                    if(orderInfo){
+                        return orderInfo.last_money == 0 ? 
+                            orderInfo.cost + '-' + (orderInfo.cost - orderInfo.amount_money) : 
+                            orderInfo.cost + '-' + (orderInfo.cost - orderInfo.amount_money) + '-' + orderInfo.last_money
+                    }
+                },
+                // 虚拟商品 最终付款金额
+                virtualPayment: function(){
+                    var orderInfo = this.orderInfo[0];
+                    if(orderInfo){
+                        if(orderInfo.last_money == 0){
+                            return (this.discountFlag ? orderInfo.amount_money - this.discountPrice : orderInfo.amount_money).toFixed(2);
+                        }else{
+                            return (this.discountFlag ? orderInfo.amount_money - orderInfo.last_money - this.discountPrice : orderInfo.amount_money - orderInfo.last_money).toFixed(2);
+                        }
                     }
                 }
             }
