@@ -1613,7 +1613,7 @@ class  General extends  Base {
             include('../extend/WxpayAll/example/log.php');
             $notify = new \NativePay();
             $input = new \WxPayUnifiedOrder();//统一下单
-            $paymoney = 0.01; //支付金额
+            $paymoney = $money; //支付金额
             $out_trade_no = $order_number; //商户订单号
             $goods_name = $goods_name.'套餐'; //商品名称
             $goods_id =123456789; //商品Id
