@@ -13,6 +13,7 @@ use think\captcha\Captcha;
 use think\Request;
 use think\Session;
 use \traits\controller\Jump;
+use think\Db;
 class Index extends Controller
 {
 
@@ -29,7 +30,15 @@ class Index extends Controller
         $menu_list = Config::get("menu_list");
         $user_info =Session::get("user_info");
         $account =$user_info[0]["account"];
-        return view("index", ["menu_list" => $menu_list,"account"=>$account]);
+        $store_id =Session::get("store_id");
+        if($store_id){
+            $phone_id =Db::table("applet")
+                ->where("store_id",$store_id)
+                ->value("id");
+        }else{
+            $phone_id =0;
+        }
+        return view("index", ["menu_list" => $menu_list,"account"=>$account,"phone_id"=>$phone_id]);
     }
 
     /**
