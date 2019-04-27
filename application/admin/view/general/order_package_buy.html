@@ -470,9 +470,9 @@
                 },
                 // 微信支付
                 getAlipay: function(){
-                    // clearInterval(_this.onlinePayInterval);
+                    clearInterval(_this.onlinePayInterval);
                     var param = {
-                        money: this.payment,
+                        money: +this.payment,
                         order_number: this.orderInfo[0].order_number,
                         goods_name: this.orderInfo[0].goods_name,
                     }
