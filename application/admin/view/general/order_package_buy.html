@@ -312,7 +312,9 @@
                             <img src="__STATIC__/admin/common/img/g3.png" width="32" height="32">
                             <span>微信支付</span>
                         </a>
-                        <a href="javascript:void(0);">
+                        <a href="javascript:void(0);"
+                            @click="getAlipay"
+                        >
                             <img src="__STATIC__/admin/common/img/g4.png" width="32" height="32">
                             <span>支付宝</span>
                         </a>
@@ -464,6 +466,20 @@
                         callback(res);
                     }, function(res){
                         layer.msg(res.body.info, {time: 1000});
+                    })
+                },
+                // 微信支付
+                getAlipay: function(){
+                    // clearInterval(_this.onlinePayInterval);
+                    var param = {
+                        money: this.payment,
+                        order_number: this.orderInfo[0].order_number,
+                        goods_name: this.orderInfo[0].goods_name,
+                    }
+                    var _this = this;
+                    this.myAjax('order_code_alipay', param, function(data){
+                        // 付款二维码生成成功， 监听支付
+                        console.log(data);
                     })
                 },
                 // 监听支付是否成功
