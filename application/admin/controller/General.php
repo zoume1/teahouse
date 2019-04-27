@@ -1424,9 +1424,15 @@ class  General extends  Base {
                     $last_money =Db::name("set_meal_order")
                         ->where("store_id",$v['store_id'])
                         ->where("audit_status",1)
-                        ->value("amount_money");
+                        ->field("amount_money,enter_all_id")
+                        ->find();
+                    //判断是否相同的套餐id
                     if($last_money){
-                        $data[$k]["last_money"] =$last_money;
+                        if($last_money["enter_all_id"]==$v["enter_all_id"]){
+                            $data[$k]["last_money"] =0;
+                        }else{
+                            $data[$k]["last_money"] =$last_money['amount_money'];
+                        }
                     }else{
                         $data[$k]["last_money"] =0;
                     }
@@ -1464,6 +1470,7 @@ class  General extends  Base {
                     ->where("audit_status","EQ",1)
                     ->value("id");
                 if($isset_ids){
+                    //这里还需要判断相同年份进来的数据
                     exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
                 }
                 exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
@@ -1667,7 +1674,7 @@ class  General extends  Base {
                 "notify_url" => trim(config("domain.url")."/set_meal_notify_alipay.html"),
                 "service" => "create_direct_pay_by_user",
                 "payment_type" => 1, //
-                "seller_email" => '50087335@qq.com',
+                "seller_email" => '717797081@qq.com',
                 "out_trade_no" => $order_number,
                 "subject" => $goods_name, //商品订单的名称
                 "total_fee" => number_format($money, 2, '.', ''),
