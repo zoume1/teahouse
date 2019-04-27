@@ -28,11 +28,12 @@ class  AdminWx extends Controller{
             $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
             $val = json_decode(json_encode($xml_data), true);
             if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){
-                file_put_contents(EXTEND_PATH."dats.txt",1);
                 $enter_all_data=Db::name("set_meal_order")
                     ->where("order_number",$val["out_trade_no"])
                     ->find();
+                file_put_contents(EXTEND_PATH."datsdd.txt",$enter_all_data['enter_all_id']);
                 $year =Db::name("enter_all")->where("id",$enter_all_data['enter_all_id'])->value("year");
+                file_put_contents(EXTEND_PATH."dats.txt",$year);
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除之前已付款的订单
