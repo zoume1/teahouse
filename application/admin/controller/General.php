@@ -1459,6 +1459,14 @@ class  General extends  Base {
                 ->where("audit_status","NEQ",1)
                 ->value("id");
             if($isset_id){
+                //不能购买降级购买套餐
+                $isset_ids =Db::name("set_meal_order")
+                    ->where("enter_all_id",">",$enter_all_id)
+                    ->where("audit_status","EQ",1)
+                    ->value("id");
+                if($isset_ids){
+                    exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
+                }
                 exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
             }else{
                 //不能购买降级购买套餐
@@ -1613,7 +1621,7 @@ class  General extends  Base {
             include('../extend/WxpayAll/example/log.php');
             $notify = new \NativePay();
             $input = new \WxPayUnifiedOrder();//统一下单
-            $paymoney = 0.01; //支付金额
+            $paymoney = $money; //支付金额
             $out_trade_no = $order_number; //商户订单号
             $goods_name = $goods_name.'套餐'; //商品名称
             $goods_id =123456789; //商品Id

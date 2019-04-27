@@ -476,6 +476,8 @@
                             layer.msg(data.body.info);
                             setTimeout(function(){
                                 clearInterval(_this.onlinePayInterval);
+                                _this.setCookie('item_id', '/admin/store_set_meal_order', 1);
+                                _this.setCookie('page_id', '219', 1);
                                 location.href = 'store_set_meal_order';
                             }, 2000)
                         }
@@ -541,6 +543,12 @@
                     var reg = RegExp(name + '=([^;]+)'),
                         arr = document.cookie.match(reg);
                     return arr ? arr[1] : '';
+                },
+                // set cookie
+                setCookie: function(name, value, day){
+                    var date = new Date();
+                    date.setDate(date.getDate() + day);
+                    document.cookie = name + '=' + value + ';expires=' + date;
                 },
                 // 转换时间戳
                 timetrans: function(date){
