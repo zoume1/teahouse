@@ -229,7 +229,9 @@
                         v-show="discountFlag">
                 </div>
                 <div class="settlement-cont">
-                    <p class="total">合计：￥{{totalPrice}}</p>
+                    <p class="total">合计：￥
+                        {{virtualTag ? totalPrice : 1}}
+                    </p>
                     <p class="discount" v-show="discountFlag">优惠：￥{{discountPrice}}</p>
                     <p class="payment">应付款：￥{{payment}}</p>
                     <button 
@@ -536,6 +538,7 @@
                         if(data.body.status == 1){
                             _this.orderInfo = data.body.data;
                         }
+                        console.log(_this.orderInfo[0].cost)
                     });
                 },
                 // get cookie
