@@ -229,8 +229,8 @@
                         v-show="discountFlag">
                 </div>
                 <div class="settlement-cont">
-                    <p class="total">合计：￥{{virtualTag ? totalPrice : virtualPriceDetail}}</p>
-                    <p class="discount" v-show="discountFlag">优惠：￥{{discountPrice}}</p>
+                    <p class="total">合计：￥{{ totalPrice }}</p>
+                    <p class="discount">优惠：￥{{virtualTag ? 0 : showDiscount}}</p>
                     <p class="payment">应付款：￥{{virtualTag ? payment : virtualPayment}}</p>
                     <button 
                         :disabled="orderInfo.length?!protocolFlag:protocolFlag"
@@ -448,7 +448,7 @@
                     account: null,
                     time: null
                 },
-                virtualTag: true,//显示隐藏收货地址
+                virtualTag: true,//显示隐藏收货地址  false: 虚拟商品  true:正常商品
                 onlinePayImg: '', //微信、支付宝在线支付二维码路径
                 onlinePayInterval: null, //在线支付 监听定时器
             },
@@ -470,16 +470,18 @@
                 },
                 // 微信支付
                 getAlipay: function(){
-                    clearInterval(_this.onlinePayInterval);
+                    clearInterval(this.onlinePayInterval);
                     var param = {
-                        money: +this.payment,
+                        money: +(this.virtualTag ? this.payment : this.virtualPayment),
                         order_number: this.orderInfo[0].order_number,
                         goods_name: this.orderInfo[0].goods_name,
                     }
                     var _this = this;
                     this.myAjax('order_code_alipay', param, function(data){
                         // 付款二维码生成成功， 监听支付
-                        console.log(data);
+                        if(data.body.status == 1){
+                            $('body').append(data.body.data.url);
+                        }
                     })
                 },
                 // 监听支付是否成功
@@ -502,7 +504,7 @@
                 // 获取微信支付二维码
                 getWxCode: function(){
                     var param = {
-                        money: this.payment,
+                        money: +(this.virtualTag ? this.payment : this.virtualPayment),
                         order_number: this.orderInfo[0].order_number,
                         goods_name: this.orderInfo[0].goods_name,
                     }
@@ -743,16 +745,6 @@
                         return sum;
                     }
                 },
-                // 虚拟商品 详细展示优惠
-                virtualPriceDetail: function(){
-                    var orderInfo = this.orderInfo[0];
-                    // 如果用户购买了套餐， 更新高级套餐需要减去 低级套餐的价钱  否则只展示当前套餐的优惠详情
-                    if(orderInfo){
-                        return orderInfo.last_money == 0 ? 
-                            orderInfo.cost + '-' + (orderInfo.cost - orderInfo.amount_money) : 
-                            orderInfo.cost + '-' + (orderInfo.cost - orderInfo.amount_money) + '-' + orderInfo.last_money
-                    }
-                },
                 // 虚拟商品 最终付款金额
                 virtualPayment: function(){
                     var orderInfo = this.orderInfo[0];
@@ -761,6 +753,17 @@
                             return (this.discountFlag ? orderInfo.amount_money - this.discountPrice : orderInfo.amount_money).toFixed(2);
                         }else{
                             return (this.discountFlag ? orderInfo.amount_money - orderInfo.last_money - this.discountPrice : orderInfo.amount_money - orderInfo.last_money).toFixed(2);
+                        }
+                    }
+                },
+                // 优惠 价格展示
+                showDiscount: function(){
+                    var orderInfo = this.orderInfo[0];
+                    if (orderInfo) {
+                        if (this.discountFlag) {
+                            return (orderInfo.cost - orderInfo.amount_money + orderInfo.last_money + this.discountPrice).toFixed(2);
+                        } else {
+                            return (orderInfo.cost - orderInfo.amount_money + orderInfo.last_money).toFixed(2);
                         }
                     }
                 }
