@@ -69,6 +69,7 @@ class  AdminWx extends Controller{
                         }
                     }
                 }else{
+                    file_put_contents(EXTEND_PATH."dat.txt",1);
                     //这是新加入套餐的情况
                     $data["pay_time"] =time();//支付时间
                     $data["pay_type"] =1;//支付类型（1扫码支付，2汇款支付，3余额支付）
@@ -81,6 +82,7 @@ class  AdminWx extends Controller{
                     $result =Db::name("set_meal_order")
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
+                    file_put_contents(EXTEND_PATH."data.txt",$result);
                     if($result){
                         echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                     }else{
