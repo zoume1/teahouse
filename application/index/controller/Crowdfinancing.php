@@ -686,11 +686,12 @@ class Crowdfinancing extends Controller
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
+            
             foreach ($data as $key=>$value) {
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k=>$v){
-                        $return_data_info[] = Db::name('order')
+                        $return_data_info[] = Db::name('crowd_order')
                             ->where('id', $v)
                             ->where('member_id', $member_id)
                             ->order('order_create_time', 'desc')
@@ -702,12 +703,12 @@ class Crowdfinancing extends Controller
                     $unique_order_number = array_merge(array_unique($parts_order_number_all));
 
                     foreach ( $unique_order_number as $da_k =>$da_v){
-                        $order_data['info'][$da_k] = Db::name('order')
+                        $order_data['info'][$da_k] = Db::name('crowd_order')
                             ->where('member_id', $member_id)
                             ->where('parts_order_number', $da_v)
                             ->order('order_create_time', 'desc')
                             ->select();
-                        $names = Db::name("order")
+                        $names = Db::name("crowd_order")
                             ->where("parts_order_number", $da_v)
                             ->where("member_id", $member_id)
                             ->find();
@@ -720,7 +721,7 @@ class Crowdfinancing extends Controller
                         }
                     }
                 } else {
-                    $return_data = Db::name('order')
+                    $return_data = Db::name('crowd_order')
                         ->where('id', $value['order_id'])
                         ->find();
                     $data_information["all_order_real_pay"][] = $return_data["order_real_pay"];
@@ -728,7 +729,7 @@ class Crowdfinancing extends Controller
                     $data_information['status'][] = $return_data['status'];
                     $data_information['parts_order_number'][] = $return_data['parts_order_number'];
                     $data_information['order_create_time'][] = $value['order_create_time'];
-                    $data_information['all'][] = Db::name('order')
+                    $data_information['all'][] = Db::name('crowd_order')
                         ->where('id', $value['order_id'])
                         ->find();
                 }
@@ -863,7 +864,7 @@ class Crowdfinancing extends Controller
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k=>$v){
-                        $return_data_info[] = Db::name('order')
+                        $return_data_info[] = Db::name('crowd_order')
                             ->where('id', $v)
                             ->where('member_id', $member_id)
                             ->order('order_create_time', 'desc')
@@ -901,7 +902,7 @@ class Crowdfinancing extends Controller
                     $data_information['status'][] = $return_data['status'];
                     $data_information['parts_order_number'][] = $return_data['parts_order_number'];
                     $data_information['order_create_time'][] = $value['order_create_time'];
-                    $data_information['all'][] = Db::name('order')
+                    $data_information['all'][] = Db::name('crowd_order')
                         ->where('id', $value['order_id'])
                         ->find();
                 }
@@ -1018,11 +1019,10 @@ class Crowdfinancing extends Controller
      **************************************
      * @param Request $request
      */
-    public function   crowd_wait_send(Request $request)
+    public function  crowd_wait_send(Request $request)
     {
         if ($request->isPost()) {
-            $member_id =$request->only("member_id")["member_id"]; //会员
-            $member_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+            $member_id =$request->only("member_id")["member_id"]; //会员id
             if(empty($member_id)){
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
@@ -1038,7 +1038,7 @@ class Crowdfinancing extends Controller
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k=>$v){
-                        $return_data_info[] = Db::name('order')
+                        $return_data_info[] = Db::name('crowd_order')
                             ->where('id', $v)
                             ->where('member_id', $member_id)
                             ->find();
@@ -1075,7 +1075,7 @@ class Crowdfinancing extends Controller
                     $data_information['status'][] = $return_data['status'];
                     $data_information['parts_order_number'][] = $return_data['parts_order_number'];
                     $data_information['pay_time'][] = $value['pay_time'];
-                    $data_information['all'][] = Db::name('order')
+                    $data_information['all'][] = Db::name('crowd_order')
                         ->where('id', $value['order_id'])
                         ->find();
                 }
@@ -1103,7 +1103,7 @@ class Crowdfinancing extends Controller
                 //实际支付的金额
                 foreach ($order_data['all_order_real_pay'] as $i => $j) {
                     if(!empty($j)){
-                        $new_arr_pay[] =$j;
+                        $new_arr_pay[] = $j;
                     }
                 }
                 foreach ($new_arr_pay as $i=>$j){
@@ -1192,7 +1192,7 @@ class Crowdfinancing extends Controller
      **************************************
      * @param Request $request
      */
-    public function   crowd_wait_deliver(Request $request)
+    public function crowd_wait_deliver(Request $request)
     {
         if ($request->isPost()) {
             $member_id = $request->only("member_id")["member_id"]; 
@@ -1211,7 +1211,7 @@ class Crowdfinancing extends Controller
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k=>$v){
-                        $return_data_info[] = Db::name('order')
+                        $return_data_info[] = Db::name('crowd_order')
                             ->where('id', $v)
                             ->where('member_id', $member_id)
                             ->order('order_create_time', 'desc')
@@ -1223,12 +1223,12 @@ class Crowdfinancing extends Controller
                     $unique_order_number = array_merge(array_unique($parts_order_number_all));
 
                     foreach ( $unique_order_number as $da_k =>$da_v){
-                        $order_data['info'][$da_k] = Db::name('order')
+                        $order_data['info'][$da_k] = Db::name('crowd_order')
                             ->where('member_id', $member_id)
                             ->where('parts_order_number', $da_v)
                             ->order('order_create_time', 'desc')
                             ->select();
-                        $names = Db::name("order")
+                        $names = Db::name("crowd_order")
                             ->where("parts_order_number", $da_v)
                             ->where("member_id", $member_id)
                             ->find();
@@ -1241,7 +1241,7 @@ class Crowdfinancing extends Controller
                         }
                     }
                 } else {
-                    $return_data = Db::name('order')
+                    $return_data = Db::name('crowd_order')
                         ->where('id', $value['order_id'])
                         ->find();
                     $data_information["all_order_real_pay"][] = $return_data["order_real_pay"];
@@ -1249,7 +1249,7 @@ class Crowdfinancing extends Controller
                     $data_information['status'][] = $return_data['status'];
                     $data_information['parts_order_number'][] = $return_data['parts_order_number'];
                     $data_information['order_create_time'][] = $value['order_create_time'];
-                    $data_information['all'][] = Db::name('order')
+                    $data_information['all'][] = Db::name('crowd_order')
                         ->where('id', $value['order_id'])
                         ->find();
                 }
@@ -1423,7 +1423,7 @@ class Crowdfinancing extends Controller
                     $data_information['status'][] = $return_data['status'];
                     $data_information['parts_order_number'][] = $return_data['parts_order_number'];
                     $data_information['order_create_time'][] = $value['order_create_time'];
-                    $data_information['all'][] = Db::name('order')
+                    $data_information['all'][] = Db::name('crowd_order')
                         ->where('id', $value['order_id'])
                         ->find();
                 }
@@ -1566,7 +1566,7 @@ class Crowdfinancing extends Controller
             }
             if(!empty($data)){
                 $datas =[
-                    "data"=>$data,
+                    "data"=> $data,
                     "status"=>$status,
                     "parts_order_number"=>$parts_order_number,
                     "create_time"=>$data[0]["order_create_time"],
