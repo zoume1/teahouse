@@ -32,7 +32,7 @@ class  AdminWx extends Controller{
                 $enter_all_data=Db::name("set_meal_order")
                     ->where("order_number",$val["out_trade_no"])
                     ->find();
-                file_put_contents(EXTEND_PATH."datas.txt",$enter_all_data);
+                file_put_contents(EXTEND_PATH."datas.txt",$enter_all_data['id']);
                 $year =Db::name("enter_all")->where("id",$enter_all_data['enter_all_id'])->value("year");
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
