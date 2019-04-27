@@ -251,6 +251,7 @@
         align-items: center;
         position: relative;
     }
+
     .danwei {
         position: absolute;
         left: 286px;
@@ -276,6 +277,43 @@
 
     .add_biao {
         cursor: pointer;
+    }
+
+    .history {
+        border: 1px solid rgb(199, 199, 199);
+        padding: 10px;
+        margin-bottom: -120px;
+        margin-left: -60px;
+        background-color: #fff;
+        position: relative;
+        display: none;
+    }
+
+    .m_right {
+        margin-right: 30px;
+    }
+
+    .hint_text {
+        color: rgb(0, 153, 255);
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .f_left {
+        display: flex;
+        text-align: center;
+    }
+
+    .hint_main {
+        font-size: 10px;
+        text-align: center;
+        line-height: 20px;
+    }
+
+    .hint_money {
+        color: rgb(147, 147, 147);
+        margin-left: 20px;
+        
     }
 </style>
 
@@ -490,8 +528,8 @@
                 <div class="form-input line">
                     <input type="text" name="goods_new_money" value="{$value.goods_new_money}" lay-verify="title"
                         autocomplete="off" placeholder="请输入" class="layui-input">
-                        <span class="change_danwei">修改单位</span>
-                        <span class="danwei">/片</span>
+                    <span class="change_danwei">修改单位</span>
+                    <span class="danwei">/片</span>
                 </div>
             </div>
             <div class="form-item">
@@ -499,8 +537,26 @@
                 <div class="form-input line">
                     <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}" lay-verify="title"
                         autocomplete="off" placeholder="请输入" class="layui-input">
-                        <span class="danwei">/片</span>
-                    <span href="" class="tan" data-id="__STATIC__/admin/common/img/u27291.png"> 查看示例</span>
+                    <span class="danwei">/片</span>
+                    <span class="bianji" style="color: #20A0FF;cursor:pointer;"> 编辑历史</span>
+                    <div class="history">
+                        <div class="f_left">
+                            <div class="m_right hint_text">编辑日期</div>
+                            <div class="hint_text">划线价格</div>
+                        </div>
+                        <div class="f_left">
+                            <div class="hint_main m_right">20190427</div>
+                            <div class="hint_main hint_money"><s>￥30</s></div>
+                        </div>
+                        <div class="f_left">
+                            <div class="hint_main m_right">20190427</div>
+                            <div class="hint_main hint_money"><s>￥30</s></div>
+                        </div>
+                        <div class="f_left">
+                            <div class="hint_main m_right">20190427</div>
+                            <div class="hint_main hint_money"><s>￥30</s></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-item">
@@ -508,7 +564,7 @@
                 <div class="form-input line">
                     <input type="text" name="goods_cost" value="{$value.goods_cost}" lay-verify="title"
                         autocomplete="off" placeholder="请输入" class="layui-input">
-                        <span class="danwei">/片</span>
+                    <span class="danwei">/片</span>
                     <div class="tips">
                         *成本价不显示到客户端，适用于利润分析等
                     </div>
@@ -520,7 +576,7 @@
                 <div class="form-input line">
                     <input type="text" name="goods_repertory" value="{$value.goods_repertory}" lay-verify="title"
                         autocomplete="off" placeholder="请输入" class="layui-input">
-                        <span class="danwei">/片</span>
+                    <span class="danwei">/片</span>
                 </div>
             </div>
 
@@ -543,7 +599,25 @@
                     <div class="form-input line">
                         <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}"
                             lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-                        <span href="" class="tan" data-id="__STATIC__/admin/common/img/u27291.png"> 查看示例</span>
+                            <span class="bianji" style="color: #20A0FF;cursor:pointer;"> 编辑历史</span>
+                            <div class="history">
+                                <div class="f_left">
+                                    <div class="m_right hint_text">编辑日期</div>
+                                    <div class="hint_text">划线价格</div>
+                                </div>
+                                <div class="f_left">
+                                    <div class="hint_main m_right">20190427</div>
+                                    <div class="hint_main hint_money"><s>￥30</s></div>
+                                </div>
+                                <div class="f_left">
+                                    <div class="hint_main m_right">20190427</div>
+                                    <div class="hint_main hint_money"><s>￥30</s></div>
+                                </div>
+                                <div class="f_left">
+                                    <div class="hint_main m_right">20190427</div>
+                                    <div class="hint_main hint_money"><s>￥30</s></div>
+                                </div>
+                            </div>
                     </div>
                 </div>
                 <div class="form-item">
@@ -571,7 +645,7 @@
                         <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked=""
                             title="参加会员折扣"> {else}
                         <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
-                        <a href="">管理会员卡</a>
+                        <a href="index/My/show_grade">管理会员卡</a>
                     </div>
                 </div>
                 {if !empty($value.scope)}
@@ -739,7 +813,7 @@
                         <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked=""
                             title="参加会员折扣"> {else}
                         <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
-                        <a href="">管理会员卡</a>
+                        <a href="{:url('admin/User/grade')}">管理会员卡</a>
                     </div>
                 </div>
 
@@ -853,7 +927,7 @@
                     </div>
                     <div class="form-item">
                         <label class="form-label">快递运费</label>
-                     
+
                         <div style="display: flex;flex-direction:column" class="yunfei">
                             {if !empty($value.goods_franking)}
                             <div class="form-input line" style="margin-bottom: 4px;">
@@ -868,8 +942,8 @@
                                 <input type="radio" title="运费模板" name="aaa" value="1" name="aaa">
                                 <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
                             </div>
-                      
-                        {else}
+
+                            {else}
                             <div class="form-input line" style="margin-bottom: 4px;">
                                 <input type="radio" title="统一邮费" name="aaa" value="0">
                                 <input type="number" name="goods_franking" value="" lay-verify="title"
@@ -883,47 +957,47 @@
                                 <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
                             </div>
                             {/if}
-                      
-                       
-                        <div class="form-input line" style="margin-bottom: 4px;">
-                            <input type="texr" title="运费模板" style="opacity: 0;width: 82px;">
-                            <div class="add_muban"> 添加运费模板</div>
+
+
+                            <div class="form-input line" style="margin-bottom: 4px;">
+                                <input type="texr" title="运费模板" style="opacity: 0;width: 82px;">
+                                <div class="add_muban"> 添加运费模板</div>
+                            </div>
+
+                            <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
+
                         </div>
-                        
-                        <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
-                 
+
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label">状态</label>
+                        <div class="form-input">
+                            {if $value.label==0}
+                            <input type="radio" name="label" value="0" title="暂不上架" checked="">
+                            <input type="radio" name="label" value="1" title="立即上架"> {else}
+                            <input type="radio" name="label" value="0" title="暂不上架">
+                            <input type="radio" name="label" value="1" title="立即上架" checked="">{/if}
+                        </div>
                     </div>
 
-                </div>
-                <div class="form-item">
-                    <label class="form-label">状态</label>
-                    <div class="form-input">
-                        {if $value.label==0}
-                        <input type="radio" name="label" value="0" title="暂不上架" checked="">
-                        <input type="radio" name="label" value="1" title="立即上架"> {else}
-                        <input type="radio" name="label" value="0" title="暂不上架">
-                        <input type="radio" name="label" value="1" title="立即上架" checked="">{/if}
+                    <div class="form-item">
+                        <label class="form-label">首页推荐</label>
+                        <div class="form-input">
+                            {if $value.status == 1}
+                            <input type="radio" name="status" value="1" title="首页推荐" checked="">
+                            <input type="radio" name="status" value="0" title="首页不推荐"> {else}
+                            <input type="radio" name="status" value="1" title="首页推荐">
+                            <input type="radio" name="status" value="0" title="首页不推荐" checked="">{/if}
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-item">
-                    <label class="form-label">首页推荐</label>
-                    <div class="form-input">
-                        {if $value.status == 1}
-                        <input type="radio" name="status" value="1" title="首页推荐" checked="">
-                        <input type="radio" name="status" value="0" title="首页不推荐"> {else}
-                        <input type="radio" name="status" value="1" title="首页推荐">
-                        <input type="radio" name="status" value="0" title="首页不推荐" checked="">{/if}
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+                            <button type="button" class="layui-btn layui-btn-primary"
+                                onClick="javascript :history.back(-1);">返回</button>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
-                        <button type="button" class="layui-btn layui-btn-primary"
-                            onClick="javascript :history.back(-1);">返回</button>
-                    </div>
-                </div>
-                {/volist}
+                    {/volist}
     </form>
 
     {/block}
@@ -1004,7 +1078,7 @@
                     }
                     $(".add_danwei2").parent().before(dhtmlss);
                 }
-                
+
 
             },
             error: function (data) {
@@ -1020,9 +1094,9 @@
             form.render();
             // 运费模板
             $(".yunfei").on('click', ".delect_img", function () {
-                 
-                 $(this).parent().remove();
-             })
+
+                $(this).parent().remove();
+            })
             Array.prototype.unique3 = function () {
                 var res = [];
                 var json = {};
@@ -1081,85 +1155,85 @@
                     var val = $('input[name="goods_standard"]:checked').val();
                     var vals = $('input[name="aaa"]:checked').val();
                     if (val == "0") {
-                        if(vals=="1"){
+                        if (vals == "1") {
                             // console.log(data)
                             for (var i = 0; i < data.data.templet_name.length; i++) {
-                            var add_muban1 = '';
-                            add_muban1 += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
-                            add_muban1 += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
-                            add_muban1 += '<select name="templet_name[]"  class="role_list muban_list" >';
-                            for (var n = 0; n < unit1_a.length; n++) {
-                                if (data.data.templet_unit[i] == unit1_a[n]) {
-                                    add_muban1 += ' <option value="' + unit1_a[n] + '" selected="selected">' + unit1_a[n] + '</option>';
+                                var add_muban1 = '';
+                                add_muban1 += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
+                                add_muban1 += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
+                                add_muban1 += '<select name="templet_name[]"  class="role_list muban_list" >';
+                                for (var n = 0; n < unit1_a.length; n++) {
+                                    if (data.data.templet_unit[i] == unit1_a[n]) {
+                                        add_muban1 += ' <option value="' + unit1_a[n] + '" selected="selected">' + unit1_a[n] + '</option>';
+                                    }
+                                    else {
+                                        add_muban1 += ' <option value="' + unit1_a[n] + '">' + unit1_a[n] + '</option>';
+                                    }
                                 }
-                                else {
-                                    add_muban1 += ' <option value="' + unit1_a[n] + '">' + unit1_a[n] + '</option>';
+                                add_muban1 += '</select><br />';
+                                add_muban1 += '<select name="templet_id[]"  class="role_list">';
+                                for (var h = 0; h < templet.length; h++) {
+
+                                    if (data.data.templet_name[i].name == templet[h].name) {
+                                        add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
+                                    }
+                                    else {
+                                        add_muban1 += ' <option value="' + templet[h].id + '" >' + templet[h].name + '</option>';
+                                    }
+
                                 }
-                            }
-                            add_muban1 += '</select><br />';
-                            add_muban1 += '<select name="templet_id[]"  class="role_list">';
-                            for (var h = 0; h < templet.length; h++) {
-                               
-                                if (data.data.templet_name[i].name == templet[h].name) {
-                                    add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
-                                }
-                                else {
-                                    add_muban1 += ' <option value="' + templet[h].id + '" >' + templet[h].name + '</option>';
-                                }
+                                add_muban1 += '</select><br />';
+                                add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
+                                add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
+                                add_muban1 += '</div>';
+                                $(".add_muban").parent().before(add_muban1);
+                                form.render();
+
 
                             }
-                            add_muban1 += '</select><br />';
-                            add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
-                            add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
-                            add_muban1 += '</div>';
-                            $(".add_muban").parent().before(add_muban1);
-                            form.render();
-
 
                         }
 
-                        }
-                       
                     }
                     else {
-                        if(vals=="1"){
+                        if (vals == "1") {
                             for (var i = 0; i < data.data.templet_name.length; i++) {
-                            var add_muban1 = '';
-                            add_muban1 += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
-                            add_muban1 += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
-                            add_muban1 += '<select name="templet_name[]"  class="role_list muban_list" >';
-                            for (var n = 0; n < unit2_a.length; n++) {
-                                if (data.data.templet_unit[i] == unit2_a[n]) {
-                                    add_muban1 += ' <option value="' + unit2_a[n] + '" selected="selected">' + unit2_a[n] + '</option>';
+                                var add_muban1 = '';
+                                add_muban1 += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
+                                add_muban1 += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
+                                add_muban1 += '<select name="templet_name[]"  class="role_list muban_list" >';
+                                for (var n = 0; n < unit2_a.length; n++) {
+                                    if (data.data.templet_unit[i] == unit2_a[n]) {
+                                        add_muban1 += ' <option value="' + unit2_a[n] + '" selected="selected">' + unit2_a[n] + '</option>';
+                                    }
+                                    else {
+                                        add_muban1 += ' <option value="' + unit2_a[n] + '">' + unit2_a[n] + '</option>';
+                                    }
                                 }
-                                else {
-                                    add_muban1 += ' <option value="' + unit2_a[n] + '">' + unit2_a[n] + '</option>';
+                                add_muban1 += '</select><br />';
+                                add_muban1 += '<select name="templet_id[]"  class="role_list">';
+                                for (var h = 0; h < templet.length; h++) {
+
+                                    if (data.data.templet_name[i].name == templet[h].name) {
+                                        add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
+                                    }
+                                    else {
+                                        add_muban1 += ' <option value="' + templet[h].id + '" >' + templet[h].name + '</option>';
+                                    }
+
                                 }
+                                add_muban1 += '</select><br />';
+                                add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
+                                add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
+                                add_muban1 += '</div>';
+                                $(".add_muban").parent().before(add_muban1);
+                                form.render();
+
+
                             }
-                            add_muban1 += '</select><br />';
-                            add_muban1 += '<select name="templet_id[]"  class="role_list">';
-                            for (var h = 0; h < templet.length; h++) {
-
-                                if (data.data.templet_name[i].name == templet[h].name) {
-                                    add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
-                                }
-                                else {
-                                    add_muban1 += ' <option value="' + templet[h].id + '" >' + templet[h].name + '</option>';
-                                }
-
-                            }
-                            add_muban1 += '</select><br />';
-                            add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
-                            add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
-                            add_muban1 += '</div>';
-                            $(".add_muban").parent().before(add_muban1);
-                            form.render();
-
 
                         }
 
-                        }
-                        
                     }
 
                 },
@@ -1167,6 +1241,15 @@
 
                 }
             });
+            // var bianji = () => {}
+            $(".bianji").on('click', function(e) {
+                $(".history").slideToggle();
+            })
+                 
+                //  click(function(){
+                     
+                // });
+            
             $(".general_content").on("blur", ".units", function () {
                 id = $(this).data("id");
                 if ($(this).data("value") != $(this).val()) {
@@ -1253,32 +1336,32 @@
                 $(this).data("value", $(this).val());
             })
             $(".general_content").on('click', ".delect_img", function () {
-                 
-                 if ($(this).siblings(".units").val() != '') {
-                     for (var k = 0; k < unit2.length; k++) {
-                         if (unit2[k] == $(this).siblings(".units").val()) {
-                             unit2.splice(k, 1);
-                             break;
-                         }
-                     }
-                 }
-                 $(".muban").remove();
-                 $(this).parent().remove();
-             })
-             $(".nomal").on('click', ".delect_img", function () {
-                 if ($(this).siblings(".units").val()!= '') {
-                     for (var k = 0; k < unit1.length; k++) {
-                         if (unit1[k] == $(this).siblings(".units").val()) {
-                             unit1.splice(k, 1);
-                             break;
-                         }
-                     }
-                  
-                 }
-                 $(".muban").remove();
-                 $(this).parent().remove();
-             })
-            
+
+                if ($(this).siblings(".units").val() != '') {
+                    for (var k = 0; k < unit2.length; k++) {
+                        if (unit2[k] == $(this).siblings(".units").val()) {
+                            unit2.splice(k, 1);
+                            break;
+                        }
+                    }
+                }
+                $(".muban").remove();
+                $(this).parent().remove();
+            })
+            $(".nomal").on('click', ".delect_img", function () {
+                if ($(this).siblings(".units").val() != '') {
+                    for (var k = 0; k < unit1.length; k++) {
+                        if (unit1[k] == $(this).siblings(".units").val()) {
+                            unit1.splice(k, 1);
+                            break;
+                        }
+                    }
+
+                }
+                $(".muban").remove();
+                $(this).parent().remove();
+            })
+
             $(".form-item").on('click', ".delect_img", function () {
 
                 $(this).parent().remove();
@@ -1357,7 +1440,7 @@
                 var nums = 0;
                 for (var i = 0; i < unit1_a.length; i++) {
                     // if (unit1_a[i] == text) {
-                        nums++;
+                    nums++;
                     // }
                 }
                 if (val == "0") {
@@ -1407,25 +1490,25 @@
 
             // 运费模板
             $(".change_danwei").click(function () {
-                    var unit1_a=unit1.unique3();
-                    layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
-                        layer.close(index);
-                        var num=0;
-                        for(var i=0;i<unit1_a.length;i++){
-                            if(unit1_a[i]==text){
-                                  num++;
-                            }
+                var unit1_a = unit1.unique3();
+                layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
+                    layer.close(index);
+                    var num = 0;
+                    for (var i = 0; i < unit1_a.length; i++) {
+                        if (unit1_a[i] == text) {
+                            num++;
                         }
-                        if(num==0){
-                          alert("你输入的单位前面没有添加");
-                        }
-                        else{
-                            $(".danwei").html("/" + text);
-                            $(".monomer").val(text);
-                        }
-                      
-                    });
+                    }
+                    if (num == 0) {
+                        alert("你输入的单位前面没有添加");
+                    }
+                    else {
+                        $(".danwei").html("/" + text);
+                        $(".monomer").val(text);
+                    }
+
                 });
+            });
             //			价格库存等修改事件
             $(".inputs").change(function () {
                 var change_val = $(this).val();

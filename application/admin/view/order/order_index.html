@@ -135,7 +135,6 @@
 
 	.popup_doms1 {
 		width: 900px;
-		height: 500px;
 		background: #fff;
 	}
 
@@ -225,17 +224,19 @@
 		text-align: center;
 		border: 1px solid #a2a2a2;
 		border-radius: 2px;
+		cursor:pointer;
 	}
 
 	.button_all {
 		display: flex;
 		justify-content: space-around;
-		margin-top: 30PX;
+		margin-top: 30px;
+		margin-bottom: 30px;
 	}
 
 	.quxiao {}
 
-	.queding {
+	.daying {
 		background: #169BD5;
 		color: #fff;
 	}
@@ -329,7 +330,7 @@
 	}
 
 	.chenge_money {
-		display:flex;
+		display: flex;
 		margin-left: 10px;
 		text-align: center;
 		padding-top: 20px;
@@ -340,7 +341,7 @@
 		position: absolute;
 		top: 10px;
 		left: 170px;
-		
+
 	}
 </style>
 
@@ -368,18 +369,20 @@
 				<div class="chat">
 
 				</div>
-				<div  class="chenge_money" data-id="" >
+				<div class="chenge_money" data-id="">
 					<div style="position:relative; margin-right: 100px;">
-						订单金额  <input type="text" name="title" required placeholder="" autocomplete="off"
+						订单金额 <input type="text" name="title" required placeholder="" autocomplete="off"
 							class="layui-input" style="width:150px;"><span class="danwei">元</span>
 
 					</div>
 					<div style="position:relative">
-						修改订单金额  <input type="text" name="title" required lay-verify="required" placeholder="请输入"
-							autocomplete="off" class="layui-input" style="width:190px;"><span class="danwei" style="left: 240px;">元</span>
+						修改订单金额 <input type="text" name="title" required lay-verify="required" placeholder="请输入"
+							autocomplete="off" class="layui-input" style="width:190px;"><span class="danwei"
+							style="left: 240px;">元</span>
 
 					</div>
-					<div style="margin-left:45px;"><button class="layui-btn" style="background-color:rgb(22, 155, 213);border-radius: 5px;">确定改价</button></div>
+					<div style="margin-left:45px;"><button class="layui-btn"
+							style="background-color:rgb(22, 155, 213);border-radius: 5px;">确定改价</button></div>
 				</div>
 
 			</div>
@@ -398,7 +401,7 @@
 			</div>
 			<div class="button_all">
 				<div class="quxiao button">取消</div>
-				<div class="queding button">打印</div>
+				<div class="daying button">打印</div>
 			</div>
 		</div>
 	</div>
@@ -996,6 +999,11 @@
 		$(".button").click(function () {
 			$(".popup").addClass("noshow");
 		});
+		$('.daying').click(function testprint() {
+			window.print();
+
+		})
+
 		function timestampToTime(timestamp) {
 			var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
 			Y = date.getFullYear();
