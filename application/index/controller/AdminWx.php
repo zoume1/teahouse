@@ -32,7 +32,6 @@ class  AdminWx extends Controller{
                 $enter_all_data=Db::name("set_meal_order")
                     ->where("order_number",$val["out_trade_no"])
                     ->find();
-                file_put_contents(EXTEND_PATH."datas.txt",$enter_all_data['id']);
                 $year =Db::name("enter_all")->where("id",$enter_all_data['enter_all_id'])->value("year");
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
@@ -41,7 +40,9 @@ class  AdminWx extends Controller{
                     ->where("store",$enter_all_data["store_id"])
                     ->where("audit_status",1)
                     ->find();
+                file_put_contents(EXTEND_PATH."datas.txt",$is_set_order['id']);
                 if($is_set_order){
+                    file_put_contents(EXTEND_PATH."datas.txt","cs");
                     //这是套餐升级的情况
                     $data["pay_time"] =time();//支付时间
                     $data["pay_type"] =1;//支付类型（1扫码支付,2汇款支付，3余额支付）
@@ -55,6 +56,7 @@ class  AdminWx extends Controller{
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
                     if($res){
+                        file_put_contents(EXTEND_PATH."datass.txt",$res);
                         //把之前的套餐订单删掉
                        $result = Db::name("set_meal_order")->where("order_number",$is_set_order["order_number"])->delete();
                         if($result){
