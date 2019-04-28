@@ -186,7 +186,6 @@ class Crowd extends Controller
     {
         if ($request->isPost()){
             $date_time = time();
-            $member_id = $request->only('member_id')['member_id'];
             $member_id = $request->only('member_id')['member_id'];//会员id
             $member = db("member")->where('member_id',$member_id)->find(); //会员等级
             $member_grade_name = $member['member_grade_name']; //会员名称
@@ -285,10 +284,10 @@ class Crowd extends Controller
             } else {
                 return ajax('失败',['status'=>0]);
             }
-
         }
     }
-    
+
+
     
 
 }
