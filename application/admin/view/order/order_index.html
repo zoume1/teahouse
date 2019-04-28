@@ -118,7 +118,7 @@
 		border: solid 1px #D7D7D7;
 		box-sizing: border-box;
 	}
-
+	
 	.submit_btns {
 		width: 100px;
 		height: 38px;
@@ -137,7 +137,6 @@
 		width: 900px;
 		background: #fff;
 	}
-
 	.popup_content {
 		padding: 20px;
 	}
@@ -224,7 +223,7 @@
 		text-align: center;
 		border: 1px solid #a2a2a2;
 		border-radius: 2px;
-		cursor:pointer;
+		cursor: pointer;
 	}
 
 	.button_all {
@@ -390,16 +389,18 @@
 	</div>
 	<div class="popup popup_two noshow">
 		<div class="popup_doms1">
-			<div class="popup_title">
-				订单基本信息
-				<div class="popup_x">
-					<img src="__STATIC__/admin/index/img/X.png" />
+			<div id="dvMain">
+				<div class="popup_title" >
+					订单基本信息
+					<div class="popup_x">
+						<img src="__STATIC__/admin/index/img/X.png" />
+					</div>
+				</div>
+				<div class="popup_content1" id="">
+
 				</div>
 			</div>
-			<div class="popup_content1" id="">
-
-			</div>
-			<div class="button_all">
+			<div class="button_all" >
 				<div class="quxiao button">取消</div>
 				<div class="daying button">打印</div>
 			</div>
@@ -1000,8 +1001,14 @@
 			$(".popup").addClass("noshow");
 		});
 		$('.daying').click(function testprint() {
+			var headstr = "<html><head><title></title></head><body>";
+			var footstr = "</body>";
+			var printData = document.getElementById("dvMain").innerHTML;
+			// var printMain = document.getElementById("dvMain").innerHTML;
+			var oldstr = document.body.innerHTML;
+			document.body.innerHTML = headstr + printData  + footstr;
 			window.print();
-
+			document.body.innerHTML = oldstr;
 		})
 
 		function timestampToTime(timestamp) {
