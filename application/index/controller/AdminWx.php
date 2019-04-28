@@ -46,7 +46,7 @@ class  AdminWx extends Controller{
                     $data["pay_status"] =1;//到账状态（1为已到账，-1未到账，2待审核）
                     $data["start_time"] =time();//开始时间
                     $data["end_time"] =strtotime("+$year  year");//开始时间
-                    $data["explains"] ="扫码支付直接通过";//审核说明
+                    $data["explains"] ="微信扫码支付直接通过";//审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款）
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核）
                     $res =Db::name("set_meal_order")
@@ -75,7 +75,7 @@ class  AdminWx extends Controller{
                     $data["pay_status"] =1;//到账状态（1为已到账，-1未到账，2待审核）
                     $data["start_time"] =time();//开始时间
                     $data["end_time"] =strtotime("+$year  year");//开始时间
-                    $data["explains"] ="扫码支付直接通过";//审核说明
+                    $data["explains"] ="微信扫码支付直接通过";//审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款）
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核）
                     $result =Db::name("set_meal_order")
@@ -101,11 +101,15 @@ class  AdminWx extends Controller{
     public function set_meal_notify_alipay(){
         include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
         $obj_alipay = new \alipay();
-        if (!$obj_alipay->verify_notify()) {//验证未通过
+        if (!$obj_alipay->verify_notify()) {
+            //验证未通过
             file_put_contents(EXTEND_PATH."data121212.txt",1111);
             echo "fail";
             exit();
+        }else{
+            file_put_contents(EXTEND_PATH."data121212.txt",222);
         }
+
     }
 
 
