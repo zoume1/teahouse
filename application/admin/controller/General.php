@@ -1414,7 +1414,7 @@ class  General extends  Base {
         if($request->isPost()){
             $id =$request->only(["id"])["id"];
             $data =Db::table("tb_set_meal_order")
-                ->field("id,order_number,create_time,goods_name,goods_quantity,amount_money,store_id,images_url,store_name,unit,cost")
+                ->field("id,order_number,create_time,goods_name,goods_quantity,amount_money,store_id,images_url,store_name,unit,cost,enter_all_id")
                 ->where("store_id",$this->store_ids)
                 ->where("status",-1)
                 ->where("id",$id)
@@ -1464,7 +1464,7 @@ class  General extends  Base {
                 ->where("audit_status","NEQ",1)
                 ->value("id");
             if($isset_id){
-                //不能购买降级购买套餐
+                //不能购买降级购买套餐(同事不能购买低于这个id的，所谓降级)
                 $isset_ids =Db::name("set_meal_order")
                     ->where("enter_all_id",">",$enter_all_id)
                     ->where("audit_status","EQ",1)
@@ -1490,7 +1490,7 @@ class  General extends  Base {
                    ->value("enter_all_id");
                 if($set_id){
                     $year =Db::name("enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
-                    if($year>=$years){
+                    if($year>$years){
                         exit(json_encode(array("status"=>4,"info"=>"不能升级为年份少于之前的年份","data"=>["id"=>$set_id])));
                     }else{
                         exit(json_encode(array("status"=>1,"info"=>"可以升级","data"=>["id"=>$enter_all_id])));
@@ -1534,6 +1534,13 @@ class  General extends  Base {
             $meal_name =Db::table("tb_enter_meal")
                 ->where("id",$enter_data['enter_id'])
                 ->value("name");
+            if($enter_data['enter_id'] ==5){
+                $images_url ="/static/admin/common/img/wanyong.png";
+            }else if($enter_data['enter_id'] ==7){
+                $images_url ="/static/admin/common/img/hangye.png";
+            }else{
+                $images_url ="/static/admin/common/img/jingjie.png";
+            }
             $store_name =Db::table("tb_store")
                 ->where("id",$store_id)
                 ->value("store_name");
@@ -1553,6 +1560,7 @@ class  General extends  Base {
                 "goods_name"=>$meal_name,//套餐名称
                 "goods_quantity"=>1, //数量
                 "unit"=>"年", //单位
+                "images_url"=>$images_url,//图标
                 "store_name"=>$store_name, //店铺名字
                 "amount_money"=>$enter_data["favourable_cost"],//金额
                 "cost" =>$enter_data["cost"],//原价
@@ -1670,12 +1678,12 @@ class  General extends  Base {
             include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
             $obj_alipay = new \alipay();
             $arr_data = array(
-                "return_url" => trim(config("domain.url")."/admin/store_set_meal_order.html"),
+                "return_url" => trim(config("domain.url")."admin"),
                 "notify_url" => trim(config("domain.url")."/set_meal_notify_alipay.html"),
-                "service" => "create_direct_pay_by_user",
-                "payment_type" => 1, //
-                "seller_email" => '717797081@qq.com',
-                "out_trade_no" => $order_number,
+                "service" => "create_direct_pay_by_user", //服务参数，这个是用来区别这个接口是用的什么接口，所以绝对不能修改
+                "payment_type" => 1, //支付类型，没什么可说的直接写成1，无需改动。
+                "seller_email" => '717797081@qq.com', //卖家
+                "out_trade_no" => $order_number, //订单编号
                 "subject" => $goods_name, //商品订单的名称
                 "total_fee" => number_format($money, 2, '.', ''),
             );
