@@ -1490,7 +1490,7 @@ class  General extends  Base {
                    ->value("enter_all_id");
                 if($set_id){
                     $year =Db::name("enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
-                    if($year>=$years){
+                    if($year>$years){
                         exit(json_encode(array("status"=>4,"info"=>"不能升级为年份少于之前的年份","data"=>["id"=>$set_id])));
                     }else{
                         exit(json_encode(array("status"=>1,"info"=>"可以升级","data"=>["id"=>$enter_all_id])));
@@ -1678,7 +1678,7 @@ class  General extends  Base {
             include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
             $obj_alipay = new \alipay();
             $arr_data = array(
-                "return_url" => trim(config("domain.url")."admin"),
+//                "return_url" => trim(config("domain.url")."admin"),
                 "notify_url" => trim(config("domain.url")."/set_meal_notify_alipay.html"),
                 "service" => "create_direct_pay_by_user",
                 "payment_type" => 1, //
