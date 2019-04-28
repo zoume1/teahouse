@@ -1678,7 +1678,7 @@ class  General extends  Base {
             include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
             $obj_alipay = new \alipay();
             $arr_data = array(
-                "return_url" => trim(config("domain.url")."/admin/store_set_meal_order.html"),
+                "return_url" => trim(config("domain.url")."admin"),
                 "notify_url" => trim(config("domain.url")."/set_meal_notify_alipay.html"),
                 "service" => "create_direct_pay_by_user",
                 "payment_type" => 1, //
