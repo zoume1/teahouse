@@ -54,19 +54,90 @@ class  AdminWx extends Controller{
                         ->update($data);
                     if($res){
                         //把之前的套餐订单删掉
-                       $result = Db::name("set_meal_order")->where("order_number",$is_set_order["order_number"])->delete();
-                        if($result){
-                            echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
-                        }else{
-                            return "fail";
+                        Db::name("set_meal_order")->where("order_number",$is_set_order["order_number"])->delete();
+                        //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
+                        Db::table("tb_admin")
+                            ->where("store_id",$enter_all_data["store_id"])
+                            ->where("is_own",1)
+                            ->update(["role_id"=>7]);
+                        //审核通过的时候先判断是否有小程序模板，没有的话则进行添加，有的话则不需要
+                        $is_set = Db::table("ims_sudu8_page_diypageset")
+                            ->where("store_id",$enter_all_data["store_id"])
+                            ->find();
+                        if(!$is_set){
+                            $is_uniacid =Db::table("ims_sudu8_page_base")
+                                ->where("uniacid",$enter_all_data["store_id"])
+                                ->find();
+                            if(!$is_uniacid){
+                                $insert_data =[
+                                    "uniacid"=>$enter_all_data["store_id"],
+                                    "index_style"=>"header",
+                                    "copyimg"=>"",
+                                    "base_color_t"=>"",
+                                    "tabnum_new"=>5,
+                                    "homepage"=>2,
+                                ];
+                                Db::table("ims_sudu8_page_base")->insert($insert_data);
+                            }
+                            $array =[
+                                "go_home"=>1,
+                                "uniacid"=>$enter_all_data["store_id"],
+                                "kp"=>"/diypage/resource/images/diypage/default/default_start.jpg",
+                                "kp_is"=>2,
+                                "kp_url"=>"",
+                                "kp_urltype"=>"",
+                                "kp_m"=>2,
+                                "tc"=>"/diypage/resource/images/diypage/default/tcgg.jpg",
+                                "tc_is"=>2,
+                                "tc_url"=>"",
+                                "tc_urltype"=>"",
+                                "foot_is"=>2,
+                                "pid"=>0,
+                                "store_id"=>$enter_all_data["store_id"],
+                            ];
+                            Db::table("ims_sudu8_page_diypageset")->insert($array);
+                            //添加首页
+                            $arr=[
+                                "uniacid"=>$enter_all_data["store_id"],
+                                "index"=>1,
+                                "page"=>'a:7:{s:10:"background";s:7:"#f1f1f1";s:13:"topbackground";s:7:"#ffffff";s:8:"topcolor";s:1:"1";s:9:"styledata";s:1:"0";s:5:"title";s:21:"小程序页面标题";s:4:"name";s:23:"后台页面名称11111";s:10:"visitlevel";a:2:{s:6:"member";s:0:"";s:10:"commission";s:0:"";}}',
+                                "items"=>"",
+                                "tpl_name"=>"首页"
+                            ];
+                            $diy_id = Db::table("ims_sudu8_page_diypage")->insertGetId($arr);
+                            $new_array =[
+                                "uniacid"=>$enter_all_data["store_id"],
+                                "pageid"=>$diy_id,
+                                "template_name"=>"综合商城模板",
+                                "thumb"=>"/diypage/template_img/template_shop/cover.png",
+                                "create_time"=>time(),
+                                "status"=>1,
+                                "store_id"=>$enter_all_data["store_id"]
+                            ];
+                            Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
+                            //添加系统推荐模板
+                            $arrs=[
+                                "uniacid"=>$enter_all_data["store_id"],
+                                "index"=>0,
+                                "page"=>'a:7:{s:10:"background";s:7:"#f1f1f1";s:13:"topbackground";s:7:"#ffffff";s:8:"topcolor";s:1:"1";s:9:"styledata";s:1:"0";s:5:"title";s:21:"小程序页面标题";s:4:"name";s:23:"后台页面名称11111";s:10:"visitlevel";a:2:{s:6:"member";s:0:"";s:10:"commission";s:0:"";}}',
+                                "items"=>"",
+                                "tpl_name"=>"系统推荐"
+                            ];
+                            $diy_ids=Db::table("ims_sudu8_page_diypage")->insertGetId($arrs);
+                            $new_array =[
+                                "uniacid"=>$enter_all_data["store_id"],
+                                "pageid"=>$diy_ids,
+                                "template_name"=>"综合商城模板",
+                                "thumb"=>"/diypage/template_img/template_shop/cover.png",
+                                "create_time"=>time(),
+                                "status"=>1,
+                                "store_id"=>$enter_all_data["store_id"]
+                            ];
+                            Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
                         }
-                    }else{
-                        $result =0;
-                        if($result){
-                            echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
-                        }else{
-                            return "fail";
-                        }
+                        echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                    }else {
+                        return "fail";
                     }
                 }else{
                     //这是新加入套餐的情况
@@ -82,6 +153,8 @@ class  AdminWx extends Controller{
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
                     if($result){
+                        //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
+
                         echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                     }else{
                         return "fail";
@@ -148,6 +221,7 @@ class  AdminWx extends Controller{
                             ->where("order_number", $is_set_order["order_number"])
                             ->delete();
                         if ($result) {
+                            //进行角色转化
                             return "success";
                         } else {
                             return "fail";
@@ -155,6 +229,7 @@ class  AdminWx extends Controller{
                     } else {
                         $result = 0;
                         if ($result) {
+                            //进行角色转化
                             return "success";
                         } else {
                             return "fail";
@@ -174,6 +249,7 @@ class  AdminWx extends Controller{
                         ->where($condition)
                         ->update($data);
                     if ($result) {
+                        //进行角色转化
                         return "success";
                     } else {
                         return "fail";

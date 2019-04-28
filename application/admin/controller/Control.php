@@ -319,7 +319,6 @@ class  Control extends  Controller{
                         Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
                     }
                 }
-
                 $this->success("审核成功", url("admin/Control/control_order_index"));
             } else {
                 $this->error("审核失败,请编辑后再提交");
