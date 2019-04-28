@@ -187,6 +187,7 @@ class  Control extends  Controller{
             ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
             ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
             ->where("is_del",1)
+            ->where("tb_set_meal_order.pay_type","NEQ","NULL")
             ->order("tb_set_meal_order.create_time","desc")
             ->paginate(20 ,false, [
                 'query' => request()->param(),
@@ -239,6 +240,7 @@ class  Control extends  Controller{
             ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status,tb_store.address_data,tb_store.id_card,tb_store.card_positive,tb_store.store_introduction,tb_store.store_qq,tb_store.explain")
             ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
             ->where("is_del",1)
+            ->where("tb_set_meal_order.pay_type","NEQ","NULL")
             ->where("store_id",$store_id)
             ->select();
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
@@ -319,7 +321,6 @@ class  Control extends  Controller{
                         Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
                     }
                 }
-
                 $this->success("审核成功", url("admin/Control/control_order_index"));
             } else {
                 $this->error("审核失败,请编辑后再提交");

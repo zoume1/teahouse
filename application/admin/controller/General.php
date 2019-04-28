@@ -1490,7 +1490,7 @@ class  General extends  Base {
                    ->value("enter_all_id");
                 if($set_id){
                     $year =Db::name("enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
-                    if($year>=$years){
+                    if($year>$years){
                         exit(json_encode(array("status"=>4,"info"=>"不能升级为年份少于之前的年份","data"=>["id"=>$set_id])));
                     }else{
                         exit(json_encode(array("status"=>1,"info"=>"可以升级","data"=>["id"=>$enter_all_id])));
@@ -1678,12 +1678,12 @@ class  General extends  Base {
             include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
             $obj_alipay = new \alipay();
             $arr_data = array(
-                "return_url" => trim(config("domain.url")."/admin/store_set_meal_order.html"),
+                "return_url" => trim(config("domain.url")."admin"),
                 "notify_url" => trim(config("domain.url")."/set_meal_notify_alipay.html"),
-                "service" => "create_direct_pay_by_user",
-                "payment_type" => 1, //
-                "seller_email" => '717797081@qq.com',
-                "out_trade_no" => $order_number,
+                "service" => "create_direct_pay_by_user", //服务参数，这个是用来区别这个接口是用的什么接口，所以绝对不能修改
+                "payment_type" => 1, //支付类型，没什么可说的直接写成1，无需改动。
+                "seller_email" => '717797081@qq.com', //卖家
+                "out_trade_no" => $order_number, //订单编号
                 "subject" => $goods_name, //商品订单的名称
                 "total_fee" => number_format($money, 2, '.', ''),
             );
