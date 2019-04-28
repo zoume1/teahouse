@@ -527,7 +527,7 @@ class  Wxapps extends  Controller{
                                     ->where("pid", $sourceid)
                                     ->where("status", 1)
                                     ->limit(1,$count)
-                                    ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard")
+                                    ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
                                     ->select();
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
