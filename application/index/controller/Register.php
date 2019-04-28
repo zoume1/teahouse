@@ -94,7 +94,7 @@ class Register extends  Controller{
             if (session('mobileCodes') != $code || $mobile != $_SESSION['mobiles']) {
                 return ajax_error("验证码不正确");
             } else {
-                $passwords =password_hash($password,PASSWORD_DEFAULT);
+                $passwords = password_hash($password,PASSWORD_DEFAULT);
                 $datas =[
                     'phone_number'=>$mobile,
                     'password'=>$passwords,

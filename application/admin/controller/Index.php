@@ -83,7 +83,7 @@ class Index extends Controller
                             }
                         }
                     }
-//                    $menu_list = _tree_hTree(_tree_sort($menu_list, "sort_number"));
+//                  $menu_list = _tree_hTree(_tree_sort($menu_list, "sort_number"));
                     if(!empty($menu_list)){
                         foreach ($menu_list as $val_data){
                             $menu_lists[] =$val_data;
