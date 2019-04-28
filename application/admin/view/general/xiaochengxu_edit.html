@@ -16477,12 +16477,15 @@
 
                 <div class="item-body">
 
-                    <div class="item-image <%if params.navstyle==0%>square<%/if%>">
+                    <div class="item-image <%if params.navstyle==0%>square<%/if%>" style="border:0px;background-color: #fff;">
 
                         <%if params.navstyle==1%>
-
-                        <img src="<%item.imgurl%>" class="feedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg-<%itemid%>" style="background: #fff;" />
-
+                        <div style="border: 1px solid #e7eaec;margin-bottom:5px;">
+                        <img src="<%item.imgurl%>" class="feedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg-<%itemid%>" style="background: #fff;height:45px;width:50px;" />
+                        </div>
+                        <div style="border: 1px solid #e7eaec;">
+                        <img src="<%item.imgurl%>" class="feedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg-<%itemid%>" style="background: #fff;height:45px;width:50px;" />
+                        </div>
                         <%/if%>
 
                         <%if params.navstyle==0%>
