@@ -105,16 +105,6 @@ class  AdminWx extends Controller{
                                 "tpl_name"=>"首页"
                             ];
                             $diy_id = Db::table("ims_sudu8_page_diypage")->insertGetId($arr);
-                            $new_array =[
-                                "uniacid"=>$enter_all_data["store_id"],
-                                "pageid"=>$diy_id,
-                                "template_name"=>"综合商城模板",
-                                "thumb"=>"/diypage/template_img/template_shop/cover.png",
-                                "create_time"=>time(),
-                                "status"=>1,
-                                "store_id"=>$enter_all_data["store_id"]
-                            ];
-                            Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
                             //添加系统推荐模板
                             $arrs=[
                                 "uniacid"=>$enter_all_data["store_id"],
@@ -126,7 +116,7 @@ class  AdminWx extends Controller{
                             $diy_ids=Db::table("ims_sudu8_page_diypage")->insertGetId($arrs);
                             $new_array =[
                                 "uniacid"=>$enter_all_data["store_id"],
-                                "pageid"=>$diy_ids,
+                                "pageid"=>".$diy_id.",".$diy_ids.",
                                 "template_name"=>"综合商城模板",
                                 "thumb"=>"/diypage/template_img/template_shop/cover.png",
                                 "create_time"=>time(),
@@ -203,16 +193,6 @@ class  AdminWx extends Controller{
                                 "tpl_name"=>"首页"
                             ];
                             $diy_id = Db::table("ims_sudu8_page_diypage")->insertGetId($arr);
-                            $new_array =[
-                                "uniacid"=>$enter_all_data["store_id"],
-                                "pageid"=>$diy_id,
-                                "template_name"=>"综合商城模板",
-                                "thumb"=>"/diypage/template_img/template_shop/cover.png",
-                                "create_time"=>time(),
-                                "status"=>1,
-                                "store_id"=>$enter_all_data["store_id"]
-                            ];
-                            Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
                             //添加系统推荐模板
                             $arrs=[
                                 "uniacid"=>$enter_all_data["store_id"],
@@ -224,7 +204,7 @@ class  AdminWx extends Controller{
                             $diy_ids=Db::table("ims_sudu8_page_diypage")->insertGetId($arrs);
                             $new_array =[
                                 "uniacid"=>$enter_all_data["store_id"],
-                                "pageid"=>$diy_ids,
+                                "pageid"=>".$diy_id.",".$diy_ids.",
                                 "template_name"=>"综合商城模板",
                                 "thumb"=>"/diypage/template_img/template_shop/cover.png",
                                 "create_time"=>time(),
