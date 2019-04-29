@@ -257,12 +257,15 @@ class  Control extends  Controller{
         if($request -> isPost()) {
             $id = $request->only(["id"])["id"];
             $data = $request->param();
-            $is_pay = db("set_meal_order")->where("id", $id)->field("pay_type,store_id")->find();
+            $is_pay = db("set_meal_order")->where("id", $id)->field("pay_type,store_id,audit_status")->find();
             if(!$is_pay["pay_type"]){
                 $this->error("此订单未付款不能审核操作");
             }
             if($is_pay["pay_type"] ==1){
                 $this->error("扫码支付已自动审核通过");
+            }
+            if($is_pay["audit_status"] ==1){
+                $this->error("此订单已审核通过,不能再次审核");
             }
             $bool = db("set_meal_order")->where("id", $id)->update($data);
             if ($bool) {
