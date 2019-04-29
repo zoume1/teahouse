@@ -114,11 +114,16 @@
             data: "",
             success: (data) => {
                 var new_data = JSON.parse(data);
-                val = new_data.data;
                 console.log(new_data)
+                val = new_data.data;
                 var dhtml = '';
-                var path= `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}`;
+        
+                if(new_data.status == '0' ) {
+                    alert(new_data.info)
+                    window.location.href = "{:url('admin/General/small_routine_index')}";
+                }
                 if(new_data.status == '1' ) {
+                    var path= `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}`;
                     if(val.data[0].goods_names == "万用版") {
                             dhtml = `<div class="list">
                                         <div class="imgcontent">
@@ -161,7 +166,7 @@
                                         </div>
                                         <div class="btns">
                                             <a href="">
-                                                <div class="btns_b">历史编辑</div>
+                                                <div class="btns_b">切换版本</div>
                                             </a>
                                             <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                         </div>
@@ -172,7 +177,7 @@
                                             <div class="text">茶行业版</div>
                                         </div>
                                         <div class="btns">
-                                            <a href="${path}"><div class="btns_b" >切换版本</div></a>
+                                            <a href="${path}"><div class="btns_b" >历史编辑</div></a>
                                             <div class="btns_a" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                         </div>
                                         </div>
@@ -194,7 +199,7 @@
                                         </div>
                                         <div class="btns">
                                             <a href="">
-                                                <div class="btns_b">历史编辑</div>
+                                                <div class="btns_b">切换版本</div>
                                             </a>
                                             <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                         </div>
@@ -215,16 +220,14 @@
                                             <div class="text">茶进阶版</div>
                                         </div>
                                         <div class="btns">
-                                            <a href="${path}"><div class="btns_b">切换版本</div></a>
+                                            <a href="${path}"><div class="btns_b">历史编辑</div></a>
                                             <div class="btns_a" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                         </div>
                                         </div>`;
                         }
                     $('.childrenBody').append(dhtml);
-                } else {
-                    alert(new_data.info);
-                    window.location.href = "{:url('admin/General/decoration_routine_index')}";
-                }
+                } 
+                 
                 
             },
             error: (e) => {
