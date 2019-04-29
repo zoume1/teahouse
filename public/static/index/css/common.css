@@ -19,10 +19,10 @@ li{line-height: inherit;}
 .txt-hid-one{overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;}
 .txt-hid-two{overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;}
 .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0, 0, 0, .5);}
-.wrapper{width: 100%; min-width: 1350px;}
+.wrapper{width: 100%; min-width: 1350px; margin-top: 80px;}
 .container{width: 1350px; margin: 0 auto;}
 /* header */
-.header{ background-color: #fff;}
+.header{position: fixed; top: 0; left: 0; width: 100%; z-index: 99; background-color: #fff;}
 .header .header-container{display: flex; width: 1350px; margin: 0 auto;}
 .header .header-section{height: 80px; box-sizing: border-box;}
 .logo{display: flex; align-items: center; flex-basis: 30%;}
