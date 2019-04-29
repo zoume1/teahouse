@@ -400,7 +400,7 @@ class  General extends  Base {
                 }
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
-                return ajax_error("请先编辑小程序设置admin/General/small_routine_index");
+                return ajax_error("请先编辑小程序设置");
             }
         }
         return view("decoration_routine_index");
