@@ -228,7 +228,7 @@
 
                                 <h4 class="font-size-15 pull-left margin-0" style="line-height: 28px;">全部页面</h4>
 
-                                <button onclick="themes()" style="border:1px solid rgb(1, 192, 240); border-radius: 8px; background-color:#fff; color:rgb(1, 192, 240); margin-left:140px;">系统推荐模板</button>
+                                <button onclick="themes()" id="themes" type="button" style="border:1px solid rgb(1, 192, 240); border-radius: 8px; background-color:#fff; color:rgb(1, 192, 240); margin-left:140px;">系统推荐模板</button>
                                 <span class="pull-right "> <button type="button" class="btn btn-pure btn-default iconfont icon-x-jia btn-sm padding-0 black font-size-26" data-type="addpage" onclick="addpage()" style="width:20px;height:20px;font-size:20px!important"></button> </span>
 
                             </div>
@@ -19461,6 +19461,21 @@
 <!--初始化自定义组件-->
 
 <script language="javascript">
+    function themes() {
+        var path = "{:url('admin/General/system_template')}";
+        $.ajax({
+            type: "POST",
+            url: path,
+            data: "",
+            success: function(data) {
+                location.reload()
+            },
+            error: function(e) {
+                console.log(e)
+            }
+        })
+    }
+    
     function returnindex(){
         if(confirm('是否保存当前页面？')){
             $(".btn-save").click();
@@ -19544,9 +19559,7 @@
 
     });
 
-    function themes() {
-        var path = 1;
-    }
+   
 
     function addpage() {
 
