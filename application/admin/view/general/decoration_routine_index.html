@@ -95,21 +95,20 @@
     {block name="content"}
 
     <div class="childrenBody">
-        {if !empty($list)}
+
         <div class="list">
-            {volist name="list" id="vo"}
+
             <div class="imgcontent">
                 <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
                 <div class="text">万用模版</div>
             </div>
             <div class="btns">
                 
-                <a href="/admin/xiaochengxu_edit?appletid={$vo.id}&tplid={$vo.tplid}">
+                <a href="">
                     <div class="btns_b">历史编辑</div>
                 </a>
                 <div class="btns_a"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
             </div>
-            {/volist}
         </div>
         <div class="list">
             <div class="imgcontent">
@@ -121,7 +120,6 @@
                 <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
             </div>
         </div>
-
         <div class="list">
             <div class="imgcontent">
                 <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
@@ -132,7 +130,6 @@
                 <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
             </div>
         </div>
-        {/if}
     </div>
 
     {/block}
