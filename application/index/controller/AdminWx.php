@@ -102,7 +102,7 @@ class  AdminWx extends Controller{
                                 "items"=>"",
                                 "tpl_name"=>"首页"
                             ];
-                            $diy_id = Db::table("ims_sudu8_page_diypage")->insertGetId($arr);
+                            $diy_id[0] = Db::table("ims_sudu8_page_diypage")->insertGetId($arr);
                             //添加系统推荐模板
                             $arrs=[
                                 "uniacid"=>$enter_all_data["store_id"],
@@ -111,10 +111,10 @@ class  AdminWx extends Controller{
                                 "items"=>"",
                                 "tpl_name"=>"系统推荐"
                             ];
-                            $diy_ids=Db::table("ims_sudu8_page_diypage")->insertGetId($arrs);
+                            $diy_id[1]=Db::table("ims_sudu8_page_diypage")->insertGetId($arrs);
                             $new_array =[
                                 "uniacid"=>$enter_all_data["store_id"],
-                                "pageid"=>".$diy_id.",".$diy_ids.",
+                                "pageid"=>implode(',',$diy_id),
                                 "template_name"=>"综合商城模板",
                                 "thumb"=>"/diypage/template_img/template_shop/cover.png",
                                 "create_time"=>time(),
@@ -190,7 +190,7 @@ class  AdminWx extends Controller{
                                 "items"=>"",
                                 "tpl_name"=>"首页"
                             ];
-                            $diy_id = Db::table("ims_sudu8_page_diypage")->insertGetId($arr);
+                            $diy_id[0] = Db::table("ims_sudu8_page_diypage")->insertGetId($arr);
                             //添加系统推荐模板
                             $arrs=[
                                 "uniacid"=>$enter_all_data["store_id"],
@@ -199,10 +199,10 @@ class  AdminWx extends Controller{
                                 "items"=>"",
                                 "tpl_name"=>"系统推荐"
                             ];
-                            $diy_ids=Db::table("ims_sudu8_page_diypage")->insertGetId($arrs);
+                            $diy_id[1]=Db::table("ims_sudu8_page_diypage")->insertGetId($arrs);
                             $new_array =[
                                 "uniacid"=>$enter_all_data["store_id"],
-                                "pageid"=>".$diy_id.",".$diy_ids.",
+                                "pageid"=>implode(',',$diy_id),
                                 "template_name"=>"综合商城模板",
                                 "thumb"=>"/diypage/template_img/template_shop/cover.png",
                                 "create_time"=>time(),
