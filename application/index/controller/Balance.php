@@ -36,7 +36,9 @@ class Balance extends Controller
             $password = $request->only("passwords")["passwords"]; //输入的密码
             if (password_verify($password,$user_info["pay_password"])) {
                 //真实支付的价钱
-                $money = Db::name("order")->where("parts_order_number", $order_num)->sum("order_amount");
+                $money = Db::name("order")
+                    ->where("parts_order_number", $order_num)
+                    ->sum("order_amount");
                 if(!empty($money)){
                     $money =round($money,2);
                 }else{

@@ -781,6 +781,7 @@ Route::group("admin",[
     "small_routine_edit"=>"admin/General/small_routine_edit",           //小程序设置添加编辑功能
     "decoration_routine_index"=>"admin/General/decoration_routine_index", //小程序装修
     "xiaochengxu_edit"=>"admin/General/xiaochengxu_edit", //小程序装修
+    "system_template"=>"admin/General/system_template", //小程序系统推荐模板生成
     "test_selecticon"=>"admin/Test/selecticon",//图标库
     "test_select_url"=>"admin/Test/select_url",//轮播图功能库（数据来源）
     "test_select_source"=>"admin/Test/select_source",//公告来源栏目（数据来源）
