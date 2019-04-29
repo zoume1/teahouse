@@ -7,7 +7,6 @@
  * Time: 15:21
  */
 namespace app\index\controller;
-
 use think\console\Input;
 use think\Controller;
 use think\Db;
