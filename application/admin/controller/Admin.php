@@ -15,7 +15,7 @@ class Admin extends Controller
      * @return \think\response\View
      */
     public function index(Request $request){
-        $store_id =Session::get("store_id");
+        $store_id = Session::get("store_id");
         //admin进来
         if(empty($store_id)){
             $account_list = db("admin")->order("id")->select();
@@ -23,7 +23,7 @@ class Admin extends Controller
                 $account_list[$key]["role_name"] = db("role")->where("id",$value["role_id"])->value("name");
             }
             $roleList = getSelectList("role");
-        }else{
+        } else {
             $account_list = db("admin")->where("store_id",$store_id)->where("role_id","NEQ",7)->order("id")->select();
             foreach ($account_list as $key=>$value){
                 $account_list[$key]["role_name"] = db("role")->where("id",$value["role_id"])->value("name");
@@ -41,7 +41,7 @@ class Admin extends Controller
      * @return \think\response\View
      */
     public function add(){
-        $store_id =Session::get("store_id");
+        $store_id = Session::get("store_id");
         if(!empty($store_id)){
             $roles = db("role")
                 ->where("store_id",$store_id)
