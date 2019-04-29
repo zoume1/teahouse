@@ -386,6 +386,7 @@ class  General extends  Base {
         $list =Db::table("applet")
             ->where("store_id",$this->store_ids)
             ->select();
+
         if(!empty($list)){
             foreach ($list as $k=>$v){
                 $list[$k]["tplid"] =Db::table("ims_sudu8_page_diypagetpl")->where("store_id",$this->store_ids)->value("id");
@@ -439,25 +440,14 @@ class  General extends  Base {
                 }
             }
             if($op == "query"){
-
                 $type = input('type');
-
                 $kw = input('kw');
-
                 switch ($type){
-
                     case 'news':
-
-
                         $list = Db::table('ims_sudu8_page_products')->where("uniacid",$appletid)->where("type","showArt")->where("title","like","%".$kw."%")->field("id,title")->select();
-
-
                         $html = '';
-
-
                         if($list){
                             foreach ($list as $k => $v){
-
                                 $html .= '<div class="line">
 
                                                     <div class="icon icon-link1"></div>
@@ -467,7 +457,6 @@ class  General extends  Base {
                                                     <div class="text"><span class="label lable-default">普通</span>'.$v['title'].'</div>
 
                                                 </div>';
-
                             }
                         }else{
                             $html = '<div class="line">
@@ -481,16 +470,9 @@ class  General extends  Base {
                     case 'pic':
 
                         $list = Db::table('ims_sudu8_page_products')->where("uniacid",$appletid)->where("type","showPic")->where("title","like","%".$kw."%")->field("id,title")->select();
-
-
-
                         $html = '';
-
-
                         if($list){
-
                             foreach ($list as $k => $v){
-
                                 $html .= '<div class="line">
 
                                                     <div class="icon icon-link1"></div>
@@ -500,7 +482,6 @@ class  General extends  Base {
                                                     <div class="text"><span class="label lable-default">普通</span>'.$v['title'].'</div>
 
                                                 </div>';
-
                             }
                         }else{
                             $html = '<div class="line">
@@ -513,40 +494,25 @@ class  General extends  Base {
                         break;
 
                     case 'goods':
-
-
                         $list = Db::table('ims_sudu8_page_products')->where("uniacid",$appletid)->where("type","neq","showArt")->where("type","neq","showPic")->where("type","neq","wxapp")->where("title","like","%".$kw."%")->field("id,title,price,pro_kc,pro_flag")->select();
-
                         $html = '';
-
-
                         if($list){
                             foreach ($list as $k => $v){
-
                                 if($v['pro_flag'] == 2){
-
                                     $url = "/sudu8_page/showProMore/showProMore?id=".$v['id'];
-
                                     $g = "多规格";
-
                                 }else{
-
                                     $url = "/sudu8_page/showPro/showPro?id=".$v['id'];
-
                                     $g = "单规格";
-
                                 }
-
                                 $html .= '<div class="line">
 
-                                                    <div class="icon icon-link1"></div>
-
-                                                    <nav data-href="'.$url.'" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                                                <div class="icon icon-link1"></div>
+                                                      <nav data-href="'.$url.'" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
 
                                                     <div class="text"><span class="label lable-default">普通</span>'.$g.' - 商品名称：'.$v['title'].' &nbsp; 价格：'.$v['price'].' &nbsp; 库存：'.$v['pro_kc'].'</div>
 
                                                 </div>';
-
                             }
                         }else{
                             $html = '<div class="line">
@@ -577,10 +543,7 @@ class  General extends  Base {
                     exit;
                 }
 
-
-
                 $id = input('id') ? intval(input('id')) : 0;
-
                 if($id == 0){
 
                     $this->error('参数错误');
