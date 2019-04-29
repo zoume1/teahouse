@@ -1637,7 +1637,11 @@ class  General extends  Base {
                 "remittance_account"=>$remittance_account,
                 "create_time"=>time(),
                 "meal_order_id"=>$meal_order_id,
-                "pay_time"=>$pay_time
+                "pay_time"=>$pay_time,
+                "status"=>1,
+                "pay_type"=>2,//支付类型（1扫码支付，2汇款支付，3余额支付）
+                "pay_status"=>1,//到账状态（1为已到账，-1未到账，2待审核）
+                "audit_status"=>0,//订单审核状态（1审核通过，-1审核不通过,0待审核）
             ];
             $bool =Db::name("meal_pay_form")->insertGetId($data);
             if($bool){
@@ -1779,13 +1783,28 @@ class  General extends  Base {
                 exit(json_encode(array("status" => 3, "info" => "支付密码错误")));
             }
             //进行钱包减
-            $amount_money =Db::name("set_meal_order")->where("id",$meal_order_id)->value("amount_money");
+            $amount_money =Db::name("set_meal_order")
+                ->where("id",$meal_order_id)
+                ->value("amount_money");
             if($store_pass["store_wallet"]<$amount_money){
                 exit(json_encode(array("status" => 3, "info" => "账号余额不足")));
             }
             //进行账号余额减然后插入消费表中
-            $new_wallet =Db::name("store")->where("id",$this->store_ids)->setDec("store_wallet",$amount_money);
+            $new_wallet =Db::name("store")
+                ->where("id",$this->store_ids)
+                ->setDec("store_wallet",$amount_money);
             if($new_wallet){
+                //支付成功需要更改表中数据
+                $datas =[
+                    "status"=>1,//支付时间
+                    "pay_time"=>time(),//支付时间
+                    "pay_type"=>3,//支付类型（1扫码支付，2汇款支付，3余额支付）
+                    "pay_status"=>1, //到账状态（1为已到账，-1未到账，2待审核）
+                    "audit_status"=>0,//订单审核状态（1审核通过，-1审核不通过,0待审核）
+                ];
+                Db::name("set_meal_order")
+                    ->where("id",$meal_order_id)
+                    ->update($datas);
                 exit(json_encode(array("status" => 1, "info" => "支付成功")));
             }else{
                 exit(json_encode(array("status" => 3, "info" => "支付失败")));
