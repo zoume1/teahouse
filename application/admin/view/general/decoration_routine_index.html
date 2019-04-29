@@ -141,6 +141,18 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
+        $.ajax({
+            type: "POST",
+            url: "{:url('admin/General/decoration_routine_index')}",
+            data: "",
+            success: (data) => {
+                console.log(data)
+            },
+            error: (e) => {
+                console.log(e);
+            }
+        })
+        
         function save_id(id) {
             setCookie("edit_id", id, 1);
         }
