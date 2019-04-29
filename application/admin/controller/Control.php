@@ -257,7 +257,10 @@ class  Control extends  Controller{
         if($request -> isPost()) {
             $id = $request->only(["id"])["id"];
             $data = $request->param();
-            $is_pay = db("set_meal_order")->where("id", $id)->field("pay_type,store_id,audit_status")->find();
+            $is_pay = db("set_meal_order")
+                ->where("id", $id)
+                ->field("pay_type,store_id,audit_status")
+                ->find();
             if(!$is_pay["pay_type"]){
                 $this->error("此订单未付款不能审核操作");
             }
@@ -267,6 +270,8 @@ class  Control extends  Controller{
             if($is_pay["audit_status"] ==1){
                 $this->error("此订单已审核通过,不能再次审核");
             }
+            $data["start_time"] =time(); //开始时间
+            $data["end_time"] =time(); //到期时间
             $bool = db("set_meal_order")->where("id", $id)->update($data);
             if ($bool) {
                 //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
@@ -324,7 +329,6 @@ class  Control extends  Controller{
                             "tpl_name"=>"系统推荐"
                         ];
                         $diy_id[1]=Db::table("ims_sudu8_page_diypage")->insertGetId($arrs);
-
                         $new_array =[
                             "uniacid"=>$is_pay["store_id"],
                             "pageid"=>implode(',',$diy_id),
@@ -337,7 +341,7 @@ class  Control extends  Controller{
                         Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
                     }
                 }
-                $this->success("审核成功", url("admin/Control/control_order_index"));
+                $this->success("审核成功", "admin/Control/control_order_index");
             } else {
                 $this->error("审核失败,请编辑后再提交");
             }

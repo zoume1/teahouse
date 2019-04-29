@@ -79,11 +79,9 @@
 {/block}
 
 <body>
-
 	{block name="content"}
 	{volist name="roles" id="value"}
 	<form class="layui-form layui-form-lists" action="{:url('admin/role/updata',['id'=>$value.id])}" method="post">
-
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>角色名称</label>
 			<div class="form-input">
