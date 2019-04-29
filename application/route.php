@@ -235,6 +235,7 @@ Route::group("",[
     "pay_password_return" =>"index/PassWord/pay_password_return",//支付密码返回（判断是否存在支付密码）
     "balance_payment"=>"index/Balance/balance_payment",//商品余额支付
     "check_password"=>"index/Balance/check_password",//校验支付密码
+    "remainder_pay"=>"index/Balance/remainder_pay",//众筹商品余额打赏支付
     /*TODO:设置支付密码结束*/
 
     /*TODO:充值提现开始*/
