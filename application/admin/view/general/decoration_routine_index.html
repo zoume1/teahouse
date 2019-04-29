@@ -96,40 +96,7 @@
 
     <div class="childrenBody">
 
-        <div class="list">
-
-            <div class="imgcontent">
-                <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
-                <div class="text">万用模版</div>
-            </div>
-            <div class="btns">
-                
-                <a href="">
-                    <div class="btns_b">历史编辑</div>
-                </a>
-                <div class="btns_a"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-            </div>
-        </div>
-        <div class="list">
-            <div class="imgcontent">
-                <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
-                <div class="text">茶行业版</div>
-            </div>
-            <div class="btns">
-                <div class="btns_b" >切换版本</div>
-                <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-            </div>
-        </div>
-        <div class="list">
-            <div class="imgcontent">
-                <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
-                <div class="text">茶进阶版</div>
-            </div>
-            <div class="btns">
-                <div class="btns_b">切换版本</div>
-                <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-            </div>
-        </div>
+        
     </div>
 
     {/block}
@@ -146,7 +113,119 @@
             url: "{:url('admin/General/decoration_routine_index')}",
             data: "",
             success: (data) => {
-                console.log(data)
+                var new_data = JSON.parse(data);
+                val = new_data.data;
+                console.log(new_data)
+                var dhtml = '';
+                var path= `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}`;
+                if(new_data.status == '1' ) {
+                    if(val.data[0].goods_names == "万用版") {
+                            dhtml = `<div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
+                                            <div class="text">万用模版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <a href="${path}">
+                                                <div class="btns_b">历史编辑</div>
+                                            </a>
+                                            <div class="btns_a"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
+                                            <div class="text">茶行业版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <a><div class="btns_b" >切换版本</div></a>
+                                            <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
+                                            <div class="text">茶进阶版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <a><div class="btns_b">切换版本</div></a>
+                                            <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>`;
+
+                        } else if (val.data[0].goods_names == "行业版") {
+                            dhtml = `<div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
+                                            <div class="text">万用模版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <a href="">
+                                                <div class="btns_b">历史编辑</div>
+                                            </a>
+                                            <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
+                                            <div class="text">茶行业版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <a href="${path}"><div class="btns_b" >切换版本</div></a>
+                                            <div class="btns_a" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
+                                            <div class="text">茶进阶版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <a><div class="btns_b">切换版本</div></a>
+                                            <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>`;
+                        } else {
+                            dhtml = `<div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
+                                            <div class="text">万用模版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <a href="">
+                                                <div class="btns_b">历史编辑</div>
+                                            </a>
+                                            <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
+                                            <div class="text">茶行业版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <a href=""><div class="btns_b" >切换版本</div></a>
+                                            <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
+                                            <div class="text">茶进阶版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <a href="${path}"><div class="btns_b">切换版本</div></a>
+                                            <div class="btns_a" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>`;
+                        }
+                    $('.childrenBody').append(dhtml);
+                } else {
+                    alert(new_data.info);
+                    window.location.href = "{:url('admin/General/decoration_routine_index')}";
+                }
+                
             },
             error: (e) => {
                 console.log(e);
@@ -176,9 +255,9 @@
                 var opration_val = $(".opation select option:selected").val();
                 if (opration_val == 0) {
                     layer.alert('请选择操作', {
-                        skin: 'layui-layer-molv' //样式类名
-                        ,
-                        closeBtn: 0
+                        skin: 'layui-layer-molv', //样式类名
+                        
+                        // closeBtn: 0
                     });
                 } else if (opration_val == 1) {
                     layer.confirm('你确认要删除吗？', {
@@ -202,7 +281,7 @@
                                 layer.alert(data.info, {
                                     skin: 'layui-layer-molv' //样式类名
                                     ,
-                                    closeBtn: 0
+                                    // closeBtn: 0
                                 });
                                 location.reload();
                                 data_id.splice(0, data_id.length);
@@ -212,7 +291,7 @@
                                 layer.alert(data.info, {
                                     skin: 'layui-layer-molv' //样式类名
                                     ,
-                                    closeBtn: 0
+                                    // closeBtn: 0
                                 });
                                 console.log(data);
                                 console.log("错误");
