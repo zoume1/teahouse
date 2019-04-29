@@ -1696,10 +1696,6 @@ class  General extends  Base {
                 "subject" => $goods_name, //商品订单的名称
                 "total_fee" => number_format($money, 2, '.', ''),
             );
-            if (isset($arr_order['paymethod']) && isset($arr_order['defaultbank']) && $arr_order['paymethod'] === "bankPay" && $arr_order['defaultbank'] != "") {
-                $arr_data['paymethod'] = "bankPay";
-                $arr_data['defaultbank'] = $arr_order['defaultbank'];
-            }
             $str_pay_html = $obj_alipay->make_form($arr_data, true);
             if($str_pay_html){
                 return ajax_success("二维码成功",["url"=>$str_pay_html]);
