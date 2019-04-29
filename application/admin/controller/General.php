@@ -393,6 +393,10 @@ class  General extends  Base {
                     $list[$k]["tplid"] = Db::table("ims_sudu8_page_diypagetpl")
                             ->where("store_id",$this->store_ids)
                             ->value("id");
+                    $list[$k]["goods_names"] =Db::table("tb_set_meal_order")
+                        ->where("store_id",$this->store_ids)
+                        ->where("audit_status",1)
+                        ->value("goods_name");
                 }
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
