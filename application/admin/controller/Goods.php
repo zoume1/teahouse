@@ -923,6 +923,7 @@ class Goods extends Controller
                 $goods_data["goods_show_images"] = implode(',', $list);
                 $goods_data["time"] = $time;
             }
+
             $goods = array(
                 "project_name" => $goods_data["project_name"],
                 "number_days" => $goods_data["number_days"],
@@ -1031,6 +1032,7 @@ class Goods extends Controller
                     }
                 }
             }
+
             foreach ($values as $kz => $vw) {
                 $rest = db('crowd_special')->insertGetId($vw);
             }
