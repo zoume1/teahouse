@@ -247,7 +247,7 @@ class  Wxapps extends  Controller{
                             }
                         }else if ($v['id'] == "msmk") {
                             //商品分类秒杀
-                            /*if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
+                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['goodsnum']; //数量
                                 $con_type = $v['params']['con_type'];
@@ -312,8 +312,8 @@ class  Wxapps extends  Controller{
                                 } else {
                                     $data['msmk'] = [];
                                 }
-                            }*/
-                            if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
+                            }
+                            /*if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1]; //这是商品栏目的分类id
                                 $count = intval($v['params']['goodsnum']) +1; //goodsnum数据分组
                                 $con_type = $v['params']['con_type']; //
@@ -325,20 +325,16 @@ class  Wxapps extends  Controller{
                                 //在这里返回数据
                                 $member_grade_name = input("member_grade_name");; //会员等级
                                 $member_id =  input("open_id");  //open-ID
-                                $list = db("goods")
-                                    ->where("pid", $sourceid)
-                                    ->where("status", 1)
-                                    ->limit(1,$count)
-                                    ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
-                                    ->select();
-                                /*$rows = db('goods')
-                                    ->alias('g')
-                                    ->join('limited a','g.id=a.goods_id','left')
+
+
+                                $list = db('limited')
+                                    ->alias('a')
+                                    ->join('goods g','a.goods_id=g.id')
                                     ->where('g.status',1)//条件:状态为1
-                                    ->order('id desc')//根据id降序排列
-                                    ->field(['g.*','a.*'])
+                                    ->field("g.goods_name title,g.id,g.goods_selling,g.goods_show_image,g.goods_new_money,
+                                    g.scope,goods_volume,g.goods_standard,g.goods_bottom_money")
                                     ->select();
-                                 halt($rows);*/
+
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
                                     ->value("member_grade_id");
@@ -382,7 +378,7 @@ class  Wxapps extends  Controller{
                                 $data['items'][$k]['data'] = $list;
                             }else {
                                 $data['items'][$k]['data'] = [];
-                            }
+                            }*/
                         }else if ($v['id'] == "pt") {
 
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {

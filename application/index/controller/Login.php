@@ -68,6 +68,11 @@ class Login extends Controller{
                     $data['member_grade_create_time'] =time();
                     $data['member_grade_id']=1;
                     $data['member_status']=1;
+                    if( $get['gender'] ==2){
+                        $data["member_sex"] ="女";
+                    }else{
+                        $data["member_sex"] ="男";
+                    }
                     $data['member_integral_wallet'] = $register_login;
                     $grade_name =Db::name('member_grade')
                         ->field('member_grade_name')
