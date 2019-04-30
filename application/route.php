@@ -236,6 +236,7 @@ Route::group("",[
     "balance_payment"=>"index/Balance/balance_payment",//商品余额支付
     "check_password"=>"index/Balance/check_password",//校验支付密码
     "remainder_pay"=>"index/Balance/remainder_pay",//众筹商品余额打赏支付
+    "crowd_payment"=>"index/Balance/crowd_payment",//众筹商品订单余额支付
     /*TODO:设置支付密码结束*/
 
     /*TODO:充值提现开始*/
