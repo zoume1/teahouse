@@ -27,6 +27,7 @@ class  Order extends  Controller{
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
+
         return view("order_index",["data"=>$data]);
     }
 
