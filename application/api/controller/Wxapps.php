@@ -337,7 +337,8 @@ class  Wxapps extends  Controller{
                                     ->alias('a')
                                     ->join('goods g','a.goods_id=g.id')
                                     ->where('g.status',1)//条件:状态为1
-                                    ->field(['g.*','a.*'])
+                                    ->field("g.goods_name title,g.id,g.goods_selling,g.goods_show_image,g.goods_new_money,
+                                    g.scope,goods_volume,g.goods_standard,g.goods_bottom_money")
                                     ->select();
                                  halt($rows);
                                 $member_grade_id = db("member")
