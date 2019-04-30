@@ -247,7 +247,7 @@ class  Wxapps extends  Controller{
                             }
                         }else if ($v['id'] == "msmk") {
                             //商品分类秒杀
-                            /*if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
+                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1];
                                 $count = $v['params']['goodsnum']; //数量
                                 $con_type = $v['params']['con_type'];
@@ -312,8 +312,8 @@ class  Wxapps extends  Controller{
                                 } else {
                                     $data['msmk'] = [];
                                 }
-                            }*/
-                            if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
+                            }
+                            /*if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
                                 $sourceid = explode(':', $v['params']['sourceid'])[1]; //这是商品栏目的分类id
                                 $count = intval($v['params']['goodsnum']) +1; //goodsnum数据分组
                                 $con_type = $v['params']['con_type']; //
@@ -326,12 +326,6 @@ class  Wxapps extends  Controller{
                                 $member_grade_name = input("member_grade_name");; //会员等级
                                 $member_id =  input("open_id");  //open-ID
 
-                              /*  $list = db("goods")
-                                    ->where("pid", $sourceid)
-                                    ->where("status", 1)
-                                    ->limit(1,$count)
-                                    ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
-                                    ->select();*/
 
                                 $list = db('limited')
                                     ->alias('a')
@@ -384,7 +378,7 @@ class  Wxapps extends  Controller{
                                 $data['items'][$k]['data'] = $list;
                             }else {
                                 $data['items'][$k]['data'] = [];
-                            }
+                            }*/
                         }else if ($v['id'] == "pt") {
 
                             if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
