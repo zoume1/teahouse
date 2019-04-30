@@ -331,14 +331,14 @@ class  Wxapps extends  Controller{
                                     ->limit(1,$count)
                                     ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
                                     ->select();
-                                $rows = db('goods')
+                                /*$rows = db('goods')
                                     ->alias('g')
                                     ->join('limited a','g.id=a.goods_id','left')
                                     ->where('g.status',1)//条件:状态为1
                                     ->order('id desc')//根据id降序排列
                                     ->field(['g.*','a.*'])
                                     ->select();
-                                 halt($rows);
+                                 halt($rows);*/
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
                                     ->value("member_grade_id");
