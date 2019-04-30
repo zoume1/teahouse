@@ -325,12 +325,14 @@ class  Wxapps extends  Controller{
                                 //在这里返回数据
                                 $member_grade_name = input("member_grade_name");; //会员等级
                                 $member_id =  input("open_id");  //open-ID
+
                                 $list = db("goods")
                                     ->where("pid", $sourceid)
                                     ->where("status", 1)
                                     ->limit(1,$count)
                                     ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
                                     ->select();
+                                halt($list);
                                 $rows = db('limited')
                                     ->alias('a')
                                     ->join('goods g','a.goods_id=g.id')
