@@ -8,18 +8,18 @@
 	body {
 		background: #fff;
 	}
-	
+
 	#hot {
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
 	}
-	
+
 	.list {
 		margin-right: 10px;
 		margin-bottom: 6px;
 	}
-	
+
 	.title {
 		height: 50px;
 		background: #F2F2F2;
@@ -28,12 +28,13 @@
 		padding-left: 20px;
 		font-weight: bold;
 	}
-	
+
 	.noshow {
 		display: none;
 	}
+
 	/* 弹窗 */
-	
+
 	.tanchuang {
 		width: 100%;
 		min-height: 1000px;
@@ -41,23 +42,25 @@
 		position: fixed;
 		z-index: 9999;
 	}
-	
+
 	.line>div {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.line {
 		flex-wrap: wrap;
 		width: 1400px;
 	}
-	.line .layui-unselect dl{
+
+	.line .layui-unselect dl {
 		min-width: 200px !important;
 	}
+
 	.texts {
 		width: 70px;
+		margin-left: 5px;
 	}
-
 </style>
 
 {/block}
@@ -71,85 +74,118 @@
 
 	</div>
 
-	<form class="layui-form layui-form-lists" action="{:url('admin/Limitations/limitations_save')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form layui-form-lists" action="{:url('admin/Limitations/limitations_save')}" method="post"
+		enctype="multipart/form-data">
 		<div class="form-title">活动信息</div>
 		<div class="form-item">
 			<label class="form-label">限购设置</label>
 			<div class="form-input line">
+				<input type="checkbox" name="" lay-skin="primary" title="" value="会员">
+				<div class="texts">面向范围</div>
+				<select name="time">
+					<option value="0">普通会员</option>
+					<option value="1">贵宾会员</option>
+					<option value="2">黄金会员</option>
+					<option value="3">白金会员</option>
+					<option value="4">得贤会员</option>
+					<option value="5">合伙人</option>
+				</select>
+				<div>
+					<input type="checkbox" name="" lay-skin="primary" title="" value="">
 					<div class="texts">限购数量</div>
-					<input type="text" name="number" id="" value="" class="layui-input" />
-			<div>
-					<div class="texts">每间隔</div>
-					<select name="time">
-						<option value=""  selected="selected">请选择</option>
-						<option value="1">一个月</option>
-						<option value="2">二个月</option>
-					</select>
-					<div class="texts">以上</div>
+					<input type="text" name="label" lay-verify="title" autocomplete="off" placeholder="1"
+						class="layui-input">
+					</div>
 				</div>
-			
+				
 			</div>
-
-		</div>
+			<div class="tips" style="margin-left:100px;">*限购份数不填，表示不限购</div>
+		
 		<div class="form-item">
-			<label class="form-label">面向范围</label>			
+			<!-- <label class="form-label">面向范围</label>
 			<div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap; ">
 				{foreach name="scope" item="val" key="key"}
-				<input type="checkbox" name="scope[]" lay-skin="primary"   title="{$val.member_grade_name}" value="{$val.member_grade_name}">	
+				<input type="checkbox" name="scope[]" lay-skin="primary" title="{$val.member_grade_name}"
+					value="{$val.member_grade_name}">
 				{/foreach}
 				<div class="tips">
 					以上条件不填则默认为无限制条件
-				</div>		
-			</div>
-			
-		</div>
+				</div>
+			</div> -->
+			<label class="form-label">开启秒杀</label>
+			<div class="form-input line">
+				<input type="checkbox" name="" lay-skin="primary" title="" value="秒杀">
+				<div class="texts">秒杀</div>
 
+			</div>
+
+		</div>
+		<div class="form-item">
+			<label class="form-label"></label>
+			<div class="form-input line">
+				<div class="texts">开始时间</div>
+				<input type="text" name="label" lay-verify="title" autocomplete="off" placeholder="年/月/日"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="form-label"></label>
+			<div class="form-input line">
+				<div class="texts">结束时间</div>
+				<input type="text" name="label" lay-verify="title" autocomplete="off" placeholder="年/月/日"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="tips" style="margin-left:110px;">*不选，表示不限时</div>
 		<div class="form-item">
 			<label class="form-label">活动标签</label>
 			<div class="form-input">
-				<input type="text" name="label" lay-verify="title" autocomplete="off" placeholder="限时限购" class="layui-input">
+				<input type="text" name="label" lay-verify="title" autocomplete="off" placeholder="限时限购"
+					class="layui-input">
 				<div class="tips">
-					*活动期间展示于商品详情的价格下方，2至5字<span class="tan" style="color: #0E90D2;" data-id="__STATIC__/admin/index/img/ex1.png"> 查看示例</span>
+					*活动期间展示于商品详情的价格下方，2至5字<span class="tan" style="color: #0E90D2;"
+						data-id="__STATIC__/admin/index/img/ex1.png"> 查看示例</span>
 				</div>
 			</div>
 		</div>
 
-    	<div class="form-title">选择商品</div>
-	<div class="childrenBody">
-	<blockquote class="layui-elem-quote news_search">
-		<div class="layui-form">
-			<div class="seach">
-				<div class="seach_list">
-					<div class="seach_laber">输入搜索：</div>
-					<div class="seach_input">
-						<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入商品编码/商品名称" class="layui-input seach"  id="seach_val">
+		<div class="form-title">选择商品</div>
+		<div class="childrenBody">
+			<blockquote class="layui-elem-quote news_search">
+				<div class="layui-form">
+					<div class="seach">
+						<div class="seach_list">
+							<div class="seach_laber">输入搜索：</div>
+							<div class="seach_input">
+								<input type="text" name="" lay-verify="title" autocomplete="off"
+									placeholder="请输入商品编码/商品名称" class="layui-input seach" id="seach_val">
+							</div>
+						</div>
+						<button class="layui-btn" type="button" id="seach_button">立即搜索</button>
 					</div>
+
 				</div>
-				<button class="layui-btn" type="button" id="seach_button">立即搜索</button>
-			</div>
-
-		</div>
-	</blockquote>
+			</blockquote>
 
 
-	<div class="layui-form news_list">
-		<table class="layui-table">
-			<colgroup>
-				<col width="3%">
+			<div class="layui-form news_list">
+				<table class="layui-table">
+					<colgroup>
+						<col width="3%">
 
-			</colgroup>
-			<thead>
-				<tr>
-					 <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
-					<th>商品编号</th>
-					<th>商品图片</th>
-					<th>商品名称</th>
-					<th>库存</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody class="news_content">
-				<!-- <tr>
+					</colgroup>
+					<thead>
+						<tr>
+							<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+							<th>商品编号</th>
+							<th>商品图片</th>
+							<th>商品名称</th>
+							<th>库存</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody class="news_content">
+						<!-- <tr>
 					<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
 					<td>1000001</td>
 					<td class="">
@@ -163,18 +199,19 @@
 						</a>
 					</td>
 				</tr> -->
-			</tbody>
-		</table>
-		
+					</tbody>
+				</table>
 
-</div>
 
-		<div class="layui-form-item">
-			<div class="layui-input-block">
-				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
-				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
 			</div>
-		</div>
+
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+					<button type="button" class="layui-btn layui-btn-primary"
+						onClick="javascript :history.back(-1);">返回</button>
+				</div>
+			</div>
 	</form>
 
 	{/block}
@@ -189,71 +226,71 @@
 	<script type="text/javascript">
 		layui.config({
 			base: "js/"
-		}).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
+		}).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function () {
 			var form = layui.form(),
 				$ = layui.jquery;
 			form.render();
-			$(".add_biao").click(function() {
+			$(".add_biao").click(function () {
 				var dhtml = "";
 				dhtml =
 					'<div class="list" ><input type="checkbox" name="" lay-skin="primary" title="特色活动"><span style="color: #0EA9E3; font-size: 12px;"  class="change_text">修改</span></div>'
 				$("#hot").append(dhtml);
 				form.render();
 			});
-			  //全选
-            form.on('checkbox(allChoose)', function(data) {
-                var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-                child.each(function(index, item) {
-                    item.checked = data.elem.checked;
-                });
-                form.render('checkbox');
-            });
+			//全选
+			form.on('checkbox(allChoose)', function (data) {
+				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+				child.each(function (index, item) {
+					item.checked = data.elem.checked;
+				});
+				form.render('checkbox');
+			});
 
-            //通过判断文章是否全部选中来确定全选按钮是否选中
-            form.on("checkbox(choose)", function(data) {
-                var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-                var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
-                if (childChecked.length == child.length) {
-                    $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
-                } else {
-                    $(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
-                }
-                form.render('checkbox');
-            })
+			//通过判断文章是否全部选中来确定全选按钮是否选中
+			form.on("checkbox(choose)", function (data) {
+				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+				var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
+				if (childChecked.length == child.length) {
+					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
+				} else {
+					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
+				}
+				form.render('checkbox');
+			})
 
-            form.on('switch(isShow)', function(data) {
-                if ($(this).val() == 0) {
-                    $(this).val(1);
-                } else {
-                    $(this).val(0);
-                }
-                var vals = data.value;
-                var id = $(this).data("id");
-                var status = $(this).val();
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Goods/status')}",
-                    data: {
-                        "id": id,
-                        "status": status
-                    },
-                    success: function(data) {
-                        console.log("成功")
-                    },
-                    error: function(data) {
-                        console.log("错误")
-                    }
-                });
+			form.on('switch(isShow)', function (data) {
+				if ($(this).val() == 0) {
+					$(this).val(1);
+				} else {
+					$(this).val(0);
+				}
+				var vals = data.value;
+				var id = $(this).data("id");
+				var status = $(this).val();
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/Goods/status')}",
+					data: {
+						"id": id,
+						"status": status
+					},
+					success: function (data) {
+						console.log("成功")
+					},
+					error: function (data) {
+						console.log("错误")
+					}
+				});
 
-            })
+			})
 
-			$("#hot").on('click', ".change_text", function() {
+			$("#hot").on('click', ".change_text", function () {
 				var texts = $(this).siblings('input');
 				layer.prompt({
-						title: '请输入修改的文字',
-						formType: 2
-					},
-					function(text, index) {
+					title: '请输入修改的文字',
+					formType: 2
+				},
+					function (text, index) {
 						texts.attr("title", text);
 						layer.close(index);
 						form.render();
@@ -261,86 +298,86 @@
 
 			})
 			$('#beginTimes').datetimepicker({
-//					yearOffset:222,
-					lang:'ch',
-					timepicker:false,
-//					format:'d/m/Y',
-					formatDate:'Y/m/d',
-					minDate:'-2018/01/02', // yesterday is minimum date
-					maxDate:'+2050/01/02' // and tommorow is maximum date calendar
-				});
-					$('#endTimes').datetimepicker({
-//					yearOffset:222,
-					lang:'ch',
-					timepicker:false,
-//					format:'d/m/Y',
-					formatDate:'Y/m/d',
-					minDate:'2018/01/02', // yesterday is minimum date
-					maxDate:'2050/01/02' // and tommorow is maximum date calendar
-				});
+				//					yearOffset:222,
+				lang: 'ch',
+				timepicker: false,
+				//					format:'d/m/Y',
+				formatDate: 'Y/m/d',
+				minDate: '-2018/01/02', // yesterday is minimum date
+				maxDate: '+2050/01/02' // and tommorow is maximum date calendar
+			});
+			$('#endTimes').datetimepicker({
+				//					yearOffset:222,
+				lang: 'ch',
+				timepicker: false,
+				//					format:'d/m/Y',
+				formatDate: 'Y/m/d',
+				minDate: '2018/01/02', // yesterday is minimum date
+				maxDate: '2050/01/02' // and tommorow is maximum date calendar
+			});
 
-			$(".tan").click(function() {
+			$(".tan").click(function () {
 				src = $(this).data("id");
 				$(".tanchuang").removeClass("noshow");
 				$(".tanimg").attr("src", src);
 			});
-			
-			$(".tanchuang").click(function() {
+
+			$(".tanchuang").click(function () {
 				$(".tanchuang").addClass("noshow");
 			});
 
-			var seach_goods=[];
-			$("#seach_button").click(function() {
-				var seach_val=$("#seach_val").val();
+			var seach_goods = [];
+			$("#seach_button").click(function () {
+				var seach_val = $("#seach_val").val();
 				$.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Bonus/coupon_search')}",
-                    data: {
-                        "goods_number": seach_val,
-                    },
-                    success: function(data) {
-						var data=eval("("+data+")").data;
-						var num=0;
-						
-						var dhtml='';
-						for(var i=0;i<data.length;i++){
+					type: "POST",
+					url: "{:url('admin/Bonus/coupon_search')}",
+					data: {
+						"goods_number": seach_val,
+					},
+					success: function (data) {
+						var data = eval("(" + data + ")").data;
+						var num = 0;
+
+						var dhtml = '';
+						for (var i = 0; i < data.length; i++) {
 							console.log(seach_goods.length);
-							for(var j=0;j<seach_goods.length;j++){
-								if(data[i].goods_number==seach_goods[j].goods_number){
+							for (var j = 0; j < seach_goods.length; j++) {
+								if (data[i].goods_number == seach_goods[j].goods_number) {
 									num++;
 								}
 							}
-							if(num==0){
+							if (num == 0) {
 								seach_goods.push(data[i]);
-								dhtml+='<tr>';
-								dhtml+='<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="'+data[i].id+'" name="goods_id[]"></td>';
-								dhtml+='<td>'+data[i].goods_number+'</td>';
-								dhtml+='<td class="">';
-								dhtml+='<div class="tdimg"><img src="__UPLOADS__/'+data[i].goods_show_images+'" /></div>';
-								dhtml+='</td>';
-					
-								dhtml+='<td>'+data[i].goods_name+'</td>';
-								dhtml+='<td>'+data[i].goods_repertory+'</td>';
-								dhtml+='<td>';
-								dhtml+='<div class="layui-btn layui-btn-mini edit"> 参加活动</div>';
-								dhtml+='</td>';
-								dhtml+='</tr>';
+								dhtml += '<tr>';
+								dhtml += '<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="' + data[i].id + '" name="goods_id[]"></td>';
+								dhtml += '<td>' + data[i].goods_number + '</td>';
+								dhtml += '<td class="">';
+								dhtml += '<div class="tdimg"><img src="__UPLOADS__/' + data[i].goods_show_images + '" /></div>';
+								dhtml += '</td>';
+
+								dhtml += '<td>' + data[i].goods_name + '</td>';
+								dhtml += '<td>' + data[i].goods_repertory + '</td>';
+								dhtml += '<td>';
+								dhtml += '<div class="layui-btn layui-btn-mini edit"> 参加活动</div>';
+								dhtml += '</td>';
+								dhtml += '</tr>';
 								$('.news_content').append(dhtml);
 								form.render('checkbox');
 							}
-							else{
+							else {
 								layer.msg('列表中已有此商品，请勿重复添加');
 							}
-						
+
 						}
-                    },
-                    error: function(data) {
+					},
+					error: function (data) {
 						console.log(data)
-                        console.log("错误")
-                    }
-                });
+						console.log("错误")
+					}
+				});
 			});
-			
+
 
 		});
 	</script>
