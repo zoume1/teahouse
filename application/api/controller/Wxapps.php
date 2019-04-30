@@ -520,6 +520,7 @@ class  Wxapps extends  Controller{
                                 if(!empty($v['params']['goodsiconsrc'])){
                                     $v['params']['goodsiconsrc'] =config("domain.url").$v["params"]["goodsiconsrc"];  //自定义图标
                                 }
+
                                 //在这里返回数据
                                 $member_grade_name = input("member_grade_name");; //会员等级
                                 $member_id =  input("open_id");  //open-ID

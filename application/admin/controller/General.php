@@ -462,13 +462,13 @@ class  General extends  Base {
                             foreach ($list as $k => $v){
                                 $html .= '<div class="line">
 
-                                                    <div class="icon icon-link1"></div>
+                                        <div class="icon icon-link1"></div>
 
-                                                    <nav data-href="/sudu8_page/showArt/showArt?id='.$v['id'].'" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                                        <nav data-href="/sudu8_page/showArt/showArt?id='.$v['id'].'" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
 
-                                                    <div class="text"><span class="label lable-default">普通</span>'.$v['title'].'</div>
+                                        <div class="text"><span class="label lable-default">普通</span>'.$v['title'].'</div>
 
-                                                </div>';
+                                        </div>';
                             }
                         }else{
                             $html = '<div class="line">
