@@ -335,7 +335,6 @@ class  Wxapps extends  Controller{
                                     ->alias('g')
                                     ->join('limited a','g.id=a.goods_id','left')
                                     ->where('g.status',1)//条件:状态为1
-                                    ->order('id desc')//根据id降序排列
                                     ->field(['g.*','a.*'])
                                     ->select();
                                  halt($rows);
