@@ -359,7 +359,7 @@ class  Control extends  Controller{
 //                    ""
 //                ];
 //
-//                //升级
+//                //升级订单没有做
 //                $res = Db::name("set_meal_order")
 //                    ->where("order_number", $is_set_order["order_number"])
 //                    ->update($data);
