@@ -191,11 +191,13 @@ class  Control extends  Controller{
                 'query' => request()->param(),
             ]);
         $enter_meal = db("enter_meal")->field("name")->select();
-        $type_meal['audit_status']['-1']='-1';
-        $type_meal['audit_status']['0']='0';
-        $type_meal['audit_status']['1']='1';
+        dump($enter_meal);
+        $type_meal['audit_status']['0']='-1';
+        $type_meal['audit_status']['1']='0';
+        $type_meal['audit_status']['2']='1';
+        dump($type_meal);exit();
 
-
+             
         return view("control_order_index",["order"=>$order,"enter_meal"=>$enter_meal,"type_meal"=>$type_meal]);
     }
 
