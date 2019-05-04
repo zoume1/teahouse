@@ -191,7 +191,12 @@ class  Control extends  Controller{
                 'query' => request()->param(),
             ]);
         $enter_meal = db("enter_meal")->field("name")->select();
-        return view("control_order_index",["order"=>$order,"enter_meal"=>$enter_meal]);
+        $type_meal['audit_status']['-1']='-1';
+        $type_meal['audit_status']['0']='0';
+        $type_meal['audit_status']['1']='1';
+
+
+        return view("control_order_index",["order"=>$order,"enter_meal"=>$enter_meal,"type_meal"=>$type_meal]);
     }
 
 
@@ -263,6 +268,8 @@ class  Control extends  Controller{
                 $this->error("此订单未付款不能审核操作");
             }
             if($is_pay["pay_type"] ==1){
+
+
                 $this->error("扫码支付已自动审核通过");
             }
             if($is_pay["audit_status"] ==1){

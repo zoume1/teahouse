@@ -97,11 +97,11 @@
                     <div class="form-item">
                         <label class="form-label">入驻审核：</label>
                         <div class="form-input">
-                            {if !empty($enter_meal)}
+                            {if !empty($type_meal)}
                             <select name="name" id="admin_role" class="role_list">
                                 <option value="" select>请选择</option>
-                                {volist name="enter_meal" id="val"}
-                                <option value="{$val.name}">{$val.name}</option>
+                                {volist name="type_meal" id="val" key="k"}
+                                <option value="{$k}">{$val.audit_status}</option>
                                 {/volist}
                             </select>
                             {else}
