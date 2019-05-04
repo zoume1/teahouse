@@ -170,7 +170,9 @@
                     <td></td>
                     {/if}
                     <td>
+                        <div class="static_btus">
                         <a href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
+                        </div>
                              <div class="static_btus" data-id="{$value.store_id}" data-value="{$value.store_status}">
                               <a href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
                            </div>
