@@ -645,6 +645,7 @@
                 },
                 // 关闭支付弹窗
                 closePop: function(){
+                    clearInterval(this.onlinePayInterval);
                     this.showPayWay = false;
                 },
                 // 余额支付 闪烁光标
