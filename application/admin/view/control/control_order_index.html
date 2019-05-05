@@ -140,7 +140,7 @@
                     <!-- <th>付款审核状态</th>
                     <th>店铺审核状态</th> -->
                     
-                    <th colspan="2">操作</th>
+                    <th colspan="3">操作</th>
                 </tr>
             </thead>
             <tbody class="news_content">
@@ -175,6 +175,9 @@
                         <div class="static_btus" data-id="{$value.store_id}" data-value="{$value.store_status}">
                             <a href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
                         </div>
+                    </td>
+                    <td>
+
                         <div>
                              {switch name="$value.audit_status"}
                             {case value="-1"}<button class="layui-btn line-btn line-exam">未申请开票</button>{/case}
