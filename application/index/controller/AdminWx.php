@@ -55,8 +55,7 @@ class  AdminWx extends Controller{
                     if($res){
                         //把新生成的套餐订单删掉
                          Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
-                        $whe['pay_type'] = array('neq',1);
-                        Db::name("set_meal_order")->where($whe)->delete();
+                        
 
                        //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         Db::table("tb_admin")
