@@ -603,7 +603,7 @@
                 },
                 // 加
                 plusEvent: function(item){
-                    item.number < item.stock ? item.number++ : layer.msg('不能大于库存！', {time: 1000});
+                    item.number < item.stock ? item.number++ : layer.msg('不得大于库存！', {time: 1000});
                 },
                 // 选中商品
                 // selectGoods: function(item, index, e){

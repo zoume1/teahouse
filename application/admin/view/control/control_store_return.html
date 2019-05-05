@@ -38,126 +38,115 @@
         padding: 9px;
         color: #5E5E5E;
     }
-
-
 </style>
 
 {/block}
 
 <body>
 
-{block name="content"}
+    {block name="content"}
 
-<div class="childrenBody">
-    {include file="template/_top"/}
-    <blockquote class="layui-elem-quote news_search">
-        <form class="layui-form" action="{:url('admin/Control/control_order_search')}">
-            <div class="seach">
-                <div class="seach_list">
-                    <div class="seach_laber">入驻商名称</div>
-                    <div class="seach_input">
-                        <input type="text" name="contact_name" lay-verify="title" autocomplete="off" placeholder="姓名/公司名" class="layui-input">
-
+    <div class="childrenBody">
+        {include file="template/_top"/}
+        <blockquote class="layui-elem-quote news_search">
+            <form class="layui-form" action="{:url('admin/Control/control_order_search')}">
+                <div class="seach">
+                    <div class="seach_list">
+                        <div class="seach_laber">入驻商名称</div>
+                        <div class="seach_input">
+                            <input type="text" name="contact_name" lay-verify="title" autocomplete="off"
+                                placeholder="姓名/公司名" class="layui-input">
+                        </div>
                     </div>
+                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
                 </div>
+    </div>
 
-                <button class="layui-btn" type="submit" id="seach">立即搜索</button>
-            </div>
-</div>
+    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+    </div>
 
-<button class="layui-btn" type="submit" id="seach">立即搜索</button>
-</div>
+    </form>
+    </blockquote>
+    <div class="layui-form news_list">
+        <table class="layui-table">
+            <thead>
+                <tr>
+                    <th>用户账号手机号</th>
+                    <th>联系人姓名</th>
+                    <th>店铺名</th>
+                    <th>入驻商主体</th>
+                    <th>地址</th>
+                    <th>店铺审核状态</th>
+                </tr>
+            </thead>
+            <tbody class="news_content">
+                {if !empty($order)}{volist name="order" id="value"}
+                <tr>
+                    <td>{$value.phone_number}</td>
+                    <td>{$value.contact_name}</td>
+                    <td>{$value.store_name}</td>
+                    {if $value.is_business == 1}
+                    <td>个人</td>
+                    {/if}
+                    {if $value.is_business == 2}
+                    <td>公司</td>
+                    {/if}
+                    <td>{$value.address_real_data}</td>
+                    <td>
+                        <a href="{:url('admin/Control/control_order_add',['id'=>$value.id])}">{$value.store_status|enter_status}</a>
+                    </td>
+                </tr>
+                {/volist}{/if}
+            </tbody>
+        </table>
+    </div>
+    {$order->render()}
+    </div>
+    {/block}
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
 
-</form>
-</blockquote>
-
-
-<div class="layui-form news_list">
-    <table class="layui-table">
-
-        <thead>
-        <tr>
-            <th>用户账号手机号</th>
-            <th>联系人姓名</th>
-            <th>店铺名</th>
-            <th>入驻商主体</th>
-            <th>地址</th>
-            <th>店铺审核状态</th>
-        </tr>
-        </thead>
-        <tbody class="news_content">
-        {if !empty($order)}{volist name="order" id="value"}
-        <tr>
-            <td>{$value.phone_number}</td>
-            <td>{$value.contact_name}</td>
-            <td>{$value.store_name}</td>
-            {if $value.is_business == 1}
-            <td>个人</td>
-            {/if}
-            {if $value.is_business == 2}
-            <td>公司</td>
-            {/if}
-            <td>{$value.address_real_data}</td>
-            <td>
-                <a href="{:url('admin/Control/control_order_add',['id'=>$value.id])}">{$value.store_status|enter_status}</a>
-            </td>
-        </tr>
-        {/volist}{/if}
-        </tbody>
-    </table>
-
-
-</div>
-{$order->render()}
-
-</div>
-
-{/block}
-
-<!--_footer 作为公共模版分离出去-->
-{include file="template/_footer" /}
-<!--/_footer 作为公共模版分离出去-->
-
-<!--请在下方写此页面业务相关的脚本-->
-{block name="bottom"}
-<script type="text/javascript">
-    layui.config({
-        base: "js/"
-    }).use(['form', 'layer', 'jquery', 'laypage'], function () {
-        var form = layui.form(),
-            layer = parent.layer === undefined ? layui.layer : parent.layer,
-            laypage = layui.laypage,
-            $ = layui.jquery;
-        form.on('switch(isShow)', function (data) {
-            if ($(this).val() == 0) {
-                $(this).val(1);
-            } else {
-                $(this).val(0);
-            }
-            var vals = data.value;
-            var id = $(this).data("id");
-            var status = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: "{:url('')}",
-                data: {
-                    "id": id,
-                    "status": status
-                },
-                success: function (data) {
-                    console.log("成功")
-                },
-                error: function (data) {
-                    console.log("错误")
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery;
+            form.on('switch(isShow)', function (data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
                 }
-            });
+                var vals = data.value;
+                var id = $(this).data("id");
+                var status = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('')}",
+                    data: {
+                        "id": id,
+                        "status": status
+                    },
+                    success: function (data) {
+                        console.log("成功")
+                    },
+                    error: function (data) {
+                        console.log("错误")
+                    }
+                });
+
+            })
 
         })
+    </script>
 
-    })
-</script>
-
-{/block}
+    {/block}
 
 </body>
 
