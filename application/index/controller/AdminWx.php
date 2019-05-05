@@ -51,11 +51,9 @@ class  AdminWx extends Controller{
                     $res =Db::name("set_meal_order")
                         ->where("order_number",$is_set_order["order_number"])
                         ->update($data);
-                      
                     if($res){
                         //把新生成的套餐订单删掉
                          Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
-                        
 
                        //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         Db::table("tb_admin")
@@ -64,8 +62,6 @@ class  AdminWx extends Controller{
                             ->update(["role_id"=>7]);
                         echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                     }else {
-                        $whe['pay_type'] = array('neq',1);
-                         Db::name("set_meal_order")->where($whe)->delete();
                         return "fail";
                     }
                 }else{
@@ -78,14 +74,11 @@ class  AdminWx extends Controller{
                     $data["explains"] ="微信扫码支付直接通过";//审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款）
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核）
-
                     $result =Db::name("set_meal_order")
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
-                     
-                   
+                    Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->delete();
                     if($result){
-                        
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         Db::table("tb_admin")
                             ->where("store_id",$enter_all_data["store_id"])
@@ -158,8 +151,6 @@ class  AdminWx extends Controller{
                         }
                         echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                     }else{
-                        $whe['pay_type'] = array('neq',1);
-                         Db::name("set_meal_order")->where($whe)->delete();
                         return "fail";
                     }
                 }
