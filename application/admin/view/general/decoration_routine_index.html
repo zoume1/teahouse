@@ -61,6 +61,7 @@
         align-items: center;
         margin-top: 14px;
         flex-direction: row-reverse;
+
     }
 
     .btns div {
@@ -68,7 +69,7 @@
         height: 26px;
         font-size: 16px;
         color: #FFFFFF;
-        
+
         text-align: center;
         line-height: 26px;
     }
@@ -80,11 +81,83 @@
     .btns_b {
         background-color: rgba(204, 0, 0, 0.737254901960784);
         border-radius: 48px;
-        
+        cursor: pointer;
     }
 
     .list {
         margin-right: 34px;
+    }
+
+    .noshow {
+        display: none !important;
+    }
+
+    .popup {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: solid 1px #D7D7D7;
+        box-sizing: border-box;
+    }
+
+    .popup_doms {
+        width: 700px;
+        height: 400px;
+        background: #fff;
+    }
+
+    .popup_doms1 {
+        width: 900px;
+        background: #fff;
+    }
+
+    .popup_content {
+        padding: 20px;
+    }
+
+    .popup_title {
+        height: 40px;
+        line-height: 40px;
+        /* color: #66662B; */
+        background: #fff;
+        padding-left: 20px;
+        position: relative;
+    }
+
+    .popup_x {
+        width: 25px;
+        position: absolute;
+        right: 12px;
+        top: -4px;
+
+    }
+
+    .btn_all {
+        text-align: center;
+        margin-top: 100px;
+    }
+
+    .btn {
+        width: 150px;
+        height: 45px;
+        color: #fff;
+    }
+
+    .btn:hover {
+        background-color: rgb(0, 204, 255)
+    }
+
+    .btn_0 {
+        margin-right: 70px;
+    }
+
+    .btn_1 {
+        background-color: rgb(230, 45, 49)
     }
 </style>
 
@@ -93,10 +166,29 @@
 <body>
 
     {block name="content"}
+    <div class="popup popup_one noshow">
+        <div class="popup_doms">
 
+            <div class="popup_title">
+
+                <div class="popup_x">
+                    <img src="__STATIC__/admin/index/img/X.png" />
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <h1>温馨提示：</h1>
+                <div style="font-size:20px; margin-top:30px;">您需要前往<a style="font-weight: 800" href="{:url('admin/General/order_package_index')}">订单套餐</a>升级套餐版本
+                </div>
+            </div>
+            <div class="btn_all">
+                <button class="btn btn_0">返回</button>
+                <button class="btn btn_1">确定</button>
+            </div>
+        </div>
+    </div>
     <div class="childrenBody">
 
-        
+
     </div>
 
     {/block}
@@ -108,24 +200,25 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
+       
+
         $.ajax({
             type: "POST",
             url: "{:url('admin/General/decoration_routine_index')}",
             data: "",
             success: (data) => {
                 var new_data = JSON.parse(data);
+                let val = new_data.data;
                 console.log(new_data)
-                val = new_data.data;
-                var dhtml = '';
-        
-                if(new_data.status == '0' ) {
+                let dhtml = '';
+                if (new_data.status == '0') {
                     alert(new_data.info)
                     window.location.href = "{:url('admin/General/small_routine_index')}";
                 }
-                if(new_data.status == '1' ) {
-                    var path= `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}`;
-                    if(val.data[0].goods_names == "万用版") {
-                            dhtml = `<div class="list">
+                if (new_data.status == '1') {
+                    let path = `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}`;
+                    if (val.data[0].goods_names == "万用版") {
+                        dhtml = `<div class="list">
                                         <div class="imgcontent">
                                             <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
                                             <div class="text">万用模版</div>
@@ -143,7 +236,7 @@
                                             <div class="text">茶行业版</div>
                                         </div>
                                         <div class="btns">
-                                            <a><div class="btns_b" >切换版本</div></a>
+                                            <div class="btns_b change">切换版本</div>
                                             <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                         </div>
                                         </div>
@@ -153,13 +246,13 @@
                                             <div class="text">茶进阶版</div>
                                         </div>
                                         <div class="btns">
-                                            <a><div class="btns_b">切换版本</div></a>
+                                            <div class="btns_b change">切换版本</div>
                                             <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                         </div>
                                         </div>`;
 
-                        } else if (val.data[0].goods_names == "行业版") {
-                            dhtml = `<div class="list">
+                    } else if (val.data[0].goods_names == "行业版") {
+                        dhtml = `<div class="list">
                                         <div class="imgcontent">
                                             <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
                                             <div class="text">万用模版</div>
@@ -187,12 +280,12 @@
                                             <div class="text">茶进阶版</div>
                                         </div>
                                         <div class="btns">
-                                            <a><div class="btns_b">切换版本</div></a>
+                                            <div class="btns_b change">切换版本</div>
                                             <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                         </div>
                                         </div>`;
-                        } else {
-                            dhtml = `<div class="list">
+                    } else {
+                        dhtml = `<div class="list">
                                         <div class="imgcontent">
                                             <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
                                             <div class="text">万用模版</div>
@@ -224,17 +317,29 @@
                                             <div class="btns_a" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                         </div>
                                         </div>`;
-                        }
+                    }
                     $('.childrenBody').append(dhtml);
-                } 
-                 
-                
+                }
+                $(".change").on("click", function () {
+                    $(".popup").removeClass("noshow");
+                });
+                $(".popup_x").click(function () {
+                    $(".popup").addClass("noshow");
+                });
+                $(".btn_0").click(function () {
+                    $(".popup").addClass("noshow");
+                });
+                $(".btn_1").click(function () {
+                    $(".popup").removeClass("noshow");
+                    window.location.href = "{:url('admin/General/order_package_index')}";
+                });
+
             },
             error: (e) => {
                 console.log(e);
             }
         })
-        
+
         function save_id(id) {
             setCookie("edit_id", id, 1);
         }
@@ -259,7 +364,7 @@
                 if (opration_val == 0) {
                     layer.alert('请选择操作', {
                         skin: 'layui-layer-molv', //样式类名
-                        
+
                         // closeBtn: 0
                     });
                 } else if (opration_val == 1) {
@@ -354,7 +459,9 @@
                 });
 
             })
+
         })
+
     </script>
 
     {/block}
