@@ -53,9 +53,9 @@ class  AdminWx extends Controller{
                         ->update($data);
                     if($res){
                         //把新生成的套餐订单删掉
-                        // Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->delete(); 火生
-                        Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
-                        //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
+                         Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
+
+                       //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         Db::table("tb_admin")
                             ->where("store_id",$enter_all_data["store_id"])
                             ->where("is_own",1)
@@ -77,6 +77,7 @@ class  AdminWx extends Controller{
                     $result =Db::name("set_meal_order")
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
+                    Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->delete();
                     if($result){
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         Db::table("tb_admin")
@@ -208,10 +209,11 @@ class  AdminWx extends Controller{
                     $res = Db::name("set_meal_order")
                         ->where("order_number", $is_set_order["order_number"])
                         ->update($data);
+                   
                     if ($res){
                         //把刚下套餐订单删掉
-                       // $result = Db::name("set_meal_order")->where($condition)->delete();火生
-                        $result = Db::name("set_meal_order")->where($condition)->update($data);
+                           //$result= Db::name("set_meal_order")->where($condition)->delete();
+                       $result = Db::name("set_meal_order")->where()->update($data);
                         if ($result) {
                             //进行角色转化
                             //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
