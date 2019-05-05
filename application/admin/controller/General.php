@@ -382,6 +382,8 @@ class  General extends  Base {
      **************************************
      * @return \think\response\View
      */
+
+
     public function decoration_routine_index(Request $request){
         if($request->isPost()){
             $list =Db::table("applet")
@@ -401,6 +403,7 @@ class  General extends  Base {
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
                 return ajax_error("请先编辑小程序设置");
+
             }
         }
         return view("decoration_routine_index");
@@ -449,35 +452,23 @@ class  General extends  Base {
                 }
             }
             if($op == "query"){
-
                 $type = input('type');
-
                 $kw = input('kw');
-
                 switch ($type){
-
                     case 'news':
-
-
                         $list = Db::table('ims_sudu8_page_products')->where("uniacid",$appletid)->where("type","showArt")->where("title","like","%".$kw."%")->field("id,title")->select();
-
-
                         $html = '';
-
-
                         if($list){
                             foreach ($list as $k => $v){
-
                                 $html .= '<div class="line">
 
-                                                    <div class="icon icon-link1"></div>
+                                        <div class="icon icon-link1"></div>
 
-                                                    <nav data-href="/sudu8_page/showArt/showArt?id='.$v['id'].'" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                                        <nav data-href="/sudu8_page/showArt/showArt?id='.$v['id'].'" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
 
-                                                    <div class="text"><span class="label lable-default">普通</span>'.$v['title'].'</div>
+                                        <div class="text"><span class="label lable-default">普通</span>'.$v['title'].'</div>
 
-                                                </div>';
-
+                                        </div>';
                             }
                         }else{
                             $html = '<div class="line">
@@ -491,16 +482,9 @@ class  General extends  Base {
                     case 'pic':
 
                         $list = Db::table('ims_sudu8_page_products')->where("uniacid",$appletid)->where("type","showPic")->where("title","like","%".$kw."%")->field("id,title")->select();
-
-
-
                         $html = '';
-
-
                         if($list){
-
                             foreach ($list as $k => $v){
-
                                 $html .= '<div class="line">
 
                                                     <div class="icon icon-link1"></div>
@@ -510,7 +494,6 @@ class  General extends  Base {
                                                     <div class="text"><span class="label lable-default">普通</span>'.$v['title'].'</div>
 
                                                 </div>';
-
                             }
                         }else{
                             $html = '<div class="line">
@@ -523,40 +506,23 @@ class  General extends  Base {
                         break;
 
                     case 'goods':
-
-
                         $list = Db::table('ims_sudu8_page_products')->where("uniacid",$appletid)->where("type","neq","showArt")->where("type","neq","showPic")->where("type","neq","wxapp")->where("title","like","%".$kw."%")->field("id,title,price,pro_kc,pro_flag")->select();
-
                         $html = '';
-
-
                         if($list){
                             foreach ($list as $k => $v){
-
                                 if($v['pro_flag'] == 2){
-
                                     $url = "/sudu8_page/showProMore/showProMore?id=".$v['id'];
-
                                     $g = "多规格";
-
                                 }else{
-
                                     $url = "/sudu8_page/showPro/showPro?id=".$v['id'];
-
                                     $g = "单规格";
-
                                 }
-
                                 $html .= '<div class="line">
+                                        <div class="icon icon-link1"></div>
+                                            <nav data-href="'.$url.'" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                                       <div class="text"><span class="label lable-default">普通</span>'.$g.' - 商品名称：'.$v['title'].' &nbsp; 价格：'.$v['price'].' &nbsp; 库存：'.$v['pro_kc'].'</div>
 
-                                                    <div class="icon icon-link1"></div>
-
-                                                    <nav data-href="'.$url.'" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
-
-                                                    <div class="text"><span class="label lable-default">普通</span>'.$g.' - 商品名称：'.$v['title'].' &nbsp; 价格：'.$v['price'].' &nbsp; 库存：'.$v['pro_kc'].'</div>
-
-                                                </div>';
-
+                                        </div>';
                             }
                         }else{
                             $html = '<div class="line">
@@ -583,14 +549,10 @@ class  General extends  Base {
                 $tpl_pages_count = Db::table('ims_sudu8_page_diypage')->where("uniacid",$appletid)->where("id","in",$tpl_pages_arr)->count();
                 if($tpl_pages_count == 1){
                     $this->error('删除失败，模板必须保留一个页面');
-
-                    exit;
+                     exit;
                 }
 
-
-
                 $id = input('id') ? intval(input('id')) : 0;
-
                 if($id == 0){
 
                     $this->error('参数错误');
@@ -598,8 +560,7 @@ class  General extends  Base {
                     exit;
 
                 }
-
-                $is_index = Db::table('ims_sudu8_page_diypage')->where("uniacid",$appletid)->where("id",$id)->where("index",1)->find();
+                 $is_index = Db::table('ims_sudu8_page_diypage')->where("uniacid",$appletid)->where("id",$id)->where("index",1)->find();
                 if($is_index){
                     $this->error("当前页面为首页不可删除");
                     exit;

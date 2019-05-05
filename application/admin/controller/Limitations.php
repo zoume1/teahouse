@@ -87,12 +87,14 @@ class  Limitations extends  Controller{
         if ($request->isPost()) {
             $data = $request->param();
             $data["scope"] = implode(",", $data["scope"]);
+
             if (!empty($data["goods_id"])) {
                 foreach ($data["goods_id"] as $key => $value) {
                     $goods[$key] = db("goods")->where("id", $data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
                 }
                 unset($data["goods_id"]);
             }
+
             $limit_id = db("limit")->insertGetId($data);
             if (!empty($goods)) {
                 foreach ($goods as $key => $value) {
