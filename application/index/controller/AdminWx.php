@@ -64,6 +64,8 @@ class  AdminWx extends Controller{
                             ->update(["role_id"=>7]);
                         echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                     }else {
+                        $whe['pay_type'] = array('neq',1);
+                         Db::name("set_meal_order")->where($whe)->delete();
                         return "fail";
                     }
                 }else{
