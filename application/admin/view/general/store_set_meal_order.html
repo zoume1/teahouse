@@ -148,10 +148,12 @@
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <a href="#" class="layui-btn btn-exam">汇款待审核</a>
-                                    <a href="#" class="layui-btn btn-pass">到账审核通过</a>
-                                    <a href="#" class="layui-btn btn-fail">汇款未到账</a>
-                                    <a href="#" class="layui-btn btn-pass">线上付款通过</a>
+                                    {switch name="$vo.audit_status"}
+                                     {case value="0"}<a href="#" class="layui-btn btn-exam">汇款待审核</a>{/case}
+                                     {case value="1"}<a href="#" class="layui-btn btn-pass">到账审核通过</a>{/case}
+                                     {case value="-1"}<a href="#" class="layui-btn btn-fail">汇款未到账</a> {/case}
+                                     {default /} <a href="#" class="layui-btn btn-pass">线上付款通过</a>
+                                    {/switch}
                                     <button class="layui-btn line-exam">未申请开票</button>
                                     <button class="layui-btn line-ing">已申请开票</button>
                                     <button class="layui-btn line-pass">已开票完成</button>
