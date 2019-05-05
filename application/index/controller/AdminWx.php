@@ -80,8 +80,7 @@ class  AdminWx extends Controller{
                     $result =Db::name("set_meal_order")
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
-                     $whe['pay_type'] = array('neq',1);
-                     Db::name("set_meal_order")->where($whe)->delete();
+                     
                    
                     if($result){
                         
@@ -157,6 +156,8 @@ class  AdminWx extends Controller{
                         }
                         echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                     }else{
+                        $whe['pay_type'] = array('neq',1);
+                         Db::name("set_meal_order")->where($whe)->delete();
                         return "fail";
                     }
                 }
