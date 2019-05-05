@@ -37,17 +37,7 @@ class  AdminWx extends Controller{
                     ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",1)
                     ->find();
-                $data["pay_time"] =time();//支付时间
-                $data["pay_type"] =1;//支付类型（1扫码支付,2汇款支付，3余额支付）
-                $data["pay_status"] =1;//到账状态（1为已到账，-1未到账，2待审核）
-                $data["start_time"] =time();//开始时间
-                $data["end_time"] =strtotime("+$year  year");//开始时间
-                $data["explains"] ="微信扫码支付直接通过";//审核说明
-                $data["status"] =1; //订单状态（-1为未付款，1已付款）
-                $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核）
-                $res =Db::name("set_meal_order")
-                    ->where("order_number",$is_set_order["order_number"])
-                    ->update($data);
+
                 if($is_set_order){
                     //这是套餐升级的情况
                     $data["pay_time"] =time();//支付时间
@@ -63,7 +53,8 @@ class  AdminWx extends Controller{
                         ->update($data);
                     if($res){
                         //把新生成的套餐订单删掉
-                        Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->delete();
+                        // Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->delete(); 火生
+                        Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         Db::table("tb_admin")
                             ->where("store_id",$enter_all_data["store_id"])
@@ -219,9 +210,8 @@ class  AdminWx extends Controller{
                         ->update($data);
                     if ($res){
                         //把刚下套餐订单删掉
-                        $result = Db::name("set_meal_order")
-                            ->where($condition)
-                            ->delete();
+                       // $result = Db::name("set_meal_order")->where($condition)->delete();火生
+                        $result = Db::name("set_meal_order")->where($condition)->update($data);
                         if ($result) {
                             //进行角色转化
                             //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
