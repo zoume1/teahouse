@@ -154,9 +154,9 @@
                                      {case value="-1"}<a href="#" class="layui-btn btn-fail">汇款未到账</a> {/case}
                                      {default /} <a href="#" class="layui-btn btn-pass">线上付款通过</a>
                                     {/switch}
-                                    <button class="layui-btn line-exam">未申请开票</button>
-                                    <button class="layui-btn line-ing">已申请开票</button>
-                                    <button class="layui-btn line-pass">已开票完成</button>
+                                    <button class="layui-btn line-btn line-exam">未申请开票</button>
+                                    <button class="layui-btn line-btn line-ing">已申请开票</button>
+                                    <button class="layui-btn line-btn line-pass">已开票完成</button>
                                 </div>
                             </td>
                         </tr>
@@ -236,6 +236,12 @@
 <script>
     layui.use(['laydate', 'form'], function(){
         
+    })
+    $('.line-btn').click(function(){
+        $('.mask').add('.pop').show();
+        $('.pop .close').click(function(){
+            $('.mask').add('.pop').hide();
+        })
     })
 </script>
 {/block}
