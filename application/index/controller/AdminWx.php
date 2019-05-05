@@ -35,7 +35,7 @@ class  AdminWx extends Controller{
                 //2、判断如果是升级过来的话需要进行删除已付款的订单
                 $is_set_order =Db::name("set_meal_order")
                     ->where("store_id",$enter_all_data["store_id"])
-                   /* ->where("audit_status",1)*/
+                    ->where("audit_status",1)
                     ->find();
 
                 if($is_set_order){
@@ -54,9 +54,8 @@ class  AdminWx extends Controller{
                     if($res){
                         //把新生成的套餐订单删掉
                          Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
-                       
-                      
-                        //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
+
+                       //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         Db::table("tb_admin")
                             ->where("store_id",$enter_all_data["store_id"])
                             ->where("is_own",1)
@@ -78,6 +77,8 @@ class  AdminWx extends Controller{
                     $result =Db::name("set_meal_order")
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
+                    $whe['pay_status'] = array('neq',1);
+                     Db::name("set_meal_order")->where($whe)->delete();
                     if($result){
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         Db::table("tb_admin")
