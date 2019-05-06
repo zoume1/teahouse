@@ -26,6 +26,7 @@ class Evaluate extends  Controller{
         $data =Db::name("order_evaluate")->order("create_time","desc")->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
+
         return view("evaluate_index",["data"=>$data,"data_status"=>$data_status]);
     }
 
