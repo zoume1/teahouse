@@ -204,8 +204,10 @@
                                     v-model="item.goods_quantity"
                                     @keyup="inputNumber(item, index)"
                                     ref="num">
-                                <button class="plus" @click="plusEvent(item)">+</button>
+                                 <button class="plus" @click="plusEvent(item)">+</button> 
+
                                 <span class="unit">{{item.unit}}</span>
+                                
                             </div>
                             <div class="unit-price">{{item.amount_money.toFixed(2)}}</div>
                             <div class="total-price-box">
@@ -451,6 +453,8 @@
                 virtualTag: true,//显示隐藏收货地址  false: 虚拟商品  true:正常商品
                 onlinePayImg: '', //微信、支付宝在线支付二维码路径
                 onlinePayInterval: null, //在线支付 监听定时器
+                year:''
+
             },
             mounted: function(){
                 this.getRemitTime(); //初始化日期选择
@@ -458,6 +462,7 @@
                 this.getAllAddr(); // 收货地址
                 this.getacountMoney(); //用户账户余额
                 this.virtualTag = JSON.parse(this.getCookie('virtual'));
+                this.year=this.getCookie('year');
             },
             methods: {
                 // 获取数据
