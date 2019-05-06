@@ -252,7 +252,8 @@ class  AdminWx extends Controller{
                         $is_set = Db::table("ims_sudu8_page_diypageset")
                             ->where("store_id",$enter_all_data["store_id"])
                             ->find();
-                        if(!$is_set){
+                        //鲁文兵修改if(!$is_set){}
+                        
                             $is_uniacid =Db::table("ims_sudu8_page_base")
                                 ->where("uniacid",$enter_all_data["store_id"])
                                 ->find();
@@ -312,7 +313,7 @@ class  AdminWx extends Controller{
                                 "store_id"=>$enter_all_data["store_id"]
                             ];
                             Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
-                        }
+                       
                         return "success";
                     } else {
                         return "fail";
