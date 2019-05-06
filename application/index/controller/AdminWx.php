@@ -55,32 +55,7 @@ class  AdminWx extends Controller{
                         //把新生成的套餐订单删掉
                         //鲁文兵改
                          Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
-                       
-
-                       //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
-                        Db::table("tb_admin")
-                            ->where("store_id",$enter_all_data["store_id"])
-                            ->where("is_own",1)
-                            ->update(["role_id"=>7]);
-                        echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
-                    }else {
-                        return "fail";
-                    }
-                }else{
-                    //这是新加入套餐的情况
-                    $data["pay_time"] =time();//支付时间
-                    $data["pay_type"] =1;//支付类型（1扫码支付，2汇款支付，3余额支付）
-                    $data["pay_status"] =1;//到账状态（1为已到账，-1未到账，2待审核）
-                    $data["start_time"] =time();//开始时间
-                    $data["end_time"] =strtotime("+$year  year");//开始时间
-                    $data["explains"] ="微信扫码支付直接通过";//审核说明
-                    $data["status"] =1; //订单状态（-1为未付款，1已付款）
-                    $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核）
-                    $result =Db::name("set_meal_order")
-                        ->where("order_number",$val["out_trade_no"])
-                        ->update($data);
-                    Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->delete();
-                      //鲁文兵修改if(!$is_set){}
+                           //鲁文兵修改if(!$is_set){}
                    
                             $is_uniacid =Db::table("ims_sudu8_page_base")
                                 ->where("uniacid",$enter_all_data["store_id"])
@@ -141,6 +116,31 @@ class  AdminWx extends Controller{
                                 "store_id"=>$enter_all_data["store_id"]
                             ];
                             $bool=Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
+                       
+
+                       //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
+                        Db::table("tb_admin")
+                            ->where("store_id",$enter_all_data["store_id"])
+                            ->where("is_own",1)
+                            ->update(["role_id"=>7]);
+                        echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                    }else {
+                        return "fail";
+                    }
+                }else{
+                    //这是新加入套餐的情况
+                    $data["pay_time"] =time();//支付时间
+                    $data["pay_type"] =1;//支付类型（1扫码支付，2汇款支付，3余额支付）
+                    $data["pay_status"] =1;//到账状态（1为已到账，-1未到账，2待审核）
+                    $data["start_time"] =time();//开始时间
+                    $data["end_time"] =strtotime("+$year  year");//开始时间
+                    $data["explains"] ="微信扫码支付直接通过";//审核说明
+                    $data["status"] =1; //订单状态（-1为未付款，1已付款）
+                    $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核）
+                    $result =Db::name("set_meal_order")
+                        ->where("order_number",$val["out_trade_no"])
+                        ->update($data);
+                    Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->delete();
                     if($result){
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         Db::table("tb_admin")
