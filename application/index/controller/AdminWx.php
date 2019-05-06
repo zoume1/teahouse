@@ -56,7 +56,7 @@ class  AdminWx extends Controller{
                         //鲁文兵改
                          Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
                            //鲁文兵修改if(!$is_set){}
-                   
+                           
                             $is_uniacid =Db::table("ims_sudu8_page_base")
                                 ->where("uniacid",$enter_all_data["store_id"])
                                 ->find();
