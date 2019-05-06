@@ -400,14 +400,24 @@ class  General extends  Base {
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
                         ->value("goods_name");
-                    if( $list[$k]["goods_names"]=='万用版'){
-                         $list[$k]["type_id"]=1;
-                    }elseif ($list[$k]["goods_names"]=='茶行业版') {
-                        $list[$k]["type_id"]=2;
-                    }elseif ($list[$k]["goods_names"]=='茶进阶版') {
-                        $list[$k]["type_id"]=3;
-                    }
-                }
+                       //鲁文兵添加
+                      $list[$k]["goods_names_test"]=  Db::table("tb_set_meal_order")
+                        ->field('goods_name')
+                        ->where("store_id",$this->store_ids)
+                        ->where("audit_status",1)
+                        ->select();
+                        $length=count($list[$k]["goods_names_test"]);
+                        for ($i=0; $i <$length ; $i++) { 
+                            if($i==$length-1){
+                              $list[$k]["goods_names_test"][$length-1]['status']=1;
+                            }else{
+                                $list[$k]["goods_names_test"][$i]['status_Type']=0;
+                            }
+                        }
+                        
+                 
+                      
+                 }
 
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
