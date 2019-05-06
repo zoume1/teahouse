@@ -1419,19 +1419,25 @@ class  General extends  Base {
         if($request->isPost()){
             $id =$request->only(["id"])["id"];
             $data =Db::table("tb_set_meal_order")
-                ->field("id,order_number,create_time,goods_name,goods_quantity,amount_money,store_id,images_url,store_name,unit,cost,enter_all_id")
-                ->where("store_id",$this->store_ids)
-                ->where("status",-1)
-                ->where("id",$id)
+                 ->alias('a')
+                 ->join('tb_enter_all b','a.enter_all_id=b.id','left')
+                ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
+                    a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id,b.year")
+                ->where("a.store_id",$this->store_ids)
+                ->where("a.status",-1)
+                ->where("a.id",$id)
                 ->select();
-            if($data){
+
+       
+             if($data){
                 foreach ($data as $k=>$v){
+
                     $last_money =Db::name("set_meal_order")
                         ->where("store_id",$v['store_id'])
                         ->where("audit_status",1)
                         ->field("amount_money,enter_all_id")
                         ->find();
-                    //判断是否相同的套餐id
+                   //判断是否相同的套餐id
                     if($last_money){
                         if($last_money["enter_all_id"]==$v["enter_all_id"]){
                             $data[$k]["last_money"] =0;
@@ -1444,7 +1450,10 @@ class  General extends  Base {
                 }
                 return ajax_success("订单信息返回成功",$data);
             }else{
-                return ajax_error("没有订单信息");
+
+
+                
+                return ajax_error("没有订单信息",$dataList);
             }
         }
         return view("order_package_buy");
@@ -1463,6 +1472,9 @@ class  General extends  Base {
             $store_id =$this->store_ids; //店铺id
             $enter_all_id =$request->only(['id'])['id'];//套餐id
             $years =$request->only(["year"])["year"];//年份
+             
+
+
             //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
             $isset_id = Db::name("set_meal_order")
                 ->where("store_id",$store_id)
