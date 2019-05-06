@@ -409,7 +409,7 @@ class  General extends  Base {
                         $length=count($list[$k]["goods_names_test"]);
                         for ($i=0; $i <$length ; $i++) { 
                             if($i==$length-1){
-                              $list[$k]["goods_names_test"][$length-1]['status']=1;
+                              $list[$k]["goods_names_test"][$length-1]['status_Type']=1;
                             }else{
                                 $list[$k]["goods_names_test"][$i]['status_Type']=0;
                             }
