@@ -1471,7 +1471,8 @@ class  General extends  Base {
         if($request->isPost()){
             $store_id =$this->store_ids; //店铺id
             $enter_all_id =$request->only(['id'])['id'];//套餐id
-           
+            $years =$request->only(["year"])["year"];//年份
+             
 
 
             //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
