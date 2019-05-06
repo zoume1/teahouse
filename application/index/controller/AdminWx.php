@@ -116,8 +116,7 @@ class  AdminWx extends Controller{
                                 "store_id"=>$enter_all_data["store_id"]
                             ];
                             $booll=Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
-                            var_dump('oooopppuuu');
-                            dump($booll);exit();
+
 
 
                            
@@ -217,9 +216,7 @@ class  AdminWx extends Controller{
                                 "store_id"=>$enter_all_data["store_id"]
                             ];
                             $bool=Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
-                             var_dump('ppppp');
-                             dump($bool);
-                              dump($bool);exit();
+                            
                         echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                     }else{
                         return "fail";
