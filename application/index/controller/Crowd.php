@@ -80,7 +80,7 @@ class Crowd extends Controller
                 ->where("end_time",">=",$date_time)
                 ->field("id,project_name,end_time,goods_show_image,scope,goods_member")
                 ->select();
-                
+            
             if(!empty($crowd)){
                 foreach($crowd as $key => $value)
                 {
@@ -99,9 +99,14 @@ class Crowd extends Controller
                     if($crowd[$key]["goods_member"] == 1){
                         $crowd[$key]["cost"] = $special[$key]["cost"] * $discount ;
                     }
-                    $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
+                    
+                    if(!empty($special[$key]["collecting_money"])){
+                        $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
+                    } else {
+                        $crowd[$key]["centum"] = 0;
+                    }
+                    //会员范围
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
-
                     if(!empty($crowd[$key]["scope"])){
                         if(!in_array($member_grade_name,$crowd[$key]["scope"])){ 
                             unset($crowd[$key]);
@@ -109,7 +114,6 @@ class Crowd extends Controller
                     }
                     
                 }
-
                 $arr = array_values($crowd);           
                 ajax_success('传输成功', $arr);
             } else {
