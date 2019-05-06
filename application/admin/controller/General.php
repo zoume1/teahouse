@@ -390,6 +390,7 @@ class  General extends  Base {
                 ->where("store_id",$this->store_ids)
                 ->limit(1)
                 ->select();
+
             if(!empty($list)){
                 foreach ($list as $k=>$v){
                     $list[$k]["tplid"] = Db::table("ims_sudu8_page_diypagetpl")
@@ -399,7 +400,15 @@ class  General extends  Base {
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
                         ->value("goods_name");
+                    if( $list[$k]["goods_names"]=='万用版'){
+                         $list[$k]["type_id"]=1;
+                    }elseif ($list[$k]["goods_names"]=='茶行业版') {
+                        $list[$k]["type_id"]=2;
+                    }elseif ($list[$k]["goods_names"]=='茶进阶版') {
+                        $list[$k]["type_id"]=3;
+                    }
                 }
+
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
                 return ajax_error("请先编辑小程序设置");
