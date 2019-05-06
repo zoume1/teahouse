@@ -218,6 +218,12 @@
                     window.location.href = "{:url('admin/General/small_routine_index')}";
                 }
                 if (new_data.status == '1') {
+                    // for(let i = 0; i < val.data[0].goods_names_test.length; i ++) {
+                    //     if(val.data[0].goods_names_test[i].status == 1) {
+
+                    //     }
+                    // }
+
                     let path = `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}`;
                     if (val.data[0].goods_names == "万用版") {
                         dhtml = `<div class="list">
