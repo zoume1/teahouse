@@ -115,10 +115,11 @@ class  AdminWx extends Controller{
                                 "status"=>1,
                                 "store_id"=>$enter_all_data["store_id"]
                             ];
-                            Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
+                            $booll=Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
+                            dump($booll);
 
 
-
+                           
                          //////////////
 
                        //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
@@ -214,8 +215,9 @@ class  AdminWx extends Controller{
                                 "status"=>1,
                                 "store_id"=>$enter_all_data["store_id"]
                             ];
-                            Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
-                       
+                            $bool=Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
+                             var_dump('ppppp');
+                             dump($bool);
                         echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                     }else{
                         return "fail";
