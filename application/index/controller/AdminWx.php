@@ -59,21 +59,14 @@ class  AdminWx extends Controller{
                         //鲁文兵改
                          Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
                            //鲁文兵修改if(!$is_set){}
-                         /*$modelMenu =Db::table("set_meal_order")
-                         ->alias('a')
-                         ->field('a.*,b*')
-                         ->join('enter_all b' , 'a.enter_all_id=b.id','left')
-                          ->where("a.order_number",$val["out_trade_no"])
-                          ->select();
-                           if($modelMenu){
-                             $file=APP_PATH.'/public/datashu/test.txt';
-                             file_put_contents($file,serialize($modelMenu);
-                           }else{
-                              $file=APP_PATH.'/public/datashu/test.txt';
-                             file_put_contents($file,'hollo'); 
-                           }*/
-                        
-                        
+                          /* $modelMenu =Db::table('tb_set_meal_order')
+                           ->alias('a')
+                           ->field('a.*,b.*')
+                           ->join('tb_enter_all b' , 'a.enter_all_id=b.id',"left")
+                           ->where("a.order_number",'EQ',$val["out_trade_no"])
+                           ->find();*/
+
+                      
                            
                            
                       //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
@@ -111,7 +104,7 @@ class  AdminWx extends Controller{
                             ->find();
 
                             //鲁文兵修改if(!$is_set){}
-                           
+                           if(!$is_set){
                             $is_uniacid =Db::table("ims_sudu8_page_base")
                                 ->where("uniacid",$enter_all_data["store_id"])
                                 ->find();
@@ -171,7 +164,7 @@ class  AdminWx extends Controller{
                                 "store_id"=>$enter_all_data["store_id"]
                             ];
                             $bool=Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
-                            
+                         }
                         echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                     }else{
                         return "fail";

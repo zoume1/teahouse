@@ -390,7 +390,7 @@ class  General extends  Base {
                 ->where("store_id",$this->store_ids)
                 ->limit(1)
                 ->select();
-
+               
             if(!empty($list)){
                 foreach ($list as $k=>$v){
                     $list[$k]["tplid"] = Db::table("ims_sudu8_page_diypagetpl")
@@ -1407,6 +1407,7 @@ class  General extends  Base {
      * 郭杨
      */    
     public function order_package_index(){
+        
         $order_package = db("enter_meal")->where("status",1)->field("id,name,price,favourable_price,year")->select();
         foreach($order_package as $key => $value){
             $order_package[$key]['priceList'] = db("enter_all") -> where("enter_id",$order_package[$key]['id'])->select();
