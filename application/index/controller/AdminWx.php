@@ -38,13 +38,14 @@ class  AdminWx extends Controller{
                     ->where("audit_status",1)
                     ->find();
                      $file=APP_PATH.'/public/datashu/test.txt';
+                      file_put_contents($file,serialize($is_set_order));
                     
-                    if(!file_exists($file)){  
-                       mkdir($file,0777,true);  
-                     } 
-                    if(false!==fopen($file,'w+')){ 
+                    /*if(!file_exists($file)){  
+                        mkdir($file,0777,true);  
+                     } */
+                    /*if(false!==fopen($file,'w+')){ 
                       file_put_contents($file,serialize($is_set_order)); 
-                    } 
+                    } */
                   
                 if($is_set_order){
                     //这是套餐升级的情况
