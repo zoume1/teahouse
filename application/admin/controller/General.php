@@ -1497,26 +1497,38 @@ class  General extends  Base {
             $enter_all_id =$request->only(['id'])['id'];//套餐id
             $years =$request->only(["year"])["year"];//年份
              
-
-
+            
             //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
             $isset_id = Db::name("set_meal_order")
                 ->where("store_id",$store_id)
                 ->where("audit_status","NEQ",1)
                 ->value("id");
+                
             if($isset_id){
                 //不能购买降级购买套餐(同事不能购买低于这个id的，所谓降级)
                 $isset_ids =Db::name("set_meal_order")
                     ->where("enter_all_id",">",$enter_all_id)
                     ->where("audit_status","EQ",1)
                     ->value("id");
+               $isset_idData =Db::name("set_meal_order")
+                    ->where("enter_all_id","EQ",$enter_all_id)
+                    ->where("audit_status","EQ",1)
+                    ->value("id");
+
                 if($isset_ids){
                     //这里还需要判断相同年份进来的数据
                     exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
+                }elseif ($isset_idData) {
+                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
+                }else{
+                   exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
+                    
                 }
-                exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
-            }else{
+                
+
+              }else{
                 //不能购买降级购买套餐
+                 
                 $isset_ids =Db::name("set_meal_order")
                     ->where("enter_all_id",">",$enter_all_id)
                     ->where("audit_status","EQ",1)
@@ -1524,6 +1536,14 @@ class  General extends  Base {
                 if($isset_ids){
                     exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
                 }
+                 $isset_idData =Db::name("set_meal_order")
+                    ->where("enter_all_id","EQ",$enter_all_id)
+                    ->where("audit_status","EQ",1)
+                    ->value("id");
+                if($isset_idData){
+                    exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
+                }
+           
                 //不能升级为年份少于之前的年份
                 //这是查找id方便查找年份
                $set_id =Db::name("set_meal_order")
@@ -1531,12 +1551,16 @@ class  General extends  Base {
                    ->value("enter_all_id");
                 if($set_id){
                     $year =Db::name("enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
+                   
                     if($year>$years){
+                        
                         exit(json_encode(array("status"=>4,"info"=>"不能升级为年份少于之前的年份","data"=>["id"=>$set_id])));
                     }else{
+                        
                         exit(json_encode(array("status"=>1,"info"=>"可以升级","data"=>["id"=>$enter_all_id])));
                     }
                 }else{
+                  
                     exit(json_encode(array("status"=>1,"info"=>"正常购买成功","data"=>["id"=>$enter_all_id])));
                 }
             }
