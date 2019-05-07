@@ -37,7 +37,7 @@ class  AdminWx extends Controller{
                     ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",1)
                     ->find();
-                     $file=APP_PATH.'/public/datashu/test.text';
+                     $file=APP_PATH.'/public/datashu/test.txt';
                     
                     if(!file_exists($file)){  
                        mkdir($file,0777,true);  
