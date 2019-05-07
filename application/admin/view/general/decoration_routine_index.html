@@ -223,9 +223,15 @@
 
                     //     }
                     // }
-
-                    let path = `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}`;
-                    if (val.data[0].goods_names == "万用版") {
+                    var datas =  val.data[0].goods_names_test;
+                    var goods_names;
+                    for(let l = 0; l < datas.length; l ++) {
+                        if(datas[l].status_type == 1) {
+                            goods_names = datas[l].goods_name;
+                        }
+                    }
+                    let path = `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}&goods_names=${goods_names}`;
+                    if (goods_names == "万用版") {
                         dhtml = `<div class="list">
                                 <div class="imgcontent">
                                     <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
@@ -245,7 +251,7 @@
                                 </div>
                                 <div class="btns">
                                     <div class="btns_b change">切换版本</div>
-                                    <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
                                 <div class="list">
@@ -255,21 +261,19 @@
                                 </div>
                                 <div class="btns">
                                     <div class="btns_b change">切换版本</div>
-                                    <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>`;
 
-                    } else if (val.data[0].goods_names == "行业版") {
+                    } else if (goods_names == "行业版") {
                         dhtml = `<div class="list">
                                 <div class="imgcontent">
                                     <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
                                     <div class="text">万用模版</div>
                                 </div>
                                 <div class="btns">
-                                    <a href="">
-                                        <div class="btns_b">切换版本</div>
-                                    </a>
-                                    <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b" onclick="change_back(val)">切换版本</div>
+                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
                                 <div class="list">
@@ -289,7 +293,7 @@
                                 </div>
                                 <div class="btns">
                                     <div class="btns_b change">切换版本</div>
-                                    <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>`;
                     } else {
@@ -299,10 +303,8 @@
                                     <div class="text">万用模版</div>
                                 </div>
                                 <div class="btns">
-                                    <a href="">
-                                        <div class="btns_b">切换版本</div>
-                                    </a>
-                                    <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b change_back" onclick="change_back(${val.data[0].store_id});">切换版本</div>
+                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
                                 <div class="list">
@@ -311,8 +313,8 @@
                                     <div class="text">茶行业版</div>
                                 </div>
                                 <div class="btns">
-                                    <a href=""><div class="btns_b" >切换版本</div></a>
-                                    <div class="btns_a" style="display:none"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b change_back">切换版本</div>
+                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
                                 <div class="list">
@@ -349,7 +351,22 @@
                 console.log(e);
             }
         })
-
+        function change_back(a) {
+                    $.ajax ({
+                        type: "POST",
+                        url: "{:url('admin/General/decoration_routine_index')}",
+                        data: {
+                            store_id : a,
+                            goods_names : '万用版'
+                        },
+                        success: (data) => {
+                            console.log('chengg')
+                        },
+                        error: (e) => {
+                            console.log('e')
+                        }
+                    })
+        }
         function save_id(id) {
             setCookie("edit_id", id, 1);
         }
