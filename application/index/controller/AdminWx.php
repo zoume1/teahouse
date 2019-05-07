@@ -37,14 +37,14 @@ class  AdminWx extends Controller{
                     ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",1)
                     ->find();
-                    $file=APP_PATH.'/public/datashu/test.text';
+                    /*$file=APP_PATH.'/public/datashu/test.text';
                     
                     if(!file_exists($file)){  
                        mkdir($file,0777,true);  
                      } 
                     if(false!==fopen($file,'w+')){ 
                       file_put_contents($file,serialize($is_set_order));//写入缓存 
-                    } 
+                    } */
                   
                 if($is_set_order){
                     //这是套餐升级的情况
