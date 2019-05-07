@@ -422,7 +422,7 @@ class  General extends  Base {
                  
                       
                  }
-                 dump($list);
+               
 
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
