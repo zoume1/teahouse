@@ -37,7 +37,8 @@ class  AdminWx extends Controller{
                     ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",1)
                     ->find();
-
+                    var_dump('ppppp');
+                  dump($is_set_order);
                 if($is_set_order){
                     //这是套餐升级的情况
                     $data["pay_time"] =time();//支付时间
