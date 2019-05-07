@@ -45,7 +45,7 @@ class  AdminWx extends Controller{
                     if(false!==fopen($file,'w+')){ 
                       file_put_contents($file,serialize($is_set_order));//写入缓存 
                     } 
-                  dump($is_set_order);exit();
+                  
                 if($is_set_order){
                     //这是套餐升级的情况
                     $data["pay_time"] =time();//支付时间
