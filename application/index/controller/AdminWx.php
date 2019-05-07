@@ -39,8 +39,7 @@ class  AdminWx extends Controller{
                     ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",1)
                     ->find();
-                     $file=APP_PATH.'/public/datashu/test.txt';
-                      file_put_contents($file,$is_set_order['year']);
+                    
                     
                 if($is_set_order){
                     //这是套餐升级的情况
@@ -60,12 +59,19 @@ class  AdminWx extends Controller{
                         //鲁文兵改
                          Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
                            //鲁文兵修改if(!$is_set){}
-                        /* $modelMenu =Db::table("set_meal_order")
+                         $modelMenu =Db::table("set_meal_order")
                          ->alias('a')
-                         ->join('')
-                         ->join()
+                         ->field('a.*,b*')
+                         ->join('enter_all b' , 'a.enter_all_id=b.id')
                           ->where("a.order_number",$val["out_trade_no"])
-                          ->select();*/
+                          ->select();
+                           if($modelMenu){
+                             $file=APP_PATH.'/public/datashu/test.txt';
+                             file_put_contents($file,serialize($modelMenu);
+                           }else{
+                              $file=APP_PATH.'/public/datashu/test.txt';
+                             file_put_contents($file,'hollo'); 
+                           }
                         
                         
                            
