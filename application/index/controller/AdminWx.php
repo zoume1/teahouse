@@ -40,7 +40,7 @@ class  AdminWx extends Controller{
                     ->where("audit_status",1)
                     ->find();
                      $file=APP_PATH.'/public/datashu/test.txt';
-                      file_put_contents($file,serialize($is_set_order['year']));
+                      file_put_contents($file,$is_set_order['year']);
                     
                 if($is_set_order){
                     //这是套餐升级的情况
