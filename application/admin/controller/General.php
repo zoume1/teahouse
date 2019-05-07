@@ -390,7 +390,7 @@ class  General extends  Base {
                 ->where("store_id",$this->store_ids)
                 ->limit(1)
                 ->select();
-               $id = $request->only(['id'])['id'];
+               /*$id = $request->only(['id'])['id'];*/
             if(!empty($list)){
                 foreach ($list as $k=>$v){
                     $list[$k]["tplid"] = Db::table("ims_sudu8_page_diypagetpl")
@@ -410,7 +410,7 @@ class  General extends  Base {
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
                         ->select();
-                        if($id){
+                       /* if($id){
                             foreach ($list[$k]["goods_names_test"] as $key => $value) {
                               if($list[$k]["goods_names_test"][$k]['goods_name']==$id){
                                    $list[$k]["goods_names_test"][$k]['status_type']=1
@@ -428,7 +428,15 @@ class  General extends  Base {
                                     $list[$k]["goods_names_test"][$i]['status_type']=0;
                                 }
                             }  
-                        }
+                        }*/
+                        $length=count($list[$k]["goods_names_test"]);
+                            for ($i=0; $i <$length ; $i++) { 
+                                if($i==$length-1){
+                                  $list[$k]["goods_names_test"][$length-1]['status_type']=1;
+                                }else{
+                                    $list[$k]["goods_names_test"][$i]['status_type']=0;
+                                }
+                            }  
 
                         
                       
