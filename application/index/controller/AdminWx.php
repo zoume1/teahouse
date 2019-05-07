@@ -33,14 +33,12 @@ class  AdminWx extends Controller{
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除已付款的订单
-                 /* $is_set_order =Db::name("set_meal_order")
-                    ->where("store_id",$enter_all_data["store_id"])
-                    ->where("audit_status",1)
-                    ->find();*/
+                 /*
+                 */
                 $is_set_order =Db::name("set_meal_order")
                     ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",1)
-                    ->select();
+                    ->find();
                      $file=APP_PATH.'/public/datashu/test.txt';
                       file_put_contents($file,serialize($is_set_order));
                     
