@@ -37,7 +37,7 @@ class  AdminWx extends Controller{
                     ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",1)
                     ->find();
-                
+
                 if($is_set_order){
                     //这是套餐升级的情况
                     $data["pay_time"] =time();//支付时间
@@ -117,7 +117,7 @@ class  AdminWx extends Controller{
                             ];
                             $bool=Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
                        
-                               //鲁文兵修改
+                              
                        //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         Db::table("tb_admin")
                             ->where("store_id",$enter_all_data["store_id"])
