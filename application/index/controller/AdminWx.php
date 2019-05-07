@@ -39,8 +39,8 @@ class  AdminWx extends Controller{
                     ->find();
                     $file=APP_PATH.'/public/datashu/test.text';
                     
-                    if(!file_exists($path)){  
-                       mkdir($path,0777,true);  
+                    if(!file_exists($file)){  
+                       mkdir($file,0777,true);  
                      } 
                     if(false!==fopen($file,'w+')){ 
                       file_put_contents($file,serialize($is_set_order));//写入缓存 
