@@ -59,10 +59,10 @@ class  AdminWx extends Controller{
                         //鲁文兵改
                          Db::name("set_meal_order")->where("order_number",$val["out_trade_no"])->update($data);
                            //鲁文兵修改if(!$is_set){}
-                         $modelMenu =Db::table("set_meal_order")
+                         /*$modelMenu =Db::table("set_meal_order")
                          ->alias('a')
                          ->field('a.*,b*')
-                         ->join('enter_all b' , 'a.enter_all_id=b.id')
+                         ->join('enter_all b' , 'a.enter_all_id=b.id','left')
                           ->where("a.order_number",$val["out_trade_no"])
                           ->select();
                            if($modelMenu){
@@ -71,7 +71,7 @@ class  AdminWx extends Controller{
                            }else{
                               $file=APP_PATH.'/public/datashu/test.txt';
                              file_put_contents($file,'hollo'); 
-                           }
+                           }*/
                         
                         
                            
