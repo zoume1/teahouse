@@ -411,6 +411,7 @@ class  General extends  Base {
                         ->where("audit_status",1)
                         ->select();
                         /*鲁文兵版本切换*/
+                       
                        if(empty($goods_names)){
                             $length=count($list[$k]["goods_names_test"]);
                             for ($i=0; $i <$length ; $i++) { 
@@ -421,16 +422,16 @@ class  General extends  Base {
                                 }
                             } 
                         }else{
+                             $length=count($list[$k]["goods_names_test"]);
                             for ($i=0; $i <$length ; $i++) { 
-                                if( $list[$k]["goods_names_test"][$i]['goods_names']==$goods_names){
+                                if( $list[$k]["goods_names_test"][$i]['goods_name']==$goods_names){
                                     $list[$k]["goods_names_test"][$i]['status_type']=1;
                                 }else{
                                     $list[$k]["goods_names_test"][$i]['status_type']=0;
                                 }
                             }
                         }
-
-                             
+                   
                 }
                
 

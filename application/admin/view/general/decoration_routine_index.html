@@ -313,7 +313,7 @@
                                     <div class="text">茶行业版</div>
                                 </div>
                                 <div class="btns">
-                                    <div class="btns_b change_hy" onclick="change_hy();">切换版本</div>
+                                    <div class="btns_b change_hy" onclick="change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">切换版本</div>
                                     <div class="btns_a noshow hangye"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
@@ -323,7 +323,7 @@
                                     <div class="text">茶进阶版</div>
                                 </div>
                                 <div class="btns">
-                                    <div class="btns_b now_use" onclick="change_jj();">历史编辑</div>
+                                    <div class="btns_b now_use" onclick="change_jj(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">历史编辑</div>
                                     <div class="btns_a jinjie" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>`;
