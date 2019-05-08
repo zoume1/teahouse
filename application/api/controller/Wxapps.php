@@ -851,6 +851,7 @@ class  Wxapps extends  Controller{
         $pageset['diy_bg_music'] = $arr["diy_bg_music"];
         $data['pageset'] = $pageset;
         $result['data'] = $data;
+        $result['data']['test_name'] = $store_id;
         return json_encode($result);
     }
 
