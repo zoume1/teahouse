@@ -14,6 +14,7 @@ class  Wxapps extends  Controller{
     public function doPagehomepage()
     {
         $uniacid = input("uniacid");
+
         $res = Db::table('ims_sudu8_page_base')->where("uniacid", $uniacid)->field("homepage")->find();
         if (!$res) {
             $res['homepage'] = 1;
@@ -46,11 +47,7 @@ class  Wxapps extends  Controller{
         }
         $res['foot_is'] = $foot['foot_is'] ? $foot['foot_is'] : 1;
         $result['data'] = $res;
-         if(!empty(Session::get('goods_names'))){
-            $result['goods_names'] = Session::get('goods_names');
-         }else{
-             $result['goods_names'] = Session::get('goods_names');
-         }
+        
 
         return json_encode($result);
     }
@@ -85,7 +82,7 @@ class  Wxapps extends  Controller{
 
         $uniacid = input("uniacid");
         $pageid = input("pageid");
-        $store_ids=$this->store_ids
+         $store_ids=$this->store_ids;
         $foot = Db::table('ims_sudu8_page_diypageset')->where("uniacid", $uniacid)->field("foot_is")->find();
         $tplinfo = Db::table('ims_sudu8_page_diypagetpl')->where("uniacid", $uniacid)->where("status", 1)->find();
         $pageids = explode(",", $tplinfo['pageid']);
