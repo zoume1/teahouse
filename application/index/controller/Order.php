@@ -905,6 +905,7 @@ class  Order extends  Controller
     public function order_detail_cancel(Request $request){
         if($request->isPost()){
             $open_id =$request->only("open_id")["open_id"]; //用户open_ID
+
             $user_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
 
             $cancel_order_description =$request->only('cancel_order_description')["cancel_order_description"];//取消原因
@@ -979,13 +980,14 @@ class  Order extends  Controller
     {
         if ($request->isPost()) {
             $open_id =$request->only("open_id")["open_id"]; //用户open_ID
+            $uniacid = input("uniacid");
             $member_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
-            $store_id=$this->store_ids;
+            
             $da_change =Db::table("tb_set_meal_order")
                  ->alias('a')
                 ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
                     a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id")
-                ->where("store_id", $store_id)
+                ->where("store_id", $uniacid)
                 ->where("audit_status",1)
                 ->order('id desc')
                ->find();
