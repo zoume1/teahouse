@@ -303,8 +303,8 @@
                                     <div class="text">万用模版</div>
                                 </div>
                                 <div class="btns">
-                                    <div class="btns_b change_back" onclick="change_back(${val.data[0].store_id});">切换版本</div>
-                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b change_back" onclick="change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">切换版本</div>
+                                    <div class="btns_a wanyong noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
                                 <div class="list">
@@ -313,8 +313,8 @@
                                     <div class="text">茶行业版</div>
                                 </div>
                                 <div class="btns">
-                                    <div class="btns_b change_back">切换版本</div>
-                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b change_hy" onclick="change_hy();">切换版本</div>
+                                    <div class="btns_a noshow hangye"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
                                 <div class="list">
@@ -323,8 +323,8 @@
                                     <div class="text">茶进阶版</div>
                                 </div>
                                 <div class="btns">
-                                    <a href="${path}"><div class="btns_b">历史编辑</div></a>
-                                    <div class="btns_a" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b now_use" onclick="change_jj();">历史编辑</div>
+                                    <div class="btns_a jinjie" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>`;
                     }
@@ -351,21 +351,42 @@
                 console.log(e);
             }
         })
-        function change_back(a) {
-                    $.ajax ({
-                        type: "POST",
-                        url: "{:url('admin/General/decoration_routine_index')}",
-                        data: {
-                            store_id : a,
-                            goods_names : '万用版'
-                        },
-                        success: (data) => {
-                            console.log('chengg')
-                        },
-                        error: (e) => {
-                            console.log('e')
-                        }
-                    })
+        //wangyong
+        function change_wy(a,b,c) {
+            $(".change_back").html('历史编辑');
+            $(".wanyong").removeClass("noshow");
+
+            $(".now_use").html('切换版本');
+            $(".jinjie").addClass("noshow");
+
+            $(".change_hy").html('切换版本');
+            $(".hangye").addClass("noshow");
+
+            window.location.href = `/admin/xiaochengxu_edit?appletid=${a}&tplid=${b}&store_id=${c}&goods_names=万用版`;
+        }
+        //hangye
+        function change_hy(a,b,c) {
+            $(".change_hy").html('历史编辑');
+            $(".hangye").removeClass("noshow");
+
+            $(".now_use").html('切换版本');
+            $(".jinjie").addClass("noshow");
+
+            $(".change_back").html('切换版本');
+            $(".wanyong").addClass("noshow");
+            window.location.href = `/admin/xiaochengxu_edit?appletid=${a}&tplid=${b}&store_id=${c}&goods_names=行业版`;
+        }
+        //jinjie
+        function change_jj(a,b,c) {
+            $(".now_use").html('历史编辑');
+            $(".jinjie").removeClass("noshow");
+
+            $(".change_hy").html('切换版本');
+            $(".hangye  ").addClass("noshow");
+
+            $(".change_back").html('切换版本');
+            $(".wanyong").addClass("noshow");
+            window.location.href = `/admin/xiaochengxu_edit?appletid=${a}&tplid=${b}&store_id=${c}&goods_names=进阶版`;
         }
         function save_id(id) {
             setCookie("edit_id", id, 1);
