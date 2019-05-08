@@ -386,7 +386,7 @@ class  General extends  Base {
 
     public function decoration_routine_index(Request $request){
         if($request->isPost()){
-            $list =Db::table("applet")
+            $list = Db::table("applet")
                 ->where("store_id",$this->store_ids)
                 ->limit(1)
                 ->select();
@@ -405,6 +405,25 @@ class  General extends  Base {
                         ->where("audit_status",1)
                         ->order('id desc')
                         ->value("goods_name");
+                        $list[$k]["goods_names_id"] =Db::table("tb_set_meal_order")
+                        ->where("store_id",$this->store_ids)
+                        ->where("audit_status",1)
+                        ->order('id desc')
+                        ->value("id");
+                        $goods_list_name =Db::table("tb_set_meal_order")
+                        ->where("store_id",$this->store_ids)
+                        ->where("audit_status",1)
+                        ->select();
+                        foreach ($goods_list_name as $key => $value) {
+                           if($goods_list_name[$key]['id']==$list[$k]["goods_names_id"]){
+                              $goods_list_name[$key]['status_type']=1;
+                              $update=Db::table("tb_set_meal_order")->where("id",$goods_list_name[$key]['id'])->update($goods_list_name[$key]);
+                           }else{
+                               $goods_list_name[$key]['status_type']=0;
+                               $update=Db::table("tb_set_meal_order")->where("id",$goods_list_name[$key]['id'])->update($goods_list_name[$key]);
+                           }
+                        }
+
                        //鲁文兵添加
                       $list[$k]["goods_names_test"]=  Db::table("tb_set_meal_order")
                         ->field('goods_name')
@@ -433,6 +452,7 @@ class  General extends  Base {
                                 }
                                 
                             } 
+
                         }else{
                              $length=count($list[$k]["goods_names_test"]);
                               
@@ -523,15 +543,16 @@ class  General extends  Base {
                  var_dump(Session::get('goods_names'));
                  
             }
-            $this->assign('goods_names',$goods_names);
+           
         }
         
+      $this->assign('goods_names',$goods_names);
 
         if(!$res){
             $this->error("找不到对应的小程序！");
         }
         $this->assign('applet',$res);
-        
+
         $op=input("op");
         $tplid=input("tplid"); //打印出来是1(因为是写死，现在需要使用到store-id)
         if($op){
