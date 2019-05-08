@@ -236,11 +236,12 @@
                     var onclick_jj = '';
                     if(datas.length == 2) {
                         ischange = '';
-                        onclick_hy = `change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
+                        onclick_hy = `change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
                     }
                     if(datas.length == 3) {
                         ischange = '';
-                        onclick_hy = `change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
+                        jj_change = '';
+                        onclick_hy = `change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
                         onclick_jj = `change_jj(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
                     }
                     let path = `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}&goods_names=${goods_names}`;
@@ -303,7 +304,7 @@
                                     <div class="text">茶进阶版</div>
                                 </div>
                                 <div class="btns">
-                                    <div class="btns_b ${jj_change} now_use">切换版本</div>
+                                    <div class="btns_b ${jj_change} now_use" onclick ="${onclick_jj};">切换版本</div>
                                     <div class="btns_a noshow jinjie"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>`;
@@ -381,6 +382,13 @@
             $(".hangye").removeClass("noshow");
 
             $(".now_use").html('切换版本');
+
+
+
+
+
+
+
             $(".jinjie").addClass("noshow");
 
             $(".change_back").html('切换版本');
