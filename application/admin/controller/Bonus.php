@@ -428,7 +428,6 @@ class Bonus extends Controller
     public function coupon_search(Request $request)
     {
         $goods_number = input("goods_number");
-
         $coupon_type = input("coupon_type");
         /**
          * 鲁文兵改过

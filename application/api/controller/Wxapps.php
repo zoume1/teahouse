@@ -8,11 +8,23 @@
 namespace app\api\controller;
 use think\Controller;
 use think\Db;
+use think\Request;
+use think\paginator\driver\Bootstrap;
+use think\Session;
 class  Wxapps extends  Controller{
     /*Diy方法开始*/
     public function doPagehomepage()
     {
         $uniacid = input("uniacid");
+        $da_change =Db::table("tb_set_meal_order")
+                 ->alias('a')
+                ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
+                    a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id")
+                ->where("store_id", $uniacid)
+                ->where("audit_status",1)
+                ->order('id desc')
+               ->find();
+
         $res = Db::table('ims_sudu8_page_base')->where("uniacid", $uniacid)->field("homepage")->find();
         if (!$res) {
             $res['homepage'] = 1;
@@ -45,6 +57,8 @@ class  Wxapps extends  Controller{
         }
         $res['foot_is'] = $foot['foot_is'] ? $foot['foot_is'] : 1;
         $result['data'] = $res;
+        $result['data']['test_name'] = $da_change;
+
         return json_encode($result);
     }
 
@@ -78,6 +92,17 @@ class  Wxapps extends  Controller{
 
         $uniacid = input("uniacid");
         $pageid = input("pageid");
+        
+        $da_change =Db::table("tb_set_meal_order")
+                 ->alias('a')
+                ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
+                    a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id")
+                ->where("store_id", $uniacid)
+                ->where("audit_status",1)
+                ->order('id desc')
+               ->find();
+               
+        
         $foot = Db::table('ims_sudu8_page_diypageset')->where("uniacid", $uniacid)->field("foot_is")->find();
         $tplinfo = Db::table('ims_sudu8_page_diypagetpl')->where("uniacid", $uniacid)->where("status", 1)->find();
         $pageids = explode(",", $tplinfo['pageid']);
@@ -846,6 +871,7 @@ class  Wxapps extends  Controller{
         $pageset['diy_bg_music'] = $arr["diy_bg_music"];
         $data['pageset'] = $pageset;
         $result['data'] = $data;
+        $result['data']['test_name'] =$da_change;  
         return json_encode($result);
     }
 
