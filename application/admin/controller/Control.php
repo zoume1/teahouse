@@ -65,7 +65,7 @@ class  Control extends  Controller{
                 }
                 $favourable_cost[] = $val; 
             } 
-            $min = min($min_cost);        //套餐原价最低价
+            $min = min($min_cost);                 //套餐原价最低价
             $favour_min = min($favourable);        //套餐原价最低优惠券
 
             $enter = array(
