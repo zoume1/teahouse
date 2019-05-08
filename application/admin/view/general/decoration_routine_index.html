@@ -230,6 +230,18 @@
                             goods_names = datas[l].goods_name;
                         }
                     }
+                    var hy_change = 'change';
+                    var jj_change = 'change';
+                    var onclick_hy = '';
+                    var onclick_jj = '';
+                    if(datas.length == 2) {
+                        ischange = '';
+                        onclick_hy = `change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
+                    }
+                    if(datas.length == 3) {
+                        ischange = '';
+                        onclick_jj = `change_jj(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
+                    }
                     let path = `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}&goods_names=${goods_names}`;
                     if (goods_names == "万用版") {
                         dhtml = `<div class="list">
@@ -238,10 +250,8 @@
                                     <div class="text">万用模版</div>
                                 </div>
                                 <div class="btns">
-                                    <a href="${path}">
-                                        <div class="btns_b">历史编辑</div>
-                                    </a>
-                                    <div class="btns_a"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b change_back" onclick="change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">历史编辑</div>
+                                    <div class="btns_a wanyong"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
                                 <div class="list">
@@ -250,8 +260,8 @@
                                     <div class="text">茶行业版</div>
                                 </div>
                                 <div class="btns">
-                                    <div class="btns_b change">切换版本</div>
-                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b change_hy ${ischange}" onclick ="${onclick_hy};">切换版本</div>
+                                    <div class="btns_a noshow hangye"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
                                 <div class="list">
@@ -260,8 +270,8 @@
                                     <div class="text">茶进阶版</div>
                                 </div>
                                 <div class="btns">
-                                    <div class="btns_b change">切换版本</div>
-                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b ${jj_change} now_use" onclick ="${onclick_jj};">切换版本</div>
+                                    <div class="btns_a noshow jinjie"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>`;
 
@@ -272,8 +282,8 @@
                                     <div class="text">万用模版</div>
                                 </div>
                                 <div class="btns">
-                                    <div class="btns_b" onclick="change_back(val)">切换版本</div>
-                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b change_back" onclick="change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">切换版本</div>
+                                    <div class="btns_a wanyong noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
                                 <div class="list">
@@ -282,8 +292,8 @@
                                     <div class="text">茶行业版</div>
                                 </div>
                                 <div class="btns">
-                                    <a href="${path}"><div class="btns_b" >历史编辑</div></a>
-                                    <div class="btns_a" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b change_hy" onclick="change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">历史编辑</div>
+                                    <div class="btns_a hangye" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>
                                 <div class="list">
@@ -292,8 +302,8 @@
                                     <div class="text">茶进阶版</div>
                                 </div>
                                 <div class="btns">
-                                    <div class="btns_b change">切换版本</div>
-                                    <div class="btns_a noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b ${jj_change} now_use">切换版本</div>
+                                    <div class="btns_a noshow jinjie"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>`;
                     } else {
