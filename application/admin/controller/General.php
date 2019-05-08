@@ -435,15 +435,35 @@ class  General extends  Base {
                             } 
                         }else{
                              $length=count($list[$k]["goods_names_test"]);
-                             
+                              
                              if($list[$k]["goods_names"]=="茶进阶版"){
-                                 
-                                      $list[$k]["goods_names_test"][2]['goods_name']="茶进阶版";
-                                      $list[$k]["goods_names_test"][2]['status_type']=1;
+                                    if($goods_names=="茶进阶版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="茶进阶版";
+                                          $list[$k]["goods_names_test"][2]['status_type']=1;
+                                         $list[$k]["goods_names_test"][1]['goods_name']="茶行业版";
+                                          $list[$k]["goods_names_test"][1]['status_type']=0;
+                                         $list[$k]["goods_names_test"][0]['status_type']="万用模版";
+                                          $list[$k]["goods_names_test"][0]['status_type']=0;
+
+                                    }elseif($goods_names=="茶行业版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="茶进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=0;
+                                     $list[$k]["goods_names_test"][1]['goods_name']="茶行业版";
+                                      $list[$k]["goods_names_test"][1]['status_type']=1;
+                                     $list[$k]["goods_names_test"][0]['status_type']="万用模版";
+                                      $list[$k]["goods_names_test"][0]['status_type']=0;
+
+                                    }else{
+                                        $list[$k]["goods_names_test"][2]['goods_name']="茶进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=0;
                                      $list[$k]["goods_names_test"][1]['goods_name']="茶行业版";
                                       $list[$k]["goods_names_test"][1]['status_type']=0;
                                      $list[$k]["goods_names_test"][0]['status_type']="万用模版";
-                                      $list[$k]["goods_names_test"][0]['status_type']=0;
+                                      $list[$k]["goods_names_test"][0]['status_type']=1;
+
+                                    }
+                                 
+                                    
                                 }else{
                                     
                                      for ($i=0; $i <$length ; $i++) { 
