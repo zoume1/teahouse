@@ -85,7 +85,7 @@ class  Wxapps extends  Controller{
         $uniacid = input("uniacid");
         $pageid = input("pageid");
         // $store_id =$this->store_ids ;
-         $store_ids=$this->store_ids;
+         $store_ids="ooo";
         $foot = Db::table('ims_sudu8_page_diypageset')->where("uniacid", $uniacid)->field("foot_is")->find();
         $tplinfo = Db::table('ims_sudu8_page_diypagetpl')->where("uniacid", $uniacid)->where("status", 1)->find();
         $pageids = explode(",", $tplinfo['pageid']);
