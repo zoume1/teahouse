@@ -390,15 +390,20 @@ class  General extends  Base {
                 ->where("store_id",$this->store_ids)
                 ->limit(1)
                 ->select();
-
+            $goods_names=Session::get('goods_names');
             if(!empty($list)){
                 foreach ($list as $k=>$v){
                     $list[$k]["tplid"] = Db::table("ims_sudu8_page_diypagetpl")
                             ->where("store_id",$this->store_ids)
                             ->value("id");
+                     $list[$k]["tpliddddd"] = Db::table("ims_sudu8_page_diypagetpl")
+                             ->field('id')
+                            ->where("store_id",$this->store_ids)
+                             ->select();
                     $list[$k]["goods_names"] =Db::table("tb_set_meal_order")
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
+                        ->order('id desc')
                         ->value("goods_name");
                        //鲁文兵添加
                       $list[$k]["goods_names_test"]=  Db::table("tb_set_meal_order")
@@ -406,18 +411,81 @@ class  General extends  Base {
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
                         ->select();
-                        $length=count($list[$k]["goods_names_test"]);
-                        for ($i=0; $i <$length ; $i++) { 
-                            if($i==$length-1){
-                              $list[$k]["goods_names_test"][$length-1]['status_Type']=1;
-                            }else{
-                                $list[$k]["goods_names_test"][$i]['status_Type']=0;
-                            }
+                        /*鲁文兵版本切换*/
+                       //var_dump($list[$k]["goods_names"]);exit();
+                       if(empty($goods_names)){
+                            $length=count($list[$k]["goods_names_test"]);
+                            for ($i=0; $i <$length ; $i++) { 
+                                if($list[$k]["goods_names"]=="茶进阶版"){
+                                      $list[$k]["goods_names_test"][2]['goods_name']="茶进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=1;
+                                     $list[$k]["goods_names_test"][1]['goods_name']="茶行业版";
+                                      $list[$k]["goods_names_test"][1]['status_type']=0;
+                                     $list[$k]["goods_names_test"][0]['status_type']="万用模版";
+                                      $list[$k]["goods_names_test"][0]['status_type']=0;
+                                }else{
+                                    if($i==$length-1){
+                                      $list[$k]["goods_names_test"][$length-1]['status_type']=1;
+                                    }else{
+                                      $list[$k]["goods_names_test"][$i]['status_type']=0;
+                                    }
+
+                                }
+                                
+                            } 
+                        }else{
+                             $length=count($list[$k]["goods_names_test"]);
+                              
+                             if($list[$k]["goods_names"]=="茶进阶版"){
+                                 
+                                    if($goods_names=="进阶版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                                          $list[$k]["goods_names_test"][2]['status_type']=1;
+                                         $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                                          $list[$k]["goods_names_test"][1]['status_type']=0;
+                                         $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                                          $list[$k]["goods_names_test"][0]['status_type']=0;
+
+                                    }elseif($goods_names=="行业版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=0;
+                                     $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                                      $list[$k]["goods_names_test"][1]['status_type']=1;
+                                     $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                                      $list[$k]["goods_names_test"][0]['status_type']=0;
+
+                                    }elseif($goods_names=="万用版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=0;
+                                     $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                                      $list[$k]["goods_names_test"][1]['status_type']=0;
+                                     $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                                      $list[$k]["goods_names_test"][0]['status_type']=1;
+
+                                        
+                                    }
+                                    
+                                 //dump( $list[$k]["goods_names_test"]);exit();
+                                    
+                                }else{
+                                       
+                                     for ($i=0; $i <$length ; $i++) { 
+
+                                        if( $list[$k]["goods_names_test"][$i]['goods_name']==$goods_names){
+                                            $list[$k]["goods_names_test"][$i]['status_type']=1;
+                                        }else{
+                                            $list[$k]["goods_names_test"][$i]['status_type']=0;
+                                        }
+                                        
+                                    }
+
+                                }
+                         
+                           
                         }
-                        
-                 
-                      
-                 }
+                   
+                }
+               
 
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
@@ -440,6 +508,25 @@ class  General extends  Base {
         $res = Db::table('applet')->where("id",$appletid)->find();
         $a=Db::table('ims_sudu8_page_base')->where("uniacid",$appletid)->find();
         $bg_music=$a['diy_bg_music'];
+        //*鲁文兵版本切换*/
+      
+        $goods_names = input("goods_names");
+        var_dump($goods_names);
+        if(!empty($goods_names)){
+            if(empty(Session::get('goods_names'))){
+                
+                Session::set('goods_names',$goods_names);
+            }else{
+                 Session::delete('goods_names');
+                 Session::set('goods_names',$goods_names);
+                 var_dump('pp');
+                 var_dump(Session::get('goods_names'));
+                 
+            }
+           
+        }
+        
+
         if(!$res){
             $this->error("找不到对应的小程序！");
         }
@@ -1402,6 +1489,7 @@ class  General extends  Base {
      * 郭杨
      */    
     public function order_package_index(){
+        
         $order_package = db("enter_meal")->where("status",1)->field("id,name,price,favourable_price,year")->select();
         foreach($order_package as $key => $value){
             $order_package[$key]['priceList'] = db("enter_all") -> where("enter_id",$order_package[$key]['id'])->select();
@@ -1492,26 +1580,38 @@ class  General extends  Base {
             $enter_all_id =$request->only(['id'])['id'];//套餐id
             $years =$request->only(["year"])["year"];//年份
              
-
-
+            
             //先判断这单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
             $isset_id = Db::name("set_meal_order")
                 ->where("store_id",$store_id)
                 ->where("audit_status","NEQ",1)
                 ->value("id");
+                
             if($isset_id){
                 //不能购买降级购买套餐(同事不能购买低于这个id的，所谓降级)
                 $isset_ids =Db::name("set_meal_order")
                     ->where("enter_all_id",">",$enter_all_id)
                     ->where("audit_status","EQ",1)
                     ->value("id");
+               $isset_idData =Db::name("set_meal_order")
+                    ->where("enter_all_id","EQ",$enter_all_id)
+                    ->where("audit_status","EQ",1)
+                    ->value("id");
+
                 if($isset_ids){
                     //这里还需要判断相同年份进来的数据
                     exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
+                }elseif ($isset_idData) {
+                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
+                }else{
+                   exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
+                    
                 }
-                exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
-            }else{
+                
+
+              }else{
                 //不能购买降级购买套餐
+                 
                 $isset_ids =Db::name("set_meal_order")
                     ->where("enter_all_id",">",$enter_all_id)
                     ->where("audit_status","EQ",1)
@@ -1519,6 +1619,14 @@ class  General extends  Base {
                 if($isset_ids){
                     exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
                 }
+                 $isset_idData =Db::name("set_meal_order")
+                    ->where("enter_all_id","EQ",$enter_all_id)
+                    ->where("audit_status","EQ",1)
+                    ->value("id");
+                if($isset_idData){
+                    exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
+                }
+           
                 //不能升级为年份少于之前的年份
                 //这是查找id方便查找年份
                $set_id =Db::name("set_meal_order")
@@ -1526,12 +1634,16 @@ class  General extends  Base {
                    ->value("enter_all_id");
                 if($set_id){
                     $year =Db::name("enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
+                   
                     if($year>$years){
+                        
                         exit(json_encode(array("status"=>4,"info"=>"不能升级为年份少于之前的年份","data"=>["id"=>$set_id])));
                     }else{
+                        
                         exit(json_encode(array("status"=>1,"info"=>"可以升级","data"=>["id"=>$enter_all_id])));
                     }
                 }else{
+                  
                     exit(json_encode(array("status"=>1,"info"=>"正常购买成功","data"=>["id"=>$enter_all_id])));
                 }
             }
