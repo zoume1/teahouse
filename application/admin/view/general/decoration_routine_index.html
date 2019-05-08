@@ -240,6 +240,7 @@
                     }
                     if(datas.length == 3) {
                         ischange = '';
+                        onclick_hy = `change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
                         onclick_jj = `change_jj(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
                     }
                     let path = `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}&goods_names=${goods_names}`;
