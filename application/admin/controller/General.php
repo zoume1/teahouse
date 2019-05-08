@@ -386,7 +386,7 @@ class  General extends  Base {
 
     public function decoration_routine_index(Request $request){
         if($request->isPost()){
-            $list =Db::table("applet")
+            $list = Db::table("applet")
                 ->where("store_id",$this->store_ids)
                 ->limit(1)
                 ->select();
