@@ -48,6 +48,8 @@ class  Wxapps extends  Controller{
         $result['data'] = $res;
          if(!empty(Session::get('goods_names'))){
             $result['goods_names'] = Session::get('goods_names');
+         }else{
+             $result['goods_names'] = Session::get('goods_names');
          }
 
         return json_encode($result);
