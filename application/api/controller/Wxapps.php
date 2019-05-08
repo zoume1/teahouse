@@ -8,6 +8,8 @@
 namespace app\api\controller;
 use think\Controller;
 use think\Db;
+use think\Request;
+use think\paginator\driver\Bootstrap;
 use think\Session;
 class  Wxapps extends  Controller{
     /*Diy方法开始*/
@@ -82,6 +84,7 @@ class  Wxapps extends  Controller{
 
         $uniacid = input("uniacid");
         $pageid = input("pageid");
+        // $store_id =$this->store_ids ;
          $store_ids=$this->store_ids;
         $foot = Db::table('ims_sudu8_page_diypageset')->where("uniacid", $uniacid)->field("foot_is")->find();
         $tplinfo = Db::table('ims_sudu8_page_diypagetpl')->where("uniacid", $uniacid)->where("status", 1)->find();
@@ -851,7 +854,7 @@ class  Wxapps extends  Controller{
         $pageset['diy_bg_music'] = $arr["diy_bg_music"];
         $data['pageset'] = $pageset;
         $result['data'] = $data;
-        $result['data']['test_name'] = $store_id;
+        $result['data']['test_name'] = $store_ids;  
         return json_encode($result);
     }
 
