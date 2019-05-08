@@ -403,6 +403,7 @@ class  General extends  Base {
                     $list[$k]["goods_names"] =Db::table("tb_set_meal_order")
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
+                        ->order('id desc')
                         ->value("goods_name");
                        //鲁文兵添加
                       $list[$k]["goods_names_test"]=  Db::table("tb_set_meal_order")
@@ -411,26 +412,50 @@ class  General extends  Base {
                         ->where("audit_status",1)
                         ->select();
                         /*鲁文兵版本切换*/
+                       //var_dump($list[$k]["goods_names"]);exit();
                        if(empty($goods_names)){
                             $length=count($list[$k]["goods_names_test"]);
                             for ($i=0; $i <$length ; $i++) { 
-                                if($i==$length-1){
-                                  $list[$k]["goods_names_test"][$length-1]['status_type']=1;
+                                if($list[$k]["goods_names"]=="茶进阶版"){
+                                      $list[$k]["goods_names_test"][2]['goods_name']="茶进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=1;
+                                     $list[$k]["goods_names_test"][1]['goods_name']="茶行业版";
+                                      $list[$k]["goods_names_test"][1]['status_type']=0;
+                                     $list[$k]["goods_names_test"][0]['status_type']="万用模版";
+                                      $list[$k]["goods_names_test"][0]['status_type']=0;
                                 }else{
-                                    $list[$k]["goods_names_test"][$i]['status_type']=0;
+                                    if($i==$length-1){
+                                      $list[$k]["goods_names_test"][$length-1]['status_type']=1;
+                                    }else{
+                                      $list[$k]["goods_names_test"][$i]['status_type']=0;
+                                    }
+
                                 }
+                                
                             } 
                         }else{
-                            for ($i=0; $i <$length ; $i++) { 
-                                if( $list[$k]["goods_names_test"][$i]['goods_names']==$goods_names){
-                                    $list[$k]["goods_names_test"][$i]['status_type']=1;
+                             $length=count($list[$k]["goods_names_test"]);
+                             if($goods_names=="茶进阶版"){
+                                      $list[$k]["goods_names_test"][2]['goods_name']="茶进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=1;
+                                     $list[$k]["goods_names_test"][1]['goods_name']="茶行业版";
+                                      $list[$k]["goods_names_test"][1]['status_type']=0;
+                                     $list[$k]["goods_names_test"][0]['status_type']="万用模版";
+                                      $list[$k]["goods_names_test"][0]['status_type']=0;
                                 }else{
-                                    $list[$k]["goods_names_test"][$i]['status_type']=0;
-                                }
-                            }
-                        }
+                                     for ($i=0; $i <$length ; $i++) { 
+                                        if( $list[$k]["goods_names_test"][$i]['goods_name']==$goods_names){
+                                            $list[$k]["goods_names_test"][$i]['status_type']=1;
+                                        }else{
+                                            $list[$k]["goods_names_test"][$i]['status_type']=0;
+                                        }
+                                    }
 
-                             
+                                }
+
+                           
+                        }
+                   
                 }
                
 
