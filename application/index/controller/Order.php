@@ -980,6 +980,15 @@ class  Order extends  Controller
         if ($request->isPost()) {
             $open_id =$request->only("open_id")["open_id"]; //用户open_ID
             $member_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
+            $store_id=$this->store_ids;
+            $da_change =Db::table("tb_set_meal_order")
+                 ->alias('a')
+                ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
+                    a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id")
+                ->where("store_id", $store_id)
+                ->where("audit_status",1)
+                ->order('id desc')
+               ->find();
             if(empty($member_id)){
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
@@ -1127,6 +1136,7 @@ class  Order extends  Controller
                     $end_info[$a+$count]['order_create_times'] = $b;
                 }
             }
+            $end_info['test_name']=$da_change;
             if (!empty($end_info)) {
                 $ords =array();
                 foreach ($end_info as $vl){
