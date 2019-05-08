@@ -8,6 +8,7 @@
 namespace app\api\controller;
 use think\Controller;
 use think\Db;
+use think\Session;
 class  Wxapps extends  Controller{
     /*Diy方法开始*/
     public function doPagehomepage()
@@ -45,10 +46,10 @@ class  Wxapps extends  Controller{
         }
         $res['foot_is'] = $foot['foot_is'] ? $foot['foot_is'] : 1;
         $result['data'] = $res;
-        /*if(!empty(Session::get('goods_names'))){
+         if(!empty(Session::get('goods_names'))){
             $result['goods_names'] = Session::get('goods_names');
-         }*/
-         
+         }
+
         return json_encode($result);
     }
 
