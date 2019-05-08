@@ -390,7 +390,7 @@ class  General extends  Base {
                 ->where("store_id",$this->store_ids)
                 ->limit(1)
                 ->select();
-               /*$id = $request->only(['id'])['id'];*/
+            $goods_names=Session::get('goods_names');
             if(!empty($list)){
                 foreach ($list as $k=>$v){
                     $list[$k]["tplid"] = Db::table("ims_sudu8_page_diypagetpl")
@@ -410,41 +410,28 @@ class  General extends  Base {
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
                         ->select();
-                       /* if($id){
-                            foreach ($list[$k]["goods_names_test"] as $key => $value) {
-                              if($list[$k]["goods_names_test"][$k]['goods_name']==$id){
-                                   $list[$k]["goods_names_test"][$k]['status_type']=1
-                              }else{
-                                  $list[$k]["goods_names_test"][$k]['status_type']=0
-                              }
-                            }
-
+                        /*鲁文兵版本切换*/
+                       if(empty($goods_names)){
+                            $length=count($list[$k]["goods_names_test"]);
+                            for ($i=0; $i <$length ; $i++) { 
+                                if($i==$length-1){
+                                  $list[$k]["goods_names_test"][$length-1]['status_type']=1;
+                                }else{
+                                    $list[$k]["goods_names_test"][$i]['status_type']=0;
+                                }
+                            } 
                         }else{
-                           $length=count($list[$k]["goods_names_test"]);
                             for ($i=0; $i <$length ; $i++) { 
-                                if($i==$length-1){
-                                  $list[$k]["goods_names_test"][$length-1]['status_type']=1;
+                                if( $list[$k]["goods_names_test"][$i]['goods_names']==$goods_names){
+                                    $list[$k]["goods_names_test"][$i]['status_type']=1;
                                 }else{
                                     $list[$k]["goods_names_test"][$i]['status_type']=0;
                                 }
-                            }  
-                        }*/
-                        $length=count($list[$k]["goods_names_test"]);
-                            for ($i=0; $i <$length ; $i++) { 
-                                if($i==$length-1){
-                                  $list[$k]["goods_names_test"][$length-1]['status_type']=1;
-                                }else{
-                                    $list[$k]["goods_names_test"][$i]['status_type']=0;
-                                }
-                            }  
+                            }
+                        }
 
-                        
-                      
-
-                        
-                 
-                      
-                 }
+                             
+                }
                
 
                 return ajax_success("数据返回成功",["data"=>$list]);
@@ -468,6 +455,18 @@ class  General extends  Base {
         $res = Db::table('applet')->where("id",$appletid)->find();
         $a=Db::table('ims_sudu8_page_base')->where("uniacid",$appletid)->find();
         $bg_music=$a['diy_bg_music'];
+        //*鲁文兵版本切换*/
+        $goods_names = input("goods_names");
+        if(!empty($goods_names)){
+            if(empty(Session::get('goods_names'))){
+                Session::set('goods_names',$goods_names);
+            }else{
+                 Session::delete('goods_names');
+                 Session::set('goods_names',$goods_names);
+            }
+        }
+        
+
         if(!$res){
             $this->error("找不到对应的小程序！");
         }
