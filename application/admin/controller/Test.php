@@ -26,14 +26,14 @@ class Test extends  Controller{
         $uniacid = input('appletid');
         $tplid = input('tplid_only'); //模板id
 
-        $da_change =Db::table("tb_set_meal_order")
+        /*$da_change =Db::table("tb_set_meal_order")
                  ->alias('a')
                 ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
                     a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id")
                 ->where("store_id", $uniacid)
                 ->where("audit_status",1)
                 ->order('id desc')
-               ->find();
+               ->find();*/
         if(!$tplid){
             $tplid = Db::table('ims_sudu8_page_diypagetpl')->where("uniacid",$uniacid)->where("status",1)->find()['id'];
         }
@@ -97,7 +97,7 @@ class Test extends  Controller{
 //            $catess =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
 //            $value['subcate'] =$catess;
 //        }
-        $this->assign('da_change',$da_change);
+        /*$this->assign('da_change',$da_change);*/
         $this->assign("diypage",$diypage);
         $this->assign("article",$article);
         $this->assign("pro",$pro);
