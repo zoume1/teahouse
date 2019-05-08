@@ -16,6 +16,14 @@ class  Wxapps extends  Controller{
     public function doPagehomepage()
     {
         $uniacid = input("uniacid");
+        $da_change =Db::table("tb_set_meal_order")
+                 ->alias('a')
+                ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
+                    a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id")
+                ->where("store_id", $uniacid)
+                ->where("audit_status",1)
+                ->order('id desc')
+               ->find();
 
         $res = Db::table('ims_sudu8_page_base')->where("uniacid", $uniacid)->field("homepage")->find();
         if (!$res) {
@@ -49,7 +57,7 @@ class  Wxapps extends  Controller{
         }
         $res['foot_is'] = $foot['foot_is'] ? $foot['foot_is'] : 1;
         $result['data'] = $res;
-        
+        $result['data']['test_name'] = $da_change;
 
         return json_encode($result);
     }
