@@ -1623,12 +1623,12 @@ class  General extends  Base {
                 if($isset_ids){
                     //这里还需要判断相同年份进来的数据
                     exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
-                }elseif ($isset_idData) {
-                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
                 }else{
                    exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
-                    
                 }
+                /*if ($isset_idData) {
+                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
+                }*/
                 
 
               }else{
@@ -1645,9 +1645,9 @@ class  General extends  Base {
                     ->where("enter_all_id","EQ",$enter_all_id)
                     ->where("audit_status","EQ",1)
                     ->value("id");
-                if($isset_idData){
+               /* if($isset_idData){
                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
-                }
+                }*/
            
                 //不能升级为年份少于之前的年份
                 //这是查找id方便查找年份
