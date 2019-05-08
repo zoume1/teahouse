@@ -523,7 +523,7 @@ class  General extends  Base {
                  var_dump(Session::get('goods_names'));
                  
             }
-           
+            $this->assign('goods_names',$goods_names);
         }
         
 
@@ -531,6 +531,7 @@ class  General extends  Base {
             $this->error("找不到对应的小程序！");
         }
         $this->assign('applet',$res);
+        
         $op=input("op");
         $tplid=input("tplid"); //打印出来是1(因为是写死，现在需要使用到store-id)
         if($op){
