@@ -2166,7 +2166,7 @@ class  Order extends  Controller
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
-//            file_put_contents(EXTEND_PATH."data.txt",$val);
+//          file_put_contents(EXTEND_PATH."data.txt",$val);
             $data['status'] = 1;
             $data['pay_time'] = time();
             $data['pay_type_name'] = "微信";
@@ -2177,15 +2177,16 @@ class  Order extends  Controller
             if($res > 0){
                 //进行钱包消费记录
                 $parts =Db::name("recharge_record")
-                ->field("recharge_money,user_id")
+                ->field("recharge_money,user_id,upgrade_id")
                     ->where($condition)
-                    ->find();
+                    ->find(); 
                 $title ="余额充值";
-                $money =$parts["recharge_money"];//金额
+                $money = $parts["recharge_money"];//金额
                 $recharge_record_data = Db::name("recharge_record")
                     ->where("recharge_order_number",$val["out_trade_no"])
                     ->find();
                 //充值送积分
+                $member_send = Db::name("member_grade")->where("member_grade_id",$parts['upgrade_id'])->find();
                 $list = Db::name("recharge_full_setting")
                     ->field("recharge_setting_send_integral,recharge_setting_full_money")
                     ->select();
@@ -2197,7 +2198,7 @@ class  Order extends  Controller
                 }
                 //如果达到充值送积分条件
                 if(!empty($lists)){
-                    $recharge_data =[
+                    $recharge_data = [
                         "user_id" =>$parts["user_id"],//用户id
                         "operation_time"=>date("Y-m-d H:i:s"),//操作时间
                         "operation_linux_time"=>time(),//操作时间
@@ -2404,5 +2405,85 @@ class  Order extends  Controller
 
     }
 
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:小程序会员升级充值支付成功回来处理数据
+     **************************************
+     */
+    public function member_notify(){
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $val = json_decode(json_encode($xml_data), true);
+        if($val["result_code"] == "SUCCESS" ){
+//          file_put_contents(EXTEND_PATH."data.txt",$val);
+            $data['status'] = 1;
+            $data['pay_time'] = time();
+            $data['pay_type_name'] = "微信";
+            $condition['recharge_order_number'] = $val["out_trade_no"];
+            $res = Db::name("recharge_record")
+                ->where($condition)
+                ->update($data);
+            if($res > 0){
+                //进行钱包消费记录
+                $parts =Db::name("recharge_record")
+                ->field("recharge_money,user_id,upgrade_id")
+                    ->where($condition)
+                    ->find(); 
+                $title ="会员升级";
+                $money = $parts["recharge_money"];//金额
+                $recharge_record_data = Db::name("recharge_record")
+                    ->where("recharge_order_number",$val["out_trade_no"])
+                    ->find();
+                //充值送积分
+                $member_send = Db::name("member_grade")->where("member_grade_id",$parts['upgrade_id'])->find();             
+                //充值剩下的余额
+                $user_wallet =Db::name("member")
+                    ->field("member_recharge_money")
+                    ->where("member_id",$recharge_record_data["user_id"])
+                    ->find();
+                //更新充值的余额
+                Db::name("member")->where("member_id",$recharge_record_data["user_id"])
+                    ->update(["member_recharge_money"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]]);
+                //插入积分记录
+                    Db::name("member")
+                    ->where("member_id",$recharge_record_data["user_id"])
+                    ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
+                $integral_res = Db::name("member")
+                    ->where("member_id",$recharge_record_data["user_id"])
+                    ->value("member_integral_wallet");//获取所有积分
+                $integral_data = [
+                    "member_id" => $recharge_record_data["user_id"],
+                    "integral_operation" => $lists,//获得积分
+                    "integral_balance" => $integral_res,//积分余额
+                    "integral_type" => 1, //积分类型（1获得，-1消费）
+                    "operation_time" => date("Y-m-d H:i:s"), //操作时间
+                    "integral_remarks" => "充值满" . $money . "送".$lists."积分",
+                ];
+                Db::name("integral")->insert($integral_data);
+                
+                $new_wallet =Db::name("member")
+                    ->where("member_id",$recharge_record_data["user_id"])
+                    ->value("member_recharge_money");
+                $datas=[
+                    "user_id"=>$parts["user_id"],//用户ID
+                    "wallet_operation"=> $money,//消费金额
+                    "wallet_type"=>1,//消费操作(1入，-1出)
+                    "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "operation_linux_time"=>time(), //操作时间
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，充值，余额增加".$money."元,送".$lists."积分",//消费备注
+                    "wallet_img"=>" ",//图标
+                    "title"=>$title,//标题（消费内容）
+                    "order_nums"=>$val["out_trade_no"],//订单编号
+                    "pay_type"=>"小程序", //支付方式/
+                    "wallet_balance"=>$new_wallet,//此刻钱包余额
+                ];
+                Db::name("wallet")->insert($datas); //存入消费记录表
+                echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+            }else{
+                return "fail";
+            }
+        }
+    }
 
 }

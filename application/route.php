@@ -71,6 +71,7 @@ Route::group("",[
      "notify"=>"index/order/notify",//小程序支付回调（活动）
      "order_notify"=>"index/order/order_notify",//小程序订单支付回调
      "recharge_notify"=>"index/order/recharge_notify",//小程序充值支付回调
+     "member_notify"=>"index/order/member_notify",//小程序会员升级充值支付回调
      "reward_notify"=>"index/order/reward_notify",//打赏订单支付成功回来修改状态
      "set_meal_notify"=>"index/AdminWx/set_meal_notify",//后台套餐订购订单微信扫码支付回调
      "set_meal_notify_alipay"=>"index/AdminWx/set_meal_notify_alipay",//后台套餐订购订单支付宝扫码支付回调

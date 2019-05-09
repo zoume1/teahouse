@@ -45,7 +45,7 @@ class Login extends Controller{
 //        $params['secret'] = 'b1aafb5fc38e091481432ccfe5712dfc';
         $params['js_code'] = define_str_replace($get['code']);
         $params['grant_type'] = 'authorization_code';
-        $http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $params, 'GET');
+        $http_key = httpCurl('https:// api.weixin.qq.com/sns/jscode2session', $params, 'GET');
         $session_key = json_decode($http_key, true);
         if (!empty($session_key['session_key'])) {
             $appid = $params['appid'];

@@ -129,7 +129,7 @@ class Pay extends  Controller{
         $open_ids =Db::name("member")
             ->where("member_id",$member_id)
             ->value("member_openid");
-        $order_numbers =$request->param("recharge_order_number");//订单编号
+        $order_numbers = $request->param("recharge_order_number");//订单编号
         $order_datas = Db::name("recharge_record")
             ->where("recharge_order_number",$order_numbers)
             ->where("user_id", $member_id)
@@ -145,7 +145,11 @@ class Pay extends  Controller{
         $input->SetOut_trade_no($order_numbers);
         //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
         $input->SetTotal_fee($cost_moneny*100);
-        $return_url = config("domain.url")."recharge_notify";
+        if($order_datas['upgrade_id'] == -1){
+            $return_url = config("domain.url")."recharge_notify";
+        } else {
+            $return_url = config("domain.url")."member_notify";
+        }
         $input->SetNotify_url($return_url);//需要自己写的notify.php
         $input->SetTrade_type("JSAPI");
         //         由小程序端传给后端或者后端自己获取，写自己获取到的，
