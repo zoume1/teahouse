@@ -4,6 +4,7 @@
  * User: GY
  * Date: 2019/2/20
  */
+
 namespace  app\admin\controller;
 
 use think\Controller;
@@ -13,7 +14,7 @@ use think\paginator\driver\Bootstrap;
 use think\Session;
 
 class  General extends  Base {
-
+   
     private  $store_ids;
 
     public function _initialize()
@@ -443,10 +444,37 @@ class  General extends  Base {
                                      $list[$k]["goods_names_test"][0]['status_type']="万用模版";
                                       $list[$k]["goods_names_test"][0]['status_type']=0;
                                 }else{
+                                   /*
                                     if($i==$length-1){
                                       $list[$k]["goods_names_test"][$length-1]['status_type']=1;
                                     }else{
                                       $list[$k]["goods_names_test"][$i]['status_type']=0;
+                                    }*/
+
+                                    if($list[$k]["goods_names"]=="茶进阶版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                                          $list[$k]["goods_names_test"][2]['status_type']=1;
+                                         $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                                          $list[$k]["goods_names_test"][1]['status_type']=0;
+                                         $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                                          $list[$k]["goods_names_test"][0]['status_type']=0;
+
+                                    }elseif($list[$k]["goods_names"]=="茶行业版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=0;
+                                     $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                                      $list[$k]["goods_names_test"][1]['status_type']=1;
+                                     $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                                      $list[$k]["goods_names_test"][0]['status_type']=0;
+
+                                    }elseif($list[$k]["goods_names"]=="万用版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=0;
+                                     $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                                      $list[$k]["goods_names_test"][1]['status_type']=0;
+                                     $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                                      $list[$k]["goods_names_test"][0]['status_type']=1;
+
                                     }
 
                                 }
@@ -488,8 +516,35 @@ class  General extends  Base {
                                  //dump( $list[$k]["goods_names_test"]);exit();
                                     
                                 }else{
-                                       
-                                     for ($i=0; $i <$length ; $i++) { 
+
+                                    if($list[$k]["goods_names"]=="茶进阶版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                                          $list[$k]["goods_names_test"][2]['status_type']=1;
+                                         $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                                          $list[$k]["goods_names_test"][1]['status_type']=0;
+                                         $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                                          $list[$k]["goods_names_test"][0]['status_type']=0;
+
+                                    }elseif($list[$k]["goods_names"]=="茶行业版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=0;
+                                     $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                                      $list[$k]["goods_names_test"][1]['status_type']=1;
+                                     $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                                      $list[$k]["goods_names_test"][0]['status_type']=0;
+
+                                    }elseif($list[$k]["goods_names"]=="万用版"){
+                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=0;
+                                     $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                                      $list[$k]["goods_names_test"][1]['status_type']=0;
+                                     $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                                      $list[$k]["goods_names_test"][0]['status_type']=1;
+
+                                        
+                                    }
+                                   
+                                    /* for ($i=0; $i <$length ; $i++) { 
 
                                         if( $list[$k]["goods_names_test"][$i]['goods_name']==$goods_names){
                                             $list[$k]["goods_names_test"][$i]['status_type']=1;
@@ -497,7 +552,8 @@ class  General extends  Base {
                                             $list[$k]["goods_names_test"][$i]['status_type']=0;
                                         }
                                         
-                                    }
+                                    }*/
+                                     //dump($list[$k]["goods_names_test"]);exit();
 
                                 }
                          
