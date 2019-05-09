@@ -585,9 +585,8 @@ class  General extends  Base {
         $a=Db::table('ims_sudu8_page_base')->where("uniacid",$appletid)->find();
         $bg_music=$a['diy_bg_music'];
         //*鲁文兵版本切换*/
+         $goods_names = input("goods_names");
       
-        $goods_names = input("goods_names");
-        var_dump($goods_names);
         if(!empty($goods_names)){
             if(empty(Session::get('goods_names'))){
                 
@@ -595,10 +594,8 @@ class  General extends  Base {
             }else{
                  Session::delete('goods_names');
                  Session::set('goods_names',$goods_names);
-                 var_dump('pp');
-                 var_dump(Session::get('goods_names'));
-                 
-            }
+                
+                }
            
         }
         

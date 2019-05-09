@@ -68,11 +68,13 @@
                             <nav data-href="/pages/mine/mine" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">个人中心</div>
                         </div>
+                        {if condition="$da_change['goods_name'] !='万用版'"}
                         <div class="line">
                             <div class="icon icon-link1"></div>
                             <nav data-href="/pages/circle/circle" data-linktype="pages" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">茶圈</div>
                         </div>
+                        {/if}
                         <div class="line">
                             <div class="icon icon-link1"></div>
                             <nav data-href="/pages/members/members" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
