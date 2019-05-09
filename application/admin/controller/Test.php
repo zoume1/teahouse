@@ -9,6 +9,7 @@ namespace app\admin\controller;
 
 use think\Controller;
 use think\Db;
+use think\Session;
 
 class Test extends  Controller{
     /*图标库*/
@@ -25,16 +26,20 @@ class Test extends  Controller{
     public function select_url(){
         $uniacid = input('appletid');
         $tplid = input('tplid_only'); //模板id
-
-        /*$da_change =Db::table("tb_set_meal_order")
+        if(!empty(Session::get('goods_names'))){
+           $da_change['goods_name']=Session::get('goods_names');
+        }else{
+            $da_change =Db::table("tb_set_meal_order")
                  ->alias('a')
                 ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
                     a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id")
                 ->where("store_id", $uniacid)
                 ->where("audit_status",1)
                 ->order('id desc')
-               ->find();*/
-        if(!$tplid){
+               ->find();
+        }
+       
+       if(!$tplid){
             $tplid = Db::table('ims_sudu8_page_diypagetpl')->where("uniacid",$uniacid)->where("status",1)->find()['id'];
         }
         $pageid = explode(",",Db::table('ims_sudu8_page_diypagetpl')->where("uniacid",$uniacid)->where("id",$tplid)->field("pageid")->find()['pageid']); //当前模板拥有的页面id
@@ -97,7 +102,7 @@ class Test extends  Controller{
 //            $catess =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
 //            $value['subcate'] =$catess;
 //        }
-        /*$this->assign('da_change',$da_change);*/
+       $this->assign('da_change',$da_change);
         $this->assign("diypage",$diypage);
         $this->assign("article",$article);
         $this->assign("pro",$pro);

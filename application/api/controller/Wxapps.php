@@ -16,6 +16,7 @@ class  Wxapps extends  Controller{
     public function doPagehomepage()
     {
         $uniacid = input("uniacid");
+
         $da_change =Db::table("tb_set_meal_order")
                  ->alias('a')
                 ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
@@ -24,6 +25,7 @@ class  Wxapps extends  Controller{
                 ->where("audit_status",1)
                 ->order('id desc')
                ->find();
+      
 
         $res = Db::table('ims_sudu8_page_base')->where("uniacid", $uniacid)->field("homepage")->find();
         if (!$res) {
