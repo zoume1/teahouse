@@ -4,6 +4,7 @@
  * User: GY
  * Date: 2019/2/20
  */
+
 namespace  app\admin\controller;
 
 use think\Controller;
@@ -13,7 +14,7 @@ use think\paginator\driver\Bootstrap;
 use think\Session;
 
 class  General extends  Base {
-
+   
     private  $store_ids;
 
     public function _initialize()
@@ -435,74 +436,50 @@ class  General extends  Base {
                        if(empty($goods_names)){
                             $length=count($list[$k]["goods_names_test"]);
                             for ($i=0; $i <$length ; $i++) { 
-                                if($list[$k]["goods_names"]=="茶进阶版"){
-                                      $list[$k]["goods_names_test"][2]['goods_name']="茶进阶版";
+                                      if($list[$k]["goods_names"]=="茶进阶版"){
+                                      $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
                                       $list[$k]["goods_names_test"][2]['status_type']=1;
-                                     $list[$k]["goods_names_test"][1]['goods_name']="茶行业版";
+                                      $list[$k]["goods_names_test"][1]['goods_name']="行业版";
                                       $list[$k]["goods_names_test"][1]['status_type']=0;
-                                     $list[$k]["goods_names_test"][0]['status_type']="万用模版";
+                                      $list[$k]["goods_names_test"][0]['status_type']="万用版";
                                       $list[$k]["goods_names_test"][0]['status_type']=0;
-                                }else{
-                                    if($i==$length-1){
-                                      $list[$k]["goods_names_test"][$length-1]['status_type']=1;
-                                    }else{
-                                      $list[$k]["goods_names_test"][$i]['status_type']=0;
-                                    }
 
-                                }
-                                
-                            } 
-
-                        }else{
-                             $length=count($list[$k]["goods_names_test"]);
-                              
-                             if($list[$k]["goods_names"]=="茶进阶版"){
-                                 
-                                    if($goods_names=="进阶版"){
-                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
-                                          $list[$k]["goods_names_test"][2]['status_type']=1;
-                                         $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                                          $list[$k]["goods_names_test"][1]['status_type']=0;
-                                         $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                                          $list[$k]["goods_names_test"][0]['status_type']=0;
-
-                                    }elseif($goods_names=="行业版"){
-                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
-                                      $list[$k]["goods_names_test"][2]['status_type']=0;
+                                    }elseif($list[$k]["goods_names"]=="茶行业版"){
+                                      /*  $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                                      $list[$k]["goods_names_test"][2]['status_type']=0;*/
                                      $list[$k]["goods_names_test"][1]['goods_name']="行业版";
                                       $list[$k]["goods_names_test"][1]['status_type']=1;
                                      $list[$k]["goods_names_test"][0]['status_type']="万用版";
                                       $list[$k]["goods_names_test"][0]['status_type']=0;
 
-                                    }elseif($goods_names=="万用版"){
-                                        $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
-                                      $list[$k]["goods_names_test"][2]['status_type']=0;
-                                     $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                                      $list[$k]["goods_names_test"][1]['status_type']=0;
-                                     $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                                    }elseif($list[$k]["goods_names"]=="万用版"){
+                                      $list[$k]["goods_names_test"][0]['status_type']="万用版";
                                       $list[$k]["goods_names_test"][0]['status_type']=1;
 
-                                        
-                                    }
-                                    
-                                 //dump( $list[$k]["goods_names_test"]);exit();
-                                    
-                                }else{
-                                       
-                                     for ($i=0; $i <$length ; $i++) { 
-
-                                        if( $list[$k]["goods_names_test"][$i]['goods_name']==$goods_names){
-                                            $list[$k]["goods_names_test"][$i]['status_type']=1;
-                                        }else{
-                                            $list[$k]["goods_names_test"][$i]['status_type']=0;
-                                        }
-                                        
                                     }
 
-                                }
-                         
-                           
-                        }
+                            } 
+
+                        }else{
+                            if($goods_names=="进阶版"){
+                             $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                              $list[$k]["goods_names_test"][2]['status_type']=1;
+                             $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                              $list[$k]["goods_names_test"][1]['status_type']=0;
+                             $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                              $list[$k]["goods_names_test"][0]['status_type']=0;
+
+                            }elseif($goods_names=="行业版"){
+                              $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                              $list[$k]["goods_names_test"][1]['status_type']=1;
+                             $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                              $list[$k]["goods_names_test"][0]['status_type']=0;
+                            }elseif($goods_names=="万用版"){
+                              $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                              $list[$k]["goods_names_test"][0]['status_type']=1;
+                            }
+                            
+                         }
                    
                 }
                
@@ -529,9 +506,8 @@ class  General extends  Base {
         $a=Db::table('ims_sudu8_page_base')->where("uniacid",$appletid)->find();
         $bg_music=$a['diy_bg_music'];
         //*鲁文兵版本切换*/
+         $goods_names = input("goods_names");
       
-        $goods_names = input("goods_names");
-        var_dump($goods_names);
         if(!empty($goods_names)){
             if(empty(Session::get('goods_names'))){
                 
@@ -539,10 +515,8 @@ class  General extends  Base {
             }else{
                  Session::delete('goods_names');
                  Session::set('goods_names',$goods_names);
-                 var_dump('pp');
-                 var_dump(Session::get('goods_names'));
-                 
-            }
+                
+                }
            
         }
         
@@ -1623,12 +1597,12 @@ class  General extends  Base {
                 if($isset_ids){
                     //这里还需要判断相同年份进来的数据
                     exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
-                }elseif ($isset_idData) {
-                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
                 }else{
                    exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
-                    
                 }
+                /*if ($isset_idData) {
+                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
+                }*/
                 
 
               }else{
@@ -1645,9 +1619,9 @@ class  General extends  Base {
                     ->where("enter_all_id","EQ",$enter_all_id)
                     ->where("audit_status","EQ",1)
                     ->value("id");
-                if($isset_idData){
+               /* if($isset_idData){
                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
-                }
+                }*/
            
                 //不能升级为年份少于之前的年份
                 //这是查找id方便查找年份

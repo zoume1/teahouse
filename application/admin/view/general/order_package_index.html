@@ -75,7 +75,7 @@
                     <p class="version-suggest" v-else-if="index == 1">本版本能够在万用版的基础上，实现和满足<span class="cr">传统电商无法提供给垂直茶行业</span>经销商、消费者的深度需求</p>
                     <p class="version-suggest" v-else-if="index == 2">解决大型的规模化的<span class="cr">茶厂、茶商柔性化、定制化生产</span>所遇见的全部所需功能 及需求</p>
                     <div class="version-cost">
-                        {{selectData[index]?selectData[index].year:item.year}}年
+                        {{(selectData[index]?selectData[index].year:item.year) == 0 ? '试用期十天' : (selectData[index]?selectData[index].year:item.year)+'年'}}
                         <span class="cr">￥{{selectData[index]?selectData[index].favourable_cost:item.favourable_price}}</span>
                         <span class="td">￥{{selectData[index]?selectData[index].cost:item.price}}</span>
                     </div>
@@ -96,7 +96,7 @@
                             <li class="comb-item comb-p"
                                 v-for="(item, idx) in item.priceList"
                                 @click="selectComb(index, idx)">
-                                <p>{{item.year}}</p>
+                                <p>{{item.year==0? '试用期十天' : item.year}}</p>
                                 <p class="td">{{item.cost}}</p>
                                 <p class="cr">{{item.favourable_cost}}</p>
                             </li>
@@ -181,7 +181,7 @@
                             for(var i = 0; i < this.versionData.length; i++){
                                 this.$set(this.selectData, i, this.versionData[i].priceList[0]);
                             }
-                            // console.log(this.selectData);
+                            console.log(this.versionData);
                         }
                     }, function(res){
                         console.log(res.status, res.statusText);

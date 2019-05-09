@@ -68,11 +68,13 @@
                             <nav data-href="/pages/mine/mine" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">个人中心</div>
                         </div>
+                        {if condition="$da_change['goods_name'] !='万用版'"}
                         <div class="line">
                             <div class="icon icon-link1"></div>
                             <nav data-href="/pages/circle/circle" data-linktype="pages" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">茶圈</div>
                         </div>
+                        {/if}
                         <div class="line">
                             <div class="icon icon-link1"></div>
                             <nav data-href="/pages/members/members" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
@@ -149,22 +151,38 @@
                             <nav data-href="/pages/mine/mine" data-linktype="pages" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">我的</div>
                         </div>
+                        {if condition="$da_change['goods_name'] !='万用版'"}
                         <div class="line">
                             <div class="icon icon-link1"></div>
                             <nav data-href="/pages/storage/view/view" data-linktype="pages" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">茶仓</div>
                         </div>
+
                         <div class="line">
                             <div class="icon icon-link1"></div>
                             <nav data-href="/live/index/index" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">直播</div>
                         </div>
-
+                        {/if}
+                     
+                        {if condition="$da_change['goods_name'] =='茶进阶版' "}
                         <div class="line">
                             <div class="icon icon-link1"></div>
                             <nav data-href="/sweep/pages/index/index" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                             <div class="text">防伪溯源</div>
                         </div>
+
+                        {/if}
+                        {switch name="$da_change['goods_name']"}
+                            {case value="进阶版"}
+                             <div class="line">
+                                <div class="icon icon-link1"></div>
+                                <nav data-href="/sweep/pages/index/index" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                                <div class="text">防伪溯源</div>
+                            </div>
+                            {/case}
+                            {default /}
+                        {/switch}
                         
                         
                         
