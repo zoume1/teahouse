@@ -102,6 +102,7 @@ class Test extends  Controller{
 //            $catess =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
 //            $value['subcate'] =$catess;
 //        }
+
        $this->assign('da_change',$da_change);
         $this->assign("diypage",$diypage);
         $this->assign("article",$article);
