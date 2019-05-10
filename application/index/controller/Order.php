@@ -2426,58 +2426,54 @@ class  Order extends  Controller
                 ->where($condition)
                 ->update($data);
             if($res > 0){
-                //进行钱包消费记录
-                $parts =Db::name("recharge_record")
-                ->field("recharge_money,user_id,upgrade_id")
-                    ->where($condition)
-                    ->find(); 
-                $title ="会员升级";
-                $money = $parts["recharge_money"];//金额
                 $recharge_record_data = Db::name("recharge_record")
-                    ->where("recharge_order_number",$val["out_trade_no"])
-                    ->find();
-                //充值送积分
-                $member_send = Db::name("member_grade")->where("member_grade_id",$parts['upgrade_id'])->find();             
+                ->where("recharge_order_number",$val["out_trade_no"])
+                ->find();
+                $title ="会员升级";
+                $money = $recharge_record_data["recharge_money"];//金额
+
+                //升级会员等级
+                $member_send = Db::name("member_grade")->where("member_grade_id",$recharge_record_data['upgrade_id'])->find();
+                $recharge_integral_send = $member_send['recharge_integral_send']; //升级会员的赠送积分
                 //充值剩下的余额
-                $user_wallet =Db::name("member")
-                    ->field("member_recharge_money")
+                $user_wallet = Db::name("member")
                     ->where("member_id",$recharge_record_data["user_id"])
                     ->find();
                 //更新充值的余额
-                Db::name("member")->where("member_id",$recharge_record_data["user_id"])
-                    ->update(["member_recharge_money"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]]);
-                //插入积分记录
-                    Db::name("member")
-                    ->where("member_id",$recharge_record_data["user_id"])
-                    ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
-                $integral_res = Db::name("member")
-                    ->where("member_id",$recharge_record_data["user_id"])
-                    ->value("member_integral_wallet");//获取所有积分
+                $integral_res = $user_wallet["member_recharge_money"] + $recharge_record_data["recharge_money"];
+                $integral_wallet = $user_wallet["member_integral_wallet"] + $recharge_integral_send;
+                $member_update_data = array(
+                    "member_recharge_money"=>$integral_res,
+                    'member_integral_wallet'=>$integral_wallet,
+                    'member_grade_id'=>$recharge_record_data['upgrade_id'],
+                    'member_grade_name'=>$recharge_record_data['member_grade_name'],
+                    'member_grade_create_time'=> date("Y-m-d H:i:s")
+                );
+                $update = Db::name("member")->where("member_id",$recharge_record_data["user_id"])
+                    ->update($member_update_data);
+
                 $integral_data = [
                     "member_id" => $recharge_record_data["user_id"],
-                    "integral_operation" => $lists,//获得积分
-                    "integral_balance" => $integral_res,//积分余额
+                    "integral_operation" => $recharge_integral_send,//获得积分
+                    "integral_balance" => $integral_wallet,//积分余额
                     "integral_type" => 1, //积分类型（1获得，-1消费）
                     "operation_time" => date("Y-m-d H:i:s"), //操作时间
-                    "integral_remarks" => "充值满" . $money . "送".$lists."积分",
+                    "integral_remarks" => "充值" . $money . "送".$recharge_integral_send."积分",
                 ];
                 Db::name("integral")->insert($integral_data);
                 
-                $new_wallet =Db::name("member")
-                    ->where("member_id",$recharge_record_data["user_id"])
-                    ->value("member_recharge_money");
                 $datas=[
-                    "user_id"=>$parts["user_id"],//用户ID
+                    "user_id"=>$recharge_record_data["user_id"],//用户ID
                     "wallet_operation"=> $money,//消费金额
                     "wallet_type"=>1,//消费操作(1入，-1出)
                     "operation_time"=>date("Y-m-d H:i:s"),//操作时间
                     "operation_linux_time"=>time(), //操作时间
-                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，充值，余额增加".$money."元,送".$lists."积分",//消费备注
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，充值，余额增加".$money."元,送".$recharge_integral_send."积分",//消费备注
                     "wallet_img"=>" ",//图标
-                    "title"=>$title,//标题（消费内容）
+                    "title"=> $title,//标题（消费内容）
                     "order_nums"=>$val["out_trade_no"],//订单编号
                     "pay_type"=>"小程序", //支付方式/
-                    "wallet_balance"=>$new_wallet,//此刻钱包余额
+                    "wallet_balance"=>$integral_res,//此刻钱包余额
                 ];
                 Db::name("wallet")->insert($datas); //存入消费记录表
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
