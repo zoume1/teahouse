@@ -145,6 +145,7 @@ class Pay extends  Controller{
         $input->SetOut_trade_no($order_numbers);
         //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
         $input->SetTotal_fee($cost_moneny*100);
+        halt($order_datas['upgrade_id']);
         if($order_datas['upgrade_id'] == -1){
             $return_url = config("domain.url")."recharge_notify";
         } else {
