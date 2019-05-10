@@ -92,7 +92,6 @@ class My extends Controller
 
     }
 
-
      //获取用户经销商信息 及生成推广二维码
      public function qrcode(Request $request)
      {

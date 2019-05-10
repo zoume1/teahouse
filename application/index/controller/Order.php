@@ -2421,11 +2421,10 @@ class  Order extends  Controller
             $data['status'] = 1;
             $data['pay_time'] = time();
             $data['pay_type_name'] = "微信";
-            $condition['recharge_order_number'] = $val["out_trade_no"];
             $res = Db::name("recharge_record")
-                ->where($condition)
+                ->where('recharge_order_number',$val["out_trade_no"])
                 ->update($data);
-            if($res > 0){
+            if($res){
                 $recharge_record_data = Db::name("recharge_record")
                 ->where("recharge_order_number",$val["out_trade_no"])
                 ->find();
@@ -2447,7 +2446,7 @@ class  Order extends  Controller
                     'member_integral_wallet'=>$integral_wallet,
                     'member_grade_id'=>$recharge_record_data['upgrade_id'],
                     'member_grade_name'=>$recharge_record_data['member_grade_name'],
-                    'member_grade_create_time'=> date("Y-m-d H:i:s")
+                    'member_grade_create_time'=> time()
                 );
                 $update = Db::name("member")->where("member_id",$recharge_record_data["user_id"])
                     ->update($member_update_data);
