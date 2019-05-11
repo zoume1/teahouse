@@ -197,13 +197,13 @@
                             <a
                                 href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
                         </td>
-                        <td style="border-left:1px solid #fff">
+                        <td style="border-left:1px solid #fff;border-right:1px solid #fff">
                             <div class="static_btus" data-id="{$value.store_id}" data-value="{$value.store_status}">
                                 <a
                                     href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
                             </div>
                         </td>
-                        <td>
+                        <td style="border-left:1px solid #fff">
 
                             <div>
                                 {switch name="$value.audit_status"}
