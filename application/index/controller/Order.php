@@ -2445,7 +2445,7 @@ class  Order extends  Controller
                     "member_recharge_money"=>$integral_res,
                     'member_integral_wallet'=>$integral_wallet,
                     'member_grade_id'=>$recharge_record_data['upgrade_id'],
-                    'member_grade_name'=>$recharge_record_data['member_grade_name'],
+                    'member_grade_name'=>$member_send['member_grade_name'],
                     'member_grade_create_time'=> time()
                 );
                 $update = Db::name("member")->where("member_id",$recharge_record_data["user_id"])
