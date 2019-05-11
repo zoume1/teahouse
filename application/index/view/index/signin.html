@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>登录</title>
     <link rel="stylesheet" href="__STATIC__/index/css/common.css">
     <link rel="stylesheet" href="__STATIC__/index/css/intlTelInput.min.css">
@@ -18,7 +23,7 @@
         .signin-title-container .signin-subtitle .signin-way{position: relative; margin-right: 80px; font-size: 16px; cursor: pointer; line-height: 27px;}
         .signin-subtitle .signin-way.way-active::after{position: absolute; bottom: -21px; left: 0; width: 100%; content: ''; border-bottom: 2px solid #38f;}
         .signin-content-container{border-top: 1px solid #e5e5e5; padding-top: 50px; display: flex; justify-content: space-between;}
-        .signin-content-container .signin-content-inner{width: 450px;}
+        .signin-content-container .signin-content-inner{width: 450px; position: relative;}
         .signin-content-inner .signin-form-wrap{width: 350px; margin: 0 auto;}
         .signin-content-inner .section-group{border-bottom: 1px solid #e5e5e5; display: flex; margin-bottom: 30px; align-items: center; height: 40px;}
         .signin-content-inner .section-group .form-label{display: inline-block; width: 100px; font-size: 14px; color: #515151; font-weight: 700;}
@@ -35,7 +40,7 @@
         .copyright a{color: #515151;}
         .qr-code-wrap{width: 350px; margin: 0 auto; text-align: center;}
 
-        .verBox{position:absolute; text-align:center; left: 305px; top: 205px; opacity:1; transition:all 0.8s; padding:0 28px; background-color: #fff; z-index: 999; display: none;}
+        .verBox{position:absolute; text-align:center; left: 50px; top: -20px; opacity:1; transition:all 0.8s; padding:0 28px; background-color: #fff; z-index: 999; display: none;}
     </style>
 </head>
 <body>
@@ -172,10 +177,11 @@
             width:'260',
             height:'116',
             img:[
+                '',
                 '__STATIC__/index/js/slider/images/ver.jpg',
                 '__STATIC__/index/js/slider/images/ver-1.jpg',
                 '__STATIC__/index/js/slider/images/ver-2.jpg',
-                '__STATIC__/index/js/slider/images/ver-3.jpg'
+                '__STATIC__/index/js/slider/images/ver-3.jpg',
             ],
             success:function () {
                 $(".verBox").css({
@@ -185,10 +191,20 @@
                 setTimeout(function(){
                     statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
                 }, 1000);
-                
             },
             error:function () {}
         });
+
+        // $(function(){
+        //     if(window.history && window.history.pushState){
+        //         $(window).on('popstate', function(){
+        //             widnow.history.pushState('forward', null, '#');
+        //             widnow.history.forward(1);
+        //         })
+        //     }
+        //     widnow.history.pushState('forward', null, '#');
+        //     widnow.history.forward(1);
+        // });
 
         // 登录
         var statusLog = null;
