@@ -1586,7 +1586,7 @@ class  General extends  Base {
                 } else if(($buy_status['status'] == 1) && ($buy_status['enter_all_id'] > $enter_all_id)){
                     exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$buy_status['id']])));
                 } else if(($buy_status['status'] == 1) && ($buy_status['enter_all_id'] < $enter_all_id) && ($buy_status['audit_status'] == 1)){
-                    exit(json_encode(array("status"=>3,"info"=>"可以升级","data"=>["id"=>$buy_status['id']])));
+                    exit(json_encode(array("status"=>1,"info"=>"可以升级","data"=>["id"=>$enter_all_id])));
                 } else if(($buy_status['status'] == 1) && ($buy_status['enter_all_id'] < $enter_all_id) && ($buy_status['audit_status'] == 0)){
                     exit(json_encode(array("status"=>3,"info"=>"您有待审核订单,需管理员审核通过才能升级","data"=>["id"=>$buy_status['id']])));
                 } else if(($buy_status['status'] == 1) && ($buy_status['enter_all_id'] < $enter_all_id) && ($buy_status['audit_status'] == -1)){
@@ -1653,8 +1653,7 @@ class  General extends  Base {
             //        ->where("audit_status","EQ",1)
             //        ->value("enter_all_id");
             //     if($set_id){
-            //         $year =Db::name("enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份
-                   
+            //         $year =Db::name("enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份                 
             //         if($year>$years){
                         
             //             exit(json_encode(array("status"=>4,"info"=>"不能升级为年份少于之前的年份","data"=>["id"=>$set_id])));
