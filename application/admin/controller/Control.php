@@ -261,6 +261,8 @@ class  Control extends  Controller{
     public function control_order_status_update(Request $request){
         if($request -> isPost()) {
             $id = $request->only(["id"])["id"];
+            $audit_status = $request->only(["audit_status"])["audit_status"];
+            $explains = $request->only(["explains"])["explains"];
             $data = $request->param();
             $is_pay = db("set_meal_order")
                 ->where("id", $id)
@@ -271,22 +273,21 @@ class  Control extends  Controller{
             }
             if($is_pay["pay_type"] ==1){
 
-
                 $this->error("扫码支付已自动审核通过");
             }
             if($is_pay["audit_status"] ==1){
                 $this->error("此订单已审核通过,不能再次审核");
             }
+            
             $year = Db::name("enter_all")->where("id", $is_pay['enter_all_id'])->value("year");
-            $data["start_time"] =time(); //开始时间
-            $data["end_time"] =strtotime("+$year  year"); //到期时间
+            $data["start_time"] = time(); //开始时间
+            $data["end_time"] = strtotime("+$year  year"); //到期时间
             //先判断是否存在之前的订单
             //先判断是否存在这个小程序（即判断这个订单是否是升级上来的）
             $is_set_order = Db::name("set_meal_order")
                 ->where("store_id", $is_pay["store_id"])
-                ->where("audit_status", 1)
                 ->find();
-            if(!empty( $is_set_order)){
+            if( $is_set_order['audit_status'] == 1){
                 $this->error("此升级订单无法审核");
                 $bool = db("set_meal_order")->where("id", $id)->update($data);
                 if ($bool) {
@@ -361,23 +362,17 @@ class  Control extends  Controller{
                 } else {
                     $this->error("审核失败,请编辑后再提交");
                 }
+            } else if($is_set_order['audit_status'] == 0){
+                $data['audit_status'] = $audit_status;
+                $data['explains'] = $explains;
+                $bool = db("set_meal_order")->where("id", $id)->update($data);
+                if($bool){
+                    $this->success("审核成功", "admin/Control/control_order_index");
+                } else {
+                    $this->success("审核失败", "admin/Control/control_order_index");
+                }
             }
-//            else{
-//                $old =db("set_meal_order")->where("id", $id)->find();
-//                $datas =[
-//                    ""
-//                ];
-//
-//                //升级订单没有做
-//                $res = Db::name("set_meal_order")
-//                    ->where("order_number", $is_set_order["order_number"])
-//                    ->update($data);
-//
-//
-//            }
-
-
-        }
+        } 
     }
 
 
