@@ -1520,7 +1520,7 @@ class  General extends  Base {
      */
     public function order_package_buy(Request $request){
         if($request->isPost()){
-            $id =$request->only(["id"])["id"];
+            $id = $request->only(["id"])["id"];
             $data =Db::table("tb_meal_orders")
                  ->alias('a')
                  ->join('tb_enter_all b','a.enter_all_id=b.id','left')
@@ -1530,10 +1530,10 @@ class  General extends  Base {
                 ->where("a.status",-1)
                 ->where("a.id",$id)
                 ->select();
-
+       
              if($data){
                 foreach ($data as $k=>$v){
-                    $last_money =Db::name("meal_orders")
+                    $last_money = Db::name("meal_orders")
                         ->where("store_id",$v['store_id'])
                         ->where("audit_status",1)
                         ->field("amount_money,enter_all_id")
@@ -1546,12 +1546,12 @@ class  General extends  Base {
                             $data[$k]["last_money"] =$last_money['amount_money'];
                         }
                     }else{
-                        $data[$k]["last_money"] =0;
+                        $data[$k]["last_money"] = 0;
                     }
                 }
                 return ajax_success("订单信息返回成功",$data);
             }else{             
-                return ajax_error("没有订单信息",$dataList);
+                return ajax_error("没有订单信息",0);
             }
         }
         return view("order_package_buy");
@@ -1706,11 +1706,11 @@ class  General extends  Base {
             $store_name =Db::table("tb_store")
                 ->where("id",$store_id)
                 ->value("store_name");
-            //先判断这单是否需要重新申请，需要把之前未支付的删除
-            Db::name("set_meal_order")
-                ->where("store_id",$store_id)
-                ->where("pay_type",null)
-                ->delete();
+            // //先判断这单是否需要重新申请，需要把之前未支付的删除
+            // Db::name("set_meal_order")
+            //     ->where("store_id",$store_id)
+            //     ->where("pay_type",null)
+            //     ->delete();
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
@@ -1731,8 +1731,9 @@ class  General extends  Base {
                 "status"=>-1,//订单状态（-1为未付款，1为已付款）
                 "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
             ];
-            $set_meal_id =Db::table("tb_set_meal_order")->insertGetId($data);
-            $bool = Db::table("tb_meal_orders")->insert($data);
+            $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
+            $bool =Db::table("tb_set_meal_order")->insert($data);
+            
             if($set_meal_id >0){
                 return ajax_success("下单成功",["id"=>intval($set_meal_id)]);
             }else{
@@ -1947,15 +1948,15 @@ class  General extends  Base {
      */
     public function order_package_del(Request $request){
         if($request->isPost()){
-            $id =$request->only('id')['id'];
+            $id =$request->only('order_number')['order_number'];
             if($id){
                 $bool =Db::name('set_meal_order')
-                    ->where("id",":id")
-                    ->bind(["id"=>[$id,\PDO::PARAM_INT]])
+                    ->where("order_number",":order_number")
+                    ->bind(["order_number"=>[$id,\PDO::PARAM_INT]])
                     ->delete();
                     $boole =Db::name('meal_orders')
-                    ->where("id",":id")
-                    ->bind(["id"=>[$id,\PDO::PARAM_INT]])
+                    ->where("order_number",":order_number")
+                    ->bind(["order_number"=>[$id,\PDO::PARAM_INT]])
                     ->delete();
                 if($bool || $boole){
                     return ajax_success('删除成功');

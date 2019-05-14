@@ -52,12 +52,24 @@ class  AdminWx extends Controller{
                     $data["explains"] ="微信扫码支付直接通过";//审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款)
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核)
+
+
+                    $rest_data = array(
+                        "pay_time" => time(),
+                        "pay_type"=>1,
+                        "pay_status"=>1,
+                        "goods_name"=>$enter_all_data['goods_name'],
+                        "start_time"=>time(),
+                        "enter_all_id"=>$enter_all_data['enter_all_id'],
+                        "end_time"=> strtotime("+$year  year"),
+                    );
                     $res = Db::name("set_meal_order")
                         ->where("order_number",$is_set_order["order_number"])
                         ->update($data);
-                    $rest = Db::name("meal_orders")
-                    ->where("order_number",$is_set_order["order_number"])
-                    ->update($data);
+
+                        $rest = Db::name("meal_orders")
+                        ->where("order_number",$is_set_order["order_number"])
+                        ->update($data);
                     $delete_new_order = Db::name('set_meal_order')->where('order_number',$val["out_trade_no"])->delete();
                     
                     if($res){                           
@@ -83,7 +95,8 @@ class  AdminWx extends Controller{
                     $result =Db::name("set_meal_order")
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
-                    $resulte =Db::name("meal_orders")
+
+                    $resultet =Db::name("meal_orders")
                     ->where("order_number",$val["out_trade_no"])
                     ->update($data);
                     
