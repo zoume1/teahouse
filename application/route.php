@@ -801,7 +801,7 @@ Route::group("admin",[
     "order_code_pay"=>"admin/General/order_code_pay",                    //套餐订购微信二维码扫码支付
     "check_code_apy"=>"admin/General/check_code_apy",                    //轮询套餐订购微信二维码扫码支付是否成功
     "order_code_alipay"=>"admin/General/order_code_alipay",                    //套餐订购支付宝二维码扫码支付
-    "order_package_remittance"=>"admin/General/order_package_remittance",          //订单套餐支付汇款
+    "order_package_remittance"=>"admin/General/order_package_remittance",      //订单套餐支付汇款
     "order_package_balance"=>"admin/General/order_package_balance",          //订单套餐余额支付
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
 
