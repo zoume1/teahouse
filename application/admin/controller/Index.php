@@ -98,4 +98,31 @@ class Index extends Controller
         }
 
     }
+
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:进入店铺后台显示但前使用版本及日期
+     **************************************
+     */
+    public function shop_store_date(Request $request)
+    {
+        if ($request->isPost()) {
+            $store_id = Session::get('store_id');
+            $store_data = db("set_meal_order")
+                        ->where("store_id",$store_id)
+                        ->where('pay_status',1)
+                        ->field('start_time,goods_name,end_time')
+                        ->find();
+            
+            if(!empty($store_data)){
+                return ajax_error("店铺版本不存在");
+            } else {
+                $time = time();
+                $data_number = intval(($crowd[$key]["end_time"]-$time)/86400);
+                
+            }
+        }
+    }
 }
