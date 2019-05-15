@@ -123,7 +123,7 @@ class Findpwd extends Controller{
             if(!empty($is_set_mobile)){
                 return ajax_error("请输入不一样的号码",['status'=>0]);
             }
-            $is_set_mobiles =Db::name('pc_user')->where('phone_number',$mobile)->find();
+            $is_set_mobiles = Db::name('pc_user')->where('phone_number',$mobile)->find();
             if(!empty($is_set_mobiles)){
                 return ajax_error("此手机号已注册，请换其他手机号",['status'=>0]);
             }
