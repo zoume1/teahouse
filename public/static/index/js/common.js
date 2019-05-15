@@ -1,6 +1,6 @@
 
-var phoneReg = /^1[34578]\d{9}$/,
-    pwdReg = /^[a-zA-Z]{6,15}$|^[\d]{6,15}$/;
+var phoneReg = /^1[345789]\d{9}$/,
+    pwdReg   = /^[a-zA-Z]{6,15}$|^[\d]{6,15}$/;
 
 var $partnerContainer = $('.partner-items');
 for (var i = 1; i <= 12; i++) {
@@ -76,7 +76,7 @@ $('.aside-item:eq(3)').click(function () {
 ;(function(myEvent){
     // 倒计时
     myEvent.buttonCountdown = function($el, msNum, timeFormat) {
-        var text = $el.data("text") || $el.text(),
+        var text  = $el.data("text") || $el.text(),
             timer = 0;
         $el.prop("disabled", true).addClass("disabled")
             .on("bc.clear", function () {
@@ -90,7 +90,7 @@ $('.aside-item:eq(3)').click(function () {
                 clearTime();
             } else {
                 msNum -= 1000;
-                timer = setTimeout(arguments.callee, 1000);
+                timer  = setTimeout(arguments.callee, 1000);
             }
         }())
         function clearTime() {
@@ -98,19 +98,19 @@ $('.aside-item:eq(3)').click(function () {
             $el.prop("disabled", false).removeClass("disabled").text(text);
         }
         function showTime(ms) {
-            var d = Math.floor(ms / 1000 / 60 / 60 / 24),
-                h = Math.floor(ms / 1000 / 60 / 60 % 24),
-                m = Math.floor(ms / 1000 / 60 % 60),
-                s = Math.floor(ms / 1000 % 60),
+            var d  = Math.floor(ms / 1000 / 60 / 60 / 24),
+                h  = Math.floor(ms / 1000 / 60 / 60 % 24),
+                m  = Math.floor(ms / 1000 / 60 % 60),
+                s  = Math.floor(ms / 1000 % 60),
                 ss = Math.floor(ms / 1000);
             return {
-                d: d + "天",
-                h: h + "小时",
-                m: m + "分",
-                ss: ss + "秒",
+                d        : d + "天",
+                h        : h + "小时",
+                m        : m + "分",
+                ss       : ss + "秒",
                 "d:h:m:s": d + "天" + h + "小时" + m + "分" + s + "秒",
-                "h:m:s": h + "小时" + m + "分" + s + "秒",
-                "m:s": m + "分" + s + "秒"
+                "h:m:s"  : h + "小时" + m + "分" + s + "秒",
+                "m:s"    : m + "分" + s + "秒"
             };
         }
         return this;
@@ -144,10 +144,10 @@ $('.aside-item:eq(3)').click(function () {
 // 获取验证码
 function getIdentifyingCode($el, url, phone) {
     $.ajax({
-        url: url,
-        type: 'POST',
+        url     : url,
+        type    : 'POST',
         dataType: 'JSON',
-        data: {
+        data    : {
             "mobile": phone
         },
         success: function (res) {
@@ -168,10 +168,10 @@ function getIdentifyingCode($el, url, phone) {
 // 退出登录
 $('.logout').click(function () {
     $.ajax({
-        url: 'logout',
-        type: 'POST',
+        url     : 'logout',
+        type    : 'POST',
         dataType: 'JSON',
-        success: function (res) {
+        success : function (res) {
             console.log(res);
             if (res.status == 1) {
                 myEvent.delCookie(btoa('phone'));

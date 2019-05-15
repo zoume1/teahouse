@@ -716,7 +716,7 @@
             }
             // 发送验证码
             myEvent.sendPhoneCode = function(phone, _this, url){
-                var phoneReg = /^1[34578]\d{9}$/;
+                var phoneReg = /^1[345789]\d{9}$/;
                 if(phone !== '' && phoneReg.test(phone)){
                     getIdentifyingCode(_this, url, phone);
                 }else{
