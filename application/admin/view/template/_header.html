@@ -4,8 +4,8 @@
 		padding-left: 13px;
 		width: 35px;margin-right: 10px"><img src="__STATIC__/admin/index/img/u36.png"/></div>
 		<div class="name" style="font-size:20px">滴金茶业后台</div>
-		<div style="position: absolute; left: 180px; background-color: #fee; height: 30px; line-height: 30px; color: #f00; margin: 12px 0 0 20px; padding: 0 10px;">
-			您的店铺当前版本： 万用版 剩余时间： 7天
+		<div id="cd-time" style="position: absolute; left: 180px; background-color: #fee; display: none; height: 30px; line-height: 30px; color: #f00; margin: 12px 0 0 20px; padding: 0 10px;">
+			
 		</div>
 	</div>
 
@@ -19,7 +19,7 @@
 	</div>-->
 	<div class="loading-box">
 			<div class="message"><img src="__STATIC__/admin/index/img/u44.png"/></div>
-		<div class="self_information" style="">
+		<div class="self_information">
 			<!--<span class="information-photo"><img src="__STATIC__/admin/index/img/u39.png"></span>-->
 			<!--<span>siring</span>-->
 
@@ -36,11 +36,14 @@
 <script>
 	$(function(){
 		$.ajax({
-			url: 'shop_store_date',
+			url: '{:url("admin/index/shop_store_date")}',
 			type: 'POST',
 			dataType: 'json',
 			success: function(res){
 				console.log(res);
+				if(res.status == 1){
+					$('#cd-time').show().text('您的店铺当前版本： '+res.data.goods_name+' 剩余时间： '+res.data.data_number+'天');
+				}
 			},
 			error: function(res){
 				console.log(res.status, res.statusText);
