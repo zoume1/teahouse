@@ -218,6 +218,7 @@ class  Store extends  Controller{
                 ->where("status","NEQ",3)
                 ->where("user_id",$user_id)
                 ->select();
+            
             if(!empty($data)){
                 return ajax_success("所有店铺信息返回成功",$data);
             }else{

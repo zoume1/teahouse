@@ -32,7 +32,7 @@ class checkLogin extends Controller {
             $if_url = 0;
             if($user_info[0]['id'] != 2) {
                 foreach ($menu_list as $key => $values) {
-                    if (!in_array($values['id'], $role)) {
+                    if (!in_array($values['id'], $role)){
                         unset($menu_list[$key]);
                     } else {
                         if ($values['url'] == $url) {

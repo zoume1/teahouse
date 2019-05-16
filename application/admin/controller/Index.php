@@ -116,12 +116,20 @@ class Index extends Controller
                         ->field('start_time,goods_name,end_time')
                         ->find();
             
-            if(!empty($store_data)){
+            if(empty($store_data)){
                 return ajax_error("店铺版本不存在");
             } else {
                 $time = time();
-                $data_number = intval(($crowd[$key]["end_time"]-$time)/86400);
-                
+                $data_number = round(($store_data["end_time"]-$time)/86400);
+                if($data_number <= 10){
+                    $store_information = [
+                        'data_number'=>$data_number,
+                        'goods_name'=> $store_data['goods_name']
+                    ];
+                    return ajax_success("获取成功",$store_information);
+                } else {
+                    exit(json_encode(array("status"=>2,"info"=>"该店铺未到结算显示时间")));
+                }           
             }
         }
     }
