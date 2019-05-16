@@ -33,3 +33,18 @@
 		</div>
 	</div>
 </div>
+<script>
+	$(function(){
+		$.ajax({
+			url: 'shop_store_date',
+			type: 'POST',
+			dataType: 'json',
+			success: function(res){
+				console.log(res);
+			},
+			error: function(res){
+				console.log(res.status, res.statusText);
+			}
+		})
+	})
+</script>
