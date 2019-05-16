@@ -213,8 +213,7 @@ class  Store extends  Controller{
      */
     public function store_all_data(Request $request){
         if($request->isPost()){
-            // $user_id =Session::get("user");
-            $user_id =1;
+            $user_id =Session::get("user");
             $data =Db::name("store")
                 ->where("status","NEQ",3)
                 ->where("user_id",$user_id)
@@ -229,6 +228,15 @@ class  Store extends  Controller{
                 $time = time();
                 $data[$key]['goods_name'] = $rest[$key]['goods_name'];
                 $data[$key]['time'] = round(($rest[$key]["end_time"]-$time)/86400);
+                $data[$key]['meal_id'] = $rest[$key]['id'];
+              if($rest[$key]['enter_all_id'] <= 6)
+                    $data[$key]['version'] = 1;
+              } 
+              if( ($rest[$key]['enter_all_id'] > 6) && ($rest[$key]['enter_all_id'] <= 17 )){
+                    $data[$key]['version'] = 2;
+              } 
+              if($rest[$key]['enter_all_id'] > 17){
+                   $data[$key]['version'] = 3;
               }
             }
             
