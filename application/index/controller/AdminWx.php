@@ -48,7 +48,12 @@ class  AdminWx extends Controller{
                     $data["start_time"] = time();  //开始时间
                     $data['goods_quantity'] = $enter_all_data['goods_quantity']; //数量
                     $data['enter_all_id'] = $enter_all_data['enter_all_id']; //套餐id
-                    $data["end_time"] = strtotime("+$year  year");//结束时间
+                    if($year > 0){
+                        $data["end_time"] = strtotime("+$year  year");//结束时间
+                    } else {
+                        $data["end_time"] = strtotime("+10  day");//结束时间
+
+                    }
                     $data["explains"] ="微信扫码支付直接通过";//审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款)
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核)
@@ -88,7 +93,12 @@ class  AdminWx extends Controller{
                     $data["pay_type"] = 1;//支付类型（1扫码支付，2汇款支付，3余额支付）
                     $data["pay_status"] = 1;//到账状态（1为已到账，-1未到账，2待审核）
                     $data["start_time"] = time();//开始时间
-                    $data["end_time"] =strtotime("+$year  year");//开始时间
+                    if($year > 0){
+                        $data["end_time"] = strtotime("+$year  year");//结束时间
+                    } else {
+                        $data["end_time"] = strtotime("+10  day");//结束时间
+
+                    }
                     $data["explains"] ="微信扫码支付直接通过";//审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款）
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核）
@@ -230,7 +240,12 @@ class  AdminWx extends Controller{
                     $data["start_time"] = time();  //开始时间
                     $data['goods_quantity'] = $enter_all_data['goods_quantity']; //数量
                     $data['enter_all_id'] = $enter_all_data['enter_all_id']; //套餐id
-                    $data["end_time"] = strtotime("+$year  year");//结束时间
+                    if($year > 0){
+                        $data["end_time"] = strtotime("+$year  year");//结束时间
+                    } else {
+                        $data["end_time"] = strtotime("+10  day");//结束时间
+
+                    }
                     $data["explains"] ="支付宝扫码支付直接通过";//审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款)
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核)
@@ -264,7 +279,12 @@ class  AdminWx extends Controller{
                     $data["pay_type"] = 1;//支付类型（1扫码支付，2汇款支付，3余额支付）
                     $data["pay_status"] = 1;//到账状态（1为已到账，-1未到账，2待审核）
                     $data["start_time"] = time();//开始时间
-                    $data["end_time"] = strtotime("+$year  year");//开始时间
+                    if($year > 0){
+                        $data["end_time"] = strtotime("+$year  year");//结束时间
+                    } else {
+                        $data["end_time"] = strtotime("+10  day");//结束时间
+
+                    }
                     $data["explains"] = "支付宝扫码支付直接通过";//审核说明
                     $data["status"] = 1; //订单状态（-1为未付款，1已付款）
                     $data["audit_status"] = 1; //订单审核状态（1审核通过，-1审核不通过,0待审核）

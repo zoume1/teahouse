@@ -213,11 +213,24 @@ class  Store extends  Controller{
      */
     public function store_all_data(Request $request){
         if($request->isPost()){
-            $user_id =Session::get("user");
+            // $user_id =Session::get("user");
+            $user_id =1;
             $data =Db::name("store")
                 ->where("status","NEQ",3)
                 ->where("user_id",$user_id)
+                ->field('id,store_name,store_number,user_id,status,business_name')
                 ->select();
+            foreach($data as $key => $value){
+              $rest[$key] = Db::name("set_meal_order")
+              ->where("store_id","EQ",$data[$key]['id'])
+              ->where("pay_status",'EQ',1)
+              ->find();
+              if($rest[$key]){
+                $time = time();
+                $data[$key]['goods_name'] = $rest[$key]['goods_name'];
+                $data[$key]['time'] = round(($rest[$key]["end_time"]-$time)/86400);
+              }
+            }
             
             if(!empty($data)){
                 return ajax_success("所有店铺信息返回成功",$data);
