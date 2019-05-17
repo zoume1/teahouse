@@ -36,7 +36,7 @@
         .select .shop-innerbox li.overdue-shop{border-top: 5px solid #aeaeae;}
         .shop-innerbox .shop-item .shop-info{position: relative; margin-bottom: 5px;}
         .shop-innerbox .shop-item .shop-name,
-        .shop-innerbox .shop-item .shop-number{color: #0bf; width: 120px; font-size: 12px;}
+        .shop-innerbox .shop-item .shop-number{color: #0bf; width: 120px; font-size: 12px; height: 18px;}
         .shop-innerbox .shop-item .shop-version{position: absolute; top: 6px; right: 0; color: #fff; background-color: #f00; padding: 2px 0; cursor: pointer; width: 80px; text-align: center;}
         .shop-innerbox .shop-item .shop-introduce{font-size: 12px; color: #949494; flex: 1;}
         .shop-innerbox .shop-item .remaining-time{float: left; line-height: 24px; color: #949494;}
@@ -560,12 +560,12 @@
                                         </div>\
                                     </li>';
                     }else if(v.status == 1){
-                        if(v.store_name){
+                        if(v.goods_name){
                             if(v.version == 1){
                                 domStr += '<li class="shop-item universal-shop">\
                                                 <div class="shop-info">\
-                                                    <div class="shop-name txt-hid-one">'+v.goods_name+'</div>\
-                                                    <div class="shop-number txt-hid-one">'+v.store_number+'</div>\
+                                                    <div class="shop-name txt-hid-one">'+(v.store_name?v.store_name:'')+'</div>\
+                                                    <div class="shop-number txt-hid-one">'+(v.store_number?v.store_number:'')+'</div>\
                                                     <div class="shop-version">'+v.goods_name+'</div>\
                                                 </div>\
                                                 <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
@@ -577,8 +577,8 @@
                             }else if(v.version == 2){
                                 domStr += '<li class="shop-item industry-shop">\
                                                 <div class="shop-info">\
-                                                    <div class="shop-name txt-hid-one">'+v.goods_name+'</div>\
-                                                    <div class="shop-number txt-hid-one">'+v.store_number+'</div>\
+                                                    <div class="shop-name txt-hid-one">'+(v.store_name?v.store_name:'')+'</div>\
+                                                    <div class="shop-number txt-hid-one">'+(v.store_number?v.store_number:'')+'</div>\
                                                     <div class="shop-version">'+v.goods_name+'</div>\
                                                 </div>\
                                                 <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
@@ -590,8 +590,8 @@
                             }else if(v.version == 3){
                                 domStr += '<li class="shop-item progress-shop">\
                                                 <div class="shop-info">\
-                                                    <div class="shop-name txt-hid-one">'+v.goods_name+'</div>\
-                                                    <div class="shop-number txt-hid-one">'+v.store_number+'</div>\
+                                                    <div class="shop-name txt-hid-one">'+(v.store_name?v.store_name:'')+'</div>\
+                                                    <div class="shop-number txt-hid-one">'+(v.store_number?v.store_number:'')+'</div>\
                                                     <div class="shop-version">'+v.goods_name+'</div>\
                                                 </div>\
                                                 <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
