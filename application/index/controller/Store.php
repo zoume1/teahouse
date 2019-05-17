@@ -217,7 +217,7 @@ class  Store extends  Controller{
             $data =Db::name("store")
                 ->where("status","NEQ",3)
                 ->where("user_id",$user_id)
-                ->field('id,store_name,store_number,user_id,status,business_name')
+                ->field('id,store_name,store_number,user_id,status,business_name,store_introduction')
                 ->select();
             foreach($data as $key => $value){
               $rest[$key] = Db::name("set_meal_order")
