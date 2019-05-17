@@ -205,6 +205,13 @@ class My extends Controller
              if($mobileCode != $code || $member_phone_num != $mobile) {
                  return ajax_error("验证码不正确");
              }
+             $pattern = '/^1[3456789]\d{9}$/';
+             $rest = preg_match($pattern,$member_phone_num);
+             $arr = json_decode($member_phone_num, true);
+             $mobiles = strlen($arr);
+             if (isset($mobiles) != 11 && (!$rest)) {
+                 return ajax_error("手机号码不正确",['status'=>0]);
+             }
              $phone_number =Db::name("member")
                  ->where("member_id", $member_id)
                  ->update(["member_phone_num"=>$member_phone_num]);
