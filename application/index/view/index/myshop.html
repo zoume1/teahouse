@@ -571,7 +571,7 @@
                                                 <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
                                                 <div class="bottom clearfix">\
                                                     <div class="remaining-time">剩余时间：<span>'+v.time+'天</span></div>\
-                                                    <button class="into-shop">进入</button>\
+                                                    <button class="into-shop" data-id="'+v.id+'">进入</button>\
                                                 </div>\
                                             </li>'
                             }else if(v.version == 2){
@@ -584,7 +584,7 @@
                                                 <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
                                                 <div class="bottom clearfix">\
                                                     <div class="remaining-time">剩余时间：<span>'+v.time+'天</span></div>\
-                                                    <button class="into-shop">进入</button>\
+                                                    <button class="into-shop" data-id="'+v.id+'">进入</button>\
                                                 </div>\
                                             </li>'
                             }else if(v.version == 3){
@@ -597,7 +597,7 @@
                                                 <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
                                                 <div class="bottom clearfix">\
                                                     <div class="remaining-time">剩余时间：<span>'+v.time+'天</span></div>\
-                                                    <button class="into-shop">进入</button>\
+                                                    <button class="into-shop" data-id="'+v.id+'">进入</button>\
                                                 </div>\
                                             </li>'
                             }
@@ -628,6 +628,12 @@
                 $('.cVersion').click(function(){
                     var id = $(this).data('id');
                     myEvent.setCookie('cvt', 1, 1);
+                    selectVeri(id);
+                })
+                // 店铺进入后台
+                $('.into-shop').click(function(){
+                    var id = $(this).data('id');
+                    console.log(id)
                     selectVeri(id);
                 })
                 // 继续编辑
