@@ -13,14 +13,26 @@ class Commodity extends Controller
      */
     public function commodity_index(Request $request)
     {
-        if($request->isPost()) {            
+        if($request->isPost()) {     
+            $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $goods_type = db("wares")->where("status", 1)->select();
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
             foreach($goods_type as $key => $value)
             {
                 $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("label",1)->select();
- 
+                foreach($goods_type[$key]['child'] as $k => $v){
+                    if(!empty($goods_type[$key]['child'][$k]["scope"])){
+                        $goods_type[$key]['child'][$k]["scope"] = explode(",",$goods_type[$key]['child'][$k]["scope"]);
+                        if(!in_array($member_grade_name,$goods_type[$key]['child'][$k]["scope"])){ 
+                            unset($goods_type[$key]['child'][$k]);
+                        }
+                        
+                    }
+                    
+                }
+                $goods_type[$key]['child'] = array_values($goods_type[$key]['child']);
             }
+   
             return ajax_success("获取成功",array("goods_type"=>$goods_type));
         }
         

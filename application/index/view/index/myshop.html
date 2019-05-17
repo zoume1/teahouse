@@ -28,7 +28,7 @@
         .select .shop-innerbox li.add-shop-li{width: 280px; height: 120px; box-sizing: border-box; border: 1px dashed #a8a8a8; border-radius: 10px; text-align: center; line-height: 120px; cursor: pointer;}
         .select .shop-innerbox .add-shop-li .cross{font-size: 25px; color: #999; font-style: normal;}
         .select .shop-innerbox .add-shop-li span{font-size: 20px; color: #999;}
-        .select .shop-innerbox li.shop-item{width: 280px; height: 120px; box-sizing: border-box; border: 1px solid #a8a8a8; margin-bottom: 20px; padding: 10px 15px;}
+        .select .shop-innerbox li.shop-item{display: flex; flex-direction: column; width: 280px; height: 120px; box-sizing: border-box; border: 1px solid #a8a8a8; margin-bottom: 20px; padding: 10px 15px;}
         .select .shop-innerbox li.audit-status{border-top: 5px solid #c9c9c9;}
         .select .shop-innerbox li.universal-shop{border-top: 5px solid #e9b665;}
         .select .shop-innerbox li.industry-shop{border-top: 5px solid #821006;}
@@ -38,7 +38,7 @@
         .shop-innerbox .shop-item .shop-name,
         .shop-innerbox .shop-item .shop-number{color: #0bf; width: 120px; font-size: 12px;}
         .shop-innerbox .shop-item .shop-version{position: absolute; top: 6px; right: 0; color: #fff; background-color: #f00; padding: 2px 0; cursor: pointer; width: 80px; text-align: center;}
-        .shop-innerbox .shop-item .shop-introduce{font-size: 12px; color: #949494; }
+        .shop-innerbox .shop-item .shop-introduce{font-size: 12px; color: #949494; flex: 1;}
         .shop-innerbox .shop-item .remaining-time{float: left; line-height: 24px; color: #949494;}
         .shop-innerbox .shop-item .into-shop{float: right; background-color: transparent; border: 1px solid #ccc; cursor: pointer; padding: 0 10px; color: #949494; margin-top: 2px;}
         .shop-innerbox .overdue-shop .renew{float: right; background-color: transparent; cursor: pointer; padding: 0 10px; color: #f00; margin-top: 2px; border: 0;}
@@ -560,13 +560,56 @@
                                         </div>\
                                     </li>';
                     }else if(v.status == 1){
-                        domStr += '<li class="shop-item audit-status passed">\
-                                        <div class="status-txt">您的店铺申请已通过，请选择店铺版本</div>\
-                                        <div class="clearfix">\
-                                            <span class="fl giveup" data-id="'+v.id+'">放弃</span>\
-                                            <span class="fr cVersion" data-id="'+v.id+'">选择店铺版本>></span>\
-                                        </div>\
-                                    </li>';
+                        if(v.store_name){
+                            if(v.version == 1){
+                                domStr += '<li class="shop-item universal-shop">\
+                                                <div class="shop-info">\
+                                                    <div class="shop-name txt-hid-one">'+v.goods_name+'</div>\
+                                                    <div class="shop-number txt-hid-one">'+v.store_number+'</div>\
+                                                    <div class="shop-version">'+v.goods_name+'</div>\
+                                                </div>\
+                                                <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
+                                                <div class="bottom clearfix">\
+                                                    <div class="remaining-time">剩余时间：<span>'+v.time+'天</span></div>\
+                                                    <button class="into-shop" data-id="'+v.id+'">进入</button>\
+                                                </div>\
+                                            </li>'
+                            }else if(v.version == 2){
+                                domStr += '<li class="shop-item industry-shop">\
+                                                <div class="shop-info">\
+                                                    <div class="shop-name txt-hid-one">'+v.goods_name+'</div>\
+                                                    <div class="shop-number txt-hid-one">'+v.store_number+'</div>\
+                                                    <div class="shop-version">'+v.goods_name+'</div>\
+                                                </div>\
+                                                <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
+                                                <div class="bottom clearfix">\
+                                                    <div class="remaining-time">剩余时间：<span>'+v.time+'天</span></div>\
+                                                    <button class="into-shop" data-id="'+v.id+'">进入</button>\
+                                                </div>\
+                                            </li>'
+                            }else if(v.version == 3){
+                                domStr += '<li class="shop-item progress-shop">\
+                                                <div class="shop-info">\
+                                                    <div class="shop-name txt-hid-one">'+v.goods_name+'</div>\
+                                                    <div class="shop-number txt-hid-one">'+v.store_number+'</div>\
+                                                    <div class="shop-version">'+v.goods_name+'</div>\
+                                                </div>\
+                                                <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
+                                                <div class="bottom clearfix">\
+                                                    <div class="remaining-time">剩余时间：<span>'+v.time+'天</span></div>\
+                                                    <button class="into-shop" data-id="'+v.id+'">进入</button>\
+                                                </div>\
+                                            </li>'
+                            }
+                        }else{
+                            domStr += '<li class="shop-item audit-status passed">\
+                                            <div class="status-txt">您的店铺申请已通过，请选择店铺版本</div>\
+                                            <div class="clearfix">\
+                                                <span class="fl giveup" data-id="'+v.id+'">放弃</span>\
+                                                <span class="fr cVersion" data-id="'+v.id+'">选择店铺版本>></span>\
+                                            </div>\
+                                        </li>';
+                        }
                     }else if(v.status == 2){
                         domStr += '<li class="shop-item audit-status auditing">\
                                         <div class="status-txt">您的店铺申请资料已提交请耐心等待审核……</div>\
@@ -585,6 +628,12 @@
                 $('.cVersion').click(function(){
                     var id = $(this).data('id');
                     myEvent.setCookie('cvt', 1, 1);
+                    selectVeri(id);
+                })
+                // 店铺进入后台
+                $('.into-shop').click(function(){
+                    var id = $(this).data('id');
+                    console.log(id)
                     selectVeri(id);
                 })
                 // 继续编辑
