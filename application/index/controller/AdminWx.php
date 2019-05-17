@@ -73,7 +73,7 @@ class  AdminWx extends Controller{
                         ->update($data);
 
                         $rest = Db::name("meal_orders")
-                        ->where("order_number",$is_set_order["order_number"])
+                        ->where("order_number",$val["out_trade_no"])
                         ->update($rest_data);
                     $delete_new_order = Db::name('set_meal_order')->where('order_number',$val["out_trade_no"])->delete();
                     
