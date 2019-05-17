@@ -79,10 +79,19 @@ class  AdminWx extends Controller{
                     
                     if($res){                           
                       //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
+                        if($enter_all_data['enter_all_id'] <= 6){
+                            $role_id = 13;
+                        }
+                        if(  ($enter_all_data['enter_all_id'] > 6) && ($enter_all_data['enter_all_id'] <= 17)){
+                            $role_id = 14;
+                        }
+                        if( $enter_all_data['enter_all_id'] > 17){
+                            $role_id = 15;
+                        }
                         Db::table("tb_admin")
                             ->where("store_id",$enter_all_data["store_id"])
                             ->where("is_own",1)
-                            ->update(["role_id"=>7]);
+                            ->update(["role_id"=>$role_id]);
                         echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                     }else {
                         return "fail";
@@ -112,10 +121,19 @@ class  AdminWx extends Controller{
                     
                     if($result){
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
+                        if($enter_all_data['enter_all_id'] <= 6){
+                            $role_id = 13;
+                        }
+                        if(  ($enter_all_data['enter_all_id'] > 6) && ($enter_all_data['enter_all_id'] <= 17)){
+                            $role_id = 14;
+                        }
+                        if( $enter_all_data['enter_all_id'] > 17){
+                            $role_id = 15;
+                        }
                         Db::table("tb_admin")
                             ->where("store_id",$enter_all_data["store_id"])
                             ->where("is_own",1)
-                            ->update(["role_id"=>7]);
+                            ->update(["role_id"=>$role_id]);
                         
                         //审核通过的时候先判断是否有小程序模板，没有的话则进行添加，有的话则不需要
                         $is_set = Db::table("ims_sudu8_page_diypageset")
@@ -262,10 +280,19 @@ class  AdminWx extends Controller{
                         if ($result) {
                             //进行角色转化
                             //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
+                            if($enter_all_data['enter_all_id'] <= 6){
+                                $role_id = 13;
+                            }
+                            if(  ($enter_all_data['enter_all_id'] > 6) && ($enter_all_data['enter_all_id'] <= 17)){
+                                $role_id = 14;
+                            }
+                            if( $enter_all_data['enter_all_id'] > 17){
+                                $role_id = 15;
+                            }
                             Db::table("tb_admin")
                                 ->where("store_id",$enter_all_data["store_id"])
                                 ->where("is_own",1)
-                                ->update(["role_id"=>7]);
+                                ->update(["role_id"=>$role_id]);
                             return "success";
                         } else {
                             return "fail";
@@ -297,10 +324,19 @@ class  AdminWx extends Controller{
                     if ($result) {
                         //进行角色转化
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
+                        if($enter_all_data['enter_all_id'] <= 6){
+                            $role_id = 13;
+                        }
+                        if(  ($enter_all_data['enter_all_id'] > 6) && ($enter_all_data['enter_all_id'] <= 17)){
+                            $role_id = 14;
+                        }
+                        if( $enter_all_data['enter_all_id'] > 17){
+                            $role_id = 15;
+                        }
                         Db::table("tb_admin")
                             ->where("store_id",$enter_all_data["store_id"])
                             ->where("is_own",1)
-                            ->update(["role_id"=>7]);
+                            ->update(["role_id"=>$role_id]);
                         //审核通过的时候先判断是否有小程序模板，没有的话则进行添加，有的话则不需要
                         $is_set = Db::table("ims_sudu8_page_diypageset")
                             ->where("store_id",$enter_all_data["store_id"])

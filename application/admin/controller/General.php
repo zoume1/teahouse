@@ -298,10 +298,8 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function small_routine_index(){
-//        $appletid =1;
         $data =Db::table("applet")
             ->field("id,name,appID,appSecret,mchid,signkey")
-//            ->where("id",$appletid)
             ->where("store_id",$this->store_ids)
             ->find();
         return view("small_routine_index",["data"=>$data]);
@@ -432,7 +430,6 @@ class  General extends  Base {
                         ->where("audit_status",1)
                         ->select();
                         /*鲁文兵版本切换*/
-                       //var_dump($list[$k]["goods_names"]);exit();
                        if(empty($goods_names)){
                             $length=count($list[$k]["goods_names_test"]);
                             for ($i=0; $i <$length ; $i++) { 
@@ -445,8 +442,6 @@ class  General extends  Base {
                                       $list[$k]["goods_names_test"][0]['status_type']=0;
 
                                     }elseif($list[$k]["goods_names"]=="茶行业版"){
-                                      /*  $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
-                                      $list[$k]["goods_names_test"][2]['status_type']=0;*/
                                      $list[$k]["goods_names_test"][1]['goods_name']="行业版";
                                       $list[$k]["goods_names_test"][1]['status_type']=1;
                                      $list[$k]["goods_names_test"][0]['status_type']="万用版";
