@@ -353,7 +353,7 @@ class  Order extends  Controller
                         $store_name =  $is_address_status['name'];//仓库名
                         $harvester_phone_num = $is_address_status['phone'];
                         $datase['goods_image'] = $datas['goods_image'] ;   //图片
-                        $datase["goods_money"]= $datas['goods_image'];//商品价钱
+                        $datase["goods_money"]= $datas['goods_money'];//商品价钱
                         $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datase["parts_goods_name"] = $goods_data["goods_name"];//名字
                         $datase["distribution"] = $goods_data["distribution"];//是否分销
