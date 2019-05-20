@@ -181,12 +181,12 @@ class  Control extends  Controller{
      * @return \think\response\View
      */
     public function control_order_index(){
-        $order =Db::table('tb_set_meal_order')
-            ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
-            ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
+        $order =Db::table('tb_meal_orders')
+            ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
+            ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
             ->where("is_del",1)
-            ->where("tb_set_meal_order.pay_type","NEQ","NULL")
-            ->order("tb_set_meal_order.create_time","desc")
+            ->where("tb_meal_orders.pay_type","NEQ","NULL")
+            ->order("tb_meal_orders.create_time","desc")
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
