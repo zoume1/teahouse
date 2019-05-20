@@ -43,7 +43,7 @@ class Crowdfinancing extends Controller
 
                 $data[$key]["goods_info"] = $goods_data;
                 $data[$key]["special_info"] = $info;
-                $data[$key]["grade_price"] = $member_consumption_discount["member_consumption_discount"] * $info["price"];
+                $data[$key]["grade_price"] = $member_consumption_discount["member_consumption_discount"] * $info["cost"];
                 $data[$key]["unit"] = $info['offer'];
                 $data[$key]["number"] = $number[$key];
                 $data[$key]["user_grade_image"] = $member_consumption_discount["member_grade_img"];
