@@ -95,6 +95,7 @@ class Goods extends Controller
         
         if ($request->isPost()) {
             $goods_data = $request->param(); 
+            halt($goods_data);
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];

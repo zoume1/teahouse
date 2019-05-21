@@ -424,7 +424,7 @@
             <img src="" class="tanimg" />
         </div>
 
-    </div> 
+    </div>
     <div class="popup popup_one noshow">
         <div class="popup_doms">
 
@@ -538,25 +538,34 @@
             <div class="form-input" style="display: flex; align-items: center;">
                 <div id="hot">
                     <div class="list">
-                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="" checked="">
+                        <input type="checkbox" name="sss[sell_0][check]" value="1" lay-skin="primary" lay-filter="choose1"
+                            title="" checked="">
+                        <input class="texts" type="text" name="sss[sell_0][text]" value="可存" readonly style="display: none">
                         <img src="__STATIC__/admin/index/img/kecun.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+                        <input type="checkbox" name="sss[sell_1][check]" value="0" lay-skin="primary" lay-filter="choose1"
+                            title="">
+                        <input class="texts" type="text" name="sss[sell_1][text]" value="HOT" readonly style="display: none">
                         <img src="__STATIC__/admin/index/img/hot.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+                        <input type="checkbox" name="sss[sell_2][check]" value="0" lay-skin="primary" lay-filter="choose1"
+                            title="">
+                        <input class="texts" type="text" name="sss[sell_2][text]" value="促销" readonly style="display: none">
                         <img src="__STATIC__/admin/index/img/chuxiao.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="">
+                        <input type="checkbox" name="sss[sell_3][check]" value="0" lay-skin="primary" lay-filter="choose1"
+                            title="">
+                        <input class="texts" type="text" name="sss[sell_3][text]" value="清仓" readonly style="display: none">
                         <img src="__STATIC__/admin/index/img/qingchang.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="" class="biaoqian">
-                        <span class="texts">古色生香</span>
-                        <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                        <input type="checkbox" name="sss[sell_4][check]" value="0" lay-skin="primary" lay-filter="choose1"
+                            title="" class="biaoqian">
+                        <input class="texts" type="text" name="sss[sell_4][text]" value="古色生香">
+                        <!-- <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> -->
                     </div>
                     <div class="add_biao">
                         +添加文字标签
@@ -610,25 +619,25 @@
             <div class="form-input">
                 <div class="sever_list">
                     <div class="list">
-                        <input type="checkbox" name="" lay-skin="primary" title="" checked>
-                        <span class="texts">7*24客服</span>
-                        <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                        <input type="checkbox" name="server[server_0][check]" value="1" lay-skin="primary" lay-filter="choose1"
+                            title="" checked>
+                        <input class="texts" type="text" name="server[server_0][text]" value="7*24客服">
+                        <!-- <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> -->
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="" lay-skin="primary" title="" checked>
-                        <span class="texts">正品保障</span>
-                        <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                        <input type="checkbox" name="server[server_1][check]" value="1" lay-skin="primary" lay-filter="choose1"
+                            title="" checked>
+                        <input class="texts" type="text" name="server[server_1][text]" value="正品保障">
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="" lay-skin="primary" title="" checked>
-                        <span class="texts">极速发货</span>
-                        <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                        <input type="checkbox" name="server[server_2][check]" value="1" lay-skin="primary" lay-filter="choose1"
+                            title="" checked>
+                        <input class="texts" type="text" name="server[server_2][text]" value="极速发货">
                     </div>
-
                     <div class="list">
-                        <input type="checkbox" name="" lay-skin="primary" title="" checked>
-                        <span class="texts">7天退换货</span>
-                        <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                        <input type="checkbox" name="server[server_3][check]" value="1" lay-skin="primary" lay-filter="choose1"
+                            title="" checked>
+                        <input class="texts" type="text" name="server[server_3][text]" value="7天退换货">
                     </div>
                 </div>
                 <div class="tips">
@@ -822,9 +831,9 @@
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>商品详情</label>
             <div class="form-input">
-                    <div class="tips" >
-                            *上传图片时注意不要复制淘宝图片地址，如需使用，请下载至本地再进行上传
-                        </div>
+                <div class="tips">
+                    *上传图片时注意不要复制淘宝图片地址，如需使用，请下载至本地再进行上传
+                </div>
                 <script id="editor" type="text/plain" name="goods_text" style="width:800px;height:500px;"></script>
             </div>
         </div>
@@ -860,7 +869,7 @@
 
                 </div>
                 <div class="form-input line" style="margin-bottom: 4px;">
-                    <input type="radio" title="运费模板" name="aaa"  value="1">
+                    <input type="radio" title="运费模板" name="aaa" value="1">
                     <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
                 </div>
 
@@ -918,23 +927,23 @@
                 var form = layui.form(),
                     $ = layui.jquery;
                 form.render();
-                var templet=[];
+                var templet = [];
                 $.ajax({
-                        type: "POST",
-                        url: "delivery_templet",
-                        data: {
-                            
-                        },
-                        success: function (data) {
-                            data = eval("(" + data + ")");
-                            templet=data.data;
-                           
-                        },
-                        error: function (data) {
-                            console.log(data)
-                        }
-                    });
-                    // 运费模板
+                    type: "POST",
+                    url: "delivery_templet",
+                    data: {
+
+                    },
+                    success: function (data) {
+                        data = eval("(" + data + ")");
+                        templet = data.data;
+
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                });
+                // 运费模板
                 var unit1 = [];
                 var unit2 = [];
 
@@ -949,97 +958,97 @@
                     }
                     return res;
                 }
-                
-                
+
+
                 $(".general_content").on("blur", ".units", function () {
                     id = $(this).data("id");
-                    if($(this).data("value")!=$(this).val()){
+                    if ($(this).data("value") != $(this).val()) {
                         $(".muban").remove();
                     }
-                    
-                        // 填入的值不为空
-                        if ($(this).val() != '') {
-                           console.log($(this).data("value"))
-                            // 本来无值（存入）
-                            if ($(this).data("value") ==undefined) {
-                              
-                                unit2.push($(this).val());
-                            }
-                            // 本来有值（修改）
-                            else {
-                                for (var k = 0; k < unit2.length; k++) {
-                                    if (unit2[k] == $(this).data("value")) {
-                                        unit2[k] = $(this).val();
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        //   填入的值为空
-                        else {
-                            // 本来无值（存入）
-                            if ($(this).data("value") == '') {
-                            }
-                            // 本来有值（修改）
-                            else {
-                                for (var k = 0; k < unit2.length; k++) {
-                                    if (unit2[k] == $(this).data("value")) {
-                                        unit2.splice(k, 1);
-                                        break;
-                                    }
-                                }
-                            }
 
+                    // 填入的值不为空
+                    if ($(this).val() != '') {
+                        console.log($(this).data("value"))
+                        // 本来无值（存入）
+                        if ($(this).data("value") == undefined) {
+
+                            unit2.push($(this).val());
                         }
+                        // 本来有值（修改）
+                        else {
+                            for (var k = 0; k < unit2.length; k++) {
+                                if (unit2[k] == $(this).data("value")) {
+                                    unit2[k] = $(this).val();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    //   填入的值为空
+                    else {
+                        // 本来无值（存入）
+                        if ($(this).data("value") == '') {
+                        }
+                        // 本来有值（修改）
+                        else {
+                            for (var k = 0; k < unit2.length; k++) {
+                                if (unit2[k] == $(this).data("value")) {
+                                    unit2.splice(k, 1);
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
                     console.log(unit2);
                     $(this).data("value", $(this).val());
                 })
-               
+
                 $(".nomal").on("blur", ".units", function () {
                     id = $(this).data("id");
-                    if($(this).data("value")!=$(this).val()){
+                    if ($(this).data("value") != $(this).val()) {
                         $(".muban").remove();
                     }
-                 
-                        // 填入的值不为空
-                        if ($(this).val() != '') {
-                            // 本来无值（存入）
-                            if ($(this).data("value") == '') {
-                                unit1.push($(this).val());
-                            }
-                            // 本来有值（修改）
-                            else {
-                                for (var k = 0; k < unit1.length; k++) {
-                                    if (unit1[k] == $(this).data("value")) {
-                                        unit1[k] = $(this).val();
-                                        break;
-                                    }
-                                }
-                            }
+
+                    // 填入的值不为空
+                    if ($(this).val() != '') {
+                        // 本来无值（存入）
+                        if ($(this).data("value") == '') {
+                            unit1.push($(this).val());
                         }
-                        //   填入的值为空
+                        // 本来有值（修改）
                         else {
-                            // 本来无值（存入）
-                            if ($(this).data("value") == '') {
-                            }
-                            // 本来有值（修改）
-                            else {
-                                for (var k = 0; k < unit1.length; k++) {
-                                    if (unit1[k] == $(this).data("value")) {
-                                        unit1.splice(k, 1);
-                                        break;
-                                    }
+                            for (var k = 0; k < unit1.length; k++) {
+                                if (unit1[k] == $(this).data("value")) {
+                                    unit1[k] = $(this).val();
+                                    break;
                                 }
                             }
-
+                        }
+                    }
+                    //   填入的值为空
+                    else {
+                        // 本来无值（存入）
+                        if ($(this).data("value") == '') {
+                        }
+                        // 本来有值（修改）
+                        else {
+                            for (var k = 0; k < unit1.length; k++) {
+                                if (unit1[k] == $(this).data("value")) {
+                                    unit1.splice(k, 1);
+                                    break;
+                                }
+                            }
                         }
 
-                    
-                  
+                    }
+
+
+
                     $(this).data("value", $(this).val());
                 })
                 $(".general_content").on('click', ".delect_img", function () {
-                 
+
                     if ($(this).siblings(".units").val() != '') {
                         for (var k = 0; k < unit2.length; k++) {
                             if (unit2[k] == $(this).siblings(".units").val()) {
@@ -1052,69 +1061,69 @@
                     $(this).parent().remove();
                 })
                 $(".nomal").on('click', ".delect_img", function () {
-                    if ($(this).siblings(".units").val()!= '') {
+                    if ($(this).siblings(".units").val() != '') {
                         for (var k = 0; k < unit1.length; k++) {
                             if (unit1[k] == $(this).siblings(".units").val()) {
                                 unit1.splice(k, 1);
                                 break;
                             }
                         }
-                     
+
                     }
                     $(".muban").remove();
                     $(this).parent().remove();
                 })
-               
+
                 $(".add_muban").click(function () {
-                    var val = $('input[name="goods_standard"]:checked').val(); 
-                    var unit1_a=unit1.unique3();
-                    var unit2_a=unit2.unique3();
-                   if(val=="0"){
-                       if(unit1_a.length>0){
-                           if(unit1_a.length>$(".muban").length){
+                    var val = $('input[name="goods_standard"]:checked').val();
+                    var unit1_a = unit1.unique3();
+                    var unit2_a = unit2.unique3();
+                    if (val == "0") {
+                        if (unit1_a.length > 0) {
+                            if (unit1_a.length > $(".muban").length) {
+                                var add_muban = '';
+                                add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
+                                add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
+                                add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
+                                for (var n = 0; n < unit1_a.length; n++) {
+                                    add_muban += ' <option value="' + unit1_a[n] + '">' + unit1_a[n] + '</option>';
+                                }
+                                add_muban += '</select><br />';
+                                add_muban += '<select name="templet_id[]"  class="role_list">';
+                                for (var h = 0; h < templet.length; h++) {
+                                    add_muban += ' <option value="' + templet[h].id + '">' + templet[h].name + '</option>';
+                                }
+                                add_muban += '</select><br />';
+                                add_muban += '<a href="delivery_goods_add_number">新建</a>';
+                                add_muban += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
+                                add_muban += '</div>';
+                                $(this).parent().before(add_muban);
+                                form.render();
+                            }
+                            else {
+                                alert("您还需要选择其他单位的运费模版");
+                            }
+
+                        }
+                        else {
+                            alert("请输入单位")
+                        }
+
+                    }
+                    else {
+                        if (unit2_a.length > 0) {
                             var add_muban = '';
                             add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
                             add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
                             add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
-                            for(var n=0;n<unit1_a.length;n++){
-                                add_muban += ' <option value="'+unit1_a[n]+'">'+unit1_a[n]+'</option>';
+                            for (var n = 0; n < unit2_a.length; n++) {
+                                add_muban += ' <option value="' + unit2_a[n] + '">' + unit2_a[n] + '</option>';
                             }
                             add_muban += '</select><br />';
                             add_muban += '<select name="templet_id[]"  class="role_list">';
-                            for(var h=0;h<templet.length;h++){
-                                add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
-                            }
-                            add_muban += '</select><br />';
-                            add_muban += '<a href="delivery_goods_add_number">新建</a>';
-                            add_muban += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
-                            add_muban += '</div>';
-                            $(this).parent().before(add_muban);
-                            form.render();
-                           }
-                           else{
-                            alert("您还需要选择其他单位的运费模版");
-                           }
-                     
-                       }
-                       else{
-                           alert("请输入单位")
-                       }
-                
-                   }
-                   else{
-                    if(unit2_a.length>0){
-                        var add_muban = '';
-                             add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
-                            add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
-                            add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
-                            for(var n=0;n<unit2_a.length;n++){
-                                add_muban += ' <option value="'+unit2_a[n]+'">'+unit2_a[n]+'</option>';
-                            }
-                            add_muban += '</select><br />';
-                            add_muban += '<select name="templet_id[]"  class="role_list">';
-                            for(var h=0;h<templet.length;h++){
+                            for (var h = 0; h < templet.length; h++) {
 
-                                add_muban += ' <option value="'+templet[h].id+'">'+templet[h].name+'</option>';
+                                add_muban += ' <option value="' + templet[h].id + '">' + templet[h].name + '</option>';
                             }
                             add_muban += '</select><br />';
                             add_muban += '<a href="delivery_goods_add_number">新建</a>';
@@ -1122,103 +1131,111 @@
                             add_muban += '</div>';
                             $(this).parent().before(add_muban);
                             form.render();
-                       }
-                       else{
-                           alert("请输入单位")
-                       }
-                   }
-                   
+                        }
+                        else {
+                            alert("请输入单位")
+                        }
+                    }
+
                 })
-                $("form").submit(function(e){
-                    var unit1_a=unit1.unique3();
-                    var unit2_a=unit2.unique3();
-                    var val = $('input[name="goods_standard"]:checked').val(); 
-                    var vals = $('input[name="aaa"]:checked').val(); 
-                    var text=$(".monomer").val();
-                    var nums=0;
-                    for(var i=0;i<unit1_a.length;i++){
-                            if(unit1_a[i]==text){
-                                  nums++;
-                            }
+                $("form").submit(function (e) {
+                    var unit1_a = unit1.unique3();
+                    var unit2_a = unit2.unique3();
+                    var val = $('input[name="goods_standard"]:checked').val();
+                    var vals = $('input[name="aaa"]:checked').val();
+                    var text = $(".monomer").val();
+                    var nums = 0;
+                    for (var i = 0; i < unit1_a.length; i++) {
+                        if (unit1_a[i] == text) {
+                            nums++;
                         }
-                    if(val=="0"){
-                        if(nums==0){
-                          alert("你输入的单位“包装规格”中没有添加");
-                          return false;
-                        }
-                     
                     }
-                      
-                      
-                        
-                    var num=0;
-                    for(var i=0;i<$(".muban_list").length;i++){
-                        for(var j=i+1;j<$(".muban_list").length;j++){
-                            if($(".muban_list")[i].value==$(".muban_list")[j].value){
-                                   num++;
-                                   break;
+                    if (val == "0") {
+                        if (nums == 0) {
+                            alert("你输入的单位“包装规格”中没有添加");
+                            return false;
+                        }
+
+                    }
+
+
+
+                    var num = 0;
+                    for (var i = 0; i < $(".muban_list").length; i++) {
+                        for (var j = i + 1; j < $(".muban_list").length; j++) {
+                            if ($(".muban_list")[i].value == $(".muban_list")[j].value) {
+                                num++;
+                                break;
                             }
 
-                        }    
+                        }
                     }
-                    if(num>0){
+                    if (num > 0) {
                         alert("相同的单位不能有两套运费模板")
                         return false;
                     }
-                    if(vals=="1"){
-                        if(val=="0"){
-                        console.log($(".muban").length);
-                        console.log(unit1_a.length);
-                      if($(".muban").length!=unit1_a.length) {
-                          alert("包装规格”中的单位需要全部添加对应运费模版");
-                          return false;
-                      }
-                    }
-                    else{
-                        console.log($(".muban").length);
-                        console.log(unit2_a.length);
-                        if($(".muban").length!=unit2_a.length) {
-                          alert("包装规格”中的单位需要全部添加对应运费模版");
-                          return false;
-                      }
-                    }
-                    }
-                   
-                 
-                });
-               $(".yunfei").on('click', ".delect_img", function () {
-                 
-                 $(this).parent().remove();
-             })
-                // 运费模板
-                $(".change_danwei").click(function () {
-                    var unit1_a=unit1.unique3();
-                    layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
-                        layer.close(index);
-                        var num=0;
-                        for(var i=0;i<unit1_a.length;i++){
-                            if(unit1_a[i]==text){
-                                  num++;
+                    if (vals == "1") {
+                        if (val == "0") {
+                            console.log($(".muban").length);
+                            console.log(unit1_a.length);
+                            if ($(".muban").length != unit1_a.length) {
+                                alert("包装规格”中的单位需要全部添加对应运费模版");
+                                return false;
                             }
                         }
-                        if(num==0){
-                          alert("你输入的单位前面没有添加");
+                        else {
+                            console.log($(".muban").length);
+                            console.log(unit2_a.length);
+                            if ($(".muban").length != unit2_a.length) {
+                                alert("包装规格”中的单位需要全部添加对应运费模版");
+                                return false;
+                            }
                         }
-                        else{
+                    }
+
+
+                });
+                $(".yunfei").on('click', ".delect_img", function () {
+
+                    $(this).parent().remove();
+                })
+                // 运费模板
+                $(".change_danwei").click(function () {
+                    var unit1_a = unit1.unique3();
+                    layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
+                        layer.close(index);
+                        var num = 0;
+                        for (var i = 0; i < unit1_a.length; i++) {
+                            if (unit1_a[i] == text) {
+                                num++;
+                            }
+                        }
+                        if (num == 0) {
+                            alert("你输入的单位前面没有添加");
+                        }
+                        else {
                             $(".danwei").html("/" + text);
                             $(".monomer").val(text);
                         }
-                      
+
                     });
                 });
+                var i = $('#hot').find(":checkbox").length;
                 $(".add_biao").click(function () {
                     var dhtml = "";
-                    dhtml += '<div class="list" style="position: relative;"> <input type="checkbox" name="goods_sign" lay-skin="primary" title="" class="biaoqian"> <span class="texts">古色生香</span> <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="width: 14px;height: 14px;    left: 15px;top: -5px;"></div>'
+                    dhtml = `<div class="list" style="position: relative;">
+                            <input type="checkbox" name="sss[sell_${i}][check]" value="0" lay-skin="primary" lay-filter="choose1"
+                                title="" class="biaoqian">
+                            <input class="texts" type="text" name="sss[sell_${i}][text]" value="古色生香">
+                            <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="width: 14px;height: 14px;    left: 15px;top: -5px;">
+                            </div>`;
                     $(this).before(dhtml);
                     form.render();
+                    i = i + 1;
                 });
                 $("#hot").on('click', ".delect_img", function () {
                     $(this).parent().remove();
+                    i = $('#hot').find(":checkbox").length;
                 })
                 var vals = '';
                 var lv1HTML = '';
@@ -1402,6 +1419,19 @@
                         form.render();
                     });
                 });
+
+                //修改复选框的val值
+                form.on("checkbox(choose1)", function (data) {
+
+                    if (data.value == "1") {
+                        $(this).val('0');
+                        data.value = "0";
+                    } else {
+                        $(this).val('1');
+                        data.value = "1";
+                    }
+                    form.render('checkbox');
+                })
 
                 $("#hot").on('click', ".change_text", function () {
                     var texts = $(this).siblings('.texts');
