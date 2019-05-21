@@ -120,7 +120,11 @@ class Index extends Controller
                 return ajax_error("店铺版本不存在");
             } else {
                 $time = time();
-                $data_number = round(($store_data["end_time"]-$time)/86400);
+                if($time < $store_data["end_time"]){
+                    $data_number = round(($store_data["end_time"]-$time)/86400);
+                } else {
+                    $data_number = 0;
+                }
                 if($data_number <= 10){
                     $store_information = [
                         'data_number'=>$data_number,

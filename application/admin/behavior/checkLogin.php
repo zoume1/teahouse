@@ -30,17 +30,17 @@ class checkLogin extends Controller {
             }
 
             $if_url = 0;
-            if($user_info[0]['id'] != 2) {
-                foreach ($menu_list as $key => $values) {
-                    if (!in_array($values['id'], $role)){
-                        unset($menu_list[$key]);
-                    } else {
-                        if ($values['url'] == $url) {
-                            $if_url = 1;
-                        }
+   
+            foreach ($menu_list as $key => $values) {
+                if (!in_array($values['id'], $role)){
+                    unset($menu_list[$key]);
+                } else {
+                    if ($values['url'] == $url) {
+                        $if_url = 1;
                     }
                 }
             }
+        
             $menu_list = _tree_hTree(_tree_sort($menu_list,"sort_number"));
             config("menu_list",$menu_list);//节点信息
             //halt(Config::get("menu_list"));
