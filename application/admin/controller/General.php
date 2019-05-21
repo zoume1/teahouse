@@ -2074,12 +2074,12 @@ class  General extends  Base {
             $this->error("只给商家进行查看");
         }
         //检测店铺是否删除
-            $data =Db::table('tb_set_meal_order')
-                ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business")
-                ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
+            $data =Db::table('tb_meal_orders')
+                ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business")
+                ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
                 ->where("is_del",1)
                 ->where("store_id",$store_id)
-                ->order("tb_set_meal_order.create_time","desc")
+                ->order("tb_meal_orders.create_time","desc")
                 ->paginate(20 ,false, [
                     'query' => request()->param(),
                 ]);
