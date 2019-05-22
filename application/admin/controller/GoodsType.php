@@ -14,6 +14,7 @@ use think\Db;
 use think\Request;
 use think\Image;
 use think\paginator\driver\Bootstrap;
+use think\Session;
 
 class GoodsType extends Controller{
 
@@ -25,13 +26,13 @@ class GoodsType extends Controller{
     public function index($pid = 0)
     {
         $goods = [];
-        $wares = db("wares") -> select();
-
+        $store_id = Session::get("store_id");
+        $wares = db("wares") ->where('store_id','EQ',$store_id)-> select();
         if($pid == 0)
         {
-            $goods = getSelectList("wares");
+            $goods = getSelectListes("wares");
         }
-        
+
         foreach ($wares as $key => $value)
         {
             if ($value["pid"]) {
@@ -67,7 +68,7 @@ class GoodsType extends Controller{
         $goods_liste = [];       
         if ($pid == 0)
         {
-            $goods_liste = getSelectList("wares");
+            $goods_liste = getSelectListes("wares");
         }
 
         return view("goods_type_add",["goods_liste" => $goods_liste]);
@@ -84,7 +85,9 @@ class GoodsType extends Controller{
 
         if($request->isPost())
         {
+            $store_id = Session::get("store_id");
             $data = $request -> param();
+            $data['store_id'] = $store_id;
             $bool = db("wares") -> insert($data);
             if($bool){
                 $this -> success("添加成功",url("admin/GoodsType/index"));
@@ -107,7 +110,7 @@ class GoodsType extends Controller{
         $category = db("wares") -> where("id", $id) -> select();
 
         if ($pid == 0) {
-            $goods_list = getSelectList("wares");
+            $goods_list = getSelectListes("wares");
         }
         return view("goods_type_edit", ["category" => $category, "goods_lists" => $goods_list]);
     }

@@ -30,7 +30,8 @@ class Goods extends Controller
      */
     public function index(Request $request)
     {
-        $goods = db("goods")->order("id desc")->select();
+        $store_id = Session::get("store_id");
+        $goods = db("goods")->where("store_id",'EQ',$store_id)->order("id desc")->select();
         $goods_list = getSelectList("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
@@ -94,6 +95,7 @@ class Goods extends Controller
     {
         
         if ($request->isPost()) {
+            $store_id =Session::get("store_id");
             $goods_data = $request->param(); 
             halt($goods_data);
             $show_images = $request->file("goods_show_images");
@@ -126,7 +128,7 @@ class Goods extends Controller
                 $goods_data["num"] = implode(",",$goods_data["num"]);
                 $goods_data["unit"] = implode(",",$goods_data["unit"]);
             }
-            
+            $goods_data["store_id"] = $store_id;
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
                 if ($bool && (!empty($show_images))) {
@@ -139,6 +141,7 @@ class Goods extends Controller
                 $goods_special = [];
                 $goods_special["goods_name"] = $goods_data["goods_name"];
                 $goods_special["produce"] = $goods_data["produce"];
+                $goods_special["store_id"] = $goods_data["store_id"];
                 $goods_special["brand"] = $goods_data["brand"];
                 $goods_special["date"] = $goods_data["date"];
                 $goods_special["goods_number"] = $goods_data["goods_number"];

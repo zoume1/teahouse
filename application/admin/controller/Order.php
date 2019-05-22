@@ -13,6 +13,7 @@ use think\Controller;
 use think\Db;
 use  think\Request;
 use think\paginator\driver\Bootstrap;
+use think\Session;
 class  Order extends  Controller{
     /**
      **************李火生*******************
@@ -22,8 +23,10 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function order_index(){
+        $store_id = Session::get("store_id");
         $data =Db::name("order")
             ->order("order_create_time","desc")
+            ->where("store_id",'EQ',$store_id)
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
@@ -90,6 +93,7 @@ class  Order extends  Controller{
      **************************************
      */
     public function order_search(){
+            $store_id = Session::get("store_id");
             $search_a =input("search_a") ? input("search_a"):null;
             $order_type =input("order_type") ? input("order_type"):null;
             $time_min  =input("date_min") ? input("date_min"):null;
@@ -98,6 +102,7 @@ class  Order extends  Controller{
                 $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
                 $data =Db::name("order")
                     ->where($condition)
+                    ->where("store_id",'EQ',$store_id)
                     ->order("order_create_time","desc")
                     ->paginate(20 ,false, [
                         'query' => request()->param(),
@@ -105,6 +110,7 @@ class  Order extends  Controller{
             }else if (!empty($order_type)){
                 $data =Db::name("order")
                     ->where("order_type",$order_type)
+                    ->where("store_id",'EQ',$store_id)
                     ->order("order_create_time","desc")
                     ->paginate(20 ,false, [
                         'query' => request()->param(),
@@ -124,6 +130,7 @@ class  Order extends  Controller{
                     //开始时间
                     $data =Db::name("order")
                         ->where($time_condition)
+                        ->where("store_id",'EQ',$store_id)
                         ->order("order_create_time","desc")
                         ->paginate(20 ,false, [
                             'query' => request()->param(),
@@ -134,6 +141,7 @@ class  Order extends  Controller{
                     $data =Db::name("order")
                         ->where($time_condition)
                         ->order("order_create_time","desc")
+                        ->where("store_id",'EQ',$store_id)
                         ->paginate(20 ,false, [
                             'query' => request()->param(),
                         ]);
@@ -143,12 +151,14 @@ class  Order extends  Controller{
                     $data =Db::name("order")
                         ->where($time_condition)
                         ->order("order_create_time","desc")
+                        ->where("store_id",'EQ',$store_id)
                         ->paginate(20 ,false, [
                             'query' => request()->param(),
                         ]);
                 }else{
                     $data =Db::name("order")
                         ->order("order_create_time","desc")
+                        ->where("store_id",'EQ',$store_id)
                         ->paginate(20 ,false, [
                         'query' => request()->param(),
                     ]);
@@ -167,8 +177,10 @@ class  Order extends  Controller{
  **************************************
  */
     public function order_way_pay(){
+        $store_id = Session::get("store_id");
         $data =Db::name("order")
             ->order("order_create_time","desc")
+            ->where("store_id",$store_id)
             ->where("status",1)
             ->paginate(20 ,false, [
                 'query' => request()->param(),
@@ -185,9 +197,11 @@ class  Order extends  Controller{
      **************************************
      */
     public function order_wait_send(){
+        $store_id = Session::get("store_id");
         $condition ="`status` = '2' or `status` = '3'";
         $data =Db::name("order")
             ->where($condition)
+            ->where("store_id",'EQ',$store_id)
             ->order("order_create_time","desc")
             ->paginate(20 ,false, [
                 'query' => request()->param(),
@@ -202,9 +216,11 @@ class  Order extends  Controller{
      **************************************
      */
     public function order_shipped(){
+        $store_id = Session::get("store_id");
         $condition =" `status` = '4' or `status` = '5' ";
         $data =Db::name("order")
             ->order("order_create_time","desc")
+            ->where("store_id",'EQ',$store_id)
             ->where($condition)
             ->paginate(20 ,false, [
                 'query' => request()->param(),
@@ -220,9 +236,11 @@ class  Order extends  Controller{
      **************************************
      */
     public function order_completed(){
+        $store_id = Session::get("store_id");
         $data =Db::name("order")
             ->order("order_create_time","desc")
             ->where("status",8)
+            ->where('store_id','EQ',$store_id)
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
@@ -237,10 +255,12 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function order_closed(){
+        $store_id = Session::get("store_id");
         $condition =" `status` = '9' or `status` = '10' ";
         $data =Db::name("order")
             ->order("order_create_time","desc")
             ->where($condition)
+            ->where('store_id','EQ',$store_id)
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
@@ -256,8 +276,10 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function order_integral(){
+        $store_id = Session::get("store_id");
         $data =Db::name("buyintegral")
             ->order("order_create_time","desc")
+            ->where('store_id','EQ',$store_id)
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
@@ -275,7 +297,7 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function transaction_setting(){
-        $data =Db::name('order_setting')->find();
+        $data = Db::name('order_setting')->find();
         return view("transaction_setting",['data'=>$data]);
     }
     /**

@@ -18,7 +18,7 @@
  */
 use think\paginator\driver\Bootstrap;
 use  think\Db;
-
+use think\Session;
 //手机验证码
 function phone($account= "",$password = '', $phone = "" ,$content = ""){
     $url = "http://120.26.38.54:8000/interface/smssend.aspx";
@@ -413,6 +413,8 @@ function getSelectList($table , $pid = 0 ,&$result = [] , $spac = -4){
     return $result;
 }
 
+
+
 function postSelectList($table , $pid = 0,&$result = [] , $spac = -4){
     $spac += 4;
     $list = db($table)->where(["pid"=>$pid,"status"=>1])->field("name")->select();     //传递条件数组
@@ -434,6 +436,19 @@ function recursionArr($arr,$pid = 0) {
         }
     }
     return $array;
+}
+
+function getSelectListes($table , $pid = 0 ,&$result = [] , $spac = -4){
+    $store_id = Session::get("store_id");
+    $spac += 4;
+    $list = db($table)->where(["pid"=>$pid,"status"=>1])->where("store_id",'EQ',$store_id)->field("pid,id,name")->select();     //传递条件数组
+    $list = objectToArray($list);
+    foreach($list as $value){
+        $value["name"] = str_repeat("&nbsp;",$spac).$value["name"];
+        $result[] = $value;
+        getSelectListes($table , $value["id"] , $result , $spac);
+    }
+    return $result;
 }
 
 function recursionGoods($arr) {

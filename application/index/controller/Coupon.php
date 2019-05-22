@@ -373,8 +373,7 @@ class Coupon extends Controller
                 if (empty($is_address_status) ) {
                     $is_address_status =$is_address;
                 }
-
-                
+           
                 if (password_verify($password,$passwordes)){
                     return ajax_success("支付密码正确",["status"=>1]);
                 }else{
