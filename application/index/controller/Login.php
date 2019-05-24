@@ -27,12 +27,12 @@ class Login extends Controller{
     {
         $get = input('get.');
         $user_data =Db::table("applet")
-            ->where("id",$get["uniacid"])
-            ->field("appID,appSecret")
+            ->where("appID",$get["appid"])
+            ->field("appSecret")
             ->find();
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
-        $params['appid'] = $user_data["appID"];//客户公司
+        $params['appid'] = $get["appid"];//客户公司
 //        $params['appid'] = 'wx301c1368929fdba8';//客户公司
 //        $params['appid'] = 'wx59817e3659c9e51a';//客户公司11
 //        $params['appid'] = 'wxe81efe5d23e83c7d';
