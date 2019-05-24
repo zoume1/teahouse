@@ -9,6 +9,7 @@ namespace  app\admin\controller;
 use think\Controller;
 use think\Db;
 use think\paginator\driver\Bootstrap;
+use think\Session;
 
 class  ActiveOrder extends  Controller{
     
@@ -17,10 +18,15 @@ class  ActiveOrder extends  Controller{
      * 郭杨
      */    
     public function index(){
-
-        $active = db("activity_order")->select();        
+        $store_id = Session::get("store_id");
+        $active = db("activity_order")
+                ->where("store_id","EQ",$store_id)	
+                ->select();        
         foreach($active as $key => $value){
-            $active[$key]['peoples'] = db("teahost")->where('id',$active[$key]['teahost_id'])->value("peoples");
+            $active[$key]['peoples'] = db("teahost")
+            ->where("store_id","EQ",$store_id)
+            ->where('id',$active[$key]['teahost_id'])
+            ->value("peoples");
         }
         
         $all_idents = $active ;//这里是需要分页的数据

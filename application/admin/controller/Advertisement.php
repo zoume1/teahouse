@@ -14,6 +14,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
+use think\Session;
 use think\paginator\driver\Bootstrap;
 
 class Advertisement extends Controller
@@ -25,7 +26,6 @@ class Advertisement extends Controller
      */
     public function index()
     {
-
         $accessories = db("teahost")->select();
         foreach ($accessories as $key => $value) {
             if ($value["pid"]) {

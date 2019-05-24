@@ -25,9 +25,18 @@ class TeaCenter extends Controller
     public function teacenter_data(Request $request)
     {
         if ($request->isPost()) {
-            $tea = Db::name("goods_type")->field('name,icon_image,color,id')->where('pid', 0)->where("status", 1)->select();
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $tea = Db::name("goods_type")->field('name,icon_image,color,id')
+                ->where('pid', 0)
+                ->where("status", 1)
+                ->where("store_id", $store_id)
+                ->select();
             foreach($tea as $key => $value){
-                $res = db("goods_type")->where("pid",$value['id'])->field("name,id")->find();
+                $res = db("goods_type")
+                    ->where("pid",$value['id'])
+                    ->where("store_id", $store_id)
+                    ->field("name,id")
+                    ->find();
                 $tea[$key]["tid"] = $res["id"];
                 $tea[$key]["activity_name"] = $res["name"];
                
@@ -54,8 +63,14 @@ class TeaCenter extends Controller
     public function teacenter_display(Request $request)
     {
         if ($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $id = $request->only(['id'])['id'];
-            $resdata = Db::name("goods_type")->field('name,icon_image,color,id')->where('pid', $id)->where("status", 1)->select();
+            $resdata = Db::name("goods_type")
+            ->field('name,icon_image,color,id')
+            ->where('pid', $id)
+            ->where("status", 1)
+            ->where('store_id', 'EQ',$store_id)
+            ->select();
             
             if (!empty($resdata)) {
                 return ajax_success('传输成功', $resdata);
@@ -78,15 +93,29 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()){
             $res = $request->only(['id'])['id'];   
-                    
-            $activity = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,peoples,address,pid')->where("label", 1)->where("pid",$res)->order("start_time")->select();
+            $store_id = $request->only(['uniacid'])['uniacid'];                    
+            $activity = Db::name("teahost")
+            ->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,peoples,address,pid')
+            ->where("label", 1)
+            ->where("pid",$res)
+            ->where("store_id","EQ",$store_id)
+            ->order("start_time")
+            ->select();
             if(empty($activity)){
                 return ajax_error("下面没有活动");
             }
             foreach($activity as $key => $value){
                 if($value["id"]){       
-                    $rest = db("goods_type")->where("id", $res)->field("name,pid")->find();
-                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name,color")->find();
+                    $rest = db("goods_type")
+                        ->where("id", $res)
+                        ->where("store_id","EQ" ,$store_id)
+                        ->field("name,pid")
+                        ->find();
+                    $retsd = db("goods_type")
+                        ->where("id",$rest["pid"])
+                        ->where("store_id","EQ" ,$store_id)
+                        ->field("name,color")
+                        ->find();
                     $activity[$key]["names"] = $rest["name"];
                     $activity[$key]["named"] = $retsd["name"];
                     $activity[$key]["color"] = $retsd["color"];
@@ -158,11 +187,25 @@ class TeaCenter extends Controller
     public function teacenter_alls(Request $request)
     {
         if ($request->isPost()){
-            $data = Db::name("teahost")->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid')->where("label", 1)->order("start_time")->select();
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $data = Db::name("teahost")
+            ->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid')
+            ->where("label", 1)
+            ->where("store_id","EQ",$store_id)	
+            ->order("start_time")
+            ->select();
             foreach($data as $key => $value){
                 if($value){
-                    $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
-                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name,color")->find();
+                    $rest = db("goods_type")
+                        ->where("id", $value["pid"])
+                        ->where("store_id","EQ",$store_id)
+                        ->field("name,pid")
+                        ->find();
+                    $retsd = db("goods_type")
+                    ->where("id",$rest["pid"])
+                    ->where("store_id","EQ",$store_id)	
+                    ->field("name,color")
+                    ->find();
                     $data[$key]["names"] = $rest["name"];
                     $data[$key]["named"] = $retsd["name"];
                     $data[$key]["color"] = $retsd["color"];
@@ -191,11 +234,27 @@ class TeaCenter extends Controller
     public function recommend(Request $request)
     {
         if ($request->isPost()){
-            $data = Db::name("teahost")->where("status",1)->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid,status,open_request')->where("label", 1)->where('status',1)->order("start_time")->select();
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $data = Db::name("teahost")
+                    ->where("status",1)
+                    ->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid,status,open_request')
+                    ->where("label", 1)
+                    ->where('status',1)
+                    ->where("store_id","EQ",$store_id)	
+                    ->order("start_time")
+                    ->select();
             foreach($data as $key => $value){
                 if($value){
-                    $rest = db("goods_type")->where("id", $value["pid"])->field("name,pid")->find();
-                    $retsd = db("goods_type")->where("id",$rest["pid"])->field("name,color")->find();
+                    $rest = db("goods_type")
+                        ->where("id", $value["pid"])
+                        ->where("store_id","EQ",$store_id)	
+                        ->field("name,pid")
+                        ->find();
+                    $retsd = db("goods_type")
+                        ->where("id",$rest["pid"])
+                        ->where("store_id","EQ",$store_id)	
+                        ->field("name,color")
+                        ->find();
                     $data[$key]["names"] = $rest["name"];
                     $data[$key]["named"] = $retsd["name"];
                     $data[$key]["color"] = $retsd["color"];
@@ -224,6 +283,7 @@ class TeaCenter extends Controller
     public function activity_order(Request $request)
     {
         if ($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $activity_id = isset($request->only(['activity_id'])['activity_id'])?$request->only(['activity_id'])['activity_id']:null;
             $open_id = isset($request->only(['open_id'])['open_id'])?$request->only(['open_id'])['open_id']:null;
             $start_time = isset($request->only(['start_time'])['start_time'])?$request->only(['start_time'])['start_time']:null;
@@ -246,6 +306,7 @@ class TeaCenter extends Controller
                 $data['status'] =  1;
                 $data['index'] =  $index;
                 $data['names'] =  $names;
+                $data['store_id'] =  $store_id;
                 $data['create_time'] = time();
                 $data['start_time'] = strtotime($start_time); //活动开始时间
                 $data['parts_order_number'] =  $parts_order_number;
@@ -298,6 +359,7 @@ class TeaCenter extends Controller
             $comment_data["comment_set_id"] = $comment_set_id;
             $comment_data["create_time"] = time();
             $comment_data["status"] = 0;
+            $comment_data["store_id"] = $user_account['store_id'];
             $bool = db("comment")->insert($comment_data);
             if($bool){
                 return ajax_success("存储成功");
@@ -317,6 +379,7 @@ class TeaCenter extends Controller
     {
         if ($request->isPost()){
             $open_id = $request->only(['open_id'])['open_id']; //账户id  
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $activity_id = $request->only(['id'])['id'];  //活动id
             $activity_pid = db('teahost')->where('id',$activity_id)->value('pid'); //活动pid
             $activity_name = db('teahost')->where('id',$activity_id)->value('activity_name');//活动名称   
@@ -324,6 +387,7 @@ class TeaCenter extends Controller
             $rest = db("activity_order")
                     ->where("pid",$activity_pid)
                     ->where("member_openid",$open_id)
+                    ->where("store_id","EQ",$store_id)	
                     ->where("activity_name",$activity_name)
                     ->value('status');
 
@@ -345,8 +409,12 @@ class TeaCenter extends Controller
     public function teacenter_comment_show(Request $request){
 
         if($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $teahost_id= $request->only(["teahost_id"])["teahost_id"];
-            $comment_data = db("comment")->where("teahost_id",$teahost_id)->select();
+            $comment_data = db("comment")
+                        ->where("teahost_id",$teahost_id)
+                        ->where("store_id","EQ",$store_id)	
+                        ->select();
             foreach ($comment_data as $key=>$value){
                 $comment_data[$key]["user_images"] = db("member")->where("member_id",$value["user_id"])->value("member_head_img");
                 $comment_data[$key]["member_address"] = db("member")->where("member_id",$value["user_id"])->value("member_address");
@@ -393,37 +461,22 @@ class TeaCenter extends Controller
 
         if($request->isPost()){
             $id = $request->only(["id"])["id"];
-            $data =Db::name("store_house")->where("id",$id)
-                ->find();            
-            $data["unit"] = explode(",",$data["unit"]);
-            $data["cost"] = explode(",",$data["cost"]);
+            $store_id = $request->only(['uniacid'])['uniacid'];    
+            $data =Db::name("store_house")
+                ->where("id",$id)
+                ->where("store_id","EQ",$store_id)
+                ->find(); 
+            if(!empty($data)) {          
+                $data["unit"] = explode(",",$data["unit"]);
+                $data["cost"] = explode(",",$data["cost"]);
                 return ajax_success("返回成功",$data);
             }else{
                 return ajax_error("没有默认收货地址");
             }
         }
+    }
 
 
-    /**
-     **************郭杨*******************
-     * @param Request $request
-     * Notes:日期测试
-     **************************************
-     */
-    public function day_test(Request $request){
-
-        if($request->isPost()){
-            $time = time();
-            $beginToday=mktime(0,0,0,date('m'),date('d'),date('Y'));
-            $min = "15:11:0";
-            $min_array = explode(":",$min);
-            
-            $time = date('Y-m-d H:i:s', strtotime ("+$min_array[0] hours $min_array[1] minute", $beginToday));
-                return ajax_success("返回成功",$time);
-            }else{
-                return ajax_error("没有默认收货地址");
-            }
-        }
 
 
 

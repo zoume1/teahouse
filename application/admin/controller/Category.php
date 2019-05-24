@@ -15,6 +15,7 @@ use think\Db;
 use think\Request;
 use think\Image;
 use think\paginator\driver\Bootstrap;
+use think\Session;
 
 class Category extends Controller
 {
@@ -27,10 +28,11 @@ class Category extends Controller
     public function index($pid = 0)
     {
         $goods = [];
-        $category = db("goods_type")->select();
+        $store_id = Session::get("store_id");
+        $category = db("goods_type")->where("store_id","EQ",$store_id)->select();
 
         if ($pid == 0) {
-            $goods = getSelectList("goods_type");
+            $goods = getSelectListes("goods_type");
         }
         foreach ($category as $key => $value) {
             if ($value["pid"]) {
@@ -65,9 +67,10 @@ class Category extends Controller
     public function add($pid = 0)
     {
         $goods_liste = [];
-        $category = db("goods_type")->select();
+        $store_id = Session::get("store_id");
+        $category = db("goods_type")->where("store_id","EQ",$store_id)->select();
         if ($pid == 0) {
-            $goods_liste = getSelectList("goods_type");
+            $goods_liste = getSelectListes("goods_type");
         }
 
         return view("category_add", ["goods_liste" => $goods_liste]);
@@ -83,8 +86,10 @@ class Category extends Controller
     public function save(Request $request)
     {
         if ($request->isPost()) {
+            $store_id = Session::get("store_id");
             $data = $request->param();
             $show_images = $request->file("icon_image");
+            $data["store_id"] = $store_id;
 
             if ($show_images) {
                 $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
@@ -111,7 +116,7 @@ class Category extends Controller
         $goods_list = [];
         $category = db("goods_type")->where("id", $id)->select();
         if ($pid == 0) {
-            $goods_list = getSelectList("goods_type");
+            $goods_list = getSelectListes("goods_type");
         }
 
         return view("category_edit", ["category" => $category, "goods_lists" => $goods_list]);
@@ -264,20 +269,25 @@ class Category extends Controller
     {
         $ppd = input('ppd');          //活动分类
         $interest = input('interest'); //分类状态
+        $store_id = Session::get("store_id");//店铺id
+
 
         if ((!empty($ppd)) || (!empty($interest))) {
-            $activ = db("goods_type")->where("pid", "like", "%" . $ppd . "%")->where("status", "like", "%" . $interest . "%")->select();
+            $activ = db("goods_type")->where("pid", "like", "%" . $ppd . "%")
+                    ->where("status", "like", "%" . $interest . "%")
+                    ->where("store_id","EQ",$store_id)
+                    ->select();
             foreach ($activ as $key => $value) {
                 if ($value["pid"]) {
-                    $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
+                    $res = db("goods_type")->where("store_id","EQ",$store_id)->where("id", $value['pid'])->field("name")->find();
                     $activ[$key]["names"] = $res["name"];
                 }
             }
         } else {
-            $activ = db("goods_type")->select();
+            $activ = db("goods_type")->where("store_id","EQ",$store_id)->select();
             foreach ($activ as $key => $value) {
                 if ($value["pid"]) {
-                    $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
+                    $res = db("goods_type")->where("store_id","EQ",$store_id)->where("id", $value['pid'])->field("name")->find();
                     $activ[$key]["names"] = $res["name"];
                 }
             }
