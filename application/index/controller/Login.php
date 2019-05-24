@@ -57,7 +57,7 @@ class Login extends Controller{
                 ->value("register_integral");//授权通过即送积分
             if(!empty($errCode )){
                 $is_register =Db::name('member')
-                    ->where("store_id",$get["uniacid"])
+                    ->where("store_id",$user_data['store_id'])
                     ->where('member_openid',$errCode['openId'])
                     ->find();
                 if(empty($is_register)){
@@ -79,7 +79,7 @@ class Login extends Controller{
                         ->where('member_grade_id',1)
                         ->find();
                     $data['member_grade_name'] =$grade_name['member_grade_name'];
-                    $data["store_id"] =$get["uniacid"]; //店铺id
+                    $data["store_id"] =$user_data['store_id']; //店铺id
                     $bool = Db::name('member')->insertGetId($data);
                 if($register_login > 0){
                     //插入积分记录
