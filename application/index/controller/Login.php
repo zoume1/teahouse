@@ -28,7 +28,7 @@ class Login extends Controller{
         $get = input('get.');
         $user_data =Db::table("applet")
             ->where("appID",$get["appid"])
-            ->field("appSecret")
+            ->field("appSecret,store_id")
             ->find();
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
@@ -101,7 +101,8 @@ class Login extends Controller{
                         $info_data =[
                             "member_grade_info"=>$member_grade_info,
                             "openid"=>$errCode['openId'],
-                            "member_id"=>$bool
+                            "member_id"=>$bool,
+                            "uniacid"=>$user_data['store_id']
                         ];
                         return ajax_success('返回数据成功',$info_data);
                     }else{
@@ -116,7 +117,8 @@ class Login extends Controller{
                     $data =[
                         "member_grade_info"=>$member_grade_info,
                         "openid"=>$errCode['openId'],
-                        "member_id"=>$is_register["member_id"]
+                        "member_id"=>$is_register["member_id"],
+                        "uniacid"=>$user_data['store_id']
                     ];
                     return ajax_error('该用户已经注册过，请不要重复注册',$data);
                 }
