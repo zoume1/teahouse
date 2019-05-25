@@ -10,6 +10,7 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use think\Session;
 
 class Delivery extends  Controller{
 
@@ -63,6 +64,7 @@ class Delivery extends  Controller{
     public function delivery_add(Request $request){
         if($request->isPost()){
             $data =$_POST;
+            $store_id = Session::get("store_id");
             if(empty($data["extract_name"])){
               $this->error("请填写自提点名称");
             }
@@ -82,7 +84,9 @@ class Delivery extends  Controller{
                 "extract_real_address" =>$data["extract_real_address"],
                 "phone_num"=>$data["phone_num"],
                 "label"=>$data["label"],
-                "status"=>1
+                "status"=>1,
+                "store_id"=>$store_id
+                
             ];
             if($datas["label"] == 1){
                 $where = "update tb_extract_address set label = 0";
@@ -202,7 +206,8 @@ class Delivery extends  Controller{
      * 郭杨
      */
     public function delivery_goods(){
-        $delivery = db("express")->paginate(20 ,false, [
+        $store_id = Session::get("store_id");
+        $delivery = db("express")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
         return view("delivery_goods",["delivery"=>$delivery]);
@@ -215,7 +220,9 @@ class Delivery extends  Controller{
      */
     public function delivery_goods_add(Request $request){
         if($request->isPost()){
-            $data = $request->param();           
+            $store_id = Session::get("store_id");
+            $data = $request->param(); 
+            $data["store_id"] =  $store_id;        
             $rest =Db::name("express")->insert($data);
             if($rest){
                 $this->success("添加成功",'admin/Delivery/delivery_goods');
@@ -305,7 +312,11 @@ class Delivery extends  Controller{
      */
     public function delivery_templet(Request $request){
         if($request->isPost()){
-            $expenses = db("express")->field("id,name")->select();
+            $store_id = Session::get("store_id");
+            $expenses = db("express")
+            ->where("store_id","EQ",$store_id)
+            ->field("id,name")
+            ->select();
             if (!empty($expenses)) {
                 return ajax_success('传输成功', $expenses);
             } else {
@@ -321,9 +332,10 @@ class Delivery extends  Controller{
      */
     public function delivery_label(Request $request){
         $status = $request->only(["status"])["status"];
+        $store_id = Session::get("store_id");
         if ($status == 0) {
             $id = $request->only(["id"])["id"];
-            $bool = db("extract_address")->where("id", $id)->update(["label" => 0]);
+            $bool = db("extract_address")->where("id", $id)->where("store_id","EQ",$store_id)->update(["label" => 0]);
             if ($bool) {
                 $this->redirect(url("admin/Delivery/delivery_index"));
             } else {

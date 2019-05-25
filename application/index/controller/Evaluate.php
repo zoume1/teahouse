@@ -100,6 +100,7 @@ class  Evaluate extends  Controller {
      */
     public function order_evaluate_add(Request $request){
         if($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $order_id =$request->only("id")["id"];//订单排序号（单个）
             $images_id =$request->only("images_id")["images_id"];//图片id数组
             $user_id = $request->only(["member_id"])["member_id"];//用户id
@@ -109,6 +110,7 @@ class  Evaluate extends  Controller {
                 //所有的订单信息
                 $order_information =  Db::name("order")
                     ->field("parts_goods_name,goods_id,parts_order_number")
+                    ->where("store_id","EQ",$store_id)
                     ->where("id",$order_id)
                     ->find();
                 $data =[

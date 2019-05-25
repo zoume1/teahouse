@@ -7,6 +7,7 @@
 namespace  app\admin\controller;
 use think\Request;
 use think\Controller;
+use think\Session;
 use think\Db;
 use think\paginator\driver\Bootstrap;
 
@@ -17,7 +18,8 @@ class  Analyse extends  Controller{
      * 郭杨
      */    
     public function analyse_index(){
-        $analyse_data = db("analyse_goods")->where("label",1)->select();
+        $store_id = Session::get("store_id");
+        $analyse_data = db("analyse_goods")->where("store_id","EQ",$store_id)->where("label",1)->select();
         if(!empty($analyse_data)){
             foreach ($analyse_data as $key => $value) {
                     if($analyse_data[$key]["goods_standard"] == "1")
@@ -67,6 +69,7 @@ class  Analyse extends  Controller{
     public function analyse_add(Request $request){
             if ($request->isPost()) {
                 $goods_data = $request->param(); 
+                $store_id = Session::get("store_id");
                 $show_images = $request->file("goods_show_images");
                 $imgs = $request->file("imgs");
                 $list = [];
@@ -77,6 +80,7 @@ class  Analyse extends  Controller{
                         $list[] = str_replace("\\", "/", $info->getSaveName());
                     }            
                     $goods_data["goods_show_image"] =  $list[0];
+                    $goods_data["store_id"] = $store_id;
                     $goods_data["goods_type"] = 1;     //商品类型
                     $goods_data["goods_show_images"] = implode(',', $list);
                 }
@@ -93,6 +97,7 @@ class  Analyse extends  Controller{
                 if ($goods_data["goods_standard"] == "1") {
                     $goods_special = [];
                     $goods_special["goods_name"] = $goods_data["goods_name"];
+                    $goods_special["store_id"] = $goods_data["store_id"];
                     $goods_special["produce"] = $goods_data["produce"];
                     $goods_special["goods_type"] = $goods_data["goods_type"];
                     $goods_special["brand"] = $goods_data["brand"];
@@ -188,7 +193,8 @@ class  Analyse extends  Controller{
      */    
     public function analyse_invented(Request $request){
         if($request->isPost()){
-            $goods_data = $request->param(); 
+                $goods_data = $request->param(); 
+                $store_id = Session::get("store_id");
                 $show_images = $request->file("goods_show_images");
                 $imgs = $request->file("imgs");
                 $list = [];
@@ -200,6 +206,7 @@ class  Analyse extends  Controller{
                     }            
                     $goods_data["goods_show_image"] =  $list[0];
                     $goods_data["goods_type"] = 2;     //商品类型
+                    $goods_data["store_id"] = $store_id; //店铺id
                     $goods_data["goods_show_images"] = implode(',', $list);
                 }
                 
@@ -214,6 +221,7 @@ class  Analyse extends  Controller{
                 if ($goods_data["goods_standard"] == "1") {
                     $goods_special = [];
                     $goods_special["goods_name"] = $goods_data["goods_name"];
+                    $goods_special["store_id"] = $goods_data["store_id"];
                     $goods_special["goods_type"] = $goods_data["goods_type"];
                     $goods_special["goods_number"] = $goods_data["goods_number"];
                     $goods_special["goods_standard"] = $goods_data["goods_standard"];

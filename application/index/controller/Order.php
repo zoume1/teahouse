@@ -215,6 +215,7 @@ class  Order extends  Controller
      */
     public function order_places(Request $request){
         if ($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid']; 
             $user_id = $request->only("member_id")["member_id"];//member_id
             $address_id = $request->param("address_id");//address_id
             $coupon_id = $request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
@@ -330,6 +331,7 @@ class  Order extends  Controller
                         $datas["receipt_status"] = $receipt_status; 
                         $datas["receipt_id"] = $receipt_id;
                         $datas["receipt_price"] = $receipt_price ;
+                        $datas["store_id"] = $store_id;
                                         
                         $res = Db::name('order')->insertGetId($datas);
                         if ($res) {
@@ -375,7 +377,8 @@ class  Order extends  Controller
                         $datase["coupon_id"] = $coupon_id;
                         $datase["receipt_status"] = $receipt_status; 
                         $datase["receipt_id"] = $receipt_id;
-                        $datase["receipt_price"] = $receipt_price ;   
+                        $datase["receipt_price"] = $receipt_price;   
+                        $datase["stroe_id"] = $store_id;   
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                         $datas = $datase;
@@ -456,6 +459,7 @@ class  Order extends  Controller
      */
     public function order_place_by_shopping(Request $request){
         if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $shopping_id =$request->only("shopping_id")["shopping_id"];
             $coupon_id =$request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $open_id =$request->only("open_id")["open_id"];
@@ -595,6 +599,7 @@ class  Order extends  Controller
      */
     public function order_place_by_shoppings(Request $request){
         if ($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $shopping_id = $request->only("shopping_id")["shopping_id"];
             $user_id = $request->only("member_id")["member_id"];//member_id
             $address_id = $request->param("address_id");//address_id
@@ -710,6 +715,7 @@ class  Order extends  Controller
                         $datas["unit"] = $unit[$keys]; 
                         $datas["receipt_status"] = $receipt_status; 
                         $datas["receipt_id"] = $receipt_id;
+                        $datas["store_id"] = $store_id;
                         $datas["receipt_price"] = $receipt_price ;                                        
                         $res = Db::name('order')->insertGetId($datas);
                     } else {
@@ -747,6 +753,7 @@ class  Order extends  Controller
                         $datase["coupon_id"] = $coupon_id;
                         $datase["receipt_status"] = $receipt_status; 
                         $datase["receipt_id"] = $receipt_id;
+                        $datase["store_id"] = $store_id;
                         $datase["receipt_price"] = $receipt_price ;
 
                         $rest_id = Db::name('order')->insertGetId($datase);

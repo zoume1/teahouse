@@ -26,11 +26,13 @@ class  MobileVerification extends  Controller{
     {
         //接受验证码的手机号码
         if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $mobile = $request->only(['mobile'])['mobile'];
             $pattern = '/^1[3456789]\d{9}$/';
             if(preg_match($pattern,$mobile)) {
                 $res =  Db::name('member')
                     ->field('member_phone_num')
+                    ->where("store_id","EQ",$store_id)
                     ->where('member_phone_num',$mobile)
                     ->select();
                 if($res){
@@ -129,11 +131,13 @@ class  MobileVerification extends  Controller{
     public function sendMobileCodePay(Request $request){
         //接受验证码的手机号码
         if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $mobile = $request->only(['mobile'])['mobile'];
             $pattern = '/^1[3456789]\d{9}$/';
             if(preg_match($pattern,$mobile)) {
                 $res =  Db::name('member')
                     ->field('member_phone_num')
+                    ->where("store_id","EQ",$store_id)
                     ->where('member_phone_num',$mobile)
                     ->select();
                 if(!empty($res)){

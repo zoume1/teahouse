@@ -13,6 +13,7 @@ use think\Controller;
 use think\console\Input;
 use think\Db;
 use think\Request;
+use think\Session;
 
 class Operate extends  Controller{
 
@@ -34,7 +35,8 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_problem(){
-        $problem = db("common_ailment")->paginate(20 ,false, [
+        $store_id = Session::get("store_id");
+        $problem = db("common_ailment")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
         return view("operate_problem",["problem"=>$problem]);
@@ -60,6 +62,7 @@ class Operate extends  Controller{
             $data = $request->param();
             $problem_name = db("problem") -> where("pid",$data["pid"]) ->value("name");
             $data["name"] = $problem_name;
+            $data["store_id"] = $store_id;
             $bool = db("common_ailment")->insert($data);
             if($bool){
                 $this->success('添加成功', 'admin/operate/operate_problem');
@@ -149,7 +152,8 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_contract(){
-        $operate = db("protocol")->paginate(20 ,false, [
+        $store_id = Session::get("store_id");
+        $operate = db("protocol")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
         return view("operate_contract",["operate" => $operate]);
@@ -181,7 +185,9 @@ class Operate extends  Controller{
     */
     public function operate_contract_save(Request $request){
         if($request->isPost()){
+            $store_id = Session::get("store_id");
             $data = $request->param();
+            $data["store_id"] = $store_id;
             $bool = db("protocol")->insert($data);
             if($bool){
                 $this->success('添加成功', 'admin/operate/operate_contract');
@@ -231,7 +237,8 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_message(){
-        $message = db("remind")->paginate(20 ,false, [
+        $store_id = Session::get("store_id");
+        $message = db("remind")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
         return view("operate_message",["message"=>$message]);
@@ -253,9 +260,11 @@ class Operate extends  Controller{
     public function operate_message_save(Request $request)
     {
         if($request->isPost()){
+            $store_id = Session::get("store_id");
             $remind = $request -> param();
             $time = time();
             $remind["time"] = $time;
+            $remind["store_id"] = $store_id;
             $bool = db("remind") -> insert($remind);
             if($bool){
                 $this->success('添加成功', 'admin/operate/operate_message');

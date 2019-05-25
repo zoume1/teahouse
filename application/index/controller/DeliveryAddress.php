@@ -23,8 +23,10 @@ class DeliveryAddress extends  Controller{
     public function delivery_address_return(Request $request){
         if($request->isPost()){
             $address_id =$request->only(['id'])['id'];
+            $store_id = $request->only(['uniacid'])['uniacid'];
             if(!empty($address_id)){
                 $is_address =Db::name("extract_address")
+                    ->where("store_id","EQ",$store_id)	
                     ->where("id",$address_id)
                     ->where("status",1)
                     ->find();
@@ -36,6 +38,7 @@ class DeliveryAddress extends  Controller{
             }else{
                 $is_address =Db::name("extract_address")
                     ->where("status",1)
+                    ->where("store_id","EQ",$store_id)	
                     ->find();
                 if(!empty($is_address)){
                     return ajax_success('自提地址成功返回', $is_address);
@@ -55,7 +58,11 @@ class DeliveryAddress extends  Controller{
      */
     public function delivery_address_all_return(Request $request){
         if($request->isPost()){
-            $data =Db::name("extract_address")->where("status",1)->select();
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $data =Db::name("extract_address")
+                    ->where("store_id","EQ",$store_id)	
+                    ->where("status",1)
+                    ->select();
             if(!empty($data)){
                 return ajax_success('自提地址成功返回', $data);
             }else{

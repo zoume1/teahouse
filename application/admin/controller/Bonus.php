@@ -9,6 +9,7 @@
 
 namespace app\admin\controller;
 
+use think\Session;
 use think\console\Input;
 use think\Controller;
 use think\Db;
@@ -24,7 +25,8 @@ class Bonus extends Controller
      */
     public function bonus_index()
     {
-        $bonus = db("bonus_mall")->paginate(20 ,false, [
+        $store_id = Session::get("store_id");
+        $bonus = db("bonus_mall")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
 
@@ -50,6 +52,7 @@ class Bonus extends Controller
     public function bonus_save(Request $request)
     {
         if ($request->isPost()) {
+            $store_id = Session::get("store_id");
             $goods_data = $request->param();
             $list = [];
             $show_images = $request->file("goods_show_images");
@@ -62,6 +65,7 @@ class Bonus extends Controller
                 }
                 $goods_data["goods_show_image"] = $list[0];
                 $goods_data["goods_show_images"] = implode(',', $list);
+                $goods_data["store_id"] = $store_id;
             }
 
             $bool = db("bonus_mall")->insert($goods_data);
@@ -198,9 +202,10 @@ class Bonus extends Controller
      */
     public function bonus_search()
     {
+        $store_id = Session::get("store_id");
         $ppd = input('goods');          //积分商品编号或名称
         if (!empty($ppd)) {
-            $bonus = db("bonus_mall")->where("goods_number", "like", "%" . $ppd . "%")->whereOr("goods_name", "like", "%" . $ppd . "%")->paginate(20 ,false, [
+            $bonus = db("bonus_mall")->where("store_id","EQ",$store_id)->where("goods_number", "like", "%" . $ppd . "%")->whereOr("goods_name", "like", "%" . $ppd . "%")->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
 
@@ -222,7 +227,8 @@ class Bonus extends Controller
      */
     public function coupon_index()
     {
-        $coupon = db("coupon")->paginate(20 ,false, [
+        $store_id = Session::get("store_id");
+        $coupon = db("coupon")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
         return view('coupon_index', ["coupon" => $coupon]);
@@ -235,7 +241,8 @@ class Bonus extends Controller
      */
     public function coupon_add()
     {
-        $scope = db("member_grade")->field("member_grade_name")->select();
+        $store_id = Session::get("store_id");
+        $scope = db("member_grade")->field("member_grade_name")->where("store_id","EQ",$store_id)->select();
         return view('coupon_add', ["scope" => $scope]);
     }
 
@@ -248,7 +255,9 @@ class Bonus extends Controller
     public function coupon_save(Request $request)
     {
         if ($request->isPost()) {
+            $store_id = Session::get("store_id");
             $data = $request->param();
+            $data['store_id'] = $store_id;
             if(isset($data["scope"])){     
                 $data["scope"] = implode(",", $data["scope"]);
             }
@@ -429,6 +438,7 @@ class Bonus extends Controller
     {
         $goods_number = input("goods_number");
         $coupon_type = input("coupon_type");
+        $store_id = Session::get("store_id");
         /**
          * 鲁文兵改过
          */
@@ -436,11 +446,13 @@ class Bonus extends Controller
              $goods = db("goods")
                 ->where("goods_number", $goods_number)
                 ->where("coupon_type",$coupon_type)
+                ->where("store_id","EQ",$store_id)
                 ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
                 ->select();
         }else{
             $goods = db("goods")
                 ->where("goods_number", $goods_number)
+                ->where("store_id","EQ",$store_id)
                 ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
                 ->select();
         }

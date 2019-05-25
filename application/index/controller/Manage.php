@@ -27,7 +27,7 @@ class Manage extends Controller
     public function problem_list()
     {
 
-        $list = Db::name("problem")->select();
+        $list = Db::name("problem")->where("store_id","EQ",$store_id)->select();
         if (!empty($list)) {
             return ajax_success('传输成功', $list);
         } else {
@@ -49,7 +49,8 @@ class Manage extends Controller
     {
         if ($request->isPost()) {
             $pid = $request->only(["pid"])["pid"];
-            $problem_data = db("common_ailment")->where("pid",$pid)->select();
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $problem_data = db("common_ailment")->where("pid",$pid)->where("store_id","EQ",$store_id)->select();
             if (!empty($problem_data)) {
                 return ajax_success('传输成功', $problem_data);
             } else {
@@ -88,8 +89,9 @@ class Manage extends Controller
      * 郭杨
      */
     public function agreement_contract()
-    {     
-        $protocol = Db::name("protocol")->select();
+    {   
+        $store_id = $request->only(['uniacid'])['uniacid']; 
+        $protocol = Db::name("protocol")->where("store_id","EQ",$store_id)->select();
         if (!empty($protocol)) {
             return ajax_success('传输成功', $protocol);
         } else {
@@ -126,7 +128,8 @@ class Manage extends Controller
      */
     public function message_reminder()
     {     
-        $reminder = Db::name("remind")->select();
+        $store_id = $request->only(['uniacid'])['uniacid'];
+        $reminder = Db::name("remind")->where("store_id","EQ",$store_id)->select();
         if (!empty($reminder)) {
             return ajax_success('传输成功', $reminder);
         } else {
@@ -334,7 +337,7 @@ class Manage extends Controller
     {
         if ($request->isPost()){
             $templet_id = $request->only(["templet_id"])["templet_id"];
-            $are = $request->only(["are"])["are"];         
+            $are = $request->only(["are"])["are"]; 
             $express = db("express")->where("id",$templet_id)->find();
             if(!empty($express)){ 
                 $express_are = explode(",",$express["are"]);

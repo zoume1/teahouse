@@ -13,13 +13,14 @@ class Commodity extends Controller
      */
     public function commodity_index(Request $request)
     {
-        if($request->isPost()) {     
+        if($request->isPost()) {   
+            $store_id = $request->only(['uniacid'])['uniacid'];  
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
-            $goods_type = db("wares")->where("status", 1)->select();
+            $goods_type = db("wares")->where("status", 1)->where("store_id","EQ",$store_id)	->select();
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
             foreach($goods_type as $key => $value)
             {
-                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("label",1)->select();
+                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("store_id","EQ",$store_id)->where("label",1)->select();
                 foreach($goods_type[$key]['child'] as $k => $v){
                     if(!empty($goods_type[$key]['child'][$k]["scope"])){
                         $goods_type[$key]['child'][$k]["scope"] = explode(",",$goods_type[$key]['child'][$k]["scope"]);
@@ -51,10 +52,11 @@ class Commodity extends Controller
 
         if ($request->isPost()) {
             $member_id = $request->only(["open_id"])["open_id"];
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
-            $goods = db("goods")->where("status",1)->where("label",1)->select();
+            $goods = db("goods")->where("status",1)->where("store_id","EQ",$store_id)->where("label",1)->select();
 
             foreach ($goods as $k => $v) //所有商品
             {
@@ -109,9 +111,10 @@ class Commodity extends Controller
     {
 
         if($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $goods_pid = $request->only(["id"])["id"];
-            $goods = db("goods")->where("pid",$goods_pid)->where("label",1)->select();
+            $goods = db("goods")->where("pid",$goods_pid)->where("store_id","EQ",$store_id)->where("label",1)->select();
             foreach ($goods as $k => $v)
             {
                 $goods[$k]["goods_show_images"] = (explode(",", $goods[$k]["goods_show_images"])[0]);
@@ -142,10 +145,11 @@ class Commodity extends Controller
     {
         if ($request->isPost()) {
             $goods_id = $request->only(["id"])["id"];
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only(["open_id"])["open_id"];
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
-            $goods = db("goods")->where("id", $goods_id)->where("label",1)->select();
+            $goods = db("goods")->where("id", $goods_id)->where("label",1)->where("store_id","EQ",$store_id)->select();
             $goods_standard = db("special")->where("goods_id", $goods_id)->select();
             $max_price = db("special")->where("goods_id", $goods_id)->max("price");
             $min_price = db("special")->where("goods_id", $goods_id)->min("price");
@@ -186,7 +190,8 @@ class Commodity extends Controller
      */
     public function approve_address(Request $request){
         if($request->isPost()){
-            $data =Db::name("extract_address")->where("label",1)
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $data =Db::name("extract_address")->where("label",1)->where("store_id","EQ",$store_id)	
                 ->find();            
             if(!empty($data)){
                 return ajax_success("返回成功",$data);
@@ -206,7 +211,8 @@ class Commodity extends Controller
      */
     public function approve_list(Request $request){
         if($request->isPost()){
-            $data =Db::name("extract_address")->select();            
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $data = Db::name("extract_address")->where("store_id","EQ",$store_id)->select();            
             if($data){
                 return ajax_success("返回成功",$data);
             }else{

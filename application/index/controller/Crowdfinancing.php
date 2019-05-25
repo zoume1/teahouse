@@ -66,6 +66,7 @@ class Crowdfinancing extends Controller
      */
     public function crowd_order_place(Request $request){
         if ($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $user_id = $request->only("member_id")["member_id"];//member_id
             $address_id = $request->only("address_id")["address_id"];//address_id
             $coupon_id = $request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
@@ -171,6 +172,7 @@ class Crowdfinancing extends Controller
                         $datas["receipt_status"] = $receipt_status; 
                         $datas["receipt_id"] = $receipt_id;
                         $datas["receipt_price"] = $receipt_price;
+                        $datas["store_id"] = $store_id;
                                         
                         $res = Db::name('crowd_order')->insertGetId($datas);
                         if ($res) {
@@ -301,6 +303,7 @@ class Crowdfinancing extends Controller
      */
     public function crowd_order_place_by_shoppings(Request $request){
         if ($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $shopping_id = $request->only("shopping_id")["shopping_id"];
             $user_id = $request->only("member_id")["member_id"];//member_id
             $address_id = $request->param("address_id");//address_id

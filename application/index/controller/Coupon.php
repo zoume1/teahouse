@@ -24,15 +24,20 @@ class Coupon extends Controller
     public function coupon_untapped(Request $request)
     {
         if ($request->isPost()) {
+            $store_id  = $request->only(['uniacid'])['uniacid'];
             $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
             $open_id = $request->only(['open_id'])['open_id'];
-            $coupon = Db::name("coupon")->field('id,use_price,scope,start_time,end_time,money,suit,label')->select();
+            $coupon = Db::name("coupon")
+                    ->where("store_id","EQ",$store_id)
+                    ->field('id,use_price,scope,start_time,end_time,money,suit,label')
+                    ->select();
             $time = strtotime(date("Y-m-d",strtotime("-1 day")));
 
             //已使用
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
             $coupon_id = Db::name("order")->where("member_id",$member_id)
-                        ->where("coupon_id",'<>',0)
+                         ->where("coupon_id",'<>',0)
+                         ->where("store_id","EQ",$store_id)
                          ->distinct($member_id)
                          ->field("coupon_id")
                          ->select();
@@ -82,17 +87,23 @@ class Coupon extends Controller
     public function coupon_user(Request $request)
     {
         if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
             $open_id = $request->only(['open_id'])['open_id'];
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
             $coupon_id = Db::name("order")->where("member_id",$member_id)
                             ->where("coupon_id",'<>',0)
+                            ->where("store_id","EQ",$store_id)	
                             ->distinct($member_id)
                             ->field("coupon_id")
                             ->select();
             if(count($coupon_id) > 0){
                 foreach($coupon_id as $key => $value){
-                    $rest[] = Db::name("coupon")->where("id",$value["coupon_id"])->field('id,use_price,scope,start_time,end_time,money,suit,label')->find();
+                    $rest[] = Db::name("coupon")
+                    ->where("store_id","EQ",$store_id)
+                    ->where("id",$value["coupon_id"])
+                    ->field('id,use_price,scope,start_time,end_time,money,suit,label')
+                    ->find();
                 }
                 foreach($rest as $k => $v){
                     $v['scope'] = explode(",",$v['scope']);
@@ -120,10 +131,13 @@ class Coupon extends Controller
     public function coupon_time(Request $request)
     {
         if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
             $member_grade_name = $request->only(['member_grade_name'])['member_grade_name'];
             $open_id = $request->only(['open_id'])['open_id'];
-            $coupons = db("coupon")->select();
+            $coupons = db("coupon")
+                    ->where("store_id","EQ",$store_id)
+                    ->select();
             foreach($coupons as $key => $value){
                 $value['scope'] = explode(",",$value['scope']);
                 $value['start_time'] = strtotime($value['start_time']);
@@ -194,6 +208,7 @@ class Coupon extends Controller
     public function coupon_appropriated(Request $request)
     {
         if($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
             $datas = $request->param(); //包含goods_id and  open_id
             $goods_id = array_unique($datas['goods_id']);
@@ -202,7 +217,7 @@ class Coupon extends Controller
             $member_grade_name = $datas['member_grade_name'];
             $goods_type = $datas['coupon_type'];
                      
-            $coupons = Db::name("coupon")->where("use_price","<=",$money)->where("coupon_type",$goods_type)->field('id,use_price,scope,start_time,end_time,money,suit,label,suit_price')->select();
+            $coupons = Db::name("coupon")->where("use_price","<=",$money)->where("store_id","EQ",$store_id)->where("coupon_type",$goods_type)->field('id,use_price,scope,start_time,end_time,money,suit,label,suit_price')->select();
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
             $coupon_id = Db::name("order")->where("member_id",$member_id)//已使用优惠券
                         ->where("coupon_id",'<>',0)
@@ -279,7 +294,8 @@ class Coupon extends Controller
      */
     public function bonus_index()
     {
-        $bonus = db("bonus_mall")->where("status",1)->order('id desc')->select();          
+        $store_id = $request->only(['uniacid'])['uniacid'];
+        $bonus = db("bonus_mall")->where("store_id","EQ",$store_id)->where("status",1)->order('id desc')->select();          
         if (!empty($bonus)) {
             return ajax_success('传输成功', $bonus);
         } else {
@@ -337,6 +353,7 @@ class Coupon extends Controller
      */
     public function order_integaral(Request $request){
         if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $open_id = $request->only("open_id")["open_id"];//open_id
             $address_id = $request->param("address_id");    //address_id
             $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
@@ -422,6 +439,7 @@ class Coupon extends Controller
                         $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datas["buy_message"] = $buy_message;//买家留言
                         $datas["normal_future_time"] = $normal_future_time;//未来时间
+                        $datas["store_id"] = $store_id;//店铺id
                         
                         if($datas["order_amount"]>$sum_integral){
                             return ajax_error("您的积分不足",$datas);
@@ -656,13 +674,14 @@ class Coupon extends Controller
     public function limitations(Request $request)
     {
         if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $goods_id = $request->only(['goods_id'])['goods_id']; //goods_id
             $member_id = $request->only(['member_id'])['member_id']; //member_id
             $member_grade_name = $request->only(["member_grade_name"])['member_grade_name'];//member_grade_name  
             $time = time();
             
             //判断会员等级
-            $limit = db("limited")->where("goods_id",$goods_id)->find();
+            $limit = db("limited")->where("goods_id",$goods_id)->where("store_id","EQ",$store_id)->find();
     
             if(!empty($limit)){
                 $scope = explode(",",$limit["scope"]);
@@ -730,8 +749,9 @@ class Coupon extends Controller
     public function limitations_show(Request $request)
     {
         if ($request->isPost()) {
+        $store_id = $request->only(['uniacid'])['uniacid']; 
         $goods_id = $request->only(['goods_id'])['goods_id']; //goods_id
-        $limit = db("limited")->where("goods_id",$goods_id)->find();
+        $limit = db("limited")->where("goods_id",$goods_id)->where("store_id","EQ",$store_id)->find();
         $limit["scope"] = explode(",",$limit["scope"]);
 
         if(!empty($limit)){

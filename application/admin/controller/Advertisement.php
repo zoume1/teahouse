@@ -26,7 +26,8 @@ class Advertisement extends Controller
      */
     public function index()
     {
-        $accessories = db("teahost")->select();
+        $store_id = Session::get("store_id");
+        $accessories = db("teahost")->where("store_id","EQ",$store_id)->select();
         foreach ($accessories as $key => $value) {
             if ($value["pid"]) {
                 $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
@@ -59,7 +60,7 @@ class Advertisement extends Controller
     {
         $teahost_name = [];
         if ($pid == 0) {
-            $teahost_name = getSelectList("goods_type");
+            $teahost_name = getSelectListes("goods_type");
         }
 
         return view("accessories_business_add", ["teahost_name" => $teahost_name]);
@@ -75,10 +76,12 @@ class Advertisement extends Controller
     {
         if ($request->isPost()) {
             $data = $request->param();
+            $store_id = Session::get("store_id");
             $participats = isset($data["participats"])?$data["participats"]:0;//活动人数
             //活动日期
             $data["start_time"] = isset($data["start_time"])?strtotime($data["start_time"]):null;
             $data["end_time"] = isset($data["end_time"])?strtotime($data["end_time"]):null;
+            $data["store_id"] = $store_id;
             
             //如果需要预约,且有人数限制
 
@@ -128,7 +131,7 @@ class Advertisement extends Controller
         $teahost[0]['end_time'] = date("Y-m-d H:i",$teahost[0]['end_time']);
         $teahost_names = [];
         if ($pid == 0) {
-            $teahost_names = getSelectList("goods_type");
+            $teahost_names = getSelectListes("goods_type");
         }
 
         $city_address = explode(",", $teahost[0]["addressed"]);
@@ -305,14 +308,16 @@ class Advertisement extends Controller
      */
     public function accessories_business_search()
     {
+        $store_id = Session::get("store_id");
         $name = input('titles');   //活动名称
+        $store_id = input('titles');   //活动名称
         $label = input('labely');  //活动标签
         $datetime = input('times'); //是否过期 0:过期 1:未过期
         $present_time = time();
 
         if ((!empty($name)) && (!empty($label)) || (!empty($datetime))) {
 
-                $data = db('teahost')->where("activity_name", "like", "%" . $name . "%")->select();
+                $data = db('teahost')->where("activity_name", "like", "%" . $name . "%")->where("store_id","EQ",$store_id)->select();
                 foreach ($data as $key => $value) {
                     if ($value["pid"]) {
                         $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
@@ -336,7 +341,7 @@ class Advertisement extends Controller
         }
         if ((empty($name)) && (!empty($lable))) {
             if ($datetime == 0) {
-                $data = db('teahost')->where("start_time", '<', '$present_time')->where("label", "like", "%" . $label . "%")->select();
+                $data = db('teahost')->where("start_time", '<', '$present_time')->where("store_id","EQ",$store_id)->where("label", "like", "%" . $label . "%")->select();
                 foreach ($data as $key => $value) {
                     if ($value["pid"]) {
                         $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
@@ -345,7 +350,7 @@ class Advertisement extends Controller
                 }
             }
             if ($datetime == 1) {
-                $data = db('teahost')->where("start_time", '>', '$present_time')->where("label", "like", "%" . $label . "%")->select();
+                $data = db('teahost')->where("start_time", '>', '$present_time')->where("store_id","EQ",$store_id)->where("label", "like", "%" . $label . "%")->select();
                 foreach ($data as $key => $value) {
                     if ($value["pid"]) {
                         $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();

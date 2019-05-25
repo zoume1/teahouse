@@ -25,11 +25,13 @@ class Crowd extends Controller
     {
         if ($request->isPost()) {
             $date_time = time();
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $crowd = db("crowd_goods")
                 ->where("label",1)
                 ->where("status",1)
                 ->where("state",1)
                 ->where("end_time",">=",$date_time)
+                ->where("store_id","EQ",$store_id)	
                 ->field("id,project_name,goods_describe,end_time,goods_show_image")
                 ->select();
             if(!empty($crowd)){
@@ -64,19 +66,18 @@ class Crowd extends Controller
     {
         if ($request->isPost()) {
             $date_time = time();
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only('member_id')['member_id'];//会员id
             $member = db("member")->where('member_id',$member_id)->find(); //会员等级
             $member_grade_name = $member['member_grade_name']; //会员名称
             $member_grade_id = $member['member_grade_id'];
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");//会员优惠比例 
-            $record = Db::name("crowd_goods")
-            ->where("label",1)
-            ->where("status",1)
-            ->count();
+ 
 
             $crowd = Db::name("crowd_goods")
                 ->where("label",1)
                 ->where("state",1)
+                ->where("store_id","EQ",$store_id)	
                 ->where("end_time",">=",$date_time)
                 ->field("id,project_name,end_time,goods_show_image,scope,goods_member")
                 ->select();
@@ -131,6 +132,7 @@ class Crowd extends Controller
     {
         if ($request->isPost()) {
             $member_id = $request->only('member_id')['member_id'];
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $member = db("member")->where('member_id',$member_id)->find(); //会员等级
             $member_grade_name = $member['member_grade_name']; //会员名称
             $member_grade_id = $member['member_grade_id'];
@@ -139,6 +141,7 @@ class Crowd extends Controller
             $date_time = time();
             $crowd = Db::name("crowd_goods")
                 ->where("id",$id)
+                ->where("store_id","EQ",$store_id)	
                 ->field("id,project_name,end_time,goods_show_image,goods_show_images,company_name,company_name1,company_time,goods_text,team,text,scope,goods_member")
                 ->select();
             
@@ -190,6 +193,7 @@ class Crowd extends Controller
     {
         if ($request->isPost()){
             $date_time = time();
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only('member_id')['member_id'];//会员id
             $member = db("member")->where('member_id',$member_id)->find(); //会员等级
             $member_grade_name = $member['member_grade_name']; //会员名称
@@ -197,6 +201,7 @@ class Crowd extends Controller
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");//会员优惠比例
             $crowd = Db::name("crowd_goods")
             ->where("label",1)
+            ->where("store_id",'EQ',$store_id)
             ->where("end_time","<=",$date_time)
             ->field("id,project_name,end_time,goods_show_image")
             ->select();
@@ -254,6 +259,7 @@ class Crowd extends Controller
     public function crowd_reward(Request $request)
     {
         if($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only('member_id')['member_id'];
             $money = $request->only('money')['money'];
             $id = $request->only('id')['id'];
@@ -274,7 +280,8 @@ class Crowd extends Controller
                 "create_time"=>$create_time,
                 "order_number"=>$order_number,
                 "crowd_name"=>$crowd["name"],
-                "status" => 1
+                "status" => 1,
+                "store_id"=>$store_id
             );
 
             $rest_id = db("reward")->insertGetid($data);
