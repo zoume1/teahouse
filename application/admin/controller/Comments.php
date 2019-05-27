@@ -13,6 +13,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
+use think\Session;
 use think\paginator\driver\Bootstrap;
 
 class Comments extends Controller
@@ -24,7 +25,8 @@ class Comments extends Controller
      */
     public function index()
     {
-        $comments_index = db("comment")->select();
+        $store_id = Session::get("store_id");
+        $comments_index = db("comment")->where("store_id",'EQ',$store_id)->select();
         $comments_set = db("comment_set")->select();
         foreach ($comments_index as $key=>$value){
             if(!empty($value["comment_set_id"]) && $value["status"] == 1){
