@@ -435,6 +435,7 @@
     <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
     <script src="__STATIC__/admin/common/laydate/laydate.js"></script>
     <script>
+
         var vm = new Vue({
             el: '#app',
             data: {
@@ -508,7 +509,7 @@
                                 clearInterval(_this.onlinePayInterval);
                                 _this.setCookie('item_id', '/admin/store_set_meal_order', 1);
                                 _this.setCookie('page_id', '219', 1);
-                                location.href = 'logout';
+                                window.parent.document.getElementById('tcdl').click();
                             }, 3000)
                         }
                     })
@@ -681,7 +682,7 @@
                         if(data.body.status == 1){
                             layer.alert('支付成功！我们将在3个工作日内审核完毕，通过后自动完成订购。', function(index){
                                 layer.close(index);
-                                location.href = 'logout';
+                                window.parent.document.getElementById('tcdl').click();
                             });
                         }else if(data.body.status == 2){
                             layer.alert('您还未设置支付密码，是否跳转去设置？', function(index){
@@ -715,8 +716,9 @@
                         if(data.body.status == 1){
                             layer.alert('凭证已提交，我们将在3个工作日内审核完毕，通过后自动完成订购。', function(index){
                                 layer.close(index);
-//                                location.href = 'store_set_meal_order';
-                                location.href = '/admin';
+                                //location.href = 'store_set_meal_order';
+                                // location.href = '/admin';
+                                window.parent.document.getElementById('tcdl').click();
                             });
                         }else{
                             layer.msg(data.body.info);
