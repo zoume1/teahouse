@@ -11,6 +11,7 @@ namespace  app\admin\controller;
 use think\console\Input;
 use think\Controller;
 use think\Db;
+use think\Session;
 use think\Request;
 use think\paginator\driver\Bootstrap;
 
@@ -22,9 +23,12 @@ class  Limitations extends  Controller{
      */
     public function limitations_index() 
     {
-        $limit = db("limited")->paginate(20 ,false, [
-            'query' => request()->param(),
-        ]);
+        $store_id = Session::get("store_id");
+        $limit = db("limited")
+            ->where("store_id","EQ",$store_id)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         
         return view('limitations_index',["limit"=>$limit]);
     }
@@ -74,7 +78,11 @@ class  Limitations extends  Controller{
      */
     public function limitations_add()
     {
-        $scope = db("member_grade")->field("member_grade_name")->select();
+        $store_id = Session::get("store_id");
+        $scope = db("member_grade")
+        ->where("store_id","EQ",$store_id)
+        ->field("member_grade_name")
+        ->select();
         return view('limitations_add', ["scope" => $scope]);
     }
 
@@ -86,11 +94,13 @@ class  Limitations extends  Controller{
      {
         if ($request->isPost()) {
             $data = $request->param();
+            $store_id = Session::get("store_id");
             $data["scope"] = implode(",", $data["scope"]);
+            $data["stroe_id"] = $store_id;
 
             if (!empty($data["goods_id"])) {
                 foreach ($data["goods_id"] as $key => $value) {
-                    $goods[$key] = db("goods")->where("id", $data["goods_id"][$key])->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
+                    $goods[$key] = db("goods")->where("id", $data["goods_id"][$key])->where("store_id","EQ",$store_id)->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
                 }
                 unset($data["goods_id"]);
             }

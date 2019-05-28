@@ -277,6 +277,12 @@
                 <!-- 个人 -->
                 <div class="personal-item" style="display: block;">
                     <div class="content-item">
+                        <label class="content-title" for="p-storename">店铺名：</label>
+                        <div>
+                            <input type="text" id="p-storename" onblur="myEvent.onBlurGetInfo(this.value, 0);">
+                        </div>
+                    </div>
+                    <div class="content-item">
                         <label class="content-title" for="p-name">姓名：</label>
                         <div>
                             <input type="text" id="p-name" onblur="myEvent.onBlurGetInfo(this.value, 1);">
@@ -327,6 +333,12 @@
                 </div>
                 <!-- 公司 -->
                 <div class="company-item" style="display: none;">
+                    <div class="content-item">
+                        <label class="content-title" for="c-storename">店铺名：</label>
+                        <div>
+                            <input type="text" id="c-storename" onblur="myEvent.onBlurGetInfo(this.value, 0);">
+                        </div>
+                    </div>
                     <div class="content-item">
                         <label class="content-title" for="c-name">联系人姓名：</label>
                         <div>
@@ -521,7 +533,7 @@
                         store_introduction: myEvent.data.storeDesc,
                         business_name: myEvent.data.compName,
                         licence_no: myEvent.data.licenceNum,
-                        
+                        store_name: myEvent.data.storeName
                     },
                     success: function(res){
                         console.log('添加店铺成功',res);
@@ -757,6 +769,7 @@
                 storeDesc: '',
                 compName: null,
                 licenceNum: null,
+                storeName: null
             };
             // 手机打星号
             myEvent.hidePhone = function(num){
@@ -802,6 +815,9 @@
             myEvent.onBlurGetInfo = function(val, tag){
                 if(val){
                     switch(tag){
+                        case 0:
+                            myEvent.data.storeName = val;
+                            break;
                         case 1: 
                             myEvent.data.userName = val;
                             break;

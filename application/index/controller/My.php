@@ -139,6 +139,7 @@ class My extends Controller
  
      /**
       * 发起请求
+      * GY
       * @param  string $url  请求地址
       * @param  string $data 请求数据包
       * @return   string      请求返回数据
@@ -177,7 +178,7 @@ class My extends Controller
      public function  user_phone_return(Request $request){
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];
-            $phone_number =Db::name("member")
+            $phone_number = Db::name("member")
                 ->where("member_id", $member_id)
                 ->value("member_phone_num");
             if(!empty($phone_number)){

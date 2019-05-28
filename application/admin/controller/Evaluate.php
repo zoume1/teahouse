@@ -7,7 +7,7 @@
  */
 namespace app\admin\controller;
 
-
+use think\Session;
 use think\Controller;
 use think\Db;
 use think\Request;
@@ -22,8 +22,12 @@ class Evaluate extends  Controller{
      * @return \think\response\View
      */
     public function evaluate_index(){
-        $data_status =Db::name("order_evaluate")->find();
-        $data =Db::name("order_evaluate")->order("create_time","desc")->paginate(20 ,false, [
+        $store_id = Session::get("store_id");
+        $data_status = Db::name("order_evaluate")->where("store_id","EQ",$store_id)->find();
+        $data =Db::name("order_evaluate")
+        ->where("store_id","EQ",$store_id)
+        ->order("create_time","desc")
+        ->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
 
@@ -139,20 +143,37 @@ class Evaluate extends  Controller{
     public function evaluate_search(){
             $goods_name =trim(input('goods_name'));
             $user_name =trim(input('user_name'));
+            $store_id = Session::get("store_id");
             if(!empty($goods_name) && (!empty($user_name))){
-                $data =Db::name("order_evaluate")->where("goods_name",$goods_name)->where("user_name",$user_name)->order("create_time","desc")->paginate(20 ,false, [
+                $data =Db::name("order_evaluate")
+                ->where("goods_name",$goods_name)
+                ->where("user_name",$user_name)
+                ->where("store_id","EQ",$store_id)
+                ->order("create_time","desc")
+                ->paginate(20 ,false, [
                     'query' => request()->param(),
                 ]);
             }else if(!empty($goods_name) && empty($user_name)){
-                $data =Db::name("order_evaluate")->where("goods_name",$goods_name)->order("create_time","desc")->paginate(20 ,false, [
+                $data =Db::name("order_evaluate")
+                ->where("goods_name",$goods_name)
+                ->where("store_id","EQ",$store_id)
+                ->order("create_time","desc")
+                ->paginate(20 ,false, [
                     'query' => request()->param(),
                 ]);
             }else if(empty($goods_name) && (!empty($user_name))){
-                $data =Db::name("order_evaluate")->where("user_name",$user_name)->order("create_time","desc")->paginate(20 ,false, [
+                $data =Db::name("order_evaluate")
+                ->where("user_name",$user_name)
+                ->where("store_id","EQ",$store_id)
+                ->order("create_time","desc")
+                ->paginate(20 ,false, [
                     'query' => request()->param(),
                 ]);
             }else{
-                $data =Db::name("order_evaluate")->order("create_time","desc")->paginate(20 ,false, [
+                $data =Db::name("order_evaluate")
+                ->order("create_time","desc")
+                ->where("store_id","EQ",$store_id)
+                ->paginate(20 ,false, [
                     'query' => request()->param(),
                 ]);
             }
@@ -168,8 +189,9 @@ class Evaluate extends  Controller{
      */
     public function evaluate_status(Request $request){
         if($request->isPost()){
+            $store_id = Session::get("store_id");
             $status =$request->only(["status"])["status"];//1为开启，-1为关闭
-            $data =Db::name("order_evaluate")->select();
+            $data =Db::name("order_evaluate")->where("store_id","EQ",$store_id)->select();
             if(!empty($data)){
                 foreach ($data as $key=>$value){
                     $bool =Db::name("order_evaluate")
