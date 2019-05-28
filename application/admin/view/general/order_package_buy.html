@@ -500,15 +500,16 @@
                     var param = {order_number: orderNum};
                     var _this = this;
                     this.myAjax('check_code_apy', param, function(data){
-                        console.log(data);
+                        // console.log(data);
+                        console.log(data.body.status)
                         if(data.body.status == 1){
                             layer.msg(data.body.info);
                             setTimeout(function(){
                                 clearInterval(_this.onlinePayInterval);
                                 _this.setCookie('item_id', '/admin/store_set_meal_order', 1);
                                 _this.setCookie('page_id', '219', 1);
-                                location.href = 'store_set_meal_order';
-                            }, 2000)
+                                location.href = 'logout';
+                            }, 3000)
                         }
                     })
                 },
@@ -680,7 +681,7 @@
                         if(data.body.status == 1){
                             layer.alert('支付成功！我们将在3个工作日内审核完毕，通过后自动完成订购。', function(index){
                                 layer.close(index);
-                                location.href = 'store_set_meal_order';
+                                location.href = 'logout';
                             });
                         }else if(data.body.status == 2){
                             layer.alert('您还未设置支付密码，是否跳转去设置？', function(index){
