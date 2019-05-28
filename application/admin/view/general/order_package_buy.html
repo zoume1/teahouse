@@ -508,7 +508,7 @@
                                 clearInterval(_this.onlinePayInterval);
                                 _this.setCookie('item_id', '/admin/store_set_meal_order', 1);
                                 _this.setCookie('page_id', '219', 1);
-                                location.href = 'logout';
+                                location.href = '{:url("admin/Login/logout")}';
                             }, 3000)
                         }
                     })
