@@ -1525,7 +1525,7 @@ class  General extends  Base {
                 ->where("a.status",-1)
                 ->where("a.id",$id)
                 ->select();
-       
+    
              if($data){
                 foreach ($data as $k=>$v){
                     $last_money = Db::name("meal_orders")
