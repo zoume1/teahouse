@@ -1701,11 +1701,11 @@ class  General extends  Base {
             $store_name =Db::table("tb_store")
                 ->where("id",$store_id)
                 ->value("store_name");
-            // //先判断这单是否需要重新申请，需要把之前未支付的删除
-            // Db::name("set_meal_order")
-            //     ->where("store_id",$store_id)
-            //     ->where("pay_type",null)
-            //     ->delete();
+            //先判断这单是否需要重新申请，需要把之前未支付的删除
+            Db::name("meal_orders")
+                ->where("store_id",$store_id)
+                ->where("pay_type",null)
+                ->delete();
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());

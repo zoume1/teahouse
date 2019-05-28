@@ -115,7 +115,7 @@ class  AdminWx extends Controller{
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
 
-                    $resultet =Db::name("meal_orders")
+                    $resultet = Db::name("meal_orders")
                     ->where("order_number",$val["out_trade_no"])
                     ->update($data);
                     

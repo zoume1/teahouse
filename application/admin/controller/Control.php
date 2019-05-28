@@ -227,10 +227,12 @@ class  Control extends  Controller{
         $store_id =Db::table("tb_set_meal_order")
             ->where("id",$id)
             ->value("store_id");
+ 
         $store_info = Db::table("tb_store")
             ->where("id",$store_id)
             ->where("status",1)
             ->value("id");
+          
         if(!$store_info){
             $this->error("请先进行店铺审核操作");
         }

@@ -32,7 +32,7 @@ class Goods extends Controller
     {
         $store_id = Session::get("store_id");
         $goods = db("goods")->where("store_id",'EQ',$store_id)->order("id desc")->select();
-        $goods_list = getSelectList("wares");
+        $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
                 $res = db("wares")->where("id", $value['pid'])->field("name")->find();
@@ -76,7 +76,7 @@ class Goods extends Controller
     {
         $goods_list = [];
         if ($pid == 0) {
-            $goods_list = getSelectList("wares");
+            $goods_list = getSelectListes("wares");
         }
         $expenses = db("express")->field("id,name")->select();
         $scope = db("member_grade")->field("member_grade_name")->select();
@@ -97,7 +97,6 @@ class Goods extends Controller
         if ($request->isPost()) {
             $store_id =Session::get("store_id");
             $goods_data = $request->param(); 
-            halt($goods_data);
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
             $list = [];
@@ -752,28 +751,31 @@ class Goods extends Controller
     {
         $goods_number = input('goods_number');
         $pid = input('pid');
-
+        $store_id = Session::get("store_id");
         if((empty($goods_number)) && (!empty($pid))){
             $goods = db("goods")
                     ->where("pid",$pid)
+                    ->where("store_id","EQ",$store_id)
                     ->order("id desc")
                     ->select();
         } else if ((!empty($goods_number)) && (empty($pid))) {
             $goods = db("goods")
                     ->where("goods_number",$goods_number)
+                    ->where("store_id","EQ",$store_id)
                     ->order("id desc")
                     ->select();
         } else if ((!empty($goods_number)) && (!empty($pid))) {
             $goods = db("goods")
             ->where("goods_number",$goods_number)
+            ->where("store_id","EQ",$store_id)
             ->where("pid",$pid)
             ->order("id desc")
             ->select();
         } else {
-            $goods = db("goods")->order("id desc")->select();
+            $goods = db("goods")->where("store_id","EQ",$store_id)->order("id desc")->select();
         }
       
-        $goods_list = getSelectList("wares");
+        $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
                 $res = db("wares")->where("id", $value['pid'])->field("name")->find();
@@ -881,7 +883,8 @@ class Goods extends Controller
      * 郭杨
      */    
     public function crowd_index(){
-        $crowd_data = db("crowd_goods")->select();
+        $store_id = Session::get("store_id");
+        $crowd_data = db("crowd_goods")->where("store_id","EQ",$store_id)->select();
         if(!empty($crowd_data)){
             foreach ($crowd_data as $key => $value) {
                 $sum[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->sum("price");//众筹金额
@@ -904,6 +907,7 @@ class Goods extends Controller
     public function crowd_add(Request $request){
         if($request->isPost()) {
             $goods_data = $request->param();
+            $store_id = Session::get("store_id");
             $goods_text =  isset($goods_data["goods_text"]) ? $goods_data["goods_text"]:null;
             $team =  isset($goods_data["team"]) ? $goods_data["team"]:null;
             $text =  isset($goods_data["text"]) ? $goods_data["text"]:null;
@@ -953,7 +957,8 @@ class Goods extends Controller
                 "templet_name" => $goods_data["templet_name"],
                 "label" => $goods_data["label"],
                 "status"=> $goods_data["status"],
-                "scope"=> $scope
+                "scope"=> $scope,
+                "store_id"=> $store_id
             );
 
             if(empty($result)){
@@ -1048,9 +1053,10 @@ class Goods extends Controller
             
    
         }
-        $scope = db("member_grade")->field("member_grade_name")->select();
-        $expenses = db("express")->field("id,name")->select();
-        $goods_list = getSelectList("wares");      
+        $store_id = Session::get("store_id");
+        $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
+        $expenses = db("express")->where("store_id","EQ",$store_id)->field("id,name")->select();
+        $goods_list = getSelectListes("wares");      
         return view("crowd_add",["goods_list"=>$goods_list,"expenses"=>$expenses,"scope"=>$scope]);
     }
 
@@ -1060,11 +1066,12 @@ class Goods extends Controller
      * 郭杨
      */    
     public function crowd_edit($id){
+        $store_id = Session::get("store_id");
         $goods = db("crowd_goods") -> where("id",$id) -> select(); 
         $goods_standard = db("crowd_special")->where("goods_id", $id)->select();
-        $goods_list = getSelectList("wares");
-        $expenses = db("express")->field("id,name")->select();
-        $scope = db("member_grade")->field("member_grade_name")->select();
+        $goods_list = getSelectListes("wares");
+        $expenses = db("express")->where("store_id","EQ",$store_id)->field("id,name")->select();
+        $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
 
 
         foreach ($goods as $key => $value) {
@@ -1079,7 +1086,7 @@ class Goods extends Controller
             $res = explode(',', $v["lv1"]);         
         }
     
-        
+        // halt($goods_standard);
         return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"expenses"=>$expenses,"scope" => $scope]);
     }
 
