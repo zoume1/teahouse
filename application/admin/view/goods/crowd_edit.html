@@ -696,7 +696,7 @@
                                                     lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
                                                     data-id="{$ve.id}" data-value="status"> {else}
                                                 <input type="checkbox" class="Status" value="{$ve.save}"
-                                                    lay-skin="switch" lay-text="是|否" lay-filter="isshelves" checked
+                                                    lay-skin="switch" lay-text="是|否" lay-filter="isshelves" checked=""
                                                     data-id="{$ve.id}" data-value="status"> {/if}
                                             </td>
                                             <td>
@@ -705,7 +705,7 @@
                                                     lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
                                                     data-id="{$ve.id}" data-value="status"> {else}
                                                 <input type="checkbox" class="Status" value="{$ve.status}"
-                                                    lay-skin="switch" lay-text="是|否" lay-filter="isshelves" checked
+                                                    lay-skin="switch" lay-text="是|否" lay-filter="isshelves" checked=""
                                                     data-id="{$ve.id}" data-value="status"> {/if}
                                             </td>
                                         </tr>
@@ -1016,12 +1016,12 @@
                 console.log("失败")
             }
         });
-
         layui.config({
             base: "js/"
         }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function () {
             var form = layui.form(),
                 $ = layui.jquery;
+                console.log(form);
             form.render();
             // 运费模板
             var unit2 = [];
