@@ -182,17 +182,10 @@
                         <td>公司</td>
                         {/if}
                         <td>{$value.address_real_data}</td>
-                        {if !empty($value.enter_meal)}
-                        <td>{$value.enter_meal}</td>
-                        <td>{$value.amount_money}</td>
-                        <td>{$value.start_time}</td>
-                        <td>{$value.end_time}</td>
-                        {else}
-                        <td>未选择套餐</td>
-                        <td>￥0</td>
-                        <td></td>
-                        <td></td>
-                        {/if}
+                        <td>{$value.goods_name}</td>
+                        <td>{$value.pay_money}</td>
+                        <td>{$value.start_time |date="Y-m-d H:i",###}</td>
+                        <td>{$value.end_time |date="Y-m-d H:i",###}</td>
                         <td style="border-right:1px solid #fff">
                             <a
                                 href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
@@ -206,10 +199,17 @@
                         <td style="border-left:1px solid #fff">
 
                             <div>
-                                {switch name="$value.audit_status"}
-                                {case value="-1"}<button class="layui-btn line-btn line-exam">未申请开票</button>{/case}
-                                {case value="1"}<button class="layui-btn line-btn line-ing">已申请开票</button>{/case}
-                                {default /}<button class="layui-btn line-btn line-pass">已开票完成</button>
+                                <!-- {switch name="$value.apply"}
+                                {case value="1"}<button class="layui-btn line-btn line-exam">未申请开票</button>{/case}
+                                {case value="2"}<button class="layui-btn line-btn line-ing">已申请开票</button>{/case}
+                                {case value="3"}<button class="layui-btn line-btn line-pass">已开票完成</button>
+                                {default /}<button class="layui-btn line-btn line-pass"></button>
+                                {/switch} -->
+                                switch name="$value.apply"}
+                                {case value="1"}<button class="layui-btn line-btn line-exam">未申请开票</button>{/case}
+                                {case value="2"}<button class="layui-btn line-btn line-ing">已申请开票</button>{/case}
+                                {case value="3"}<button class="layui-btn line-btn line-pass">已开票完成</button>
+                                {default /}<button class="layui-btn line-btn line-pass"></button>
                                 {/switch}
                             </div>
                         </td>

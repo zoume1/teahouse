@@ -65,7 +65,9 @@ class  General extends  Base {
     public function general_address(){
         $store_id =$this->store_ids ;
         $data =Db::name("pc_store_address")->where('store_id',$store_id)->select();
-        return view("general_address",["data"=>$data]);
+        $number_one = count($data);
+        $number_two = 5-$number_one;
+        return view("general_address",["data"=>$data,"number_one"=>$number_one,"number_two"=>$number_two]);
     }
 
     /**
@@ -1564,28 +1566,7 @@ class  General extends  Base {
         if($request->isPost()){
             $store_id = $this->store_ids;  //店铺id
             $enter_all_id = $request->only(['id'])['id'];//套餐id
-            $years =$request->only(["year"])["year"]; //年份
-            // //先判断该店铺是否下单
-            // $buy_status = Db::name("set_meal_order")->where('store_id',$store_id)->find();
-            // //是否付费
-            // if($buy_status){
-            //     if($buy_status['status'] == -1){
-            //         exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$buy_status['id']])));
-            //     } else if(($buy_status['status'] == 1) && ($buy_status['enter_all_id'] == $enter_all_id)){
-            //         exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$buy_status['id']])));
-            //     } else if(($buy_status['status'] == 1) && ($buy_status['enter_all_id'] > $enter_all_id)){
-            //         exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$buy_status['id']])));
-            //     } else if(($buy_status['status'] == 1) && ($buy_status['enter_all_id'] < $enter_all_id) && ($buy_status['audit_status'] == 1)){
-            //         exit(json_encode(array("status"=>1,"info"=>"可以升级","data"=>["id"=>$enter_all_id])));
-            //     } else if(($buy_status['status'] == 1) && ($buy_status['enter_all_id'] < $enter_all_id) && ($buy_status['audit_status'] == 0)){
-            //         exit(json_encode(array("status"=>3,"info"=>"您有待审核订单,需管理员审核通过才能升级","data"=>["id"=>$buy_status['id']])));
-            //     } else if(($buy_status['status'] == 1) && ($buy_status['enter_all_id'] < $enter_all_id) && ($buy_status['audit_status'] == -1)){
-            //         exit(json_encode(array("status"=>3,"info"=>"您购买的套餐审核不通过,需管理员审核通过才能升级","data"=>["id"=>$buy_status['id']])));
-            //     }
-            // } else {
-            //         exit(json_encode(array("status"=>1,"info"=>"购买","data"=>["id"=>$enter_all_id])));
-            // }
-            
+            $years =$request->only(["year"])["year"]; //年份            
             //先判断该单是否已经存在，没有则进行添加，不能重复下单,而且不能降级(到期的要进行续费购买或者更换其他套餐)
             $isset_id = Db::name("meal_orders")
                 ->where("store_id",$store_id)
@@ -1814,6 +1795,8 @@ class  General extends  Base {
             $input->SetProduct_id($goods_id);//设置trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
             $result = $notify->GetPayUrl($input);
             $url2 = $result["code_url"];
+            $bool = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["pay_money"=>$money]);
+            $boole = Db::name("meal_orders")->where("order_number",'EQ',$order_number)->update(["pay_money"=>$money]);
             if($url2){
                 return ajax_success("微信二维码返回成功",["url"=>"/qrcode?url2=".$url2]);
             }else{
@@ -1850,6 +1833,8 @@ class  General extends  Base {
                 "subject" => $goods_name, //商品订单的名称
                 "total_fee" => number_format($money, 2, '.', ''),
             );
+            $bool = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["pay_money"=>$money]);
+            $boole = Db::name("meal_orders")->where("order_number",'EQ',$order_number)->update(["pay_money"=>$money]);
             $str_pay_html = $obj_alipay->make_form($arr_data, true);
             if($str_pay_html){
                 return ajax_success("二维码成功",["url"=>$str_pay_html]);
@@ -2084,6 +2069,68 @@ class  General extends  Base {
                     'query' => request()->param(),
                 ]);
         return view("store_set_meal_order",["data"=>$data]);
+    }
+
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:后台店铺申请开发票
+     **************************************
+     */
+    public function store_write_receipt($id){
+        $store_id = $this->store_ids; //店铺id
+        $receipt = Db::name("store_receipt")
+            ->where("store_id","EQ",$store_id)
+            ->where("meal_order_id","EQ",$id)
+            ->find();
+        $location = db("pc_store_address")->where("store_id",'EQ',$store_id)->where("default","EQ",1)->find();
+        $money = db("meal_orders")->where("id",'EQ',$id)->value("pay_money");
+        if(!empty($receipt)){
+            $receipt['location'] = $location;
+            return ajax_success("发送成功",$receipt);
+        } else {
+            $data = array(
+                'apply'=>1, 
+                'money'=> $money,
+                'location'=>$location             
+            );
+            return ajax_success("发送成功",$data);
+        }
+    }
+
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:后台店铺立即开发票
+     **************************************
+     */
+    public function store_receipt_now(Request $request){
+        $store_id = $this->store_ids; //店铺id
+        $id = $request->only(['id'])['id'];
+        $order_number = Db::name("meal_orders")->where('id','EQ',$id)->value('order_number');
+        $data = $request->param();
+        $data['store_id'] = $store_id;
+        $data['apply'] = 2;
+        if(empty($data['location'])){
+            return ajax_error("请添加默认收获地址");
+        }
+        $receipt = Db::name("store_receipt")
+            ->where("store_id","EQ",$store_id)
+            ->where("meal_order_id","EQ",$id)
+            ->find();
+        if(!empty($receipt)){
+            return ajax_error("您已经开具过发票");
+        } else {
+            $receipt_id = Db::name("store_receipt")->insertGetId($data);
+            if($receipt_id){
+                $boole = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["apply"=>2]);
+                $bool = Db::name("meal_orders")->where("order_number",'EQ',$order_number)->update(["apply"=>2]);
+                return ajax_success("开票成功",$boole);
+            }
+            
+        }
     }
 
     /**

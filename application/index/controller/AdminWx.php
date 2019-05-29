@@ -56,6 +56,7 @@ class  AdminWx extends Controller{
                     }
                     $data["explains"] ="微信扫码支付直接通过";//审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款)
+                    $data["apply"] = 1; //订单状态（-1为未付款，1已付款)
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核)
                     $res = Db::name("set_meal_order")
                         ->where("order_number",$is_set_order["order_number"])
@@ -91,6 +92,7 @@ class  AdminWx extends Controller{
                     $data["pay_type"] = 1;//支付类型（1扫码支付，2汇款支付，3余额支付）
                     $data["pay_status"] = 1;//到账状态（1为已到账，-1未到账，2待审核）
                     $data["start_time"] = time();//开始时间
+                    $data["apply"] = 1;
                     if($year > 0){
                         $data["end_time"] = strtotime("+$year  year");//结束时间
                     } else {
@@ -241,6 +243,7 @@ class  AdminWx extends Controller{
                 if ($is_set_order) {
                     //这是套餐升级的情况
                     $data["pay_time"] = time();//支付时间
+                    $data["apply"] = 1;
                     $data["pay_type"] =1;//支付类型（1扫码支付,2汇款支付，3余额支付）
                     $data["pay_status"] = 1;//到账状态（1为已到账，-1未到账，2待审核）
                     $data['goods_name'] = $enter_all_data['goods_name']; //升级套餐名
@@ -260,7 +263,7 @@ class  AdminWx extends Controller{
                         ->where("order_number",$is_set_order["order_number"])
                         ->update($data);
                     $rest = Db::name("meal_orders")
-                    ->where("order_number",$is_set_order["order_number"])
+                    ->where("order_number",$out_trade_no)
                     ->update($data);
                 
                     if ($res){
@@ -295,6 +298,7 @@ class  AdminWx extends Controller{
                     $data["pay_type"] = 1;//支付类型（1扫码支付，2汇款支付，3余额支付）
                     $data["pay_status"] = 1;//到账状态（1为已到账，-1未到账，2待审核）
                     $data["start_time"] = time();//开始时间
+                    $data["apply"] = 1;
                     if($year > 0){
                         $data["end_time"] = strtotime("+$year  year");//结束时间
                     } else {
