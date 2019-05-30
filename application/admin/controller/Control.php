@@ -439,6 +439,18 @@ class  Control extends  Controller{
                      Db::name("admin")->insertGetId($array);
                  }
                 }
+                $mobile = $user_data['phone_number'];
+                $content = "尊敬的用户您好！您的店铺申请成功，请及时登陆网站，选择套餐，完成店铺入驻";
+                $url = "http://120.26.38.54:8000/interface/smssend.aspx";
+                $post_data = array("account" => "chacang", "password" => "123qwe", "mobile" => "$mobile", "content" => $content);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+                $output = curl_exec($ch);
+                curl_close($ch);
+
                 $this->success("审核成功",url("admin/Control/control_order_index"));
             } else {
                 $this->error("审核失败,请编辑后再提交",url("admin/Control/control_order_index"));

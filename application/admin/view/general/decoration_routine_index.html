@@ -234,6 +234,11 @@
                     var jj_change = 'change';
                     var onclick_hy = '';
                     var onclick_jj = '';
+
+                    if(datas.length == 1) {
+                        ischange = '';
+                        onclick_hy = `change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
+                    }
                     if(datas.length == 2) {
                         ischange = '';
                         onclick_hy = `change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
@@ -254,26 +259,6 @@
                                 <div class="btns">
                                     <div class="btns_b change_back" onclick="change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">历史编辑</div>
                                     <div class="btns_a wanyong"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-                                </div>
-                                </div>
-                                <div class="list">
-                                <div class="imgcontent">
-                                    <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
-                                    <div class="text">茶行业版</div>
-                                </div>
-                                <div class="btns">
-                                    <div class="btns_b change_hy ${ischange}" onclick ="${onclick_hy};">切换版本</div>
-                                    <div class="btns_a noshow hangye"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-                                </div>
-                                </div>
-                                <div class="list">
-                                <div class="imgcontent">
-                                    <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
-                                    <div class="text">茶进阶版</div>
-                                </div>
-                                <div class="btns">
-                                    <div class="btns_b ${jj_change} now_use" onclick ="${onclick_jj};">切换版本</div>
-                                    <div class="btns_a noshow jinjie"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>`;
 
@@ -296,16 +281,6 @@
                                 <div class="btns">
                                     <div class="btns_b change_hy" onclick="change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">历史编辑</div>
                                     <div class="btns_a hangye" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-                                </div>
-                                </div>
-                                <div class="list">
-                                <div class="imgcontent">
-                                    <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
-                                    <div class="text">茶进阶版</div>
-                                </div>
-                                <div class="btns">
-                                    <div class="btns_b ${jj_change} now_use" onclick ="${onclick_jj};">切换版本</div>
-                                    <div class="btns_a noshow jinjie"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>`;
                     } else {

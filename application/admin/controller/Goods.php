@@ -129,6 +129,7 @@ class Goods extends Controller
             }
             $goods_data["store_id"] = $store_id;
             if ($goods_data["goods_standard"] == "0") {
+                halt($goods_data);
                 $bool = db("goods")->insert($goods_data);
                 if ($bool && (!empty($show_images))) {
                     $this->success("添加成功", url("admin/Goods/index"));
