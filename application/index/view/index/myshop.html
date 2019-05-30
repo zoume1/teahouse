@@ -504,48 +504,59 @@
 
         // 创建店铺
         (function(){
+            var key = true;
             $('.addshop-button').click(function(){
-                var addrArr = [],
-                    select,
-                    id = this.id;
-                if(myEvent.data.natureTag == 1){
-                    select = document.querySelectorAll('#p-dist select');
-                }else{
-                    select = document.querySelectorAll('#c-dist select');
-                }
-                select.forEach(function(v, i){
-                    addrArr.push(v.value);
-                })
-                myEvent.data.addressStr = addrArr.join(',');
-                $.ajax({
-                    url: myEvent.data.isEdit?'store_edit':'store_add',
-                    type: 'POST',
-                    dataType: 'JSON',
-                    data: {
-                        id: id,
-                        is_business: myEvent.data.natureTag,
-                        id_card: myEvent.data.idCardNum,
-                        contact_name: myEvent.data.userName,
-                        address_data: myEvent.data.addressStr,
-                        address_real_data: myEvent.data.addressStr2,
-                        card_positive: myEvent.data.pf,
-                        card_side: myEvent.data.pb,
-                        store_introduction: myEvent.data.storeDesc,
-                        business_name: myEvent.data.compName,
-                        licence_no: myEvent.data.licenceNum,
-                        store_name: myEvent.data.storeName
-                    },
-                    success: function(res){
-                        console.log('添加店铺成功',res);
-                        if(res.status == 1){
-                            layer.msg(res.info);
-                            setTimeout(function(){location.reload()}, 1000);
-                        }else{
-                            layer.msg(res.info);
+                if(key){
+                    var addrArr = [],
+                        select,
+                        id = this.id;
+                    key = false;
+                    if(myEvent.data.natureTag == 1){
+                        select = document.querySelectorAll('#p-dist select');
+                    }else{
+                        select = document.querySelectorAll('#c-dist select');
+                    }
+                    select.forEach(function(v, i){
+                        addrArr.push(v.value);
+                    })
+                    myEvent.data.addressStr = addrArr.join(',');
+                    $.ajax({
+                        url: myEvent.data.isEdit?'store_edit':'store_add',
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: {
+                            id: id,
+                            is_business: myEvent.data.natureTag,
+                            id_card: myEvent.data.idCardNum,
+                            contact_name: myEvent.data.userName,
+                            address_data: myEvent.data.addressStr,
+                            address_real_data: myEvent.data.addressStr2,
+                            card_positive: myEvent.data.pf,
+                            card_side: myEvent.data.pb,
+                            store_introduction: myEvent.data.storeDesc,
+                            business_name: myEvent.data.compName,
+                            licence_no: myEvent.data.licenceNum,
+                            store_name: myEvent.data.storeName
+                        },
+                        success: function(res){
+                            console.log('添加店铺成功',res);
+                            if(res.status == 1){
+                                layer.msg(res.info);
+                                setTimeout(function(){
+                                    location.reload();
+                                    key = true;
+                                }, 1000);
+                            }else{
+                                layer.msg(res.info);
+                                key = true;
+                            }
+                        },
+                        error: function(){
+                            console.log('添加店铺失败');
+                            key = true;
                         }
-                    },
-                    error: function(){console.log('添加店铺失败')}
-                })
+                    })
+                }
             })
         }());
 
