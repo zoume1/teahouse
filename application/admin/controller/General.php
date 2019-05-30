@@ -2119,7 +2119,6 @@ class  General extends  Base {
             $store_id = $this->store_ids; //店铺id
             $id = $request->only(['id'])['id'];
             $order_number = Db::name("meal_orders")->where('id','EQ',$id)->value('order_number');
-            halt($order_number);
             $data = $request->param();
             $data['store_id'] = $store_id;
             $data['apply'] = 2;
@@ -2138,13 +2137,14 @@ class  General extends  Base {
             if(!empty($receipt)){
                 return ajax_error("您已经开具过发票");
             } else {
+                unset($data['id']);
                 $receipt_id = Db::name("store_receipt")->insert($data);
                 if($receipt_id){
+                    $bool = Db::name("meal_orders")->where("id",'EQ',$id)->update(["apply"=>2]);
                     return ajax_success("开票成功");
-                    $boole = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["apply"=>2]);
-                    $bool = Db::name("meal_orders")->where("order_number",'EQ',$order_number)->update(["apply"=>2]);  
+                      
                 } else {
-                    return ajax_error("您已经开具过发票");
+                    return ajax_error("开具发票失败");
                 }
                 
             }
