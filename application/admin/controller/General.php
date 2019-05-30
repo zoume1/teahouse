@@ -1529,6 +1529,10 @@ class  General extends  Base {
                 ->select();
     
              if($data){
+                if($data[0]['year'] == 0){
+                    $data[0]['year'] = 10;
+                    $data[0]['unit'] = "天";
+                }
                 foreach ($data as $k=>$v){
                     $last_money = Db::name("meal_orders")
                         ->where("store_id",$v['store_id'])
@@ -2078,24 +2082,27 @@ class  General extends  Base {
      * Notes:后台店铺申请开发票
      **************************************
      */
-    public function store_write_receipt($id){
-        $store_id = $this->store_ids; //店铺id
-        $receipt = Db::name("store_receipt")
-            ->where("store_id","EQ",$store_id)
-            ->where("meal_order_id","EQ",$id)
-            ->find();
-        $location = db("pc_store_address")->where("store_id",'EQ',$store_id)->where("default","EQ",1)->find();
-        $money = db("meal_orders")->where("id",'EQ',$id)->value("pay_money");
-        if(!empty($receipt)){
-            $receipt['location'] = $location;
-            return ajax_success("发送成功",$receipt);
-        } else {
-            $data = array(
-                'apply'=>1, 
-                'money'=> $money,
-                'location'=>$location             
-            );
-            return ajax_success("发送成功",$data);
+    public function store_write_receipt(Request $request){
+        if($request -> isPost()){
+            $store_id = $this->store_ids; //店铺id
+            $id = $request->only(['id'])['id']; //套餐id
+            $receipt = Db::name("store_receipt")
+                ->where("store_id","EQ",$store_id)
+                ->where("meal_order_id","EQ",$id)
+                ->find();
+            $location = db("pc_store_address")->where("store_id",'EQ',$store_id)->where("default","EQ",1)->find();
+            $money = db("meal_orders")->where("id",'EQ',$id)->value("pay_money");
+            if(!empty($receipt)){
+                $receipt['location'] = $location;
+                return ajax_success("发送成功",$receipt);
+            } else {
+                $data = array(
+                    'apply'=>1, 
+                    'money'=> $money,
+                    'location'=>$location             
+                );
+                return ajax_success("发送成功",$data);
+            }
         }
     }
 
@@ -2107,29 +2114,36 @@ class  General extends  Base {
      **************************************
      */
     public function store_receipt_now(Request $request){
-        $store_id = $this->store_ids; //店铺id
-        $id = $request->only(['id'])['id'];
-        $order_number = Db::name("meal_orders")->where('id','EQ',$id)->value('order_number');
-        $data = $request->param();
-        $data['store_id'] = $store_id;
-        $data['apply'] = 2;
-        if(empty($data['location'])){
-            return ajax_error("请添加默认收获地址");
-        }
-        $receipt = Db::name("store_receipt")
-            ->where("store_id","EQ",$store_id)
-            ->where("meal_order_id","EQ",$id)
-            ->find();
-        if(!empty($receipt)){
-            return ajax_error("您已经开具过发票");
-        } else {
-            $receipt_id = Db::name("store_receipt")->insertGetId($data);
-            if($receipt_id){
-                $boole = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["apply"=>2]);
-                $bool = Db::name("meal_orders")->where("order_number",'EQ',$order_number)->update(["apply"=>2]);
-                return ajax_success("开票成功",$boole);
+        if($request -> isPost()){
+            $store_id = $this->store_ids; //店铺id
+            $id = $request->only(['id'])['id'];
+            $order_number = Db::name("meal_orders")->where('id','EQ',$id)->value('order_number');
+            $data = $request->param();
+            $data['store_id'] = $store_id;
+            $data['apply'] = 2;
+            $data['meal_order_id'] = $id;
+            if(empty($data['location'])){
+                return ajax_error("请添加默认收获地址");
+            }
+            if(empty($data['title']) || empty($data['company_number'])){
+                exit(json_encode(array("status" => -1, "info" => "参数错误")));
             }
             
+            $receipt = Db::name("store_receipt")
+                ->where("store_id","EQ",$store_id)
+                ->where("meal_order_id","EQ",$id)
+                ->find();
+            if(!empty($receipt)){
+                return ajax_error("您已经开具过发票");
+            } else {
+                $receipt_id = Db::name("store_receipt")->insertGetId($data);
+                if($receipt_id){
+                    $boole = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["apply"=>2]);
+                    $bool = Db::name("meal_orders")->where("order_number",'EQ',$order_number)->update(["apply"=>2]);
+                    return ajax_success("开票成功",$boole);
+                }
+                
+            }
         }
     }
 
