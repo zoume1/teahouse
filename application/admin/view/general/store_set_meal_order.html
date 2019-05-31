@@ -205,7 +205,7 @@
             <div class="top">
                 <div class="invoice-money">
                     <label class="lb">开票金额</label>
-                    <span>￥123</span>
+                    <span></span>
                 </div>
             </div>
             <div class="mid">
@@ -252,7 +252,7 @@
 <script>
     layui.use(['laydate', 'form', 'layer'], function () {
         var layer = layui.layer;
-
+        
         $('.line-btn').click(function () {
             $('.mask').add('.pop').show();
             $('.pop .close').click(function () {
@@ -269,10 +269,14 @@
                 success: function (res) {
                     console.log(res);
                     var data = res.data;
+                    // 开票金额
+                    $('.invoice-money span').text('￥' + data.money);
+                    // 地址
+                    if(data.location){
+                        $('.address p').text(data.location.address + ' ' + data.location.street + ' ' + data.location.zip + ' (' + data.location.name + '收)' + data.location.phone + ' 默认地址');
+                    }
                     if (data.apply == 1) {
                         $('.bot li:first').show();
-                        // 地址
-                        $('.address p').text(data.location.address + ' ' + data.location.street + ' ' + data.location.zip + ' (' + data.location.name + '收)' + data.location.phone + ' 默认地址')
                         // 立即开票
                         $('.bill-btn').click(function () {
                             var param = {
@@ -298,16 +302,22 @@
                                     dataType: 'JSON',
                                     success: function (res) {
                                         console.log(res);
-                                        if (res.data.status == 1) {
-                                            layer('申请成功！请耐心等待！');
-                                            location.reload();
+                                        if (res.status == 1) {
+                                            layer.msg('申请成功！请耐心等待！');
+                                            setTimeout(function(){
+                                                location.reload();
+                                            }, 1200);
                                         }else {
-                                            layer(res.data.info);
+                                            layer.msg(res.info);
                                         }
                                     }
                                 })
                             }
                         })
+                    }else if(data.apply == 2){
+                        $('.bot li:eq(1)').show();
+                        $('.invoice-head input').val(data.title).attr('readonly', true);
+                        $('.invoice-num input').val(data.company_number).attr('readonly', true);
                     }
                 }
             })

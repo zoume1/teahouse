@@ -118,6 +118,7 @@ class Goods extends Controller
         
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
+            $goods_data["goods_sign"] = isset($goods_data["goods_sign"])?$goods_data["goods_sign"]:null;
                            
             if(empty($goods_data["num"][1]) && empty($goods_data["unit"][0])){ //存             
                 $goods_data["num"] = array();
@@ -128,8 +129,10 @@ class Goods extends Controller
                 $goods_data["unit"] = implode(",",$goods_data["unit"]);
             }
             $goods_data["store_id"] = $store_id;
+            //暂时更改
+            unset($goods_data["sss"]);
+            unset($goods_data["server"]);
             if ($goods_data["goods_standard"] == "0") {
-                halt($goods_data);
                 $bool = db("goods")->insert($goods_data);
                 if ($bool && (!empty($show_images))) {
                     $this->success("添加成功", url("admin/Goods/index"));
