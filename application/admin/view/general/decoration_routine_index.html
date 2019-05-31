@@ -42,7 +42,6 @@
         background-color: rgba(0, 0, 0, 0.686274509803922);
         border: none;
         border-bottom: 0px;
-        border-radius: 28px;
         border-bottom-right-radius: 50px;
         border-bottom-left-radius: 50px;
         -moz-box-shadow: none;
@@ -190,8 +189,8 @@
     
     <div class="childrenBody">
 
-
     </div>
+    <div style="margin-left: 43px">备注：尊敬的用户，您好！您可以自己编辑模版，也可以在历史编辑中→页面列表中选择系统推荐模版继续编辑！</div>
 
     {/block}
 
@@ -313,7 +312,9 @@
                                     <div class="btns_b now_use" onclick="change_jj(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">历史编辑</div>
                                     <div class="btns_a jinjie" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
-                                </div>`;
+                                </div>
+                            
+                                `;
                     }
                     $('.childrenBody').append(dhtml);
                 }
