@@ -236,6 +236,8 @@
                             this.setCookie('TCid', res.body.data.id, 7);
                             this.setCookie('virtual', false, 7);//结算页判断是虚拟商品 隐藏收货地址
                             location.href = 'order_package_buy';
+                        }else{
+                            layer.msg(res.body.info, {time: 2000});
                         }
                     }, function(res){
                         console.log(res.status, res.statusText);
