@@ -32,7 +32,7 @@
         .version-cost .td{font-weight: normal;}
         .order{display: block; background-color: #f00; color: #fff; font-size: 14px; width: 90%; height: 35px; cursor: pointer; margin: 0 auto; border: 0; outline: none;}
         .select-comb{position: relative; text-align: center; font-size: 13px; width: 90%; margin: 10px auto 0; cursor: pointer;}
-        .comb-container{width: 270px; height: 250px; position: absolute; left: 50%; bottom: -108%; margin-left: -135px; overflow: hidden;}
+        .comb-container{width: 270px; position: absolute; left: 50%; top: 230px; margin-left: -135px; overflow: hidden;}
         .comb-list{position: absolute; left: 0; top: -100%; width: 100%; height: 100%; box-sizing: border-box; background-color: #fff; z-index: 2; transition: all .6s; overflow: hidden; border: 1px solid rgb(255, 223, 223); border-top: 0; box-sizing: border-box;}
         .movelist{top: 0;}
         .comb-list .comb-item{display: flex; align-items: center; justify-content: space-between; height: 40px;}
@@ -85,7 +85,7 @@
                         @click="crimpComb(index)">
                         <span class="cr triangle">选择年限</span>
                     </div>
-                    <div class="comb-container">
+                    <div class="comb-container clearfix" :style="{height: (item.priceList.length + 1) * 40 + 'px'}">
                         <ul class="comb-list"
                             :class="{movelist: crimpFlag[index]}">
                             <li class="comb-item">
