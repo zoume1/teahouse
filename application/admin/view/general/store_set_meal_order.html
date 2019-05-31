@@ -205,7 +205,7 @@
             <div class="top">
                 <div class="invoice-money">
                     <label class="lb">开票金额</label>
-                    <span>￥123</span>
+                    <span></span>
                 </div>
             </div>
             <div class="mid">
@@ -269,8 +269,12 @@
                 success: function (res) {
                     console.log(res);
                     var data = res.data;
+                    // 开票金额
+                    $('.invoice-money span').text('￥' + data.money);
                     // 地址
-                    $('.address p').text(data.location.address + ' ' + data.location.street + ' ' + data.location.zip + ' (' + data.location.name + '收)' + data.location.phone + ' 默认地址')
+                    if(data.location){
+                        $('.address p').text(data.location.address + ' ' + data.location.street + ' ' + data.location.zip + ' (' + data.location.name + '收)' + data.location.phone + ' 默认地址');
+                    }
                     if (data.apply == 1) {
                         $('.bot li:first').show();
                         // 立即开票
@@ -300,7 +304,9 @@
                                         console.log(res);
                                         if (res.status == 1) {
                                             layer.msg('申请成功！请耐心等待！');
-                                            location.reload();
+                                            setTimeout(function(){
+                                                location.reload();
+                                            }, 1200);
                                         }else {
                                             layer.msg(res.info);
                                         }
