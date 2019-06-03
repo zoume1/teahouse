@@ -55,7 +55,7 @@ class Login extends Controller{
             $register_login = db("recommend_integral")
                 ->where("id","1")
                 ->value("register_integral");//授权通过即送积分
-            if(!empty($errCode )){
+            if(!empty($errCode)){
                 $is_register =Db::name('member')
                     ->where("store_id",$user_data['store_id'])
                     ->where('member_openid',$errCode['openId'])
