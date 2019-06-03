@@ -254,14 +254,7 @@
                             var key = true;
                             $('.bill-btn').click(function () {
                                 if (key) {
-                                    key = false
-                                    var param = {
-                                        id: id,
-                                        money: data.money,
-                                        location: data.location.id,
-                                        title: $('.invoice-head input').val(),
-                                        company_number: $('.invoice-num input').val()
-                                    }
+                                    key = false;
                                     var address = $('.address p').text();
 
                                     if (param.title == '') {
@@ -272,14 +265,16 @@
                                         alert('请添加收货地址！');
                                     } else {
                                         $.ajax({
-                                            url: 'store_receipt_now',
-                                            data: param,
+                                            url: 'admin_auditing_receipt',
+                                            data: {
+                                                'id': id,
+                                            },
                                             type: 'POST',
                                             dataType: 'JSON',
                                             success: function (res) {
                                                 console.log(res);
                                                 if (res.status == 1) {
-                                                    layer.msg('申请成功！请耐心等待！');
+                                                    layer.msg('审核成功！');
                                                     setTimeout(function () {
                                                         location.reload();
                                                     }, 1200);
