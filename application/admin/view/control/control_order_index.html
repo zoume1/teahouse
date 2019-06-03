@@ -26,7 +26,7 @@
     .pop{position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 650px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9;}
     .pop .head{position: relative; padding-left: 16px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
     .pop .head p{height: 35px; line-height: 36px; font-size: 13px;}
-    .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer; font-style: normal;}
+    .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer; font-style: normal; user-select: none;}
     .content{padding: 0 16px;}
     .top, .mid, .bot{padding: 0 30px;}
     .top{height: 50px; line-height: 50px;}
@@ -39,7 +39,7 @@
     .change-addr{text-align: right;height: 35px; line-height: 35px; }
     .change-addr a{color: #199ED8;}
     .bot li{height: 65px; line-height: 65px; list-style: disc;}
-    .bot li button{background-color: #669900;}
+    .bot li button{background-color: #f00; float: right; transform: translateY(50%);}
     .bot li a{color: #669900;}
 </style>
 
@@ -194,9 +194,9 @@
                     <label for="" class="lb">邮寄地址</label>
                     <p></p>
                 </div>
-                <p class="change-addr">
+                <!-- <p class="change-addr">
                     <a href="general_address">管理收货地址</a>
-                </p>
+                </p> -->
             </div>
             <div class="bot">
                 <ul>
@@ -254,43 +254,27 @@
                             var key = true;
                             $('.bill-btn').click(function () {
                                 if (key) {
-                                    key = false
-                                    var param = {
-                                        id: id,
-                                        money: data.money,
-                                        location: data.location.id,
-                                        title: $('.invoice-head input').val(),
-                                        company_number: $('.invoice-num input').val()
-                                    }
-                                    var address = $('.address p').text();
-
-                                    if (param.title == '') {
-                                        alert('请填写发票抬头！');
-                                    } else if (param.company_number == '') {
-                                        alert('请填写企业税号！');
-                                    } else if (address == '') {
-                                        alert('请添加收货地址！');
-                                    } else {
-                                        $.ajax({
-                                            url: 'store_receipt_now',
-                                            data: param,
-                                            type: 'POST',
-                                            dataType: 'JSON',
-                                            success: function (res) {
-                                                console.log(res);
-                                                if (res.status == 1) {
-                                                    layer.msg('申请成功！请耐心等待！');
-                                                    setTimeout(function () {
-                                                        location.reload();
-                                                    }, 1200);
-                                                } else {
-                                                    layer.msg(res.info);
-                                                }
+                                    key = false;
+                                    $.ajax({
+                                        url: 'admin_auditing_receipt',
+                                        data: {
+                                            'id': id,
+                                        },
+                                        type: 'POST',
+                                        dataType: 'JSON',
+                                        success: function (res) {
+                                            console.log(res);
+                                            if (res.status == 1) {
+                                                layer.msg('审核成功！');
+                                                setTimeout(function () {
+                                                    location.reload();
+                                                }, 1200);
+                                            } else {
+                                                layer.msg(res.info);
                                             }
-                                        })
-                                    }
+                                        }
+                                    })
                                 }
-
                             })
                         } else if (data.apply == 2) {
                             $('.bot li:eq(0)').show();
