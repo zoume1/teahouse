@@ -250,6 +250,11 @@
                         }
                         if (data.apply == 1) {
                             $('.mid').css('border', 0);
+                        } else if (data.apply == 2) {
+                            $('.bot li:eq(0)').show();
+                            $('.invoice-head input').val(data.title).attr('readonly', true);
+                            $('.invoice-num input').val(data.company_number).attr('readonly', true);
+
                             // 立即开票
                             var key = true;
                             $('.bill-btn').click(function () {
@@ -276,10 +281,6 @@
                                     })
                                 }
                             })
-                        } else if (data.apply == 2) {
-                            $('.bot li:eq(0)').show();
-                            $('.invoice-head input').val(data.title).attr('readonly', true);
-                            $('.invoice-num input').val(data.company_number).attr('readonly', true);
                         } else if(data.apply == 3){
                             $('.bot li:eq(1)').show();
                             $('.invoice-head input').val(data.title).attr('readonly', true);
