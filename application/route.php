@@ -826,7 +826,6 @@ Route::group("admin",[
 
     "store_set_meal_order"=>"admin/General/store_set_meal_order",//套餐订单
     "store_write_receipt"=>"admin/General/store_write_receipt",//后台店铺申请开发票
-    "store_examine_receipt"=>"admin/General/store_examine_receipt",//admin后台审核订单发票
     "store_receipt_now"=>"admin/General/store_receipt_now",//后台店铺立即开发票
     "store_order"=>"admin/General/store_order",//增值订单
     "store_order_after"=>"admin/General/store_order_after",//售后维权
@@ -865,6 +864,9 @@ Route::group("admin",[
     "control_charging_edit"=>"admin/Control/control_charging_edit",//线下充值申请编辑
     "control_withdraw_deposit"=>"admin/Control/control_withdraw_deposit",//提现申请
     "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
+    "store_examine_receipt"=>"admin/Control/store_examine_receipt",//admin后台审核订单发票
+    "admin_auditing_receipt"=>"admin/Control/admin_auditing_receipt",//后台审核发票
+
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
