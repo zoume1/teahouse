@@ -143,9 +143,9 @@
 
                             <div>
                                 {switch name="$value.apply"}
-                                {case value="1"}<button class="layui-btn line-btn line-exam">未申请开票</button>{/case}
-                                {case value="2"}<button class="layui-btn line-btn line-ing">已申请开票</button>{/case}
-                                {case value="3"}<button class="layui-btn line-btn line-pass">已开票完成</button>
+                                {case value="1"}<button class="layui-btn line-btn line-exam" data-id="{$value.id}">未申请开票</button>{/case}
+                                {case value="2"}<button class="layui-btn line-btn line-ing" data-id="{$value.id}">已申请开票</button>{/case}
+                                {case value="3"}<button class="layui-btn line-btn line-pass" data-id="{$value.id}">已开票完成</button>
                                 {default /}
                                 {/switch}
      

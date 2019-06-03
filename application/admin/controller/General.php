@@ -2259,6 +2259,36 @@ class  General extends  Base {
         }
     }
 
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:admin后台审核订单发票
+     **************************************
+     */
+    public function store_examine_receipt(Request $request){
+        if($request -> isPost()){
+            $id = $request->only(['id'])['id']; //套餐id
+            $store_data = Db::name("meal_orders")->where("id"," EQ",$id)->find();
+            $receipt = Db::name("store_receipt")
+                ->where("store_id","EQ",$store_data['store_id'])
+                ->where("meal_order_id","EQ",$id)
+                ->find();
+            $location = db("pc_store_address")->where("store_id",'EQ',$store_data['store_id'])->where("default","EQ",1)->find();
+            $money = db("meal_orders")->where("id",'EQ',$id)->value("pay_money");
+            if(!empty($receipt)){
+                $receipt['location'] = $location;
+                return ajax_success("发送成功",$receipt);
+            } else {
+                $data = array(
+                    'apply'=>1, 
+                    'money'=> $money,
+                    'location'=>$location             
+                );
+                return ajax_success("发送成功",$data);
+            }
+        }
+    }
+
 
     /**
      **************GY*******************
