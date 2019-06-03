@@ -5,95 +5,42 @@
 {block name="css"}
 
 <style type="text/css">
-    body {
-        background: #fff;
-    }
-
-    #page {
-        width: 97%;
-		height: 50px;
-		line-height: 50px;
-		border: solid 1px #E2E2E2;
-		padding-left: 50px;
-		background: #FDFDFE;
-    }
-
-    .on {
-        color: #21A5FA !important;
-        border-bottom: solid 3px #21A5FA;
-    }
-
-    .distribution_list {
-        margin-bottom: 10px;
-        border-bottom: solid 1px #D7D7D7;
-    }
-
-    .distribution_list ul {
-        display: flex;
-        align-items: center;
-    }
-
-    .distribution_list a {
-        font-size: 14px;
-        padding: 9px;
-        color: #5E5E5E;
-    }
-
-    .static_btus {
-        width: 100px;
-        height: 30px;
-        line-height: 30px;
-        border-radius: 8px;
-
-        margin: 0 auto;
-        overflow: hidden;
-    }
-
-    .static_btus>a {
-        color: #fff;
-    }
-
-    .static_btus button {
-        width: 100%;
-    }
-
-    .payment-has-been {
-        background: #669900d4;
-    }
-
-    a {
-        color: #669900;
-    }
-
-    .line-exam {
-        background-color: transparent;
-        color: rgb(188, 188, 188);
-        border: 1px solid rgb(188, 188, 188);
-    }
-
-    .line-ing {
-        background-color: transparent;
-        color: rgb(255, 153, 0);
-        border: 1px solid rgb(255, 153, 0);
-    }
-
-    .line-pass {
-        background-color: transparent;
-        color: rgb(102, 153, 0);
-        border: 1px solid rgb(102, 153, 0);
-    }
-
-    .line-exam:hover {
-        color: rgb(188, 188, 188);
-    }
-
-    .line-ing:hover {
-        color: rgb(255, 153, 0);
-    }
-
-    .line-pass:hover {
-        color: rgb(102, 153, 0);
-    }
+    body {background: #fff;}
+    #page {width: 97%;height: 50px;line-height: 50px;border: solid 1px #E2E2E2;padding-left: 50px;background: #FDFDFE;}
+    .on {color: #21A5FA !important; border-bottom: solid 3px #21A5FA;}
+    .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
+    .distribution_list ul {display: flex; align-items: center;}
+    .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+    .static_btus {width: 100px; height: 30px; line-height: 30px; border-radius: 8px; margin: 0 auto; overflow: hidden;}
+    .static_btus>a {color: #fff;}
+    .static_btus button {width: 100%;}
+    .payment-has-been {background: #669900d4;}
+    a {color: #669900;}
+    .line-exam {background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
+    .line-ing {background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
+    .line-pass {background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}    
+    .line-exam:hover {color: rgb(188, 188, 188);}
+    .line-ing:hover {color: rgb(255, 153, 0);}
+    .line-pass:hover {color: rgb(102, 153, 0);}
+    .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
+    .pop{position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 650px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9;}
+    .pop .head{position: relative; padding-left: 16px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
+    .pop .head p{height: 35px; line-height: 36px; font-size: 13px;}
+    .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer; font-style: normal;}
+    .content{padding: 0 16px;}
+    .top, .mid, .bot{padding: 0 30px;}
+    .top{height: 50px; line-height: 50px;}
+    .lb{font-size: 16px; font-weight: 700; color: #333; margin-right: 30px;}
+    .top span{font-size: 24px; color: #f00; font-weight: 700;}
+    .mid{border: 1px dashed #d2d2d2; border-left: 0; border-right: 0;}
+    .mid>div{height: 50px; line-height: 50px; display: flex; align-items: baseline;}
+    .mid input{height: 30px; width: 300px; padding-left: 10px;}
+    .address p{line-height: normal; flex: 1;}
+    .change-addr{text-align: right;height: 35px; line-height: 35px; }
+    .change-addr a{color: #199ED8;}
+    .bot li{height: 65px; line-height: 65px; list-style: disc;}
+    .bot li button{background-color: #669900;}
+    .bot li a{color: #669900;}
 </style>
 
 {/block}
@@ -145,13 +92,9 @@
                     <button class="layui-btn" type="submit" id="seach">立即搜索</button>
                 </div>
             </form>
-
-
-
         </blockquote>
         <div class="layui-form news_list">
             <table class="layui-table">
-
                 <thead>
                     <tr>
                         <th>用户账号手机号</th>
@@ -203,7 +146,7 @@
                                 {case value="1"}<button class="layui-btn line-btn line-exam">未申请开票</button>{/case}
                                 {case value="2"}<button class="layui-btn line-btn line-ing">已申请开票</button>{/case}
                                 {case value="3"}<button class="layui-btn line-btn line-pass">已开票完成</button>
-                                {default /}<button class="layui-btn line-btn line-pass"></button>
+                                {default /}
                                 {/switch}
      
                             </div>
@@ -220,13 +163,54 @@
                     {/volist}{/if}
                 </tbody>
             </table>
-
-
         </div>
         {$order->render()}
-
     </div>
 
+    <div class="mask" style="display: none;"></div>
+    <!-- 弹窗 -->
+    <div class="pop" style="display: none;">
+        <div class="head">
+            <p>请填写</p>
+            <i class="close">×</i>
+        </div>
+        <div class="content">
+            <div class="top">
+                <div class="invoice-money">
+                    <label class="lb">开票金额</label>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mid">
+                <div class="invoice-head"> 
+                    <label class="lb">发票抬头</label>
+                    <input type="text" placeholder="请填写公司名">
+                </div>
+                <div class="invoice-num">
+                    <label class="lb">企业税号</label>
+                    <input type="text" placeholder="请填写企业税号">
+                </div>
+                <div class="address">
+                    <label for="" class="lb">邮寄地址</label>
+                    <p></p>
+                </div>
+                <p class="change-addr">
+                    <a href="general_address">管理收货地址</a>
+                </p>
+            </div>
+            <div class="bot">
+                <ul>
+                    <li style="display: none;">
+                        <span>客户已申请开票</span>
+                        <button class="layui-btn bill-btn">立即开票</button>
+                    </li>
+                    <li style="display: none;">
+                        <span>平台已开票</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     {/block}
 
     <!--_footer 作为公共模版分离出去-->
@@ -238,35 +222,87 @@
     <script type="text/javascript">
         layui.config({
             base: "js/"
-        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+        }).use(['form', 'layer'], function () {
             var form = layui.form(),
-                layer = parent.layer === undefined ? layui.layer : parent.layer,
-                laypage = layui.laypage,
-                $ = layui.jquery;
-            form.on('switch(isShow)', function (data) {
-                if ($(this).val() == 0) {
-                    $(this).val(1);
-                } else {
-                    $(this).val(0);
-                }
-                var vals = data.value;
-                var id = $(this).data("id");
-                var status = $(this).val();
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('')}",
-                    data: {
-                        "id": id,
-                        "status": status
-                    },
-                    success: function (data) {
-                        console.log("成功")
-                    },
-                    error: function (data) {
-                        console.log("错误")
-                    }
-                });
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
 
+            $('.line-btn').click(function () {
+                $('.mask').add('.pop').show();
+                $('.pop .close').click(function () {
+                    $('.mask').add('.pop').hide();
+                })
+                var id = this.getAttribute('data-id');
+                $.ajax({
+                    url: 'store_write_receipt',
+                    data: {
+                        'id': id,
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (res) {
+                        console.log(res);
+                        var data = res.data;
+                        // 开票金额
+                        $('.invoice-money span').text('￥' + data.money);
+                        // 地址
+                        if (data.location) {
+                            $('.address p').text(data.location.address + ' ' + data.location.street + ' ' + data.location.zip + ' (' + data.location.name + '收)' + data.location.phone + ' 默认地址');
+                        }
+                        if (data.apply == 1) {
+                            $('.mid').css('border', 0);
+                            // 立即开票
+                            var key = true;
+                            $('.bill-btn').click(function () {
+                                if (key) {
+                                    key = false
+                                    var param = {
+                                        id: id,
+                                        money: data.money,
+                                        location: data.location.id,
+                                        title: $('.invoice-head input').val(),
+                                        company_number: $('.invoice-num input').val()
+                                    }
+                                    var address = $('.address p').text();
+
+                                    if (param.title == '') {
+                                        alert('请填写发票抬头！');
+                                    } else if (param.company_number == '') {
+                                        alert('请填写企业税号！');
+                                    } else if (address == '') {
+                                        alert('请添加收货地址！');
+                                    } else {
+                                        $.ajax({
+                                            url: 'store_receipt_now',
+                                            data: param,
+                                            type: 'POST',
+                                            dataType: 'JSON',
+                                            success: function (res) {
+                                                console.log(res);
+                                                if (res.status == 1) {
+                                                    layer.msg('申请成功！请耐心等待！');
+                                                    setTimeout(function () {
+                                                        location.reload();
+                                                    }, 1200);
+                                                } else {
+                                                    layer.msg(res.info);
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+
+                            })
+                        } else if (data.apply == 2) {
+                            $('.bot li:eq(0)').show();
+                            $('.invoice-head input').val(data.title).attr('readonly', true);
+                            $('.invoice-num input').val(data.company_number).attr('readonly', true);
+                        } else if(data.apply == 3){
+                            $('.bot li:eq(1)').show();
+                            $('.invoice-head input').val(data.title).attr('readonly', true);
+                            $('.invoice-num input').val(data.company_number).attr('readonly', true);
+                        }
+                    }
+                })
             })
 
         })

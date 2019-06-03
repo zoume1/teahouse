@@ -278,46 +278,53 @@
                     if (data.apply == 1) {
                         $('.bot li:first').show();
                         // 立即开票
+                        var key = true;
                         $('.bill-btn').click(function () {
-                            var param = {
-                                id: id,
-                                money: data.money,
-                                location: data.location.id,
-                                title: $('.invoice-head input').val(),
-                                company_number: $('.invoice-num input').val()
-                            }
-                            var address = $('.address p').text();
+                            if (key) {
+                                key = false
+                                var param = {
+                                    id: id,
+                                    money: data.money,
+                                    location: data.location.id,
+                                    title: $('.invoice-head input').val(),
+                                    company_number: $('.invoice-num input').val()
+                                }
+                                var address = $('.address p').text();
 
-                            if (param.title == '') {
-                                alert('请填写发票抬头！');
-                            } else if (param.company_number == '') {
-                                alert('请填写企业税号！');
-                            } else if (address == '') {
-                                alert('请添加收货地址！');
-                            } else {
-                                $.ajax({
-                                    url: 'store_receipt_now',
-                                    data: param,
-                                    type: 'POST',
-                                    dataType: 'JSON',
-                                    success: function (res) {
-                                        console.log(res);
-                                        if (res.status == 1) {
-                                            layer.msg('申请成功！请耐心等待！');
-                                            setTimeout(function(){
-                                                location.reload();
-                                            }, 1200);
-                                        }else {
-                                            layer.msg(res.info);
+                                if (param.title == '') {
+                                    alert('请填写发票抬头！');
+                                } else if (param.company_number == '') {
+                                    alert('请填写企业税号！');
+                                } else if (address == '') {
+                                    alert('请添加收货地址！');
+                                } else {
+                                    $.ajax({
+                                        url: 'store_receipt_now',
+                                        data: param,
+                                        type: 'POST',
+                                        dataType: 'JSON',
+                                        success: function (res) {
+                                            console.log(res);
+                                            if (res.status == 1) {
+                                                layer.msg('申请成功！请耐心等待！');
+                                                setTimeout(function () {
+                                                    location.reload();
+                                                }, 1200);
+                                            } else {
+                                                layer.msg(res.info);
+                                            }
                                         }
-                                    }
-                                })
+                                    })
+                                }
                             }
+
                         })
                     }else if(data.apply == 2){
                         $('.bot li:eq(1)').show();
                         $('.invoice-head input').val(data.title).attr('readonly', true);
                         $('.invoice-num input').val(data.company_number).attr('readonly', true);
+                    }else if(data.apply == 3){
+                        $('.bot li:eq(2)').show();
                     }
                 }
             })
