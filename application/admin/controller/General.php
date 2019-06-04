@@ -952,7 +952,7 @@ class  General extends  Base {
                                 }
                             }
 
-                            //去除栏目信息
+                            //去除栏目信息 
                             //notice(公告) msmk(秒杀模块) goods(产品组) feedback(表单) pt(拼团) listdesc(文章) cases(图文)
 
                             if ($v['id'] == 'notice' || $v['id'] == 'msmk' || $v['id'] == 'goods' || $v['id'] == 'feedback' || $v['id'] == 'pt' || $v['id'] == 'listdesc' || $v['id'] == 'cases') {
@@ -962,7 +962,7 @@ class  General extends  Base {
                     }
                     $insert_id = Db::table('ims_sudu8_page_diypage_sys')->insertGetId(array(
                         'index' => $info['index'],
-                        'page' => serialize($info['page']),
+                        'page' => serialize($info['page']), 
                         'items' => serialize($items),
                         'tpl_name' => $info['tpl_name'],
                     ));
