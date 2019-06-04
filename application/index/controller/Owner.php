@@ -122,7 +122,7 @@ class  Owner extends  Controller{
             $member_phone_num =Db::name("member")
                 ->where("member_id",$member_id)
                 ->value("member_phone_num");
-            $user_real_name =Db::name("member")
+            $user_real_name = Db::name("member")
                 ->where("member_id",$member_id)
                 ->value("member_real_name");
             if($user_real_name != $account_name){

@@ -53,7 +53,7 @@ class Store extends  Controller{
             $code = $this->request->only(["code"])["code"];
             $mobileCodes =Session::get("mobileCodes");//验证码
             if($password !=$pass){
-                return ajax_error("两次密码不一致");
+                return ajax_error("2次输入密码不一致，请重新设置");
             }
             if($code !=$mobileCodes){
                 return ajax_error("验证码不正确");
@@ -62,7 +62,7 @@ class Store extends  Controller{
             if($boll){
                 return ajax_success("支付密码修改成功");
             }else{
-                return ajax_error("支付密码修改失败");
+                return ajax_error("您设置的密码和原密码一致，请重新设置");
             }
         }
 
