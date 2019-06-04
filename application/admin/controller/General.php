@@ -1740,6 +1740,7 @@ class  General extends  Base {
             if(strtotime($pay_time)>time()){
                 return ajax_error("汇款时间不能大于当前时间");
             }
+            $order_number = Db::name("meal_orders")->where("id",'EQ',$meal_order_id)->value("order_number");//订单号
             $data =[
                 "store_id"=>$store_id,
                 "money"=>$money,
@@ -1747,12 +1748,14 @@ class  General extends  Base {
                 "remittance_account"=>$remittance_account,
                 "create_time"=>time(),
                 "meal_order_id"=>$meal_order_id,
-                "pay_time"=>$pay_time,
+                "pay_time"=>strtotime($pay_time),
                 "pay_type"=>2,//支付类型（1扫码支付，2汇款支付，3余额支付）
                 "audit_status"=>0//订单审核状态（1审核通过，-1审核不通过,0待审核）
             ];
             $bool =Db::name("meal_pay_form")->insertGetId($data);
             if($bool){
+                $rest = Db::name("meal_orders")->where("id",'EQ',$meal_order_id)->update(["pay_type"=>2,"pay_status"=>2,"audit_status"=>1]);
+                $result = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["pay_type"=>2,"pay_status"=>2,"audit_status"=>1]);
                 //对订单表进行审核操作
                 return ajax_success("已提交，请等待审核");
             }else{

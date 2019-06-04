@@ -1060,9 +1060,19 @@ function diffBetweenTwoDays ($second1, $second2)
  */
 function audit_status($status){
     if($status==0){
-        echo '待审核';
+        echo '已通过';
     }else  if($status==1){
         echo '已通过';
+    }else  if($status==-1){
+        echo '已通过';
+    }
+}
+
+function audit_statues($status){
+    if($status==2){
+        echo '已通过';
+    }else  if($status==1){
+        echo '待审核';
     }else  if($status==-1){
         echo '未通过';
     }
@@ -1110,10 +1120,8 @@ function pay_type($status){
 function pay_status($status){
     if($status==1){
         echo '已到账';
-    }else  if($status==2){
+    }else {
         echo '待审核';
-    }else if($status==1){
-        echo '已到账';
     }
 }
 
