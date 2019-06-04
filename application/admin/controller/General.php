@@ -1909,7 +1909,7 @@ class  General extends  Base {
             if($is_set_order){
                     //这是套餐升级的情况
                     $data["pay_time"] = time();//支付时间
-                    $data["pay_type"] =1; //支付类型（1扫码支付,2汇款支付，3余额支付）
+                    $data["pay_type"] =3; //支付类型（1扫码支付,2汇款支付，3余额支付）
                     $data["pay_status"] = 1;//到账状态（1为已到账，-1未到账，2待审核）
                     $data['goods_name'] = $order_data['goods_name']; //升级套餐名
                     $data["start_time"] = time();  //开始时间
@@ -1957,11 +1957,10 @@ class  General extends  Base {
             }else{
                 exit(json_encode(array("status" => 3, "info" => "支付失败")));
             }
-        }
-    }else{
+        }else{
         //这是新加入套餐的情况
         $data["pay_time"] = time();//支付时间
-        $data["pay_type"] = 1;//支付类型（1扫码支付，2汇款支付，3余额支付）
+        $data["pay_type"] = 3;//支付类型（1扫码支付，2汇款支付，3余额支付）
         $data["pay_status"] = 1;//到账状态（1为已到账，-1未到账，2待审核）
         $data["start_time"] = time();//开始时间
         $data["apply"] = 1;
@@ -2065,13 +2064,14 @@ class  General extends  Base {
                 ];
                 $bool = Db::table("ims_sudu8_page_diypagetpl")->insertGetId($new_array);
              }
-            //进行账号余额减然后插入消费表中
-            $new_wallet = Db::name("store")
-            ->where("id",$this->store_ids)
-            ->setDec("store_wallet",$order_data['amount_money']);
-             exit(json_encode(array("status" => 1, "info" => "支付成功")));
-        }else{
-            exit(json_encode(array("status" => 3, "info" => "支付失败")));
+                //进行账号余额减然后插入消费表中
+                $new_wallet = Db::name("store")
+                ->where("id",$this->store_ids)
+                ->setDec("store_wallet",$order_data['amount_money']);
+                exit(json_encode(array("status" => 1, "info" => "支付成功")));
+            }else{
+                exit(json_encode(array("status" => 3, "info" => "支付失败")));
+            }
         }
     }
 }
