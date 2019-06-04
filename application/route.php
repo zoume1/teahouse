@@ -864,6 +864,9 @@ Route::group("admin",[
     "control_charging_edit"=>"admin/Control/control_charging_edit",//线下充值申请编辑
     "control_withdraw_deposit"=>"admin/Control/control_withdraw_deposit",//提现申请
     "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
+    "store_examine_receipt"=>"admin/Control/store_examine_receipt",//admin后台审核订单发票
+    "admin_auditing_receipt"=>"admin/Control/admin_auditing_receipt",//后台审核发票
+
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
