@@ -1748,10 +1748,8 @@ class  General extends  Base {
                 "create_time"=>time(),
                 "meal_order_id"=>$meal_order_id,
                 "pay_time"=>$pay_time,
-                "status"=>1,
                 "pay_type"=>2,//支付类型（1扫码支付，2汇款支付，3余额支付）
-                "pay_status"=>1,//到账状态（1为已到账，-1未到账，2待审核）
-                "audit_status"=>0,//订单审核状态（1审核通过，-1审核不通过,0待审核）
+                "audit_status"=>0//订单审核状态（1审核通过，-1审核不通过,0待审核）
             ];
             $bool =Db::name("meal_pay_form")->insertGetId($data);
             if($bool){
