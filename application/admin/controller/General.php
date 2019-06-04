@@ -2244,6 +2244,14 @@ class  General extends  Base {
                 ->where("meal_order_id","EQ",$id)
                 ->find();
             $location = db("pc_store_address")->where("store_id",'EQ',$store_id)->where("default","EQ",1)->find();
+            if(empty($location)){
+                $address_data = db("pc_store_address")->where("store_id",'EQ',$store_id)->find();
+                if(!empty($address_data)){
+                    $location = $address_data;
+                } else {
+                    $location = null;
+                }
+            }
             $money = db("meal_orders")->where("id",'EQ',$id)->value("pay_money");
             if(!empty($receipt)){
                 $receipt['location'] = $location;
