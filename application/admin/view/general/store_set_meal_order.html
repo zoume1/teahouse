@@ -280,24 +280,23 @@
                         // 立即开票
                         var key = true;
                         $('.bill-btn').click(function () {
-                            if (key) {
-                                key = false
-                                var param = {
-                                    id: id,
-                                    money: data.money,
-                                    location: data.location.id,
-                                    title: $('.invoice-head input').val(),
-                                    company_number: $('.invoice-num input').val()
-                                }
-                                var address = $('.address p').text();
-
-                                if (param.title == '') {
-                                    alert('请填写发票抬头！');
-                                } else if (param.company_number == '') {
-                                    alert('请填写企业税号！');
-                                } else if (address == '') {
-                                    alert('请添加收货地址！');
-                                } else {
+                            var address = $('.address p').text();
+                            if ($('.invoice-head input').val() == '') {
+                                alert('请填写发票抬头！');
+                            } else if ($('.invoice-num input').val() == '') {
+                                alert('请填写企业税号！');
+                            } else if (address == '') {
+                                alert('请添加收货地址！');
+                            } else {
+                                if (key) {
+                                    key = false
+                                    var param = {
+                                        id: id,
+                                        money: data.money,
+                                        location: data.location.id,
+                                        title: $('.invoice-head input').val(),
+                                        company_number: $('.invoice-num input').val()
+                                    }
                                     $.ajax({
                                         url: 'store_receipt_now',
                                         data: param,
@@ -317,13 +316,12 @@
                                     })
                                 }
                             }
-
                         })
-                    }else if(data.apply == 2){
+                    } else if (data.apply == 2) {
                         $('.bot li:eq(1)').show();
                         $('.invoice-head input').val(data.title).attr('readonly', true);
                         $('.invoice-num input').val(data.company_number).attr('readonly', true);
-                    }else if(data.apply == 3){
+                    } else if (data.apply == 3) {
                         $('.bot li:eq(2)').show();
                     }
                 }
