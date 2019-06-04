@@ -28,9 +28,12 @@ class Index extends Controller
     public function index()
     {
         $menu_list = Config::get("menu_list");
-        $user_info =Session::get("user_info");
-        $account =$user_info[0]["account"];
-        $store_id =Session::get("store_id");
+        $user_info = Session::get("user_info");
+        $account = $user_info[0]["account"];
+        $store_id = Session::get("store_id");
+        $store_data = Db::name("store")->where('id','EQ',$store_id)->find();
+        $store_logo = isset($store_data['store_logo'])?$store_data['store_logo']:null;
+        $store_name = isset($store_data['store_name'])?$store_data['store_name']:null;
         if($store_id){
             $phone_id =Db::table("applet")
                 ->where("store_id",$store_id)
@@ -38,7 +41,7 @@ class Index extends Controller
         }else{
             $phone_id =0;
         }
-        return view("index", ["menu_list" => $menu_list,"account"=>$account,"phone_id"=>$phone_id]);
+        return view("index", ["menu_list" => $menu_list,"account"=>$account,"phone_id"=>$phone_id,"store_name"=>$store_name,"store_logo"=>$store_logo]);
     }
 
     /**
