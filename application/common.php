@@ -1069,9 +1069,9 @@ function audit_status($status){
 }
 
 function audit_statues($status){
-    if($status==2){
+    if($status==1){
         echo '已通过';
-    }else  if($status==1){
+    }else  if($status==0){
         echo '待审核';
     }else  if($status==-1){
         echo '未通过';

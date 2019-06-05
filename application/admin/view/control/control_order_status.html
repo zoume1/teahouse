@@ -370,6 +370,7 @@
     <div class="form-item">
         <label class="form-label">审核状态</label>
         <div class="form-input">
+            {if $value.pay_type != 2}
             {if $value.audit_status == 1}
             <input type="radio" name="audit_status" value="1" title="通过"  checked="">
             <input type="radio" name="audit_status" value="-1" title="不通过" >
@@ -381,6 +382,20 @@
             {if $value.audit_status == 0}
             <input type="radio" name="audit_status" value="1" title="通过">
             <input type="radio" name="audit_status" value="-1" title="不通过" >
+            {/if}
+            {else}
+            {if $value.audit_status == 1}
+            <input type="radio" name="audit_status" value="1" title="通过"  checked="">
+            <input type="radio" name="audit_status" value="-1" title="不通过" >
+            {/if}
+            {if $value.audit_status == -1}
+            <input type="radio" name="audit_status" value="1" title="通过">
+            <input type="radio" name="audit_status" value="-1" title="不通过" checked="">
+            {/if}
+            {if $value.audit_status == 0}
+            <input type="radio" name="audit_status" value="1" title="通过">
+            <input type="radio" name="audit_status" value="-1" title="不通过" >
+            {/if}
             {/if}
 
         </div>

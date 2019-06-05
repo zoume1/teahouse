@@ -36,7 +36,7 @@ class  AdminWx extends Controller{
                 
                 $is_set_order = Db::name("set_meal_order")
                     ->where("store_id",$enter_all_data["store_id"])
-                    ->where("audit_status",1)
+                    ->where("audit_status",'eq',1)
                     ->find();
                                         
                 if($is_set_order){
@@ -238,7 +238,7 @@ class  AdminWx extends Controller{
                 //2、判断如果是升级过来的话需要进行删除已付款的订单
                 $is_set_order = Db::name("set_meal_order")
                     ->where("store_id", $enter_all_data["store_id"])
-                    ->where("audit_status", 1)
+                    ->where("audit_status",'EQ',1)
                     ->find();
                 if ($is_set_order) {
                     //这是套餐升级的情况
