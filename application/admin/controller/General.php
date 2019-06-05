@@ -2303,7 +2303,7 @@ class  General extends  Base {
                 unset($data['id']);
                 $receipt_id = Db::name("store_receipt")->insert($data);
                 if($receipt_id){
-                    $bool = Db::name("meal_orders")->where("id",'EQ',$id)->update(["apply"=>3]);
+                    $bool = Db::name("meal_orders")->where("id",'EQ',$id)->update(["apply"=>2]);
                     return ajax_success("开票成功");
                       
                 } else {
