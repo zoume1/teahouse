@@ -178,8 +178,7 @@
                                     {switch name="$vo.apply"}
                                     {case value="1"}<button class="layui-btn line-btn line-exam" data-id="{$vo.id}">申请开票</button>{/case}
                                     {case value="2"}<button class="layui-btn line-btn line-ing" data-id="{$vo.id}">已申请开票</button>{/case}
-                                    {case value="3"}<button class="layui-btn line-btn line-pass" data-id="{$vo.id}">已开票完成</button>
-                                    {default /}
+                                    {default /}<button class="layui-btn line-btn line-pass" data-id="{$vo.id}">已开票完成</button>
                                     {/switch}
                                 </div>
                             </td>
@@ -264,7 +263,7 @@
         $('.line-btn').click(function () {
             $('.mask').add('.pop').show();
             $('.pop .close').click(function () {
-                $('.mask').add('.pop').hide();
+                $('.mask').add('.pop').add('.bot li').hide();
             })
             var id = this.getAttribute('data-id');
             $.ajax({
@@ -331,6 +330,8 @@
                         $('.invoice-num input').val(data.company_number).attr('readonly', true);
                     } else if (data.apply == 3) {
                         $('.bot li:eq(2)').show();
+                        $('.invoice-head input').val(data.title).attr('readonly', true);
+                        $('.invoice-num input').val(data.company_number).attr('readonly', true);
                     }
                 }
             })

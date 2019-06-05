@@ -131,13 +131,11 @@
                         <td>{if !empty($value.end_time)}{$value.end_time |date="Y-m-d H:i",###}{/if}</td>
                         {if $value.pay_type == 2}
                         <td style="border-right:1px solid #fff">
-                            <a
-                                href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_statues}</a>
+                            <a href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_statues}</a>
                         </td>
                         {else}
                         <td style="border-right:1px solid #fff">
-                                <a
-                                    href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
+                            <a href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
                         </td>
                         {/if}
                         <td style="border-left:1px solid #fff;border-right:1px solid #fff">
@@ -147,15 +145,12 @@
                             </div>
                         </td>
                         <td style="border-left:1px solid #fff">
-
                             <div>
                                 {switch name="$value.apply"}
                                 {case value="1"}<button class="layui-btn line-btn line-exam" data-id="{$value.id}">未申请开票</button>{/case}
                                 {case value="2"}<button class="layui-btn line-btn line-ing" data-id="{$value.id}">已申请开票</button>{/case}
-                                {case value="3"}<button class="layui-btn line-btn line-pass" data-id="{$value.id}">已开票完成</button>
-                                {default /}
+                                {default /}<button class="layui-btn line-btn line-pass" data-id="{$value.id}">已开票完成</button>
                                 {/switch}
-     
                             </div>
                         </td>
                         <!-- <td>
