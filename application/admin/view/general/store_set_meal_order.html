@@ -55,8 +55,7 @@
     .bot li{height: 65px; line-height: 65px; list-style: disc;}
     .bot li button{background-color: #669900;}
     .bot li a{color: #669900;}
-    
-    .table-cell-div a, .table-cell-div button{width:90px;height:35px;font-size: 12px; padding: 0 10px; margin: 2px 0;border-radius: 3px;}
+    .table-cell-div a, .table-cell-div button{font-size: 12px; padding: 0 10px; margin: 2px 0; line-height: 22px; height: 22px; border-radius: 4px;}
     #page {
         width: 97%;
 		height: 50px;
@@ -176,11 +175,14 @@
                                      {default /} <a href="#" class="layui-btn btn-pass">线上付款通过</a>
                                     {/switch}
                                     {/if}
+                                    {if $vo.audit_status == 1}
                                     {switch name="$vo.apply"}
                                     {case value="1"}<button class="layui-btn line-btn line-exam" data-id="{$vo.id}">申请开票</button>{/case}
                                     {case value="2"}<button class="layui-btn line-btn line-ing" data-id="{$vo.id}">已申请开票</button>{/case}
-                                    {default /}<button class="layui-btn line-btn line-pass" data-id="{$vo.id}">已开票完成</button>
+                                    {case value="3"}<button class="layui-btn line-btn line-pass" data-id="{$vo.id}">已开票完成</button>{/case}
+                                    {default /}
                                     {/switch}
+                                    {/if}
                                 </div>
                             </td>
                         </tr>

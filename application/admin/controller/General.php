@@ -2123,7 +2123,7 @@ class  General extends  Base {
      **************************************
      */
     public function capital_management(){
-        $store_wallet =$this->store_wallet($this->store_ids);
+        $store_wallet = $this->store_wallet($this->store_ids);
         return view("capital_management",["store_wallet"=>$store_wallet]);
 
     }
