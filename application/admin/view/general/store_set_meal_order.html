@@ -178,7 +178,8 @@
                                     {switch name="$vo.apply"}
                                     {case value="1"}<button class="layui-btn line-btn line-exam" data-id="{$vo.id}">申请开票</button>{/case}
                                     {case value="2"}<button class="layui-btn line-btn line-ing" data-id="{$vo.id}">已申请开票</button>{/case}
-                                    {default /}<button class="layui-btn line-btn line-pass" data-id="{$vo.id}">已开票完成</button>
+                                    {case value="3"}<button class="layui-btn line-btn line-pass" data-id="{$vo.id}">已开票完成</button>
+                                    {default /}
                                     {/switch}
                                 </div>
                             </td>
