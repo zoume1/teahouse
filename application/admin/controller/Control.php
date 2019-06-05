@@ -306,7 +306,7 @@ class  Control extends  Controller{
                     $is_set_order = Db::name("set_meal_order")
                     ->where("store_id",$is_pay["store_id"])
                     ->where("audit_status",'EQ',1)
-                    ->select();
+                    ->find();
                     
                     //修改时间
                     $year = Db::name("enter_all")->where("id", $is_pay['enter_all_id'])->value("year");
@@ -336,7 +336,6 @@ class  Control extends  Controller{
                         ->where("order_number",$is_set_order["order_number"])
                         ->update($data);
                        $delete_new_order = Db::name('set_meal_order')->where('order_number',$is_pay["order_number"])->delete();
-                    
                        if($res){                           
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                           if($is_pay['enter_all_id'] <= 6){
