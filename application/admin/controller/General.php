@@ -1577,6 +1577,16 @@ class  General extends  Base {
                 ->where("store_id",$store_id)
                 ->where("audit_status","NEQ",1)
                 ->value("id");
+
+                $isset_data = Db::name("meal_orders")
+                ->where("store_id",$store_id)
+                ->where("audit_status","NEQ",1)
+                ->find();
+                if(!empty($isset_data) ){
+                    if(($isset_data['pay_type'] == 2) &&  ($isset_data['audit_status'] == 0) && ($isset_data['status'] == -1)){
+                        exit(json_encode(array("status"=>4,"info"=>"您有订购订单未审核通过，耐心等待")));
+                    }
+                }
               
             if($isset_id){
                 //不能购买降级购买套餐(同事不能购买低于这个id的，所谓降级)
