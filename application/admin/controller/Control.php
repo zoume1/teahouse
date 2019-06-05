@@ -226,10 +226,10 @@ class  Control extends  Controller{
      */
     public function control_order_status($id){
         //先检查店铺审核状态(未审核不能点进来审核订单)
-        $store_id =Db::table("tb_set_meal_order")
+        $store_id =Db::table("tb_meal_orders")
             ->where("id",$id)
             ->value("store_id");
- 
+
         $store_info = Db::table("tb_store")
             ->where("id",$store_id)
             ->where("status",1)
@@ -245,13 +245,20 @@ class  Control extends  Controller{
         if(!$store_information){
             $this->error("该店铺已被删除，无法进行以下操作");
         }
-        $store_order = Db::table('tb_set_meal_order')
-            ->field("tb_set_meal_order.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status,tb_store.address_data,tb_store.id_card,tb_store.card_positive,tb_store.store_introduction,tb_store.store_qq,tb_store.explain")
-            ->join("tb_store","tb_set_meal_order.store_id=tb_store.id",'left')
+        $store_order = Db::table('tb_meal_orders')
+            ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status,tb_store.address_data,tb_store.id_card,tb_store.card_positive,tb_store.store_introduction,tb_store.store_qq,tb_store.explain,tb_store.card_side")
+            ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
             ->where("is_del",1)
-            ->where("tb_set_meal_order.pay_type","NEQ","NULL")
+            ->where("tb_meal_orders.id",$id)
+            ->where("tb_meal_orders.pay_type","NEQ","NULL")
             ->where("store_id",$store_id)
             ->select();
+        $payment_data = Db::name("meal_pay_form")->where("meal_order_id","EQ",$id)->find();
+        if(!empty($payment_data)){
+            $store_order[0]['remittance_name'] = $payment_data['remittance_name'];
+            $store_order[0]['remittance_account'] = $payment_data['remittance_account'];
+            $store_order[0]['pay_time'] = $payment_data['pay_time'];
+        }
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
         return view("control_order_status",["store_order"=>$store_order]);
     }
@@ -268,7 +275,7 @@ class  Control extends  Controller{
             $audit_status = $request->only(["audit_status"])["audit_status"];
             $explains = $request->only(["explains"])["explains"];
             $data = $request->param();
-            $is_pay = db("set_meal_order")
+            $is_pay = db("meal_orders")
                 ->where("id", $id)
                 ->field("pay_type,store_id,audit_status,enter_all_id")
                 ->find();
@@ -276,11 +283,10 @@ class  Control extends  Controller{
                 $this->error("此订单未付款不能审核操作");
             }
             if($is_pay["pay_type"] ==1){
-
                 $this->error("扫码支付已自动审核通过");
             }
             if($is_pay["audit_status"] ==1){
-                $this->error("此订单已审核通过,不能再次审核");
+                $this->error("部分逻辑待处理，明天能好");
             }
             
             $year = Db::name("enter_all")->where("id", $is_pay['enter_all_id'])->value("year");

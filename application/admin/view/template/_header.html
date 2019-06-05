@@ -1,13 +1,21 @@
 <div class="header">
+	{if !empty($store_id)}
 	<div class="right" style="display: flex;">
 		<div style="float: left;
 		padding-left: 13px;
 		width: 35px;margin-right: 10px">{if !empty($store_logo)}<img src="__UPLOADS__/{$store_logo}"/>{else}<img src="__STATIC__/admin/index/img/rest.png"/>{/if}</div>
 		<div class="name" style="font-size:20px">{$store_name}</div>
-		<div id="cd-time" style="position: absolute; left: 180px; background-color: #fee; display: none; height: 30px; line-height: 30px; color: #f00; margin: 12px 0 0 20px; padding: 0 10px;">
-			
+		<div id="cd-time" style="position: absolute; left: 180px; background-color: #fee; display: none; height: 30px; line-height: 30px; color: #f00; margin: 12px 0 0 20px; padding: 0 10px;">	
 		</div>
 	</div>
+	{else}
+	<div class="right" style="display: flex;">
+			<div style="float: left;
+			padding-left: 13px;
+			width: 35px;margin-right: 10px"><img src="__STATIC__/admin/index/img/u36.png"/></div>
+			<div class="name" style="font-size:20px">滴金茶业后台</div>
+		</div>
+	{/if}
 
 	<!--<div class="company_information">
 		<span >技术服务商：</span>
