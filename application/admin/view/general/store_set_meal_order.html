@@ -175,12 +175,14 @@
                                      {default /} <a href="#" class="layui-btn btn-pass">线上付款通过</a>
                                     {/switch}
                                     {/if}
+                                    {if $vo.audit_status == 1}
                                     {switch name="$vo.apply"}
                                     {case value="1"}<button class="layui-btn line-btn line-exam" data-id="{$vo.id}">申请开票</button>{/case}
                                     {case value="2"}<button class="layui-btn line-btn line-ing" data-id="{$vo.id}">已申请开票</button>{/case}
                                     {case value="3"}<button class="layui-btn line-btn line-pass" data-id="{$vo.id}">已开票完成</button>{/case}
                                     {default /}
                                     {/switch}
+                                    {/if}
                                 </div>
                             </td>
                         </tr>
