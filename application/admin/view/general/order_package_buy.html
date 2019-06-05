@@ -85,7 +85,8 @@
         .password-box .gif-box i:not(:last-child){border-right: 1px solid #797979;}
         .password-box .gif-box i.active{background: url(__STATIC__/admin/common/img/password-blink.gif) no-repeat center center; border: 1px solid #f60;}
         .gif-box i b.activeDot{background: url(__STATIC__/admin/common/img/passeord-dot.png) no-repeat center center; display: block; width: 7px; height: 7px;}
-        .forget-pwd{text-align: right; font-size: 14px; font-weight: 700; color: #0099FF; cursor: pointer;}
+        .forget-pwd{text-align: right; font-size: 14px; font-weight: 700; cursor: pointer;}
+        .forget-pwd a{color: #0099FF;}
         .balance-comfirm{float: right; padding: 5px 25px; color: #fff; background-color: #0099ff; border: 0; outline: none; cursor: pointer; border-radius: 4px; margin-top: 10px;}
 
         .payee-title,
@@ -360,7 +361,9 @@
                                 </i>
                             </div>
                         </div>
-                        <p class="forget-pwd">忘记资金账号密码？</p>
+                        <p class="forget-pwd">
+                            <a href="security_setting">忘记资金账号密码？</a>
+                        </p>
                     </div>
                     <button class="balance-comfirm"
                         @click="comfirmPwd">确定</button>
