@@ -11,9 +11,9 @@
     .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
     .distribution_list ul {display: flex; align-items: center;}
     .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
-    .static_btus {width: 100px; height: 30px; line-height: 30px; border-radius: 8px; margin: 0 auto; overflow: hidden;}
+    .static_btus {display: inline-block; height: 24px; line-height: 24px; margin: 0 12px; overflow: hidden;}
     .static_btus>a {color: #fff;}
-    .static_btus button {width: 100%;}
+    .static_btus button {width: 100%; padding: 0 10px; border-radius: 4px; }
     .payment-has-been {background: #669900d4;}
     a {color: #669900;}
     .line-exam {background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
@@ -41,6 +41,10 @@
     .bot li{height: 65px; line-height: 65px; list-style: disc;}
     .bot li button{background-color: #f00; float: right; transform: translateY(50%);}
     .bot li a{color: #669900;}
+    td.table-cell{display: flex; align-items: center;}
+    .table-cell button{height: 22px; line-height: 22px; border-radius: 4px; padding: 0 10px;}
+    .wait-check{color: #169BD5;}
+    .check-fail{color: #f00;}
 </style>
 
 {/block}
@@ -126,25 +130,19 @@
                         {/if}
                         <td>{$value.address_real_data}</td>
                         <td>{$value.goods_name}</td>
-                        <td>{$value.pay_money}</td>           
+                        <td>{$value.pay_money}</td>
                         <td>{if !empty($value.start_time)} {$value.start_time |date="Y-m-d H:i",###} {/if} </td>
                         <td>{if !empty($value.end_time)}{$value.end_time |date="Y-m-d H:i",###}{/if}</td>
-                        {if $value.pay_type == 2}
-                        <td style="border-right:1px solid #fff">
-                            <a href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_statues}</a>
-                        </td>
-                        {else}
-                        <td style="border-right:1px solid #fff">
+                        <td class="table-cell">
+                            {if $value.pay_type == 2}
+                            <a class="wait-check" href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_statues}</a>
+                            {else}
                             <a href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
-                        </td>
-                        {/if}
-                        <td style="border-left:1px solid #fff;border-right:1px solid #fff">
+                            {/if}
                             <div class="static_btus" data-id="{$value.store_id}" data-value="{$value.store_status}">
                                 <a
                                     href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
                             </div>
-                        </td>
-                        <td style="border-left:1px solid #fff">
                             <div>
                                 {switch name="$value.apply"}
                                 {case value="1"}<button class="layui-btn line-btn line-exam" data-id="{$value.id}">未申请开票</button>{/case}
@@ -154,9 +152,9 @@
                             </div>
                         </td>
                         <!-- <td>
-                        <a
-                            href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
-                    </td> -->
+                                        <a
+                                            href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
+                                    </td> -->
                         <!--<td>-->
                         <!--<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_order_add',['id'=>$value.id])}"> 编辑-->
                         <!--</a>-->

@@ -3,7 +3,7 @@
 	<div class="right" style="display: flex;">
 		<div style="float: left;
 		padding-left: 13px;
-		width: 35px;margin-right: 10px">{if !empty($store_logo)}<img src="__UPLOADS__/{$store_logo}"/>{else}<img src="__STATIC__/admin/index/img/rest.png"/>{/if}</div>
+		width: 35px;margin-right: 10px;">{if !empty($store_logo)}<img style="border-radius: 15px;" src="__UPLOADS__/{$store_logo}"/>{else}<img src="__STATIC__/admin/index/img/rest.png"/>{/if}</div>
 		<div class="name" style="font-size:20px">{$store_name}</div>
 		<div id="cd-time" style="position: absolute; left: 180px; background-color: #fee; display: none; height: 30px; line-height: 30px; color: #f00; margin: 12px 0 0 20px; padding: 0 10px;">	
 		</div>
@@ -35,7 +35,9 @@
 			<span><a class="header-url" data-id="179" data-value="/admin/order_package_index" data-url="/admin/order_package_index.html" href="javascript:void(0);" >订购套餐</a></span>
 			<span><a class="header-url" data-id="178" data-value="/admin/added_service_index" data-url="/admin/added_service_index.html" href="javascript:void(0);" >增值服务</a></span>
 
-			<span><a class="header-url" href="#" >帮助</a></span>
+			<span>
+				<a id="qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=415364124&amp;site=qq&amp;menu=yes">帮助</a>
+			</span>
 			<span><a class="header-url" href="#" >{$account}</a></span>
 			<span><a href="{:url('admin/Login/logout')}" id="tcdl">退出登录</a></span>
 		</div>
