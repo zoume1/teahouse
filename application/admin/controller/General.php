@@ -2123,7 +2123,7 @@ class  General extends  Base {
      **************************************
      */
     public function capital_management(){
-        $store_wallet =$this->store_wallet($this->store_ids);
+        $store_wallet = $this->store_wallet($this->store_ids);
         return view("capital_management",["store_wallet"=>$store_wallet]);
 
     }
@@ -2303,7 +2303,7 @@ class  General extends  Base {
                 unset($data['id']);
                 $receipt_id = Db::name("store_receipt")->insert($data);
                 if($receipt_id){
-                    $bool = Db::name("meal_orders")->where("id",'EQ',$id)->update(["apply"=>2]);
+                    $bool = Db::name("meal_orders")->where("id",'EQ',$id)->update(["apply"=>3]);
                     return ajax_success("开票成功");
                       
                 } else {
