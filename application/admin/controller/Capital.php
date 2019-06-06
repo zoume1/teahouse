@@ -12,6 +12,7 @@ namespace  app\admin\controller;
 use think\Controller;
 use think\Db;
 use think\Request;
+use think\Session;
 class Capital extends Controller{
     /**
      **************李火生*******************
@@ -20,7 +21,8 @@ class Capital extends Controller{
      **************************************
      */
     public function index(){
-        $recharge_data =Db::name('recharge_full_setting')->paginate(20 ,false, [
+        $store_id =Session::get("store_id");
+        $recharge_data = Db::name('recharge_full_setting')->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
         return view('index',['recharge_data'=>$recharge_data]);
@@ -33,16 +35,18 @@ class Capital extends Controller{
 	*/
 	public function edit($id=null){
         if($id > 0){
+            $store_id =Session::get("store_id");
             $data =Db::name('recharge_full_setting')->where('recharge_setting_id',$id)->find();
             $this->assign('data',$data);
         }
         if($this->request->isPost()){
             $data =$this->request->post();
             if($id > 0){
-                $data['update_time'] =time();
+                $data['update_time'] = time();
                 $res =Db::name('recharge_full_setting')->where('recharge_setting_id',$id)->update($data);
             }else{
-                $data['create_time'] =time();
+                $data['create_time'] = time();
+                $data['store_id'] = $store_id;
                 $res =Db::name('recharge_full_setting')->insertGetId($data);
             }
             if($res>0){

@@ -473,6 +473,7 @@ class Bonus extends Controller
             $id = $goods_number - 1000000;
             $key = 0;
             $crowd = db("crowd_goods")->where("id", $id)->field("id,goods_show_image,project_name,coupon_type")->find();
+            if(!empty($crowd)){
             $crowd['goods_repertory'] = db("crowd_special")->where("goods_id",$crowd['id'])->sum("stock");
             $crowd_goods[$key] = array(
                 'id'=> $crowd['id'],
@@ -483,10 +484,9 @@ class Bonus extends Controller
                 'goods_repertory'=> $crowd['goods_repertory'],
                 'coupon_type'=> $crowd['coupon_type']
             );
-            if(!empty($crowd)){
-                return ajax_success("获取成功", $crowd_goods);
+            return ajax_success("获取成功", $crowd_goods);
             } else {
-                return ajax_error("获取失败");
+                return ajax_error("未找到该商品");
             }
         }
     }

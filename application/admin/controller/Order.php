@@ -297,7 +297,13 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function transaction_setting(){
-        $data = Db::name('order_setting')->find();
+        $store_id = Session::get("store_id");
+        $data = Db::name('order_setting')->where("store_id","EQ",$store_id)->find();
+        if(empty($data)){
+            $rest["store_id"] = $store_id;
+            $bool = db('order_setting')->insert($rest);
+            $data = Db::name('order_setting')->where("store_id","EQ",$store_id)->find();
+        }
         return view("transaction_setting",['data'=>$data]);
     }
     /**

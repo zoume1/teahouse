@@ -326,7 +326,12 @@ class Operate extends  Controller{
      * GY
      */
     public function operate_integral_rule(){
-        $recommend_data = db('recommend_integral')->select();
+        $store_id = Session::get("store_id");
+        $recommend_data = db('recommend_integral')->where("store_id","EQ",$store_id)->select();
+        if(empty($recommend_data)){
+            $data['store_id'] = $store_id;
+            $bool = db('recommend_integral')->insert($data);
+        }
         return view("operate_integral_rule",['recommend_data'=>$recommend_data]);
     }
 
@@ -339,8 +344,9 @@ class Operate extends  Controller{
     {
         if($request->isPost())
         {
+            $store_id = Session::get("store_id");
             $data = $request -> param();
-            $bool = db("recommend_integral") -> where('id',1) -> update($data);
+            $bool = db("recommend_integral") -> where('store_id',$store_id) -> update($data);
             if ($bool) {
                 $this->success("编辑成功", url("admin/operate/operate_integral_rule"));
             } else {
@@ -356,7 +362,13 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_about_index(){
-        $about = db("about_us")->select();
+        $store_id = Session::get("store_id");
+        $about = db("about_us")->where("store_id","EQ",$store_id)->select();
+        if(empty($about)){
+            $data['store_id'] = $store_id;
+            $bool = db('about_us')->insert($data);
+            $about = db("about_us")->where("store_id","EQ",$store_id)->select();
+        }
         return view("operate_about",["about"=>$about]);
     }
 
@@ -367,8 +379,9 @@ class Operate extends  Controller{
     */
     public function operate_about_update(Request $request){
         if($request->isPost()){
+            $store_id = Session::get("store_id");
             $about_us = $request->param();
-            $bool = db("about_us")->where('id', 1)->update($about_us);
+            $bool = db("about_us")->where('store_id', $store_id)->update($about_us);
             if($bool){
                 $this->success('更新成功', 'admin/operate/operate_about_index');
             } else {
@@ -382,7 +395,8 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_broadcast(){
-        $broadcast = db("broadcast")->paginate(20 ,false, [
+        $store_id = Session::get("store_id");
+        $broadcast = db("broadcast")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
         return view("operate_broadcast",["broadcast"=>$broadcast]);
@@ -395,8 +409,10 @@ class Operate extends  Controller{
     */
     public function operate_broadcast_save(Request $request){
         if($request->isPost()){
+            $store_id = Session::get("store_id");
             $data = $request->param();
             $data["status"] = 1;
+            $data["store_id"] = $store_id;
             $bool = db("broadcast")->insert($data);
             if($bool){
                 $this->success('添加成功', 'admin/operate/operate_broadcast');
@@ -485,7 +501,13 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_receipt_index(){
-        $data = db("receipt") ->select();
+        $store_id = Session::get("store_id");
+        $data = db("receipt")->where("store_id","EQ",$store_id)->select();
+        if(empty($data)){
+            $rest['store_id'] = $store_id;
+            $bool = db("receipt")->insert($rest);
+            $data = db("receipt")->where("store_id","EQ",$store_id)->select();
+        }
         return view('operate_receipt_index',['data'=>$data]);
     }
 
@@ -495,6 +517,7 @@ class Operate extends  Controller{
     */
     public function operate_receipt_update(Request $request){
         if($request -> isPost()){
+            $store_id = Session::get("store_id");
             $status = isset($request->only(["status"])["status"])?$request->only(["status"])["status"]:null;
             $common = $request->only(["common"])["common"];
             $senior = $request->only(["senior"])["senior"];
@@ -530,7 +553,7 @@ class Operate extends  Controller{
                 }
             }
      
-            $bool = db("receipt") -> where("id",1) -> update($data);
+            $bool = db("receipt") -> where("store_id",$store_id) -> update($data);
             if($bool){
                 $this->success('更新成功', 'admin/operate/operate_receipt_index');
             } else {

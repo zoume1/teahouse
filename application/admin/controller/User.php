@@ -11,6 +11,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\paginator\driver\Bootstrap;
+use think\Session;
 
 class User extends Controller{
     /**
@@ -20,10 +21,11 @@ class User extends Controller{
      **************************************
      */
     public function index(){
-        $user_data =Db::name('member')->order("member_id","desc")->paginate(20 ,false, [
+        $store_id = Session::get("store_id");
+        $user_data =Db::name('member')->where("store_id",'EQ',$store_id)->order("member_id","desc")->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
-        $grade_data =Db::name("member_grade")->field("member_grade_id,member_grade_name")->select();
+        $grade_data =Db::name("member_grade")->where("store_id",'EQ',$store_id)->field("member_grade_id,member_grade_name")->select();
         return view('index',['user_data'=>$user_data,"grade_data"=>$grade_data]);
     }
 
@@ -34,17 +36,18 @@ class User extends Controller{
      **************************************
      */
     public function user_search(){
+        $store_id = Session::get("store_id");
         $search_a =input("search_a") ? input("search_a"):null;
         $grade_type =input("grade_type") ? input("grade_type"):null;
         $time_min  =input("date_min") ? input("date_min"):null;
         $date_max  =input('date_max') ? input('date_max'):null;
         if(!empty($search_a)){
             $condition =" `member_id` like '%{$search_a}%' or `member_name` like '%{$search_a}%' or `member_phone_num` like '%{$search_a}%' or `member_real_name` like '%{$search_a}%' or `ID_card` like '%{$search_a}%'";
-            $user_data =Db::name('member')->where($condition)->order("member_id","desc")->paginate(20 ,false, [
+            $user_data = Db::name('member')->where("store_id","EQ",$store_id)->where($condition)->order("member_id","desc")->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
         }else if (!empty($grade_type)){
-            $user_data =Db::name('member')->where("member_grade_id",$grade_type)->order("member_id","desc")->paginate(20 ,false, [
+            $user_data =Db::name('member')->where("store_id","EQ",$store_id)->where("member_grade_id",$grade_type)->order("member_id","desc")->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
         }else{
@@ -60,29 +63,29 @@ class User extends Controller{
             if(!empty($time_min) && empty($date_max)){
                 $time_condition  = "member_create_time>{$timemin}";
                 //开始时间
-                $user_data =Db::name('member')->where($time_condition)->order("member_id","desc")->paginate(20 ,false, [
+                $user_data =Db::name('member')->where("store_id","EQ",$store_id)->where($time_condition)->order("member_id","desc")->paginate(20 ,false, [
                     'query' => request()->param(),
                 ]);
             }else if (empty($time_min) && (!empty($date_max))){
                 $time_condition  = "member_create_time< {$timemax}";
                 //结束时间
-                $user_data =Db::name('member')->where($time_condition)->order("member_id","desc")->paginate(20 ,false, [
+                $user_data =Db::name('member')->where("store_id","EQ",$store_id)->where($time_condition)->order("member_id","desc")->paginate(20 ,false, [
                     'query' => request()->param(),
                 ]);
             }else if((!empty($timemin)) && (!empty($date_max))){
                 $time_condition  = "member_create_time>{$timemin} and member_create_time< {$timemax}";
                 //既有开始又有结束
-                $user_data =Db::name('member')->where($time_condition)->order("member_id","desc")->paginate(20 ,false, [
+                $user_data =Db::name('member')->where("store_id","EQ",$store_id)->where($time_condition)->order("member_id","desc")->paginate(20 ,false, [
                     'query' => request()->param(),
                 ]);
             }else{
-                $user_data =Db::name('member')->order("member_id","desc")->paginate(20 ,false, [
+                $user_data =Db::name('member')->where("store_id","EQ",$store_id)->order("member_id","desc")->paginate(20 ,false, [
                     'query' => request()->param(),
                 ]);
 
             }
         }
-        $grade_data =Db::name("member_grade")->field("member_grade_id,member_grade_name")->select();
+        $grade_data =Db::name("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_id,member_grade_name")->select();
         return view('index',['user_data'=>$user_data,"grade_data"=>$grade_data]);
     }
 
@@ -95,8 +98,9 @@ class User extends Controller{
     public function  status(Request $request){
         if($request->isPost()){
             $data =$_POST;
+            $store_id = Session::get("store_id");
             if(!empty($data)){
-                $bool =Db::name('member')->where('member_id',$data['id'])->update(['member_status'=>$data['status']]);
+                $bool =Db::name('member')->where("store_id","EQ",$store_id)->where('member_id',$data['id'])->update(['member_status'=>$data['status']]);
                 if($bool){
                     return ajax_success('修改成功',['status'=>1]);
                 }else{
@@ -113,8 +117,9 @@ class User extends Controller{
      **************************************
      */
     public function edit($id){
+        $store_id = Session::get("store_id");
         $member_data = Db::name('member')->where('member_id',$id)->find();
-        $term_data =Db::name('member_grade')->select();
+        $term_data = Db::name('member_grade')->where("store_id","EQ",$store_id)->select();
         return view('edit',['member_data'=>$member_data,'term_data'=>$term_data]);
     }
 
@@ -129,7 +134,7 @@ class User extends Controller{
         if($this->request->isPost()){
             $data = $data =$this->request->post();
             $grade_name =Db::name('member_grade')->field('member_grade_name')->where('member_grade_id',$data['member_grade_id'])->find();
-            $data['member_grade_name']=$grade_name['member_grade_name'];
+            $data['member_grade_name'] = $grade_name['member_grade_name'];
             if(!empty($id)){
                 $bool =Db::name('member')->where('member_id',$id)->update($data);
                 if($bool){
@@ -167,7 +172,8 @@ class User extends Controller{
      **************************************
      */
     public function  grade(){
-       $grade_data = Db::name('member_grade')->paginate(20 ,false, [
+       $store_id = Session::get("store_id");
+       $grade_data = Db::name('member_grade')->where("store_id","EQ",$store_id)->paginate(20 ,false, [
            'query' => request()->param(),
        ]);
         return view('grade',['grade_data'=>$grade_data]);
@@ -182,9 +188,10 @@ class User extends Controller{
      * @return \think\response\View
      */
     public function grade_edit($id =null){
-        $term_data =Db::name('term')->select();
+        $store_id = Session::get("store_id");
+        $term_data = Db::name('term')->select();
         if($id > 0){
-            $info =Db::name('member_grade')->where("member_grade_id",$id)->find();
+            $info =Db::name('member_grade')->where("store_id","EQ",$store_id)->where("member_grade_id",$id)->find();
             $this->assign('info',$info);
         }
         if($this->request->isPost()){
