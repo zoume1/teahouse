@@ -206,6 +206,7 @@ class User extends Controller{
             if($id > 0){
                 $res =Db::name('member_grade')->where('member_grade_id',$id)->update($data);
             }else{
+                $data['store_id'] = $store_id;
                 $res =Db::name('member_grade')->insertGetId($data);
             }
             if($res>0){
