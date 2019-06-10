@@ -63,6 +63,7 @@ class Login extends Controller{
                     ->where("store_id",$user_data['store_id'])
                     ->where('member_openid',$errCode['openId'])
                     ->find();
+                $grade_id = db("member_grade")->where("store_id",$user_data['store_id'])->where("introduction_display",1)->value('member_grade_id');
                 if(empty($is_register)){
                     //首次登录
                     $data['member_openid'] =$errCode['openId'];
@@ -70,7 +71,7 @@ class Login extends Controller{
                     $data['member_name'] =$errCode['nickName'];
                     $data['member_create_time'] =time();
                     $data['member_grade_create_time'] =time();
-                    $data['member_grade_id']=1;
+                    $data['member_grade_id'] = $grade_id;
                     $data['member_status']=1;
                     if( $get['gender'] ==2){
                         $data["member_sex"] ="女";

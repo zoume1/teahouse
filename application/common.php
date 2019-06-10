@@ -1125,3 +1125,23 @@ function pay_status($status){
     }
 }
 
+/**
+ * [商品列表组修改]
+ * GY
+ */
+function MemberFristAdd($store_id)
+{
+    //默认会员等级
+    $memeber_grade_data = db("member_grade")->where("store_id",'EQ',6)->select();
+    foreach($memeber_grade_data as $key => $value){
+        unset($memeber_grade_data[$key]['member_grade_id']);
+        $memeber_grade_data[$key]['store_id'] = $store_id;
+    }
+    
+    foreach($memeber_grade_data as $k => $v){
+        $bool = db("member_grade")->insert($v);
+    }
+
+    return $bool;
+}
+

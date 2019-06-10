@@ -26,7 +26,7 @@
     .addressList{width: 850px;}
     .maximum{padding: 12px; background-color: #e3f2fd; border-color: #e3f2fd; border-radius: 3px; width: 826px; margin-bottom: 20px;}
     .maximum .icon-prompt{width: 16px; height: 16px; background: url(__STATIC__/admin/common/img/icon-prompt.png) no-repeat; background-size: contain;}
-    .maximum .max-message{padding-left: 20px; color: #666; font-size: 12px;}
+    .maximum .max-message{padding-left: 20px; color: #666; font-size: 14px;}
     .next-table table{width: 100%; border-spacing: 0; border-collapse: collapse; background: #fff; font-size: 12px;}
     .next-table th{padding: 0; background-color: #ebecf0; color: #333; text-align: left; font-weight: 400; border: 1px solid #dcdee3;}
     .next-table .next-table-cell-wrapper{padding: 12px 16px; overflow: hidden; text-overflow: ellipsis; word-break: break-all;}
@@ -67,6 +67,10 @@
         {include file="template/_top" /}
         <div class="addr-block">
             <ul>
+            <div class="maximum">
+                    <!-- <i class="icon-prompt fl"></i> -->
+                    <div class="max-message">注明：本收货地址为店铺商户主的收货地址，当您在平台内购买了增值服务商品，将会邮寄到您此处设置的地址</div>
+                </div>
                 <li class="clearfix">
                     <label required class="fl addr-label">地址信息:</label>
                     <div class="form-inline fl">
