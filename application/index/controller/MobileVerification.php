@@ -133,22 +133,16 @@ class  MobileVerification extends  Controller{
         if ($request->isPost()) {
             $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only(['member_id'])['member_id'];
+            $mobile =  Db::name('member')
+            ->field('member_phone_num')
+            ->where("store_id","EQ",$store_id)
+            ->where('member_id',$member_id)
+            ->value('member_phone_num');
             $pattern = '/^1[3456789]\d{9}$/';
             if(preg_match($pattern,$mobile)) {
-                $res =  Db::name('member')
-                    ->field('member_phone_num')
-                    ->where("store_id","EQ",$store_id)
-                    ->where('member_id',$member_id)
-                    ->value('member_phone_num');
-                if(empty($res)){
-                    return ajax_error('请绑定手机号',['status'=>0]);
-                }
                 $mobileCode = rand(100000, 999999);
                 $arr = json_decode($mobile, true);
                 $mobiles = strlen($arr);
-                if (isset($mobiles) != 11) {
-                    return ajax_error("手机号码不正确",['status'=>0]);
-                }
                 //存入session中
                 if (strlen($mobileCode)> 0) {
                     Cache::set('mobileCode',$mobileCode,3600);
@@ -172,7 +166,7 @@ class  MobileVerification extends  Controller{
                     return ajax_error("发送失败",['status'=>0]);
                 }
             }else{
-                return ajax_error("请填写正确的手机号",['status'=>0]);
+                return ajax_error("请绑定您的手机号",['status'=>0]);
             }
         }
     }
