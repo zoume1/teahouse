@@ -69,11 +69,11 @@ class Login extends Controller{
                     $data['member_openid'] =$errCode['openId'];
                     $data['member_head_img'] =$errCode['avatarUrl'];
                     $data['member_name'] =$errCode['nickName'];
-                    $data['member_create_time'] =time();
+                    $data['member_create_time'] = time();
                     $data['member_grade_create_time'] =time();
                     $data['member_grade_id'] = $grade_id;
                     $data['member_status']=1;
-                    if( $get['gender'] ==2){
+                    if($get['gender'] ==2){
                         $data["member_sex"] ="女";
                     }else{
                         $data["member_sex"] ="男";
