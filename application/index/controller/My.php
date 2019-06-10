@@ -55,6 +55,7 @@ class My extends Controller
     {
         if ($request->isPost()) {
             $post_open_id = $request->only(['open_id'])['open_id'];
+            $store_id = $request->only(['uniacid'])['uniacid'];
             if (!empty($post_open_id)) {
                 $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
                 $data = [];
@@ -68,18 +69,12 @@ class My extends Controller
                 $data['share_url'] = $share_code; //生成的二维码
                 $data['member_grade_name'] =$member_information['member_grade_name'];
                 $data['member_grade_id'] =$member_information['member_grade_id'];
-                $member_data = Db::name('member_grade')->where('introduction_display', 1)->whereOr("member_grade_id",$member_information['member_grade_id'])->select();
+                $member_data = Db::name('member_grade')
+                            ->where('introduction_display', 1)
+                            ->where('store_id', $store_id)
+                            ->whereOr("member_grade_id",$member_information['member_grade_id'])
+                            ->select();
                 
-                foreach ($member_data as $k => $v) {
-                    $grade['member_grade_id'] = $v['member_grade_id'];           //会员等级ID
-                    $grade['member_grade_name'] = $v['member_grade_name'];       //等级名称
-                    $grade['member_grade_img'] = $v['member_grade_img'];     //等级图标
-                    $grade['member_finite_period'] = $v['member_finite_period'];//有效期（年）
-                    $grade['first_year_pay_full'] = $v['first_year_pay_full'];  //首年消费满（万元
-                    $grade['recharge_member_send'] = $v['recharge_member_send']; //充值送会员（万元）
-                    $grade['recharge_integral_send'] = $v['recharge_integral_send']; //充值送积分
-                    $grade['member_background_color'] =$v['member_background_color']; //颜色
-                }
                 $user['member_grade'] = $member_data;//会员等级信息
                 $user['information'] = $data;        //用户的所有信息
                 if (!empty($user)) {
