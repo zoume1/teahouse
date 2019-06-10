@@ -53,14 +53,18 @@ class Login extends Controller{
             $iv = define_str_replace($get['iv']);
             $errCode = decryptData($appid,$session_key['session_key'],$encryptedData, $iv);
             $register_login = db("recommend_integral")
-                ->where("id","1")
+                ->where("store_id",$user_data['store_id'])
                 ->value("register_integral");//授权通过即送积分
+            if(empty($register_login)){
+                $register_login = 0;
+            }
             if(!empty($errCode)){
                 $is_register =Db::name('member')
                     ->where("store_id",$user_data['store_id'])
                     ->where('member_openid',$errCode['openId'])
                     ->find();
                 if(empty($is_register)){
+                    //首次登录
                     $data['member_openid'] =$errCode['openId'];
                     $data['member_head_img'] =$errCode['avatarUrl'];
                     $data['member_name'] =$errCode['nickName'];
@@ -74,12 +78,12 @@ class Login extends Controller{
                         $data["member_sex"] ="男";
                     }
                     $data['member_integral_wallet'] = $register_login;
-                    $grade_name =Db::name('member_grade')
+                    $grade_name = Db::name('member_grade')
                         ->field('member_grade_name')
-                        ->where('member_grade_id',1)
+                        ->where('store_id',$user_data['store_id'])
                         ->find();
-                    $data['member_grade_name'] =$grade_name['member_grade_name'];
-                    $data["store_id"] =$user_data['store_id']; //店铺id
+                    $data['member_grade_name'] = $grade_name['member_grade_name'];
+                    $data["store_id"] = $user_data['store_id']; //店铺id
                     $bool = Db::name('member')->insertGetId($data);
                 if($register_login > 0){
                     //插入积分记录
@@ -96,7 +100,7 @@ class Login extends Controller{
                     if($bool){
                         $member_grade_info =Db::name("member_grade")
                             ->field("member_grade_name,member_grade_img,member_grade_id")
-                            ->where("member_grade_id",1)
+                            ->where("member_grade_id",$user_data['store_id'])
                             ->find();
                         $info_data =[
                             "member_grade_info"=>$member_grade_info,
