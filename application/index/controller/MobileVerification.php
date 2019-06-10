@@ -138,8 +138,8 @@ class  MobileVerification extends  Controller{
             ->where("store_id","EQ",$store_id)
             ->where('member_id',$member_id)
             ->value('member_phone_num');
-            $pattern = '/^1[3456789]\d{9}$/';
-            if(preg_match($pattern,$mobile)) {
+            
+            if(!empty($mobile)){
                 $mobileCode = rand(100000, 999999);
                 $arr = json_decode($mobile, true);
                 $mobiles = strlen($arr);
