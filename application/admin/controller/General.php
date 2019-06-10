@@ -1620,7 +1620,7 @@ class  General extends  Base {
                     ->where("audit_status","EQ",1)
                     ->value("id");
                 if($isset_ids){
-                    exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
+                    exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐，请选择其他年份或版本套餐","data"=>["id"=>$isset_ids])));
                 }
                  $isset_idData =Db::name("meal_orders")
                     ->where("store_id",$store_id)
@@ -1628,7 +1628,7 @@ class  General extends  Base {
                     ->where("audit_status","EQ",1)
                     ->value("id");
                if($isset_idData){
-                    exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
+                    exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐，请选择其他年份或版本套餐","data"=>["id"=>$isset_ids])));
                 }
            
                 //不能升级为年份少于之前的年份
@@ -2011,6 +2011,7 @@ class  General extends  Base {
                 ->where("store_id",$order_data["store_id"])
                 ->where("is_own",1)
                 ->update(["role_id"=>$role_id]);
+            $bool_member = MemberFristAdd($this->store_ids);
 
             //审核通过的时候先判断是否有小程序模板，没有的话则进行添加，有的话则不需要
             $is_set = Db::table("ims_sudu8_page_diypageset")

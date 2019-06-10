@@ -132,16 +132,16 @@ class  MobileVerification extends  Controller{
         //接受验证码的手机号码
         if ($request->isPost()) {
             $store_id = $request->only(['uniacid'])['uniacid'];
-            $mobile = $request->only(['mobile'])['mobile'];
+            $member_id = $request->only(['member_id'])['member_id'];
             $pattern = '/^1[3456789]\d{9}$/';
             if(preg_match($pattern,$mobile)) {
                 $res =  Db::name('member')
                     ->field('member_phone_num')
                     ->where("store_id","EQ",$store_id)
-                    ->where('member_phone_num',$mobile)
-                    ->select();
-                if(!empty($res)){
-                    return ajax_error('此手机号不存在',['status'=>0]);
+                    ->where('member_id',$member_id)
+                    ->value('member_phone_num');
+                if(empty($res)){
+                    return ajax_error('请绑定手机号',['status'=>0]);
                 }
                 $mobileCode = rand(100000, 999999);
                 $arr = json_decode($mobile, true);

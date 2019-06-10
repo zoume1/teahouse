@@ -385,6 +385,7 @@ class  Control extends  Controller{
                                     ->where("is_own",1)
                                     ->update(["role_id"=>$role_id]);
 
+                                $boole_member = MemberFristAdd($is_pay["store_id"]);
                                     //审核通过的时候先判断是否有小程序模板，没有的话则进行添加，有的话则不需要
                                     $is_set = Db::table("ims_sudu8_page_diypageset")
                                     ->where("store_id",$is_pay["store_id"])
