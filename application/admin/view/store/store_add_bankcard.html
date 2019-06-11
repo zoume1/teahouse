@@ -157,6 +157,14 @@
             form = layui.form;
         // laydate.render({elem: '#remitTime'});
         form.render();
+        $('.add-card').click(function(){
+            $('.mask').add('.pop').show();
+
+            // 隐藏弹窗
+            $('.pop .close').click(function(){
+                $('.mask').add('.pop').hide();
+            })
+        })
     })
     
 </script>
