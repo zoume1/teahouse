@@ -156,28 +156,34 @@
                                 <div class="table-cell-div">{$vo.pay_status|pay_status}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">{$vo.audit_status|audit_status}</div>
+                                <div class="table-cell-div">{$vo.audit_status|audit_statues}</div>
                             </td>
-                            <td class="table-cell">
+                            <td class="table-cell" style="width: 200px">
                                 <div class="table-cell-div">
                                     {if $vo.pay_type == 2}
                                     {switch name="$vo.audit_status"}
-                                     {case value="1"}<a href="{:url('admin/Control/control_order_add',['id'=>$vo.store_id])}" class="layui-btn btn-exam">汇款待审核</a>{/case}
-                                     {case value="2"}<a href="#" class="layui-btn btn-pass">到账审核通过</a>{/case}
-                                     {case value="-1"}<a href="#" class="layui-btn btn-fail">汇款未到账</a> {/case}
+                                     {case value="0"}<a href="{:url('admin/Control/control_order_add',['id'=>$vo.store_id])}" class="layui-btn btn-exam">汇款等待审核</a>{/case}
+                                     {case value="1"}<a href="#" class="layui-btn btn-pass">到账审核通过</a>{/case}
+                                     {case value="-1"}<a href="#" class="layui-btn btn-fail">审核失败</a> {/case}
                                      {default /} <a href="#" class="layui-btn btn-pass">线上付款通过</a>
                                     {/switch}
                                     {else}
                                     {switch name="$vo.audit_status"}
-                                     {case value="0"}<a href="{:url('admin/Control/control_order_add',['id'=>$vo.store_id])}" class="layui-btn btn-exam">汇款待审核</a>{/case}
+                                     {case value="0"}<a href="{:url('admin/Control/control_order_add',['id'=>$vo.store_id])}" class="layui-btn btn-exam">汇款等待审核</a>{/case}
                                      {case value="1"}<a href="#" class="layui-btn btn-pass">到账审核通过</a>{/case}
-                                     {case value="-1"}<a href="#" class="layui-btn btn-fail">汇款未到账</a> {/case}
+                                     {case value="-1"}<a href="#" class="layui-btn btn-fail">汇款并未到账</a> {/case}
                                      {default /} <a href="#" class="layui-btn btn-pass">线上付款通过</a>
                                     {/switch}
                                     {/if}
-                                    {if $vo.audit_status == 1}
+                                    {if ($vo.pay_type==2) && ($vo.pay_status !=1)}
                                     {switch name="$vo.apply"}
-                                    {case value="1"}<button class="layui-btn line-btn line-exam" data-id="{$vo.id}">申请开票</button>{/case}
+                                    {case value="2"}<button class="layui-btn line-btn line-ing" data-id="{$vo.id}">已申请开票</button>{/case}
+                                    {case value="3"}<button class="layui-btn line-btn line-pass" data-id="{$vo.id}">已开票完成</button>{/case}
+                                    {default /}
+                                    {/switch}
+                                    {else}
+                                    {switch name="$vo.apply"}
+                                    {case value="1"}<button class="layui-btn line-btn line-exam" data-id="{$vo.id}">申请开发票</button>{/case}
                                     {case value="2"}<button class="layui-btn line-btn line-ing" data-id="{$vo.id}">已申请开票</button>{/case}
                                     {case value="3"}<button class="layui-btn line-btn line-pass" data-id="{$vo.id}">已开票完成</button>{/case}
                                     {default /}

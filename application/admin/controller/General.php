@@ -1577,6 +1577,16 @@ class  General extends  Base {
                 ->where("store_id",$store_id)
                 ->where("audit_status","NEQ",1)
                 ->value("id");
+
+                $isset_data = Db::name("meal_orders")
+                ->where("store_id",$store_id)
+                ->where("audit_status","NEQ",1)
+                ->find();
+                if(!empty($isset_data) ){
+                    if(($isset_data['pay_type'] == 2) &&  ($isset_data['audit_status'] == 0) && ($isset_data['status'] == -1)){
+                        exit(json_encode(array("status"=>4,"info"=>"您有订购订单未审核通过，耐心等待")));
+                    }
+                }
               
             if($isset_id){
                 //不能购买降级购买套餐(同事不能购买低于这个id的，所谓降级)
@@ -1610,7 +1620,7 @@ class  General extends  Base {
                     ->where("audit_status","EQ",1)
                     ->value("id");
                 if($isset_ids){
-                    exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
+                    exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐，请选择其他年份或版本套餐","data"=>["id"=>$isset_ids])));
                 }
                  $isset_idData =Db::name("meal_orders")
                     ->where("store_id",$store_id)
@@ -1618,7 +1628,7 @@ class  General extends  Base {
                     ->where("audit_status","EQ",1)
                     ->value("id");
                if($isset_idData){
-                    exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
+                    exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐，请选择其他年份或版本套餐","data"=>["id"=>$isset_ids])));
                 }
            
                 //不能升级为年份少于之前的年份
@@ -1740,6 +1750,10 @@ class  General extends  Base {
             if(strtotime($pay_time)>time()){
                 return ajax_error("汇款时间不能大于当前时间");
             }
+            $rest = db("meal_pay_form")->where("meal_order_id",'EQ',$meal_order_id)->find();
+            if($rest){
+                return ajax_error("您已经提交过汇款凭证,不能重复提交");   
+            }
             $order_number = Db::name("meal_orders")->where("id",'EQ',$meal_order_id)->value("order_number");//订单号
             $data =[
                 "store_id"=>$store_id,
@@ -1754,8 +1768,8 @@ class  General extends  Base {
             ];
             $bool =Db::name("meal_pay_form")->insertGetId($data);
             if($bool){
-                $rest = Db::name("meal_orders")->where("id",'EQ',$meal_order_id)->update(["pay_type"=>2,"pay_status"=>2,"audit_status"=>1]);
-                $result = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["pay_type"=>2,"pay_status"=>2,"audit_status"=>1]);
+                $rest = Db::name("meal_orders")->where("id",'EQ',$meal_order_id)->update(["pay_type"=>2,"pay_status"=>2,"audit_status"=>0]);
+                $result = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["pay_type"=>2,"pay_status"=>2,"audit_status"=>0]);
                 //对订单表进行审核操作
                 return ajax_success("已提交，请等待审核");
             }else{
@@ -1997,6 +2011,7 @@ class  General extends  Base {
                 ->where("store_id",$order_data["store_id"])
                 ->where("is_own",1)
                 ->update(["role_id"=>$role_id]);
+            $bool_member = MemberFristAdd($this->store_ids);
 
             //审核通过的时候先判断是否有小程序模板，没有的话则进行添加，有的话则不需要
             $is_set = Db::table("ims_sudu8_page_diypageset")

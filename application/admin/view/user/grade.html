@@ -49,6 +49,7 @@
 		<blockquote class="layui-elem-quote news_search">
 				<div class="layui-inline">
 					<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/User/grade_edit')}">添加等级</a>
+					<text style="color: red;font-size:13px;">*</text><text style="font-size:13px;">等级按照添加由低到高顺序排列，添加后可编辑修改，请谨慎删除！</text>
 				</div>
 				</blockquote>
 		<div class="layui-form news_list">
@@ -93,7 +94,7 @@
 						<td width="100px;">
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/User/grade_edit',['id'=>$vo.member_grade_id])}"> 编辑</a>
 
-							<a href="{:url('admin/User/grade_del',['id'=>$vo.member_grade_id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
+							<a href="{:url('admin/User/grade_del',['id'=>$vo.member_grade_id])}" onclick="if(!confirm('您可编辑修改，请谨慎删除！')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
 							 data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>

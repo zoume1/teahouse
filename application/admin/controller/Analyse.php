@@ -18,8 +18,7 @@ class  Analyse extends  Controller{
      * 郭杨
      */    
     public function analyse_index(){
-        $store_id = Session::get("store_id");
-        $analyse_data = db("analyse_goods")->where("store_id","EQ",$store_id)->where("label",1)->select();
+        $analyse_data = db("analyse_goods")->where("label",1)->select();
         if(!empty($analyse_data)){
             foreach ($analyse_data as $key => $value) {
                     if($analyse_data[$key]["goods_standard"] == "1")
@@ -69,7 +68,6 @@ class  Analyse extends  Controller{
     public function analyse_add(Request $request){
             if ($request->isPost()) {
                 $goods_data = $request->param(); 
-                $store_id = Session::get("store_id");
                 $show_images = $request->file("goods_show_images");
                 $imgs = $request->file("imgs");
                 $list = [];
@@ -80,7 +78,6 @@ class  Analyse extends  Controller{
                         $list[] = str_replace("\\", "/", $info->getSaveName());
                     }            
                     $goods_data["goods_show_image"] =  $list[0];
-                    $goods_data["store_id"] = $store_id;
                     $goods_data["goods_type"] = 1;     //商品类型
                     $goods_data["goods_show_images"] = implode(',', $list);
                 }

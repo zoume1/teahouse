@@ -9,6 +9,7 @@ namespace  app\admin\controller;
 use think\Controller;
 use think\Db;
 use think\Request;
+use think\Session;
 
 
 class StoreHouse extends Controller{
@@ -18,7 +19,8 @@ class StoreHouse extends Controller{
      * 郭杨
      */    
     public function store_house(){
-        $store_data = db("store_house")->select();
+        $store_id = Session::get("store_id");
+        $store_data = db("store_house")->where("store_id","EQ",$store_id)->select();
         if(!empty($store_data)){
             foreach($store_data as $key => $value){
                 $store_data[$key]["max"] = max(explode(',',$store_data[$key]['cost']));
@@ -39,12 +41,14 @@ class StoreHouse extends Controller{
     public function store_house_add(Request $request){
         if($request->isPost()){
             $data = $request->param();
+            $store_id = Session::get("store_id");
             $data["type"] = isset($data["type"])?$data["type"]:0;
             $data["unit"] = implode(",",$data["unit"]);
             $data["cost"] = implode(",",$data["cost"]);
+            $data["store_id"] = $store_id;
 
             if($data["label"] = 1){
-                $where = "update tb_store_house set label = 0";
+                $where = "update tb_store_house set label = 0 where store_id = $store_id";
                 $rest = Db::query($where);
             }
 
@@ -64,12 +68,13 @@ class StoreHouse extends Controller{
      */    
     public function store_house_update(Request $request){
         if($request->isPost()){
+            $store_id = Session::get("store_id");
             $data = $request -> param();
             $data["type"] = isset($data["type"])?$data["type"]:0;
             $data["unit"] = implode(",",$data["unit"]);
             $data["cost"] = implode(",",$data["cost"]);
             if($data["label"] = 1){
-                $where = "update tb_store_house set label = 0";
+                $where = "update tb_store_house set label = 0 where store_id = $store_id";
                 $rest = Db::query($where);
             }
             $bool = db("store_house")->where('id', $request->only(["id"])["id"])->update($data);
@@ -146,6 +151,7 @@ class StoreHouse extends Controller{
      * 郭杨
      */
     public function store_house_status(Request $request){
+        $store_id = Session::get("store_id");
         $status = $request->only(["status"])["status"];
         if ($status == 0) {
             $id = $request->only(["id"])["id"];
@@ -157,7 +163,7 @@ class StoreHouse extends Controller{
             }
         }
         if ($status == 1) {
-            $where = "update tb_store_house set label = 0";
+            $where = "update tb_store_house set label = 0 where store_id = $store_id";
             $rest = Db::query($where);
             $id = $request->only(["id"])["id"];
             $bool = db("store_house")->where("id", $id)->update(["label" => 1]);
@@ -177,7 +183,12 @@ class StoreHouse extends Controller{
      */    
     public function stores_divergence()
     { 
-        $store_order = db("house_order")->where("status",">",0)->field("id,parts_order_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time")->select();
+        $store_id = Session::get("store_id");
+        $store_order = db("house_order")
+                    ->where("store_id","EQ",$store_id)
+                    ->where("status",">",0)
+                    ->field("id,parts_order_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time")
+                    ->select();
 
         foreach($store_order as $key => $value){
             $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);

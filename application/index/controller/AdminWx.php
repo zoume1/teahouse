@@ -36,7 +36,7 @@ class  AdminWx extends Controller{
                 
                 $is_set_order = Db::name("set_meal_order")
                     ->where("store_id",$enter_all_data["store_id"])
-                    ->where("audit_status",1)
+                    ->where("audit_status",'eq',1)
                     ->find();
                                         
                 if($is_set_order){
@@ -126,6 +126,7 @@ class  AdminWx extends Controller{
                             ->where("is_own",1)
                             ->update(["role_id"=>$role_id]);
                         
+                        $member_bool = MemberFristAdd($enter_all_data["store_id"]);
                         //审核通过的时候先判断是否有小程序模板，没有的话则进行添加，有的话则不需要
                         $is_set = Db::table("ims_sudu8_page_diypageset")
                             ->where("store_id",$enter_all_data["store_id"])
@@ -238,7 +239,7 @@ class  AdminWx extends Controller{
                 //2、判断如果是升级过来的话需要进行删除已付款的订单
                 $is_set_order = Db::name("set_meal_order")
                     ->where("store_id", $enter_all_data["store_id"])
-                    ->where("audit_status", 1)
+                    ->where("audit_status",'EQ',1)
                     ->find();
                 if ($is_set_order) {
                     //这是套餐升级的情况
@@ -326,6 +327,8 @@ class  AdminWx extends Controller{
                         if( $enter_all_data['enter_all_id'] > 17){
                             $role_id = 15;
                         }
+                        $member_bool = $this->MemberFristAdd($enter_all_data["store_id"]);
+
                         Db::table("tb_admin")
                             ->where("store_id",$enter_all_data["store_id"])
                             ->where("is_own",1)
@@ -405,6 +408,8 @@ class  AdminWx extends Controller{
 
         }
     }
+
+
 
 
 

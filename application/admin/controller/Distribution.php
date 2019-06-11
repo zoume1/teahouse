@@ -15,6 +15,7 @@ use think\Db;
 use think\Request;
 use think\Image;
 use think\paginator\driver\Bootstrap;
+use think\Session;
 
 class Distribution extends Controller
 {
@@ -25,7 +26,21 @@ class Distribution extends Controller
      */
     public function setting_index()
     {
-        $distribution = db("distribution") -> select();
+        $store_id = Session::get("store_id");
+        $distribution = db("distribution") ->where("store_id","EQ",$store_id)-> select();
+
+        if(empty($distribution)){
+            $rest = db("distribution") ->where("store_id","EQ",6)-> select();
+            foreach($rest as $key => $value){
+                unset($rest[$key]['id']);
+                $rest[$key]['store_id'] = $store_id;
+            }
+
+            foreach($rest as $k => $v){
+                $bool[] = db("distribution")->insert($v);
+            }
+        }
+        
         //刷新页面
         $members = db("member")->field("member_id,member_name,member_grade_id,member_grade_name,inviter_id")->select();
         foreach($members as $k=>$v){
@@ -42,10 +57,6 @@ class Distribution extends Controller
         }
      }
      
-    //  foreach( $members as $k => $y){        
-    //     $bool = db("member")->update($members[$k]);
-    //  }
-
         return view("setting_index",["distribution" =>$distribution ]);
     }
 
@@ -91,7 +102,8 @@ class Distribution extends Controller
     public function goods_index()
     {
 
-        $commodity = db("commodity")->select();
+        $store_id = Session::get("store_id");
+        $commodity = db("commodity")->where("store_id","EQ",$store_id)->select();
         foreach ($commodity as $key => $value) {
             $commodity[$key]["grade"] = explode(",", $commodity[$key]["grade"]);
         }
@@ -184,7 +196,7 @@ class Distribution extends Controller
             if(!empty($data["goods_id"])){
                 foreach($data["goods_id"] as $key => $value)
                 {
-                    $goods[$key] = db("goods")->where("id",$data["goods_id"][$key])->field("id,goods_number,goods_show_image,goods_name")->find();
+                    $goods[$key] = db("goods")->where("id",$data["goods_id"][$key])->field("id,goods_number,goods_show_image,goods_name,store_id")->find();
                     $bool = db("goods")->where("id",$data["goods_id"][$key])->update(["distribution" => 1]);
                     $goods[$key]["rank"] = implode(",",$data["rank"]);
                     $goods[$key]["grade"] = implode(",",$data["grade"]);
@@ -283,6 +295,7 @@ class Distribution extends Controller
     {
         if ($request->isPost()) {
             $data = $request->param();
+            $store_id = Session::get("store_id");
             $goods = db("goods")->where("id",$data["restid"])->field("id,goods_number,goods_show_image,goods_name")->find();
             $bool = db("goods")->where("id",$data["restid"])->update(["distribution" => 1]);
             $goods["rank"] = implode(",",$data["rank"]);
@@ -293,6 +306,7 @@ class Distribution extends Controller
             $goods["status"] = $data["status"];                   
             $goods["way"] = $data["way"];
             $goods["goods_id"] = $data["restid"]; 
+            $goods["store_id"] = $store_id; 
             unset($goods["id"]);               
         
             $boole = db("commodity")->insert($goods);
