@@ -126,6 +126,7 @@ class Store extends  Controller{
                 ->where("store_id",'EQ',$store_id)
                 ->where("status",'EQ',1)
                 ->select();
+                
         return view("store_add_bankcard",["bank"=>$bank]);
     }
 
@@ -141,14 +142,37 @@ class Store extends  Controller{
             $store_id = Session::get("store_id");
             $card = $request->param();
             $card['time'] = time();
+            $card['store_id'] = $store_id;
             $card['status'] = 1;
             $bool  = Db::name("store_bank_icard")
-                ->insert($card);
+                    ->insert($card);
 
             if($bool){
                 return ajax_success("银行卡添加成功",$bool);
             } else {
                 return ajax_success("参数错误");
+            }
+        }
+    }
+
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:银行开删除
+     **************************************
+     */
+    public function store_icard_delete(Request $request){
+        if($request->isPost()){
+            $id = $request->only(["id"])["id"];
+            $bool  = Db::name("store_bank_icard")
+                ->where("id",'EQ',$id)
+                ->update(['status'=> -1]);
+
+            if($bool){
+                return ajax_success("删除成功",$bool);
+            } else {
+                return ajax_success("删除失败");
             }
         }
     }
