@@ -187,6 +187,12 @@
                     },
                     success: function(res){
                         console.log(res);
+                        if(res.status == 1){
+                            layer.msg(res.info);
+                            setTimeout(function(){
+                                location.reload();
+                            }, 1200);
+                        }
                     },
                     error: function(){}
                 })
