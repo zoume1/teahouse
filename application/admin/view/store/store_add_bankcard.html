@@ -93,17 +93,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">开户名：</label>
                 <div class="layui-input-block">
-                    <input type="text" class="layui-input">
+                    <input name="name" type="text" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">银行：</label>
                 <div class="layui-input-block">
-                    <select name="city" lay-verify="required" class="bank-name-select">
-                        <option value="0">中国银行</option>
-                        <option value="0">建设银行</option>
-                        <option value="0">农业银行</option>
-                    </select>
+                    <input name="bank_name" type="text" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -112,15 +108,15 @@
                     <div data-toggle="distpicker">
                         <div class="form-group">
                             <label class="sr-only" for="province2">Province</label>
-                            <select class="form-control" name="address_city[]" id="province" data-province="---- 选择省 ----"></select>
+                            <select class="form-control" name="area1" id="province" data-province="---- 选择省 ----"></select>
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="city2">City</label>
-                            <select class="form-control" name="address_city[]" id="city" data-city="---- 选择市 ----"></select>
+                            <select class="form-control" name="area2" id="city" data-city="---- 选择市 ----"></select>
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="district2">District</label>
-                            <select class="form-control" name="address_city[]" id="district" data-district="---- 选择区 ----"></select>
+                            <select class="form-control" name="area3" id="district" data-district="---- 选择区 ----"></select>
                         </div>
                     </div>
                 </div>
@@ -128,13 +124,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">开户支行：</label>
                 <div class="layui-input-block">
-                    <input type="text" placeholder="请输入支行名称" class="layui-input">
+                    <input type="text" name ="two_bank" placeholder="请输入支行名称" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">银行账号：</label>
                 <div class="layui-input-block">
-                    <input type="text" placeholder="请输入银行账号" class="layui-input">
+                    <input type="text" name="count" placeholder="请输入银行账号" class="layui-input">
                 </div>
             </div>
 
