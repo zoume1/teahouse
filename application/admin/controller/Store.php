@@ -113,15 +113,41 @@ class Store extends  Controller{
     }
 
     /**
-     **************李火生*******************
+     **************GY*******************
      * @param Request $request
      * Notes:店铺资金管理银行卡列表
      **************************************
      * @return \think\response\View
      */
     public function store_add_bankcard(){
-        return view("store_add_bankcard");
+        //将已开户银行开发送过去
+        $store_id = Session::get("store_id");
+        $bank = Db::name("store_bank_icard")
+                ->where("store_id",'EQ',$store_id)
+                ->where("status",'EQ',1)
+                ->select();
+        return view("store_add_bankcard",["bank"=>$bank]);
     }
+
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:银行开添加入库
+     **************************************
+     */
+    public function store_icard_save(Request $request){
+        if($request->isPost()){
+            $store_id = Session::get("store_id");
+            $card = $request->param();
+
+            $bool  = Db::name("store_bank_icard")
+                ->insert($card);
+
+            return ajax_success("银行卡添加成功",$wallet);
+        }
+    }
+
 
 
 
