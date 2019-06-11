@@ -131,6 +131,8 @@ class Goods extends Controller
             }
             $goods_data["store_id"] = $store_id;
             //暂时更改
+
+
             unset($goods_data["sss"]);
             unset($goods_data["server"]);
             if ($goods_data["goods_standard"] == "0") {
@@ -389,6 +391,8 @@ class Goods extends Controller
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();  
             unset($goods_data["aaa"]);
+            unset($goods_data["sss"]);
+            unset($goods_data["server"]);
             $show_images = $request->file("goods_show_images");
 
             if(!empty($goods_data["scope"])){

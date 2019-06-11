@@ -206,7 +206,7 @@ class My extends Controller
              if(!empty($phone_number)){
                  Cache::rm('mobileCode');
                  Cache::rm('mobile');
-                 return ajax_success("绑定成功",$phone_number);
+                 return ajax_success("修改成功",$phone_number);
              }else{
                  return ajax_error("请重试",["status"=>0]);
              }
