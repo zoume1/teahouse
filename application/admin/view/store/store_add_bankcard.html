@@ -210,27 +210,29 @@
 
         // 删除银行卡
         $('.del').click(function(){
-            var id = this.getAttribute('data-id');
-            $.ajax({
-                url: 'store_icard_delete',
-                type: 'POST',
-                dataType: 'JSON',
-                data: {
-                    id: id
-                },
-                success: function(res){
-                    console.log(res);
-                    if(res.status == 1){
-                        layer.msg(res.info);
-                        setTimeout(function(){
-                            location.reload();
-                        }, 1200);
-                    }else{
-                        layer.msg(res.info);
-                    }
-                },
-                error: function(){}
-            })
+            if(confirm('是否删除？')){
+                var id = this.getAttribute('data-id');
+                $.ajax({
+                    url: 'store_icard_delete',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        id: id
+                    },
+                    success: function(res){
+                        console.log(res);
+                        if(res.status == 1){
+                            layer.msg(res.info);
+                            setTimeout(function(){
+                                location.reload();
+                            }, 1200);
+                        }else{
+                            layer.msg(res.info);
+                        }
+                    },
+                    error: function(){}
+                })
+            }
         })
     })
     
