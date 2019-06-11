@@ -133,7 +133,6 @@
                     <input type="text" name="count" placeholder="请输入银行账号" class="layui-input">
                 </div>
             </div>
-
         </div>
         <button class="add-card-confirm layui-btn">确定</button>
     </div>
@@ -148,9 +147,10 @@
 <script src="__STATIC__/admin/common/diliweizhi/distpicker.js"></script>
 
 <script>
-    layui.use(['laydate', 'form'], function(){
+    layui.use(['laydate', 'form', 'layer'], function(){
         var laydate = layui.laydate,
-            form = layui.form;
+            form = layui.form,
+            layer = layui.layer;
         // laydate.render({elem: '#remitTime'});
         form.render();
         $('.add-card').click(function(){
@@ -160,6 +160,45 @@
             $('.pop .close').click(function(){
                 $('.mask').add('.pop').hide();
             })
+        })
+
+        // 添加银行卡
+        $('.add-card-confirm').click(function(){
+            var name = $('input[name=name]').val(),
+                bank_name = $('input[name=bank_name]').val();
+                area1 = $('#province').val(),
+                area2 = $('#city').val(),
+                area3 = $('#district').val(),
+                two_bank = $('input[name=two_bank]').val(),
+                count = $('input[name=count]').val();
+            if(name && bank_name && two_bank && count){
+                $.ajax({
+                    url: 'store_icard_save',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        name: name,
+                        bank_name: bank_name,
+                        area1: area1,
+                        area2: area2,
+                        area3: area3,
+                        two_bank: two_bank,
+                        count: count
+                    },
+                    success: function(res){
+                        console.log(res);
+                        if(res.status == 1){
+                            layer.msg(res.info);
+                            setTimeout(function(){
+                                location.reload();
+                            }, 1200);
+                        }
+                    },
+                    error: function(){}
+                })
+            }else{
+                layer.msg('请将信息填写完整！');
+            }
         })
     })
     
