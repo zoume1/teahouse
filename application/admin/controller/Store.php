@@ -140,11 +140,16 @@ class Store extends  Controller{
         if($request->isPost()){
             $store_id = Session::get("store_id");
             $card = $request->param();
-
+            $card['time'] = time();
+            $card['status'] = 1;
             $bool  = Db::name("store_bank_icard")
                 ->insert($card);
 
-            return ajax_success("银行卡添加成功",$wallet);
+            if($bool){
+                return ajax_success("银行卡添加成功",$bool);
+            } else {
+                return ajax_success("参数错误");
+            }
         }
     }
 
