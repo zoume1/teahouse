@@ -704,35 +704,6 @@ class  Control extends  Controller{
         return view("control_charging_edit",['offline_data'=>$offline_data]);
     }
 
-        /**
-     * [线下充值申请编辑]
-     * 郭杨
-     */    
-    public function control_charging_update(Request $request){    
-        if($request->isPost()){
-            $status =$request->only(["status"])["status"];
-            $id =$request->only(["id"])["id"];
-            if( empty($status) || empty($id)){
-                return ajax_error("参数错误");
-            }
-            $password_repeat =$request->only(["password_repeat"])["password_repeat"];
-            $member_id =$request->only(["member_id"])["member_id"];
-            if($password ==$password_repeat){
-                $passwords =password_hash($password,PASSWORD_DEFAULT);
-                $bool =Db::name("member")
-                    ->where("member_id",$member_id)
-                    ->update(["pay_password"=>$passwords]);
-                if($bool){
-                    return ajax_success("成功",["status"=>1]);
-                }else{
-                    return ajax_error("失败",["status"=>0]);
-                }
-            }else {
-                return ajax_error("两次密码不一致",["status"=>0]);
-            }
-        }
-
-    }
 
 
     /**
