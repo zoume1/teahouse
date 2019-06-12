@@ -72,43 +72,43 @@
                         request = false;
                     },
                     success:function (res) {
-                        // var res = JSON.parse(res);
-                        // if(res.errno == 0 && res.data.errcode == 405){
-                        //     console.log(res);
-                        //     request = false;
-                        //     var scan_token = res.data.code_token;
-                        //     $("#scan_token").val(scan_token);
-                        //     //上传代码
-                        //     $.ajax({
-                        //         url : 'commitcode',
-                        //         type:"post",
-                        //         data:{
-                        //             token : scan_token,
-                        //             uuid : code_uuid,
-                        //             version:"<?php echo $version; ?>",
-                        //             desc : "<?php echo $desc; ?>"
-                        //         },
-                        //         success:function (res) {
-                        //             if(res.errno>0){
-                        //                 // alert("上传失败，请重试！如一直失败，请过几分钟后再上传！");
-                        //                 alert("上传失败!错误描述："+res.message);
+                        var res = JSON.parse(res);
+                        if(res.errno == 0 && res.data.errcode == 405){
+                            console.log(res);
+                            request = false;
+                            var scan_token = res.data.code_token;
+                            $("#scan_token").val(scan_token);
+                            //上传代码
+                            $.ajax({
+                                url : 'commitcode',
+                                type:"post",
+                                data:{
+                                    token : scan_token,
+                                    uuid : code_uuid,
+                                    version:"<?php echo $version; ?>",
+                                    desc : "<?php echo $desc; ?>"
+                                },
+                                success:function (res) {
+                                    if(res.errno>0){
+                                        // alert("上传失败，请重试！如一直失败，请过几分钟后再上传！");
+                                        alert("上传失败!错误描述："+res.message);
                                         
-                        //             }else{
-                        //                 $("#three_all span").css('background','#428bca');
-                        //                 $("#success").show();
-                        //                 $("#ewm").hide();
-                        //                 $("#tishi").hide();
-                        //                 $(".three").css('color','#000000');
-                        //                 $(".three2").css('color','#ffffff');
-                        //                 $(".three2").css('background','#428bca');
-                        //             }
-                        //         }
-                        //     });
+                                    }else{
+                                        $("#three_all span").css('background','#428bca');
+                                        $("#success").show();
+                                        $("#ewm").hide();
+                                        $("#tishi").hide();
+                                        $(".three").css('color','#000000');
+                                        $(".three2").css('color','#ffffff');
+                                        $(".three2").css('background','#428bca');
+                                    }
+                                }
+                            });
                             
-                        //     // window.location.href = "{:Url('Wxreview/')}?appletid="+id+"&status=1&token="+token+"&scan_token="+scan_token+"&code_uuid="+code_uuid;
-                        // }else{
-                        //     request =true;
-                        // }
+                            // window.location.href = "{:Url('Wxreview/')}?appletid="+id+"&status=1&token="+token+"&scan_token="+scan_token+"&code_uuid="+code_uuid;
+                        }else{
+                            request =true;
+                        }
                     }
                 });
             }
