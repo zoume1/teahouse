@@ -155,7 +155,7 @@ class Test extends  Controller{
 //                    $cates[$key]['subcate'] =$catess;
 //                }
                 //商品分类
-                $list =Db::table("tb_wares")->where("pid",0)->field("id,name")->select();
+                $list =Db::table("tb_wares")->where(["pid"=>0,'store_id'=>$uniacid])->field("id,name")->select();
                 foreach ($list as $key=>&$value){
                     $list[$key]['subcate'] =null;
                 }
