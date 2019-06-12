@@ -711,27 +711,25 @@ class  Control extends  Controller{
     public function control_charging_update(Request $request){    
         if($request->isPost()){
             $status =$request->only(["status"])["status"];
-            $id =$request->only(["id"])["id"];
+            $id = $request->only(["id"])["id"];
             if( empty($status) || empty($id)){
                 return ajax_error("参数错误");
             }
-            $password_repeat =$request->only(["password_repeat"])["password_repeat"];
-            $member_id =$request->only(["member_id"])["member_id"];
-            if($password ==$password_repeat){
-                $passwords =password_hash($password,PASSWORD_DEFAULT);
-                $bool =Db::name("member")
-                    ->where("member_id",$member_id)
-                    ->update(["pay_password"=>$passwords]);
-                if($bool){
-                    return ajax_success("成功",["status"=>1]);
-                }else{
-                    return ajax_error("失败",["status"=>0]);
+            $bool = db("offline_recharge")->where('id',$id)->update(["status"=>$status]);
+            if($bool){
+                if($status == 2){
+                    $data = db("offline_recharge")->where('id',$id)->find();
+                    $result = db('store')->where('id',$data['store_id'])->setInc('store_wallet',$data['money']);
+                    if($result){
+                        return ajax_success("审核成功");
+                    } else {
+                        return ajax_error("审核失败");
+                    }
+                } else {
+                    return ajax_success("审核成功");
                 }
-            }else {
-                return ajax_error("两次密码不一致",["status"=>0]);
             }
         }
-
     }
 
 
