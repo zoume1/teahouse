@@ -203,9 +203,10 @@ class GoodsType extends Controller{
     {
         $ppd = input('ppd');          //商品分类
         $interest = input('interest'); //分类状态
+        $store_id = Session::get("store_id");//店铺
 
         if ((!empty($ppd)) || (!empty($interest))) {
-            $activ = db("wares")->where("pid", "like", "%" . $ppd . "%")->where("status", "like", "%" . $interest . "%")->select();
+            $activ = db("wares")->where("pid", "like", "%" . $ppd . "%")->where('store_id','EQ',$store_id)->where("status", "like", "%" . $interest . "%")->select();
             foreach ($activ as $key => $value) {
                 if ($value["pid"]) {
                     $res = db("wares")->where("id", $value['pid'])->field("name")->find();
