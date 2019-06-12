@@ -155,7 +155,7 @@
                                 if(res.status == 1){
                                     layer.msg(res.info);
                                     setTimeout(function(){
-                                        location.reload();
+                                        history.back(-1);
                                     }, 1200);
                                 }else{
                                     layer.msg(res.info);
