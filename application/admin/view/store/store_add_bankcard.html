@@ -54,26 +54,31 @@
         <div class="hd">
             <div>银行卡管理</div>
         </div>
+
         <ul class="bank-cards">
+                {if !empty($bank)}
+                {volist name="bank" id="value"}
             <li class="bank-card card-on">
                 <div>
                     <div class="car-info">
                         <label>开户名:</label>
-                        <p>刘德华</p>
+                        <p>{$value.name}</p>
                     </div>
                     <div class="car-info">
                         <label>开户行:</label>
-                        <p>中国银行深圳分行</p>
+                        <p>{$value.two_bank}</p>
                     </div>
                     <div class="car-info">
                         <label>卡号:</label>
-                        <p>45677******66666</p>
+                        <p>{$value.count}</p>
                     </div>
                 </div>
-                <a href="javascript:;" class="del">
+                <a href="javascript:;" class="del" data-id="{$value.id}">
                     <img src="__STATIC__/admin/common/img/u25024.png" width="15" height="15">
                 </a>
             </li>
+            {/volist}
+            {/if}
             <li class="bank-card">
                 <a href="javascript:;" class="add-card">
                     <img src="__STATIC__/admin/common/img/u25008.png" width="20" height="20">
@@ -133,7 +138,6 @@
                     <input type="text" name="count" placeholder="请输入银行账号" class="layui-input">
                 </div>
             </div>
-
         </div>
         <button class="add-card-confirm layui-btn">确定</button>
     </div>
@@ -148,9 +152,10 @@
 <script src="__STATIC__/admin/common/diliweizhi/distpicker.js"></script>
 
 <script>
-    layui.use(['laydate', 'form'], function(){
+    layui.use(['laydate', 'form', 'layer'], function(){
         var laydate = layui.laydate,
-            form = layui.form;
+            form = layui.form,
+            layer = layui.layer;
         // laydate.render({elem: '#remitTime'});
         form.render();
         $('.add-card').click(function(){
@@ -160,6 +165,74 @@
             $('.pop .close').click(function(){
                 $('.mask').add('.pop').hide();
             })
+        })
+
+        // 添加银行卡
+        $('.add-card-confirm').click(function(){
+            var name = $('input[name=name]').val(),
+                bank_name = $('input[name=bank_name]').val();
+                area1 = $('#province').val(),
+                area2 = $('#city').val(),
+                area3 = $('#district').val(),
+                two_bank = $('input[name=two_bank]').val(),
+                count = $('input[name=count]').val();
+            if(name && bank_name && two_bank && count){
+                $.ajax({
+                    url: 'store_icard_save',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        name: name,
+                        bank_name: bank_name,
+                        area1: area1,
+                        area2: area2,
+                        area3: area3,
+                        two_bank: two_bank,
+                        count: count
+                    },
+                    success: function(res){
+                        console.log(res);
+                        if(res.status == 1){
+                            layer.msg(res.info);
+                            setTimeout(function(){
+                                location.reload();
+                            }, 1200);
+                        }else{
+                            layer.msg(res.info);
+                        }
+                    },
+                    error: function(){}
+                })
+            }else{
+                layer.msg('请将信息填写完整！');
+            }
+        })
+
+        // 删除银行卡
+        $('.del').click(function(){
+            if(confirm('是否删除？')){
+                var id = this.getAttribute('data-id');
+                $.ajax({
+                    url: 'store_icard_delete',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        id: id
+                    },
+                    success: function(res){
+                        console.log(res);
+                        if(res.status == 1){
+                            layer.msg(res.info);
+                            setTimeout(function(){
+                                location.reload();
+                            }, 1200);
+                        }else{
+                            layer.msg(res.info);
+                        }
+                    },
+                    error: function(){}
+                })
+            }
         })
     })
     

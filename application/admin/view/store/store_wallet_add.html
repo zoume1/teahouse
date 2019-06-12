@@ -53,8 +53,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">充值类型：</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="rechargeWay" lay-filter="filter" value="0" title="在线充值">
-                            <input type="radio" name="rechargeWay" lay-filter="filter" value="1" title="银行转账" checked>
+                            <input type="radio" name="pay_type" lay-filter="filter" value="1" title="在线充值">
+                            <input type="radio" name="pay_type" lay-filter="filter" value="2" title="银行转账" checked>
                         </div>
                     </div>
                     <div>
@@ -62,30 +62,39 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label star">充值银行：</label>
                                 <div class="layui-input-block">
-                                    <select name="city" lay-verify="required">
-                                        <option value="">如没有添加银行卡，请添加 →</option>
-                                        <option value="0">卡一：569699698877777 中国银行福田分行</option>
+                                        {if !empty($data)}
+                                    <select name="bank_icard_id" lay-verify="required" lay-filter="bankcard">
+                                        <option value="">请选择</option>
+                                        {volist name="data" id="value"}
+                                        <option value="{$value.id}">卡{$key+1}:{$value.count} {$value.two_bank} </option>
+                                        {/volist}
+                                        <a href="store_add_bankcard" class="layui-btn add-bank">+银行卡</a>
                                     </select>
+                                    {else}
+                                    <select name="bank_icard_id" lay-verify="required">
+                                        <option value="">请添加银行卡 →</option>
+                                    </select>
+                                    {/if}
                                     <a href="store_add_bankcard" class="layui-btn add-bank">+银行卡</a>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label star">充值金额：</label>
                                 <div class="layui-input-block">
-                                    <input type="text" required lay-verify="required" class="layui-input">
+                                    <input type="text" required name="money" lay-verify="required" class="layui-input">
                                     <span class="unit">元</span>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label star">充值时间：</label>
                                 <div class="layui-input-block">
-                                    <input type="text" readonly id="remitTime" class="layui-input">
+                                    <input type="text" name="create_time" readonly id="remitTime" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-form-item layui-form-text">
                                 <label class="layui-form-label">留言</label>
                                 <div class="layui-input-block">
-                                    <textarea name="desc" class="layui-textarea"></textarea>
+                                    <textarea name="message" class="layui-textarea"></textarea>
                                 </div>
                             </div>
                             <div class="layui-form-item">
@@ -98,12 +107,12 @@
                         <div class="online-item" style="display: none;">
                             <div class="layui-form-item">
                                 <label class="layui-form-label star">用户名：</label>
-                                <div class="layui-input-block">13691853045</div>
+                                <div class="layui-input-block">{$phone_number}</div>
                             </div>
                             <div class="layui-form-item">
                                 <label class="layui-form-label star">充值金额：</label>
                                 <div class="layui-input-block">
-                                    <input type="text" required lay-verify="required" class="layui-input">
+                                    <input type="text" name="money" required lay-verify="required" class="layui-input">
                                     <span class="unit">元</span>
                                 </div>
                             </div>
@@ -144,16 +153,17 @@
 <script src="__STATIC__/admin/common/layui/layui.js"></script>
 
 <script>
-    layui.use(['laydate', 'form'], function(){
+    layui.use(['laydate', 'form', 'layer'], function(){
         var laydate = layui.laydate,
-            form = layui.form;
+            form = layui.form,
+            layer = layui.layer;
         laydate.render({elem: '#remitTime'});
         form.render();
         
         // 切换充值方式
         form.on('radio(filter)', function(data){
             var val = data.value;
-            if(val == 0){
+            if(val == 1){
                 $('.bank-item').hide();
                 $('.online-item').show();
             }else{
@@ -161,7 +171,63 @@
                 $('.online-item').hide();
             }
         })
+        // 银行卡ID
+        var card_id;
+        form.on('select(bankcard)', function(data){
+            card_id = data.value;
+        })
+        $('.confirm').click(function(){
+            var radio = $('input[name=pay_type]');
+            for(var i = 0; i < 2; i++){
+                if(radio[i].checked){
+                    var pay_type = radio[i].value;
+                    if(pay_type == 1){
+                        // 在线充值
+                        var params = {
+                            pay_type: pay_type,
+                            money: $('.online-item input[name=money]').val()
+                        }
+                        myAjax(params);
+                    }else if(pay_type == 2){
+                        // 银行转账
+                        var params = {
+                            pay_type: pay_type,
+                            bank_icard_id: card_id,
+                            money: $('.bank-item input[name=money]').val(),
+                            create_time: $('input[name=create_time]').val(),
+                            message: $('textarea[name=message]').val()
+                        }
+                        if(params.bank_icard_id && params.money && params.create_time && params.message){
+                            myAjax(params);
+                        }else{
+                            layer.msg('请将信息填写完整！');
+                        }
+                    }
+                }
+            }
+        })
     })
+
+    function myAjax(params){
+        $.ajax({
+            url: 'OfflineRecharge',
+            type: 'POST',
+            dataType: 'JSON',
+            data: params,
+            success: function(res){
+                console.log(res);
+                if(res.status == 1){
+                    layer.msg(res.info);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1200);
+                }else{
+                    layer.msg(res.info);
+                }
+            },
+            error: function(){}
+        })
+    }
     
 </script>
 {/block}

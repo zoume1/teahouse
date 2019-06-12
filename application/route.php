@@ -818,6 +818,9 @@ Route::group("admin",[
     "store_wallet_add"=>"admin/Store/store_wallet_add",//店铺的钱包充值页面
     "store_wallet_reduce"=>"admin/Store/store_wallet_reduce",//店铺的钱包提现页面
     "store_add_bankcard"=>"admin/Store/store_add_bankcard",//店铺的银行卡页面
+    "store_icard_save"=>"admin/Store/store_icard_save",//银行开添加入库
+    "store_icard_delete"=>"admin/Store/store_icard_delete",//银行卡删除
+    "OfflineRecharge"=>"admin/Store/OfflineRecharge",//店铺钱包进行充值
 
     "store_wallet_return"=>"admin/Store/store_wallet_return",//店铺的钱包返回
     "store_isset_password"=>"admin/Store/store_isset_password",//店铺检测是否进行了支付密码设置，没有设置则前往设置
@@ -839,6 +842,12 @@ Route::group("admin",[
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
     "additional_comments"=>"admin/General/additional_comments",//追加评论
     "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
+    "wxxcxinfo"=>"admin/General/wxxcxinfo",                            //一键生成
+    "wx_login"=>"admin/General/wx_login",                            //一键生成
+    "wx_index"=>"admin/General/wx_index",                            //一键生成--二维码
+    "checkscan"=>"admin/General/checkscan",                            //一键生成--二维码
+    "commitcode"=>"admin/General/commitcode",                            //一键生成--提交代码
+    "preview"=>"admin/General/preview",                             //一键生成--预览
 
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
@@ -862,6 +871,7 @@ Route::group("admin",[
     "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
     "control_online_charging"=>"admin/Control/control_online_charging",//线下充值申请
     "control_charging_edit"=>"admin/Control/control_charging_edit",//线下充值申请编辑
+    "control_charging_update"=>"admin/Control/control_charging_update",//线下充值申请审核
     "control_withdraw_deposit"=>"admin/Control/control_withdraw_deposit",//提现申请
     "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
     "store_examine_receipt"=>"admin/Control/store_examine_receipt",//admin后台审核订单发票

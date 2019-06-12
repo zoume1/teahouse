@@ -98,7 +98,15 @@ class Store extends  Controller{
      **************************************
      */
     public function store_wallet_add(){
-        return view("store_wallet_add");
+        $store_id = Session::get("store_id");
+        $phone_number = db("store")->where("id",'EQ',$store_id)->value("phone_number");
+
+        $data = Db::name("store_bank_icard")
+                ->where("store_id",'EQ',$store_id)
+                ->where("status",'EQ',1)
+                ->select();
+
+        return view("store_wallet_add",['phone_number'=>$phone_number,'data'=>$data]);
     }
 
 
@@ -126,6 +134,7 @@ class Store extends  Controller{
                 ->where("store_id",'EQ',$store_id)
                 ->where("status",'EQ',1)
                 ->select();
+                
         return view("store_add_bankcard",["bank"=>$bank]);
     }
 
@@ -140,11 +149,66 @@ class Store extends  Controller{
         if($request->isPost()){
             $store_id = Session::get("store_id");
             $card = $request->param();
-
+            $card['time'] = time();
+            $card['store_id'] = $store_id;
+            $card['status'] = 1;
             $bool  = Db::name("store_bank_icard")
-                ->insert($card);
+                    ->insert($card);
 
-            return ajax_success("银行卡添加成功",$wallet);
+            if($bool){
+                return ajax_success("银行卡添加成功",$bool);
+            } else {
+                return ajax_success("参数错误");
+            }
+        }
+    }
+
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:银行开删除
+     **************************************
+     */
+    public function store_icard_delete(Request $request){
+        if($request->isPost()){
+            $id = $request->only(["id"])["id"];
+            $bool  = Db::name("store_bank_icard")
+                    ->where("id",'EQ',$id)
+                    ->update(['status'=> -1]);
+            if($bool){
+                return ajax_success("删除成功",$bool);
+            } else {
+                return ajax_success("删除失败");
+            }
+        }
+    }
+
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:店铺充值提交申请 
+     **************************************
+     */
+    public function OfflineRecharge(Request $request){
+        if($request->isPost()){
+            $store_id = Session::get("store_id");
+            //生成流水号
+            $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+            $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
+            $data = $request->param();
+            $data['serial_number'] = $orderSn;
+            $data['store_id'] = $store_id;
+            $data['create_time'] = strtotime($data['create_time']);
+            
+            $bool  = Db::name("offline_recharge")
+                ->insert($data);
+            if($bool){
+                return ajax_success("凭证已提交，我们将在3个工作日内审核完毕，通过后自动完成订购。",$bool);
+            } else {
+                return ajax_success("提交失败");
+            }
         }
     }
 
