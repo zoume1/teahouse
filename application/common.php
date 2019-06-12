@@ -1177,4 +1177,25 @@ function powerget()
 		return true;
 	}
 }
+/**
+ * lilu
+ * 检测登录
+ */
+//检查是否登录
+function check_login(){
+	$uid = Session::get('user_id');
+	// 检测更新
+    $version = 'index/controller/version.php';
+    $ver = include($version);
+    $ver = $ver['ver'];
+    $ver = substr($ver,-4);
+    if(!defined('VERSION_APP')){
+        define("VERSION_APP", $ver);
+    }
+	if(!$uid){
+		return false;
+	}else{
+		return true;
+	}
+}
 
