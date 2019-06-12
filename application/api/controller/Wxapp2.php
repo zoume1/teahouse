@@ -6,7 +6,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 
-class Wxapps extends Controller
+class Wxapp2 extends Controller
 {   
     public function doPageBdAppbase(){
         $uniacid = input('uniacid');
