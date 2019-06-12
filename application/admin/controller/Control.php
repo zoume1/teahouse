@@ -670,8 +670,20 @@ class  Control extends  Controller{
      * [线下充值申请]
      * 郭杨
      */    
-    public function control_online_charging(){     
-        return view("control_online_charging");
+    public function control_online_charging(){  
+        $offline_data = db('offline_recharge')->where("pay_type",'EQ',2)->select();
+        if(!empty($offline_data)){
+            foreach ($offline_data as $key => $value) {
+                $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
+                $offline_data[$key]["name"] = $bank['name'];
+                $offline_data[$key]["count"] = $bank['count'];                               
+                $offline_data[$key]["store_number"] = db("store")->where("id",$offline_data[$key]['store_id'])->value("phone_number");                               
+                }
+            }
+        $url = 'admin/Control/control_online_charging';
+        $pag_number = 20;
+        $offline = paging_data($offline_data,$url,$pag_number);  
+        return view("control_online_charging",['offline'=>$offline]);
     }
 
 
@@ -679,8 +691,47 @@ class  Control extends  Controller{
      * [线下充值申请编辑]
      * 郭杨
      */    
-    public function control_charging_edit(){     
-        return view("control_charging_edit");
+    public function control_charging_edit($id){    
+        $offline_data = db('offline_recharge')->where("id",'EQ',$id)->select();
+        if(!empty($offline_data)){
+            foreach ($offline_data as $key => $value) {
+                $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
+                $offline_data[$key]["name"] = $bank['name'];
+                $offline_data[$key]["count"] = $bank['count'];                               
+                $offline_data[$key]["store_number"] = db("store")->where("id",$offline_data[$key]['store_id'])->value("phone_number");                               
+                }
+            }
+        return view("control_charging_edit",['offline_data'=>$offline_data]);
+    }
+
+        /**
+     * [线下充值申请编辑]
+     * 郭杨
+     */    
+    public function control_charging_update(Request $request){    
+        if($request->isPost()){
+            $status =$request->only(["status"])["status"];
+            $id =$request->only(["id"])["id"];
+            if( empty($status) || empty($id)){
+                return ajax_error("参数错误");
+            }
+            $password_repeat =$request->only(["password_repeat"])["password_repeat"];
+            $member_id =$request->only(["member_id"])["member_id"];
+            if($password ==$password_repeat){
+                $passwords =password_hash($password,PASSWORD_DEFAULT);
+                $bool =Db::name("member")
+                    ->where("member_id",$member_id)
+                    ->update(["pay_password"=>$passwords]);
+                if($bool){
+                    return ajax_success("成功",["status"=>1]);
+                }else{
+                    return ajax_error("失败",["status"=>0]);
+                }
+            }else {
+                return ajax_error("两次密码不一致",["status"=>0]);
+            }
+        }
+
     }
 
 

@@ -89,7 +89,7 @@
                         <div class="seach_input">
                             <select name="interest" lay-filter="aihao">
                                 <option value=""></option>
-                                <option value="0" selected="">全部</option>
+                                <option value="" selected="">全部</option>
                                 <option value="1">申请中</option>
                                 <option value="2">已到账</option>
                                 <option value="3">已驳回</option>
@@ -122,39 +122,26 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-
+                    {if !empty($offline)}{volist name="offline" id="value"}
                     <tr>
-                        <td><input type="checkbox" name="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-
-                        <td>1111</td>
-
-                        <td>111</td>
-
-
-                        <td>142</td>
-                        <td>11</td>
-                        <td>111</td>
-                        <td>111</td>
+                        <td><input type="checkbox" name="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+                        <td>{$value.store_number}</td>
+                        <td>{$value.name}</td>
+                        <td>{$value.count}</td>
+                        <td>{$value.money}</td>
+                        <td>{$value.create_time|date="Y-m-d ",###}</td>
+                        <td>{$value.message}</td>
                         <td>
-                            <a href="{:url('admin/Control/control_charging_edit')}">申请中</a>
+                            {switch name="$value.status"}
+                            {case value="1"} <a href="{:url('admin/Control/control_charging_edit',['id'=>$value.id])}">申请中</a>{/case}
+                            {case value="2"} <a href="{:url('admin/Control/control_charging_edit',['id'=>$value.id])}">通过</a>{/case}
+                            {default /}  <a href="{:url('admin/Control/control_charging_edit',['id'=>$value.id])}">驳回</a>
+                            {/switch}
                         </td>
                     </tr>
-                    <tr>
-                        <td><input type="checkbox" name="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-
-                        <td>1111</td>
-
-                        <td>111</td>
-
-
-                        <td>124</td>
-                        <td>11</td>
-                        <td>111</td>
-                        <td>111</td>
-                        <td>
-                            <a href="{:url('admin/Control/control_charging_edit')}">申请中</a>
-                        </td>
-                    </tr>
+                    {/volist}
+                    {/if}
+=
 
                 </tbody>
             </table>
@@ -174,6 +161,7 @@
             </div>
 
         </div>
+        {if !empty($offline)}{$offline}{/if}
 
     </div>
 

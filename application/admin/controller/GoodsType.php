@@ -214,7 +214,7 @@ class GoodsType extends Controller{
                 }
             }
         } else {
-            $activ = db("wares")->select();
+            $activ = db("wares")->where('store_id','EQ',$store_id)->select();
             foreach ($activ as $key => $value) {
                 if ($value["pid"]) {
                     $res = db("wares")->where("id", $value['pid'])->field("name")->find();
