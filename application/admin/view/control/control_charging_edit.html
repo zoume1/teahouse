@@ -66,14 +66,14 @@
 <body>
 
     {block name="content"}
-
+    {if !empty($offline_data)}{volist name="offline_data" id="value"}
     <div class="childrenBody">
         {include file="template/_top"/}
         <div class="layui-form news_list">
             <div class="form-title">充值</div>
             <table class="layui-table" style="cellMinWidth: 120; ">
                 <tbody class="news_content" >
-                    {if !empty($offline_data)}{volist name="offline_data" id="value"}
+                    
                     <tr class="tag" data-id="{$value.id}">
                         <td class="sign">账号：</td>
                         <td>{$value.store_number}</td>
@@ -98,14 +98,14 @@
                         <td class="sign"></td>
                         <td></td>
                     </tr>
-                    {/volist}
-                    {/if}
+
                 </tbody>
             </table>
 
             <div class="form-title">审核</div>
             <div class="change">
                 <label class="layui-form-label" style="margin: 0 130px;color: #5E5E5E;">选择操作</label>
+                {if $value.status == 1}
                 <div class="input_bottom">
                     <input type="radio" name="status" value="2" title="通过">
                     <span>恭喜您，充值成功</span></br><span style="color:#949494;margin-left: 80px;">*弹框内容</span>
@@ -114,6 +114,27 @@
                     <input type="radio" name="status" value="3" title="驳回">
                     <span>资金未到帐，请自检确认，如需帮助请联系客服</span></br><span style="color:#949494; margin-left: 80px;">*弹框内容</span>
                 </div>
+                {/if}
+                {if $value.status == 2}
+                <div class="input_bottom">
+                    <input type="radio" name="status" value="2" title="通过" checked="">
+                    <span>恭喜您，充值成功</span></br><span style="color:#949494;margin-left: 80px;">*弹框内容</span>
+                </div>
+                <div style="margin-left:340px;">
+                    <input type="radio" name="status" value="3" title="驳回">
+                    <span>资金未到帐，请自检确认，如需帮助请联系客服</span></br><span style="color:#949494; margin-left: 80px;">*弹框内容</span>
+                </div>
+                {/if}
+                {if $value.status == 3}
+                <div class="input_bottom">
+                    <input type="radio" name="status" value="2" title="通过" >
+                    <span>恭喜您，充值成功</span></br><span style="color:#949494;margin-left: 80px;">*弹框内容</span>
+                </div>
+                <div style="margin-left:340px;">
+                    <input type="radio" name="status" value="3" title="驳回" checked="">
+                    <span>资金未到帐，请自检确认，如需帮助请联系客服</span></br><span style="color:#949494; margin-left: 80px;">*弹框内容</span>
+                </div>
+                {/if}
 
             </div>
             <div class="bottun_select">
@@ -121,9 +142,11 @@
                 <button class="layui-btn layui-btn-normal confirm" style="width:120px">确定</button>
             </div>
         </div>
-
+        {/volist}
+        {/if}
 
     </div>
+
 
     {/block}
 
@@ -144,7 +167,7 @@
                         var status = radio[i].value,
                             id = $('.tag').attr('data-id');
                         $.ajax({
-                            url: 'control_charging_update',
+                            url: "{:url('admin/Analyse/control_charging_update')}",
                             type: 'POST',
                             dataType: 'JSON',
                             data: {

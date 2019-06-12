@@ -871,7 +871,6 @@ Route::group("admin",[
     "control_templet_update"=>"admin/Control/control_templet_update",//增值商品运费模板更新
     "control_online_charging"=>"admin/Control/control_online_charging",//线下充值申请
     "control_charging_edit"=>"admin/Control/control_charging_edit",//线下充值申请编辑
-    "control_charging_update"=>"admin/Control/control_charging_update",//线下充值申请审核
     "control_withdraw_deposit"=>"admin/Control/control_withdraw_deposit",//提现申请
     "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
     "store_examine_receipt"=>"admin/Control/store_examine_receipt",//admin后台审核订单发票
@@ -892,6 +891,8 @@ Route::group("admin",[
     "analyse_value"=>"admin/Analyse/analyse_value",          //增值商品规格值修改
     "analyse_ground"=>"admin/Analyse/analyse_ground",        //增值商品上架开关
     "analyse_status"=>"admin/Analyse/analyse_status",        //增值商品系统推荐
+    "control_charging_update"=>"admin/Analyse/control_charging_update",//线下充值申请审核
+
 
     "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单
     "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",//总控增值退款维权

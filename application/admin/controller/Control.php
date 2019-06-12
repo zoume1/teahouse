@@ -704,33 +704,6 @@ class  Control extends  Controller{
         return view("control_charging_edit",['offline_data'=>$offline_data]);
     }
 
-        /**
-     * [线下充值申请编辑]
-     * 郭杨
-     */    
-    public function control_charging_update(Request $request){    
-        if($request->isPost()){
-            $status =$request->only(["status"])["status"];
-            $id = $request->only(["id"])["id"];
-            if( empty($status) || empty($id)){
-                return ajax_error("参数错误");
-            }
-            $bool = db("offline_recharge")->where('id',$id)->update(["status"=>$status]);
-            if($bool){
-                if($status == 2){
-                    $data = db("offline_recharge")->where('id',$id)->find();
-                    $result = db('store')->where('id',$data['store_id'])->setInc('store_wallet',$data['money']);
-                    if($result){
-                        return ajax_success("审核成功");
-                    } else {
-                        return ajax_error("审核失败");
-                    }
-                } else {
-                    return ajax_success("审核成功");
-                }
-            }
-        }
-    }
 
 
     /**
