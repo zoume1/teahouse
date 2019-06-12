@@ -841,6 +841,12 @@ Route::group("admin",[
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
     "additional_comments"=>"admin/General/additional_comments",//追加评论
     "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
+    "wxxcxinfo"=>"admin/General/wxxcxinfo",                            //一键生成
+    "wx_login"=>"admin/General/wx_login",                            //一键生成
+    "wx_index"=>"admin/General/wx_index",                            //一键生成--二维码
+    "checkscan"=>"admin/General/checkscan",                            //一键生成--二维码
+    "commitcode"=>"admin/General/commitcode",                            //一键生成--提交代码
+    "preview"=>"admin/General/preview",                             //一键生成--预览
 
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
