@@ -63,15 +63,15 @@
                                 <label class="layui-form-label star">充值银行：</label>
                                 <div class="layui-input-block">
                                         {if !empty($data)}
-                                    <select name="card_id" lay-verify="required" lay-filter="bankcard">
-                                        {volist name="data" id="value"}
+                                    <select name="bank_icard_id" lay-verify="required" lay-filter="bankcard">
                                         <option value="">请选择</option>
-                                        <option value="{$value.id}">卡{$value.id}:{$value.count} {$value.two_bank} </option>
+                                        {volist name="data" id="value"}
+                                        <option value="{$value.id}">卡{$key+1}:{$value.count} {$value.two_bank} </option>
                                         {/volist}
                                         <a href="store_add_bankcard" class="layui-btn add-bank">+银行卡</a>
                                     </select>
                                     {else}
-                                    <select name="card_id" lay-verify="required">
+                                    <select name="bank_icard_id" lay-verify="required">
                                         <option value="">请添加银行卡 →</option>
                                     </select>
                                     {/if}
@@ -192,12 +192,12 @@
                         // 银行转账
                         var params = {
                             pay_type: pay_type,
-                            card_id: card_id,
+                            bank_icard_id: card_id,
                             money: $('.bank-item input[name=money]').val(),
                             create_time: $('input[name=create_time]').val(),
                             message: $('textarea[name=message]').val()
                         }
-                        if(params.card_id && params.money && params.create_time && params.message){
+                        if(params.bank_icard_id && params.money && params.create_time && params.message){
                             myAjax(params);
                         }else{
                             layer.msg('请将信息填写完整！');

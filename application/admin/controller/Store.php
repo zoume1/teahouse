@@ -176,7 +176,6 @@ class Store extends  Controller{
             $bool  = Db::name("store_bank_icard")
                     ->where("id",'EQ',$id)
                     ->update(['status'=> -1]);
-
             if($bool){
                 return ajax_success("删除成功",$bool);
             } else {
@@ -194,19 +193,21 @@ class Store extends  Controller{
      */
     public function OfflineRecharge(Request $request){
         if($request->isPost()){
+            $store_id = Session::get("store_id");
             //生成流水号
             $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
             $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
             $data = $request->param();
-            halt($data);
-            $bool  = Db::name("store_bank_icard")
-                ->where("id",'EQ',$id)
-                ->update(['status'=> -1]);
-
+            $data['serial_number'] = $orderSn;
+            $data['store_id'] = $store_id;
+            $data['create_time'] = strtotime($data['create_time']);
+            
+            $bool  = Db::name("offline_recharge")
+                ->insert($data);
             if($bool){
-                return ajax_success("删除成功",$bool);
+                return ajax_success("凭证已提交，我们将在3个工作日内审核完毕，通过后自动完成订购。",$bool);
             } else {
-                return ajax_success("删除失败");
+                return ajax_success("提交失败");
             }
         }
     }

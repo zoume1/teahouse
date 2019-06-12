@@ -85,31 +85,33 @@
             <div class="form-title">充值</div>
             <table class="layui-table" style="cellMinWidth: 120; ">
                 <tbody class="news_content" >
+                    {if !empty($offline_data)}{volist name="offline_data" id="value"}
                     <tr>
                         <td class="sign">账号：</td>
-                        <td>11</td>
+                        <td>{$value.store_number}</td>
                         <td class="sign">流水号：</td>
-                        <td>11</td>
+                        <td>{$value.serial_number}</td>
                     </tr>
                     <tr>
                         <td class="sign">充值日期：</td>
-                        <td>11</td>
+                        <td>{$value.create_time|date="Y-m-d ",###}</td>
                         <td class="sign">充值金额：</td>
-                        <td>11</td>
+                        <td>{$value.money}</td>
                     </tr>
                     <tr>
                         <td class="sign">充值方式：</td>
-                        <td>11</td>
+                        <td>线下充值</td>
                         <td class="sign">银行账户</td>
-                        <td>11</td>
+                        <td>{$value.count}</td>
                     </tr>
                     <tr>
                         <td class="sign">用户留言</td>
-                        <td>11</td>
+                        <td>{$value.message}</td>
                         <td class="sign"></td>
                         <td></td>
                     </tr>
-
+                    {/volist}
+                    {/if}
                 </tbody>
             </table>
 
@@ -117,11 +119,11 @@
             <div class="change">
                 <label class="layui-form-label" style="margin: 0 130px;color: #5E5E5E;">选择操作</label>
                 <div class="input_bottom">
-                    <input type="radio" name="counter" value="通过" title="通过">
+                    <input type="radio" name="status" value="2" title="通过">
                     <span>恭喜您，充值成功</span></br><span style="color:#949494;margin-left: 80px;">*弹框内容</span>
                 </div>
                 <div style="margin-left:340px;">
-                    <input type="radio" name="counter" value="驳回" title="驳回">
+                    <input type="radio" name="status" value="3" title="驳回">
                     <span>资金未到帐，请自检确认，如需帮助请联系客服</span></br><span style="color:#949494; margin-left: 80px;">*弹框内容</span>
                 </div>
 
