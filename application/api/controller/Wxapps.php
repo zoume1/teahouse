@@ -91,7 +91,6 @@ class  Wxapps extends  Controller{
      */
     public function doPageDiypage()
     {
-
         $uniacid = input("uniacid");
         $pageid = input("pageid");
         
@@ -104,7 +103,6 @@ class  Wxapps extends  Controller{
                 ->order('id desc')
                ->find();
                
-        
         $foot = Db::table('ims_sudu8_page_diypageset')->where("uniacid", $uniacid)->field("foot_is")->find();
         $tplinfo = Db::table('ims_sudu8_page_diypagetpl')->where("uniacid", $uniacid)->where("status", 1)->find();
         $pageids = explode(",", $tplinfo['pageid']);
@@ -131,9 +129,9 @@ class  Wxapps extends  Controller{
             $data['items'] = array_values(unserialize($data['items']));
             include 'VideoInfo.php';
             $videoInfo = new videoInfo();
-            // dump($data['items']);die;
-            foreach ($data['items'] as $k => &$v) {
+            foreach ($data['items'] as $k => $v) {
                 if (is_array($v)) {
+
                     if (isset($v['id'])) {
                         if ($v['id'] == 'title2' || $v['id'] == 'title' || $v['id'] == 'line' || $v['id'] == 'blank' || $v['id'] == 'anniu' || $v['id'] == 'notice' || $v['id'] == 'service' || $v['id'] == 'listmenu' || $v['id'] == 'joblist' || $v['id'] == 'personlist' || $v['id'] == 'msmk' || $v['id'] == 'multiple' || $v['id'] == 'mlist' || $v['id'] == 'goods' || $v['id'] == 'tabbar' || $v['id'] == 'cases' || $v['id'] == 'listdesc' || $v['id'] == 'pt' || $v['id'] == 'dt' || $v['id'] == 'ssk' || $v['id'] == 'yhq' || $v['id'] == 'dnfw' || $v['id'] == 'yuyin' || $v['id'] == 'feedback') {
                             if ($v['params']['backgroundimg'] != "") {
@@ -235,13 +233,13 @@ class  Wxapps extends  Controller{
                             }
                         }
                         //轮播图
-                        if ($v['id'] == "banner") {
-                            $v['data'] = array_values($v['data']);
-                            if ($v['data']) {
-                                $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
-                                $v['params']['imgw'] = explode('"', $imginfo[0])[1];
-                                $v['params']['imgh'] = explode('"', $imginfo[1])[1];
-                            }
+                        if ($v['id'] == "banner") {    //暂时屏蔽
+                            // $v['data'] = array_values($v['data']);
+                            // if ($v['data']) {
+                            //     $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
+                            //     $v['params']['imgw'] = explode('"', $imginfo[0])[1];
+                            //     $v['params']['imgh'] = explode('"', $imginfo[1])[1];
+                            // }
                             //富文本
                         }else if ($v['id'] == "richtext") {
 
@@ -618,10 +616,9 @@ class  Wxapps extends  Controller{
                                 $member_grade_name = input("member_grade_name");; //会员等级
                                 $member_id =  input("open_id");  //open-ID
                                 $list = db("goods")
-                                    ->where("pid", $sourceid)
+                                    ->where("pid",$sourceid)
                                     ->where("status", 1)
-                                    ->limit(1,$count)
-                                    ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
+                                    ->limit($count)
                                     ->select();
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
