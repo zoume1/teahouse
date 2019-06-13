@@ -311,7 +311,7 @@ class Goods extends Controller
         }
           
         
-        $goods_list = getSelectList("wares");
+        $goods_list = getSelectListes("wares");
         $restel = $goods[0]["goods_standard"]; //判断是否为通用或特殊
         if ($restel == 0) {
             return view("goods_edit", ["goods" => $goods, "goods_list" => $goods_list,"scope" => $scope,"expenses"=>$expenses,"temp"=>$temp]);
