@@ -1152,7 +1152,7 @@ function powerget()
 {
     $uid = Session::get('uid');
 	$usergroup = Session::get('usergroup');
-	$appletid = input("appletid");
+    $appletid = input("appletid");
 	//允许条件:1.登录状态  2.管理员身份  3.小程序管理员身份
 	if(!$appletid){
 		return false;   //没有appletid 表示直接输入的网址，精确不到具体的小程序
@@ -1185,7 +1185,7 @@ function powerget()
 function check_login(){
 	$uid = Session::get('user_id');
 	// 检测更新
-    $version = 'index/controller/version.php';
+    $version = 'admin/controller/Version.php';
     $ver = include($version);
     $ver = $ver['ver'];
     $ver = substr($ver,-4);
