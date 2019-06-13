@@ -283,8 +283,9 @@ class Goods extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $store_id =Session::get("store_id");
         $goods = db("goods")->where("id", $id)->select();
-        $scope = db("member_grade")->field("member_grade_name")->select();
+        $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
         $expenses = db("express")->field("id,name")->select();
         foreach ($goods as $key => $value) {
