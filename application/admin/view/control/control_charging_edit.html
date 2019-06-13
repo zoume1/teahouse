@@ -71,7 +71,7 @@
         {include file="template/_top"/}
         <div class="layui-form news_list">
             <div class="form-title">充值</div>
-            <table class="layui-table" style="cellMinWidth: 120; ">
+            <table class="layui-table">
                 <tbody class="news_content" >
                     {if !empty($offline_data)}{volist name="offline_data" id="value"}
                     <tr class="tag" data-id="{$value.id}">
