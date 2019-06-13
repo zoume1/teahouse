@@ -617,9 +617,11 @@ class  Wxapps extends  Controller{
                                 $member_id =  input("open_id");  //open-ID
                                 $list = db("goods")
                                     ->where("pid",$sourceid)
+                                    ->where("label",1)
                                     ->where("status", 1)
                                     ->limit($count)
                                     ->select();
+
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
                                     ->value("member_grade_id");
@@ -636,7 +638,7 @@ class  Wxapps extends  Controller{
                                     $list[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vvs["id"]; //跳转详情链接
                                     $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
                                     if ($list[$kks]["goods_standard"] == 1) {
-                                        $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->select();
+                                        $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->order('price asc')->select();
                                         $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") * $discount;//最低价格
                                         $list[$kks]["goods_standard"] = $standard[$kks];
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
@@ -651,7 +653,7 @@ class  Wxapps extends  Controller{
                                     } else {
                                         $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount;
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
-                                        $list[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
+                                        $list[$kks]["member_grade_img"] = config("domain.url")."/uploads/".$member_grade_img;
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
                                                 unset($list[$kks]);
