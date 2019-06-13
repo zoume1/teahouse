@@ -848,6 +848,14 @@ Route::group("admin",[
     "checkscan"=>"admin/General/checkscan",                            //一键生成--二维码
     "commitcode"=>"admin/General/commitcode",                            //一键生成--提交代码
     "preview"=>"admin/General/preview",                             //一键生成--预览
+   
+    /**测试---一键上传 */
+    "wxxcxinfo2"=>"admin/Upload/wxxcxinfo",                            //一键生成
+    "wx_login2"=>"admin/Upload/wx_login",                            //一键生成
+    "wx_index2"=>"admin/Upload/index",                            //一键生成--二维码
+    "checkscan2"=>"admin/Upload/checkscan",                            //一键生成--二维码
+    "commitcode2"=>"admin/Upload/commitcode",                            //一键生成--提交代码
+    "preview2"=>"admin/Upload/preview",                             //一键生成--预览
 
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
