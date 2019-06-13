@@ -12,6 +12,7 @@ use think\Db;
 use think\Request;
 use think\paginator\driver\Bootstrap;
 use think\Session;
+use think\View;
 
 class  General extends  Base {
    
@@ -2519,7 +2520,7 @@ class  General extends  Base {
      * 店铺--一键生成---微信登录
      */
     public function wx_login(){
-        // if(check_login()){     //检查登录
+        if(check_login()){     //检查登录
             //检测权限
             $user_id=Session::get('user_id');
             $role_id=db('admin')->where('id',$user_id)->value('role_id');
@@ -2571,9 +2572,9 @@ class  General extends  Base {
                 $this->error('您没有权限操作该小程序');
             }
             return $this->fetch('wx_index');
-        // }else{
-        //     $this->redirect('Login/index');
-        // }
+        }else{
+            $this->redirect('Login/index');
+        }
     }
     /**
      * lilu
@@ -2637,6 +2638,61 @@ class  General extends  Base {
         $url = "http://wx.hdewm.com/uploadApi.php?do=preview&code_token=".$token."&code_uuid=".$uuid;
         $response = $this->_requestGetcurl($url);
         echo $response;
+    }
+    /**
+     * lilu
+     */
+    public function wx_index(){
+        $user_id=Session::get('user_id');
+        $role_id=db('admin')->where('id',$user_id)->find();
+        if($role_id['role_id']=='7')
+        {
+                $id = $role_id['store_id'];
+        		$res = Db::table('applet')->where("id",$id)->find();
+                if(!$res){
+                    $this->error("找不到对应的小程序！");
+                }
+        		$this->assign('applet',$res);
+                $commitData = [
+                    'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapps/",//'https://duli.nttrip.cn/api/Wxapps/',
+                    'uip' => $_SERVER['REMOTE_ADDR'] ,
+                    'appid' => $res['appID'],
+                    'site_name' => $res['name'],
+                    'uniacid' => $id,
+                    'version' => '2.05',//当前小程序的版本
+                    'tominiprogram' => unserialize($res['tominiprogram'])
+                ];
+
+                $params = http_build_query($commitData);
+                $url = "http://wx.hdewm.com/uploadApi.php?".$params;
+                $response = $this->_requestGetcurl($url);
+
+                $result = json_decode($response,true);
+                if(isset($result['data']) && $result['data'] != ""){
+                    $this->assign("code_uuid",$result['code_uuid']);
+                    $this->assign("code_token",$result['data']['code_token']);
+                }
+                $this->assign("appid",$res['appID']);
+                $this->assign("projectname",$res['name']);
+                $this->assign("id",$id);
+                $this->assign("url",$url);
+        	}else{
+        		// $usergroup = Session::get('usergroup');
+        		// if($usergroup==1){
+        		// 	$this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/applet');
+        		// }
+        		// if($usergroup==2){
+        		// 	$this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
+        		// }
+                // if($usergroup==3){
+                //     $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
+                // }
+                $this->error('您没有权限操作该小程序');
+        	}
+            return $this->fetch('wx_index');
+        // }else{
+        //     $this->redirect('Login/index');
+        // }
     }
 
 
