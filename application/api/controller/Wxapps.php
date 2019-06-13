@@ -615,7 +615,7 @@ class  Wxapps extends  Controller{
                                 //在这里返回数据
                                 $member_grade_name = input("member_grade_name");; //会员等级
                                 $member_id =  input("open_id");  //open-ID
-                                $list = db("goods")
+                                $listes = db("goods")
                                     ->where("pid",$sourceid)
                                     ->where("label",1)
                                     ->where("status", 1)
@@ -631,37 +631,37 @@ class  Wxapps extends  Controller{
                                 $member_grade_img = db("member_grade")
                                     ->where("member_grade_id", $member_grade_id)
                                     ->value("member_grade_img");
-                                foreach ($list as $kks => $vvs) {
-                                    if (!empty($list[$kks]["scope"])) {
-                                        $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
+                                foreach ($listes as $kks => $vvs) {
+                                    if (!empty($listes[$kks]["scope"])){
+                                        $listes[$kks]["scope"] = explode(",", $listes[$kks]["scope"]);
                                     }
-                                    $list[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vvs["id"]; //跳转详情链接
-                                    $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
-                                    if ($list[$kks]["goods_standard"] == 1) {
-                                        $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->order('price asc')->select();
-                                        $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") * $discount;//最低价格
-                                        $list[$kks]["goods_standard"] = $standard[$kks];
-                                        $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
-                                        $list[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
-                                        $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
-                                        $list[$kks]["price"] = $min[$kks]; //价钱
-                                        if (!empty($list[$kks]["scope"])) {
-                                            if (!in_array($member_grade_name, $list[$kks]["scope"])) {
-                                                unset($list[$kks]);
+                                    $listes[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vvs["id"]; //跳转详情链接
+                                    $listes[$kks]['sale_num'] = $vvs['goods_volume']; //销量
+                                    if ($listes[$kks]["goods_standard"] == 1) {
+                                        $standard[$kks] = db("special")->where("goods_id", $listes[$kks]['id'])->order('price asc')->select();
+                                        $min[$kks] = db("special")->where("goods_id", $listes[$kks]['id'])->min("price") * $discount;//最低价格
+                                        $listes[$kks]["goods_standard"] = $standard[$kks];
+                                        $listes[$kks]["thumb"] = config("domain.url")."/uploads/".$listes[$kks]["goods_show_image"]; //图片
+                                        $listes[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
+                                        $listes[$kks]['sale_num'] = $vvs['goods_volume']; //销量
+                                        $listes[$kks]["price"] = $min[$kks]; //价钱
+                                        if (!empty($listes[$kks]["scope"])) {
+                                            if (!in_array($member_grade_name, $listes[$kks]["scope"])) {
+                                                unset($listes[$kks]);
                                             }
                                         }
                                     } else {
-                                        $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount;
-                                        $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
-                                        $list[$kks]["member_grade_img"] = config("domain.url")."/uploads/".$member_grade_img;
-                                        if (!empty($list[$kks]["scope"])) {
-                                            if (!in_array($member_grade_name, $list[$kks]["scope"])) {
-                                                unset($list[$kks]);
+                                        $listes[$kks]["price"] = $listes[$kks]["goods_new_money"] * $discount;
+                                        $listes[$kks]["thumb"] = config("domain.url")."/uploads/".$listes[$kks]["goods_show_image"]; //图片
+                                        $listes[$kks]["member_grade_img"] = config("domain.url")."/uploads/".$member_grade_img;
+                                        if (!empty($listes[$kks]["scope"])) {
+                                            if (!in_array($member_grade_name, $listes[$kks]["scope"])) {
+                                                unset($listes[$kks]);
                                             }
                                         }
                                     }
                                 }
-                                $list = array_values($list);
+                                $list = array_values($listes);
                                 $data['items'][$k]['data'] = $list;
                             }else {
                                     $data['items'][$k]['data'] = [];
