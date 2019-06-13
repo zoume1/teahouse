@@ -2525,7 +2525,7 @@ class  General extends  Base {
             $user_id=Session::get('user_id');
             $role_id=db('admin')->where('id',$user_id)->value('role_id');
             if($role_id=='7')
-            {
+            { 
                 $id = input("appletid");
                 $version = input('version');
                 $desc = input('desc');
@@ -2623,7 +2623,6 @@ class  General extends  Base {
         $params = http_build_query($data);
         $url = "http://wx.hdewm.com/uploadApi.php?do=commitcode&".$params;
         $response = json_decode($this->_requestGetcurl($url));
-        // var_dump($response);
         // var_dump(1);
         // exit;
         return $response;

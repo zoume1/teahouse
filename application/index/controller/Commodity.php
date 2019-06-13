@@ -87,8 +87,7 @@ class Commodity extends Controller
                             unset($goods[$k]);
                         }
                     }
-                }
-                
+                }      
             }
             $goods_new = array_values($goods);
             if (!empty($goods_new) && !empty($member_id)) {
@@ -149,8 +148,11 @@ class Commodity extends Controller
             $member_id = $request->only(["open_id"])["open_id"];
             $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
+            if(empty($discount)){
+                $discount = 1;
+            }
             $goods = db("goods")->where("id", $goods_id)->where("label",1)->where("store_id","EQ",$store_id)->select();
-            $goods_standard = db("special")->where("goods_id", $goods_id)->select();
+            $goods_standard = db("special")->where("goods_id", $goods_id)->order("price asc")->select();
             $max_price = db("special")->where("goods_id", $goods_id)->max("price");
             $min_price = db("special")->where("goods_id", $goods_id)->min("price");
             $min_line = db("special")->where("goods_id", $goods_id)->min("line");
@@ -166,10 +168,12 @@ class Commodity extends Controller
                 $goods[0]["max_price"] = $max_prices;
                 $goods[0]["min_price"] = $min_prices;
                 $goods[0]["min_line"] = $min_line;
+                $goods[0]["unit"] = $goods_standard[0]['offer'];
             } else {
                 $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
-                $goods[0]["min_line"] = $goods[0]["goods_bottom_money"] ;
+                $goods[0]["min_line"] = $goods[0]["goods_bottom_money"];
+                $goods[0]["unit"] = $goods[0]["monomer"];
 
             }
             if (!empty($goods) && !empty($goods_id)){
