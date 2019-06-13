@@ -1185,7 +1185,7 @@ function powerget()
 function check_login(){
 	$uid = Session::get('user_id');
 	// 检测更新
-    $version = 'index/controller/version.php';
+    $version = 'admin/controller/version.php';
     $ver = include($version);
     $ver = $ver['ver'];
     $ver = substr($ver,-4);
