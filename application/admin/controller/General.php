@@ -12,6 +12,7 @@ use think\Db;
 use think\Request;
 use think\paginator\driver\Bootstrap;
 use think\Session;
+use think\View;
 
 class  General extends  Base {
    
@@ -2519,7 +2520,7 @@ class  General extends  Base {
      * 店铺--一键生成---微信登录
      */
     public function wx_login(){
-        // if(check_login()){     //检查登录
+        if(check_login()){     //检查登录
             //检测权限
             $user_id=Session::get('user_id');
             $role_id=db('admin')->where('id',$user_id)->value('role_id');
@@ -2571,9 +2572,9 @@ class  General extends  Base {
                 $this->error('您没有权限操作该小程序');
             }
             return $this->fetch('wx_index');
-        // }else{
-        //     $this->redirect('Login/index');
-        // }
+        }else{
+            $this->redirect('Login/index');
+        }
     }
     /**
      * lilu
