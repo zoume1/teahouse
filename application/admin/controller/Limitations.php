@@ -40,14 +40,14 @@ class  Limitations extends  Controller{
      */
     public function limitations_edit($id)
     {
-        
+        $store_id = Session::get("store_id");
         $limited = db("limited")->where("id", $id)->value('limit_id');
         $limit = db("limit")->where("id",$limited)->select();
         foreach ($limit as $k => $v) {
             $limit[$k]["scope"] = explode(",", $limit[$k]["scope"]);
         }
 
-        $scope = db("member_grade")->field("member_grade_name")->select();
+        $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
         return view('limitations_edit', ["limit" => $limit, "scope" => $scope]);
 
     }
