@@ -857,6 +857,13 @@ Route::group("admin",[
     "checkscan2"=>"admin/Upload/checkscan",                            //一键生成--二维码
     "commitcode2"=>"admin/Upload/commitcode",                            //一键生成--提交代码
     "preview2"=>"admin/Upload/preview",                             //一键生成--预览
+    /**测试---一键上传 2*/
+    "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
+    "wx_login3"=>"admin/Wxview/wx_login",                            //一键生成
+    "wx_index3"=>"admin/Wxview/index",                            //一键生成--二维码
+    "checkscan3"=>"admin/Wxview/checkscan",                            //一键生成--二维码
+    "commitcode3"=>"admin/Wxview/commitcode",                            //一键生成--提交代码
+    "preview3"=>"admin/Wxview/preview",                             //一键生成--预览
 
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
@@ -926,6 +933,8 @@ Route::group("api",[
     "doPageGetFoot"=>"api/Wxapps/doPageGetFoot", //http://teahouse.com/api/doPageGetFoot?uniacid=1&foot=1
     "doPagebindfxs"=>"api/Wxapps/doPagebindfxs", //http://teahouse.com/api/doPageGetFoot?uniacid=1&foot=1
     "dopageglobaluserinfo"=>"api/Wxapps/dopageglobaluserinfo", //http://teahouse.com/api/dopageglobaluserinfo?openid=o9NMH0ber2GnkHvkYEhrJamfNNPg&uniacid=1
+      /**测试 */
+    "wxapp2"=>"api/Wxapp2/index",
 ]);
 
 Route::miss("public/miss");

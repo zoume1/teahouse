@@ -1132,7 +1132,7 @@ function pay_status($status){
 function MemberFristAdd($store_id)
 {
     //默认会员等级
-    $memeber_grade_data = db("member_grade")->where("store_id",'EQ',6)->select();
+    $memeber_grade_data = db("member_grade")->where("store_id",'EQ',79)->select();
     foreach($memeber_grade_data as $key => $value){
         unset($memeber_grade_data[$key]['member_grade_id']);
         $memeber_grade_data[$key]['store_id'] = $store_id;
@@ -1150,6 +1150,7 @@ function MemberFristAdd($store_id)
  */
 function powerget()
 {
+    return true;
     $uid = Session::get('uid');
 	$usergroup = Session::get('usergroup');
     $appletid = input("appletid");

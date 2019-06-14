@@ -79,7 +79,8 @@ class Comments extends Controller
      */
     public function add()
     {
-        $comment = db("comment_set")->select();
+        $store_id = Session::get("store_id");
+        $comment = db("comment_set")->where("store_id",'EQ',$store_id)->select();
         if(!empty($comment)){
             $this->assign(["comment"=>$comment]);
         }
@@ -94,6 +95,8 @@ class Comments extends Controller
     public function preserve(Request $request)
     {
         $comment_datas = $request->param();
+        $store_id = Session::get("store_id");
+        $comment_datas['store_id'] = $store_id;
         $bool = db("comment_set")->insert($comment_datas);
         if ($bool) {
             $this->success("成功", url("admin/Comments/index"));

@@ -124,7 +124,7 @@
         var scan_token = "{$scan_token}";
         function yulan() {
             $.ajax({
-                url : "{:Url('Wxreview/preview')}?token="+scan_token+"&uuid="+code_uuid,
+                url : "{:Url('Upload/preview')}?token="+scan_token+"&uuid="+code_uuid,
                 type:"get",
                 success:function (res) {
                     var res = JSON.parse(res);
@@ -142,7 +142,7 @@
                 return false;
             }
             $.ajax({
-                url : "{:Url('Wxreview/commitcode')}",
+                url : "{:Url('Upload/commitcode')}",
                 type:"post",
                 data:{
                     token : scan_token,

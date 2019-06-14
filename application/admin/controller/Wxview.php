@@ -5,26 +5,25 @@ use think\Db;
 use think\Request;
 use think\Session;
 use think\View;
-class Upload extends Controller
+
+class Wxview extends Controller
 {
+    /**
+     * lilu
+     * appletid
+     */
     public function index(){
-        // if(check_login()){
-             $user_id=Session::get('user_id');
-             if(!$user_id)
-             {
-                $this->redirect('Login/index');
-             }
-             $role_id=db('admin')->where('id',$user_id)->find();
-             if($role_id['role_id']==7){
-        	// if(powerget()){
-        		$id = $role_id['store_id'];     //小程序id
+        if(check_login()){
+        	if(powerget()){
+        		// $id = input("appletid");
+        		$id = 6;
         		$res = Db::table('applet')->where("id",$id)->find();
                 if(!$res){
                     $this->error("找不到对应的小程序！");
                 }
-                $this->assign('applet',$res);
+        		$this->assign('applet',$res);
                 $commitData = [
-                    'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapp2/",//'https://duli.nttrip.cn/api/Wxapps/',
+                    'siteroot' => "https://xcx.siring.com.cn/api/Wxapps/",//'https://duli.nttrip.cn/api/Wxapps/',
                     'uip' => $_SERVER['REMOTE_ADDR'] ,
                     'appid' => $res['appID'],
                     'site_name' => $res['name'],
@@ -47,35 +46,28 @@ class Upload extends Controller
                 $this->assign("id",$id);
                 $this->assign("url",$url);
         	}else{
-        		$usergroup = Session::get('usergroup');
-        		if($usergroup==1){
-        			$this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/applet');
-        		}
-        		if($usergroup==2){
-        			$this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
-        		}
-                if($usergroup==3){
-                    $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
-                }
-        	}
+        		// $usergroup = Session::get('usergroup');
+        		// if($usergroup==1){
+        		// 	$this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/applet');
+        		// }
+        		// if($usergroup==2){
+        		// 	$this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
+        		// }
+                // if($usergroup==3){
+                //     $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
+                // }
+                $this->error("您没有权限操作该小程序或找不到相应小程序！");
+            }
             return $this->fetch('index');
-        // }else{
-        //     $this->redirect('Login/index');
-        // }
+        }else{
+            $this->redirect('Login/index');
+        }
     }
 
 
     public function wx_login(){
-        // if(check_login()){
-        //     if(powerget()){
-            $user_id=Session::get('user_id');
-            if(!$user_id)
-            {
-               $this->redirect('Login/index');
-            }
-            $role_id=db('admin')->where('id',$user_id)->find();
-            if($role_id['role_id']==15){
-           // if(powerget()){
+        if(check_login()){
+            if(powerget()){
                 $id = input("appletid");
                 $version = input('version');
                 $desc = input('desc');
@@ -85,7 +77,7 @@ class Upload extends Controller
                 }
                 $this->assign('applet',$res);
                 $commitData = [
-                    'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapp2/",//'https://duli.nttrip.cn/api/Wxapps/',
+                    'siteroot' => "https://xcx.siring.com.cn/api/Wxapps/",//'https://duli.nttrip.cn/api/Wxapps/',
                     'uip' => $_SERVER['REMOTE_ADDR'] ,
                     'appid' => $res['appID'],
                     'site_name' => $res['name'],
@@ -110,21 +102,22 @@ class Upload extends Controller
                 $this->assign('version', $version);
                 $this->assign('desc', $desc);
             }else{
-                $usergroup = Session::get('usergroup');
-                if($usergroup==1){
-                    $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/applet');
-                }
-                if($usergroup==2){
-                    $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
-                }
-                if($usergroup==3){
-                    $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
-                }
+                // $usergroup = Session::get('usergroup');
+                // if($usergroup==1){
+                //     $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/applet');
+                // }
+                // if($usergroup==2){
+                //     $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
+                // }
+                // if($usergroup==3){
+                //     $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
+                // }
+                $this->error("您没有权限操作该小程序");
             }
             return $this->fetch('index');
-        // }else{
-        //     $this->redirect('Login/index');
-        // }
+        }else{
+            $this->redirect('Login/index');
+        }
     }
 
 
@@ -142,7 +135,7 @@ class Upload extends Controller
         if(strpos(ROOT_HOST,'https')===false){
             $host = "https".substr(ROOT_HOST,4);
         }
-        $url = "http://122.114.217.68:8008/?type=get&op=open&appid=".$appid."&projectname=".$name."&url=".$host."/api/Wxapp2/&uniacid=".$uniacid;
+        $url = "http://122.114.217.68:8008/?type=get&op=open&appid=".$appid."&projectname=".$name."&url=".$host."/api/Wxapps/&uniacid=".$uniacid;
         $result = json_decode($this->_requestGetcurl($url),true);
         if(isset($result['status']) && (int)$result['status'] == 1){
             return 1;
@@ -151,8 +144,8 @@ class Upload extends Controller
         }
     }
     public function wxxcxinfo(){
-        $store_id=Session::get('store_id');
-        $uniacid = $store_id;
+        // $uniacid = input("appletid");
+        $uniacid = 6;
         $status = input("status");
         $token = input("token");
         $scan_token = input("scan_token");
