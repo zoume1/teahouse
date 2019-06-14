@@ -298,10 +298,13 @@ class  Order extends  Controller{
      */
     public function transaction_setting(){
         $store_id = Session::get("store_id");
+        $store = config("store_id");
         $data = Db::name('order_setting')->where("store_id","EQ",$store_id)->find();
         if(empty($data)){
-            $rest["store_id"] = $store_id;
-            $bool = db('order_setting')->insert($rest);
+            $datas = Db::name('order_setting')->where("store_id","EQ",$store)->find();
+            $datas["store_id"] = $store_id;
+            unset($datas["order_setting_id"]);
+            $bool = db('order_setting')->insert($datas);
             $data = Db::name('order_setting')->where("store_id","EQ",$store_id)->find();
         }
         return view("transaction_setting",['data'=>$data]);

@@ -276,4 +276,5 @@ return [
         "secret"=>"01affe8e054747f79c4e52e4ac746b5a"
     ],
 
+    'store_id' => 79,  //模板店铺id
 ];

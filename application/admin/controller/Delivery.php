@@ -22,7 +22,20 @@ class Delivery extends  Controller{
      */
     public function delivery_index(){
         $store_id = Session::get("store_id");
-        $data =Db::name("extract_address")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
+        $store = config("store_id");
+        $data = Db::name("extract_address")->where("store_id","EQ",$store_id)->select();
+        if(empty($data)){
+            $rest =  Db::name("extract_address")->where("store_id","EQ",$store)->select();
+            foreach($rest as $ky => $val){
+                unset($rest[$ky]['id']);
+                $rest[$ky]['store_id'] = $store_id;
+                
+            }
+            foreach($rest as $k => $v){
+                $bool = db("extract_address")->insertGetId($v);
+            }
+        }
+        $data = Db::name("extract_address")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
         $data_status = Db::name("extract_address")->where("store_id","EQ",$store_id)->find();
@@ -209,6 +222,19 @@ class Delivery extends  Controller{
      */
     public function delivery_goods(){
         $store_id = Session::get("store_id");
+        $store = config("store_id");
+        $delivery = db("express")->where("store_id","EQ",$store_id)->select();
+        if(empty($delivery)){
+            $deliverys = db("express")->where("store_id","EQ",$store)->select();
+            foreach($deliverys as $k => $value){
+                unset($deliverys[$k]['id']);
+                $deliverys[$k]['store_id'] = $store_id;
+            }
+
+            foreach($deliverys as $ke => $val){
+                $bool = db("express")->insert($val);
+            }
+        }
         $delivery = db("express")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);

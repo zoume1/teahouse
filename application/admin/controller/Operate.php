@@ -36,6 +36,19 @@ class Operate extends  Controller{
     */
     public function operate_problem(){
         $store_id = Session::get("store_id");
+        $store = config("store_id");
+        $problem = db("common_ailment")->where("store_id","EQ",$store_id)->select();
+        if(empty($problem)){
+            $problem = db("common_ailment")->where("store_id","EQ",$store)->select();
+            foreach($problem as $k => $value){
+                unset($problem[$k]['id']);
+                $problem[$k]['store_id'] = $store_id;
+            }
+
+            foreach($problem as $ke => $val){
+                $bool = db("common_ailment")->insert($val);
+            }
+        }
         $problem = db("common_ailment")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
@@ -153,10 +166,24 @@ class Operate extends  Controller{
      * GY
     */
     public function operate_contract(){
+        $store = config("store_id");
         $store_id = Session::get("store_id");
+        $operate = db("protocol")->where("store_id","EQ",$store_id)->select();
+        if(empty($operate)){
+            $operate = db("protocol")->where("store_id","EQ",$store)->select();
+            foreach($operate as $k => $value){
+                unset($operate[$k]['id']);
+                $operate[$k]['store_id'] = $store_id;
+            }
+
+            foreach($operate as $ke => $val){
+                $bool = db("protocol")->insert($val);
+            }
+        }
         $operate = db("protocol")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
+        
         return view("operate_contract",["operate" => $operate]);
     }
 
@@ -328,9 +355,12 @@ class Operate extends  Controller{
      */
     public function operate_integral_rule(){
         $store_id = Session::get("store_id");
+        $store = config("store_id");
         $recommend_data = db('recommend_integral')->where("store_id","EQ",$store_id)->select();
         if(empty($recommend_data)){
+            $data = db('recommend_integral')->where("store_id","EQ",$store)->find();
             $data['store_id'] = $store_id;
+            unset($data['id']);
             $bool = db('recommend_integral')->insert($data);
             $recommend_data = db('recommend_integral')->where("store_id","EQ",$store_id)->select();
         }
@@ -365,10 +395,13 @@ class Operate extends  Controller{
     */
     public function operate_about_index(){
         $store_id = Session::get("store_id");
+        $store = config("store_id");
         $about = db("about_us")->where("store_id","EQ",$store_id)->select();
         if(empty($about)){
-            $data['store_id'] = $store_id;
-            $bool = db('about_us')->insert($data);
+            $abouts = db("about_us")->where("store_id","EQ",$store)->find();
+            $abouts['store_id'] = $store_id;
+            unset($abouts['id']);
+            $bool = db('about_us')->insert($abouts);
             $about = db("about_us")->where("store_id","EQ",$store_id)->select();
         }
         return view("operate_about",["about"=>$about]);
@@ -504,11 +537,13 @@ class Operate extends  Controller{
     */
     public function operate_receipt_index(){
         $store_id = Session::get("store_id");
+        $store = config("store_id");
         $data = db("receipt")->where("store_id","EQ",$store_id)->select();
         if(empty($data)){
-            $rest['store_id'] = $store_id;
-            unset($data['id']);
-            $bool = db("receipt")->insert($rest);
+            $datas = db("receipt")->where("store_id","EQ",$store)->find();
+            $datas['store_id'] = $store_id;
+            unset($datas['id']);
+            $bool = db("receipt")->insert($datas);
             $data = db("receipt")->where("store_id","EQ",$store_id)->select();
         }
         return view('operate_receipt_index',['data'=>$data]);

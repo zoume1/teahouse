@@ -26,6 +26,7 @@ class Advertisement extends Controller
      */
     public function index()
     {
+
         $store_id = Session::get("store_id");
         $accessories = db("teahost")->where("store_id","EQ",$store_id)->select();
         foreach ($accessories as $key => $value) {

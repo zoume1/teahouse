@@ -20,12 +20,25 @@ class StoreHouse extends Controller{
      */    
     public function store_house(){
         $store_id = Session::get("store_id");
+        $store = config("store_id");
         $store_data = db("store_house")->where("store_id","EQ",$store_id)->select();
         if(!empty($store_data)){
             foreach($store_data as $key => $value){
                 $store_data[$key]["max"] = max(explode(',',$store_data[$key]['cost']));
                 $store_data[$key]["min"] = min(explode(',',$store_data[$key]['cost']));
             }
+        } else {
+            $store_data = db("store_house")->where("store_id","EQ",$store)->select();
+            foreach($store_data as $k => $value){
+                unset($store_data[$k]['id']);
+                $store_data[$k]['store_id'] = $store_id;
+            }
+
+            foreach($store_data as $ke => $val){
+                $bool = db("store_house")->insert($val);
+            }
+
+            $store_data = db("store_house")->where("store_id","EQ",$store_id)->select();
         }
         $url = 'admin/StoreHouse/store_house';
         $pag_number = 20;
