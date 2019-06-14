@@ -1150,6 +1150,7 @@ function MemberFristAdd($store_id)
  */
 function powerget()
 {
+    return true;
     $uid = Session::get('uid');
 	$usergroup = Session::get('usergroup');
     $appletid = input("appletid");

@@ -1,0 +1,131 @@
+{{include file="template/_meta" /}
+{block name="css"}
+<input type="hidden" id="nowhtml" value="navSystem" class="navSystem10">
+<script src="/js/layer/layer.js"></script>
+<style>
+.layui-layer-loading .layui-layer-loading1{background-size: 80px 80px}
+</style>
+{/block}
+	<ul class="breadcrumb">
+		<li>
+			<i class="icon-home"></i>
+			上传微信审核--{$applet.name}
+		</li>
+	</ul>
+
+
+		<div class="row-fluid">
+		<div class="portlet box">
+			<div class="portlet-body form">
+					<div style="text-align:center">
+						<div style="display: flex;flex-direction: row;font-size:18px;justify-content:center;">
+							<div class="one active">
+								<span style="width:30px;height:30px;line-height:30px;background:#428bca;color:#fff;display: inline-block;border-radius: 30px!important;">1</span> 填写信息
+							</div>
+							<img src="/image/btn_jt.png" alt="" style="width:40px;height:40px;margin:0 50px">
+							<div class="two">
+								<span style="width:30px;height:30px;line-height:30px;background:#428bca;color:#fff;display: inline-block;border-radius: 30px!important;">2</span> 扫码并上传代码
+							</div>
+							<img src="/image/btn_jt.png" alt="" style="width:40px;height:40px;margin:0 50px">
+							<div class="three">
+								<span class="three2" style="width:30px;height:30px;line-height:30px;background:#999;color:#fff;display: inline-block;border-radius: 30px!important;">3</span> 上传成功
+							</div>
+						</div>
+						<img id="ewm" src="http://wx.hdewm.com/uploadApi.php?do=qrcode&code_token={$code_token}" alt="" style="width:140px;background:#f7f7f7;padding:10px;margin:50px auto 10px">
+						<p id='tishi'>请先扫描以上二维码登录</p>
+						
+						<input type="hidden" name="scan_token" id="scan_token" value="">
+						<div id="success" style="display: none;width: 430px;text-align: center;margin: 30px auto 0;">
+							<p>上传代码成功，请到微信开发平台小程序后台提交审核应用。</p>
+							<p>微信开发平台小程序后台<a href="https://mp.weixin.qq.com/" target="_blank">https://mp.weixin.qq.com/</a> </p>
+							<a href="javascript:;" class="btn green" onclick="yulan()">预览</a>
+						</div>
+						<div class="control-group" id="preview" style="margin-bottom: 30px;display: none">
+							<span style="width:100px;text-align: right;display: inline-block;">预览二维码： </span>
+							<img src="" style="width: 200px" alt="">
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	{include file="template/_footer" /}
+	{block name="bottom"}
+<script>
+	var token = "{$code_token}";
+	var id = "{$id}";
+	var code_uuid = "{$code_uuid}";
+	/*检查是否登录*/
+	var last = 408;
+	var request = true;
+	var set = setInterval(function () {
+	    if(request == true){
+	        $.ajax({
+				url : "checkscan3?token="+token+"&last="+last,
+				beforeSend:function () {
+					request = false;
+                },
+				success:function (res) {
+				    var res = JSON.parse(res);
+                    if(res.errno == 0 && res.data.errcode == 405){
+                    	console.log(res);
+                        request = false;
+                        var scan_token = res.data.code_token;
+                        $("#scan_token").val(scan_token);
+                        //上传代码
+                        $.ajax({
+							url : "commitcode3",
+							type:"post",
+							data:{
+							    token : scan_token,
+								uuid : code_uuid,
+								version:"<?php echo $version; ?>",
+								desc : "<?php echo $desc; ?>"
+							},
+							success:function (res) {
+								if(res.errno>0){
+									// alert("上传失败，请重试！如一直失败，请过几分钟后再上传！");
+									alert("上传失败!错误描述："+res.message);
+									
+								}else{
+									$("#three_all span").css('background','#428bca');
+									$("#success").show();
+									$("#ewm").hide();
+                        			$("#tishi").hide();
+                        			$(".three").css('color','#000000');
+                        			$(".three2").css('color','#ffffff');
+                                    $(".three2").css('background','#428bca');
+								}
+			                }
+						});
+                        
+                        // window.location.href = "{:Url('Wxreview/')}?appletid="+id+"&status=1&token="+token+"&scan_token="+scan_token+"&code_uuid="+code_uuid;
+					}else{
+                        request =true;
+					}
+                }
+			});
+		}
+    },2000);
+
+    function yulan() {
+    	var scan_token = $("#scan_token").val();
+		$.ajax({
+			url : "preview3?token="+scan_token+"&uuid="+code_uuid,
+			type:"get",
+			success:function (res) {
+				var res = JSON.parse(res);
+				if(res.errno == 1){
+					alert('检查appid 是否配置上传权限');
+					return false;
+				}
+				$("#preview").find("img").attr('src',"data:image/jpg;base64,"+res.data.qrcode_img);
+				$("#preview").show();
+            }
+		});
+    }
+
+
+</script>
+{/block}
+</html>
+</body>
