@@ -327,7 +327,6 @@
         </div>
 
     </div>
-     <input name="id" onclick="aa2()" value="订单">
     <form class="layui-form layui-form-lists" action="{:url('admin/Goods/updata')}" method="post"
         enctype="multipart/form-data">
         {volist name="goods" id="value"}
@@ -1205,8 +1204,8 @@
 
                                 }
                                 add_muban1 += '</select><br />';
-                                add_muban1 += '<a href="javascript:void(0);" onClick="return aa1()" >新建</a>';
-                                // add_muban1 += '<a href="https://www.baidu.com" >新建</a>';
+                                // add_muban1 += '<button type="button" class="a2" onclick="aa1();return false;" >新建</button>';
+                                add_muban1 += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
                                 add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
                                 add_muban1 += '</div>';
                                 $(".add_muban").parent().before(add_muban1);
@@ -1247,7 +1246,7 @@
                                 }
                                 add_muban1 += '</select><br />';
                                 // add_muban1 += '<a href="https://www.baidu.com" >新建</a>';
-                                add_muban1 += '<a href="javascript:void(0);" onClick="return aa1()" >新建</a>';
+                                add_muban1 += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
 
                                 add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
                                 add_muban1 += '</div>';
@@ -1411,7 +1410,7 @@
                                 add_muban += ' <option value="' + templet[h].id + '">' + templet[h].name + '</option>';
                             }
                             add_muban += '</select><br />';
-                            add_muban += '<a href="javascript:void(0);" onClick="return aa1()" >新建</a>';
+                            add_muban += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
                             add_muban += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
                             add_muban += '</div>';
                             $(this).parent().before(add_muban);
@@ -1444,7 +1443,7 @@
                         }
                         add_muban += '</select><br />';
                         // add_muban += '<a href="https://www.baidu.com" >新建</a>';
-                        add_muban += '<a href="javascript:void(0);" onClick="return aa1()" >新建</a>';
+                        add_muban += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
 
                         
                         add_muban += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
@@ -1959,10 +1958,12 @@
 
         })
         // 包装规格
+        $('.a2').click(function(){
+            alert(123);
+        })
         function aa1(){
             // console.log(111);
             location.href = 'delivery_goods_add_number';
-            return false;
         }
         function aa2(){
             // console.log(111);
