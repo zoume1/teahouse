@@ -538,32 +538,36 @@
             <div class="form-input" style="display: flex; align-items: center;">
                 <div id="hot">
                     <div class="list">
-                        <input type="checkbox" name="sss[sell_0][check]" value="1" lay-skin="primary" lay-filter="choose1"
-                            title="" checked="">
-                        <input class="texts" type="text" name="sss[sell_0][text]" value="可存" readonly style="display: none">
+                        <input type="checkbox" name="sss[sell_0][check]" value="1" lay-skin="primary"
+                            lay-filter="choose1" title="" checked="">
+                        <input class="texts" type="text" name="sss[sell_0][text]" value="可存" readonly
+                            style="display: none">
                         <img src="__STATIC__/admin/index/img/kecun.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="sss[sell_1][check]" value="0" lay-skin="primary" lay-filter="choose1"
-                            title="">
-                        <input class="texts" type="text" name="sss[sell_1][text]" value="HOT" readonly style="display: none">
+                        <input type="checkbox" name="sss[sell_1][check]" value="0" lay-skin="primary"
+                            lay-filter="choose1" title="">
+                        <input class="texts" type="text" name="sss[sell_1][text]" value="HOT" readonly
+                            style="display: none">
                         <img src="__STATIC__/admin/index/img/hot.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="sss[sell_2][check]" value="0" lay-skin="primary" lay-filter="choose1"
-                            title="">
-                        <input class="texts" type="text" name="sss[sell_2][text]" value="促销" readonly style="display: none">
+                        <input type="checkbox" name="sss[sell_2][check]" value="0" lay-skin="primary"
+                            lay-filter="choose1" title="">
+                        <input class="texts" type="text" name="sss[sell_2][text]" value="促销" readonly
+                            style="display: none">
                         <img src="__STATIC__/admin/index/img/chuxiao.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="sss[sell_3][check]" value="0" lay-skin="primary" lay-filter="choose1"
-                            title="">
-                        <input class="texts" type="text" name="sss[sell_3][text]" value="清仓" readonly style="display: none">
+                        <input type="checkbox" name="sss[sell_3][check]" value="0" lay-skin="primary"
+                            lay-filter="choose1" title="">
+                        <input class="texts" type="text" name="sss[sell_3][text]" value="清仓" readonly
+                            style="display: none">
                         <img src="__STATIC__/admin/index/img/qingchang.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="sss[sell_4][check]" value="0" lay-skin="primary" lay-filter="choose1"
-                            title="" class="biaoqian">
+                        <input type="checkbox" name="sss[sell_4][check]" value="0" lay-skin="primary"
+                            lay-filter="choose1" title="" class="biaoqian">
                         <input class="texts" type="text" name="sss[sell_4][text]" value="古色生香">
                         <!-- <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> -->
                     </div>
@@ -619,24 +623,24 @@
             <div class="form-input">
                 <div class="sever_list">
                     <div class="list">
-                        <input type="checkbox" name="server[server_0][check]" value="1" lay-skin="primary" lay-filter="choose1"
-                            title="" checked>
+                        <input type="checkbox" name="server[server_0][check]" value="1" lay-skin="primary"
+                            lay-filter="choose1" title="" checked>
                         <input class="texts" type="text" name="server[server_0][text]" value="7*24客服">
                         <!-- <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> -->
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="server[server_1][check]" value="1" lay-skin="primary" lay-filter="choose1"
-                            title="" checked>
+                        <input type="checkbox" name="server[server_1][check]" value="1" lay-skin="primary"
+                            lay-filter="choose1" title="" checked>
                         <input class="texts" type="text" name="server[server_1][text]" value="正品保障">
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="server[server_2][check]" value="1" lay-skin="primary" lay-filter="choose1"
-                            title="" checked>
+                        <input type="checkbox" name="server[server_2][check]" value="1" lay-skin="primary"
+                            lay-filter="choose1" title="" checked>
                         <input class="texts" type="text" name="server[server_2][text]" value="极速发货">
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="server[server_3][check]" value="1" lay-skin="primary" lay-filter="choose1"
-                            title="" checked>
+                        <input type="checkbox" name="server[server_3][check]" value="1" lay-skin="primary"
+                            lay-filter="choose1" title="" checked>
                         <input class="texts" type="text" name="server[server_3][text]" value="7天退换货">
                     </div>
                 </div>
@@ -689,6 +693,10 @@
                     <span class="change_danwei">修改单位</span>
                     <span class="danwei">/片</span>
                     <input type="hidden" name="monomer" value="片" class="monomer">
+
+                    <select id="unitList" lay-filter="unitList" style="display: none;">
+                        <option value=""></option>
+                    </select>
                 </div>
             </div>
             <div class="form-item">
@@ -740,7 +748,7 @@
                     </div>
                     <div id="lv_table_con" class="control-group" style="display: none; ">
                         <label class="control-label">规格项目表</label>
-                        <div class="controls" style="">
+                        <div class="controls">
                             <div id="lv_table" style="padding: 10px;"></div>
                         </div>
                     </div>
@@ -927,6 +935,7 @@
                 var form = layui.form(),
                     $ = layui.jquery;
                 form.render();
+                
                 var templet = [];
                 $.ajax({
                     type: "POST",
@@ -1047,8 +1056,7 @@
 
                     $(this).data("value", $(this).val());
                 })
-                $(".general_content").on('click', ".delect_img", function () {
-
+                $(".general_content").on('click', ".delect_img", function (e) {
                     if ($(this).siblings(".units").val() != '') {
                         for (var k = 0; k < unit2.length; k++) {
                             if (unit2[k] == $(this).siblings(".units").val()) {
@@ -1060,7 +1068,17 @@
                     $(".muban").remove();
                     $(this).parent().remove();
                 })
-                $(".nomal").on('click', ".delect_img", function () {
+                $(".nomal").on('click', ".delect_img", function (e) {
+                    
+                    var removeVal = $(this).prev().val();
+                    $('#unitList option').each(function(i, v){
+                        if(removeVal == v.value){
+                            console.log($(v))
+                            $(v).remove();
+                        }
+                    })
+                    form.render();
+
                     if ($(this).siblings(".units").val() != '') {
                         for (var k = 0; k < unit1.length; k++) {
                             if (unit1[k] == $(this).siblings(".units").val()) {
@@ -1196,7 +1214,6 @@
 
                 });
                 $(".yunfei").on('click', ".delect_img", function () {
-
                     $(this).parent().remove();
                 })
                 // 运费模板
@@ -1561,6 +1578,19 @@
                     danwei += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                     danwei += '</div>';
                     $(this).before(danwei);
+
+                    // 添加单位后 显示单位下拉列表
+                    $('input[name="unit[]"]').blur(function (e) {
+                        if(e.target.value){
+                            $('#unitList').next().show().add('.change_danwei').hide();
+                            var str = '<option value=""></option>';
+                            $('input[name="unit[]"]').each(function(i, v){
+                                str += '<option>'+ v.value +'</option>';
+                            })
+                            $('#unitList').html(str);
+                            form.render();
+                        }
+                    })
                 });
                 $(".general_content").on("click", ".add_danwei1", function () {
                     var i = parseInt($(this).data("id"));
@@ -1605,6 +1635,27 @@
                         alert("请先添加规格编码")
                     }
                 });
+                    
+                $('#unitList').next().hide();
+                // 显示单位 用户选择
+                $('input[name="unit[]"]').blur(function(e){
+                    if(e.target.value){
+                        $('#unitList').next().show().add('.change_danwei').hide();
+                        var str = '<option value=""></option>';
+                        $('input[name="unit[]"]').each(function(i, v){
+                            str += '<option>'+ v.value +'</option>';
+                        })
+                        $('#unitList').html(str);
+                        form.render();
+                    }else{
+                        $('.change_danwei').show().siblings('.layui-form-select').hide();
+                    }
+                })
+                // 选择单位
+                form.on('select(unitList)', function(data){
+                    $(".danwei").html("/" + data.value);
+                    $(".monomer").val(data.value);
+                })
             });
         $(".general-kuang").on('focus', ".coding", function () {
             $(this).data("id", $(this).val());
@@ -1698,7 +1749,6 @@
             this.value = this.value.replace(/\s+/g, '');
             this.value = this.value.replace(/_+/g, '');
         })
-
 
 
     </script>
