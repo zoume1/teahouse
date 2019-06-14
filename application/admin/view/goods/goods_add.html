@@ -1662,31 +1662,35 @@
         });
 
         $(".general-kuang").on('change', ".coding", function () {
-
+            var str = '<option value="0">请选择规格编码</option>';
+            $('.coding').each(function(i, v){
+                if(v.value){
+                    str += '<option value="'+v.value+'">'+v.value+'</option>';
+                }
+            })
             if ($(this).data("id") == '') {
                 var dhtmlq = '';
                 dhtmlq += ' <option value="' + $(this).val() + '">' + $(this).val() + '</option>';
                 $(".packing").append(dhtmlq);
                 $(this).data("id", $(this).val());
                 codings.push($(this).val());
-            }
-            else {
+            }else {
                 $("input[name='" + $(this).data("id") + "_num[]']").attr('name', $(this).val() + "_num[]");
                 $("input[name='" + $(this).data("id") + "_unit[]']").attr('name', $(this).val() + "_unit[]");
-                $(".packing option[value='" + $(this).data("id") + "']").text($(this).val());
-                $(".packing option[value='" + $(this).data("id") + "']").val($(this).val());
+                $('.packing').html(str);
+                // $(".packing option[value='" + $(this).data("id") + "']").text($(this).val());
+                // $(".packing option[value='" + $(this).data("id") + "']").val($(this).val());
 
                 for (var i = 0; i < codings.length; i++) {
-                    console.log(codings[i]);
-                    console.log($(this).data("id"));
-                    console.log($(this).val());
+                    // console.log(codings[i]);
+                    // console.log($(this).data("id"));
+                    // console.log($(this).val());
                     if (codings[i] == $(this).data("id")) {
                         codings[i] = $(this).val();
                     }
                 }
                 $(this).data("id", $(this).val());
             }
-            //    console.log(codings);
         });
 
 
