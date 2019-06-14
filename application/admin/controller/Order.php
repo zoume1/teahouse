@@ -316,6 +316,7 @@ class  Order extends  Controller{
     public function order_setting_update(Request $request){
         if ($request->isPost())
         {
+            $store_id = Session::get("store_id");
             $normal_time =$request->only(['normal'])['normal']; //正常订单
             $deliver_goods_time =$request->only(['deliver_goods'])['deliver_goods']; //发货超时
             $after_sale_time =$request->only(['after_sale'])['after_sale']; //售后
@@ -330,7 +331,7 @@ class  Order extends  Controller{
                 'start_evaluate_time'=>$start_evaluate_time,
                 'update_time'=>$time
             ];
-            $bool =Db::name('order_setting')->where('order_setting_id',1)->update($data);
+            $bool =Db::name('order_setting')->where("store_id","EQ",$store_id)->update($data);
             if($bool){
                 $this->success('更新成功');
             }else{
