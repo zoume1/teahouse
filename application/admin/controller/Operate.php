@@ -60,6 +60,7 @@ class Operate extends  Controller{
     public function operate_problem_save(Request $request){
         if($request->isPost()){
             $data = $request->param();
+            $store_id = Session::get("store_id");
             $problem_name = db("problem") -> where("pid",$data["pid"]) ->value("name");
             $data["name"] = $problem_name;
             $data["store_id"] = $store_id;
