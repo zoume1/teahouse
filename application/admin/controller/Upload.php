@@ -22,7 +22,7 @@ class Upload extends Controller
                 if(!$res){
                     $this->error("找不到对应的小程序！");
                 }
-        		$this->assign('applet',$res);
+                $this->assign('applet',$res);
                 $commitData = [
                     'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapp2/",//'https://duli.nttrip.cn/api/Wxapps/',
                     'uip' => $_SERVER['REMOTE_ADDR'] ,
@@ -74,7 +74,7 @@ class Upload extends Controller
                $this->redirect('Login/index');
             }
             $role_id=db('admin')->where('id',$user_id)->find();
-            if($role_id['role_id']==7){
+            if($role_id['role_id']==15){
            // if(powerget()){
                 $id = input("appletid");
                 $version = input('version');
