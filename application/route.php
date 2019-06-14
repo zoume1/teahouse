@@ -719,6 +719,7 @@ Route::group("admin",[
 
     "delivery_goods"=>"admin/Delivery/delivery_goods",                       //快递发货显示
     "delivery_goods_add_number"=>"admin/Delivery/delivery_goods_add",        //快递发货添加
+    "delivery_goods_add_numbers"=>"admin/Delivery/delivery_goods_adds",      //快递发货添加
     "delivery_goods_edit"=>"admin/Delivery/delivery_goods_edit",             //快递发货编辑
     "delivery_goods_update"=>"admin/Delivery/delivery_goods_update",         //快递发货更新
     "delivery_goods_delete"=>"admin/Delivery/delivery_goods_delete",         //快递发货删除

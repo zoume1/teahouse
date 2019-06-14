@@ -331,6 +331,7 @@ class Operate extends  Controller{
         if(empty($recommend_data)){
             $data['store_id'] = $store_id;
             $bool = db('recommend_integral')->insert($data);
+            $recommend_data = db('recommend_integral')->where("store_id","EQ",$store_id)->select();
         }
         return view("operate_integral_rule",['recommend_data'=>$recommend_data]);
     }
@@ -505,6 +506,7 @@ class Operate extends  Controller{
         $data = db("receipt")->where("store_id","EQ",$store_id)->select();
         if(empty($data)){
             $rest['store_id'] = $store_id;
+            unset($data['id']);
             $bool = db("receipt")->insert($rest);
             $data = db("receipt")->where("store_id","EQ",$store_id)->select();
         }
