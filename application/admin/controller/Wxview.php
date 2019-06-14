@@ -23,7 +23,7 @@ class Wxview extends Controller
                 }
         		$this->assign('applet',$res);
                 $commitData = [
-                    'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapp2/",//'https://duli.nttrip.cn/api/Wxapps/',
+                    'siteroot' => "https://xcx.siring.com.cn/api/Wxapps/",//'https://duli.nttrip.cn/api/Wxapps/',
                     'uip' => $_SERVER['REMOTE_ADDR'] ,
                     'appid' => $res['appID'],
                     'site_name' => $res['name'],
@@ -77,7 +77,7 @@ class Wxview extends Controller
                 }
                 $this->assign('applet',$res);
                 $commitData = [
-                    'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapp2/",//'https://duli.nttrip.cn/api/Wxapps/',
+                    'siteroot' => "https://xcx.siring.com.cn/api/Wxapps/",//'https://duli.nttrip.cn/api/Wxapps/',
                     'uip' => $_SERVER['REMOTE_ADDR'] ,
                     'appid' => $res['appID'],
                     'site_name' => $res['name'],
