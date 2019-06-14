@@ -25,7 +25,7 @@ class Delivery extends  Controller{
         $data =Db::name("extract_address")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
-        $data_status =Db::name("extract_address")->where("store_id","EQ",$store_id)->find();
+        $data_status = Db::name("extract_address")->where("store_id","EQ",$store_id)->find();
         return view("delivery_index",["data"=>$data,"data_status"=>$data_status]);
     }
 
@@ -40,7 +40,7 @@ class Delivery extends  Controller{
         if($request->isPost()){
             $store_id = Session::get("store_id");
             $status =$request->only(["status"])["status"];//1为开启，-1为关闭
-            $data =Db::name("extract_address")->where("store_id","EQ",$store_id)->select();
+            $data = Db::name("extract_address")->where("store_id","EQ",$store_id)->select();
             if(!empty($data)){
                 foreach ($data as $key=>$value){
                     $bool =Db::name("extract_address")
@@ -232,6 +232,12 @@ class Delivery extends  Controller{
                 $this->error("添加失败,请重试");
             }
         }
+        $unit = db("special")->distinct(true)->field("unit")->select();
+        $list = unit_list($unit);
+        return view("delivery_goods_add",["list"=>$list]);
+    }
+
+    public function delivery_goods_adds(){
         $unit = db("special")->distinct(true)->field("unit")->select();
         $list = unit_list($unit);
         return view("delivery_goods_add",["list"=>$list]);
