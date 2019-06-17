@@ -2347,7 +2347,8 @@ class  Order extends  Controller
      */
     public function tacitly_list(Request $request){
         if($request->isPost()){
-            $data =Db::name("store_house")
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $data =Db::name("store_house")->where("store_id",'EQ',$store_id)
                 ->select();
 
             if(!empty($data)){
