@@ -102,7 +102,7 @@ class  AdminWx extends Controller{
                     $data["explains"] ="微信扫码支付直接通过";//审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款）
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核）
-                    $result =Db::name("set_meal_order")
+                    $result = Db::name("set_meal_order")
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
 
@@ -232,8 +232,7 @@ class  AdminWx extends Controller{
                 $condition['order_number'] = $out_trade_no;
                 $enter_all_data = Db::name("set_meal_order")
                     ->where($condition)
-                    ->find();
-                $year = Db::name("enter_all")->where("id", $enter_all_data['enter_all_id'])->value("year");
+                    ->find();ame("enter_all")->where("id", $enter_all_data['enter_all_id'])->value("year");
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除已付款的订单

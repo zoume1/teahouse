@@ -1478,12 +1478,14 @@ class Goods extends Controller
     public function crowd_search()
     {
         $goods_number = input('project_name');
+        $store_id = Session::get("store_id");
         if(!empty($goods_number)){
                $crowd_data = db("crowd_goods")
+                    ->where("store_id", $store_id)
                     ->where("project_name",$goods_number)
                     ->select();
             } else {
-                $crowd_data = db("crowd_goods")->select();
+                $crowd_data = db("crowd_goods")->where("store_id", $store_id)->select();
             }
       
         if(!empty($crowd_data)){
