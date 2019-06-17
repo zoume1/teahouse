@@ -122,7 +122,7 @@
 					class="layui-input">
 				<div class="tips">
 					最多20个字，可2行显示<span class="tan" style="color: #0E90D2;"
-						data-id="__STATIC__/admin/common/img/u27291.png"> 查看示例</span>
+						data-id="__STATIC__/admin/common/img/u43463.png"> 查看示例</span>
 				</div>
 			</div>
 		</div>
@@ -130,7 +130,7 @@
 		<div class="form-item">
 			<label class="form-label">金额</label>
 			<div class="form-input">
-				<input type="number" name="money" lay-verify="title" autocomplete="off" placeholder="请输入"
+				<input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="money" lay-verify="title" autocomplete="off" placeholder="请输入"
 					class="layui-input">
 
 			</div>

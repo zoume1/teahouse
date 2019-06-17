@@ -327,7 +327,7 @@
         </div>
 
     </div>
-     <input name="id" onclick="aa2()" value="订单">
+     
     <form class="layui-form layui-form-lists" action="{:url('admin/Goods/updata')}" method="post"
         enctype="multipart/form-data">
         {volist name="goods" id="value"}
@@ -467,7 +467,7 @@
         <div class="form-item">
             <label class="form-label">商品排序</label>
             <div class="form-input">
-                <input type="number" name="sort_number" value="{$value.sort_number}" lay-verify="title"
+                <input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="sort_number" value="{$value.sort_number}" lay-verify="title"
                     autocomplete="off" placeholder="请输入" class="layui-input">
                 <div class="tips">
                     *填写正整数，从大到小排序
