@@ -331,6 +331,7 @@
                             <span>微信支付</span>
                         </a>
                         <a href="javascript:void(0);"
+                            target="_blank"
                             @click="getAlipay"
                         >
                             <img src="__STATIC__/admin/common/img/g4.png" width="32" height="32">
@@ -599,10 +600,11 @@
                     }
                     var _this = this;
                     this.myAjax('order_code_alipay', param, function(data){
+                        console.log(111, data)
                         // 付款二维码生成成功， 监听支付
                         if(data.body.status == 1){
-                            // $('body').append(data.body.data.url);
-                            window.parent.document.getElementById('tcdl').click();
+                            $('body').append(data.body.data.url);
+                            // window.parent.document.getElementById('tcdl').click();
                         }
                     })
                 },
