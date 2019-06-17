@@ -59,9 +59,10 @@ class My extends Controller
             if (!empty($post_open_id)) {
                 $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
                 $data = [];
-                $data['member_id'] = $member_information['member_id']; //会员码
-                $data['member_grade_create_time'] = date('Y-m-d H:i:s', $member_information['member_grade_create_time']); // 创建等级的时间
-                $domain_name = 'http://teahouse.siring.com.cn';//域名
+                $data['member_id'] = $member_information['member_id']; //会员id
+                $data['dimension'] = $member_information['dimension']; //会员码
+                $data['member_grade_create_time'] = date('Y-m-d H:i:s', $member_information['member_grade_create_time']); //创建等级的时间
+                $domain_name = 'http://teahouse.siring.com.cn';  //域名
                 $member_id = $member_information['member_id'];   //所登录的id
                 $reg = 'reg';  //注册地址
                 $share_url = $domain_name . "/" . $reg . "/" . $member_id;
@@ -75,8 +76,8 @@ class My extends Controller
                             ->whereOr("member_grade_id",$member_information['member_grade_id'])
                             ->select();
                 
-                $user['member_grade'] = $member_data;//会员等级信息
-                $user['information'] = $data;        //用户的所有信息
+                $user['member_grade'] = $member_data; //会员等级信息
+                $user['information'] = $data;         //用户的所有信息
                 if (!empty($user)) {
                     return ajax_success('成功返回数据', $user);
                 } else {

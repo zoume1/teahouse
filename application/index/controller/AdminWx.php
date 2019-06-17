@@ -102,7 +102,7 @@ class  AdminWx extends Controller{
                     $data["explains"] ="微信扫码支付直接通过";//审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款）
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核）
-                    $result =Db::name("set_meal_order")
+                    $result = Db::name("set_meal_order")
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
 

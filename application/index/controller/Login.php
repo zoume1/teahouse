@@ -73,6 +73,7 @@ class Login extends Controller{
                     $data['member_grade_create_time'] =time();
                     $data['member_grade_id'] = $grade_id;
                     $data['member_status']=1;
+                    $data['dimension'] = $this->memberCode();
                     if($get['gender'] ==2){
                         $data["member_sex"] ="女";
                     }else{
@@ -86,6 +87,7 @@ class Login extends Controller{
                     $data['member_grade_name'] = $grade_name['member_grade_name'];
                     $data["store_id"] = $user_data['store_id']; //店铺id
                     $bool = Db::name('member')->insertGetId($data);
+
                 if($register_login > 0){
                     //插入积分记录
                     $integral_data = [
@@ -245,6 +247,33 @@ class Login extends Controller{
     }
 
 
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:生成会员码
+     **************************************
+     * @param Request $request
+     */
+    public function memberCode(){
+        $code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $rand = $code[rand(0,25)]
+            .strtoupper(dechex(date('m')))
+            .date('d').substr(time(),-5)
+            .substr(microtime(),2,5)
+            .sprintf('%02d',rand(0,99));
+        for(
+            $a = md5( $rand, true ),
+            $s = '0123456789ABCDEFGHIJKLMNOPQRSTUV',
+            $d = '',
+            $f = 0;
+            $f < 6;
+            $g = ord( $a[ $f ] ),
+            $d .= $s[ ( $g ^ ord( $a[ $f + 8 ] ) ) - $g & 0x1F ],
+            $f++
+        );
+        return $d;
+    }
 
 
 }

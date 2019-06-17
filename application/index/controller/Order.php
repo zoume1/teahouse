@@ -378,7 +378,7 @@ class  Order extends  Controller
                         $datase["receipt_status"] = $receipt_status; 
                         $datase["receipt_id"] = $receipt_id;
                         $datase["receipt_price"] = $receipt_price;   
-                        $datase["stroe_id"] = $store_id;   
+                        $datase["store_id"] = $store_id;   
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                         $datas = $datase;
@@ -2347,7 +2347,8 @@ class  Order extends  Controller
      */
     public function tacitly_list(Request $request){
         if($request->isPost()){
-            $data =Db::name("store_house")
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $data =Db::name("store_house")->where("store_id",'EQ',$store_id)
                 ->select();
 
             if(!empty($data)){
