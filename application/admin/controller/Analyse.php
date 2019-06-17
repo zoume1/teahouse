@@ -17,8 +17,8 @@ class  Analyse extends  Controller{
      * [增值商品]
      * 郭杨
      */    
-    public function analyse_index(){
-        $analyse_data = db("analyse_goods")->where("label",1)->select();
+    public function analyse_index(){     
+        $analyse_data = db("analyse_goods")->select();
         if(!empty($analyse_data)){
             foreach ($analyse_data as $key => $value) {
                     if($analyse_data[$key]["goods_standard"] == "1")
@@ -369,7 +369,6 @@ class  Analyse extends  Controller{
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();       
             $show_images = $request->file("goods_show_images");
-          
             $list = [];
             if (!empty($show_images)) {
                 foreach ($show_images as $k => $v) {
