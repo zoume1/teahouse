@@ -958,9 +958,9 @@
                                 </input>
 
                             </div>
-                            <div class="form-input line" style="margin-bottom: 4px;">
+                            <div class="form-input line" style="margin-bottom: 4px;width:1000px;">
                                 <input type="radio" title="运费模板" name="aaa" value="1">
-                                <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
+                                <div class="tips">*运费模版支持按地区，按单位设置运费，已预留各类包装单位及报价，如需添加及修改您可在“设置”-“配送设置”-“快递发货”中操作</div>
                             </div>
 
                             {else}
@@ -972,9 +972,9 @@
                                 </input>
 
                             </div>
-                            <div class="form-input line" style="margin-bottom: 4px;">
+                            <div class="form-input line" style="margin-bottom: 4px;width:1000px;">
                                 <input type="radio" title="运费模板" name="aaa" value="1" checked="">
-                                <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
+                                <div class="tips">*运费模版支持按地区，按单位设置运费，已预留各类包装单位及报价，如需添加及修改您可在“设置”-“配送设置”-“快递发货”中操作</div>
                             </div>
                             {/if}
 
@@ -984,7 +984,7 @@
                                 <div class="add_muban"> 添加运费模板</div>
                             </div>
 
-                            <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
+                            <!-- <div class="tips">*运费模版支持按地区，按单位设置运费，已预留各类包装单位及报价，如需添加及修改您可在“设置”-“配送设置”-“快递发货”中操作</div> -->
 
                         </div>
 
@@ -1205,7 +1205,7 @@
                                 }
                                 add_muban1 += '</select><br />';
                                 // add_muban1 += '<button type="button" class="a2" onclick="aa1();return false;" >新建</button>';
-                                add_muban1 += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
+                                // add_muban1 += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
                                 add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
                                 add_muban1 += '</div>';
                                 $(".add_muban").parent().before(add_muban1);
@@ -1246,7 +1246,7 @@
                                 }
                                 add_muban1 += '</select><br />';
                                 // add_muban1 += '<a href="https://www.baidu.com" >新建</a>';
-                                add_muban1 += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
+                                // add_muban1 += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
 
                                 add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
                                 add_muban1 += '</div>';
@@ -1410,7 +1410,7 @@
                                 add_muban += ' <option value="' + templet[h].id + '">' + templet[h].name + '</option>';
                             }
                             add_muban += '</select><br />';
-                            add_muban += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
+                            // add_muban += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
                             add_muban += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
                             add_muban += '</div>';
                             $(this).parent().before(add_muban);
@@ -1443,7 +1443,7 @@
                         }
                         add_muban += '</select><br />';
                         // add_muban += '<a href="https://www.baidu.com" >新建</a>';
-                        add_muban += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
+                        // add_muban += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
 
                         
                         add_muban += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';

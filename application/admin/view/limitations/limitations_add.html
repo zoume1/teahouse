@@ -80,9 +80,9 @@
 		<div class="form-item">
 			<label class="form-label">限购设置</label>
 			<div class="form-input line">
-				<input type="checkbox" name="" lay-skin="primary" title="" value="会员">
+				<input type="checkbox" name="aa" lay-skin="primary" title="" >
 				<div class="texts">面向范围</div>
-				<select name="time">
+				<select name="type">
 					<option value="0">普通会员</option>
 					<option value="1">贵宾会员</option>
 					<option value="2">黄金会员</option>
@@ -91,16 +91,16 @@
 					<option value="5">合伙人</option>
 				</select>
 				<div>
-					<input type="checkbox" name="" lay-skin="primary" title="" value="">
+					<input type="checkbox" name="limit_status" lay-skin="primary" title="" >
 					<div class="texts">限购数量</div>
-					<input type="text" name="label" lay-verify="title" autocomplete="off" placeholder="1"
+					<input type="text"  lay-verify="title" name="number" autocomplete="off" placeholder="1"
 						class="layui-input">
 					</div>
 				</div>
 				
 			</div>
 			<div class="tips" style="margin-left:100px;">*限购份数不填，表示不限购</div>
-		
+			<!-- <input type="text" required> -->
 		<div class="form-item">
 			<!-- <label class="form-label">面向范围</label>
 			<div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap; ">
@@ -114,7 +114,7 @@
 			</div> -->
 			<label class="form-label">开启秒杀</label>
 			<div class="form-input line">
-				<input type="checkbox" name="" lay-skin="primary" title="" value="秒杀">
+				<input type="checkbox" name="status" lay-skin="primary" title="">
 				<div class="texts">秒杀</div>
 
 			</div>
@@ -381,6 +381,10 @@
 
 
 		});
+
+		$('input[name=aa]').add('input[name=status]').change(function(e){
+			console.log(e.checked)
+		})
 	</script>
 	<script type="text/javascript">
 		//      setTimeout(insertHtml, 1000);
