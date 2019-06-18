@@ -112,7 +112,6 @@
                         <th>到期时间</th>
                         <th>支付方式</th>
                         <th>到账情况</th>
-                        <th>店铺开通</th>
                         <!-- <th>付款审核状态</th>
                     <th>店铺审核状态</th> -->
 
@@ -136,10 +135,19 @@
                         <td>{$value.pay_money}</td>
                         <td>{if !empty($value.start_time)} {$value.start_time |date="Y-m-d H:i",###} {/if} </td>
                         <td>{if !empty($value.end_time)}{$value.end_time |date="Y-m-d H:i",###}{/if}</td>
-                        <td>汇款</td>
-                        <td>已到账</td>
-                        <td>
-                            <input type="checkbox" name="" lay-skin="switch">
+                        <td>                               
+                            {switch name="$value.pay_type"}
+                            {case value="1"}扫码支付{/case}
+                            {case value="2"}汇款支付{/case}
+                            {default /}余额支付
+                            {/switch}
+                        </td>
+                        <td>                            
+                            {switch name="$value.pay_status"}
+                            {case value="1"}已到账{/case}
+                            {case value="2"}待审核{/case}
+                            {default /}未到账
+                            {/switch}
                         </td>
                         <td class="table-cell">
                             {if $value.pay_type == 2}
