@@ -30,6 +30,7 @@ class Index extends Controller
         $menu_list = Config::get("menu_list");
         $user_info = Session::get("user_info");
         $account = $user_info[0]["account"];
+        $role_id = $user_info[0]["role_id"];
         $store_id = Session::get("store_id");
         $store_data = Db::name("store")->where('id','EQ',$store_id)->find();
         $store_logo = isset($store_data['store_logo'])?$store_data['store_logo']:null;
@@ -41,7 +42,7 @@ class Index extends Controller
         }else{
             $phone_id =0;
         }
-        return view("index", ["menu_list" => $menu_list,"account"=>$account,"phone_id"=>$phone_id,"store_name"=>$store_name,"store_logo"=>$store_logo,"store_id"=>$store_id]);
+        return view("index", ["menu_list" => $menu_list,"account"=>$account,"phone_id"=>$phone_id,"store_name"=>$store_name,"store_logo"=>$store_logo,"store_id"=>$store_id,"role_id"=>$role_id]);
     }
 
     /**

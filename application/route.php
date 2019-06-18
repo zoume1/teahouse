@@ -261,6 +261,8 @@ Route::group("",[
     "user_name_update"=>"index/My/user_name_update", //用户昵称绑定修改
     "user_img_return"=>"index/My/user_img_return",  //用户头像绑定数据返回
     "user_img_update"=>"index/My/user_img_update",  //用户头像修改
+    "consumerCode"=>"index/My/consumerCode", //用户会员码
+
     /*TODO:手机号头像昵称绑定结束*/
 
     /*TODO:我的账单开始*/
