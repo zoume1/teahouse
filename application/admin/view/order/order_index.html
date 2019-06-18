@@ -522,11 +522,7 @@
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
 						</td>
-						<td class="orderNumber">
-							<!-- <div class="overflow"> -->
-							{$vo.parts_order_number}
-							<!-- </div> -->
-						</td>
+						<td class="orderNumber">{$vo.parts_order_number}</td>
 						{if !empty($vo["goods_image"])}
 						<td class="">
 							<div class="tdimg"><img src="__UPLOADS__/{$vo.goods_image}" /></div>
@@ -701,6 +697,7 @@
 			})
 		})
 		$(".static_btus").click(function () {
+			var _this = this;
 			// 订单金额
 			var amount = +$(this).parents('tr').children('td.am').text();
 			$('input[name=amount]').val(amount);
@@ -831,7 +828,7 @@
 
 			// 改价
 			$('.changePrice').click(function(){
-				var orderNumber = $(this).parents('tr').children('td.orderNumber').text();
+				var orderNumber = $(_this).parents('tr').children('td.orderNumber').text().trim();
 				var order_real_pay = $('input[name=changePriceVal]').val();
 				if(+order_real_pay > 0){
 					$.ajax({
@@ -845,13 +842,16 @@
 						},
 						success: function(res){
 							if(res.status == 1){
-								layer.alert(res.info, {
-									skin: 'layui-layer-molv', //样式类名
-									closeBtn: 0
+								layer.msg(res.info, {
+									icon: 1 
 								});
 								setTimeout(function(){
 									location.reload();
-								}, 1500)
+								}, 1200)
+							}else{
+								layer.msg(res.info, {
+									icon: 2
+								});
 							}
 						}
 					})
