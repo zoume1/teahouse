@@ -11,7 +11,7 @@ use think\Controller;
 use think\Request;
 use think\Session;
 use think\Db;
-
+use app\index\controller\Login as LoginPass;
 class  Store extends  Controller{
     /**
      **************李火生*******************
@@ -22,6 +22,7 @@ class  Store extends  Controller{
     public function  store_add(Request $request){
         if($request->isPost()){
             $user_id =Session::get("user");
+            $store_code = new LoginPass;
             $is_business =$request->only(["is_business"])["is_business"];
             $id_card =$request->only(["id_card"])["id_card"];
             $contact_name =$request->only(["contact_name"])["contact_name"];
@@ -47,6 +48,7 @@ class  Store extends  Controller{
             if(empty($card_side_file)){
                 return ajax_error("请上传身份证反面图");
             }
+            $share_code = $store_code -> memberCode();
             $card_positive_images = base64_upload_flie($card_positive);//身份证正面
             $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
             $phone_number = db("pc_user")->where("id",$user_id)->value("phone_number");//获取手机号
@@ -63,6 +65,7 @@ class  Store extends  Controller{
                 "licence_no"=>$licence_no,
                 "user_id"=>$user_id,
                 "phone_number"=>$phone_number,
+                'share_code'=>$share_code,
                 //店铺状态(1审核通过,-1审核不通过,2审核中）
                 "status"=>2,
                 "store_name"=>$store_name
