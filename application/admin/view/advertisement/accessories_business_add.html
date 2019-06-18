@@ -220,7 +220,7 @@
 		<div class="form-item">
 			<label class="form-label">活动排序</label>
 			<div class="form-input">
-				<input type="number" name="order_ing" lay-verify="title" autocomplete="off" placeholder=""
+				<input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^(-1+)|[^\d]+/g,'')" name="order_ing" lay-verify="title" autocomplete="off" placeholder=""
 					class="layui-input">
 				<div class="tips">
 					*填写正整数，从大到小排序

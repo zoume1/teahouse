@@ -457,9 +457,6 @@ class Bonus extends Controller
                 ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
                 ->select();
         }
-
-
-
         if(!empty($goods)){
             foreach ($goods as $key => $value) {
                 if ($goods[$key]["goods_standard"] == 1) {

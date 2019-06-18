@@ -64,7 +64,7 @@
         <div class="form-item">
             <label class="form-label"><span>*</span>排序</label>
             <div class="form-input">
-                <input type="text" value="{$val.sort_number}" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="mun_num">
+                <input type="text" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" value="{$val.sort_number}" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" id="mun_num">
             </div>
         </div>
         <div class="form-item">

@@ -87,17 +87,60 @@ class  Limitations extends  Controller{
     }
 
     /**
+     * 李禄
      * [限时限购保存商品]
-     * GY
      */
      public function limitations_save(Request $request)
      {
         if ($request->isPost()) {
-            $data = $request->param();
-            $store_id = Session::get("store_id");
-            $data["scope"] = implode(",", $data["scope"]);
+            $data = $request->param();    //获取参数
+            $store_id = Session::get("store_id");    //获取店铺id 
             $data["stroe_id"] = $store_id;
-
+            if(array_key_exists('aa',$data) || array_key_exists('status',$data))
+            {    //限购和秒杀至少一个
+                 if(array_key_exists('aa',$data))
+                 {   //限购
+                    $map['scope']='1';
+                    $map['scope_type']=$data['type'];
+                    if(array_key_exists('limit_status',$data))
+                    {
+                        if($data['number']=='0')
+                        {
+                            $map['limit_status']='1';
+                            $map['number']='-1';   //不限购数量
+                        }else{
+                            $map['number']=$data['number'];
+                            $map['limit_status']='1';
+                        }
+                    }else{
+                        $map['limit_status']='0';
+                        $map['number']='0';
+                    }
+                 }else{
+                     $map='0';
+                 }
+                 if(array_key_exists('status',$data))
+                 {    //开启秒杀
+                    $map2['miao_status']='1';
+                    $map2['start_time']=$data['start_time'];
+                    $map2['end_time']=$data['end_time'];
+                 }else{
+                    $map2['miao_status']='0';
+                    $map2['start_time']='0';
+                    $map2['end_time']='0';
+                 }
+                 $map3['label']=$data['label'];
+                 $pp['limit']=$map;
+                 $pp['miao']=$map2;
+                 $pp['label']=$map3;
+                 $pp=json_encode($pp);      //限时限购的条件
+                 dump($pp);
+                
+               die;
+            }else{
+                $this->error('限购设置和开启秒杀至少选中一个');
+            }
+            die;
             if (!empty($data["goods_id"])) {
                 foreach ($data["goods_id"] as $key => $value) {
                     $goods[$key] = db("goods")->where("id", $data["goods_id"][$key])->where("store_id","EQ",$store_id)->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
@@ -216,6 +259,66 @@ class  Limitations extends  Controller{
      {
          return view('limitations_add');
      }
+     /**
+      * lilu
+      * 限时限购检索
+      */
+      /**
+     * [优惠券搜索商品]
+     * GY
+     */
+    public function coupon_search(Request $request)
+    {
+        $goods_number = input("goods_number");
+        $store_id = Session::get("store_id");
+        $goods = db("goods")
+                ->where("goods_number", $goods_number)
+                ->where("store_id","EQ",$store_id)
+                ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
+                ->select();
+        if(!empty($goods)){
+            foreach ($goods as $key => $value) {
+                //获取商品图片
+                if ($goods[$key]["goods_standard"] == 1) {
+                    $goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]["id"])->sum("stock");
+                    $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
+                } else {
+                    $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
+                }
+                //判断商品是否已限时限购
+                $is_limit=db('limited')->where('goods_id',$value['id'])->find();
+                if($is_limit)
+                {
+                    $goods[$k]['is_limit']='1';
+                }else
+                {
+                    $goods[$k]['is_limit']='0';
+                }
+            }
+            return ajax_success("获取成功", $goods);
+        } else {
+            // $id = $goods_number - 1000000;
+            // $key = 0;
+            // $crowd = db("crowd_goods")->where("id", $id)->field("id,goods_show_image,project_name,coupon_type")->find();
+            // if(!empty($crowd)){
+            // $crowd['goods_repertory'] = db("crowd_special")->where("goods_id",$crowd['id'])->sum("stock");
+            // $crowd_goods[$key] = array(
+            //     'id'=> $crowd['id'],
+            //     'goods_number'=> $crowd['id'] +1000000,
+            //     'goods_name'=> $crowd['project_name'],
+            //     'goods_standard'=> 1,
+            //     'goods_show_images'=> $crowd['goods_show_image'],
+            //     'goods_repertory'=> $crowd['goods_repertory'],
+            //     'coupon_type'=> $crowd['coupon_type']
+            // );
+            // return ajax_success("获取成功", $crowd_goods);
+            // } else {
+            //     return ajax_error("未找到该商品");
+            // }
+            return ajax_error('获取失败');
+        }
+    }
+
 
 
 
