@@ -238,7 +238,7 @@
 			<div style="display: flex;flex-direction:column">
 				<div class="form-input line" style="margin-bottom: 4px;">
 					<input type="radio"   title="商家配送" checked="">
-					<input type="number" name="goods_franking" value="{$value.goods_franking}"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"> </input>
+					<input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="goods_franking" value="{$value.goods_franking}"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"> </input>
 					</input>
 
 				</div>
