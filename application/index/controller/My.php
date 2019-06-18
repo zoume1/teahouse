@@ -194,7 +194,8 @@ class My extends Controller
      */
      public function user_phone_bingding(Request $request){
          if($request->isPost()){
-             $member_id =$request->only(["member_id"])["member_id"];
+             $member_id = $request->only(["member_id"])["member_id"];
+             $member_phone_num = $request->only(["member_phone_num"])["member_phone_num"];
              $code =$request->only(["code"])["code"];
              $mobileCode = Cache::get('mobileCode');
              $mobile = Cache::get('mobile');
@@ -204,10 +205,11 @@ class My extends Controller
              $phone_number = Db::name("member")
                  ->where("member_id", $member_id)
                  ->value("member_phone_num");
-             if(!empty($phone_number)){
+             if(empty($phone_number)){
                  Cache::rm('mobileCode');
                  Cache::rm('mobile');
-                 return ajax_success("修改成功",$phone_number);
+                $bool = Db::name("member")->where("member_id",$member_id)->update(["member_phone_num"=>$member_phone_num]);
+                return ajax_success("绑定成功",$bool);
              }else{
                  return ajax_error("请重试",["status"=>0]);
              }

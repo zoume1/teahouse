@@ -24,7 +24,8 @@ class Upload extends Controller
                 }
                 $this->assign('applet',$res);
                 $commitData = [
-                    'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapp2/",//'https://duli.nttrip.cn/api/Wxapps/',
+                    // 'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapp2/",//'https://duli.nttrip.cn/api/Wxapps/',
+                    'siteroot' => "https://xcx.siring.com.cn/api/Wxapps",//'https://duli.nttrip.cn/api/Wxapps/',
                     'uip' => $_SERVER['REMOTE_ADDR'] ,
                     'appid' => $res['appID'],
                     'site_name' => $res['name'],
@@ -85,7 +86,8 @@ class Upload extends Controller
                 }
                 $this->assign('applet',$res);
                 $commitData = [
-                    'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapp2/",//'https://duli.nttrip.cn/api/Wxapps/',
+                    // 'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapp2/",//'https://duli.nttrip.cn/api/Wxapps/',
+                    'siteroot' => "https://xcx.siring.com.cn/api/Wxapps",//'https://duli.nttrip.cn/api/Wxapps/',
                     'uip' => $_SERVER['REMOTE_ADDR'] ,
                     'appid' => $res['appID'],
                     'site_name' => $res['name'],
@@ -93,7 +95,6 @@ class Upload extends Controller
                     'version' => '2.05',//当前小程序的版本
                     'tominiprogram' => unserialize($res['tominiprogram'])
                 ];
-
                 $params = http_build_query($commitData);
                 $url = "http://wx.hdewm.com/uploadApi.php?".$params;
                 $response = $this->_requestGetcurl($url);
