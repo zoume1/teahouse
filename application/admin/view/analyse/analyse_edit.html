@@ -571,7 +571,7 @@
         <div class="form-item">
             <label class="form-label">商品排序</label>
             <div class="form-input">
-                <input type="number" name="sort_number" value="{$value.sort_number}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="sort_number" value="{$value.sort_number}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
                 <div class="tips">
                     *填写正整数，从大到小排序
                 </div>
@@ -934,6 +934,7 @@
             </a>
        
        </div>
+    <input type="hidden" name="id" id="ids" value="{$value.id}" />
     <div class="form-title">基础信息 </div>
     <div class="form-item">
         <label class="form-label"><span class="red">*</span>商品名称</label>
@@ -1014,7 +1015,7 @@
     <div class="form-item">
         <label class="form-label">商品排序</label>
         <div class="form-input">
-            <input type="number" name="sort_number" value="{$value.sort_number}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+            <input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="sort_number" value="{$value.sort_number}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
             <div class="tips">
                 *填写正整数，从大到小排序
             </div>

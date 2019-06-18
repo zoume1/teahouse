@@ -27,10 +27,11 @@ class Distribution extends Controller
     public function setting_index()
     {
         $store_id = Session::get("store_id");
+        $store = config("store_id");
         $distribution = db("distribution") ->where("store_id","EQ",$store_id)-> select();
 
         if(empty($distribution)){
-            $rest = db("distribution") ->where("store_id","EQ",6)-> select();
+            $rest = db("distribution") ->where("store_id","EQ",$store)-> select();
             foreach($rest as $key => $value){
                 unset($rest[$key]['id']);
                 $rest[$key]['store_id'] = $store_id;

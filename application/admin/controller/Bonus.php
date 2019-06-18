@@ -331,12 +331,13 @@ class Bonus extends Controller
      */
     public function coupon_edit($id)
     {
+        $store_id = Session::get("store_id");
         $coupons = db("coupon")->where("id", $id)->select();
         foreach ($coupons as $k => $v) {
             $coupons[$k]["scope"] = explode(",", $coupons[$k]["scope"]);
         }
         
-        $scope = db("member_grade")->field("member_grade_name")->select();
+        $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
         return view('coupon_edit', ["coupons" => $coupons, "scope" => $scope]);
 
 

@@ -1131,18 +1131,56 @@ function pay_status($status){
  */
 function MemberFristAdd($store_id)
 {
+    $store = config("store_id");
     //默认会员等级
-    $memeber_grade_data = db("member_grade")->where("store_id",'EQ',79)->select();
+    $memeber_grade_data = db("member_grade")->where("store_id",'EQ',$store)->select();
     foreach($memeber_grade_data as $key => $value){
         unset($memeber_grade_data[$key]['member_grade_id']);
         $memeber_grade_data[$key]['store_id'] = $store_id;
-    }
-    
+    }  
     foreach($memeber_grade_data as $k => $v){
         $bool = db("member_grade")->insert($v);
     }
+    
+    //默认商品
+    $goods = db('goods')->where("store_id",'EQ',$store)->select();
+    $special = db('special')->where("goods_id",'EQ',273)->select();
+    foreach($goods as $ky => $val){
+        unset($goods[$ky]['id']);
+        $goods[$ky]['store_id'] = $store_id;
+        
+    }
+    foreach($goods as $k => $v){
+        $bool = db("goods")->insertGetId($v);
+    }
+    foreach($special as $y => $l){
+        unset($special[$y]['id']);
+        $special[$y]['goods_id'] = $bool;
+        
+    }
+    foreach($special as $ka => $va){
+        $boole = db("special")->insertGetId($va);
+    }
 
-    return $bool;
+
+    //活动分类
+    $category = db("goods_type")->where("store_id","EQ",$store)->select();
+    foreach($category as $kk => $val){
+        unset($category[$kk]['id']);
+        $category[$kk]['store_id'] = $store_id;
+        
+    }
+
+    foreach($category as $kv => $ve){
+        $boole = db("goods_type")->insert($ve);
+    }
+
+    $ppid = db("goods_type")->where("store_id",'EQ',$store_id)->where('pid',0)->value('id');
+    $bb =  db("goods_type")->where("store_id",'EQ',$store_id)->where('pid','>',0)->update(['pid'=>$ppid]);
+    
+
+
+    return $boole;
 }
 /**
  * lilu

@@ -7,7 +7,7 @@
 <style type="text/css">
     body {background: #fff;}
     #page {width: 97%;height: 50px;line-height: 50px;border: solid 1px #E2E2E2;padding-left: 50px;background: #FDFDFE;}
-    .on {color: #21A5FA !important; border-bottom: solid 3px #21A5FA;}
+    .on {color: #21A5FA ; border-bottom: solid 3px #21A5FA;}
     .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
     .distribution_list ul {display: flex; align-items: center;}
     .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
@@ -110,6 +110,8 @@
                         <th>金额</th>
                         <th>生效时间</th>
                         <th>到期时间</th>
+                        <th>支付方式</th>
+                        <th>到账情况</th>
                         <!-- <th>付款审核状态</th>
                     <th>店铺审核状态</th> -->
 
@@ -133,6 +135,20 @@
                         <td>{$value.pay_money}</td>
                         <td>{if !empty($value.start_time)} {$value.start_time |date="Y-m-d H:i",###} {/if} </td>
                         <td>{if !empty($value.end_time)}{$value.end_time |date="Y-m-d H:i",###}{/if}</td>
+                        <td>                               
+                            {switch name="$value.pay_type"}
+                            {case value="1"}扫码支付{/case}
+                            {case value="2"}汇款支付{/case}
+                            {default /}余额支付
+                            {/switch}
+                        </td>
+                        <td>                            
+                            {switch name="$value.pay_status"}
+                            {case value="1"}已到账{/case}
+                            {case value="2"}待审核{/case}
+                            {default /}未到账
+                            {/switch}
+                        </td>
                         <td class="table-cell">
                             {if $value.pay_type == 2}
                             <a class="wait-check" href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_statues}</a>
