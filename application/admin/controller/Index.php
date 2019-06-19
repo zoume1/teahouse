@@ -42,6 +42,7 @@ class Index extends Controller
         }else{
             $phone_id =0;
         }
+        
         return view("index", ["menu_list" => $menu_list,"account"=>$account,"phone_id"=>$phone_id,"store_name"=>$store_name,"store_logo"=>$store_logo,"store_id"=>$store_id,"role_id"=>$role_id]);
     }
 
