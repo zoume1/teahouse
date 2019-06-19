@@ -305,7 +305,23 @@ class  Store extends  Controller{
     }
 
 
-
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:店铺logo
+     **************************************
+     */
+    public function  store_logo_index(Request $request){
+        if($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $data = Db::name("store")->where("id",$store_id)->value('store_logo');
+            if(!empty($data)){
+                return ajax_success("店铺数据返回成功",$data);
+            }else{
+                return ajax_error("这个店铺没logo");
+            }
+        }
+    }
 
 
 
