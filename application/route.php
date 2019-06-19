@@ -40,6 +40,7 @@ Route::group("",[
     "store_give_up"=>"index/Store/store_give_up",//店铺放弃再次申请
     "store_goto_admin"=>"index/Store/store_goto_admin",//店铺跳转后台
     "store_all_data"=>"index/Store/store_all_data",//所有店铺信息返回
+    "store_logo_index"=>"index/Store/store_logo_index",//店铺loge
     /*TODO:PC端店铺结束*/
 
 
