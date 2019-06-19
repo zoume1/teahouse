@@ -829,6 +829,8 @@ Route::group("admin",[
 
     "store_wallet_return"=>"admin/Store/store_wallet_return",//店铺的钱包返回
     "store_isset_password"=>"admin/Store/store_isset_password",//店铺检测是否进行了支付密码设置，没有设置则前往设置
+    "unline_recharge_reasch"=>"admin/General/unline_recharge_reasch",//线下充值记录搜索
+
 
 
 
