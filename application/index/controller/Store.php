@@ -314,7 +314,7 @@ class  Store extends  Controller{
     public function  store_logo_index(Request $request){
         if($request->isPost()){
             $store_id = $request->only(['uniacid'])['uniacid'];
-            $data = Db::name("store")->where("id",$id)->value('store_logo');
+            $data = Db::name("store")->where("id",$store_id)->value('store_logo');
             if(!empty($data)){
                 return ajax_success("店铺数据返回成功",$data);
             }else{
