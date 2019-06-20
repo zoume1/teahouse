@@ -191,7 +191,6 @@ class  Analyse extends  Controller{
     public function analyse_invented(Request $request){
         if($request->isPost()){
                 $goods_data = $request->param(); 
-                $store_id = Session::get("store_id");
                 $show_images = $request->file("goods_show_images");
                 $imgs = $request->file("imgs");
                 $list = [];
@@ -203,7 +202,6 @@ class  Analyse extends  Controller{
                     }            
                     $goods_data["goods_show_image"] =  $list[0];
                     $goods_data["goods_type"] = 2;     //商品类型
-                    $goods_data["store_id"] = $store_id; //店铺id
                     $goods_data["goods_show_images"] = implode(',', $list);
                 }
                 
@@ -218,7 +216,6 @@ class  Analyse extends  Controller{
                 if ($goods_data["goods_standard"] == "1") {
                     $goods_special = [];
                     $goods_special["goods_name"] = $goods_data["goods_name"];
-                    $goods_special["store_id"] = $goods_data["store_id"];
                     $goods_special["goods_type"] = $goods_data["goods_type"];
                     $goods_special["goods_number"] = $goods_data["goods_number"];
                     $goods_special["goods_standard"] = $goods_data["goods_standard"];
