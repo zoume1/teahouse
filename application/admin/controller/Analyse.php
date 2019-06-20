@@ -345,7 +345,7 @@ class  Analyse extends  Controller{
             }
             if (!empty($new_image)) {
                 $new_imgs_url = implode(',', $new_image);
-                $res = Db::name('analyse_goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
+                $res = Db::name('analyse_goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url,'goods_show_image' => $new_imgs_url[0]]);
             } else {
                 $res = Db::name('analyse_goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
             }
