@@ -18,7 +18,7 @@ class  Analyse extends  Controller{
      * 郭杨
      */    
     public function analyse_index(){     
-        $analyse_data = db("analyse_goods")->select();
+        $analyse_data = db("analyse_goods")->order('sort_number asc')->select();
         if(!empty($analyse_data)){
             foreach ($analyse_data as $key => $value) {
                     if($analyse_data[$key]["goods_standard"] == "1")
@@ -345,9 +345,9 @@ class  Analyse extends  Controller{
             }
             if (!empty($new_image)) {
                 $new_imgs_url = implode(',', $new_image);
-                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
+                $res = Db::name('analyse_goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
             } else {
-                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
+                $res = Db::name('analyse_goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
             }
             if ($res) {
                 return ajax_success('删除成功');
