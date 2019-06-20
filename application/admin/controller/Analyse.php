@@ -345,7 +345,7 @@ class  Analyse extends  Controller{
             }
             if (!empty($new_image)) {
                 $new_imgs_url = implode(',', $new_image);
-                $res = Db::name('analyse_goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url,'goods_show_image' => $new_imgs_url[0]]);
+                $res = Db::name('analyse_goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url,'goods_show_image' => $new_image[0]]);
             } else {
                 $res = Db::name('analyse_goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
             }
@@ -367,15 +367,16 @@ class  Analyse extends  Controller{
             $goods_data = $request->param();       
             $show_images = $request->file("goods_show_images");
             $list = [];
-            if (!empty($show_images)) {
+            if (!empty($show_images)) {  //有上传的图片
                 foreach ($show_images as $k => $v) {
                     $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $show->getSaveName());
                 }               
-                    $liste = implode(',', $list);
-                    $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
+                    $liste = implode(',', $list); //上传的图片
+                    $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();//数据库中的图片
                 if(!empty($image["goods_show_images"]))
                 {
+                    //数据库中有图片
                     $exper = $image["goods_show_images"];
                     $montage = $exper . "," . $liste;
                     $goods_data["goods_show_images"] = $montage;
@@ -397,7 +398,7 @@ class  Analyse extends  Controller{
             if ($bool ){
                 $this->success("更新成功", url("admin/Analyse/analyse_index"));
             } else {
-                $this->success("更新失败", url('admin/Analyse/analyse_index'));
+                $this->success("更新成功", url('admin/Analyse/analyse_index'));
             }
 
         }
