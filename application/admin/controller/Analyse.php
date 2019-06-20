@@ -385,7 +385,7 @@ class  Analyse extends  Controller{
                     $goods_data["goods_show_images"] = $montage;
                 }
             } else {
-                    $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
+                $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"])){
                     $goods_data["goods_show_images"] = $image["goods_show_images"];
                 } else {
@@ -393,7 +393,6 @@ class  Analyse extends  Controller{
                     $goods_data["goods_show_image"] = null;
                 }
             } 
-            
             $bool = db("analyse_goods")->where("id", $id)->update($goods_data);
             if ($bool ){
                 $this->success("更新成功", url("admin/Analyse/analyse_index"));
