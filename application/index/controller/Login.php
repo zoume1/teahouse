@@ -30,6 +30,9 @@ class Login extends Controller{
             ->where("appID",$get["appid"])
             ->field("appSecret,store_id")
             ->find();
+            if(!empty($user_data)){
+                Session::set("store_id",$user_data['store_id']);
+            }
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
         $params['appid'] = $get["appid"];//客户公司
@@ -227,7 +230,7 @@ class Login extends Controller{
      */
     public function isLogin(Request $request){
         if($request->isPost()){
-            $member_data =session('member');
+            $member_data = session('member');
             if(!empty($member_data)){
                 $phone_num = $member_data['phone_number'];
                 if(!empty($phone_num)){
@@ -274,6 +277,8 @@ class Login extends Controller{
         );
         return $d;
     }
+
+
 
 
 }

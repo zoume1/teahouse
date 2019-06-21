@@ -95,6 +95,7 @@ class Pay extends  Controller{
         $cost_moneny = $order_datas["order_real_pay"];//金额
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
+        $rester = new \WxPayConfig($order_datas["store_id"]);
         //         文档提及的参数规范：商家名称-销售商品类目
         $input->SetBody($activity_name);
         //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
