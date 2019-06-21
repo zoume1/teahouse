@@ -31,7 +31,7 @@ class Login extends Controller{
             ->field("appSecret,store_id")
             ->find();
             if(!empty($user_data)){
-                Session::set("store_id",$user_data['stroe_id']);
+                Session::set("store_id",$user_data['store_id']);
             }
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
