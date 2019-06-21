@@ -57,7 +57,7 @@ class Test extends  Controller{
 //                }
 //            }
 //        }
-        $pro = Db::table("tb_goods")->field("id,goods_name")->select();
+        $pro = Db::table("tb_goods")->where('store_id',$uniacid)->field("id,goods_name")->select();
 
         //栏目
 //       $pic = Db::table('ims_sudu8_page_products')->where("uniacid",$uniacid)->where("type","showPic")->field("id,title")->select();
