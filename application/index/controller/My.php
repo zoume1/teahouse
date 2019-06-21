@@ -10,6 +10,7 @@ use think\Controller;
 use think\Request;
 use think\Db;
 use think\Cache;
+use app\index\controller\Login as LoginPass;
 
 class My extends Controller
 {
@@ -24,10 +25,10 @@ class My extends Controller
         if($request->isPost()){
             $post_open_id = $request->only(['open_id'])['open_id'];
             $my_data =Db::name('member')
-                ->field('member_phone_num,member_openid,member_name,member_head_img,member_grade_name,member_wallet,member_integral_wallet,member_grade_id,member_recharge_money')
+                ->field('member_phone_num,member_openid,member_name,member_head_img,member_grade_name,member_wallet,member_integral_wallet,member_grade_id,member_recharge_money,dimension')
                 ->where('member_openid',$post_open_id)
                 ->find();
-            $post_member_grade_img =Db::name('member_grade')
+            $post_member_grade_img = Db::name('member_grade')
                 ->field('member_grade_img,member_background_color')
                 ->where('member_grade_id',$my_data['member_grade_id'])
                 ->find();
@@ -194,7 +195,8 @@ class My extends Controller
      */
      public function user_phone_bingding(Request $request){
          if($request->isPost()){
-             $member_id =$request->only(["member_id"])["member_id"];
+             $member_id = $request->only(["member_id"])["member_id"];
+             $member_phone_num = $request->only(["member_phone_num"])["member_phone_num"];
              $code =$request->only(["code"])["code"];
              $mobileCode = Cache::get('mobileCode');
              $mobile = Cache::get('mobile');
@@ -204,10 +206,11 @@ class My extends Controller
              $phone_number = Db::name("member")
                  ->where("member_id", $member_id)
                  ->value("member_phone_num");
-             if(!empty($phone_number)){
+             if(empty($phone_number)){
                  Cache::rm('mobileCode');
                  Cache::rm('mobile');
-                 return ajax_success("修改成功",$phone_number);
+                $bool = Db::name("member")->where("member_id",$member_id)->update(["member_phone_num"=>$member_phone_num]);
+                return ajax_success("绑定成功",$bool);
              }else{
                  return ajax_error("请重试",["status"=>0]);
              }
@@ -347,6 +350,34 @@ class My extends Controller
                 return ajax_success("昵称数据返回成功",$data);
             }else{
                 return ajax_error("没有昵称信息",["status"=>0]);
+            }
+        }
+    }
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:用户会员码返回
+     **************************************
+     */
+    public function consumerCode(Request $request){
+        if($request->isPost()){
+            $member_id =$request->only(["member_id"])["member_id"];
+            $code = Db::name("member")
+                ->where("member_id",$member_id)
+                ->value("dimension");
+            if(!empty($code)){
+                return ajax_success("邀请码返回成功",$code);
+            }else{
+                $member_code = new LoginPass;
+                $new_code = $member_code -> memberCode();
+                $bool = db("member")->where('member_id',$member_id)->update(["dimension"=>$new_code]);
+                if($bool){
+                    return ajax_success("邀请码返回成功",$new_code);
+                } else {
+                    return ajax_success("邀请码返回失败");
+                }
             }
         }
     }

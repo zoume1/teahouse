@@ -58,25 +58,27 @@
         </div>
         <div class="inner">
             <div class="search-hd">
-                <div class="search-box layui-form">
-                    <div class="date-input">
-                        <label>时间：</label>
-                        <input type="text" data-type="date" id="searchDateStart">~
-                        <input type="text" data-type="date" id="searchDateend">
-                    </div>
-                    <div>
-                        <label class="layui-form-label">交易状态</label>
-                        <div class="layui-input-block">
-                            <select name="recharge-type">
-                                <option value="">请选择</option>
-                                <option value="1">申请中</option>
-                                <option value="2">已到账</option>
-                                <option value="3">已驳回</option>
-                            </select>
+                <form class="layui-form" action="{:url('admin/General/unline_recharge_reasch')}">
+                    <div class="search-box layui-form">
+                        <div class="date-input">
+                            <label>时间：</label>
+                            <input type="text" name="start_time" data-type="date" id="searchDateStart">~
+                            <input type="text" name="end_time" data-type="date" id="searchDateend">
                         </div>
+                        <div>
+                            <label class="layui-form-label">交易状态</label>
+                            <div class="layui-input-block">
+                                <select name="status">
+                                    <option value="">请选择</option>
+                                    <option value="1">申请中</option>
+                                    <option value="2">已到账</option>
+                                    <option value="3">已驳回</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="layui-btn">搜索</button>
                     </div>
-                    <button class="layui-btn">搜索</button>
-                </div>
+                </form>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">

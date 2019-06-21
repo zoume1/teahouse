@@ -351,7 +351,6 @@
 	{block name="content"}
 	<div class="popup popup_one noshow">
 		<div class="popup_doms">
-
 			<div class="popup_title">
 				处理回复（个人信息处有提示信息）
 				<div class="popup_x">
@@ -365,25 +364,21 @@
 						class="layui-input Information">
 					<span class="repay_tip">批注</span>
 				</div>
-				<div class="chat">
-
-				</div>
+				<div class="chat"></div>
 				<div class="chenge_money" data-id="">
 					<div style="position:relative; margin-right: 100px;">
-						订单金额 <input type="text" name="title" required placeholder="" autocomplete="off"
+						订单金额 <input type="text" name="amount" readonly autocomplete="off"
 							class="layui-input" style="width:150px;"><span class="danwei">元</span>
-
 					</div>
 					<div style="position:relative">
-						修改订单金额 <input type="text" name="title" required lay-verify="required" placeholder="请输入"
+						修改订单金额 <input type="text" name="changePriceVal" required lay-verify="required" placeholder="请输入"
 							autocomplete="off" class="layui-input" style="width:190px;"><span class="danwei"
 							style="left: 240px;">元</span>
-
 					</div>
-					<div style="margin-left:45px;"><button class="layui-btn"
-							style="background-color:rgb(22, 155, 213);border-radius: 5px;">确定改价</button></div>
+					<div style="margin-left:45px;">
+						<button class="layui-btn changePrice" style="background-color:rgb(22, 155, 213);border-radius: 5px;">确定改价</button>
+					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -420,7 +415,6 @@
 		<!--</ul>-->
 		<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
-
 			<form class="layui-form" action="{:url('admin/Order/order_search')}">
 				<div class="seach">
 					<div class="seach_list">
@@ -492,11 +486,8 @@
 						</div>
 					</div>
 					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
-
 				</div>
-
 			</form>
-
 		</blockquote>
 		<div class="seach_button_all">
 			<a href="{:url('admin/Order/order_index')}" class="seach_button all0">全部</a>
@@ -506,7 +497,6 @@
 			<a href="{:url('admin/Order/order_completed')}" class="seach_button all4">已完成</a>
 			<a href="{:url('admin/Order/order_closed')}" class="seach_button all5">已关闭</a>
 		</div>
-
 		<div class="layui-form news_list">
 			<table class="layui-table">
 				<colgroup>
@@ -532,17 +522,13 @@
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
 						</td>
-						<td>
-							<!-- <div class="overflow"> -->
-							{$vo.parts_order_number}
-							<!-- </div> -->
-						</td>
+						<td class="orderNumber">{$vo.parts_order_number}</td>
 						{if !empty($vo["goods_image"])}
 						<td class="">
 							<div class="tdimg"><img src="__UPLOADS__/{$vo.goods_image}" /></div>
 						</td>
 						{else}
-						<td class="">
+						<td>
 							无
 						</td>
 						{/if}
@@ -552,7 +538,7 @@
 						<td>{$vo.order_quantity}</td>
 						<td>{$vo.user_account_name}</td>
 						<td>{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
-						<td>{$vo.order_amount}</td>
+						<td class="am">{$vo.order_amount}</td>
 						<td>
 							{$vo.order_type|order_type_status}
 						</td>
@@ -563,7 +549,6 @@
 								</div>
 								<div class="static_btus1">
 									<div class="not_apply">未申请开票</div>
-
 								</div>
 								<div class="static_btus2" data-id="{$vo.id}">
 									订单详情
@@ -588,11 +573,8 @@
 					</button>
 				</div>
 				{if !empty($data)}{$data->render()} {/if}
-
 			</div>
-
 		</div>
-
 	</div>
 
 	{/block}
@@ -618,8 +600,7 @@
 				var opration_val = $(".opation select option:selected").val();
 				if (opration_val == 0) {
 					layer.alert('请选择操作', {
-						skin: 'layui-layer-molv' //样式类名
-						,
+						skin: 'layui-layer-molv', //样式类名
 						closeBtn: 0
 					});
 				} else if (opration_val == 1) {
@@ -716,6 +697,10 @@
 			})
 		})
 		$(".static_btus").click(function () {
+			var _this = this;
+			// 订单金额
+			var amount = +$(this).parents('tr').children('td.am').text();
+			$('input[name=amount]').val(amount);
 			var data_id = $(this).data("id");
 			var way = 0;
 			$(".operation").data("value", data_id);
@@ -731,8 +716,7 @@
 				},
 				async: false,
 				success: function (data) {
-					var data = eval('(' + data + ')');
-					console.log(data.data.order_type);
+					var data = JSON.parse(data);
 					way = data.data.order_type;
 					for (var i = 0; i < data.data.datas.length; i++) {
 						var dhtm0 = "";
@@ -742,8 +726,6 @@
 						dhtm0 += '</div>';
 						$(".chat").append(dhtm0);
 					}
-
-
 				},
 				error: function (data) {
 
@@ -840,12 +822,46 @@
 				else if (data_value == 4 || data_value == 5) {
 					$(".operation").append(dhtml2);
 					$(".operation").data("id", data_value);
-
 				}
 			}
-
 			$(".popup_one").removeClass("noshow");
 
+			// 改价
+			$('.changePrice').click(function(){
+				var orderNumber = $(_this).parents('tr').children('td.orderNumber').text().trim();
+				var order_real_pay = $('input[name=changePriceVal]').val();
+				if(+order_real_pay > 0){
+					$.ajax({
+						url: 'changeOderPrice',
+						type: 'POST',
+						dataType: 'JSON',
+						data: {
+							status: data_value,
+							id: data_id,
+							order_real_pay: order_real_pay,
+						},
+						success: function(res){
+							if(res.status == 1){
+								layer.msg(res.info, {
+									icon: 1 
+								});
+								setTimeout(function(){
+									location.reload();
+								}, 1200)
+							}else{
+								layer.msg(res.info, {
+									icon: 2
+								});
+							}
+						}
+					})
+				}else{
+					layer.alert('请输入正确金额！', {
+						skin: 'layui-layer-molv', //样式类名
+						closeBtn: 0
+					});
+				}
+			})
 		});
 		$(".popup_x").click(function () {
 			$(".popup").addClass("noshow");

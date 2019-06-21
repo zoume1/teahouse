@@ -40,6 +40,7 @@ Route::group("",[
     "store_give_up"=>"index/Store/store_give_up",//店铺放弃再次申请
     "store_goto_admin"=>"index/Store/store_goto_admin",//店铺跳转后台
     "store_all_data"=>"index/Store/store_all_data",//所有店铺信息返回
+    "store_logo_index"=>"index/Store/store_logo_index",//店铺loge
     /*TODO:PC端店铺结束*/
 
 
@@ -261,6 +262,8 @@ Route::group("",[
     "user_name_update"=>"index/My/user_name_update", //用户昵称绑定修改
     "user_img_return"=>"index/My/user_img_return",  //用户头像绑定数据返回
     "user_img_update"=>"index/My/user_img_update",  //用户头像修改
+    "consumerCode"=>"index/My/consumerCode", //用户会员码
+
     /*TODO:手机号头像昵称绑定结束*/
 
     /*TODO:我的账单开始*/
@@ -477,6 +480,7 @@ Route::group("admin",[
     "refund_protection_completed"=>"admin/Order/refund_protection_completed",//退款维权换货完成
     "refund_protection_refuse"=>"admin/Order/refund_protection_refuse",//退款维权拒绝
     "refund_protection_search"=>"admin/Order/refund_protection_search",//退款维权搜索
+    "changeOderPrice"=>"admin/Order/changeOderPrice",//订单改价
     /*TODO:订单结束*/
     /*TODO:售后开始*/
     "business_replay"=>"admin/AfterSale/business_replay",//售后官方回复
@@ -825,6 +829,8 @@ Route::group("admin",[
 
     "store_wallet_return"=>"admin/Store/store_wallet_return",//店铺的钱包返回
     "store_isset_password"=>"admin/Store/store_isset_password",//店铺检测是否进行了支付密码设置，没有设置则前往设置
+    "unline_recharge_reasch"=>"admin/General/unline_recharge_reasch",//线下充值记录搜索
+
 
 
 
