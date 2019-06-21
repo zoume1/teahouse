@@ -18,7 +18,7 @@ class  Analyse extends  Controller{
      * 郭杨
      */    
     public function analyse_index(){     
-        $analyse_data = db("analyse_goods")->select();
+        $analyse_data = db("analyse_goods")->order('sort_number asc')->select();
         if(!empty($analyse_data)){
             foreach ($analyse_data as $key => $value) {
                     if($analyse_data[$key]["goods_standard"] == "1")
@@ -191,7 +191,6 @@ class  Analyse extends  Controller{
     public function analyse_invented(Request $request){
         if($request->isPost()){
                 $goods_data = $request->param(); 
-                $store_id = Session::get("store_id");
                 $show_images = $request->file("goods_show_images");
                 $imgs = $request->file("imgs");
                 $list = [];
@@ -203,7 +202,6 @@ class  Analyse extends  Controller{
                     }            
                     $goods_data["goods_show_image"] =  $list[0];
                     $goods_data["goods_type"] = 2;     //商品类型
-                    $goods_data["store_id"] = $store_id; //店铺id
                     $goods_data["goods_show_images"] = implode(',', $list);
                 }
                 
@@ -218,7 +216,6 @@ class  Analyse extends  Controller{
                 if ($goods_data["goods_standard"] == "1") {
                     $goods_special = [];
                     $goods_special["goods_name"] = $goods_data["goods_name"];
-                    $goods_special["store_id"] = $goods_data["store_id"];
                     $goods_special["goods_type"] = $goods_data["goods_type"];
                     $goods_special["goods_number"] = $goods_data["goods_number"];
                     $goods_special["goods_standard"] = $goods_data["goods_standard"];
@@ -348,9 +345,9 @@ class  Analyse extends  Controller{
             }
             if (!empty($new_image)) {
                 $new_imgs_url = implode(',', $new_image);
-                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url]);
+                $res = Db::name('analyse_goods')->where("id", $tid['pid'])->update(['goods_show_images' => $new_imgs_url,'goods_show_image' => $new_image[0]]);
             } else {
-                $res = Db::name('goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
+                $res = Db::name('analyse_goods')->where("id", $tid['pid'])->update(['goods_show_images' => NULL,'goods_show_image' => NULL]);
             }
             if ($res) {
                 return ajax_success('删除成功');
@@ -370,15 +367,16 @@ class  Analyse extends  Controller{
             $goods_data = $request->param();       
             $show_images = $request->file("goods_show_images");
             $list = [];
-            if (!empty($show_images)) {
+            if (!empty($show_images)) {  //有上传的图片
                 foreach ($show_images as $k => $v) {
                     $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $show->getSaveName());
                 }               
-                    $liste = implode(',', $list);
-                    $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
+                    $liste = implode(',', $list); //上传的图片
+                    $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();//数据库中的图片
                 if(!empty($image["goods_show_images"]))
                 {
+                    //数据库中有图片
                     $exper = $image["goods_show_images"];
                     $montage = $exper . "," . $liste;
                     $goods_data["goods_show_images"] = $montage;
@@ -388,7 +386,7 @@ class  Analyse extends  Controller{
                     $goods_data["goods_show_images"] = $montage;
                 }
             } else {
-                    $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
+                $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"])){
                     $goods_data["goods_show_images"] = $image["goods_show_images"];
                 } else {
@@ -396,12 +394,11 @@ class  Analyse extends  Controller{
                     $goods_data["goods_show_image"] = null;
                 }
             } 
-            
             $bool = db("analyse_goods")->where("id", $id)->update($goods_data);
             if ($bool ){
                 $this->success("更新成功", url("admin/Analyse/analyse_index"));
             } else {
-                $this->success("更新失败", url('admin/Analyse/analyse_index'));
+                $this->success("更新成功", url('admin/Analyse/analyse_index'));
             }
 
         }

@@ -194,7 +194,7 @@ class  Store extends  Controller{
                     "status"=>2
                 ];
             }
-            $bool =Db::name("store")->where("id",$id)->where("user_id",$user_id)->update($data);
+            $bool = Db::name("store")->where("id",$id)->where("user_id",$user_id)->update($data);
             if($bool){
                 //删除图片
                 if($card_positive_images != null){
