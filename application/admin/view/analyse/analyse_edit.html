@@ -1556,7 +1556,7 @@
                     remove.remove();
                     $.ajax({
                         type: "POST",
-                        url: "analyse_images",
+                        url: "{:url('admin/Analyse/analyse_images')}",
                         data: {
                             "id": id,
                             "pid": title
