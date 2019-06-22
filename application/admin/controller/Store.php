@@ -117,7 +117,14 @@ class Store extends  Controller{
      **************************************
      */
     public function store_wallet_reduce(){
-        return view("store_wallet_reduce");
+        $store_id = Session::get("store_id");
+        $store_information = db("store")->where("id",$store_id)->find();
+        $data = Db::name("store_bank_icard")
+        ->where("store_id",'EQ',$store_id)
+        ->where("status",'EQ',1)
+        ->select();
+        
+        return view("store_wallet_reduce",['store_information'=>$store_information,'data'=>$data]);
     }
 
     /**
