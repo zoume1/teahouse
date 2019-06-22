@@ -130,6 +130,7 @@ class  Api extends  Controller{
            }
 
         }
+        $rest = \WxPayConfig::getStoreInformation();
         $out_trade_no=$refund_amount["parts_order_number"];
         $total_fee=$refund_amount["order_real_pay"] *100;
         $refund_fee= $refund_amount["refund_amount"] *100;
@@ -137,8 +138,8 @@ class  Api extends  Controller{
         $input->SetOut_trade_no($out_trade_no);
         $input->SetTotal_fee($total_fee);
         $input->SetRefund_fee($refund_fee);
-        $input->SetOut_refund_no(\WxPayConfig::MCHID.date("YmdHis"));
-        $input->SetOp_user_id(\WxPayConfig::MCHID);
+        $input->SetOut_refund_no($rest['mchid'].date("YmdHis"));
+        $input->SetOp_user_id($rest['mchid']);
         $result =\WxPayApi::refund($input);
 //      file_put_contents(EXTEND_PATH."refund.txt",$result);
 //        if ($result['result_code'] == 'SUCCESS' && $result['return_code'] == 'SUCCESS') {
@@ -240,14 +241,15 @@ class  Api extends  Controller{
      */
     public function sendMoney(){
         //$amount,$re_openid,$desc='测试',$check_name=''
+        $rest = WxPayConfig::getStoreInformation();
         $amount =1;
         $re_openid ="o_lMv5VTbQDkQxK08EkllWXtX-kY";
         $check_name ="李火生";
         $desc  ="微信提现测试使用";
         $total_amount = (100) * $amount;
         $data=array(
-            'mch_appid'=>APPID,//商户账号appid
-            'mchid'=> MCHID,//商户号
+            'mch_appid'=>$rest['appID'],//商户账号appid
+            'mchid'=> $rest['mchid'],//商户号
             'nonce_str'=>$this->createstring(),//随机字符串
             'partner_trade_no'=> date('YmdHis').rand(1000, 9999),//商户订单号
             'openid'=> $re_openid,//用户openid
@@ -257,7 +259,7 @@ class  Api extends  Controller{
             'desc'=> $desc,//企业付款描述信息
             'spbill_create_ip'=> IP,//Ip地址
         );
-        $secrect_key=SECRECT_KEY;///这个就是个API密码。MD5 32位。
+        $secrect_key = $rest['signkey'];///这个就是个API密码。MD5 32位。
         $data=array_filter($data);
         ksort($data);
         $str='';

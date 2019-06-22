@@ -167,7 +167,6 @@
 	.operation {
 		display: flex;
 		align-items: center;
-		/* justify-content: space-between; */
 	}
 
 	.chat {
@@ -365,6 +364,7 @@
 					<span class="repay_tip">批注</span>
 				</div>
 				<div class="chat"></div>
+				<div class="operation"></div>
 				<div class="chenge_money" data-id="">
 					<div style="position:relative; margin-right: 100px;">
 						订单金额 <input type="text" name="amount" readonly autocomplete="off"
@@ -717,6 +717,7 @@
 				async: false,
 				success: function (data) {
 					var data = JSON.parse(data);
+					console.log(data)
 					way = data.data.order_type;
 					for (var i = 0; i < data.data.datas.length; i++) {
 						var dhtm0 = "";
@@ -814,8 +815,9 @@
 			// dhtml2+='<button type="button" class="submit_btns"  data-id="">确定</button>';
 			// var dhtml3="";
 			// dhtml3+='<button type="button" class="submit_btns"  data-id="">确定</button>';
-			if (way == 1) {
+			if (way == 1) { 
 				if (data_value == 2 || data_value == 3) {
+					$('.chenge_money').hide();
 					$(".operation").append(dhtml1);
 					$(".operation").data("id", data_value);
 				}
