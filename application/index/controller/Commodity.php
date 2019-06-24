@@ -137,8 +137,11 @@ class Commodity extends Controller
 
 
     /**
-     * 商品详情
-     * GY
+     * lilu
+     * 小程序商品详情接口
+     * id    商品id
+     * uniacid   店铺id
+     * open_id   会员id
      */
     public function commodity_detail(Request $request)
     {
@@ -146,12 +149,49 @@ class Commodity extends Controller
             $goods_id = $request->only(["id"])["id"];
             $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only(["open_id"])["open_id"];
-            $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");
+            $member_grade_id = db("member")->where("member_openid", $member_id)->value("member_grade_id");   //
             $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
             if(empty($discount)){
                 $discount = 1;
             }
-            $goods = db("goods")->where("id", $goods_id)->where("label",1)->where("store_id","EQ",$store_id)->select();
+            $goods = db("goods")->where("id", $goods_id)->where("label",1)->where("store_id","EQ",$store_id)->select(); // 获取商品信息
+            //判断商品是否是限时限购商品
+            $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$goods_id])->find();
+            if($is_limit)
+            {       //开启限时限购
+                //判断限时时间
+                if($is_limit['end_time']==0)  //活动不限时
+                {    
+                    //判断是否有库存
+                    if($goods[0]['goods_repertory']>0)
+                    {
+                        $goods[0]['limit_condition']='1';   //限时限购开启
+                        $goods[0]['limit_time']=0;          //不限时
+                    }else{
+                        $goods[0]['limit_condition']='0';
+                    }
+                }
+                if($is_limit['end_time']!==0 && $is_limit['end_time']>=time()) //活动未结束
+                {    
+                    //判断是否有库存
+                    if($goods[0]['goods_repertory']>0)
+                    {
+                        $goods[0]['limit_condition']='1';   //限时限购开启
+                        $goods[0]['limit_time']=$is_limit['end_time'];          //距离活动结束的时间戳
+                        // $goods[0]['limit_time']=$is_limit['end_time']-time();          //距离活动结束的时间戳
+                    }else{
+                        $goods[0]['limit_condition']='0';
+                    }
+                }elseif($is_limit['end_time']>0){
+                       $goods[0]['limit_condition']='0';
+                }else{
+
+                }
+                $goods[0]['limit_number']=$is_limit['limit_number'];
+
+            }else{
+                $goods[0]['limit_condition']=0;   //未开启限时限购
+            }
             $goods_standard = db("special")->where("goods_id", $goods_id)->order("price asc")->select();
             $max_price = db("special")->where("goods_id", $goods_id)->max("price");
             $min_price = db("special")->where("goods_id", $goods_id)->min("price");

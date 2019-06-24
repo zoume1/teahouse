@@ -117,7 +117,14 @@ class Store extends  Controller{
      **************************************
      */
     public function store_wallet_reduce(){
-        return view("store_wallet_reduce");
+        $store_id = Session::get("store_id");
+        $store_information = db("store")->where("id",$store_id)->find();
+        $data = Db::name("store_bank_icard")
+        ->where("store_id",'EQ',$store_id)
+        ->where("status",'EQ',1)
+        ->select();
+        
+        return view("store_wallet_reduce",['store_information'=>$store_information,'data'=>$data]);
     }
 
     /**
@@ -206,6 +213,56 @@ class Store extends  Controller{
                 ->insert($data);
             if($bool){
                 return ajax_success("凭证已提交，我们将在3个工作日内审核完毕，通过后自动完成订购。",$bool);
+            } else {
+                return ajax_success("提交失败");
+            }
+        }
+    }
+
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:店铺提现提交申请 
+     **************************************
+     */
+    public function withdrawCash(Request $request){
+        if($request->isPost()){
+            $store_id = Session::get("store_id");
+            $mobileCodes = Session::get("mobileCodes");//验证码
+            //生成流水号
+            $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+            $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
+            $data = $request->param();
+            if($data['money'] < 1000){
+                exit(json_encode(array("status"=>2,"info"=>"单笔充值金额应不少于¥1000.00元")));
+            }
+            if($data['money'] > 50000.00){
+                exit(json_encode(array("status"=>3,"info"=>"单笔提现限额 50,000.00元")));
+            }
+            $store_information = db("store")->where("id",$store_id)->find();
+            if($data['money'] > $store_information['store_wallet']){
+                exit(json_encode(array("status"=>4,"info"=>"提现限额不能大于店铺钱包金额")));
+            }
+            if(empty($store_information['store_pay_pass'])){
+                exit(json_encode(array("status"=>5,"info"=>"请设置您的安全支付密码")));
+            }
+            if(md5($data['passworld']) != $store_information['store_pay_pass']){
+                exit(json_encode(array("status"=>6,"info"=>"您的支付密码有误")));
+            }
+            if(md5($data['phone_number']) != $mobileCodes){
+                exit(json_encode(array("status"=>7,"info"=>"手机验证码有误")));
+            }
+            $data['serial_number'] = $orderSn;
+            $data['store_id'] = $store_id;
+            $data['create_time'] = time();
+            $data['pay_type'] = 3;
+            unset($data['passworld']);
+            unset($data['phone_number']);
+            $bool  = Db::name("offline_recharge")
+                ->insert($data);
+            if($bool){
+                return ajax_success("已提交申请",$bool);
             } else {
                 return ajax_success("提交失败");
             }

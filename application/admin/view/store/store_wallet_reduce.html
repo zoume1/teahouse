@@ -50,50 +50,61 @@
         <div class="bd">
             <div class="bd-left">
                 <div class="layui-form">
+                    {if !empty($store_information)}
                     <div class="layui-form-item">
                         <label class="layui-form-label star">账户余额：</label>
-                        <div class="layui-input-block cr">￥10.00</div>
+                        <div class="layui-input-block cr">￥{$store_information.store_wallet}</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">账户名：</label>
-                        <div class="layui-input-block cr">13691853045</div>
+                        <div class="layui-input-block cr">{$store_information.phone_number}</div>
                     </div>
+                    {/if}
                     <div class="layui-form-item">
                         <label class="layui-form-label star">提现银行：</label>
                         <div class="layui-input-block">
-                            <select name="city" lay-verify="required">
-                                <option value="">如没有添加银行卡，请添加 →</option>
-                                <option value="0">卡一：569699698877777 中国银行福田分行</option>
-                            </select>
+                        {if !empty($data)}
+                        <select name="bank_icard_id" lay-verify="required" lay-filter="bankcard">
+                            <option value="">请选择</option>
+                            {volist name="data" id="value"}
+                            <option value="{$value.id}">卡{$key+1}:{$value.count} {$value.two_bank} </option>
+                            {/volist}
                             <a href="store_add_bankcard" class="layui-btn add-bank">+银行卡</a>
-                        </div>
+                        </select>
+                        {else}
+                        <select name="bank_icard_id" lay-verify="required">
+                            <option value="">请添加银行卡 →</option>
+                        </select>
+                        {/if}
+                        <a href="store_add_bankcard" class="layui-btn add-bank">+银行卡</a>
+                    </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">提现金额：</label>
                         <div class="layui-input-block">
-                            <input type="text" required lay-verify="required" class="layui-input">
+                            <input type="text" required name="money" lay-verify="required" class="layui-input">
                             <span class="unit">元</span>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">手续费：</label>
-                        <div class="layui-input-block cr">￥2.00</div>
+                        <div class="layui-input-block cr" name="poundage">￥2.00</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">到账金额：</label>
-                        <div class="layui-input-block cr">￥8.00</div>
+                        <div class="layui-input-block cr" name="real_money">￥8.00</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">资金密码：</label>
                         <div class="layui-input-inline">
-                            <input type="text" required lay-verify="required" class="layui-input">
+                            <input type="text" name="passworld" required lay-verify="required" class="layui-input">
                         </div>
                         <div class="layui-form-mid layui-word-aux">注：请在安全设置中设置</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">短信验证码：</label>
                         <div class="layui-input-block">
-                            <input type="text" required lay-verify="required" placeholder="请输入手机验证码" class="layui-input">
+                            <input type="text" name="phone_number" required lay-verify="required" placeholder="请输入手机验证码" class="layui-input">
                             <button class="layui-btn">获取验证码</button>
                         </div>
                     </div>

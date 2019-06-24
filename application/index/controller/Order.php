@@ -26,8 +26,14 @@ class  Order extends  Controller
     {
         if ($request->isPost()) {
             $open_id =$request->only("open_id")["open_id"];
-            $member_grade_id =Db::name("member")->where("member_openid",$open_id)->find();
-            $member_consumption_discount =Db::name("member_grade")
+            $member_grade_id = Db::name("member")->where("member_openid",$open_id)->find();
+            $role_id =  Db::name("admin")->where("store_id",$member_grade_id['store_id'])->value("role_id");
+            if($role_id > 13){
+                $authority = 1;
+            } else {
+                $authority = 0;
+            }
+            $member_consumption_discount = Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
             $goods_id = $request->only("goods_id")["goods_id"];
@@ -36,6 +42,7 @@ class  Order extends  Controller
             if (empty($goods_id)) {
                 return ajax_error("商品信息有误，请返回重新提交", ["status" => 0]);
             }
+            
             foreach ($goods_id as  $key=>$value){
                 $goods_data = null;
                 $goods_data = Db::name("goods")->where("id", $value)->find();
@@ -67,7 +74,7 @@ class  Order extends  Controller
                 }
             }
             if(!empty($data)){
-                return ajax_success("数据返回",$data);
+                exit(json_encode(array("status" => 1, "info" => "数据返回成功","data"=>$data,"authority"=>$authority)));
             }else{
                 return ajax_error("没有数据",["status"=>0]);
             }
@@ -617,7 +624,13 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
-            $member_grade_id =Db::name("member")->where("member_id",$user_id)->find();
+            $member_grade_id = Db::name("member")->where("member_id",$user_id)->find();
+            $role_id =  Db::name("admin")->where("store_id",$member_grade_id['store_id'])->value("role_id");
+            if($role_id > 13){
+                $authority = 1;
+            } else {
+                $authority = 0;
+            }
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
@@ -828,7 +841,7 @@ class  Order extends  Controller
                     $where ='id='.$shopping_id;
                 }
                 $list =  Db::name('shopping')->where($where)->delete();    
-                    return ajax_success('下单成功',$order_datas);
+                exit(json_encode(array("status" => 1, "info" => "下单成功","data"=>$order_datas,"authority"=>$authority)));
                 }else{
 
                     return ajax_error('失败',['status'=>0]);
@@ -847,7 +860,7 @@ class  Order extends  Controller
                     $where ='id='.$shopping_id;
                 }
                 $list =  Db::name('shopping')->where($where)->delete();
-                    return ajax_success('下单成功',$order_datas);
+                exit(json_encode(array("status" => 1, "info" => "下单成功","data"=>$order_datas,"authority"=>$authority)));
                 }else{
                     return ajax_error('失败',['status'=>0]);
                 } 
