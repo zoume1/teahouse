@@ -177,7 +177,8 @@ class Commodity extends Controller
                     if($goods[0]['goods_repertory']>0)
                     {
                         $goods[0]['limit_condition']='1';   //限时限购开启
-                        $goods[0]['limit_time']=$is_limit['end_time']-time();          //距离活动结束的时间戳
+                        $goods[0]['limit_time']=$is_limit['end_time'];          //距离活动结束的时间戳
+                        // $goods[0]['limit_time']=$is_limit['end_time']-time();          //距离活动结束的时间戳
                     }else{
                         $goods[0]['limit_condition']='0';
                     }
