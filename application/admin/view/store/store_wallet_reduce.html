@@ -50,14 +50,16 @@
         <div class="bd">
             <div class="bd-left">
                 <div class="layui-form">
+                    {if !empty($store_information)}
                     <div class="layui-form-item">
                         <label class="layui-form-label star">账户余额：</label>
-                        <div class="layui-input-block cr">￥10.00</div>
+                        <div class="layui-input-block cr">￥{$store_information.store_wallet}</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">账户名：</label>
-                        <div class="layui-input-block cr">13691853045</div>
+                        <div class="layui-input-block cr">{$store_information.phone_number}</div>
                     </div>
+                    {/if}
                     <div class="layui-form-item">
                         <label class="layui-form-label star">提现银行：</label>
                         <div class="layui-input-block">

@@ -8,7 +8,7 @@
 	body {
 		background: #fff;
 	}
-	
+
 	#page {
 		width: 97%;
 		height: 50px;
@@ -17,32 +17,30 @@
 		padding-left: 50px;
 		background: #FDFDFE;
 	}
-	
+
 	.on {
 		color: #21A5FA !important;
 		border-bottom: solid 3px #21A5FA;
 	}
-	
+
 	.distribution_list {
 		margin-bottom: 10px;
 		border-bottom: solid 1px #D7D7D7;
 	}
-	
+
 	.distribution_list ul {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.distribution_list a {
 		font-size: 14px;
 		padding: 9px;
 		color: #5E5E5E;
 	}
-	
-	.distribution_list ul li {
-	
-	}
-	
+
+	.distribution_list ul li {}
+
 	.static_btus {
 		width: 100px;
 		height: 30px;
@@ -52,13 +50,15 @@
 		margin: 0 auto;
 		overflow: hidden;
 	}
+
 	.static_btus button {
 		width: 100%;
 	}
+
 	/*
      * 弹窗
      */
-	
+
 	.popup {
 		width: 100%;
 		height: 100%;
@@ -71,99 +71,116 @@
 		border: solid 1px #D7D7D7;
 		box-sizing: border-box;
 	}
-	
+
 	.submit_btns {
 		width: 100px;
 		height: 38px;
 		color: #fff;
 		background: #169BD5;
-		border-radius:10px ;
+		border-radius: 10px;
 	}
-	.popup_doms{
+
+	.popup_doms {
 		width: 765px;
 		height: 367px;
 		background: #fff;
 	}
-	.popup_content{
+
+	.popup_content {
 		padding: 20px;
 	}
-	.popup_title{
+
+	.popup_title {
 		height: 40px;
 		line-height: 40px;
 		color: #66662B;
 		background: #EEF7EA;
 		padding-left: 20px;
 	}
-	.span{
+
+	.span {
 		display: inline-block;
 		width: 80px;
 		text-align: left;
 	}
-	.repany .layui-input{
+
+	.repany .layui-input {
 		width: 620px;
 	}
-	.repany{
+
+	.repany {
 		margin-bottom: 10px;
 	}
-	.operation{
+
+	.operation {
 		display: flex;
 		align-items: center;
 	}
-	.chat{
+
+	.chat {
 		height: 210px;
 	}
-	.danhao{
+
+	.danhao {
 		width: 200px;
 		margin-right: 10px;
 	}
-	.operation select{
+
+	.operation select {
 		width: 130px;
 		height: 40px;
-		border-color:#ABADB3 ;
+		border-color: #ABADB3;
 		color: #000;
 	}
-	.operation div{
+
+	.operation div {
 		margin-right: 10px;
 	}
-	.noshow{
+
+	.noshow {
 		display: none;
 	}
-	.popup_title{
+
+	.popup_title {
 		position: relative;
 	}
-	.popup_x{
-	    width: 25px;
-    position: absolute;
-    right: 12px;
-    top: -4px;
+
+	.popup_x {
+		width: 25px;
+		position: absolute;
+		right: 12px;
+		top: -4px;
 	}
+
 	/*
      * 弹窗end
      */
 	/* 状态颜色 */
-		
-			/* 待发货 */
-			.color2{
-                 background: #CC00CC;
-			}
-			/* 已发货 */
-			.color3{
-                 background: #FF0000;
-			}
-			/* 已完成 */
-			.color4{
-                   background: #669900;
-			}
-			/* 已关闭 */
-			.color5{
-                  background: #A1A1A1;
-			}
-			
-			/*  待发货*/
-			.color8{
-                  background: #CC00CC;
-			}
-			
+
+	/* 待发货 */
+	.color2 {
+		background: #CC00CC;
+	}
+
+	/* 已发货 */
+	.color3 {
+		background: #FF0000;
+	}
+
+	/* 已完成 */
+	.color4 {
+		background: #669900;
+	}
+
+	/* 已关闭 */
+	.color5 {
+		background: #A1A1A1;
+	}
+
+	/*  待发货*/
+	.color8 {
+		background: #CC00CC;
+	}
 </style>
 
 {/block}
@@ -173,17 +190,17 @@
 	{block name="content"}
 	<div class="popup popup_one noshow">
 		<div class="popup_doms">
-		
 			<div class="popup_title">
 				处理回复（个人信息处有提示信息）
-					<div class="popup_x">
-				<img src="__STATIC__/admin/index/img/X.png"/>
-			</div>
+				<div class="popup_x">
+					<img src="__STATIC__/admin/index/img/X.png" />
+				</div>
 			</div>
 			<div class="popup_content">
 				<div class="repany">
 					<span class="span">官方回复</span>
-					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注" class="layui-input">
+					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注"
+						class="layui-input">
 				</div>
 				<div class="chat">
 					<div class="chat_list">
@@ -208,24 +225,26 @@
 							<option value="0">圆通</option>
 						</select>
 					</div>
-					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" >
+					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号"
+						class="layui-input danhao">
 					<button type="button" class="submit_btns">确定</button>
 				</div>
 			</div>
 		</div>
 	</div>
-    <div class="popup popup_two noshow">
+	<div class="popup popup_two noshow">
 		<div class="popup_doms">
-		   <div class="popup_title">
+			<div class="popup_title">
 				处理回复（个人信息处有提示信息）
-					<div class="popup_x">
-				<img src="__STATIC__/admin/index/img/X.png"/>
+				<div class="popup_x">
+					<img src="__STATIC__/admin/index/img/X.png" />
 				</div>
 			</div>
 			<div class="popup_content">
 				<div class="repany">
 					<span class="span">官方回复</span>
-					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注" class="layui-input">
+					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注"
+						class="layui-input">
 				</div>
 				<div class="chat">
 					<div class="chat_list">
@@ -241,11 +260,12 @@
 							<option value="1">已退款</option>
 						</select>
 					</div>
-					<div class="select_courier"  >
+					<div class="select_courier">
 						<span class="operation_title">选择退款金额</span>
-					    <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额" class="layui-input danhao" >
+						<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额"
+							class="layui-input danhao">
 					</div>
-					
+
 					<button type="button" class="submit_btns">确定</button>
 				</div>
 			</div>
@@ -255,15 +275,15 @@
 	<div class="childrenBody">
 		{include file="template/_top" /}
 		<!--<div class="distribution_list">-->
-			<!--<ul>-->
-				<!--<li>-->
-					<!--<a href="order_index"  style="text-decoration:none;">初始订单</a>-->
-				<!--</li>-->
-				<!--<li>-->
-					<!--<a href="order_integral"  class="on"  style="text-decoration:none;">积分订单</a>-->
-				<!--</li>-->
+		<!--<ul>-->
+		<!--<li>-->
+		<!--<a href="order_index"  style="text-decoration:none;">初始订单</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="order_integral"  class="on"  style="text-decoration:none;">积分订单</a>-->
+		<!--</li>-->
 
-			<!--</ul>-->
+		<!--</ul>-->
 		<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
 			<form class="layui-form" action="{:url('admin/Category/search')}">
@@ -271,34 +291,39 @@
 					<div class="seach_list">
 						<div class="seach_laber">订单编号：</div>
 						<div class="seach_input">
-							<input type="text" name="parts_order_number" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+							<input type="text" name="parts_order_number" lay-verify="title" autocomplete="off"
+								placeholder="" class="layui-input">
 						</div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">商品名称：</div>
 						<div class="seach_input">
-							<input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+							<input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder=""
+								class="layui-input">
 						</div>
 					</div>
-				
-			
+
+
 					<div class="seach_list">
 						<div class="seach_laber">用户账号：</div>
 						<div class="seach_input">
-							<input type="text" name="user_account_name" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+							<input type="text" name="user_account_name" lay-verify="title" autocomplete="off"
+								placeholder="" class="layui-input">
 						</div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">开始时间</div>
 						<div class="seach_input">
-							<span class="start_time"><input type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
+							<span class="start_time"><input type="text" class="text datetimepicker layui-input"
+									readonly="readonly" id="beginTime" value="">
 							</span>
 						</div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">结束时间</div>
 						<div class="seach_input">
-							<span class="end_time"><input type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
+							<span class="end_time"><input type="text" class=" text datetimepicker layui-input"
+									readonly="readonly" id="endTime" value=""></span>
 
 						</div>
 					</div>
@@ -329,22 +354,23 @@
 				</thead>
 				<tbody class="news_content">
 					{if !empty($data)}{volist name="data" id = "value"}
-					
+
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"
+								data-id="{$value.id}"></td>
 						<td>{$value.parts_order_number}</td>
 						<td class="">
-								<div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_image}" /></div>
+							<div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_image}" /></div>
 						</td>
 						<td>{$value.goods_name}</td>
 						<td>{$value.order_quantity}</td>
 						<td>{$value.user_account_name}</td>
 						<td>{$value.order_create_time |date="Y-m-d H:i:s",###}</td>
-						<td>{$value.order_amount}</td>						
+						<td>{$value.order_amount}</td>
 						<td>
-						<div class="static_btus" data-id="{$value.id}" data-value="{$value.status}">
+							<div class="static_btus" data-id="{$value.id}" data-value="{$value.status}">
 								{$value.status|show_order_statues}
-						</div>
+							</div>
 						</td>
 					</tr>
 					{/volist}{/if}
@@ -358,7 +384,8 @@
 					</select>
 				</div>
 				<div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
-					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
+					<button type="button" id="opration_btu"
+						style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
 				{$data->render()}
@@ -379,7 +406,7 @@
 	<script type="text/javascript">
 		layui.config({
 			base: "js/"
-		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+		}).use(['form', 'layer', 'jquery', 'laypage'], function () {
 			var form = layui.form(),
 				layer = parent.layer === undefined ? layui.layer : parent.layer,
 				laypage = layui.laypage,
@@ -387,21 +414,21 @@
 			var vals = $("input").data("id");
 			//点击操作确认按钮
 			var data_id = [];
-			$("#opration_btu").click(function() {
+			$("#opration_btu").click(function () {
 				var opration_val = $(".opation select option:selected").val();
-				if(opration_val == 0) {
+				if (opration_val == 0) {
 					layer.alert('请选择操作', {
 						skin: 'layui-layer-molv' //样式类名
-							,
+						,
 						closeBtn: 0
 					});
-				} else if(opration_val == 1) {
+				} else if (opration_val == 1) {
 					layer.confirm('你确认要删除吗？', {
 						btn: ['确认', '取消'] //按钮
-					}, function(index) {
+					}, function (index) {
 						layer.close(index);
 						var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
-						for(var i = 0; i < child.length; i++) {
+						for (var i = 0; i < child.length; i++) {
 							data_id.push($(child[i])[0].dataset.id);
 						}
 						$.ajax({
@@ -410,23 +437,23 @@
 							data: {
 								"id": data_id,
 							},
-							success: function(data) {
+							success: function (data) {
 								console.log("成功");
 								console.log(data);
 								var data = $.parseJSON(data);
 								layer.alert(data.info, {
 									skin: 'layui-layer-molv' //样式类名
-										,
+									,
 									closeBtn: 0
 								});
 								location.reload();
 								data_id.splice(0, data_id.length);
 							},
-							error: function(data) {
+							error: function (data) {
 								var data = $.parseJSON(data);
 								layer.alert(data.info, {
 									skin: 'layui-layer-molv' //样式类名
-										,
+									,
 									closeBtn: 0
 								});
 								console.log(data);
@@ -441,29 +468,29 @@
 			});
 
 			//全选
-            form.on('checkbox(allChoose)', function (data) {
-                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
-                child.each(function (index, item) {
-                    item.checked = data.elem.checked;
-                });
-                form.render('checkbox');
-            });
-            //通过判断文章是否全部选中来确定全选按钮是否选中
-            form.on("checkbox(choose)", function (data) {
-                // console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
-                
-                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
-                var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
-                if (childChecked.length === child.length) {
-                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
-                } else {
-                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
-                }
-                form.render('checkbox');
-            })
+			form.on('checkbox(allChoose)', function (data) {
+				var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+				child.each(function (index, item) {
+					item.checked = data.elem.checked;
+				});
+				form.render('checkbox');
+			});
+			//通过判断文章是否全部选中来确定全选按钮是否选中
+			form.on("checkbox(choose)", function (data) {
+				// console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
 
-			form.on('switch(isShow)', function(data) {
-				if($(this).val() == 0) {
+				var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+				var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
+				if (childChecked.length === child.length) {
+					$(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
+				} else {
+					$(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
+				}
+				form.render('checkbox');
+			})
+
+			form.on('switch(isShow)', function (data) {
+				if ($(this).val() == 0) {
 					$(this).val(1);
 				} else {
 					$(this).val(0);
@@ -478,32 +505,32 @@
 						"id": id,
 						"status": status
 					},
-					success: function(data) {
+					success: function (data) {
 						console.log("成功")
 					},
-					error: function(data) {
+					error: function (data) {
 						console.log("错误")
 					}
 				});
 
 			})
 		})
-		$(".static_btus").click(function(){
+		$(".static_btus").click(function () {
 			$(".popup_two").removeClass("noshow");
 		});
-			$(".popup_x").click(function(){
+		$(".popup_x").click(function () {
 			$(".popup_two").addClass("noshow");
 		});
 		function timestampToTime(timestamp) {
-        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-        Y = date.getFullYear() ;
-        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
-        D = date.getDate() ;
-        h = date.getHours() + ':';
-        m = date.getMinutes() + ':';
-        s = date.getSeconds();
-        return Y+M+D;
-    }
+			var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+			Y = date.getFullYear();
+			M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+			D = date.getDate();
+			h = date.getHours() + ':';
+			m = date.getMinutes() + ':';
+			s = date.getSeconds();
+			return Y + M + D;
+		}
 	</script>
 
 	{/block}
