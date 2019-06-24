@@ -46,27 +46,6 @@ class  Limitations extends  Controller{
         return view('limitations_edit', ["limit" => $limited, "scope" => $scope]);
 
     }
-
-    /**
-     * [限时限购编辑]
-     * GY
-     */
-     public function limitations_weave(Request $request)
-     {
-        if ($request->isPost()) {
-            $id = $request->only(["id"])["id"];
-            $limite = db("limited")->where("limit_id", $id)->select();
-            if (!empty($limite) && !empty($id)) {
-                return ajax_success("获取成功", $limite);
-            } else {
-                return ajax_error("获取失败");
-            }
-
-        }
- 
-     }
-
-
     /**
      * [限时限购添加商品]
      * GY
@@ -88,9 +67,10 @@ class  Limitations extends  Controller{
      public function limitations_save(Request $request)
      {
         if ($request->isPost()) {
-            $data = $request->param();    //获取参数
-            $store_id = Session::get("store_id");    //获取店铺id 
+             $data = $request->param();    //获取参数
+             $store_id = Session::get("store_id");    //获取店铺id 
             $data["stroe_id"] = $store_id;
+           
             if(array_key_exists('aa',$data) || array_key_exists('status',$data))
             {    //限购和秒杀至少一个
                  if(array_key_exists('aa',$data))
@@ -117,8 +97,8 @@ class  Limitations extends  Controller{
                  if(array_key_exists('status',$data))
                  {    //开启秒杀
                     $map2['miao_status']='1';
-                    $map2['start_time']=$data['start_time'];
-                    $map2['end_time']=$data['end_time'];
+                    $map2['start_time']=strtotime($data['start_time']);
+                    $map2['end_time']=strtotime($data['end_time']);
                  }else{
                     $map2['miao_status']='0';
                     $map2['start_time']='0';
@@ -129,8 +109,21 @@ class  Limitations extends  Controller{
                  $pp['miao']=$map2;
                  $pp['label']=$map3;
                  $pp=json_encode($pp);      //限时限购的条件
+                 
+
             }else{
                 $this->error('限购设置和开启秒杀至少选中一个');
+            }
+             //判断是否为编辑
+            if(array_key_exists('id',$data))  
+            {
+                $pp2['limit_condition']=$pp;
+                $res2=db('limited')->where('id',$data['id'])->update($pp2);
+                if($res2)
+                {
+                    $this->success('保存成功');
+                }
+                
             }
             if (!empty($data["goods_id"])) {
                 foreach ($data["goods_id"] as $key => $value) {
@@ -185,6 +178,79 @@ class  Limitations extends  Controller{
                 $this->error("添加失败", url("admin/Limitations/limitations_add"));
             }
 
+        }
+     }
+   
+     /**
+     * 李禄
+     * [限时限购保存商品]
+     */
+     public function limitations_save_do(Request $request)
+     {
+        if ($request->isPost()) {
+             $data = $request->param();    //获取参数
+             $store_id = Session::get("store_id");    //获取店铺id 
+            $data["stroe_id"] = $store_id;
+           
+            if(array_key_exists('aa',$data) || array_key_exists('status',$data))
+            {    //限购和秒杀至少一个
+                 if(array_key_exists('aa',$data))
+                 {   //限购
+                    $map['scope']='1';
+                    $map['scope_type']=$data['type'];
+                    if(array_key_exists('limit_status',$data))
+                    {
+                        if($data['number']=='0')
+                        {
+                            $map['limit_status']='1';
+                            $map['number']='-1';   //不限购数量
+                        }else{
+                            $map['number']=$data['number'];
+                            $map['limit_status']='1';
+                        }
+                    }else{
+                        $map['limit_status']='0';
+                        $map['number']='0';
+                    }
+                 }else{
+                     $map='0';
+                 }
+                 if(array_key_exists('status',$data))
+                 {    //开启秒杀
+                    $map2['miao_status']='1';
+                    $map2['start_time']=strtotime($data['start_time']);
+                    $map2['end_time']=strtotime($data['end_time']);
+                 }else{
+                    $map2['miao_status']='0';
+                    $map2['start_time']='0';
+                    $map2['end_time']='0';
+                 }
+                 $map3['label']=$data['label'];
+                 $pp['limit']=$map;
+                 $pp['miao']=$map2;
+                 $pp['label']=$map3;
+                 $pp=json_encode($pp);      //限时限购的条件
+            }else{
+                $this->error('限购设置和开启秒杀至少选中一个');
+            }
+            $pp2['limit_condition']=$pp;
+            $res2=db('limited')->where('id',$data['id'])->update($pp2);   //更改限制条件
+            if(array_key_exists('status',$data))
+            {
+                $op['create_time']=strtotime($data['start_time']);
+                $op['end_time']=strtotime($data['end_time']);
+                $res3=db('limited')->where('id',$data['id'])->update($op);
+            }else{
+                $op['create_time']=0;
+                $op['end_time']=0;
+                $res3=db('limited')->where('id',$data['id'])->update($op);
+            }
+            if(array_key_exists('aa',$data))
+            {
+                $op2['limit_number']=$data['number'];
+                $res4=db('limited')->where('id',$data['id'])->update($op2);
+            }
+            $this->success('保存成功',url('admin/Limitations/limitations_index'));
         }
      }
 
