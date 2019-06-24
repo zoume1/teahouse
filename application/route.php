@@ -201,6 +201,7 @@ Route::group("",[
     "coupon_minute"=>"index/Coupon/coupon_minute",            //优惠券显示
     "limitations_show"=>"index/Coupon/limitations_show",      //判断该商品是否限时限购
     "limitations"=>"index/Coupon/limitations",                //判断用户是否能购买商品
+    "coupon_search2"=>"admin/Limitations/coupon_search2",                //判断用户是否能购买商品
     
     /*积分商城*/
     "bonus_index"=>"index/Coupon/bonus_index",           //积分商城显示
@@ -644,6 +645,7 @@ Route::group("admin",[
     "limitations_edit"=>"admin/Limitations/limitations_edit",    //限时限购编辑 
     "limitations_add"=>"admin/Limitations/limitations_add",      //限时限购添加商品
     "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加
+    "limitations_save_do"=>"admin/Limitations/limitations_save_do",    //限时限购编辑处理
     "limitations_weave"=>"admin/Limitations/limitations_weave",  //限时限购编辑商品
     "limitations_update"=>"admin/Limitations/limitations_update",//限时限购更新
     "limitations_delete"=>"admin/Limitations/limitations_delete",//限时限购删除
@@ -942,6 +944,7 @@ Route::group("api",[
     "dopageglobaluserinfo"=>"api/Wxapps/dopageglobaluserinfo", //http://teahouse.com/api/dopageglobaluserinfo?openid=o9NMH0ber2GnkHvkYEhrJamfNNPg&uniacid=1
       /**测试 */
     "wxapp2"=>"api/Wxapp2/index",
+    "doPageBase"=>"api/Wxapp2/doPageBase",
 ]);
 
 Route::miss("public/miss");
