@@ -316,16 +316,20 @@ class  Wxapps extends  Controller{
                                 if ($con_type == 4 && $con_key == 3) {
                                     $where = 'AND type_i=1 ORDER BY num DESC';
                                 }
-                                $list = Db::query("SELECT title,thumb,id,`desc`,price,market_price,sale_num,sale_tnum,sale_time,sale_end_time,pro_kc FROM ims_sudu8_page_products WHERE `uniacid` = {$uniacid} AND `type` = 'showPro' AND `is_more` = 0 AND `flag` = 1 AND `is_sale`=0 AND  (`cid` = {$sourceid} or `pcid` = {$sourceid} ) " . $where . " LIMIT 0,{$count}");
+                                //秒杀模块屏蔽
+                                // $list = Db::query("SELECT title,thumb,id,`desc`,price,market_price,sale_num,sale_tnum,sale_time,sale_end_time,pro_kc FROM ims_sudu8_page_products WHERE `uniacid` = {$uniacid} AND `type` = 'showPro' AND `is_more` = 0 AND `flag` = 1 AND `is_sale`=0 AND  (`cid` = {$sourceid} or `pcid` = {$sourceid} ) " . $where . " LIMIT 0,{$count}");
+                                //获取秒杀的商品
+                                
+                                $list=db('limited')->where('store_id',$uniacid)->limit($count)->select();
                                 if ($list) {
-                                    foreach ($list as $kk => $vv) {
+                                //     foreach ($list as $kk => $vv) {
                                         // $count = Db::table("ims_sudu8_page_order")->where("uniacid", $uniacid)->where("pid", $vv['id'])->where("flag", "neq", 1)->field("id")->count();
-                                        $list[$kk]['linkurl'] = "/sudu8_page/showPro/showPro?id=" . $vv['id'];
-                                        $list[$kk]['linktype'] = "page";
-                                        $list[$kk]['sale_num'] = $vv['sale_num'] + $vv['sale_tnum'];
-                                        if (strpos($vv['thumb'], 'http') === false && $vv['thumb'] != "") {
-                                            $list[$kk]['thumb'] = remote($uniacid, $vv['thumb'], 1);
-                                        }
+                                        // $list[$kk]['linkurl'] = "/sudu8_page/showPro/showPro?id=" . $vv['id'];
+                                        // $list[$kk]['linktype'] = "page";
+                                        // $list[$kk]['sale_num'] = $vv['sale_num'] + $vv['sale_tnum'];
+                                        // if (strpos($vv['thumb'], 'http') === false && $vv['thumb'] != "") {
+                                        //     $list[$kk]['thumb'] = remote($uniacid, $vv['thumb'], 1);
+                                        // }
                                         // $orders = Db::table('ims_sudu8_page_order') ->where('pid', $vv['id']) ->where('uniacid', $uniacid) ->select();
                                         // $sale_num_temp = 0;
                                         // if($orders){
@@ -334,8 +338,20 @@ class  Wxapps extends  Controller{
                                         //     }
                                         // }
                                         // $vv['sale_num'] = $vv['sale_num'] + $sale_num_temp;
+                                    // }
+                                    // $data['msmk'] = $list;
+                                    foreach($list as $k=>$v){
+                                        //获取商品的信息
+                                        $info=db('goods')->where(['id'=>$v['goods_id'],'store_id'=>$uniacid])->find();
+                                        $list[$k]['goods_price']=$info['goods_new_money'];    //商品价格
+                                        $list[$k]['goods_bottom_money']=$info['goods_bottom_money'];    //划线价
+                                        //获取已出售的数量
+                                        $pp2['goods_id']=$v['goods_id'];
+                                        $pp2['status']=array('between',array(2,8));
+                                        $num=db('order')->where($pp2)->count();
+                                        $list[$k]['sell_number']=$num;    //商品已出售数量
                                     }
-                                    $data['msmk'] = $list;
+                                    $data['msmk']=$list;
                                 } else {
                                     $data['msmk'] = [];
                                 }
