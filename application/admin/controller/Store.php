@@ -220,6 +220,34 @@ class Store extends  Controller{
     }
 
 
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:店铺提现提交申请 
+     **************************************
+     */
+    public function withdrawCash(Request $request){
+        if($request->isPost()){
+            $store_id = Session::get("store_id");
+            //生成流水号
+            $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+            $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
+            $data = $request->param();
+            $data['store_id'] = $store_id;
+            $data['create_time'] = time();
+            $data['pay_type'] = 3;
+         
+            $bool  = Db::name("offline_recharge")
+                ->insert($data);
+            if($bool){
+                return ajax_success("已提交申请，我们将在3个工作日内审核完毕，通过后自动完成订购。",$bool);
+            } else {
+                return ajax_success("提交失败");
+            }
+        }
+    }
+
+
 
 
 

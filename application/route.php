@@ -828,6 +828,7 @@ Route::group("admin",[
     "store_icard_save"=>"admin/Store/store_icard_save",//银行开添加入库
     "store_icard_delete"=>"admin/Store/store_icard_delete",//银行卡删除
     "OfflineRecharge"=>"admin/Store/OfflineRecharge",//店铺钱包进行充值
+    "withdrawCash"=>"admin/Store/withdrawCash",//店铺钱包进行提现
 
     "store_wallet_return"=>"admin/Store/store_wallet_return",//店铺的钱包返回
     "store_isset_password"=>"admin/Store/store_isset_password",//店铺检测是否进行了支付密码设置，没有设置则前往设置
