@@ -201,6 +201,7 @@ Route::group("",[
     "coupon_minute"=>"index/Coupon/coupon_minute",            //优惠券显示
     "limitations_show"=>"index/Coupon/limitations_show",      //判断该商品是否限时限购
     "limitations"=>"index/Coupon/limitations",                //判断用户是否能购买商品
+    "coupon_search2"=>"admin/Limitations/coupon_search2",                //判断用户是否能购买商品
     
     /*积分商城*/
     "bonus_index"=>"index/Coupon/bonus_index",           //积分商城显示

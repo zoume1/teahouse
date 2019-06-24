@@ -182,6 +182,7 @@
 							<th>商品图片</th>
 							<th>商品名称</th>
 							<th>库存</th>
+							<th>限购状态</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -332,7 +333,7 @@
 				var seach_val = $("#seach_val").val();
 				$.ajax({
 					type: "POST",
-					url: "{:url('admin/Bonus/coupon_search')}",
+					url: "{:url('admin/Limitations/coupon_search2')}",
 					data: {
 						"goods_number": seach_val,
 					},
@@ -342,14 +343,14 @@
 
 						var dhtml = '';
 						for (var i = 0; i < data.length; i++) {
-							console.log(seach_goods.length);
-							for (var j = 0; j < seach_goods.length; j++) {
-								if (data[i].goods_number == seach_goods[j].goods_number) {
-									num++;
-								}
-							}
-							if (num == 0) {
-								seach_goods.push(data[i]);
+							// console.log(seach_goods.length);
+							// for (var j = 0; j < seach_goods.length; j++) {
+							// 	if (data[i].goods_number == seach_goods[j].goods_number) {
+							// 		num++;
+							// 	}
+							// }
+							// if (num == 0) {
+								// seach_goods.push(data[i]);
 								dhtml += '<tr>';
 								dhtml += '<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="' + data[i].id + '" name="goods_id[]"></td>';
 								dhtml += '<td>' + data[i].goods_number + '</td>';
@@ -359,18 +360,21 @@
 
 								dhtml += '<td>' + data[i].goods_name + '</td>';
 								dhtml += '<td>' + data[i].goods_repertory + '</td>';
+								dhtml += '<td>' + data[i].is_limit + '</td>';
 								dhtml += '<td>';
 								dhtml += '<div class="layui-btn layui-btn-mini edit"> 参加活动</div>';
 								dhtml += '</td>';
 								dhtml += '</tr>';
-								$('.news_content').append(dhtml);
-								form.render('checkbox');
-							}
-							else {
-								layer.msg('列表中已有此商品，请勿重复添加');
-							}
+								// $('.news_content').append(dhtml);
+								// form.render('checkbox');
+							// }
+							// else {
+							// 	layer.msg('列表中已有此商品，请勿重复添加');
+							// }
 
 						}
+						$('.news_content').append(dhtml);
+								form.render('checkbox');
 					},
 					error: function (data) {
 						console.log(data)

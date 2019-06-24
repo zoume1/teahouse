@@ -58,7 +58,8 @@
 						<th>商品图片</th>
 						<th>商品名称</th>
 						<th>限购数量</th>
-						<th>间隔时间</th>
+						<th>起始时间</th>
+						<th>截止时间</th>
 						<th>库存</th>
 						<th>操作</th>
 					</tr>
@@ -72,13 +73,16 @@
 								<div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_images}" /></div>
 						</td>
 						<td>{$value.goods_name}</td>
-						<td>{$value.number}</td>
-						{if $value.time == 1  }
-						<td>一个月</td>
-						{elseif $value.time == 2 }
-						<td>两个月</td>
+						<td>{$value.limit_number}</td>
+						{if $value.create_time == 0  }
+						<td>无限时</td>
 						{else}
-						<td>无限制</td>
+						<td>{$value.create_time | date='Y-m-d H:i:s',###}</td>
+						{/if}
+						{if $value.end_time == 0  }
+						<td>无限时</td>
+						{else}
+						<td>{$value.end_time | date='Y-m-d H:i:s',###}</td>
 						{/if}
 						
 						<td>{$value.goods_repertory}</td>
