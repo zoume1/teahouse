@@ -74,7 +74,7 @@ class  Order extends  Controller
                 }
             }
             if(!empty($data)){
-                $data['$authority'] = $$authority;
+                $data[0]['$authority'] = $$authority;
                 return ajax_success("数据返回",$data);
             }else{
                 return ajax_error("没有数据",["status"=>0]);
