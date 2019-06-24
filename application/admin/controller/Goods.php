@@ -96,7 +96,7 @@ class Goods extends Controller
     {
         
         if ($request->isPost()) {
-            $store_id =Session::get("store_id");
+            $store_id = Session::get("store_id");
             $goods_data = $request->param(); 
             $show_images = $request->file("goods_show_images");
             $imgs = $request->file("imgs");
@@ -116,7 +116,7 @@ class Goods extends Controller
                 $goods_data["scope"] = "";
             }
             
-        
+            $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
             $goods_data["goods_sign"] = isset($goods_data["goods_sign"])?$goods_data["goods_sign"]:null;
@@ -283,7 +283,7 @@ class Goods extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $store_id =Session::get("store_id");
+        $store_id = Session::get("store_id");
         $goods = db("goods")->where("id", $id)->select();
         $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
@@ -295,10 +295,10 @@ class Goods extends Controller
             $goods[$key]["unit"] = explode(',', $goods[$key]["element"]);
             $goods[$key]["templet_name"] = explode(',', $goods[$key]["templet_name"]);
             $goods[$key]["templet_id"] = explode(',', $goods[$key]["templet_id"]);
+            $goods[$key]["goods_delivery"] = json_decode($goods[$key]["goods_delivery"]);
         }
      }
         $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
-        
         if(!empty($team)){
             foreach($team as $ke => $val){
                 $temp[$ke] = db("express")->where("id",$team[$ke])->field("name,id")->find();
@@ -403,6 +403,7 @@ class Goods extends Controller
             }
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
+            $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
             $list = [];
             if (!empty($show_images)) {
                 foreach ($show_images as $k => $v) {
