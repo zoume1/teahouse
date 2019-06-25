@@ -16467,12 +16467,12 @@
                         <div style="border: 1px solid #e7eaec;margin-bottom:5px; position: relative;">
                             <!-- <span class="btn-del" title="清空图标" onclick="$('#cicon-<%itemid%>').val('').trigger('change')"></span> -->
                             <img src="<%item.imgurl%>" class="feedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg-<%itemid%>" style="background: #fff;height:55px;width:55px;" />
-                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图标</div>
+                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图片</div>
                         </div>
                         <div style="border: 1px solid #e7eaec; position: relative;">
                             <!-- <span class="btn-del" title="清空图标" onclick="$('#cicon-<%itemid%>').val('').trigger('change')"></span> -->
                             <img src="<%item.imgurl%>" class="feedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg-<%itemid%>" style="background: #fff;height:55px;width:55px;" />
-                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图标</div>
+                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图片</div>
                         </div>
                         <%/if%>
 
@@ -16501,7 +16501,7 @@
                         <%/if%>
 
                     </div>
-
+                    <!-- 定位 -->
                     <div class="item-form">
                         <!-- tabBar image-off -->
                         <div class="input-group" style="margin-bottom:5px; ">
@@ -19525,7 +19525,8 @@
 				})
 			})
 		})
-	});
+    });
+    
     function footmenus(){
 
         var footis = {if $setsave}{$setsave['foot_is']}{else}{$foot_is}{/if};
@@ -19765,6 +19766,7 @@
     }
     $(function(){
         $("#uploadphoto").change(function(){
+            console.log(this)
             $("#myupload").ajaxSubmit({
                 dataType:  'json', //数据格式为json
                 success: function(data) {
