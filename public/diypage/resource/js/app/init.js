@@ -799,7 +799,6 @@ define(['jquery', 'bootstrap'], function($, bs) {
 	 * 图标库（icon）
 	 */
 	$(document).on('click', '[data-toggle="selectIcon"]', function() {
-
 		var _input = $(this).data('input');
 
 		var _element = $(this).data('element');
@@ -872,7 +871,6 @@ define(['jquery', 'bootstrap'], function($, bs) {
 	 * 图标库2-----图片
 	 */
 	$(document).on('click', '[data-toggle="selectIcon2"]', function() {
-
 		var _input = $(this).data('input');
 
 		var _element = $(this).data('element');
