@@ -330,19 +330,20 @@ class  Wxapps extends  Controller{
                                         $list2[$kk]['linktype'] = "page";
                                         $jianjie=json_decode($vv['limit_condition'],true);
                                         $list2[$kk]['goods_selling']=$jianjie['label']['label'];
-                                        $list2[$kk]['endtime']=$vv['end_time'];
+                                        $list2[$kk]['endtime']=date('Y-m-d H:i:s',$vv['end_time']);
+                                        $goods_images='/'.$vv['goods_show_images'];
                                         // $list[$kk]['sale_num'] = $vv['sale_num'] + $vv['sale_tnum'];
-                                        if (strpos($vv['goods_show_images'], 'http') === false && $vv['goods_show_images'] != "") {
-                                            $list2[$kk]['thumb'] = remote($uniacid, $vv['goods_show_images'], 1);
+                                        if (strpos($goods_images, 'http') === false && $goods_images != "") {
+                                            $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
                                         }
                                         $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
                                         $list2[$kk]['price']=$info['goods_new_money'];    //商品价格
-                                        $list2[$kk]['goods_bottom_money']=$info['goods_bottom_money'];    //划线价
+                                        $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
                                         //获取已出售的数量
                                         $pp2['goods_id']=$vv['goods_id'];
                                         $pp2['status']=array('between',array(2,8));
                                         $num=db('order')->where($pp2)->count();
-                                        $list2[$kk]['sell_number']=$num;    //商品已出售数量
+                                        $list2[$kk]['sale_num']=$num;    //商品已出售数量
                                         //统计商品的销售数量
                                         // $orders = Db::table('ims_sudu8_page_order') ->where('pid', $vv['id']) ->where('uniacid', $uniacid) ->select();
                                         // $sale_num_temp = 0;
