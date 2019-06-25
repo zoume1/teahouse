@@ -96,9 +96,14 @@ class Goods extends Controller
     {
         
         if ($request->isPost()) {
-            $store_id =Session::get("store_id");
+            $store_id = Session::get("store_id");
             $goods_data = $request->param(); 
             $show_images = $request->file("goods_show_images");
+            if(!empty($goods_data['goods_delivery'])){
+                $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
+            } else {
+                $goods_data['goods_delivery'] = null;
+            }
             $imgs = $request->file("imgs");
             $list = [];
             unset($goods_data["aaa"]);
@@ -283,7 +288,7 @@ class Goods extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $store_id =Session::get("store_id");
+        $store_id = Session::get("store_id");
         $goods = db("goods")->where("id", $id)->select();
         $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
         $goods_standard = db("special")->where("goods_id", $id)->select();
@@ -295,8 +300,10 @@ class Goods extends Controller
             $goods[$key]["unit"] = explode(',', $goods[$key]["element"]);
             $goods[$key]["templet_name"] = explode(',', $goods[$key]["templet_name"]);
             $goods[$key]["templet_id"] = explode(',', $goods[$key]["templet_id"]);
+            $goods[$key]["goods_delivery"] = json_decode($goods[$key]["goods_delivery"],true);
         }
      }
+
         $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
         
         if(!empty($team)){
@@ -395,7 +402,11 @@ class Goods extends Controller
             unset($goods_data["sss"]);
             unset($goods_data["server"]);
             $show_images = $request->file("goods_show_images");
-
+            if(!empty($goods_data['goods_delivery'])){
+                $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
+            } else {
+                $goods_data['goods_delivery'] = null;
+            }    
             if(!empty($goods_data["scope"])){
                 $goods_data["scope"] = implode(',', $goods_data["scope"]);
             } else {
