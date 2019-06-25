@@ -330,8 +330,8 @@ class  Wxapps extends  Controller{
                                         $list2[$kk]['linktype'] = "page";
                                         $jianjie=json_decode($vv['limit_condition'],true);
                                         $list2[$kk]['goods_selling']=$jianjie['label']['label'];
-                                        $list2[$kk]['endtime']=date('Y-m-d H:i:s',$vv['end_time']);
-                                        $goods_images='/'.$vv['goods_show_images'];
+                                        $list2[$kk]['endtime']=date('H:i:s',$vv['end_time']-time());
+                                        $goods_images='//uploads/'.$vv['goods_show_images'];
                                         // $list[$kk]['sale_num'] = $vv['sale_num'] + $vv['sale_tnum'];
                                         if (strpos($goods_images, 'http') === false && $goods_images != "") {
                                             $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
