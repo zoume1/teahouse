@@ -85,7 +85,7 @@
             <div class="form-title">提现 </div>
             <table class="layui-table" style="cellMinWidth: 120">
                 <tbody class="news_content">
-                    <tr>
+                    <tr class="tag" data-id="{$value.id}">
                         <td class="sign">用户账号</td>
                         <td>{$value.store_number}</td>
                         <td class="sign">流水号：</td>
@@ -118,7 +118,7 @@
                 <label class="layui-form-label" style="margin: 0 130px;color: #5E5E5E;">选择操作</label>
                 {if $value.status == 1}
                 <div class="input_bottom">
-                    <input type="radio" name="status" value="2" title="通过">
+                    <input type="radio" name="status" value="2" title="通过" checked>
                     <span>恭喜您，提现成功，请及时查账</span></br><span style="color:#949494; margin-left: 80px;">*弹框内容</span>
                 </div>
                 <div style="margin-left:340px;">
@@ -150,7 +150,7 @@
             </div>
             <div class="bottun_select">
                 <button class="layui-btn layui-btn-primary" style="width:120px;margin-right: 80px">返回</button>
-                <button class="layui-btn layui-btn-normal" style="width:120px">确定</button>
+                <button class="layui-btn layui-btn-normal confirm" style="width:120px">确定</button>
             </div>
         </div>
         {/volist}
