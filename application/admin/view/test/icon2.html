@@ -10,8 +10,9 @@
     #selectIcon .modal-body{padding: 10px;}
     #selectIcon .main{height: 420px;overflow-y: auto;overflow-x: hidden;}
     #selectIcon .main nav{height: 60px;width: 80px;margin: 5px;display: block;float: left;cursor: pointer;}
-    #selectIcon .main nav .iconfont{font-size: 30px;height: 38px;width: 80px;display: block;text-align: center;line-height: 42px;}
-    #selectIcon .main nav .text{font-size: 10px;height: 22px;width: 80px;display: block;text-align: center;line-height: 16px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
+    #selectIcon .main nav .iconimg{font-size: 30px;height: 38px;width: 80px;display: block;text-align: center;line-height: 38px;}
+    #selectIcon .main nav .iconimg img{height: 100%;}
+    #selectIcon .main nav .text{font-size: 10px;height: 22px;width: 80px;display: block;text-align: center;line-height: 22px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
     #selectIcon .main nav:hover{background: #f6f6f6;}
 </style>
 <div class="modal-dialog">
@@ -23,34 +24,366 @@
 
         <ul class="nav nav-tabs" id="selectUrlTab">
             <li class="active tab11" id="tab1"><a href="javascript:;" onclick="tab(1)">常用</a></li>
-            <li class="tab21" id="tab2"><a href="javascript:;" onclick="tab(2)">系统</a></li>
-            <li style="margin-left: 20px;margin-top: 6px" id="search1"><input id="search_input1" type="text" name=""><span id="search_icon1" style="display: inline-block;margin-left: 10px;cursor: pointer;">搜索</span></li>
+            <!-- <li class="tab21" id="tab2"><a href="javascript:;" onclick="tab(2)">系统</a></li> -->
+            <li style="margin-left: 20px;margin-top: 6px" id="search1">
+                <input id="search_input1" type="text" name="">
+                <span id="search_icon1" style="display: inline-block;margin-left: 10px;cursor: pointer;">搜索</span>
+            </li>
 
-            <li style="margin-left: 20px;margin-top: 6px;display: none;" id="search2"><input id="search_input2" type="text" name=""><span id="search_icon2" style="display: inline-block;margin-left: 10px;cursor: pointer;">搜索</span></li>
+            <li style="margin-left: 20px;margin-top: 6px;display: none;" id="search2">
+                <input id="search_input2" type="text" name="">
+                <span id="search_icon2" style="display: inline-block;margin-left: 10px;cursor: pointer;">搜索</span>
+            </li>
         </ul>
         <!--常规图标-->
         <div class="modal-body set_c" id="set_c">
             <div class="main">
-                <nav data-class="icon-c-360">
-                    <span class="iconfont icon-c-360"></span>
-                    <span class="text">360</span>
+                <!-- broadcast -->
+                <nav data-class="icon-c-broadcast01">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/broadcast01.png" alt="broadcast01">
+                    </div>
+                    <span class="text">broadcast01</span>
                 </nav>
-                
+                <nav data-class="icon-c-broadcast1">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/broadcast1.png" alt="broadcast1">
+                    </div>
+                    <span class="text">broadcast1</span>
+                </nav>
+                <nav data-class="icon-c-broadcast02">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/broadcast02.png" alt="broadcast02">
+                    </div>
+                    <span class="text">broadcast02</span>
+                </nav>
+                <nav data-class="icon-c-broadcast2">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/broadcast2.png" alt="broadcast2">
+                    </div>
+                    <span class="text">broadcast2</span>
+                </nav>
+                <nav data-class="icon-c-broadcast03">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/broadcast03.png" alt="broadcast03">
+                    </div>
+                    <span class="text">broadcast03</span>
+                </nav>
+                <nav data-class="icon-c-broadcast3">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/broadcast3.png" alt="broadcast3">
+                    </div>
+                    <span class="text">broadcast3</span>
+                </nav>
+                <nav data-class="icon-c-broadcast04">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/broadcast04.png" alt="broadcast04">
+                    </div>
+                    <span class="text">broadcast04</span>
+                </nav>
+                <nav data-class="icon-c-broadcast4">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/broadcast4.png" alt="broadcast4">
+                    </div>
+                    <span class="text">broadcast4</span>
+                </nav>
+                <!-- cart -->
+                <nav data-class="icon-c-cart01">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/cart01.png" alt="cart01">
+                    </div>
+                    <span class="text">cart01</span>
+                </nav>
+                <nav data-class="icon-c-cart1">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/cart1.png" alt="cart1">
+                    </div>
+                    <span class="text">cart1</span>
+                </nav>
+                <nav data-class="icon-c-cart02">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/cart02.png" alt="cart02">
+                    </div>
+                    <span class="text">cart02</span>
+                </nav>
+                <nav data-class="icon-c-cart2">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/cart2.png" alt="cart2">
+                    </div>
+                    <span class="text">cart2</span>
+                </nav>
+                <nav data-class="icon-c-cart03">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/cart03.png" alt="cart03">
+                    </div>
+                    <span class="text">cart03</span>
+                </nav>
+                <nav data-class="icon-c-cart3">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/cart3.png" alt="cart3">
+                    </div>
+                    <span class="text">cart3</span>
+                </nav>
+                <nav data-class="icon-c-cart04">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/cart04.png" alt="cart04">
+                    </div>
+                    <span class="text">cart04</span>
+                </nav>
+                <nav data-class="icon-c-cart4">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/cart4.png" alt="cart4">
+                    </div>
+                    <span class="text">cart4</span>
+                </nav>
+                <!-- circle -->
+                <nav data-class="icon-c-circle01">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/circle01.png" alt="circle01">
+                    </div>
+                    <span class="text">circle01</span>
+                </nav>
+                <nav data-class="icon-c-circle1">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/circle1.png" alt="circle1">
+                    </div>
+                    <span class="text">circle1</span>
+                </nav>
+                <nav data-class="icon-c-circle02">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/circle02.png" alt="circle02">
+                    </div>
+                    <span class="text">circle02</span>
+                </nav>
+                <nav data-class="icon-c-circle2">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/circle2.png" alt="circle2">
+                    </div>
+                    <span class="text">circle2</span>
+                </nav>
+                <nav data-class="icon-c-circle03">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/circle03.png" alt="circle03">
+                    </div>
+                    <span class="text">circle03</span>
+                </nav>
+                <nav data-class="icon-c-circle3">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/circle3.png" alt="circle3">
+                    </div>
+                    <span class="text">circle3</span>
+                </nav>
+                <nav data-class="icon-c-circle04">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/circle04.png" alt="circle04">
+                    </div>
+                    <span class="text">circle04</span>
+                </nav>
+                <nav data-class="icon-c-circle4">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/circle4.png" alt="circle4">
+                    </div>
+                    <span class="text">circle4</span>
+                </nav>
+                <!-- class -->
+                <nav data-class="icon-c-class01">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/class01.png" alt="class01">
+                    </div>
+                    <span class="text">class01</span>
+                </nav>
+                <nav data-class="icon-c-class1">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/class1.png" alt="class1">
+                    </div>
+                    <span class="text">class1</span>
+                </nav>
+                <nav data-class="icon-c-class02">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/class02.png" alt="class02">
+                    </div>
+                    <span class="text">class02</span>
+                </nav>
+                <nav data-class="icon-c-class2">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/class2.png" alt="class2">
+                    </div>
+                    <span class="text">class2</span>
+                </nav>
+                <nav data-class="icon-c-class03">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/class03.png" alt="class03">
+                    </div>
+                    <span class="text">class03</span>
+                </nav>
+                <nav data-class="icon-c-class3">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/class3.png" alt="class3">
+                    </div>
+                    <span class="text">class3</span>
+                </nav>
+                <nav data-class="icon-c-class04">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/class04.png" alt="class04">
+                    </div>
+                    <span class="text">class04</span>
+                </nav>
+                <nav data-class="icon-c-class4">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/class4.png" alt="class4">
+                    </div>
+                    <span class="text">class4</span>
+                </nav>
+                <!-- home -->
+                <nav data-class="icon-c-home01">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/home01.png" alt="home01">
+                    </div>
+                    <span class="text">home01</span>
+                </nav>
+                <nav data-class="icon-c-home1">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/home1.png" alt="home1">
+                    </div>
+                    <span class="text">home1</span>
+                </nav>
+                <nav data-class="icon-c-home02">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/home02.png" alt="home02">
+                    </div>
+                    <span class="text">home02</span>
+                </nav>
+                <nav data-class="icon-c-home2">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/home2.png" alt="home2">
+                    </div>
+                    <span class="text">home2</span>
+                </nav>
+                <nav data-class="icon-c-home03">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/home03.png" alt="home03">
+                    </div>
+                    <span class="text">home03</span>
+                </nav>
+                <nav data-class="icon-c-home3">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/home3.png" alt="home3">
+                    </div>
+                    <span class="text">home3</span>
+                </nav>
+                <nav data-class="icon-c-home04">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/home04.png" alt="home04">
+                    </div>
+                    <span class="text">home04</span>
+                </nav>
+                <nav data-class="icon-c-home4">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/home4.png" alt="home4">
+                    </div>
+                    <span class="text">home4</span>
+                </nav>
+                <!-- me -->
+                <nav data-class="icon-c-me01">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/me01.png" alt="me01">
+                    </div>
+                    <span class="text">me01</span>
+                </nav>
+                <nav data-class="icon-c-me1">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/me1.png" alt="me1">
+                    </div>
+                    <span class="text">me1</span>
+                </nav>
+                <nav data-class="icon-c-me02">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/me02.png" alt="me02">
+                    </div>
+                    <span class="text">me02</span>
+                </nav>
+                <nav data-class="icon-c-me2">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/me2.png" alt="me2">
+                    </div>
+                    <span class="text">me2</span>
+                </nav>
+                <nav data-class="icon-c-me03">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/me03.png" alt="me03">
+                    </div>
+                    <span class="text">me03</span>
+                </nav>
+                <nav data-class="icon-c-me3">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/me3.png" alt="me3">
+                    </div>
+                    <span class="text">me3</span>
+                </nav>
+                <nav data-class="icon-c-me04">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/me04.png" alt="me04">
+                    </div>
+                    <span class="text">me04</span>
+                </nav>
+                <nav data-class="icon-c-me4">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/me4.png" alt="me4">
+                    </div>
+                    <span class="text">me4</span>
+                </nav>
+                <!-- warehouse -->
+                <nav data-class="icon-c-warehouse01">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/warehouse01.png" alt="warehouse01">
+                    </div>
+                    <span class="text">warehouse01</span>
+                </nav>
+                <nav data-class="icon-c-warehouse1">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/warehouse1.png" alt="warehouse1">
+                    </div>
+                    <span class="text">warehouse1</span>
+                </nav>
+                <nav data-class="icon-c-warehouse02">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/warehouse02.png" alt="warehouse02">
+                    </div>
+                    <span class="text">warehouse02</span>
+                </nav>
+                <nav data-class="icon-c-warehouse2">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/warehouse2.png" alt="warehouse2">
+                    </div>
+                    <span class="text">warehouse2</span>
+                </nav>
+                <nav data-class="icon-c-warehouse03">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/warehouse03.png" alt="warehouse03">
+                    </div>
+                    <span class="text">warehouse03</span>
+                </nav>
+                <nav data-class="icon-c-warehouse3">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/warehouse3.png" alt="warehouse3">
+                    </div>
+                    <span class="text">warehouse3</span>
+                </nav>
+                <nav data-class="icon-c-warehouse04">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/warehouse04.png" alt="warehouse04">
+                    </div>
+                    <span class="text">warehouse04</span>
+                </nav>
+                <nav data-class="icon-c-warehouse4">
+                    <div class="iconimg">
+                        <img src="http://ptnd5m0eg.bkt.clouddn.com/warehouse4.png" alt="warehouse4">
+                    </div>
+                    <span class="text">warehouse4</span>
+                </nav>
             </div>
         </div>
         <!--常规图标结束-->
-
-        <!--系统图标-->
-        <div class="modal-body set_x" id="set_x" style="display: none">
-            <div class="main">
-                <nav data-class="icon-x-bangzhu1">
-                    <span class="iconfont icon-x-bangzhu1"></span>
-                    <span class="text">帮助1</span>
-                </nav>
-                
-            </div>
-        </div>
-        <!--系统图标结束-->
 
 
         <div class="modal-footer">
