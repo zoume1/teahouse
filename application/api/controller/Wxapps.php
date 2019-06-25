@@ -318,18 +318,45 @@ class  Wxapps extends  Controller{
                                 }
                                 //秒杀模块屏蔽
                                 // $list = Db::query("SELECT title,thumb,id,`desc`,price,market_price,sale_num,sale_tnum,sale_time,sale_end_time,pro_kc FROM ims_sudu8_page_products WHERE `uniacid` = {$uniacid} AND `type` = 'showPro' AND `is_more` = 0 AND `flag` = 1 AND `is_sale`=0 AND  (`cid` = {$sourceid} or `pcid` = {$sourceid} ) " . $where . " LIMIT 0,{$count}");
+                                // halt($list);
                                 //获取秒杀的商品
                                 
                                 $list=db('limited')->where('store_id',$uniacid)->limit($count)->select();
                                 if ($list) {
-                                //     foreach ($list as $kk => $vv) {
+                                    foreach ($list as $kk => $vv) {
                                         // $count = Db::table("ims_sudu8_page_order")->where("uniacid", $uniacid)->where("pid", $vv['id'])->where("flag", "neq", 1)->field("id")->count();
-                                        // $list[$kk]['linkurl'] = "/sudu8_page/showPro/showPro?id=" . $vv['id'];
-                                        // $list[$kk]['linktype'] = "page";
-                                        // $list[$kk]['sale_num'] = $vv['sale_num'] + $vv['sale_tnum'];
-                                        // if (strpos($vv['thumb'], 'http') === false && $vv['thumb'] != "") {
-                                        //     $list[$kk]['thumb'] = remote($uniacid, $vv['thumb'], 1);
+                                        $list2[$kk]['title']=$vv['goods_name'];     //title
+                                        $list2[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vv['goods_id'];
+                                        $list2[$kk]['linktype'] = "page";
+                                        $jianjie=json_decode($vv['limit_condition'],true);
+                                        $list2[$kk]['goods_selling']=$jianjie['label']['label'];
+                                        $list2[$kk]['endtime']=$vv['end_time']-time();
+                                        $list2[$kk]['end_time']=$vv['end_time']-time();
+                                        $list2[$kk]['sale_time']=$vv['create_time'];
+                                        $list2[$kk]['sale_end_time']=$vv['end_time'];
+                                        $list2[$kk]['pro_kc']=$vv['goods_repertory'];      //商品库存
+                                        // if($list2[$kk]['end_time']<0)    //已结束
+                                        // {
+                                        //   $list2[$kk]['t_flag']=2;
+                                        // }elseif($vv['create_time']>time()){   //活动未开始
+                                        //    $list2[$kk]['t_flag']=1;
+                                        // }else{
+                                        //     $list2[$kk]['t_flag']=0;
                                         // }
+                                        $goods_images='//uploads/'.$vv['goods_show_images'];
+                                        // $list[$kk]['sale_num'] = $vv['sale_num'] + $vv['sale_tnum'];
+                                        if (strpos($goods_images, 'http') === false && $goods_images != "") {
+                                            $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
+                                        }
+                                        $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
+                                        $list2[$kk]['price']=$info['goods_new_money'];    //商品价格
+                                        $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
+                                        //获取已出售的数量
+                                        $pp2['goods_id']=$vv['goods_id'];
+                                        $pp2['status']=array('between',array(2,8));
+                                        $num=db('order')->where($pp2)->count();
+                                        $list2[$kk]['sale_num']=$num;    //商品已出售数量
+                                        //统计商品的销售数量
                                         // $orders = Db::table('ims_sudu8_page_order') ->where('pid', $vv['id']) ->where('uniacid', $uniacid) ->select();
                                         // $sale_num_temp = 0;
                                         // if($orders){
@@ -338,20 +365,20 @@ class  Wxapps extends  Controller{
                                         //     }
                                         // }
                                         // $vv['sale_num'] = $vv['sale_num'] + $sale_num_temp;
-                                    // }
-                                    // $data['msmk'] = $list;
-                                    foreach($list as $k=>$v){
-                                        //获取商品的信息
-                                        $info=db('goods')->where(['id'=>$v['goods_id'],'store_id'=>$uniacid])->find();
-                                        $list[$k]['goods_price']=$info['goods_new_money'];    //商品价格
-                                        $list[$k]['goods_bottom_money']=$info['goods_bottom_money'];    //划线价
-                                        //获取已出售的数量
-                                        $pp2['goods_id']=$v['goods_id'];
-                                        $pp2['status']=array('between',array(2,8));
-                                        $num=db('order')->where($pp2)->count();
-                                        $list[$k]['sell_number']=$num;    //商品已出售数量
                                     }
-                                    $data['msmk']=$list;
+                                    // $data['msmk'] = $list;
+                                    // foreach($list as $k=>$v){
+                                    //     //获取商品的信息
+                                    //     $info=db('goods')->where(['id'=>$v['goods_id'],'store_id'=>$uniacid])->find();
+                                    //     $list[$k]['goods_price']=$info['goods_new_money'];    //商品价格
+                                    //     $list[$k]['goods_bottom_money']=$info['goods_bottom_money'];    //划线价
+                                    //     //获取已出售的数量
+                                    //     $pp2['goods_id']=$v['goods_id'];
+                                    //     $pp2['status']=array('between',array(2,8));
+                                    //     $num=db('order')->where($pp2)->count();
+                                    //     $list[$k]['sell_number']=$num;    //商品已出售数量
+                                    // }
+                                    $data['msmk']=$list2;
                                 } else {
                                     $data['msmk'] = [];
                                 }
@@ -634,8 +661,7 @@ class  Wxapps extends  Controller{
                                 $member_grade_name = input("member_grade_name");; //会员等级
                                 $member_id =  input("open_id");  //open-ID
                                 $list = db("goods")
-                                    ->where("pid", $sourceid)
-                                    ->where("status", 1)
+                                    ->where(['pid'=>$sourceid,'status'=>1,'store_id'=>$uniacid])
                                     ->limit(1,$count)
                                     ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
                                     ->select();
