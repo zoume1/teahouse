@@ -332,14 +332,16 @@ class  Wxapps extends  Controller{
                                         $list2[$kk]['goods_selling']=$jianjie['label']['label'];
                                         $list2[$kk]['endtime']=$vv['end_time']-time();
                                         $list2[$kk]['end_time']=$vv['end_time']-time();
-                                        if($list2[$kk]['end_time']<0)    //已结束
-                                        {
-                                          $list2[$kk]['t_flag']=2;
-                                        }elseif($vv['create_time']>time()){   //活动未开始
-                                           $list2[$kk]['t_flag']=1;
-                                        }else{
-                                            $list2[$kk]['t_flag']=0;
-                                        }
+                                        $list2[$kk]['sale_time']=$vv['create_time'];
+                                        $list2[$kk]['sale_end_time']=$vv['end_time'];
+                                        // if($list2[$kk]['end_time']<0)    //已结束
+                                        // {
+                                        //   $list2[$kk]['t_flag']=2;
+                                        // }elseif($vv['create_time']>time()){   //活动未开始
+                                        //    $list2[$kk]['t_flag']=1;
+                                        // }else{
+                                        //     $list2[$kk]['t_flag']=0;
+                                        // }
                                         $goods_images='//uploads/'.$vv['goods_show_images'];
                                         // $list[$kk]['sale_num'] = $vv['sale_num'] + $vv['sale_tnum'];
                                         if (strpos($goods_images, 'http') === false && $goods_images != "") {
