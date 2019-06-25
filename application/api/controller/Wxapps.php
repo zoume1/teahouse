@@ -326,7 +326,7 @@ class  Wxapps extends  Controller{
                                     foreach ($list as $kk => $vv) {
                                         // $count = Db::table("ims_sudu8_page_order")->where("uniacid", $uniacid)->where("pid", $vv['id'])->where("flag", "neq", 1)->field("id")->count();
                                         $list2[$kk]['title']=$vv['goods_name'];     //title
-                                        $list2[$kk]['linkurl'] = "/sudu8_page/showPro/showPro?id=" . $vv['id'];
+                                        $list2[$kk]['linkurl'] = "/sudu8_page/goods_detail/goods_detail?title=" . $vv['id'];
                                         $list2[$kk]['linktype'] = "page";
                                         $jianjie=json_decode($vv['limit_condition'],true);
                                         $list2[$kk]['goods_selling']=$jianjie['label']['label'];
@@ -334,6 +334,7 @@ class  Wxapps extends  Controller{
                                         $list2[$kk]['end_time']=$vv['end_time']-time();
                                         $list2[$kk]['sale_time']=$vv['create_time'];
                                         $list2[$kk]['sale_end_time']=$vv['end_time'];
+                                        $list2[$kk]['pro_kc']=$vv['goods_repertory'];      //商品库存
                                         // if($list2[$kk]['end_time']<0)    //已结束
                                         // {
                                         //   $list2[$kk]['t_flag']=2;
