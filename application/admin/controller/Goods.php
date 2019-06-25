@@ -303,7 +303,7 @@ class Goods extends Controller
             $goods[$key]["goods_delivery"] = json_decode($goods[$key]["goods_delivery"],true);
         }
      }
-
+     
         $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
         
         if(!empty($team)){
@@ -403,7 +403,7 @@ class Goods extends Controller
             unset($goods_data["server"]);
             $show_images = $request->file("goods_show_images");
             if(!empty($goods_data['goods_delivery'])){
-                $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
+                $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery'],true);
             } else {
                 $goods_data['goods_delivery'] = null;
             }    

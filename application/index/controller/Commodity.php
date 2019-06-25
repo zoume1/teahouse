@@ -198,6 +198,7 @@ class Commodity extends Controller
             $min_line = db("special")->where("goods_id", $goods_id)->min("line");
             $max_prices = $max_price * $discount;
             $min_prices = $min_price * $discount;
+            
             if(!empty($goods[0]['goods_delivery'])){
                 $goods[0]['goods_delivery'] = json_decode($goods[0]["goods_delivery"],true);
             }
