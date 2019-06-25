@@ -99,6 +99,11 @@ class Goods extends Controller
             $store_id = Session::get("store_id");
             $goods_data = $request->param(); 
             $show_images = $request->file("goods_show_images");
+            if(!empty($goods_data['goods_delivery'])){
+                $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
+            } else {
+                $goods_data['goods_delivery'] = null;
+            }
             $imgs = $request->file("imgs");
             $list = [];
             unset($goods_data["aaa"]);
@@ -116,7 +121,7 @@ class Goods extends Controller
                 $goods_data["scope"] = "";
             }
             
-            $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
+        
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
             $goods_data["goods_sign"] = isset($goods_data["goods_sign"])?$goods_data["goods_sign"]:null;
@@ -295,10 +300,12 @@ class Goods extends Controller
             $goods[$key]["unit"] = explode(',', $goods[$key]["element"]);
             $goods[$key]["templet_name"] = explode(',', $goods[$key]["templet_name"]);
             $goods[$key]["templet_id"] = explode(',', $goods[$key]["templet_id"]);
-            $goods[$key]["goods_delivery"] = json_decode($goods[$key]["goods_delivery"]);
+            $goods[$key]["goods_delivery"] = json_decode($goods[$key]["goods_delivery"],true);
         }
      }
+     
         $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
+        
         if(!empty($team)){
             foreach($team as $ke => $val){
                 $temp[$ke] = db("express")->where("id",$team[$ke])->field("name,id")->find();
@@ -395,7 +402,11 @@ class Goods extends Controller
             unset($goods_data["sss"]);
             unset($goods_data["server"]);
             $show_images = $request->file("goods_show_images");
-
+            if(!empty($goods_data['goods_delivery'])){
+                $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery'],true);
+            } else {
+                $goods_data['goods_delivery'] = null;
+            }    
             if(!empty($goods_data["scope"])){
                 $goods_data["scope"] = implode(',', $goods_data["scope"]);
             } else {
@@ -403,7 +414,6 @@ class Goods extends Controller
             }
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
-            $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
             $list = [];
             if (!empty($show_images)) {
                 foreach ($show_images as $k => $v) {
