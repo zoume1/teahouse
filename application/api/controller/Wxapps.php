@@ -326,7 +326,7 @@ class  Wxapps extends  Controller{
                                     foreach ($list as $kk => $vv) {
                                         // $count = Db::table("ims_sudu8_page_order")->where("uniacid", $uniacid)->where("pid", $vv['id'])->where("flag", "neq", 1)->field("id")->count();
                                         $list2[$kk]['title']=$vv['goods_name'];     //title
-                                        $list2[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vv['id'];
+                                        $list2[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vv['goods_id'];
                                         $list2[$kk]['linktype'] = "page";
                                         $jianjie=json_decode($vv['limit_condition'],true);
                                         $list2[$kk]['goods_selling']=$jianjie['label']['label'];
