@@ -2195,7 +2195,18 @@ class  General extends  Base {
      */
     public function unline_withdrawal_record(){
         $store_wallet = $this->store_wallet($this->store_ids);
-        return view("unline_withdrawal_record",["store_wallet"=>$store_wallet]);
+        $offline_data = db("offline_recharge")->where("pay_type",'EQ',3)->where("store_id",$this->store_ids)->select();
+        if(!empty($offline_data)){
+            foreach ($offline_data as $key => $value) {
+                $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
+                $offline_data[$key]["name"] = $bank['name'];
+                $offline_data[$key]["count"] = $bank['count'];                               
+                }
+            }  
+        $url = 'admin/General/unline_withdrawal_record';
+        $pag_number = 20;
+        $offlines = paging_data($offline_data,$url,$pag_number);
+        return view("unline_withdrawal_record",["offlines"=>$offlines,"store_wallet"=>$store_wallet]);
     }
     /**
      **************李火生*******************
@@ -2793,6 +2804,97 @@ class  General extends  Base {
         $pag_number = 20;
         $offline = paging_data($offline_data,$url,$pag_number);
         return view("unline_recharge_record",["offline"=>$offline,"store_wallet"=>$store_wallet]);
+    }
+
+
+        /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:线下提现记录搜索
+     **************************************
+     */
+    public function unline_withdrawl_reasch(){
+        $store_wallet = $this->store_wallet($this->store_ids);
+        $parameter_one = input('status')?input('status'):null;
+        $parameter_two = input('start_time')?strtotime(input('start_time')):null;
+        $parameter_three = input('end_time')?strtotime(input('end_time')):null;
+
+        if(!empty($parameter_three)){
+            /*添加一天（23：59：59）*/
+            $t = date('Y-m-d H:i:s',$parameter_three+1*24*60*60);
+            $parameter_three  = strtotime($t);
+        }
+            
+        if(!empty($parameter_one) && empty($parameter_two) && empty($parameter_three)){
+            $offline_data = db('offline_recharge')
+                            ->where("pay_type",'EQ',3)
+                            ->where("status",'EQ',$parameter_one)
+                            ->where("store_id",$this->store_ids)
+                            ->select();
+        } else if(empty($parameter_one) && !empty($parameter_two) && empty($parameter_three)){
+            $time_condition  = "create_time>{$parameter_two}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where($time_condition)
+            ->where("store_id",$this->store_ids)
+            ->select();
+        } else if(empty($parameter_one) && empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time<{$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where($time_condition)
+            ->where("store_id",$this->store_ids)
+            ->select();
+        } else if(!empty($parameter_one) && !empty($parameter_two) && empty($parameter_three)){
+            $time_condition  = "create_time >{$parameter_two}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where("status",'EQ',$parameter_one)
+            ->where($time_condition)
+            ->where("store_id",$this->store_ids)
+            ->select();
+        } else if(!empty($parameter_one) && empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time <{$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where("status",'EQ',$parameter_one)
+            ->where($time_condition)
+            ->where("store_id",$this->store_ids)
+            ->select();
+        } else if (empty($parameter_one) && !empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time > {$parameter_two} and create_time < {$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where($time_condition)
+            ->where("store_id",$this->store_ids)
+            ->select();
+            
+        } else if(empty(!$parameter_one) && !empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time > {$parameter_two} and create_time < {$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where("status",'EQ',$parameter_one)
+            ->where($time_condition)
+            ->where("store_id",$this->store_ids)
+            ->select();
+        } else {
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where("store_id",$this->store_ids)
+            ->select();
+        }
+            
+        if(!empty($offline_data)){
+            foreach ($offline_data as $key => $value) {
+                $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
+                $offline_data[$key]["name"] = $bank['name'];
+                $offline_data[$key]["count"] = $bank['count'];                               
+                }
+            }  
+            $url = 'admin/General/unline_withdrawal_record';
+            $pag_number = 20;
+            $offlines = paging_data($offline_data,$url,$pag_number);
+            return view("unline_withdrawal_record",["offlines"=>$offlines,"store_wallet"=>$store_wallet]);
     }
 
 

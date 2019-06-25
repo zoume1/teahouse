@@ -57,16 +57,17 @@
         </div>
         <div class="inner">
             <div class="search-hd">
+                <form class="layui-form" action="{:url('admin/General/unline_withdrawl_reasch')}">
                 <div class="search-box layui-form">
                     <div class="date-input">
                         <label>时间：</label>
-                        <input type="text" data-type="date" id="searchDateStart">~
-                        <input type="text" data-type="date" id="searchDateend">
+                        <input type="text" data-type="date" name="start_time" id="searchDateStart">~
+                        <input type="text" data-type="date" name="end_time" id="searchDateend">
                     </div>
                     <div>
                         <label class="layui-form-label">交易状态</label>
                         <div class="layui-input-block">
-                            <select name="recharge-type">
+                            <select name="status">
                                 <option value="">请选择</option>
                                 <option value="0">申请中</option>
                                 <option value="1">已到账</option>
@@ -76,6 +77,7 @@
                     </div>
                     <button class="layui-btn">搜索</button>
                 </div>
+                </form>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
@@ -93,7 +95,7 @@
                                 <div class="table-cell-div">银行账号</div>
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">充值金额</div>
+                                <div class="table-cell-div">提现金额</div>
                             </th>
                             <th class="table-cell">
                                 <div class="table-cell-div">手续费</div>
@@ -107,6 +109,8 @@
                         </tr>
                     </thead>
                     <tbody>
+                            {if !empty($offlines)}
+                            {volist name="offlines" id="value"}   
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
@@ -114,28 +118,32 @@
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">2</div>
+                                <div class="table-cell-div">{$value.name}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">3</div>
+                                <div class="table-cell-div">{$value.count}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">4</div>
+                                <div class="table-cell-div">￥{$value.money}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">4</div>
+                                <div class="table-cell-div">￥{$value.poundage}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">5</div>
+                                <div class="table-cell-div">{$value.create_time|date="Y-m-d H:i",###}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">
-                                    <button class="layui-btn">申请中</button>
-                                    <button class="layui-btn">通过</button>
-                                    <button class="layui-btn">驳回</button>
-                                </div>
-                            </td>
+                                    <div class="table-cell-div btns">
+                                        {switch name="$value.status"}
+                                        {case value="1"}<button class="layui-btn" data-val="0">申请中</button>{/case}
+                                        {case value="2"}<button class="layui-btn" data-val="1">通过</button>{/case}
+                                        {default /} <button class="layui-btn" data-val="2">驳回</button>
+                                        {/switch}
+                                    </div>
+                                </td>
                         </tr>
+                        {/volist}
+                        {/if}
                     </tbody>
                 </table>
             </div>
@@ -151,6 +159,7 @@
                 </div>
             </div>
         </div>
+        {if !empty($offlines)}{$offlines}{/if}
     </div>
 {/block}
 

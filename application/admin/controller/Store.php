@@ -250,7 +250,7 @@ class Store extends  Controller{
             if(md5($data['passworld']) != $store_information['store_pay_pass']){
                 exit(json_encode(array("status"=>6,"info"=>"您的支付密码有误")));
             }
-            if(md5($data['phone_number']) != $mobileCodes){
+            if($data['phone_number'] != $mobileCodes){
                 exit(json_encode(array("status"=>7,"info"=>"手机验证码有误")));
             }
             $data['serial_number'] = $orderSn;
@@ -259,9 +259,11 @@ class Store extends  Controller{
             $data['pay_type'] = 3;
             unset($data['passworld']);
             unset($data['phone_number']);
+       
             $bool  = Db::name("offline_recharge")
                 ->insert($data);
             if($bool){
+                Session::delete('mobileCodes');
                 return ajax_success("已提交申请",$bool);
             } else {
                 return ajax_success("提交失败");

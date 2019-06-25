@@ -833,6 +833,7 @@ Route::group("admin",[
     "store_wallet_return"=>"admin/Store/store_wallet_return",//店铺的钱包返回
     "store_isset_password"=>"admin/Store/store_isset_password",//店铺检测是否进行了支付密码设置，没有设置则前往设置
     "unline_recharge_reasch"=>"admin/General/unline_recharge_reasch",//线下充值记录搜索
+    "unline_withdrawl_reasch"=>"admin/General/unline_withdrawl_reasch",//线下提现记录搜索
 
 
 
@@ -917,6 +918,7 @@ Route::group("admin",[
     "analyse_ground"=>"admin/Analyse/analyse_ground",        //增值商品上架开关
     "analyse_status"=>"admin/Analyse/analyse_status",        //增值商品系统推荐
     "control_charging_update"=>"admin/Analyse/control_charging_update",//线下充值申请审核
+    "control_withdraw_update"=>"admin/Analyse/control_withdraw_update",//线下提现申请审核
 
 
     "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单
