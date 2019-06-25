@@ -82,7 +82,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label star">提现金额：</label>
                         <div class="layui-input-block">
-                            <input type="text" required name="money" lay-verify="required" class="layui-input">
+                            <input type="text" required name="money" lay-verify="required" class="layui-input" autocomplete="off">
                             <span class="unit">元</span>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label star">短信验证码：</label>
                         <div class="layui-input-block">
-                            <input type="text" name="phone_number" required lay-verify="required" placeholder="请输入手机验证码" class="layui-input">
+                            <input type="text" name="phone_number" required lay-verify="required" placeholder="请输入手机验证码" class="layui-input" autocomplete="off">
                             <button class="layui-btn getCode">获取验证码</button>
                         </div>
                     </div>
@@ -164,21 +164,27 @@
         $('input[name=money]').blur(function(){
             params.money = +this.value;
             if(params.money){
-                if(params.money <= 50000){
-                    if(params.money <= surplus){
-                        // 手续费率
-                        var commission = +$('.commission').text().split('%')[0] / 100;
-                        params.poundage = params.money*commission;
-                        params.real_money =  params.money - params.poundage;
-                        $('div[name=poundage]').text('￥' + params.poundage.toFixed(2));
-                        $('div[name=real_money]').text('￥' + params.real_money.toFixed(2));
+                if(params.money >= 1000){
+                    if(params.money <= 50000){
+                        if(params.money <= surplus){
+                            // 手续费率
+                            var commission = +$('.commission').text().split('%')[0] / 100;
+                            params.poundage = params.money*commission;
+                            params.real_money =  params.money - params.poundage;
+                            $('div[name=poundage]').text('￥' + params.poundage.toFixed(2));
+                            $('div[name=real_money]').text('￥' + params.real_money.toFixed(2));
+                        }else{
+                            layer.msg('提现金额大于账户余额！');
+                            this.value = '';
+                            $('div[name=poundage]').text('￥0.00').add('div[name=real_money]').text('￥0.00');
+                        }
                     }else{
-                        layer.msg('提现金额大于账户余额！');
+                        layer.msg('单笔提现限额 ￥50,000元');
                         this.value = '';
                         $('div[name=poundage]').text('￥0.00').add('div[name=real_money]').text('￥0.00');
                     }
                 }else{
-                    layer.msg('单笔提现限额 50,000元');
+                    layer.msg('单笔提现金额最低 ￥1,000元');
                     this.value = '';
                     $('div[name=poundage]').text('￥0.00').add('div[name=real_money]').text('￥0.00');
                 }
@@ -188,58 +194,85 @@
         })
 
         $('.confirm').click(function(){
-            
+            params.passworld = $('input[name=passworld]').val();
+            params.phone_number = $('input[name=phone_number]').val();
+            if(params.bank_icard_id && params.money && params.passworld && params.phone_number){
+                myAjax(params);
+            }else{
+                layer.msg('请将信息填写完整！');
+            }
         })
-    })
 
-    $('.getCode').click(function(){
-        console.log(111)
-        $.post('StoreMobile', function(res){
-            console.log(res)
+        $('.getCode').click(function(){
+            var _this = this;
+            $.post('{:url("index/Register/StoreMobile")}', function(res){
+                if(res.status == 1){
+                    layer.msg(res.info);
+                    buttonCountdown($(_this), 1000 * 60 * 1, "ss");
+                }
+            }, 'json')
         })
     })
+    function myAjax(params){
+        $.ajax({
+            url: 'withdrawCash',
+            type: 'POST',
+            dataType: 'JSON',
+            data: params,
+            success: function(res){
+                console.log(res);
+                if(res.status == 1){
+                    layer.msg(res.info);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1200);
+                }else{
+                    layer.msg(res.info);
+                }
+            },
+            error: function(){}
+        })
+    }
     
     function buttonCountdown($el, msNum, timeFormat) {
-            var text = $el.data("text") || $el.text(),
-                timer = 0;
-            $el.prop("disabled", true).addClass("disabled")
-                .on("bc.clear", function () {
-                    clearTime();
-                });
-            (function countdown() {
-                var time = showTime(msNum)[timeFormat];
-                $el.text(time + '后失效');
-                if (msNum <= 0) {
-                    msNum = 0;
-                    clearTime();
-                } else {
-                    msNum -= 1000;
-                    timer = setTimeout(arguments.callee, 1000);
-                }
-            })();
-            function clearTime() {
-                clearTimeout(timer);
-                $el.prop("disabled", false).removeClass("disabled").text(text);
+        var text = $el.data("text") || $el.text(),
+            timer = 0;
+        $el.prop("disabled", true).addClass("disabled")
+            .on("bc.clear", function () {
+                clearTime();
+            });
+        (function countdown() {
+            var time = showTime(msNum)[timeFormat];
+            $el.text(time + '后失效');
+            if (msNum <= 0) {
+                msNum = 0;
+                clearTime();
+            } else {
+                msNum -= 1000;
+                timer = setTimeout(arguments.callee, 1000);
             }
-            function showTime(ms) {
-                var d = Math.floor(ms / 1000 / 60 / 60 / 24),
-                    h = Math.floor(ms / 1000 / 60 / 60 % 24),
-                    m = Math.floor(ms / 1000 / 60 % 60),
-                    s = Math.floor(ms / 1000 % 60),
-                    ss = Math.floor(ms / 1000);
-                return {
-                    d: d + "天",
-                    h: h + "小时",
-                    m: m + "分",
-                    ss: ss + "秒",
-                    "d:h:m:s": d + "天" + h + "小时" + m + "分" + s + "秒",
-                    "h:m:s": h + "小时" + m + "分" + s + "秒",
-                    "m:s": m + "分" + s + "秒"
-                };
-            }
-            return this;
+        })();
+        function clearTime() {
+            clearTimeout(timer);
+            $el.prop("disabled", false).removeClass("disabled").text(text);
         }
-
-        buttonCountdown($(this), 1000 * 60 * 1, "ss");
+        function showTime(ms) {
+            var d = Math.floor(ms / 1000 / 60 / 60 / 24),
+                h = Math.floor(ms / 1000 / 60 / 60 % 24),
+                m = Math.floor(ms / 1000 / 60 % 60),
+                s = Math.floor(ms / 1000 % 60),
+                ss = Math.floor(ms / 1000);
+            return {
+                d: d + "天",
+                h: h + "小时",
+                m: m + "分",
+                ss: ss + "秒",
+                "d:h:m:s": d + "天" + h + "小时" + m + "分" + s + "秒",
+                "h:m:s": h + "小时" + m + "分" + s + "秒",
+                "m:s": m + "分" + s + "秒"
+            };
+        }
+        return this;
+    }
 </script>
 {/block}
