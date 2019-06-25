@@ -871,6 +871,7 @@ define(['jquery', 'bootstrap'], function($, bs) {
 	 * 图标库2-----图片
 	 */
 	$(document).on('click', '[data-toggle="selectIcon2"]', function() {
+		console.log(111)
 		var _input = $(this).data('input');
 
 		var _element = $(this).data('element');
