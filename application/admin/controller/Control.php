@@ -711,7 +711,19 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_withdraw_deposit(){     
-        return view("control_withdraw_deposit");
+        $offline_data = db('offline_recharge')->where("pay_type",'EQ',3)->select();
+        if(!empty($offline_data)){
+            foreach ($offline_data as $key => $value) {
+                $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
+                $offline_data[$key]["name"] = $bank['name'];
+                $offline_data[$key]["count"] = $bank['count'];                               
+                $offline_data[$key]["store_number"] = db("store")->where("id",$offline_data[$key]['store_id'])->value("phone_number");                               
+                }
+            }
+        $url = 'admin/Control/control_withdraw_deposit';
+        $pag_number = 20;
+        $offlines = paging_data($offline_data,$url,$pag_number); 
+        return view("control_withdraw_deposit",['offlines'=>$offlines]);
     }
 
 
@@ -719,8 +731,17 @@ class  Control extends  Controller{
      * [提现申请编辑]
      * 郭杨
      */    
-    public function control_withdraw_edit(){     
-        return view("control_withdraw_edit");
+    public function control_withdraw_edit($id){    
+        $offline_data = db('offline_recharge')->where("id",'EQ',$id)->select();
+        if(!empty($offline_data)){
+            foreach ($offline_data as $key => $value) {
+                $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
+                $offline_data[$key]["name"] = $bank['name'];
+                $offline_data[$key]["count"] = $bank['count'];                               
+                $offline_data[$key]["store_number"] = db("store")->where("id",$offline_data[$key]['store_id'])->value("phone_number");                               
+                }
+            } 
+        return view("control_withdraw_edit",['offline_data'=>$offline_data]);
     }
 
     /**
