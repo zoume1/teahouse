@@ -67,11 +67,48 @@ class  Store extends  Controller{
                 "phone_number"=>$phone_number,
                 'share_code'=>$share_code,
                 //店铺状态(1审核通过,-1审核不通过,2审核中）
-                "status"=>2,
+                "status"=>1,
                 "store_name"=>$store_name
             ];
-            $bool =Db::name("store")->insert($data);
-            if($bool){
+            $bool = Db::name("store")->insertGetId($data);
+            if($bool > 0){
+                    $user_data =Db::table("tb_pc_user")
+                        ->field("phone_number,password")
+                        ->where("id",$user_id)
+                        ->find();
+                    //审核通过则在后台添加一个登录账号，不通过则不添加
+                   $is_set = Db::name("admin")->where("store_id",$bool)->find();
+                   if(!$is_set){
+                     //先判断该店铺是否已经添加过admin表
+                     //插入到后台
+                     $array =[
+                         "account"=>$user_data['phone_number'], //手机号
+                         "passwd"=>$user_data['password'],//登录密码
+                         "sex"=>1,
+                         "stime"=>date("Y-m-d H:i:s"),
+                         "role_id"=>8,//普通访客
+                         "phone"=>$user_data['phone_number'],
+                         "status"=>0,//0可以登录后台，1被禁用
+                         "name"=>$user_data['phone_number'],
+                         "store_id"=>$bool,
+                         "is_own"=>1, //1为商家，0为商家下面的员工或者admin
+                     ];
+                     Db::name("admin")->insertGetId($array);
+                 } else {
+                    return ajax_error("网络错误，请重新提交");
+                 }
+                
+                $mobile = $user_data['phone_number'];
+                $content = "尊敬的用户您好！您的店铺申请成功，请及时登陆网站，选择套餐，完成店铺入驻";
+                $url = "http://120.26.38.54:8000/interface/smssend.aspx";
+                $post_data = array("account" => "chacang", "password" => "123qwe", "mobile" => "$mobile", "content" => $content);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+                $output = curl_exec($ch);
+                curl_close($ch);
                 return ajax_success("您的资料已提交,请耐心等待审核");
             }else{
                 return ajax_error("网络错误，请重新提交");
