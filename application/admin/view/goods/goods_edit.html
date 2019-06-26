@@ -476,27 +476,17 @@
             <label class="form-label">服务承诺</label>
             <div class="form-input">
                 <div class="sever_list">
+                    {foreach name="$value.server" item="vo" key="abc"}
                     <div class="list">
-                        <input type="checkbox" name="server[server_0][check]" value="1" lay-skin="primary" lay-filter="choose1"
-                            title="" checked>
-                        <input class="texts" type="text" name="server[server_0][text]" value="7*24客服">
-                        <!-- <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> -->
+                        {if isset($vo['check'])}
+                        <input type="checkbox" name="server[{$abc}][check]" value="{$vo['check']}" lay-skin="primary" lay-filter="choose1"title="" checked="">
+                        {/if}
+                        {if !isset($vo['check'])}
+                        <input type="checkbox" name="server[{$abc}][check]" value="" lay-skin="primary" lay-filter="choose1"title="" >
+                        {/if}
+                        <input class="texts" type="text" name="server[{$abc}][text]" value="{$vo['text']}">
                     </div>
-                    <div class="list">
-                        <input type="checkbox" name="server[server_1][check]" value="1" lay-skin="primary" lay-filter="choose1"
-                            title="" checked>
-                        <input class="texts" type="text" name="server[server_1][text]" value="正品保障">
-                    </div>
-                    <div class="list">
-                        <input type="checkbox" name="server[server_2][check]" value="1" lay-skin="primary" lay-filter="choose1"
-                            title="" checked>
-                        <input class="texts" type="text" name="server[server_2][text]" value="极速发货">
-                    </div>
-                    <div class="list">
-                        <input type="checkbox" name="server[server_3][check]" value="1" lay-skin="primary" lay-filter="choose1"
-                            title="" checked>
-                        <input class="texts" type="text" name="server[server_3][text]" value="7天退换货">
-                    </div>
+                    {/foreach}
                 </div>
                 <div class="tips">
                     *前端可显示和不显示，点击文字可修改，单项不超过5个字
