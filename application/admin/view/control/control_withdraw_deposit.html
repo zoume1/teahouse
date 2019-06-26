@@ -123,25 +123,27 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                 
+                        {if !empty($offlines)}{volist name="offlines" id="value"}
                     <tr>
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="}"></td>
                      
-                        <td>1111</td>
-                      
-                        <td>111</td>
-                       
-                      
-                        <td>111</td>
-                        <td>111</td>
-                        <td>11</td>
-                        <td>111</td>
-                        <td>111</td>
+                        <td>{$value.store_number}</td>                    
+                        <td>{$value.name}</td>        
+                        <td>{$value.count}</td>
+                        <td>{$value.money}</td>
+                        <td>{$value.poundage}</td>
+                        <td>{$value.create_time|date="Y-m-d H:i",###}</td>
+                        <td>{$value.message}</td>
                         <td>
-                            <a href="{:url('admin/Control/control_withdraw_edit')}">申请中</a>
+                            {switch name="$value.status"}
+                            {case value="1"} <a href="{:url('admin/Control/control_withdraw_edit',['id'=>$value.id])}">申请中</a>{/case}
+                            {case value="2"} <a href="{:url('admin/Control/control_withdraw_edit',['id'=>$value.id])}">通过</a>{/case}
+                            {default /}  <a href="{:url('admin/Control/control_withdraw_edit',['id'=>$value.id])}">驳回</a>
+                            {/switch}
                         </td>
                     </tr>
-               
+                    {/volist}
+                    {/if}
                 </tbody>
             </table>
             <div id="page">
@@ -160,7 +162,7 @@
             </div>
 
         </div>
-
+        {if !empty($offlines)}{$offlines}{/if}
     </div>
 
     {/block}

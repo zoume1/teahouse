@@ -224,7 +224,8 @@
                 if(res.status == 1){
                     layer.msg(res.info);
                     setTimeout(function(){
-                        location.reload();
+                        // location.reload();
+                        location.href = 'unline_withdrawal_record';
                     }, 1200);
                 }else{
                     layer.msg(res.info);

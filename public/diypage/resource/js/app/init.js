@@ -758,9 +758,9 @@ define(['jquery', 'bootstrap'], function($, bs) {
 	$(document).on('click', '[data-toggle="selectImg"]', function() {
 
 		var _input = $(this).data('input');
-
+		console.log(_input)
 		var _img = $(this).data('img');
-
+		console.log(_img)
 		var _full = $(this).data('full');
 
 		require(['jquery', "util"], function($, util) {
@@ -871,6 +871,7 @@ define(['jquery', 'bootstrap'], function($, bs) {
 	 * 图标库2-----图片
 	 */
 	$(document).on('click', '[data-toggle="selectIcon2"]', function() {
+		console.log(111)
 		var _input = $(this).data('input');
 
 		var _element = $(this).data('element');
