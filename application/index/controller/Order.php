@@ -396,6 +396,7 @@ class  Order extends  Controller
                         $datas["age_limit"] = $year;  
                 
                         $key = array_search($unit[$keys],$data['unit']);
+                        halt($key);
                         switch($key){
                             case 0:
                                 $datas["store_number"] = $datas["order_quantity"].','.$unit[$keys];
