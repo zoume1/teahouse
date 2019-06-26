@@ -140,6 +140,8 @@ class Goods extends Controller
 
             $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]); 
             $goods_data["server"] = json_encode($goods_data["server"]); 
+
+            halt($goods_data);
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
                 if ($bool && (!empty($show_images))) {
