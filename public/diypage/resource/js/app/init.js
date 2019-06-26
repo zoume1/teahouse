@@ -758,9 +758,9 @@ define(['jquery', 'bootstrap'], function($, bs) {
 	$(document).on('click', '[data-toggle="selectImg"]', function() {
 
 		var _input = $(this).data('input');
-
+		console.log(_input)
 		var _img = $(this).data('img');
-
+		console.log(_img)
 		var _full = $(this).data('full');
 
 		require(['jquery', "util"], function($, util) {
@@ -794,9 +794,11 @@ define(['jquery', 'bootstrap'], function($, bs) {
 		})
 
 	});
-
+	/**
+	 * lilu
+	 * 图标库（icon）
+	 */
 	$(document).on('click', '[data-toggle="selectIcon"]', function() {
-
 		var _input = $(this).data('input');
 
 		var _element = $(this).data('element');
@@ -858,17 +860,68 @@ define(['jquery', 'bootstrap'], function($, bs) {
 						$(_element).removeAttr("class").addClass("iconfont  " + _class)
 
 					}
-
 					modal.find(".close").click()
-
 				})
-
 			})
-
 		})
-
 	});
+	
+	/**
+	 * lilu
+	 * 图标库2-----图片
+	 */
+	$(document).on('click', '[data-toggle="selectIcon2"]', function() {
+		console.log(111)
+		var _input = $(this).data('input');
 
+		var _element = $(this).data('element');
+
+		if (!_input && !_element) {
+
+			return
+
+		}
+
+		var merch = $(".diy-phone").data("merch");
+
+		var url = "/admin/test_selecticon2.html";
+
+		$.ajax(url, {
+
+			type: "get",
+
+			dataType: "html",
+
+			cache: false
+
+		}).done(function(html) {
+			var html = html.replace(/\\r\\n/g,"");
+			var html = html.replace(/\\n/g,"");
+			var html = html.replace(/\\t/g,"");
+			var html = html.replace(/\\"/g,'"');
+			var html = html.replace(/\\/g,'');
+			var html = html.replace(/"</g,'<');
+			var html = html.replace(/>"/g,'>');
+			modal = $('<div class="modal fade" id="selectIcon"></div>');
+			$(document.body).append(modal), modal.modal('show');
+			modal.append2(html, function() {
+				$(document).off("click", '#selectIcon nav').on("click", '#selectIcon nav', function() {
+					var _class = $.trim($(this).data("class"));
+					if (_input) {
+						$(_input).val(_class).trigger('change')
+					}
+					if (_element) {
+						$(_element).removeAttr("class").addClass("iconfont  " + _class)
+					}
+					modal.find(".close").click()
+				})
+			})
+		})
+	});
+  /**
+   * lilu
+   * 获取app二维码
+   */
 	$(document).on('click', '[data-toggle="getSappQrcode"]', function() {
 
 		var obj = $(this);

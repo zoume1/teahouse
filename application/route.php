@@ -201,6 +201,7 @@ Route::group("",[
     "coupon_minute"=>"index/Coupon/coupon_minute",            //优惠券显示
     "limitations_show"=>"index/Coupon/limitations_show",      //判断该商品是否限时限购
     "limitations"=>"index/Coupon/limitations",                //判断用户是否能购买商品
+    "coupon_search2"=>"admin/Limitations/coupon_search2",                //判断用户是否能购买商品
     
     /*积分商城*/
     "bonus_index"=>"index/Coupon/bonus_index",           //积分商城显示
@@ -644,6 +645,7 @@ Route::group("admin",[
     "limitations_edit"=>"admin/Limitations/limitations_edit",    //限时限购编辑 
     "limitations_add"=>"admin/Limitations/limitations_add",      //限时限购添加商品
     "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加
+    "limitations_save_do"=>"admin/Limitations/limitations_save_do",    //限时限购编辑处理
     "limitations_weave"=>"admin/Limitations/limitations_weave",  //限时限购编辑商品
     "limitations_update"=>"admin/Limitations/limitations_update",//限时限购更新
     "limitations_delete"=>"admin/Limitations/limitations_delete",//限时限购删除
@@ -791,6 +793,7 @@ Route::group("admin",[
     "xiaochengxu_edit"=>"admin/General/xiaochengxu_edit", //小程序装修
     "system_template"=>"admin/General/system_template", //小程序系统推荐模板生成
     "test_selecticon"=>"admin/Test/selecticon",//图标库
+    "test_selecticon2"=>"admin/Test/selecticon2",//图标库--图片
     "test_select_url"=>"admin/Test/select_url",//轮播图功能库（数据来源）
     "test_select_source"=>"admin/Test/select_source",//公告来源栏目（数据来源）
 
@@ -831,6 +834,7 @@ Route::group("admin",[
     "store_wallet_return"=>"admin/Store/store_wallet_return",//店铺的钱包返回
     "store_isset_password"=>"admin/Store/store_isset_password",//店铺检测是否进行了支付密码设置，没有设置则前往设置
     "unline_recharge_reasch"=>"admin/General/unline_recharge_reasch",//线下充值记录搜索
+    "unline_withdrawl_reasch"=>"admin/General/unline_withdrawl_reasch",//线下提现记录搜索
 
 
 
@@ -915,6 +919,7 @@ Route::group("admin",[
     "analyse_ground"=>"admin/Analyse/analyse_ground",        //增值商品上架开关
     "analyse_status"=>"admin/Analyse/analyse_status",        //增值商品系统推荐
     "control_charging_update"=>"admin/Analyse/control_charging_update",//线下充值申请审核
+    "control_withdraw_update"=>"admin/Analyse/control_withdraw_update",//线下提现申请审核
 
 
     "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单
@@ -942,6 +947,7 @@ Route::group("api",[
     "dopageglobaluserinfo"=>"api/Wxapps/dopageglobaluserinfo", //http://teahouse.com/api/dopageglobaluserinfo?openid=o9NMH0ber2GnkHvkYEhrJamfNNPg&uniacid=1
       /**测试 */
     "wxapp2"=>"api/Wxapp2/index",
+    "doPageBase"=>"api/Wxapp2/doPageBase",
 ]);
 
 Route::miss("public/miss");

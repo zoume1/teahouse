@@ -53,7 +53,7 @@
                     {if !empty($store_information)}
                     <div class="layui-form-item">
                         <label class="layui-form-label star">账户余额：</label>
-                        <div class="layui-input-block cr">￥{$store_information.store_wallet}</div>
+                        <div class="layui-input-block cr surplus">￥{$store_information.store_wallet}</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">账户名：</label>
@@ -72,7 +72,7 @@
                             <a href="store_add_bankcard" class="layui-btn add-bank">+银行卡</a>
                         </select>
                         {else}
-                        <select name="bank_icard_id" lay-verify="required">
+                        <select name="bank_icard_id" lay-verify="required" lay-filter="bankcard">
                             <option value="">请添加银行卡 →</option>
                         </select>
                         {/if}
@@ -82,30 +82,30 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label star">提现金额：</label>
                         <div class="layui-input-block">
-                            <input type="text" required name="money" lay-verify="required" class="layui-input">
+                            <input type="text" required name="money" lay-verify="required" class="layui-input" autocomplete="off">
                             <span class="unit">元</span>
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">手续费：</label>
-                        <div class="layui-input-block cr" name="poundage">￥2.00</div>
+                        <div class="layui-input-block cr" name="poundage">￥0.00</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">到账金额：</label>
-                        <div class="layui-input-block cr" name="real_money">￥8.00</div>
+                        <div class="layui-input-block cr" name="real_money">￥0.00</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">资金密码：</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="passworld"required lay-verify="required" class="layui-input">
+                            <input type="text" name="passworld" required lay-verify="required" class="layui-input">
                         </div>
                         <div class="layui-form-mid layui-word-aux">注：请在安全设置中设置</div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label star">短信验证码：</label>
                         <div class="layui-input-block">
-                            <input type="text" name="phone_number" required lay-verify="required" placeholder="请输入手机验证码" class="layui-input">
-                            <button class="layui-btn">获取验证码</button>
+                            <input type="text" name="phone_number" required lay-verify="required" placeholder="请输入手机验证码" class="layui-input" autocomplete="off">
+                            <button class="layui-btn getCode">获取验证码</button>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -125,7 +125,7 @@
                     <li>①请妥善保管好您的资金密码以及手机验证码，切勿透露给他人。</li>
                     <li>②单笔提现限额 <span class="cr">50,000.00</span>元</li>
                     <li>③单日提现限制次数为<span class="cr">5</span>次</li>
-                    <li>④提现手续费率为<span class="cr">1%</span></li>
+                    <li>④提现手续费率为<span class="cr commission">1%</span></li>
                     <li>⑤银行卡提现<span class="cr">24</span>小时内到账</li>
                 </ul>
             </div>
@@ -139,12 +139,141 @@
 <script src="__STATIC__/admin/common/layui/layui.js"></script>
 
 <script>
-    layui.use(['laydate', 'form'], function(){
+    layui.use(['laydate', 'form', 'layer'], function(){
         var laydate = layui.laydate,
-            form = layui.form;
+            form = layui.form,
+            layer = layui.layer;
         laydate.render({elem: '#remitTime'});
         form.render();
+
+        // 银行卡ID
+        form.on('select(bankcard)', function(data){
+            params.bank_icard_id = data.value;
+        })
+        
+        // 余额
+        var surplus = +$('.surplus').text().split('￥')[1];
+        var params = {
+            bank_icard_id: null,
+            money: null,
+            poundage: null,
+            real_money: null,
+            passworld: null,
+            phone_number: null
+        }
+        $('input[name=money]').blur(function(){
+            params.money = +this.value;
+            if(params.money){
+                if(params.money >= 1000){
+                    if(params.money <= 50000){
+                        if(params.money <= surplus){
+                            // 手续费率
+                            var commission = +$('.commission').text().split('%')[0] / 100;
+                            params.poundage = params.money*commission;
+                            params.real_money =  params.money - params.poundage;
+                            $('div[name=poundage]').text('￥' + params.poundage.toFixed(2));
+                            $('div[name=real_money]').text('￥' + params.real_money.toFixed(2));
+                        }else{
+                            layer.msg('提现金额大于账户余额！');
+                            this.value = '';
+                            $('div[name=poundage]').text('￥0.00').add('div[name=real_money]').text('￥0.00');
+                        }
+                    }else{
+                        layer.msg('单笔提现限额 ￥50,000元');
+                        this.value = '';
+                        $('div[name=poundage]').text('￥0.00').add('div[name=real_money]').text('￥0.00');
+                    }
+                }else{
+                    layer.msg('单笔提现金额最低 ￥1,000元');
+                    this.value = '';
+                    $('div[name=poundage]').text('￥0.00').add('div[name=real_money]').text('￥0.00');
+                }
+            }else{
+                $('div[name=poundage]').text('￥0.00').add('div[name=real_money]').text('￥0.00');
+            }
+        })
+
+        $('.confirm').click(function(){
+            params.passworld = $('input[name=passworld]').val();
+            params.phone_number = $('input[name=phone_number]').val();
+            if(params.bank_icard_id && params.money && params.passworld && params.phone_number){
+                myAjax(params);
+            }else{
+                layer.msg('请将信息填写完整！');
+            }
+        })
+
+        $('.getCode').click(function(){
+            var _this = this;
+            $.post('{:url("index/Register/StoreMobile")}', function(res){
+                if(res.status == 1){
+                    layer.msg(res.info);
+                    buttonCountdown($(_this), 1000 * 60 * 1, "ss");
+                }
+            }, 'json')
+        })
     })
+    function myAjax(params){
+        $.ajax({
+            url: 'withdrawCash',
+            type: 'POST',
+            dataType: 'JSON',
+            data: params,
+            success: function(res){
+                console.log(res);
+                if(res.status == 1){
+                    layer.msg(res.info);
+                    setTimeout(function(){
+                        // location.reload();
+                        location.href = 'unline_withdrawal_record';
+                    }, 1200);
+                }else{
+                    layer.msg(res.info);
+                }
+            },
+            error: function(){}
+        })
+    }
     
+    function buttonCountdown($el, msNum, timeFormat) {
+        var text = $el.data("text") || $el.text(),
+            timer = 0;
+        $el.prop("disabled", true).addClass("disabled")
+            .on("bc.clear", function () {
+                clearTime();
+            });
+        (function countdown() {
+            var time = showTime(msNum)[timeFormat];
+            $el.text(time + '后失效');
+            if (msNum <= 0) {
+                msNum = 0;
+                clearTime();
+            } else {
+                msNum -= 1000;
+                timer = setTimeout(arguments.callee, 1000);
+            }
+        })();
+        function clearTime() {
+            clearTimeout(timer);
+            $el.prop("disabled", false).removeClass("disabled").text(text);
+        }
+        function showTime(ms) {
+            var d = Math.floor(ms / 1000 / 60 / 60 / 24),
+                h = Math.floor(ms / 1000 / 60 / 60 % 24),
+                m = Math.floor(ms / 1000 / 60 % 60),
+                s = Math.floor(ms / 1000 % 60),
+                ss = Math.floor(ms / 1000);
+            return {
+                d: d + "天",
+                h: h + "小时",
+                m: m + "分",
+                ss: ss + "秒",
+                "d:h:m:s": d + "天" + h + "小时" + m + "分" + s + "秒",
+                "h:m:s": h + "小时" + m + "分" + s + "秒",
+                "m:s": m + "分" + s + "秒"
+            };
+        }
+        return this;
+    }
 </script>
 {/block}

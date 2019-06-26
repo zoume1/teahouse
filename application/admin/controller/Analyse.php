@@ -630,6 +630,35 @@ class  Analyse extends  Controller{
             }
         }
     }
+    /**
+     * [线下提现申请编辑]
+     * 郭杨
+     */    
+    public function control_withdraw_update(Request $request){   
+        if($request->isPost()){
+            $status =$request->only(["status"])["status"];
+            $id = $request->only(["id"])["id"];
+            if( empty($status) || empty($id)){
+                return ajax_error("参数错误");
+            }
+            $bool = db("offline_recharge")->where('id',$id)->update(["status"=>$status]);
+            if($bool){
+                if($status == 2){
+                    $data = db("offline_recharge")->where('id',$id)->find();
+                    $result = db('store')->where('id',$data['store_id'])->setDec('store_wallet',$data['real_money']);
+                    if($result){
+                        return ajax_success("审核成功");
+                    } else {
+                        return ajax_error("审核失败");
+                    }
+                } else {
+                    return ajax_success("审核成功");
+                }
+            } else {
+                return ajax_error("审核失败");
+            }
+        }
+    }
 
 
  }

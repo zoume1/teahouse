@@ -71,7 +71,7 @@
                                         <a href="store_add_bankcard" class="layui-btn add-bank">+银行卡</a>
                                     </select>
                                     {else}
-                                    <select name="bank_icard_id" lay-verify="required">
+                                    <select name="bank_icard_id" lay-verify="required" lay-filter="bankcard">
                                         <option value="">请添加银行卡 →</option>
                                     </select>
                                     {/if}
