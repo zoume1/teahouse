@@ -138,8 +138,8 @@ class Goods extends Controller
             //暂时更改
 
 
-            unset($goods_data["sss"]);
-            unset($goods_data["server"]);
+            $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]); 
+            $goods_data["server"] = json_encode($goods_data["server"]); 
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
                 if ($bool && (!empty($show_images))) {
@@ -301,6 +301,8 @@ class Goods extends Controller
             $goods[$key]["templet_name"] = explode(',', $goods[$key]["templet_name"]);
             $goods[$key]["templet_id"] = explode(',', $goods[$key]["templet_id"]);
             $goods[$key]["goods_delivery"] = json_decode($goods[$key]["goods_delivery"],true);
+            $goods[$key]["goods_sign"] = json_decode($goods[$key]["goods_sign"],true);
+            $goods[$key]["server"] = json_decode($goods[$key]["server"],true);
         }
      }
      
