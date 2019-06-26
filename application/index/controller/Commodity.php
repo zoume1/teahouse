@@ -202,6 +202,9 @@ class Commodity extends Controller
             if(!empty($goods[0]['goods_delivery'])){
                 $goods[0]['goods_delivery'] = json_decode($goods[0]["goods_delivery"],true);
             }
+            if(!empty($goods[0]['goods_sign'])){
+                $goods[0]['goods_sign'] = json_decode($goods[0]["goods_sign"],true);
+            }
 
             foreach ($goods_standard as $key => $value) {
                 $goods_standard[$key]["price"] = $goods_standard[$key]["price"] * $discount;

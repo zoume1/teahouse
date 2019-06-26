@@ -304,8 +304,7 @@ class Goods extends Controller
             $goods[$key]["server"] = json_decode($goods[$key]["server"],true);
         }
      }
-    //  halt($goods[0]["goods_sign"]);
-   
+ 
         $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
         
         if(!empty($team)){
