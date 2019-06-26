@@ -98,6 +98,7 @@ class Goods extends Controller
         if ($request->isPost()) {
             $store_id = Session::get("store_id");
             $goods_data = $request->param(); 
+            halt($goods_data["goods_sign"]);
             $show_images = $request->file("goods_show_images");
             if(!empty($goods_data['goods_delivery'])){
                 $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
@@ -136,12 +137,8 @@ class Goods extends Controller
             }
             $goods_data["store_id"] = $store_id;
             //暂时更改
-
-
             $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]); 
             $goods_data["server"] = json_encode($goods_data["server"]); 
-
-            halt($goods_data);
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
                 if ($bool && (!empty($show_images))) {
@@ -307,7 +304,8 @@ class Goods extends Controller
             $goods[$key]["server"] = json_decode($goods[$key]["server"],true);
         }
      }
-     
+    //  halt($goods[0]["goods_sign"]);
+   
         $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
         
         if(!empty($team)){
@@ -403,8 +401,9 @@ class Goods extends Controller
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
             unset($goods_data["aaa"]);
-            unset($goods_data["sss"]);
-            unset($goods_data["server"]);
+            halt($goods_data["goods_sign"]);
+            $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]);
+            $goods_data["server"] = json_encode($goods_data["server"]); 
             $show_images = $request->file("goods_show_images");
             if(!empty($goods_data['goods_delivery'])){
                 $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery'],true);
