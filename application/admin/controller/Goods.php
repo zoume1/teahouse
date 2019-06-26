@@ -399,7 +399,7 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
-            $goods_data = $request->param();  
+            $goods_data = $request->param();
             unset($goods_data["aaa"]);
             unset($goods_data["sss"]);
             unset($goods_data["server"]);

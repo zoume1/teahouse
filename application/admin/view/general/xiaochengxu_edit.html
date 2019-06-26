@@ -16523,14 +16523,14 @@
                         <div class="input-group" style="margin-bottom:0px; ">
                             <span class="input-group-addon">文字</span>
 
-                            <input type="text" class="form-control input-sm diy-bind " value="<%item.text%>" placeholder="留空则不显示文字" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="text" />
+                            <input type="text" class="form-control input-sm diy-bind " value="<%item.text%>" placeholder="留空则不显示文字" data-bind-parent="data" data-bind-child="<%itemid%>1" data-bind="text" />
 
-                            <input type="hidden" class="diy-bind " id="cimg-<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl" />
+                            <input type="hidden" class="diy-bind " id="cimg-<%itemid%>1" data-bind-parent="data" data-bind-child="<%itemid%>1" data-bind="imgurl" />
                             <%if params.navstyle==1%>
 
-                            <input type="text" class="form-control input-sm diy-bind feedbackbgimg<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl" id="cimg-<%itemid%>" placeholder="请选择图片或输入图片地址" value="<%item.imgurl%>" />
+                            <input type="text" class="form-control input-sm diy-bind feedbackbgimg<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl" id="cimg-<%itemid%>1" placeholder="请选择图片或输入图片地址" value="<%item.imgurl1%>" />
 
-                            <span class="input-group-addon btn btn-default" data-toggle="selectImg" data-input="#cimg-<%itemid%>" data-img="#pimg-<%itemid%>" onclick='uploadphoto.click();getd("<%itemid%>");'>选择图片</span>
+                            <span class="input-group-addon btn btn-default" data-toggle="selectImg" data-input="#cimg-<%itemid%>1" data-img="#pimg-<%itemid%>1" onclick='uploadphoto.click();getd("<%itemid%>1");'>选择图片</span>
 
                             <%/if%>
 
