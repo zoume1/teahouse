@@ -407,17 +407,23 @@
                         {if !isset($vo['check'])}
                         <input type="checkbox"  lay-skin="primary" lay-filter="choose1" title="" name="goods_sign[{$abc}][check]" value="0" >
                         {/if}
-                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
+                        {if $vo['text']!='可存' && $vo['text']!='HOT' && $vo['text']!='促销' && $vo['text']!='清仓'}
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}">
+                        {/if}
                         {if $vo['text']=='可存'}
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
                         <img src="__STATIC__/admin/index/img/kecun.png" />
                         {/if}
                         {if $vo['text']=='HOT'}
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
                         <img src="__STATIC__/admin/index/img/hot.png" />
                         {/if}
                         {if $vo['text']=='促销'}
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
                         <img src="__STATIC__/admin/index/img/chuxiao.png" />
                         {/if}
                         {if $vo['text']=='清仓'}
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
                         <img src="__STATIC__/admin/index/img/qingchang.png" />
                         {/if}
                     </div>
