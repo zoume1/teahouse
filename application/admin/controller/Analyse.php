@@ -645,7 +645,7 @@ class  Analyse extends  Controller{
             if($bool){
                 if($status == 2){
                     $data = db("offline_recharge")->where('id',$id)->find();
-                    $result = db('store')->where('id',$data['store_id'])->setInc('store_wallet',$data['money']);
+                    $result = db('store')->where('id',$data['store_id'])->setDec('store_wallet',$data['real_money']);
                     if($result){
                         return ajax_success("审核成功");
                     } else {
