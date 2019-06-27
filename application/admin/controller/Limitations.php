@@ -109,7 +109,6 @@ class  Limitations extends  Controller{
                  $pp['miao']=$map2;
                  $pp['label']=$map3;
                  $pp=json_encode($pp);      //限时限购的条件
-                 
 
             }else{
                 $this->error('限购设置和开启秒杀至少选中一个');

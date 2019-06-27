@@ -82,15 +82,18 @@
 			<div class="form-input line">
 				<input type="checkbox" name="aa" lay-skin="primary" title="" >
 				<div class="texts">面向范围</div>
-				<select name="type">
+				<!-- <select name="type">
 					<option value="0">普通会员</option>
 					<option value="1">贵宾会员</option>
 					<option value="2">黄金会员</option>
 					<option value="3">白金会员</option>
 					<option value="4">得贤会员</option>
 					<option value="5">合伙人</option>
-				</select>
-
+				</select> -->
+				{foreach name="scope" item="val" key="key"}
+				<input type="checkbox" name="type[]" lay-skin="primary" title="{$val.member_grade_name}"
+					value="{$val.member_grade_name}">
+				{/foreach}
 				<div>
 					<input type="checkbox" name="limit_status" lay-skin="primary" title="" >
 					<div class="texts">限购数量</div>
