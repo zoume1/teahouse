@@ -556,6 +556,7 @@
 </div>
 
 <script type="text/javascript">
+
     function statusfoot(i){
         if(i==1){
             $(".status_foot").show();
@@ -16221,7 +16222,7 @@
         <div class="col-sm-2 control-label">菜单样式</div>
 
         <div class="col-sm-10">
-
+            <!-- aaa -->
             <!-- <label class="radio-inline"><input type="radio" name="navstyle" value="0" class="diy-bind" data-bind-child="params" data-bind="navstyle" data-bind-init="true" <%if params.navstyle==0%>checked="checked"<%/if%>> 图标+文字</label> -->
 
             <label class="radio-inline"><input type="radio" name="navstyle" value="1" class="diy-bind" data-bind-child="params" data-bind="navstyle" data-bind-init="true" <%if params.navstyle==1%>checked="checked"<%/if%>> 图片</label>
@@ -16462,17 +16463,17 @@
                 <div class="item-body">
 
                     <div class="item-image <%if params.navstyle==0%>square<%/if%>" style="border:0px;background-color: #fff;">
-
+                        <!-- 定位 -->
                         <%if params.navstyle==1%>
                         <div style="border: 1px solid #e7eaec;margin-bottom:5px; position: relative;">
                             <!-- <span class="btn-del" title="清空图标" onclick="$('#cicon-<%itemid%>').val('').trigger('change')"></span> -->
-                            <img src="<%item.imgurl%>" class="feedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg-<%itemid%>" style="background: #fff;height:55px;width:55px;" />
-                            <div class="text" data-toggle="selectIcon" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图片</div>
+                            <img src="<%item.imgurl%>" class="afeedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg1-<%itemid%>" style="background: #fff;height:55px;width:55px;" />
+                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>" data-pic='true'>选择图片</div>
                         </div>
                         <div style="border: 1px solid #e7eaec; position: relative;">
                             <!-- <span class="btn-del" title="清空图标" onclick="$('#cicon-<%itemid%>').val('').trigger('change')"></span> -->
-                            <img src="<%item.imgurl%>" class="feedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg-<%itemid%>" style="background: #fff;height:55px;width:55px;" />
-                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图片</div>
+                            <img src="<%item.imgurl%>" class="bfeedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg2-<%itemid%>" style="background: #fff;height:55px;width:55px;" />
+                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>" data-pic='true'>选择图片</div>
                         </div>
                         <%/if%>
 
@@ -16501,7 +16502,7 @@
                         <%/if%>
 
                     </div>
-                    <!-- 定位 -->
+                    
                     <div class="item-form">
                         <!-- tabBar image-off -->
                         <div class="input-group" style="margin-bottom:5px; ">
@@ -16512,9 +16513,9 @@
                             <input type="hidden" class="diy-bind " id="cimg-<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl" />
                             <%if params.navstyle==1%>
 
-                            <input type="text" class="form-control input-sm diy-bind feedbackbgimg<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl" id="cimg-<%itemid%>" placeholder="请选择图片或输入图片地址" value="<%item.imgurl%>" />
+                            <input type="text" class="form-control input-sm diy-bind afeedbackbgimg<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl" id="cimg-<%itemid%>" placeholder="请选择图片或输入图片地址" value="<%item.imgurl%>" />
 
-                            <span class="input-group-addon btn btn-default" data-toggle="selectImg" data-input="#cimg-<%itemid%>" data-img="#pimg-<%itemid%>" onclick='uploadphoto.click();getd("<%itemid%>");'>默认图片</span>
+                            <span class="input-group-addon btn btn-default" data-toggle="selectImg" data-input="#cimg-<%itemid%>" data-img="#pimg-<%itemid%>" onclick='uploadphoto.click();getd("<%itemid%>", "off");'>默认图片</span>
 
                             <%/if%>
 
@@ -16528,9 +16529,9 @@
                             <input type="hidden" class="diy-bind " id="cimg-<%itemid%>1" data-bind-parent="data" data-bind-child="<%itemid%>1" data-bind="imgurl" />
                             <%if params.navstyle==1%>
 
-                            <input type="text" class="form-control input-sm diy-bind feedbackbgimg<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl" id="cimg-<%itemid%>1" placeholder="请选择图片或输入图片地址" value="<%item.imgurl1%>" />
+                            <input type="text" class="form-control input-sm diy-bind bfeedbackbgimg<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl" id="cimg-<%itemid%>" placeholder="请选择图片或输入图片地址" value="<%item.imgurl%>" />
 
-                            <span class="input-group-addon btn btn-default" data-toggle="selectImg" data-input="#cimg-<%itemid%>1" data-img="#pimg-<%itemid%>1" onclick='uploadphoto.click();getd("<%itemid%>1");'>选择图片</span>
+                            <span class="input-group-addon btn btn-default" data-toggle="selectImg" data-input="#cimg-<%itemid%>" data-img="#pimg-<%itemid%>" onclick='uploadphoto.click();getd("<%itemid%>", "on");'>选择图片</span>
 
                             <%/if%>
 
@@ -19713,18 +19714,34 @@
 
 <script>
     var imgid = 0;
-    function getd(id){
+    var sw = null;
+    function getd(id, swt){
         imgid = id;
+        if(swt){
+            sw = swt;
+        }
     }
     $(function(){
         $("#uploadphoto").change(function(){
-            console.log(this)
             $("#myupload").ajaxSubmit({
                 dataType:  'json', //数据格式为json
                 success: function(data) {
                     var url = $.parseJSON(data)['url'];
-                    $(".feedbackbgimg"+imgid).val(url).change();
-                    $(".feedbackbgimgurl"+imgid).attr("src",url);
+                    // 如果是上传tabbar图片
+                    if(sw){
+                        if(sw == 'off'){
+                            // 上传默认图片
+                            $(".afeedbackbgimg"+imgid).val(url).change();
+                            $(".afeedbackbgimgurl"+imgid).attr("src",url);
+                        }else if(sw == 'on'){
+                            // 上传选中后的图片
+                            $(".bfeedbackbgimg"+imgid).val(url);
+                            $(".bfeedbackbgimgurl"+imgid).attr("src",url);
+                        }
+                    }else{
+                        $(".feedbackbgimg"+imgid).val(url).change();
+                        $(".feedbackbgimgurl"+imgid).attr("src",url);
+                    }
                 }
             });
         });
