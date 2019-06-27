@@ -397,55 +397,8 @@ class  Order extends  Controller
                         $datas["age_limit"] = $year;  
                 
                         $key = array_search($unit[$keys],$data['unit']);
-
                         //先判断有多少位数量等级
-                   
-                        switch($key){
-                            case 0:
-                                //数量一.第一单位,第二单位,
-                                $datas["store_number"] = $datas["order_quantity"].','.$unit[$keys];
-                                break;
-                            case 1:
-                                $number_one = $data['unit'][$key];    //等级单位
-                                $num_one = $data['num'][$key];        //等级数量
-                                $number_zero = $data['unit'][$key-1]; //等级单位
-                                $num_zero = $data['num'][$key]-1;     //等级数量
-
-                                $number = $datas['order_quantity']/$num_one;
-                                if($number > 1){
-                                    $remainder = $datas['order_quantity']%$num_one;
-                                    $datas["store_number"] = $number.','.$number_zero.','.$remainder.','.$num_one;
-                                } else {
-                                    $number = 0;
-                                    $datas["store_number"] = $number.','.$number_zero.','.$datas['order_quantity'].','.$num_one;
-                                }
-                                break;
-                            case 2: 
-                                $number_two = $data['unit'][$key];    //等级单位
-                                $num_two = $data['num'][$key];        //等级数量
-                                $number_one = $data['unit'][$key-1];  //等级单位
-                                $num_one = $data['num'][$key-1];      //等级数量
-                                $number_zero = $data['unit'][$key-2]; //等级单位
-                                $num_zero = $data['num'][$key-2];     //等级数量
-
-                                $rank_one = $datas['order_quantity']/$number_two; //第二个数量
-                                if($rank_one > 1){
-                                    $three = $datas['order_quantity'] % $num_two; //第三个数量
-                                    $two = $rank_one/$number_one ;//第一个数量
-                                    if($two > 1){
-                                        $foure = $rank_one % $number_one ;//第二个数量
-                                        $datas["store_number"] = $two.','.$number_zero.','.$foure.','.$number_one.','.$rank_one.','.$number_two;
-                                    } else {
-                                        $two = 0;
-                                        $datas["store_number"] = $two.','.$number_zero.','.$rank_one.','.$number_one.','.$three.','.$number_two;
-                                    }
-                                } else {
-                                    $two = 0;
-                                    $rank_six = 0;
-                                    $datas["store_number"] = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$datas['order_quantity'].','.$number_two;
-                                }
-                                break;                                                             
-                        }
+                        $datas["store_number"]= $this->unit_calculate($data['unit'], $data['num'],$key,$datase["order_quantity"]);
                         $res = Db::name('house_order')->insertGetId($datas);
                         if ($res) {
                             $order_datas =Db::name("house_order")
@@ -2514,65 +2467,112 @@ class  Order extends  Controller
 	 * 
 	 * 入仓时单位换算
 	 * @param 
-	 * @param array $unit
-	 * @param int $key
+	 * @param array $unit  所有单位
+	 * @param int $key     单位key值
+	 * @param array $num   所有数量
+	 * @param int $order_quantity  数量
 	 * @return 成功时返回，其他抛异常
 	 */
-	public static function unit_calculate($unit, $key)
+	public static function unit_calculate($unit, $num,$key,$order_quantity)
 	{
 
         //先判断有多少位数量等级
         //然后进行单位换算
         //连接入库
-                        halt($key);
-                        
-                        switch($key){
-                            case 0:
-                                //数量一.第一单位,数量二.第二单位,数量三.第三单位
-                                $datas["store_number"] = $datas["order_quantity"].','.$unit[$keys];
-                                break;
-                            case 1:
-                                $number_one = $data['unit'][$key];    //等级单位
-                                $num_one = $data['num'][$key];        //等级数量
-                                $number_zero = $data['unit'][$key-1]; //等级单位
-                                $num_zero = $data['num'][$key]-1;     //等级数量
+        $order_quantity = intval($order_quantity);
+        $length = count($unit);  
+        if($length == 3){
+            switch($key){
+                case 0:
+                    //数量一.第一单位,数量二.第二单位,数量三.第三单位
+                    $store_number = $order_quantity.','.$unit[$key].','.[$key].','.$unit[$key+1].','.[$key].','.$unit[$key+2];
+                    break;
+                case 1:
+                    $number_one = $unit[$key];              //对应数量单位       
+                    $num_one = intval($num[$key]);          //对应数量
+                    $number_zero = $unit[$key-1];           //上一级数量单位
+                    $num_zero = intval($num[$key-1]);       //上一级数量
+                                                            //后一级数量为零
 
-                                $number = $datas['order_quantity']/$num_one;
-                                if($number > 1){
-                                    $remainder = $datas['order_quantity']%$num_one;
-                                    $datas["store_number"] = $number.','.$number_zero.','.$remainder.','.$num_one;
-                                } else {
-                                    $number = 0;
-                                    $datas["store_number"] = $number.','.$number_zero.','.$datas['order_quantity'].','.$num_one;
-                                }
-                                break;
-                            case 2: 
-                                $number_two = $data['unit'][$key];    //等级单位
-                                $num_two = $data['num'][$key];        //等级数量
-                                $number_one = $data['unit'][$key-1];  //等级单位
-                                $num_one = $data['num'][$key-1];      //等级数量
-                                $number_zero = $data['unit'][$key-2]; //等级单位
-                                $num_zero = $data['num'][$key-2];     //等级数量
-
-                                $rank_one = $datas['order_quantity']/$number_two; //第二个数量
-                                if($rank_one > 1){
-                                    $three = $datas['order_quantity'] % $num_two; //第三个数量
-                                    $two = $rank_one/$number_one ;//第一个数量
-                                    if($two > 1){
-                                        $foure = $rank_one % $number_one ;//第二个数量
-                                        $datas["store_number"] = $two.','.$number_zero.','.$foure.','.$number_one.','.$rank_one.','.$number_two;
-                                    } else {
-                                        $two = 0;
-                                        $datas["store_number"] = $two.','.$number_zero.','.$rank_one.','.$number_one.','.$three.','.$number_two;
-                                    }
-                                } else {
-                                    $two = 0;
-                                    $rank_six = 0;
-                                    $datas["store_number"] = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$datas['order_quantity'].','.$number_two;
-                                }
-                                break;                                                             
+                    $number = $order_quantity/$num_one;     //单位换算
+                    if($number > 1){
+                        $remainder = fmod($order_quantity , $num_one);//余下的值
+                        $store_number = intval($number).','.$number_zero.','.$remainder.','.$number_one.','.($key-1).','.$unit[$key+1];
+                    } else if($number == 1){
+                        $store_number = intval($number).','.$number_zero.','.($key-1).','.$number_one.','.($key-1).','.$unit[$key+1];
+                    } else {
+                        $number = 0;
+                        $store_number = intval($number).','.$number_zero.','.$order_quantity.','.$number_one.','.$number.','.$unit[$key+1];
+                    }
+                    break;
+                case 2: 
+                    $number_two = $unit[$key];               //当前单位
+                    $num_two = intval($num[$key]);           //当前数量
+                    $number_one = $unit[$key-1];             //上一级等级单位
+                    $num_one = intval($num[$key-1]);         //上一级等级数量
+                    $number_zero = $unit[$key-2];            //上上一级等级单位
+                    $num_zero = intval($num[$key-2]);        //上上一级等级数量
+                    $rank_one = $order_quantity/$num_two;    //上一级数量
+                    if($rank_one > 1){
+                        $three = fmod($order_quantity,$num_two); //当前数量
+                        $two = $rank_one/$num_one ;//第一个数量
+                        if($two > 1){
+                            $centre = $rank_one % $num_one;
+                            $store_number = intval($two).','.$number_zero.','.intval($centre).','.$number_one.','.intval($three).','.$number_two;
+                        } else if($two ==1){   
+                            $store_number = intval($two).','.$number_zero.','.($two-1).','.$number_one.','.($two-1).','.$number_two;                           
+                        } else {
+                            $two = 0;
+                            $store_number = $two.','.$number_zero.','.intval($rank_one).','.$number_one.','.intval($three).','.$number_two;
                         }
-		return $inputObj->GetValues();
-	}
+                    } else if($rank_one == 1) {
+                        $two = 0;
+                        $store_number = $two.','.$number_zero.','.intval($rank_one).','.$number_one.','.$two.','.$number_two;
+                    } else {
+                        $two = 0;
+                        $rank_six = 0;
+                        $store_number = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$order_quantity.','.$number_two;
+                    }
+                    break;                                                             
+            }
+        }
+
+
+
+
+        if($length == 2){
+            switch($key){
+                case 0:
+                    //数量一.第一单位,数量二.第二单位
+                    $store_number = $order_quantity.','.$unit[$key].','.$key.','.$unit[$key+1];
+                    break;
+                case 1:
+                    $number_one = $unit[$key];      //对应数量单位       
+                    $num_one = $num[$key];          //对应数量
+                    $number_zero = $unit[$key-1];   //上一级数量单位
+                    $num_zero = $num[$key-1];       //上一级数量
+                                                    
+
+                    $number = $order_quantity/$num_one;//单位换算
+                    if($number > 1){
+                        $remainder = fmod($order_quantity,$num_one);//余下的值
+                        $store_number = intval($number).','.$number_zero.','.$remainder.','.$number_one;
+                    } else if($number == 1){
+                        $store_number = intval($number).','.$number_zero.','.($key-1).','.$number_one;
+                    } else {
+                        $number = 0;
+                        $store_number = $number.','.$number_zero.','.$order_quantity.','.$number_one;
+                    }
+                    break;                                                           
+                }
+            }
+        
+
+        if($length == 1){
+            $store_number = $order_quantity.','.$unit[$key];
+        }
+        return $store_number;
+        
+    }
 
 }
