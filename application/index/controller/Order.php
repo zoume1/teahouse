@@ -46,6 +46,7 @@ class  Order extends  Controller
             foreach ($goods_id as  $key=>$value){
                 $goods_data = null;
                 $goods_data = Db::name("goods")->where("id", $value)->find();
+                $goods_data['goods_sign'] = json_decode($goods_data["goods_sign"],true);
                 //判断是为专用还是通用
                 //专用规格
                 if ($goods_data["goods_standard"] == 0) {
@@ -2520,11 +2521,14 @@ class  Order extends  Controller
 	public static function unit_calculate($unit, $key)
 	{
 
-		//先判断有多少位数量等级
+        //先判断有多少位数量等级
+        //然后进行单位换算
+        //连接入库
                         halt($key);
+                        
                         switch($key){
                             case 0:
-                                                               //数量一.第一单位,第二单位,
+                                //数量一.第一单位,数量二.第二单位,数量三.第三单位
                                 $datas["store_number"] = $datas["order_quantity"].','.$unit[$keys];
                                 break;
                             case 1:
