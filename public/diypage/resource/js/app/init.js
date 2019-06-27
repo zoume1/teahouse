@@ -755,12 +755,13 @@ define(['jquery', 'bootstrap'], function($, bs) {
 
 	});
 
+	// tabbar 上传图片
 	$(document).on('click', '[data-toggle="selectImg"]', function() {
 
 		var _input = $(this).data('input');
-		console.log(_input)
+		
 		var _img = $(this).data('img');
-		console.log(_img)
+		
 		var _full = $(this).data('full');
 
 		require(['jquery', "util"], function($, util) {
@@ -871,15 +872,18 @@ define(['jquery', 'bootstrap'], function($, bs) {
 	 * 图标库2-----图片
 	 */
 	$(document).on('click', '[data-toggle="selectIcon2"]', function() {
-		console.log(111)
+		// console.log($(this).data('pic'))
+
 		var _input = $(this).data('input');
-
 		var _element = $(this).data('element');
-
+		// 图片元素
+		var _img = '#' + $(this).prev()[0].id;
+		// 区分图片是off(pimg1) 还是 on(pimg2)
+		var swfalg = $(this).prev()[0].id.split('-')[0];
+		// itemid
+		var _itemid = _input.split('-')[1].trim();
 		if (!_input && !_element) {
-
 			return
-
 		}
 
 		var merch = $(".diy-phone").data("merch");
@@ -906,13 +910,22 @@ define(['jquery', 'bootstrap'], function($, bs) {
 			$(document.body).append(modal), modal.modal('show');
 			modal.append2(html, function() {
 				$(document).off("click", '#selectIcon nav').on("click", '#selectIcon nav', function() {
-					var _class = $.trim($(this).data("class"));
-					if (_input) {
-						$(_input).val(_class).trigger('change')
+					var _src = $(this).find('img')[0].src;
+
+					if (_img) {
+						$(_img).attr('src', _src);
 					}
-					if (_element) {
-						$(_element).removeAttr("class").addClass("iconfont  " + _class)
+					console.log(swfalg)
+					if(swfalg == 'pimg1'){
+						// 上传默认图片
+						$(".afeedbackbgimg"+_itemid).val(_src).change();
+						$(".afeedbackbgimgurl"+_itemid).attr("src",_src);
+					}else if(swfalg == 'pimg2'){
+						// 上传选中后的图片
+						$(".bfeedbackbgimg"+_itemid).val(_src);
+						$(".bfeedbackbgimgurl"+_itemid).attr("src",_src);
 					}
+
 					modal.find(".close").click()
 				})
 			})
