@@ -177,6 +177,32 @@
             })
         })
         form.render();
+
+        $('.btns button').click(function(e){
+            var typeVal = this.getAttribute('data-val');
+            switch(typeVal){
+                case '0': 
+                    console.log(111)
+                    layer.open({
+                        type: 0, 
+                        content: '请耐心等待平台审核'
+                    });
+                    break;
+                case '1': 
+                    console.log(222)
+                    layer.open({
+                        type: 0, 
+                        content: '恭喜您，充值成功'
+                    });
+                    break;
+                case '2':  
+                    layer.open({
+                        type: 0, 
+                        content: '资金未到帐，请自检确认，如需帮助请联系客服'
+                    });
+                    break;
+            }
+        })
     })
 </script>
 {/block}
