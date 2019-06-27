@@ -91,9 +91,9 @@ class Photo extends Base{
 
 
     /**
-     **************李火生*******************
+     **************李禄*******************
      * @param Request $request
-     * Notes:图片上传
+     * Notes:图片上传--小程序编辑
      **************************************
      */
     public function imgupload(){

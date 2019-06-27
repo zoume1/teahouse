@@ -41,9 +41,13 @@ class  Limitations extends  Controller{
     public function limitations_edit($id)
     {
         $store_id = Session::get("store_id");
+        $scope = db("member_grade")
+        ->where("store_id","EQ",$store_id)
+        ->field("member_grade_name")
+        ->select();   //会员等级
         $limited = db("limited")->where("id", $id)->find();
-        $scope=json_decode($limited['limit_condition'],true); 
-        return view('limitations_edit', ["limit" => $limited, "scope" => $scope]);
+        $scope2=json_decode($limited['limit_condition'],true); 
+        return view('limitations_edit', ["limit" => $limited, "scope" => $scope,'scope2'=>$scope2]);
 
     }
     /**
@@ -70,32 +74,31 @@ class  Limitations extends  Controller{
              $data = $request->param();    //获取参数
              $store_id = Session::get("store_id");    //获取店铺id 
             $data["stroe_id"] = $store_id;
-           
-            if(array_key_exists('aa',$data) || array_key_exists('status',$data))
-            {    //限购和秒杀至少一个
-                 if(array_key_exists('aa',$data))
+            if(array_key_exists('type',$data) || array_key_exists('status',$data) || array_key_exists('limit_status',$data))
+            {    //限购和秒杀至少一个(面向范围可以为空)
+                 if(array_key_exists('type',$data))
                  {   //限购
-                    $map['scope']='1';
-                    $map['scope_type']=$data['type'];
-                    if(array_key_exists('limit_status',$data))
+                    $map['scope_type']=$data['type'];     
+                    
+                 }else{
+                     $map['scope_type']='0';      //面向所有的会员
+                 }
+                 if(array_key_exists('limit_status',$data))    //限购设置
                     {
                         if($data['number']=='0')
                         {
-                            $map['limit_status']='1';
-                            $map['number']='-1';   //不限购数量
+                            $map4['limit_status']='1';
+                            $map4['number']='-1';   //不限购数量
                         }else{
-                            $map['number']=$data['number'];
-                            $map['limit_status']='1';
+                            $map4['number']=$data['number'];
+                            $map4['limit_status']='1';
                         }
                     }else{
-                        $map['limit_status']='0';
-                        $map['number']='0';
+                        $map4['limit_status']='0';
+                        $map4['number']='0';
                     }
-                 }else{
-                     $map='0';
-                 }
-                 if(array_key_exists('status',$data))
-                 {    //开启秒杀
+                 if(array_key_exists('status',$data))  //开启秒杀
+                 {    
                     $map2['miao_status']='1';
                     $map2['start_time']=strtotime($data['start_time']);
                     $map2['end_time']=strtotime($data['end_time']);
@@ -104,12 +107,12 @@ class  Limitations extends  Controller{
                     $map2['start_time']='0';
                     $map2['end_time']='0';
                  }
+                 $pp['scope']=$map;
                  $map3['label']=$data['label'];
-                 $pp['limit']=$map;
+                 $pp['limit']=$map4;
                  $pp['miao']=$map2;
                  $pp['label']=$map3;
                  $pp=json_encode($pp);      //限时限购的条件
-
             }else{
                 $this->error('限购设置和开启秒杀至少选中一个');
             }
@@ -122,7 +125,6 @@ class  Limitations extends  Controller{
                 {
                     $this->success('保存成功');
                 }
-                
             }
             if (!empty($data["goods_id"])) {
                 foreach ($data["goods_id"] as $key => $value) {
@@ -144,7 +146,7 @@ class  Limitations extends  Controller{
                     {    //未开启限购
                         $goods[$key]['limit_number']=0;
                     }else{
-                        $goods[$key]['limit_number']=$map['number'];
+                        $goods[$key]['limit_number']=$map4['number'];
                         
                     }
                     //时间限制
