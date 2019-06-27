@@ -87,7 +87,11 @@
 <form id='myupload' action="/admin/imgupload?uniacid=<?php echo $_GET['appletid'];?>"  method='post' enctype='multipart/form-data'>
     <input type="file" id="uploadphoto" name="uploadfile" value="请点击上传图片" accept="image/png,image/jpeg,image/gif"  style="display:none" />
 </form>
+<<<<<<< HEAD
 <form id='myupload1' action="/admin/imgupload?uniacid=<?php echo $_GET['appletid'];?>" method='post' enctype='multipart/form-data'>
+=======
+<form id='myupload1' action="/admin/imgupload2?uniacid=<?php echo $_GET['appletid'];?>" method='post' enctype='multipart/form-data'>
+>>>>>>> bc8e9b380ae1b1a5437ce984ca0fd43d9c859d1c
     <input type="file" id="uploadphoto1" name="uploadfile1" value="请点击上传图片" accept="image/png,image/jpeg,image/gif"  style="display:none" />
 </form>
 
@@ -178,7 +182,8 @@
 
                         保存页面
 
-                    </nav> </li>
+                    </nav> 
+                </li>
 
             </ul>
 
@@ -239,10 +244,19 @@
                                 {if $list}
                                 {foreach $list as $v}
                                 <tr>
-                                    <td data-id="{$v['id']}"><a href="javascript:window.location.href='/admin/xiaochengxu_edit.html?appletid=<?php echo $_GET['appletid']?>&key_id={$v['id']}&tplid={$template_id}'"><span class="{if $key_id == $v['id']}text-success{else}text-muted{/if}">{$v['tpl_name']}</span></a></td>
-                                    <td> <span class="{if $v['index'] == 0}label label-default defaults{else}label label-primary defaults{/if}" data-toggle="ajaxSwitch" data-switch-value="{$v['index']}" data-switch-value0="0|否|label label-default defaults|/admin/xiaochengxu_edit.html?appletid=<?php echo $_GET['appletid']?>&key_id={$v['id']}&v=1&op=setindex" data-switch-value1="1|是|label label-primary defaults|{:Url('Diypage/index')}?appletid=<?php echo $_GET['appletid']?>&key_id={$v['id']}&v=0&op=setindex" data-switch-css=".defaults" data-switch-other="true"> {if $v['index'] == 1}是{else}否{/if}</span> </td>
-                                    <td> <span class="label label-danger"> <a
-                                            onclick="var r = confirm('是否删除当前页面？');if(!r){return false;}" href="/admin/xiaochengxu_edit.html?appletid=<?php echo $_GET['appletid']?>&op=delpage&id={$v['id']}&tplid={$template_id}">删除</a> </span> </td>
+                                    <td data-id="{$v['id']}">
+                                        <a href="javascript:window.location.href='/admin/xiaochengxu_edit.html?appletid=<?php echo $_GET['appletid']?>&key_id={$v['id']}&tplid={$template_id}'">
+                                            <span class="{if $key_id == $v['id']}text-success{else}text-muted{/if}">{$v['tpl_name']}</span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="{if $v['index'] == 0}label label-default defaults{else}label label-primary defaults{/if}" data-toggle="ajaxSwitch" data-switch-value="{$v['index']}" data-switch-value0="0|否|label label-default defaults|/admin/xiaochengxu_edit.html?appletid=<?php echo $_GET['appletid']?>&key_id={$v['id']}&v=1&op=setindex" data-switch-value1="1|是|label label-primary defaults|{:Url('Diypage/index')}?appletid=<?php echo $_GET['appletid']?>&key_id={$v['id']}&v=0&op=setindex" data-switch-css=".defaults" data-switch-other="true"> {if $v['index'] == 1}是{else}否{/if}</span> 
+                                    </td>
+                                    <td> 
+                                        <span class="label label-danger"> 
+                                            <a onclick=" var r = confirm('是否删除当前页面？');if(!r){return false;}" href="/admin/xiaochengxu_edit.html?appletid=<?php echo $_GET['appletid']?>&op=delpage&id={$v['id']}&tplid={$template_id}">删除</a> 
+                                        </span> 
+                                    </td>
                                 </tr>
 
                                 {/foreach}
@@ -16531,7 +16545,7 @@
 
                             <input type="text" class="form-control input-sm diy-bind bfeedbackbgimg<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl2" id="cimg-<%itemid%>" placeholder="请选择图片或输入图片地址" value="<%item.imgurl%>" />
 
-                            <span class="input-group-addon btn btn-default" data-toggle="selectImg" data-input="#cimg-<%itemid%>" data-img="#pimg-<%itemid%>" onclick='uploadphoto.click();getd("<%itemid%>", "on");'>选择图片</span>
+                            <span class="input-group-addon btn btn-default" data-toggle="selectImg" data-input="#cimg-<%itemid%>" data-img="#pimg-<%itemid%>" onclick='uploadphoto1.click();getd("<%itemid%>", "on");'>选择图片</span>
 
                             <%/if%>
 
@@ -19706,8 +19720,6 @@
             window.location.href='/index/diypage/moban?appletid=<?php echo $_GET["appletid"]?>';
 
         }
-
-
     }
 
 </script>
@@ -19729,15 +19741,9 @@
                     var url = $.parseJSON(data)['url'];
                     // 如果是上传tabbar图片
                     if(sw){
-                        if(sw == 'off'){
-                            // 上传默认图片
-                            $(".afeedbackbgimg"+imgid).val(url).change();
-                            $(".afeedbackbgimgurl"+imgid).attr("src",url);
-                        }else if(sw == 'on'){
-                            // 上传选中后的图片
-                            $(".bfeedbackbgimg"+imgid).val(url);
-                            $(".bfeedbackbgimgurl"+imgid).attr("src",url);
-                        }
+                        // 上传默认图片
+                        $(".afeedbackbgimg"+imgid).val(url).change();
+                        $(".afeedbackbgimgurl"+imgid).attr("src",url);
                     }else{
                         $(".feedbackbgimg"+imgid).val(url).change();
                         $(".feedbackbgimgurl"+imgid).attr("src",url);
@@ -19756,8 +19762,13 @@
                         '_src': url,
                         'width': '100%'
                     })
+                    // 上传选择图片
+                    $(".bfeedbackbgimg"+imgid).val(url);
+                    $(".bfeedbackbgimgurl"+imgid).attr("src",url);
+
                     var ue =  UE.getEditor('rich');
-                    ue.execCommand('insertimage', imglist)
+                    ue.execCommand('insertimage', imglist);
+
                 }
             });
         });
