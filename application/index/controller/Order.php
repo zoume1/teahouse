@@ -46,6 +46,7 @@ class  Order extends  Controller
             foreach ($goods_id as  $key=>$value){
                 $goods_data = null;
                 $goods_data = Db::name("goods")->where("id", $value)->find();
+                $goods_data['goods_sign'] = json_decode($goods_data["goods_sign"],true);
                 //判断是为专用还是通用
                 //专用规格
                 if ($goods_data["goods_standard"] == 0) {
@@ -396,8 +397,12 @@ class  Order extends  Controller
                         $datas["age_limit"] = $year;  
                 
                         $key = array_search($unit[$keys],$data['unit']);
+
+                        //先判断有多少位数量等级
+                   
                         switch($key){
                             case 0:
+                                //数量一.第一单位,第二单位,
                                 $datas["store_number"] = $datas["order_quantity"].','.$unit[$keys];
                                 break;
                             case 1:
@@ -2504,5 +2509,70 @@ class  Order extends  Controller
             }
         }
     }
+
+    /**
+	 * 
+	 * 入仓时单位换算
+	 * @param 
+	 * @param array $unit
+	 * @param int $key
+	 * @return 成功时返回，其他抛异常
+	 */
+	public static function unit_calculate($unit, $key)
+	{
+
+        //先判断有多少位数量等级
+        //然后进行单位换算
+        //连接入库
+                        halt($key);
+                        
+                        switch($key){
+                            case 0:
+                                //数量一.第一单位,数量二.第二单位,数量三.第三单位
+                                $datas["store_number"] = $datas["order_quantity"].','.$unit[$keys];
+                                break;
+                            case 1:
+                                $number_one = $data['unit'][$key];    //等级单位
+                                $num_one = $data['num'][$key];        //等级数量
+                                $number_zero = $data['unit'][$key-1]; //等级单位
+                                $num_zero = $data['num'][$key]-1;     //等级数量
+
+                                $number = $datas['order_quantity']/$num_one;
+                                if($number > 1){
+                                    $remainder = $datas['order_quantity']%$num_one;
+                                    $datas["store_number"] = $number.','.$number_zero.','.$remainder.','.$num_one;
+                                } else {
+                                    $number = 0;
+                                    $datas["store_number"] = $number.','.$number_zero.','.$datas['order_quantity'].','.$num_one;
+                                }
+                                break;
+                            case 2: 
+                                $number_two = $data['unit'][$key];    //等级单位
+                                $num_two = $data['num'][$key];        //等级数量
+                                $number_one = $data['unit'][$key-1];  //等级单位
+                                $num_one = $data['num'][$key-1];      //等级数量
+                                $number_zero = $data['unit'][$key-2]; //等级单位
+                                $num_zero = $data['num'][$key-2];     //等级数量
+
+                                $rank_one = $datas['order_quantity']/$number_two; //第二个数量
+                                if($rank_one > 1){
+                                    $three = $datas['order_quantity'] % $num_two; //第三个数量
+                                    $two = $rank_one/$number_one ;//第一个数量
+                                    if($two > 1){
+                                        $foure = $rank_one % $number_one ;//第二个数量
+                                        $datas["store_number"] = $two.','.$number_zero.','.$foure.','.$number_one.','.$rank_one.','.$number_two;
+                                    } else {
+                                        $two = 0;
+                                        $datas["store_number"] = $two.','.$number_zero.','.$rank_one.','.$number_one.','.$three.','.$number_two;
+                                    }
+                                } else {
+                                    $two = 0;
+                                    $rank_six = 0;
+                                    $datas["store_number"] = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$datas['order_quantity'].','.$number_two;
+                                }
+                                break;                                                             
+                        }
+		return $inputObj->GetValues();
+	}
 
 }

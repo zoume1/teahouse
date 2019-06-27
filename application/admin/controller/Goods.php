@@ -136,10 +136,8 @@ class Goods extends Controller
             }
             $goods_data["store_id"] = $store_id;
             //暂时更改
-
-
-            unset($goods_data["sss"]);
-            unset($goods_data["server"]);
+            $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]); 
+            $goods_data["server"] = json_encode($goods_data["server"]); 
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insert($goods_data);
                 if ($bool && (!empty($show_images))) {
@@ -301,9 +299,11 @@ class Goods extends Controller
             $goods[$key]["templet_name"] = explode(',', $goods[$key]["templet_name"]);
             $goods[$key]["templet_id"] = explode(',', $goods[$key]["templet_id"]);
             $goods[$key]["goods_delivery"] = json_decode($goods[$key]["goods_delivery"],true);
+            $goods[$key]["goods_sign"] = json_decode($goods[$key]["goods_sign"],true);
+            $goods[$key]["server"] = json_decode($goods[$key]["server"],true);
         }
      }
-     
+ 
         $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
         
         if(!empty($team)){
@@ -397,10 +397,10 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
-            $goods_data = $request->param();  
+            $goods_data = $request->param();
             unset($goods_data["aaa"]);
-            unset($goods_data["sss"]);
-            unset($goods_data["server"]);
+            $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]);
+            $goods_data["server"] = json_encode($goods_data["server"]); 
             $show_images = $request->file("goods_show_images");
             if(!empty($goods_data['goods_delivery'])){
                 $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery'],true);

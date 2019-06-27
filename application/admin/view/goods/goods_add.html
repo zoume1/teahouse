@@ -538,37 +538,37 @@
             <div class="form-input" style="display: flex; align-items: center;">
                 <div id="hot">
                     <div class="list">
-                        <input type="checkbox" name="sss[sell_0][check]" value="1" lay-skin="primary"
+                        <input type="checkbox" name="goods_sign[sell_0][check]" value="1" lay-skin="primary"
                             lay-filter="choose1" title="" checked="">
-                        <input class="texts" type="text" name="sss[sell_0][text]" value="可存" readonly
+                        <input class="texts" type="text" name="goods_sign[sell_0][text]" value="可存" readonly
                             style="display: none">
                         <img src="__STATIC__/admin/index/img/kecun.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="sss[sell_1][check]" value="0" lay-skin="primary"
+                        <input type="checkbox" name="goods_sign[sell_1][check]" value="0" lay-skin="primary"
                             lay-filter="choose1" title="">
-                        <input class="texts" type="text" name="sss[sell_1][text]" value="HOT" readonly
+                        <input class="texts" type="text" name="goods_sign[sell_1][text]" value="HOT" readonly
                             style="display: none">
                         <img src="__STATIC__/admin/index/img/hot.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="sss[sell_2][check]" value="0" lay-skin="primary"
+                        <input type="checkbox" name="goods_sign[sell_2][check]" value="0" lay-skin="primary"
                             lay-filter="choose1" title="">
-                        <input class="texts" type="text" name="sss[sell_2][text]" value="促销" readonly
+                        <input class="texts" type="text" name="goods_sign[sell_2][text]" value="促销" readonly
                             style="display: none">
                         <img src="__STATIC__/admin/index/img/chuxiao.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="sss[sell_3][check]" value="0" lay-skin="primary"
+                        <input type="checkbox" name="goods_sign[sell_3][check]" value="0" lay-skin="primary"
                             lay-filter="choose1" title="">
-                        <input class="texts" type="text" name="sss[sell_3][text]" value="清仓" readonly
+                        <input class="texts" type="text" name="goods_sign[sell_3][text]" value="清仓" readonly
                             style="display: none">
                         <img src="__STATIC__/admin/index/img/qingchang.png" />
                     </div>
                     <div class="list">
-                        <input type="checkbox" name="sss[sell_4][check]" value="0" lay-skin="primary"
+                        <input type="checkbox" name="goods_sign[sell_4][check]" value="0" lay-skin="primary"
                             lay-filter="choose1" title="" class="biaoqian">
-                        <input class="texts" type="text" name="sss[sell_4][text]" value="古色生香">
+                        <input class="texts" type="text" name="goods_sign[sell_4][text]" value="古色生香">
                         <!-- <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> -->
                     </div>
                     <div class="add_biao">
@@ -1248,9 +1248,9 @@
                 $(".add_biao").click(function () {
                     var dhtml = "";
                     dhtml = `<div class="list" style="position: relative;">
-                            <input type="checkbox" name="sss[sell_${i}][check]" value="0" lay-skin="primary" lay-filter="choose1"
+                            <input type="checkbox" name="goods_sign[sell_${i}][check]" value="0" lay-skin="primary" lay-filter="choose1"
                                 title="" class="biaoqian">
-                            <input class="texts" type="text" name="sss[sell_${i}][text]" value="古色生香">
+                            <input class="texts" type="text" name="goods_sign[sell_${i}][text]" value="古色生香">
                             <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="width: 14px;height: 14px;    left: 15px;top: -5px;">
                             </div>`;
                     $(this).before(dhtml);
