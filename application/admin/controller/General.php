@@ -731,10 +731,9 @@ class  General extends  Base {
                     return 2;
                 }
             }
-            if ($op == 'add'){
+            if ($op == 'add'){    //小程序编辑----保存页面
 
-                $data = $_POST;
-
+                $data = $_POST;   //获取传递的参数
                 if(isset($data['data']['page']['url']) && $data['data']['page']['url'] != ""){
                     $data['data']['page']['url'] = remote($appletid,$data['data']['page']['url'],2);
                 }
