@@ -270,6 +270,9 @@ class  Store extends  Controller{
                 $time = time();
                 $data[$key]['goods_name'] = $rest[$key]['goods_name'];
                 $data[$key]['time'] = round(($rest[$key]["end_time"]-$time)/86400);
+                if($data[$key]['time'] < 0){
+                    $data[$key]['time'] = 0;
+                }
                 $data[$key]['meal_id'] = $rest[$key]['id'];
               if($rest[$key]['enter_all_id'] <= 6)
                     $data[$key]['version'] = 1;

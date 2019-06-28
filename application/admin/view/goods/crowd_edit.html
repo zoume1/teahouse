@@ -694,10 +694,10 @@
                                                 {if $ve.save == 0}
                                                 <input type="checkbox" class="Status" value="{$ve.save}"
                                                     lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
-                                                    data-id="{$ve.id}" data-value="status"> {else}
+                                                    data-id="{$ve.id}" data-value="save"> {else}
                                                 <input type="checkbox" class="Status" value="{$ve.save}"
                                                     lay-skin="switch" lay-text="是|否" lay-filter="isshelves" checked=""
-                                                    data-id="{$ve.id}" data-value="status"> {/if}
+                                                    data-id="{$ve.id}" data-value="save"> {/if}
                                             </td>
                                             <td>
                                                 {if $ve.status == 0}
@@ -1346,6 +1346,7 @@
                     data: {
                         "id": id,
                         "status": value,
+                        "name": data.elem.dataset.value
                     },
                     success: function (data) {
                         layer.msg("修改成功");
