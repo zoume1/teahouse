@@ -41,12 +41,12 @@ class  Limitations extends  Controller{
     public function limitations_edit($id)
     {
         $store_id = Session::get("store_id");
-        $scope = db("member_grade")
+        $scope2 = db("member_grade")
         ->where("store_id","EQ",$store_id)
         ->field("member_grade_name")
         ->select();   //会员等级
         $limited = db("limited")->where("id", $id)->find();
-        $scope2=json_decode($limited['limit_condition'],true); 
+        $scope=json_decode($limited['limit_condition'],true); 
         return view('limitations_edit', ["limit" => $limited, "scope" => $scope,'scope2'=>$scope2]);
 
     }
