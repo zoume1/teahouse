@@ -31,8 +31,8 @@
 }
 
 .varify-input-code {
-	display:inline-block; 
-	width: 100%;
+	display:inline-block;
+	/*width: 100%;*/
 	height: 37px;
 	border: 1px solid #ddd;
 }
