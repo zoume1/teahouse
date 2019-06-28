@@ -267,7 +267,6 @@ class  General extends  Base {
             $array = $request->param();
             $data=[
                 "store_name"=>$array['store_name'],
-                "store_number"=>$array['store_number'],
                 "store_qq"=>$array['store_qq'],
                 "store_introduction"=>$array['store_introduction'],
             ];
@@ -829,10 +828,17 @@ class  General extends  Base {
                             }
                             if($v['id'] == 'footmenu'){
                                 if($v['data']){
+                                    $pp=0;
                                     foreach ($v['data'] as $ki => $vi) {
+                                        //原先的
                                         if($vi['imgurl'] != ""){
                                             $v['data'][$ki]['imgurl'] = remote($appletid,$vi['imgurl'],2);
                                         }
+                                        if($vi['imgurl2'] != ""){
+                                            $v['data'][$ki]['imgurl2'] = remote($appletid,$vi['imgurl2'],2);
+                                        }
+                                       $v['data'][$pp]=$v['data'][$ki];
+                                        $pp++;
                                     }
                                 }
                             }

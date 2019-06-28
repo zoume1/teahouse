@@ -87,8 +87,8 @@
 <form id='myupload' action="/admin/imgupload?uniacid=<?php echo $_GET['appletid'];?>"  method='post' enctype='multipart/form-data'>
     <input type="file" id="uploadphoto" name="uploadfile[]" value="请点击上传图片" multiple accept="image/png,image/jpeg,image/gif"  style="display:none" />
 </form>
-<form id='myupload1' action="/admin/imgupload2?uniacid=<?php echo $_GET['appletid'];?>" method='post' enctype='multipart/form-data'>
-    <input type="file" id="uploadphoto1" name="uploadfile1[]" value="请点击上传图片" multiple accept="image/png,image/jpeg,image/gif"  style="display:none" />
+<form id='myupload1' action="/admin/imgupload?uniacid=<?php echo $_GET['appletid'];?>" method='post' enctype='multipart/form-data'>
+    <input type="file" id="uploadphoto1" name="uploadfile[]" value="请点击上传图片" multiple accept="image/png,image/jpeg,image/gif"  style="display:none" />
 </form>
 
 
@@ -16476,14 +16476,12 @@
                         <!-- 定位 -->
                         <%if params.navstyle==1%>
                         <div style="border: 1px solid #e7eaec;margin-bottom:5px; position: relative;">
-                            <!-- <span class="btn-del" title="清空图标" onclick="$('#cicon-<%itemid%>').val('').trigger('change')"></span> -->
                             <img src="<%item.imgurl%>" class="afeedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg1-<%itemid%>" style="background: #fff;height:55px;width:55px;" />
-                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>" data-pic='true'>选择图片</div>
+                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图片</div>
                         </div>
                         <div style="border: 1px solid #e7eaec; position: relative;">
-                            <!-- <span class="btn-del" title="清空图标" onclick="$('#cicon-<%itemid%>').val('').trigger('change')"></span> -->
                             <img src="<%item.imgurl%>" class="bfeedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg2-<%itemid%>" style="background: #fff;height:55px;width:55px;" />
-                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>" data-pic='true'>选择图片</div>
+                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图片</div>
                         </div>
                         <%/if%>
 
@@ -19759,7 +19757,7 @@
                         'width': '100%'
                     })
                     // 上传选择图片
-                    $(".bfeedbackbgimg"+imgid).val(url);
+                    $(".bfeedbackbgimg"+imgid).val(url).change();
                     $(".bfeedbackbgimgurl"+imgid).attr("src",url);
 
                     var ue =  UE.getEditor('rich');

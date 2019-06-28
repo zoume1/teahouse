@@ -562,7 +562,8 @@ Route::group("admin",[
     "goods_images"=>"admin/Goods/images",        //普通商品列表组图片删除
     "goods_photos"=>"admin/Goods/photos",        //普通商品列表规格图片删除
     "goods_value"=>"admin/Goods/value",          //普通商品列表规格值修改
-    "goods_switches"=>"admin/Goods/switches",    //普通商品列表规格开关
+    "goods_switches"=>"admin/Goods/switches",    //普通商品列上架开关
+    "goods_saves"=>"admin/Goods/saves",          //普通商品列存茶开关
     "goods_addphoto"=>"admin/Goods/addphoto",    //普通商品列表规格图片添加 
     "goods_offer"=>"admin/Goods/offer",          //普通商品多规格列表单位编辑 
     "goods_standard"=>"admin/Goods/standard",    //普通商品多规格列表单位id查找 

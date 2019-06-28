@@ -47,6 +47,20 @@ class  Limitations extends  Controller{
         ->select();   //会员等级
         $limited = db("limited")->where("id", $id)->find();
         $scope=json_decode($limited['limit_condition'],true); 
+        foreach($scope2 as $k=>$v)
+        {
+            $ture=0;
+            foreach($scope['scope']['scope_type'] as $k2 =>$v2){
+                 if($v2==$v['member_grade_name']){
+                    $scope2[$k]['check']='1';
+                    $ture=1;
+                    break;
+                 }
+            }
+            if($ture=='0'){
+                $scope2[$k]['check']='0';
+            }
+        }
         return view('limitations_edit', ["limit" => $limited, "scope" => $scope,'scope2'=>$scope2]);
 
     }

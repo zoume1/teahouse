@@ -303,7 +303,7 @@ class Goods extends Controller
             $goods[$key]["server"] = json_decode($goods[$key]["server"],true);
         }
      }
- 
+
         $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
         
         if(!empty($team)){
@@ -399,11 +399,13 @@ class Goods extends Controller
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
             unset($goods_data["aaa"]);
-            $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]);
+            if(!empty($goods_data["goods_sign"])){
+                $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]);
+            }        
             $goods_data["server"] = json_encode($goods_data["server"]); 
             $show_images = $request->file("goods_show_images");
             if(!empty($goods_data['goods_delivery'])){
-                $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery'],true);
+                $goods_data['goods_delivery'] = json_encode(array_values($goods_data['goods_delivery']));
             } else {
                 $goods_data['goods_delivery'] = null;
             }    
@@ -704,9 +706,10 @@ class Goods extends Controller
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $status = $request->only(["status"])["status"];
+            $name = $request->only(["name"])["name"];
 
             if (!empty($id)) {
-                $ture = db("special")->where("id", $id)->update(["status" => $status]);
+                $ture = db("special")->where("id", $id)->update(["$name" => $status]);
             }
             if ($ture) {
                 return ajax_success('更新成功!');
@@ -1446,9 +1449,10 @@ class Goods extends Controller
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $status = $request->only(["status"])["status"];
+            $name = $request->only(["name"])["name"];
 
             if (!empty($id)) {
-                $ture = db("crowd_special")->where("id", $id)->update(["status" => $status]);
+                $ture = db("crowd_special")->where("id", $id)->update(["$name" => $status]);
             }
             if ($ture) {
                 return ajax_success('更新成功!');
@@ -1512,6 +1516,8 @@ class Goods extends Controller
         return view("crowd_index",["crowd"=>$crowd]);
 
     }
+
+
 
     /**
      * [专属定制商品显示]

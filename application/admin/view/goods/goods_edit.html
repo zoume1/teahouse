@@ -412,19 +412,19 @@
                         {/if}
                         {if $vo['text']=='可存'}
                         <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
-                        <img src="__STATIC__/admin/index/img/kecun.png" />
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/kc.png" />
                         {/if}
                         {if $vo['text']=='HOT'}
                         <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
-                        <img src="__STATIC__/admin/index/img/hot.png" />
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/hot.png" />
                         {/if}
                         {if $vo['text']=='促销'}
                         <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
-                        <img src="__STATIC__/admin/index/img/chuxiao.png" />
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/cx.png" />
                         {/if}
                         {if $vo['text']=='清仓'}
                         <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
-                        <img src="__STATIC__/admin/index/img/qingchang.png" />
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/qc.png" />
                         {/if}
                     </div>
                     {/foreach}
@@ -779,16 +779,16 @@
                                                         {if $ve.save == 0}
                                                         <input type="checkbox" class="Status" value="{$ve.save}"
                                                             lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
-                                                            data-id="{$ve.id}" data-value="status"> {else}
+                                                            data-id="{$ve.id}" data-value="save"> {else}
                                                         <input type="checkbox" class="Status" value="{$ve.save}"
                                                             lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
-                                                            checked data-id="{$ve.id}" data-value="status"> {/if}
+                                                            checked data-id="{$ve.id}" data-value="save"> {/if}
                                                     </td>
                                                     <td>
                                                         {if $ve.status == 0}
                                                         <input type="checkbox" class="Status" value="{$ve.status}"
                                                             lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
-                                                            data-id="{$ve.id}" data-value="status"> {else}
+                                                            data-id="{$ve.id}" data-value="save"> {else}
                                                         <input type="checkbox" class="Status" value="{$ve.status}"
                                                             lay-skin="switch" lay-text="是|否" lay-filter="isshelves"
                                                             checked data-id="{$ve.id}" data-value="status"> {/if}
@@ -927,11 +927,11 @@
                                 checked="">
                             <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" checked="">
                             {/if}
-                            {if (!isset($value.goods_delivery[0])) && isset($value.goods_delivery[1])}
+                            {if ($value.goods_delivery[0] == 2) && !isset($value.goods_delivery[1])}
                             <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送">
                             <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" checked="">
                             {/if}
-                            {if isset($value.goods_delivery[0]) && !isset($value.goods_delivery[1])}
+                            {if ($value.goods_delivery[0] == 1) && !isset($value.goods_delivery[1])}
                             <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送" checked="">
                             <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" >
                             {/if}
@@ -1585,6 +1585,7 @@
                     data: {
                         "id": id,
                         "status": value,
+                        "name": data.elem.dataset.value
                     },
                     success: function (data) {
                         layer.msg("修改成功");
