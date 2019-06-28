@@ -365,7 +365,7 @@ Route::group("",[
     /*TODO:购物车结束*/
 
     /*TODO:茶仓出入仓*/
-    "getStoreData"=>"index/Storehouse/getStoreData",  //店铺小程序前端
+    "getStoreData"=>"index/Storehouse/getStoreData",  //店铺小程序前端存茶数据
 
 
 
