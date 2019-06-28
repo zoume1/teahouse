@@ -661,7 +661,7 @@ class  Wxapps extends  Controller{
                                 $member_grade_name = input("member_grade_name");; //会员等级
                                 $member_id =  input("open_id");  //open-ID
                                 $list = db("goods")
-                                    ->where(['pid'=>$sourceid,'status'=>1,'store_id'=>$uniacid,'limit'=>'0'])
+                                    ->where(['pid'=>$sourceid,'status'=>1,'store_id'=>$uniacid,'limit_goods'=>'0'])
                                     ->limit(1,$count)
                                     ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
                                     ->select();

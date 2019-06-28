@@ -825,6 +825,7 @@ class  General extends  Base {
                             }
                             if($v['id'] == 'footmenu'){
                                 if($v['data']){
+                                    $pp=0;
                                     foreach ($v['data'] as $ki => $vi) {
                                         //原先的
                                         if($vi['imgurl'] != ""){
@@ -836,6 +837,8 @@ class  General extends  Base {
                                                 $v['data'][$ki]['imgurl2'] = remote($appletid,$vi['imgurl2'],2);
                                             }
                                         }
+                                        $v['data'][$pp]=$v['data'][$ki];
+                                        $pp++;
                                     }
                                 }
                             }
