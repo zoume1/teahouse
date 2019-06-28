@@ -189,7 +189,7 @@ class  Limitations extends  Controller{
                         $rest = db("limited")->insertGetId($v);
                         //更改商品的limit_goods属性
                         $r2['limit_goods']='1';
-                        $rr=db('goods')->where('id',$rest)->update($r2);
+                        $rr=db('goods')->where('id',$v['goods_id'])->update($r2);
                     }
                 }
             }
