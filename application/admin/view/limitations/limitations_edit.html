@@ -95,10 +95,10 @@
 								<input type="checkbox" name="limit_status" lay-skin="primary" title="" {if $scope['limit']['limit_status']} <?php if($scope['limit']['limit_status']==1){echo 'checked ';} ?>{/if} >
 								<div class="texts">限购数量</div>
 								<input type="text"  lay-verify="title" name="number" autocomplete="off" placeholder="限购数量"
-									class="layui-input" {if $scope['limit']['number']} {$scope['limit']['number']}{/if}>
+									class="layui-input" value="{$scope['limit']['number']}">
 								<div class="texts">调整价格</div>
 								<input type="text"  lay-verify="title" name="price" autocomplete="off" placeholder="限购价格"
-									class="layui-input">
+									class="layui-input" value="{$scope['limit']['price']}">
 								<div style="width: 100%">*限购份数不填，表示不限购，调整价格，可设为例如：9.9元，时限过期后，商品自动恢复原价</div>
 						</div>
 					</div>
@@ -116,7 +116,7 @@
 				<div class="form-input line">
 					<div class="texts">开始时间</div>
 					<input type="text" name="start_time" value="{$scope['miao']['start_time']|date="Y-m-d",###}" class="layui-input"
-									placeholder="请选择活动开始时间" id="datetimepicker2" />
+									placeholder="请选择活动开始时间" id="datetimepicker2" autocomplete="off"/>
 				</div>
 			</div>
 			<div class="form-item">
@@ -124,7 +124,7 @@
 				<div class="form-input line">
 					<div class="texts">结束时间</div>
 					<input type="text" name="end_time" value="{$scope['miao']['end_time']|date="Y-m-d",###}" class="layui-input"
-									placeholder="请选择活动开始时间" id="datetimepicker3" />
+									placeholder="请选择活动开始时间" id="datetimepicker3" autocomplete="off"/>
 					
 				</div>
 			</div>
@@ -220,7 +220,7 @@
 						<!-- </tbody>
 					</table>
 				</div> -->
-	
+	            <input type="hidden" value="{$limit['id']}" name="id">
 				<div class="layui-form-item">
 					<div class="layui-input-block">
 						<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>

@@ -536,7 +536,6 @@ class  General extends  Base {
             $this->error("找不到对应的小程序！");
         }
         $this->assign('applet',$res);
-
         $op=input("op");
         $tplid=input("tplid"); //打印出来是1(因为是写死，现在需要使用到store-id)
         if($op){
@@ -684,9 +683,7 @@ class  General extends  Base {
 
                 }else{
                     $this->error('删除失败');
-
                 }
-
             }
             if($op == "setsave"){
                 // $pid = input('key_id');
@@ -829,17 +826,17 @@ class  General extends  Base {
                             }
                             if($v['id'] == 'footmenu'){
                                 if($v['data']){
-                                    $pp=0;
                                     foreach ($v['data'] as $ki => $vi) {
                                         //原先的
                                         if($vi['imgurl'] != ""){
                                             $v['data'][$ki]['imgurl'] = remote($appletid,$vi['imgurl'],2);
                                         }
-                                        if($vi['imgurl2'] != ""){
-                                            $v['data'][$ki]['imgurl2'] = remote($appletid,$vi['imgurl2'],2);
+                                        if(array_key_exists('imgurl2',$v['data'][$ki]))
+                                        {
+                                            if($vi['imgurl2'] != ""){
+                                                $v['data'][$ki]['imgurl2'] = remote($appletid,$vi['imgurl2'],2);
+                                            }
                                         }
-                                       $v['data'][$pp]=$v['data'][$ki];
-                                        $pp++;
                                     }
                                 }
                             }
@@ -852,19 +849,10 @@ class  General extends  Base {
                     }else{
                         $sd['items'] = "";
                     }
-
-
                     $sd['uniacid'] = $appletid;
-
-
-
                     if(intval($data['id']) == 0){
-
                         // $tplid = input('tplid');
-
-
                         /*新创建*/
-
                         $idata = Db::table('ims_sudu8_page_diypage')->where("uniacid",$appletid)->where("tpl_name",$sd['tpl_name'])->find();
 
                         if($idata){

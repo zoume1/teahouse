@@ -103,13 +103,16 @@ class  Limitations extends  Controller{
                         {
                             $map4['limit_status']='1';
                             $map4['number']='-1';   //不限购数量
+                            $map4['price']=$data['price'];   //不限购数量
                         }else{
                             $map4['number']=$data['number'];
                             $map4['limit_status']='1';
+                            $map4['price']=$data['price'];
                         }
                     }else{
                         $map4['limit_status']='0';
                         $map4['number']='0';
+                        $map4['price']='0';
                     }
                  if(array_key_exists('status',$data))  //开启秒杀
                  {    
@@ -121,12 +124,12 @@ class  Limitations extends  Controller{
                     $map2['start_time']='0';
                     $map2['end_time']='0';
                  }
-                 $pp['scope']=$map;
+                 $pp3['scope']=$map;
                  $map3['label']=$data['label'];
-                 $pp['limit']=$map4;
-                 $pp['miao']=$map2;
-                 $pp['label']=$map3;
-                 $pp=json_encode($pp);      //限时限购的条件
+                 $pp3['limit']=$map4;
+                 $pp3['miao']=$map2;
+                 $pp3['label']=$map3;
+                 $pp=json_encode($pp3);      //限时限购的条件
             }else{
                 $this->error('限购设置和开启秒杀至少选中一个');
             }
@@ -183,7 +186,10 @@ class  Limitations extends  Controller{
                         $rest = db("limited")->where('id',$is_limit['id'])->update($v);
                     }else
                     {
-                        $rest = db("limited")->insert($v);
+                        $rest = db("limited")->insertGetId($v);
+                        //更改商品的limit_goods属性
+                        $r2['limit_goods']='1';
+                        $rr=db('goods')->where('id',$rest)->update($r2);
                     }
                 }
             }
@@ -206,32 +212,34 @@ class  Limitations extends  Controller{
              $data = $request->param();    //获取参数
              $store_id = Session::get("store_id");    //获取店铺id 
             $data["stroe_id"] = $store_id;
-           
-            if(array_key_exists('aa',$data) || array_key_exists('status',$data))
-            {    //限购和秒杀至少一个
-                 if(array_key_exists('aa',$data))
+            if(array_key_exists('type',$data) || array_key_exists('status',$data) || array_key_exists('limit_status',$data))
+            {    //限购和秒杀至少一个(面向范围可以为空)
+                 if(array_key_exists('type',$data))
                  {   //限购
-                    $map['scope']='1';
-                    $map['scope_type']=$data['type'];
-                    if(array_key_exists('limit_status',$data))
+                    $map['scope_type']=$data['type'];     
+                    
+                 }else{
+                     $map['scope_type']='0';      //面向所有的会员
+                 }
+                 if(array_key_exists('limit_status',$data))    //限购设置
                     {
                         if($data['number']=='0')
                         {
-                            $map['limit_status']='1';
-                            $map['number']='-1';   //不限购数量
+                            $map4['limit_status']='1';
+                            $map4['number']='-1';   //不限购数量
+                            $map4['price']=$data['price'];   //不限购数量
                         }else{
-                            $map['number']=$data['number'];
-                            $map['limit_status']='1';
+                            $map4['number']=$data['number'];
+                            $map4['limit_status']='1';
+                            $map4['price']=$data['price'];
                         }
                     }else{
-                        $map['limit_status']='0';
-                        $map['number']='0';
+                        $map4['limit_status']='0';
+                        $map4['number']='0';
+                        $map4['price']='0';
                     }
-                 }else{
-                     $map='0';
-                 }
-                 if(array_key_exists('status',$data))
-                 {    //开启秒杀
+                 if(array_key_exists('status',$data))  //开启秒杀
+                 {    
                     $map2['miao_status']='1';
                     $map2['start_time']=strtotime($data['start_time']);
                     $map2['end_time']=strtotime($data['end_time']);
@@ -240,11 +248,12 @@ class  Limitations extends  Controller{
                     $map2['start_time']='0';
                     $map2['end_time']='0';
                  }
+                 $pp3['scope']=$map;
                  $map3['label']=$data['label'];
-                 $pp['limit']=$map;
-                 $pp['miao']=$map2;
-                 $pp['label']=$map3;
-                 $pp=json_encode($pp);      //限时限购的条件
+                 $pp3['limit']=$map4;
+                 $pp3['miao']=$map2;
+                 $pp3['label']=$map3;
+                 $pp=json_encode($pp3);      //限时限购的条件
             }else{
                 $this->error('限购设置和开启秒杀至少选中一个');
             }
@@ -260,7 +269,7 @@ class  Limitations extends  Controller{
                 $op['end_time']=0;
                 $res3=db('limited')->where('id',$data['id'])->update($op);
             }
-            if(array_key_exists('aa',$data))
+            if(array_key_exists('limit_status',$data))
             {
                 $op2['limit_number']=$data['number'];
                 $res4=db('limited')->where('id',$data['id'])->update($op2);
@@ -330,7 +339,8 @@ class  Limitations extends  Controller{
      public function limitations_delete($id)
      {
         $bool = db("limited")->where("id", $id)->delete();
-
+        $r2['limit_goods']='0';
+        $res=db('goods')->where('id',$id)->update($r2);
         if ($bool ) {
             $this->success("删除成功", url("admin/Limitations/limitations_index"));
         } else {
