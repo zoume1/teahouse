@@ -19,17 +19,26 @@ class Storehouse extends Controller
 {
 
     /**
+     * @param int $uniacid
+     * @param int member_id
      * [店铺小程序前端存茶数据]
-     * 郭杨
+     * @return 成功时返回，其他抛异常
      */
     public function getStoreData(Request $request)
     {
         if ($request->isPost()) {
             $store_id = $request->only(['uniacid'])['uniacid'];
+            $member_id = $request->only(['member_id'])['member_id'];
+            $cangku = Db::name("store_house")->where("store_id",$store_id)->select();
 
-            
-
-
+            $house = Db::name("house_order")
+            ->where(["store_id"=>$store_id,"member_id"=>$member_id])
+            ->group('store_house_id')
+            ->select();
+            if(!empty($house)){
+                halt($house);
+            }
+            halt($house);
         }
 
     }
