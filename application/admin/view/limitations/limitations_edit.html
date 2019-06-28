@@ -95,7 +95,7 @@
 								<input type="checkbox" name="limit_status" lay-skin="primary" title="" {if $scope['limit']['limit_status']} <?php if($scope['limit']['limit_status']==1){echo 'checked ';} ?>{/if} >
 								<div class="texts">限购数量</div>
 								<input type="text"  lay-verify="title" name="number" autocomplete="off" placeholder="限购数量"
-									class="layui-input">
+									class="layui-input" {if $scope['limit']['number']} {$scope['limit']['number']}{/if}>
 								<div class="texts">调整价格</div>
 								<input type="text"  lay-verify="title" name="price" autocomplete="off" placeholder="限购价格"
 									class="layui-input">
