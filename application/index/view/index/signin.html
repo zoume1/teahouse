@@ -12,8 +12,10 @@
     <title>登录</title>
     <link rel="stylesheet" href="__STATIC__/index/css/common.css">
     <link rel="stylesheet" href="__STATIC__/index/css/intlTelInput.min.css">
+    <link rel="stylesheet" href="__STATIC__/index/thirdpart/css/swiper-4.3.5.min.css">
     <!-- 滑动拼图验证码 样式 -->
-    <link rel="stylesheet" href="__STATIC__/index/js/slider/style.css">
+    <link rel="stylesheet" href="__STATIC__/index/thirdpart/css/verify.css">
+    <!--<link rel="stylesheet" href="__STATIC__/index/js/slider/style.css">-->
     <script src="__STATIC__/index/js/intlTelInput.min.js"></script>
     <style>
         .sign-in-container{width: 1000px; margin: 0 auto;}
@@ -39,8 +41,7 @@
         .copyright{text-align: center; margin-top: 50px;color: #515151;}
         .copyright a{color: #515151;}
         .qr-code-wrap{width: 350px; margin: 0 auto; text-align: center;}
-
-        .verBox{position:absolute; text-align:center; left: 50px; top: -20px; opacity:1; transition:all 0.8s; padding:0 28px; background-color: #fff; z-index: 999; display: none;}
+        .num{margin-bottom: 20px;}
     </style>
 </head>
 <body>
@@ -111,7 +112,14 @@
                                     <span class="pw-icon"></span>
                                 </div>
                             </div>
-                            <button type="submit" class="button-primary">登录</button>
+                            <!-- 拼图滑块验证码 -->
+                            <div class="section-group">
+                            <label class="form-label">验证码</label>
+                            <div class="num" >
+                                <div id="imgVer"></div>
+                            </div>
+                        </div>
+                            <button type="submit" id="sub" class="button-primary">登录</button>
                             <div class="forget-group">
                                 还没账号？<a href="sign_up">立即注册</a>
                                 <a href="forget_pw" class="forget-pw">忘记密码</a>
@@ -121,10 +129,7 @@
                             <img src="__STATIC__/index/img/qrcode.png" width="260" height="260">
                         </div>
                         
-                        <!-- 拼图滑块验证码 -->
-                        <div class="verBox">
-                            <div id="imgVer" style="display:inline-block;"></div>
-                        </div>
+                        
 
                     </div>
                     <div class="signin-content-inner">
@@ -143,11 +148,17 @@
         </div>
     </div>
     <script src="__STATIC__/index/js/jquery.js"></script>
-    <!-- 滑块拼图验证 -->
-    <script src="__STATIC__/index/js/slider/img_ver.js"></script>
     <script src="__STATIC__/index/js/layer/layer.js"></script>
-    <script src="__STATIC__/index/js/base64.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
+    <!-- 滑块拼图验证 -->
+    <!--<script src="__STATIC__/index/js/slider/img_ver.js"></script>
+    </script>
+    <script src="__STATIC__/index/js/base64.js"></script>
+    -->
+    <!--数字验证-->
+    <script src="__STATIC__/index/thirdpart/js/swiper-4.3.5.min.js"></script>
+    <script src="__STATIC__/index/thirdpart/js/verify.js"></script>
+   
     <script>
         var phone = document.querySelector('#phone');
         // http://www.jq22.com/jquery-info12917
@@ -172,29 +183,50 @@
             }
         }
         // 拼图验证码 init
-        imgVer({
-            el:'$("#imgVer")',
-            width:'260',
-            height:'116',
-            img:[
-                '',
-                '__STATIC__/index/js/slider/images/ver.jpg',
-                '__STATIC__/index/js/slider/images/ver-1.jpg',
-                '__STATIC__/index/js/slider/images/ver-2.jpg',
-                '__STATIC__/index/js/slider/images/ver-3.jpg',
-            ],
-            success:function () {
-                $(".verBox").css({
-                    "display":"none"
-                });
-                layer.msg('登录成功');
-                setTimeout(function(){
+   
+        $('#imgVer').codeVerify({
+           type: 2,
+           figure: 10,	//位数，仅在type=2时生效
+           arith: 0,	//算法，支持加减乘，不填为随机，仅在type=2时生效
+           width: '133px',
+           height: '40px',
+           fontSize: '20px',
+           btnId: 'sub',
+           ready: function () {
+           },
+           success: function (e) {
+           
+               layer.msg('登录成功');
+               setTimeout(function(){
                     statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
                 }, 1000);
-            },
-            error:function () {}
-        });
-
+           },
+           error: function () {
+            layer.msg('验证码不匹配！');
+           }
+       });
+       //imgVer({
+            //el:'$("#imgVer")',
+            //width:'260',
+            //height:'116',
+            //img:[
+                //'',
+                //'/static/index/js/slider/images/ver.jpg',
+                //'/static/index/js/slider/images/ver-1.jpg',
+                //'/static/index/js/slider/images/ver-2.jpg',
+                //'/static/index/js/slider/images/ver-3.jpg',
+            //],
+            //success:function () {
+                //$(".verBox").css({
+                    //"display":"none"
+                //});
+                //layer.msg('登录成功');
+                //setTimeout(function(){
+                    //statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
+                //}, 1000);
+            //},
+            //error:function () {}
+        //});
         // $(function(){
         //     if(window.history && window.history.pushState){
         //         $(window).on('popstate', function(){
@@ -224,9 +256,9 @@
                         console.log(res);
                         statusLog = res.status;
                         if(res.status == 1){
-                            $(".verBox").css({
-                                "display":"block"
-                            })
+                            //$(".num").css({
+                              //  "display":"block"
+                            //})
                             // layer.msg(res.info);
                             myEvent.setCookie(btoa('phone'), btoa($phone), 7); //保存帐号到cookie，有效期7天
                             myEvent.setCookie(btoa('password'), btoa($password), 7); //保存帐号到cookie，有效期7天
@@ -234,9 +266,9 @@
                             //     location.href = 'my_shop';
                             // }, 1000);
                         }else if(res.status == 2){
-                            $(".verBox").css({
-                                "display":"block"
-                            })
+                            //$(".num").css({
+                             //   "display":"block"
+                            //})
                             // location.href ="/admin";
                         }else{
                             layer.msg(res.info);
@@ -251,5 +283,6 @@
             }
         })
     </script>
+   
 </body>
 </html>

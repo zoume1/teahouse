@@ -927,11 +927,11 @@
                                 checked="">
                             <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" checked="">
                             {/if}
-                            {if (!isset($value.goods_delivery[0])) && isset($value.goods_delivery[1])}
+                            {if ($value.goods_delivery[0] == 2) && !isset($value.goods_delivery[1])}
                             <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送">
                             <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" checked="">
                             {/if}
-                            {if isset($value.goods_delivery[0]) && !isset($value.goods_delivery[1])}
+                            {if ($value.goods_delivery[0] == 1) && !isset($value.goods_delivery[1])}
                             <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送" checked="">
                             <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" >
                             {/if}
