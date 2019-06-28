@@ -1449,9 +1449,10 @@ class Goods extends Controller
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $status = $request->only(["status"])["status"];
+            $name = $request->only(["name"])["name"];
 
             if (!empty($id)) {
-                $ture = db("crowd_special")->where("id", $id)->update(["status" => $status]);
+                $ture = db("crowd_special")->where("id", $id)->update(["$name" => $status]);
             }
             if ($ture) {
                 return ajax_success('更新成功!');
