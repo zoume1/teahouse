@@ -267,7 +267,6 @@ class  General extends  Base {
             $array = $request->param();
             $data=[
                 "store_name"=>$array['store_name'],
-                "store_number"=>$array['store_number'],
                 "store_qq"=>$array['store_qq'],
                 "store_introduction"=>$array['store_introduction'],
             ];
