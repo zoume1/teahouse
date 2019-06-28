@@ -915,10 +915,10 @@ define(['jquery', 'bootstrap'], function($, bs) {
 					if (_img) {
 						$(_img).attr('src', _src);
 					}
-					console.log(swfalg)
 					if(swfalg == 'pimg1'){
 						// 上传默认图片
 						$(".afeedbackbgimg"+_itemid).val(_src).change();
+						// $(".afeedbackbgimg"+_itemid).val($(".afeedbackbgimg"+_itemid).val() + '-' + _src).change();
 
 						console.log($(".afeedbackbgimg"+_itemid))
 						console.log($(".afeedbackbgimg"+_itemid).val())
@@ -926,7 +926,8 @@ define(['jquery', 'bootstrap'], function($, bs) {
 						$(".afeedbackbgimgurl"+_itemid).attr("src",_src);
 					}else if(swfalg == 'pimg2'){
 						// 上传选中后的图片
-						$(".bfeedbackbgimg"+_itemid).val(_src);
+						$(".bfeedbackbgimg"+_itemid).val(_src).change();
+						// $(".afeedbackbgimg"+_itemid).val($(".afeedbackbgimg"+_itemid).val() + '-' + _src);
 
 						console.log($(".bfeedbackbgimg"+_itemid))
 						console.log($(".bfeedbackbgimg"+_itemid).val())
@@ -939,6 +940,7 @@ define(['jquery', 'bootstrap'], function($, bs) {
 			})
 		})
 	});
+
   /**
    * lilu
    * 获取app二维码
