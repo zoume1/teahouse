@@ -837,10 +837,12 @@ class  General extends  Base {
                                                 $v['data'][$ki]['imgurl2'] = remote($appletid,$vi['imgurl2'],2);
                                             }
                                         }
-                                        $v['data'][$pp]=$v['data'][$ki];
+                                        // $v['data'][$pp]=$v['data'][$ki];
                                         $pp++;
                                     }
                                 }
+                                halt($v['data']);
+
                             }
                         }
                         $sd['items'] = serialize($data['data']['items']);
