@@ -91,9 +91,9 @@ class Photo extends Base{
 
 
     /**
-     **************李火生*******************
+     **************李禄*******************
      * @param Request $request
-     * Notes:图片上传
+     * Notes:图片上传--小程序编辑
      **************************************
      */
     public function imgupload(){
@@ -108,25 +108,43 @@ class Photo extends Base{
         $groupid = input("groupid");
         if($remote == 1){
             $files = request()->file('');
-            foreach($files as $file){
-                // 移动到框架应用根目录/public/upimages/ 目录下
-                $info = $file->validate(['ext'=>'jpg,png,gif,jpeg'])
-                    ->move(ROOT_PATH . 'public' . DS . 'upimages');
-                if($info){
-                    $url =  "/upimages/".date("Ymd",time())."/".$info->getFilename();
-                    $data = array();
-                    $data['uniacid'] = $uniacid;
-                    $data['gid'] = $groupid;
-                    $data['imgurl'] = $url;
-                    $data['type'] = 1;
-                    $pid = Db::table("ims_sudu8_page_pic")->insertGetId($data);
-                    $arr = array("url"=>$url,"pid"=>$pid);
-                    return json_encode($arr);
+            $list='';
+            $num=count($files['uploadfile']);
+            foreach ($files['uploadfile'] as $k=>$v) {
+                $info = $v->move(ROOT_PATH . 'public' . DS . 'upimages');
+                if($k==$num-1)
+                {
+                    $list .= "/upimages/".date("Ymd",time())."/".$info->getFilename();
                 }else{
-                    // 上传失败获取错误信息
-                    return $this->error($file->getError()) ;
+                    $list .= "/upimages/".date("Ymd",time())."/".$info->getFilename().'-';
                 }
             }
+            $data['uniacid'] = $uniacid;
+            $data['gid'] = $groupid;
+            $data['imgurl'] = $list;
+            $data['type'] = 1;
+            $pid = Db::table("ims_sudu8_page_pic")->insertGetId($data);
+            $arr = array("url"=>$list,"pid"=>$pid);
+            return json_encode($arr);
+            // foreach($files as $file){
+            //     // 移动到框架应用根目录/public/upimages/ 目录下
+            //     $info = $file->validate(['ext'=>'jpg,png,gif,jpeg'])
+            //         ->move(ROOT_PATH . 'public' . DS . 'upimages');
+            //     if($info){
+            //         $url =  "/upimages/".date("Ymd",time())."/".$info->getFilename();
+            //         $data = array();
+            //         $data['uniacid'] = $uniacid;
+            //         $data['gid'] = $groupid;
+            //         $data['imgurl'] = $url;
+            //         $data['type'] = 1;
+            //         $pid = Db::table("ims_sudu8_page_pic")->insertGetId($data);
+            //         $arr = array("url"=>$url,"pid"=>$pid);
+            //         return json_encode($arr);
+            //     }else{
+            //         // 上传失败获取错误信息
+            //         return $this->error($file->getError()) ;
+            //     }
+            // }
         }else if($remote == 2){
             $qiniu_info = Db::table("ims_sudu8_page_remote")
                 ->where("type",2)
