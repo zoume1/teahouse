@@ -737,51 +737,8 @@ class  Order extends  Controller
                         $datas["house_price"] = $house_price[$keys];
                       
                         $key = array_search($unit[$keys],$data['unit']);
-                        switch($key){
-                            case 0:
-                                $datas["store_number"] = $datas["order_quantity"].','.$unit[$keys];
-                                break;
-                            case 1:
-                                $number_one = $data['unit'][$key];    //等级单位
-                                $num_one = $data['num'][$key];        //等级数量
-                                $number_zero = $data['unit'][$key-1]; //等级单位
-                                $num_zero = $data['num'][$key-1];     //等级数量
-
-                                $number = $datas['order_quantity']/$num_one;
-                                if($number > 1){
-                                    $remainder = $datas['order_quantity']%$num_one;
-                                    $datas["store_number"] = $number.','.$number_zero.','.$remainder.','.$number_one;
-                                } else {
-                                    $number = 0;
-                                    $datas["store_number"] = $number.','.$number_zero.','.$datas['order_quantity'].','.$number_one;
-                                }
-                                break;
-                            case 2: 
-                                $number_two = $data['unit'][$key];    //等级单位
-                                $num_two = $data['num'][$key];        //等级数量
-                                $number_one = $data['unit'][$key-1];  //等级单位
-                                $num_one = $data['num'][$key-1];      //等级数量
-                                $number_zero = $data['unit'][$key-2]; //等级单位
-                                $num_zero = $data['num'][$key-2];     //等级数量
-
-                                $rank_one = $datas['order_quantity']/$number_two; //第二个数量
-                                if($rank_one > 1){
-                                    $three = $datas['order_quantity'] % $num_two; //第三个数量
-                                    $two = $rank_one/$number_one ; //第一个数量
-                                    if($two > 1){
-                                        $foure = $rank_one % $number_one ;//第二个数量
-                                        $datas["store_number"] = $two.','.$number_zero.','.$foure.','.$number_one.','.$rank_one.','.$number_two;
-                                    } else {
-                                        $two = 0;
-                                        $datas["store_number"] = $two.','.$number_zero.','.$rank_one.','.$number_one.','.$three.','.$number_two;
-                                    }
-                                } else {
-                                    $two = 0;
-                                    $rank_six = 0;
-                                    $datas["store_number"] = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$datas['order_quantity'].','.$number_two;
-                                }
-                                break;                                                             
-                            }
+                        //先判断有多少位数量等级
+                        $datas["store_number"]= $this->unit_calculate($data['unit'], $data['num'],$key,$datase["order_quantity"]);
                         $res = Db::name('house_order')->insertGetId($datas);        
                     }
                 }
