@@ -916,6 +916,7 @@ define(['jquery', 'bootstrap'], function($, bs) {
 						$(_img).attr('src', _src);
 					}
 					if(swfalg == 'pimg1'){
+						console.log(_src)
 						// 上传默认图片
 						$(".afeedbackbgimg"+_itemid).val(_src).change();
 						$(".afeedbackbgimgurl"+_itemid).attr("src",_src);
