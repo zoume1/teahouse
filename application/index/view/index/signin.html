@@ -41,7 +41,7 @@
         .copyright{text-align: center; margin-top: 50px;color: #515151;}
         .copyright a{color: #515151;}
         .qr-code-wrap{width: 350px; margin: 0 auto; text-align: center;}
-        .num{margin-bottom: 20px;}
+        .num{}
     </style>
 </head>
 <body>
@@ -114,8 +114,8 @@
                             </div>
                             <!-- 拼图滑块验证码 -->
                             <div class="section-group">
-                            <label class="form-label">验证码</label>
-                            <div class="num" >
+                            <label class="form-label" >验证码</label>
+                            <div class="num" style="height: 50px">
                                 <div id="imgVer"></div>
                             </div>
                         </div>
@@ -186,16 +186,16 @@
    
         $('#imgVer').codeVerify({
            type: 2,
-           figure: 10,	//位数，仅在type=2时生效
+           figure: 5,	//位数，仅在type=2时生效
            arith: 0,	//算法，支持加减乘，不填为随机，仅在type=2时生效
-           width: '133px',
+           width: '115px',
            height: '40px',
            fontSize: '20px',
            btnId: 'sub',
            ready: function () {
-           },
+                       },
            success: function (e) {
-           
+               
                layer.msg('登录成功');
                setTimeout(function(){
                     statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
