@@ -61,7 +61,6 @@ class  Limitations extends  Controller{
                 $scope2[$k]['check']='0';
             }
         }
-        halt($scope);
         return view('limitations_edit', ["limit" => $limited, "scope" => $scope,'scope2'=>$scope2]);
 
     }

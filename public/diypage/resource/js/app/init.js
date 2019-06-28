@@ -918,20 +918,10 @@ define(['jquery', 'bootstrap'], function($, bs) {
 					if(swfalg == 'pimg1'){
 						// 上传默认图片
 						$(".afeedbackbgimg"+_itemid).val(_src).change();
-						// $(".afeedbackbgimg"+_itemid).val($(".afeedbackbgimg"+_itemid).val() + '-' + _src).change();
-
-						console.log($(".afeedbackbgimg"+_itemid))
-						console.log($(".afeedbackbgimg"+_itemid).val())
-
 						$(".afeedbackbgimgurl"+_itemid).attr("src",_src);
 					}else if(swfalg == 'pimg2'){
 						// 上传选中后的图片
 						$(".bfeedbackbgimg"+_itemid).val(_src).change();
-						// $(".afeedbackbgimg"+_itemid).val($(".afeedbackbgimg"+_itemid).val() + '-' + _src);
-
-						console.log($(".bfeedbackbgimg"+_itemid))
-						console.log($(".bfeedbackbgimg"+_itemid).val())
-
 						$(".bfeedbackbgimgurl"+_itemid).attr("src",_src);
 					}
 
