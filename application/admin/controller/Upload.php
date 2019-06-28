@@ -1,12 +1,15 @@
 <?php
 namespace app\admin\controller;
 use think\Controller;
+use app\admin\model\Miniprogram;
 use think\Db;
 use think\Request;
 use think\Session;
 use think\View;
 class Upload extends Controller
 {
+    public $appid='wx301c1368929fdba8';     //需要实现业务小程序的APPID
+
     public function index(){
         // if(check_login()){
              $user_id=Session::get('user_id');
@@ -227,9 +230,6 @@ class Upload extends Controller
         $params = http_build_query($data);
         $url = "http://wx.hdewm.com/uploadApi.php?do=commitcode&".$params;
         $response = json_decode($this->_requestGetcurl($url));
-        // var_dump($response);
-        // var_dump(1);
-        // exit;
         return $response;
     }
         
@@ -336,4 +336,5 @@ class Upload extends Controller
             $this->error('发生未知错误, 操作失败, 请稍后再试!');
         }
     }
+
 }

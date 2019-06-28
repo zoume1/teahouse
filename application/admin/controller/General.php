@@ -731,10 +731,9 @@ class  General extends  Base {
                     return 2;
                 }
             }
-            if ($op == 'add'){
+            if ($op == 'add'){    //小程序编辑----保存页面
 
-                $data = $_POST;
-
+                $data = $_POST;   //获取传递的参数
                 if(isset($data['data']['page']['url']) && $data['data']['page']['url'] != ""){
                     $data['data']['page']['url'] = remote($appletid,$data['data']['page']['url'],2);
                 }
@@ -833,6 +832,9 @@ class  General extends  Base {
                                     foreach ($v['data'] as $ki => $vi) {
                                         if($vi['imgurl'] != ""){
                                             $v['data'][$ki]['imgurl'] = remote($appletid,$vi['imgurl'],2);
+                                        }
+                                        if($vi['imgurl2'] != ""){
+                                            $v['data'][$ki]['imgurl2'] = remote($appletid,$vi['imgurl2'],2);
                                         }
                                     }
                                 }

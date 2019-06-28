@@ -85,10 +85,10 @@
 
 <body style="height:100%;" onload="footmenus()">
 <form id='myupload' action="/admin/imgupload?uniacid=<?php echo $_GET['appletid'];?>"  method='post' enctype='multipart/form-data'>
-    <input type="file" id="uploadphoto" name="uploadfile" value="请点击上传图片" accept="image/png,image/jpeg,image/gif"  style="display:none" />
+    <input type="file" id="uploadphoto" name="uploadfile[]" value="请点击上传图片" multiple accept="image/png,image/jpeg,image/gif"  style="display:none" />
 </form>
-<form id='myupload1' action="/admin/imgupload2?uniacid=<?php echo $_GET['appletid'];?>" method='post' enctype='multipart/form-data'>
-    <input type="file" id="uploadphoto1" name="uploadfile1" value="请点击上传图片" accept="image/png,image/jpeg,image/gif"  style="display:none" />
+<form id='myupload1' action="/admin/imgupload?uniacid=<?php echo $_GET['appletid'];?>" method='post' enctype='multipart/form-data'>
+    <input type="file" id="uploadphoto1" name="uploadfile[]" value="请点击上传图片" multiple accept="image/png,image/jpeg,image/gif"  style="display:none" />
 </form>
 
 
@@ -3494,7 +3494,7 @@
 
                 <!--这里是显示模块的判断-->
                 <%each nav.arr as list key%>
-                <%if list.id =="banner" || list.id =="richtext"  || list.id =="menu"  || list.id =="notice"  || list.id =="goods"  || list.id =="listmenu"  || list.id =="ssk" || list.id =="footmenu" ||list.id=="msmk"%>
+                <%if list.id =="banner" || list.id=="msmk" || list.id =="richtext"  || list.id =="menu"  || list.id =="notice"  || list.id =="goods"  || list.id =="listmenu"  || list.id =="ssk" || list.id =="footmenu" %>
                 <li class="page_nav_one">
                     <nav class="page_nav" data-id="<%list.id%>" data-value="<%key%>" style="cursor: pointer;">
                         <div class="<%list.icon%> page_nav_icon"><div class="font-size-14 page_nav_t"><%list.name%></div></div>
@@ -16478,12 +16478,12 @@
                         <div style="border: 1px solid #e7eaec;margin-bottom:5px; position: relative;">
                             <!-- <span class="btn-del" title="清空图标" onclick="$('#cicon-<%itemid%>').val('').trigger('change')"></span> -->
                             <img src="<%item.imgurl%>" class="afeedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg1-<%itemid%>" style="background: #fff;height:55px;width:55px;" />
-                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>" data-pic='true'>选择图片</div>
+                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图片</div>
                         </div>
                         <div style="border: 1px solid #e7eaec; position: relative;">
                             <!-- <span class="btn-del" title="清空图标" onclick="$('#cicon-<%itemid%>').val('').trigger('change')"></span> -->
                             <img src="<%item.imgurl%>" class="bfeedbackbgimgurl<%itemid%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg2-<%itemid%>" style="background: #fff;height:55px;width:55px;" />
-                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>" data-pic='true'>选择图片</div>
+                            <div class="text" data-toggle="selectIcon2" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图片</div>
                         </div>
                         <%/if%>
 
@@ -16536,10 +16536,10 @@
 
                             <input type="text" class="form-control input-sm diy-bind " value="<%item.text%>" placeholder="留空则不显示文字" data-bind-parent="data" data-bind-child="<%itemid%>1" data-bind="text" />
 
-                            <input type="hidden" class="diy-bind " id="cimg-<%itemid%>1" data-bind-parent="data" data-bind-child="<%itemid%>1" data-bind="imgurl" />
+                            <input type="hidden" class="diy-bind " id="cimg-<%itemid%>1" data-bind-parent="data" data-bind-child="<%itemid%>1" data-bind="imgurl2" />
                             <%if params.navstyle==1%>
 
-                            <input type="text" class="form-control input-sm diy-bind bfeedbackbgimg<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl" id="cimg-<%itemid%>" placeholder="请选择图片或输入图片地址" value="<%item.imgurl%>" />
+                            <input type="text" class="form-control input-sm diy-bind bfeedbackbgimg<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl2" id="cimg-<%itemid%>" placeholder="请选择图片或输入图片地址" value="<%item.imgurl%>" />
 
                             <span class="input-group-addon btn btn-default" data-toggle="selectImg" data-input="#cimg-<%itemid%>" data-img="#pimg-<%itemid%>" onclick='uploadphoto1.click();getd("<%itemid%>", "on");'>选择图片</span>
 
@@ -19759,7 +19759,7 @@
                         'width': '100%'
                     })
                     // 上传选择图片
-                    $(".bfeedbackbgimg"+imgid).val(url);
+                    $(".bfeedbackbgimg"+imgid).val(url).change();
                     $(".bfeedbackbgimgurl"+imgid).attr("src",url);
 
                     var ue =  UE.getEditor('rich');

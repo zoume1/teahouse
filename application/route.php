@@ -869,6 +869,8 @@ Route::group("admin",[
     "checkscan2"=>"admin/Upload/checkscan",                            //一键生成--二维码
     "commitcode2"=>"admin/Upload/commitcode",                            //一键生成--提交代码
     "preview2"=>"admin/Upload/preview",                             //一键生成--预览
+    "upload2"=>"admin/Upload/upload",                             //一键生成--预览
+    "uploadCode"=>"admin/Upload/uploadCode",                             //一键生成--预览
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
     "wx_login3"=>"admin/Wxview/wx_login",                            //一键生成
