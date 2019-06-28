@@ -1,0 +1,2 @@
+verify.js 验证码插件 详情：https://veui.net/
+paging.js 模板商城分页插件
