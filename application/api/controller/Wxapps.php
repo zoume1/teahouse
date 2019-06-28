@@ -330,8 +330,25 @@ class  Wxapps extends  Controller{
                                         $list2[$kk]['linktype'] = "page";
                                         $jianjie=json_decode($vv['limit_condition'],true);
                                         $list2[$kk]['goods_selling']=$jianjie['label']['label'];
-                                        $list2[$kk]['endtime']=$vv['end_time']-time();
-                                        $list2[$kk]['end_time']=$vv['end_time']-time();
+                                        // $list2[$kk]['endtime']=$vv['end_time']-time();
+                                        if($vv['end_time']==0)
+                                        {
+                                            $list2[$kk]['emd_time']='0';
+                                        }else{
+                                            $list2[$kk]['end_time']=$vv['end_time']-time();
+                                            if($list2[$kk]['end_time']<=0)     //秒杀商品时间已结束
+                                            {
+                                                //删除秒杀商品
+                                                $rr=db('limited')->where('id',$vv['id'])->delete();
+                                                //修改商品秒杀特性
+                                                $mm['limit_goods']='0';
+                                                $res=db('goods')->where('id',$vv['goods_id'])->update($mm);
+                                                //去除该秒杀商品
+                                                 unset($list2[$kk]);
+                                                 continue;
+                                            }
+
+                                        }
                                         $list2[$kk]['sale_time']=$vv['create_time'];
                                         $list2[$kk]['sale_end_time']=$vv['end_time'];
                                         $list2[$kk]['pro_kc']=$vv['goods_repertory'];      //商品库存

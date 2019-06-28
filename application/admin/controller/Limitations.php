@@ -338,9 +338,11 @@ class  Limitations extends  Controller{
      */
      public function limitations_delete($id)
      {
+         //获取当前秒杀商品的信息
+         $goods_info=db('limited')->where('id',$id)->find();
+         $r2['limit_goods']='0';
+         $res=db('goods')->where('id',$goods_info['goods_id'])->update($r2);
         $bool = db("limited")->where("id", $id)->delete();
-        $r2['limit_goods']='0';
-        $res=db('goods')->where('id',$id)->update($r2);
         if ($bool ) {
             $this->success("删除成功", url("admin/Limitations/limitations_index"));
         } else {
