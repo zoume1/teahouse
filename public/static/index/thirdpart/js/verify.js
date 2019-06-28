@@ -23,8 +23,8 @@
     };
     
     var _code_chars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-    var _code_color1 = ['#fffff0', '#f0ffff', '#f0fff0', '#fff0f0'];
-    var _code_color2 = ['#FF0033', '#006699', '#993366', '#FF9900', '#66CC66', '#FF33CC'];
+    //var _code_color1 = ['#fffff0', '#f0ffff', '#f0fff0', '#fff0f0'];
+    //var _code_color2 = ['#FF0033', '#006699', '#993366', '#FF9900', '#66CC66', '#FF33CC'];
     
     //定义Code的方法
     Code.prototype = {
@@ -59,7 +59,7 @@
 								<div class="verify-code"></div>\
 								<div class="verify-code-area">\
 									<div class="verify-input-area">\
-										<input type="text" class="varify-input-code" placeholder="请输入验证码" />\
+										<input type="text" class="varify-input-code" placeholder="请输入运算结果" />\
 									</div>\
 								</div>\
 							</div>';
@@ -87,7 +87,7 @@
 	    		var color1Num = Math.floor(Math.random() * 3);
 	    		var color2Num = Math.floor(Math.random() * 5);
 	    		
-	    		this.htmlDoms.code.css({'background-color': _code_color1[color1Num], 'color': _code_color2[color2Num]});
+	    		//this.htmlDoms.code.css({'background-color': _code_color1[color1Num], 'color': _code_color2[color2Num]});
 	    		this.htmlDoms.code_input.val('');
 	    		
 	    		var code = '';
