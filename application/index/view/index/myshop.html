@@ -286,6 +286,12 @@
                         </div>
                     </div>
                     <div class="content-item">
+                        <label class="content-title" for="p-email">邮箱：</label>
+                        <div>
+                            <input type="text" id="p-email" onblur="myEvent.onBlurGetInfo(this.value, 7);">
+                        </div>
+                    </div>
+                    <div class="content-item">
                         <label class="content-title" for="p-name">姓名：</label>
                         <div>
                             <input type="text" id="p-name" onblur="myEvent.onBlurGetInfo(this.value, 1);">
@@ -539,7 +545,8 @@
                             store_introduction: myEvent.data.storeDesc,
                             business_name: myEvent.data.compName,
                             licence_no: myEvent.data.licenceNum,
-                            store_name: myEvent.data.storeName
+                            store_name: myEvent.data.storeName,
+                            email: myEvent.data.email
                         },
                         success: function(res){
                             console.log('添加店铺成功',res);
@@ -783,7 +790,8 @@
                 storeDesc: '',
                 compName: null,
                 licenceNum: null,
-                storeName: null
+                storeName: null,
+                email: '',
             };
             // 手机打星号
             myEvent.hidePhone = function(num){
@@ -849,6 +857,9 @@
                             break;
                         case 6: 
                             myEvent.data.licenceNum = val;
+                            break;
+                        case 7: 
+                            myEvent.data.email = val;
                             break;
                     }
                 }
