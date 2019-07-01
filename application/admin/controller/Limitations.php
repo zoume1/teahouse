@@ -189,6 +189,7 @@ class  Limitations extends  Controller{
                         $rest = db("limited")->insertGetId($v);
                         //更改商品的limit_goods属性
                         $r2['limit_goods']='1';
+                        $r2['limit_price']=$data['price'];
                         $rr=db('goods')->where('id',$v['goods_id'])->update($r2);
                     }
                 }
@@ -354,9 +355,9 @@ class  Limitations extends  Controller{
      * [限时限购搜索商品]
      * GY
      */
-     public function limitations_search()
+     public function limit_search()
      {
-         return view('limitations_add');
+         return view('limit_search');
      }
      /**
       * lilu

@@ -842,8 +842,6 @@ class  General extends  Base {
                                         $pp++;
                                     }
                                 }
-                                halt($v['data']);
-
                             }
                         }
                         $sd['items'] = serialize($data['data']['items']);

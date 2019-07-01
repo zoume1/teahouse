@@ -37,15 +37,20 @@
 						<p id='tishi'>请先扫描以上二维码登录</p>
 						
 						<input type="hidden" name="scan_token" id="scan_token" value="">
-						<div id="success" style="display: none;width: 430px;text-align: center;margin: 30px auto 0;">
+						<!-- <div id="success" style="display: none;width: 430px;text-align: center;margin: 30px auto 0;">
 							<p>上传代码成功，请到微信开发平台小程序后台提交审核应用。</p>
 							<p>微信开发平台小程序后台<a href="https://mp.weixin.qq.com/" target="_blank">https://mp.weixin.qq.com/</a> </p>
 							<a href="javascript:;" class="btn green" onclick="yulan()">预览</a>
+						</div> -->
+						<div id="success" style="display: none;width: 430px;text-align: center;margin: 30px auto 0;">
+							<p>恭喜您：您的小程序已上传成功，请耐心等待腾讯官方审核生效，如需帮助请联系平台客服</p>
+							<!-- <p>微信开发平台小程序后台<a href="https://mp.weixin.qq.com/" target="_blank">https://mp.weixin.qq.com/</a> </p>
+							<a href="javascript:;" class="btn green" onclick="yulan()">预览</a> -->
 						</div>
-						<div class="control-group" id="preview" style="margin-bottom: 30px;display: none">
+						<!-- <div class="control-group" id="preview" style="margin-bottom: 30px;display: none">
 							<span style="width:100px;text-align: right;display: inline-block;">预览二维码： </span>
 							<img src="" style="width: 200px" alt="">
-						</div>
+						</div> -->
 					</div>
 			</div>
 		</div>
@@ -80,7 +85,7 @@
                             $("#scan_token").val(scan_token);
                             //上传代码
                             $.ajax({
-                                url : 'uploadCode',
+                                url : 'commitCode',
                                 type:"post",
                                 data:{
                                     token : scan_token,

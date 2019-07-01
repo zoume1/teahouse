@@ -19,11 +19,15 @@ class Receipt extends Controller
      */
     public function bill(Request $request){
         if($request->isPost()){
+            if(isset($data["member_id"]) && isset($data["type"]) && isset($data["company"]) && isset($data["company_number"]) && isset($data["status"])){
+                return ajax_error("请检查参数是否正确");
+            }
             $time = time();
             $data = $request->param();
             $data["create_time"] = $time;
             $data["label"] = 1;
             $member_id = $data["member_id"];
+            
             if(!empty($data)){
                 $where = "update tb_member_receipt set label = 0 where type = 1 and member_id = $member_id";
                 $rest = Db::query($where);
@@ -64,6 +68,9 @@ class Receipt extends Controller
      */
     public function people(Request $request){
         if($request->isPost()){
+            if(isset($data["member_id"]) && isset($data["type"]) && isset($data["company"]) && isset($data["company_number"])){
+                return ajax_error("请检查参数是否正确");
+            }
             $time = time();
             $data = $request->param();
             $member_id = $data["member_id"];
@@ -111,7 +118,7 @@ class Receipt extends Controller
     public function individual(Request $request){
         if($request->isPost()){  
             $member_id = $request->only(["member_id"])["member_id"]; 
-            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->field("id,member_id,type,name,user_phone,email,label")->select();       
+            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->field("id,member_id,type,company,company_number,label")->select();       
             if(!empty($data)){ 
                 return ajax_success('发送成功',$data);
             } else {
@@ -128,7 +135,7 @@ class Receipt extends Controller
     public function approve_individual(Request $request){
         if($request->isPost()){  
             $member_id = $request->only(["member_id"])["member_id"]; 
-            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->where("label",1)->field("id,member_id,type,name,user_phone,email,label")->select();       
+            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->where("label",1)->field("id,member_id,type,company,company_number,label")->select();       
             if(!empty($data)){ 
                 return ajax_success('发送成功',$data);
             } else {
