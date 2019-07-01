@@ -19,7 +19,7 @@ class Receipt extends Controller
      */
     public function bill(Request $request){
         if($request->isPost()){
-            if((!isset($data["member_id"])) && (!isset($data["type"])) && (!isset($data["company"])) && (!isset($data["company_number"])) && (!isset($data["status"]))){
+            if(isset($data["member_id"]) && isset($data["type"]) && isset($data["company"]) && isset($data["company_number"]) && isset($data["status"])){
                 return ajax_error("请检查参数是否正确");
             }
             $time = time();
@@ -68,7 +68,7 @@ class Receipt extends Controller
      */
     public function people(Request $request){
         if($request->isPost()){
-            if((!isset($data["member_id"])) && (!isset($data["type"])) && (!isset($data["company"])) && (!isset($data["company_number"]))){
+            if(isset($data["member_id"]) && isset($data["type"]) && isset($data["company"]) && isset($data["company_number"])){
                 return ajax_error("请检查参数是否正确");
             }
             $time = time();
