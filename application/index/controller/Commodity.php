@@ -138,7 +138,7 @@ class Commodity extends Controller
 
     /**
      * lilu
-     * 小程序商品详情接口
+     * 小程序---商品详情接口
      * id    商品id
      * uniacid   店铺id
      * open_id   会员id
@@ -188,7 +188,7 @@ class Commodity extends Controller
 
                 }
                 $goods[0]['limit_number']=$is_limit['limit_number'];
-
+                $goods[0]['limit_price']=$goods[0]['limit_price'];
             }else{
                 $goods[0]['limit_condition']=0;   //未开启限时限购
             }
@@ -212,7 +212,7 @@ class Commodity extends Controller
             foreach ($goods_standard as $key => $value) {
                 $goods_standard[$key]["price"] = $goods_standard[$key]["price"] * $discount;
             }
-            if ($goods[0]["goods_standard"] == 1) {
+            if ($goods[0]["goods_standard"] == 1) {      //多规格商品
                 $goods[0]["goods_standard"] = $goods_standard;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
                 $goods[0]["max_price"] = $max_prices;
