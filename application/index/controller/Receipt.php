@@ -118,7 +118,7 @@ class Receipt extends Controller
     public function individual(Request $request){
         if($request->isPost()){  
             $member_id = $request->only(["member_id"])["member_id"]; 
-            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->field("id,member_id,type,name,user_phone,email,label")->select();       
+            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->field("id,member_id,type,company,company_number,label")->select();       
             if(!empty($data)){ 
                 return ajax_success('发送成功',$data);
             } else {
@@ -135,7 +135,7 @@ class Receipt extends Controller
     public function approve_individual(Request $request){
         if($request->isPost()){  
             $member_id = $request->only(["member_id"])["member_id"]; 
-            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->where("label",1)->field("id,member_id,type,name,user_phone,email,label")->select();       
+            $data = db("member_receipt")->where("type",2)->where("member_id",$member_id)->where("label",1)->field("id,member_id,type,company,company_number,label")->select();       
             if(!empty($data)){ 
                 return ajax_success('发送成功',$data);
             } else {
