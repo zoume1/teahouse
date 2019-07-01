@@ -3,7 +3,10 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
-
+/**
+ * lilu
+ * 商品列表控制器
+ */
 class Commodity extends Controller
 {
 
@@ -14,13 +17,13 @@ class Commodity extends Controller
     public function commodity_index(Request $request)
     {
         if($request->isPost()) {   
-            $store_id = $request->only(['uniacid'])['uniacid'];  
+            $store_id = $request->only(['uniacid'])['uniacid'];     //当前店铺
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $goods_type = db("wares")->where("status", 1)->where("store_id","EQ",$store_id)	->select();
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
             foreach($goods_type as $key => $value)
             {
-                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("store_id","EQ",$store_id)->where("label",1)->select();
+                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("store_id","EQ",$store_id)->where("label",1)->where('limit_goods','0')->select();
                 foreach($goods_type[$key]['child'] as $k => $v){
                     if(!empty($goods_type[$key]['child'][$k]["scope"])){
                         $goods_type[$key]['child'][$k]["scope"] = explode(",",$goods_type[$key]['child'][$k]["scope"]);
@@ -104,7 +107,10 @@ class Commodity extends Controller
 
     /**
      * 商品列表
-     * GY
+     * lilu
+     * uniacid
+     * member_grade_name
+     * id
      */
     public function commodity_list(Request $request)
     {
@@ -138,7 +144,7 @@ class Commodity extends Controller
 
     /**
      * lilu
-     * 小程序商品详情接口
+     * 小程序---商品详情接口
      * id    商品id
      * uniacid   店铺id
      * open_id   会员id
@@ -188,7 +194,7 @@ class Commodity extends Controller
 
                 }
                 $goods[0]['limit_number']=$is_limit['limit_number'];
-
+                $goods[0]['limit_price']=$goods[0]['limit_price'];
             }else{
                 $goods[0]['limit_condition']=0;   //未开启限时限购
             }
@@ -212,7 +218,7 @@ class Commodity extends Controller
             foreach ($goods_standard as $key => $value) {
                 $goods_standard[$key]["price"] = $goods_standard[$key]["price"] * $discount;
             }
-            if ($goods[0]["goods_standard"] == 1) {
+            if ($goods[0]["goods_standard"] == 1) {      //多规格商品
                 $goods[0]["goods_standard"] = $goods_standard;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
                 $goods[0]["max_price"] = $max_prices;
@@ -296,5 +302,15 @@ class Commodity extends Controller
                 return ajax_error("参数有误");
             }
         }
+    }
+
+    /**
+     * lilu
+     * 秒杀列表 
+     */
+    public function limit_goods_more(){
+        //获取参数
+        $uniacid = input("uniacid");
+        $pageid = input("pageid");
     }
 }

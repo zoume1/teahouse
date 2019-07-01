@@ -730,6 +730,7 @@ class  General extends  Base {
             if ($op == 'add'){    //小程序编辑----保存页面
 
                 $data = $_POST;   //获取传递的参数
+                halt($data);
                 if(isset($data['data']['page']['url']) && $data['data']['page']['url'] != ""){
                     $data['data']['page']['url'] = remote($appletid,$data['data']['page']['url'],2);
                 }
@@ -841,8 +842,6 @@ class  General extends  Base {
                                         $pp++;
                                     }
                                 }
-                                halt($v['data']);
-
                             }
                         }
                         $sd['items'] = serialize($data['data']['items']);
