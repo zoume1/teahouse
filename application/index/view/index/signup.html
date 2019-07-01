@@ -111,6 +111,12 @@
                                     <span class="pw-icon"></span>
                                 </div>
                             </div>
+                            <div class="section-group invitation-wrap">
+                                <label class="form-label">邀请码</label>
+                                <div class="form-input-wrap">
+                                    <input type="password" id="invitation" name="invitation" placeholder="请输入朋友邀请码">
+                                </div>
+                            </div>
                             <label class="protocol-field">
                                 <input type="checkbox" name="agree">我已阅读并同意
                                 <a href="javascript:;" id="protocol">《宣铭用户使用协议》</a>
@@ -267,7 +273,8 @@
         $('.button-primary').click(function(){
             var $phone = $('#phone').val(),
                 mobileCode = $('#identifying').val(),
-                $password = $('#password').val();
+                $password = $('#password').val(),
+                invitation = $('#invitation').val();
             if(pwdReg.test($password)){
                 $.ajax({
                     url: 'doRegByPhone',
@@ -277,7 +284,8 @@
                         "mobile": $phone,
                         "mobile_code": mobileCode,
                         "password": $password,
-                        "confirm_password": $password
+                        "confirm_password": $password,
+                        "invitation": invitation
                     },
                     success: function(res){
                         console.log(res);
