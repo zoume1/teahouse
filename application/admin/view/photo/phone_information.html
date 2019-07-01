@@ -90,7 +90,6 @@
     var imgsrcs = new Array();
     var type = {$type};
     var gid = {$gid};
-    console.log(gid)
     function groupid(i){
         gid = i;
         window.location.href="/admin/phone_information.html?appletid={$uniacid}&gid="+i+"&type="+type;
@@ -164,6 +163,7 @@
                     uniacid:{$uniacid}
                 },
                 success: function(data) {
+                    console.log(data)
                     var url = $.parseJSON(data)['url'];
                     var pid = $.parseJSON(data)['pid'];
                     if(gid>0){
@@ -201,8 +201,7 @@
         }
     }
     function getres(){
-        console.log(imgsrcs)
-        console.log(imgsrc)
+        
         if(type==2){
             var index=parent.layer.getFrameIndex(window.name);
             parent.$("#handle_status").val(imgsrcs);

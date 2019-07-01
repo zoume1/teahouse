@@ -13,6 +13,7 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+        margin-top: 10px;
     }
 
     .list {
@@ -535,7 +536,7 @@
         </div>
         <div class="form-item">
             <label class="form-label">卖点标签</label>
-            <div class="form-input" style="display: flex; align-items: center;">
+            <div class="form-input" style="width:100%;">
                 <div id="hot">
                     <div class="list">
                         <input type="checkbox" name="goods_sign[sell_0][check]" value="1" lay-skin="primary"
@@ -576,9 +577,13 @@
                     </div>
                 </div>
 
+                <div class="tips">
+                    *如商品勾选了可存，表明此商品可选择仓库存储，没有勾选，表明此商品不能存储
+                </div>
             </div>
-
+            
         </div>
+        
         <div class="form-item">
             <label class="form-label">分享描述</label>
             <div class="form-input">
@@ -833,7 +838,7 @@
                 <div class="tips">
                     建议尺寸：800*800像素，其中第一张为主图，你可以拖拽图片调整顺序，最多上传15张
                 </div>
-            </div>
+            </div>added_service_show?id=233
 
         </div>
         <div class="form-item">
@@ -841,7 +846,7 @@
             <div class="form-input">
                 <input type="text" name="video_link" lay-verify="title" autocomplete="off" placeholder="请输入"
                     class="layui-input">
-                <div class="tips">*如何获取视频地址？<a href="https://www.qiniu.com/" target="_blank">免费上传视频到七牛云存储</a></div>
+                <div class="tips">*<a href="added_service_show?id=233" style="color: orange">购买增值服务-七牛云存储开通此服务</a><a href="https://portal.qiniu.com/" target="_blank" style="margin-left: 20px">上传视频到我的七牛云存储</a></div>
             </div>
         </div>
         <div class="form-item">

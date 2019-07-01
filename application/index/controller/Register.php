@@ -84,7 +84,14 @@ class Register extends  Controller{
             $code = trim($_POST['mobile_code']);
             $password =trim($_POST['password']);
             $confirm_password =trim($_POST['confirm_password']);
-            $create_time =date('Y-m-d H:i:s');
+            $invitation = input("invitation");            
+            $create_time = date('Y-m-d H:i:s');
+            if(!empty($invitation)){
+                $rest = Db::name("store")->where("share_code",$invitation)->find();
+                if(empty($rest)){
+                    exit(json_encode(array("status" => 2, "info" => "邀请码有误")));
+                }
+            }
             if($password !==$confirm_password ){
                 return ajax_error('两次密码不相同');
             }
@@ -99,8 +106,10 @@ class Register extends  Controller{
                     'phone_number'=>$mobile,
                     'password'=>$passwords,
                     'create_time'=>strtotime($create_time),
+                    'invitation'=>$invitation,
                     "status"=>1,
                 ];
+                
                     $res =Db::name('pc_user')->insertGetId($datas);
                     if($res){
                         //注册成功

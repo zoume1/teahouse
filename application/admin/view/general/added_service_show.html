@@ -14,14 +14,14 @@
         .gallery .booth{width: 420px; height: 420px; margin: 20px auto;}
         .gallery .booth img{width: 100%; height: 100%;}
         .gallery .thumb-wrap{width: 420px; margin: 0 auto; overflow-x: auto;}
-        .gallery .thumb{text-align: center; margin-left: -16px;}
+        .gallery .thumb{text-align: left; margin-left: -16px;}
         .gallery .thumb li{margin-left: 16px; display: inline-block;}
         .gallery .thumb li.selected a{width: 56px; height: 56px; border: 2px solid #222;}
         .gallery .thumb li.selected img{left: -2px; top: -2px;}
         .gallery .thumb a{width: 60px; height: 60px; overflow: hidden;}
         .gallery .thumb img{max-width: 60px; max-height: 60px; position: relative;}
         .detail .detail-meta .property{width: 100%; color: #404040;}
-        .detail .property .wrap{margin-left: 420px;}
+        .detail .property .wrap{margin-left: 440px;}
         .detail .property .detail-hd{padding: 16px 0 15px;}
         .detail .detail-hd h1{font-size: 16px; padding-bottom: .2em;}
         .detail .detail-hd .sell-p{font-size: 14px;}
@@ -58,7 +58,7 @@
         .detail .tb-btn-buy button:disabled{background-color: #e3e4e5; border-color: #e3e4e5;}
         .detail .aside-right{width: 220px; padding-left: 10px;}
         .aside-right .ald-hd{font-size: 14px; padding: 15px 0; line-height: 20px;}
-        .aside-right .ald-hd .icon-refresh{width: 14px; height: 14px; background: url(__STATIC__/admin/common/img/icon-r.png) no-repeat; background-size: 100%; margin-top: 3px;}
+        .aside-right .ald-hd .icon-refresh{width: 14px; height: 14px; background: url(__STATIC__/admin/common/img/icon-r.png) no-repeat; background-size: 100%; margin-top: 3px; cursor: pointer;}
         .aside-right .ald-item .img-box{width: 100px; height: 100px; overflow: hidden;}
         .aside-right .ald-item img{width: 100%; height: 100%;}
         .aside-right .ald-item .ald-row{text-align: center; color: #f40; font-size: 14px; padding: 4px 0;}
@@ -98,7 +98,7 @@
                             <div class="wrap">
                                 <div class="detail-hd">
                                     <h1>{{v.goods_name}}</h1>
-                                    <p class="sell-p">{{v.goods_describe}}</p>
+                                    <p class="sell-p">{{v.goods_selling}}</p>
                                 </div>
                                 <div class="price-wrap">
                                     <div class="detail-price clearfix">
@@ -188,7 +188,9 @@
                     </div>
                     <ul class="ald-item-list clearfix">
                         <li class="ald-item fl"
-                            v-for="(v, i) in aldData">
+                            v-for="(v, i) in aldData"
+                            @click="goodsDetail(v.id)"
+                        >
                             <div class="img-box">
                                 <img :src=`__UPLOADS__/${v.goods_show_image}`>
                             </div>
@@ -298,7 +300,7 @@
                 number: 1, //购买数量
                 outStock: false, //输入数量超出库存
                 dataObj: [],
-                aldData: [],//再看看data
+                aldData: [],//右侧'再看看'板块 data
                 switchBd: true,//tab商品详情，累计评价
                 switchTabBd: true,//tab 商品详情，累计评价内容
                 tmCurrKey: -1,//放大缩小图片样式索引
@@ -327,9 +329,13 @@
                         layer.msg(res.body.info, {time: 1000});
                     })
                 },
+                goodsDetail: function(_id){
+                    location.href = 'added_service_show?id=' + _id; 
+                    // window.open('added_service_show?id=' + _id);
+                },
                 // 立即购买
                 tbBuy: function(){
-                    alert('未完待续');
+                    alert('正在加紧开发中……');
                 },
                 inputNumber: function(){
                     this.number > this.selectStock ? this.outStock = true : this.outStock = false;
@@ -422,6 +428,7 @@
                     this.myAjax('added_service_look', '', function(data){
                         if(data.body.status == 1){
                             _this.aldData = data.body.data;
+                            console.log('再看看',data.body.data)
                         }
                     })
                 },
