@@ -581,9 +581,9 @@
                     *如商品勾选了可存，表明此商品可选择仓库存储，没有勾选，表明此商品不能存储
                 </div>
             </div>
-            
+
         </div>
-        
+
         <div class="form-item">
             <label class="form-label">分享描述</label>
             <div class="form-input">
@@ -615,8 +615,8 @@
         <div class="form-item">
             <label class="form-label">商品排序</label>
             <div class="form-input">
-                <input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入"
-                    class="layui-input">
+                <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/,'')"
+                    name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
                 <div class="tips">
                     *填写正整数，从大到小排序
                 </div>
@@ -701,7 +701,8 @@
             <div class="form-item">
                 <label class="form-label"><span class="red"></span>商品售价</label>
                 <div class="form-input line">
-                    <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/ ,'')" name="goods_new_money" lay-verify="title" autocomplete="off" placeholder="请输入"
+                    <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/ ,'')"
+                        name="goods_new_money" lay-verify="title" autocomplete="off" placeholder="请输入"
                         class="layui-input">
                     <!-- <span class="change_danwei">修改单位</span> -->
                     <span class="danwei">/片</span>
@@ -715,7 +716,8 @@
             <div class="form-item">
                 <label class="form-label"><span class="red">*</span>商品划线价</label>
                 <div class="form-input line">
-                    <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/ ,'')" name="goods_bottom_money" lay-verify="title" autocomplete="off" placeholder="请输入"
+                    <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/ ,'')"
+                        name="goods_bottom_money" lay-verify="title" autocomplete="off" placeholder="请输入"
                         class="layui-input">
                     <span class="danwei">/片</span>
                     <span href="" class="tan" data-id="__STATIC__/admin/common/img/u27291.png" style="color: #0E90D2;">
@@ -729,8 +731,8 @@
             <div class="form-item">
                 <label class="form-label"><span class="red"></span>商品成本价</label>
                 <div class="form-input line">
-                    <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/ ,'')"  name="goods_cost" lay-verify="title" autocomplete="off" placeholder="请输入"
-                        class="layui-input">
+                    <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/ ,'')"
+                        name="goods_cost" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
                     <span class="danwei">/片</span>
                     <div class="tips">
                         *成本价不显示到客户端，适用于利润分析等
@@ -740,7 +742,8 @@
             <div class="form-item">
                 <label class="form-label"><span class="red">*</span>库存</label>
                 <div class="form-input line">
-                    <input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/[^1-9]\/D*$/,'')" name="goods_repertory" lay-verify="title" autocomplete="off" placeholder="请输入"
+                    <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/[^1-9]\/D*$/,'')"
+                        name="goods_repertory" lay-verify="title" autocomplete="off" placeholder="请输入"
                         class="layui-input">
                     <span class="danwei">/片</span>
                 </div>
@@ -871,7 +874,8 @@
             <label class="form-label">配送方式</label>
             <div class="form-input">
                 <div style="display:flex;">
-                    <input type="checkbox" name="goods_delivery[0]" lay-skin="primary" title="商家配送" value="1" checked="">
+                    <input type="checkbox" name="goods_delivery[0]" lay-skin="primary" title="商家配送" value="1"
+                        checked="">
                     <input type="checkbox" name="goods_delivery[1]" lay-skin="primary" title="到店自提" value="2">
                 </div>
                 <div class="tips">可以选择商品支持的配送方式，至少选择一种</div>
@@ -884,7 +888,8 @@
             <div style="display: flex;flex-direction:column" class="yunfei">
                 <div class="form-input line" style="margin-bottom: 4px;">
                     <input type="radio" title="统一邮费" checked="" name="aaa" value="0">
-                    <input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="goods_franking" lay-verify="title" autocomplete="off"
+                    <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/,'')"
+                        name="goods_franking" lay-verify="title" autocomplete="off"
                         placeholder="请输入                          元" class="layui-input"> </input>
                     </input>
 
@@ -948,7 +953,7 @@
                 var form = layui.form(),
                     $ = layui.jquery;
                 form.render();
-                
+
                 var templet = [];
                 $.ajax({
                     type: "POST",
@@ -1082,10 +1087,10 @@
                     $(this).parent().remove();
                 })
                 $(".nomal").on('click', ".delect_img", function (e) {
-                    
+
                     var removeVal = $(this).prev().val();
-                    $('#unitList option').each(function(i, v){
-                        if(removeVal == v.value){
+                    $('#unitList option').each(function (i, v) {
+                        if (removeVal == v.value) {
                             console.log($(v))
                             $(v).remove();
                         }
@@ -1503,8 +1508,12 @@
                 // TODO商品规格变化
                 form.on('radio(guige)', function (data) {
                     var checkval = data.value;
-                    console.log(checkval)
+                    // console.log(checkval)
                     if (checkval == "0") { //统一规格
+                        if ($("#hot div:first").children(":text").val() == '可存') {
+                            $("#hot div:first").removeClass("noshow");
+                            $("#hot div:first").children(":checkbox").get(0).checked = true;
+                        };
                         $(".general").addClass("noshow");
                         $(".nomal").removeClass("noshow");
                         $("#general_content").children("div").remove();
@@ -1512,8 +1521,12 @@
                         $(".table-bordered").empty();
 
                     } else {
-                        console.log($("#hot div:first"));
-                        $("#hot div:first").remove();
+                        // console.log($("#hot div:first").children(":checkbox"));
+                        // $("#hot div:first").remove();
+                        if ($("#hot div:first").children(":text").val() == '可存') {
+                            $("#hot div:first").addClass("noshow");
+                            $("#hot div:first").children(":checkbox").get(0).checked = false;
+                        };
                         $(".nomal").children(".form-item").children(".form-input").children(".danwei_a").children("input").attr("disabled", true)
                         $(".nomal").addClass("noshow");
                         $(".general ").removeClass("noshow");
@@ -1595,11 +1608,11 @@
 
                     // 添加单位后 显示单位下拉列表
                     $('input[name="unit[]"]').blur(function (e) {
-                        if(e.target.value){
+                        if (e.target.value) {
                             $('#unitList').next().show().add('.change_danwei').hide();
                             var str = '<option value=""></option>';
-                            $('input[name="unit[]"]').each(function(i, v){
-                                str += '<option>'+ v.value +'</option>';
+                            $('input[name="unit[]"]').each(function (i, v) {
+                                str += '<option>' + v.value + '</option>';
                             })
                             $('#unitList').html(str);
                             form.render();
@@ -1649,24 +1662,24 @@
                         alert("请先添加规格编码")
                     }
                 });
-                    
+
                 $('#unitList').next().hide();
                 // 显示单位 用户选择
-                $('input[name="unit[]"]').blur(function(e){
-                    if(e.target.value){
+                $('input[name="unit[]"]').blur(function (e) {
+                    if (e.target.value) {
                         $('#unitList').next().show().add('.change_danwei').hide();
                         var str = '<option value=""></option>';
-                        $('input[name="unit[]"]').each(function(i, v){
-                            str += '<option>'+ v.value +'</option>';
+                        $('input[name="unit[]"]').each(function (i, v) {
+                            str += '<option>' + v.value + '</option>';
                         })
                         $('#unitList').html(str);
                         form.render();
-                    }else{
+                    } else {
                         $('.change_danwei').show().siblings('.layui-form-select').hide();
                     }
                 })
                 // 选择单位
-                form.on('select(unitList)', function(data){
+                form.on('select(unitList)', function (data) {
                     $(".danwei").html("/" + data.value);
                     $(".monomer").val(data.value);
                 })
@@ -1677,9 +1690,9 @@
 
         $(".general-kuang").on('change', ".coding", function () {
             var str = '<option value="0">请选择规格编码</option>';
-            $('.coding').each(function(i, v){
-                if(v.value){
-                    str += '<option value="'+v.value+'">'+v.value+'</option>';
+            $('.coding').each(function (i, v) {
+                if (v.value) {
+                    str += '<option value="' + v.value + '">' + v.value + '</option>';
                 }
             })
             if ($(this).data("id") == '') {
@@ -1688,7 +1701,7 @@
                 $(".packing").append(dhtmlq);
                 $(this).data("id", $(this).val());
                 codings.push($(this).val());
-            }else {
+            } else {
                 $("input[name='" + $(this).data("id") + "_num[]']").attr('name', $(this).val() + "_num[]");
                 $("input[name='" + $(this).data("id") + "_unit[]']").attr('name', $(this).val() + "_unit[]");
                 $('.packing').html(str);

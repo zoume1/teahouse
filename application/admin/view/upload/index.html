@@ -85,7 +85,7 @@
                             $("#scan_token").val(scan_token);
                             //上传代码
                             $.ajax({
-                                url : 'commitCode',
+                                url : 'commitCode2',
                                 type:"post",
                                 data:{
                                     token : scan_token,
@@ -97,7 +97,6 @@
                                     if(res.errno>0){
                                         // alert("上传失败，请重试！如一直失败，请过几分钟后再上传！");
                                         alert("上传失败!错误描述："+res.message);
-                                        
                                     }else{
                                         $("#three_all span").css('background','#428bca');
                                         $("#success").show();
