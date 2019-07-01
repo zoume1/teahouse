@@ -76,6 +76,8 @@ class Register extends  Controller{
     public function  doRegByPhone(Request $request){
         if($request->isPost())
         {
+            $invitation = input("invitation");
+            halt($invitation);
             $mobile = trim($_POST['mobile']);
             $is_reg =Db::name("pc_user")->where("phone_number",$mobile)->find();
             if(!empty($is_reg)){
@@ -84,6 +86,7 @@ class Register extends  Controller{
             $code = trim($_POST['mobile_code']);
             $password =trim($_POST['password']);
             $confirm_password =trim($_POST['confirm_password']);
+            
             $create_time =date('Y-m-d H:i:s');
             if($password !==$confirm_password ){
                 return ajax_error('两次密码不相同');
@@ -99,8 +102,10 @@ class Register extends  Controller{
                     'phone_number'=>$mobile,
                     'password'=>$passwords,
                     'create_time'=>strtotime($create_time),
+                    'invitation'=>$invitation,
                     "status"=>1,
                 ];
+                halt($datas);
                     $res =Db::name('pc_user')->insertGetId($datas);
                     if($res){
                         //注册成功
