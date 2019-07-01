@@ -17,10 +17,11 @@ use think\Session;
 class  Order extends  Controller
 {
     /**
-     **************李火生*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:立即购买过去购物清单数据返回
      **************************************
+     *open_id
      */
     public function order_return(Request $request)
     {
@@ -50,12 +51,16 @@ class  Order extends  Controller
                 //判断是为专用还是通用
                 //专用规格
                 if ($goods_data["goods_standard"] == 0) {
-                    $data[$key]["goods_info"] = $goods_data;
-                    $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data["goods_new_money"];
-                    $data[$key]["special_info"] = null;
-                    $data[$key]["number"] =$number[$key];
-                    $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
-                    $data[$key]["unit"]=$goods_data['monomer'];
+                        $data[$key]["goods_info"] = $goods_data;
+                        if($goods_data['limit_goods']=='1'){    //限时限购的商品
+                        $data[$key]['grade_price']=$goods_data['limit_price'];
+                        }else{
+                            $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data["goods_new_money"];//商品的价格
+                        }
+                        $data[$key]["special_info"] = null;
+                        $data[$key]["number"] =$number[$key];
+                        $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
+                        $data[$key]["unit"]=$goods_data['monomer'];
                     } else{
                     $data[$key]["goods_info"] = $goods_data;
                     if($special_id[$key] != 0){
