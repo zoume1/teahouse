@@ -38,8 +38,10 @@ class  Shopping extends  Controller{
                 ->select();               //获取购物车中的商品
             //判断购物车中商品是否为限时限购商品
             foreach($shopping_data as $k=>$v){
-                if($v['limit_goods']=='1'){  //秒杀商品
-                    $v['money']=$v['limit_price'];
+                //获取商品信息
+                $goods_info=db('goods')->where('id',$v['goods_id'])->find();
+                if($goods_info['limit_goods']=='1'){  //秒杀商品
+                    $v['money']=$goods_info['limit_price'];
                 }
             }
             if (!empty($shopping_data)) {
