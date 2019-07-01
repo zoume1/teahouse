@@ -29,16 +29,19 @@ class Storehouse extends Controller
         if ($request->isPost()) {
             $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only(['member_id'])['member_id'];
-            $cangku = Db::name("store_house")->where("store_id",$store_id)->select();
-
-            $house = Db::name("house_order")
-            ->where(["store_id"=>$store_id,"member_id"=>$member_id])
-            ->group('store_house_id')
-            ->select();
-            if(!empty($house)){
-                halt($house);
+            $depot = Db::name("store_house")->where("store_id",$store_id)->select();
+            // $house = Db::name("house_order")
+            // ->where(["store_id"=>$store_id,"member_id"=>$member_id])
+            // ->select();
+            // halt($depot);
+            if(!empty($depot)){
+                foreach($depot as $key => $value){
+                    $house_order[$key] = Db::name("house_order")
+                                        ->where(["store_house_id"=>$value["id"],"store_id"=>$store_id,"member_id"=>$member_id])
+                                        ->select();
+                }
             }
-            halt($house);
+            halt($house_order);
         }
 
     }

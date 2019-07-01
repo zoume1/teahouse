@@ -99,7 +99,10 @@
             <div class="col-right fr">
                 <div class="side-title">系统推荐</div>
                 <ul class="side-list">
-                    <li class="side-item" v-for="(v, i) in recommendList">
+                    <li class="side-item" 
+                        v-for="(v, i) in recommendList"
+                        @click="goodsDetail(v.id)"
+                    >
                         <div class="img-box">
                             <img :src=`__UPLOADS__/${v.goods_show_image}`>
                         </div>
