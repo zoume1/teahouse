@@ -41,7 +41,7 @@ class  Shopping extends  Controller{
                 //获取商品信息
                 $goods_info=db('goods')->where('id',$v['goods_id'])->find();
                 if($goods_info['limit_goods']=='1'){  //秒杀商品
-                    $v['money']=$goods_info['limit_price'];
+                    $shopping_data[$k]['money']=$goods_info['limit_price'];
                 }
             }
             if (!empty($shopping_data)) {
