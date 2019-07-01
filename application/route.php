@@ -366,6 +366,7 @@ Route::group("",[
 
     /*TODO:茶仓出入仓*/
     "getStoreData"=>"index/Storehouse/getStoreData",  //店铺小程序前端存茶数据
+    "theStoreValue"=>"index/Storehouse/theStoreValue", //店铺小程序前端存茶总价值
 
 
 
