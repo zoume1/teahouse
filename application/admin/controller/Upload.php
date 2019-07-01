@@ -230,7 +230,16 @@ class Upload extends Controller
         $params = http_build_query($data);
         $url = "http://wx.hdewm.com/uploadApi.php?do=commitcode&".$params;
         $response = json_decode($this->_requestGetcurl($url));
-        return $response;
+         //发送短信提醒
+         $user=Session::get('user_info');
+         //获取店铺的信息
+         $store_name=DB::table('applet')->where('id',$user[0]['store_id'])->value('name');
+         $phone = '13922830809';
+         $content = $store_name."一键生成小程序，请尽快查看";
+         $account='chacang';
+         $password="123qwe";
+         phone($account,$password,$phone,$content);   //发送短信实时提醒
+         return $response;
     }
         
     public function _requestGetcurl($url){
