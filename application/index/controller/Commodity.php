@@ -14,13 +14,13 @@ class Commodity extends Controller
     public function commodity_index(Request $request)
     {
         if($request->isPost()) {   
-            $store_id = $request->only(['uniacid'])['uniacid'];  
+            $store_id = $request->only(['uniacid'])['uniacid'];     //当前店铺
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $goods_type = db("wares")->where("status", 1)->where("store_id","EQ",$store_id)	->select();
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
             foreach($goods_type as $key => $value)
             {
-                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("store_id","EQ",$store_id)->where("label",1)->select();
+                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("store_id","EQ",$store_id)->where("label",1)->where('limit_goods','0')->select();
                 foreach($goods_type[$key]['child'] as $k => $v){
                     if(!empty($goods_type[$key]['child'][$k]["scope"])){
                         $goods_type[$key]['child'][$k]["scope"] = explode(",",$goods_type[$key]['child'][$k]["scope"]);

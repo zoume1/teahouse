@@ -366,7 +366,7 @@ class  Wxapps extends  Controller{
                                             $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
                                         }
                                         $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
-                                        $list2[$kk]['price']=$info['goods_new_money'];    //商品价格
+                                        $list2[$kk]['price']=$info['limit_price'];    //商品价格
                                         $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
                                         //获取已出售的数量
                                         $pp2['goods_id']=$vv['goods_id'];
