@@ -16,11 +16,12 @@ use think\Db;
 class  Shopping extends  Controller{
 
     /**
-     **************李火生*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:购物车列表信息返回
      **************************************
      * @param Request $request
+     * open_id
      */
     public function shopping_index(Request $request)
     {
@@ -34,7 +35,13 @@ class  Shopping extends  Controller{
                 ->field("tb_shopping.* ,tb_goods.goods_selling goods_selling")
                 ->join("tb_goods","tb_shopping.goods_id=tb_goods.id","left")
                 ->where("tb_shopping.user_id", $member_id)
-                ->select();
+                ->select();               //获取购物车中的商品
+            //判断购物车中商品是否为限时限购商品
+            foreach($shopping_data as $k=>$v){
+                if($v['limit_goods']=='1'){  //秒杀商品
+                    $v['money']=$v['limit_price'];
+                }
+            }
             if (!empty($shopping_data)) {
                 exit(json_encode(array("status" => 1, "info" => "购物车数据返回成功", "data" => $shopping_data)));
             } else {
