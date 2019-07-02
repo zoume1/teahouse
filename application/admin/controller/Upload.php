@@ -87,6 +87,10 @@ class Upload extends Controller
                 $res = Db::table('applet')->where("id",$id)->find();
                 if(!$res){
                     $this->error("找不到对应的小程序！");
+                }else{
+                    $map['version']=$version;
+                    $map['version_des']=$desc;
+                    $rr=db('applet')->where('id',$id)->update($map);
                 }
                 $this->assign('applet',$res);
                 $commitData = [
@@ -172,14 +176,12 @@ class Upload extends Controller
             exit;
         }
         $this->assign('applet',$res);
-        // if($status){
-        //     $this->assign('applet',$res);
-        //     return $this->fetch("wxxcxinfo");
-        // }else{
-        //     $this->error("登录有误，需重新登录",$this->redirect('Wxreview/index'));
-        // }
         return $this->fetch("wxxcxinfo");
     }
+    /**
+     * lilu
+     * 小程序开发版本预览
+     */
     public function yulan(){
         $uniacid = input("uniacid");
         $res = Db::table('applet')->where("id",$uniacid)->find();

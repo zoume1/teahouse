@@ -176,7 +176,6 @@ class  Limitations extends  Controller{
                         $goods[$key]['end_time']=strtotime($data['end_time']);
                     }
                     $goods[$key]['store_id']=$store_id;
-                  
                 }
                 foreach ($goods as $k => $v) {
                     //判断商品是否已限时限购

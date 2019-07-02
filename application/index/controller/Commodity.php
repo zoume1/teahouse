@@ -304,13 +304,5 @@ class Commodity extends Controller
         }
     }
 
-    /**
-     * lilu
-     * 秒杀列表 
-     */
-    public function limit_goods_more(){
-        //获取参数
-        $uniacid = input("uniacid");
-        $pageid = input("pageid");
-    }
+    
 }

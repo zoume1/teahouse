@@ -734,7 +734,6 @@ class  General extends  Base {
             if ($op == 'add'){    //小程序编辑----保存页面
 
                 $data = $_POST;   //获取传递的参数
-                halt($data);
                 if(isset($data['data']['page']['url']) && $data['data']['page']['url'] != ""){
                     $data['data']['page']['url'] = remote($appletid,$data['data']['page']['url'],2);
                 }
@@ -877,8 +876,6 @@ class  General extends  Base {
                             $pageid =  Db::table('ims_sudu8_page_diypagetpl')->where("uniacid",$appletid)->where("id",$tplid)->field("pageid")->find()['pageid'];
                             Db::table('ims_sudu8_page_diypagetpl')->where("uniacid",$appletid)->where("id",$tplid)->update(array("pageid"=>$pageid.",".$key));
                         }
-
-
                     }else{
 
                         $result = Db::table('ims_sudu8_page_diypage')->where("uniacid",$appletid)->where("id",$data['id'])->update($sd);
@@ -2896,6 +2893,23 @@ class  General extends  Base {
             $pag_number = 20;
             $offlines = paging_data($offline_data,$url,$pag_number);
             return view("unline_withdrawal_record",["offlines"=>$offlines,"store_wallet"=>$store_wallet]);
+    }
+    /***
+     * lilu
+     * 判断小程序是否存在
+     * $this->store_ids
+     */
+    public function is_exist_app()
+    {
+        $data =Db::table("applet")
+        ->field("id,name,appID,appSecret,mchid,signkey")
+        ->where("store_id",$this->store_ids)
+        ->find();
+        if($data){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
 
