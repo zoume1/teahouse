@@ -2912,5 +2912,37 @@ class  General extends  Base {
         }
     }
 
+    /**
+     * @param char $code
+     * [判断分享码是否正确]
+     * @return 成功时返回，其他抛异常
+     */
+    public function getShareCode(Request $request)
+    {
+        if ($request->isPost()) {
+            $data = input();
+            if(isset($data['code'])){
+                $code = trim($data['code']);
+                //本店铺的分享码和电话
+                $store_data = db("store")->where("id",$this->store_ids)->find();
+                if(($code == $store_data['share_code']) || ($code == $store_data['store_number'])){
+                    return ajax_error("不能填写自己店铺的分享码");
+                }
+                //其他店铺
+                $number = db("store")->where("store_number",$code)->find();
+                $share_code = db("store")->where("share_code",$code)->find();
+                
+                if(empty($number) && empty($share_code)){
+                    return ajax_error("分享码填写有误,请重试");
+                } else {
+                    return ajax_success("分享码正确");
+                }
+            } else {
+                return ajax_error("请检查参数是否正确");
+            }
+        }              
+    }
+
+
 
  }
