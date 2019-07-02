@@ -819,6 +819,7 @@ Route::group("admin",[
     "order_package_remittance"=>"admin/General/order_package_remittance",      //订单套餐支付汇款
     "order_package_balance"=>"admin/General/order_package_balance",          //订单套餐余额支付
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
+    "is_exist_app"=>"admin/General/is_exist_app",                    //判断小程序是否存在
 
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
     "capital_management"=>"admin/General/capital_management",//资金管理资金明细
@@ -956,6 +957,8 @@ Route::group("api",[
       /**测试 */
     "wxapp2"=>"api/Wxapp2/index",
     "doPageBase"=>"api/Wxapp2/doPageBase",
+    "limit_goods_more"=>"api/Wxapps/limit_goods_more",      //秒杀商品列表--更多
+
 ]);
 
 Route::miss("public/miss");

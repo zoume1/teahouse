@@ -26,7 +26,17 @@ class  Wxapps extends  Controller{
                 ->order('id desc')
                ->find();
       
-
+        if(!empty($da_change)){
+            if($da_change['enter_all_id'] <= 6){
+                $da_change['enter_all_id'] = 1;
+            }
+            if(  ($da_change['enter_all_id'] > 6) && ($da_change['enter_all_id'] <= 17)){
+                $da_change['enter_all_id'] = 2;
+            }
+            if( $da_change['enter_all_id'] > 17){
+                $da_change['enter_all_id'] = 3;
+            }
+        }
         $res = Db::table('ims_sudu8_page_base')->where("uniacid", $uniacid)->field("homepage")->find();
         if (!$res) {
             $res['homepage'] = 1;
@@ -1123,6 +1133,112 @@ class  Wxapps extends  Controller{
             } else {
                 $adata['data'] = $userinfo;
                 return json_encode($adata);
+            }
+        }
+    }
+    /**
+     * lilu
+     * 秒杀列表 
+     */
+    public function limit_goods_more(){
+        //获取参数
+        $uniacid = input("uniacid");   //小城序id
+        $pageid = input("pageid");    //页面id
+        //获取小程序的diypage
+        $data = Db::table('ims_sudu8_page_diypage')->where("id", $pageid)->where("uniacid", $uniacid)->find();
+        if ($data['items'] != '') {
+            $data['items'] = array_values(unserialize($data['items']));
+            foreach ($data['items'] as $k => $v) {
+                if (isset($v['params']['sourceid']) && $v['params']['sourceid'] != "") {
+                    $sourceid = explode(':', $v['params']['sourceid']);
+                    // $count = $v['params']['goodsnum']; //数量
+                    // $con_type = $v['params']['con_type'];
+                    // $con_key = $v['params']['con_key'];
+                    // $where = "";
+                    // if ($con_type == 1 && $con_key == 1) {
+                    //     $where = 'ORDER BY id DESC';
+                    // }
+                    // if ($con_type == 2 && $con_key == 1) {
+                    //     $where = 'AND type_x=1 ORDER BY id DESC';
+                    // }
+                    // if ($con_type == 3 && $con_key == 1) {
+                    //     $where = 'AND type_y=1 ORDER BY id DESC';
+                    // }
+                    // if ($con_type == 4 && $con_key == 1) {
+                    //     $where = 'AND type_i=1 ORDER BY id DESC';
+                    // }
+                    // if ($con_type == 1 && $con_key == 2) {
+                    //     $where = 'ORDER BY hits DESC';
+                    // }
+                    // if ($con_type == 2 && $con_key == 2) {
+                    //     $where = 'AND type_x=1 ORDER BY hits DESC';
+                    // }
+                    // if ($con_type == 3 && $con_key == 2) {
+                    //     $where = 'AND type_y=1 ORDER BY hits DESC';
+                    // }
+                    // if ($con_type == 4 && $con_key == 2) {
+                    //     $where = 'AND type_i=1 ORDER BY hits DESC';
+                    // }
+                    // if ($con_type == 1 && $con_key == 3) {
+                    //     $where = 'ORDER BY num DESC';
+                    // }
+                    // if ($con_type == 2 && $con_key == 3) {
+                    //     $where = 'AND type_x=1 ORDER BY num DESC';
+                    // }
+                    // if ($con_type == 3 && $con_key == 3) {
+                    //     $where = 'AND type_y=1 ORDER BY num DESC';
+                    // }
+                    // if ($con_type == 4 && $con_key == 3) {
+                    //     $where = 'AND type_i=1 ORDER BY num DESC';
+                    // }
+                    $list=db('limited')->where('store_id',$uniacid)->select();
+                    if ($list) {
+                        foreach ($list as $kk => $vv) {
+                            // $count = Db::table("ims_sudu8_page_order")->where("uniacid", $uniacid)->where("pid", $vv['id'])->where("flag", "neq", 1)->field("id")->count();
+                            $list2[$kk]['title']=$vv['goods_name'];     //title
+                            $list2[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vv['goods_id'];
+                            $list2[$kk]['linktype'] = "page";
+                            $jianjie=json_decode($vv['limit_condition'],true);
+                            $list2[$kk]['goods_selling']=$jianjie['label']['label'];
+                            if($vv['end_time']==0)
+                            {
+                                $list2[$kk]['emd_time']='0';
+                            }else{
+                                $list2[$kk]['end_time']=$vv['end_time']-time();
+                                if($list2[$kk]['end_time']<=0)     //秒杀商品时间已结束
+                                {
+                                    //删除秒杀商品
+                                    $rr=db('limited')->where('id',$vv['id'])->delete();
+                                    //修改商品秒杀特性
+                                    $mm['limit_goods']='0';
+                                    $res=db('goods')->where('id',$vv['goods_id'])->update($mm);
+                                    //去除该秒杀商品
+                                     unset($list2[$kk]);
+                                     continue;
+                                }
+                            }
+                            $list2[$kk]['sale_time']=$vv['create_time'];
+                            $list2[$kk]['sale_end_time']=$vv['end_time'];
+                            $list2[$kk]['pro_kc']=$vv['goods_repertory'];      //商品库存
+                            $goods_images='//uploads/'.$vv['goods_show_images'];
+                            if (strpos($goods_images, 'http') === false && $goods_images != "") {
+                                $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
+                            }
+                            $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
+                            $list2[$kk]['price']=$info['limit_price'];    //商品价格
+                            $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
+                            //获取已出售的数量
+                            $pp2['goods_id']=$vv['goods_id'];
+                            $pp2['status']=array('between',array(2,8));
+                            $num=db('order')->where($pp2)->count();
+                            $list2[$kk]['sale_num']=$num;    //商品已出售数量
+                        }
+                        if($list2){
+                            return   ajax_success('获取成功',$list2);
+                        }
+                    }
+                }
+
             }
         }
     }

@@ -312,7 +312,7 @@ class  General extends  Base {
      */
     public function small_routine_index(){
         $data =Db::table("applet")
-            ->field("id,name,appID,appSecret,mchid,signkey")
+            ->field("id,name,appID,appSecret,mchid,signkey,email,password")
             ->where("store_id",$this->store_ids)
             ->find();
         return view("small_routine_index",["data"=>$data]);
@@ -342,7 +342,9 @@ class  General extends  Base {
                         "appID" => trim(input("appID")),
                         "appSecret" => trim(input("appSecret")),
                         "mchid" => trim(input("mchid")),
-                        "signkey" => trim(input("signkey"))
+                        "signkey" => trim(input("signkey")),
+                        "email" => trim(input("email")),
+                        "password" => trim(input("password"))
                     );
                     $app_is = Db::table("applet")
                         ->where("store_id",$store_id)
@@ -371,6 +373,8 @@ class  General extends  Base {
                         "appSecret" => trim(input("appSecret")),
                         "mchid" => trim(input("mchid")),
                         "signkey" => trim(input("signkey")),
+                        "email" => trim(input("email")),
+                        "password" => trim(input("password")),
                         "store_id"=>$store_id,
                         "id"=>$store_id
                     );
@@ -872,8 +876,6 @@ class  General extends  Base {
                             $pageid =  Db::table('ims_sudu8_page_diypagetpl')->where("uniacid",$appletid)->where("id",$tplid)->field("pageid")->find()['pageid'];
                             Db::table('ims_sudu8_page_diypagetpl')->where("uniacid",$appletid)->where("id",$tplid)->update(array("pageid"=>$pageid.",".$key));
                         }
-
-
                     }else{
 
                         $result = Db::table('ims_sudu8_page_diypage')->where("uniacid",$appletid)->where("id",$data['id'])->update($sd);
@@ -2891,6 +2893,23 @@ class  General extends  Base {
             $pag_number = 20;
             $offlines = paging_data($offline_data,$url,$pag_number);
             return view("unline_withdrawal_record",["offlines"=>$offlines,"store_wallet"=>$store_wallet]);
+    }
+    /***
+     * lilu
+     * 判断小程序是否存在
+     * $this->store_ids
+     */
+    public function is_exist_app()
+    {
+        $data =Db::table("applet")
+        ->field("id,name,appID,appSecret,mchid,signkey")
+        ->where("store_id",$this->store_ids)
+        ->find();
+        if($data){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
 

@@ -30,30 +30,42 @@
                 </div>
             </div>
             <div class="item">
+                <div class="item-key">小程序注册邮箱</div>
+                <div class="item-value">
+                    <input type="text" placeholder="请输入" name="email" value="{$data.email}">
+                </div>
+            </div>     
+                <div class="item">
+                <div class="item-key">小程序注册密码</div>
+                <div class="item-value">
+                    <input type="text" placeholder="请输入" name="password" value="{$data.password}">
+                </div>
+            </div>
+            <div class="item">
                 <div class="item-key">小程序AppID</div>
                 <div class="item-value">
-                    <input type="text" placeholder="请输入" name="appID" value="{$data.appID}">
+                    <input type="text" placeholder="请输入" name="appID" value="{$data.appID}" readonly  style="background-color: #e4e4e4">
                     <a href="https://developers.weixin.qq.com/miniprogram/introduction/#%E8%8E%B7%E5%8F%96appid" target="_blank">如何获得AppID？</a>
                 </div>
             </div>
             <div class="item">
                 <div class="item-key">小程序AppSecret</div>
                 <div class="item-value">
-                    <input type="text" placeholder="请输入" name="appSecret" value="{$data.appSecret}">
+                    <input type="text" placeholder="请输入" name="appSecret" value="{$data.appSecret}" readonly style="background-color: #e4e4e4">
                     <a href="https://developers.weixin.qq.com/miniprogram/introduction/#%E8%8E%B7%E5%8F%96appid" target="_blank">如何获得AppSecret</a>
                 </div>
             </div>
             <div class="item">
                 <div class="item-key">微信支付商户号</div>
                 <div class="item-value">
-                    <input type="text" placeholder="请输入" name="mchid" value="{$data.mchid}">
+                    <input type="text" placeholder="请输入" name="mchid" value="{$data.mchid}" readonly style="background-color: #e4e4e4">
                     <a href="https://pay.weixin.qq.com/index.php/core/home/login?return_url=%2F" target="_blank">财付通商户权限秘钥</a>
                 </div>
             </div>
             <div class="item">
                 <div class="item-key">微信支付API秘钥</div>
                 <div class="item-value">
-                    <input type="text" placeholder="请输入" name="signkey" value="{$data.signkey}">
+                    <input type="text" placeholder="请输入" name="signkey" value="{$data.signkey}" readonly style="background-color: #e4e4e4">
                 </div>
             </div>
             <!--<div class="item">-->
@@ -83,6 +95,18 @@
                 <div class="item-value">
                     <input type="text" placeholder="请输入" name="name">
                     <a href="https://mp.weixin.qq.com/" target="_blank">我还没有小程序账号，如何申请？</a>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-key">小程序注册邮箱</div>
+                <div class="item-value">
+                    <input type="text" placeholder="请输入" name="email">
+                </div>
+            </div>     
+                <div class="item">
+                <div class="item-key">小程序注册密码</div>
+                <div class="item-value">
+                    <input type="text" placeholder="请输入" name="password">
                 </div>
             </div>
             <div class="item">

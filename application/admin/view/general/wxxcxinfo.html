@@ -112,11 +112,9 @@
             </div>
         </div>
         <!-- <script type="text/javascript" src="/js/jquery.js"></script> -->
-       
     <!--_footer 作为公共模版分离出去-->
     {include file="template/_footer" /}
     <!--/_footer 作为公共模版分离出去-->
-
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script>
@@ -161,12 +159,19 @@
                 }
             });
         }
-
         function wx_login(){
-            var version = $("#version").val();
-            var desc = $("#desc").val();
-            var appletid=$('input[name="id"]').val();
-            location.href = "wx_login?appletid="+appletid+"&version="+version+ "&desc="+desc;
+            //判断小程序是否存在
+            $.ajax({
+                url:'is_exist_app',
+                type:"post",
+                success : function(data){
+                   alert(data);
+                }
+            })
+            // var version = $("#version").val();
+            // var desc = $("#desc").val();
+            // var appletid=$('input[name="id"]').val();
+            // location.href = "wx_login?appletid="+appletid+"&version="+version+ "&desc="+desc;
         }
     </script>
     {/block}
