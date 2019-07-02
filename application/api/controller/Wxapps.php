@@ -26,7 +26,17 @@ class  Wxapps extends  Controller{
                 ->order('id desc')
                ->find();
       
-
+        if(!empty($da_change)){
+            if($da_change['enter_all_id'] <= 6){
+                $da_change['enter_all_id'] = 1;
+            }
+            if(  ($da_change['enter_all_id'] > 6) && ($da_change['enter_all_id'] <= 17)){
+                $da_change['enter_all_id'] = 2;
+            }
+            if( $da_change['enter_all_id'] > 17){
+                $da_change['enter_all_id'] = 3;
+            }
+        }
         $res = Db::table('ims_sudu8_page_base')->where("uniacid", $uniacid)->field("homepage")->find();
         if (!$res) {
             $res['homepage'] = 1;

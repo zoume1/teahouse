@@ -32,7 +32,7 @@ class  Store extends  Controller{
             $business_name =$request->only(["business_name"])["business_name"];
             $licence_no =$request->only(["licence_no"])["licence_no"];
             $store_name =$request->only(["store_name"])["store_name"];
-            $email =$request->only(["email"])["email"];
+        
             if(empty($id_card) || empty($contact_name) || empty($address_data) ||empty($address_real_data) ||empty($store_introduction || empty($store_name)) ){
                     return ajax_error("请注意填写完所有资料");
             }
@@ -67,7 +67,6 @@ class  Store extends  Controller{
                 "user_id"=>$user_id,
                 "phone_number"=>$phone_number,
                 'share_code'=>$share_code,
-                'email'=>$email,
                 //店铺状态(1审核通过,-1审核不通过,2审核中）
                 "status"=>1,
                 "store_name"=>$store_name
@@ -156,7 +155,6 @@ class  Store extends  Controller{
             $store_introduction =$request->only(["store_introduction"])["store_introduction"];
             $business_name =$request->only(["business_name"])["business_name"];
             $licence_no =$request->only(["licence_no"])["licence_no"];
-            $email =$request->only(["email"])["email"]?$request->only(["email"])["email"]:null;
             $card_positive_images = null;
             $card_side_file = null;
             if(empty($id_card) || empty($contact_name) || empty($address_data) ||empty($address_real_data) ||empty($store_introduction) ){
@@ -190,7 +188,6 @@ class  Store extends  Controller{
                     "store_introduction"=>$store_introduction,
                     "business_name"=>$business_name,
                     "licence_no"=>$licence_no,
-                    'email'=>$email,
                     //店铺状态(1审核通过,-1审核不通过,2审核中）
                     "status"=>2
                 ];
@@ -205,7 +202,6 @@ class  Store extends  Controller{
                     "store_introduction"=>$store_introduction,
                     "business_name"=>$business_name,
                     "licence_no"=>$licence_no,
-                    'email'=>$email,
                     //店铺状态(1审核通过,-1审核不通过,2审核中）
                     "status"=>2
                 ];
@@ -220,7 +216,6 @@ class  Store extends  Controller{
                     "store_introduction"=>$store_introduction,
                     "business_name"=>$business_name,
                     "licence_no"=>$licence_no,
-                    'email'=>$email,
                     //店铺状态(1审核通过,-1审核不通过,2审核中）
                     "status"=>2
                 ];
@@ -234,7 +229,6 @@ class  Store extends  Controller{
                     "store_introduction"=>$store_introduction,
                     "business_name"=>$business_name,
                     "licence_no"=>$licence_no,
-                    'email'=>$email,
                     //店铺状态(1审核通过,-1审核不通过,2审核中）
                     "status"=>2
                 ];

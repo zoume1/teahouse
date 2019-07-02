@@ -238,7 +238,7 @@ class  Control extends  Controller{
         if(!$store_info){
             $this->error("请先进行店铺审核操作");
         }
-        $store_information =Db::table("tb_store")
+        $store_information = Db::table("tb_store")
             ->where("id",$store_id)
             ->where("store_del",1)
             ->value("id");

@@ -312,7 +312,7 @@ class  General extends  Base {
      */
     public function small_routine_index(){
         $data =Db::table("applet")
-            ->field("id,name,appID,appSecret,mchid,signkey")
+            ->field("id,name,appID,appSecret,mchid,signkey,email,password")
             ->where("store_id",$this->store_ids)
             ->find();
         return view("small_routine_index",["data"=>$data]);
@@ -342,7 +342,9 @@ class  General extends  Base {
                         "appID" => trim(input("appID")),
                         "appSecret" => trim(input("appSecret")),
                         "mchid" => trim(input("mchid")),
-                        "signkey" => trim(input("signkey"))
+                        "signkey" => trim(input("signkey")),
+                        "email" => trim(input("email")),
+                        "password" => trim(input("password"))
                     );
                     $app_is = Db::table("applet")
                         ->where("store_id",$store_id)
@@ -371,6 +373,8 @@ class  General extends  Base {
                         "appSecret" => trim(input("appSecret")),
                         "mchid" => trim(input("mchid")),
                         "signkey" => trim(input("signkey")),
+                        "email" => trim(input("email")),
+                        "password" => trim(input("password")),
                         "store_id"=>$store_id,
                         "id"=>$store_id
                     );

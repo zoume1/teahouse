@@ -61,20 +61,19 @@ class Storehouse extends Controller
     public function theStoreValue(Request $request)
     {
         if ($request->isPost()) {
-            $store_id = $request->only(['uniacid'])['uniacid'];
-            $member_id = $request->only(['member_id'])['member_id'];
-            $depot  = Db::name("house_order")
-                    ->where(["store_id"=>$store_id,"member_id"=>$member_id])
-                    ->group('parts_order_number')
-                    ->sum("order_real_pay");
-            
-            if($depot > 0){
+            $data = input();
+            if(isset($data['uniacid']) && isset($data['member_id'])){
+                $depot  = Db::name("house_order")
+                        ->where(["store_id"=>$data['uniacid'],"member_id"=>$data['member_id']])
+                        ->sum("order_amount");
+                        
                 $depot_value = round($depot,2);
-                halt($depot_value);
                 return json_encode(array("status"=>1,"info"=>"获取成功","data"=>['order_real_pay'=>$depot_value]));
+            } else {
+                return ajax_error("请检查参数是否正确");
             }
-                    
-        }
+        }              
     }
+
     
 }
