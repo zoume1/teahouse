@@ -3,7 +3,10 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
-
+/**
+ * lilu
+ * 商品列表控制器
+ */
 class Commodity extends Controller
 {
 
@@ -104,7 +107,10 @@ class Commodity extends Controller
 
     /**
      * 商品列表
-     * GY
+     * lilu
+     * uniacid
+     * member_grade_name
+     * id
      */
     public function commodity_list(Request $request)
     {
@@ -296,5 +302,15 @@ class Commodity extends Controller
                 return ajax_error("参数有误");
             }
         }
+    }
+
+    /**
+     * lilu
+     * 秒杀列表 
+     */
+    public function limit_goods_more(){
+        //获取参数
+        $uniacid = input("uniacid");
+        $pageid = input("pageid");
     }
 }
