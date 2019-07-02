@@ -378,6 +378,7 @@ class  Wxapps extends  Controller{
                                         $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
                                         $list2[$kk]['price']=$info['limit_price'];    //商品价格
                                         $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
+                                        $list2[$kk]['video_link']=$info['video_link'];    //商品视频
                                         //获取已出售的数量
                                         $pp2['goods_id']=$vv['goods_id'];
                                         $pp2['status']=array('between',array(2,8));
@@ -1227,6 +1228,7 @@ class  Wxapps extends  Controller{
                             $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
                             $list2[$kk]['price']=$info['limit_price'];    //商品价格
                             $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
+                            $list2[$kk]['video_link']=$info['video_link'];    //商品视频字段
                             //获取已出售的数量
                             $pp2['goods_id']=$vv['goods_id'];
                             $pp2['status']=array('between',array(2,8));
