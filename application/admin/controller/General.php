@@ -2893,6 +2893,23 @@ class  General extends  Base {
             $offlines = paging_data($offline_data,$url,$pag_number);
             return view("unline_withdrawal_record",["offlines"=>$offlines,"store_wallet"=>$store_wallet]);
     }
+    /***
+     * lilu
+     * 判断小程序是否存在
+     * $this->store_ids
+     */
+    public function is_exist_app()
+    {
+        $data =Db::table("applet")
+        ->field("id,name,appID,appSecret,mchid,signkey")
+        ->where("store_id",$this->store_ids)
+        ->find();
+        if($data){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 
 
  }
