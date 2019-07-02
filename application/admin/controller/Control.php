@@ -245,6 +245,10 @@ class  Control extends  Controller{
         if(!$store_information){
             $this->error("该店铺已被删除，无法进行以下操作");
         }
+        $small_routine = Db::table("applet")
+                        ->field("id,name,appID,appSecret,mchid,signkey,email,password")
+                        ->where("store_id",$store_information)
+                        ->find();
         $store_order = Db::table('tb_meal_orders')
             ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status,tb_store.address_data,tb_store.id_card,tb_store.card_positive,tb_store.store_introduction,tb_store.store_qq,tb_store.explain,tb_store.card_side")
             ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
@@ -260,7 +264,7 @@ class  Control extends  Controller{
             $store_order[0]['pay_time'] = $payment_data['pay_time'];
         }
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
-        return view("control_order_status",["store_order"=>$store_order]);
+        return view("control_order_status",["store_order"=>$store_order,"small_routine"=>$small_routine]);
     }
 
     /**
