@@ -27,13 +27,13 @@ class  Wxapps extends  Controller{
                ->find();
       
         if(!empty($da_change)){
-            if($da_change['enter_all_id'] > 1 && $da_change['enter_all_id'] <= 6 ){
+            if($da_change['enter_all_id'] <= 6){
                 $da_change['enter_all_id'] = 1;
             }
-            if($da_change['enter_all_id'] > 6 && $da_change['enter_all_id'] <= 17 ){
+            if(  ($da_change['enter_all_id'] > 6) && ($da_change['enter_all_id'] <= 17)){
                 $da_change['enter_all_id'] = 2;
             }
-            if($da_change['enter_all_id'] > 17){
+            if( $da_change['enter_all_id'] > 17){
                 $da_change['enter_all_id'] = 3;
             }
         }
