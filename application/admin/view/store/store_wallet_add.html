@@ -164,10 +164,10 @@
         form.on('radio(filter)', function(data){
             var val = data.value;
             if(val == 1){
-                $('.bank-item').hide();
+                $('.bank-item').add('.bd-right').hide();
                 $('.online-item').show();
             }else{
-                $('.bank-item').show();
+                $('.bank-item').add('.bd-right').show();
                 $('.online-item').hide();
             }
         })
