@@ -32,14 +32,16 @@ class  Shopping extends  Controller{
                 exit(json_encode(array("status" => 2, "info" => "请登录")));
             }
             $shopping_data = Db::table("tb_shopping")
-                ->field("tb_shopping.* ,tb_goods.goods_selling goods_selling")
+                ->field("tb_shopping.* ,tb_goods.goods_selling goods_selling,goods_sign,tb_special.save")
                 ->join("tb_goods","tb_shopping.goods_id=tb_goods.id","left")
+                ->join("tb_special","tb_shopping.goods_standard_id = tb_special.id","left")
                 ->where("tb_shopping.user_id", $member_id)
                 ->select();               //获取购物车中的商品
             //判断购物车中商品是否为限时限购商品
             foreach($shopping_data as $k=>$v){
                 //获取商品信息
-                $goods_info=db('goods')->where('id',$v['goods_id'])->find();
+                $shopping_data[$k]['goods_sign'] = json_decode($shopping_data[$k]['goods_sign'],true);
+                $goods_info= db('goods')->where('id',$v['goods_id'])->find();
                 if($goods_info['limit_goods']=='1'){  //秒杀商品
                     $shopping_data[$k]['money']=$goods_info['limit_price'];
                 }

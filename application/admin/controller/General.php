@@ -1529,11 +1529,12 @@ class  General extends  Base {
     public function order_package_buy(Request $request){
         if($request->isPost()){
             $id = $request->only(["id"])["id"];
-            $data =Db::table("tb_meal_orders")
+            $data = Db::table("tb_meal_orders")
                  ->alias('a')
                  ->join('tb_enter_all b','a.enter_all_id=b.id','left')
+                 ->join('tb_store c','c.id = b.id','left')
                 ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
-                    a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id,b.year")
+                    a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id,b.year,c.highe_share_code")
                 ->where("a.store_id",$this->store_ids)
                 ->where("a.status",-1)
                 ->where("a.id",$id)
@@ -1907,7 +1908,7 @@ class  General extends  Base {
         if($request->isPost()){
             $password =$request->only(["password"])["password"];
             $meal_order_id =$request->only(["id"])["id"];//订单的id
-            $store_pass =Db::name("store")
+            $store_pass = Db::name("store")
                 ->where("id",$this->store_ids)
                 ->field("store_pay_pass,store_wallet")
                 ->find();
@@ -2911,6 +2912,50 @@ class  General extends  Base {
             return 0;
         }
     }
+
+    /**
+     * @param char $code
+     * [判断分享码是否正确]
+     * @return 成功时返回，其他抛异常
+     */
+    public function getShareCode(Request $request)
+    {
+        if ($request->isPost()) {
+            $data = input();
+            if(isset($data['code'])){
+                $code = trim($data['code']);
+                //本店铺的分享码和电话
+                $store_data = db("store")->where("id",$this->store_ids)->find();
+                if(($code == $store_data['share_code']) || ($code == $store_data['store_number'])){
+                    return ajax_error("不能填写自己店铺的分享码");
+                }
+                //其他店铺
+                $number = db("store")->where("store_number",$code)->find();
+                $share_code = db("store")->where("share_code",$code)->find();
+                
+                if(empty($number) && empty($share_code)){
+                    return ajax_error("分享码填写有误,请重试");
+                } else {
+                    //判断本地店铺是否有上一级店铺
+                    if(empty($store_data['share_store_id'])){
+                        // 更新商家店铺上一级店铺id
+                        if(!empty($number)){
+                            $bool = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$number["id"]]);
+                            $bool = db("store")->where("id",$this->store_ids)->update(["highe_share_code"=>$code]);
+                        } else {
+                            $rest = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$share_code["id"]]);
+                            $rest = db("store")->where("id",$this->store_ids)->update(["highe_share_code"=>$code]);
+                        }
+                        return ajax_success("分享码正确");
+                    }
+                    return ajax_success("分享码正确");
+                }
+            } else {
+                return ajax_error("请检查参数是否正确");
+            }
+        }              
+    }
+
 
 
  }
