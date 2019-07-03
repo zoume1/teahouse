@@ -2945,6 +2945,7 @@ class  General extends  Base {
                         }
                         return ajax_success("分享码正确");
                     }
+                    return ajax_success("分享码正确");
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
