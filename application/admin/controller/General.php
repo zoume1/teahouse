@@ -2935,7 +2935,16 @@ class  General extends  Base {
                 if(empty($number) && empty($share_code)){
                     return ajax_error("分享码填写有误,请重试");
                 } else {
-                    return ajax_success("分享码正确");
+                    //判断本地店铺是否有上一级店铺
+                    if(empty($store_data['share_store_id'])){
+                        // 更新商家店铺上一级店铺id
+                        if(!empty($number)){
+                            $bool = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$number["id"]]);
+                        } else {
+                            $rest = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$share_code["id"]]);
+                        }
+                        return ajax_success("分享码正确");
+                    }
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
