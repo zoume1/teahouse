@@ -242,7 +242,9 @@
                         @change="useDiscount">
                     <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
                     <input type="text" class="invite-code-input" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
-                        v-show="discountFlag">
+                        v-show="showInviteCode"
+                        v-model="inviteCode"
+                    >
                 </div>
                 <div class="settlement-cont">
                     <!-- <p class="total">合计：￥{{ totalPrice }}</p> -->
@@ -545,7 +547,7 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                discountFlag: false,
+                showInviteCode: false,
                 discountPrice: 30,
                 protocolFlag: true,
                 // selectData: [],
@@ -567,8 +569,10 @@
                 virtualTag: true,//显示隐藏收货地址  false: 虚拟商品  true:正常商品
                 onlinePayImg: '', //微信、支付宝在线支付二维码路径
                 onlinePayInterval: null, //在线支付 监听定时器
-                year:''
-
+                year:'',
+                inviteCode: '', //邀请码
+                timer: null, 
+                correctCode: false,
             },
             mounted: function(){
                 this.getRemitTime(); //初始化日期选择
@@ -582,6 +586,13 @@
                 // 查看协议
                 showProtocolEvent: function(){
                     this.showProtocol = !this.showProtocol;
+                },
+                // 防抖
+                debounce: function(fn,wait){
+                    if (this.timer!==null){
+                        clearTimeout(this.timer)
+                    }
+                    this.timer = setTimeout(fn,wait);
                 },
                 // 获取数据
                 myAjax: function(url, param, callback){
@@ -755,9 +766,26 @@
                         });
                     }
                 },
-                // 是否使用邀请码
+                // 验证邀请码
+                textInviteCode: function(){
+                    var _this = this;
+                    var param = {
+                        code: this.inviteCode
+                    }
+                    this.myAjax('getShareCode', param, function(data){
+                        console.log(data)
+                        if(data.body.status == 1){
+                            layer.msg(data.body.info);
+                            _this.correctCode = true;
+                        }else{
+                            layer.msg(data.body.info);
+                            _this.correctCode = false;
+                        }
+                    })
+                },
+                // 显示邀请码输入框
                 useDiscount: function(){
-                    this.discountFlag = !this.discountFlag;
+                    this.showInviteCode = !this.showInviteCode;
                 },
                 // 同意协议
                 agreement: function(){
@@ -848,6 +876,17 @@
                     this.showPayWay = true;
                 },
             },
+            watch: {
+                // 监听邀请码
+                inviteCode: function(code){
+                    var _this = this;
+                    if (typeof code === 'string'){
+                        if (code.trim().length !== 0){
+                            this.debounce(this.textInviteCode,1000);
+                        }else {}
+                    }
+                }
+            },
             computed: {
                 // 商品合计金额
                 totalPrice: function(){
@@ -867,7 +906,7 @@
                 // 最终付款金额
                 payment: function(){
                     var sum = this.totalPrice;
-                    if(this.discountFlag){
+                    if(this.correctCode){
                         return (sum - this.discountPrice).toFixed(2);
                     }else{
                         return sum;
@@ -878,9 +917,9 @@
                     var orderInfo = this.orderInfo[0];
                     if(orderInfo){
                         if(orderInfo.last_money == 0){
-                            return (this.discountFlag ? orderInfo.amount_money - this.discountPrice : orderInfo.amount_money).toFixed(2);
+                            return (this.correctCode ? orderInfo.amount_money - this.discountPrice : orderInfo.amount_money).toFixed(2);
                         }else{
-                            return (this.discountFlag ? orderInfo.amount_money - orderInfo.last_money - this.discountPrice : orderInfo.amount_money - orderInfo.last_money).toFixed(2);
+                            return (this.correctCode ? orderInfo.amount_money - orderInfo.last_money - this.discountPrice : orderInfo.amount_money - orderInfo.last_money).toFixed(2);
                         }
                     }
                 },
@@ -889,7 +928,7 @@
                     var orderInfo = this.orderInfo[0];
                     console.log(orderInfo);
                     if (orderInfo) {
-                        if (this.discountFlag) {
+                        if (this.correctCode) {
                             // 使用邀请码
                             // return (orderInfo.cost - orderInfo.amount_money + orderInfo.last_money + this.discountPrice).toFixed(2);
                             if(orderInfo.last_money != 0){
