@@ -1907,7 +1907,7 @@ class  General extends  Base {
         if($request->isPost()){
             $password =$request->only(["password"])["password"];
             $meal_order_id =$request->only(["id"])["id"];//订单的id
-            $store_pass =Db::name("store")
+            $store_pass = Db::name("store")
                 ->where("id",$this->store_ids)
                 ->field("store_pay_pass,store_wallet")
                 ->find();
@@ -2945,6 +2945,7 @@ class  General extends  Base {
                         }
                         return ajax_success("分享码正确");
                     }
+                    return ajax_success("分享码正确");
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
