@@ -872,16 +872,10 @@ define(['jquery', 'bootstrap'], function($, bs) {
 	 * 图标库2-----图片
 	 */
 	$(document).on('click', '[data-toggle="selectIcon2"]', function() {
-		// console.log($(this).data('pic'))
-
 		var _input = $(this).data('input');
+
 		var _element = $(this).data('element');
-		// 图片元素
-		var _img = '#' + $(this).prev()[0].id;
-		// 区分图片是off(pimg1) 还是 on(pimg2)
-		var swfalg = $(this).prev()[0].id.split('-')[0];
-		// itemid
-		var _itemid = _input.split('-')[1].trim();
+
 		if (!_input && !_element) {
 			return
 		}
@@ -899,33 +893,44 @@ define(['jquery', 'bootstrap'], function($, bs) {
 			cache: false
 
 		}).done(function(html) {
+
 			var html = html.replace(/\\r\\n/g,"");
+
 			var html = html.replace(/\\n/g,"");
+
 			var html = html.replace(/\\t/g,"");
+
 			var html = html.replace(/\\"/g,'"');
+
 			var html = html.replace(/\\/g,'');
+
 			var html = html.replace(/"</g,'<');
+
 			var html = html.replace(/>"/g,'>');
+
 			modal = $('<div class="modal fade" id="selectIcon"></div>');
+
 			$(document.body).append(modal), modal.modal('show');
+
 			modal.append2(html, function() {
+
 				$(document).off("click", '#selectIcon nav').on("click", '#selectIcon nav', function() {
-					var _src = $(this).find('img')[0].src;
 
-					if (_img) {
-						$(_img).attr('src', _src);
-					}
-					if(swfalg == 'pimg1'){
-						console.log(_src)
-						// 上传默认图片
-						$(".afeedbackbgimg"+_itemid).val(_src).change();
-						$(".afeedbackbgimgurl"+_itemid).attr("src",_src);
-					}else if(swfalg == 'pimg2'){
-						// 上传选中后的图片
-						$(".bfeedbackbgimg"+_itemid).val(_src).change();
-						$(".bfeedbackbgimgurl"+_itemid).attr("src",_src);
+					var _class = $.trim($(this).data("class"));
+
+	
+
+					if (_input) {
+
+						$(_input).val(_class).trigger('change')
+
 					}
 
+					if (_element) {
+
+						$(_element).removeAttr("class").addClass("iconfont  " + _class)
+
+					}
 					modal.find(".close").click()
 				})
 			})
