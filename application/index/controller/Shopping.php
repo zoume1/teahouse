@@ -39,7 +39,7 @@ class  Shopping extends  Controller{
             //判断购物车中商品是否为限时限购商品
             foreach($shopping_data as $k=>$v){
                 //获取商品信息
-                $shopping_data[$k]['goods_delivery'] = json_decode($shopping_data[$k]['goods_delivery'],ture);
+                $shopping_data[$k]['goods_delivery'] = json_decode($shopping_data[$k]['goods_delivery'],true);
                 $goods_info= db('goods')->where('id',$v['goods_id'])->find();
                 if($goods_info['limit_goods']=='1'){  //秒杀商品
                     $shopping_data[$k]['money']=$goods_info['limit_price'];
