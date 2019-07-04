@@ -213,16 +213,16 @@ class Receipt extends Controller
     public function proportion(Request $request){
         if($request->isPost()){  
             $receipt_id =  $request->only(["receipt_id"])["receipt_id"];
-            $receipt_type = db("member_receipt")->where('id',$receipt_id)->value("status");
+            $receipt_type = db("member_receipt")->where('id',$receipt_id)->find();
             $store_id = $request->only(['uniacid'])['uniacid'];
 
             if(!empty($receipt_id)){
-                if($receipt_type == 1 ){  //普通发票
+                if($receipt_type['status'] == 1 ){  //普通发票
                     $proportion = db("receipt")->where("store_id",$store_id)->value('common');  
                 } else {  //增值税发票
                     $proportion = db("receipt")->where("store_id",$store_id)->value('senior');
                 }
-                return ajax_success('发送成功',$proportion);
+                return json_encode(array("status" => 1, "info" => "发送成功","data"=>["scale"=>$proportion,"company"=>$receipt_type['company']]));
             } else {
                 return ajax_error("参数错误");
             }
