@@ -11,6 +11,7 @@ use think\Controller;
 use think\Request;
 use think\Db;
 use think\Session;
+use app\index\controller\Login as Loging;
 
 class Register extends  Controller{
 
@@ -76,6 +77,8 @@ class Register extends  Controller{
     public function  doRegByPhone(Request $request){
         if($request->isPost())
         {
+            $my_invitation = new Loging();
+            $re = $my_invitation->memberCode();
             $mobile = trim($_POST['mobile']);
             $is_reg =Db::name("pc_user")->where("phone_number",$mobile)->find();
             if(!empty($is_reg)){
@@ -84,22 +87,52 @@ class Register extends  Controller{
             $code = trim($_POST['mobile_code']);
             $password =trim($_POST['password']);
             $confirm_password =trim($_POST['confirm_password']);
-            $invitation = input("invitation");            
+            $invitation = trim($_POST['invitation']);            
             $create_time = date('Y-m-d H:i:s');
-            if(!empty($invitation)){
-                $rest = Db::name("store")->where("share_code",$invitation)->find();
-                if(empty($rest)){
-                    exit(json_encode(array("status" => 2, "info" => "邀请码有误")));
-                }
-            }
+            
+
             if($password !==$confirm_password ){
                 return ajax_error('两次密码不相同');
             }
             if (strlen($mobile) != 11 || substr($mobile, 0, 1) != '1' || $code == '') {
                 return ajax_error("参数不正确");
             }
-            if (session('mobileCodes') != $code || $mobile != $_SESSION['mobiles']) {
+            if (session('mobileCodes') != $code || $mobile != $_SESSION['mobiles']){
                 return ajax_error("验证码不正确");
+            }
+
+            if(!empty($invitation)){
+                $number = db("pc_user")->where("phone_number",$invitation)->find();
+                $share_code = db("pc_user")->where("my_invitation",$invitation)->find();
+
+                if(empty($number) && empty($share_code)){
+                    return ajax_error("分享码填写有误,请重试");
+                } else {
+                    //分享码正确
+                    if(!empty($number)){
+                        $invite_id = $number["id"];
+                    } else {
+                        $invite_id = $share_code["id"];
+                    }
+                    $passwords = password_hash($password,PASSWORD_DEFAULT);
+                    $datas =[
+                        'phone_number'=>$mobile,
+                        'password'=>$passwords,
+                        'create_time'=>strtotime($create_time),
+                        'invitation'=>$invitation,
+                        "status"=>1,
+                        "invite_id"=> $invite_id,
+                        "my_invitation"=>$my_invitation->memberCode(),
+                    ];
+                    
+                    $res =Db::name('pc_user')->insertGetId($datas);
+                    if($res){
+                        //注册成功
+                        return ajax_success('注册成功',$res);
+                    }else{
+                        return ajax_error('请重新注册',['status'=>0]);
+                    }
+                }
             } else {
                 $passwords = password_hash($password,PASSWORD_DEFAULT);
                 $datas =[
@@ -108,15 +141,16 @@ class Register extends  Controller{
                     'create_time'=>strtotime($create_time),
                     'invitation'=>$invitation,
                     "status"=>1,
+                    "my_invitation"=>$my_invitation->memberCode(),
                 ];
                 
-                    $res =Db::name('pc_user')->insertGetId($datas);
-                    if($res){
-                        //注册成功
-                        return ajax_success('注册成功',$res);
-                    }else{
-                        return ajax_error('请重新注册',['status'=>0]);
-                    }
+                $res = Db::name('pc_user')->insertGetId($datas);
+                if($res){
+                    //注册成功
+                    return ajax_success('注册成功',$res);
+                }else{
+                    return ajax_error('请重新注册',['status'=>0]);
+                }
             }
         }
     }
