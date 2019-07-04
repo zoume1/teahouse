@@ -215,7 +215,7 @@ class Receipt extends Controller
             $receipt_id =  $request->only(["receipt_id"])["receipt_id"];
             $receipt_type = db("member_receipt")->where('id',$receipt_id)->value("status");
             $store_id = $request->only(['uniacid'])['uniacid'];
-            halt($receipt_type);
+
             if(!empty($receipt_id)){
                 if($receipt_type == 1 ){  //普通发票
                     $proportion = db("receipt")->where("store_id",$store_id)->value('common');  
