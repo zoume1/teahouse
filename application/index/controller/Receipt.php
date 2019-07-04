@@ -214,12 +214,12 @@ class Receipt extends Controller
         if($request->isPost()){  
             $receipt_id =  $request->only(["receipt_id"])["receipt_id"];
             $receipt_type = db("member_receipt")->where('id',$receipt_id)->value("status");
-         
+            $store_id = $request->only(['uniacid'])['uniacid'];
             if(!empty($receipt_id)){
                 if($receipt_type == 1 ){  //普通发票
-                    $proportion = db("receipt")->where("id",1)->value('common');  
+                    $proportion = db("receipt")->where("store_id",$store_id)->value('common');  
                 } else {  //增值税发票
-                    $proportion = db("receipt")->where("id",1)->value('senior');
+                    $proportion = db("receipt")->where("store_id",$store_id)->value('senior');
                 }
                 return ajax_success('发送成功',$proportion);
             } else {
