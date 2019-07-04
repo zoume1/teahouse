@@ -75,7 +75,7 @@ class Receipt extends Controller
                 $member_id = $data["member_id"];
                 $data["create_time"] = $time;
                 $data["label"] = 1;
-                $data["status"] = 2;
+                $data["status"] = 1;
 
                 if(!empty($data)){
                     $where = "update tb_member_receipt set label = 0 where type = 2 and member_id = $member_id ";
@@ -215,6 +215,7 @@ class Receipt extends Controller
             $receipt_id =  $request->only(["receipt_id"])["receipt_id"];
             $receipt_type = db("member_receipt")->where('id',$receipt_id)->value("status");
             $store_id = $request->only(['uniacid'])['uniacid'];
+            halt($receipt_type);
             if(!empty($receipt_id)){
                 if($receipt_type == 1 ){  //普通发票
                     $proportion = db("receipt")->where("store_id",$store_id)->value('common');  
