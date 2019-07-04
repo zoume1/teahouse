@@ -17,7 +17,7 @@
         .signup-content-container{border-top: 1px solid #e5e5e5; padding-top: 50px; display: flex; justify-content: space-between;}
         .signup-content-container .signup-content-inner{width: 450px;}
         .signup-content-inner .signup-form-wrap{width: 350px; margin: 0 auto;}
-        .signup-content-inner .section-group{border-bottom: 1px solid #e5e5e5; display: flex; margin-bottom: 30px; align-items: center; height: 40px;}
+        .signup-content-inner .section-group{border-bottom: 1px solid #e5e5e5; display: flex; align-items: center; height: 60px;}
         .signup-content-inner .section-group .form-label{display: inline-block; width: 100px; font-size: 14px; color: #515151; font-weight: 700;}
         .signup-content-inner .section-group .form-input-wrap{width: 250px; position: relative;}
         .section-group .form-input-wrap input{border: 0; font-size: 14px;}
@@ -37,6 +37,7 @@
         .protocol-pop h3{text-align: center; font-size: 28px;}
         .protocol-pop .bh{margin-top: 20px;}
         .protocol-pop .cl{position: absolute; right: 10px; top: 5px; width: 30px; height: 30px; cursor: pointer; text-align: center; line-height: 30px; font-size: 30px; color: #333;}
+        .tips{color: #999;margin-left:100px; }
     </style>
 </head>
 <body>
@@ -100,7 +101,7 @@
                             <div class="section-group identifying-code-wrap">
                                 <label class="form-label">短信验证码</label>
                                 <div class="form-input-wrap">
-                                    <input type="text" id="identifying" name="identifying" placeholder="填写短息验证码">
+                                    <input type="text" id="identifying" name="identifying" placeholder="填写短信验证码">
                                     <button class="identifying-button">获取验证码</button>
                                 </div>
                             </div>
@@ -115,8 +116,14 @@
                                 <label class="form-label">邀请码</label>
                                 <div class="form-input-wrap">
                                     <input type="password" id="invitation" name="invitation" placeholder="请输入朋友邀请码">
+                                    
                                 </div>
+                               
+                                
                             </div>
+                            <div>
+                            <span class="tips">
+                                    *邀请码为非必填项</span></div>
                             <label class="protocol-field">
                                 <input type="checkbox" name="agree">我已阅读并同意
                                 <a href="javascript:;" id="protocol">《宣铭用户使用协议》</a>
