@@ -2926,11 +2926,11 @@ class  General extends  Base {
                 $code = trim($data['code']);
                 //本店铺的分享码和电话
                 $store_data = db("store")->where("id",$this->store_ids)->find();
-                if(($code == $store_data['share_code']) || ($code == $store_data['store_number'])){
+                if(($code == $store_data['share_code']) || ($code == $store_data['phone_number'])){
                     return ajax_error("不能填写自己店铺的分享码");
                 }
                 //其他店铺
-                $number = db("store")->where("store_number",$code)->find();
+                $number = db("store")->where("phone_number",$code)->find();
                 $share_code = db("store")->where("share_code",$code)->find();
                 
                 if(empty($number) && empty($share_code)){
@@ -2940,11 +2940,12 @@ class  General extends  Base {
                     if(empty($store_data['share_store_id'])){
                         // 更新商家店铺上一级店铺id
                         if(!empty($number)){
-                            $bool = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$number["id"]]);
-                            $bool = db("store")->where("id",$this->store_ids)->update(["highe_share_code"=>$code]);
+                            $bool = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$number["user_id"],"highe_share_code"=>$code]);
+                            $boole = db("pc_user")->where("id",$store_data["user_id"])->update(["invite_id"=>$number["user_id"],"invitation"=>$code]);
+
                         } else {
-                            $rest = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$share_code["id"]]);
-                            $rest = db("store")->where("id",$this->store_ids)->update(["highe_share_code"=>$code]);
+                            $rest = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$share_code["user_id"],"highe_share_code"=>$code]);
+                            $boole = db("pc_user")->where("id",$store_data["user_id"])->update(["invite_id"=>$share_code["user_id"],"invitation"=>$code]);
                         }
                         return ajax_success("分享码正确");
                     }
