@@ -24,6 +24,13 @@ class Test extends  Controller{
         return $this->fetch('icon2');
     }
     /**
+     * lilu
+     * 图标-图片3
+     */
+    public function selecticon3(){
+        return $this->fetch('icon3');
+    }
+    /**
      **************李火生*******************
      * @param Request $request
      * Notes:页面选择

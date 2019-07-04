@@ -747,13 +747,13 @@ function show_order_statues($status){
 /*入驻套餐审核状态显示*/
 function enter_status($status){
     if($status==-1){
-        echo '<button type="button" class="state   close-btu" >不通过</button>';
+        echo '<text style="color:red;">入驻不通过</text>';
     }else if($status==1){
-        echo '<button type="button" class="state  payment-has-been" >审核通过</button>';
+        echo '<text style="color:#669900;">入驻已通过</text>';
     }else  if($status==2){
-        echo '<button type="button" class="state  shipmenting-btu" >审核中</button>';
+        echo '<text style="color:#199ED8;">入驻待审核</text>';
     }else  if($status==3){
-        echo '<button type="button" class="state  cancel-btu" >关闭</button>';
+        echo '<text style="color:#999;">关闭</text>';
     }
 }
 /**
@@ -1060,21 +1060,21 @@ function diffBetweenTwoDays ($second1, $second2)
  */
 function audit_status($status){
     if($status==0){
-        echo '已通过';
+        echo '<button type="button" class="state payment-has-been" >审核已通过</button>';
     }else  if($status==1){
-        echo '已通过';
+        echo '<button type="button" class="state payment-has-been" >审核已通过</button>';
     }else  if($status==-1){
-        echo '已通过';
+        echo '<button type="button" class="state payment-has-been" >审核已通过</button>';
     }
 }
 
 function audit_statues($status){
     if($status==1){
-        echo '已通过';
+        echo '<button type="button" class="state payment-has-been">审核已通过</button>';
     }else  if($status==0){
-        echo '待审核';
+        echo '<button type="button" class="state shipmenting-btu">审核待通过</button>';
     }else  if($status==-1){
-        echo '未通过';
+        echo '<button type="button" class="state close-btu">审核未通过</button>';
     }
 }
 
