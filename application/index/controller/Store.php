@@ -49,10 +49,9 @@ class  Store extends  Controller{
             if(empty($card_side_file)){
                 return ajax_error("请上传身份证反面图");
             }
-            $share_code = $store_code -> memberCode();
             $card_positive_images = base64_upload_flie($card_positive);//身份证正面
             $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
-            $phone_number = db("pc_user")->where("id",$user_id)->value("phone_number");//获取手机号
+            $phone_number = db("pc_user")->where("id",$user_id)->find();//获取手机号
             $data = [
                 "is_business"=>$is_business,
                 "id_card"=>$id_card,
@@ -65,13 +64,15 @@ class  Store extends  Controller{
                 "business_name"=>$business_name,
                 "licence_no"=>$licence_no,
                 "user_id"=>$user_id,
-                "phone_number"=>$phone_number,
-                'share_code'=>$share_code,
+                "phone_number"=>$phone_number['phone_number'],
+                "share_store_id" => $phone_number['invite_id'], //上级邀请user_id
+                'share_code'=>$phone_number['my_invitation'],   //本店邀请码
+                'highe_share_code'=>$phone_number['invitation'],   //上级分享码
                 //店铺状态(1审核通过,-1审核不通过,2审核中）
                 "status"=>1,
-                "store_name"=>$store_name
+                "store_name"=>$store_name,
             ];
-        
+
             $bool = Db::name("store")->insertGetId($data);
             if($bool > 0){
                     $user_data =Db::table("tb_pc_user")
@@ -322,12 +323,18 @@ class  Store extends  Controller{
     public function store_goto_admin(Request $request){
         if($request->isPost()){
             $id =$request->only(["id"])['id'];//店铺的id
-            $status =Db::name("store")->where("id",$id)->value("status");
-            if($status==-1){
+            $status = Db::name("store")->where("id",$id)->find();
+            if( empty($status['share_store_id']) && empty($status['highe_share_code'])){
+                $restul = Db::name("pc_user")->where("id",$status['user_id'])->find();
+                if(!empty($restul["invite_id"]) && !empty($restul["invitation"])){
+                    $bool = Db::name("store")->where("id",$id)->update(['share_store_id'=>$restul['invite_id'],'highe_share_code'=>$restul['invitation']]);
+                }
+            }
+            if($status['status']==-1){
                 return ajax_error("店铺审核不通过，不能进入后台");
-            }elseif ($status==2){
+            }elseif ($status['status']==2){
                 return ajax_error("店铺审核中，不能进入后台");
-            }elseif ($status==3){
+            }elseif ($status['status']==3){
                 return ajax_error("店铺已放弃，不能进入后台");
             }else{
                 //后台使用
