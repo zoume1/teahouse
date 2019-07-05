@@ -712,7 +712,7 @@ class  Order extends  Controller
                         $datase["parts_goods_name"] = $goods_data["goods_name"];//名字
                         $datase["distribution"] = $goods_data["distribution"];//是否分销
                         $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
-                        $datase["coupon_type"] = $goods_data["coupon_type"];//卖点
+                        $datase["coupon_type"] = $goods_data["coupon_type"];//商品类型
                         $datase["order_quantity"] = $numbers[$keys];//订单数量
                         $datase["member_id"] = $user_id;//用户id
                         $datase["user_account_name"] = $user_information["member_name"];//用户名
