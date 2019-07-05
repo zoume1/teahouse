@@ -29,26 +29,32 @@ class Storehouse extends Controller
         if ($request->isPost()) {
             $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only(['member_id'])['member_id'];
+            $time = time();
             $depot = Db::name("store_house")->where("store_id",$store_id)->select();
 
             if(!empty($depot)){
-                foreach($depot as $key => $value){
-                    $house_order[$key] = Db::table("tb_house_order")
-                                        ->field("tb_house_order.id,store_name,pay_time,goods_image,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,tb_goods.goods_name,tb_wares.name")
-                                        ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
-                                        ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
-                                        ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
-                                        ->where(["tb_house_order.store_house_id"=>$value["id"],"tb_house_order.store_id"=>$store_id,"tb_house_order.member_id"=>$member_id])
-                                        ->select();
+                $house_order = Db::table("tb_house_order")
+                                    ->field("tb_house_order.id,store_name,pay_time,goods_image,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,tb_goods.goods_name,tb_wares.name")
+                                    ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
+                                    ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
+                                    ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
+                                    ->where(["tb_house_order.store_id"=>$store_id,"tb_house_order.member_id"=>$member_id])
+                                    ->order("order_create_time desc")
+                                    ->select();   
 
-                }               
                 if(!empty($house_order)){
-                    foreach($house_order as $key => $value){
-                        if(empty($house_order[$key])){
-                            unset($house_order[$key]);
-                        }
-                    }
-                    $house_order = array_values($house_order);
+                        foreach($house_order as $k => $l){
+                            if($time < $house_order[$k]["end_time"]){
+                                $house_order[$k]['limit_time'] = round(($house_order[$k]["end_time"]-$time)/86400); //剩余天数
+                                if($house_order[$k]['limit_time'] > 1000){
+                                    $house_order[$k]['limit_time'] = 0; //未到期
+                                } else {
+                                    $house_order[$k]['limit_time'] = 1; //即将到期
+                                }
+                            } else {
+                                $house_order[$k]['limit_time'] = 2; //已到期
+                            }
+                        } 
                     return ajax_success("获取成功",$house_order);
                 } else {
                     return ajax_error("该店铺没有存茶订单");

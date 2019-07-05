@@ -348,8 +348,10 @@ class Commodity extends Controller
                     }              
                     } else {
                         $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
-                            if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
-                                unset($goods[$k]);
+                        if(!empty($goods[$k]["scope"])){
+                                if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                                    unset($goods[$k]);
+                                }
                             }
                         }
                     }      
