@@ -314,56 +314,62 @@ class Commodity extends Controller
     {
 
         if ($request->isPost()) {
-            $member_id = $request->only(["member_id"])["member_id"];
-            $store_id = $request->only(['uniacid'])['uniacid'];
-            $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
-            $member_grade_id = db("member")->where("member_id", $member_id)->value("member_grade_id");
-            $discount = db("member_grade")->where("member_grade_id", $member_grade_id)->value("member_consumption_discount");
-            $goods = db("goods")
-                    ->where("status",1)
-                    ->where("store_id","EQ",$store_id)
-                    ->where("label",1)
-                    ->select();
+            $member_id = $request->only(["member_id"])["member_id"];        //会员id
+            $store_id = $request->only(['uniacid'])['uniacid'];             //店铺id
+            $goods_name = $request->only(['goods_name'])['goods_name'];      //商品名
 
-            foreach ($goods as $k => $v) //所有商品
-            {
-                if(!empty($goods[$k]["scope"])){
-                    $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
-                }
-                if($goods[$k]["goods_standard"] == 1){
-                    $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
-                    $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
-                    $min[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("price") * $discount;//最低价格
-                    $line[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("line");//最低价格
-                    $goods[$k]["goods_standard"] = $standard[$k];
-                    $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
-                    $goods[$k]["max_price"] = $max[$k];
-                    $goods[$k]["min_price"] = $min[$k];
-                    $goods[$k]["line"] = $line[$k];
-
-                if(!empty($goods[$k]["scope"])){
-                    if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
-                        unset($goods[$k]);
+            if(isset($member_id) && isset($store_id) && isset($goods_name)){
+                $member_grade_id = db("member")->where("member_id", $member_id)->find();
+                $member_grade_name = $member_grade_id['member_grade_name'];
+                $discount = db("member_grade")->where("member_grade_id", $member_grade_id['member_grade_id'])->value("member_consumption_discount");
+                $goods = db("goods")
+                        ->where("status",1)
+                        ->where("store_id","EQ",$store_id)
+                        ->where("label",1)
+                        ->where("goods_name", "like","%" .$goods_name ."%")
+                        ->select();
+halt($goods);
+                foreach ($goods as $k => $v) //所有商品
+                {
+                    if(!empty($goods[$k]["scope"])){
+                        $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
                     }
-                }              
-                } else {
-                    $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
-                    $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
+                    if($goods[$k]["goods_standard"] == 1){
+                        $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
+                        $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
+                        $min[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("price") * $discount;//最低价格
+                        $line[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("line");//最低价格
+                        $goods[$k]["goods_standard"] = $standard[$k];
+                        $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
+                        $goods[$k]["max_price"] = $max[$k];
+                        $goods[$k]["min_price"] = $min[$k];
+                        $goods[$k]["line"] = $line[$k];
+
                     if(!empty($goods[$k]["scope"])){
                         if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
                             unset($goods[$k]);
                         }
-                    }
-                }      
-            }
-            $goods_new = array_values($goods);
-            if (!empty($goods_new) && !empty($member_id)) {
-                return ajax_success("获取成功", $goods_new);
+                    }              
+                    } else {
+                        $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
+                        $goods[$k]["goods_show_images"] = explode(",",$goods[$k]["goods_show_images"]);
+                        if(!empty($goods[$k]["scope"])){
+                            if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                                unset($goods[$k]);
+                            }
+                        }
+                    }      
+                }
+                $goods_new = array_values($goods);
+                if (!empty($goods_new) && !empty($member_id)) {
+                    return ajax_success("获取成功", $goods_new);
+                } else {
+                    return ajax_error("获取失败");
+                }
             } else {
-                return ajax_error("获取失败");
+                return ajax_error("请检查参数是否正确");
             }
         }
-
     }
 
 
