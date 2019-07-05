@@ -306,8 +306,8 @@ class Commodity extends Controller
 
 
 
-       /**
-     * 商品首页推荐
+    /**
+     * 小程序前端搜索框（商品）
      * GY
      */
     public function getSearchGood(Request $request)

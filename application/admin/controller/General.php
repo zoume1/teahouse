@@ -1532,7 +1532,7 @@ class  General extends  Base {
             $data = Db::table("tb_meal_orders")
                  ->alias('a')
                  ->join('tb_enter_all b','a.enter_all_id=b.id','left')
-                 ->join('tb_store c','c.id = b.id','left')
+                 ->join('tb_store c','c.id = a.store_id','left')
                 ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
                     a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id,b.year,c.highe_share_code")
                 ->where("a.store_id",$this->store_ids)
