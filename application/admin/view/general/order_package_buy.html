@@ -132,6 +132,9 @@
         .protocol-pop h3{text-align: center; font-size: 28px;}
         .protocol-pop .bh{margin-top: 20px;}
         .protocol-pop .cl{position: absolute; right: 10px; top: 5px; width: 30px; height: 30px; cursor: pointer; text-align: center; line-height: 30px; font-size: 30px; color: #333;}
+
+        /* 邀请码蒙灰 */
+        .bandCode{background-color: #aaa;}
     </style>
 </head>
 <body>
@@ -242,7 +245,7 @@
                         @change="useDiscount"
                         :checked="inputCodeYet">
                     <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
-                    <input type="text" class="invite-code-input" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
+                    <input type="text" :class="{'invite-code-input': true, 'bandCode': inputCodeYet}" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
                         v-show="showInviteCode"
                         v-model="inviteCode"
                         :readonly="inputCodeYet"
