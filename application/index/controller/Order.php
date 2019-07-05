@@ -617,6 +617,7 @@ class  Order extends  Controller
                 if($goods_data["goods_standard"]==0){
                     $datas['goods_image'] = $goods_data['goods_show_image'];//图片
                     $datas["goods_money"]=$goods_data['goods_new_money']* $member_consumption_discount["member_consumption_discount"];//商品价钱
+                    $datas['goods_standard'] = 0; //商品规格
                     $data['unit'] = explode(",",$goods_data['unit']);
                     $data['num'] = explode(",",$goods_data['num']);
                 } else {

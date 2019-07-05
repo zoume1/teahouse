@@ -31,22 +31,22 @@ class Storehouse extends Controller
             $member_id = $request->only(['member_id'])['member_id'];
             $time = time();
             $depot = Db::name("store_house")->where("store_id",$store_id)->select();
+            if(isset($member_id) && isset($store_id)){
+                if(!empty($depot)){
+                    $house_order = Db::table("tb_house_order")
+                                        ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,tb_goods.goods_name,goods_bottom_money,tb_wares.name")
+                                        ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
+                                        ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
+                                        ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
+                                        ->where(["tb_house_order.store_id"=>$store_id,"tb_house_order.member_id"=>$member_id])
+                                        ->order("order_create_time desc")
+                                        ->select();   
 
-            if(!empty($depot)){
-                $house_order = Db::table("tb_house_order")
-                                    ->field("tb_house_order.id,store_name,pay_time,goods_image,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,tb_goods.goods_name,tb_wares.name")
-                                    ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
-                                    ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
-                                    ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
-                                    ->where(["tb_house_order.store_id"=>$store_id,"tb_house_order.member_id"=>$member_id])
-                                    ->order("order_create_time desc")
-                                    ->select();   
-
-                if(!empty($house_order)){
+                    if(!empty($house_order)){
                         foreach($house_order as $k => $l){
                             if($time < $house_order[$k]["end_time"]){
                                 $house_order[$k]['limit_time'] = round(($house_order[$k]["end_time"]-$time)/86400); //剩余天数
-                                if($house_order[$k]['limit_time'] > 1000){
+                                if($house_order[$k]['limit_time'] > 30){
                                     $house_order[$k]['limit_time'] = 0; //未到期
                                 } else {
                                     $house_order[$k]['limit_time'] = 1; //即将到期
@@ -54,13 +54,19 @@ class Storehouse extends Controller
                             } else {
                                 $house_order[$k]['limit_time'] = 2; //已到期
                             }
+                            if(!empty($house_order[$k]['special_id'])){
+                                $house_order[$k]['goods_bottom_money'] = Db::name("special")->where("id",$house_order[$k]['special_id'])->value("line");
+                            }
                         } 
-                    return ajax_success("获取成功",$house_order);
+                        return ajax_success("获取成功",$house_order);
+                    } else {
+                        return ajax_error("该店铺没有存茶订单");
+                    }
                 } else {
-                    return ajax_error("该店铺没有存茶订单");
+                    return ajax_error("该店铺没有存茶仓库");
                 }
             } else {
-                return ajax_error("该店铺没有存茶仓库");
+                return ajax_error("参数有误");
             }         
         }
     }
