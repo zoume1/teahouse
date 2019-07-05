@@ -239,7 +239,8 @@
                 </div>
                 <div class="invite-code">
                     <input type="checkbox" id="invite-code"
-                        @change="useDiscount">
+                        @change="useDiscount"
+                        :checked="inputCodeYet">
                     <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
                     <input type="text" class="invite-code-input" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
                         v-show="showInviteCode"
@@ -694,8 +695,10 @@
                             _this.orderInfo = data.body.data;
                             // 判断用户是否填写过邀请码
                             if(data.body.data[0].highe_share_code){
-                                this.showInviteCode = true;
-                                this.inputCodeYet = true;
+                                // _this.useDiscount();
+                                _this.showInviteCode = true;
+                                _this.inviteCode = data.body.data[0].highe_share_code;
+                                _this.inputCodeYet = true;
                             }
                         }
                     });
@@ -793,7 +796,6 @@
                 // 显示邀请码输入框
                 useDiscount: function(){
                     this.showInviteCode = !this.showInviteCode;
-
                 },
                 // 同意协议
                 agreement: function(){
@@ -890,7 +892,7 @@
                     var _this = this;
                     if (typeof code === 'string'){
                         if (code.trim().length !== 0){
-                            this.debounce(this.textInviteCode,1800);
+                            this.debounce(this.textInviteCode,1500);
                         }else {}
                     }
                 }
