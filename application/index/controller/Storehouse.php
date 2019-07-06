@@ -44,7 +44,7 @@ class Storehouse extends Controller
 
                     if(!empty($house_order)){
                         foreach($house_order as $k => $l){
-                            $house_order[$k]["store_number"] = explode(',', $house_order[$k]["store_number"]);
+                            $house_order[$k]["store_number"] = str_replace(',', $house_order[$k]["store_number"]);
                             if($time < $house_order[$k]["end_time"]){
                                 $house_order[$k]['limit_time'] = round(($house_order[$k]["end_time"]-$time)/86400); //剩余天数
                                 if($house_order[$k]['limit_time'] > 30){
