@@ -79,8 +79,20 @@ class  Order extends  Controller
                     $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
                 }
             }
+            $da_change = $member_grade_id['store_id'];
+            if(!empty($da_change)){
+                if($da_change <= 6){
+                    $da_change = 1;
+                }
+                if(  ($da_change > 6) && ($da_change <= 17)){
+                    $da_change = 2;
+                }
+                if( $da_change > 17){
+                    $da_change = 3;
+                }
+            }
             if(!empty($data)){
-                exit(json_encode(array("status" => 1, "info" => "数据返回成功","data"=>$data,"authority"=>$authority)));
+                exit(json_encode(array("status" => 1, "info" => "数据返回成功","enter_all_id"=>$da_change,"data"=>$data,"authority"=>$authority)));
             }else{
                 return ajax_error("没有数据",["status"=>0]);
             }
