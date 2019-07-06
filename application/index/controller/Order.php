@@ -79,7 +79,15 @@ class  Order extends  Controller
                     $data[$key]["user_grade_image"] =$member_consumption_discount["member_grade_img"];
                 }
             }
-            $da_change = $member_grade_id['store_id'];
+            $restul = $member_grade_id['store_id'];
+            $da_change =Db::table("tb_set_meal_order")
+            ->alias('a')
+           ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
+               a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id")
+           ->where("store_id", $uniacid)
+           ->where("audit_status",1)
+           ->order('id desc')
+          ->find();
             if(!empty($da_change)){
                 if($da_change <= 6){
                     $da_change = 1;
