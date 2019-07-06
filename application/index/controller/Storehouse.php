@@ -34,7 +34,7 @@ class Storehouse extends Controller
             if(isset($member_id) && isset($store_id)){
                 if(!empty($depot)){
                     $house_order = Db::table("tb_house_order")
-                                        ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,store_unit,tb_goods.goods_name,goods_bottom_money,tb_wares.name")
+                                        ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,store_unit,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name")
                                         ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
                                         ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                         ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
