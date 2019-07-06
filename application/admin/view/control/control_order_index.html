@@ -43,6 +43,7 @@
     .bot li a{color: #669900;}
     td.table-cell{display: flex; align-items: center;padding: 9px 0px;}
     .table-cell button{height: 22px; line-height: 22px; border-radius: 4px; padding: 0 10px;}
+    .delbut{margin-left: 10px;}
     .wait-check{color: #669900;margin-left: 10px;}
     .check-fail{color: #f00;}
     .layui-table th{padding: 9px 0;}
@@ -167,6 +168,9 @@
                                 {default /}<button class="layui-btn line-btn line-pass" data-id="{$value.id}">已开票完成</button>
                                 {/switch}
                             </div>
+                            <div><a href="{:url('')}"
+                                onclick="if(!confirm('删除可能造成数据紊乱，请谨慎删除。你确定要删除吗？')) return false"
+                                class="layui-btn layui-btn-danger layui-btn-mini news_del delbut" data-id="undefined">删除</a></div>
                         </td>
                         <!-- <td>
                                         <a
