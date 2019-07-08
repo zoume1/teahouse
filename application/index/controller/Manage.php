@@ -171,7 +171,8 @@ class Manage extends Controller
     public function about_us(Request $request)
     {   
         if ($request->isPost()) {
-            $about = Db::name("about_us")->select();
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $about = Db::name("about_us")->where("store_id","EQ",$store_id)->select();
             if (!empty($about)) {
                 return ajax_success('传输成功', $about);
             } else {
