@@ -417,8 +417,12 @@ class Goods extends Controller
             unset($goods_data["aaa"]);
             if(!empty($goods_data["goods_sign"])){
                 $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]);
-            }        
-            $goods_data["server"] = json_encode($goods_data["server"]); 
+            } 
+            $goods_data["goods_member"] = isset($goods_data["goods_member"])?$goods_data["goods_member"]:0;
+            
+            if(!empty($goods_data["goods_sign"])){     
+                $goods_data["server"] = json_encode($goods_data["server"]); 
+            }
             $show_images = $request->file("goods_show_images");
             if(!empty($goods_data['goods_delivery'])){
                 $goods_data['goods_delivery'] = json_encode(array_values($goods_data['goods_delivery']));

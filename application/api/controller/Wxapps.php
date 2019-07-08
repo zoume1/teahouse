@@ -706,6 +706,9 @@ class  Wxapps extends  Controller{
                                     if (!empty($list[$kks]["scope"])) {
                                         $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
                                     }
+                                    if($goods[$k]["goods_member"] != 1){
+                                        $discount = 1;
+                                    }
                                     $list[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vvs["id"]; //跳转详情链接
                                     $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
                                     if ($list[$kks]["goods_standard"] == 1) {
