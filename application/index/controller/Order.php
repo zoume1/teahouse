@@ -80,14 +80,12 @@ class  Order extends  Controller
                 }
             }
             $restul = $member_grade_id['store_id'];
-            $da_change =Db::table("tb_set_meal_order")
+            $da_change = Db::table("tb_set_meal_order")
             ->alias('a')
-           ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
-               a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id")
-           ->where("store_id", $uniacid)
+           ->where("store_id", $restul)
            ->where("audit_status",1)
            ->order('id desc')
-          ->find();
+           ->value('enter_all_id');
             if(!empty($da_change)){
                 if($da_change <= 6){
                     $da_change = 1;
