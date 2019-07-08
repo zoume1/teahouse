@@ -1931,9 +1931,9 @@ class  General extends  Base {
      */
     public function  check_code_apy(Request $request){
         $order_number = $request->only(["order_number"])["order_number"];
-        $result =Db::name("meal_orders")
-            ->where("order_number",$order_number)
-            ->where("status",1)
+        $result =Db::name("offline_recharge")
+            ->where("serial_number",$order_number)
+            ->where("status",2)
             ->find();
         if($result){
             return ajax_success("付款成功");
