@@ -329,6 +329,10 @@
 			var seach_goods = [];
 			$("#seach_button").click(function () {
 				var seach_val = $("#seach_val").val();
+				if(!seach_val){
+                   alert('请输入检索的商品编码');
+				   return false;
+				}
 				$.ajax({
 					type: "POST",
 					url: "{:url('admin/Limitations/coupon_search2')}",

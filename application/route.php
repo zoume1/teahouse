@@ -76,6 +76,8 @@ Route::group("",[
      "reward_notify"=>"index/order/reward_notify",//打赏订单支付成功回来修改状态
      "set_meal_notify"=>"index/AdminWx/set_meal_notify",//后台套餐订购订单微信扫码支付回调
      "set_meal_notify_alipay"=>"index/AdminWx/set_meal_notify_alipay",//后台套餐订购订单支付宝扫码支付回调
+     "set_meal_notify2"=>"index/AdminWx/set_meal_notify2",//后台资金管理微信充值扫码支付回调
+     "set_meal_notify_alipay2"=>"index/AdminWx/set_meal_notify_alipay2",//后台资金管理微信充值支付宝扫码支付回调
 
     /*TODO:end*/
 
@@ -192,6 +194,10 @@ Route::group("",[
     "approve_detailed"=>"index/Commodity/approve_detailed",      //选择自提地址详情
     "approve_address"=>"index/Commodity/approve_address",        //默认上门自提地址
     "getSearchGood"=>"index/Commodity/getSearchGood",            //小程序前端搜索框（商品）
+
+
+
+    "get_coinquotation"=>"index/Commodity/get_coinquotation",        //默认上门自提地址
 
     /*优惠券*/
     "coupon_untapped"=>"index/Coupon/coupon_untapped",        //未使用优惠券显示
@@ -819,6 +825,7 @@ Route::group("admin",[
     "order_package_condition"=>"admin/General/order_package_condition",          //下套餐之前需要判断的条件
     "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
     "order_code_pay"=>"admin/General/order_code_pay",                    //套餐订购微信二维码扫码支付
+    "order_code_pay2"=>"admin/General/order_code_pay2",                    //资金管理在线充值-微信
     "check_code_apy"=>"admin/General/check_code_apy",                    //轮询套餐订购微信二维码扫码支付是否成功
     "order_code_alipay"=>"admin/General/order_code_alipay",                    //套餐订购支付宝二维码扫码支付
     "order_package_remittance"=>"admin/General/order_package_remittance",      //订单套餐支付汇款
@@ -842,6 +849,7 @@ Route::group("admin",[
     "store_icard_save"=>"admin/Store/store_icard_save",//银行开添加入库
     "store_icard_delete"=>"admin/Store/store_icard_delete",//银行卡删除
     "OfflineRecharge"=>"admin/Store/OfflineRecharge",//店铺钱包进行充值
+    "OfflineRecharge2"=>"admin/Store/OfflineRecharge2",//店铺钱包进行充值
     "withdrawCash"=>"admin/Store/withdrawCash",//店铺钱包进行提现
 
     "store_wallet_return"=>"admin/Store/store_wallet_return",//店铺的钱包返回
