@@ -261,7 +261,7 @@
             },
             // 立即购买
             buy: function () {
-                // this.wayFlag = !this.wayFlag;
+                this.wayFlag = !this.wayFlag;
                 if(this.amount >= 0){
                     this.getWxCode(); //获取微信支付二维码
                 }else{
