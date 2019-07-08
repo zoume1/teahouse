@@ -67,6 +67,9 @@ class Commodity extends Controller
                 if(!empty($goods[$k]["scope"])){
                     $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
                 }
+                if($goods[$k]["goods_member"] != 1){
+                    $discount = 1;
+                }
                 if($goods[$k]["goods_standard"] == 1){
                     $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
                     $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格

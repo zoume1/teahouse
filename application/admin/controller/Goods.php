@@ -79,10 +79,26 @@ class Goods extends Controller
             $goods_list = getSelectListes("wares");
         }
         $store_id = Session::get("store_id");
+        $da_change = Db::table("tb_set_meal_order")
+        ->alias('a')
+       ->where("store_id", $store_id)
+       ->where("audit_status",1)
+       ->order('id desc')
+       ->value('enter_all_id'); 
+        if(!empty($da_change)){
+            if($da_change <= 6){
+                $da_change = 1;
+            }
+            if(  ($da_change > 6) && ($da_change <= 17)){
+                $da_change = 2;
+            }
+            if( $da_change > 17){
+                $da_change = 3;
+            }
+        }
         $expenses = db("express")->field("id,name")->select();
         $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
-
-        return view("goods_add", ["goods_list" => $goods_list,"scope"=>$scope,"expenses"=>$expenses]);
+        return view("goods_add", ["goods_list" => $goods_list,"scope"=>$scope,"expenses"=>$expenses,'da_change'=>$da_change]);
     }
 
 

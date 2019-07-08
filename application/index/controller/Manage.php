@@ -24,15 +24,17 @@ class Manage extends Controller
      * [问题列表]
      * 郭杨
      */
-    public function problem_list()
+    public function problem_list(Request $request)
     {
 
-        $list = Db::name("problem")->where("store_id","EQ",$store_id)->select();
-        if (!empty($list)) {
-            return ajax_success('传输成功', $list);
-        } else {
-            return ajax_error("数据为空");
+        if ($request->isPost()) {
+            $list = Db::name("problem")->select();
+            if (!empty($list)) {
+                return ajax_success('传输成功', $list);
+            } else {
+                return ajax_error("数据为空");
 
+            }
         }
 
 
@@ -88,15 +90,17 @@ class Manage extends Controller
      * [协议合同列表显示]
      * 郭杨
      */
-    public function agreement_contract()
+    public function agreement_contract(Request $request)
     {   
-        $store_id = $request->only(['uniacid'])['uniacid']; 
-        $protocol = Db::name("protocol")->where("store_id","EQ",$store_id)->select();
-        if (!empty($protocol)) {
-            return ajax_success('传输成功', $protocol);
-        } else {
-            return ajax_error("数据为空");
+        if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid']; 
+            $protocol = Db::name("protocol")->where("store_id","EQ",$store_id)->select();
+            if (!empty($protocol)) {
+                return ajax_success('传输成功', $protocol);
+            } else {
+                return ajax_error("数据为空");
 
+            }
         }
 
     }
@@ -164,14 +168,17 @@ class Manage extends Controller
      * [关于我们]
      * 郭杨
      */
-    public function about_us()
-    {     
-        $about = Db::name("about_us")->select();
-        if (!empty($about)) {
-            return ajax_success('传输成功', $about);
-        } else {
-            return ajax_error("数据为空");
+    public function about_us(Request $request)
+    {   
+        if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $about = Db::name("about_us")->where("store_id","EQ",$store_id)->select();
+            if (!empty($about)) {
+                return ajax_success('传输成功', $about);
+            } else {
+                return ajax_error("数据为空");
 
+            }
         }
 
     }
