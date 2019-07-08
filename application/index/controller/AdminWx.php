@@ -466,7 +466,7 @@ class  AdminWx extends Controller{
                 if($re['status']='1'){
                     $map['status']=2;
                     $re2 = Db::name("offline_recharge")->where($condition)->update($map);
-                    $res = Db::name("store")->where('id',$re['store_id'])->setInc('store_wallet',$re2['money']);
+                    $res = Db::name("store")->where('id',$re['store_id'])->setInc('store_wallet',$re['money']);
                 }
                   return "success";
                 }else{
