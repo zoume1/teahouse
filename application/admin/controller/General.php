@@ -3048,8 +3048,6 @@ class  General extends  Base {
             $input->SetProduct_id($goods_id);//设置trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
             $result = $notify->GetPayUrl($input);
             $url2 = $result["code_url"];
-            $bool = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["pay_money"=>$money]);
-            $boole = Db::name("meal_orders")->where("order_number",'EQ',$order_number)->update(["pay_money"=>$money]);
             if($url2){
                 return ajax_success("微信二维码返回成功",["url"=>"/qrcode?url2=".$url2]);
             }else{
