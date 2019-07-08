@@ -218,8 +218,7 @@
                     money: this.amount
                 }
                 var _this = this;
-                this.myAjax('order_code_alipay', param, function (data) {
-                    console.log(111, data)
+                this.myAjax('order_code_alipay2', param, function (data) {
                     // 付款二维码生成成功， 监听支付
                     if (data.body.status == 1) {
                         $('body').append(data.body.data.url);
@@ -254,7 +253,8 @@
                     if (data.body.status == 1) {
                         _this.onlinePayImg = data.body.data.url;
                         _this.onlinePayInterval = setInterval(function () {
-                            _this.monitorOnlinePay(param.order_number);
+                            // _this.monitorOnlinePay(param.order_number);
+                            _this.monitorOnlinePay(data.body.data.out_trade_no);
                         }, 2000)
                     }
                 })

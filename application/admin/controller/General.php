@@ -1923,7 +1923,7 @@ class  General extends  Base {
 
 
     /**
-     **************李火生*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:轮询操作（判断该订单是否支付）
      **************************************
@@ -3005,7 +3005,7 @@ class  General extends  Base {
     /**
      **************lilu*******************
      * @param Request $request
-     * Notes:资金管理---在线充值
+     * Notes:资金管理---在线充值---微信
      **************************************
      * @param Request $request
      */
@@ -3049,7 +3049,7 @@ class  General extends  Base {
             $result = $notify->GetPayUrl($input);
             $url2 = $result["code_url"];
             if($url2){
-                return ajax_success("微信二维码返回成功",["url"=>"/qrcode?url2=".$url2]);
+                return ajax_success("微信二维码返回成功",["url"=>"/qrcode?url2=".$url2,'out_trade_no'=>$orderSn]);
             }else{
                 return ajax_error("二维码生成失败");
             }
