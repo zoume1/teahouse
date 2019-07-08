@@ -713,12 +713,12 @@ class  Wxapps extends  Controller{
                                     $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
                                     if ($list[$kks]["goods_standard"] == 1) {
                                         $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->select();
-                                        $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") * $discount;//最低价格
+                                        $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") ;//最低价格
                                         $list[$kks]["goods_standard"] = $standard[$kks];
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
                                         $list[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
                                         $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
-                                        $list[$kks]["price"] = $min[$kks]; //价钱
+                                        $list[$kks]["price"] = $min[$kks] * $discount; //价钱
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
                                                 unset($list[$kks]);
