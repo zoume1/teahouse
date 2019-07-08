@@ -165,6 +165,10 @@ class Commodity extends Controller
                 $discount = 1;
             }
             $goods = db("goods")->where("id", $goods_id)->where("label",1)->where("store_id","EQ",$store_id)->select(); // 获取商品信息
+            //判断商品是否参加会员折扣
+            if($goods[0]["goods_member"] != 1){
+                $discount = 1;
+            }
             //判断商品是否是限时限购商品
             $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$goods_id])->find();
             if($is_limit)
@@ -338,6 +342,9 @@ class Commodity extends Controller
                 {
                     if(!empty($goods[$k]["scope"])){
                         $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
+                    }
+                    if($goods[$k]["goods_member"] != 1){
+                        $discount = 1;
                     }
                     if($goods[$k]["goods_standard"] == 1){
                         $standard = db("special")->where("goods_id", $goods[$k]['id'])->order('price asc')->find();
