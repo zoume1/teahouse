@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
 <style type="text/css">
     * {margin: 0;padding: 0;}
+    [v-cloak]{display: none;}
     body {background: #fff;}
     .wrapper {padding: 20px 10px;}
     .star::before{content: '*'; color: #f00;}
@@ -37,13 +38,20 @@
     .bank-card .bank-card-bd{background-color: #f2f2f2; color: #333; font-size: 14px; padding: 10px 20px;}
     .bd-right{position: relative;}
     .bd-right .arrow{position: absolute; left: -75px; top: -13px;}
+
+    .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, .3);}
+    .qrcode-bg{position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; border-radius: 8px; padding: 30px 50px;}
+    .scan-way{text-align: center;}
+    .scan-way .scan-tip{font-size: 28px; color: #333;}
+    .scan-way .support{margin: 10px 0;}
+    .close{position: absolute; right: 5px; top: 5px; font-size: 28px; color: #949494; width: 20px; height: 20px; text-align: center; line-height: 20px; cursor: pointer;}
 </style>
 
 {/block}
 
 <body>
 {block name="content"}
-    <div class="wrapper" id="wrapper">
+    <div class="wrapper" id="wrapper" v-cloak>
         <div class="hd">
             <div>我要充值</div>
         </div>
@@ -99,7 +107,7 @@
                             </div>
                             <div class="layui-form-item">
                                 <div class="layui-input-block">
-                                    <button class="layui-btn confirm">确定</button>
+                                    <button class="layui-btn confirm  confirm2">确定</button>
                                 </div>
                                 <p class="tips">单笔充值金额应不少于¥1000.00元</p>
                             </div>
@@ -112,13 +120,15 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label star">充值金额：</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="money" required lay-verify="required" class="layui-input">
+                                    <input type="text" name="money" required lay-verify="required" class="layui-input"
+                                        v-model="amount">
                                     <span class="unit">元</span>
                                 </div>
                             </div>
                             <div class="layui-form-item">
                                 <div class="layui-input-block">
-                                    <button class="layui-btn confirm">确定</button>
+                                    <button class="layui-btn confirm"
+                                        @click="buy">确定</button>
                                 </div>
                                 <p class="tips">单笔充值金额应不少于¥100.00元</p>
                             </div>
@@ -144,6 +154,35 @@
                 </div>
             </div>
         </div>
+        <div class="mask" v-show="wayFlag"></div>
+        <!-- 扫码 -->
+        <div class="qrcode-bg" v-show="wayFlag">
+            <span 
+                class="close"
+                @click="closePop"
+            >×</span>
+            <div class="scan-way">
+                <div class="code-box">
+                    <img :src="onlinePayImg" width="200" height="200">
+                </div>
+                <div class="support">
+                    <a href="javascript:void(0);">
+                        <input type="radio" checked>
+                        <img src="__STATIC__/admin/common/img/g3.png" width="32" height="32">
+                        <span>微信支付</span>
+                    </a>
+                    <a href="javascript:void(0);"
+                        target="_blank"
+                        @click="getAlipay"
+                    >
+                        <input type="radio" >
+                        <img src="__STATIC__/admin/common/img/g4.png" width="32" height="32">
+                        <span>支付宝</span>
+                    </a>
+                </div>
+                <p class="scan-tip">扫一扫完成支付</p>
+            </div>
+        </div>
     </div>
 {/block}
 
@@ -151,7 +190,92 @@
 <!--请在下方写此页面业务相关的脚本-->
 {block name="bottom"}
 <script src="__STATIC__/admin/common/layui/layui.js"></script>
-
+<script src="__STATIC__/admin/common/js/vue.js"></script>
+<script src="__STATIC__/admin/common/js/vue-resource.js"></script>
+<script src="__STATIC__/admin/common/js/vue-router.js"></script>
+<script>
+     var vm = new Vue({
+        el: '#wrapper',
+        data: {
+            onlinePayImg: '', //微信、支付宝在线支付二维码路径
+            onlinePayInterval: null, //在线支付 监听定时器
+            wayFlag: false,
+            amount: null,
+        },
+        methods: {
+            // 获取数据
+            myAjax: function (url, param, callback) {
+                this.$http.post(url, param).then(function (res) {
+                    callback(res);
+                }, function (res) {
+                    layer.msg(res.body.info, { time: 1000 });
+                })
+            },
+            // 支付宝支付
+            getAlipay: function () {
+                clearInterval(this.onlinePayInterval);
+                var param = {
+                    money: this.amount
+                }
+                var _this = this;
+                this.myAjax('order_code_alipay', param, function (data) {
+                    console.log(111, data)
+                    // 付款二维码生成成功， 监听支付
+                    if (data.body.status == 1) {
+                        $('body').append(data.body.data.url);
+                        // window.parent.document.getElementById('tcdl').click();
+                    }
+                })
+            },
+            // 监听支付是否成功
+            monitorOnlinePay: function (orderNum) {
+                var param = { order_number: orderNum };
+                var _this = this;
+                this.myAjax('check_code_apy', param, function (data) {
+                    // console.log(data);
+                    console.log(data.body.status)
+                    if (data.body.status == 1) {
+                        layer.msg(data.body.info);
+                        setTimeout(function () {
+                            clearInterval(_this.onlinePayInterval);
+                            // window.parent.document.getElementById('tcdl').click();
+                        }, 3000)
+                    }
+                })
+            },
+            // 获取微信支付二维码
+            getWxCode: function () {
+                var param = {
+                    money: this.amount
+                }
+                var _this = this;
+                this.myAjax('order_code_pay2', param, function (data) {
+                    // 付款二维码生成成功， 监听支付
+                    if (data.body.status == 1) {
+                        _this.onlinePayImg = data.body.data.url;
+                        _this.onlinePayInterval = setInterval(function () {
+                            _this.monitorOnlinePay(param.order_number);
+                        }, 2000)
+                    }
+                })
+            },
+            // 立即购买
+            buy: function () {
+                // this.wayFlag = !this.wayFlag;
+                if(this.amount >= 0){
+                    this.getWxCode(); //获取微信支付二维码
+                }else{
+                    layer.msg('单笔充值金额应不少于¥100.00元！');
+                }
+            },
+            // 关闭支付弹窗
+            closePop: function () {
+                clearInterval(this.onlinePayInterval);
+                this.wayFlag = false;
+            },
+        },
+    })
+</script>
 <script>
     layui.use(['laydate', 'form', 'layer'], function(){
         var laydate = layui.laydate,
@@ -176,7 +300,7 @@
         form.on('select(bankcard)', function(data){
             card_id = data.value;
         })
-        $('.confirm').click(function(){
+        $('.confirm2').click(function(){
             var radio = $('input[name=pay_type]');
             for(var i = 0; i < 2; i++){
                 if(radio[i].checked){
@@ -207,27 +331,30 @@
             }
         })
     })
-
-    function myAjax(params){
-        $.ajax({
-            url: 'OfflineRecharge',
-            type: 'POST',
-            dataType: 'JSON',
-            data: params,
-            success: function(res){
-                console.log(res);
-                if(res.status == 1){
-                    layer.msg(res.info);
-                    setTimeout(function(){
-                        location.reload();
-                    }, 1200);
-                }else{
-                    layer.msg(res.info);
-                }
-            },
-            error: function(){}
-        })
-    }
+    //  //银行转账提交
+    // function myAjax(params){
+    //     $.ajax({
+    //         url: 'OfflineRecharge',
+    //         type: 'POST',
+    //         dataType: 'JSON',
+    //         data: params,
+    //         success: function(res){
+    //             console.log(res);
+    //             if(res.status == 1){
+    //                 layer.msg(res.info);
+    //                 setTimeout(function(){
+    //                     location.reload();
+    //                 }, 1200);
+    //             }else{
+    //                 layer.msg(res.info);
+    //             }
+    //         },
+    //         error: function(){}
+    //     })
+    // }
+    
+    //测试
+   
     
 </script>
 {/block}
