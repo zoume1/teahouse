@@ -24,15 +24,18 @@ class Manage extends Controller
      * [问题列表]
      * 郭杨
      */
-    public function problem_list()
+    public function problem_list(Request $request)
     {
 
-        $list = Db::name("problem")->where("store_id","EQ",$store_id)->select();
-        if (!empty($list)) {
-            return ajax_success('传输成功', $list);
-        } else {
-            return ajax_error("数据为空");
+        if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid'];
+            $list = Db::name("problem")->where("store_id","EQ",$store_id)->select();
+            if (!empty($list)) {
+                return ajax_success('传输成功', $list);
+            } else {
+                return ajax_error("数据为空");
 
+            }
         }
 
 
@@ -88,15 +91,17 @@ class Manage extends Controller
      * [协议合同列表显示]
      * 郭杨
      */
-    public function agreement_contract()
+    public function agreement_contract(Request $request)
     {   
-        $store_id = $request->only(['uniacid'])['uniacid']; 
-        $protocol = Db::name("protocol")->where("store_id","EQ",$store_id)->select();
-        if (!empty($protocol)) {
-            return ajax_success('传输成功', $protocol);
-        } else {
-            return ajax_error("数据为空");
+        if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid']; 
+            $protocol = Db::name("protocol")->where("store_id","EQ",$store_id)->select();
+            if (!empty($protocol)) {
+                return ajax_success('传输成功', $protocol);
+            } else {
+                return ajax_error("数据为空");
 
+            }
         }
 
     }
