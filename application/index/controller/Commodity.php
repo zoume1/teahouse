@@ -165,6 +165,10 @@ class Commodity extends Controller
                 $discount = 1;
             }
             $goods = db("goods")->where("id", $goods_id)->where("label",1)->where("store_id","EQ",$store_id)->select(); // 获取商品信息
+            //判断商品是否参加会员折扣
+            if($goods[0]["goods_member"] != 1){
+                $discount = 1;
+            }
             //判断商品是否是限时限购商品
             $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$goods_id])->find();
             if($is_limit)
@@ -208,7 +212,6 @@ class Commodity extends Controller
             $min_line = db("special")->where("goods_id", $goods_id)->min("line");
             $max_prices = $max_price * $discount;
             $min_prices = $min_price * $discount;
-            
             if(!empty($goods[0]['goods_delivery'])){
                 $goods[0]['goods_delivery'] = json_decode($goods[0]["goods_delivery"],true);
             }
@@ -236,6 +239,7 @@ class Commodity extends Controller
                 $goods[0]["unit"] = $goods[0]["monomer"];
 
             }
+            //
             if (!empty($goods) && !empty($goods_id)){
                 return ajax_success("获取成功", $goods);
             } else {
@@ -307,8 +311,51 @@ class Commodity extends Controller
             }
         }
     }
-
-
+    /**
+     * ceshi
+     * 比特币
+     */
+    // public function get_coinquotation(){
+        /*//获取BTC当前最新行情 - Ticker(宝币网)
+        $coin = $_GET['coin'];
+        $btc_quotation = get_now_quotation($coin);
+        return json($btc_quotation);*/
+    //     $szUrl = "https://www.feixiaohao.com/#USD";
+    //     $UserAgent = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.0.04506; .NET CLR 3.5.21022; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
+    //     $curl = curl_init();
+    //     curl_setopt($curl, CURLOPT_URL, $szUrl);
+    //     curl_setopt($curl, CURLOPT_HEADER, 0);  //0表示不输出Header，1表示输出
+    //     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    //     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    //     curl_setopt($curl, CURLOPT_ENCODING, '');
+    //     curl_setopt($curl, CURLOPT_USERAGENT, $UserAgent);
+    //     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+    //     $content_strs = curl_exec($curl);
+    
+    
+    //     $key1 = 'BTC-比特币';
+    //     $key1_end = '/currencies/bitcoin/#markets target=_blank class=volume';
+    //     $key2 = 'ETH-以太坊';
+    //     $key2_end = '/currencies/ethereum/#markets target=_blank class=volume';
+    
+    
+    //     $ex = "/\d+/";
+    //     $txt1=getNeedBetween($content_strs, $key1 , $key1_end );
+    //     $arr1 = [];
+    //     preg_match_all($ex,$txt1,$arr1);
+    //     $btclast = $arr1[0][5];
+    
+    //     $txt2=getNeedBetween($content_strs, $key2 , $key2_end );
+    //     $arr2 = [];
+    //     preg_match_all($ex,$txt2,$arr2);
+    //     $ethlast = $arr2[0][5];
+    //     $data = array([
+    //         'btclast' => $btclast,
+    //         'ethlast' => $ethlast,
+    //     ]);
+    //     return json_encode($data);
+    // }
 
     /**
      * 小程序前端搜索框（商品）
@@ -338,6 +385,9 @@ class Commodity extends Controller
                 {
                     if(!empty($goods[$k]["scope"])){
                         $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
+                    }
+                    if($goods[$k]["goods_member"] != 1){
+                        $discount = 1;
                     }
                     if($goods[$k]["goods_standard"] == 1){
                         $standard = db("special")->where("goods_id", $goods[$k]['id'])->order('price asc')->find();
