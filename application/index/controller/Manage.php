@@ -28,8 +28,7 @@ class Manage extends Controller
     {
 
         if ($request->isPost()) {
-            $store_id = $request->only(['uniacid'])['uniacid'];
-            $list = Db::name("problem")->where("store_id","EQ",$store_id)->select();
+            $list = Db::name("problem")->select();
             if (!empty($list)) {
                 return ajax_success('传输成功', $list);
             } else {
@@ -169,14 +168,16 @@ class Manage extends Controller
      * [关于我们]
      * 郭杨
      */
-    public function about_us()
-    {     
-        $about = Db::name("about_us")->select();
-        if (!empty($about)) {
-            return ajax_success('传输成功', $about);
-        } else {
-            return ajax_error("数据为空");
+    public function about_us(Request $request)
+    {   
+        if ($request->isPost()) {
+            $about = Db::name("about_us")->select();
+            if (!empty($about)) {
+                return ajax_success('传输成功', $about);
+            } else {
+                return ajax_error("数据为空");
 
+            }
         }
 
     }
