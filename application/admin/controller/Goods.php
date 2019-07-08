@@ -98,8 +98,7 @@ class Goods extends Controller
         }
         $expenses = db("express")->field("id,name")->select();
         $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
-
-        return view("goods_add", ["goods_list" => $goods_list,"scope"=>$scope,"expenses"=>$expenses,'enter_all_id'=>$da_change]);
+        return view("goods_add", ["goods_list" => $goods_list,"scope"=>$scope,"expenses"=>$expenses,'da_change'=>$da_change]);
     }
 
 

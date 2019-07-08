@@ -538,6 +538,7 @@
             <label class="form-label">卖点标签</label>
             <div class="form-input" style="width:100%;">
                 <div id="hot">
+                    {if $da_change > 1 }
                     <div class="list">
                         <input type="checkbox" name="goods_sign[sell_0][check]" value="1" lay-skin="primary"
                             lay-filter="choose1" title="" checked="">
@@ -545,6 +546,7 @@
                             style="display: none">
                         <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/kc.png" />
                     </div>
+                    {/if}
                     <div class="list">
                         <input type="checkbox" name="goods_sign[sell_1][check]" value="0" lay-skin="primary"
                             lay-filter="choose1" title="">
@@ -1362,7 +1364,9 @@
                         tableHTML += '			<th width="100px"><input value="划线价"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="报价单位"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="图片"  readonly style="border:0;"></th>';
+                        tableHTML += '			{if $da_change > 1 }';
                         tableHTML += '			<th width="100px"><input value="存茶开关"  readonly style="border:0;"></th>';
+                        tableHTML += '			{/if}';
                         tableHTML += '			<th width="100px"><input value="是否上架"  readonly style="border:0;"></th>';
                         tableHTML += '		</tr>';
                         tableHTML += '	</thead>';
@@ -1441,7 +1445,9 @@
                             tableHTML += '                 </div>';
                             tableHTML += '            </aside>';
                             tableHTML += '             </td>';
+                            tableHTML += '			{if $da_change > 1}';
                             tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[save]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="issave" name="sss' + name + '[static]"></td>';
+                            tableHTML += '			{/if}';
                             tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[status]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>';
                             tableHTML += '		</tr>';
                         }
