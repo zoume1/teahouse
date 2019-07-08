@@ -1364,7 +1364,7 @@
                         tableHTML += '			<th width="100px"><input value="划线价"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="报价单位"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="图片"  readonly style="border:0;"></th>';
-                        tableHTML += '			{if $da_change > 5 }';
+                        tableHTML += '			{if $da_change > 1 }';
                         tableHTML += '			<th width="100px"><input value="存茶开关"  readonly style="border:0;"></th>';
                         tableHTML += '			{/if}';
                         tableHTML += '			<th width="100px"><input value="是否上架"  readonly style="border:0;"></th>';
@@ -1445,7 +1445,7 @@
                             tableHTML += '                 </div>';
                             tableHTML += '            </aside>';
                             tableHTML += '             </td>';
-                            tableHTML += '			{if $da_change > 5}';
+                            tableHTML += '			{if $da_change > 1}';
                             tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[save]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="issave" name="sss' + name + '[static]"></td>';
                             tableHTML += '			{/if}';
                             tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[status]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>';
