@@ -1913,7 +1913,7 @@ class  General extends  Base {
             );
             $str_pay_html = $obj_alipay->make_form($arr_data, true);
             if($str_pay_html){
-                return ajax_success("二维码成功",["url"=>$str_pay_html]);
+                return ajax_success("二维码成功",["url"=>$str_pay_html,'orderid'=>$orderSn]);
             }else{
                 return ajax_error("生成二维码失败");
             }

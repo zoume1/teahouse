@@ -222,6 +222,7 @@
                     // 付款二维码生成成功， 监听支付
                     if (data.body.status == 1) {
                         $('body').append(data.body.data.url);
+                        _this.monitorOnlinePay(data.body.data.orderid);
                         // window.parent.document.getElementById('tcdl').click();
                     }
                 })
