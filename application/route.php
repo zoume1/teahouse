@@ -192,6 +192,10 @@ Route::group("",[
     "approve_detailed"=>"index/Commodity/approve_detailed",      //选择自提地址详情
     "approve_address"=>"index/Commodity/approve_address",        //默认上门自提地址
 
+
+
+    "get_coinquotation"=>"index/Commodity/get_coinquotation",        //默认上门自提地址
+
     /*优惠券*/
     "coupon_untapped"=>"index/Coupon/coupon_untapped",        //未使用优惠券显示
     "coupon_user"=>"index/Coupon/coupon_user",                //已使用优惠券显示
