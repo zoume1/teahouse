@@ -16,7 +16,6 @@ use think\Request;
 
 class Login extends Controller{
 
-
     /**
      **************李火生*******************
      * @param Request $request

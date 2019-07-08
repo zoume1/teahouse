@@ -117,7 +117,7 @@
         background: #FF0000;
     }
 
-    .btu-cancel {}
+    /* .btu-cancel {} */
 
     .btu-add {
         background: #0099FF;
@@ -328,7 +328,7 @@
         margin-top: 30PX;
     }
 
-    .quxiao {}
+    /* .quxiao {} */
 
     .queding {
         background: #169BD5;
@@ -538,6 +538,7 @@
             <label class="form-label">卖点标签</label>
             <div class="form-input" style="width:100%;">
                 <div id="hot">
+                    {if $da_change > 1 }
                     <div class="list">
                         <input type="checkbox" name="goods_sign[sell_0][check]" value="1" lay-skin="primary"
                             lay-filter="choose1" title="" checked="">
@@ -545,6 +546,7 @@
                             style="display: none">
                         <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/kc.png" />
                     </div>
+                    {/if}
                     <div class="list">
                         <input type="checkbox" name="goods_sign[sell_1][check]" value="0" lay-skin="primary"
                             lay-filter="choose1" title="">
@@ -841,7 +843,7 @@
                 <div class="tips">
                     建议尺寸：800*800像素，其中第一张为主图，你可以拖拽图片调整顺序，最多上传15张
                 </div>
-            </div>added_service_show?id=233
+            </div>
 
         </div>
         <div class="form-item">
@@ -1362,7 +1364,9 @@
                         tableHTML += '			<th width="100px"><input value="划线价"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="报价单位"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="图片"  readonly style="border:0;"></th>';
+                        tableHTML += '			{if $da_change > 5 }';
                         tableHTML += '			<th width="100px"><input value="存茶开关"  readonly style="border:0;"></th>';
+                        tableHTML += '			{/if}';
                         tableHTML += '			<th width="100px"><input value="是否上架"  readonly style="border:0;"></th>';
                         tableHTML += '		</tr>';
                         tableHTML += '	</thead>';
@@ -1441,7 +1445,9 @@
                             tableHTML += '                 </div>';
                             tableHTML += '            </aside>';
                             tableHTML += '             </td>';
+                            tableHTML += '			{if $da_change > 5}';
                             tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[save]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="issave" name="sss' + name + '[static]"></td>';
+                            tableHTML += '			{/if}';
                             tableHTML += '			<td width="100px"><input type="checkbox" class="Status" name="sss' + name + '[status]" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow" name="sss' + name + '[static]"></td>';
                             tableHTML += '		</tr>';
                         }
@@ -1596,45 +1602,55 @@
 
 
                 // 包装规格
+                var unitKey = 0;
                 $(".add_danwei").click(function () {
-                    var danwei = ''
-                    danwei += '<div class="danwei_a" style=" position: relative; display: flex;align-items: center;">';
-                    danwei += '<div class="fuhao">=</div>';
-                    danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-                    danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="1" data-value="">';
-                    danwei += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
-                    danwei += '</div>';
-                    $(this).before(danwei);
+                    unitKey += 1;
+                    if(unitKey <= 2){
+                        var danwei = ''
+                        danwei += '<div class="danwei_a" style=" position: relative; display: flex;align-items: center;">';
+                        danwei += '<div class="fuhao">=</div>';
+                        danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+                        danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="1" data-value="">';
+                        danwei += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                        danwei += '</div>';
+                        $(this).before(danwei);
 
-                    // 添加单位后 显示单位下拉列表
-                    $('input[name="unit[]"]').blur(function (e) {
-                        if (e.target.value) {
-                            $('#unitList').next().show().add('.change_danwei').hide();
-                            var str = '<option value=""></option>';
-                            $('input[name="unit[]"]').each(function (i, v) {
-                                str += '<option>' + v.value + '</option>';
-                            })
-                            $('#unitList').html(str);
-                            form.render();
-                        }
-                    })
+                        // 添加单位后 显示单位下拉列表
+                        $('input[name="unit[]"]').blur(function (e) {
+                            if (e.target.value) {
+                                $('#unitList').next().show().add('.change_danwei').hide();
+                                var str = '<option value=""></option>';
+                                $('input[name="unit[]"]').each(function (i, v) {
+                                    str += '<option>' + v.value + '</option>';
+                                })
+                                $('#unitList').html(str);
+                                form.render();
+                            }
+                        })
+                    }else{
+                        layer.msg('最多添加三个单位！');
+                    }
                 });
+                var unitKey2 = 0;
                 $(".general_content").on("click", ".add_danwei1", function () {
                     var i = parseInt($(this).data("id"));
                     var select = $(this).siblings(".packing").val()
                     if (select != "0") {
+                        unitKey2 += 1;
+                        if(unitKey2 <= 3){
+                            var danwei1 = '';
+                            danwei1 += '<div class="danwei_content">';
+                            danwei1 += '<div class="fuhao">=</div>';
+                            danwei1 += '<input type="text" name="' + select + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
+                            danwei1 += '<input type="text" name="' + select + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="2" >';
+                            danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                            danwei1 += '</div>';
 
-                        var danwei1 = '';
-                        danwei1 += '<div class="danwei_content">';
-                        danwei1 += '<div class="fuhao">=</div>';
-                        danwei1 += '<input type="text" name="' + select + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
-                        danwei1 += '<input type="text" name="' + select + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="2" >';
-                        danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
-                        danwei1 += '</div>';
-
-                        $(this).before(danwei1);
-                    }
-                    else {
+                            $(this).before(danwei1);
+                        }else{
+                            layer.msg('最多添加三个单位！');
+                        }
+                    }else {
                         alert("请选择规格编码");
                     }
                     $(this).data("id", i + 1);

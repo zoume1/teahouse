@@ -11,10 +11,10 @@
     .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
     .distribution_list ul {display: flex; align-items: center;}
     .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
-    .static_btus {display: inline-block; height: 24px; line-height: 24px; margin: 0 12px; overflow: hidden;}
-    .static_btus>a {color: #fff;}
+    .static_btus {display: inline-block; height: 24px; line-height: 24px; margin: 0 12px; overflow: hidden;color: white;}
+    .static_btus >a {color: #fff;}
     .static_btus button {width: 100%; padding: 0 10px; border-radius: 4px; }
-    .payment-has-been {background: #669900d4;}
+    .payment-has-been {background: #669900;}
     a {color: #669900;}
     .line-exam {background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
     .line-ing {background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
@@ -41,10 +41,13 @@
     .bot li{height: 65px; line-height: 65px; list-style: disc;}
     .bot li button{background-color: #f00; float: right; transform: translateY(50%);}
     .bot li a{color: #669900;}
-    td.table-cell{display: flex; align-items: center;}
+    td.table-cell{display: flex; align-items: center;padding: 9px 0px;}
     .table-cell button{height: 22px; line-height: 22px; border-radius: 4px; padding: 0 10px;}
-    .wait-check{color: #169BD5;}
+    .delbut{margin-left: 10px;}
+    .wait-check{color: #669900;margin-left: 10px;}
     .check-fail{color: #f00;}
+    .layui-table th{padding: 9px 0;}
+    .layui-table td{padding: 4px 0;font-size: 13px;}
 </style>
 
 {/block}
@@ -114,8 +117,7 @@
                         <th>到账情况</th>
                         <!-- <th>付款审核状态</th>
                     <th>店铺审核状态</th> -->
-
-                        <th colspan="3">操作</th>
+                        <th colspan="3" >操作</th>
                     </tr>
                 </thead>
                 <tbody class="news_content">
@@ -150,15 +152,15 @@
                             {/switch}
                         </td>
                         <td class="table-cell">
-                            {if $value.pay_type == 2}
-                            <a class="wait-check" href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_statues}</a>
-                            {else}
-                            <a href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
-                            {/if}
-                            <div class="static_btus" data-id="{$value.store_id}" data-value="{$value.store_status}">
-                                <a
-                                    href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
+                            <div data-id="{$value.store_id}" data-value="{$value.store_status}">
+                                <a class="wait-check" href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
                             </div>
+                            {if $value.pay_type == 2}
+                            <a class="static_btus" href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_statues}</a>
+                            {else}
+                            <a class="static_btus" href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
+                            {/if}
+                            
                             <div>
                                 {switch name="$value.apply"}
                                 {case value="1"}<button class="layui-btn line-btn line-exam" data-id="{$value.id}">未申请开票</button>{/case}
@@ -166,6 +168,9 @@
                                 {default /}<button class="layui-btn line-btn line-pass" data-id="{$value.id}">已开票完成</button>
                                 {/switch}
                             </div>
+                            <div><a href="{:url('')}"
+                                onclick="if(!confirm('删除可能造成数据紊乱，请谨慎删除。你确定要删除吗？')) return false"
+                                class="layui-btn layui-btn-danger layui-btn-mini news_del delbut" data-id="undefined">删除</a></div>
                         </td>
                         <!-- <td>
                                         <a

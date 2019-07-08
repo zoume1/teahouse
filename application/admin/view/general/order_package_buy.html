@@ -132,6 +132,9 @@
         .protocol-pop h3{text-align: center; font-size: 28px;}
         .protocol-pop .bh{margin-top: 20px;}
         .protocol-pop .cl{position: absolute; right: 10px; top: 5px; width: 30px; height: 30px; cursor: pointer; text-align: center; line-height: 30px; font-size: 30px; color: #333;}
+
+        /* 邀请码蒙灰 */
+        .bandCode{background-color: #aaa;}
     </style>
 </head>
 <body>
@@ -239,10 +242,14 @@
                 </div>
                 <div class="invite-code">
                     <input type="checkbox" id="invite-code"
-                        @change="useDiscount">
+                        @change="useDiscount"
+                        :checked="inputCodeYet">
                     <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
-                    <input type="text" class="invite-code-input" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
-                        v-show="discountFlag">
+                    <input type="text" :class="{'invite-code-input': true, 'bandCode': inputCodeYet}" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
+                        v-show="showInviteCode"
+                        v-model="inviteCode"
+                        :readonly="inputCodeYet"
+                    >
                 </div>
                 <div class="settlement-cont">
                     <!-- <p class="total">合计：￥{{ totalPrice }}</p> -->
@@ -529,8 +536,7 @@
                     <p>2、如本协议的任何条款被视作无效或无法执行，则上述条款可被分离，其余条款则仍具有法律效力。</p>
                     <p>3、本协议任何一方于另一方过失或违约时放弃本协议规定的权利的，不得视为其对一方的其他或以后同类之过失或违约行为弃权。</p>
                     <p>4、宣铭未行使或执行本服务协议任何权利或规定，不构成对前述权利或权利之放弃。</p>
-                    <p>5、北京宣铭科技有限公司和杭州起码科技有限公司是同一实际控制人控制下的两家企业，故本合同项下部分权利义务由杭州起码科技有限公司履行。</p>
-                    <p>6、本协议最终解释权及修订权在法律范围内归宣铭所有。</p>
+                    <p>5、本协议最终解释权及修订权在法律范围内归宣铭所有。</p>
                 </div>
             </div>
         </div>
@@ -546,7 +552,7 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                discountFlag: false,
+                showInviteCode: false,
                 discountPrice: 30,
                 protocolFlag: true,
                 // selectData: [],
@@ -568,8 +574,11 @@
                 virtualTag: true,//显示隐藏收货地址  false: 虚拟商品  true:正常商品
                 onlinePayImg: '', //微信、支付宝在线支付二维码路径
                 onlinePayInterval: null, //在线支付 监听定时器
-                year:''
-
+                year:'',
+                inviteCode: '', //邀请码
+                timer: null, 
+                correctCode: false,
+                inputCodeYet: false, //如果填写过邀请码 input框不可输入
             },
             mounted: function(){
                 this.getRemitTime(); //初始化日期选择
@@ -583,6 +592,13 @@
                 // 查看协议
                 showProtocolEvent: function(){
                     this.showProtocol = !this.showProtocol;
+                },
+                // 防抖
+                debounce: function(fn,wait){
+                    if (this.timer!==null){
+                        clearTimeout(this.timer)
+                    }
+                    this.timer = setTimeout(fn,wait);
                 },
                 // 获取数据
                 myAjax: function(url, param, callback){
@@ -680,6 +696,13 @@
                         console.log(data)
                         if(data.body.status == 1){
                             _this.orderInfo = data.body.data;
+                            // 判断用户是否填写过邀请码
+                            if(data.body.data[0].highe_share_code){
+                                // _this.useDiscount();
+                                _this.showInviteCode = true;
+                                _this.inviteCode = data.body.data[0].highe_share_code;
+                                _this.inputCodeYet = true;
+                            }
                         }
                     });
                 },
@@ -756,9 +779,26 @@
                         });
                     }
                 },
-                // 是否使用邀请码
+                // 验证邀请码
+                textInviteCode: function(){
+                    var _this = this;
+                    var param = {
+                        code: this.inviteCode
+                    }
+                    this.myAjax('getShareCode', param, function(data){
+                        console.log(data)
+                        if(data.body.status == 1){
+                            layer.msg(data.body.info);
+                            _this.correctCode = true;
+                        }else{
+                            layer.msg(data.body.info);
+                            _this.correctCode = false;
+                        }
+                    })
+                },
+                // 显示邀请码输入框
                 useDiscount: function(){
-                    this.discountFlag = !this.discountFlag;
+                    this.showInviteCode = !this.showInviteCode;
                 },
                 // 同意协议
                 agreement: function(){
@@ -849,6 +889,17 @@
                     this.showPayWay = true;
                 },
             },
+            watch: {
+                // 监听邀请码
+                inviteCode: function(code){
+                    var _this = this;
+                    if (typeof code === 'string'){
+                        if (code.trim().length !== 0){
+                            this.debounce(this.textInviteCode,1500);
+                        }else {}
+                    }
+                }
+            },
             computed: {
                 // 商品合计金额
                 totalPrice: function(){
@@ -868,7 +919,7 @@
                 // 最终付款金额
                 payment: function(){
                     var sum = this.totalPrice;
-                    if(this.discountFlag){
+                    if(this.correctCode){
                         return (sum - this.discountPrice).toFixed(2);
                     }else{
                         return sum;
@@ -879,9 +930,9 @@
                     var orderInfo = this.orderInfo[0];
                     if(orderInfo){
                         if(orderInfo.last_money == 0){
-                            return (this.discountFlag ? orderInfo.amount_money - this.discountPrice : orderInfo.amount_money).toFixed(2);
+                            return (this.correctCode ? orderInfo.amount_money - this.discountPrice : orderInfo.amount_money).toFixed(2);
                         }else{
-                            return (this.discountFlag ? orderInfo.amount_money - orderInfo.last_money - this.discountPrice : orderInfo.amount_money - orderInfo.last_money).toFixed(2);
+                            return (this.correctCode ? orderInfo.amount_money - orderInfo.last_money - this.discountPrice : orderInfo.amount_money - orderInfo.last_money).toFixed(2);
                         }
                     }
                 },
@@ -890,7 +941,7 @@
                     var orderInfo = this.orderInfo[0];
                     console.log(orderInfo);
                     if (orderInfo) {
-                        if (this.discountFlag) {
+                        if (this.correctCode) {
                             // 使用邀请码
                             // return (orderInfo.cost - orderInfo.amount_money + orderInfo.last_money + this.discountPrice).toFixed(2);
                             if(orderInfo.last_money != 0){

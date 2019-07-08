@@ -17,7 +17,7 @@
         .signup-content-container{border-top: 1px solid #e5e5e5; padding-top: 50px; display: flex; justify-content: space-between;}
         .signup-content-container .signup-content-inner{width: 450px;}
         .signup-content-inner .signup-form-wrap{width: 350px; margin: 0 auto;}
-        .signup-content-inner .section-group{border-bottom: 1px solid #e5e5e5; display: flex; margin-bottom: 30px; align-items: center; height: 40px;}
+        .signup-content-inner .section-group{border-bottom: 1px solid #e5e5e5; display: flex; align-items: center; height: 60px;}
         .signup-content-inner .section-group .form-label{display: inline-block; width: 100px; font-size: 14px; color: #515151; font-weight: 700;}
         .signup-content-inner .section-group .form-input-wrap{width: 250px; position: relative;}
         .section-group .form-input-wrap input{border: 0; font-size: 14px;}
@@ -37,6 +37,8 @@
         .protocol-pop h3{text-align: center; font-size: 28px;}
         .protocol-pop .bh{margin-top: 20px;}
         .protocol-pop .cl{position: absolute; right: 10px; top: 5px; width: 30px; height: 30px; cursor: pointer; text-align: center; line-height: 30px; font-size: 30px; color: #333;}
+        .tips{color: #999;margin-left:100px; }
+        input[name=invitation]{width: 100%;}
     </style>
 </head>
 <body>
@@ -100,7 +102,7 @@
                             <div class="section-group identifying-code-wrap">
                                 <label class="form-label">短信验证码</label>
                                 <div class="form-input-wrap">
-                                    <input type="text" id="identifying" name="identifying" placeholder="填写短息验证码">
+                                    <input type="text" id="identifying" name="identifying" placeholder="填写短信验证码">
                                     <button class="identifying-button">获取验证码</button>
                                 </div>
                             </div>
@@ -114,9 +116,13 @@
                             <div class="section-group invitation-wrap">
                                 <label class="form-label">邀请码</label>
                                 <div class="form-input-wrap">
-                                    <input type="password" id="invitation" name="invitation" placeholder="请输入朋友邀请码">
+                                    <input type="text" id="invitation" name="invitation" placeholder="请输入朋友邀请码或注册会员手机号">
                                 </div>
+                                
                             </div>
+                            <div>
+                            <span class="tips">
+                                    *邀请码为非必填项</span></div>
                             <label class="protocol-field">
                                 <input type="checkbox" name="agree">我已阅读并同意
                                 <a href="javascript:;" id="protocol">《宣铭用户使用协议》</a>
@@ -227,8 +233,7 @@
                 <p>2、如本协议的任何条款被视作无效或无法执行，则上述条款可被分离，其余条款则仍具有法律效力。</p>
                 <p>3、本协议任何一方于另一方过失或违约时放弃本协议规定的权利的，不得视为其对一方的其他或以后同类之过失或违约行为弃权。</p>
                 <p>4、宣铭未行使或执行本服务协议任何权利或规定，不构成对前述权利或权利之放弃。</p>
-                <p>5、北京宣铭科技有限公司和杭州起码科技有限公司是同一实际控制人控制下的两家企业，故本合同项下部分权利义务由杭州起码科技有限公司履行。</p>
-                <p>6、本协议最终解释权及修订权在法律范围内归宣铭所有。</p>
+                <p>5、本协议最终解释权及修订权在法律范围内归宣铭所有。</p>
             </div>
         </div>
     </div>

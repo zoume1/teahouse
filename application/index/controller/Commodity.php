@@ -21,6 +21,7 @@ class Commodity extends Controller
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $goods_type = db("wares")->where("status", 1)->where("store_id","EQ",$store_id)	->select();
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
+
             foreach($goods_type as $key => $value)
             {
                 $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("store_id","EQ",$store_id)->where("label",1)->where('limit_goods','0')->select();
@@ -303,57 +304,112 @@ class Commodity extends Controller
             }
         }
     }
-
-
     /**
      * ceshi
      * 比特币
      */
-    public function get_coinquotation(){
+    // public function get_coinquotation(){
         /*//获取BTC当前最新行情 - Ticker(宝币网)
         $coin = $_GET['coin'];
         $btc_quotation = get_now_quotation($coin);
         return json($btc_quotation);*/
+    //     $szUrl = "https://www.feixiaohao.com/#USD";
+    //     $UserAgent = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.0.04506; .NET CLR 3.5.21022; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
+    //     $curl = curl_init();
+    //     curl_setopt($curl, CURLOPT_URL, $szUrl);
+    //     curl_setopt($curl, CURLOPT_HEADER, 0);  //0表示不输出Header，1表示输出
+    //     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    //     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    //     curl_setopt($curl, CURLOPT_ENCODING, '');
+    //     curl_setopt($curl, CURLOPT_USERAGENT, $UserAgent);
+    //     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+    //     $content_strs = curl_exec($curl);
     
     
-        $szUrl = "https://www.feixiaohao.com/#USD";
-        $UserAgent = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.0.04506; .NET CLR 3.5.21022; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $szUrl);
-        curl_setopt($curl, CURLOPT_HEADER, 0);  //0表示不输出Header，1表示输出
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_ENCODING, '');
-        curl_setopt($curl, CURLOPT_USERAGENT, $UserAgent);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-        $content_strs = curl_exec($curl);
+    //     $key1 = 'BTC-比特币';
+    //     $key1_end = '/currencies/bitcoin/#markets target=_blank class=volume';
+    //     $key2 = 'ETH-以太坊';
+    //     $key2_end = '/currencies/ethereum/#markets target=_blank class=volume';
     
     
-        $key1 = 'BTC-比特币';
-        $key1_end = '/currencies/bitcoin/#markets target=_blank class=volume';
-        $key2 = 'ETH-以太坊';
-        $key2_end = '/currencies/ethereum/#markets target=_blank class=volume';
+    //     $ex = "/\d+/";
+    //     $txt1=getNeedBetween($content_strs, $key1 , $key1_end );
+    //     $arr1 = [];
+    //     preg_match_all($ex,$txt1,$arr1);
+    //     $btclast = $arr1[0][5];
     
-    
-        $ex = "/\d+/";
-        $txt1=getNeedBetween($content_strs, $key1 , $key1_end );
-        $arr1 = [];
-        preg_match_all($ex,$txt1,$arr1);
-        $btclast = $arr1[0][5];
-    
-        $txt2=getNeedBetween($content_strs, $key2 , $key2_end );
-        $arr2 = [];
-        preg_match_all($ex,$txt2,$arr2);
-        $ethlast = $arr2[0][5];
-    
-        $data = array([
-            'btclast' => $btclast,
-            'ethlast' => $ethlast,
-        ]);
-    
-        return json_encode($data);
-    }
+    //     $txt2=getNeedBetween($content_strs, $key2 , $key2_end );
+    //     $arr2 = [];
+    //     preg_match_all($ex,$txt2,$arr2);
+    //     $ethlast = $arr2[0][5];
+    //     $data = array([
+    //         'btclast' => $btclast,
+    //         'ethlast' => $ethlast,
+    //     ]);
+    //     return json_encode($data);
+    // }
+
+    /**
+     * 小程序前端搜索框（商品）
+     * GY
+     */
+    public function getSearchGood(Request $request)
+    {
+
+        if ($request->isPost()) {
+            $member_id = $request->only(["member_id"])["member_id"];        //会员id
+            $store_id = $request->only(['uniacid'])['uniacid'];             //店铺id
+            $goods_name = $request->only(['goods_name'])['goods_name'];      //商品名
+
+            if(isset($member_id) && isset($store_id) && isset($goods_name)){
+                $member_grade_id = db("member")->where("member_id", $member_id)->find();
+                $member_grade_name = $member_grade_id['member_grade_name'];
+                $discount = db("member_grade")->where("member_grade_id", $member_grade_id['member_grade_id'])->value("member_consumption_discount");
+                $goods = db("goods")
+                        ->field("id,goods_name,goods_show_image,goods_new_money,goods_bottom_money,goods_volume,goods_standard,scope,goods_selling")
+                        ->where("status",1)
+                        ->where("store_id","EQ",$store_id)
+                        ->where("label",1)
+                        ->where("goods_name", "like","%" .$goods_name ."%")
+                        ->select();
+
+                foreach ($goods as $k => $v) //所有商品
+                {
+                    if(!empty($goods[$k]["scope"])){
+                        $goods[$k]["scope"] = explode(",",$goods[$k]["scope"]);
+                    }
+                    if($goods[$k]["goods_standard"] == 1){
+                        $standard = db("special")->where("goods_id", $goods[$k]['id'])->order('price asc')->find();
+                        $goods[$k]["goods_new_money"] = $standard['price'] * $discount ;//最低价格
+                        $goods[$k]["goods_bottom_money"] = $standard['line'] ;//划线价
+
+                    if(!empty($goods[$k]["scope"])){
+                        if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                            unset($goods[$k]);
+                        }
+                    }              
+                    } else {
+                        $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
+                        if(!empty($goods[$k]["scope"])){
+                                if(!in_array($member_grade_name,$goods[$k]["scope"])){ 
+                                    unset($goods[$k]);
+                                }
+                            }
+                        }
+                    }      
+                }
+                $goods_new = array_values($goods);
+                if (!empty($goods_new) && !empty($member_id)) {
+                    return ajax_success("获取成功", $goods_new);
+                } else {
+                    return ajax_error("获取失败");
+                }
+            } else {
+                return ajax_error("请检查参数是否正确");
+            }
+        }
+
 
     
 }

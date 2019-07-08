@@ -191,6 +191,7 @@ Route::group("",[
     "approve_list"=>"index/Commodity/approve_list",              //默认自提地址列表
     "approve_detailed"=>"index/Commodity/approve_detailed",      //选择自提地址详情
     "approve_address"=>"index/Commodity/approve_address",        //默认上门自提地址
+    "getSearchGood"=>"index/Commodity/getSearchGood",            //小程序前端搜索框（商品）
 
 
 
@@ -370,8 +371,11 @@ Route::group("",[
     /*TODO:购物车结束*/
 
     /*TODO:茶仓出入仓*/
-    "getStoreData"=>"index/Storehouse/getStoreData",  //店铺小程序前端存茶数据
+    "getStoreData"=>"index/Storehouse/getStoreData",   //店铺小程序前端存茶数据
     "theStoreValue"=>"index/Storehouse/theStoreValue", //店铺小程序前端存茶总价值
+    "getStoreHouse"=>"index/Storehouse/getStoreHouse", //店铺小程序前端所有仓库
+    "doHouseOrder"=>"index/Storehouse/doHouseOrder",   //店铺小程序前端选择仓库
+    "takeOrderData"=>"index/Storehouse/takeOrderData",  //店铺小程序前端入仓详情
 
 
 
@@ -804,6 +808,7 @@ Route::group("admin",[
     "system_template"=>"admin/General/system_template", //小程序系统推荐模板生成
     "test_selecticon"=>"admin/Test/selecticon",//图标库
     "test_selecticon2"=>"admin/Test/selecticon2",//图标库--图片
+    "test_selecticon3"=>"admin/Test/selecticon3",//图标库3--图片
     "test_select_url"=>"admin/Test/select_url",//轮播图功能库（数据来源）
     "test_select_source"=>"admin/Test/select_source",//公告来源栏目（数据来源）
 
@@ -824,6 +829,7 @@ Route::group("admin",[
     "order_package_balance"=>"admin/General/order_package_balance",          //订单套餐余额支付
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
     "is_exist_app"=>"admin/General/is_exist_app",                    //判断小程序是否存在
+    "getShareCode"=>"admin/General/getShareCode",                    //判断分享码是否正确
 
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
     "capital_management"=>"admin/General/capital_management",//资金管理资金明细
