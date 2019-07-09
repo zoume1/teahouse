@@ -1911,6 +1911,7 @@ class  General extends  Base {
                 "subject" => '店铺充值', //商品订单的名称
                 "total_fee" => number_format($money, 2, '.', ''),
             );
+            halt($arr_data);
             $str_pay_html = $obj_alipay->make_form($arr_data, true);
             if($str_pay_html){
                 return ajax_success("二维码成功",["url"=>$str_pay_html,'orderid'=>$orderSn]);

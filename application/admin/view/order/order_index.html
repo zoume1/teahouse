@@ -701,13 +701,14 @@
 			// 订单金额
 			var amount = +$(this).parents('tr').children('td.am').text();
 			$('input[name=amount]').val(amount);
-			var data_id = $(this).data("id");
+			var data_id = $(this).data("id");    //订单id
 			var way = 0;
 			$(".operation").data("value", data_id);
 			$(".repay_tip").data("value", data_id);
-			var data_value = $(this).data("value");
+			var data_value = $(this).data("value");    //订单状态
 			$(".operation").empty();
 			$(".chat").empty();
+			//获取批注
 			$.ajax({
 				type: "POST",
 				url: "{:url('admin/Notification/notice_index')}",
@@ -865,9 +866,11 @@
 				}
 			})
 		});
+		//弹窗隐藏
 		$(".popup_x").click(function () {
 			$(".popup").addClass("noshow");
 		});
+
 		$(".operation").on("click", ".submit_btns", function () {
 			$(".popup").addClass("noshow");
 			var repay = $(".repay").val();
