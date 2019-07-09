@@ -139,7 +139,7 @@ class Storehouse extends Controller
             $time = time();
             if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['store_house_id'])){
                 $house_order = Db::table("tb_house_order")
-                                    ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,store_unit,tb_goods.date,tb_store_house.number,tb_goods.goods_name,goods_bottom_money,tb_wares.name")
+                                    ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,store_unit,tb_goods.date,tb_store_house.number,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name")
                                     ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
                                     ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                     ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
@@ -197,13 +197,14 @@ class Storehouse extends Controller
                                     ->find();   
          
                 if(!empty($house_order)){
-                    
+                    $house_order['unit'] = explode(",", $house_order['unit']);
+                    $house_order['num'] = explode(",",$house_order['num']);
+                    $house_order["store_number"] = str_replace(',', '', $house_order["store_number"]);
                         if(!empty($house_order['special_id'])){
                             $goods = Db::name("special")->where("id",$house_order['special_id'])->find();
                             $house_order['goods_bottom_money'] = $goods['line'];
                             $house_order['goods_new_money'] = $goods['price'] * $rank;
-                            $house_order['unit'] = $goods['unit'];
-                            $house_order['num'] = $goods['num'];
+
                         } else {
                             $house_order['goods_bottom_money'] = $house_order['goods_bottom_money'];
                             $house_order['goods_new_money'] = $house_order['goods_new_money'] * $rank;

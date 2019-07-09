@@ -31,7 +31,7 @@ class Goods extends Controller
     public function index(Request $request)
     {
         $store_id = Session::get("store_id");
-        $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number asc")->select();
+        $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number desc")->select();
         $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
