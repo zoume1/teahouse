@@ -945,6 +945,10 @@
     {block name="bottom"}
 
     <script type="text/javascript">
+        var keyArr = {
+            unitKey: 0,
+            unitKey2: 0
+        }
         var ue = UE.getEditor('editor');
         var ue1 = UE.getEditor('editor1');
         var codings = [];
@@ -1077,6 +1081,7 @@
                     $(this).data("value", $(this).val());
                 })
                 $(".general_content").on('click', ".delect_img", function (e) {
+                    keyArr.unitKey2 --;
                     if ($(this).siblings(".units").val() != '') {
                         for (var k = 0; k < unit2.length; k++) {
                             if (unit2[k] == $(this).siblings(".units").val()) {
@@ -1089,27 +1094,31 @@
                     $(this).parent().remove();
                 })
                 $(".nomal").on('click', ".delect_img", function (e) {
-
-                    var removeVal = $(this).prev().val();
-                    $('#unitList option').each(function (i, v) {
-                        if (removeVal == v.value) {
-                            console.log($(v))
-                            $(v).remove();
-                        }
-                    })
-                    form.render();
-
-                    if ($(this).siblings(".units").val() != '') {
-                        for (var k = 0; k < unit1.length; k++) {
-                            if (unit1[k] == $(this).siblings(".units").val()) {
-                                unit1.splice(k, 1);
-                                break;
+                    keyArr.unitKey --;
+                    if($(this).prev().val()){
+                        var removeVal = $(this).prev().val();
+                        $('#unitList option').each(function (i, v) {
+                            if (removeVal == v.value) {
+                                console.log($(v))
+                                $(v).remove();
                             }
-                        }
+                        })
+                        form.render();
 
+                        if ($(this).siblings(".units").val() != '') {
+                            for (var k = 0; k < unit1.length; k++) {
+                                if (unit1[k] == $(this).siblings(".units").val()) {
+                                    unit1.splice(k, 1);
+                                    break;
+                                }
+                            }
+
+                        }
+                        $(".muban").remove();
+                        $(this).parent().remove();
+                    }else{
+                        $(this).parent().remove();
                     }
-                    $(".muban").remove();
-                    $(this).parent().remove();
                 })
 
                 $(".add_muban").click(function () {
@@ -1602,10 +1611,9 @@
 
 
                 // 包装规格
-                var unitKey = 0;
                 $(".add_danwei").click(function () {
-                    unitKey += 1;
-                    if(unitKey <= 2){
+                    if(keyArr.unitKey < 2){
+                        keyArr.unitKey ++;
                         var danwei = ''
                         danwei += '<div class="danwei_a" style=" position: relative; display: flex;align-items: center;">';
                         danwei += '<div class="fuhao">=</div>';
@@ -1631,13 +1639,12 @@
                         layer.msg('最多添加三个单位！');
                     }
                 });
-                var unitKey2 = 0;
                 $(".general_content").on("click", ".add_danwei1", function () {
                     var i = parseInt($(this).data("id"));
                     var select = $(this).siblings(".packing").val()
                     if (select != "0") {
-                        unitKey2 += 1;
-                        if(unitKey2 <= 3){
+                        if(keyArr.unitKey2 < 3){
+                            keyArr.unitKey2 ++;
                             var danwei1 = '';
                             danwei1 += '<div class="danwei_content">';
                             danwei1 += '<div class="fuhao">=</div>';
