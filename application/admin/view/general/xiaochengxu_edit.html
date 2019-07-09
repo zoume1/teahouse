@@ -445,7 +445,7 @@
         <div class="subcon">
             <div class="box1">
                 <div class="general-modal-left" style="position:relative;border:1px solid #f1f1f1">
-                    <img src="{if $setsave}{if $setsave['kp']}{$setsave['kp']}{else}/diypage/resource/images/diypage/default_start.jpg{/if}{else}/diypage/resource/images/diypage/default/default_start.jpg{/if}" onerror="this.src='/diypage/resource/images/diypage/default/default_start.jpg" class="img-responsive img-thumbnail tempimgs feedbackbgimgurl39" id="tempimg" style="border:0;padding:0;width:100%;height:100%" />
+                    <img src="{if $setsave}{if $setsave['kp']}{$setsave['kp']}{else}/diypage/resource/images/diypage/default_start.jpg{/if}{else}/diypage/resource/images/diypage/default/default_start.jpg{/if}" onerror="this.src='/diypage/resource/images/diypage/default/default_start.jpg'" class="img-responsive img-thumbnail tempimgs feedbackbgimgurl39" id="tempimg" style="border:0;padding:0;width:100%;height:100%" />
                     <div class="timeout" style="z-index:3000;position:absolute; top: 10px;right:10px;font-size:12px;padding:5px;background-color:rgba(0,0,0,0.5);border-radius:5px;color:#FFF;{if $setsave}{if $setsave['go_home']!=1}display:none;{/if}{/if}">{if $setsave}{if $setsave['kp_m']}{$setsave['kp_m']}{/if}{else}2{/if}s跳过</div>
                     <div class="buttonout" style="z-index:100;position:absolute;bottom:20%;left:50%;width:100px;padding:5px 0;text-align: center;margin-left: -50px;background-color: rgba(0,0,0,0.5);color:#fff;border-radius: 5px;{if $setsave}{if $setsave['go_home']!=2}display:none;{/if}{else}display:none;{/if}">点击进入</div>
                 </div>
@@ -500,7 +500,7 @@
                 </div>
                 <div class="general-modal-left" style="padding: 85px 35px;width:222px;height:378px;box-sizing: border-box; position: relative; background: rgba(0, 0, 0, 0.701961);">
                     <!-- <img src="/diypage/resource/images/diypage/default/tcgg.jpg" style="width:100%;height:100%" class=" advertisement-show-thumb" alt=""> -->
-                    <img src="{if $setsave}{$setsave['tc']}{else}/diypage/resource/images/diypage/default/tcgg.jpg{/if}" onerror="this.src='{if $setsave}{$setsave[\'tc\']}{else}/diypage/resource/images/diypage/default/tcgg.jpg{/if}" class="img-responsive img-thumbnail tempimgs feedbackbgimgurl40" id="tempimg" style="border:0;padding:0;width:100%;height:100%" />
+                    <img src="{if $setsave}{$setsave['tc']}{else}/diypage/resource/images/diypage/default/tcgg.jpg{/if}" onerror="this.src='{if $setsave}{$setsave[\'tc\']}{else}/diypage/resource/images/diypage/default/tcgg.jpg{/if}'" class="img-responsive img-thumbnail tempimgs feedbackbgimgurl40" id="tempimg" style="border:0;padding:0;width:100%;height:100%" />
 
                     <img src="/diypage/resource/images/diypage/default/c.png" style="width:20px;margin:10px 0 0 66px" class=" advertisement-show-thumb " alt=""> </div>
                 <div class="general-modal-right">
@@ -516,7 +516,7 @@
                         <div class="es-uploader configbox data-bind-image" data-bind="start.thumb" data-bind-parent="tempCommon" data-show-element=".start-show-thumb">
                             <div class="es-selector start-show-thumb">
                                 <input class="form-control input-sm tc_pic saveTempPreview2 feedbackbgimg40" type="hidden" placeholder="请选择模板缩略图" value="{if $setsave}{$setsave['tc']}{else}/diypage/resource/images/diypage/default/tcgg.jpg{/if}" />
-                                <img src="{if $setsave}{$setsave['tc']}{else}/diypage/resource/images/diypage/default/tcgg.jpg{/if}" onerror="this.src='{if $setsave}{$setsave[\'tc\']}{else}/diypage/resource/images/diypage/default/tcgg.jpg{/if}" class="img-responsive img-thumbnail tempimgs2 feedbackbgimgurl40" width="150" />
+                                <img src="{if $setsave}{$setsave['tc']}{else}/diypage/resource/images/diypage/default/tcgg.jpg{/if}" onerror="this.src='{if $setsave}{$setsave[\'tc\']}{else}/diypage/resource/images/diypage/default/tcgg.jpg{/if}'" class="img-responsive img-thumbnail tempimgs2 feedbackbgimgurl40" width="150" />
                                 <p><span data-input=".saveTempPreview2" data-img=".tempimgs2" data-toggle="selectImg" onclick='uploadphoto.click();getd(40);'>选择图片</span></p>
                             </div>
                         </div>
