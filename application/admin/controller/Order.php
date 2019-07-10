@@ -636,12 +636,13 @@ class  Order extends  Controller{
     public function  changeOderPrice(Request $request){
         if($request->isPost()){
             $status =$request->only(["status"])["status"];//订单状态
-            $order_id =$request->only(["id"])["id"];//订单编号
+            $order_id =$request->only(["id"])["id"];
+            $parts_order_number = Db::name("order")->where("id",'EQ',$order_id)->value("parts_order_number");
             $price = $request->only(["order_real_pay"])["order_real_pay"];//更改价格
             if($status != 1){
                 return ajax_error("该订单不支持改价");
             } else {
-                $bool = db("order")->where("id",$order_id)->update(["order_amount" =>$price]);
+                $bool = db("order")->where("parts_order_number",$parts_order_number)->update(["order_real_pay" =>$price]);
                 if($bool){
                     return ajax_success("改价成功");
                 } else {

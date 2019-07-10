@@ -753,7 +753,7 @@ function enter_status($status){
     }else  if($status==2){
         echo '<text style="color:#199ED8;">入驻待审核</text>';
     }else  if($status==3){
-        echo '<text style="color:#999;">关闭</text>';
+        echo '<text style="color:#999;">入驻已关闭</text>';
     }
 }
 /**

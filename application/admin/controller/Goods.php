@@ -31,7 +31,7 @@ class Goods extends Controller
     public function index(Request $request)
     {
         $store_id = Session::get("store_id");
-        $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number asc")->select();
+        $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number desc")->select();
         $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
@@ -928,7 +928,7 @@ class Goods extends Controller
      */    
     public function crowd_index(){
         $store_id = Session::get("store_id");
-        $crowd_data = db("crowd_goods")->where("store_id","EQ",$store_id)->select();
+        $crowd_data = db("crowd_goods")->where("store_id","EQ",$store_id)->order("sort_number desc")->select();
         if(!empty($crowd_data)){
             foreach ($crowd_data as $key => $value) {
                 $sum[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->sum("price");//众筹金额
