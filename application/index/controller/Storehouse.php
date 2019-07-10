@@ -33,7 +33,7 @@ class Storehouse extends Controller
             $depot = Db::name("store_house")->where("store_id",$store_id)->select();
 
             foreach($depot as $kk => $va){
-                $depot_name[] = $va['name'];
+                $depot_name[] = $va['number'];
             }
             if(isset($member_id) && isset($store_id)){
                 if(!empty($depot)){
@@ -67,7 +67,6 @@ class Storehouse extends Controller
                                 }
                             }
                         }
-                        
                         
                     foreach($depot_name as $ds => $nm){
                         $depots_names[$ds]['name'] = $nm;
@@ -153,6 +152,10 @@ class Storehouse extends Controller
             $data = input();
             $time = time();
             if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['store_house_id'])){
+                $house_name = Db::name("store_house")->where("id",$data['store_house_id'])->value("number");
+                if(empty($house_name)){
+                    return ajax_error("获取仓库失败");
+                }
                 $house_order = Db::table("tb_house_order")
                                     ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,store_unit,tb_goods.date,tb_store_house.number,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name")
                                     ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
@@ -160,7 +163,8 @@ class Storehouse extends Controller
                                     ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
                                     ->where(["tb_house_order.store_id"=>$data['uniacid'],"tb_house_order.member_id"=>$data['member_id'],"tb_house_order.store_house_id"=>$data['store_house_id']])
                                     ->order("end_time desc")
-                                    ->select();   
+                                    ->select(); 
+                
 
                 if(!empty($house_order)){
                     foreach($house_order as $k => $l){
@@ -177,8 +181,11 @@ class Storehouse extends Controller
                         if(!empty($house_order[$k]['special_id'])){
                             $house_order[$k]['goods_bottom_money'] = Db::name("special")->where("id",$house_order[$k]['special_id'])->value("line");
                         }
-                    } 
-                    return ajax_success("获取成功",$house_order);
+                    }
+                    
+                    $rest_house['number'] = $house_name;
+                    $rest_house['getArr'] = $house_order;
+                    return ajax_success("获取成功",$rest_house);
                 } else {
                     return ajax_error("该店铺没有存茶订单");
                 }
@@ -215,7 +222,7 @@ class Storehouse extends Controller
                     $house_order['unit'] = explode(",", $house_order['unit']);
                     $house_order['num'] = explode(",",$house_order['num']);
                     $house_order["store_number"] = str_replace(',', '', $house_order["store_number"]);
-                    $house_order["scale"] = ($house_order["goods_new_money"] - $house_order["goods_money"])/($house_order["goods_money"]);
+                    $house_order["scale"] = (($house_order["goods_new_money"] - $house_order["goods_money"]))*100/($house_order["goods_money"]);
                     if($house_order['goods_member'] != 1){
                         $rank = 1;
                     }
