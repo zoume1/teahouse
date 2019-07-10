@@ -204,7 +204,7 @@ class Storehouse extends Controller
                 $member_grade_id = Db::name("member")->where("member_id",$data['member_id'])->value("member_grade_id");
                 $rank = Db::name("member_grade")->where("member_grade_id",$member_grade_id)->value("member_consumption_discount");
                 $house_order = Db::table("tb_house_order")
-                                    ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,parts_order_number,end_time,order_quantity,goods_money,order_amount,store_number,store_unit,tb_store_house.number,tb_store_house.adress,tb_goods.goods_name,date,goods_new_money,goods_bottom_money,brand,num,tb_goods.unit,tb_wares.name")
+                                    ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,parts_order_number,end_time,order_quantity,goods_money,order_amount,store_number,store_unit,tb_store_house.number,tb_store_house.adress,tb_goods.goods_name,date,goods_new_money,goods_member,goods_bottom_money,brand,num,tb_goods.unit,tb_wares.name")
                                     ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left') 
                                     ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                     ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
@@ -215,6 +215,10 @@ class Storehouse extends Controller
                     $house_order['unit'] = explode(",", $house_order['unit']);
                     $house_order['num'] = explode(",",$house_order['num']);
                     $house_order["store_number"] = str_replace(',', '', $house_order["store_number"]);
+                    $house_order["scale"] = ($house_order["goods_new_money"] - $house_order["goods_money"])/($house_order["goods_money"]);
+                    if($house_order['goods_member'] != 1){
+                        $rank = 1;
+                    }
                         if(!empty($house_order['special_id'])){
                             $goods = Db::name("special")->where("id",$house_order['special_id'])->find();
                             $house_order['goods_bottom_money'] = $goods['line'];
