@@ -420,7 +420,6 @@ class  General extends  Base {
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
                         ->where("status_type",1)
-                        ->order('id desc')
                         ->value("goods_name");   //当前版本名称
                     $list[$k]["goods_names2"] =Db::table("tb_set_meal_order")
                         ->where("store_id",$this->store_ids)
