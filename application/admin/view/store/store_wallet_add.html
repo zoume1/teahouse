@@ -198,9 +198,11 @@
         el: '#wrapper',
         data: {
             onlinePayImg: '', //微信、支付宝在线支付二维码路径
-            onlinePayInterval: null, //在线支付 监听定时器
+            wxPayInterval: null, //监听微信支付
             wayFlag: false,
             amount: null,
+            myWindow: null,
+            aliPayInterval: null, //监听支付宝支付
         },
         methods: {
             // 获取数据
@@ -213,7 +215,7 @@
             },
             // 支付宝支付
             getAlipay: function () {
-                clearInterval(this.onlinePayInterval);
+                clearInterval(this.wxPayInterval);
                 var param = {
                     money: this.amount
                 }
@@ -221,10 +223,12 @@
                 this.myAjax('order_code_alipay2', param, function (data) {
                     // 付款二维码生成成功， 监听支付
                     if (data.body.status == 1) {
-                        myWindow = window.open();
-                        myWindow.document.write(data.body.data.url);
+                        _this.myWindow = window.open();
+                        _this.myWindow.document.write(data.body.data.url);
                         // $('body').append(data.body.data.url);
-                        _this.monitorOnlinePay(data.body.data.orderid);
+                        _this.aliPayInterval = setInterval(function(){
+                            _this.monitorOnlinePay(data.body.data.orderid);
+                        }, 2000)
                         // window.parent.document.getElementById('tcdl').click();
                     }
                 })
@@ -239,7 +243,8 @@
                     if (data.body.status == 1) {
                         layer.msg(data.body.info);
                         setTimeout(function () {
-                            clearInterval(_this.onlinePayInterval);
+                            if(_this.wxPayInterval) clearInterval(_this.wxPayInterval);
+                            if(_this.aliPayInterval) clearInterval(_this.aliPayInterval);
                             // window.parent.document.getElementById('tcdl').click();
                             window.location.reload();
                         }, 3000)
@@ -256,7 +261,7 @@
                     // 付款二维码生成成功， 监听支付
                     if (data.body.status == 1) {
                         _this.onlinePayImg = data.body.data.url;
-                        _this.onlinePayInterval = setInterval(function () {
+                        _this.wxPayInterval = setInterval(function () {
                             // _this.monitorOnlinePay(param.order_number);
                             _this.monitorOnlinePay(data.body.data.out_trade_no);
                         }, 2000)
@@ -274,7 +279,7 @@
             },
             // 关闭支付弹窗
             closePop: function () {
-                clearInterval(this.onlinePayInterval);
+                clearInterval(this.wxPayInterval);
                 this.wayFlag = false;
             },
         },
