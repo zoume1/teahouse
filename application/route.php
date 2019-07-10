@@ -834,6 +834,7 @@ Route::group("admin",[
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
     "is_exist_app"=>"admin/General/is_exist_app",                    //判断小程序是否存在
     "getShareCode"=>"admin/General/getShareCode",                    //判断分享码是否正确
+    "change_edition"=>"admin/General/change_edition",                 //切换店铺版本号
 
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
     "capital_management"=>"admin/General/capital_management",//资金管理资金明细

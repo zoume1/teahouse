@@ -406,8 +406,7 @@ class  General extends  Base {
                 ->where("store_id",$this->store_ids)
                 ->limit(1)
                 ->select();
-            $goods_names = Session::get('goods_names');  
-             
+                $goods_names = Session::get('goods_names');
             if(!empty($list)){
                 foreach ($list as $k=>$v){
                     $list[$k]["tplid"] = Db::table("ims_sudu8_page_diypagetpl")
@@ -420,12 +419,19 @@ class  General extends  Base {
                     $list[$k]["goods_names"] =Db::table("tb_set_meal_order")
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
+                        ->where("status_type",1)
                         ->order('id desc')
-                        ->value("goods_name");
+                        ->value("goods_name");   //当前版本名称
+                    $list[$k]["goods_names2"] =Db::table("tb_set_meal_order")
+                        ->where("store_id",$this->store_ids)
+                        ->where("audit_status",1)
+                        ->order('enter_all_id desc')
+                        ->value("goods_name");     //最高版本名称
                         $list[$k]["goods_names_id"] =Db::table("tb_set_meal_order")
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
-                        ->order('id desc')
+                        ->where('status_type',1)
+                        ->order('enter_all_id desc')
                         ->value("id");
                         $goods_list_name =Db::table("tb_set_meal_order")
                         ->where("store_id",$this->store_ids)
@@ -443,60 +449,60 @@ class  General extends  Base {
 
                        //鲁文兵添加
                       $list[$k]["goods_names_test"]=  Db::table("tb_set_meal_order")
-                        ->field('goods_name')
+                        ->field('goods_name,status_type,id')
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
-                        ->select();
+                        ->select();   //获取当前可用的套餐
                         /*鲁文兵版本切换*/
-                       if(!empty($goods_names)){                          
-                            if($list[$k]["goods_names"]=="茶进阶版"){
-                            $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
-                            $list[$k]["goods_names_test"][2]['status_type']=1;
-                            $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                            $list[$k]["goods_names_test"][1]['status_type']=0;
-                            $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                            $list[$k]["goods_names_test"][0]['status_type']=0;
+                    //    if(!empty($goods_names)){                          
+                    //         if($list[$k]["goods_names"]=="茶进阶版"){
+                    //         $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                    //         $list[$k]["goods_names_test"][2]['status_type']=1;
+                    //         $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                    //         $list[$k]["goods_names_test"][1]['status_type']=0;
+                    //         $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                    //         $list[$k]["goods_names_test"][0]['status_type']=0;
 
-                        }
-                        if($list[$k]["goods_names"]=="茶行业版"){
-                            $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                            $list[$k]["goods_names_test"][1]['status_type']=1;
-                            $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                            $list[$k]["goods_names_test"][0]['status_type']=0;
+                    //     }
+                    //     if($list[$k]["goods_names"]=="茶行业版"){
+                    //         $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                    //         $list[$k]["goods_names_test"][1]['status_type']=1;
+                    //         $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                    //         $list[$k]["goods_names_test"][0]['status_type']=0;
 
-                        }
-                        if($list[$k]["goods_names"]=="万用版"){
-                            $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                            $list[$k]["goods_names_test"][0]['status_type']=1;
+                    //     }
+                    //     if($list[$k]["goods_names"]=="万用版"){
+                    //         $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                    //         $list[$k]["goods_names_test"][0]['status_type']=1;
 
-                        }
-                        }else{
-                            $length= count($list[$k]["goods_names_test"]);                        
-                                if($list[$k]["goods_names"]=="茶进阶版"){
-                                $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
-                                $list[$k]["goods_names_test"][2]['status_type']=1;
-                                $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                                $list[$k]["goods_names_test"][1]['status_type']=0;
-                                $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                                $list[$k]["goods_names_test"][0]['status_type']=0;
+                    //     }
+                    //     }else{
+                    //         halt($list);
+                    //         $length= count($list[$k]["goods_names_test"]);   //  本店铺的可用版本数                     
+                    //             if($list[$k]["goods_names"]=="茶进阶版"){
+                    //             $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
+                    //             $list[$k]["goods_names_test"][2]['status_type']=1;
+                    //             $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                    //             $list[$k]["goods_names_test"][1]['status_type']=0;
+                    //             $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                    //             $list[$k]["goods_names_test"][0]['status_type']=0;
 
-                            }                                 
-                            if($list[$k]["goods_names"]=="茶行业版"){
-                                $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                                $list[$k]["goods_names_test"][1]['status_type']=1;
-                                $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                                $list[$k]["goods_names_test"][0]['status_type']=0;
+                    //         }                                 
+                    //         if($list[$k]["goods_names"]=="茶行业版"){
+                    //             $list[$k]["goods_names_test"][1]['goods_name']="行业版";
+                    //             $list[$k]["goods_names_test"][1]['status_type']=1;
+                    //             $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                    //             $list[$k]["goods_names_test"][0]['status_type']=0;
 
-                            }
-                            if($list[$k]["goods_names"]=="万用版"){
-                                $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                                $list[$k]["goods_names_test"][0]['status_type']=1;
+                    //         }
+                    //         if($list[$k]["goods_names"]=="万用版"){
+                    //             $list[$k]["goods_names_test"][0]['status_type']="万用版";
+                    //             $list[$k]["goods_names_test"][0]['status_type']=1;
 
-                            }
-                        }                         
-                    }                
-                
-               
+                    //         }
+                    //     }                         
+                    } 
+                    // halt($list);
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
                 return ajax_error("请先编辑小程序设置");
@@ -520,7 +526,6 @@ class  General extends  Base {
         $bg_music=$a['diy_bg_music'];
         //*鲁文兵版本切换*/
          $goods_names = input("goods_names");
-      
         if(!empty($goods_names)){
             if(empty(Session::get('goods_names'))){
                 
@@ -532,7 +537,6 @@ class  General extends  Base {
                 }
            
         }
-        
       $this->assign('goods_names',$goods_names);
 
         if(!$res){
@@ -1599,30 +1603,28 @@ class  General extends  Base {
                     }
                 }
               
-            if($isset_id){
-                //不能购买降级购买套餐(同事不能购买低于这个id的，所谓降级)
-                $isset_ids =Db::name("meal_orders")
-                    ->where("store_id",$store_id)
-                    ->where("enter_all_id",">",$enter_all_id)
-                    ->value("id");
-                
-               $isset_idData =Db::name("meal_orders")
-                    ->where("store_id",$store_id)
-                    ->where("enter_all_id","EQ",$enter_all_id)
-                    ->where("audit_status","EQ",1)
-                    ->value("id");
+            if($isset_id){   //审核未通过
+                    //不能购买降级购买套餐(同事不能购买低于这个id的，所谓降级)
+                    $isset_ids =Db::name("meal_orders")
+                        ->where("store_id",$store_id)
+                        ->where("enter_all_id",">",$enter_all_id)
+                        ->value("id");
+                    
+                $isset_idData =Db::name("meal_orders")
+                        ->where("store_id",$store_id)
+                        ->where("enter_all_id","EQ",$enter_all_id)
+                        ->where("audit_status","EQ",1)
+                        ->value("id");
 
-                if($isset_ids){
-                    //这里还需要判断相同年份进来的数据
-                    exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
-                }else{
-                   exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
-                }
-                if($isset_idData) {
-                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
-                }
-                
-
+                    if($isset_ids){
+                        //这里还需要判断相同年份进来的数据
+                        exit(json_encode(array("status"=>3,"info"=>"不能购买降级购买套餐","data"=>["id"=>$isset_ids])));
+                    }else{
+                    exit(json_encode(array("status"=>2,"info"=>"您有历史订单未支付，点击确定去支付或者点击取消支付新的商品","data"=>["id"=>$isset_id])));
+                    }
+                    if($isset_idData) {
+                        exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐","data"=>["id"=>$isset_ids])));
+                    }
               }else{
                 //不能购买降级购买套餐                
                 $isset_ids =Db::name("meal_orders")
@@ -1712,28 +1714,157 @@ class  General extends  Base {
                 ->where("store_id",$store_id)
                 ->where("pay_type",null)
                 ->delete();
-            $time=date("Y-m-d",time());
-            $v=explode('-',$time);
-            $time_second=date("H:i:s",time());
-            $vs= explode(':',$time_second);
-            $order_number ="TC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].$is_business; //订单编号
-            $data =[
-                "order_number"=>$order_number, //订单号
-                "create_time"=>time(), //创建订单的时间
-                "goods_name"=>$meal_name,//套餐名称
-                "goods_quantity"=>1, //数量
-                "unit"=>"年", //单位
-                "images_url"=>$images_url,//图标
-                "store_name"=>$store_name, //店铺名字
-                "amount_money"=>$enter_data["favourable_cost"],//金额
-                "cost" =>$enter_data["cost"],//原价
-                "store_id"=>$store_id,//店铺id
-                "enter_all_id"=>$enter_all_id,//套餐id
-                "status"=>-1,//订单状态（-1为未付款，1为已付款）
-                "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
-            ];
-            $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
-            $bool =Db::table("tb_set_meal_order")->insert($data);
+            //根据购买版本的不同，新增加数据
+            if($enter_data['enter_id']=='5'){    //万用版
+                $time=date("YmdHis",time());
+                $order_number ="TC".$time.$is_business; //订单编号
+                $data =[
+                    "order_number"=>$order_number, //订单号
+                    "create_time"=>time(), //创建订单的时间
+                    "goods_name"=>$meal_name,//套餐名称
+                    "goods_quantity"=>1, //数量
+                    "unit"=>"年", //单位
+                    "images_url"=>$images_url,//图标
+                    "store_name"=>$store_name, //店铺名字
+                    "amount_money"=>$enter_data["favourable_cost"],//金额
+                    "cost" =>$enter_data["cost"],//原价
+                    "store_id"=>$store_id,//店铺id
+                    "enter_all_id"=>$enter_all_id,//套餐id
+                    "status"=>-1,//订单状态（-1为未付款，1为已付款）
+                    "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
+                    "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
+                ];
+                $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
+                $bool =Db::table("tb_set_meal_order")->insert($data);
+            }elseif($enter_data['enter_id']=='7'){   //行业版
+                $time=date("YmdHis",time());
+                $order_number ="TC".$time.$is_business; //订单编号
+                $data =[
+                    "order_number"=>$order_number, //订单号
+                    "create_time"=>time(), //创建订单的时间
+                    "goods_name"=>$meal_name,//套餐名称
+                    "goods_quantity"=>1, //数量
+                    "unit"=>"年", //单位
+                    "images_url"=>$images_url,//图标
+                    "store_name"=>$store_name, //店铺名字
+                    "amount_money"=>$enter_data["favourable_cost"],//金额
+                    "cost" =>$enter_data["cost"],//原价
+                    "store_id"=>$store_id,//店铺id
+                    "enter_all_id"=>$enter_all_id,//套餐id
+                    "status"=>-1,//订单状态（-1为未付款，1为已付款）
+                    "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
+                    "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
+                ];
+                $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
+                $bool =Db::table("tb_set_meal_order")->insert($data);
+                //伪造数据
+                $time2=date("YmdHis",time());
+                $order_number2 ="TC".$time2.$is_business; //订单编号
+                $data2 =[
+                    "order_number"=>$order_number2, //订单号
+                    "create_time"=>time(), //创建订单的时间
+                    "goods_name"=>'万用版',//套餐名称
+                    "goods_quantity"=>1, //数量
+                    "unit"=>"年", //单位
+                    "images_url"=>'/static/admin/common/img/wanyong.png',//图标
+                    "store_name"=>$store_name, //店铺名字
+                    "amount_money"=>$enter_data["favourable_cost"],//金额
+                    "cost" =>$enter_data["cost"],//原价
+                    "store_id"=>$store_id,//店铺id
+                    "enter_all_id"=>'6',//套餐id
+                    "status"=>-1,//订单状态（-1为未付款，1为已付款）
+                    "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
+                    "status_type"=>0,//版本开启状态状态（1为正常状态，0为关闭状态）
+                ];
+                $set_meal_id2 = Db::table("tb_meal_orders")->insertGetId($data2);
+                $bool2 =Db::table("tb_set_meal_order")->insert($data2);
+
+            }elseif($enter_data['enter_id']=='8'){   //进阶版
+                $time=date("YmdHis",time());
+                $order_number ="TC".$time.$is_business; //订单编号
+                $data =[
+                    "order_number"=>$order_number, //订单号
+                    "create_time"=>time(), //创建订单的时间
+                    "goods_name"=>$meal_name,//套餐名称
+                    "goods_quantity"=>1, //数量
+                    "unit"=>"年", //单位
+                    "images_url"=>$images_url,//图标
+                    "store_name"=>$store_name, //店铺名字
+                    "amount_money"=>$enter_data["favourable_cost"],//金额
+                    "cost" =>$enter_data["cost"],//原价
+                    "store_id"=>$store_id,//店铺id
+                    "enter_all_id"=>$enter_all_id,//套餐id
+                    "status"=>-1,//订单状态（-1为未付款，1为已付款）
+                    "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
+                    "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
+                ];
+                $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
+                $bool =Db::table("tb_set_meal_order")->insert($data);
+                //伪造数据
+                $time2=date("YmdHis",time());
+                $order_number2 ="TC".$time2.$is_business; //订单编号
+                $data2 =[
+                    "order_number"=>$order_number2, //订单号
+                    "create_time"=>time(), //创建订单的时间
+                    "goods_name"=>'行业版',//套餐名称
+                    "goods_quantity"=>1, //数量
+                    "unit"=>"年", //单位
+                    "images_url"=>'/static/admin/common/img/hangye.png',//图标
+                    "store_name"=>$store_name, //店铺名字
+                    "amount_money"=>$enter_data["favourable_cost"],//金额
+                    "cost" =>$enter_data["cost"],//原价
+                    "store_id"=>$store_id,//店铺id
+                    "enter_all_id"=>'6',//套餐id
+                    "status"=>-1,//订单状态（-1为未付款，1为已付款）
+                    "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
+                    "status_type"=>0,//版本开启状态状态（1为正常状态，0为关闭状态）
+                ];
+                $set_meal_id2 = Db::table("tb_meal_orders")->insertGetId($data2);
+                $bool2 =Db::table("tb_set_meal_order")->insert($data2);
+                //伪造数据
+                $time3=date("YmdHis",time());
+                $order_number3 ="TC".$time3.$is_business; //订单编号
+                $data3 =[
+                    "order_number"=>$order_number3, //订单号
+                    "create_time"=>time(), //创建订单的时间
+                    "goods_name"=>'万用版',//套餐名称
+                    "goods_quantity"=>1, //数量
+                    "unit"=>"年", //单位
+                    "images_url"=>'/static/admin/common/img/wanyong.png',//图标
+                    "store_name"=>$store_name, //店铺名字
+                    "amount_money"=>$enter_data["favourable_cost"],//金额
+                    "cost" =>$enter_data["cost"],//原价
+                    "store_id"=>$store_id,//店铺id
+                    "enter_all_id"=>'6',//套餐id
+                    "status"=>-1,//订单状态（-1为未付款，1为已付款）
+                    "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
+                    "status_type"=>0,//版本开启状态状态（1为正常状态，0为关闭状态）
+                ];
+                $set_meal_id3 = Db::table("tb_meal_orders")->insertGetId($data3);
+                $bool3 =Db::table("tb_set_meal_order")->insert($data3);
+            }
+            //     $time2=date("Y-m-d",time());
+            //     $v2=explode('-',$time2);
+            //     $time_second2=date("H:i:s",time());
+            //     $vs= explode(':',$time_second2);
+            //     $order_number ="TC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].$is_business; //订单编号
+            //     $data =[
+            //     "order_number"=>$order_number, //订单号
+            //     "create_time"=>time(), //创建订单的时间
+            //     "goods_name"=>$meal_name,//套餐名称
+            //     "goods_quantity"=>1, //数量
+            //     "unit"=>"年", //单位
+            //     "images_url"=>$images_url,//图标
+            //     "store_name"=>$store_name, //店铺名字
+            //     "amount_money"=>$enter_data["favourable_cost"],//金额
+            //     "cost" =>$enter_data["cost"],//原价
+            //     "store_id"=>$store_id,//店铺id
+            //     "enter_all_id"=>$enter_all_id,//套餐id
+            //     "status"=>-1,//订单状态（-1为未付款，1为已付款）
+            //     "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
+            // ];
+            // $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
+            // $bool =Db::table("tb_set_meal_order")->insert($data);
             
             if($set_meal_id >0){
                 return ajax_success("下单成功",["id"=>intval($set_meal_id)]);
@@ -1911,7 +2042,6 @@ class  General extends  Base {
                 "subject" => '店铺充值', //商品订单的名称
                 "total_fee" => number_format($money, 2, '.', ''),
             );
-            halt($arr_data);
             $str_pay_html = $obj_alipay->make_form($arr_data, true);
             if($str_pay_html){
                 return ajax_success("二维码成功",["url"=>$str_pay_html,'orderid'=>$orderSn]);
@@ -3055,6 +3185,27 @@ class  General extends  Base {
                 return ajax_error("二维码生成失败");
             }
 
+        }
+    }
+    /**
+     * lilu
+     * 切换版本号
+     */
+    public function change_edition(){
+        //获取参数
+        $input=input();
+        $store_id=Session::get('store_id');
+        //修改版本切换
+        $re=db('set_meal_order')->where(['store_id'=>$store_id,'audit_status'=>1,'status'=>1])->select();
+        foreach($re as $k=>$v){
+            $re2=db('set_meal_order')->where(['store_id'=>$store_id,'audit_status'=>1,'status'=>1])->setField('status_type',0);
+            
+        }
+        $re3=db('set_meal_order')->where('id',$input['id'])->setField('status_type',1);
+        if($re3){
+            return ajax_success('获取成功');
+        }else{
+            return ajax_error('获取失败');
         }
     }
 

@@ -46,10 +46,12 @@ class  Order extends  Controller{
             $status =$request->only(["status"])["status"];
             $courier_number =$request->only(["courier_number"])["courier_number"];
             $express_name =$request->only(["express_name"])["express_name"];
+            $express_name2 =$request->only(["express_name_ch"])["express_name_ch"];
             $data =[
                 "status"=>$status,
                 "courier_number"=>$courier_number,
-                "express_name"=>$express_name
+                "express_name"=>$express_name,
+                "express_name_ch"=>$express_name2,
             ];
             $bool =Db::name("order")->where("id",$order_id)->update($data);
             if($bool){
