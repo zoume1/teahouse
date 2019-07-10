@@ -26,7 +26,7 @@ class Bonus extends Controller
     public function bonus_index()
     {
         $store_id = Session::get("store_id");
-        $bonus = db("bonus_mall")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
+        $bonus = db("bonus_mall")->where("store_id","EQ",$store_id)->order("sort_number desc")->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
 

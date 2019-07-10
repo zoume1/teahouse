@@ -32,6 +32,7 @@ class Crowd extends Controller
                 ->where("state",1)
                 ->where("end_time",">=",$date_time)
                 ->where("store_id","EQ",$store_id)	
+                ->order("sort_number desc")
                 ->field("id,project_name,goods_describe,end_time,goods_show_image")
                 ->select();
             if(!empty($crowd)){
@@ -79,6 +80,7 @@ class Crowd extends Controller
                 ->where("state",1)
                 ->where("store_id","EQ",$store_id)	
                 ->where("end_time",">=",$date_time)
+                ->order("sort_number desc")
                 ->field("id,project_name,end_time,goods_show_image,scope,goods_member")
                 ->select();
             

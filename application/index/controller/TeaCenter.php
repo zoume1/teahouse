@@ -99,7 +99,7 @@ class TeaCenter extends Controller
             ->where("label", 1)
             ->where("pid",$res)
             ->where("store_id","EQ",$store_id)
-            ->order("start_time")
+            ->order("order_ing desc")
             ->select();
             if(empty($activity)){
                 return ajax_error("下面没有活动");
