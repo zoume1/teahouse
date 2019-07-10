@@ -246,6 +246,7 @@
                             if(_this.wxPayInterval) clearInterval(_this.wxPayInterval);
                             if(_this.aliPayInterval) clearInterval(_this.aliPayInterval);
                             // window.parent.document.getElementById('tcdl').click();
+                            _this.myWindow ? _this.myWindow.close() : '';
                             window.location.reload();
                         }, 3000)
                     }
