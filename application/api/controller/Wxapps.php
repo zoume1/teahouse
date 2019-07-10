@@ -23,6 +23,7 @@ class  Wxapps extends  Controller{
                     a.amount_money,a.store_id,a.images_url,a.store_name,a.unit,a.cost,a.enter_all_id")
                 ->where("store_id", $uniacid)
                 ->where("audit_status",1)
+                ->where("status_type",1)
                 ->order('id desc')
                ->find();
       
