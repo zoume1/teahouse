@@ -184,7 +184,7 @@ class Storehouse extends Controller
                             $house_order[$k]['goods_bottom_money'] = Db::name("special")->where("id",$house_order[$k]['special_id'])->value("line");
                         }
                     }
-                    $rest_house['number'] = $house_name;
+                    $rest_house['name'] = $house_name;
                     $rest_house['getArr'] = $house_order;
 
                     $re[$rest_number] = $rest_house;
