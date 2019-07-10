@@ -18,7 +18,7 @@ class  Analyse extends  Controller{
      * 郭杨
      */    
     public function analyse_index(){     
-        $analyse_data = db("analyse_goods")->order('sort_number asc')->select();
+        $analyse_data = db("analyse_goods")->order('sort_number desc')->select();
         if(!empty($analyse_data)){
             foreach ($analyse_data as $key => $value) {
                     if($analyse_data[$key]["goods_standard"] == "1")
