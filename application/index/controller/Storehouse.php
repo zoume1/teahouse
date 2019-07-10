@@ -170,6 +170,7 @@ class Storehouse extends Controller
 
                 if(!empty($house_order)){
                     foreach($house_order as $k => $l){
+                        $house_order[$k]["store_number"] = explode(',', $house_order[$k]["store_number"]);
                         if($time < $house_order[$k]["end_time"]){
                             $house_order[$k]['limit_time'] = round(($house_order[$k]["end_time"]-$time)/86400); //剩余天数
                             if($house_order[$k]['limit_time'] > 30){
@@ -186,10 +187,9 @@ class Storehouse extends Controller
                     }
                     $rest_house['name'] = $house_name;
                     $rest_house['getArr'] = $house_order;
-
-                    $re[$rest_number] = $rest_house;
+                    $restul[$rest_number] = $rest_house;
                    
-                    return ajax_success("发送成功",$re);
+                    return ajax_success("发送成功",$restul);
                 } else {
                     return ajax_error("该店铺没有存茶订单");
                 }
