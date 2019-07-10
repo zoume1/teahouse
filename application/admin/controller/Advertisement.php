@@ -28,7 +28,7 @@ class Advertisement extends Controller
     {
 
         $store_id = Session::get("store_id");
-        $accessories = db("teahost")->where("store_id","EQ",$store_id)->select();
+        $accessories = db("teahost")->where("store_id","EQ",$store_id)->order("order_ing desc")->select();
         foreach ($accessories as $key => $value) {
             if ($value["pid"]) {
                 $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();

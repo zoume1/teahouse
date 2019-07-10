@@ -32,6 +32,9 @@ class Storehouse extends Controller
             $time = time();
             $depot = Db::name("store_house")->where("store_id",$store_id)->select();
 
+            foreach($depot as $kk => $va){
+                $depot_name[] = $va['name'];
+            }
             if(isset($member_id) && isset($store_id)){
                 if(!empty($depot)){
                     foreach($depot as $key => $value){
@@ -43,14 +46,12 @@ class Storehouse extends Controller
                                         ->where(["tb_house_order.store_id"=>$store_id, "tb_house_order.store_house_id" =>$depot[$key]['id'] ,"tb_house_order.member_id"=>$member_id])
                                         ->order("order_create_time asc")
                                         ->select();   
-                    
                     }
                     if(!empty($house_order)){
-                        $count_number = count(($house_order));
+                        $count_number = count($house_order);
                         for($i = 0 ; $i < $count_number ; $i++){
                             foreach($house_order[$i] as $zt => $kl){
-                                $house_order[$i]["store_name"] =  $kl["store_name"];
-                                $house_order[$i][$zt]["store_number"] = str_replace(',', '', $house_order[$i][$zt]["store_number"]);
+                                $house_order[$i][$zt]["store_number"] = explode(',', $house_order[$i][$zt]["store_number"]);
                                 if($time < $house_order[$i][$zt]["end_time"]){
                                     $house_order[$i][$zt]['limit_time'] = round(($house_order[$i][$zt]["end_time"]-$time)/86400); //剩余天数
                                     if($house_order[$i][$zt]['limit_time'] > 30){
@@ -65,8 +66,15 @@ class Storehouse extends Controller
                                     $house_order[$i][$zt]['goods_bottom_money'] = Db::name("special")->where("id",$house_order[$i][$zt]['special_id'])->value("line");
                                 }
                             }
-                        }                                         
-                    return ajax_success("获取成功",$house_order);
+                        }
+                        
+                        
+                    foreach($depot_name as $ds => $nm){
+                        $depots_names[$ds]['name'] = $nm;
+                        $depots_names[$ds]['getArr'] = $house_order[$ds];                       
+                    }
+                   
+                    return ajax_success("传输成功",$depots_names);
                     } else {
                         return ajax_error("该店铺没有存茶订单");
                     }
