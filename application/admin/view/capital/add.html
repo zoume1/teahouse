@@ -28,25 +28,25 @@
 	<div class="open">
 
 	</div>
-	<form class="layui-form" action="">
+	<form class="layui-form" action="{:url('admin/capital/capital_adddo')}">
 
 		<div class="layui-form-item">
 			<label class="layui-form-label"> 功能开关</label>
 			<div class="layui-input-block">
-				<input type="checkbox" class="Status" name="show" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
+				<input type="checkbox" class="Status" name="status" value="0" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 				 data-id="2">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">充值</label>
 			<div class="layui-input-block">
-				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">元
+				<input type="text" name="recharge_setting_full_money" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>元
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">送积分</label>
 			<div class="layui-input-block">
-				<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+				<input type="text" name="recharge_setting_send_integral" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
 
 			</div>
 		</div>
@@ -80,8 +80,34 @@
 				laypage = layui.laypage,
 				$ = layui.jquery;
 
+				//   首页推荐
+				form.on('switch(isShow)', function (data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+                // var vals = data.value;
+                // var id = $(this).data("id");
+                // var status = $(this).val();
+                // $.ajax({
+                //     type: "POST",
+                //     url: "{:url('admin/Goods/status')}",
+                //     data: {
+                //         "id": id,
+                //         "status": status
+                //     },
+                //     success: function (data) {
+                //         console.log("成功")
+                //     },
+                //     error: function (data) {
+                //         console.log("错误")
+                //     }
+                });
 
-		})
+            })
+
+
 	</script>
 
 

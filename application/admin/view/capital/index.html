@@ -48,7 +48,7 @@
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
 			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/capital/edit')}"> 添加规格</a>
+				<a class="layui-btn layui-btn-danger batchDel" href="{:url('admin/capital/add')}"> 添加规格</a>
 			</div>
 		</blockquote>
 		<div class="layui-form news_list">
@@ -115,6 +115,32 @@
 				layer = parent.layer === undefined ? layui.layer : parent.layer,
 				laypage = layui.laypage,
 				$ = layui.jquery;
+
+
+				// //首页推荐
+				// form.on('switch(isShow)', function (data) {
+                // if ($(this).val() == 0) {
+                //     $(this).val(1);
+                // } else {
+                //     $(this).val(0);
+                // }
+                // var vals = data.value;
+                // var id = $(this).data("id");
+                // var status = $(this).val();
+                // $.ajax({
+                //     type: "POST",
+                //     url: "{:url('admin/Goods/status')}",
+                //     data: {
+                //         "id": id,
+                //         "status": status
+                //     },
+                //     success: function (data) {
+                //         console.log("成功")
+                //     },
+                //     error: function (data) {
+                //         console.log("错误")
+                //     }
+                // });
 		})
 	</script>
 
