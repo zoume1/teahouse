@@ -911,6 +911,7 @@ Route::group("admin",[
     "control_order_index"=>"admin/Control/control_order_index",    //入驻订单页面
     "control_store_return"=>"admin/Control/control_store_return",  //入驻资料审核页面
     "control_order_add"=>"admin/Control/control_order_add",        //入驻订单店铺编辑审核
+    "control_order_delete"=>"admin/Control/control_order_delete",  //入驻订单店铺删除
     "control_order_update"=>"admin/Control/control_order_update",  //入驻订单店铺审核更新操作
     "control_order_status"=>"admin/Control/control_order_status",  //入驻订单编辑审核
     "control_order_status_update"=>"admin/Control/control_order_status_update",       //入驻订单编辑审核操作
