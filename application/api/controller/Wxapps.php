@@ -248,11 +248,11 @@ class  Wxapps extends  Controller{
                         //轮播图
                         if ($v['id'] == "banner") {
                             $v['data'] = array_values($v['data']);
-                            if ($v['data']) {
-                                $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
-                                $v['params']['imgw'] = explode('"', $imginfo[0])[1];
-                                $v['params']['imgh'] = explode('"', $imginfo[1])[1];
-                            }
+                            // if ($v['data']) {
+                            //     $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
+                            //     $v['params']['imgw'] = explode('"', $imginfo[0])[1];
+                            //     $v['params']['imgh'] = explode('"', $imginfo[1])[1];
+                            // }
                             //富文本
                         }else if ($v['id'] == "richtext") {
 
@@ -691,7 +691,7 @@ class  Wxapps extends  Controller{
                                 $member_id =  input("open_id");  //open-ID
                                 $list = db("goods")
                                     ->where(['pid'=>$sourceid,'status'=>1,'store_id'=>$uniacid,'limit_goods'=>'0'])
-                                    ->limit(1,$count)
+                                    ->limit(0,$count)
                                     ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
                                     ->select();
                                 $member_grade_id = db("member")
