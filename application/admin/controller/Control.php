@@ -808,4 +808,16 @@ class  Control extends  Controller{
         }
     }
 
+    /**
+     * @param int $id
+     * [admin店铺删除]
+     * @return 成功时返回，其他抛异常
+     */
+    public function control_order_delete($id)
+    {
+        halt($id);
+        $rest = Db::name("store")->where("id",$id)->update(['status'=>3]);
+
+    }
+
  }

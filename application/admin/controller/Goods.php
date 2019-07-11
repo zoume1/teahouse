@@ -80,10 +80,8 @@ class Goods extends Controller
         }
         $store_id = Session::get("store_id");
         $da_change = Db::table("tb_set_meal_order")
-        ->alias('a')
        ->where("store_id", $store_id)
        ->where("audit_status",1)
-       ->order('id desc')
        ->value('enter_all_id'); 
         if(!empty($da_change)){
             if($da_change <= 6){
