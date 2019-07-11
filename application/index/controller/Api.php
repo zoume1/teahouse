@@ -30,15 +30,16 @@ class  Api extends  Controller{
     public function express_hundred(Request $request)
     {
         if ($request->isPost()) {
-            $order_id =$request->only(['by_order_id'])["by_order_id"];  //订单id
+            // $order_id =$request->only(['by_order_id'])["by_order_id"];  //订单id
+            $order_id=123;
             if(!empty($order_id)) {
-                $express =Db::name('order')
-                    ->field('courier_number,express_name')
-                    ->where('id',$order_id)
-                    ->find();
+                // $express =Db::name('order')
+                //     ->field('courier_number,express_name')
+                //     ->where('id',$order_id)
+                //     ->find();
                 //测试
-                // $express['express_name']='yuantong';
-                // $express['courier_number']='806799086475402253';
+                $express['express_name']='yuantong';
+                $express['courier_number']='806799086475402253';
                 if(!empty($express)){
                     $express_type =$express['express_name'];
                     $express_num =$express['courier_number'];
@@ -68,10 +69,10 @@ class  Api extends  Controller{
                         $data = str_replace("\"", '"', $result);
                         if(!empty($data)){
                             $data = json_decode($data,true);
-                           return ajax_success("物流数据返回成功",$data);
+                        //    return ajax_success("物流数据返回成功",$data);
                         }else{
                             $data = json_decode($data,true);
-                           return ajax_error("暂无物流信息");
+                        //    return ajax_error("暂无物流信息");
                         }
                     }
                 }

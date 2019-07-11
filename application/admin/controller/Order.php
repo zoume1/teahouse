@@ -16,17 +16,20 @@ use think\paginator\driver\Bootstrap;
 use think\Session;
 class  Order extends  Controller{
     /**
-     **************李火生*******************
+     *************lilu*******************
      * @param Request $request
      * Notes:初始订单页面
      **************************************
      * @return \think\response\View
+     * 展示5种类型的订单
      */
     public function order_index(){
         $store_id = Session::get("store_id");
+        $where['status']=array('between',array(0,8));
         $data =Db::name("order")
             ->order("order_create_time","desc")
             ->where("store_id",'EQ',$store_id)
+            ->where($where)
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);

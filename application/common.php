@@ -698,20 +698,17 @@ function show_order_status($status){
         echo '<button type="button" class="state color2" >待发货</button>';
 //    }else  if($status==4){
 //        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
-    }else  if($status==4 ){
+    }else  if($status==4 ||$status==5 ||$status==6 ||$status==7 ){
         echo '<button type="button" class="state color3" >已发货</button>';
-    }else  if($status==5){
-        echo '<button type="button" class="state color3" >待收货</button>';
-    }else  if($status==7){
-        echo '<button type="button" class="state color3" >待评价</button>';
-    } else  if($status==8){
+    // }else  if($status==5){
+    //     echo '<button type="button" class="state color3" >待收货</button>';
+    // }else  if($status==7){
+    //     echo '<button type="button" class="state color3" >待评价</button>';
+    // }
+    }else  if($status==8){
         echo '<button type="button" class="state color4" >已完成</button>';
 //    }else  if($status==9){
 //        echo '<button type="button" class="state  cancel-btu" >取消订单</button>';
-    }else  if($status==9 || $status==10){
-        echo '<button type="button" class="state color5" >已关闭</button>';
-    }else  if($status==11){
-        echo '<button type="button" class="state color6" >退货</button>';
     }
 }
 
