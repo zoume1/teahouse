@@ -101,7 +101,7 @@ class  Order extends  Controller
             ->alias('a')
            ->where("store_id", $restul)
            ->where("audit_status",1)
-           ->order('id desc')
+           ->where('status_type',1)
            ->value('enter_all_id');
             if(!empty($da_change)){
                 if($da_change <= 6){
