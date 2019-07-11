@@ -48,7 +48,7 @@ class Storehouse extends Controller
                                         ->order("order_create_time asc")
                                         ->select();   
                     }
-                    if(!empty($house_order)){
+
                         $count_number = count($house_order);
                         for($i = 0 ; $i < $count_number ; $i++){
                             foreach($house_order[$i] as $zt => $kl){
@@ -76,12 +76,17 @@ class Storehouse extends Controller
                         
                     foreach($depot_name as $ds => $nm){
                         $depots_names[$ds]['name'] = $nm;
-                        $depots_names[$ds]['getArr'] = $house_order[$ds];                       
+                        $depots_names[$ds]['getArr'] = $house_order[$ds];   
+                        
+                        if(empty($depots_names[$ds]['getArr'])){
+                            unset($depots_names[$ds]);
+                        }
                     }
-                   
-                    return ajax_success("传输成功",$depots_names);
+                    $depots_names = array_values($depots_names);
+                    if(!empty($depots_names)){
+                        return ajax_success("传输成功",$depots_names);
                     } else {
-                        return ajax_error("该店铺没有存茶订单");
+                        return ajax_error("没有存茶订单");
                     }
                 } else {
                     return ajax_error("该店铺没有存茶仓库");
