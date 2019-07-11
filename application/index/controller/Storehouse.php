@@ -18,6 +18,7 @@ use think\Image;
 class Storehouse extends Controller
 {
 
+    public static $restel = 0;
     /**
      * @param int $uniacid
      * @param int member_id
@@ -151,6 +152,7 @@ class Storehouse extends Controller
         if ($request->isPost()){
             $data = input();
             $time = time();
+            $rest_number = self::$restel;
             if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['store_house_id'])){
                 $house_name = Db::name("store_house")->where("id",$data['store_house_id'])->value("number");
                 if(empty($house_name)){
@@ -168,6 +170,7 @@ class Storehouse extends Controller
 
                 if(!empty($house_order)){
                     foreach($house_order as $k => $l){
+                        $house_order[$k]["store_number"] = explode(',', $house_order[$k]["store_number"]);
                         if($time < $house_order[$k]["end_time"]){
                             $house_order[$k]['limit_time'] = round(($house_order[$k]["end_time"]-$time)/86400); //剩余天数
                             if($house_order[$k]['limit_time'] > 30){
@@ -182,10 +185,11 @@ class Storehouse extends Controller
                             $house_order[$k]['goods_bottom_money'] = Db::name("special")->where("id",$house_order[$k]['special_id'])->value("line");
                         }
                     }
-                    
-                    $rest_house['number'] = $house_name;
+                    $rest_house['name'] = $house_name;
                     $rest_house['getArr'] = $house_order;
-                    return ajax_success("获取成功",$rest_house);
+                    $restul[$rest_number] = $rest_house;
+                   
+                    return ajax_success("发送成功",$restul);
                 } else {
                     return ajax_error("该店铺没有存茶订单");
                 }
