@@ -168,38 +168,29 @@ class Pay extends  Controller{
     /**
      **************郭杨*******************
      * @param Request $request
-     * Notes 众筹商品打赏支付
+     * Notes仓库订单续费支付
      **************************************
      * @param Request $request
      */
-    function  reward_pay(Request $request){
-        $member_id = $request->param("member_id");//open_id
-        $order_numbers = $request->param("order_number");//订单编号
-        $open_ids =Db::name("member")
+    function  reward_pay($member_id, $order_numbers,$money){
+        $open_ids = Db::name("member")
         ->where("member_id",$member_id)
         ->value("member_openid");
-        $order_datas = Db::name("reward")
-            ->where("order_number",$order_numbers)
-            ->where("member_id", $member_id)
-            ->find();
-        $activity_name ="打赏";//名称
-        $cost_moneny = $order_datas["money"];//金额
+        $activity_name ="仓库订单续费";//名称
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
         //         文档提及的参数规范：商家名称-销售商品类目
         $input->SetBody($activity_name);
         //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
-//        $input->SetOut_trade_no(time().'');
         $input->SetOut_trade_no($order_numbers);
         //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
-        $input->SetTotal_fee($cost_moneny*100);
+        $input->SetTotal_fee($money*100); //金额
         $return_url = config("domain.url")."reward_notify";
         $input->SetNotify_url($return_url);//需要自己写的notify.php
         $input->SetTrade_type("JSAPI");
         //         由小程序端传给后端或者后端自己获取，写自己获取到的,
         $input->SetOpenid( $open_ids);
-        //$input->SetOpenid($this->getSession()->openid);
-        //         向微信统一下单，并返回order，它是一个array数组
+
         $order = \WxPayApi::unifiedOrder($input);
         //       json化返回给小程序端
         header("Content-Type: application/json");
@@ -239,6 +230,49 @@ class Pay extends  Controller{
         $input->SetNotify_url($return_url);//需要自己写的notify.php
         $input->SetTrade_type("JSAPI");
         //         由小程序端传给后端或者后端自己获取，写自己获取到的，
+        $input->SetOpenid( $open_ids);
+        //$input->SetOpenid($this->getSession()->openid);
+        //         向微信统一下单，并返回order，它是一个array数组
+        $order = \WxPayApi::unifiedOrder($input);
+        //       json化返回给小程序端
+        header("Content-Type: application/json");
+        echo $this->getJsApiParameters($order);
+    }
+
+
+
+        /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes 众筹商品打赏支付
+     **************************************
+     * @param Request $request
+     */
+    function  series_pay(Request $request){
+        $member_id = $request->param("member_id");//open_id
+        $order_numbers = $request->param("order_number");//订单编号
+        $open_ids =Db::name("member")
+        ->where("member_id",$member_id)
+        ->value("member_openid");
+        $order_datas = Db::name("reward")
+            ->where("order_number",$order_numbers)
+            ->where("member_id", $member_id)
+            ->find();
+        $activity_name ="打赏";//名称
+        $cost_moneny = $order_datas["money"];//金额
+        //         初始化值对象
+        $input = new \WxPayUnifiedOrder();
+        //         文档提及的参数规范：商家名称-销售商品类目
+        $input->SetBody($activity_name);
+        //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
+//        $input->SetOut_trade_no(time().'');
+        $input->SetOut_trade_no($order_numbers);
+        //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
+        $input->SetTotal_fee($cost_moneny*100);
+        $return_url = config("domain.url")."reward_notify";
+        $input->SetNotify_url($return_url);//需要自己写的notify.php
+        $input->SetTrade_type("JSAPI");
+        //         由小程序端传给后端或者后端自己获取，写自己获取到的,
         $input->SetOpenid( $open_ids);
         //$input->SetOpenid($this->getSession()->openid);
         //         向微信统一下单，并返回order，它是一个array数组

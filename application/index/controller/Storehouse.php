@@ -257,7 +257,11 @@ class Storehouse extends Controller
 
 
     /**
-     * @param int id
+     * @param int id  订单id
+     * @param int member_id    账号id
+     * @param int never_time   续费到期时间
+     * @param int year_number  续费年数
+     * @param int series_price 续费费用
      * [店铺小程序入仓定订单]
      * @return 成功时返回，其他抛异常
      */
@@ -265,12 +269,13 @@ class Storehouse extends Controller
     {
         if ($request->isPost()) {
             $data = input();
-            if(isset($data['id']) && isset($data['never_time']) && isset($data['year_number']) && isset($data['series_price'])){             
-                if(!empty($depot)){  
-                    return ajax_success("传输成功",$depot);
-                } else {
-                    return ajax_error("该用户未进行存茶操作");
-                }
+            if(isset($data['id']) && isset($data['never_time']) && isset($data['year_number']) && isset($data['member_id']) && isset($data['series_price'])){             
+                $time = date("Y-m-d",time());
+                $v = explode('-',$time);
+                $time_second = date("H:i:s",time());
+                $vs = explode(':',$time_second);
+                $parts_order_number ="XF".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($data["member_id"]+1001); //订单编号
+
             } else {
                 return ajax_error("请检查参数是否正确");
             }
