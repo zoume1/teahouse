@@ -462,6 +462,7 @@ Route::group("admin",[
 	"capital_add"=>"admin/Capital/add", //资金管理界面add
 	"capital_del"=>"admin/Capital/del", //资金管理删除del
 	"capital_status"=>"admin/Capital/status", //资金管理状态修改
+	"capital_adddo"=>"admin/Capital/capital_adddo", //资金管理添加处理
     /*TODO:会员储值结束*/
     /*TODO：会员余额开始*/
     "member_balance"=>"admin/Money/balance",//

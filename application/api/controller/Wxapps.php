@@ -248,11 +248,11 @@ class  Wxapps extends  Controller{
                         //轮播图
                         if ($v['id'] == "banner") {
                             $v['data'] = array_values($v['data']);
-                            if ($v['data']) {
-                                $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
-                                $v['params']['imgw'] = explode('"', $imginfo[0])[1];
-                                $v['params']['imgh'] = explode('"', $imginfo[1])[1];
-                            }
+                            // if ($v['data']) {
+                            //     $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
+                            //     $v['params']['imgw'] = explode('"', $imginfo[0])[1];
+                            //     $v['params']['imgh'] = explode('"', $imginfo[1])[1];
+                            // }
                             //富文本
                         }else if ($v['id'] == "richtext") {
 
@@ -336,6 +336,15 @@ class  Wxapps extends  Controller{
                                 if ($list) {
                                     foreach ($list as $kk => $vv) {
                                         // $count = Db::table("ims_sudu8_page_order")->where("uniacid", $uniacid)->where("pid", $vv['id'])->where("flag", "neq", 1)->field("id")->count();
+                                       //判断商品库存
+                                       $info=db('goods')->where('id',$vv['goods_id'])->find();
+                                       if($info['goods_repertory']=='0'){
+                                           //商品下架
+                                            $pp['label']=0;
+                                            $re=db('goods')->where('id',$info['id'])->update($pp);
+                                            unset($list[$kk]);
+                                            continue;
+                                       }
                                         $list2[$kk]['title']=$vv['goods_name'];     //title
                                         $list2[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vv['goods_id'];
                                         $list2[$kk]['linktype'] = "page";
@@ -692,7 +701,7 @@ class  Wxapps extends  Controller{
                                 $list = db("goods")
                                     ->where(['pid'=>$sourceid,'status'=>1,'store_id'=>$uniacid,'limit_goods'=>'0'])
                                     ->limit(0,$count)
-                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
+                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money,goods_repertory")
                                     ->select();
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
@@ -704,6 +713,14 @@ class  Wxapps extends  Controller{
                                     ->where("member_grade_id", $member_grade_id)
                                     ->value("member_grade_img");
                                 foreach ($list as $kks => $vvs) {
+                                    if($vvs['goods_repertory']=='0'){
+                                        //商品下架
+                                        $pp['label']=0;
+                                        $re=db('goods')->where('id',$vvs['id'])->update($pp);
+                                        unset($list[$kks]);
+                                        continue;
+
+                                    }
                                     if (!empty($list[$kks]["scope"])) {
                                         $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
                                     }
