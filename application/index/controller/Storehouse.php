@@ -40,7 +40,7 @@ class Storehouse extends Controller
                 if(!empty($depot)){
                     foreach($depot as $key => $value){
                     $house_order[$key] = Db::table("tb_house_order")
-                                        ->field("tb_house_order.id,store_name,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,store_unit,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name")
+                                        ->field("tb_house_order.id,store_name,store_unit,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit")
                                         ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
                                         ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                         ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
@@ -53,6 +53,11 @@ class Storehouse extends Controller
                         for($i = 0 ; $i < $count_number ; $i++){
                             foreach($house_order[$i] as $zt => $kl){
                                 $house_order[$i][$zt]["store_number"] = explode(',', $house_order[$i][$zt]["store_number"]);
+                                $house_order[$i][$zt]["unit"] = explode(',', $house_order[$i][$zt]["unit"]);
+                                $house_order[$i][$zt]["cost"] = explode(',', $house_order[$i][$zt]["cost"]);
+                                $rest_key = array_search($house_order[$i][$zt]["store_unit"],$house_order[$i][$zt]["unit"]);
+                                $house_order[$i][$zt]["unit_price"] = $house_order[$i][$zt]["cost"][$rest_key];
+
                                 if($time < $house_order[$i][$zt]["end_time"]){
                                     $house_order[$i][$zt]['limit_time'] = round(($house_order[$i][$zt]["end_time"]-$time)/86400); //剩余天数
                                     if($house_order[$i][$zt]['limit_time'] > 30){
@@ -243,6 +248,28 @@ class Storehouse extends Controller
                     return ajax_success("获取成功",$house_order);
                 } else {
                     return ajax_error("该店铺没有存茶订单");
+                }
+            } else {
+                return ajax_error("请检查参数是否正确");
+            }
+        }              
+    }
+
+
+    /**
+     * @param int id
+     * [店铺小程序入仓定订单]
+     * @return 成功时返回，其他抛异常
+     */
+    public function logContinuAtion(Request $request)
+    {
+        if ($request->isPost()) {
+            $data = input();
+            if(isset($data['id']) && isset($data['never_time']) && isset($data['year_number']) && isset($data['series_price'])){             
+                if(!empty($depot)){  
+                    return ajax_success("传输成功",$depot);
+                } else {
+                    return ajax_error("该用户未进行存茶操作");
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
