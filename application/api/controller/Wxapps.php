@@ -248,11 +248,11 @@ class  Wxapps extends  Controller{
                         //轮播图
                         if ($v['id'] == "banner") {
                             $v['data'] = array_values($v['data']);
-                            // if ($v['data']) {
-                            //     $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
-                            //     $v['params']['imgw'] = explode('"', $imginfo[0])[1];
-                            //     $v['params']['imgh'] = explode('"', $imginfo[1])[1];
-                            // }
+                            if ($v['data']) {
+                                $imginfo = explode(" ", getimagesize($v['data'][0]['imgurl'])[3]);
+                                $v['params']['imgw'] = explode('"', $imginfo[0])[1];
+                                $v['params']['imgh'] = explode('"', $imginfo[1])[1];
+                            }
                             //富文本
                         }else if ($v['id'] == "richtext") {
 
