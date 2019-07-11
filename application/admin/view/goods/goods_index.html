@@ -76,9 +76,9 @@
                         <th>商品分类</th>
                         <th>价格</th>
                         <th>标签</th>
-                        <th>排序</th>
                         <th>库存</th>
                         <th>销量</th>
+                        <th>排序</th>
                         <th>首页推荐</th>
 
                         <th width="200px">操作</th>
@@ -116,9 +116,10 @@
                                 lay-text="上架|上架" lay-filter="isShows" data-id="{$value.id}">
                             {/if}
                         </td>
-                        <td>{$value.sort_number}</td>
+                        
                         <td>{$value.goods_repertory}</td>
                         <td>{$value.goods_volume}</td>
+                        <td>{$value.sort_number}</td>
                         <td>
                             {if $value.status == 0}
                             <input type="checkbox" class="Status" name="status" value="{$value.status}"

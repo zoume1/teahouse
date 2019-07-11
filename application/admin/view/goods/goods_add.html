@@ -491,23 +491,23 @@
             </div>
         </div>
         <div class="form-item">
-            <label class="form-label">生产日期</label>
+            <label class="form-label"><span class="red">*</span>生产日期</label>
             <div class="form-input">
                 <span class="time">
                     <input name="date" type="text" class="text datetimepicker layui-input" readonly="readonly"
                         id="beginTime" value="">
                 </span>
-                <div class="tips">选填项</div>
+                <div class="tips">必填项，主要用于茶仓功能里，需要此处真实填写前端显示，无茶仓功能此处不影响</div>
             </div>
 
         </div>
         <div class="form-item">
-            <label class="form-label">品牌</label>
+            <label class="form-label"><span class="red">*</span>品牌</label>
             <div class="form-input">
                 <input type="text" name="brand" lay-verify="title" autocomplete="off" placeholder="请输入"
                     class="layui-input">
                 <div class="tips">
-                    选填项
+                    必填项，主要用于茶仓功能里，需要此处真实填写前端显示，无茶仓功能此处不影响
                 </div>
             </div>
         </div>
@@ -688,7 +688,7 @@
             </div>
             <div class="form-item">
                 <div class="tips" style="margin-left:110px">
-                    *必选项，此处添加了包装规格，商品售价单位变为可选
+                    *必选项，请按照真实的商品包装规格填写（如果选择存茶时，会依据此处逻辑计算，例如填写：1件=6提=42片）
                 </div>
             </div>
             <div class="form-item">
@@ -724,11 +724,13 @@
                     <span class="danwei">/片</span>
                     <span href="" class="tan" data-id="__STATIC__/admin/common/img/u27291.png" style="color: #0E90D2;">
                         查看示例</span>
-                    <div class="tips" style="display:none;">
-                        * 不填写，划线价不显示
-                    </div>
-
+                    
+                    
                 </div>
+                
+            </div>
+            <div class="tips" style="margin-left: 102px">
+                *划线价即为“当前市场参考价”
             </div>
             <div class="form-item">
                 <label class="form-label"><span class="red"></span>商品成本价</label>
@@ -789,9 +791,7 @@
                 </div>
 
             </div>
-            <div class="tips" style="margin-left: 110px;">
-                *非必选项，此处添加的“包装规格”单位，必须包含有“商品规格”中填写的“报价单位” ；且第一个单位数量需要填写为“1”
-            </div>
+            
             <div class="form-item general noshow">
                 <label class="form-label"></label>
                 <div class="form-input add_danwei2"
