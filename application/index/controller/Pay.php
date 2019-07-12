@@ -277,7 +277,7 @@ class Pay extends  Controller{
                     'never_time' => strtotime($data['never_time']),
                     'year_number' => $data['year_number'],
                     'series_price' => $data['series_price'],
-                    'series_parts_number' => $data['series_parts_number'],
+                    'series_parts_number' => $series_parts_number,
                     'member_id' => $data['member_id']
                 );
 
