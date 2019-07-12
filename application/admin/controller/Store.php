@@ -195,7 +195,7 @@ class Store extends  Controller{
     /**
      **************GY*******************
      * @param Request $request
-     * Notes:店铺充值提交申请 
+     * Notes:店铺银行转账提交申请 
      **************************************
      */
     public function OfflineRecharge(Request $request){
@@ -207,10 +207,38 @@ class Store extends  Controller{
             $data = $request->param();
             $data['serial_number'] = $orderSn;
             $data['store_id'] = $store_id;
-            $data['create_time'] = strtotime($data['create_time']);
-            
+            $data['create_time'] = time();
+            $data['pay_type']='2';    //银行转账
             $bool  = Db::name("offline_recharge")
-                ->insert($data);
+                ->insert($data);      //插入充值记录
+            if($bool){
+                return ajax_success("凭证已提交，我们将在3个工作日内审核完毕，通过后自动完成订购。",$bool);
+            } else {
+                return ajax_success("提交失败");
+            }
+        }
+    }
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:店铺在线充值提交申请 
+     **************************************
+     */
+    public function OfflineRecharge2(Request $request){
+        if($request->isPost()){
+            $store_id = Session::get("store_id");
+            //生成流水号
+            $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+            $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
+            $data = $request->param();
+            $data['serial_number'] = $orderSn;
+            $data['store_id'] = $store_id;
+            $data['create_time'] = time();
+            $data['pay_type']='1';    //在线充值
+            $data['status']='1';     //未支付
+            $bool  = Db::name("offline_recharge")
+                ->insertGetId($data);      //插入充值记录
+            //获取支付的二维码
             if($bool){
                 return ajax_success("凭证已提交，我们将在3个工作日内审核完毕，通过后自动完成订购。",$bool);
             } else {

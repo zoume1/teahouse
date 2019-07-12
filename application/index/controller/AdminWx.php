@@ -203,6 +203,34 @@ class  AdminWx extends Controller{
             }
         }
     }
+    /**
+     **************lilu*******************
+     * @param Request $request
+     * Notes:资金管理充值微信扫码支付回调
+     **************************************
+     */
+    public function set_meal_notify2(Request $request){
+        if($request->isPost()){
+            $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+            $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $val = json_decode(json_encode($xml_data), true);
+            if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){   //回调成功
+                //更新充值记录的状态
+                $map['status']=2;   //已支付成功
+                $bool  = Db::name("offline_recharge")->where('serial_number',$val['out_trade_no'])->update($map);      //插入充值记录
+                $bool2  = Db::name("offline_recharge")->where('serial_number',$val['out_trade_no'])->find();      //插入充值记录
+                    if($bool && $bool2){                           
+                      //给客户余额增加金额
+                        Db::table("tb_store")
+                            ->where("id",$bool2["store_id"])
+                            ->setInc('store_wallet',$bool2['money']);
+                        echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                    }else {
+                        return "fail";
+                    }
+            }
+        }
+    }
 
     /**
      **************李火生*******************
@@ -407,6 +435,45 @@ class  AdminWx extends Controller{
             }
 
         }
+    }
+    /**
+     **************lilu*******************
+     * @param Request $request
+     * Notes:后台资金管理支付宝充值扫码支付回调
+     **************************************
+     */
+    public function set_meal_notify_alipay2()
+    {
+        include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
+        $obj_alipay = new \alipay();
+        if (!$obj_alipay->verify_notify()) {
+            //验证未通过
+            echo "fail";
+            exit();
+        } else {    
+            //这里可以做一下你自己的订单逻辑处理
+            $pay_time = time();
+            $data['pay_time'] = $pay_time;
+            //原始订单号
+            $out_trade_no = input('out_trade_no');
+            //支付宝交易号
+            $trade_no = input('trade_no');
+            //交易状态
+            $trade_status = input('trade_status');
+            if ($trade_status == 'TRADE_FINISHED' || $trade_status == 'TRADE_SUCCESS') {     //支付成功
+                $condition['serial_number'] = $out_trade_no;
+                $re = Db::name("offline_recharge")->where($condition)->find();
+                if($re['status']='1'){
+                    $map['status']=2;
+                    $re2 = Db::name("offline_recharge")->where($condition)->update($map);
+                    $res = Db::name("store")->where('id',$re['store_id'])->setInc('store_wallet',$re['money']);
+                }
+                  return "success";
+                }else{
+                    return "fail";
+                }
+            }
+
     }
 
 

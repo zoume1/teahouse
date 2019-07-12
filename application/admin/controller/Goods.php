@@ -31,7 +31,7 @@ class Goods extends Controller
     public function index(Request $request)
     {
         $store_id = Session::get("store_id");
-        $goods = db("goods")->where("store_id",'EQ',$store_id)->order("id desc")->select();
+        $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number desc")->select();
         $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
@@ -417,8 +417,12 @@ class Goods extends Controller
             unset($goods_data["aaa"]);
             if(!empty($goods_data["goods_sign"])){
                 $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]);
-            }        
-            $goods_data["server"] = json_encode($goods_data["server"]); 
+            } 
+            $goods_data["goods_member"] = isset($goods_data["goods_member"])?$goods_data["goods_member"]:0;
+            
+            if(!empty($goods_data["goods_sign"])){     
+                $goods_data["server"] = json_encode($goods_data["server"]); 
+            }
             $show_images = $request->file("goods_show_images");
             if(!empty($goods_data['goods_delivery'])){
                 $goods_data['goods_delivery'] = json_encode(array_values($goods_data['goods_delivery']));
@@ -924,7 +928,7 @@ class Goods extends Controller
      */    
     public function crowd_index(){
         $store_id = Session::get("store_id");
-        $crowd_data = db("crowd_goods")->where("store_id","EQ",$store_id)->select();
+        $crowd_data = db("crowd_goods")->where("store_id","EQ",$store_id)->order("sort_number desc")->select();
         if(!empty($crowd_data)){
             foreach ($crowd_data as $key => $value) {
                 $sum[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->sum("price");//众筹金额

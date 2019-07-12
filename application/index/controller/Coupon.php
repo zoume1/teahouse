@@ -295,7 +295,7 @@ class Coupon extends Controller
     public function bonus_index()
     {
         $store_id = $request->only(['uniacid'])['uniacid'];
-        $bonus = db("bonus_mall")->where("store_id","EQ",$store_id)->where("status",1)->order('id desc')->select();          
+        $bonus = db("bonus_mall")->where("store_id","EQ",$store_id)->where("status",1)->order('sort_number desc')->select();          
         if (!empty($bonus)) {
             return ajax_success('传输成功', $bonus);
         } else {

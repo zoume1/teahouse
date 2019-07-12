@@ -691,7 +691,7 @@ class  Wxapps extends  Controller{
                                 $list = db("goods")
                                     ->where(['pid'=>$sourceid,'status'=>1,'store_id'=>$uniacid,'limit_goods'=>'0'])
                                     ->limit(1,$count)
-                                    ->field("goods_name title,id,goods_selling,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
+                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money")
                                     ->select();
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
@@ -706,16 +706,19 @@ class  Wxapps extends  Controller{
                                     if (!empty($list[$kks]["scope"])) {
                                         $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
                                     }
+                                    if($list[$kks]["goods_member"] != 1){
+                                        $discount = 1;
+                                    }
                                     $list[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vvs["id"]; //跳转详情链接
                                     $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
                                     if ($list[$kks]["goods_standard"] == 1) {
                                         $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->select();
-                                        $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") * $discount;//最低价格
+                                        $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") ;//最低价格
                                         $list[$kks]["goods_standard"] = $standard[$kks];
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
                                         $list[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
                                         $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
-                                        $list[$kks]["price"] = $min[$kks]; //价钱
+                                        $list[$kks]["price"] = $min[$kks] * $discount; //价钱
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
                                                 unset($list[$kks]);

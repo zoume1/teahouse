@@ -175,7 +175,7 @@ class  Wallet extends  Controller{
 
 
     /**
-     **************李火生*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:银行卡提现(未完成)
      **************************************
@@ -183,31 +183,31 @@ class  Wallet extends  Controller{
 
     public function withdrawal(Request $request){
         if($request->isPost()){
-            $member_id =$request->only(["member_id"])["member_id"];
-            $money =$request->only(["money"])["money"];
+            $member_id =$request->only(["member_id"])["member_id"];   //会员id
+            $money =$request->only(["money"])["money"];               //金额
             $user_name =$request->only(["user_name"])["user_name"];
-            $bank_name =$request->only(["bank_name"])["bank_name"];
-            $bank_card =$request->only(["bank_card"])["bank_card"];
+            $bank_name =$request->only(["bank_name"])["bank_name"];   //银行名称
+            $bank_card =$request->only(["bank_card"])["bank_card"];   //银行卡号
             $code =$request->only(["code"])["code"];
             $member_recharge_money =Db::name("member")
                 ->where("member_id",$member_id)
-                ->value("member_recharge_money");
+                ->value("member_recharge_money");     //会员余额
             if($money <= 0){
                 return ajax_error("金额不正确");
             }
-            if($money <= $member_recharge_money){
+            if($money >= $member_recharge_money){
                 return ajax_error("提现金额不能超过可提现金额");
             }
             $user_real_name =Db::name("member")
                 ->where("member_id",$member_id)
-                ->value("member_real_name");
+                ->value("member_real_name");           //用户认证名字
             if($user_real_name != $user_name){
                 return ajax_error("户名必须跟绑定的身份证一致");
             }
             $member_phone_num =Db::name("member")
                 ->where("member_id",$member_id)
                 ->value("member_phone_num");
-            $mobileCode =Cache::get('mobileCode');
+            $mobileCode =Cache::get('mobileCode');    //
             $mobile =Cache::get('mobile');
             if($mobileCode != $code) {
                 return ajax_error("验证码不正确");
@@ -215,7 +215,7 @@ class  Wallet extends  Controller{
             if($member_phone_num != $mobile){
                 return ajax_error("手机号不匹配");
             }
-            //条件
+            //提现限制条件
             $condition =Db::name("withdrawal")->find();
             //最少提现金额
             if($money < $condition["min_money"]){
@@ -231,7 +231,7 @@ class  Wallet extends  Controller{
                 ->where("operation_time","link","%" .$today ."%")
                 ->where("operation_type",-1)
                 ->where("user_id",$member_id)
-                ->count();
+                ->count();      //统计一天提现的笔数
             if($is_set_number >= $condition["day_frequency"]){
                 return ajax_error("每天提现次数最多".$condition["day_frequency"]."次");
             }

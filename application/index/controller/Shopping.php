@@ -78,6 +78,11 @@ class  Shopping extends  Controller{
             $goods_standard_id = $request->only(['goods_standard_id'])['goods_standard_id'];//商品通用专用规格id
             $goods_id = intval($goods_id);
             $goods = db("goods")->where("id",$goods_id)->find();
+                           
+            //判断商品是否参加商品折扣
+            if($goods["goods_member"] != 1){
+                $member_consumption_discount["member_consumption_discount"] = 1;
+            }
             $shopping_data = db("shopping")
                 ->where("user_id",$member_id["member_id"])
                 ->where("goods_id", $goods_id)

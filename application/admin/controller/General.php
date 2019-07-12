@@ -1873,11 +1873,57 @@ class  General extends  Base {
             }
         }
     }
+   
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:资金管理充值支付宝二维码支付
+     **************************************
+     * @param Request $request
+     */
+    public function  order_code_alipay2(Request $request){
+        if($request->isPost()){
+            //支付宝二维码
+            $money =$request->only(["money"])["money"];//支付钱数
+             //在线充值记录
+             $store_id = Session::get("store_id");
+             //生成流水号
+             $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+             $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
+             $data['serial_number'] = $orderSn;
+             $data['store_id'] = $store_id;
+             $data['create_time'] = time();
+             $data['money']=$money;
+             $data['pay_type']='1';    //在线充值
+             $data['status']='1';     //未支付
+             $bool  = Db::name("offline_recharge")
+                 ->insertGetId($data);      //插入充值记录
+            header("Content-type:text/html;charset=utf-8");
+            include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
+            $obj_alipay = new \alipay();
+            $arr_data = array(
+                "return_url" => trim(config("domain.url")."admin"),
+                "notify_url" => trim(config("domain.url")."/set_meal_notify_alipay2.html"),
+                "service" => "create_direct_pay_by_user", //服务参数，这个是用来区别这个接口是用的什么接口，所以绝对不能修改
+                "payment_type" => 1, //支付类型，没什么可说的直接写成1，无需改动。
+                "seller_email" => '717797081@qq.com', //卖家
+                "out_trade_no" => $orderSn, //订单编号
+                "subject" => '店铺充值', //商品订单的名称
+                "total_fee" => number_format($money, 2, '.', ''),
+            );
+            $str_pay_html = $obj_alipay->make_form($arr_data, true);
+            if($str_pay_html){
+                return ajax_success("二维码成功",["url"=>$str_pay_html,'orderid'=>$orderSn]);
+            }else{
+                return ajax_error("生成二维码失败");
+            }
+        }
+    }
 
 
 
     /**
-     **************李火生*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:轮询操作（判断该订单是否支付）
      **************************************
@@ -1885,9 +1931,9 @@ class  General extends  Base {
      */
     public function  check_code_apy(Request $request){
         $order_number = $request->only(["order_number"])["order_number"];
-        $result =Db::name("meal_orders")
-            ->where("order_number",$order_number)
-            ->where("status",1)
+        $result =Db::name("offline_recharge")
+            ->where("serial_number",$order_number)
+            ->where("status",2)
             ->find();
         if($result){
             return ajax_success("付款成功");
@@ -2955,6 +3001,60 @@ class  General extends  Base {
                 return ajax_error("请检查参数是否正确");
             }
         }              
+    }
+    /**
+     **************lilu*******************
+     * @param Request $request
+     * Notes:资金管理---在线充值---微信
+     **************************************
+     * @param Request $request
+     */
+    public function  order_code_pay2(Request $request){
+        if($request->isPost()){
+            $money =$request->only(["money"])["money"];//支付钱数
+            //在线充值记录
+            $store_id = Session::get("store_id");
+            //生成流水号
+            $yCode = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
+            $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
+            $data['serial_number'] = $orderSn;
+            $data['store_id'] = $store_id;
+            $data['create_time'] = time();
+            $data['money']=$money;
+            $data['pay_type']='1';    //在线充值
+            $data['status']='1';     //未支付
+            $bool  = Db::name("offline_recharge")
+                ->insertGetId($data);      //插入充值记录
+            header("Content-type: text/html; charset=utf-8");
+            ini_set('date.timezone', 'Asia/Shanghai');
+            include('../extend/WxpayAll/lib/WxPay.Api.php');
+            include('../extend/WxpayAll/example/WxPay.NativePay.php');
+            include('../extend/WxpayAll/example/log.php');
+            $notify = new \NativePay();
+            $input = new \WxPayUnifiedOrder();//统一下单
+            $paymoney = $money; //支付金额
+            $out_trade_no = $orderSn; //商户订单号
+            $goods_name = '资金管理充值'; //商品名称
+            $goods_id =123456789; //商品Id
+            $input->SetBody($goods_name);//设置商品或支付单简要描述
+            $input->SetAttach($goods_name);//设置附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+            $input->SetOut_trade_no($out_trade_no);//设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
+            $input->SetTotal_fee($paymoney * 100);//金额乘以100
+            $input->SetTime_start(date("YmdHis")); //设置订单生成时间,格式为yyyyMMddHHmmss
+            $input->SetTime_expire(date("YmdHis", time() + 600)); //设置订单失效时间
+            $input->SetGoods_tag("test"); //设置商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+            $input->SetNotify_url(config("domain.url")."/set_meal_notify2"); //回调地址
+            $input->SetTrade_type("NATIVE"); //交易类型(扫码)
+            $input->SetProduct_id($goods_id);//设置trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
+            $result = $notify->GetPayUrl($input);
+            $url2 = $result["code_url"];
+            if($url2){
+                return ajax_success("微信二维码返回成功",["url"=>"/qrcode?url2=".$url2,'out_trade_no'=>$orderSn]);
+            }else{
+                return ajax_error("二维码生成失败");
+            }
+
+        }
     }
 
 

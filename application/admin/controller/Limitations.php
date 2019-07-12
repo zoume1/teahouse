@@ -351,20 +351,26 @@ class  Limitations extends  Controller{
      }
 
      /**
+      * lilu
      * [限时限购搜索商品]
-     * GY
      */
      public function limit_search()
      {
-         return view('limit_search');
+         //获取参数
+         $input=input();
+         $store_id = Session::get("store_id");
+         $limit = db("limited")
+             ->where("store_id","EQ",$store_id)
+             ->where('goods_name',$input['name'])
+             ->paginate(20 ,false, [
+                 'query' => request()->param(),
+             ]);
+         
+         return view('limitations_index',["limit"=>$limit]);
      }
-     /**
-      * lilu
-      * 限时限购检索
-      */
       /**
-     * [优惠券搜索商品]
-     * GY
+       * lilu
+       * 限时限购商品添加----检索
      */
     public function coupon_search2(Request $request)
     {

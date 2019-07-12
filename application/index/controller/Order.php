@@ -50,12 +50,17 @@ class  Order extends  Controller
                 $goods_data['goods_sign'] = json_decode($goods_data["goods_sign"],true);
                 //判断是为专用还是通用
                 //专用规格
+
+                //判断商品是否参加商品折扣
+                if($goods_data["goods_member"] != 1){
+                    $member_consumption_discount["member_consumption_discount"] = 1;
+                }
                 if ($goods_data["goods_standard"] == 0) {
                         $data[$key]["goods_info"] = $goods_data;
                         if($goods_data['limit_goods']=='1'){    //限时限购的商品
                         $data[$key]['grade_price']=$goods_data['limit_price'];
                         }else{
-                            $data[$key]["grade_price"] =$member_consumption_discount["member_consumption_discount"] * $goods_data["goods_new_money"];//商品的价格
+                            $data[$key]["grade_price"] = $member_consumption_discount["member_consumption_discount"] * $goods_data["goods_new_money"];//商品的价格
                         }
                         $data[$key]["special_info"] = null;
                         $data[$key]["number"] =$number[$key];
@@ -171,7 +176,11 @@ class  Order extends  Controller
                         $create_time = time();//下单时间
                         $normal_time =Db::name("order_setting")->find();//订单设置的时间
                         $normal_future_time = strtotime("+". $normal_time['normal_time']." minute");
-
+                        
+                        //判断商品是否参加商品折扣
+                        if($goods_data["goods_member"] != 1){
+                            $member_consumption_discount["member_consumption_discount"] = 1;
+                        }
                         if (!empty($goods_data)){
 //                        if(!empty($data["buy_message"])){
 //                            $buy_message =$data["buy_message"];
@@ -422,6 +431,8 @@ class  Order extends  Controller
                         $key = array_search($unit[$keys],$data['unit']);
                         //先判断有多少位数量等级
                         $datas["store_number"]= $this->unit_calculate($data['unit'], $data['num'],$key,$datase["order_quantity"]);
+
+                        
                         $res = Db::name('house_order')->insertGetId($datas);
                         if ($res) {
                             $order_datas =Db::name("house_order")
@@ -631,6 +642,10 @@ class  Order extends  Controller
                     $normal_future_time = strtotime("+". $normal_time['normal_time']." minute");
                 } else {
                     $normal_future_time = null;
+                }
+                //判断商品是否参加商品折扣
+                if($goods_data["goods_member"] != 1){
+                    $member_consumption_discount["member_consumption_discount"] = 1;
                 }
                 if($goods_data["goods_standard"]==0){
                     $datas['goods_image'] = $goods_data['goods_show_image'];//图片
