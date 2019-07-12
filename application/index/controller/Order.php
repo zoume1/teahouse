@@ -2603,7 +2603,11 @@ class  Order extends  Controller
                 ->update(["pay_status"=>1,"pay_time"=>time()]);
             if($res){
                 //做消费记录
-                $information =Db::name("series_house_order")->field("series_price,series_parts_number,member_id")->where("series_parts_number",$val["out_trade_no"])->find();
+                $information = Db::name("series_house_order")->where("series_parts_number",$val["out_trade_no"])->find();
+                $bools =  Db::name("house_order")
+                ->where("id",$information['store_house_id'])
+                ->update(["end_time"=>$information['never_time']]);
+
                 $member_wallet =Db::name("member")
                     ->where("member_id",$information["member_id"])
                     ->value('member_wallet');
@@ -2613,7 +2617,7 @@ class  Order extends  Controller
                     "wallet_type"=>-1,//消费操作(1入，-1出)
                     "operation_time"=> date("Y-m-d H:i:s"),//操作时间
                     "operation_linux_time"=>time(), //操作时间
-                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."茶厂订单续费".$information["series_price"]."元",//消费备注
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."茶仓订单续费".$information["series_price"]."元",//消费备注
                     "wallet_img"=>" ",//图标
                     "title"=>"茶厂订单续费",//标题（消费内容）
                     "order_nums"=>$val["out_trade_no"],//订单编号

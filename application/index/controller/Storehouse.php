@@ -73,7 +73,7 @@ class Storehouse extends Controller
                                 }
                             }
                         }
-                        
+                    
                     foreach($depot_name as $ds => $nm){
                         $depots_names[$ds]['name'] = $nm;
                         $depots_names[$ds]['getArr'] = $house_order[$ds];   

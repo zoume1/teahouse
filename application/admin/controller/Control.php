@@ -280,14 +280,16 @@ class  Control extends  Controller{
             $audit_status = isset($request->only(["audit_status"])["audit_status"])?$request->only(["audit_status"])["audit_status"]:null;
             $explains = $request->only(["explains"])["explains"];
             $data = $request->param();
+            unset($data['id']);
             if(empty($audit_status)){
                 $this->error("请选择审核状态");
             }
+            
             //这是需要审核通过的订单
             $is_pay = db("meal_orders")
                 ->where("id", $id)
                 ->find();
-            
+
             //未付款
             if(!$is_pay["pay_type"]){
                 $this->error("此订单未付款不能审核操作");
@@ -312,7 +314,7 @@ class  Control extends  Controller{
                     ->where("store_id",$is_pay["store_id"])
                     ->where("audit_status",'EQ',1)
                     ->find();
-                    
+
                     //修改时间
                     $year = Db::name("enter_all")->where("id", $is_pay['enter_all_id'])->value("year");
                     $data["start_time"] = time(); //开始时间
@@ -374,6 +376,7 @@ class  Control extends  Controller{
                     $res = Db::name("set_meal_order")
                     ->where("order_number",$is_pay["order_number"])
                     ->update($data);
+
                     if($res){                           
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                           if($is_pay['enter_all_id'] <= 6){
@@ -504,6 +507,7 @@ class  Control extends  Controller{
         $order =Db::table('tb_store')
             ->field("phone_number,contact_name,is_business,address_real_data,status store_status,store_name,id")
             ->where("store_del",1)
+            ->where("status",1)
             ->order('id',"desc")
             ->paginate(20 ,false, [
                 'query' => request()->param(),
