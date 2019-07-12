@@ -201,7 +201,7 @@
             wxPayInterval: null, //监听微信支付
             wayFlag: false,
             amount: null,
-            myWindow: null,
+            // myWindow: null,
             aliPayInterval: null, //监听支付宝支付
         },
         methods: {
@@ -223,8 +223,8 @@
                 this.myAjax('order_code_alipay2', param, function (data) {
                     // 付款二维码生成成功， 监听支付
                     if (data.body.status == 1) {
-                        _this.myWindow = window.open();
-                        _this.myWindow.document.write(data.body.data.url);
+                        // _this.myWindow = window.open();
+                        // _this.myWindow.document.write(data.body.data.url);
                         // $('body').append(data.body.data.url);
                         _this.aliPayInterval = setInterval(function(){
                             _this.monitorOnlinePay(data.body.data.orderid);
@@ -246,7 +246,7 @@
                             if(_this.wxPayInterval) clearInterval(_this.wxPayInterval);
                             if(_this.aliPayInterval) clearInterval(_this.aliPayInterval);
                             // window.parent.document.getElementById('tcdl').click();
-                            _this.myWindow ? _this.myWindow.close() : '';
+                            // _this.myWindow ? _this.myWindow.close() : '';
                             window.location.reload();
                         }, 3000)
                     }

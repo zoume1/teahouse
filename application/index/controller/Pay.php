@@ -24,8 +24,10 @@ class Pay extends  Controller{
         $activity_name = $request->param("activity_name");//名称
         $cost_moneny = $request->param("cost_moneny");//金额
         $order_numbers =$request->param("order_number");//订单编号
+        $order_datas = Db::name('member')->where("member_openid",$open_ids)->find();
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
+        $rester = new \WxPayConfig($order_datas["store_id"]);
         //         文档提及的参数规范：商家名称-销售商品类目
         $input->SetBody($activity_name);
         //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
@@ -129,7 +131,7 @@ class Pay extends  Controller{
         $member_id = $request->param("member_id");//open_id
         $open_ids =Db::name("member")
             ->where("member_id",$member_id)
-            ->value("member_openid");
+            ->find();
         $order_numbers = $request->param("recharge_order_number");//订单编号
         $order_datas = Db::name("recharge_record")
             ->where("recharge_order_number",$order_numbers)
@@ -139,6 +141,7 @@ class Pay extends  Controller{
         $cost_moneny = $order_datas["recharge_money"];//金额
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
+        $rester = new \WxPayConfig($open_ids["store_id"]);
         //         文档提及的参数规范：商家名称-销售商品类目
         $input->SetBody($activity_name);
         //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
@@ -154,7 +157,7 @@ class Pay extends  Controller{
         $input->SetNotify_url($return_url);//需要自己写的notify.php
         $input->SetTrade_type("JSAPI");
         //         由小程序端传给后端或者后端自己获取，写自己获取到的，
-        $input->SetOpenid( $open_ids);
+        $input->SetOpenid( $open_ids['member_openid']);
         //$input->SetOpenid($this->getSession()->openid);
         //         向微信统一下单，并返回order，它是一个array数组
         $order = \WxPayApi::unifiedOrder($input);
@@ -177,7 +180,7 @@ class Pay extends  Controller{
         $order_numbers = $request->param("order_number");//订单编号
         $open_ids =Db::name("member")
         ->where("member_id",$member_id)
-        ->value("member_openid");
+        ->find();
         $order_datas = Db::name("reward")
             ->where("order_number",$order_numbers)
             ->where("member_id", $member_id)
@@ -186,6 +189,7 @@ class Pay extends  Controller{
         $cost_moneny = $order_datas["money"];//金额
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
+        $rester = new \WxPayConfig($open_ids["store_id"]);
         //         文档提及的参数规范：商家名称-销售商品类目
         $input->SetBody($activity_name);
         //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
@@ -197,7 +201,7 @@ class Pay extends  Controller{
         $input->SetNotify_url($return_url);//需要自己写的notify.php
         $input->SetTrade_type("JSAPI");
         //         由小程序端传给后端或者后端自己获取，写自己获取到的,
-        $input->SetOpenid( $open_ids);
+        $input->SetOpenid( $open_ids['member_openid']);
         //$input->SetOpenid($this->getSession()->openid);
         //         向微信统一下单，并返回order，它是一个array数组
         $order = \WxPayApi::unifiedOrder($input);
@@ -218,7 +222,7 @@ class Pay extends  Controller{
         $member_id = $request->param("member_id");//open_id
         $open_ids =Db::name("member")
             ->where("member_id",$member_id)
-            ->value("member_openid");
+            ->find();
         $order_numbers =$request->param("order_number");//订单编号
         $order_datas = Db::name("crowd_order")
             ->where("parts_order_number",$order_numbers)
@@ -228,6 +232,7 @@ class Pay extends  Controller{
         $cost_moneny = $order_datas["order_real_pay"];//金额
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
+        $rester = new \WxPayConfig($open_ids["store_id"]);
         //         文档提及的参数规范：商家名称-销售商品类目
         $input->SetBody($activity_name);
         //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
@@ -239,7 +244,7 @@ class Pay extends  Controller{
         $input->SetNotify_url($return_url);//需要自己写的notify.php
         $input->SetTrade_type("JSAPI");
         //         由小程序端传给后端或者后端自己获取，写自己获取到的，
-        $input->SetOpenid( $open_ids);
+        $input->SetOpenid( $open_ids['member_openid']);
         //$input->SetOpenid($this->getSession()->openid);
         //         向微信统一下单，并返回order，它是一个array数组
         $order = \WxPayApi::unifiedOrder($input);
@@ -264,7 +269,7 @@ class Pay extends  Controller{
             if(isset($data['id']) && isset($data['never_time']) && isset($data['year_number']) && isset($data['member_id']) && isset($data['series_price'])){
                 $open_ids =Db::name("member")
                 ->where("member_id",$data['member_id'])
-                ->value("member_openid");
+                ->find();
                 $time = date("Y-m-d",time());
                 $v = explode('-',$time);
                 $time_second = date("H:i:s",time());
@@ -273,40 +278,43 @@ class Pay extends  Controller{
 
                 $series_data = array(
                     'store_house_id' => $data['id'],
-                    'create_time' => $time,
+                    'create_time' => time(),
                     'never_time' => strtotime($data['never_time']),
                     'year_number' => $data['year_number'],
                     'series_price' => $data['series_price'],
-                    'series_parts_number' => $data['series_parts_number'],
+                    'series_parts_number' => $series_parts_number,
                     'member_id' => $data['member_id']
                 );
 
                 $bool = Db::name("series_house_order")->insert($series_data);
-
                 if($bool){
-                    halt(222222);
+                    //         初始化值对象
+                    $activity_name = "仓库订单续费";
+                    $input = new \WxPayUnifiedOrder();
+                    $rester = new \WxPayConfig($open_ids["store_id"]);
+                    //         文档提及的参数规范：商家名称-销售商品类目
+                    $input->SetBody($activity_name);
+                    //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
+                    //        $input->SetOut_trade_no(time().'');
+                    $input->SetOut_trade_no($series_parts_number);
+                    //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
+                    $input->SetTotal_fee($data['series_price']*100);
+                    $return_url = config("domain.url")."series_notify";
+                    $input->SetNotify_url($return_url);//需要自己写的notify.php
+                    $input->SetTrade_type("JSAPI");
+                    //         由小程序端传给后端或者后端自己获取，写自己获取到的,
+                    $input->SetOpenid( $open_ids['member_openid']);
+                    //$input->SetOpenid($this->getSession()->openid);
+                    //         向微信统一下单，并返回order，它是一个array数组
+                    $order = \WxPayApi::unifiedOrder($input);
+                    //       json化返回给小程序端
+                    header("Content-Type: application/json");
+                    echo $this->getJsApiParameters($order);
+                } else {
+                    return ajax_error("续费失败,请稍后再试");
                 }
-                $activity_name ="仓库订单续费";//名称
-                //         初始化值对象
-                $input = new \WxPayUnifiedOrder();
-                //         文档提及的参数规范：商家名称-销售商品类目
-                $input->SetBody($activity_name);
-                //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
-                //        $input->SetOut_trade_no(time().'');
-                $input->SetOut_trade_no($series_parts_number);
-                //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
-                $input->SetTotal_fee($data['series_price']*100);
-                $return_url = config("domain.url")."series_notify";
-                $input->SetNotify_url($return_url);//需要自己写的notify.php
-                $input->SetTrade_type("JSAPI");
-                //         由小程序端传给后端或者后端自己获取，写自己获取到的,
-                $input->SetOpenid( $open_ids);
-                //$input->SetOpenid($this->getSession()->openid);
-                //         向微信统一下单，并返回order，它是一个array数组
-                $order = \WxPayApi::unifiedOrder($input);
-                //       json化返回给小程序端
-                header("Content-Type: application/json");
-                echo $this->getJsApiParameters($order);
+            } else {
+                return ajax_error("请检查参数是否正确");
             }
         }
     }
