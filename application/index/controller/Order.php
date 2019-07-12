@@ -270,6 +270,7 @@ class  Order extends  Controller
             $store_id = $request->only(['uniacid'])['uniacid']; 
             $user_id = $request->only("member_id")["member_id"];//member_id
             $address_id = $request->param("address_id");//address_id
+            $store_house_id = $request->param("store_house_id");//仓库id
             $coupon_id = $request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $order_type = $request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $commodity_id = $request->only("goods_id")["goods_id"];//商品id
@@ -434,7 +435,7 @@ class  Order extends  Controller
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                         $datas = $datase;
-                        $datas["store_house_id"] = $address_id;
+                        $datas["store_house_id"] = $store_house_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
@@ -472,6 +473,7 @@ class  Order extends  Controller
         if ($request->isPost()) {
             $store_id = $request->only(['uniacid'])['uniacid'];
             $shopping_id =$request->only("shopping_id")["shopping_id"];
+            $store_house_id = $request->param("store_house_id");//仓库id
             $coupon_id =$request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $open_id =$request->only("open_id")["open_id"];
             $address_id =$request->only("address_id")["address_id"];
@@ -612,6 +614,7 @@ class  Order extends  Controller
         if ($request->isPost()){
             $store_id = $request->only(['uniacid'])['uniacid'];
             $shopping_id = $request->only("shopping_id")["shopping_id"];
+            $store_house_id = $request->param("store_house_id");//仓库id
             $user_id = $request->only("member_id")["member_id"];//member_id
             $address_id = $request->param("address_id");//address_id
             $coupon_id = $request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
@@ -780,7 +783,7 @@ class  Order extends  Controller
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                         $datas = $datase;
-                        $datas["store_house_id"] = $address_id;
+                        $datas["store_house_id"] = $store_house_id;
                         $datas["store_name"] = $store_name;
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
