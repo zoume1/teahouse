@@ -40,7 +40,7 @@ class Storehouse extends Controller
                 if(!empty($depot)){
                     foreach($depot as $key => $value){
                     $house_order[$key] = Db::table("tb_house_order")
-                                        ->field("tb_house_order.id,store_name,store_unit,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit")
+                                        ->field("tb_house_order.id,store_unit,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,store_name,cost,store_unit,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit")
                                         ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
                                         ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                         ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')  
