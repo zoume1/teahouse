@@ -273,7 +273,7 @@ class Pay extends  Controller{
 
                 $series_data = array(
                     'store_house_id' => $data['id'],
-                    'create_time' => $time,
+                    'create_time' => time(),
                     'never_time' => strtotime($data['never_time']),
                     'year_number' => $data['year_number'],
                     'series_price' => $data['series_price'],
@@ -282,31 +282,33 @@ class Pay extends  Controller{
                 );
 
                 $bool = Db::name("series_house_order")->insert($series_data);
-
                 if($bool){
-                    halt(222222);
+                    $activity_name ="仓库订单续费";//名称
+                    //         初始化值对象
+                    $input = new \WxPayUnifiedOrder();
+                    //         文档提及的参数规范：商家名称-销售商品类目
+                    $input->SetBody($activity_name);
+                    //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
+                    //        $input->SetOut_trade_no(time().'');
+                    $input->SetOut_trade_no($series_parts_number);
+                    //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
+                    $input->SetTotal_fee($data['series_price']*100);
+                    $return_url = config("domain.url")."series_notify";
+                    $input->SetNotify_url($return_url);//需要自己写的notify.php
+                    $input->SetTrade_type("JSAPI");
+                    //         由小程序端传给后端或者后端自己获取，写自己获取到的,
+                    $input->SetOpenid( $open_ids);
+                    //$input->SetOpenid($this->getSession()->openid);
+                    //         向微信统一下单，并返回order，它是一个array数组
+                    $order = \WxPayApi::unifiedOrder($input);
+                    //       json化返回给小程序端
+                    header("Content-Type: application/json");
+                    echo $this->getJsApiParameters($order);
+                } else {
+                    return ajax_error("续费失败,请稍后再试");
                 }
-                $activity_name ="仓库订单续费";//名称
-                //         初始化值对象
-                $input = new \WxPayUnifiedOrder();
-                //         文档提及的参数规范：商家名称-销售商品类目
-                $input->SetBody($activity_name);
-                //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
-                //        $input->SetOut_trade_no(time().'');
-                $input->SetOut_trade_no($series_parts_number);
-                //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
-                $input->SetTotal_fee($data['series_price']*100);
-                $return_url = config("domain.url")."series_notify";
-                $input->SetNotify_url($return_url);//需要自己写的notify.php
-                $input->SetTrade_type("JSAPI");
-                //         由小程序端传给后端或者后端自己获取，写自己获取到的,
-                $input->SetOpenid( $open_ids);
-                //$input->SetOpenid($this->getSession()->openid);
-                //         向微信统一下单，并返回order，它是一个array数组
-                $order = \WxPayApi::unifiedOrder($input);
-                //       json化返回给小程序端
-                header("Content-Type: application/json");
-                echo $this->getJsApiParameters($order);
+            } else {
+                return ajax_error("请检查参数是否正确");
             }
         }
     }
