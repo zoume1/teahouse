@@ -296,7 +296,7 @@ class Pay extends  Controller{
                     $input->SetBody($activity_name);
                     //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
                     //        $input->SetOut_trade_no(time().'');
-                    $input->SetOut_trade_no($data['series_parts_number']);
+                    $input->SetOut_trade_no($series_parts_number);
                     //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
                     $input->SetTotal_fee($data['series_price']*100);
                     $return_url = config("domain.url")."series_notify";
