@@ -48,7 +48,7 @@ class Storehouse extends Controller
                                         ->order("order_create_time asc")
                                         ->select();   
                     }
-
+                    halt($house_order)   ;
                         $count_number = count($house_order);
                         for($i = 0 ; $i < $count_number ; $i++){
                             foreach($house_order[$i] as $zt => $kl){
@@ -73,7 +73,7 @@ class Storehouse extends Controller
                                 }
                             }
                         }
-                        
+                    
                     foreach($depot_name as $ds => $nm){
                         $depots_names[$ds]['name'] = $nm;
                         $depots_names[$ds]['getArr'] = $house_order[$ds];   

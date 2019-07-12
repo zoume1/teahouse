@@ -507,6 +507,7 @@ class  Control extends  Controller{
         $order =Db::table('tb_store')
             ->field("phone_number,contact_name,is_business,address_real_data,status store_status,store_name,id")
             ->where("store_del",1)
+            ->where("status",1)
             ->order('id',"desc")
             ->paginate(20 ,false, [
                 'query' => request()->param(),

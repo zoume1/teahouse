@@ -2602,7 +2602,7 @@ class  Order extends  Controller
                 ->update(["pay_status"=>1,"pay_time"=>time()]);
             if($res){
                 //做消费记录
-                $information =Db::name("series_house_order")->field("series_price,series_parts_number,member_id,store_house_id")->where("series_parts_number",$val["out_trade_no"])->find();
+                $information = Db::name("series_house_order")->where("series_parts_number",$val["out_trade_no"])->find();
                 $bools =  Db::name("house_order")
                 ->where("id",$information['store_house_id'])
                 ->update(["end_time"=>$information['never_time']]);
