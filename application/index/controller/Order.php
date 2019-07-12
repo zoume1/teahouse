@@ -1855,6 +1855,7 @@ class  Order extends  Controller
                 ->where("status",$status)
                 ->where("parts_order_number",$parts_order_number)
                 ->select();
+                halt($data);
             if($data[0]["order_type"] ==1){
                     $order_type ="直邮";
                     $name =$data[0]["harvester"];
