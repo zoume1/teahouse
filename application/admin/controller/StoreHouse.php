@@ -199,7 +199,7 @@ class StoreHouse extends Controller{
         $store_id = Session::get("store_id");
         $store_order = db("house_order")
                     ->where("store_id","EQ",$store_id)
-                    ->where("status",">",0)
+                    ->where("status",">",1)
                     ->field("id,parts_order_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time")
                     ->select();
 
