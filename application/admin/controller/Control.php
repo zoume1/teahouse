@@ -186,6 +186,7 @@ class  Control extends  Controller{
             ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
             ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
             ->where("is_del",1)
+            ->where("tb_store.status",1)
             ->where("tb_meal_orders.pay_type","NEQ","NULL")
             ->order("tb_meal_orders.create_time","desc")
             ->paginate(20 ,false, [
@@ -806,6 +807,22 @@ class  Control extends  Controller{
                 }
             }
         }
+    }
+
+    /**
+     * @param int $id
+     * [admin店铺删除]
+     * @return 成功时返回，其他抛异常
+     */
+    public function control_order_delete($id)
+    {
+        $rest = Db::name("store")->where("id",$id)->update(['status'=>3]);
+        if($rest){
+            $this->success("删除成功",url("admin/Control/control_store_return"));
+        } else {
+            $this->error("删除失败",url("admin/Control/control_store_return"));
+        }
+
     }
 
  }

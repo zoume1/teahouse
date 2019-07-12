@@ -26,7 +26,9 @@ class  Order extends  Controller
     public function order_return(Request $request)
     {
         if ($request->isPost()) {
+            
             $open_id =$request->only("open_id")["open_id"];
+            $store_id =$request->only("uniacid")["uniacid"];
             $member_grade_id = Db::name("member")->where("member_openid",$open_id)->find();
             $role_id =  Db::name("admin")->where("store_id",$member_grade_id['store_id'])->value("role_id");
             if($role_id > 13){
@@ -45,6 +47,16 @@ class  Order extends  Controller
             }
             
             foreach ($goods_id as  $key=>$value){
+                //判断该商品是否为限时限购
+                $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$value])->find();
+                if($is_limit){
+                   $data[$key]['is_limit']=1;
+                   $condition=json_decode($is_limit['limit_condition'],true);
+                   $data[$key]['limit_number']=$condition['limit']['number'];
+                }else{
+                    $data[$key]['is_limit']=0;
+                    $data[$key]['limit_number']=-1;
+                }
                 $goods_data = null;
                 $goods_data = Db::name("goods")->where("id", $value)->find();
                 $goods_data['goods_sign'] = json_decode($goods_data["goods_sign"],true);
@@ -89,7 +101,7 @@ class  Order extends  Controller
             ->alias('a')
            ->where("store_id", $restul)
            ->where("audit_status",1)
-           ->order('id desc')
+           ->where('status_type',1)
            ->value('enter_all_id');
             if(!empty($da_change)){
                 if($da_change <= 6){

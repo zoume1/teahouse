@@ -292,15 +292,17 @@ class Coupon extends Controller
      * [积分商品显示]
      * 郭杨
      */
-    public function bonus_index()
+    public function bonus_index(Request $request)
     {
+        if ($request->isPost()) {
         $store_id = $request->only(['uniacid'])['uniacid'];
         $bonus = db("bonus_mall")->where("store_id","EQ",$store_id)->where("status",1)->order('sort_number desc')->select();          
-        if (!empty($bonus)) {
-            return ajax_success('传输成功', $bonus);
-        } else {
-            return ajax_error("数据为空");
+            if (!empty($bonus)) {
+                return ajax_success('传输成功', $bonus);
+            } else {
+                return ajax_error("数据为空");
 
+            }
         }
         
     }

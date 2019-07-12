@@ -377,7 +377,7 @@ class  Limitations extends  Controller{
         $goods_number = input("goods_number");
         $store_id = Session::get("store_id");
         $goods = db("goods")
-                ->where('goods_number','like','%'.$goods_number.'%')
+                ->where('goods_number|goods_name','like','%'.$goods_number.'%')
                 ->where("store_id","EQ",$store_id)
                 ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
                 ->select();

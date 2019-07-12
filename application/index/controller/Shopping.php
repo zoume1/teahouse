@@ -27,6 +27,7 @@ class  Shopping extends  Controller{
     {
         if ($request->isPost()) {
             $open_id = $request->only("open_id")["open_id"];
+            $store_id = $request->only("uniacid")["uniacid"];
             $member_id = Db::name("member")->where("member_openid", $open_id)->value("member_id");
             if (empty($member_id)) {
                 exit(json_encode(array("status" => 2, "info" => "请登录")));
@@ -39,6 +40,16 @@ class  Shopping extends  Controller{
                 ->select();               //获取购物车中的商品
             //判断购物车中商品是否为限时限购商品
             foreach($shopping_data as $k=>$v){
+                //判断该商品是否为限时限购
+                $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$v['goods_id']])->find();
+                if($is_limit){
+                   $shopping_data[$k]['is_limit']=1;
+                   $condition=json_decode($is_limit['limit_condition'],true);
+                   $shopping_data[$k]['limit_number']=$condition['limit']['number'];
+                }else{
+                    $shopping_data[$k]['is_limit']=0;
+                    $shopping_data[$k]['limit_number']=-1;
+                }
                 //获取商品信息
                 $shopping_data[$k]['goods_sign'] = json_decode($shopping_data[$k]['goods_sign'],true);
                 $goods_info= db('goods')->where('id',$v['goods_id'])->find();

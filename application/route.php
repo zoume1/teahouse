@@ -69,6 +69,7 @@ Route::group("",[
     "crowd_order_index"=>"index/Pay/crowd_order_index",//小程序众筹订单支付
     "wx_recharge_pay"=>"index/Pay/recharge_pay",//小程序充值支付
     "reward_pay"=>"index/Pay/reward_pay",   //众筹商品打赏支付
+    "series_pay"=>"index/Pay/series_pay",   //仓库订单续费支付
      "notify"=>"index/order/notify",//小程序支付回调（活动）
      "order_notify"=>"index/order/order_notify",//小程序订单支付回调
      "recharge_notify"=>"index/order/recharge_notify",//小程序充值支付回调
@@ -373,11 +374,12 @@ Route::group("",[
     /*TODO:购物车结束*/
 
     /*TODO:茶仓出入仓*/
-    "getStoreData"=>"index/Storehouse/getStoreData",   //店铺小程序前端存茶数据
-    "theStoreValue"=>"index/Storehouse/theStoreValue", //店铺小程序前端存茶总价值
-    "getStoreHouse"=>"index/Storehouse/getStoreHouse", //店铺小程序前端所有仓库
-    "doHouseOrder"=>"index/Storehouse/doHouseOrder",   //店铺小程序前端选择仓库
-    "takeOrderData"=>"index/Storehouse/takeOrderData",  //店铺小程序前端入仓详情
+    "getStoreData"=>"index/Storehouse/getStoreData",        //店铺小程序前端存茶数据
+    "theStoreValue"=>"index/Storehouse/theStoreValue",      //店铺小程序前端存茶总价值
+    "getStoreHouse"=>"index/Storehouse/getStoreHouse",      //店铺小程序前端所有仓库
+    "doHouseOrder"=>"index/Storehouse/doHouseOrder",        //店铺小程序前端选择仓库
+    "takeOrderData"=>"index/Storehouse/takeOrderData",      //店铺小程序前端入仓详情
+    "logContinuAtion"=>"index/Storehouse/logContinuAtion",  //店铺小程序前端仓库订单续费
 
 
 
@@ -462,6 +464,7 @@ Route::group("admin",[
 	"capital_add"=>"admin/Capital/add", //资金管理界面add
 	"capital_del"=>"admin/Capital/del", //资金管理删除del
 	"capital_status"=>"admin/Capital/status", //资金管理状态修改
+	"capital_adddo"=>"admin/Capital/capital_adddo", //资金管理添加处理
     /*TODO:会员储值结束*/
     /*TODO：会员余额开始*/
     "member_balance"=>"admin/Money/balance",//
@@ -834,6 +837,7 @@ Route::group("admin",[
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
     "is_exist_app"=>"admin/General/is_exist_app",                    //判断小程序是否存在
     "getShareCode"=>"admin/General/getShareCode",                    //判断分享码是否正确
+    "change_edition"=>"admin/General/change_edition",                 //切换店铺版本号
 
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
     "capital_management"=>"admin/General/capital_management",//资金管理资金明细
@@ -910,6 +914,7 @@ Route::group("admin",[
     "control_order_index"=>"admin/Control/control_order_index",    //入驻订单页面
     "control_store_return"=>"admin/Control/control_store_return",  //入驻资料审核页面
     "control_order_add"=>"admin/Control/control_order_add",        //入驻订单店铺编辑审核
+    "control_order_delete"=>"admin/Control/control_order_delete",  //入驻订单店铺删除
     "control_order_update"=>"admin/Control/control_order_update",  //入驻订单店铺审核更新操作
     "control_order_status"=>"admin/Control/control_order_status",  //入驻订单编辑审核
     "control_order_status_update"=>"admin/Control/control_order_status_update",       //入驻订单编辑审核操作

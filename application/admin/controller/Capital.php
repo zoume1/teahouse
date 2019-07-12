@@ -65,6 +65,26 @@ class Capital extends Controller{
 	*/
 	public function add(){
 		return view('add');
+    
+    }
+    /**
+     * lilu
+     * 资金管理添加处理
+     */
+	public function capital_adddo(){
+        $input=input();
+        if(!array_key_exists('status',$input)){
+        $input['status']=0;
+        }
+        $store_id=Session::get('store_id');
+        $input['store_id']=$store_id;
+        $input['create_time']=time();
+        $re=db('recharge_full_setting')->insert($input);
+        if($re){
+            $this->success('新增成功','admin/Capital/index');
+        }else{
+            $this->error('新增失败','admin/Capital/index');
+        }
 	}
     /**
      **************李火生*******************

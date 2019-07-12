@@ -420,7 +420,7 @@
 					<div class="seach_list">
 						<div class="seach_laber">请搜索：</div>
 						<div class="seach_input">
-							<input type="text" name="search_a" lay-verify="title" autocomplete="off"
+							<input type="text" name="search_a"  lay-verify="title" autocomplete="off"
 								placeholder="订单编号/商品名称/用户账号" class="layui-input">
 						</div>
 					</div>
@@ -701,13 +701,14 @@
 			// 订单金额
 			var amount = +$(this).parents('tr').children('td.am').text();
 			$('input[name=amount]').val(amount);
-			var data_id = $(this).data("id");
+			var data_id = $(this).data("id");    //订单id
 			var way = 0;
 			$(".operation").data("value", data_id);
 			$(".repay_tip").data("value", data_id);
-			var data_value = $(this).data("value");
+			var data_value = $(this).data("value");    //订单状态
 			$(".operation").empty();
 			$(".chat").empty();
+			//获取批注
 			$.ajax({
 				type: "POST",
 				url: "{:url('admin/Notification/notice_index')}",
@@ -718,7 +719,7 @@
 				success: function (data) {
 					var data = JSON.parse(data);
 					console.log(data)
-					way = data.data.order_type;
+					way = data.data.order_type;   //邮寄方式    
 					for (var i = 0; i < data.data.datas.length; i++) {
 						var dhtm0 = "";
 						dhtm0 += '<div class="chat_list">';
@@ -732,6 +733,29 @@
 
 				}
 			});
+			//获取订单的信息
+			var express=0;
+			var express_name='EMS';
+			$.ajax({
+						type: "POST",
+						url: "{:url('admin/Order/order_information_return')}",
+						data: {
+							"order_id": data_id,
+						},
+						async: false,
+						success: function (data) {
+							var data = JSON.parse(data);
+							console.log(data)
+							way = data.data.order_type;   //邮寄方式  
+							 express=data.data.courier_number;  
+							 express_name=data.data.express_name_ch; 
+							// $(".operation").find('.curier').value(express);
+							// $(".operation").find('.danhao').val(express_name);
+						},
+						error: function (data) {
+
+						}
+					});
 			var dhtml1 = "";
 			dhtml1 += '<div class="select_static">';
 			dhtml1 += '<span class="operation_title">选择操作</span>';
@@ -774,32 +798,71 @@
 			dhtml2 += '<div class="select_courier">';
 			dhtml2 += '<span class="operation_title">选择快递</span>';
 			dhtml2 += '<select name="" class="curier">';
-			dhtml2 += '<option value="ems">EMS</option>';
-			dhtml2 += '<option value="youzhengguonei">邮政包裹/平邮</option>';
-			dhtml2 += '<option value="bjemstckj">北京EMS</option>';
-			dhtml2 += '<option value="shunfeng">顺丰</option>';
-			dhtml2 += '<option value="shentong">申通</option>';
-			dhtml2 += '<option value="yuantong">圆通 </option>';
-			dhtml2 += '<option value="zhongtong">中通</option>';
-			dhtml2 += '<option value="huitongkuaidi">百世汇通</option>';
-			dhtml2 += '<option value="baishiwuliu">百世物流</option>';
-			dhtml2 += '<option value="yunda">韵达</option>';
-			dhtml2 += '<option value="zhaijisong">宅急送</option>';
-			dhtml2 += '<option value="tiantian">天天</option>';
-			dhtml2 += '<option value="debangwuliu">德邦</option>';
-			dhtml2 += '<option value="guotongkuaidi">国通</option>';
-			dhtml2 += '<option value="zengyisudi">增益</option>';
-			dhtml2 += '<option value="suer">速尔</option>';
-			dhtml2 += '<option value="ztky">中铁物流</option>';
-			dhtml2 += '<option value="zhongtiewuliu">中铁快运</option>';
-			dhtml2 += '<option value="ganzhongnengda">能达</option>';
-			dhtml2 += '<option value="youshuwuliu">优速</option>';
-			dhtml2 += '<option value="quanfengkuaidi">全峰</option>';
-			dhtml2 += '<option value="quanfengkuaidi">其他物流</option>';
+			// dhtml2 += '<option value="ems">EMS</option>';
+			// dhtml2 += '<option value="youzhengguonei">邮政包裹/平邮</option>';
+			// dhtml2 += '<option value="bjemstckj">北京EMS</option>';
+			// dhtml2 += '<option value="shunfeng">顺丰</option>';
+			// dhtml2 += '<option value="shentong">申通</option>';
+			// dhtml2 += '<option value="yuantong">圆通 </option>';
+			// dhtml2 += '<option value="zhongtong">中通</option>';
+			// dhtml2 += '<option value="huitongkuaidi">百世汇通</option>';
+			// dhtml2 += '<option value="baishiwuliu">百世物流</option>';
+			// dhtml2 += '<option value="yunda">韵达</option>';
+			// dhtml2 += '<option value="zhaijisong">宅急送</option>';
+			// dhtml2 += '<option value="tiantian">天天</option>';
+			// dhtml2 += '<option value="debangwuliu">德邦</option>';
+			// dhtml2 += '<option value="guotongkuaidi">国通</option>';
+			// dhtml2 += '<option value="zengyisudi">增益</option>';
+			// dhtml2 += '<option value="suer">速尔</option>';
+			// dhtml2 += '<option value="ztky">中铁物流</option>';
+			// dhtml2 += '<option value="zhongtiewuliu">中铁快运</option>';
+			// dhtml2 += '<option value="ganzhongnengda">能达</option>';
+			// dhtml2 += '<option value="youshuwuliu">优速</option>';
+			// dhtml2 += '<option value="quanfengkuaidi">全峰</option>';
+			// dhtml2 += '<option value="quanfengkuaidi">其他物流</option>';
+			dhtml2 += '<option value="'+express_name+'">'+express_name+'</option>';
 			dhtml2 += '</select>';
 			dhtml2 += '</div>';
-			dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  >';
-			dhtml2 += '<button type="button" class="submit_btns" data-id="">修改单号</button>';
+			if(data_value=='8' || data_value==0){    //已完成
+				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" readonly class="layui-input danhao" value="'+express+'" style="width:58%;"  >';
+
+			}else{
+				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" value="'+express+'" style="width:58%;"  >';
+				dhtml2 += '<button type="button" class="submit_btns" data-id="">修改单号</button>';
+				
+			}
+			
+			var dhtml3 = "";
+			dhtml3 += '<div class="select_courier">';
+			dhtml3 += '<span class="operation_title">选择快递</span>';
+			dhtml3 += '<select name="" class="curier">';
+			dhtml3 += '<option value="ems">EMS</option>';
+			dhtml3 += '<option value="youzhengguonei">邮政包裹/平邮</option>';
+			dhtml3 += '<option value="bjemstckj">北京EMS</option>';
+			dhtml3 += '<option value="shunfeng">顺丰</option>';
+			dhtml3 += '<option value="shentong">申通</option>';
+			dhtml3 += '<option value="yuantong">圆通 </option>';
+			dhtml3 += '<option value="zhongtong">中通</option>';
+			dhtml3 += '<option value="huitongkuaidi">百世汇通</option>';
+			dhtml3 += '<option value="baishiwuliu">百世物流</option>';
+			dhtml3 += '<option value="yunda">韵达</option>';
+			dhtml3 += '<option value="zhaijisong">宅急送</option>';
+			dhtml3 += '<option value="tiantian">天天</option>';
+			dhtml3 += '<option value="debangwuliu">德邦</option>';
+			dhtml3 += '<option value="guotongkuaidi">国通</option>';
+			dhtml3 += '<option value="zengyisudi">增益</option>';
+			dhtml3 += '<option value="suer">速尔</option>';
+			dhtml3 += '<option value="ztky">中铁物流</option>';
+			dhtml3 += '<option value="zhongtiewuliu">中铁快运</option>';
+			dhtml3 += '<option value="ganzhongnengda">能达</option>';
+			dhtml3 += '<option value="youshuwuliu">优速</option>';
+			dhtml3 += '<option value="quanfengkuaidi">全峰</option>';
+			dhtml3 += '<option value="quanfengkuaidi">其他物流</option>';
+			dhtml3 += '</select>';
+			dhtml3 += '</div>';
+			
+			dhtml3 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  style="width:58%;" >';
+			dhtml3 += '<button type="button" class="submit_btns" data-id="">确认发货</button>';
 			// var dhtml2="";
 			// dhtml2+='<div class="select_static">';
 			// dhtml2+='<span class="operation_title">选择操作</span>';
@@ -815,15 +878,21 @@
 			// dhtml2+='<button type="button" class="submit_btns"  data-id="">确定</button>';
 			// var dhtml3="";
 			// dhtml3+='<button type="button" class="submit_btns"  data-id="">确定</button>';
-			if (way == 1) { 
-				if (data_value == 2 || data_value == 3) {
+			if (way == 1) {     //直邮
+				if (data_value == 2 || data_value==3) {   //代发货
 					$('.chenge_money').hide();
-					$(".operation").append(dhtml1);
+					$(".operation").append(dhtml3);
 					$(".operation").data("id", data_value);
-				}
-				else if (data_value == 4 || data_value == 5) {
+				}else if (data_value ==4 ||  data_value ==5 ||   data_value==6 ||  data_value==7 ) {
+					$('.chenge_money').hide();
 					$(".operation").append(dhtml2);
 					$(".operation").data("id", data_value);
+				}else if(data_value=='8' || data_value==0){      //已完成
+                    $('.chenge_money').hide();
+					$(".operation").append(dhtml2);
+					$(".operation").data("id", data_value);
+				}else{
+					$('.chenge_money').show();
 				}
 			}
 			$(".popup_one").removeClass("noshow");
@@ -865,41 +934,69 @@
 				}
 			})
 		});
+		//弹窗隐藏
 		$(".popup_x").click(function () {
 			$(".popup").addClass("noshow");
 		});
+        //点击操作按钮
 		$(".operation").on("click", ".submit_btns", function () {
 			$(".popup").addClass("noshow");
 			var repay = $(".repay").val();
-			var id = $(this).parent(".operation").data("id");
-			var value = $(this).parent(".operation").data("value");
-
+			var id = $(this).parent(".operation").data("id");   //订单状态
+			var value = $(this).parent(".operation").data("value");   //订单的id
+   
 			//    快递选择
 			var curier = $(".curier option:selected").val();
+			var curier2 = $(".curier option:selected").text();
 			//    操作选择
 			var operation_select = $(".operation_select option:selected").val();
-			//    单号
+			//    快递单号
 			var danhao = $(".danhao").val();
-			if (danhao != '') {
-				$.ajax({
-					type: "POST",
-					url: "{:url('admin/Order/order_confirm_shipment')}",
-					data: {
-						"order_id": value,
-						"courier_number": danhao,
-						"status": 5,
-						"express_name": curier
-					},
-					success: function (data) {
-						location.reload();
-						var data = eval('(' + data + ')');
-						console.log(data);
+			if (danhao != '') {  //判断单号
+			    //根据id判断订单的类型
+				if(id=='2' || id=='4'){     //待发货----已发货
+                    $.ajax({
+						type: "POST",
+						url: "{:url('admin/Order/order_confirm_shipment')}",
+						data: {
+							"order_id": value,
+							"courier_number": danhao,
+							"status": 4,
+							"express_name": curier,
+							"express_name_ch": curier2
+						},
+						success: function (data) {
+							location.reload();
+							var data = eval('(' + data + ')');
+							console.log(data);
 
-					},
-					error: function (data) {
+						},
+						error: function (data) {
 
-					}
-				});
+						}
+					});
+				}else
+				{
+					$.ajax({
+						type: "POST",
+						url: "{:url('admin/Order/order_confirm_shipment')}",
+						data: {
+							"order_id": value,
+							"courier_number": danhao,
+							"status": 5,
+							"express_name": curier
+						},
+						success: function (data) {
+							location.reload();
+							var data = eval('(' + data + ')');
+							console.log(data);
+
+						},
+						error: function (data) {
+
+						}
+					});
+				}
 
 			}
 			else {

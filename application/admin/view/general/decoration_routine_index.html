@@ -11,11 +11,11 @@
 
     #page {
         width: 97%;
-		height: 50px;
-		line-height: 50px;
-		border: solid 1px #E2E2E2;
-		padding-left: 50px;
-		background: #FDFDFE;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #E2E2E2;
+        padding-left: 50px;
+        background: #FDFDFE;
     }
 
     .childrenBody {
@@ -177,7 +177,8 @@
             </div>
             <div style="text-align: center;">
                 <h1>温馨提示：</h1>
-                <div style="font-size:20px; margin-top:30px;">您需要前往<a style="font-weight: 800" href="{:url('admin/General/order_package_index')}">订单套餐</a>升级套餐版本
+                <div style="font-size:20px; margin-top:30px;">您需要前往<a style="font-weight: 800"
+                        href="{:url('admin/General/order_package_index')}">订单套餐</a>升级套餐版本
                 </div>
             </div>
             <div class="btn_all">
@@ -186,7 +187,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="childrenBody">
 
     </div>
@@ -201,7 +202,7 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
-       
+
 
         $.ajax({
             type: "POST",
@@ -211,6 +212,7 @@
                 var new_data = JSON.parse(data);
                 let val = new_data.data;
                 console.log(new_data)
+                console.log(val.data[0].goods_names_id)
                 let dhtml = '';
                 if (new_data.status == '0') {
                     alert(new_data.info)
@@ -222,104 +224,207 @@
 
                     //     }
                     // }
-                    var datas =  val.data[0].goods_names_test;
-                    var goods_names;
-                    for(let l = 0; l < datas.length; l ++) {
+                    var datas = val.data[0].goods_names_test;
+                    var goods_names,goods_names_hy,goods_names_id_hy,status_type_hy,goods_names_wy,goods_names_id_wy,status_type_wy, goods_names_jj,goods_names_id_jj,status_type_jj;
+                    for (let l = 0; l < datas.length; l++) {
+                        if (datas[l].goods_name == '行业版') {
+                            goods_names_hy = datas[l].goods_name;
+                            goods_names_id_hy = datas[l].id;
+                            status_type_hy = datas[l].status_type;
+                        } else if (datas[l].goods_name == '万用版') {
+                            goods_names_wy = datas[l].goods_name;
+                            goods_names_id_wy = datas[l].id;
+                            status_type_wy = datas[l].status_type;
+
+                        } else {
+                            goods_names_jj = datas[l].goods_name;
+                            goods_names_id_jj = datas[l].id;
+                            status_type_jj = datas[l].status_type;
+                        }
                         if(datas[l].status_type == 1) {
                             goods_names = datas[l].goods_name;
                         }
                     }
+                    var goods_names2= val.data[0].goods_names2;
                     var hy_change = 'change';
                     var jj_change = 'change';
                     var onclick_hy = '';
                     var onclick_jj = '';
+                    var onclick_wy = '';
+                    if (datas.length == 1) {
+                        onclick_wy = `change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id},${goods_names_id_wy})`;
+                    }
+                    if (datas.length == 2) {
 
-                    if(datas.length == 1) {
-                        ischange = '';
-                        onclick_hy = `change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
+                        onclick_wy = `change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id},${goods_names_id_wy})`;
+                        onclick_hy = `change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id},${goods_names_id_hy})`;
                     }
-                    if(datas.length == 2) {
-                        ischange = '';
-                        onclick_hy = `change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
+                    if (datas.length == 3) {
+                        onclick_wy = `change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id},${goods_names_id_wy})`;
+                        onclick_hy = `change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id},${goods_names_id_hy})`;
+                        onclick_jj = `change_jj(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id},${goods_names_id_jj})`;
                     }
-                    if(datas.length == 3) {
-                        ischange = '';
-                        jj_change = '';
-                        onclick_hy = `change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
-                        onclick_jj = `change_jj(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id})`;
-                    }
-                    let path = `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}&goods_names=${goods_names}`;
-                    if (goods_names == "万用版") {
+                    let path = `/admin/xiaochengxu_edit?appletid=${val.data[0].id}&tplid=${val.data[0].tplid}&goods_names=${goods_names}&goods_names_id=${val.data[0].goods_names_id}`;
+                    if (goods_names2 == "万用版") {
                         dhtml = `<div class="list">
                                 <div class="imgcontent">
                                     <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
                                     <div class="text">万用模版</div>
                                 </div>
                                 <div class="btns">
-                                    <div class="btns_b change_back" onclick="change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">历史编辑</div>
-                                    <div class="btns_a wanyong"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    <div class="btns_b change_back" onclick="${onclick_wy}">历史编辑</div>
+                                    <div class="btns_a wanyong"><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
                                 </div>
                                 </div>`;
 
-                    } else if (goods_names == "行业版") {
-                        dhtml = `<div class="list">
-                                <div class="imgcontent">
-                                    <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
-                                    <div class="text">万用模版</div>
-                                </div>
-                                <div class="btns">
-                                    <div class="btns_b change_back" onclick="change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">切换版本</div>
-                                    <div class="btns_a wanyong noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-                                </div>
-                                </div>
-                                <div class="list">
-                                <div class="imgcontent">
-                                    <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
-                                    <div class="text">茶行业版</div>
-                                </div>
-                                <div class="btns">
-                                    <div class="btns_b change_hy" onclick="change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">历史编辑</div>
-                                    <div class="btns_a hangye" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-                                </div>
-                                </div>`;
+                    } else if (goods_names2 == "茶行业版") {
+                          if(goods_names==goods_names2){
+                            dhtml = `<div class="list">
+                                    <div class="imgcontent">
+                                        <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
+                                        <div class="text">万用模版</div>
+                                    </div>
+                                    <div class="btns">
+                                        <div class="btns_b change_back" onclick="${onclick_wy}">切换版本</div>
+                                        <div class="btns_a wanyong noshow"><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    </div>
+                                    </div>
+                                    <div class="list">
+                                    <div class="imgcontent">
+                                        <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
+                                        <div class="text">茶行业版</div>
+                                    </div>
+                                    <div class="btns">
+                                        <div class="btns_b change_hy" onclick="${onclick_hy}">历史编辑</div>
+                                        <div class="btns_a hangye" ><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    </div>
+                                    </div>`;
+                          }else{
+                                dhtml = `<div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
+                                            <div class="text">万用模版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <div class="btns_b change_back" onclick="${onclick_wy}">历史编辑</div>
+                                            <div class="btns_a wanyong "><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
+                                            <div class="text">茶行业版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <div class="btns_b change_hy" onclick="${onclick_hy}">切换版本</div>
+                                            <div class="btns_a hangye noshow" ><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>`;
+                          }
                     } else {
-                        dhtml = `<div class="list">
-                                <div class="imgcontent">
-                                    <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
-                                    <div class="text">万用模版</div>
-                                </div>
-                                <div class="btns">
-                                    <div class="btns_b change_back" onclick="change_wy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">切换版本</div>
-                                    <div class="btns_a wanyong noshow"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-                                </div>
-                                </div>
-                                <div class="list">
-                                <div class="imgcontent">
-                                    <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
-                                    <div class="text">茶行业版</div>
-                                </div>
-                                <div class="btns">
-                                    <div class="btns_b change_hy" onclick="change_hy(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">切换版本</div>
-                                    <div class="btns_a noshow hangye"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-                                </div>
-                                </div>
-                                <div class="list">
-                                <div class="imgcontent">
-                                    <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
-                                    <div class="text">茶进阶版</div>
-                                </div>
-                                <div class="btns">
-                                    <div class="btns_b now_use" onclick="change_jj(${val.data[0].id},${val.data[0].tplid},${val.data[0].store_id});">历史编辑</div>
-                                    <div class="btns_a jinjie" ><span style="color: rgb(0, 191, 239);">当前使用</span></div>
-                                </div>
-                                </div>
-                            
-                                `;
+                        if(goods_names==goods_names2){
+                            dhtml = `<div class="list">
+                                    <div class="imgcontent">
+                                        <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
+                                        <div class="text">万用模版</div>
+                                    </div>
+                                    <div class="btns">
+                                        <div class="btns_b change_back" onclick="${onclick_wy}">切换版本</div>
+                                        <div class="btns_a wanyong noshow"><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    </div>
+                                    </div>
+                                    <div class="list">
+                                    <div class="imgcontent">
+                                        <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
+                                        <div class="text">茶行业版</div>
+                                    </div>
+                                    <div class="btns">
+                                        <div class="btns_b change_hy" onclick="${onclick_hy}">切换版本</div>
+                                        <div class="btns_a noshow hangye"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    </div>
+                                    </div>
+                                    <div class="list">
+                                    <div class="imgcontent">
+                                        <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
+                                        <div class="text">茶进阶版</div>
+                                    </div>
+                                    <div class="btns">
+                                        <div class="btns_b now_use" onclick="${onclick_jj}">历史编辑</div>
+                                        <div class="btns_a jinjie" ><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                    </div>
+                                    </div>
+                                    `;
+                        }else if(goods_names=='万用版'){
+                                dhtml = `<div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
+                                            <div class="text">万用模版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <div class="btns_b change_back" onclick="${onclick_wy}">历史编辑</div>
+                                            <div class="btns_a wanyong "><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
+                                            <div class="text">茶行业版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <div class="btns_b change_hy" onclick="${onclick_hy}">切换版本</div>
+                                            <div class="btns_a noshow hangye"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
+                                            <div class="text">茶进阶版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <div class="btns_b now_use" onclick="${onclick_jj}">切换版本</div>
+                                            <div class="btns_a jinjie noshow" ><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        `;
+                        }else{
+                                dhtml = `<div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14540.png" alt=""></div>
+                                            <div class="text">万用模版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <div class="btns_b change_back" onclick="${onclick_wy}">切换版本</div>
+                                            <div class="btns_a wanyong noshow "><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/u14545.png" alt=""></div>
+                                            <div class="text">茶行业版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <div class="btns_b change_hy" onclick="${onclick_hy}">历史编辑</div>
+                                            <div class="btns_a  hangye"><span style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        <div class="list">
+                                        <div class="imgcontent">
+                                            <div class="img"><img src="__STATIC__/admin/index/img/image322315.png" alt=""></div>
+                                            <div class="text">茶进阶版</div>
+                                        </div>
+                                        <div class="btns">
+                                            <div class="btns_b now_use" onclick="${onclick_jj}">切换版本</div>
+                                            <div class="btns_a jinjie noshow" ><span class="use" style="color: rgb(0, 191, 239);">当前使用</span></div>
+                                        </div>
+                                        </div>
+                                        `;
+
+                        }
                     }
                     $('.childrenBody').append(dhtml);
                 }
 
-                
+
                 $(".change").on("click", function () {
                     $(".popup").removeClass("noshow");
                 });
@@ -339,8 +444,9 @@
                 console.log(e);
             }
         })
+
         //wangyong
-        function change_wy(a,b,c) {
+        function change_wy(a, b, c, d) {
             $(".change_back").html('历史编辑');
             $(".wanyong").removeClass("noshow");
 
@@ -349,30 +455,47 @@
 
             $(".change_hy").html('切换版本');
             $(".hangye").addClass("noshow");
+            //修改当前的版本状态
+            $.ajax({
+                url: 'change_edition',
+                type: "post",
+                data: {id:d},
+                success : function(data){
+                var data = JSON.parse(data);
+                    if(data.status==1){
+                       window.location.href = `/admin/xiaochengxu_edit?appletid=${a}&tplid=${b}&store_id=${c}&goods_names=万用版&goods_names_id=${d}`;
+                    }
+                }
 
-            window.location.href = `/admin/xiaochengxu_edit?appletid=${a}&tplid=${b}&store_id=${c}&goods_names=万用版`;
+            })
+            // change('万用版');
+
         }
         //hangye
-        function change_hy(a,b,c) {
+        function change_hy(a, b, c, d) {
             $(".change_hy").html('历史编辑');
             $(".hangye").removeClass("noshow");
 
             $(".now_use").html('切换版本');
-
-
-
-
-
-
-
             $(".jinjie").addClass("noshow");
 
             $(".change_back").html('切换版本');
             $(".wanyong").addClass("noshow");
-            window.location.href = `/admin/xiaochengxu_edit?appletid=${a}&tplid=${b}&store_id=${c}&goods_names=行业版`;
+            $.ajax({
+                url: 'change_edition',
+                type: "post",
+                data: {id:d},
+                success : function(data){
+                var data = JSON.parse(data);
+                    if(data.status==1){
+                         window.location.href = `/admin/xiaochengxu_edit?appletid=${a}&tplid=${b}&store_id=${c}&goods_names=茶行业版&goods_names_id=${d}`;
+                    }
+                }
+
+            })
         }
         //jinjie
-        function change_jj(a,b,c) {
+        function change_jj(a, b, c, d) {
             $(".now_use").html('历史编辑');
             $(".jinjie").removeClass("noshow");
 
@@ -381,7 +504,19 @@
 
             $(".change_back").html('切换版本');
             $(".wanyong").addClass("noshow");
-            window.location.href = `/admin/xiaochengxu_edit?appletid=${a}&tplid=${b}&store_id=${c}&goods_names=进阶版`;
+            $.ajax({
+                url: 'change_edition',  
+                type: "post",
+                data: {id:d},
+                success : function(data){
+                var data = JSON.parse(data);
+                    if(data.status==1){
+                         window.location.href = `/admin/xiaochengxu_edit?appletid=${a}&tplid=${b}&store_id=${c}&goods_names=茶进阶版&goods_names_id=${d}`;
+
+                        }
+                }
+
+            })
         }
         function save_id(id) {
             setCookie("edit_id", id, 1);
