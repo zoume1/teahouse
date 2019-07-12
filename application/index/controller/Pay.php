@@ -278,21 +278,22 @@ class Pay extends  Controller{
                     'year_number' => $data['year_number'],
                     'series_price' => $data['series_price'],
                     'series_parts_number' => $series_parts_number,
+                    'activity_name' => '仓库订单续费',
                     'member_id' => $data['member_id']
                 );
 
-                $bool = Db::name("series_house_order")->insert($series_data);
-                if($bool){
-                    $activity_name ="仓库订单续费";//名称
+                $bool = Db::name("series_house_order")->insertGetId($series_data);
+                $rest = Db::name("series_house_order")->where("id",$bool)->find();
+                if(!empty($rest)){
                     //         初始化值对象
                     $input = new \WxPayUnifiedOrder();
                     //         文档提及的参数规范：商家名称-销售商品类目
-                    $input->SetBody($activity_name);
+                    $input->SetBody($rest['activity_name']);
                     //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
                     //        $input->SetOut_trade_no(time().'');
-                    $input->SetOut_trade_no($series_parts_number);
+                    $input->SetOut_trade_no($rest['series_parts_number']);
                     //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
-                    $input->SetTotal_fee($data['series_price']*100);
+                    $input->SetTotal_fee($rest['series_price']*100);
                     $return_url = config("domain.url")."series_notify";
                     $input->SetNotify_url($return_url);//需要自己写的notify.php
                     $input->SetTrade_type("JSAPI");
