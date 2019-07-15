@@ -26,7 +26,6 @@ class  Order extends  Controller{
     public function order_index(){
         $store_id = Session::get("store_id");
         $where['status']=array('between',array(0,8));
-        $where['order_type']=array('between',array(0,2));
         $data =Db::name("order")
             ->order("order_create_time","desc")
             ->where("store_id",'EQ',$store_id)
