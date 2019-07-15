@@ -1235,3 +1235,23 @@ function check_login(){
 	}
 }
 
+
+    /**
+     * @param int $status
+     * [存茶订单后台显示状态]
+     * @return 成功时返回，其他抛异常
+     */
+
+function show_house_order($status){
+    if($status==0){
+        echo '<button type="button" class="state   close-btu" >已关闭</button>';
+    }else if($status==1){
+        echo '<button type="button" class="state color1" >待付款</button>';
+        //暂时显示到入仓状态
+    }else  if($status==2){
+        echo '<button type="button" class="state  enter-btu" >已入仓</button>';
+    }else  if($status==3){
+        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
+    }
+}
+

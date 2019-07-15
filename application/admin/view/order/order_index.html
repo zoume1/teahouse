@@ -545,7 +545,7 @@
 						<td>
 							<div class="line">
 								<div class="static_btus" data-id="{$vo.id}" data-value="{$vo.status}">
-									{$vo.status|show_order_status}
+									{if $vo.order_type != 3}{$vo.status|show_order_status}{else}{$vo.status|show_house_order}{/if}
 								</div>
 								<div class="static_btus1">
 									<div class="not_apply">未申请开票</div>

@@ -1019,6 +1019,7 @@ class  Order extends  Controller
                             ->where("member_id", $member_id)
                             ->find();
                         $order_data['status'][$da_k] = $names['status'];
+                        $order_data['order_type'][$da_k] = $names['order_type'];
                         $order_data["parts_order_number"][$da_k] = $names["parts_order_number"];
                         $order_data["all_order_real_pay"][$da_k] = $names["order_real_pay"];
                         $order_data["order_create_time"][$da_k] = $names["order_create_time"];
@@ -1033,6 +1034,7 @@ class  Order extends  Controller
                     $data_information["all_order_real_pay"][] = $return_data["order_real_pay"];
                     $data_information["all_numbers"][] = $return_data["order_quantity"];
                     $data_information['status'][] = $return_data['status'];
+                    $data_information['order_type'][] = $return_data['order_type'];
                     $data_information['parts_order_number'][] = $return_data['parts_order_number'];
                     $data_information['order_create_time'][] = $value['order_create_time'];
                     $data_information['all'][] = Db::name('order')
@@ -1053,6 +1055,12 @@ class  Order extends  Controller
                 }
                 //状态值
                 foreach ($order_data['status'] as $i => $j) {
+                    if(!empty($j)){
+                        $new_arr_status[] = $j;
+                    }
+                }
+                //订单类型
+                foreach ($order_data['order_type'] as $i => $j) {
                     if(!empty($j)){
                         $new_arr_status[] = $j;
                     }
@@ -1116,6 +1124,10 @@ class  Order extends  Controller
                 //所有数量
                 foreach ($data_information['all_numbers'] as $a=>$b){
                     $end_info[$a+$count]['all_numbers'] = $b;
+                }
+                //订单类型
+                foreach ($data_information['order_type'] as $a=>$b){
+                    $end_info[$a+$count]['order_type'] = $b;
                 }
                 //订单编号
                 foreach ($data_information['parts_order_number'] as $a=>$b){
