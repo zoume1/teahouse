@@ -381,7 +381,7 @@ Route::group("",[
     "getStoreHouse"=>"index/Storehouse/getStoreHouse",      //店铺小程序前端所有仓库
     "doHouseOrder"=>"index/Storehouse/doHouseOrder",        //店铺小程序前端选择仓库
     "takeOrderData"=>"index/Storehouse/takeOrderData",      //店铺小程序前端入仓详情
-    "logContinuAtion"=>"index/Storehouse/logContinuAtion",  //店铺小程序前端仓库订单续费
+    "setContinuAtion"=>"index/Storehouse/setContinuAtion",  //店铺小程序仓库订单出仓
 
 
 
