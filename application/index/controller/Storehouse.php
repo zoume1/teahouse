@@ -111,6 +111,7 @@ class Storehouse extends Controller
             if(isset($data['uniacid']) && isset($data['member_id'])){
                 $depot  = Db::name("house_order")
                 ->where(["store_id"=>$data['uniacid'],"member_id"=>$data['member_id']])
+                ->where("status",'>',1)
                 ->sum("order_amount");
                         
                 $depot_value = round($depot,2);
@@ -272,7 +273,7 @@ class Storehouse extends Controller
      * @param int member_id           账号id
      * @param int uniacid             店铺id
      * @param float house_charges     出仓费用
-     * @param int set_number          出仓数量
+     * @param int order_quantity      出仓数量
      * @param int address_id          邮寄地址id
      * [店铺小程序前端订单出仓]
      * @return 成功时返回，其他抛异常
