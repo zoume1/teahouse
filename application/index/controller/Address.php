@@ -30,7 +30,7 @@ class Address extends  Controller{
             $member_id =$user_id["member_id"];
             $data =Db::name("user_address")
                 ->where('user_id',$member_id)
-                ->order("id","desc")
+                ->order("status","desc")
                 ->select();
             if(!empty($data)){
                 return ajax_success('地址列表信息',$data);
@@ -237,8 +237,8 @@ class Address extends  Controller{
             $member_id =$user_id["member_id"];
             if(empty( $member_id)){
                 exit(json_encode(array("status"=>2,"info"=>"请登录")));
-            }
-            $address_id =$request->only(['address_id'])['address_id'];
+            }           
+            $address_id = input('address_id');
             if(!empty($address_id)){
                 $is_address =Db::name("user_address")
                     ->where("user_id", $member_id)

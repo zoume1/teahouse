@@ -267,22 +267,19 @@ class Storehouse extends Controller
     }
 
 
-    
-    /**
-     * @param int $id                 订单id
-     * @param int member_id           账号id
-     * @param int uniacid             店铺id
-     * @param float house_charges     出仓费用
-     * @param int order_quantity      出仓数量
-     * @param int address_id          邮寄地址id
+
+        /**
+     * @param int $id
+     * @param int member_id
+     * @param int uniacid
      * [店铺小程序前端订单出仓]
      * @return 成功时返回，其他抛异常
      */
-    public function setContinuAtion(Request $request)
+    public function outPositionOrder(Request $request)
     {
         if ($request->isPost()){
             $data = input();
-            if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['id']) && isset($data['house_charges']) && isset($data['order_quantity']) && isset($data['address_id'])){
+            if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['id'])){
                 $member_grade_id = Db::name("member")->where("member_id",$data['member_id'])->value("member_grade_id");
                 $rank = Db::name("member_grade")->where("member_grade_id",$member_grade_id)->value("member_consumption_discount");
                 $house_order = Db::table("tb_house_order")
@@ -297,7 +294,6 @@ class Storehouse extends Controller
                     $house_order['unit'] = explode(",", $house_order['unit']);
                     $house_order['num'] = explode(",",$house_order['num']);
                     $house_order["store_number"] = str_replace(',', '', $house_order["store_number"]);
-                    $house_order["scale"] = (($house_order["goods_new_money"] - $house_order["goods_money"]))*100/($house_order["goods_money"]);
                     if($house_order['goods_member'] != 1){
                         $rank = 1;
                     }
@@ -320,6 +316,8 @@ class Storehouse extends Controller
             }
         }              
     }
+
+
 
     
 }
