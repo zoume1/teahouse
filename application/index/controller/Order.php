@@ -415,7 +415,7 @@ class  Order extends  Controller
                             return ajax_error('失败',['status'=>0]);
                         }
                     } else {       //存茶
-                        $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                        $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
                         ->where('id',$address_id)
                         ->find();
@@ -536,7 +536,7 @@ class  Order extends  Controller
                 }else if($order_type ==2){
                     $parts_order_number ="ZT".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }else if($order_type ==3){
-                    $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                    $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                 }
                 $create_time = time();//下单时间
                 $normal_time =Db::name("order_setting")->find();//订单设置的时间
@@ -2406,8 +2406,8 @@ class  Order extends  Controller
     public function transportation(Request $request){
         if($request->isPost()){
             $goods_id = $request->only("goods_id")["goods_id"];//商品id
-            $are =$request->only("are")["are"];//地区
-            $standard =$request->only("goods_standard_id")["goods_standard_id"];//规格id
+            $are = $request->only("are")["are"];//地区
+            $standard = $request->only("goods_standard_id")["goods_standard_id"];//规格id
             $res = array();
             if(!empty($goods_id)){
                 foreach($goods_id as $key => $value){
