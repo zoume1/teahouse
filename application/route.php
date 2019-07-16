@@ -71,6 +71,7 @@ Route::group("",[
     "wx_recharge_pay"=>"index/Pay/recharge_pay",//小程序充值支付
     "reward_pay"=>"index/Pay/reward_pay",   //众筹商品打赏支付
     "series_pay"=>"index/Pay/series_pay",   //仓库订单续费支付
+    "setContinuAtion"=>"index/Pay/setContinuAtion",  //店铺小程序仓库订单出仓
      "notify"=>"index/order/notify",//小程序支付回调（活动）
      "order_notify"=>"index/order/order_notify",//小程序订单支付回调
      "recharge_notify"=>"index/order/recharge_notify",//小程序充值支付回调
@@ -383,10 +384,11 @@ Route::group("",[
     "doHouseOrder"=>"index/Storehouse/doHouseOrder",        //店铺小程序前端选择仓库
     "takeOrderData"=>"index/Storehouse/takeOrderData",      //店铺小程序前端入仓详情
     "logContinuAtion"=>"index/Storehouse/logContinuAtion",  //店铺小程序前端仓库订单续费
+    "outPositionOrder"=>"index/Storehouse/outPositionOrder",//店铺小程序前端仓库订单出仓
     
     /* 微信公众平台路由  */
     "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
-    "setContinuAtion"=>"index/Storehouse/setContinuAtion",  //店铺小程序仓库订单出仓
+    
 
 
 
