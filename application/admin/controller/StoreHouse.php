@@ -199,12 +199,13 @@ class StoreHouse extends Controller{
         $store_id = Session::get("store_id");
         $store_order = db("house_order")
                     ->where("store_id","EQ",$store_id)
-                    ->where("status",">",0)
-                    ->field("id,parts_order_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time")
+                    ->where("status",">",1)
+                    ->field("id,parts_order_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
                     ->select();
 
         foreach($store_order as $key => $value){
             $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
+            $store_order[$key]["store_name"] = db("store_house")->where("id",$store_order[$key]["store_house_id"])->value('name');
         }    
 
         $url = 'admin/StoreHouse/stores_divergence';

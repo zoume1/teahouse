@@ -1265,5 +1265,53 @@ class  Wxapps extends  Controller{
             }
         }
     }
+    /**
+     * lilu
+     * 各类型订单数量统计
+     * open_id
+     */
+    public function order_count(){
+        //获取参数
+        $input=input();
+        $store_id=$input['uniacid'];
+        $member_id=db('member')->where('member_openid',$input['open_id'])->find();
+        if($member_id){
+            $where['status']='1';   //代付款
+            $where['member_id']=$member_id['member_id'];   //会员id
+            $where['store_id']=$store_id;   //代付款
+            $data['dai_num']=db('order')->where($where)->count();
+            //代发货
+            $where2['status']=array('between',array(2,3));   //代发货
+            $where2['member_id']=$member_id['member_id'];   //会员id
+            $where2['store_id']=$store_id;   //代付款
+            $data['fa_num']=db('order')->where($where2)->count();
+            //待收
+            $where3['status']='5';   //代收货
+            $where3['member_id']=$member_id['member_id'];   //会员id
+            $where3['store_id']=$store_id;   //代付款
+            $data['shou_num']=db('order')->where($where3)->count();
+            //待评价
+            $where4['status']='7';   //代付款
+            $where4['member_id']=$member_id['member_id'];   //会员id
+            $where4['store_id']=$store_id;   //代付款
+            $data['ping_num']=db('order')->where($where4)->count();
+            //售后或退款
+            $where['status']=array('between',array(12,15));   //代付款
+            $where['member_id']=$member_id['member_id'];   //会员id
+            $where['store_id']=$store_id;   //代付款
+            $data['tui_num']=db('order')->where($where)->count();
+            if($data){
+                return ajax_success('获取成功',$data);
+            }else{
+                return ajax_error('参数错误');
+            }
+        }else{
+            return ajax_error('参数错误');
+        }
+    }
+
+
+
+
 
 }

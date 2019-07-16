@@ -35,6 +35,20 @@
 		border: solid 1px #E4E4E4;
 	}
 
+    .infor{
+		display: inline;
+		border-bottom: #989898;
+	}
+	.mation{
+        display:block;
+		float: left; 
+		margin-right: 80px;
+			}
+    .little{
+		color: red;
+		float:center;
+
+	}
 	.partb {
 		padding: 11px;
 	}
@@ -43,6 +57,7 @@
 		border: 0;
 		border-color: #E4E4E4;
 		width: 100%;
+		border:#e2e2e2 1px solid;
 	}
 
 	.partb table th {
@@ -50,21 +65,24 @@
 		background: #F3F3F3;
 		padding: 12px;
 		font-weight: bold;
+		border:#e2e2e2 1px solid;
 	}
 
 	.partb table td {
 
 		border-color: #E4E4E4;
 		padding: 12px;
+		
 	}
 
 	.partc ul {
 		display: flex;
+		
 	}
 
 	.partc ul li {
 		flex: 1;
-
+        
 		padding: 11px;
 		width: 50%;
 	}
@@ -72,6 +90,7 @@
 	.partc ul li table {
 		border: 0;
 		width: 100%;
+		border:#e2e2e2 1px solid;
 	}
 
 	.partc ul li table th {
@@ -86,9 +105,9 @@
 		padding: 12px;
 		text-align: center;
 	}
-
 	.red {
 		color: red;
+		
 	}
 
 	.select {
@@ -193,21 +212,69 @@
 			</tr>
 			<tr>
 				<td>
-					<span>待服务订单</span>
-					<span style="color: red; float: right;">
-						(0)
+					<div class="infor">
+					<span class="mation">普通
+							<span class="little">
+									(0)
+								</span>
 					</span>
-
+					
+					<span class="mation">定制
+							<span class="little">
+									(0)
+								</span>
+					</span>
+					
+					<span class="mation">众筹
+							<span class="little">
+									(0)
+								</span>
+					</span>
+					
+				</div>
 				</td>
 				<td>
-					<span>已完成订单</span>
-
-					<span style="color: red; float: right;">
-						({$data['yiwan_num']})
+			<div class="infor">
+					<span class="mation">普通
+							<span class="little">
+									(0)
+								</span>
 					</span>
+					
+					<span class="mation">定制
+							<span class="little">
+									(0)
+								</span>
+					</span>
+					
+					<span class="mation">众筹
+							<span class="little">
+									(0)
+								</span>
+					</span>
+</div>
+</td>
+<td>
+<div class="infor">
+		<span class="mation">普通
+				<span class="little">
+						(0)
+					</span>
+		</span>
+		
+		<span class="mation">定制
+				<span class="little">
+						(0)
+					</span>
+		</span>
+		
+		<span class="mation">众筹
+				<span class="little">
+						(0)
+					</span>
+		</span>
+				</div>
 				</td>
-				<td></td>
-
 			</tr>
 		</table>
 	</div>
@@ -240,10 +307,10 @@
 						<th colspan="4">用户总览</th>
 					</tr>
 					<tr>
-						<!-- <td>
+						<td>
 							<p class="red">21</p>
 							<p>今日新增</p>
-						</td> -->
+						</td> 
 						<td>
 							<p class="red">3529</p>
 							<p>昨日新增</p>

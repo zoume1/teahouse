@@ -125,6 +125,7 @@ class  Evaluate extends  Controller {
                     "user_name"=> $user_info["member_name"],
                     "is_repay"=>0, //是否回复（0是否，1为是,默认为0）
                     "is_show"=>1, //是否开启1开启，-1关闭
+                    "store_id"=>$store_id, //是否开启1开启，-1关闭
                 ];
                 $bool =Db::name("order_evaluate")->insertGetId($data);
                 if(!empty( $bool)){

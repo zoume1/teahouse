@@ -71,9 +71,10 @@
 }
 
 .xdsoft_datetimepicker .xdsoft_datepicker {
-	width: 224px;
+	width: 400px;
 	float: left;
-	margin-left: 8px
+	margin-left: 8px;
+	height: 260px;
 }
 
 .xdsoft_datetimepicker.xdsoft_showweeks .xdsoft_datepicker {
@@ -169,7 +170,7 @@
 }
 
 .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-	height: 151px;
+	height: 199px;
 	overflow: hidden;
 	border-bottom: 1px solid #ddd
 }
@@ -184,7 +185,7 @@
 	cursor: pointer;
 	border-bottom-width: 0;
 	height: 25px;
-	line-height: 25px
+	line-height: 25px;
 }
 
 .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box>div>div:first-child {
