@@ -312,7 +312,7 @@ class  Order extends  Controller
                     $data['unit'] = explode(",",$goods_data['unit']);
                     $data['num'] = explode(",",$goods_data['num']);
                     //判断商品的库存的是否够用
-                    if($goods_data['goods_repertory']<= $number[$keys]){     //购买数量大于库存
+                    if($goods_data['goods_repertory']<= $numbers[$keys]){     //购买数量大于库存
                         return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                    }
                 } else {
@@ -326,7 +326,7 @@ class  Order extends  Controller
                     $data['unit'] = explode(",",$special_data['unit']);
                     $data['num'] = explode(",",$special_data['num']);
                     //判断商品的库存的是否够用
-                    if($special_data['goods_repertory']<= $number[$keys]){     //购买数量大于库存
+                    if($special_data['goods_repertory']<= $numbers[$keys]){     //购买数量大于库存
                         return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                    }
 
@@ -399,10 +399,10 @@ class  Order extends  Controller
                             //下单成功，冻结库存
                             if($goods_standard_id[0]=='0'){
                                  //单规格商品扣除库存
-                                 $re1 = Db::name('goods')->where('id',$values)->setDec('goods_repertory',$number[$keys]);
+                                 $re1 = Db::name('goods')->where('id',$values)->setDec('goods_repertory',$numbers[$keys]);
                             }else{
                                 //多规格商品扣除库存
-                                $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$number[$keys]);
+                                $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
                             }
                             $order_datas =Db::name("order")
                                 ->field("order_real_pay,parts_goods_name,parts_order_number")
