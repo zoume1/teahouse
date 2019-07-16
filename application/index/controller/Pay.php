@@ -318,6 +318,61 @@ class Pay extends  Controller{
             }
         }
     }
+
+
+        
+    /**
+     * @param int $id                 订单id
+     * @param int member_id           账号id
+     * @param int uniacid             店铺id
+     * @param float house_charges     出仓费用
+     * @param int order_quantity      出仓数量
+     * @param int address_id          邮寄地址id
+     * [店铺小程序前端订单出仓]
+     * @return 成功时返回，其他抛异常
+     */
+    public function setContinuAtion(Request $request)
+    {
+        if ($request->isPost()){
+            $data = input();
+            if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['id']) && isset($data['house_charges']) && isset($data['order_quantity']) && isset($data['address_id'])){
+                $member_grade_id = Db::name("member")->where("member_id",$data['member_id'])->value("member_grade_id");
+                $rank = Db::name("member_grade")->where("member_grade_id",$member_grade_id)->value("member_consumption_discount");
+                $house_order = Db::table("tb_house_order")
+                                    ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,parts_order_number,end_time,order_quantity,goods_money,order_amount,store_number,store_unit,tb_store_house.number,tb_store_house.adress,tb_goods.goods_name,date,goods_new_money,goods_member,goods_bottom_money,brand,num,tb_goods.unit,tb_wares.name")
+                                    ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left') 
+                                    ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
+                                    ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
+                                    ->where(["tb_house_order.store_id"=>$data['uniacid'],"tb_house_order.member_id"=>$data['member_id'],"tb_house_order.id"=>$data['id']])
+                                    ->find();   
+         
+                if(!empty($house_order)){
+                    $house_order['unit'] = explode(",", $house_order['unit']);
+                    $house_order['num'] = explode(",",$house_order['num']);
+                    $house_order["store_number"] = str_replace(',', '', $house_order["store_number"]);
+                    $house_order["scale"] = (($house_order["goods_new_money"] - $house_order["goods_money"]))*100/($house_order["goods_money"]);
+                    if($house_order['goods_member'] != 1){
+                        $rank = 1;
+                    }
+                        if(!empty($house_order['special_id'])){
+                            $goods = Db::name("special")->where("id",$house_order['special_id'])->find();
+                            $house_order['goods_bottom_money'] = $goods['line'];
+                            $house_order['goods_new_money'] = $goods['price'] * $rank;
+
+                        } else {
+                            $house_order['goods_bottom_money'] = $house_order['goods_bottom_money'];
+                            $house_order['goods_new_money'] = $house_order['goods_new_money'] * $rank;
+                        }
+                     
+                    return ajax_success("获取成功",$house_order);
+                } else {
+                    return ajax_error("该店铺没有存茶订单");
+                }
+            } else {
+                return ajax_error("请检查参数是否正确");
+            }
+        }              
+    }
     
 
 }

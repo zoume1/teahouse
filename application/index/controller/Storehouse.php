@@ -112,7 +112,7 @@ class Storehouse extends Controller
                 $depot  = Db::name("house_order")
                 ->where(["store_id"=>$data['uniacid'],"member_id"=>$data['member_id']])
                 ->where("status",'>',1)
-                ->sum("order_amount");
+                ->sum("order_quantity * goods_money");
                         
                 $depot_value = round($depot,2);
                 return json_encode(array("status"=>1,"info"=>"获取成功","data"=>['order_real_pay'=>$depot_value]));
@@ -267,18 +267,15 @@ class Storehouse extends Controller
     }
 
 
-    
-    /**
-     * @param int $id                 订单id
-     * @param int member_id           账号id
-     * @param int uniacid             店铺id
-     * @param float house_charges     出仓费用
-     * @param int order_quantity      出仓数量
-     * @param int address_id          邮寄地址id
+
+        /**
+     * @param int $id
+     * @param int member_id
+     * @param int uniacid
      * [店铺小程序前端订单出仓]
      * @return 成功时返回，其他抛异常
      */
-    public function setContinuAtion(Request $request)
+    public function outPositionOrder(Request $request)
     {
         if ($request->isPost()){
             $data = input();
@@ -297,7 +294,6 @@ class Storehouse extends Controller
                     $house_order['unit'] = explode(",", $house_order['unit']);
                     $house_order['num'] = explode(",",$house_order['num']);
                     $house_order["store_number"] = str_replace(',', '', $house_order["store_number"]);
-                    $house_order["scale"] = (($house_order["goods_new_money"] - $house_order["goods_money"]))*100/($house_order["goods_money"]);
                     if($house_order['goods_member'] != 1){
                         $rank = 1;
                     }
@@ -320,6 +316,8 @@ class Storehouse extends Controller
             }
         }              
     }
+
+
 
     
 }

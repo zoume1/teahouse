@@ -2381,6 +2381,7 @@ class  Order extends  Controller
         if($request->isPost()){
             $store_id = $request->only(['uniacid'])['uniacid'];
             $data =Db::name("store_house")->where("store_id",'EQ',$store_id)
+                ->order("label desc")
                 ->select();
 
             if(!empty($data)){

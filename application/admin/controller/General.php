@@ -1327,8 +1327,8 @@ class  General extends  Base {
     */    
    public function added_service_list(Request $request){
        if($request->isPost()){
-            $list = db("analyse_goods")->where("label",1)->field("id,goods_name,goods_standard,goods_selling,product_type,goods_new_money,goods_bottom_money,goods_volume,goods_show_images,goods_show_image")->select();    
-            $list_one = db("analyse_goods")->where("label",1)->where("status",1)->field("id,goods_name,goods_standard,goods_selling,product_type,goods_new_money,goods_bottom_money,goods_volume,goods_show_images,goods_show_image")->select();    
+            $list = db("analyse_goods")->where("label",1)->field("id,goods_name,goods_standard,goods_selling,product_type,goods_new_money,goods_bottom_money,goods_volume,goods_show_images,goods_show_image")->order("sort_number  desc")->select();    
+            $list_one = db("analyse_goods")->where("label",1)->where("status",1)->field("id,goods_name,goods_standard,goods_selling,product_type,goods_new_money,goods_bottom_money,goods_volume,goods_show_images,goods_show_image")->order("sort_number  desc")->select();    
             if(!empty($list)){
                 foreach($list as $k => $v){
                     $list[$k]["goods_show_images"] = explode(",",$list[$k]["goods_show_images"]);
