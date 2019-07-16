@@ -35,13 +35,15 @@
 				<input id="password" type="password" name="passwd" autocomplete="off" placeholder="登录密码">
 				<p class="tip">邮箱或密码不正确</p>
 			</div>
-			<div class="form-item" style="display:inline-block;width:100%; height: 50px;     margin-left: 33px;">
+			<div class="form-item" style="display:inline-block;width:100%; height: 50px;margin-left: 33px;">
 				<!--<input id="password" type="password" name="passwd" autocomplete="off" placeholder=" 验证码">-->
 				<input type="text" id="yzm" name="yzm" placeholder="验证码" style="width: 220px; height: 50px;">
-				<span style="display:inline-block;float:right;margin-right: 92px;"><img
+				<!-- <span style="display:inline-block;float:right;margin-right: 92px;"><img
 						src="{:url('admin/Login/captchas')}"
-						onclick="this.src='{:url('admin/Login/captchas')}?id='+Math.random();" /></span>
-			</div>
+						onclick="this.src='{:url('admin/Login/captchas')}?id='+Math.random();" /></span> -->
+						<span style="display:inline-block;float:right;margin-right: 92px;"><img src="{:url('admin/Login/captchas')}" onclick="this.src='{:url('admin/Login/captchas')}?id='+Math.random();" /></span>
+						<div><img src="{:captcha_src('login_captcha')}" alt="captcha" /></div>
+					</div>
 
 			<div class="form-item"><button id="submit">登 录</button></div>
 		</div>

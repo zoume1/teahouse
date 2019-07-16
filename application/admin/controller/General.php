@@ -1383,7 +1383,7 @@ class  General extends  Base {
             $goods = db("analyse_goods")->where("id",$id)->field("id,goods_name,goods_selling,goods_type,goods_new_money,goods_sign,goods_describe,goods_bottom_money,comment,trade,goods_standard,goods_show_images,goods_show_image,goods_text,goods_delivery,goods_franking,templet_id")->find();    
             if(!empty($goods)){
                 $goods["goods_show_images"] = explode(",",$goods["goods_show_images"]);
-                if($goods["goods_standard"] == 1){
+                if($goods["goods_standard"] == 1){   //多规格
                     $standard = db("analyse_special")->where("goods_id", $goods['id'])->order('price asc')-> select();
                     $min = db("analyse_special")->where("goods_id", $goods['id'])-> min("price");
                     $line = db("analyse_special")->where("goods_id", $goods['id'])-> min("line");
