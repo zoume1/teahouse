@@ -17,6 +17,7 @@ use think\Route;
  *
  */
 Route::group("",[
+
     /*首页*/
     "weixintest"=>"index/WxTest/index", //微信扫码支付宝扫码测试
     "qrcode"=>"index/WxTest/qrcode",//
@@ -102,10 +103,10 @@ Route::group("",[
 
     /*TODO:订单开始*/
     "order_return"=>"index/Order/order_return",//立即购买过去购物清单数据返回
-    "order_places"=>"index/Order/order_places",//下订单
+    "order_places"=>"index/Order/order_places",//下订单----商品详情下单
     "order_place"=>"index/Order/order_place",//下订单
     "order_place_by_shopping"=>"index/Order/order_place_by_shopping",//购物车下订单
-    "order_place_by_shoppings"=>"index/Order/order_place_by_shoppings",//购物车下订单
+    "order_place_by_shoppings"=>"index/Order/order_place_by_shoppings",//购物车下订单----购物车
     "order_detail"=>"index/Order/order_detail",//订单详情（未需要）
     "order_detail_cancel"=>"index/Order/order_detail_cancel",//未付款判断时间是否过了订单设置的时间，过了则进行自动关闭（优惠券未实现）
     "ios_api_order_all"=>"index/Order/ios_api_order_all",//我的所有订单
@@ -381,6 +382,10 @@ Route::group("",[
     "getStoreHouse"=>"index/Storehouse/getStoreHouse",      //店铺小程序前端所有仓库
     "doHouseOrder"=>"index/Storehouse/doHouseOrder",        //店铺小程序前端选择仓库
     "takeOrderData"=>"index/Storehouse/takeOrderData",      //店铺小程序前端入仓详情
+    "logContinuAtion"=>"index/Storehouse/logContinuAtion",  //店铺小程序前端仓库订单续费
+    
+    /* 微信公众平台路由  */
+    "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
     "setContinuAtion"=>"index/Storehouse/setContinuAtion",  //店铺小程序仓库订单出仓
 
 
@@ -980,6 +985,12 @@ Route::group("api",[
     "wxapp2"=>"api/Wxapp2/index",
     "doPageBase"=>"api/Wxapp2/doPageBase",
     "limit_goods_more"=>"api/Wxapps/limit_goods_more",      //秒杀商品列表--更多
+    /**
+     * 小程序接口
+     */
+    //个人中心
+    "order_count"=>"api/Wxapps/order_count",      //各订单类型统计
+
 
 ]);
 

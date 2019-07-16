@@ -30,16 +30,16 @@ class  Api extends  Controller{
     public function express_hundred(Request $request)
     {
         if ($request->isPost()) {
-            // $order_id =$request->only(['by_order_id'])["by_order_id"];  //订单id
-            $order_id=123;
+            $order_id =$request->only(['by_order_id'])["by_order_id"];  //订单id
+            // $order_id=123;
             if(!empty($order_id)) {
-                // $express =Db::name('order')
-                //     ->field('courier_number,express_name')
-                //     ->where('id',$order_id)
-                //     ->find();
+                $express =Db::name('order')
+                    ->field('courier_number,express_name')
+                    ->where('id',$order_id)
+                    ->find();
                 //测试
-                $express['express_name']='yuantong';
-                $express['courier_number']='806799086475402253';
+                // $express['express_name']='yuantong';
+                // $express['courier_number']='806799086475402253';
                 if(!empty($express)){
                     $express_type =$express['express_name'];
                     $express_num =$express['courier_number'];

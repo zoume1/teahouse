@@ -9,6 +9,11 @@ namespace app\index\controller;
 use think\Controller;
 class WxTest extends Controller
 {
+    private $appid = '';            //第三方平台应用appid
+    private $appsecret = '';     //第三方平台应用appsecret
+    private $token = 'zhihuichacang';           //第三方平台应用token（消息校验Token）
+    private $encodingAesKey = 'zhihuichacangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
+    private $component_ticket= 'ticket@**xv-g';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
     /**
      **************李火生*******************
      * @param Request $request
@@ -81,6 +86,56 @@ class WxTest extends Controller
         $url = $_GET["url2"];
         \QRcode::png($url);
     }
+    /**
+     * lilu
+     * 微信公众平台---第三方授权（小程序）
+     */
+    public function receive_ticket2(){
+        $res = $this->component_detail();//获取第三方平台基础信息
+        $last_time = $res['token_time'];//上一次component_access_token获取时间
+        $component_access_token = $res['component_access_token'];//获取数据查询到的component_access_token
+        $difference_time = $this->validity($last_time);//上一次获取时间与当前时间的时间差
+        //判断component_access_token是否为空或者是否超过有效期
+        if(empty($component_access_token) || $difference_time>7000){
+            $component_access_token = $this->get_component_access_token_again();
+        }
+        return $component_access_token;
+    }
+        //获取第三方平台基础信息
+    public function component_detail(){
+        //获取
+            $res = M('Public')->where(array('id'=>1))->find();
+            return $res;
+        }
+    //重新获取component_access_token
+    public function get_component_access_token_again(){
+        // $url = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
+        $url = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
+        $tok = $this->component_detail();
+        $param ['component_appid'] = $tok['appid'];
+        $param ['component_appsecret'] = $tok['appsecret'];
+        $param ['component_verify_ticket'] = $tok['componentverifyticket'];
+        $data = post_data ( $url, $param );
+        $token['component_access_token'] = $data ['component_access_token'];
+        $token['token_time'] = date("Y-m-d H:i:s");
+        M('Public') ->where(array('id'=>1))->setField($token);
+        return $data['component_access_token'];
+    }
+        //获取时间差
+        public function validity($time){
+            $current_time = time();
+            $difference_time = $current_time - strtotime($time);
+            return $difference_time;
+        }
+         /**
+     * lilu
+     * 微信公众平台---第三方授权（小程序）
+     */
+    public function receive_ticket(){
+
+        
+    }
+
 
 
 
