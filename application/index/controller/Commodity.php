@@ -240,7 +240,10 @@ class Commodity extends Controller
 
             }
             //获取当前商铺当前商品的所有评论
-            $evolution=db('order_evaluate')->alias('o')->join('tb_order_evaluate_images i','o.id=i.evaluate_order_id')->where(['store_id'=>$store_id,'goods_id'=>$goods_id])->order('o.create_time desc')->select();
+            $evolution=db('order_evaluate')->where(['store_id'=>$store_id,'goods_id'=>$goods_id])->order('create_time desc')->select();
+            foreach($evolution as $k =>$v){
+                $evolution[$k]['images']=db('order_evaluate_images')->where('evaluate_order_id',$v['id'])->field('images')->select();
+            }
             $goods[0]['evolution']=$evolution;
             if (!empty($goods) && !empty($goods_id)){
                 return ajax_success("获取成功", $goods);
