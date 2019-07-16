@@ -25,8 +25,7 @@ class  Order extends  Controller{
      */
     public function order_index(){
         $store_id = Session::get("store_id");
-        $where['status']=array('between',array(0,8));
-        $where['order_type']=array('between',array(0,2));
+        $where['status']= array('between',array(0,8));
         $data =Db::name("order")
             ->order("order_create_time","desc")
             ->where("store_id",'EQ',$store_id)
@@ -205,8 +204,10 @@ class  Order extends  Controller{
     public function order_wait_send(){
         $store_id = Session::get("store_id");
         $condition ="`status` = '2' or `status` = '3'";
+        $type ="`order_type` = '1' or `order_type` = '2'";
         $data =Db::name("order")
             ->where($condition)
+            ->where($type)
             ->where("store_id",'EQ',$store_id)
             ->order("order_create_time","desc")
             ->paginate(20 ,false, [

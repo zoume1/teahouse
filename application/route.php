@@ -386,6 +386,8 @@ Route::group("",[
     
     /* 微信公众平台路由  */
     "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
+    "setContinuAtion"=>"index/Storehouse/setContinuAtion",  //店铺小程序仓库订单出仓
+
 
 
 ]);
