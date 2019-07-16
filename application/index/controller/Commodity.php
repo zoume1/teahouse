@@ -244,6 +244,7 @@ class Commodity extends Controller
             foreach($evolution as $k =>$v){
                 $evolution[$k]['images']=db('order_evaluate_images')->where('evaluate_order_id',$v['id'])->field('images')->select();
                 $evolution[$k]['head_pic']=db('member')->where('member_id',$v['user_id'])->value('member_head_img');
+                $evolution[$k]['create_time']=date('Y-m-d H:i:s',$v['create_time']);
             }
             $goods[0]['evolution']=$evolution;
             if (!empty($goods) && !empty($goods_id)){
