@@ -112,7 +112,7 @@ class Storehouse extends Controller
                 $depot  = Db::name("house_order")
                 ->where(["store_id"=>$data['uniacid'],"member_id"=>$data['member_id']])
                 ->where("status",'>',1)
-                ->sum("order_amount");
+                ->sum("order_quantity * goods_money");
                         
                 $depot_value = round($depot,2);
                 return json_encode(array("status"=>1,"info"=>"获取成功","data"=>['order_real_pay'=>$depot_value]));
@@ -282,7 +282,7 @@ class Storehouse extends Controller
     {
         if ($request->isPost()){
             $data = input();
-            if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['id'])){
+            if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['id']) && isset($data['house_charges']) && isset($data['order_quantity']) && isset($data['address_id'])){
                 $member_grade_id = Db::name("member")->where("member_id",$data['member_id'])->value("member_grade_id");
                 $rank = Db::name("member_grade")->where("member_grade_id",$member_grade_id)->value("member_consumption_discount");
                 $house_order = Db::table("tb_house_order")
