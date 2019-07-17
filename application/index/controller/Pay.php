@@ -359,7 +359,7 @@ class Pay extends  Controller{
                         $unit = explode(",",$goods_data['unit']);
                         $num = explode(",",$goods_data['num']);
                     }
-                    $key = array_search($data['store_unit'],$unit);
+                    $key = array_search($house_order['store_unit'],$unit);
                     $store_number= $new_order->unit_calculate($unit, $num,$key,$data["order_quantity"]);
                     $out_order = array(
                         'house_order_id' => $data['id'],
@@ -377,7 +377,7 @@ class Pay extends  Controller{
                         'pay_time' => 0,
                         'address_id' => $data['address_id'],
                         'store_number' => $store_number,
-                        'store_unit' => $data['store_unit'],
+                        'store_unit' => $house_order['store_unit'],
                         'store_id' => $data['uniacid']
                     );
                     $bool = Db::name('out_house_order')->insert($out_order);
