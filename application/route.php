@@ -385,6 +385,7 @@ Route::group("",[
     "takeOrderData"=>"index/Storehouse/takeOrderData",      //店铺小程序前端入仓详情
     "logContinuAtion"=>"index/Storehouse/logContinuAtion",  //店铺小程序前端仓库订单续费
     "outPositionOrder"=>"index/Storehouse/outPositionOrder",//店铺小程序前端仓库订单出仓
+    "getHousePrice"=>"index/Storehouse/getHousePrice",      //店铺小程序前端仓库订单出仓运费
     
     /* 微信公众平台路由  */
     "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
