@@ -365,7 +365,7 @@ class Pay extends  Controller{
                         'house_order_id' => $data['id'],
                         'out_order_number' => $set_parts_number,
                         'goods_name' => $house_order['parts_order_number'],
-                        'use_phone_number' => $house_order['use_phone_number'],
+                        'user_phone_number' => $house_order['user_phone_number'],
                         'store_house_id' => $house_order['store_house_id'],
                         'order_quantity' => $data['order_quantity'],
                         'house_charges' => $data['house_charges'],
