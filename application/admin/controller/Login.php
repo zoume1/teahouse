@@ -42,7 +42,9 @@ class Login extends Controller{
             'useNoise'=>false,
             'length'=>3,
         ]);
+        ob_clean();
         return $captcha->entry();
+        
     }
 
 
