@@ -5,6 +5,7 @@ use think\Controller;
 use think\Request;
 use  think\Db;
 use think\Cache;
+use app\index\controller\Order as Orderset;
 
 include('../extend/WxpayAPI/lib/WxPay.Api.php');
 include('../extend/WxpayAPI/example/WxPay.NativePay.php');
@@ -129,7 +130,7 @@ class Pay extends  Controller{
 
     function  recharge_pay(Request $request){
         $member_id = $request->param("member_id");//open_id
-        $open_ids =Db::name("member")
+        $open_ids = Db::name("member")
             ->where("member_id",$member_id)
             ->find();
         $order_numbers = $request->param("recharge_order_number");//订单编号
@@ -337,6 +338,7 @@ class Pay extends  Controller{
     {
         if ($request->isPost()){
             $data = input();
+            $new_order = new Orderset;
             if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['id']) && isset($data['house_charges']) && isset($data['order_quantity']) && isset($data['address_id'])){
                 $house_order = Db::name("house_order")->where("id",'EQ',$data['id'])->find();
                 if(!empty($house_order)){
@@ -346,6 +348,42 @@ class Pay extends  Controller{
                     $time_second = date("H:i:s",time());
                     $vs = explode(':',$time_second);
                     $set_parts_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($data["member_id"]+1001); //订单编号
+
+                    //对应数量和单位
+                    if($house_order['special_id']){
+                        $special_data = Db::name('special') -> where("id",$house_order['special_id'])->find();
+                        $unit = explode(",",$special_data['unit']);
+                        $num = explode(",",$special_data['num']);
+                    } else {
+                        $goods_data = Db::name('goods')->where("id",$house_order['special_id'])->find();
+                        $unit = explode(",",$goods_data['unit']);
+                        $num = explode(",",$goods_data['num']);
+                    }
+                    $key = array_search($data['store_unit'],$unit);
+                    $store_number= $new_order->unit_calculate($unit, $num,$key,$data["order_quantity"]);
+                    $out_order = array(
+                        'house_order_id' => $data['id'],
+                        'out_order_number' => $set_parts_number,
+                        'goods_name' => $house_order['parts_order_number'],
+                        'use_phone_number' => $house_order['use_phone_number'],
+                        'store_house_id' => $house_order['store_house_id'],
+                        'order_quantity' => $data['order_quantity'],
+                        'house_charges' => $data['house_charges'],
+                        'status' => 0,
+                        'member_id' => $house_order['member_id'],
+                        'goods_id' => $house_order['goods_id'],
+                        'special_id' => $house_order['special_id'],
+                        'goods_money' =>  $house_order['goods_money'],
+                        'pay_time' => 0,
+                        'address_id' => $data['address_id'],
+                        'store_number' => $store_number,
+                        'store_unit' => $data['store_unit'],
+                        'store_id' => $data['uniacid']
+                    );
+                    $bool = Db::name('out_house_order')->insert($out_order);
+                    if($bool){
+                        return ajax_success("插入成功",$out_order);
+                    }
                 } else {
                     return ajax_error("订单不存在");
                 }

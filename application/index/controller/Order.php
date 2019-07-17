@@ -2535,7 +2535,7 @@ class  Order extends  Controller
 	 * @param int $order_quantity  数量
 	 * @return 成功时返回，其他抛异常
 	 */
-	public static function unit_calculate($unit, $num,$key,$order_quantity)
+	public  function unit_calculate($unit, $num,$key,$order_quantity)
 	{
 
         //先判断有多少位数量等级
