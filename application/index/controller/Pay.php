@@ -350,12 +350,12 @@ class Pay extends  Controller{
                     $set_parts_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($data["member_id"]+1001); //订单编号
 
                     //对应数量和单位
-                    if($house_order['special_id']){
+                    if(!empty($house_order['special_id'])){
                         $special_data = Db::name('special') -> where("id",$house_order['special_id'])->find();
                         $unit = explode(",",$special_data['unit']);
                         $num = explode(",",$special_data['num']);
                     } else {
-                        $goods_data = Db::name('goods')->where("id",$house_order['special_id'])->find();
+                        $goods_data = Db::name('goods')->where("id",$house_order['goods_id'])->find();
                         $unit = explode(",",$goods_data['unit']);
                         $num = explode(",",$goods_data['num']);
                     }
