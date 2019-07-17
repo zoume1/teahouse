@@ -268,7 +268,7 @@ class Storehouse extends Controller
 
 
 
-        /**
+    /**
      * @param int $id
      * @param int member_id
      * @param int uniacid
@@ -283,7 +283,7 @@ class Storehouse extends Controller
                 $member_grade_id = Db::name("member")->where("member_id",$data['member_id'])->value("member_grade_id");
                 $rank = Db::name("member_grade")->where("member_grade_id",$member_grade_id)->value("member_consumption_discount");
                 $house_order = Db::table("tb_house_order")
-                                    ->field("tb_house_order.id,pay_time,goods_image,special_id,goods_id,parts_order_number,end_time,order_quantity,goods_money,order_amount,store_number,store_unit,tb_store_house.number,tb_store_house.adress,tb_goods.goods_name,date,goods_new_money,goods_member,goods_bottom_money,brand,num,tb_goods.unit,tb_wares.name,tb_store_house.name store_name")
+                                    ->field("tb_house_order.id,pay_time,goods_image,special_id,goods_id,parts_order_number,end_time,order_quantity,goods_money,order_amount,store_number,store_unit,tb_store_house.number,tb_store_house.adress,tb_goods.goods_name,templet_id,date,goods_new_money,goods_member,goods_bottom_money,brand,num,tb_goods.unit,tb_wares.name,tb_store_house.name store_name")
                                     ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left') 
                                     ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                     ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
@@ -305,6 +305,45 @@ class Storehouse extends Controller
                     return ajax_success("获取成功",$house_order);
                 } else {
                     return ajax_error("该店铺没有存茶订单");
+                }
+            } else {
+                return ajax_error("请检查参数是否正确");
+            }
+        }              
+    }
+
+
+    /**
+     * @param int $goods_id
+     * @param string  $are
+     * @param int member_id
+     * [店铺小程序前端订单出仓运费]
+     * @return 成功时返回，其他抛异常
+     */
+    public function getHousePrice(Request $request)
+    {
+        if ($request->isPost()){
+            $data = input();
+            if(isset($data['goods_id']) && isset($data['member_id']) && isset($data['are'])){
+                $goods_data = Db::name('goods')->where('id',$data['goods_id'])->find();
+                $templet_id = explode(",",$goods_data['templet_id']);
+                $goods_franking = $goods_data['goods_franking'];
+                if($goods_franking == 0){
+                    foreach($templet_id as $kk => $yy){
+                        $rest[$kk] =  db("express")->where("id",$templet_id[$kk])->find();
+                        $rest[$kk]["are"] = explode(",",$rest[$kk]["are"]);
+                        if(in_array($data['are'],$rest[$kk]["are"])){
+                            $datas[$kk]["collect"] = $rest[$kk]["price"];//首费
+                            $datas[$kk]["markup"] = $rest[$kk]["markup"];//续费
+                        } else {
+                            $datas[$kk]["collect"] = $rest[$kk]["price_two"];//首费
+                            $datas[$kk]["markup"] = $rest[$kk]["markup_two"];//续费
+                        }
+                    }
+                    return json_encode(array("status"=>1,"info"=>"发送成功","franking_type"=>1,"data"=>$datas));
+                } else {
+                    $datas['collect'] = $goods_franking;
+                    return json_encode(array("status"=>1,"info"=>"发送成功","franking_type"=>2,"data"=>$datas));
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
