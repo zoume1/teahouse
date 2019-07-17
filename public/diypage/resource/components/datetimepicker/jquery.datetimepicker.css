@@ -232,7 +232,7 @@
 	display: none;
 	background: #fff;
 	max-height: 160px;
-	overflow-y: hidden
+	overflow-y: hidden;
 }
 
 .xdsoft_datetimepicker .xdsoft_label>.xdsoft_select.xdsoft_monthselect {
@@ -270,7 +270,6 @@
 }
 
 .xdsoft_datetimepicker .xdsoft_year {
-	width: 48px;
 	margin-left: 5px
 }
 
