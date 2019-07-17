@@ -239,12 +239,21 @@ class Commodity extends Controller
                 $goods[0]["unit"] = $goods[0]["monomer"];
 
             }
+            
             //获取当前商铺当前商品的所有评论
             $evolution=db('order_evaluate')->where(['store_id'=>$store_id,'goods_id'=>$goods_id])->order('create_time desc')->select();
             foreach($evolution as $k =>$v){
-                $evolution[$k]['images']=db('order_evaluate_images')->where('evaluate_order_id',$v['id'])->field('images')->select();
-                $evolution[$k]['head_pic']=db('member')->where('member_id',$v['user_id'])->value('member_head_img');
-                $evolution[$k]['create_time']=date('Y-m-d H:i:s',$v['create_time']);
+                //判断是否开启评价功能
+                if($v['is_show']=='1'){
+                    //开启评价功能
+                    $evolution[$k]['images']=db('order_evaluate_images')->where('evaluate_order_id',$v['id'])->field('images')->select();
+                    $evolution[$k]['head_pic']=db('member')->where('member_id',$v['user_id'])->value('member_head_img');
+                    $evolution[$k]['create_time']=date('Y-m-d H:i:s',$v['create_time']);
+                    $evolution[$k]['business_repay']=$v['business_repay'];
+                }else{
+                    unset($evolution[$k]);
+                    continue;
+                }
             }
             $goods[0]['evolution']=$evolution;
             if (!empty($goods) && !empty($goods_id)){

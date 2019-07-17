@@ -117,13 +117,13 @@ class Evaluate extends  Controller{
      */
     public  function evaluate_repay(Request $request){
         if($request->isPost()){
-            $evaluate_id =trim(input('evaluate_id'));
+            $evaluate_id =trim(input('evaluate_id'));   //订单评论表id
             $business_repay =trim(input('business_repay'));
             if(!empty($business_repay)){
-                $data =Db::name('order_service_evaluate')
+                $data =Db::name('order_evaluate')
                     ->update(['business_repay'=>$business_repay,'id'=>$evaluate_id]);
                 if($data){
-                    $this->success('回复成功');
+                    $this->success('回复成功',url('admin/Evaluate/evaluate_index'));
                 }else{
                     $this->error('回复失败');
                 }
