@@ -209,7 +209,8 @@ class My extends Controller
              if($phone_number){
                  Cache::rm('mobileCode');
                  Cache::rm('mobile');
-                $bool = Db::name("member")->where("member_id",$member_id)->update(['pay_password'=>md5($passwd)]);
+                 $passwd =password_hash($passwd,PASSWORD_DEFAULT);
+                $bool = Db::name("member")->where("member_id",$member_id)->update(['pay_password'=>$passwd]);
                 return ajax_success("绑定成功",$bool);
              }else{
                  return ajax_error("请重试",["status"=>0]);
