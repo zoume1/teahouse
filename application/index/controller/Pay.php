@@ -383,16 +383,17 @@ class Pay extends  Controller{
                     $bool = Db::name('out_house_order')->insert($out_order);
                     if($bool){
                         return ajax_success("插入成功",$out_order);
-                    }
-                } else {
-                    return ajax_error("订单不存在");
+                    } else {
+                    return ajax_error("出仓失败,请稍后再试");
                 }
-
-
+            } else {
+                return ajax_error("出仓失败,请稍后再试");
             }
-
+        } else {
+            return ajax_error("参数错误");
         }              
     }
+}
     
 
 }
