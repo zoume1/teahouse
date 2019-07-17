@@ -359,7 +359,7 @@ class Pay extends  Controller{
                         $unit = explode(",",$goods_data['unit']);
                         $num = explode(",",$goods_data['num']);
                     }
-                    $key = array_search($data['store_unit'],$unit);
+                    $key = array_search($house_order['store_unit'],$unit);
                     $store_number= $new_order->unit_calculate($unit, $num,$key,$data["order_quantity"]);
                     $out_order = array(
                         'house_order_id' => $data['id'],
