@@ -352,12 +352,16 @@ class Pay extends  Controller{
                     //对应数量和单位
                     if(!empty($house_order['special_id'])){
                         $special_data = Db::name('special') -> where("id",$house_order['special_id'])->find();
-                        $unit = explode(",",$special_data['unit']);
-                        $num = explode(",",$special_data['num']);
+                        $special_unit = $special_data['unit'];
+                        $special_num = $special_data['num'];
+                        $unit = explode(",",$special_unit);
+                        $num = explode(",",$special_num);
                     } else {
                         $goods_data = Db::name('goods')->where("id",$house_order['goods_id'])->find();
-                        $unit = explode(",",$goods_data['unit']);
-                        $num = explode(",",$goods_data['num']);
+                        $special_unit = $goods_data['unit'];
+                        $special_num = $goods_data['num'];
+                        $unit = explode(",",$special_unit);
+                        $num = explode(",",$special_num);
                     }
                     $key = array_search($house_order['store_unit'],$unit);
                     $store_number= $new_order->unit_calculate($unit, $num,$key,$data["order_quantity"]);
@@ -378,7 +382,10 @@ class Pay extends  Controller{
                         'address_id' => $data['address_id'],
                         'store_number' => $store_number,
                         'store_unit' => $house_order['store_unit'],
-                        'store_id' => $data['uniacid']
+                        'store_id' => $data['uniacid'],
+                        'unit'=> $special_unit,
+                        'num'=> $special_num
+
                     );
                     $bool = Db::name('out_house_order')->insert($out_order);
                     if($bool){
