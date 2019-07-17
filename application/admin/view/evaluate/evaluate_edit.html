@@ -23,7 +23,7 @@
         <div class="form-item">
             <label class="form-label"></label>
             <div class="form-input">
-                <input name="evaluate_id" value="{$evaluate_details.id}">
+                <input name="evaluate_id" type="hidden" value="{$evaluate_details.id}">
             </div>
         </div>
 
@@ -45,7 +45,7 @@
            <div class="form-item">
             <label class="form-label">官方回复</label>
             <div class="form-input">
-             <textarea name="business_repay" rows="10" cols="60" placeholder="复发就发就发"></textarea>
+             <textarea name="business_repay" rows="10" cols="60" placeholder="官方评论">{$evaluate_details['business_repay']}</textarea>
             </div>
         </div>
         
