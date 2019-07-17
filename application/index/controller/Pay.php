@@ -377,7 +377,7 @@ class Pay extends  Controller{
                         'pay_time' => 0,
                         'address_id' => $data['address_id'],
                         'store_number' => $store_number,
-                        'store_unit' => $data['store_unit'],
+                        'store_unit' => $house_order['store_unit'],
                         'store_id' => $data['uniacid']
                     );
                     $bool = Db::name('out_house_order')->insert($out_order);
