@@ -417,7 +417,7 @@ class  Order extends  Controller
                     } else {       //存茶
                         $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
-                        ->where('id',$address_id)
+                        ->where('id',$store_house_id)
                         ->find();
                         $year = $request->only("year")["year"];//存茶年限
                         $harvest_address = $is_address_status['adress']; //仓库地址 
