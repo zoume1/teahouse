@@ -31,8 +31,7 @@ $(function(){
 			 var imgUrl = window.URL.createObjectURL(fileList[i]);
 			     imgArr.push(imgUrl);
 					
-			//  var $section = $("<section class='up-section fl loading'>");
-			 var $section = $(`<nav data-class='up-section icon-c-${fileList[i].name}'>`);
+			 var $section = $("<section class='up-section fl loading'>");
 			     imgContainer.prepend($section);
 			 var $span = $("<span class='up-span'>");
 			     $span.appendTo($section);
@@ -45,11 +44,11 @@ $(function(){
 //					$(".works-mask").show();
 					delParent = $(this).parent();
 				});   
-				// $img0.attr("src","https://teahouse.siring.com.cn/upload/20190131/b633705fe84c1d045810f7018d7fc882.png").appendTo($section);
+				$img0.attr("src","https://teahouse.siring.com.cn/upload/20190131/b633705fe84c1d045810f7018d7fc882.png").appendTo($section);
 		     var $img = $("<img class='up-img up-opcity'>");
 		         $img.attr("src",imgArr[i]);
 		         $img.appendTo($section);
-		     var $p = $("<span class='text'>");
+		     var $p = $("<p class='img-name-p'>");
 		         $p.html(fileList[i].name).appendTo($section);
 		     var $input = $("<input id='taglocation' name='' value='' type='hidden'>");
 		         $input.appendTo($section);
