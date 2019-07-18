@@ -417,7 +417,7 @@ class  Order extends  Controller
                     } else {       //存茶
                         $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
-                        ->where('id',$address_id)
+                        ->where('id',$store_house_id)
                         ->find();
                         $year = $request->only("year")["year"];//存茶年限
                         $harvest_address = $is_address_status['adress']; //仓库地址 
@@ -1907,7 +1907,6 @@ class  Order extends  Controller
                 ->where("status",$status)
                 ->where("parts_order_number",$parts_order_number)
                 ->select();
-                halt($data);
             if($data[0]["order_type"] ==1){
                     $order_type ="直邮";
                     $name =$data[0]["harvester"];
@@ -2142,13 +2141,14 @@ class  Order extends  Controller
             $res = Db::name("order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            //商品库存、销量增加
 
                 $host_rest = Db::name("house_order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
             if($res){
                 //做消费记录
-                $information =Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
+                $information = Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
                 $user_information =Db::name("member")
                     ->field("member_wallet,member_recharge_money")
                     ->where("member_id",$information["member_id"])
@@ -2535,7 +2535,7 @@ class  Order extends  Controller
 	 * @param int $order_quantity  数量
 	 * @return 成功时返回，其他抛异常
 	 */
-	public static function unit_calculate($unit, $num,$key,$order_quantity)
+	public  function unit_calculate($unit, $num,$key,$order_quantity)
 	{
 
         //先判断有多少位数量等级
@@ -2653,7 +2653,7 @@ class  Order extends  Controller
 //             file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("series_house_order")
                 ->where("series_parts_number",$val["out_trade_no"])
-                ->update(["pay_status"=>1,"pay_time"=>time()]);
+                ->update(["pay_status"=>1,"pay_time"=>time(),"si_pay_type"=>2]);
             if($res){
                 //做消费记录
                 $information = Db::name("series_house_order")->where("series_parts_number",$val["out_trade_no"])->find();
@@ -2684,6 +2684,102 @@ class  Order extends  Controller
             }
         }
     }
-    
 
+
+
+
+    /***
+     * 出仓订单微信支付回调
+     * GY
+     */
+    
+    public function continuAtion_notify(){
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $val = json_decode(json_encode($xml_data), true);
+        if($val["result_code"] == "SUCCESS" ){
+            //file_put_contents(EXTEND_PATH."data.txt",$val);
+            $res = Db::name("out_house_order")
+                ->where("out_order_number",$val["out_trade_no"])
+                ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            if($res){
+                $information = Db::name("out_house_order")->where("out_order_number",$val["out_trade_no"])->find();
+                //更新仓库库存
+                $house_order = Db::name("house_order")->where("id",$information['house_order_id'])->find();
+                //做消费记录
+                $stock = $house_order['order_quantity'] - $information['order_quantity'];//剩余仓储量
+                $unit = explode(",",$information['unit']);
+                $num = explode(",",$information['num']);
+                $key = array_search($information['store_unit'],$unit);
+                $store_number= $this->unit_calculate($unit,$num,$key,$stock);
+                //更新
+                $boole = Db::name("house_order")->where("id",$information['house_order_id'])->update(['order_quantity'=>$stock,'store_number'=>$store_number]);
+                //配送地址
+                $is_address_status =  Db::name("user_address")->where("id",$information['address_id'])->find();
+                $harvest_address_city = str_replace(',','',$is_address_status['address_name']);
+                $harvest_address = $harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
+                $harvester = $is_address_status['harvester'];
+                $harvester_phone_num = $is_address_status['harvester_phone_num'];
+                //生成order订单
+                $order_data = [
+                    'goods_id' => $house_order['goods_id'],
+                    'goods_image' => $house_order['goods_image'],//订单号
+                    'parts_goods_name' => $house_order['parts_goods_name'],//商品名称
+                    'goods_money' => $house_order['goods_money'],//商品价格
+                    'order_quantity' => $information['order_quantity'], //出仓数量
+                    'order_amount' => $information['house_charges'],   //出仓金额
+                    'order_real_pay' => $information['house_charges'] ,//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                    'user_account_name' => $house_order['user_account_name'],//用户名
+                    'user_phone_number' =>$house_order['user_phone_number'],//用户账号
+                    'order_create_time' => $information['pay_time'],//下单时间
+                    'harvester_address' => $harvest_address,
+                    'status' => 2,
+                    'parts_order_number' => $information['out_order_number'],//订单编号
+                    'member_id' => $house_order['member_id'],//用户id
+                    'pay_time' => $information['pay_time'], //支付时间
+                    'goods_standard' => $house_order['goods_standard'],//商品规格
+                    'harvester' => $harvester,//收件人
+                    'harvest_phone_num' => $harvester_phone_num,//收件人手机
+                    'refund_amount' => $information['house_charges'],//可退款金额,
+                    'normal_future_time' =>$house_order['normal_future_time'],//订单关闭时间
+                    'goods_describe' => $house_order['goods_describe'],//商品买点
+                    'special_id' => $house_order['special_id'],//特殊规格id
+                    'order_type' => 1,
+                    'si_pay_type' => 2,//支付方式（微信）
+                    'unit' => $information['store_unit'], //出仓单位
+                    'store_id' => $information['store_id'],//店铺id
+                    'coupon_type'=> 1,//商品类型
+                ];
+
+                $restel = Db::name("order")->insert($order_data);
+
+                if($restel){
+                    $member_wallet = Db::name("member")
+                        ->where("member_id",$information["member_id"])
+                        ->value('member_wallet');
+                    $datas= [
+                        "user_id"=>$information["member_id"],//用户ID
+                        "wallet_operation"=> $information["house_charges"],//消费金额
+                        "wallet_type"=>-1,//消费操作(1入，-1出)
+                        "operation_time"=> date("Y-m-d H:i:s"),//操作时间
+                        "operation_linux_time"=>time(), //操作时间
+                        "wallet_remarks"=>"订单号：".$val["out_trade_no"]."茶仓订单出仓".$information["house_charges"]."元",//消费备注
+                        "wallet_img"=>" ",//图标
+                        "title"=>"茶厂订单续费",//标题（消费内容）
+                        "order_nums"=>$val["out_trade_no"],//订单编号
+                        "pay_type"=>"小程序", //支付方式/
+                        "wallet_balance"=>$member_wallet,//此刻钱包余额
+                    ];
+                    Db::name("wallet")->insert($datas); //存入消费记录表
+                } else {
+                    file_put_contents(EXTEND_PATH."data.txt","插入订单表失败");
+                }
+
+                echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+            }else{
+                return ajax_error("失败");
+            }
+        }
+
+    }
 }

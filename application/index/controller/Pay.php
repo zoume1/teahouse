@@ -5,6 +5,7 @@ use think\Controller;
 use think\Request;
 use  think\Db;
 use think\Cache;
+use app\index\controller\Order as Orderset;
 
 include('../extend/WxpayAPI/lib/WxPay.Api.php');
 include('../extend/WxpayAPI/example/WxPay.NativePay.php');
@@ -129,7 +130,7 @@ class Pay extends  Controller{
 
     function  recharge_pay(Request $request){
         $member_id = $request->param("member_id");//open_id
-        $open_ids =Db::name("member")
+        $open_ids = Db::name("member")
             ->where("member_id",$member_id)
             ->find();
         $order_numbers = $request->param("recharge_order_number");//订单编号
@@ -327,52 +328,101 @@ class Pay extends  Controller{
      * @param int uniacid             店铺id
      * @param float house_charges     出仓费用
      * @param int order_quantity      出仓数量
+     * @param int store_unit          出仓单位
      * @param int address_id          邮寄地址id
      * [店铺小程序前端订单出仓]
      * @return 成功时返回，其他抛异常
+     * 小程序端出仓订单支付
      */
     public function setContinuAtion(Request $request)
     {
         if ($request->isPost()){
             $data = input();
+            $new_order = new Orderset;
             if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['id']) && isset($data['house_charges']) && isset($data['order_quantity']) && isset($data['address_id'])){
-                $member_grade_id = Db::name("member")->where("member_id",$data['member_id'])->value("member_grade_id");
-                $rank = Db::name("member_grade")->where("member_grade_id",$member_grade_id)->value("member_consumption_discount");
-                $house_order = Db::table("tb_house_order")
-                                    ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,parts_order_number,end_time,order_quantity,goods_money,order_amount,store_number,store_unit,tb_store_house.number,tb_store_house.adress,tb_goods.goods_name,date,goods_new_money,goods_member,goods_bottom_money,brand,num,tb_goods.unit,tb_wares.name")
-                                    ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left') 
-                                    ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
-                                    ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
-                                    ->where(["tb_house_order.store_id"=>$data['uniacid'],"tb_house_order.member_id"=>$data['member_id'],"tb_house_order.id"=>$data['id']])
-                                    ->find();   
-         
+                $house_order = Db::name("house_order")->where("id",'EQ',$data['id'])->find();
                 if(!empty($house_order)){
-                    $house_order['unit'] = explode(",", $house_order['unit']);
-                    $house_order['num'] = explode(",",$house_order['num']);
-                    $house_order["store_number"] = str_replace(',', '', $house_order["store_number"]);
-                    $house_order["scale"] = (($house_order["goods_new_money"] - $house_order["goods_money"]))*100/($house_order["goods_money"]);
-                    if($house_order['goods_member'] != 1){
-                        $rank = 1;
+                    //生成定单号
+                    $time = date("Y-m-d",time());
+                    $v = explode('-',$time);
+                    $time_second = date("H:i:s",time());
+                    $vs = explode(':',$time_second);
+                    $set_parts_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($data["member_id"]+1001); //订单编号
+                    $open_id = Db::name("member")->where("member_id",$data['member_id'])->value('member_openid');
+                    //对应数量和单位
+                    if(!empty($house_order['special_id'])){
+                        $special_data = Db::name('special') -> where("id",$house_order['special_id'])->find();
+                        $special_unit = $special_data['unit'];
+                        $special_num = $special_data['num'];
+                        $unit = explode(",",$special_unit);
+                        $num = explode(",",$special_num);
+                    } else {
+                        $goods_data = Db::name('goods')->where("id",$house_order['goods_id'])->find();
+                        $special_unit = $goods_data['unit'];
+                        $special_num = $goods_data['num'];
+                        $unit = explode(",",$special_unit);
+                        $num = explode(",",$special_num);
                     }
-                        if(!empty($house_order['special_id'])){
-                            $goods = Db::name("special")->where("id",$house_order['special_id'])->find();
-                            $house_order['goods_bottom_money'] = $goods['line'];
-                            $house_order['goods_new_money'] = $goods['price'] * $rank;
+                    $key = array_search($house_order['store_unit'],$unit);
+                    $store_number= $new_order->unit_calculate($unit, $num,$key,$data["order_quantity"]);
+                    $out_order = array(
+                        'house_order_id' => $data['id'],
+                        'out_order_number' => $set_parts_number,
+                        'goods_name' => $house_order['parts_order_number'],
+                        'user_phone_number' => $house_order['user_phone_number'],
+                        'store_house_id' => $house_order['store_house_id'],
+                        'order_quantity' => $data['order_quantity'],
+                        'house_charges' => $data['house_charges'],
+                        'status' => 0,
+                        'member_id' => $house_order['member_id'],
+                        'goods_id' => $house_order['goods_id'],
+                        'special_id' => $house_order['special_id'],
+                        'goods_money' =>  $house_order['goods_money'],
+                        'pay_time' => 0,
+                        'address_id' => $data['address_id'],
+                        'store_number' => $store_number,
+                        'store_unit' => $house_order['store_unit'],
+                        'store_id' => $data['uniacid'],
+                        'unit'=> $special_unit,
+                        'num'=> $special_num
 
-                        } else {
-                            $house_order['goods_bottom_money'] = $house_order['goods_bottom_money'];
-                            $house_order['goods_new_money'] = $house_order['goods_new_money'] * $rank;
-                        }
-                     
-                    return ajax_success("获取成功",$house_order);
-                } else {
-                    return ajax_error("该店铺没有存茶订单");
+                    );
+                    $bool = Db::name('out_house_order')->insert($out_order);
+                    if($bool){
+                        //将订单信息返回给微信服务器
+                        //         初始化值对象
+                        $activity_name = "仓库订单出仓";
+                        $input = new \WxPayUnifiedOrder();
+                        $rester = new \WxPayConfig($data['uniacid']);
+                        //         文档提及的参数规范：商家名称-销售商品类目
+                        $input->SetBody($activity_name);
+                        //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
+                        //        $input->SetOut_trade_no(time().'');
+                        $input->SetOut_trade_no($set_parts_number);
+                        //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
+                        $input->SetTotal_fee($data['house_charges']*100);
+                        $return_url = config("domain.url")."continuAtion_notify";
+                        $input->SetNotify_url($return_url);//需要自己写的notify.php
+                        $input->SetTrade_type("JSAPI");
+                        //         由小程序端传给后端或者后端自己获取，写自己获取到的,
+                        $input->SetOpenid( $open_id);
+                        //$input->SetOpenid($this->getSession()->openid);
+                        //         向微信统一下单，并返回order，它是一个array数组
+                        $order = \WxPayApi::unifiedOrder($input);
+                        //       json化返回给小程序端
+                        header("Content-Type: application/json");
+                        echo $this->getJsApiParameters($order);
+                    } else {
+                    return ajax_error("出仓失败,请稍后再试");
                 }
             } else {
-                return ajax_error("请检查参数是否正确");
+                return ajax_error("出仓失败,请稍后再试");
             }
+        } else {
+            return ajax_error("参数错误");
         }              
     }
+}
     
 
 }

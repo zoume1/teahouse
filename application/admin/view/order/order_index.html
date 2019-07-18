@@ -1040,7 +1040,13 @@
 					dhtm9 += '	</tr>';
 					dhtm9 += '<tr>';
 					dhtm9 += '<td>订单类型：</td>';
-					dhtm9 += '<td>' + data.data.order_type + '</td>';
+					if(data.data.order_type==1){
+					    	dhtm9 += '<td>直邮</td>';
+					}else if(data.data.order_type==2){
+							dhtm9 += '<td>到店自提</td>';
+					}else{
+							dhtm9 += '<td>存茶</td>';
+					}
 					dhtm9 += '<td>订单配送费用：</td>';
 					dhtm9 += '<td>' + data.data.goods_franking + ' </td>';
 					dhtm9 += '	</tr>';
@@ -1048,13 +1054,13 @@
 					dhtm9 += '<td>订单税费：</td>';
 					dhtm9 += '<td>' + data.data.receipt_price + ' </td>';
 					dhtm9 += '<td>仓储保险费：</td>';
-					dhtm9 += '	<td>2018062803890</td>';
+					dhtm9 += '	<td>0</td>';
 					dhtm9 += '</tr>';
 					dhtm9 += '<tr>';
 					dhtm9 += '<td>优惠劵：</td>';
 					dhtm9 += '<td>' + data.data.coupon_deductible + ' </td>';
 					dhtm9 += '<td>仓储地址：</td>';
-					dhtm9 += '	<td>2018062803890</td>';
+					dhtm9 += '<td>' + data.data.harvester_address + ' </td>';
 					dhtm9 += '</tr>';
 					dhtm9 += '<tr>';
 					dhtm9 += '	<td>配送地址：</td>';

@@ -1286,12 +1286,12 @@ class  Wxapps extends  Controller{
             $where2['store_id']=$store_id;   //代付款
             $data['fa_num']=db('order')->where($where2)->count();
             //待收
-            $where3['status']='5';   //代收货
+            $where3['status']=array('between',array(4,5));   //代收货
             $where3['member_id']=$member_id['member_id'];   //会员id
             $where3['store_id']=$store_id;   //代付款
             $data['shou_num']=db('order')->where($where3)->count();
             //待评价
-            $where4['status']='7';   //代付款
+            $where4['status']=array('between',array(6,7));   
             $where4['member_id']=$member_id['member_id'];   //会员id
             $where4['store_id']=$store_id;   //代付款
             $data['ping_num']=db('order')->where($where4)->count();

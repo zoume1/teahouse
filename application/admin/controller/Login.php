@@ -44,7 +44,6 @@ class Login extends Controller{
         ]);
         ob_clean();
         return $captcha->entry();
-        
     }
 
 

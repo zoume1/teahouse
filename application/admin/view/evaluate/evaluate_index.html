@@ -108,10 +108,10 @@
                         <td>{$vo.evaluate_content}</td>
 						<td>{$vo.create_time|date="Y-m-d H:i:s",###}</td>
 						<td>
-                            {if $vo.status ==1}
-							<input type="checkbox" class="Status" name="" value="1" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked>
+                            {if $vo.is_show ==1}
+							<input type="checkbox" class="Status" name="" value="1" disabled lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked>
                             {else}
-                            <input type="checkbox" class="Status" name="" value="-1" lay-skin="switch" lay-text="是|否" lay-filter="isShow">
+                            <input type="checkbox" class="Status" name="" value="-1" disabled lay-skin="switch" lay-text="是|否" lay-filter="isShow">
                             {/if}
 						</td>
                        <td>
@@ -270,9 +270,11 @@
                     },
                     success: function(data) {
                         console.log("成功")
+                        window.location.reload();
                     },
                     error: function(data) {
                         console.log("错误")
+                        window.location.reload();
                     }
                 });
 

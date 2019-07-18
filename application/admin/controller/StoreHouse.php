@@ -200,7 +200,7 @@ class StoreHouse extends Controller{
         $store_order = db("house_order")
                     ->where("store_id","EQ",$store_id)
                     ->where("status",">",1)
-                    ->field("id,parts_order_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                    ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
                     ->select();
 
         foreach($store_order as $key => $value){
@@ -219,7 +219,22 @@ class StoreHouse extends Controller{
      * 郭杨
      */
     public function stores_divergence_out(){
-        return view("stores_divergence_out");
+        $store_id = Session::get("store_id");
+        $store_order = Db::table("tb_out_house_order")
+                    ->field("tb_out_house_order.user_phone_number,user_account_name,out_order_number,house_charges,tb_house_order.parts_goods_name,end_time,tb_out_house_order.pay_time,tb_out_house_order.status,tb_store_house.name,tb_out_house_order.store_number,tb_out_house_order.id")
+                    ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
+                    ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
+                    ->where("tb_out_house_order.store_id",$store_id)
+                    ->select();
+
+        foreach($store_order as $key => $value){
+            $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
+        }    
+
+        $url = 'admin/StoreHouse/stores_divergence_out';
+        $pag_number = 20;
+        $stores_divergences = paging_data($store_order,$url,$pag_number);
+        return view("stores_divergence_out",["stores_divergences"=>$stores_divergences]);
     }
 
 
