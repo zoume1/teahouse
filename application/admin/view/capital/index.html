@@ -58,7 +58,7 @@
 					<tr>
 						<th>充值金额（元）</th>
 						<th>送积分</th>
-						<th>功能开关</th>
+						<!-- <th>功能开关</th> -->
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -68,7 +68,7 @@
 					<tr>
 						<td>{$vo.recharge_setting_full_money}</td>
 						<td>{$vo.recharge_setting_send_integral}</td>
-						<td>
+						<!-- <td>
 							{if $vo.status==1}
 							<input type="checkbox" checked class="Status" name="status" value="{$vo.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow"
 							 data-id="{$vo.recharge_setting_id}">
@@ -77,7 +77,7 @@
 								   data-id="{$vo.recharge_setting_id}">
 							{/if}
 
-						</td>
+						</td> -->
 						<td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/capital/edit',['id'=>$vo.recharge_setting_id])}"> 编辑</a>
 
