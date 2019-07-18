@@ -331,11 +331,12 @@ Route::group("",[
 
 
     /*众筹商品*/
-    "crowd_index"=>"index/Crowd/crowd_index",       //众筹商品首页显示
-    "crowd_now"=>"index/Crowd/crowd_now",           //正在众筹商品
-    "crowd_support"=>"index/Crowd/crowd_support",   //众筹商品去支持
-    "crowd_period"=>"index/Crowd/crowd_period",     //往期众筹商品
-    "crowd_reward"=>"index/Crowd/crowd_reward",     //众筹商品打赏订单
+    "crowd_index"=>"index/Crowd/crowd_index",               //众筹商品首页显示
+    "crowd_now"=>"index/Crowd/crowd_now",                   //正在众筹商品
+    "crowd_support"=>"index/Crowd/crowd_support",           //众筹商品去支持
+    "crowd_period"=>"index/Crowd/crowd_period",             //往期众筹商品
+    "crowd_reward"=>"index/Crowd/crowd_reward",             //众筹商品打赏订单
+    "getaAnsporTation"=>"index/Crowd/getaAnsporTation",     //众筹商品下单运费
 
     /*发票*/
     "bill"=>"index/Receipt/bill",                      //添加企业新户名
