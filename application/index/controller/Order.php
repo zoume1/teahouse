@@ -2141,13 +2141,14 @@ class  Order extends  Controller
             $res = Db::name("order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            //商品库存、销量增加
 
                 $host_rest = Db::name("house_order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
             if($res){
                 //做消费记录
-                $information =Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
+                $information = Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
                 $user_information =Db::name("member")
                     ->field("member_wallet,member_recharge_money")
                     ->where("member_id",$information["member_id"])
@@ -2715,36 +2716,36 @@ class  Order extends  Controller
                 $boole = Db::name("house_order")->where("id",$information['house_order_id'])->update(['order_quantity'=>$stock,'store_number'=>$store_number]);
                 
                 //生成order订单
-                $order_data = [
-                    'goods_id',
-                    'goods_image' varchar(255) DEFAULT NULL COMMENT '商品图片',
-                    'parts_goods_name' varchar(255) DEFAULT NULL COMMENT '商品名称',
-                    'goods_money' float(11,2) DEFAULT NULL COMMENT '商品价钱',
-                    'order_quantity' int(11) DEFAULT NULL COMMENT '订单数量',
-                    'order_amount' float(11,2) DEFAULT NULL COMMENT '订单金额',
-                    'order_real_pay' float(11,2) DEFAULT NULL COMMENT '订单实际支付的金额(即优惠券抵扣之后的价钱）',
-                    'user_account_name' varchar(255) DEFAULT NULL COMMENT '用户账号',
-                    'user_phone_number' varchar(255) DEFAULT NULL COMMENT '联系方式',
-                    'order_create_time' int(11) DEFAULT NULL COMMENT '下单时间',
-                    'harvester_address' varchar(255) DEFAULT NULL COMMENT '配送地址',
-                    'status' int(11) DEFAULT NULL COMMENT '订单状态（0已关闭，1待支付，2已付款，3待发货，4已发货，5待收货，6已收货，7待评价，8已完成，9未付款取消订单,10已付款取消订单，11退货，12已退货，13：退货中 14：拒绝退货 15：退货已接单）',
-                    'parts_order_number' varchar(255) DEFAULT NULL COMMENT '订单编号',
-                    'member_id' int(11) DEFAULT NULL COMMENT '用户Id',
-                    'pay_time' int(255) DEFAULT NULL COMMENT '支付时间',
-                    'goods_standard' varchar(255) DEFAULT NULL COMMENT '商品规格',
-                    'harvester' varchar(255) DEFAULT NULL COMMENT '收件人',
-                    'harvest_phone_num' varchar(255) DEFAULT NULL COMMENT '收件人手机号',
-                    'refund_amount' float(10,2) DEFAULT NULL COMMENT '可退款金额',
-                    'normal_future_time' int(11) DEFAULT NULL COMMENT '正常订单未付款自动关闭的时间',
-                    'goods_describe' varchar(255) DEFAULT NULL COMMENT '商品卖点',
-                    'special_id' int(255) DEFAULT NULL COMMENT '规格表id（用来统计库存量）',
-                    'order_type' tinyint(3) DEFAULT NULL COMMENT '1为选择直邮，2到店自提，3选择存茶',
-                    'is_del' tinyint(3) DEFAULT '1' COMMENT '是否被删除（1正常状态，-1已删除）',
-                    'si_pay_type' tinyint(3) DEFAULT NULL COMMENT '支付方式（1为小程序余额支付，2是小程序微信支付）',
-                    'unit' varchar(64) DEFAULT NULL COMMENT '定价单位',
-                    'store_id' int(10) DEFAULT NULL COMMENT '店铺id',
-                    'coupon_type'=> 1,
-                ];
+                // $order_data = [
+                //     'goods_id',
+                //     'goods_image' varchar(255) DEFAULT NULL COMMENT '商品图片',
+                //     'parts_goods_name' varchar(255) DEFAULT NULL COMMENT '商品名称',
+                //     'goods_money' float(11,2) DEFAULT NULL COMMENT '商品价钱',
+                //     'order_quantity' int(11) DEFAULT NULL COMMENT '订单数量',
+                //     'order_amount' float(11,2) DEFAULT NULL COMMENT '订单金额',
+                //     'order_real_pay' float(11,2) DEFAULT NULL COMMENT '订单实际支付的金额(即优惠券抵扣之后的价钱）',
+                //     'user_account_name' varchar(255) DEFAULT NULL COMMENT '用户账号',
+                //     'user_phone_number' varchar(255) DEFAULT NULL COMMENT '联系方式',
+                //     'order_create_time' int(11) DEFAULT NULL COMMENT '下单时间',
+                //     'harvester_address' varchar(255) DEFAULT NULL COMMENT '配送地址',
+                //     'status' int(11) DEFAULT NULL COMMENT '订单状态（0已关闭，1待支付，2已付款，3待发货，4已发货，5待收货，6已收货，7待评价，8已完成，9未付款取消订单,10已付款取消订单，11退货，12已退货，13：退货中 14：拒绝退货 15：退货已接单）',
+                //     'parts_order_number' varchar(255) DEFAULT NULL COMMENT '订单编号',
+                //     'member_id' int(11) DEFAULT NULL COMMENT '用户Id',
+                //     'pay_time' int(255) DEFAULT NULL COMMENT '支付时间',
+                //     'goods_standard' varchar(255) DEFAULT NULL COMMENT '商品规格',
+                //     'harvester' varchar(255) DEFAULT NULL COMMENT '收件人',
+                //     'harvest_phone_num' varchar(255) DEFAULT NULL COMMENT '收件人手机号',
+                //     'refund_amount' float(10,2) DEFAULT NULL COMMENT '可退款金额',
+                //     'normal_future_time' int(11) DEFAULT NULL COMMENT '正常订单未付款自动关闭的时间',
+                //     'goods_describe' varchar(255) DEFAULT NULL COMMENT '商品卖点',
+                //     'special_id' int(255) DEFAULT NULL COMMENT '规格表id（用来统计库存量）',
+                //     'order_type' tinyint(3) DEFAULT NULL COMMENT '1为选择直邮，2到店自提，3选择存茶',
+                //     'is_del' tinyint(3) DEFAULT '1' COMMENT '是否被删除（1正常状态，-1已删除）',
+                //     'si_pay_type' tinyint(3) DEFAULT NULL COMMENT '支付方式（1为小程序余额支付，2是小程序微信支付）',
+                //     'unit' varchar(64) DEFAULT NULL COMMENT '定价单位',
+                //     'store_id' int(10) DEFAULT NULL COMMENT '店铺id',
+                //     'coupon_type'=> 1,
+                // ];
                 $member_wallet = Db::name("member")
                     ->where("member_id",$information["member_id"])
                     ->value('member_wallet');
