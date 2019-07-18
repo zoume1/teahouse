@@ -326,6 +326,9 @@ class Storehouse extends Controller
             $data = input();
             if(isset($data['goods_id']) && isset($data['member_id']) && isset($data['are'])){
                 $goods_data = Db::name('goods')->where('id',$data['goods_id'])->find();
+                if(empty($goods_data)){
+                    return ajax_error("请检查参数是否正确");
+                }
                 $templet_id = explode(",",$goods_data['templet_id']);
                 $goods_franking = $goods_data['goods_franking'];
                 if($goods_franking == 0){

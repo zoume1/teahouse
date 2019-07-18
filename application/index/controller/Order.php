@@ -2652,7 +2652,7 @@ class  Order extends  Controller
 //             file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("series_house_order")
                 ->where("series_parts_number",$val["out_trade_no"])
-                ->update(["pay_status"=>1,"pay_time"=>time()]);
+                ->update(["pay_status"=>1,"pay_time"=>time(),"si_pay_type"=>2]);
             if($res){
                 //做消费记录
                 $information = Db::name("series_house_order")->where("series_parts_number",$val["out_trade_no"])->find();
@@ -2683,6 +2683,93 @@ class  Order extends  Controller
             }
         }
     }
-    
 
+
+
+
+    /***
+     * 出仓订单微信支付回调
+     * GY
+     */
+    
+    public function continuAtion_notify(){
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $val = json_decode(json_encode($xml_data), true);
+        if($val["result_code"] == "SUCCESS" ){
+            //file_put_contents(EXTEND_PATH."data.txt",$val);
+            $res = Db::name("out_house_order")
+                ->where("out_order_number",$val["out_trade_no"])
+                ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            if($res){
+                $information = Db::name("out_house_order")->where("out_order_number",$val["out_trade_no"])->find();
+                //更新仓库库存
+                $house_order = Db::name("house_order")->where("id",$information['house_order_id'])->find();
+                //做消费记录
+                $stock = $house_order['order_quantity'] - $information['order_quantity'];//剩余仓储量
+                $unit = explode(",",$information['unit']);
+                $num = explode(",",$information['num']);
+                $key = array_search($information['store_unit'],$unit);
+                $store_number= $this->unit_calculate($unit,$num,$key,$stock);
+                //更新
+                $boole = Db::name("house_order")->where("id",$information['house_order_id'])->update(['order_quantity'=>$stock,'store_number'=>$store_number]);
+                
+                //生成order订单
+                $order_data = [
+                    'goods_id',
+                    'goods_image' varchar(255) DEFAULT NULL COMMENT '商品图片',
+                    'parts_goods_name' varchar(255) DEFAULT NULL COMMENT '商品名称',
+                    'goods_money' float(11,2) DEFAULT NULL COMMENT '商品价钱',
+                    'order_quantity' int(11) DEFAULT NULL COMMENT '订单数量',
+                    'order_amount' float(11,2) DEFAULT NULL COMMENT '订单金额',
+                    'order_real_pay' float(11,2) DEFAULT NULL COMMENT '订单实际支付的金额(即优惠券抵扣之后的价钱）',
+                    'user_account_name' varchar(255) DEFAULT NULL COMMENT '用户账号',
+                    'user_phone_number' varchar(255) DEFAULT NULL COMMENT '联系方式',
+                    'order_create_time' int(11) DEFAULT NULL COMMENT '下单时间',
+                    'harvester_address' varchar(255) DEFAULT NULL COMMENT '配送地址',
+                    'status' int(11) DEFAULT NULL COMMENT '订单状态（0已关闭，1待支付，2已付款，3待发货，4已发货，5待收货，6已收货，7待评价，8已完成，9未付款取消订单,10已付款取消订单，11退货，12已退货，13：退货中 14：拒绝退货 15：退货已接单）',
+                    'parts_order_number' varchar(255) DEFAULT NULL COMMENT '订单编号',
+                    'member_id' int(11) DEFAULT NULL COMMENT '用户Id',
+                    'pay_time' int(255) DEFAULT NULL COMMENT '支付时间',
+                    'goods_standard' varchar(255) DEFAULT NULL COMMENT '商品规格',
+                    'harvester' varchar(255) DEFAULT NULL COMMENT '收件人',
+                    'harvest_phone_num' varchar(255) DEFAULT NULL COMMENT '收件人手机号',
+                    'refund_amount' float(10,2) DEFAULT NULL COMMENT '可退款金额',
+                    'normal_future_time' int(11) DEFAULT NULL COMMENT '正常订单未付款自动关闭的时间',
+                    'goods_describe' varchar(255) DEFAULT NULL COMMENT '商品卖点',
+                    'special_id' int(255) DEFAULT NULL COMMENT '规格表id（用来统计库存量）',
+                    'order_type' tinyint(3) DEFAULT NULL COMMENT '1为选择直邮，2到店自提，3选择存茶',
+                    'is_del' tinyint(3) DEFAULT '1' COMMENT '是否被删除（1正常状态，-1已删除）',
+                    'si_pay_type' tinyint(3) DEFAULT NULL COMMENT '支付方式（1为小程序余额支付，2是小程序微信支付）',
+                    'unit' varchar(64) DEFAULT NULL COMMENT '定价单位',
+                    'store_id' int(10) DEFAULT NULL COMMENT '店铺id',
+                    'coupon_type'=> 1,
+                ];
+                $member_wallet = Db::name("member")
+                    ->where("member_id",$information["member_id"])
+                    ->value('member_wallet');
+                $datas= [
+                    "user_id"=>$information["member_id"],//用户ID
+                    "wallet_operation"=> $information["house_charges"],//消费金额
+                    "wallet_type"=>-1,//消费操作(1入，-1出)
+                    "operation_time"=> date("Y-m-d H:i:s"),//操作时间
+                    "operation_linux_time"=>time(), //操作时间
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."茶仓订单出仓".$information["house_charges"]."元",//消费备注
+                    "wallet_img"=>" ",//图标
+                    "title"=>"茶厂订单续费",//标题（消费内容）
+                    "order_nums"=>$val["out_trade_no"],//订单编号
+                    "pay_type"=>"小程序", //支付方式/
+                    "wallet_balance"=>$member_wallet,//此刻钱包余额
+                ];
+                Db::name("wallet")->insert($datas); //存入消费记录表
+
+
+                
+                echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+            }else{
+                return ajax_error("失败");
+            }
+        }
+
+    }
 }

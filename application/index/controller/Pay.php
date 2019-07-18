@@ -348,7 +348,7 @@ class Pay extends  Controller{
                     $time_second = date("H:i:s",time());
                     $vs = explode(':',$time_second);
                     $set_parts_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($data["member_id"]+1001); //订单编号
-
+                    $open_id = Db::name("member")->where("member_id",$data['member_id'])->value('member_openid');
                     //对应数量和单位
                     if(!empty($house_order['special_id'])){
                         $special_data = Db::name('special') -> where("id",$house_order['special_id'])->find();
@@ -389,7 +389,29 @@ class Pay extends  Controller{
                     );
                     $bool = Db::name('out_house_order')->insert($out_order);
                     if($bool){
-                        return ajax_success("插入成功",$out_order);
+                        //将订单信息返回给微信服务器
+                        //         初始化值对象
+                        $activity_name = "仓库订单出仓";
+                        $input = new \WxPayUnifiedOrder();
+                        $rester = new \WxPayConfig($data['uniacid']);
+                        //         文档提及的参数规范：商家名称-销售商品类目
+                        $input->SetBody($activity_name);
+                        //         订单号应该是由小程序端传给服务端的，在用户下单时即生成，demo中取值是一个生成的时间戳
+                        //        $input->SetOut_trade_no(time().'');
+                        $input->SetOut_trade_no($set_parts_number);
+                        //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
+                        $input->SetTotal_fee($data['house_charges']*100);
+                        $return_url = config("domain.url")."continuAtion_notify";
+                        $input->SetNotify_url($return_url);//需要自己写的notify.php
+                        $input->SetTrade_type("JSAPI");
+                        //         由小程序端传给后端或者后端自己获取，写自己获取到的,
+                        $input->SetOpenid( $open_id);
+                        //$input->SetOpenid($this->getSession()->openid);
+                        //         向微信统一下单，并返回order，它是一个array数组
+                        $order = \WxPayApi::unifiedOrder($input);
+                        //       json化返回给小程序端
+                        header("Content-Type: application/json");
+                        echo $this->getJsApiParameters($order);
                     } else {
                     return ajax_error("出仓失败,请稍后再试");
                 }

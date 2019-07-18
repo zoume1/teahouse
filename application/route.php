@@ -910,8 +910,8 @@ Route::group("admin",[
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
     "wx_login3"=>"admin/Wxview/wx_login",                            //一键生成
     "wx_index3"=>"admin/Wxview/index",                            //一键生成--二维码
-    "checkscan3"=>"admin/Wxview/checkscan",                            //一键生成--二维码
-    "commitcode3"=>"admin/Wxview/commitcode",                            //一键生成--提交代码
+    "checkscan3"=>"admin/Wxview/checkscan",                         //一键生成--二维码
+    "commitcode3"=>"admin/Wxview/commitcode",                       //一键生成--提交代码
     "preview3"=>"admin/Wxview/preview",                             //一键生成--预览
 
     /*总控*/
