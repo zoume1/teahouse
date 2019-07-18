@@ -955,7 +955,8 @@ class Goods extends Controller
             $text =  isset($goods_data["text"]) ? $goods_data["text"]:null;
             $result = isset($goods_data["lv1"]) ? $goods_data["lv1"]:null;
             $scope = isset($goods_data["scope"]) ? implode(",",$goods_data["scope"]):null;
-            $goods_sign = isset($goods_data["goods_sign"]) ? $goods_data["goods_sign"]:null;
+            $goods_delivery = isset($goods_data["goods_delivery"]) ? json_encode($goods_data["goods_delivery"]):null;
+            $goods_sign = isset($goods_data["goods_sign"]) ? json_encode($goods_data["goods_sign"]):null;
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
             $show_images = $request->file("goods_show_images");
@@ -993,7 +994,7 @@ class Goods extends Controller
                 "goods_text" => $goods_text,
                 "team" => $team,
                 "text" => $text,
-                "goods_delivery" => $goods_data["goods_delivery"],
+                "goods_delivery" => $goods_delivery,
                 "goods_franking" => $goods_data["goods_franking"],
                 "templet_id" => $goods_data["templet_id"],
                 "templet_name" => $goods_data["templet_name"],
@@ -1120,6 +1121,8 @@ class Goods extends Controller
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
             $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
+            $goods[$key]["goods_delivery"] = json_decode($goods[$key]["goods_delivery"],true);
+            $goods[$key]["goods_sign"] = json_decode($goods[$key]["goods_sign"],true);
         }
      }
 
