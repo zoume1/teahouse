@@ -82,6 +82,7 @@ Route::group("",[
      "set_meal_notify2"=>"index/AdminWx/set_meal_notify2",//后台资金管理微信充值扫码支付回调
      "set_meal_notify_alipay2"=>"index/AdminWx/set_meal_notify_alipay2",//后台资金管理微信充值支付宝扫码支付回调
      "series_notify"=>"index/order/series_notify",//茶仓订单续费支付回调
+     "continuAtion_notify"=>"index/order/continuAtion_notify",//茶仓订单出仓支付回调
 
 
     /*TODO:end*/

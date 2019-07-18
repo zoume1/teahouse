@@ -24,6 +24,7 @@ class Crowdfinancing extends Controller
     {
         if($request->isPost()){
             $member_id = $request->only('member_id')['member_id'];
+            $store_id = $request->only('uniacid')['uniacid'];
             $member_grade_id = db('member')->where('member_id',$member_id)->value('member_grade_id');
             $member_consumption_discount =Db::name('member_grade')  //会员折扣
             ->where('member_grade_id',$member_grade_id)
@@ -31,6 +32,27 @@ class Crowdfinancing extends Controller
             $special_id = $request->only("guige")["guige"];
             $goods_id = $request->only('goods_id')['goods_id'];
             $number = $request->only('num')['num'];
+
+            //店铺版本
+            $da_change = Db::table("tb_set_meal_order")
+            ->alias('a')
+           ->where("store_id", $store_id)
+           ->where("audit_status",1)
+           ->where('status_type',1)
+           ->value('enter_all_id');
+            if(!empty($da_change)){
+                if($da_change <= 6){
+                    $da_change = 1;
+                }
+                if(  ($da_change > 6) && ($da_change <= 17)){
+                    $da_change = 2;
+                }
+                if( $da_change > 17){
+                    $da_change = 3;
+                }
+            } else {
+                $da_change = 1;
+            }
             
             if(empty($goods_id)){
                 return ajax_error('商品信息有误,请返回重新提交',['status'=>0]);
@@ -49,7 +71,7 @@ class Crowdfinancing extends Controller
                 $data[$key]["user_grade_image"] = $member_consumption_discount["member_grade_img"];
             }
             if(!empty($data)){
-                return ajax_success("数据返回",$data);
+                exit(json_encode(array("status" => 1, "info" => "数据返回成功","enter_all_id"=>$da_change,"data"=>$data)));
             } else {
                 return ajax_error("没有数据",["status"=>0]);
             }

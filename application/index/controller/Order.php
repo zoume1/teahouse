@@ -2714,58 +2714,67 @@ class  Order extends  Controller
                 $store_number= $this->unit_calculate($unit,$num,$key,$stock);
                 //更新
                 $boole = Db::name("house_order")->where("id",$information['house_order_id'])->update(['order_quantity'=>$stock,'store_number'=>$store_number]);
-                
+                //配送地址
+                $is_address_status =  Db::name("user_address")->where("id",$information['address_id'])->find();
+                $harvest_address_city = str_replace(',','',$is_address_status['address_name']);
+                $harvest_address = $harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
+                $harvester = $is_address_status['harvester'];
+                $harvester_phone_num = $is_address_status['harvester_phone_num'];
                 //生成order订单
-                // $order_data = [
-                //     'goods_id',
-                //     'goods_image' varchar(255) DEFAULT NULL COMMENT '商品图片',
-                //     'parts_goods_name' varchar(255) DEFAULT NULL COMMENT '商品名称',
-                //     'goods_money' float(11,2) DEFAULT NULL COMMENT '商品价钱',
-                //     'order_quantity' int(11) DEFAULT NULL COMMENT '订单数量',
-                //     'order_amount' float(11,2) DEFAULT NULL COMMENT '订单金额',
-                //     'order_real_pay' float(11,2) DEFAULT NULL COMMENT '订单实际支付的金额(即优惠券抵扣之后的价钱）',
-                //     'user_account_name' varchar(255) DEFAULT NULL COMMENT '用户账号',
-                //     'user_phone_number' varchar(255) DEFAULT NULL COMMENT '联系方式',
-                //     'order_create_time' int(11) DEFAULT NULL COMMENT '下单时间',
-                //     'harvester_address' varchar(255) DEFAULT NULL COMMENT '配送地址',
-                //     'status' int(11) DEFAULT NULL COMMENT '订单状态（0已关闭，1待支付，2已付款，3待发货，4已发货，5待收货，6已收货，7待评价，8已完成，9未付款取消订单,10已付款取消订单，11退货，12已退货，13：退货中 14：拒绝退货 15：退货已接单）',
-                //     'parts_order_number' varchar(255) DEFAULT NULL COMMENT '订单编号',
-                //     'member_id' int(11) DEFAULT NULL COMMENT '用户Id',
-                //     'pay_time' int(255) DEFAULT NULL COMMENT '支付时间',
-                //     'goods_standard' varchar(255) DEFAULT NULL COMMENT '商品规格',
-                //     'harvester' varchar(255) DEFAULT NULL COMMENT '收件人',
-                //     'harvest_phone_num' varchar(255) DEFAULT NULL COMMENT '收件人手机号',
-                //     'refund_amount' float(10,2) DEFAULT NULL COMMENT '可退款金额',
-                //     'normal_future_time' int(11) DEFAULT NULL COMMENT '正常订单未付款自动关闭的时间',
-                //     'goods_describe' varchar(255) DEFAULT NULL COMMENT '商品卖点',
-                //     'special_id' int(255) DEFAULT NULL COMMENT '规格表id（用来统计库存量）',
-                //     'order_type' tinyint(3) DEFAULT NULL COMMENT '1为选择直邮，2到店自提，3选择存茶',
-                //     'is_del' tinyint(3) DEFAULT '1' COMMENT '是否被删除（1正常状态，-1已删除）',
-                //     'si_pay_type' tinyint(3) DEFAULT NULL COMMENT '支付方式（1为小程序余额支付，2是小程序微信支付）',
-                //     'unit' varchar(64) DEFAULT NULL COMMENT '定价单位',
-                //     'store_id' int(10) DEFAULT NULL COMMENT '店铺id',
-                //     'coupon_type'=> 1,
-                // ];
-                $member_wallet = Db::name("member")
-                    ->where("member_id",$information["member_id"])
-                    ->value('member_wallet');
-                $datas= [
-                    "user_id"=>$information["member_id"],//用户ID
-                    "wallet_operation"=> $information["house_charges"],//消费金额
-                    "wallet_type"=>-1,//消费操作(1入，-1出)
-                    "operation_time"=> date("Y-m-d H:i:s"),//操作时间
-                    "operation_linux_time"=>time(), //操作时间
-                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."茶仓订单出仓".$information["house_charges"]."元",//消费备注
-                    "wallet_img"=>" ",//图标
-                    "title"=>"茶厂订单续费",//标题（消费内容）
-                    "order_nums"=>$val["out_trade_no"],//订单编号
-                    "pay_type"=>"小程序", //支付方式/
-                    "wallet_balance"=>$member_wallet,//此刻钱包余额
+                $order_data = [
+                    'goods_id' => $house_order['goods_id'],
+                    'goods_image' => $house_order['goods_image'],//订单号
+                    'parts_goods_name' => $house_order['parts_goods_name'],//商品名称
+                    'goods_money' => $house_order['goods_money'],//商品价格
+                    'order_quantity' => $information['order_quantity'], //出仓数量
+                    'order_amount' => $information['house_charges'],   //出仓金额
+                    'order_real_pay' => $information['house_charges'] ,//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                    'user_account_name' => $house_order['user_account_name'],//用户名
+                    'user_phone_number' =>$house_order['user_phone_number'],//用户账号
+                    'order_create_time' => $information['pay_time'],//下单时间
+                    'harvester_address' => $harvest_address,
+                    'status' => 2,
+                    'parts_order_number' => $information['out_order_number'],//订单编号
+                    'member_id' => $house_order['member_id'],//用户id
+                    'pay_time' => $information['pay_time'], //支付时间
+                    'goods_standard' => $house_order['goods_standard'],//商品规格
+                    'harvester' => $harvester,//收件人
+                    'harvest_phone_num' => $harvester_phone_num,//收件人手机
+                    'refund_amount' => $information['house_charges'],//可退款金额,
+                    'normal_future_time' =>$house_order['normal_future_time'],//订单关闭时间
+                    'goods_describe' => $house_order['goods_describe'],//商品买点
+                    'special_id' => $house_order['special_id'],//特殊规格id
+                    'order_type' => 1,
+                    'si_pay_type' => 2,//支付方式（微信）
+                    'unit' => $information['store_unit'], //出仓单位
+                    'store_id' => $information['store_id'],//店铺id
+                    'coupon_type'=> 1,//商品类型
                 ];
-                Db::name("wallet")->insert($datas); //存入消费记录表
 
+                $restel = Db::name("order")->insert($order_data);
 
-                
+                if($restel){
+                    $member_wallet = Db::name("member")
+                        ->where("member_id",$information["member_id"])
+                        ->value('member_wallet');
+                    $datas= [
+                        "user_id"=>$information["member_id"],//用户ID
+                        "wallet_operation"=> $information["house_charges"],//消费金额
+                        "wallet_type"=>-1,//消费操作(1入，-1出)
+                        "operation_time"=> date("Y-m-d H:i:s"),//操作时间
+                        "operation_linux_time"=>time(), //操作时间
+                        "wallet_remarks"=>"订单号：".$val["out_trade_no"]."茶仓订单出仓".$information["house_charges"]."元",//消费备注
+                        "wallet_img"=>" ",//图标
+                        "title"=>"茶厂订单续费",//标题（消费内容）
+                        "order_nums"=>$val["out_trade_no"],//订单编号
+                        "pay_type"=>"小程序", //支付方式/
+                        "wallet_balance"=>$member_wallet,//此刻钱包余额
+                    ];
+                    Db::name("wallet")->insert($datas); //存入消费记录表
+                } else {
+                    file_put_contents(EXTEND_PATH."data.txt","插入订单表失败");
+                }
+
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }else{
                 return ajax_error("失败");
