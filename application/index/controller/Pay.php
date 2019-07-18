@@ -350,14 +350,18 @@ class Pay extends  Controller{
                     $set_parts_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($data["member_id"]+1001); //订单编号
 
                     //对应数量和单位
-                    if($house_order['special_id']){
+                    if(!empty($house_order['special_id'])){
                         $special_data = Db::name('special') -> where("id",$house_order['special_id'])->find();
-                        $unit = explode(",",$special_data['unit']);
-                        $num = explode(",",$special_data['num']);
+                        $special_unit = $special_data['unit'];
+                        $special_num = $special_data['num'];
+                        $unit = explode(",",$special_unit);
+                        $num = explode(",",$special_num);
                     } else {
-                        $goods_data = Db::name('goods')->where("id",$house_order['special_id'])->find();
-                        $unit = explode(",",$goods_data['unit']);
-                        $num = explode(",",$goods_data['num']);
+                        $goods_data = Db::name('goods')->where("id",$house_order['goods_id'])->find();
+                        $special_unit = $goods_data['unit'];
+                        $special_num = $goods_data['num'];
+                        $unit = explode(",",$special_unit);
+                        $num = explode(",",$special_num);
                     }
                     $key = array_search($house_order['store_unit'],$unit);
                     $store_number= $new_order->unit_calculate($unit, $num,$key,$data["order_quantity"]);
@@ -365,7 +369,7 @@ class Pay extends  Controller{
                         'house_order_id' => $data['id'],
                         'out_order_number' => $set_parts_number,
                         'goods_name' => $house_order['parts_order_number'],
-                        'use_phone_number' => $house_order['use_phone_number'],
+                        'user_phone_number' => $house_order['user_phone_number'],
                         'store_house_id' => $house_order['store_house_id'],
                         'order_quantity' => $data['order_quantity'],
                         'house_charges' => $data['house_charges'],
@@ -378,7 +382,10 @@ class Pay extends  Controller{
                         'address_id' => $data['address_id'],
                         'store_number' => $store_number,
                         'store_unit' => $house_order['store_unit'],
-                        'store_id' => $data['uniacid']
+                        'store_id' => $data['uniacid'],
+                        'unit'=> $special_unit,
+                        'num'=> $special_num
+
                     );
                     $bool = Db::name('out_house_order')->insert($out_order);
                     if($bool){

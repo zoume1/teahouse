@@ -137,6 +137,35 @@
 	/*
      * 弹窗end
      */
+	 /* 待发货 */
+	.color2 {
+		background: #CC00CC;
+	}
+
+	/* 已发货 */
+	.color3 {
+		background: #FF0000;
+	}
+
+	/* 已完成 */
+	.color4 {
+		background: #669900;
+	}
+
+	/* 已关闭 */
+	.color5 {
+		background: #A1A1A1;
+	}
+
+	/* 已退款 */
+	.color6 {
+		background: #CC9900;
+	}
+
+	/* 已入仓 */
+	.color7 {
+		background: #0000CC;
+	}
 
 </style>
 
@@ -308,31 +337,30 @@
 						<th>出仓数量</th>
                         <th>出仓时间</th>
                         <th>出仓金额</th>
-						<th>平台服务费</th>
-						<th>仓储保管费</th>
 						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody class="news_content">
+						{if !empty($stores_divergences)}{volist name="stores_divergences" id="value"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-                        <td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"data-id="{$value.id}"></td>
+						<td>{$value.out_order_number}</td>
+						<td>{$value.parts_goods_name}</td>
+						<td>{$value.user_account_name}</td>
+						<td>{$value.name}</td>
+						<td>{$value.end_time|date="Y-m-d H:i",###}</td>
+						<td>{$value.store_number}</td>
+                        <td>{$value.pay_time|date="Y-m-d H:i",###}</td>
+						<td>￥{$value.house_charges}</td>
 						<td>
-							<div class="static_btus">
-								已关闭
-							</div>
+								<div class="line">
+										<div class="static_btus" data-id="{$value.id}" data-value="{$value.status}">
+											{$value.status|show_order_status}
+										</div>
+									</div>
 						</td>
 					</tr>
+					{/volist}{/if}
 				</tbody>
 			</table>
 			<div id="page">
@@ -347,6 +375,9 @@
 					</button>
 				</div>
 			</div>
+			{if !empty($stores_divergences)}
+			{$stores_divergences->render()}
+			{/if}
 
 		</div>
 
