@@ -189,7 +189,7 @@ class My extends Controller
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:手机号绑定
+     * Notes:修改支付密码
      **************************************
      * @param Request $request
      */
@@ -211,6 +211,37 @@ class My extends Controller
                  Cache::rm('mobile');
                  $passwd =password_hash($passwd,PASSWORD_DEFAULT);
                 $bool = Db::name("member")->where("member_id",$member_id)->update(['pay_password'=>$passwd]);
+                return ajax_success("修改成功",$bool);
+             }else{
+                 return ajax_error("请重试",["status"=>0]);
+             }
+         }
+     }
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:绑定手机号
+     **************************************
+     * @param Request $request
+     */
+     public function user_phone_bangding(Request $request){
+         if($request->isPost()){
+             $member_id = $request->only(["member_id"])["member_id"];
+             $phone = $request->only(["member_phone_num"])["member_phone_num"];
+             $code =$request->only(["code"])["code"];
+             $mobileCode = Cache::get('mobileCode');
+             $mobile = Cache::get('mobile');
+             if($mobileCode != $code ) {
+                 return ajax_error("验证码不正确");
+             }
+            //  $phone_number = Db::name("member")
+            //      ->where("member_id", $member_id)
+            //      ->value("member_phone_num");
+             if($member_id && $phone){
+                 Cache::rm('mobileCode');
+                 Cache::rm('mobile');
+                //  $passwd =password_hash($passwd,PASSWORD_DEFAULT);
+                $bool = Db::name("member")->where("member_id",$member_id)->update(['member_phone_num'=>$phone]);
                 return ajax_success("绑定成功",$bool);
              }else{
                  return ajax_error("请重试",["status"=>0]);
@@ -222,7 +253,7 @@ class My extends Controller
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:手机号绑定
+     * Notes:修改手机号绑定
      **************************************
      * @param Request $request
      */
