@@ -516,12 +516,12 @@
                     {if !empty($value.unit)}{foreach name="$value.unit" item ="w" key="x"}
                     {if $x % 2 == 0}
                     <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
-                    class="layui-input" value="{$w}">
+                        class="layui-input" value="{$w}">
                     {else}
                     <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
                     class="layui-input units" value="{$w}" maxlength="2" data-id="0" data-value="{$w}">
                     
-                    <div class="fuhao">=</div>
+                    <!-- <div class="fuhao">=</div> -->
                     {/if}
                     {/foreach}
                     {/if}
@@ -1136,7 +1136,7 @@
             var unit2 = [];
             var templet = [];
             for (var qq = 0; qq < $(".units").length; qq++) {
-
+                console.log($(".units"))
                 // 普通规格
                 if ($(".units")[qq].dataset.id == "0") {
 

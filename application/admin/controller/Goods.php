@@ -1147,6 +1147,7 @@ class Goods extends Controller
             $id = $request->only(["id"])["id"];
             $time = time();
             $goods_data = $request->param();
+            // halt($goods_data);
             unset($goods_data["aaa"]);
             $show_images = $request->file("goods_show_images");
             $number_days = intval($goods_data["number_days"]);
