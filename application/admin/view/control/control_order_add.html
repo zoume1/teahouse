@@ -280,12 +280,14 @@
 					</div>
 				</div>
 			</div>
+		{if empty($store_id)}
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
 				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
 			</div>
 		</div>
+		{/if}
 
 	</form>
 	{/volist}{/if}
