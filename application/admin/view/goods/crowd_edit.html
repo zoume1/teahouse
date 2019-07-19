@@ -999,7 +999,7 @@
             },
             success: function (data) {
                 var data = eval('(' + data + ')');
-                console.log(data);
+                // console.log(data);
                 if (data.status == "1") {
                     var dhtmlss = '';
                     for (var i = 0; i < data.data.length; i++) {
@@ -1057,10 +1057,10 @@
         }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function () {
             var form = layui.form(),
                 $ = layui.jquery;
-                console.log(form);
+                // console.log(form);
             form.render();
             // 运费模板
-            var unit2 = [];
+           
             $(".yunfei").on('click', ".delect_img", function () {
                  
                  $(this).parent().remove();
@@ -1080,18 +1080,9 @@
             var unit2 = [];
             var templet = [];
             for (var qq = 0; qq < $(".units").length; qq++) {
-
-                // 普通规格
-                if ($(".units")[qq].dataset.id == "1") {
-
                     unit1.push($(".units")[qq].value);
-                }
-                else {
-
-                    unit2.push($(".units")[qq].value);
-                }
             }
-            console.log($(".units").length);
+            // console.log($(".units").length);
             $.ajax({
                 type: "POST",
                 url: "{:url('admin/Delivery/delivery_templet')}",
@@ -1120,11 +1111,12 @@
                 success: function (data) {
                     data = eval("(" + data + ")");
                     var unit1_a = unit1.unique3();
-                   
-                    var unit2_a = unit2.unique3();
+                    // var unit2_a = unit2.unique3();
                     // var val = $('input[name="goods_standard"]:checked').val();
                     var vals = $('input[name="aaa"]:checked').val();
-             
+                    console.log(unit1_a)
+                    console.log(data.data.templet_unit)
+
                     // if (val == "0") {
                         if(vals=="1"){
                             for (var i = 0; i < data.data.templet_name.length; i++) {
@@ -1139,11 +1131,11 @@
                                 else {
                                     add_muban1 += ' <option value="' + unit1_a[n] + '">' + unit1_a[n] + '</option>';
                                 }
+                                // console.log(add_muban1)
                             }
                             add_muban1 += '</select><br />';
                             add_muban1 += '<select name="templet_id[]"  class="role_list">';
                             for (var h = 0; h < templet.length; h++) {
-                               
                                 if (data.data.templet_name[i].name == templet[h].name) {
                                     add_muban1 += ' <option value="' + templet[h].id + '" selected="selected">' + templet[h].name + '</option>';
                                 }
@@ -1153,15 +1145,14 @@
 
                             }
                             add_muban1 += '</select><br />';
-                            add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
+                            // add_muban1 += '<a href="delivery_goods_add_number">新建</a>';
                             add_muban1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
                             add_muban1 += '</div>';
+
+
                             $(".add_muban").parent().before(add_muban1);
                             form.render();
-
-
                         }
-
                         }
                        
                     // }
@@ -1224,13 +1215,13 @@
                     // 本来无值（存入）
                     if ($(this).data("value") == undefined) {
 
-                        unit2.push($(this).val());
+                        unit1.push($(this).val());
                     }
                     // 本来有值（修改）
                     else {
-                        for (var k = 0; k < unit2.length; k++) {
-                            if (unit2[k] == $(this).data("value")) {
-                                unit2[k] = $(this).val();
+                        for (var k = 0; k < unit1.length; k++) {
+                            if (unit1[k] == $(this).data("value")) {
+                                unit1[k] = $(this).val();
                                 break;
                             }
                         }
@@ -1243,9 +1234,9 @@
                     }
                     // 本来有值（修改）
                     else {
-                        for (var k = 0; k < unit2.length; k++) {
-                            if (unit2[k] == $(this).data("value")) {
-                                unit2.splice(k, 1);
+                        for (var k = 0; k < unit1.length; k++) {
+                            if (unit1[k] == $(this).data("value")) {
+                                unit1.splice(k, 1);
                                 break;
                             }
                         }
@@ -1258,9 +1249,9 @@
             $(".general_content").on('click', ".delect_img", function () {
 
                 if ($(this).siblings(".units").val() != '') {
-                    for (var k = 0; k < unit2.length; k++) {
-                        if (unit2[k] == $(this).siblings(".units").val()) {
-                            unit2.splice(k, 1);
+                    for (var k = 0; k < unit1.length; k++) {
+                        if (unit1[k] == $(this).siblings(".units").val()) {
+                            unit1.splice(k, 1);
                             break;
                         }
                     }
@@ -1271,15 +1262,15 @@
 
             $(".add_muban").click(function () {
 
-                var unit2_a = unit2.unique3();
-
-                if (unit2_a.length > 0) {
+                var unit1_a = unit1.unique3();
+                console.log(unit1_a)
+                if (unit1_a.length > 0) {
                     var add_muban = '';
                     add_muban += ' <div class="form-input line muban" style="margin-bottom: 4px;position: relative;">';
                     add_muban += '<input type="texr" title="运费模板" style="opacity: 0;width: 82px;">';
                     add_muban += '<select name="templet_name[]"  class="role_list muban_list" >';
-                    for (var n = 0; n < unit2_a.length; n++) {
-                        add_muban += ' <option value="' + unit2_a[n] + '">' + unit2_a[n] + '</option>';
+                    for (var n = 0; n < unit1_a.length; n++) {
+                        add_muban += ' <option value="' + unit1_a[n] + '">' + unit1_a[n] + '</option>';
                     }
                     add_muban += '</select><br />';
                     add_muban += '<select name="templet_id[]"  class="role_list">';
@@ -1302,6 +1293,7 @@
             })
             $("form").submit(function (e) {
                 var unit2_a = unit2.unique3();
+                var unit1_a = unit1.unique3();
                 var vals = $('input[name="aaa"]:checked').val();
 
                 var num = 0;
@@ -1319,8 +1311,8 @@
                     return false;
                 }
                 if (vals == "1") {
-                    if ($(".muban").length != unit2_a.length) {
-                        alert("包装规格”中的单位需要全部添加对应运费模版");
+                    if ($(".muban").length != unit1_a.length) {
+                        alert("包装规格中的单位需要全部添加对应运费模版");
                         return false;
                     }
                 }
