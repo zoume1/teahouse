@@ -272,7 +272,7 @@ Route::group("",[
     /*TODO:手机号头像昵称绑定开始*/
     "user_phone_return"=>"index/My/user_phone_return",//手机号绑定数据返回
     "user_phone_bingding"=>"index/My/user_phone_bingding",//修改支付密码
-    "user_phone_bingdang"=>"index/My/user_phone_bingdang",//手机号绑定
+    "user_phone_bangding"=>"index/My/user_phone_bangding",//手机号绑定
     "user_phone_bingding_update"=>"index/My/user_phone_bingding_update",//手机号绑定修改
     "user_name_return"=>"index/My/user_name_return", //用户昵称绑定数据返回
     "user_name_update"=>"index/My/user_name_update", //用户昵称绑定修改
