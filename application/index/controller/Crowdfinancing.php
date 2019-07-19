@@ -1742,7 +1742,8 @@ class Crowdfinancing extends Controller
         if($val["result_code"] == "SUCCESS" ){
              file_put_contents(EXTEND_PATH."data.txt",$val);
              //找到订单消息
-             //增加项目众筹金额
+             //增加项目众筹金额 collecting_money
+             //筹款人数 collecting
             $information =Db::name("crowd_order")->where("parts_order_number",$val["out_trade_no"])->find();
             $res = Db::name("crowd_order")
                 ->where("parts_order_number",$val["out_trade_no"])
