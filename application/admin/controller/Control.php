@@ -213,8 +213,10 @@ class  Control extends  Controller{
         $store_order = db("store")
             ->where("id",$id)
             ->select();
+        $store_id = Session::get("store_id");
+        halt($store_id);
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
-        return view("control_order_add",["store_order"=>$store_order]);
+        return view("control_order_add",["store_order"=>$store_order,"store_id"=>$store_id]);
     }
 
 
