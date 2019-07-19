@@ -45,6 +45,7 @@ class Storehouse extends Controller
                                         ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                         ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')  
                                         ->where("tb_house_order.status",">",1)                                                                                                                                                            
+                                        ->where("tb_house_order.order_quantity",">",0)                                                                                                                                                            
                                         ->where(["tb_house_order.store_id"=>$store_id, "tb_house_order.store_house_id" =>$depot[$key]['id'] ,"tb_house_order.member_id"=>$member_id])
                                         ->order("order_create_time asc")
                                         ->select();   
@@ -326,6 +327,9 @@ class Storehouse extends Controller
             $data = input();
             if(isset($data['goods_id']) && isset($data['member_id']) && isset($data['are'])){
                 $goods_data = Db::name('goods')->where('id',$data['goods_id'])->find();
+                if(empty($goods_data)){
+                    return ajax_error("商品参数id不正确");
+                }
                 $templet_id = explode(",",$goods_data['templet_id']);
                 $goods_franking = $goods_data['goods_franking'];
                 if($goods_franking == 0){

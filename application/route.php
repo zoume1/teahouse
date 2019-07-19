@@ -82,6 +82,7 @@ Route::group("",[
      "set_meal_notify2"=>"index/AdminWx/set_meal_notify2",//后台资金管理微信充值扫码支付回调
      "set_meal_notify_alipay2"=>"index/AdminWx/set_meal_notify_alipay2",//后台资金管理微信充值支付宝扫码支付回调
      "series_notify"=>"index/order/series_notify",//茶仓订单续费支付回调
+     "continuAtion_notify"=>"index/order/continuAtion_notify",//茶仓订单出仓支付回调
 
 
     /*TODO:end*/
@@ -331,11 +332,12 @@ Route::group("",[
 
 
     /*众筹商品*/
-    "crowd_index"=>"index/Crowd/crowd_index",       //众筹商品首页显示
-    "crowd_now"=>"index/Crowd/crowd_now",           //正在众筹商品
-    "crowd_support"=>"index/Crowd/crowd_support",   //众筹商品去支持
-    "crowd_period"=>"index/Crowd/crowd_period",     //往期众筹商品
-    "crowd_reward"=>"index/Crowd/crowd_reward",     //众筹商品打赏订单
+    "crowd_index"=>"index/Crowd/crowd_index",               //众筹商品首页显示
+    "crowd_now"=>"index/Crowd/crowd_now",                   //正在众筹商品
+    "crowd_support"=>"index/Crowd/crowd_support",           //众筹商品去支持
+    "crowd_period"=>"index/Crowd/crowd_period",             //往期众筹商品
+    "crowd_reward"=>"index/Crowd/crowd_reward",             //众筹商品打赏订单
+    "getaAnsporTation"=>"index/Crowd/getaAnsporTation",     //众筹商品下单运费
 
     /*发票*/
     "bill"=>"index/Receipt/bill",                      //添加企业新户名
@@ -911,8 +913,8 @@ Route::group("admin",[
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
     "wx_login3"=>"admin/Wxview/wx_login",                            //一键生成
     "wx_index3"=>"admin/Wxview/index",                            //一键生成--二维码
-    "checkscan3"=>"admin/Wxview/checkscan",                            //一键生成--二维码
-    "commitcode3"=>"admin/Wxview/commitcode",                            //一键生成--提交代码
+    "checkscan3"=>"admin/Wxview/checkscan",                         //一键生成--二维码
+    "commitcode3"=>"admin/Wxview/commitcode",                       //一键生成--提交代码
     "preview3"=>"admin/Wxview/preview",                             //一键生成--预览
 
     /*总控*/
