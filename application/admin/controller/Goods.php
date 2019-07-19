@@ -1147,10 +1147,11 @@ class Goods extends Controller
             $id = $request->only(["id"])["id"];
             $time = time();
             $goods_data = $request->param();
-            // halt($goods_data);
             unset($goods_data["aaa"]);
             $show_images = $request->file("goods_show_images");
             $number_days = intval($goods_data["number_days"]);
+            $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
+            $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
             $end_time = strtotime(date('Y-m-d', strtotime ("+ $number_days day", $time)));           
             $list = [];
             if (!empty($show_images)) {
