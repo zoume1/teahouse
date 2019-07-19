@@ -65,9 +65,7 @@
             width: 90px;
             height: 90px;
         }
-        .up-section:hover{
-	border: 0px;
-}
+
         /* .set_x {height: 400px;} */
     </style>
     <div class="modal-dialog">
@@ -436,7 +434,6 @@
                         </div>
                         <span class="text">warehouse4</span>
                     </nav>
-                    
                 </div>
             </div>
             <!--常规图标结束-->
@@ -445,6 +442,7 @@
             <div class="modal-body set_x" id="set_x" style="display: none">
                 
                 <div class="main">
+                    <form  action="form_action.asp" method="post">
                     <div class="img-box full">
                         <section class=" img-section">
                             <div class="z_photo upimg-div clear">
@@ -457,13 +455,16 @@
                             </div>
                         </section>
                     </div>
-                    <!-- <aside class="mask works-mask">
+                    <aside class="mask works-mask">
                         <div class="mask-content">
                             <p class="del-p ">您确定要删除作品图片吗？</p>
                             <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span>
                             </p>
                         </div>
-                    </aside> -->
+                    </aside>
+                    <button style="margin: 19% 44% 0 44.5%;width: 80px;background-color:rgb(51, 136, 255);color:#fff;border-radius: 3px;" type="submit" id="submit">确认提交</button>
+                    <div style="color:rgb(171, 178, 191);font-size: 15px;text-align: center;">*每次只能上传一张图片</div>
+                </form>
                 </div>
             </div>
             <!-- 本地图片结束 -->

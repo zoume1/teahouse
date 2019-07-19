@@ -488,23 +488,52 @@
      
         <div class="form-item">
             <label class="form-label">卖点标签</label>
-            <div class="form-input" >
+            <div class="form-input" style="width:100%;">
                 <div id="hot">
                     <div class="list">
-                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="">
-                        <span class="texts">古色生香</span>
-                        <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                        <input type="checkbox" name="goods_sign[sell_0][check]" value="1" lay-skin="primary"
+                            lay-filter="choose1" title="" >
+                        <input class="texts" type="text" name="goods_sign[sell_0][text]" value="可存" readonly
+                            style="display: none">
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/kc.png" />
+                    </div>
+                    <div class="list">
+                        <input type="checkbox" name="goods_sign[sell_1][check]" value="0" lay-skin="primary"
+                            lay-filter="choose1" title="">
+                        <input class="texts" type="text" name="goods_sign[sell_1][text]" value="HOT" readonly
+                            style="display: none">
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/hot.png" />
+                    </div>
+                    <div class="list">
+                        <input type="checkbox" name="goods_sign[sell_2][check]" value="0" lay-skin="primary"
+                            lay-filter="choose1" title="">
+                        <input class="texts" type="text" name="goods_sign[sell_2][text]" value="促销" readonly
+                            style="display: none">
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/cx.png" />
+                    </div>
+                    <div class="list">
+                        <input type="checkbox" name="goods_sign[sell_3][check]" value="0" lay-skin="primary"
+                            lay-filter="choose1" title="">
+                        <input class="texts" type="text" name="goods_sign[sell_3][text]" value="清仓" readonly
+                            style="display: none">
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/qc.png" />
+                    </div>
+                    <div class="list">
+                        <input type="checkbox" name="goods_sign[sell_4][check]" value="0" lay-skin="primary"
+                            lay-filter="choose1" title="" class="biaoqian">
+                        <input class="texts" type="text" name="goods_sign[sell_4][text]" value="古色生香">
+                        <!-- <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span> -->
                     </div>
                     <div class="add_biao">
                         +添加文字标签
                     </div>
-                  
                 </div>
-                 <div class="tips">
-                    *在项目买点前加标记，可多选，文字标签字数不超过8个字
-                 </div>
+
+                <div class="tips">
+                    *如商品勾选了可存，表明此商品可选择仓库存储，没有勾选，表明此商品不能存储
+                </div>
             </div>
-           
+
         </div>
         <div class="form-item">
             <label class="form-label">分享描述</label>
@@ -682,10 +711,15 @@
         <div class="form-title">价格库存 </div>
         <div class="form-item">
             <label class="form-label">配送方式</label>
-            <div class="form-input line">
-                <input type="checkbox" name="goods_delivery" lay-skin="primary" title="商家配送" value="1" checked="">
-                <input type="checkbox" name="goods_delivery" lay-skin="primary" title="到店自提" value="2">
+            <div class="form-input">
+                <div style="display:flex;">
+                    <input type="checkbox" name="goods_delivery[0]" lay-skin="primary" title="商家配送" value="1"
+                        checked="">
+                    <input type="checkbox" name="goods_delivery[1]" lay-skin="primary" title="到店自提" value="2">
+                </div>
+                <div class="tips">可以选择商品支持的配送方式，至少选择一种</div>
             </div>
+
         </div>
         <div class="form-item">
                 <label class="form-label">快递运费</label>
@@ -744,6 +778,7 @@
     <script type="text/javascript">
         var ue = UE.getEditor('editor');
         var ue1 = UE.getEditor('editor1');
+        var ue1 = UE.getEditor('editor2');
         var codings = [];
         layui.config({
             base: "js/"

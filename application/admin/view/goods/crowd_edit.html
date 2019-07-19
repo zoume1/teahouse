@@ -498,26 +498,48 @@
                 </div>
             </div>
         </div>
-
         <div class="form-item">
             <label class="form-label">卖点标签</label>
-            <div class="form-input">
+            <div class="form-input" style="width:100%;">
                 <div id="hot">
+                        {foreach name="$value.goods_sign" item="vo" key="abc"}
                     <div class="list">
-                        <input type="checkbox" name="goods_sign" lay-skin="primary" title="" checked="">
-                        <span class="texts">古色生香</span>
-                        <span style="color: #0EA9E3;font-size: 12px; line-height: 20px;" class="change_text">修改</span>
+                        {if isset($vo['check'])}
+                        <input type="checkbox"  lay-skin="primary" lay-filter="choose1" title="" name="goods_sign[{$abc}][check]" value="{$vo['check']}" checked="">
+                        {/if}
+                        {if !isset($vo['check'])}
+                        <input type="checkbox"  lay-skin="primary" lay-filter="choose1" title="" name="goods_sign[{$abc}][check]" value="0" >
+                        {/if}
+                        {if $vo['text']!='可存' && $vo['text']!='HOT' && $vo['text']!='促销' && $vo['text']!='清仓'}
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}">
+                        {/if}
+                        {if $vo['text']=='可存'}
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/kc.png" />
+                        {/if}
+                        {if $vo['text']=='HOT'}
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/hot.png" />
+                        {/if}
+                        {if $vo['text']=='促销'}
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/cx.png" />
+                        {/if}
+                        {if $vo['text']=='清仓'}
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
+                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/qc.png" />
+                        {/if}
                     </div>
+                    {/foreach}
+                     
                     <div class="add_biao">
                         +添加文字标签
                     </div>
-
                 </div>
                 <div class="tips">
-                    *在项目买点前加标记，可多选，文字标签字数不超过8个字
-                </div>
+                        *如商品勾选了可存，表明此商品可选择仓库存储，没有勾选，表明此商品不能存储
+                    </div>
             </div>
-
         </div>
         <div class="form-item">
             <label class="form-label">分享描述</label>
@@ -851,11 +873,24 @@
         <div class="form-item">
             <label class="form-label">配送方式</label>
             <div class="form-input line">
-                {if $value.goods_delivery[0] == 1}
-                <input type="checkbox" name="goods_delivery" value="1" lay-skin="primary" title="商家配送" checked="">
-                <input type="checkbox" name="goods_delivery" value="2" lay-skin="primary" title="到店自提"> {else}
-                <input type="checkbox" name="goods_delivery" value="1" lay-skin="primary" title="商家配送">
-                <input type="checkbox" name="goods_delivery" value="2" lay-skin="primary" title="到店自提" checked="">{/if}
+                {if isset($value.goods_delivery[0]) && isset($value.goods_delivery[1])}
+                <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送"
+                    checked="">
+                <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" checked="">
+                {/if}
+                {if ($value.goods_delivery[0] == 2) && !isset($value.goods_delivery[1])}
+                <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送">
+                <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" checked="">
+                {/if}
+                {if ($value.goods_delivery[0] == 1) && !isset($value.goods_delivery[1])}
+                <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送" checked="">
+                <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" >
+                {/if}
+                {if !isset($value.goods_delivery[0]) && !isset($value.goods_delivery[1])}
+                <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送" >
+                <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" >
+                {/if}
+
             </div>
         </div>
         <div class="form-item">
@@ -945,6 +980,7 @@
         var ids = $("#ids").val();
         var ue = UE.getEditor('editor');
         var ue1 = UE.getEditor('editor1');
+        var ue1 = UE.getEditor('editor2');
         var codings = [];
         function jiequ(str) {
             var arr = str.split("_");

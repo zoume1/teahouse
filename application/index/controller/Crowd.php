@@ -301,6 +301,59 @@ class Crowd extends Controller
     }
 
 
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:众筹商品运费
+     **************************************
+     */
+    public function getaAnsporTation(Request $request){
+        if($request->isPost()){
+            $goods_id = $request->only("goods_id")["goods_id"];//商品id
+            $are = $request->only("are")["are"];//地区
+            $standard = $request->only("goods_standard_id")["goods_standard_id"];//规格id
+            $res = array();
+            if(!empty($goods_id)){
+                foreach($goods_id as $key => $value){
+                    $goods = db("crowd_goods")->where("id",$value)->find();
+                    if($goods["goods_standard"] == 1){
+                        $goods["monomer"] = db("crowd_special")->where("id",$standard[$key])->value("offer");
+                    }
+                    $data["goods_id"] = $value;
+                    if($goods['goods_franking'] != 0){
+                        $data["collect"] = $goods["goods_franking"]; //统一邮费
+                        $data["markup"] = 0; //统一邮费
+                    }else{
+                        $templet_name = explode(",",$goods["templet_name"]);
+                        $templet_id = explode(",",$goods["templet_id"]);
+                        $monomer = $goods["monomer"];
+                        $tempid = array_search($monomer,$templet_name);
+                        $express_id = $templet_id[$tempid];
+                        $rest = db("express")->where("id",$express_id)->find();
+                        if(!empty($rest)){
+                            $are_block = explode(",",$rest["are"]);
+                            if(in_array($are,$are_block)){
+                                $data["collect"] = $rest["price"];//首费
+                                $data["markup"] = $rest["markup"];//续费
+                            } else {
+                                $data["collect"] = $rest["price_two"];//首费
+                                $data["markup"] = $rest["markup_two"];//续费
+                            }
+                        } else {
+                            return ajax_error("没有运费模板");
+                        }
+                    }
+                    array_push($res,$data);                    
+                }
+                return ajax_success("返回成功",$res);
+            } else {
+                return ajax_error("没有运费模板");
+            }
+        }
+
+    }
+
+
     
 
 }
