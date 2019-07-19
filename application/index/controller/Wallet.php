@@ -54,7 +54,7 @@ class  Wallet extends  Controller{
         if($request->isPost()){
             //获取店铺id
             $store_id=$request->only(["uniacid"])["uniacid"];
-            $data =Db::name("recharge_full_setting")->where(["status"=>1,'store_id'=>$store_id])->select();
+            $data =Db::name("recharge_full_setting")->where('store_id',$store_id)->select();
             if(!empty($data)){
                 return ajax_success("储值信息返回成功",$data);
             }else{
