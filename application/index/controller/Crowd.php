@@ -97,7 +97,7 @@ class Crowd extends Controller
                         ->limit(1)
                         ->order("cost asc")
                         ->find();
-                    $crowd[$key]["cost"] = $special[$key]["cost"];
+                    $crowd[$key]["cost"] = $special[$key]["cost"]; //显示价格
 
                     if($crowd[$key]["goods_member"] == 1){
                         $crowd[$key]["cost"] = $special[$key]["cost"] * $discount ;
