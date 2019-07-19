@@ -1078,9 +1078,9 @@ function center_statues($status){
     if($status==1){
         echo '<button type="button" class="state payment-has-been" >审核已通过</button>';
     }else  if($status==0){
-        echo '<button type="button" class="layui-btn btn-exam">审核待通过</button>';
+        echo '<button type="button" class="state shipmenting-btu">审核待通过</button>';
     }else  if($status==-1){
-        echo '<button type="button" class="">审核未通过</button>';
+        echo '<button type="button" class="state close-btu">审核未通过</button>';
     }
 }
 
