@@ -213,8 +213,9 @@ class  Control extends  Controller{
         $store_order = db("store")
             ->where("id",$id)
             ->select();
+        $store_id = Session::get("store_id");
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
-        return view("control_order_add",["store_order"=>$store_order]);
+        return view("control_order_add",["store_order"=>$store_order,"store_id"=>$store_id]);
     }
 
 
@@ -528,6 +529,10 @@ class  Control extends  Controller{
             $id = $request -> only(["id"])["id"];
             $data = $request -> param();
             $bool = db("store")->where("id",$id)->update($data);
+
+            if($id > 0){
+                $this->error("店铺用户无审核权限",url("admin/General/store_set_meal_order"));
+            }
             if($bool){
                 if($data['status'] ==1){
                     $user_id =db("store")

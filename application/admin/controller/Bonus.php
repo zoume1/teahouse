@@ -443,50 +443,48 @@ class Bonus extends Controller
         /**
          * 鲁文兵改过
          */
-        if($coupon_type){
+        //普通商品
+        if($coupon_type == 1){
              $goods = db("goods")
                 ->where("goods_number", $goods_number)
                 ->where("coupon_type",$coupon_type)
                 ->where("store_id","EQ",$store_id)
                 ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
                 ->select();
-        }else{
-            $goods = db("goods")
-                ->where("goods_number", $goods_number)
-                ->where("store_id","EQ",$store_id)
-                ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
-                ->select();
-        }
-        if(!empty($goods)){
-            foreach ($goods as $key => $value) {
-                if ($goods[$key]["goods_standard"] == 1) {
-                    $goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]["id"])->sum("stock");
-                    $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
+                if(!empty($goods)){
+                    foreach ($goods as $key => $value) {
+                        if ($goods[$key]["goods_standard"] == 1) {
+                            $goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]["id"])->sum("stock");
+                            $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
+                        } else {
+                            $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
+                        }
+                    }
+                    return ajax_success("获取成功", $goods);
                 } else {
-                    $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
+                    return ajax_error("未找到该商品");
+                }
+                } else {
+                    $id = $goods_number - 1000000;
+                    $key = 0;
+                    $goods = db("crowd_goods")->where("id", $id)->field("id,goods_show_image,project_name,coupon_type")->find();
+                    if(!empty($goods)){
+                    $goods['goods_repertory'] = db("crowd_special")->where("goods_id",$goods['id'])->sum("stock");
+                    $goodes[$key] = array(
+                        'id'=> $goods['id'],
+                        'goods_number'=> $goods['id'] +1000000,
+                        'goods_name'=> $goods['project_name'],
+                        'goods_standard'=> 1,
+                        'goods_show_images'=> $goods['goods_show_image'],
+                        'goods_repertory'=> $goods['goods_repertory'],
+                        'coupon_type'=> $goods['coupon_type']
+                    );
+                    return ajax_success("获取成功", $goodes);
+                } else {
+                    return ajax_error("未找到该商品");
                 }
             }
-            return ajax_success("获取成功", $goods);
-        } else {
-            $id = $goods_number - 1000000;
-            $key = 0;
-            $crowd = db("crowd_goods")->where("id", $id)->field("id,goods_show_image,project_name,coupon_type")->find();
-            if(!empty($crowd)){
-            $crowd['goods_repertory'] = db("crowd_special")->where("goods_id",$crowd['id'])->sum("stock");
-            $crowd_goods[$key] = array(
-                'id'=> $crowd['id'],
-                'goods_number'=> $crowd['id'] +1000000,
-                'goods_name'=> $crowd['project_name'],
-                'goods_standard'=> 1,
-                'goods_show_images'=> $crowd['goods_show_image'],
-                'goods_repertory'=> $crowd['goods_repertory'],
-                'coupon_type'=> $crowd['coupon_type']
-            );
-            return ajax_success("获取成功", $crowd_goods);
-            } else {
-                return ajax_error("未找到该商品");
-            }
-        }
+        
     }
 
 
