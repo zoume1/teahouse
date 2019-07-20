@@ -515,13 +515,13 @@
                 <div class="form-input" id="packing_specification" style=" align-items: center;">
                     {if !empty($value.unit)}{foreach name="$value.unit" item ="w" key="x"}
                     {if $x % 2 == 0}
+                    <div class="fuhao">=</div>
                     <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
                         class="layui-input" value="{$w}">
                     {else}
                     <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
                     class="layui-input units" value="{$w}" maxlength="2" data-id="0" data-value="{$w}">
                     
-                    <!-- <div class="fuhao">=</div> -->
                     {/if}
                     {/foreach}
                     {/if}
@@ -1080,8 +1080,10 @@
                                 for (var q = 0; q < data.data[i].unit.length; q++) {
                                     if (j == q) {
                                         //  <!-- 单位循环这里 -->
-                                        dhtmlss += '<div class="danwei_content">';
-                                        dhtmlss += '<div class="fuhao">=</div>';
+                                        dhtmlss += '<div class="danwei_content packing_s">';
+                                        if( j > 0 ) {
+                                         dhtmlss += '<div class="fuhao">=</div>';
+                                        }
                                         dhtmlss += '<input type="text" name="' + data.data[i].id + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="' + data.data[i].num[j] + '" >';
                                         dhtmlss += '<input type="text" name="' + data.data[i].id + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" value="' + data.data[i].unit[q] + '" maxlength="2" data-id="1" data-value="' + data.data[i].unit[q] + '"> ';
                                         dhtmlss += '<img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
@@ -1120,7 +1122,9 @@
 
                 $(this).parent().remove();
             })
-
+            //去掉包装规格的首个多余的等于号
+            $('#packing_specification').children('.fuhao:first-child').remove();
+            
             Array.prototype.unique3 = function () {
                 var res = [];
                 var json = {};

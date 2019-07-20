@@ -1007,7 +1007,7 @@
                             //   <!-- 编码循环这里 -->
                             dhtmlss += '<div class="form-item general" style=" align-items: center;position: relative;">';
                             dhtmlss += '<label class="form-label">包装规格</label>';
-                            dhtmlss += ' <div class="form-input packing_specifications" id="" style=" align-items: center;width: 1200px;">';
+                            dhtmlss += ' <div class="form-input packing_specifications" id=""  style=" align-items: center;width: 1200px;">';
                             dhtmlss += '<select name=""  class="packing packings" disabled="disabled">';
                             dhtmlss += '  <option value="">请选择规格编码</option>';
                             for (var w = 0; w < codings.length; w++) {
@@ -1026,7 +1026,9 @@
                                     if (j == q) {
                                         //  <!-- 单位循环这里 -->
                                         dhtmlss += '<div class="danwei_content">';
-                                        dhtmlss += '<div class="fuhao">=</div>';
+                                        if( j > 0 ) {
+                                         dhtmlss += '<div class="fuhao">=</div>';
+                                        }
                                         dhtmlss += '<input type="text" name="' + data.data[i].id + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input " value="' + data.data[i].num[j] + '" >';
                                         dhtmlss += '<input type="text" name="' + data.data[i].id + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" value="' + data.data[i].unit[q] + '" maxlength="2" data-id="1"> ';
                                         dhtmlss += '<img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
