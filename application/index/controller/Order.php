@@ -785,7 +785,7 @@ class  Order extends  Controller
                             }
                         }
                     } else {
-                        $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                        $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
                         ->where('id',$address_id)
                         ->find();
@@ -821,6 +821,7 @@ class  Order extends  Controller
                         $datase["receipt_id"] = $receipt_id;
                         $datase["store_id"] = $store_id;
                         $datase["receipt_price"] = $receipt_price ;
+                        $datase["order_type"] = $order_type;
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                         $datas = $datase;
