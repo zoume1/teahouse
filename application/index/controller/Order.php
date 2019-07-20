@@ -2357,8 +2357,10 @@ class  Order extends  Controller
      */
     public function tacitly_approve(Request $request){
         if($request->isPost()){
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $data =Db::name("store_house")
                 ->where("label",1)
+                ->where("store_id",$store_id)
                 ->find();
             if(!empty($data)){
                 $data["unit"] = explode(",",$data["unit"]);

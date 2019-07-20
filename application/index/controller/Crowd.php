@@ -316,9 +316,7 @@ class Crowd extends Controller
             if(!empty($goods_id)){
                 foreach($goods_id as $key => $value){
                     $goods = db("crowd_goods")->where("id",$value)->find();
-                    if($goods["goods_standard"] == 1){
-                        $goods["monomer"] = db("crowd_special")->where("id",$standard[$key])->value("offer");
-                    }
+                    $goods["monomer"] = db("crowd_special")->where("id",$standard[$key])->value("offer");
                     $data["goods_id"] = $value;
                     if($goods['goods_franking'] != 0){
                         $data["collect"] = $goods["goods_franking"]; //统一邮费
