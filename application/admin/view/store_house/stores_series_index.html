@@ -111,18 +111,20 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+						{if !empty($stores)}{volist name="stores" id="value"}
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>201707196398345</td>		
-						<td>98年老班章</td>
-						<td>180000000</td>
-						<td>北京仓</td>
-						<td>12片</td>
-						<td>2017-07-18 14：48：38</td>
-						<td>2017-07-20 14：48：38</td>
-						<td>500</td>
+						<td>{$value.series_parts_number}</td>		
+						<td>{$value.goods_name}</td>
+						<td>{$value.user_account_name}</td>
+						<td>{$value.store_name}</td>
+						<td>{$value.sort_number}</td>
+						<td>{$value.order_create_time|date="Y-m-d H:i",###}</td>
+						<td>{$value.order_create_time|date="Y-m-d H:i",###}</td>
+						<td>{$value.parts_order_number}</td>
 						
 					</tr>
+					{/volist}{/if}
 				</tbody>
 			</table>
 			<div id="page">
@@ -137,6 +139,9 @@
 					</button>
 				</div>
 			</div>
+			{if !empty($stores)}
+			{$stores->render()}
+			{/if}
 
 		</div>
 
