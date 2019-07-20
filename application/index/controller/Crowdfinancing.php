@@ -62,8 +62,11 @@ class Crowdfinancing extends Controller
                 $info = Db::name("crowd_special")
                 ->where("id", $special_id[$key])
                 ->find();
-
+                if(!empty($goods_data['goods_sign'])){
+                    $goods_data["goods_sign"] = json_decode($goods_data["goods_sign"],true);
+                }
                 $data[$key]["goods_info"] = $goods_data;
+                $data[$key]["goods_sign"] = $goods_data['goods_sign'];
                 $data[$key]["special_info"] = $info;
                 $data[$key]["grade_price"] = $member_consumption_discount["member_consumption_discount"] * $info["cost"];
                 $data[$key]["unit"] = $info['offer'];
