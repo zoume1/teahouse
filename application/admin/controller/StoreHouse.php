@@ -238,5 +238,15 @@ class StoreHouse extends Controller{
     }
 
 
+    /**
+     * [仓库续费]
+     * 郭杨
+     */
+    public function stores_series_index(){
+        $store_id = Session::get("store_id");
+        return view("stores_series_index");
+    }
+
+
     
  }
