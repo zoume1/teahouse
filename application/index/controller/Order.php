@@ -420,7 +420,7 @@ class  Order extends  Controller
                         ->where('id',$store_house_id)
                         ->where('store_id',$store_id)
                         ->find();
-                        if(!empty($is_address_status)){
+                        if(empty($is_address_status)){
                             return ajax_error('仓库地址查询失败',['status'=>0]);
                         }
                         $year = $request->only("year")["year"];//存茶年限
