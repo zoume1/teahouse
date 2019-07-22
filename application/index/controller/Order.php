@@ -2163,7 +2163,7 @@ class  Order extends  Controller
                     $boolw = Db::name('special') -> where('id',$goods_order[$k]['special_id']) ->setInc('volume',$goods_order[$k]['order_quantity']);
                     $booles = Db::name('special') -> where('id',$goods_order[$k]['special_id']) ->setDec('stock',$goods_order[$k]['order_quantity']);
                 } else {
-                    $boolw = Db::name('goods') -> where('id',$goods_order[$k]['goods_id']) ->setInc('volume',$goods_order[$k]['goods_volume']);
+                    $boolw = Db::name('goods') -> where('id',$goods_order[$k]['goods_id']) ->setInc('goods_volume',$goods_order[$k]['goods_volume']);
                     $booles = Db::name('goods') -> where('id',$goods_order[$k]['goods_id']) ->setDec('stock',$goods_order[$k]['goods_repertory']);
                 }
             }
