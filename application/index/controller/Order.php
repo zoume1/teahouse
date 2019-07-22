@@ -418,7 +418,11 @@ class  Order extends  Controller
                         $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
                         ->where('id',$store_house_id)
+                        ->where('store_id',$store_id)
                         ->find();
+                        if(empty($is_address_status)){
+                            return ajax_error('仓库地址查询失败',['status'=>0]);
+                        }
                         $year = $request->only("year")["year"];//存茶年限
                         $harvest_address = $is_address_status['adress']; //仓库地址 
                         $store_name =  $is_address_status['name'];//仓库名
@@ -781,7 +785,7 @@ class  Order extends  Controller
                             }
                         }
                     } else {
-                        $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                        $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
                         ->where('id',$address_id)
                         ->find();
@@ -817,6 +821,7 @@ class  Order extends  Controller
                         $datase["receipt_id"] = $receipt_id;
                         $datase["store_id"] = $store_id;
                         $datase["receipt_price"] = $receipt_price ;
+                        $datase["order_type"] = $order_type;
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                         $datas = $datase;

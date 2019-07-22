@@ -972,6 +972,9 @@ Route::group("admin",[
     "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index",   //SEO优化
     "analyse_optimize_update"=>"admin/Analyse/analyse_optimize_update", //SEO优化编辑
 
+    /*众筹订单*/
+    "crowd_order_index" => "admin/CrowdOder/crowd_order_index", //众筹订单显示
+
     /*TODO:*/
 
 

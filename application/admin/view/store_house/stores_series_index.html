@@ -1,1 +1,275 @@
-哈哈哈，你个大傻狍子
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+	body {
+		background: #fff;
+	}
+	
+	#page {
+		width: 97%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+	}
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 14px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    
+   
+</style>
+
+{/block}
+
+<body>
+
+	{block name="content"}
+
+	<div class="childrenBody">
+		{include file="template/_top" /}
+		<!--<div class="distribution_list">-->
+            <!--<ul>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/StoreHouse/stores_divergence')}"   class="on">订单入仓</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="{:url('admin/StoreHouse/stores_divergence_out')}" >订单出仓</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+
+	<div class="childrenBody">
+		<blockquote class="layui-elem-quote news_search">
+			<form class="layui-form" action="{}">
+				<div class="seach">
+					<div class="seach_list">
+						<div class="seach_laber">请搜索</div>
+						<div class="seach_input">
+							<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="订单编号/商品名称/用户账号" class="layui-input">
+
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">开始时间</div>
+						<div class="seach_input">
+							<span class="time"><input type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""   name="date_min">
+							</span>
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">结束时间</div>
+						<div class="seach_input">
+							<span class="time"><input type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  name="date_max" ></span>
+
+						</div>
+					</div>
+					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
+				</div>
+
+			</form>
+		</blockquote>
+
+		<div class="layui-form news_list">
+			<table class="layui-table">
+				<colgroup>
+					<col width="3%">
+
+				</colgroup>
+				<thead>
+					<tr>
+						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+						<th>订单编号</th>
+						<th>商品名称</th>
+						<th>用户账号</th>
+						<th>入仓库名</th>
+						<th>剩余数量</th>
+						<th>入仓时间</th>
+						<th>续费到期日期</th>
+						<th>续费金额</th>
+					</tr>
+				</thead>
+				<tbody class="news_content">
+						{if !empty($stores)}{volist name="stores" id="value"}
+					<tr>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
+						<td>{$value.series_parts_number}</td>		
+						<td>{$value.goods_name}</td>
+						<td>{$value.user_account_name}</td>
+						<td>{$value.store_name}</td>
+						<td>{$value.sort_number}</td>
+						<td>{$value.order_create_time|date="Y-m-d H:i",###}</td>
+						<td>{$value.order_create_time|date="Y-m-d H:i",###}</td>
+						<td>{$value.parts_order_number}</td>
+						
+					</tr>
+					{/volist}{/if}
+				</tbody>
+			</table>
+			<div id="page">
+				<div class="opation" style="width: 200px; float: left;">
+					<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
+						<option check="" value="0">请选择</option>
+						<option value="1">批量删除</option>
+					</select>
+				</div>
+				<div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
+					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
+					</button>
+				</div>
+			</div>
+			{if !empty($stores)}
+			{$stores->render()}
+			{/if}
+
+		</div>
+
+	</div>
+
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	<script type="text/javascript">
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+			var vals = $("input").data("id");
+			//点击操作确认按钮
+			var data_id = [];
+			$("#opration_btu").click(function() { 
+				var opration_val = $(".opation select option:selected").val();
+				if(opration_val == 0) {
+					layer.alert('请选择操作', {
+						skin: 'layui-layer-molv' //样式类名
+							,
+						closeBtn: 0
+					});
+				} else if(opration_val == 1) {
+					layer.confirm('你确认要删除吗？', {
+						btn: ['确认', '取消'] //按钮
+					}, function() {
+						layer.close(index);
+						var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
+						for(var i = 0; i < child.length; i++) {
+							data_id.push($(child[i])[0].dataset.id);
+						}
+						$.ajax({
+							type: "POST",
+							url: "{:url('admin/Category/dels')}",
+							data: {
+								"id": data_id,
+							},
+							success: function(data) {
+								console.log("成功");
+								console.log(data);
+								var data = $.parseJSON(data);
+								layer.alert(data.info, {
+									skin: 'layui-layer-molv' //样式类名
+										,
+									closeBtn: 0
+								});
+								location.reload();
+								data_id.splice(0, data_id.length);
+							},
+							error: function(data) {
+								var data = $.parseJSON(data);
+								layer.alert(data.info, {
+									skin: 'layui-layer-molv' //样式类名
+										,
+									closeBtn: 0
+								});
+								console.log(data);
+								console.log("错误");
+								data_id.splice(0, data_id.length);
+							}
+						});
+					});
+
+				}
+
+			});
+
+			//全选
+			form.on('checkbox(allChoose)', function(data) {
+				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+				child.each(function(index, item) {
+					item.checked = data.elem.checked;
+				});
+				form.render('checkbox');
+			});
+
+			//通过判断文章是否全部选中来确定全选按钮是否选中
+			form.on("checkbox(choose)", function(data) {
+				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
+				var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
+				if(childChecked.length == child.length) {
+					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
+				} else {
+					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
+				}
+				form.render('checkbox');
+			})
+
+			form.on('switch(isShow)', function(data) {
+				if($(this).val() == 0) {
+					$(this).val(1);
+				} else {
+					$(this).val(0);
+				}
+				var vals = data.value;
+				var id = $(this).data("id");
+				var status = $(this).val();
+				$.ajax({
+					type: "POST",
+					url: "{:url('')}",
+					data: {
+						"id": id,
+						"status": status
+					},
+					success: function(data) {
+						console.log("成功")
+					},
+					error: function(data) {
+						console.log("错误")
+					}
+				});
+
+			})
+		})
+	</script>
+
+	{/block}
+
+</body>
+
+</html>

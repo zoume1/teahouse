@@ -244,7 +244,20 @@ class StoreHouse extends Controller{
      */
     public function stores_series_index(){
         $store_id = Session::get("store_id");
-        return view("stores_series_index");
+        $store_order = Db::table("tb_series_house_order")
+            ->join("tb_house_order","tb_house_order.id = tb_series_house_order.house_order_id",'left')
+            ->where("store_id",$store_id)
+            ->where("pay_status",">",1)
+            ->select();
+
+        foreach($store_order as $key => $value){
+        $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
+        }    
+
+        $url = 'admin/StoreHouse/stores_series_index';
+        $pag_number = 20;
+        $stores = paging_data($store_order,$url,$pag_number);
+        return view("stores_series_index",["stores"=>$stores]);
     }
 
 
