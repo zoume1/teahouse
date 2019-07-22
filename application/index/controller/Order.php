@@ -2581,36 +2581,17 @@ class  Order extends  Controller
                     $num_one = intval($num[$key-1]);         //上一级等级数量
                     $number_zero = $unit[$key-2];            //上上一级等级单位
                     $num_zero = intval($num[$key-2]);        //上上一级等级数量
-                    // $rank_one = $order_quantity/$num_two;    //上一级数量
-                    // if($rank_one > 1){
-                    //     $three = fmod($order_quantity,$num_two); //当前数量
-                    //     $two = $rank_one/$num_one ;//第一个数量
-                    //     if($two > 1){
-                    //         $centre = $rank_one % $num_one;
-                    //         $store_number = intval($two).','.$number_zero.','.intval($centre).','.$number_one.','.intval($three).','.$number_two;
-                    //     } else if($two ==1){   
-                    //         $store_number = intval($two).','.$number_zero.','.($two-1).','.$number_one.','.($two-1).','.$number_two;                           
-                    //     } else {
-                    //         $two = 0;
-                    //         $store_number = $two.','.$number_zero.','.intval($rank_one).','.$number_one.','.intval($three).','.$number_two;
-                    //     }
-                    // } else if($rank_one == 1) {
-                    //     $two = 0;
-                    //     $store_number = $two.','.$number_zero.','.intval($rank_one).','.$number_one.','.$two.','.$number_two;
-                    // } else {
-                    //     $two = 0;
-                    //     $rank_six = 0;
-                    //     $store_number = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$order_quantity.','.$number_two;
-                    // }
+                    $num_among = intval($num_two/$num_one);  //当前数量与上一级数量换算量
+
 
                     $rest_zero = $order_quantity/$num_two;    //第一级数量
                     if( $rest_zero > 1){
                         //第一级余数
                         $rest_one = fmod($order_quantity,$num_two); 
                         //判断是否还能再取上一等级
-                        $rest_two = $rest_one/$num_one;
+                        $rest_two = $rest_one/$num_among;
                         if($rest_two > 1){
-                            $two = fmod($rest_one,$num_one); 
+                            $two = fmod($rest_one,$num_among); 
                             $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.intval($two).','.$number_two;
                         } else if($rest_two == 1){
                             $two = 0;
