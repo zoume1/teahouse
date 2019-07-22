@@ -2142,15 +2142,33 @@ class  Order extends  Controller
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
-             file_put_contents(EXTEND_PATH."data.txt",$val);
+            file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
-            //商品库存、销量增加
 
-                $host_rest = Db::name("house_order")
-                ->where("parts_order_number",$val["out_trade_no"])
-                ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            $host_rest = Db::name("house_order")
+            ->where("parts_order_number",$val["out_trade_no"])
+            ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            //商品库存减少、销量增加
+
+            $goods_order = Db::name("order") 
+            ->where("parts_order_number",$val["out_trade_no"])
+            ->field("goods_id,order_quantity,special_id")
+            ->select();
+
+
+            foreach($goods_order as $k => $v){
+                if(!empty($goods_order[$v]['special_id'])){
+                    $boolw = Db::name('special') -> where('id',$goods_order[$k]['special_id']) ->setInc('volume',$goods_order[$k]['order_quantity']);
+                    $booles = Db::name('special') -> where('id',$goods_order[$k]['special_id']) ->setDec('stock',$goods_order[$k]['order_quantity']);
+                } else {
+                    $boolwtt = Db::name('goods') -> where('id',$goods_order[$k]['goods_id']) ->setInc('goods_volume',$goods_order[$k]['order_quantity']);
+                    $booltt = Db::name('goods') -> where('id',$goods_order[$k]['goods_id']) ->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
+                }
+            }
+
+
             if($res){
                 //做消费记录
                 $information = Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
@@ -2581,26 +2599,34 @@ class  Order extends  Controller
                     $num_one = intval($num[$key-1]);         //上一级等级数量
                     $number_zero = $unit[$key-2];            //上上一级等级单位
                     $num_zero = intval($num[$key-2]);        //上上一级等级数量
-                    $rank_one = $order_quantity/$num_two;    //上一级数量
-                    if($rank_one > 1){
-                        $three = fmod($order_quantity,$num_two); //当前数量
-                        $two = $rank_one/$num_one ;//第一个数量
-                        if($two > 1){
-                            $centre = $rank_one % $num_one;
-                            $store_number = intval($two).','.$number_zero.','.intval($centre).','.$number_one.','.intval($three).','.$number_two;
-                        } else if($two ==1){   
-                            $store_number = intval($two).','.$number_zero.','.($two-1).','.$number_one.','.($two-1).','.$number_two;                           
-                        } else {
+                    $num_among = intval($num_two/$num_one);  //当前数量与上一级数量换算量
+
+
+                    $rest_zero = $order_quantity/$num_two;    //第一级数量
+                    if( $rest_zero > 1){
+                        //第一级余数
+                        $rest_one = fmod($order_quantity,$num_two); 
+                        //判断是否还能再取上一等级
+                        $rest_two = $rest_one/$num_among;
+                        if($rest_two > 1){
+                            $two = fmod($rest_one,$num_among); 
+                            $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.intval($two).','.$number_two;
+                        } else if($rest_two == 1){
                             $two = 0;
-                            $store_number = $two.','.$number_zero.','.intval($rank_one).','.$number_one.','.intval($three).','.$number_two;
+                            $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.intval($two).','.$number_two;
+                        } else {
+                            $rest_two = 0;
+                            $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.intval($rest_one).','.$number_two;
                         }
-                    } else if($rank_one == 1) {
+                        
+                    } else if( $rest_zero == 1){
+                        $rest_two = 0;
                         $two = 0;
-                        $store_number = $two.','.$number_zero.','.intval($rank_one).','.$number_one.','.$two.','.$number_two;
+                        $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.intval($two).','.$number_two;
                     } else {
-                        $two = 0;
-                        $rank_six = 0;
-                        $store_number = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$order_quantity.','.$number_two;
+                        $rest_zero = 0;
+                        $rest_two = 0;
+                        $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.$order_quantity.','.$number_two;
                     }
                     break;                                                             
             }

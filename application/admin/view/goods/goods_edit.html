@@ -1802,55 +1802,73 @@
 
             });
 
-        });
-        // 包装规格
-        $(".add_danwei").click(function () {
-            var danwei = ''
-            danwei += '<div class="fuhao">=</div>';
-            danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-            danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="0">';
-            $(this).before(danwei);
-        });
-        $(".general_content").on("click", ".add_danwei1", function () {
-            var i = parseInt($(this).data("id"));
-            var select = $(this).siblings(".packing").val();
-            var ids = $("#ids").val();
-            var thisa = $(this);
-            if (select != "0") {
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/Goods/standard')}",
-                    data: {
-                        "id": ids,
-                        "coding": select
-                    },
-                    async: false,
-                    dataType: "json",
-                    success: function (data) {
-                        console.log(data);
-                        var danwei1 = '';
-                        danwei1 += '<div class="danwei_content">';
-                        danwei1 += '<div class="fuhao">=</div>';
-                        danwei1 += '<input type="text" name="' + data.data + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
-                        danwei1 += '<input type="text" name="' + data.data + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="1">';
-                        danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
-                        danwei1 += '</div>';
+            var keyArr = {
+                unitKey: $('#packing_specification .fuhao').length,
+                unitKey2: 0
+            }
 
-                        thisa.before(danwei1);
+            // 包装规格
+            $(".add_danwei").click(function () {
+                if(keyArr.unitKey < 2){
+                    keyArr.unitKey ++;
+                    var danwei = ''
+                    danwei += '<div class="fuhao">=</div>';
+                    danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
+                    danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="0">';
+                    $(this).before(danwei);
+                }else{
+                    layer.msg('最多添加三个单位！');
+                }
+            });
 
-                    },
-                    error: function (data) {
-                        console.log("错误");
+            $(".general_content").on("click", ".add_danwei1", function () {
+                var i = parseInt($(this).data("id"));
+                var select = $(this).siblings(".packing").val();
+                var ids = $("#ids").val();
+                var _this = $(this);
+                // 最多添加三个单位
+                var unitKey2 = $(this).parent().find('.fuhao').length;
+                if(unitKey2 < 2){
+                    if (select != "0") {
+                        $.ajax({
+                            type: "POST",
+                            url: "{:url('admin/Goods/standard')}",
+                            data: {
+                                "id": ids,
+                                "coding": select
+                            },
+                            async: false,
+                            dataType: "json",
+                            success: function (data) {
+                                console.log(data);
+                                var danwei1 = '';
+                                danwei1 += '<div class="danwei_content">';
+                                danwei1 += '<div class="fuhao">=</div>';
+                                danwei1 += '<input type="text" name="' + data.data + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
+                                danwei1 += '<input type="text" name="' + data.data + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="1">';
+                                danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                                danwei1 += '</div>';
+
+                                _this.before(danwei1);
+
+                            },
+                            error: function (data) {
+                                console.log("错误");
+                            }
+                        });
+
+                    }else {
+                        alert("请选择规格编码");
                     }
-                });
-
-            }
-            else {
-                alert("请选择规格编码");
-            }
-            $(this).data("id", i + 1);
+                    $(this).data("id", i + 1);
+                }else{
+                    layer.msg('最多添加三个单位！');
+                }
+            });
 
         });
+        
+        
         $(".add_danwei2").click(function () {
             if ($(".packings").find("option").length != 1) {
                 var danwei2 = '';
