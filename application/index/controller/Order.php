@@ -2160,11 +2160,11 @@ class  Order extends  Controller
 
             foreach($goods_order as $k => $v){
                 if(!empty($goods_order[$v]['special_id'])){
-                    $boolw = Db::name('special') -> where('id',$goods_order[$k]['special_id']) ->setInc('volume',$goods_order[$k]['order_quantity']);
-                    $booles = Db::name('special') -> where('id',$goods_order[$k]['special_id']) ->setDec('stock',$goods_order[$k]['order_quantity']);
+                    $boolw = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setInc('volume',$goods_order[$k]['order_quantity']);
+                    $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
                 } else {
-                    $boolwtt = Db::name('goods') -> where('id',$goods_order[$k]['goods_id']) ->setDec('goods_volume',$goods_order[$k]['order_quantity']);
-                    $booltt = Db::name('goods') -> where('id',$goods_order[$k]['goods_id']) ->setInc('goods_repertory',$goods_order[$k]['order_quantity']);
+                    $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_volume',$goods_order[$k]['order_quantity']);
+                    $booltt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setInc('goods_repertory',$goods_order[$k]['order_quantity']);
                 }
             }
 
