@@ -2142,15 +2142,33 @@ class  Order extends  Controller
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
-             file_put_contents(EXTEND_PATH."data.txt",$val);
+            file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
-            //商品库存、销量增加
 
-                $host_rest = Db::name("house_order")
-                ->where("parts_order_number",$val["out_trade_no"])
-                ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            $host_rest = Db::name("house_order")
+            ->where("parts_order_number",$val["out_trade_no"])
+            ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            //商品库存减少、销量增加
+
+            $goods_order = Db::name("order") 
+            ->where("parts_order_number",$val["out_trade_no"])
+            ->field("goods_id,order_quantity,special_id")
+            ->select();
+
+
+            foreach($goods_order as $k => $v){
+                if(!empty($goods_order[$v]['special_id'])){
+                    $boolw = Db::name('special') -> where('id',$goods_order[$k]['special_id']) ->setInc('volume',$goods_order[$k]['order_quantity']);
+                    $booles = Db::name('special') -> where('id',$goods_order[$k]['special_id']) ->setDec('stock',$goods_order[$k]['order_quantity']);
+                } else {
+                    $boolw = Db::name('goods') -> where('id',$goods_order[$k]['goods_id']) ->setInc('volume',$goods_order[$k]['goods_volume']);
+                    $booles = Db::name('goods') -> where('id',$goods_order[$k]['goods_id']) ->setDec('stock',$goods_order[$k]['goods_repertory']);
+                }
+            }
+
+
             if($res){
                 //做消费记录
                 $information = Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
