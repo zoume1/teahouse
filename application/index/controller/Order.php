@@ -559,7 +559,7 @@ class  Order extends  Controller
                         $harvest_address_city =str_replace(',','',$is_address_status['extract_name']);
                         $harvest_address =$harvest_address_city.$is_address_status['extractd_real_address']; //收货人地址
             }elseif($order_type=='3'){
-                        $is_address_status = Db::name('store_address')
+                        $is_address_status = Db::name('store_house')
                         ->where("id",$store_house_id)
                         ->where('user_id', $user_id)
                         ->find();
