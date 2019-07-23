@@ -563,9 +563,9 @@ class  Order extends  Controller
                         ->where("id",$store_house_id)
                         ->where('user_id', $user_id)
                         ->find();
-                        $harvester =str_replace(',','',$is_address_status['name']);
-                        $harvester_phone_num =str_replace(',','',$is_address_status['phone']);
-                        $harvest_address_city =str_replace(',','',$is_address_status['name']);
+                        $harvester =$is_address_status['name'];
+                        $harvester_phone_num =$is_address_status['phone'];
+                        $harvest_address_city =$is_address_status['name'];
                         $harvest_address =$harvest_address_city.$is_address_status['address']; //收货人地址
             }
                 if (empty($is_address_status) ) {
