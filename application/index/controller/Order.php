@@ -1165,7 +1165,7 @@ class  Order extends  Controller
                     $end_info[$i]['status'] = $j;
                 }
                 //实际支付的金额
-                foreach ($order_data['all_order_real_pay'] as $i => $j) {
+                foreach ($order_data['all_order_real_pay'] as $i => $j) {0
                     if(!empty($j)){
                         $new_arr_pay[] =$j;
                     }
