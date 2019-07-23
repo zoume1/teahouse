@@ -31,15 +31,14 @@ class  Api extends  Controller{
     {
         if ($request->isPost()) {
             $order_id =$request->only(['by_order_id'])["by_order_id"];  //订单id
-            // $order_id=123;
             if(!empty($order_id)) {
-                // $express =Db::name('order')
-                //     ->field('courier_number,express_name')
-                //     ->where('id',$order_id)
-                //     ->find();
+                $express =Db::name('order')
+                    ->field('courier_number,express_name')
+                    ->where('id',$order_id)
+                    ->find();
                 //测试
-                $express['express_name']='shunfeng';
-                $express['courier_number']='SF1002294708056';
+                // $express['express_name']='shunfeng';
+                // $express['courier_number']='SF1002294708056';
                 if(!empty($express)){
                     $express_type =$express['express_name'];
                     $express_num =$express['courier_number'];
