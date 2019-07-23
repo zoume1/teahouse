@@ -728,14 +728,15 @@ class  Wxapps extends  Controller{
                                         $discount = 1;
                                     }
                                     $list[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vvs["id"]; //跳转详情链接
-                                    $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
+                                    // $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
                                     if ($list[$kks]["goods_standard"] == 1) {
+                                        //多规格商品
                                         $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->select();
                                         $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") ;//最低价格
                                         $list[$kks]["goods_standard"] = $standard[$kks];
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
                                         $list[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
-                                        $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
+                                        $list[$kks]['sale_num'] = db('special')->where('goods_id',$vvs['id'])->sum('volume');; //销量
                                         $list[$kks]["price"] = $min[$kks] * $discount; //价钱
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
@@ -743,6 +744,8 @@ class  Wxapps extends  Controller{
                                             }
                                         }
                                     } else {
+                                        //单规格商品
+                                        $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
                                         $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount;
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
                                         $list[$kks]["member_grade_img"] =config("domain.url")."/uploads/".$member_grade_img;
