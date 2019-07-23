@@ -306,7 +306,7 @@ class  Order extends  Controller
             $unit = $request->only("unit")["unit"];//商品单位
             $receipt_status = $request->only("receipt_status")["receipt_status"];//是否开发票
             $receipt_id = $request->only("receipt_id")["receipt_id"];//发票id
-            $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额
+            $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额--税费
             $freight = $request->only("freight")["freight"];//发票金额
             
             if(empty($user_id)){
@@ -389,8 +389,9 @@ class  Order extends  Controller
                         } else {
                             $harvest_address_city = str_replace(',','',$is_address_status['extract_address']);
                             $harvest_address = $harvest_address_city.$is_address_status['extract_real_address']; //收货人地址  
-                            $harvester = null;
+                            // $harvester = null;
                             $harvester_phone_num = $is_address_status['phone_num'];              
+                            $harvester = $is_address_status['extract_name'];              
                         } 
                     }
                         $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
@@ -468,6 +469,7 @@ class  Order extends  Controller
                         $datase["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
                         $datase["harvest_phone_num"] = $harvester_phone_num;
                         $datase["harvester_address"] = $harvest_address;
+                        $datase["harvester"] = $store_name;
                         $datase["order_create_time"] = $create_time;
                         $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
                         $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
