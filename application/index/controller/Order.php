@@ -127,7 +127,7 @@ class  Order extends  Controller
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:提交订单
+     * Notes:提交订单------meiyong
      **************************************
      * @param Request $request
      */
@@ -155,13 +155,18 @@ class  Order extends  Controller
                     ->where("id",$address_id)
                     ->where('user_id', $user_id)
                     ->find();
+                    $harvester =str_replace(',','',$is_address_status['harvester']);
+                    $harvester_phone_num =str_replace(',','',$is_address_status['harvester_phone_num']);
                     $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
                     $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
                 }elseif($order_type=='2'){
+                    //到店自提
                     $is_address_status = Db::name('extract_address')
                         ->where("id",$address_id)
                         ->where('user_id', $user_id)
                         ->find();
+                    $harvester =str_replace(',','',$is_address_status['extract_name']);
+                    $harvester_phone_num =str_replace(',','',$is_address_status['phone_num']);
                     $harvest_address_city =str_replace(',','',$is_address_status['extract_name']);
                     $harvest_address =$harvest_address_city.$is_address_status['extractd_real_address']; //收货人地址
                 }elseif($order_type=='3'){
@@ -169,6 +174,8 @@ class  Order extends  Controller
                     ->where("id",$address_id)
                     ->where('user_id', $user_id)
                     ->find();
+                    $harvester =str_replace(',','',$is_address_status['name']);
+                    $harvester_phone_num =str_replace(',','',$is_address_status['phone']);
                     $harvest_address_city =str_replace(',','',$is_address_status['name']);
                     $harvest_address =$harvest_address_city.$is_address_status['address']; //收货人地址
                 }
@@ -239,8 +246,8 @@ class  Order extends  Controller
                             $datas["member_id"] =$user_id;//用户id
                             $datas["user_account_name"] = $user_information["member_name"];//用户名
                             $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
-                            $datas["harvester"] = $is_address_status['harvester'];
-                            $datas["harvest_phone_num"] = $is_address_status['harvester_phone_num'];
+                            $datas["harvester"] =  $harvester ;
+                            $datas["harvest_phone_num"] = $harvester_phone_num;
                             $datas["harvester_address"] = $harvest_address;
                             $datas["order_create_time"] = $create_time;
                             $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
@@ -299,7 +306,9 @@ class  Order extends  Controller
             $unit = $request->only("unit")["unit"];//商品单位
             $receipt_status = $request->only("receipt_status")["receipt_status"];//是否开发票
             $receipt_id = $request->only("receipt_id")["receipt_id"];//发票id
-            $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额
+            $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额--税费
+            $freight = $request->only("freight")["freight"];//发票金额
+            $storage = $request->only("storage")["storage"];//发票金额
             
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
@@ -381,8 +390,9 @@ class  Order extends  Controller
                         } else {
                             $harvest_address_city = str_replace(',','',$is_address_status['extract_address']);
                             $harvest_address = $harvest_address_city.$is_address_status['extract_real_address']; //收货人地址  
-                            $harvester = null;
+                            // $harvester = null;
                             $harvester_phone_num = $is_address_status['phone_num'];              
+                            $harvester = $is_address_status['extract_name'];              
                         } 
                     }
                         $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
@@ -412,6 +422,8 @@ class  Order extends  Controller
                         $datas["receipt_id"] = $receipt_id;
                         $datas["receipt_price"] = $receipt_price ;
                         $datas["store_id"] = $store_id;
+                        $datas["freight"] = $freight;
+                        $datas["storage"] = $storage;
                                         
                         $res = Db::name('order')->insertGetId($datas);
                         if ($res) {
@@ -458,11 +470,12 @@ class  Order extends  Controller
                         $datase["user_account_name"] = $user_information["member_name"];//用户名
                         $datase["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
                         $datase["harvest_phone_num"] = $harvester_phone_num;
-                        $datase["harvester_address"] = $harvest_address;
+                        $datase["harvester_address"] = $store_name;    //暂时先这样  
                         $datase["order_create_time"] = $create_time;
                         $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
                         $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datase["status"] = 1;
+                        // $datase["harvester"] = $store_name;
                         $datase["goods_id"] = $values;
                         $datase["buy_message"] = $buy_message;//买家留言
                         $datase["normal_future_time"] =$normal_future_time;//未来时间
@@ -472,6 +485,7 @@ class  Order extends  Controller
                         $datase["receipt_id"] = $receipt_id;
                         $datase["receipt_price"] = $receipt_price;   
                         $datase["store_id"] = $store_id;   
+                        $datase["storage"] = $storage;   
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                        
@@ -527,28 +541,53 @@ class  Order extends  Controller
             $user_information =Db::name("member")
                 ->where("member_id",$user_id)
                 ->find();
-            $is_address = Db::name('user_address')
-                ->where("id",$address_id)
-                ->where('user_id', $user_id)
-                ->find();
-
-            if (empty($is_address) ) {
-                return ajax_error('请填写收货地址',['status'=>0]);
-            }else{
-                $is_address_status = Db::name('user_address')
-                    ->where('user_id', $user_id)
-                    ->where('id',$address_id)
-                    ->find();
+            if($order_type=='1'){
+                    //直邮 ----user_address
+                    $is_address_status = Db::name('user_address')
+                        ->where("id",$address_id)
+                        ->where('user_id', $user_id)
+                        ->find();
+                        $harvester =str_replace(',','',$is_address_status['harvester']);
+                        $harvester_phone_num =str_replace(',','',$is_address_status['harvester_phone_num']);
+                        $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
+                        $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
+            }elseif($order_type=='2'){
+                        //到店自提
+                        $is_address_status = Db::name('extract_address')
+                            ->where("id",$address_id)
+                            ->where('user_id', $user_id)
+                            ->find();
+                        $harvester =str_replace(',','',$is_address_status['extract_name']);
+                        $harvester_phone_num =str_replace(',','',$is_address_status['phone_num']);
+                        $harvest_address_city =str_replace(',','',$is_address_status['extract_name']);
+                        $harvest_address =$harvest_address_city.$is_address_status['extractd_real_address']; //收货人地址
+            }elseif($order_type=='3'){
+                        $is_address_status = Db::name('store_house')
+                        ->where("id",$store_house_id)
+                        ->where('user_id', $user_id)
+                        ->find();
+                        $harvester =$is_address_status['name'];
+                        $harvester_phone_num =$is_address_status['phone'];
+                        $harvest_address_city =$is_address_status['name'];
+                        $harvest_address =$harvest_address_city.$is_address_status['address']; //收货人地址
+            }
                 if (empty($is_address_status) ) {
-                    $is_address_status =$is_address;
-                }
+                    return ajax_error('请填写收货地址',['status'=>0]);
+                }else{
+                // $is_address_status = Db::name('user_address')
+                //     ->where('user_id', $user_id)
+                //     ->where('id',$address_id)
+                //     ->find();
+                // if (empty($is_address_status) ) {
+                //     $is_address_status =$is_address;
+                // }
                 $commodity_id = $request->only("goods_id")["goods_id"];//商品id
                 $all_money =$request->only("order_amount")["order_amount"];//总价钱
                 $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
                 $numbers =$request->only("order_quantity")["order_quantity"];
                 $order_type =$request->only("order_type")["order_type"]; //1为选择直邮，2到店自提，3选择存茶
-                $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
-                $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
+                // $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
+                // $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
                 $time=date("Y-m-d",time());
                 $v=explode('-',$time);
                 $time_second=date("H:i:s",time());
@@ -594,8 +633,8 @@ class  Order extends  Controller
                             $datas["member_id"] =$user_id;//用户id
                             $datas["user_account_name"] =$user_information["member_name"];//用户名
                             $datas["user_phone_number"] =$user_information["member_phone_num"];//用户名手机号
-                            $datas["harvester"] =$is_address_status['harvester'];
-                            $datas["harvest_phone_num"] =$is_address_status['harvester_phone_num'];
+                            $datas["harvester"] =$harvester;
+                            $datas["harvest_phone_num"] =$harvester_phone_num;
                             $datas["harvester_address"] =$harvest_address;
                             $datas["order_create_time"] =$create_time;
                             $datas["order_amount"] =$datas["goods_money"]*$numbers[$keys];//订单金额
@@ -666,6 +705,8 @@ class  Order extends  Controller
             $receipt_status = $request->only("receipt_status")["receipt_status"];//是否开发票
             $receipt_id = $request->only("receipt_id")["receipt_id"];//发票id
             $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额
+            $freight = $request->only("freight")["freight"];//邮费
+            $storage = $request->only("storage")["storage"];//仓储费
             
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
@@ -727,8 +768,6 @@ class  Order extends  Controller
                 //    }
 
                 }
-              
-
                 if($order_type != 3){           //不是存茶
                     if($order_type == 1){
                             $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号 
@@ -760,8 +799,9 @@ class  Order extends  Controller
                             } else {
                                 $harvest_address_city = str_replace(',','',$is_address_status['extract_address']);
                                 $harvest_address = $harvest_address_city.$is_address_status['extract_real_address']; //收货人地址  
-                                $harvester = null;
+                                // $harvester = null;
                                 $harvester_phone_num = $is_address_status['phone_num'];              
+                                $harvester = $is_address_status['extract_name'];              
                             } 
                         }
                         $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
@@ -791,6 +831,8 @@ class  Order extends  Controller
                         $datas["receipt_id"] = $receipt_id;
                         $datas["store_id"] = $store_id;
                         $datas["receipt_price"] = $receipt_price ;                                        
+                        $datas["freight"] = $freight ;                                        
+                        $datas["storage"] = $storage ;                                        
                         $res = Db::name('order')->insertGetId($datas);
                         // if($res){
                         //     //下单成功
@@ -806,7 +848,7 @@ class  Order extends  Controller
                     } else {
                         $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
-                        ->where('id',$address_id)
+                        ->where('id',$store_house_id)
                         ->find();
                         $year = $request->only("year")["year"];//存茶年限
                         $house_price = $request->only("house_price")["house_price"];//存茶年限
@@ -841,6 +883,8 @@ class  Order extends  Controller
                         $datase["store_id"] = $store_id;
                         $datase["receipt_price"] = $receipt_price ;
                         $datase["order_type"] = $order_type;
+                        $datas["freight"] = $freight ;                                        
+                        $datas["storage"] = $storage ;     
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                         $datas = $datase;
@@ -1129,7 +1173,7 @@ class  Order extends  Controller
                     $end_info[$i]['status'] = $j;
                 }
                 //实际支付的金额
-                foreach ($order_data['all_order_real_pay'] as $i => $j) {0
+                foreach ($order_data['all_order_real_pay'] as $i => $j) {
                     if(!empty($j)){
                         $new_arr_pay[] =$j;
                     }
