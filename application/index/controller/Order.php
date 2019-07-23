@@ -134,7 +134,7 @@ class  Order extends  Controller
     public function order_place(Request $request){
         if ($request->isPost()){
             $open_id = $request->only("open_id")["open_id"];//open_id
-            $address_id = $request->param("address_id");//address_id
+            $address_id = $request->param("address_id");//address_id    //地址id
             $coupon_id =$request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $user_id =Db::name("member")
@@ -149,27 +149,46 @@ class  Order extends  Controller
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
             $user_information =Db::name("member")->where("member_id",$user_id)->find();
-            $is_address = Db::name('user_address')
-                ->where("id",$address_id)
-                ->where('user_id', $user_id)
-                ->find();
-            if (empty($is_address) ) {
+            if($order_type=='1'){
+                //直邮 ----user_address
+                $is_address_status = Db::name('user_address')
+                    ->where("id",$address_id)
+                    ->where('user_id', $user_id)
+                    ->find();
+                    $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
+                    $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
+                }elseif($order_type=='2'){
+                    $is_address_status = Db::name('extract_address')
+                        ->where("id",$address_id)
+                        ->where('user_id', $user_id)
+                        ->find();
+                    $harvest_address_city =str_replace(',','',$is_address_status['extract_name']);
+                    $harvest_address =$harvest_address_city.$is_address_status['extractd_real_address']; //收货人地址
+                }elseif($order_type=='3'){
+                    $is_address_status = Db::name('store_address')
+                    ->where("id",$address_id)
+                    ->where('user_id', $user_id)
+                    ->find();
+                    $harvest_address_city =str_replace(',','',$is_address_status['name']);
+                    $harvest_address =$harvest_address_city.$is_address_status['address']; //收货人地址
+                }
+            if (empty($is_address_status) ) {
                 return ajax_error('请填写收货地址',['status'=>0]);
             }else{
-                $is_address_status = Db::name('user_address')
-                    ->where('user_id', $user_id)
-                    ->where('id',$address_id)
-                    ->find();
-                if (empty($is_address_status) ) {
-                    $is_address_status =$is_address;
-                }
+                // $is_address_status = Db::name('user_address')
+                //     ->where('user_id', $user_id)
+                //     ->where('id',$address_id)
+                //     ->find();
+                // if (empty($is_address_status) ) {
+                //     $is_address_status =$is_address;
+                // }
                 $commodity_id = $request->only("goods_id")["goods_id"];//商品id
                 $all_money =$request->only("order_amount")["order_amount"];//总价钱
                 $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
                 $numbers =$request->only("order_quantity")["order_quantity"];
 
-                $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
-                $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
+                // $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
+                // $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
                 $time=date("Y-m-d",time());
                 $v=explode('-',$time);
                 $time_second=date("H:i:s",time());
