@@ -833,7 +833,6 @@ class  Order extends  Controller
                         $datas["receipt_price"] = $receipt_price ;                                        
                         $datas["freight"] = $freight ;                                        
                         $datas["storage"] = $storage ; 
-                        halt($datas);                                       
                         $res = Db::name('order')->insertGetId($datas);
                         // if($res){
                         //     //下单成功
@@ -884,8 +883,8 @@ class  Order extends  Controller
                         $datase["store_id"] = $store_id;
                         $datase["receipt_price"] = $receipt_price ;
                         $datase["order_type"] = $order_type;
-                        $datas["freight"] = $freight ;                                        
-                        $datas["storage"] = $storage ;     
+                        $datase["freight"] = $freight ;                                        
+                        $datase["storage"] = $storage ;     
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                         $datas = $datase;
