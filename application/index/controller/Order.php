@@ -706,7 +706,7 @@ class  Order extends  Controller
             $receipt_id = $request->only("receipt_id")["receipt_id"];//发票id
             $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额
             $freight = $request->only("freight")["freight"];//邮费
-            $storage = $request->only("storage")["storage"];//邮费
+            $storage = $request->only("storage")["storage"];//仓储费
             
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
@@ -768,8 +768,6 @@ class  Order extends  Controller
                 //    }
 
                 }
-              
-
                 if($order_type != 3){           //不是存茶
                     if($order_type == 1){
                             $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号 
@@ -885,6 +883,8 @@ class  Order extends  Controller
                         $datase["store_id"] = $store_id;
                         $datase["receipt_price"] = $receipt_price ;
                         $datase["order_type"] = $order_type;
+                        $datas["freight"] = $freight ;                                        
+                        $datas["storage"] = $storage ;     
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                         $datas = $datase;
