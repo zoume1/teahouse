@@ -832,7 +832,8 @@ class  Order extends  Controller
                         $datas["store_id"] = $store_id;
                         $datas["receipt_price"] = $receipt_price ;                                        
                         $datas["freight"] = $freight ;                                        
-                        $datas["storage"] = $storage ;                                        
+                        $datas["storage"] = $storage ; 
+                        halt($datas);                                       
                         $res = Db::name('order')->insertGetId($datas);
                         // if($res){
                         //     //下单成功
