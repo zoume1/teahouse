@@ -1928,6 +1928,7 @@ class  General extends  Base {
      */
     public function  order_code_pay(Request $request){
         if($request->isPost()){
+            $store_id =$this->store_ids; //店铺id
             $money =$request->only(["money"])["money"];//支付钱数
             $order_number =$request->only(["order_number"])["order_number"];//订单编号
             $goods_name =$request->only(["goods_name"])["goods_name"];//商品名称
@@ -1936,8 +1937,13 @@ class  General extends  Base {
             include('../extend/WxpayAll/lib/WxPay.Api.php');
             include('../extend/WxpayAll/example/WxPay.NativePay.php');
             include('../extend/WxpayAll/example/log.php');
+
+            // $input = new \WxPayUnifiedOrder();
+            // 
+
             $notify = new \NativePay();
             $input = new \WxPayUnifiedOrder();//统一下单
+            $rester = new \WxPayConfig($store_id);
             $paymoney = $money; //支付金额
             $out_trade_no = $order_number; //商户订单号
             $goods_name = $goods_name.'套餐'; //商品名称
