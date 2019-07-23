@@ -264,6 +264,7 @@ class  Control extends  Controller{
             $store_order[0]['remittance_name'] = $payment_data['remittance_name'];
             $store_order[0]['remittance_account'] = $payment_data['remittance_account'];
             $store_order[0]['pay_time'] = $payment_data['pay_time'];
+            $store_order[0]['pay_money'] = $payment_data['money'];
         }
         $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
         return view("control_order_status",["store_order"=>$store_order,"small_routine"=>$small_routine]);
@@ -332,13 +333,13 @@ class  Control extends  Controller{
                     $data['enter_all_id'] =  $is_pay['enter_all_id']; //套餐id
                     $data['pay_status'] =  1; //到账状态
                     $data['pay_time'] =  time(); //审核时间
+                   
 
                     //升级套餐
                     if($is_set_order){
                         $rest = Db::name("meal_orders")
                         ->where("order_number",$is_pay["order_number"])
                         ->update($data);
-                        
                         
                         $res = Db::name("set_meal_order")
                         ->where("order_number",$is_set_order["order_number"])
