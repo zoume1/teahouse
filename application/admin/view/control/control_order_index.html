@@ -44,7 +44,7 @@
     td.table-cell{display: flex; align-items: center;padding: 9px 0px;}
     .table-cell button{height: 22px; line-height: 22px; border-radius: 4px; padding: 0 10px;}
     
-    .wait-check{color: #669900;margin-left: 10px;}
+    .wait-check{color: #669900; margin-left: 10px;}
     .check-fail{color: #f00;}
     .layui-table th{padding: 9px 0;}
     .layui-table td{font-size: 13px;}
@@ -156,7 +156,7 @@
                                 <a class="wait-check" href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
                             </div>
                             {if $value.pay_type == 2}
-                            <a class="static_btus" href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_statues}</a>
+                            <a class="static_btus" href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|center_statues}</a>
                             {else}
                             <a class="static_btus" href="{:url('admin/Control/control_order_status',['id'=>$value.id])}">{$value.audit_status|audit_status}</a>
                             {/if}

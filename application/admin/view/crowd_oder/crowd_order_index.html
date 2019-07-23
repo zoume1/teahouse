@@ -415,7 +415,7 @@
 		<!--</ul>-->
 		<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Order/order_search')}">
+			<form class="layui-form" action="">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">请搜索：</div>
@@ -490,12 +490,12 @@
 			</form>
 		</blockquote>
 		<div class="seach_button_all">
-			<a href="{:url('admin/Order/order_index')}" class="seach_button all0">全部</a>
-			<a href="{:url('admin/Order/order_way_pay')}" class="seach_button all1">待付款</a>
-			<a href="{:url('admin/Order/order_wait_send')}" class="seach_button all2">待发货</a>
-			<a href="{:url('admin/Order/order_shipped')}" class="seach_button all3">已发货</a>
-			<a href="{:url('admin/Order/order_completed')}" class="seach_button all4">已完成</a>
-			<a href="{:url('admin/Order/order_closed')}" class="seach_button all5">已关闭</a>
+			<a href="" class="seach_button all0">全部</a>
+			<a href="" class="seach_button all1">待付款</a>
+			<a href="" class="seach_button all2">待发货</a>
+			<a href="" class="seach_button all3">已发货</a>
+			<a href="" class="seach_button all4">已完成</a>
+			<a href="" class="seach_button all5">已关闭</a>
 		</div>
 		<div class="layui-form news_list">
 			<table class="layui-table">
@@ -517,48 +517,39 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
-					{if !empty($data)}
-					{volist name="data" id="vo"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="">
 						</td>
-						<td class="orderNumber">{$vo.parts_order_number}</td>
-						{if !empty($vo["goods_image"])}
+						<td class="orderNumber">1</td>
 						<td class="">
-							<div class="tdimg"><img src="__UPLOADS__/{$vo.goods_image}" /></div>
+							<div class="tdimg"><img src="" /></div>
 						</td>
-						{else}
 						<td>
-							无
+							<div class="overflow">1</div>
 						</td>
-						{/if}
-						<td>
-							<div class="overflow">{$vo.parts_goods_name}</div>
-						</td>
-						<td>{$vo.order_quantity}</td>
+						<td>1</td>
                         
-						<td>{$vo.user_phone_number}</td>
-						<td>{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
-						<td class="am">{$vo.order_real_pay}</td>
+						<td>1</td>
+						<td>1</td>
+						<td class="am">1</td>
 						<td>
-							{$vo.order_type|order_type_status}
+							1
 						</td>
 						<td>
 							<div class="line">
-								<div class="static_btus" data-id="{$vo.id}" data-value="{$vo.status}">
-									{if $vo.order_type != 3}{$vo.status|show_order_status}{else}{$vo.status|show_house_order}{/if}
+								<div class="static_btus" data-id="" data-value="">
+									
 								</div>
 								<div class="static_btus1">
 									<div class="not_apply">未申请开票</div>
 								</div>
-								<div class="static_btus2" data-id="{$vo.id}">
+								<div class="static_btus2" data-id="">
 									订单详情
 								</div>
 							</div>
 						</td>
 					</tr>
-					{/volist}
-					{/if}
+					
 				</tbody>
 			</table>
 			<div id="page">
@@ -573,7 +564,6 @@
 						style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
-				{if !empty($data)}{$data->render()} {/if}
 			</div>
 		</div>
 	</div>

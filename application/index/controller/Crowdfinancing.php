@@ -62,8 +62,11 @@ class Crowdfinancing extends Controller
                 $info = Db::name("crowd_special")
                 ->where("id", $special_id[$key])
                 ->find();
-
+                if(!empty($goods_data['goods_sign'])){
+                    $goods_data["goods_sign"] = json_decode($goods_data["goods_sign"],true);
+                }
                 $data[$key]["goods_info"] = $goods_data;
+                $data[$key]["goods_sign"] = $goods_data['goods_sign'];
                 $data[$key]["special_info"] = $info;
                 $data[$key]["grade_price"] = $member_consumption_discount["member_consumption_discount"] * $info["cost"];
                 $data[$key]["unit"] = $info['offer'];
@@ -209,7 +212,7 @@ class Crowdfinancing extends Controller
                             return ajax_error('失败',['status'=>0]);
                         }
                     } else {
-                        $parts_order_number ="CC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
+                        $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
                         ->where('id',$address_id)
                         ->find();

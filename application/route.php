@@ -782,6 +782,7 @@ Route::group("admin",[
     "store_house_status" =>"admin/StoreHouse/store_house_status",       //仓库编辑默认入仓
     "stores_divergence" =>"admin/StoreHouse/stores_divergence",         //入仓
     "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out", //出仓
+    "stores_series_index" =>"admin/StoreHouse/stores_series_index",     //仓储续费
 
     /*资产*/
     "property_day" =>"admin/Property/property_day",     //对账单日汇报
@@ -970,6 +971,9 @@ Route::group("admin",[
 
     "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index",   //SEO优化
     "analyse_optimize_update"=>"admin/Analyse/analyse_optimize_update", //SEO优化编辑
+
+    /*众筹订单*/
+    "crowd_order_index" => "admin/CrowdOder/crowd_order_index", //众筹订单显示
 
     /*TODO:*/
 
