@@ -134,7 +134,7 @@ class  Order extends  Controller
     public function order_place(Request $request){
         if ($request->isPost()){
             $open_id = $request->only("open_id")["open_id"];//open_id
-            $address_id = $request->param("address_id");//address_id
+            $address_id = $request->param("address_id");//address_id    //地址id
             $coupon_id =$request->only("coupon_id")["coupon_id"]; //添加使用优惠券id
             $order_type =$request->only("order_type")["order_type"];//1为选择直邮，2到店自提，3选择存茶
             $user_id =Db::name("member")
@@ -149,27 +149,46 @@ class  Order extends  Controller
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
                 ->find();
             $user_information =Db::name("member")->where("member_id",$user_id)->find();
-            $is_address = Db::name('user_address')
-                ->where("id",$address_id)
-                ->where('user_id', $user_id)
-                ->find();
-            if (empty($is_address) ) {
+            if($order_type=='1'){
+                //直邮 ----user_address
+                $is_address_status = Db::name('user_address')
+                    ->where("id",$address_id)
+                    ->where('user_id', $user_id)
+                    ->find();
+                    $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
+                    $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
+                }elseif($order_type=='2'){
+                    $is_address_status = Db::name('extract_address')
+                        ->where("id",$address_id)
+                        ->where('user_id', $user_id)
+                        ->find();
+                    $harvest_address_city =str_replace(',','',$is_address_status['extract_name']);
+                    $harvest_address =$harvest_address_city.$is_address_status['extractd_real_address']; //收货人地址
+                }elseif($order_type=='3'){
+                    $is_address_status = Db::name('store_address')
+                    ->where("id",$address_id)
+                    ->where('user_id', $user_id)
+                    ->find();
+                    $harvest_address_city =str_replace(',','',$is_address_status['name']);
+                    $harvest_address =$harvest_address_city.$is_address_status['address']; //收货人地址
+                }
+            if (empty($is_address_status) ) {
                 return ajax_error('请填写收货地址',['status'=>0]);
             }else{
-                $is_address_status = Db::name('user_address')
-                    ->where('user_id', $user_id)
-                    ->where('id',$address_id)
-                    ->find();
-                if (empty($is_address_status) ) {
-                    $is_address_status =$is_address;
-                }
+                // $is_address_status = Db::name('user_address')
+                //     ->where('user_id', $user_id)
+                //     ->where('id',$address_id)
+                //     ->find();
+                // if (empty($is_address_status) ) {
+                //     $is_address_status =$is_address;
+                // }
                 $commodity_id = $request->only("goods_id")["goods_id"];//商品id
                 $all_money =$request->only("order_amount")["order_amount"];//总价钱
                 $goods_standard_id =$request->only("goods_standard_id")["goods_standard_id"];//规格id
                 $numbers =$request->only("order_quantity")["order_quantity"];
 
-                $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
-                $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
+                // $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
+                // $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
                 $time=date("Y-m-d",time());
                 $v=explode('-',$time);
                 $time_second=date("H:i:s",time());
@@ -396,14 +415,14 @@ class  Order extends  Controller
                                         
                         $res = Db::name('order')->insertGetId($datas);
                         if ($res) {
-                            //下单成功，冻结库存
-                            if($goods_standard_id[0]=='0'){
-                                 //单规格商品扣除库存
-                                 $re1 = Db::name('goods')->where('id',$values)->setDec('goods_repertory',$numbers[$keys]);
-                            }else{
-                                //多规格商品扣除库存
-                                $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
-                            }
+                            // //下单成功，冻结库存
+                            // if($goods_standard_id[0]=='0'){
+                            //      //单规格商品扣除库存
+                            //      $re1 = Db::name('goods')->where('id',$values)->setDec('goods_repertory',$numbers[$keys]);
+                            // }else{
+                            //     //多规格商品扣除库存
+                            //     $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
+                            // }
                             $order_datas =Db::name("order")
                                 ->field("order_real_pay,parts_goods_name,parts_order_number")
                                 ->where('id',$res)
@@ -418,9 +437,9 @@ class  Order extends  Controller
                         $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
                         ->where('id',$store_house_id)
-                        ->where('stroe_id',$store_id)
+                        ->where('store_id',$store_id)
                         ->find();
-                        if(!empty($is_address_status)){
+                        if(empty($is_address_status)){
                             return ajax_error('仓库地址查询失败',['status'=>0]);
                         }
                         $year = $request->only("year")["year"];//存茶年限
@@ -688,10 +707,10 @@ class  Order extends  Controller
                     $datas['goods_standard'] = 0; //商品规格
                     $data['unit'] = explode(",",$goods_data['unit']);
                     $data['num'] = explode(",",$goods_data['num']);
-                    //判断商品的库存的是否够用
-                    if($goods_data['goods_repertory']<= $numbers[$keys]){     //购买数量大于库存
-                         return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
-                    }
+                    // //判断商品的库存的是否够用
+                    // if($goods_data['goods_repertory']<= $numbers[$keys]){     //购买数量大于库存
+                    //      return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
+                    // }
                 } else {
                     //图片
                     $special_data =Db::name("special")
@@ -702,10 +721,10 @@ class  Order extends  Controller
                     $datas['goods_standard'] = $special_data["name"]; //商品规格
                     $data['unit'] = explode(",",$special_data['unit']);
                     $data['num'] = explode(",",$special_data['num']);
-                     //判断商品的库存的是否够用
-                     if($special_data['stock']<= $numbers[$keys]){     //购买数量大于库存
-                        return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
-                   }
+                //      //判断商品的库存的是否够用
+                //      if($special_data['stock']<= $numbers[$keys]){     //购买数量大于库存
+                //         return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
+                //    }
 
                 }
               
@@ -773,17 +792,17 @@ class  Order extends  Controller
                         $datas["store_id"] = $store_id;
                         $datas["receipt_price"] = $receipt_price ;                                        
                         $res = Db::name('order')->insertGetId($datas);
-                        if($res){
-                            //下单成功
-                            if($goods_standard_id[$keys]=='0'){
-                                 //当前商品是单规格商品
-                                $re1 = Db::name('goods')->where('id',$values)->setDec('goods_repertory',$numbers[$keys]);
+                        // if($res){
+                        //     //下单成功
+                        //     if($goods_standard_id[$keys]=='0'){
+                        //          //当前商品是单规格商品
+                        //         $re1 = Db::name('goods')->where('id',$values)->setDec('goods_repertory',$numbers[$keys]);
                                  
-                            }else{
-                                 $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
+                        //     }else{
+                        //          $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
 
-                            }
-                        }
+                        //     }
+                        // }
                     } else {
                         $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
@@ -2142,15 +2161,35 @@ class  Order extends  Controller
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
-             file_put_contents(EXTEND_PATH."data.txt",$val);
+            file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
-            //商品库存、销量增加
 
-                $host_rest = Db::name("house_order")
-                ->where("parts_order_number",$val["out_trade_no"])
-                ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            $host_rest = Db::name("house_order")
+            ->where("parts_order_number",$val["out_trade_no"])
+            ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            //商品库存减少、销量增加
+
+            $goods_order = Db::name("order") 
+            ->where("parts_order_number",$val["out_trade_no"])
+            ->field("goods_id,order_quantity,special_id")
+            ->select();
+
+
+            foreach($goods_order as $k => $v){
+                if($goods_order[$k]['special_id'] != 0){
+                    $boolw = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setInc('volume',$goods_order[$k]['order_quantity']);
+                    //按照需求下单即减库存,付款时间超过30分钟恢复库存
+                    $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
+                } else {
+                    //按照需求下单即减库存,付款时间超过30分钟恢复库存
+                    $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
+                    $booltt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setInc('goods_volume',$goods_order[$k]['order_quantity']);
+                }
+            }
+
+
             if($res){
                 //做消费记录
                 $information = Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
@@ -2581,26 +2620,34 @@ class  Order extends  Controller
                     $num_one = intval($num[$key-1]);         //上一级等级数量
                     $number_zero = $unit[$key-2];            //上上一级等级单位
                     $num_zero = intval($num[$key-2]);        //上上一级等级数量
-                    $rank_one = $order_quantity/$num_two;    //上一级数量
-                    if($rank_one > 1){
-                        $three = fmod($order_quantity,$num_two); //当前数量
-                        $two = $rank_one/$num_one ;//第一个数量
-                        if($two > 1){
-                            $centre = $rank_one % $num_one;
-                            $store_number = intval($two).','.$number_zero.','.intval($centre).','.$number_one.','.intval($three).','.$number_two;
-                        } else if($two ==1){   
-                            $store_number = intval($two).','.$number_zero.','.($two-1).','.$number_one.','.($two-1).','.$number_two;                           
-                        } else {
+                    $num_among = intval($num_two/$num_one);  //当前数量与上一级数量换算量
+
+
+                    $rest_zero = $order_quantity/$num_two;    //第一级数量
+                    if( $rest_zero > 1){
+                        //第一级余数
+                        $rest_one = fmod($order_quantity,$num_two); 
+                        //判断是否还能再取上一等级
+                        $rest_two = $rest_one/$num_among;
+                        if($rest_two > 1){
+                            $two = fmod($rest_one,$num_among); 
+                            $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.intval($two).','.$number_two;
+                        } else if($rest_two == 1){
                             $two = 0;
-                            $store_number = $two.','.$number_zero.','.intval($rank_one).','.$number_one.','.intval($three).','.$number_two;
+                            $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.intval($two).','.$number_two;
+                        } else {
+                            $rest_two = 0;
+                            $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.intval($rest_one).','.$number_two;
                         }
-                    } else if($rank_one == 1) {
+                        
+                    } else if( $rest_zero == 1){
+                        $rest_two = 0;
                         $two = 0;
-                        $store_number = $two.','.$number_zero.','.intval($rank_one).','.$number_one.','.$two.','.$number_two;
+                        $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.intval($two).','.$number_two;
                     } else {
-                        $two = 0;
-                        $rank_six = 0;
-                        $store_number = $two.','.$number_zero.','.$rank_six.','.$number_one.','.$order_quantity.','.$number_two;
+                        $rest_zero = 0;
+                        $rest_two = 0;
+                        $store_number = intval($rest_zero).','.$number_zero.','.intval($rest_two).','.$number_one.','.$order_quantity.','.$number_two;
                     }
                     break;                                                             
             }
