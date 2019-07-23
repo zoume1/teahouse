@@ -1092,12 +1092,30 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantity')
                 ->where('member_id', $member_id)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
             foreach ($data as $key=>$value) {
+                 //判断未支付订单
+                 if($value['status']=='1'){   //未支付订单
+                        $time=time()-$value['order_create_time']-30*60;
+                        if($time>0){
+                            //删除订单，并返回库存
+                            //1.返回库存
+                            // if($value['special_id']=='0'){
+                            //     //单规格商品
+                            //     db('goods')->where('id',$value['goods_id'])->setInc('goods_repertory',$value['order_quantity']);
+                            // }else{
+                            //     //多规格商品
+                            //     db('special')->where('id',$value['special_id'])->setInc('stock',$value['order_quantity']);
+                            // }
+                            //2.删除订单
+                            $rr=db('order')->where('parts_order_number',$value['parts_order_number'])->delete();
+                        }
+                 }
+
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k=>$v){
@@ -1263,7 +1281,7 @@ class  Order extends  Controller
     }
 
     /**
-     **************李火生*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:我的待支付订单
      **************************************
@@ -1278,13 +1296,28 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id,special_id,order_quantity,goods_id')
                 ->where('member_id', $member_id)
                 ->where("status",1)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
             foreach ($data as $key=>$value) {
+                //判断未支付订单
+                $time=time()-$value['order_create_time']-30*60;
+                if($time>0){
+                    //删除订单，并返回库存
+                    //1.返回库存
+                    // if($value['special_id']=='0'){
+                    //     //单规格商品
+                    //     db('goods')->where('id',$value['goods_id'])->setInc('goods_repertory',$value['order_quantity']);
+                    // }else{
+                    //     //多规格商品
+                    //     db('special')->where('id',$value['special_id'])->setInc('stock',$value['order_quantity']);
+                    // }
+                    //2.删除订单
+                    $rr=db('order')->where('parts_order_number',$value['parts_order_number'])->delete();
+                }
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k=>$v){
