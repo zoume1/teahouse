@@ -396,14 +396,14 @@ class  Order extends  Controller
                                         
                         $res = Db::name('order')->insertGetId($datas);
                         if ($res) {
-                            //下单成功，冻结库存
-                            if($goods_standard_id[0]=='0'){
-                                 //单规格商品扣除库存
-                                 $re1 = Db::name('goods')->where('id',$values)->setDec('goods_repertory',$numbers[$keys]);
-                            }else{
-                                //多规格商品扣除库存
-                                $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
-                            }
+                            // //下单成功，冻结库存
+                            // if($goods_standard_id[0]=='0'){
+                            //      //单规格商品扣除库存
+                            //      $re1 = Db::name('goods')->where('id',$values)->setDec('goods_repertory',$numbers[$keys]);
+                            // }else{
+                            //     //多规格商品扣除库存
+                            //     $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
+                            // }
                             $order_datas =Db::name("order")
                                 ->field("order_real_pay,parts_goods_name,parts_order_number")
                                 ->where('id',$res)
@@ -2161,8 +2161,10 @@ class  Order extends  Controller
             foreach($goods_order as $k => $v){
                 if($goods_order[$k]['special_id'] != 0){
                     $boolw = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setInc('volume',$goods_order[$k]['order_quantity']);
+                    //按照需求下单即减库存,付款时间超过30分钟恢复库存
                     $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
                 } else {
+                    //按照需求下单即减库存,付款时间超过30分钟恢复库存
                     $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
                     $booltt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setInc('goods_volume',$goods_order[$k]['order_quantity']);
                 }
