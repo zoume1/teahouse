@@ -99,6 +99,8 @@
         border-top-right-radius: 10px;
         border-top-left-radius: 10px;
     }
+    .noshow {display: none;}
+    .show {display: block;}
 </style>
 
 
@@ -110,7 +112,7 @@
     <div class="open">
 
     </div>
-    <div class="modal fade " id="selectIcon" style="display: none;">
+    <div class="modal fade noshow" id="selectIcon" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -129,7 +131,7 @@
             </div>
         </div>
     </div>
-    <div class="modal-backdrop fade " id="selectIcon" style="display: none;"></div>
+    <div class="modal-backdrop fade noshow" id="selectIcon" ></div>
     {if !empty($info)}
     <form class="layui-form" action="{:url('admin/User/grade_edit',['id'=>$info.member_grade_id])}" method="post"
         enctype="multipart/form-data">
@@ -434,10 +436,14 @@
                 $ = layui.jquery;
 
               
-        $('#tup').click(function () {
-            console.log('1111111')
-            $(".fade").addClass('in');
-        })
+        $('#tup').click(() => {
+            $(".fade").removeClass('noshow');
+            $(".fade").addClass('in show');
+        });
+        $('.close').click(() => {
+            $(".fade").removeClass('in show');
+            $(".fade").addClass('noshow');
+        });
             // 图片删除
             $(".remove-img").click(function () {
                 var remove = $(this).parent();
