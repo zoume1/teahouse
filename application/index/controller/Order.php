@@ -2159,7 +2159,7 @@ class  Order extends  Controller
 
 
             foreach($goods_order as $k => $v){
-                if(!empty($goods_order[$v]['special_id'])){
+                if(!empty($goods_order[$k]['special_id'])){
                     $boolw = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setInc('volume',$goods_order[$k]['order_quantity']);
                     $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
                 } else {
