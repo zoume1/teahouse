@@ -127,7 +127,7 @@ class  Order extends  Controller
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:提交订单
+     * Notes:提交订单------meiyong
      **************************************
      * @param Request $request
      */
@@ -155,13 +155,18 @@ class  Order extends  Controller
                     ->where("id",$address_id)
                     ->where('user_id', $user_id)
                     ->find();
+                    $harvester =str_replace(',','',$is_address_status['harvester']);
+                    $harvester_phone_num =str_replace(',','',$is_address_status['harvester_phone_num']);
                     $harvest_address_city =str_replace(',','',$is_address_status['address_name']);
                     $harvest_address =$harvest_address_city.$is_address_status['harvester_real_address']; //收货人地址
                 }elseif($order_type=='2'){
+                    //到店自提
                     $is_address_status = Db::name('extract_address')
                         ->where("id",$address_id)
                         ->where('user_id', $user_id)
                         ->find();
+                    $harvester =str_replace(',','',$is_address_status['extract_name']);
+                    $harvester_phone_num =str_replace(',','',$is_address_status['phone_num']);
                     $harvest_address_city =str_replace(',','',$is_address_status['extract_name']);
                     $harvest_address =$harvest_address_city.$is_address_status['extractd_real_address']; //收货人地址
                 }elseif($order_type=='3'){
@@ -169,6 +174,8 @@ class  Order extends  Controller
                     ->where("id",$address_id)
                     ->where('user_id', $user_id)
                     ->find();
+                    $harvester =str_replace(',','',$is_address_status['name']);
+                    $harvester_phone_num =str_replace(',','',$is_address_status['phone']);
                     $harvest_address_city =str_replace(',','',$is_address_status['name']);
                     $harvest_address =$harvest_address_city.$is_address_status['address']; //收货人地址
                 }
@@ -239,8 +246,8 @@ class  Order extends  Controller
                             $datas["member_id"] =$user_id;//用户id
                             $datas["user_account_name"] = $user_information["member_name"];//用户名
                             $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
-                            $datas["harvester"] = $is_address_status['harvester'];
-                            $datas["harvest_phone_num"] = $is_address_status['harvester_phone_num'];
+                            $datas["harvester"] =  $harvester ;
+                            $datas["harvest_phone_num"] = $harvester_phone_num;
                             $datas["harvester_address"] = $harvest_address;
                             $datas["order_create_time"] = $create_time;
                             $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
