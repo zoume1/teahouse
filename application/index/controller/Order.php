@@ -886,7 +886,7 @@ class  Order extends  Controller
                         $datase["freight"] = $freight ;                                        
                         $datase["storage"] = $storage ;     
 
-                        $rest_id = Db::name('order')->insertGetId($datase);
+                        $rest_id = db('order')->insertGetId($datase);
                         $datas = $datase;
                         $datas["store_house_id"] = $store_house_id;
                         $datas["store_name"] = $store_name;
