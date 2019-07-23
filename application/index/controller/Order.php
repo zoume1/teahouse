@@ -468,12 +468,12 @@ class  Order extends  Controller
                         $datase["user_account_name"] = $user_information["member_name"];//用户名
                         $datase["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
                         $datase["harvest_phone_num"] = $harvester_phone_num;
-                        $datase["harvester_address"] = $harvest_address;
+                        $datase["harvester_address"] = $store_name;    //暂时先这样  
                         $datase["order_create_time"] = $create_time;
                         $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
                         $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datase["status"] = 1;
-                        $datase["harvester"] = $store_name;
+                        // $datase["harvester"] = $store_name;
                         $datase["goods_id"] = $values;
                         $datase["buy_message"] = $buy_message;//买家留言
                         $datase["normal_future_time"] =$normal_future_time;//未来时间
