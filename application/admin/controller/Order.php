@@ -363,7 +363,10 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function refund_protection_index(){
+        //获取店铺id
+        $store_id=Session::get('store_id');
         $accessories=Db::name("after_sale")
+            ->where('store_id',$store_id)
             ->order("operation_time","desc")
             ->select();
         foreach ($accessories as $key => $value) {
