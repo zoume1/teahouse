@@ -2936,9 +2936,11 @@ class  Order extends  Controller
         //判断是否有记录
         if($input['order_type']==1 || $input['order_type']=='2'){   //到店自提或直邮
             $re=db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
-        }else{
+        }elseif($input['order_type']=='3'){
             $res=db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
             $re=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
+        }elseif($input['order_type']=='0'){
+            $re=db('reward')->where('order_number',$input['parts_order_number'])->delete();
         }
         if($re){
             return ajax_success('删除成功');
@@ -2946,5 +2948,20 @@ class  Order extends  Controller
             return ajax_error('删除失败');
         }
         
+    }
+    /**
+     * lilu
+     * 获取账户余额
+     * member_id
+     */
+    public function get_member_banlance(Request $request){
+         $user_id = $request->only("member_id")["member_id"];//member_id
+         //获取用户余额
+         $balance=db('member')->where('member_id',$user_id)->field('member_wallet,member_recharge_money')->find();
+         $bb=$balance['member_wallet']+$balance['member_recharge_money'];
+         $money=round($bb,2);
+         $data['balance']=$money;
+         return ajax_success('获取成功',$data);
+
     }
 }
