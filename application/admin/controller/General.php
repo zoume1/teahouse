@@ -3159,9 +3159,9 @@ class  General extends  Base {
                 ->insertGetId($data);      //插入充值记录
             header("Content-type: text/html; charset=utf-8");
             ini_set('date.timezone', 'Asia/Shanghai');
-            include('../extend/WxpayAll/lib/WxPay.Api.php');
-            include('../extend/WxpayAll/example/WxPay.NativePay.php');
-            include('../extend/WxpayAll/example/log.php');
+            include('../extend/WxpayAllone/lib/WxPay.Api.php');
+            include('../extend/WxpayAllone/example/WxPay.NativePay.php');
+            include('../extend/WxpayAllone/example/log.php');
             $notify = new \NativePay();
             $input = new \WxPayUnifiedOrder();//统一下单
             $paymoney = $money; //支付金额
