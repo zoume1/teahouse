@@ -124,6 +124,7 @@ Route::group("",[
     "tacitly_list"=>"index/Order/tacitly_list",//存茶默认收货地址列表
     "transportation"=>"index/Order/transportation",//对应模板
     "del_order"=>"index/Order/del_order",          //立即支付--取消支付
+    "get_member_banlance"=>"index/Order/get_member_banlance",          //立即支付--取消支付
     /*TODO:订单结束*/
 
     /*TODO:快递100物流信息开始*/
