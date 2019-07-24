@@ -1,6 +1,8 @@
 {extend name="layout"} {block name="css"}
 <link rel="stylesheet" href="http://at.alicdn.com/t/font_626828_4pda2bnao1s.css" type="text/css" />
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/upfile/css/index.css" />
+
 <style type="text/css">
     body {
         background: #fff;
@@ -99,8 +101,14 @@
         border-top-right-radius: 10px;
         border-top-left-radius: 10px;
     }
-    .noshow {display: none;}
-    .show {display: block;}
+
+    .noshow {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
 </style>
 
 
@@ -112,7 +120,7 @@
     <div class="open">
 
     </div>
-    <div class="modal fade noshow" id="selectIcon" >
+    <div class="modal fade noshow" id="selectIcon">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -125,13 +133,26 @@
                     <li class="tab21" id="tab2"><a href="javascript:;" onclick="tab(2)">本地图片</a></li>
                 </ul>
                 <div class="modal-body set_c" id="set_c">
-                    1
+                    <div class="main">
+                        <nav data-class="icon-c-broadcast01 icon-click">
+                            <div class="iconimg">
+                                <img src="http://ptoobf833.bkt.clouddn.com/broadcast01.png" alt="broadcast01">
+                            </div>
+                            <span class="text">broadcast01</span>
+                        </nav>
+                        <nav data-class="icon-c-circle03 icon-click">
+                            <div class="iconimg">
+                                <img src="http://ptoobf833.bkt.clouddn.com/circle03.png" alt="circle03">
+                            </div>
+                            <span class="text">circle03</span>
+                        </nav>
+                    </div>
                 </div>
                 <div class="modal-body set_x" id="set_x" style="display: none">2</div>
             </div>
         </div>
     </div>
-    <div class="modal-backdrop fade noshow" id="selectIcon" ></div>
+    <div class="modal-backdrop fade noshow" id="selectIcon"></div>
     {if !empty($info)}
     <form class="layui-form" action="{:url('admin/User/grade_edit',['id'=>$info.member_grade_id])}" method="post"
         enctype="multipart/form-data">
@@ -145,7 +166,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label"><span>*</span>等级图标</label>
             <div class="layui-input-block">
-                <div id="tup" >选择图片</div>
+                <div id="tup">选择图片</div>
                 <div class="imgcontent">
                     <span class="img">
                         <img src="__UPLOADS__/{$info.member_grade_img}" width="100%">
@@ -391,7 +412,7 @@
                 $('#search1').hide();
             }
         };
-        
+
         $(function () {
             $("#selectUrl").find('#selectUrlTab a').click(function (e) {
                 $('#tab').val($(this).attr('href'));
@@ -435,15 +456,15 @@
                 laypage = layui.laypage,
                 $ = layui.jquery;
 
-              
-        $('#tup').click(() => {
-            $(".fade").removeClass('noshow');
-            $(".fade").addClass('in show');
-        });
-        $('.close').click(() => {
-            $(".fade").removeClass('in show');
-            $(".fade").addClass('noshow');
-        });
+
+            $('#tup').click(() => {
+                $(".fade").removeClass('noshow');
+                $(".fade").addClass('in show');
+            });
+            $('.close').click(() => {
+                $(".fade").removeClass('in show');
+                $(".fade").addClass('noshow');
+            });
             // 图片删除
             $(".remove-img").click(function () {
                 var remove = $(this).parent();
