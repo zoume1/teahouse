@@ -18,7 +18,7 @@ class  AfterSale extends Controller{
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:售后订单信息返回（未用到）
+     * Notes:售后订单信息返回
      **************************************
      * @param Request $request
      */
@@ -27,7 +27,7 @@ class  AfterSale extends Controller{
             $id =$request->only(["id"])["id"];
             $data =Db::name("order")
                 ->field("parts_goods_name,goods_image,refund_amount")
-                ->where("id",$id)->find();
+                ->where("parts_order_number",$id)->find();
             if(!empty($data)){
                 return ajax_success("数据返回成功",$data);
             }else{
