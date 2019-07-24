@@ -2935,6 +2935,7 @@ class  Order extends  Controller
         if($input['order_type']==1 || $input['order_type']=='2'){   //到店自提或直邮
             $re=db('order')->where('parts_order_number',$input['paat_order_number'])->delete();
         }else{
+            $res=db('order')->where('parts_order_number',$input['paat_order_number'])->delete();
             $re=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
         }
         if($re){
