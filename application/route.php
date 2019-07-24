@@ -124,6 +124,7 @@ Route::group("",[
     "tacitly_list"=>"index/Order/tacitly_list",//存茶默认收货地址列表
     "transportation"=>"index/Order/transportation",//对应模板
     "del_order"=>"index/Order/del_order",          //立即支付--取消支付
+    "get_member_banlance"=>"index/Order/get_member_banlance",          //立即支付--取消支付
     /*TODO:订单结束*/
 
     /*TODO:快递100物流信息开始*/
@@ -469,6 +470,7 @@ Route::group("admin",[
      "user_grade_del"=>"admin/User/grade_del",  //会员等级删除
      "user_grade_start_image_del"=>"admin/User/grade_start_image_del",  //会员等级图片删除
     "user_grade_status"=>"admin/User/grade_status",  //会员等级状态修改
+    "piv_handle"=>"admin/User/piv_handle",  //会员等级--图片预处理
     /*TODO:会员管理结束*/
 
     /*TODO：会员储值开始*/

@@ -108,6 +108,11 @@ class Crowdfinancing extends Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+             //获取用户余额
+             $balance=db('member')->where('member_id',$user_id)->field('member_wallet,member_recharge_money')->find();
+             $bb=$balance['member_wallet']+$balance['member_recharge_money'];
+             $money=round($bb,2);
+
             $user_information = Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount = Db::name("member_grade")
             ->where("member_grade_id",$user_information["member_grade_id"])
@@ -202,10 +207,11 @@ class Crowdfinancing extends Controller
                         $res = Db::name('crowd_order')->insertGetId($datas);
                         if ($res) {
                             $order_datas =Db::name("crowd_order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
+                                $order_datas['balance']=$money;
                             return ajax_success('下单成功',$order_datas);
                         }else{
 
@@ -304,10 +310,11 @@ class Crowdfinancing extends Controller
                         $res = Db::name('house_order')->insertGetId($datas);
                         if ($res) {
                             $order_datas =Db::name("house_order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
+                                $order_datas['balance']=$money;
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);

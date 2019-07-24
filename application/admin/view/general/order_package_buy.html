@@ -71,6 +71,8 @@
         .method .balance-show .fund-balance{color: #f00;}
         .method .balance-show button{background-color: #f00; color: #fff; border: 0; padding: 2px 5px; border-radius: 3px; outline: none; cursor: pointer; margin-left: 10px;}
         .switch-way-cont .scan-way{text-align: center;}
+        .switch-way-cont .scan-way .code-box{width: 200px; height: 200px;}
+        .switch-way-cont .scan-way .code-box img{width: 100%; height: 100%;}
         .switch-way-cont .scan-way .scan-tip{font-size: 28px; color: #333;}
         .switch-way-cont .scan-way .support{margin: 10px 0;}
         .remit-info-box{border: 1px solid #e5e5e5; padding: 25px 20px; border-radius: 4px; font-size: 15px; color: #111; margin-bottom: 20px;}
@@ -330,7 +332,8 @@
                 <!-- 扫码 -->
                 <div class="scan-way" v-show="wayFlag==1">
                     <div class="code-box">
-                        <img :src="onlinePayImg" width="200" height="200">
+                        <!-- <img :src="onlinePayImg" width="200" height="200"> -->
+                        {{onlinePayImg}}
                     </div>
                     <div class="support">
                         <a href="javascript:void(0);">
@@ -653,9 +656,11 @@
                     }
                     var _this = this;
                     this.myAjax('order_code_pay', param, function(data){
+                        console.log(data)
                         // 付款二维码生成成功， 监听支付
                         if(data.body.status == 1){
-                            _this.onlinePayImg = data.body.data.url;
+                            // _this.onlinePayImg = data.body.data.url;
+                            _this.onlinePayImg = data.data.data;
                             _this.onlinePayInterval = setInterval(function(){
                                 _this.monitorOnlinePay(param.order_number);
                             }, 2000)
