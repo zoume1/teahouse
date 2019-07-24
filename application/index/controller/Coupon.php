@@ -211,6 +211,7 @@ class Coupon extends Controller
             $store_id = $request->only(['uniacid'])['uniacid'];
             $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
             $datas = $request->param(); //包含goods_id and  open_id
+            // $goods_id = array_unique($datas['goods_id']);
             $goods_id = array_unique($datas['goods_id']);
             $open_id = $datas['open_id'];
             $money = $datas['money'];

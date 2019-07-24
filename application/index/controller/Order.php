@@ -340,8 +340,8 @@ class  Order extends  Controller
                     $data['unit'] = explode(",",$goods_data['unit']);
                     $data['num'] = explode(",",$goods_data['num']);
                     //判断商品的库存的是否够用
-                    if($goods_data['goods_repertory']<= $numbers[$keys]){     //购买数量大于库存
-                        return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
+                    if($goods_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
+                        return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                    }
                 } else {
                     //图片
@@ -354,8 +354,8 @@ class  Order extends  Controller
                     $data['unit'] = explode(",",$special_data['unit']);
                     $data['num'] = explode(",",$special_data['num']);
                     //判断商品的库存的是否够用
-                    if($special_data['goods_repertory']<= $numbers[$keys]){     //购买数量大于库存
-                        return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
+                    if($special_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
+                        return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                    }
 
                 }
@@ -436,7 +436,7 @@ class  Order extends  Controller
                             //     $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
                             // }
                             $order_datas =Db::name("order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
@@ -766,7 +766,6 @@ class  Order extends  Controller
                 //      if($special_data['stock']<= $numbers[$keys]){     //购买数量大于库存
                 //         return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                 //    }
-
                 }
                 if($order_type != 3){           //不是存茶
                     if($order_type == 1){
@@ -885,7 +884,6 @@ class  Order extends  Controller
                         $datase["order_type"] = $order_type;
                         $datase["freight"] = $freight ;                                        
                         $datase["storage"] = $storage ;     
-
                         $rest_id = db('order')->insertGetId($datase);
                         $datas = $datase;
                         $datas["store_house_id"] = $store_house_id;
@@ -894,7 +892,6 @@ class  Order extends  Controller
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;
                         $datas["house_price"] = $house_price[$keys];
-                      
                         $key = array_search($unit[$keys],$data['unit']);
                         //先判断有多少位数量等级
                         $datas["store_number"]= $this->unit_calculate($data['unit'], $data['num'],$key,$datase["order_quantity"]);
@@ -904,7 +901,7 @@ class  Order extends  Controller
             if($order_type != 3){
                 if ($res) {
                     $order_datas =Db::name("order")
-                        ->field("order_real_pay,parts_goods_name,parts_order_number")
+                        ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
                         ->where('id',$res)
                         ->where("member_id",$user_id)
                         ->find();
@@ -923,7 +920,7 @@ class  Order extends  Controller
             } else {
                 if ($res) {
                     $order_datas =Db::name("house_order")
-                        ->field("order_real_pay,parts_goods_name,parts_order_number")
+                        ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
                         ->where('id',$res)
                         ->where("member_id",$user_id)
                         ->find();
@@ -1092,12 +1089,30 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantity')
                 ->where('member_id', $member_id)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
             foreach ($data as $key=>$value) {
+                 //判断未支付订单
+                 if($value['status']=='1'){   //未支付订单
+                        $time=time()-$value['order_create_time']-30*60;
+                        if($time>0){
+                            //删除订单，并返回库存
+                            //1.返回库存
+                            // if($value['special_id']=='0'){
+                            //     //单规格商品
+                            //     db('goods')->where('id',$value['goods_id'])->setInc('goods_repertory',$value['order_quantity']);
+                            // }else{
+                            //     //多规格商品
+                            //     db('special')->where('id',$value['special_id'])->setInc('stock',$value['order_quantity']);
+                            // }
+                            //2.删除订单
+                            $rr=db('order')->where('parts_order_number',$value['parts_order_number'])->delete();
+                        }
+                 }
+
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k=>$v){
@@ -1263,7 +1278,7 @@ class  Order extends  Controller
     }
 
     /**
-     **************李火生*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:我的待支付订单
      **************************************
@@ -1278,13 +1293,28 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id,special_id,order_quantity,goods_id')
                 ->where('member_id', $member_id)
                 ->where("status",1)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
             foreach ($data as $key=>$value) {
+                //判断未支付订单
+                $time=time()-$value['order_create_time']-30*60;
+                if($time>0){
+                    //删除订单，并返回库存
+                    //1.返回库存
+                    // if($value['special_id']=='0'){
+                    //     //单规格商品
+                    //     db('goods')->where('id',$value['goods_id'])->setInc('goods_repertory',$value['order_quantity']);
+                    // }else{
+                    //     //多规格商品
+                    //     db('special')->where('id',$value['special_id'])->setInc('stock',$value['order_quantity']);
+                    // }
+                    //2.删除订单
+                    $rr=db('order')->where('parts_order_number',$value['parts_order_number'])->delete();
+                }
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k=>$v){
@@ -2879,5 +2909,27 @@ class  Order extends  Controller
             }
         }
 
+    }
+    /***
+     * lilu
+     * 小程序立即购买---点击取消，删除已生成的订单
+     * @param parts_order_number   订单号
+     * @param order_type   订单号
+     */
+    public function del_order(){
+        //获取参数
+        $input=input();
+        //判断是否有记录
+        if($input['order_type']==1 || $input['order_type']=='2'){   //到店自提或直邮
+            $re=db('order')->where('parts_order_number',$input['paat_order_number'])->delete();
+        }else{
+            $re=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
+        }
+        if($re){
+            return ajax_success('删除成功');
+        }else{
+            return ajax_error('删除失败');
+        }
+        
     }
 }
