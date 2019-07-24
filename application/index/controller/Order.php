@@ -2926,9 +2926,9 @@ class  Order extends  Controller
             $re=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
         }
         if($re){
-            return ajax_success();
+            return ajax_success('删除成功');
         }else{
-            return ajax_error();
+            return ajax_error('删除失败');
         }
         
     }
