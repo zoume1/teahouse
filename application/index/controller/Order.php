@@ -313,6 +313,10 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+             //获取用户余额
+             $balance=db('member')->where('id',$user_id)->field('member_wallet,member_recharge_money')->find();
+             $bb=$balance['member_wallet']+$balance['member_recharge_money'];
+             $money=round($bb,2);
             $member_grade_id = Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
@@ -440,6 +444,7 @@ class  Order extends  Controller
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
+                            $order_datas['balance']=$money;
                             return ajax_success('下单成功',$order_datas);
                         }else{
 
@@ -506,6 +511,7 @@ class  Order extends  Controller
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
+                            $order_datas['balance']=$money;
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);
@@ -711,6 +717,11 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+            //获取用户余额
+            $balance=db('member')->where('id',$user_id)->field('member_wallet,member_recharge_money')->find();
+            $bb=$balance['member_wallet']+$balance['member_recharge_money'];
+            $money=round($bb,2);
+
             $member_grade_id = Db::name("member")->where("member_id",$user_id)->find();
             $role_id =  Db::name("admin")->where("store_id",$member_grade_id['store_id'])->value("role_id");
             if($role_id > 13){
@@ -905,6 +916,7 @@ class  Order extends  Controller
                         ->where('id',$res)
                         ->where("member_id",$user_id)
                         ->find();
+                        $order_datas['balance']=$money;
                 //清空购物车数据
                 if(is_array($shopping_id)){
                     $where ='id in('.implode(',',$shopping_id).')';
@@ -2914,7 +2926,7 @@ class  Order extends  Controller
      * lilu
      * 小程序立即购买---点击取消，删除已生成的订单
      * @param parts_order_number   订单号
-     * @param order_type   订单号
+     * @param order_type   订单类型
      */
     public function del_order(){
         //获取参数
