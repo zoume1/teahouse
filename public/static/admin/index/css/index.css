@@ -664,3 +664,7 @@ a{
 .all {
     min-width: 1352px;
 }
+.tanimg{
+	width: 500px;
+	height: 500px;
+}
