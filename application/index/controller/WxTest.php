@@ -82,8 +82,8 @@ class WxTest extends Controller
     public function qrcode()
     {
         error_reporting(E_ERROR);
-        include('../extend/WxpayAllone/example/phpqrcode/phpqrcode.php');
-        $url = "weixin://wxpay/bizpayurl?pr=JOwa3GD";
+        include('../extend/WxpayAll/example/phpqrcode/phpqrcode.php');
+        $url = $_GET["url2"];
         \QRcode::png($url);
     }
     /**
