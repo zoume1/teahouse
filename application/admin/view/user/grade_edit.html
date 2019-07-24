@@ -1,7 +1,6 @@
 {extend name="layout"} {block name="css"}
 <link rel="stylesheet" href="http://at.alicdn.com/t/font_626828_4pda2bnao1s.css" type="text/css" />
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/upfile/css/index.css" />
 
 <style type="text/css">
     body {
@@ -109,6 +108,20 @@
     .show {
         display: block;
     }
+    .choose_pc {
+        border-radius: 5px;
+        background-color: rgb(51, 133, 255);
+        width: 80px;
+        color: #fff;
+        text-align: center;
+        cursor: pointer;
+        margin-top: 20px;
+        line-height: 26px;
+    }
+    .choose_pc:hover {
+        background-color: rgb(51, 133, 200);
+    }
+    /* 弹窗 */
 </style>
 
 
@@ -132,23 +145,44 @@
                     <li class="active tab11" id="tab1"><a href="javascript:;" onclick="tab(1)">系统图标</a></li>
                     <li class="tab21" id="tab2"><a href="javascript:;" onclick="tab(2)">本地图片</a></li>
                 </ul>
+                <!-- 系统图片 -->
                 <div class="modal-body set_c" id="set_c">
                     <div class="main">
-                        <nav data-class="icon-c-broadcast01 icon-click">
-                            <div class="iconimg">
+                        <nav data-class="icon-c-broadcast01 ">
+                            <div class="iconimg icon-click_xt">
                                 <img src="http://ptoobf833.bkt.clouddn.com/broadcast01.png" alt="broadcast01">
                             </div>
                             <span class="text">broadcast01</span>
                         </nav>
-                        <nav data-class="icon-c-circle03 icon-click">
-                            <div class="iconimg">
+                        <nav data-class="icon-c-circle03 ">
+                            <div class="iconimg icon-click_xt">
                                 <img src="http://ptoobf833.bkt.clouddn.com/circle03.png" alt="circle03">
                             </div>
                             <span class="text">circle03</span>
                         </nav>
                     </div>
                 </div>
-                <div class="modal-body set_x" id="set_x" style="display: none">2</div>
+                <!-- 本地图片 -->
+                <div class="modal-body set_x" id="set_x" style="display: none">
+                    <div class="img-box full">
+                        <section class=" img-section">
+                            <div class="z_photo upimg-div clear icon-click_bd">
+                                <section class="z_file fl">
+                                    <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                    <input type="file" name="member_grade_img" id="file" class="file" value=""
+                                        accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                                </section>
+                            </div>
+                        </section>
+                    </div>
+                    <aside class="mask works-mask">
+                        <div class="mask-content">
+                            <p class="del-p ">您确定要删除作品图片吗？</p>
+                            <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span>
+                            </p>
+                        </div>
+                    </aside>
+                </div>
             </div>
         </div>
     </div>
@@ -166,35 +200,17 @@
         <div class="layui-form-item">
             <label class="layui-form-label"><span>*</span>等级图标</label>
             <div class="layui-input-block">
-                <div id="tup">选择图片</div>
                 <div class="imgcontent">
                     <span class="img">
-                        <img src="__UPLOADS__/{$info.member_grade_img}" width="100%">
-                        <i class="remove-img" data-id="{$info.member_grade_id}" data-value="2"><img
-                                src="__STATIC__/admin/common/img/a7.png"></i>
+                        <img id="show_img" src="__UPLOADS__/{$info.member_grade_img}" style="width: 70px;">
+
+                        <input type="text" name="member_img" id="get_img" value="" style="display:none;" readonly />
                     </span>
                 </div>
             </div>
-            <!-- <div class="layui-input-block">
-                <div class="img-box full">
-                    <section class=" img-section">
-                        <div class="z_photo upimg-div clear">
-                            <section class="z_file fl">
-                                <img src="__UPLOADS__/{$info.member_grade_img}" class="add-img">
-                                <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                <input type="file" name="member_grade_img" id="file" class="file" value=""
-                                    accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
-                            </section>
-                        </div>
-                    </section>
-                </div>
-                <aside class="mask works-mask">
-                    <div class="mask-content">
-                        <p class="del-p ">您确定要删除作品图片吗？</p>
-                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
-                    </div>
-                </aside>
-            </div> -->
+            <div class="layui-input-block">
+                <div class="choose_pc" id="tup">选择图片</div>
+            </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">会员卡背景色：</label>
@@ -295,25 +311,14 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"><span>*</span>等级图标</label>
-            <div class="layui-input-block">
-                <div class="img-box full">
-                    <section class=" img-section">
-                        <div class="z_photo upimg-div clear">
-                            <section class="z_file fl">
-                                <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                <input type="file" name="member_grade_img" id="file" class="file" value=""
-                                    accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
-                            </section>
-                        </div>
-                    </section>
-                </div>
-                <aside class="mask works-mask">
-                    <div class="mask-content">
-                        <p class="del-p ">您确定要删除作品图片吗？</p>
-                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
-                    </div>
-                </aside>
+            <div class="layui-input-block ">
+                <img id="show_img" src="" style="width: 70px;" />
+                <input type="text" name="member_img" id="get_img" value="" style="display:none;" readonly />
             </div>
+            <div class="layui-input-block">
+                <div class="choose_pc" id="tup">选择图片</div>
+            </div>
+            
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">会员卡背景色：</label>
@@ -420,7 +425,24 @@
                 $(this).tab('show');
             });
         });
-
+        //选择图片--系统
+        $('.icon-click_xt').on('click', (e) => {
+            let img_src = e.delegateTarget.children[0].src;
+            $('#show_img').attr('src', img_src);
+            $('#get_img').val(img_src);
+            $(".fade").removeClass('in show');
+            $(".fade").addClass('noshow');
+            // console.log(e.delegateTarget.children[0].children[2].src)
+        });
+        //选择图片--本地
+        $('.icon-click_bd').on('click', (e) => {
+            let img_src = e.delegateTarget.children[0].children[2].src;
+            $('#show_img').attr('src', img_src);
+            $('#get_img').val(img_src);
+            $(".fade").removeClass('in show');
+            $(".fade").addClass('noshow');
+            // console.log(e.delegateTarget.children[0].children[2].src)
+        });
         $(function () {
             var search_input1 = $("#search_input1"),
                 set_c = $("#set_c");
