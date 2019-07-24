@@ -1934,16 +1934,13 @@ class  General extends  Base {
             $goods_name =$request->only(["goods_name"])["goods_name"];//商品名称
             header("Content-type: text/html; charset=utf-8");
             ini_set('date.timezone', 'Asia/Shanghai');
-            include('../extend/WxpayAll/lib/WxPay.Api.php');
-            include('../extend/WxpayAll/example/WxPay.NativePay.php');
-            include('../extend/WxpayAll/example/log.php');
+            include('../extend/WxpayAllone/lib/WxPay.Api.php');
+            include('../extend/WxpayAllone/example/WxPay.NativePay.php');
+            include('../extend/WxpayAllone/example/log.php');
 
-            // $input = new \WxPayUnifiedOrder();
-            // 
 
             $notify = new \NativePay();
             $input = new \WxPayUnifiedOrder();//统一下单
-            $rester = new \WxPayConfig($store_id);
             $paymoney = $money; //支付金额
             $out_trade_no = $order_number; //商户订单号
             $goods_name = $goods_name.'套餐'; //商品名称
@@ -3162,9 +3159,9 @@ class  General extends  Base {
                 ->insertGetId($data);      //插入充值记录
             header("Content-type: text/html; charset=utf-8");
             ini_set('date.timezone', 'Asia/Shanghai');
-            include('../extend/WxpayAll/lib/WxPay.Api.php');
-            include('../extend/WxpayAll/example/WxPay.NativePay.php');
-            include('../extend/WxpayAll/example/log.php');
+            include('../extend/WxpayAllone/lib/WxPay.Api.php');
+            include('../extend/WxpayAllone/example/WxPay.NativePay.php');
+            include('../extend/WxpayAllone/example/log.php');
             $notify = new \NativePay();
             $input = new \WxPayUnifiedOrder();//统一下单
             $paymoney = $money; //支付金额

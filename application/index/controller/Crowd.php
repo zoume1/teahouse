@@ -288,7 +288,10 @@ class Crowd extends Controller
                 "status" => 1,
                 "store_id"=>$store_id
             );
-
+             //获取用户余额
+            $balance=db('member')->where('member_id',$member_id)->field('member_wallet,member_recharge_money')->find();
+            $bb=$balance['member_wallet']+$balance['member_recharge_money'];
+            $money=round($bb,2);
             $rest_id = db("reward")->insertGetid($data);
             if($rest_id){
                 $order_datas = db("reward")
@@ -296,6 +299,7 @@ class Crowd extends Controller
                             ->where('id',$rest_id)
                             ->where('member_id',$member_id)
                             ->find();
+                $order_datas['balance']=$money;
                 return ajax_success('下单成功',$order_datas);
             } else {
                 return ajax('失败',['status'=>0]);

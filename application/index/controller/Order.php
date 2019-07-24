@@ -313,6 +313,10 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+             //获取用户余额
+             $balance=db('member')->where('member_id',$user_id)->field('member_wallet,member_recharge_money')->find();
+             $bb=$balance['member_wallet']+$balance['member_recharge_money'];
+             $money=round($bb,2);
             $member_grade_id = Db::name("member")->where("member_id",$user_id)->find();
             $member_consumption_discount =Db::name("member_grade")
                 ->where("member_grade_id",$member_grade_id["member_grade_id"])
@@ -340,8 +344,8 @@ class  Order extends  Controller
                     $data['unit'] = explode(",",$goods_data['unit']);
                     $data['num'] = explode(",",$goods_data['num']);
                     //判断商品的库存的是否够用
-                    if($goods_data['goods_repertory']<= $numbers[$keys]){     //购买数量大于库存
-                        return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
+                    if($goods_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
+                        return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                    }
                 } else {
                     //图片
@@ -354,8 +358,8 @@ class  Order extends  Controller
                     $data['unit'] = explode(",",$special_data['unit']);
                     $data['num'] = explode(",",$special_data['num']);
                     //判断商品的库存的是否够用
-                    if($special_data['goods_repertory']<= $numbers[$keys]){     //购买数量大于库存
-                        return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
+                    if($special_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
+                        return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                    }
 
                 }
@@ -436,10 +440,11 @@ class  Order extends  Controller
                             //     $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
                             // }
                             $order_datas =Db::name("order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
+                            $order_datas['balance']=$money;
                             return ajax_success('下单成功',$order_datas);
                         }else{
 
@@ -506,6 +511,7 @@ class  Order extends  Controller
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
+                            $order_datas['balance']=$money;
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);
@@ -711,6 +717,11 @@ class  Order extends  Controller
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
+            //获取用户余额
+            $balance=db('member')->where('member_id',$user_id)->field('member_wallet,member_recharge_money')->find();
+            $bb=$balance['member_wallet']+$balance['member_recharge_money'];
+            $money=round($bb,2);
+
             $member_grade_id = Db::name("member")->where("member_id",$user_id)->find();
             $role_id =  Db::name("admin")->where("store_id",$member_grade_id['store_id'])->value("role_id");
             if($role_id > 13){
@@ -766,7 +777,6 @@ class  Order extends  Controller
                 //      if($special_data['stock']<= $numbers[$keys]){     //购买数量大于库存
                 //         return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                 //    }
-
                 }
                 if($order_type != 3){           //不是存茶
                     if($order_type == 1){
@@ -885,7 +895,6 @@ class  Order extends  Controller
                         $datase["order_type"] = $order_type;
                         $datase["freight"] = $freight ;                                        
                         $datase["storage"] = $storage ;     
-
                         $rest_id = db('order')->insertGetId($datase);
                         $datas = $datase;
                         $datas["store_house_id"] = $store_house_id;
@@ -894,7 +903,6 @@ class  Order extends  Controller
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;
                         $datas["house_price"] = $house_price[$keys];
-                      
                         $key = array_search($unit[$keys],$data['unit']);
                         //先判断有多少位数量等级
                         $datas["store_number"]= $this->unit_calculate($data['unit'], $data['num'],$key,$datase["order_quantity"]);
@@ -904,10 +912,11 @@ class  Order extends  Controller
             if($order_type != 3){
                 if ($res) {
                     $order_datas =Db::name("order")
-                        ->field("order_real_pay,parts_goods_name,parts_order_number")
+                        ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
                         ->where('id',$res)
                         ->where("member_id",$user_id)
                         ->find();
+                        $order_datas['balance']=$money;
                 //清空购物车数据
                 if(is_array($shopping_id)){
                     $where ='id in('.implode(',',$shopping_id).')';
@@ -923,7 +932,7 @@ class  Order extends  Controller
             } else {
                 if ($res) {
                     $order_datas =Db::name("house_order")
-                        ->field("order_real_pay,parts_goods_name,parts_order_number")
+                        ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
                         ->where('id',$res)
                         ->where("member_id",$user_id)
                         ->find();
@@ -1485,10 +1494,12 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $condition ="`status` = '2' or `status` = '3'";
+            $condition2 ="`order_type` = '1' or `order_type` = '2'";
             $data = Db::name('order')
                 ->field('parts_order_number,pay_time,group_concat(id) order_id')
                 ->where('member_id', $member_id)
                 ->where($condition)
+                ->where($condition2)
                 ->order('pay_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
@@ -2911,6 +2922,46 @@ class  Order extends  Controller
                 return ajax_error("失败");
             }
         }
+
+    }
+    /***
+     * lilu
+     * 小程序立即购买---点击取消，删除已生成的订单
+     * @param parts_order_number   订单号
+     * @param order_type   订单类型
+     */
+    public function del_order(){
+        //获取参数
+        $input=input();
+        //判断是否有记录
+        if($input['order_type']==1 || $input['order_type']=='2'){   //到店自提或直邮
+            $re=db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
+        }elseif($input['order_type']=='3'){
+            $res=db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
+            $re=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
+        }elseif($input['order_type']=='0'){
+            $re=db('reward')->where('order_number',$input['parts_order_number'])->delete();
+        }
+        if($re){
+            return ajax_success('删除成功');
+        }else{
+            return ajax_error('删除失败');
+        }
+        
+    }
+    /**
+     * lilu
+     * 获取账户余额
+     * member_id
+     */
+    public function get_member_banlance(Request $request){
+         $user_id = $request->only("member_id")["member_id"];//member_id
+         //获取用户余额
+         $balance=db('member')->where('member_id',$user_id)->field('member_wallet,member_recharge_money')->find();
+         $bb=$balance['member_wallet']+$balance['member_recharge_money'];
+         $money=round($bb,2);
+         $data['balance']=$money;
+         return ajax_success('获取成功',$data);
 
     }
 }

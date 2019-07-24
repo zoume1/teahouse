@@ -18,7 +18,7 @@ class  AfterSale extends Controller{
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:售后订单信息返回（未用到）
+     * Notes:售后订单信息返回
      **************************************
      * @param Request $request
      */
@@ -27,7 +27,7 @@ class  AfterSale extends Controller{
             $id =$request->only(["id"])["id"];
             $data =Db::name("order")
                 ->field("parts_goods_name,goods_image,refund_amount")
-                ->where("id",$id)->find();
+                ->where("parts_order_number",$id)->find();
             if(!empty($data)){
                 return ajax_success("数据返回成功",$data);
             }else{
@@ -93,10 +93,13 @@ class  AfterSale extends Controller{
      * Notes:用户申请售后
      **************************************
      * @param Request $request
+     * @param uniacid  店铺id
+     * 
      */
     public function  apply_after_sale(Request $request){
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];//会员id
+            $store_id =$request->only(["uniacid"])["uniacid"];//会员id
             $order_id =$request->only(["order_id"])["order_id"];//订单编号（主键）
             $return_reason =$request->only(["return_reason"])["return_reason"];//退货原因
 //            $application_amount =$request->only(["application_amount"])["application_amount"];//申请的金额
@@ -139,7 +142,8 @@ class  AfterSale extends Controller{
                 "status"=>1, //申请状态（1为申请中，2商家已同意，等待上传快递单信息，处理中，3收货中，4换货成功，5拒绝）
                 "buy_order_number"=>$before_order_data["parts_order_number"],//原始订单号
                 "member_id"=>$member_id, //会员id
-                "member_count"=>$member_count
+                "member_count"=>$member_count,
+                'store_id'=>$store_id
             ];
             $after_sale_id =Db::name("after_sale")->insertGetId($insert_data);
             if($after_sale_id){
