@@ -557,6 +557,21 @@ class User extends Controller{
             }
         }
     }
+    /**
+     * lilu
+     * 会员模块--图片预处理
+     */
+     public function piv_handle(){
+        $file =$this->request->file("member_grade_img");
+        if($file){
+            $datas = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+            $images_url = str_replace("\\","/",$datas->getSaveName());
+            $data['member_grade_img'] =$images_url;
+            return ajax_success('获取成功',$data);
+        }else{
+            return ajax_error('获取失败');
 
+        }
+     }
 
 }

@@ -470,6 +470,7 @@ Route::group("admin",[
      "user_grade_del"=>"admin/User/grade_del",  //会员等级删除
      "user_grade_start_image_del"=>"admin/User/grade_start_image_del",  //会员等级图片删除
     "user_grade_status"=>"admin/User/grade_status",  //会员等级状态修改
+    "piv_handle"=>"admin/User/piv_handle",  //会员等级--图片预处理
     /*TODO:会员管理结束*/
 
     /*TODO：会员储值开始*/
