@@ -1494,10 +1494,12 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $condition ="`status` = '2' or `status` = '3'";
+            $condition2 ="`order_type` = '1' or `order_type` = '2'";
             $data = Db::name('order')
                 ->field('parts_order_number,pay_time,group_concat(id) order_id')
                 ->where('member_id', $member_id)
                 ->where($condition)
+                ->where($condition2)
                 ->order('pay_time', 'desc')
                 ->group('parts_order_number')
                 ->select();

@@ -699,6 +699,12 @@
 		})
 		$(".static_btus").click(function () {
 			var _this = this;
+			var name=$(this).find('.state').text();
+			if(name=='已入仓')
+			{
+				window.location.href="/admin/stores_divergence/data-id/152";
+			    return false;
+			}
 			// 订单金额
 			var amount = +$(this).parents('tr').children('td.am').text();
 			$('input[name=amount]').val(amount);
