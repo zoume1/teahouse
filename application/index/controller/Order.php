@@ -314,7 +314,7 @@ class  Order extends  Controller
                 return ajax_error("未登录",['status'=>0]);
             }
              //获取用户余额
-             $balance=db('member')->where('id',$user_id)->field('member_wallet,member_recharge_money')->find();
+             $balance=db('member')->where('member_id',$user_id)->field('member_wallet,member_recharge_money')->find();
              $bb=$balance['member_wallet']+$balance['member_recharge_money'];
              $money=round($bb,2);
             $member_grade_id = Db::name("member")->where("member_id",$user_id)->find();
@@ -718,7 +718,7 @@ class  Order extends  Controller
                 return ajax_error("未登录",['status'=>0]);
             }
             //获取用户余额
-            $balance=db('member')->where('id',$user_id)->field('member_wallet,member_recharge_money')->find();
+            $balance=db('member')->where('member_id',$user_id)->field('member_wallet,member_recharge_money')->find();
             $bb=$balance['member_wallet']+$balance['member_recharge_money'];
             $money=round($bb,2);
 
