@@ -196,6 +196,7 @@ class User extends Controller{
         }
         if($this->request->isPost()){
             $data =$this->request->post();
+            halt($data);
             $data['create_time'] =time();
             $file =$this->request->file("member_grade_img");
             if($file){

@@ -108,6 +108,7 @@
     .show {
         display: block;
     }
+
     .choose_pc {
         border-radius: 5px;
         background-color: rgb(51, 133, 255);
@@ -118,12 +119,15 @@
         margin-top: 20px;
         line-height: 26px;
     }
+
     .choose_pc:hover {
         background-color: rgb(51, 133, 200);
     }
-    .icon-click_xt > img {
+
+    .icon-click_xt>img {
         width: 50px;
     }
+
     /* 弹窗 */
 </style>
 
@@ -457,29 +461,34 @@
                             </div>
                             <span class="text">DJ51</span>
                         </nav>
-                        
+
                     </div>
                 </div>
                 <!-- 本地图片 -->
                 <div class="modal-body set_x" id="set_x" style="display: none">
-                    <div class="img-box full">
-                        <section class=" img-section">
-                            <div class="z_photo upimg-div clear icon-click_bd">
-                                <section class="z_file fl">
-                                    <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                    <input type="file" name="member_grade_img" id="file" class="file" value=""
-                                        accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
-                                </section>
-                            </div>
-                        </section>
-                    </div>
-                    <aside class="mask works-mask">
-                        <div class="mask-content">
-                            <p class="del-p ">您确定要删除作品图片吗？</p>
-                            <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span>
-                            </p>
+                    <form class="layui-form" action="{:url('admin/User/piv_handle')}"
+                        method="post" enctype="multipart/form-data">
+                        <div class="img-box full">
+                            <section class=" img-section">
+                                <div class="z_photo upimg-div clear icon-click_bd">
+                                    <section class="z_file fl">
+                                        <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                        <input type="file" name="member_grade_img" id="file" class="file" value=""
+                                            accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                                    </section>
+                                </div>
+                            </section>
                         </div>
-                    </aside>
+                        <aside class="mask works-mask">
+                            <div class="mask-content">
+                                <p class="del-p ">您确定要删除作品图片吗？</p>
+                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span
+                                        class="wsdel-no">取消</span>
+                                </p>
+                            </div>
+                        </aside>
+                    <button class="layui-btn submit_btn" lay-submit="" lay-filter="demo2" type="submit">提交</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -502,7 +511,8 @@
                     <span class="img">
                         <img id="show_img" src="__UPLOADS__/{$info.member_grade_img}" style="width: 70px;">
 
-                        <input type="text" name="member_grade_img" id="get_img" value="" style="display:none;" readonly />
+                        <input type="file" name="member_grade_img" id="get_img" value="" style="display:none;"
+                            readonly />
                     </span>
                 </div>
             </div>
@@ -616,7 +626,7 @@
             <div class="layui-input-block">
                 <div class="choose_pc" id="tup">选择图片</div>
             </div>
-            
+
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">会员卡背景色：</label>
