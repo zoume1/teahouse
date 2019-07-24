@@ -237,7 +237,7 @@ class Storehouse extends Controller
                 if(!empty($house_order)){
                     $house_order['unit'] = explode(",", $house_order['unit']);
                     $house_order['num'] = explode(",",$house_order['num']);
-                    $house_order["store_number"] = str_replace(',', '', $house_order["store_number"]);
+                    $house_order["store_number"] = explode(',', $house_order["store_number"]);
                     if($house_order["goods_money"] > 0){
                         $house_order["scale"] = (($house_order["goods_new_money"] - $house_order["goods_money"]))*100/($house_order["goods_money"]);
                     } else {
