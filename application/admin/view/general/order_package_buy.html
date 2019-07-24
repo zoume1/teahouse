@@ -660,7 +660,7 @@
                         // 付款二维码生成成功， 监听支付
                         if(data.body.status == 1){
                             // _this.onlinePayImg = data.body.data.url;
-                            _this.onlinePayImg = data.data.data;
+                            _this.onlinePayImg = JSON.parse(data.data.data);
                             _this.onlinePayInterval = setInterval(function(){
                                 _this.monitorOnlinePay(param.order_number);
                             }, 2000)
