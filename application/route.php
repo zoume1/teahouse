@@ -68,7 +68,7 @@ Route::group("",[
     "my_index"=>"index/My/my_index",  //我的页面
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
     "wx_order_index"=>"index/Pay/order_index",//小程序普通商品订单支付
-    "crowd_order_index"=>"index/Pay/crowd_order_index",//小程序众筹订单支付
+    "crowd_order"=>"index/Pay/crowd_order",//小程序众筹订单支付
     "wx_recharge_pay"=>"index/Pay/recharge_pay",//小程序充值支付
     "reward_pay"=>"index/Pay/reward_pay",   //众筹商品打赏支付
     "series_pay"=>"index/Pay/series_pay",   //仓库订单续费支付
