@@ -225,6 +225,7 @@ class StoreHouse extends Controller{
                     ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
                     ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
                     ->where("tb_out_house_order.store_id",$store_id)
+                    ->where("tb_out_house_order.status",">",0)
                     ->select();
 
         foreach($store_order as $key => $value){
