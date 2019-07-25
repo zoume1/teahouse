@@ -1,6 +1,7 @@
 {extend name="layout"} {block name="css"}
 <link rel="stylesheet" href="http://at.alicdn.com/t/font_626828_4pda2bnao1s.css" type="text/css" />
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/bootstrap.min.css" />
+<script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp_new.js"></script>
 
 <style type="text/css">
     body {
@@ -118,6 +119,7 @@
         cursor: pointer;
         margin-top: 20px;
         line-height: 26px;
+        margin-left: 25px;
     }
 
     .choose_pc:hover {
@@ -466,29 +468,7 @@
                 </div>
                 <!-- 本地图片 -->
                 <div class="modal-body set_x" id="set_x" style="display: none">
-                    <form class="layui-form" action="{:url('admin/User/piv_handle')}"
-                        method="post" enctype="multipart/form-data">
-                        <div class="img-box full">
-                            <section class=" img-section">
-                                <div class="z_photo upimg-div clear icon-click_bd">
-                                    <section class="z_file fl">
-                                        <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                        <input type="file" name="member_grade_img" id="file" class="file" value=""
-                                            accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
-                                    </section>
-                                </div>
-                            </section>
-                        </div>
-                        <aside class="mask works-mask">
-                            <div class="mask-content">
-                                <p class="del-p ">您确定要删除作品图片吗？</p>
-                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span
-                                        class="wsdel-no">取消</span>
-                                </p>
-                            </div>
-                        </aside>
-                    <button class="layui-btn submit_btn" lay-submit="" lay-filter="demo2" type="submit">提交</button>
-                    </form>
+                    <input type="button" onclick="aa()" value="上传图片" />
                 </div>
             </div>
         </div>
@@ -508,12 +488,31 @@
             <label class="layui-form-label"><span>*</span>等级图标</label>
             <div class="layui-input-block">
                 <div class="imgcontent">
-                    <span class="img">
+                    <div class="xt_p">
                         <img id="show_img" src="{$info.member_grade_img}" style="width: 70px;">
-
-                        <input type="file" name="member_grade_img" id="get_img" value="" style="display:none;"
-                            readonly />
-                    </span>
+                        <input type="text" name="member_grade_img" id="get_img" value="" style="display:none;" />
+                    </div>
+                    <div class="bd_p" style="display: none;">
+                        <div class="img-box full">
+                            <section class=" img-section">
+                                <div class="z_photo upimg-div clear">
+                                    <section class="z_file fl  noshow">
+                                        <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                        <input type="file" name="member_grade_img" id="file" class="file1" value=""
+                                            accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1"/>
+                                    </section>
+                                </div>
+                            </section>
+                        </div>
+                        <aside class="mask works-mask">
+                            <div class="mask-content">
+                                <p class="del-p ">您确定要删除作品图片吗？</p>
+                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span
+                                        class="wsdel-no">取消</span>
+                                </p>
+                            </div>
+                        </aside>
+                    </div>
                 </div>
             </div>
             <div class="layui-input-block">
@@ -619,14 +618,38 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"><span>*</span>等级图标</label>
-            <div class="layui-input-block ">
-                <img id="show_img" src="" style="width: 70px;" />
-                <input type="text" name="member_grade_img" id="get_img" value="" style="display:none;" readonly />
+            <div class="layui-input-block">
+                <div class="xt_p">
+                    <img id="show_img" src="" style="width: 70px;">
+                    <input type="text" name="member_grade_img" id="get_img" value="" style="display:none;" />
+                </div>
+                <div class="imgcontent">
+                    <div class="bd_p" style="display: none;">
+                        <div class="img-box full">
+                            <section class=" img-section">
+                                <div class="z_photo upimg-div clear">
+                                    <section class="z_file fl  noshow">
+                                        <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                        <input type="file" name="member_grade_img" id="file" class="file1" value=""
+                                            accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                                    </section>
+                                </div>
+                            </section>
+                        </div>
+                        <aside class="mask works-mask">
+                            <div class="mask-content">
+                                <p class="del-p ">您确定要删除作品图片吗？</p>
+                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span
+                                        class="wsdel-no">取消</span>
+                                </p>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
             </div>
             <div class="layui-input-block">
                 <div class="choose_pc" id="tup">选择图片</div>
             </div>
-
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">会员卡背景色：</label>
@@ -706,7 +729,9 @@
 
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
+
     <script type="text/javascript">
+
         function tab(i) {
             if (i == 1) {
                 $(".tab11").addClass("active");
@@ -715,6 +740,11 @@
                 $(".set_x").hide();
                 $('#search1').show();
                 $('#search2').hide();
+                $('.xt_p').show();
+                $('.bd_p').hide();
+                $('#get_img')[0].disabled == false;
+                $('#file')[0].disabled == true;
+               
             }
             if (i == 2) {
                 $(".tab11").removeClass("active");
@@ -723,6 +753,10 @@
                 $(".set_x").show();
                 $('#search2').show();
                 $('#search1').hide();
+                $('.xt_p').hide();
+                $('.bd_p').show();
+                $('#get_img')[0].disabled == true;
+                $('#file')[0].disabled == false;
             }
         };
 
@@ -743,14 +777,21 @@
             // console.log(e.delegateTarget.children[0].children[2].src)
         });
         //选择图片--本地
-        $('.icon-click_bd').on('click', (e) => {
-            let img_src = e.delegateTarget.children[0].children[2].src;
-            $('#show_img').attr('src', img_src);
-            $('#get_img').val(img_src);
+        function aa() {
             $(".fade").removeClass('in show');
             $(".fade").addClass('noshow');
-            // console.log(e.delegateTarget.children[0].children[2].src)
-        });
+            $("#file").trigger("click");
+        }
+        // $('.icon-click_bd').on('click', (e) => {
+        //     let img_src = e.delegateTarget.children[0].children[2].src;
+        //     let div_all = $('#set_x')[0].innerHTML;
+        //     $("#show_div").html(div_all);
+        //     $('#show_img').attr('src', img_src);
+        //     $('#get_img').val(img_src);
+        //     $(".fade").removeClass('in show');
+        //     $(".fade").addClass('noshow');
+        //     // console.log(e.delegateTarget.children[0].children[2].src)
+        // });
         $(function () {
             var search_input1 = $("#search_input1"),
                 set_c = $("#set_c");

@@ -6,7 +6,7 @@ $(function(){
 	};
 	
 		/*点击图片的文本框*/
-	$("body").on('change','.file',function(){		
+	$("body").on('change','.file1',function(){		
 //	$(".file").change(function(){	 
 		var maximg=$(this).data("id");
 	
@@ -21,9 +21,9 @@ $(function(){
 		var numUp = imgContainer.find(".up-section").length;
 		
 		var totalNum = numUp + fileList.length;  //总的数量
-		// console.log(fileList.length)
-		if(fileList.length > maximg || totalNum >maximg ){
-			alert("上传图片数目不可以超过"+maximg+"个，请重新选择1");  //一次选择上传超过5个 或者是已经上传和这次上传的到的总数也不可以超过5个
+        // console.log(fileList.length)
+		if(fileList.length > maximg || totalNum > maximg  ){
+			alert("上传图片数目不可以超过"+maximg+"个，请重新选择2");  //一次选择上传超过5个 或者是已经上传和这次上传的到的总数也不可以超过5个
 		}
 		else if(numUp < maximg){
 			fileList = validateUp(fileList);
@@ -39,9 +39,9 @@ $(function(){
 		     var $img0 = $("<img class='close-upimg'>").on("click",function(event){
 				    event.preventDefault();
 					event.stopPropagation();
-					console.log($(this).parent().parent().parent().siblings("aside"));
-					$(this).parent().parent().parent().parent().siblings("aside").show();
-//					$(".works-mask").show();
+					// console.log($(this).parent().parent().parent().siblings("aside"));
+					// $(this).parent().parent().parent().parent().siblings("aside").show();
+					$(".works-mask").show();
 					delParent = $(this).parent();
 				});   
 				$img0.attr("src","https://teahouse.siring.com.cn/upload/20190131/b633705fe84c1d045810f7018d7fc882.png").appendTo($section);
@@ -78,9 +78,9 @@ $(function(){
 		var max=delParent.parent().find(".z_file").children("input").data("id")+1;
 		$(".works-mask").hide();
 		var numUp = delParent.siblings().length;
-		if(numUp < max){
-			delParent.parent().find(".z_file").show();
-		}
+		// if(numUp < max){
+		// 	delParent.parent().find(".z_file").show();
+		// }
 		 delParent.remove();
 	});
 	
@@ -95,7 +95,7 @@ $(function(){
 				var newStr = file.name.split("").reverse().join("");
 				if(newStr.split(".")[0] != null){
 						var type = newStr.split(".")[0].split("").reverse().join("");
-						console.log(type+"===type===");
+						console.log(type+"===type===1");
 						if(jQuery.inArray(type, defaults.fileType) > -1){
 							// 类型符合，可以上传
 							if (file.size >= defaults.fileSize) {

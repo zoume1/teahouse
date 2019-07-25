@@ -196,13 +196,13 @@ class User extends Controller{
         }
         if($this->request->isPost()){
             $data =$this->request->post();
-            halt($data);
             $data['create_time'] =time();
             $file =$this->request->file("member_grade_img");
+           
             if($file){
                 $datas = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $images_url = str_replace("\\","/",$datas->getSaveName());
-                $data['member_grade_img'] =$images_url;
+                $data['member_grade_img'] ='/uploads/'.$images_url;
             }
             if($id > 0){
                 $res =Db::name('member_grade')->where('member_grade_id',$id)->update($data);
