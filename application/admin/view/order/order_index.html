@@ -189,7 +189,10 @@
 	.operation div {
 		margin-right: 10px;
 	}
-
+    .tip{
+		color:red;
+		margin-left:200px;
+	}
 	.noshow {
 		display: none;
 	}
@@ -830,13 +833,14 @@
 			dhtml2 += '<option value="'+express_name+'">'+express_name+'</option>';
 			dhtml2 += '</select>';
 			dhtml2 += '</div>';
+			$('.tip').remove();
+			var tip = '';
 			if(data_value=='8' || data_value==0){    //已完成
 				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" readonly class="layui-input danhao" value="'+express+'" style="width:58%;"  >';
-
 			}else{
 				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" value="'+express+'" style="width:58%;"  >';
 				dhtml2 += '<button type="button" class="submit_btns" data-id="">修改单号</button>';
-				
+				tip += '<text class="tip" >注：选择顺丰时单号前要加：SF</text>';
 			}
 			
 			var dhtml3 = "";
@@ -892,10 +896,12 @@
 				}else if (data_value ==4 ||  data_value ==5 ||   data_value==6 ||  data_value==7 ) {
 					$('.chenge_money').hide();
 					$(".operation").append(dhtml2);
+					$(".popup_content").append(tip);
 					$(".operation").data("id", data_value);
-				}else if(data_value=='8' || data_value==0){      //已完成
+				}else if(data_value=='8' || data_value==0){    	  //已完成
                     $('.chenge_money').hide();
 					$(".operation").append(dhtml2);
+					$(".popup_content").append(tip);
 					$(".operation").data("id", data_value);
 				}else{
 					$('.chenge_money').show();
@@ -944,12 +950,13 @@
 			$(".popup").addClass("noshow");
 		});
         //点击操作按钮
+		
 		$(".operation").on("click", ".submit_btns", function () {
 			$(".popup").addClass("noshow");
 			var repay = $(".repay").val();
 			var id = $(this).parent(".operation").data("id");   //订单状态
 			var value = $(this).parent(".operation").data("value");   //订单的id
-   
+            
 			//    快递选择
 			var curier = $(".curier option:selected").val();
 			var curier2 = $(".curier option:selected").text();
@@ -1007,8 +1014,9 @@
 			else {
 				alert("请输入单号");
 			}
-
+		
 		});
+		
 		// 点击订单详情
 		$(".static_btus2").click(function () {
 			$(".popup_two").removeClass("noshow");
