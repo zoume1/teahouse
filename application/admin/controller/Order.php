@@ -34,8 +34,8 @@ class  Order extends  Controller{
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
-halt($data);
-            foreach($data['data'] as $k=>$v){
+            $data2=[];
+            foreach($data as $k=>$v){
                 //获取相同订单的数据
                 $list=db('order')->where('parts_order_number',$v['parts_order_number'])->select();
                 $order=[];
@@ -44,10 +44,12 @@ halt($data);
                     $order[$k2]['parts_goods_name']=$v2['parts_goods_name'];
                     $order[$k2]['order_quantity']=$v2['order_quantity'];
                 }
-                $data['data'][$k]['order']=$order;
+                $num=count($order);
+                $data2[$k]=$v;
+                $data2[$k]['detail']=$order;
+                $data2[$k]['num']=$num;
             }
-         halt($data);
-        return view("order_index",["data"=>$data]);
+        return view("order_index",["data"=>$data2]);
     }
 
     /**

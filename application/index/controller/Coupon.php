@@ -52,6 +52,7 @@ class Coupon extends Controller
                 foreach($coupon as $key => $value){
                     if(!in_array($value['id'],$rest)){
                     $value['scope'] = explode(",",$value['scope']);
+                    $value['suit_price'] = explode(",",$value['suit_price']);
                     $value['start_time'] = strtotime($value['start_time']);
                     $value['end_time'] = strtotime($value['end_time']);
                     if(in_array($member_grade_name,$value['scope']) && $value['end_time'] > $time){
@@ -62,6 +63,7 @@ class Coupon extends Controller
         } else { //如果没有使用过
                 foreach($coupon as $key => $values){
                     $values['scope'] = explode(",",$values['scope']);
+                    $values['suit_price'] = explode(",",$values['suit_price']);
                     $values['start_time'] = strtotime($values['start_time']);
                     $values['end_time'] = strtotime($values['end_time']);
                     if(in_array($member_grade_name,$values['scope']) && $values['end_time'] > $time){
@@ -214,8 +216,8 @@ class Coupon extends Controller
             // $goods_id = array_unique($datas['goods_id']);
             $goods_id = array_unique($datas['goods_id']);
             $open_id = $datas['open_id'];
-            $money = $datas['money'];
-            $member_grade_name = $datas['member_grade_name'];
+            $money = $datas['money'];     //优惠价金额
+            $member_grade_name = $datas['member_grade_name'];   //会员等级
             $goods_type = $datas['coupon_type'];
                      
             $coupons = Db::name("coupon")->where("use_price","<=",$money)->where("store_id","EQ",$store_id)->where("coupon_type",$goods_type)->field('id,use_price,scope,start_time,end_time,money,suit,label,suit_price')->select();
@@ -237,6 +239,7 @@ class Coupon extends Controller
                 foreach($coupons as $keyl => $valuel){
                     if((!in_array($valuel['id'],$rest)) && !empty($valuel) ){  //判断优惠券是否已被使用
                     $valuel['scope'] = explode(",",$valuel['scope']);
+                    $valuel['suit_price'] = explode(",",$valuel['suit_price']);
                     $valuel['start_time'] = strtotime($valuel['start_time']);
                     $valuel['end_time'] = strtotime($valuel['end_time']);
                     if(in_array($member_grade_name,$valuel['scope']) && $valuel['end_time'] > $time){ //判断是否在适用范围和是否过期
@@ -252,6 +255,7 @@ class Coupon extends Controller
         } else { //如果没有使用过
                 foreach($coupons as $key => $values){
                     $values['scope'] = explode(",",$values['scope']);
+                    $values['suit_price'] = explode(",",$values['suit_price']);
                     $values['start_time'] = strtotime($values['start_time']);
                     $values['end_time'] = strtotime($values['end_time']);
                     $values['suit_price'] = explode(",",$values['suit_price']);
