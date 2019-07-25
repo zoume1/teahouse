@@ -224,7 +224,7 @@ class Pay extends  Controller{
         $open_ids =Db::name("member")
             ->where("member_id",$member_id)
             ->find();
-        $order_numbers =$request->param("parts_order_number");//订单编号
+        $order_numbers =$request->param("order_number");//订单编号
         $order_datas = Db::name("crowd_order")
             ->where("parts_order_number",$order_numbers)
             ->where("member_id", $member_id)
