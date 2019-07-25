@@ -30,6 +30,7 @@ class  Order extends  Controller{
             ->order("order_create_time","desc")
             ->where("store_id",'EQ',$store_id)
             ->where($where)
+            ->page('parts_order_number')
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
