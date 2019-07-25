@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        i{font-style: normal;}
+        a{text-decoration: none; color: #0066FF;}
+        .red{color: #f00;}
+        .content{max-width: 1000px; min-width: 600px; margin: 50px auto 0;}
+        .header{display: flex; align-items: center; justify-content: center;}
+        .header i.item-i{display: inline-block; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; background-color: #bcbcbc; color: #fff; font-size: 24px; margin-right: 10px;}
+        .header i.item-i.curr-i{background-color: #428bca;}
+        .header span.item-name{font-size: 20px; color: #333;}
+        .header .hd-arrow{margin: 0 25px;}
+        .tip-box .tip-cont{padding-left: 35px;}
+        .to-index{display: inline-block; color: #fff; font-size: 16px; background-color: #35aa47; padding: 10px 40px; margin: 20px 0 0 35px; border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="hd-one">
+                <i class="item-i curr-i">1</i>
+                <span class="item-name">小程序授权</span>
+            </div>
+            <div class="hd-arrow">
+                <img src="__STATIC__/admin/index/img/u40262p000.png">
+            </div>
+            <div class="hd-two">
+                <i class="item-i">2</i>
+                <span class="item-name">发布小程序</span>
+            </div>
+        </div>
+        <div class="tip-box">
+            <span class="red" style="float: left;">注：</span>
+            <div class="tip-cont">
+                <p>您申请的小程序如涉及食品的在线交易及配送，请<a href="https://mp.weixin.qq.com/cgi-bin/loginpage?t=wxm2-login&lang=zh_CN" target="_blank">登录小程序</a>
+                    在“设置”-“基本设置”-“服务类目”中补充选择<span class="red">商家自营-食品</span>类目该类目要提供行业资质材料
+                    <a href="https://developers.weixin.qq.com/miniprogram/product/material/shangjiaziying/shipin.html" target="_blank">《食品经营许可证》</a>请及时准备哟！
+                </p>
+                <a href="https://developers.weixin.qq.com/miniprogram/product/material/" target="_blank">1、特殊行业所需要的资质材料</a>
+            </div>
+        </div>
+        <a href="auth_index" class="to-index">进入第三方授权界面</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        i{font-style: normal;}
+        a{text-decoration: none; color: #0066FF;}
+        li{list-style: none;}
+        .fl{float: left; text-align: right; width: 120px;}
+        .red{color: #f00;}
+        .pl150{padding-left: 150px;}
+        .content{max-width: 1000px; min-width: 600px; margin: 50px auto 0;}
+        .header{display: flex; align-items: center; justify-content: center;}
+        .header i.item-i{display: inline-block; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; background-color: #bcbcbc; color: #fff; font-size: 24px; margin-right: 10px;}
+        .header i.item-i.curr-i{background-color: #428bca;}
+        .header span.item-name{font-size: 20px; color: #333;}
+        .header .hd-arrow{margin: 0 25px;}
+        
+        .mask{position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, .5);}
+        .tip-pop{width: 500px; min-height: 200px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: #fff;}
+        .tip-pop .title{height: 35px; line-height: 35px; background: #e4e4e4; padding-left: 20px;}
+        .tip-pop .tip-cont{padding: 30px 20px; text-align: center;}
+        .tip-pop .btns{text-align: center;}
+        .tip-pop .btns button{width: 100px; height: 35px; border-radius: 3px; text-align: center; color: #fff; background-color: #6c6c6c; border: 0;}
+        .tip-pop .btns button.confirm{background-color: #169bd5; margin-left: 50px;}
+        
+        .main{width: 50%; margin: 50px auto 0;}
+        .main ul li{padding: 18px 0;}
+        .main ul li .qr-code{width: 100px; height: 100px; vertical-align: top;}
+        .main li .wx-num{height: 25px;}
+        .main li .set-btn{width: 100px; height: 30px; line-height: 30px; text-align: center; color: #fff; background-color: #169bd5; border: 0; border-radius: 3px;}
+        .flow-btns{margin-top: 40px; text-align: center;}
+        .flow-btns button{color: #fff; border-radius: 5px; height: 40px; line-height: 40px; border: 0; padding: 0 25px;}
+        .flow-btns button.upload{background-color: #35aa47;}
+        .flow-btns button.get-code{background-color: #6699ff;}
+        .flow-btns button.publish{background-color: #ff9900;}
+        .flow-btns button.relieve{background-color: #ff0000;}
+        .flow-btns img{vertical-align: middle;}
+        .flow-btns .dott{display: inline-block; width: 50px; border-top: 2px dashed #428bca; vertical-align: middle;}
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="hd-one">
+                <i class="item-i curr-i">1</i>
+                <span class="item-name">小程序授权</span>
+            </div>
+            <div class="hd-arrow">
+                <img src="__STATIC__/admin/index/img/u40262p000.png">
+            </div>
+            <div class="hd-two">
+                <i class="item-i curr-i">2</i>
+                <span class="item-name">发布小程序</span>
+            </div>
+        </div>
+        <div class="main">
+            <ul>
+                <li>
+                    <span class="fl">小程序名称</span>
+                    <div class="pl150">智慧茶仓</div>
+                </li>
+                <li>
+                    <span class="fl">小程序AppID</span>
+                    <div class="pl150">wx37e840c96f13f585</div>
+                </li>
+                <li>
+                    <span class="fl">小程序认证</span>
+                    <div class="pl150">已微信认证</div>
+                </li>
+                <li>
+                    <span class="fl">小程序服务类目</span>
+                    <div class="pl150">
+                        <select style="height: 25px;">
+                            <option value="商家自营-食品类目">商家自营-食品类目</option>
+                        </select>
+                    </div>
+                </li>
+                <li>
+                    <span class="fl">发布状态</span>
+                    <div class="pl150">未发布
+                        <a href="#">查看发布详情</a>
+                    </div>
+                </li>
+                <li>
+                    <span class="fl">小程序二维码</span>
+                    <div class="pl150">
+                        <img src="__STATIC__/admin/index/img/u40861.png" class="qr-code">
+                        <a href="#">查看大图</a>
+                    </div>
+                </li>
+                <li>
+                    <span class="fl">添加体验号</span>
+                    <div class="pl150">
+                        <input type="text" class="wx-num" placeholder="请填写微信号">
+                        <button class="set-btn">设为体验者</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="flow-btns">
+            <button class="upload">一键上传店铺代码</button>
+            <img src="__STATIC__/admin/index/img/u40262p000.png">
+            <button class="get-code">获取体验二维码</button>
+            <img src="__STATIC__/admin/index/img/u40262p000.png">
+            <button class="publish">发布正式版小程序</button>
+            <span class="dott"></span>
+            <button class="relieve">解除授权绑定</button>
+        </div>
+    </div>
+
+    <div class="mask" style="display: none;"></div>
+    <!-- 发布提示 -->
+    <div class="tip-pop" style="display: none;">
+        <p class="title">发布提示</p>
+        <div class="tip-cont">正式版需微信平台方审核通过，一般需要1~2个工作日，您对体验版很满意，确定要发布正式版吗？</div>
+        <div class="btns">
+            <button>取消</button>
+            <button class="confirm">确定</button>
+        </div>
+    </div>
+    <!-- 小程序发布详情 -->
+    <div class="tip-pop" style="display: none;">
+        <p class="title">小程序发布详情</p>
+        <div class="tip-cont">非正式版，暂无数据</div>
+        <div class="btns">
+            <button>取消</button>
+        </div>
+    </div>
+    <!-- 解绑提示 -->
+    <div class="tip-pop" style="display: none;">
+        <p class="title">解绑提示</p>
+        <div class="tip-cont">此操作不可逆，如对装修不满意，可解绑后，再次装修上传店铺代码</div>
+        <div class="btns">
+            <button>取消</button>
+            <button class="confirm">确定</button>
+        </div>
+    </div>
+    <!-- 上传模板代码提示 -->
+    <div class="tip-pop" style="display: none;">
+        <p class="title">上传模板代码提示</p>
+        <div class="tip-cont">您还没有装修您的小程序，请认真装修您的店铺，规范的小程序装修，正式版通过机率更大~2个工作日，您对体验版很满意，确定要发布正式版吗？</div>
+        <div class="btns">
+            <button>取消</button>
+            <button class="confirm">立即装修</button>
+        </div>
+    </div>
+    <!-- 上传模板代码提示 -->
+    <div class="tip-pop" style="display: none;">
+        <p class="title">上传模板代码提示</p>
+        <div class="tip-cont">模版代码已上传，请耐心等待1~2天后，查看体验二维码</div>
+        <div class="btns">
+            <button>取消</button>
+            <button class="confirm">立即装修</button>
+        </div>
+    </div>
+</body>
+</html>

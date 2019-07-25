@@ -507,7 +507,7 @@ class  Order extends  Controller
                         $res = Db::name('house_order')->insertGetId($datas);
                         if ($res) {
                             $order_datas =Db::name("house_order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
