@@ -931,7 +931,7 @@ class Goods extends Controller
         if(!empty($crowd_data)){
             foreach ($crowd_data as $key => $value) {
                 $sum[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->sum("price");//众筹金额
-                $crowd_data[$key]["sum_price"] = $sum[$key];
+                $crowd_data[$key]["sum_price"] = sprintf("%.2f", $sum[$key]);
             }
         }   
 
