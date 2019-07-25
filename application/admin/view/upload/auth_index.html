@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        i{font-style: normal;}
+        a{text-decoration: none; color: #0066FF;}
+        li{list-style: none;}
+        .red{color: #f00;}
+        .content{max-width: 1000px; min-width: 600px; margin: 50px auto 0;}
+        .header{display: flex; align-items: center; justify-content: center;}
+        .header i.item-i{display: inline-block; width: 40px; height: 40px; text-align: center; line-height: 40px; border-radius: 50%; background-color: #bcbcbc; color: #fff; font-size: 24px; margin-right: 10px;}
+        .header i.item-i.curr-i{background-color: #428bca;}
+        .header span.item-name{font-size: 20px; color: #333;}
+        .header .hd-arrow{margin: 0 25px;}
+        .main{width: 380px; margin: 30px auto 0;}
+        .main h2{color: #333; text-align: center; margin-bottom: 30px;}
+        .main .main-box{border: 1px solid #cecece;}
+        .main .main-box .code-box{text-align: center;}
+        .main .main-box img{margin-top: 30px;}
+        .main .main-bot{background-color: #f6f8f9;}
+        .main .main-bot img{width: 36px; height: 36px; margin-right: 20px; vertical-align: middle;}
+        .main .main-bot ul{padding: 0 20px;}
+        .main .main-bot ul li{padding: 10px 0;}
+        .main .main-bot ul li p{padding-left: 45px;}
+        .mask{position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, .5);}
+        .tip-pop{width: 500px; min-height: 200px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: #fff;}
+        .tip-pop .title{height: 35px; line-height: 35px; background: #e4e4e4; padding-left: 20px;}
+        .tip-pop .tip-cont{padding: 30px 20px; text-align: center;}
+        .tip-pop .btns{text-align: center;}
+        .tip-pop .btns button{width: 100px; height: 35px; border-radius: 3px; text-align: center; color: #fff; background-color: #6c6c6c; border: 0;}
+        .tip-pop .btns button.confirm{background-color: #169bd5; margin-left: 50px;}
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="hd-one">
+                <i class="item-i curr-i">1</i>
+                <span class="item-name">小程序授权</span>
+            </div>
+            <div class="hd-arrow">
+                <img src="__STATIC__/admin/index/img/u40262p000.png">
+            </div>
+            <div class="hd-two">
+                <i class="item-i">2</i>
+                <span class="item-name">发布小程序</span>
+            </div>
+        </div>
+        <div class="main">
+            <h2>
+                <a href="auth_detail">公众平台账号授权</a>
+            </h2>
+            <div class="main-box">
+                <div class="code-box">
+                    <img src="__STATIC__/admin/index/img/u40531.png">   
+                    <p class="red" style="margin: 15px 0;">请使用公众平台绑定的管理员个人微信号扫描</p>
+                </div>
+            </div>
+            <div class="main-bot">
+                <ul>
+                    <li>
+                        <img src="__STATIC__/admin/index/img/u40537.png">
+                        <span style="vertical-align: middle;">智慧茶仓托管平台</span>
+                    </li>
+                    <li>
+                        <span style="float: left; color: #acacac;">标签</span>
+                        <p>电子商务 购物超市 智能建站 账号管理</p>
+                    </li>
+                    <li>
+                        <span style="float: left; color: #acacac;">简介</span>
+                        <p>提供小程序一键授权托管发布，提供基于物联网深度茶行业解决方案</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="mask" style="display: none;"></div>
+    <div class="tip-pop" style="display: none;">
+        <p class="title">提示</p>
+        <div class="tip-cont">你授权的对象不是小程序，请重新授权选择正确的对象！</div>
+        <div class="btns">
+            <button>取消</button>
+            <button class="confirm">确定</button>
+        </div>
+    </div>
+</body>
+</html>
