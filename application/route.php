@@ -914,6 +914,11 @@ Route::group("admin",[
     "preview2"=>"admin/Upload/preview",                             //一键生成--预览
     "upload2"=>"admin/Upload/upload",                             //一键生成--预览
     "uploadCode"=>"admin/Upload/uploadCode",                             //一键生成--预览
+    
+    
+    "auth_pre"=>"admin/Upload/auth_pre",                             //一键生成--第一页预备
+    "auth_index"=>"admin/Upload/auth_index",                             //一键生成--开始授权
+    "auth_detail"=>"admin/Upload/auth_detail",                             //一键生成--授权获取的详情
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
     "wx_login3"=>"admin/Wxview/wx_login",                            //一键生成

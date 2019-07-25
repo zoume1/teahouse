@@ -249,7 +249,6 @@ class Pay extends  Controller{
         //$input->SetOpenid($this->getSession()->openid);
         //         向微信统一下单，并返回order，它是一个array数组
         $order = \WxPayApi::unifiedOrder($input);
-        halt($order);
         //       json化返回给小程序端
         header("Content-Type: application/json");
         echo $this->getJsApiParameters($order);
