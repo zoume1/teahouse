@@ -20,7 +20,8 @@ Route::group("",[
 
     /*首页*/
     "weixintest"=>"index/WxTest/index", //微信扫码支付宝扫码测试
-    "qrcode"=>"index/WxTest/qrcode",//
+    "qrcode"=>"index/WxTest/qrcode",
+    "qrcode_create"=>"index/WxTest/qrcode_create",
     "/$"=>"index/index/index",
     /*TODO:PC端注册登录开始*/
     "PcsendMobileCode"=>"index/Register/PcsendMobileCode",//PC端注册验证码
@@ -67,7 +68,7 @@ Route::group("",[
     "my_index"=>"index/My/my_index",  //我的页面
     "wx_index"=>"index/Pay/index",//小程序支付（活动）
     "wx_order_index"=>"index/Pay/order_index",//小程序普通商品订单支付
-    "crowd_order_index"=>"index/Pay/crowd_order_index",//小程序众筹订单支付
+    "crowd_order"=>"index/Pay/crowd_order",//小程序众筹订单支付
     "wx_recharge_pay"=>"index/Pay/recharge_pay",//小程序充值支付
     "reward_pay"=>"index/Pay/reward_pay",   //众筹商品打赏支付
     "series_pay"=>"index/Pay/series_pay",   //仓库订单续费支付
@@ -913,6 +914,11 @@ Route::group("admin",[
     "preview2"=>"admin/Upload/preview",                             //一键生成--预览
     "upload2"=>"admin/Upload/upload",                             //一键生成--预览
     "uploadCode"=>"admin/Upload/uploadCode",                             //一键生成--预览
+    
+    
+    "auth_pre"=>"admin/Upload/auth_pre",                             //一键生成--第一页预备
+    "auth_index"=>"admin/Upload/auth_index",                             //一键生成--开始授权
+    "auth_detail"=>"admin/Upload/auth_detail",                             //一键生成--授权获取的详情
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
     "wx_login3"=>"admin/Wxview/wx_login",                            //一键生成

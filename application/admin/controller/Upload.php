@@ -347,5 +347,29 @@ class Upload extends Controller
             $this->error('发生未知错误, 操作失败, 请稍后再试!');
         }
     }
+    /**
+     * lilu
+     * 一键生成起始页面
+     */
+    public function auth_pre(){
+        
+        return view('auth_pre');
+    }
+    /**
+     * lilu
+     * 一键生成授权页面
+     */
+    public function auth_index(){
+
+        return view('auth_index');
+    }
+    /**
+     * lilu
+     * 一键生成授权详情
+     */
+    public function auth_detail(){
+
+        return view('auth_detail');
+    }
 
 }

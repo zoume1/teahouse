@@ -219,12 +219,12 @@ class Pay extends  Controller{
      **************************************
      * @param Request $request
      */
-    function crowd_order_index(Request $request) {
+    function crowd_order(Request $request) {
         $member_id = $request->param("member_id");//open_id
         $open_ids =Db::name("member")
             ->where("member_id",$member_id)
             ->find();
-        $order_numbers =$request->param("parts_order_number");//订单编号
+        $order_numbers =$request->param("order_number");//订单编号
         $order_datas = Db::name("crowd_order")
             ->where("parts_order_number",$order_numbers)
             ->where("member_id", $member_id)
