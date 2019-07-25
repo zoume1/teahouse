@@ -84,9 +84,26 @@ class WxTest extends Controller
         error_reporting(E_ERROR);
         include('../extend/WxpayAll/example/phpqrcode/phpqrcode.php');
         $url = $_GET["url2"];
-        \QRcode::clearhahah();
+        $qrcode = new \QRcode();
+        ob_end_clean();
+        $errorCorrectionLevel = 3;//容错级别
+        $matrixPointSize = 6;//生成图片大小
+        return $qrcode->png($url, false, $errorCorrectionLevel, $matrixPointSize, 2);
+        exit();
+    
+    }
 
-        \QRcode::png($url);
+
+    
+    public  function qrcode_create($url = 'http://www.baidu.com', $size = '6', $errorlevel = '3')
+    {
+        include('../extend/WxpayAll/example/phpqrcode/phpqrcode.php');
+        $qrcode = new \QRcode();
+        ob_end_clean();
+        $errorCorrectionLevel = intval($errorlevel);//容错级别
+        $matrixPointSize = intval($size);//生成图片大小
+        return $qrcode->png($url, false, $errorCorrectionLevel, $matrixPointSize, 2);
+        exit();
     }
     /**
      * lilu

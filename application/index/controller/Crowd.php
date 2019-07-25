@@ -98,18 +98,19 @@ class Crowd extends Controller
                         ->order("cost asc")
                         ->find();
                     $crowd[$key]["cost"] = $special[$key]["cost"]; //显示价格
-
+                    $crowd[$key]["collecting_money"] =  db("crowd_special")->where("goods_id",$crowd[$key]["id"])->sum("collecting_money"); //已筹款金额
+                    if($crowd[$key]["collecting_money"] > 0){
+                        $crowd[$key]["centum"] = intval(($crowd[$key]["collecting_money"]/$special[$key]["price"])*100);
+                    } else {
+                        $crowd[$key]["centum"] = 0;
+                    }
                     if($crowd[$key]["goods_member"] == 1){
                         $crowd[$key]["cost"] = $special[$key]["cost"] * $discount ;
                     }
                     
-                    if(!empty($special[$key]["collecting_money"])){
-                        $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
-                    } else {
-                        $crowd[$key]["centum"] = 0;
-                    }
+
                     //会员范围
-                    $crowd[$key]["collecting"] = $special[$key]["collecting"];
+                    $crowd[$key]["collecting"] = db("crowd_special")->where("goods_id",$crowd[$key]["id"])->sum("collecting");//众筹人数
                     if(!empty($crowd[$key]["scope"])){
                         if(!in_array($member_grade_name,$crowd[$key]["scope"])){ 
                             unset($crowd[$key]);

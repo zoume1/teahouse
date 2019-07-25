@@ -344,6 +344,10 @@
 		left: 170px;
 
 	}
+	td>div{border-bottom: 1px solid #e2e2e2;}
+	td>div:last-of-type{border: 0;}
+	td{padding: 4px 0 !important;}
+	td img{width: 50px; height:50px;}
 </style>
 
 {/block}
@@ -523,30 +527,41 @@
 					{if !empty($data)}
 					{volist name="data" id="vo"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
+						<td ><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
 						</td>
-						<td class="orderNumber">{$vo.parts_order_number}</td>
-						{if !empty($vo["goods_image"])}
-						<td class="">
-							<div class="tdimg"><img src="__UPLOADS__/{$vo.goods_image}" /></div>
-						</td>
-						{else}
+						<td  class="orderNumber">{$vo.parts_order_number}</td>
 						<td>
-							无
+							{volist name="vo['detail']" id="vo2"}
+								{if !empty($vo2["goods_image"])}
+									<div><img src="__UPLOADS__/{$vo2.goods_image}" /></div>
+									{else}
+									<div >无</div>
+								{/if}
+							{/volist}
 						</td>
-						{/if}
+						<td class="four">
+							{volist name="vo['detail']" id="vo2"}
+								<div style="height: 50px; line-height: 50px;">{$vo2.parts_goods_name}</div>
+							{/volist}
+						</td>
 						<td>
-							<div class="overflow">{$vo.parts_goods_name}</div>
+							{volist name="vo['detail']" id="vo2"}
+								<div style="height: 50px; line-height: 50px;">{$vo2.order_quantity}</div>
+							{/volist}
 						</td>
-						<td>{$vo.order_quantity}</td>
+								
+								<!-- <td>
+								<div class="overflow">{$vo2.parts_goods_name}</div>
+							</td>
+							<td>{$vo2.order_quantity}</td> -->
                         
-						<td>{$vo.user_phone_number}</td>
-						<td>{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
-						<td class="am">{$vo.order_real_pay}</td>
-						<td>
+						<td >{$vo.user_phone_number}</td>
+						<td >{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
+						<td  class="am">{$vo.order_real_pay}</td>
+						<td >
 							{$vo.order_type|order_type_status}
 						</td>
-						<td>
+						<td >
 							<div class="line">
 								<div class="static_btus" data-id="{$vo.id}" data-value="{$vo.status}">
 									{if $vo.order_type != 3}{$vo.status|show_order_status}{else}{$vo.status|show_house_order}{/if}
@@ -576,7 +591,6 @@
 						style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
-				{if !empty($data)}{$data->render()} {/if}
 			</div>
 		</div>
 	</div>

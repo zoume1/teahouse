@@ -261,6 +261,9 @@ class Bonus extends Controller
             if(isset($data["scope"])){     
                 $data["scope"] = implode(",", $data["scope"]);
             }
+            if(isset($data["suit_price"])){     
+                $data["suit_price"] = implode(",", $data["suit_price"]);
+            }
 
             unset($data["goods_number"]);
             if(!empty($data["goods_id"])){
@@ -335,8 +338,8 @@ class Bonus extends Controller
         $coupons = db("coupon")->where("id", $id)->select();
         foreach ($coupons as $k => $v) {
             $coupons[$k]["scope"] = explode(",", $coupons[$k]["scope"]);
+            $coupons[$k]["suit_price"] = explode(",", $coupons[$k]["suit_price"]);
         }
-        
         $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
         return view('coupon_edit', ["coupons" => $coupons, "scope" => $scope]);
 
@@ -376,6 +379,9 @@ class Bonus extends Controller
             $data = $request->param();
             if(isset($data["scope"])){
                 $data["scope"] = implode(",", $data["scope"]);
+            }
+            if(isset($data["suit_price"])){
+                $data["suit_price"] = implode(",", $data["suit_price"]);
             }
             
             if (!empty($data["goods_id"])) {
