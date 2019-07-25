@@ -20,7 +20,8 @@ Route::group("",[
 
     /*首页*/
     "weixintest"=>"index/WxTest/index", //微信扫码支付宝扫码测试
-    "qrcode"=>"index/WxTest/qrcode",//
+    "qrcode"=>"index/WxTest/qrcode",
+    "qrcode_create"=>"index/WxTest/qrcode_create",
     "/$"=>"index/index/index",
     /*TODO:PC端注册登录开始*/
     "PcsendMobileCode"=>"index/Register/PcsendMobileCode",//PC端注册验证码
