@@ -224,7 +224,7 @@
 		line-height: 30px;
 		text-align: center;
 		border: 1px solid #a2a2a2;
-		border-radius: 2px;
+		border-radius: 5px;
 		cursor: pointer;
 	}
 
@@ -238,7 +238,7 @@
 	.quxiao {}
 
 	.daying {
-		background: #169BD5;
+		background: rgb(22, 155, 213);
 		color: #fff;
 	}
 
@@ -348,6 +348,20 @@
 	td>div:last-of-type{border: 0;}
 	td{padding: 4px 0 !important;}
 	td img{width: 50px; height:50px;}
+	.popup_content1 {padding: 0 15px;}
+	.popup_content1 > td {
+		width: 120px;
+	}
+	.popup_t {
+		font-size: 18px;
+    	font-weight: 500;
+		color:black;
+		line-height: 40px;
+		display: flex;
+		justify-content : space-between;
+		padding: 0 15px;
+		align-items : flex-end;
+	}
 </style>
 
 {/block}
@@ -392,15 +406,14 @@
 	<div class="popup popup_two noshow">
 		<div class="popup_doms1">
 			<div id="dvMain">
-				<div class="popup_title" >
-					订单基本信息
-					<div class="popup_x">
-						<img src="__STATIC__/admin/index/img/X.png" />
-					</div>
+				<!-- <div class="popup_t" >
+					<div>订单基本信息</div>
+					<div><h1>周记茶叶</h1></div>
+					<div>账号：13414098760</div>
 				</div>
 				<div class="popup_content1" id="">
-
-				</div>
+					
+				</div> -->
 			</div>
 			<div class="button_all" >
 				<div class="quxiao button">取消</div>
@@ -1046,11 +1059,17 @@
 				success: function (data) {
 					var data = eval('(' + data + ')');
 					console.log(data);
+					
 					var dhtm9 = "";
+					dhtm9 += '<div class="popup_t" >';
+					dhtm9 += '<div>订单基本信息</div>';
+					// dhtm9 += '<div><h1>周记茶叶</h1></div>';
+					dhtm9 += '<div>账号：'+data.data.user_phone_number+'</div></div>';
+					dhtm9 += '<div class="popup_content1">';
 					dhtm9 += '<table class="layui-table">';
 					dhtm9 += '<tbody class="news_content">';
 					dhtm9 += '	<tr>';
-					dhtm9 += '	<td>用户账号：</td>';
+					dhtm9 += '	<td>昵称：</td>';
 					dhtm9 += '<td>' + data.data.user_account_name + '</td>';
 					dhtm9 += '<td>订单号：</td>';
 					dhtm9 += '<td>' + data.data.parts_order_number + '</td>';
@@ -1092,6 +1111,18 @@
 					dhtm9 += '<td>' + data.data.harvester_address + ' </td>';
 					dhtm9 += '</tr>';
 					dhtm9 += '<tr>';
+					dhtm9 += '<td>仓储费：</td>';
+					dhtm9 += '<td>' + data.data.storage + ' </td>';
+					dhtm9 += '<td>到店自提：</td>';
+					dhtm9 += '<td>' + data.data.harvester_address + ' </td>';
+					dhtm9 += '</tr>';
+					dhtm9 += '<tr>';
+					dhtm9 += '<td>运费：</td>';
+					dhtm9 += '<td>' + data.data.freight + ' </td>';
+					dhtm9 += '<td>运费单号：</td>';
+					dhtm9 += '<td>' + data.data.courier_number + ' </td>';
+					dhtm9 += '</tr>';
+					dhtm9 += '<tr>';
 					dhtm9 += '	<td>配送地址：</td>';
 					dhtm9 += '<td>' + data.data.harvester_address + '</td>';
 					dhtm9 += '<td>收货人信息：</td>';
@@ -1099,7 +1130,8 @@
 					dhtm9 += '	</tr>';
 					dhtm9 += '</tbody>';
 					dhtm9 += '	</table>';
-					$(".popup_content1").append(dhtm9);
+					dhtm9 += '	</div>';
+					$("#dvMain").append(dhtm9);
 
 				},
 				error: function (data) {
