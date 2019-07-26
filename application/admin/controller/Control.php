@@ -210,17 +210,12 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_order_add($id){
-        // $store_order = db("store")
-        //     ->where("id",$id)
-        //     ->select();
         $store_id = Session::get("store_id");
         $store_order = Db::table('tb_meal_orders')
         ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status,tb_store.address_data,tb_store.id_card,tb_store.card_positive,tb_store.store_introduction,tb_store.store_qq,tb_store.explain,tb_store.card_side")
         ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
         ->where("is_del",1)
         ->where("tb_meal_orders.id",$id)
-        ->where("tb_meal_orders.pay_type","NEQ","NULL")
-        ->where("store_id",$store_id)
         ->select();
     $payment_data = Db::name("meal_pay_form")->where("meal_order_id","EQ",$id)->find();
     if(!empty($payment_data)){
@@ -229,7 +224,10 @@ class  Control extends  Controller{
         $store_order[0]['pay_time'] = $payment_data['pay_time'];
         $store_order[0]['pay_money'] = $payment_data['money'];
     }
-        $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
+  
+        if(!empty($store_order)){
+            $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
+        }
         return view("control_order_add",["store_order"=>$store_order,"store_id"=>$store_id]);
     }
 
