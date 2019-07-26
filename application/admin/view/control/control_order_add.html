@@ -162,13 +162,13 @@
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>店铺名称</label>
 			<div class="form-input">
-				<input type="text"  value="{$value.store_name}" lay-verify="title" autocomplete="off" placeholder="店铺名称" class="layui-input">
+				<input type="text"  value="{$value.store_name}" lay-verify="title" autocomplete="off" placeholder="店铺名称" class="layui-input" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">用户账号</label>
 			<div class="form-input">
-				<input type="text"  value="{$value.phone_number}"lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+				<input type="text"  value="{$value.phone_number}"lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" disabled>
 				<div class="tips">
 					选填项
 				</div>
@@ -198,21 +198,21 @@
 		<div class="form-item">
 			<label class="form-label"></label>
 			<div class="form-input">
-				<input type="text" value="{$value.address_real_data}" lay-verify="title" autocomplete="off" placeholder="新闻路1号" class="layui-input" required>
+				<input type="text" value="{$value.address_real_data}" lay-verify="title" autocomplete="off" placeholder="新闻路1号" class="layui-input" required disabled>
 				
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">联系人姓名</label>
 			<div class="form-input">
-				<input type="text" value="{$value.contact_name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+				<input type="text" value="{$value.contact_name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required disabled>
 			
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">联系人身份证</label>
 			<div class="form-input">
-				<input type="text"  value="{$value.id_card}"lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+				<input type="text"  value="{$value.id_card}"lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" disabled>
 			</div>
 		</div>
 	
@@ -251,13 +251,13 @@
 		<div class="form-item">
 			<label class="form-label">店铺简介</label>
 			<div class="form-input line">
-				<textarea cols="60" rows="10">{$value.store_introduction}</textarea>
+				<textarea cols="60" rows="10" disabled>{$value.store_introduction}</textarea>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">店铺QQ</label>
 			<div class="form-input">
-					<input type="text" value="{$value.store_qq}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+					<input type="text" value="{$value.store_qq}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;" disabled>
 			</div>
 		</div>
 	
@@ -266,31 +266,31 @@
 		<div class="form-item">
 			<label class="form-label">支付方式</label>
 			<div class="form-input">
-				<input type="radio"  title="汇款支付" checked="" lay-filter="guige">
+				<input type="radio"  title="汇款支付" checked="" lay-filter="guige" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">付款姓名</label>
 			<div class="form-input">
-				<input type="text" value="{$value.remittance_name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+				<input type="text" value="{$value.remittance_name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">付款账号</label>
 			<div class="form-input">
-				<input type="text" value="{$value.remittance_account}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+				<input type="text" value="{$value.remittance_account}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">付款金额</label>
 			<div class="form-input">
-				<input type="text" value="{$value.pay_money}" name="pay_money" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+				<input type="text" value="{$value.pay_money}" name="pay_money" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">付款时间</label>
 			<div class="form-input">
-				<input type="text" {if !empty($value.pay_time)} value="{$value.pay_time |date='Y-m-d H:i',###}" {/if} lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+				<input type="text" {if !empty($value.pay_time)} value="{$value.pay_time |date='Y-m-d H:i',###}" {/if} lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;" disabled>
 				<div class="tips">*通过时间即为生效时间</div>
 			</div>
 		</div>
@@ -299,19 +299,19 @@
 		<div class="form-item">
 			<label class="form-label">支付方式</label>
 			<div class="form-input">
-				<input type="radio"  title="扫码支付" checked="" lay-filter="guige">
+				<input type="radio"  title="扫码支付" checked="" lay-filter="guige" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">付款金额</label>
 			<div class="form-input">
-				<input type="text" value="{$value.pay_money}"lay-verify="title" autocomplete="off" placeholder="" class="layui-input" style="border:0;">
+				<input type="text" value="{$value.pay_money}"lay-verify="title" autocomplete="off" placeholder="" class="layui-input" style="border:0;" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">付款时间</label>
 			<div class="form-input">
-				<input type="text" {if !empty($value.pay_time)} value="{$value.pay_time |date="Y-m-d H:i",###}" {/if}  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+				<input type="text" {if !empty($value.pay_time)} value="{$value.pay_time |date="Y-m-d H:i",###}" {/if}  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;" disabled>
 				<div class="tips">*通过时间即为生效时间</div>
 			</div>
 		</div>
@@ -320,31 +320,31 @@
 		<div class="form-item">
 			<label class="form-label">支付方式</label>
 			<div class="form-input">
-				<input type="radio"  title="余额支付" checked="" lay-filter="guige">
+				<input type="radio"  title="余额支付" checked="" lay-filter="guige" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">付款姓名</label>
 			<div class="form-input">
-				<input type="text" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+				<input type="text" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">付款账号</label>
 			<div class="form-input">
-				<input type="text"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+				<input type="text"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">付款金额</label>
 			<div class="form-input">
-				<input type="text"  value="{$value.pay_money}"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+				<input type="text"  value="{$value.pay_money}"  lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;" disabled>
 			</div>
 		</div>
 		<div class="form-item">
 			<label class="form-label">付款时间</label>
 			<div class="form-input">
-				<input type="text"  {if !empty($value.pay_time)} value="{$value.pay_time |date="Y-m-d H:i",###}" {/if} lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;">
+				<input type="text"  {if !empty($value.pay_time)} value="{$value.pay_time |date="Y-m-d H:i",###}" {/if} lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="border:0;" disabled>
 				<div class="tips">*通过时间即为生效时间</div>
 			</div>
 		</div>
@@ -375,11 +375,12 @@
 			<div class="form-input">		
 			{if $value.status == 1}
 			<input type="radio" name="status" value="1" title="通过" checked="">
-			<input type="radio" name="status" value="-1" title="不通过"> {else}
-			<input type="radio" name="status" value="1" title="通过">
+			<input type="radio" name="status" value="-1" title="不通过" disabled> {else}
+			<input type="radio" name="status" value="1" title="通过" disabled>
 			<input type="radio" name="status" value="-1" title="不通过" checked="">{/if}	
 			</div>
 		</div>
+		{if !empty($value.explain)}
 		<div class="form-item">
 				<label class="form-label">审核说明</label>
 				<div class="form-input">
@@ -389,6 +390,7 @@
 					</div>
 				</div>
 			</div>
+		{/if}
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>

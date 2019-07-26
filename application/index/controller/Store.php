@@ -273,12 +273,14 @@ class  Store extends  Controller{
                 $time = time();
                 $data[$key]['goods_name'] = $rest[$key]['goods_name'];
                 $data[$key]['time'] = round(($rest[$key]["end_time"]-$time)/86400);
-                if($data[$key]['time'] == 0){
-                    $role_id=8;
-                    $boole = Db::name('admin')->where("store_id",$data[$key]['id'])->update(['role_id'=>$role_id]);
-                }
+
                 if($data[$key]['time'] < 0){
                     $data[$key]['time'] = 0;
+                }
+                
+                if($data[$key]['time'] == 0){
+                    $role_id = 8;
+                    $boole = Db::name('admin')->where("store_id",$data[$key]['id'])->update(['role_id'=>$role_id]);
                 }
                 $data[$key]['meal_id'] = $rest[$key]['id'];
               if($rest[$key]['enter_all_id'] <= 6)
