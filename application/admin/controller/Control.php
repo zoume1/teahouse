@@ -224,7 +224,7 @@ class  Control extends  Controller{
         $store_order[0]['pay_time'] = $payment_data['pay_time'];
         $store_order[0]['pay_money'] = $payment_data['money'];
     }
-  
+
         if(!empty($store_order)){
             $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
         }
@@ -325,6 +325,7 @@ class  Control extends  Controller{
                 if($audit_status == 1){    
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除已付款的订单
+                    //上一单
                     $is_set_order = Db::name("set_meal_order")
                     ->where("store_id",$is_pay["store_id"])
                     ->where("audit_status",'EQ',1)
@@ -350,6 +351,7 @@ class  Control extends  Controller{
 
                     //升级套餐
                     if($is_set_order){
+                        
                         $rest = Db::name("meal_orders")
                         ->where("order_number",$is_pay["order_number"])
                         ->update($data);
@@ -357,6 +359,8 @@ class  Control extends  Controller{
                         $res = Db::name("set_meal_order")
                         ->where("order_number",$is_set_order["order_number"])
                         ->update($data);
+
+                        //删除订单
                        $delete_new_order = Db::name('set_meal_order')->where('order_number',$is_pay["order_number"])->delete();
                        if($res){                           
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
@@ -376,7 +380,7 @@ class  Control extends  Controller{
                         if($bool){
                             $this->success("审核成功", url("admin/Control/control_order_index"));
                         } else {
-                            $this->error("审核失败", url("admin/Control/control_order_index"));
+                            $this->error("审核成功", url("admin/Control/control_order_index"));
                         }
                     } else {
                             $this->error("审核错误", url("admin/Control/control_order_index"));    

@@ -380,11 +380,11 @@
 			<input type="radio" name="status" value="-1" title="不通过" checked="">{/if}	
 			</div>
 		</div>
-		{if !empty($value.explain)}
+		{if !empty($value.explains)}
 		<div class="form-item">
 				<label class="form-label">审核说明</label>
 				<div class="form-input">
-					<input type="text" name="explain" value="{$value.explain}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >
+					<input type="text" name="explain" value="{$value.explains}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input"  disabled>
 			        <div class="tips">
 						*少于20字
 					</div>
