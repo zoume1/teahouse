@@ -137,7 +137,7 @@ class WxTest extends Controller
         $param ['component_appid'] = $tok['appid'];
         $param ['component_appsecret'] = $tok['appsecret'];
         $param ['component_verify_ticket'] = $tok['componentverifyticket'];
-        $data = post_data ( $url, $param );
+        $data =$this->post_data ( $url, $param );
         $token['component_access_token'] = $data ['component_access_token'];
         $token['token_time'] = time()+300;
         db('wx_threeopen') ->where(array('id'=>1))->update($token);
@@ -154,48 +154,42 @@ class WxTest extends Controller
      * 微信公众平台---第三方授权（小程序）
      */
     public function receive_ticket(){
-            $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
-            $encryptMsg = file_get_contents('php://input');
-            $xml_tree = new \DOMDocument();
-            $xml_tree->loadXML($encryptMsg);
-            $array_e = $xml_tree->getElementsByTagName('Encrypt');
-            $encrypt = $array_e->item(0)->nodeValue;
-
             $timeStamp  = empty($_GET['timestamp'])     ? ""    : trim($_GET['timestamp']) ;
             $nonce      = empty($_GET['nonce'])     ? ""    : trim($_GET['nonce']) ;
             $msg_sign   = empty($_GET['msg_signature']) ? ""    : trim($_GET['msg_signature']) ;
-
-            $format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
-            $from_xml = sprintf($format, $encrypt);
-            $this->logResult('/form.log', $from_xml);
-            // 第三方收到公众号平台发送的消息
-            $msg = '';
-            $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
+            $encryptMsg = file_get_contents('php://input');
+            $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
+             // 第三方收到公众号平台发送的消息
+             $msg = '';
+            $errCode = $pc->decryptMsg ($msg_sign, $timeStamp, $nonce, $encryptMsg, $msg );
             if ($errCode == 0) {
-                //print("解密后: " . $msg . "\n");
-                $xml = new \DOMDocument();
-                $xml->loadXML($msg);
-                $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
-                $component_verify_ticket = $array_e->item(0)->nodeValue;
-                file_put_contents(LOGPATH.'/ticket.log', $component_verify_ticket);
-                $this->logResult('/msgmsg.log','解密后的component_verify_ticket是：'.$component_verify_ticket);
-                // mysql_query("update web_map set bei='$component_verify_ticket' where Id=4");//把获取到的component_verify_ticket存入数据库
-                //获取到的ticket保存到数据库
-                $token['component_access_token'] = $component_verify_ticket;
-                $token['token_time'] = time()+300;
-                db('wx_threeopen') ->where(array('id'=>1))->update($token);
+                $pp['msg']=$msg;
+                db('test')->insert($pp);
+                $data = $this->_xmlToArr ( $msg);
+                if (isset ( $data['ComponentVerifyTicket'] )) {
+                    $config['componentverifyticket'] = $data ['ComponentVerifyTicket'];
+                    $config['create_time'] =time()+300;
+                    db('wx_threeopen') ->where('id',1)->update($token);
+                } elseif ($data ['InfoType'] =='unauthorized') {
+                    // 在公众号后台取消授权后，同步把系统里的公众号删除掉，并更新相关用户缓存
+                    // $map ['appid'] = $data['AuthorizerAppid'];
+                    // $map2 ['id'] = M ('WechatPublic' )->where ($map)->update ( 'id' );
+                    // if ($map2 ['id']) {
+                    //     M ( 'WechatPublic')->where ( $map2 )->delete();
+                    // }
+                }
                 echo 'success';
-            
             } else {
-                $this->logResult('/error.log','解密后失败：'.$errCode);
-                // print($errCode . "\n");
+                $pp['msg']=$msg;
+                db('test')->insert($pp);
+                echo '解密失败'.$errCode;
             }
         }
-        public function logResult($path,$data){
-            file_put_contents(LOGPATH.$path, '['.date('Y-m-d : h:i:sa',time()).']'.$data."\r\n",FILE_APPEND);
-                
+        public function _xmlToArr($xml) {
+            $res = @simplexml_load_string ( $xml,NULL, LIBXML_NOCDATA );
+            $res = json_decode ( json_encode ( $res), true );
+            return $res;
         }
-
 
 
 
