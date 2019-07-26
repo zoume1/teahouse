@@ -1751,16 +1751,24 @@ class Crowdfinancing extends Controller
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
              file_put_contents(EXTEND_PATH."data.txt",$val);
-             //找到订单消息
-             //增加项目众筹金额 collecting_money
-             //筹款人数 collecting
-            $information =Db::name("crowd_order")->where("parts_order_number",$val["out_trade_no"])->find();
+             //1找到订单消息
+             //2增加项目众筹金额 collecting_money
+             //3筹款人数 collecting
+            $information = Db::name("crowd_order")->where("parts_order_number",$val["out_trade_no"])->find();
+            
             $res = Db::name("crowd_order")
                 ->where("parts_order_number",$val["out_trade_no"])
-                ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);         
+                ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);   
+
                 $host_rest = Db::name("house_order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+
+            $restel_one  = Db::name("crowd_special") -> where("goods_id",$information['special_id'])->setInc('collecting_money',$information['order_amount']);
+            $restel_two  = Db::name("crowd_special") -> where("goods_id",$information['special_id'])->setInc('collecting');
+            $restel_three  = Db::name("crowd_special") -> where("goods_id",$information['special_id'])->setInc('collecting_number',$information['order_quantity']);
+
+
             if($res || $host_rest){
                 //做消费记录
                 $user_information =Db::name("member")

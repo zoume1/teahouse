@@ -2455,6 +2455,9 @@ class  Order extends  Controller
             if($res){
                 //做消费记录
                 $information =Db::name("reward")->field("money,order_number,crowd_name,member_id")->where("order_number",$val["out_trade_no"])->find();
+
+                $rest_one = Db::name("crowd_goods")->where("id",$information['goods_id'])->setInc('collecting_money',$information['money']);
+                $rest_two = Db::name("crowd_goods")->where("id",$information['goods_id'])->setInc('collecting');
                 $member_wallet =Db::name("member")
                     ->where("member_id",$information["member_id"])
                     ->value('member_wallet');
