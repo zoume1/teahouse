@@ -3,7 +3,6 @@
     width: 14px;
     height: 14px;
     margin-top: 1px;
-    *
     margin-right: .3em;
     line-height: 14px;
     vertical-align: text-top;
@@ -23,5 +22,5 @@
 }
 .tanimg{
     width: 750px;
-    height: 650px;
+    height: 550px;
 }
