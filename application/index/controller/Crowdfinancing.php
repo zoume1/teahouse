@@ -203,7 +203,7 @@ class Crowdfinancing extends Controller
                         $datas["receipt_id"] = $receipt_id;
                         $datas["receipt_price"] = $receipt_price;
                         $datas["store_id"] = $store_id;
-                        $datas["order_real_pay"] = 0.01;
+                        // $datas["order_real_pay"] = 0.01;
                                         
                         $res = Db::name('crowd_order')->insertGetId($datas);
                         if ($res) {
