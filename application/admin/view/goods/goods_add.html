@@ -1646,19 +1646,27 @@
                     }
                 });
                 $(".general_content").on("click", ".add_danwei1", function () {
+                    console.log(111)
                     var i = parseInt($(this).data("id"));
                     var select = $(this).siblings(".packing").val()
                     if (select != "0") {
                         if(keyArr.unitKey2 < 3){
-                            keyArr.unitKey2 ++;
                             var danwei1 = '';
-                            danwei1 += '<div class="danwei_content">';
-                            danwei1 += '<div class="fuhao">=</div>';
-                            danwei1 += '<input type="text" name="' + select + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
-                            danwei1 += '<input type="text" name="' + select + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="2" >';
-                            danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
-                            danwei1 += '</div>';
-
+                            if(keyArr.unitKey2 == 0){
+                                danwei1 += '<div class="danwei_content">';
+                                danwei1 += '<input type="text" name="' + select + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" value="1" class="layui-input" required>';
+                                danwei1 += '<input type="text" name="' + select + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="2" >';
+                                danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                                danwei1 += '</div>';
+                            }else{
+                                danwei1 += '<div class="danwei_content">';
+                                danwei1 += '<div class="fuhao">=</div>';
+                                danwei1 += '<input type="text" name="' + select + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" required>';
+                                danwei1 += '<input type="text" name="' + select + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="2" >';
+                                danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                                danwei1 += '</div>';
+                            }
+                            keyArr.unitKey2 ++;
                             $(this).before(danwei1);
                         }else{
                             layer.msg('最多添加三个单位！');
