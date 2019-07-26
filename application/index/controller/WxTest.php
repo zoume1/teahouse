@@ -7,12 +7,15 @@
  */
 namespace app\index\controller;
 use think\Controller;
+
+include('../extend/SampleCode/php/wxBizMsgCrypt.php');
+
 class WxTest extends Controller
 {
-    private $appid = '';            //第三方平台应用appid
-    private $appsecret = '';     //第三方平台应用appsecret
+    private $appid = ' wx4a653e89161abf1c';            //第三方平台应用appid
+    private $appsecret = '4d88679173c2eb375b20ed57459973be';     //第三方平台应用appsecret
     private $token = 'zhihuichacang';           //第三方平台应用token（消息校验Token）
-    private $encodingAesKey = 'zhihuichacangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
+    private $encodingAesKey = 'zhihuichacangzhihuicangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
     private $component_ticket= 'ticket@**xv-g';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
     /**
      **************李火生*******************
@@ -123,7 +126,7 @@ class WxTest extends Controller
         //获取第三方平台基础信息
     public function component_detail(){
         //获取
-            $res = M('Public')->where(array('id'=>1))->find();
+            $res = db('wx_threeopen')->where(array('id'=>1))->find();
             return $res;
         }
     //重新获取component_access_token
@@ -136,14 +139,14 @@ class WxTest extends Controller
         $param ['component_verify_ticket'] = $tok['componentverifyticket'];
         $data = post_data ( $url, $param );
         $token['component_access_token'] = $data ['component_access_token'];
-        $token['token_time'] = date("Y-m-d H:i:s");
-        M('Public') ->where(array('id'=>1))->setField($token);
+        $token['token_time'] = time()+300;
+        db('wx_threeopen') ->where(array('id'=>1))->update($token);
         return $data['component_access_token'];
     }
         //获取时间差
         public function validity($time){
             $current_time = time();
-            $difference_time = $current_time - strtotime($time);
+            $difference_time = $current_time - $time;
             return $difference_time;
         }
          /**
@@ -151,9 +154,47 @@ class WxTest extends Controller
      * 微信公众平台---第三方授权（小程序）
      */
     public function receive_ticket(){
+            $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
+            $encryptMsg = file_get_contents('php://input');
+            $xml_tree = new \DOMDocument();
+            $xml_tree->loadXML($encryptMsg);
+            $array_e = $xml_tree->getElementsByTagName('Encrypt');
+            $encrypt = $array_e->item(0)->nodeValue;
 
-        
-    }
+            $timeStamp  = empty($_GET['timestamp'])     ? ""    : trim($_GET['timestamp']) ;
+            $nonce      = empty($_GET['nonce'])     ? ""    : trim($_GET['nonce']) ;
+            $msg_sign   = empty($_GET['msg_signature']) ? ""    : trim($_GET['msg_signature']) ;
+
+            $format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
+            $from_xml = sprintf($format, $encrypt);
+            $this->logResult('/form.log', $from_xml);
+            // 第三方收到公众号平台发送的消息
+            $msg = '';
+            $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
+            if ($errCode == 0) {
+                //print("解密后: " . $msg . "\n");
+                $xml = new \DOMDocument();
+                $xml->loadXML($msg);
+                $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
+                $component_verify_ticket = $array_e->item(0)->nodeValue;
+                file_put_contents(LOGPATH.'/ticket.log', $component_verify_ticket);
+                $this->logResult('/msgmsg.log','解密后的component_verify_ticket是：'.$component_verify_ticket);
+                // mysql_query("update web_map set bei='$component_verify_ticket' where Id=4");//把获取到的component_verify_ticket存入数据库
+                //获取到的ticket保存到数据库
+                $token['component_access_token'] = $component_verify_ticket;
+                $token['token_time'] = time()+300;
+                db('wx_threeopen') ->where(array('id'=>1))->update($token);
+                echo 'success';
+            
+            } else {
+                $this->logResult('/error.log','解密后失败：'.$errCode);
+                // print($errCode . "\n");
+            }
+        }
+        public function logResult($path,$data){
+            file_put_contents(LOGPATH.$path, '['.date('Y-m-d : h:i:sa',time()).']'.$data."\r\n",FILE_APPEND);
+                
+        }
 
 
 
