@@ -368,7 +368,7 @@ Route::group("",[
     "crowd_order_details"=>"index/Crowdfinancing/crowd_order_details",                       //订单详情
     "crowd_order_del"=>"index/Crowdfinancing/crowd_order_del",                               //买家删除订单接口(ajax)
     "crowd_no_pay_cancel"=>"index/Crowdfinancing/crowd_no_pay_cancel",                       //订单状态修改（未付款买家取消订单）
-    "crowd_order_notify"=>"index/Crowdfinancing/crowd_order_notify",                         //小程序订单支付成功回来修改状态
+    "crowd_order_notify"=>"index/Crowdfinancing/crowd_order_notify",                         //小程序众筹订单支付成功回来修改状态
     "ceshi"=>"index/Crowdfinancing/ceshi",                         
     
 
@@ -378,8 +378,8 @@ Route::group("",[
     "get_crowd_goods_id_to_shopping"=>"index/CrowdShopping/get_crowd_goods_id_to_shopping", //获取商品id 存入购物车
     "crowd_shopping_information_add"=>"index/CrowdShopping/crowd_shopping_information_add", //购物车添加商品数量
     "crowd_shopping_information_del"=>"index/CrowdShopping/crowd_shopping_information_del", //购物车减少商品数量
-    "crowd_shopping_del"=>"index/CrowdShopping/crowd_shopping_del",                        //购物车删除
-    "crowd_shopping_numbers"=>"index/CrowdShopping/crowd_shopping_numbers",                //购物车数量返回
+    "crowd_shopping_del"=>"index/CrowdShopping/crowd_shopping_del",                         //购物车删除
+    "crowd_shopping_numbers"=>"index/CrowdShopping/crowd_shopping_numbers",                 //购物车数量返回
 
     /*TODO:购物车结束*/
 
