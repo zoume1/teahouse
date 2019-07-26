@@ -210,17 +210,12 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_order_add($id){
-        // $store_order = db("store")
-        //     ->where("id",$id)
-        //     ->select();
         $store_id = Session::get("store_id");
         $store_order = Db::table('tb_meal_orders')
         ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status,tb_store.address_data,tb_store.id_card,tb_store.card_positive,tb_store.store_introduction,tb_store.store_qq,tb_store.explain,tb_store.card_side")
         ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
         ->where("is_del",1)
         ->where("tb_meal_orders.id",$id)
-        ->where("tb_meal_orders.pay_type","NEQ","NULL")
-        ->where("store_id",$store_id)
         ->select();
     $payment_data = Db::name("meal_pay_form")->where("meal_order_id","EQ",$id)->find();
     if(!empty($payment_data)){
@@ -229,7 +224,10 @@ class  Control extends  Controller{
         $store_order[0]['pay_time'] = $payment_data['pay_time'];
         $store_order[0]['pay_money'] = $payment_data['money'];
     }
-        $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
+
+        if(!empty($store_order)){
+            $store_order[0]["address_data"] = explode(",",$store_order[0]["address_data"]);
+        }
         return view("control_order_add",["store_order"=>$store_order,"store_id"=>$store_id]);
     }
 
@@ -327,6 +325,7 @@ class  Control extends  Controller{
                 if($audit_status == 1){    
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除已付款的订单
+                    //上一单
                     $is_set_order = Db::name("set_meal_order")
                     ->where("store_id",$is_pay["store_id"])
                     ->where("audit_status",'EQ',1)
@@ -352,6 +351,7 @@ class  Control extends  Controller{
 
                     //升级套餐
                     if($is_set_order){
+                        
                         $rest = Db::name("meal_orders")
                         ->where("order_number",$is_pay["order_number"])
                         ->update($data);
@@ -359,6 +359,8 @@ class  Control extends  Controller{
                         $res = Db::name("set_meal_order")
                         ->where("order_number",$is_set_order["order_number"])
                         ->update($data);
+
+                        //删除订单
                        $delete_new_order = Db::name('set_meal_order')->where('order_number',$is_pay["order_number"])->delete();
                        if($res){                           
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
@@ -378,7 +380,7 @@ class  Control extends  Controller{
                         if($bool){
                             $this->success("审核成功", url("admin/Control/control_order_index"));
                         } else {
-                            $this->error("审核失败", url("admin/Control/control_order_index"));
+                            $this->error("审核成功", url("admin/Control/control_order_index"));
                         }
                     } else {
                             $this->error("审核错误", url("admin/Control/control_order_index"));    
