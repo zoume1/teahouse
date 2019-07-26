@@ -814,13 +814,15 @@
 			dhtml2 += '<option value="'+express_name+'">'+express_name+'</option>';
 			dhtml2 += '</select>';
 			dhtml2 += '</div>';
+			$('.tip').remove();
+			var tip = '';
 			if(data_value=='8' || data_value==0){    //已完成
 				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" readonly class="layui-input danhao" value="'+express+'" style="width:58%;"  >';
 
 			}else{
 				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" value="'+express+'" style="width:58%;"  >';
 				dhtml2 += '<button type="button" class="submit_btns" data-id="">修改单号</button>';
-				
+				tip += '<text class="tip" >注：选择顺丰时单号前要加：SF</text>';
 				
 			}
 			
@@ -877,10 +879,12 @@
 				}else if (data_value ==4 ||  data_value ==5 ||   data_value==6 ||  data_value==7 ) {
 					$('.chenge_money').hide();
 					$(".operation").append(dhtml2);
+					$(".popup_content").append(tip);
 					$(".operation").data("id", data_value);
 				}else if(data_value=='8' || data_value==0){      //已完成
                     $('.chenge_money').hide();
 					$(".operation").append(dhtml2);
+					$(".popup_content").append(tip);
 					$(".operation").data("id", data_value);
 				}else{
 					$('.chenge_money').show();

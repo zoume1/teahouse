@@ -554,7 +554,7 @@
 						</td>
 						<td class="four">
 							{volist name="vo['detail']" id="vo2"}
-								<div style="height: 50px; line-height: 50px;">{$vo2.parts_goods_name}</div>
+								<div style="">{$vo2.parts_goods_name}</div>
 							{/volist}
 						</td>
 						<td>
@@ -867,7 +867,7 @@
 			}else{
 				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" value="'+express+'" style="width:58%;"  >';
 				dhtml2 += '<button type="button" class="submit_btns" data-id="">修改单号</button>';
-				tip += '<text class="tip" >注：选择顺丰时单号前要加：SF</text>';
+				
 			}
 			
 			var dhtml3 = "";
@@ -901,6 +901,7 @@
 			
 			dhtml3 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  style="width:58%;" >';
 			dhtml3 += '<button type="button" class="submit_btns" data-id="">确认发货</button>';
+			tip += '<text class="tip" >注：选择顺丰时单号前要加：SF</text>';
 			// var dhtml2="";
 			// dhtml2+='<div class="select_static">';
 			// dhtml2+='<span class="operation_title">选择操作</span>';
@@ -919,16 +920,17 @@
 				if (data_value == 2 || data_value==3) {   //代发货
 					$('.chenge_money').hide();
 					$(".operation").append(dhtml3);
+					$(".popup_content").append(tip);
 					$(".operation").data("id", data_value);
 				}else if (data_value ==4 ||  data_value ==5 ||   data_value==6 ||  data_value==7 ) {
 					$('.chenge_money').hide();
 					$(".operation").append(dhtml2);
-					$(".popup_content").append(tip);
+					
 					$(".operation").data("id", data_value);
 				}else if(data_value=='8' || data_value==0){    	  //已完成
                     $('.chenge_money').hide();
 					$(".operation").append(dhtml2);
-					$(".popup_content").append(tip);
+					
 					$(".operation").data("id", data_value);
 				}else{
 					$('.chenge_money').show();

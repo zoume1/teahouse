@@ -7,12 +7,15 @@
  */
 namespace app\index\controller;
 use think\Controller;
+
+include('../extend/SampleCode/php/wxBizMsgCrypt.php');
+
 class WxTest extends Controller
 {
-    private $appid = '';            //第三方平台应用appid
-    private $appsecret = '';     //第三方平台应用appsecret
+    private $appid = ' wx4a653e89161abf1c';            //第三方平台应用appid
+    private $appsecret = '4d88679173c2eb375b20ed57459973be';     //第三方平台应用appsecret
     private $token = 'zhihuichacang';           //第三方平台应用token（消息校验Token）
-    private $encodingAesKey = 'zhihuichacangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
+    private $encodingAesKey = 'zhihuichacangzhihuicangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
     private $component_ticket= 'ticket@**xv-g';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
     /**
      **************李火生*******************
@@ -123,7 +126,7 @@ class WxTest extends Controller
         //获取第三方平台基础信息
     public function component_detail(){
         //获取
-            $res = M('Public')->where(array('id'=>1))->find();
+            $res = db('wx_threeopen')->where(array('id'=>1))->find();
             return $res;
         }
     //重新获取component_access_token
@@ -134,16 +137,16 @@ class WxTest extends Controller
         $param ['component_appid'] = $tok['appid'];
         $param ['component_appsecret'] = $tok['appsecret'];
         $param ['component_verify_ticket'] = $tok['componentverifyticket'];
-        $data = post_data ( $url, $param );
+        $data =$this->post_data ( $url, $param );
         $token['component_access_token'] = $data ['component_access_token'];
-        $token['token_time'] = date("Y-m-d H:i:s");
-        M('Public') ->where(array('id'=>1))->setField($token);
+        $token['token_time'] = time()+300;
+        db('wx_threeopen') ->where(array('id'=>1))->update($token);
         return $data['component_access_token'];
     }
         //获取时间差
         public function validity($time){
             $current_time = time();
-            $difference_time = $current_time - strtotime($time);
+            $difference_time = $current_time - $time;
             return $difference_time;
         }
          /**
@@ -151,13 +154,55 @@ class WxTest extends Controller
      * 微信公众平台---第三方授权（小程序）
      */
     public function receive_ticket(){
-
-        
-    }
-
-
-
-
+            $timeStamp  = empty($_GET['timestamp'])     ? ""    : trim($_GET['timestamp']) ;
+            $nonce      = empty($_GET['nonce'])     ? ""    : trim($_GET['nonce']) ;
+            $msg_sign   = empty($_GET['msg_signature']) ? ""    : trim($_GET['msg_signature']) ;
+            $encryptMsg = file_get_contents('php://input');
+            if(!$encryptMsg){
+                $encryptMsg= $GLOBALS['HTTP_RAW_POST_DATA'];
+            }
+            $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
+            $xml_tree = new \DOMDocument();
+            $xml_tree->loadXML($encryptMsg);
+            $array_e = $xml_tree->getElementsByTagName('Encrypt');
+            $encrypt = $array_e->item(0)->nodeValue;
+            // $format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
+            $format = "";
+            $from_xml = sprintf($format, $encrypt);
+             // 第三方收到公众号平台发送的消息
+             $msg = '';
+            $errCode = $pc->decryptMsg ($msg_sign, $timeStamp, $nonce, $encryptMsg, $msg );
+            if ($errCode == 0) {
+                $pp['msg']=$msg;
+                db('test')->insert($pp);
+                $xml = new \DOMDocument();
+                $xml->loadXML($msg);
+                $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
+    
+                $component_verify_ticket = $array_e->item(0)->nodeValue;
+                // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
+                $da['component_verify_ticket']=$component_verify_ticket;
+                $da['token_time']=time()+300;
+                 db('wx_threeopen')->where('id',1)->update($da);
+    
+                 echo "success";
+            }else{
+                $pp['msg']=$errCode;
+                db('test')->insert($pp);
+                // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
+                // DB::getDB()->insert("wechat_verifyticket",array(
+                //     'component_verify_ticket'    => $errCode,
+                //     'uptime'                    => time()));
+                echo "false";
+                
+            }
+    
+        }
+        // public function _xmlToArr($xml) {
+        //     $res = @simplexml_load_string ( $xml,NULL, LIBXML_NOCDATA );
+        //     $res = json_decode ( json_encode ( $res), true );
+        //     return $res;
+        // }
 
 
 
