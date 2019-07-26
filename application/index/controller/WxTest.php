@@ -159,40 +159,47 @@ class WxTest extends Controller
             $msg_sign   = empty($_GET['msg_signature']) ? ""    : trim($_GET['msg_signature']) ;
             $encryptMsg = file_get_contents('php://input');
             $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
+            $xml_tree = new \DOMDocument();
+            $xml_tree->loadXML($encryptMsg);
+            $array_e = $xml_tree->getElementsByTagName('Encrypt');
+            $encrypt = $array_e->item(0)->nodeValue;
+            // $format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
+            $format = "";
+            $from_xml = sprintf($format, $encrypt);
              // 第三方收到公众号平台发送的消息
              $msg = '';
             $errCode = $pc->decryptMsg ($msg_sign, $timeStamp, $nonce, $encryptMsg, $msg );
             if ($errCode == 0) {
                 $pp['msg']=$msg;
                 db('test')->insert($pp);
-                $data = $this->_xmlToArr ( $msg);
-                if (isset ( $data['ComponentVerifyTicket'] )) {
-                    $config['componentverifyticket'] = $data ['ComponentVerifyTicket'];
-                    $config['create_time'] =time()+300;
-                    db('wx_threeopen') ->where('id',1)->update($token);
-                } elseif ($data ['InfoType'] =='unauthorized') {
-                    // 在公众号后台取消授权后，同步把系统里的公众号删除掉，并更新相关用户缓存
-                    // $map ['appid'] = $data['AuthorizerAppid'];
-                    // $map2 ['id'] = M ('WechatPublic' )->where ($map)->update ( 'id' );
-                    // if ($map2 ['id']) {
-                    //     M ( 'WechatPublic')->where ( $map2 )->delete();
-                    // }
-                }
-                echo 'success';
-            } else {
-                $pp['msg']=$msg;
+                $xml = new \DOMDocument();
+                $xml->loadXML($msg);
+                $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
+    
+                $component_verify_ticket = $array_e->item(0)->nodeValue;
+                // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
+                $da['component_verify_ticket']=$component_verify_ticket;
+                $da['token_time']=$time()+300;
+                 db('wx_threeopen')->where('id',1)->update($da);
+    
+                 echo "success";
+            }else{
+                $pp['msg']=$errCode;
                 db('test')->insert($pp);
-                echo '解密失败'.$errCode;
+                // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
+                // DB::getDB()->insert("wechat_verifyticket",array(
+                //     'component_verify_ticket'    => $errCode,
+                //     'uptime'                    => time()));
+                echo "false";
+                
             }
+    
         }
-        public function _xmlToArr($xml) {
-            $res = @simplexml_load_string ( $xml,NULL, LIBXML_NOCDATA );
-            $res = json_decode ( json_encode ( $res), true );
-            return $res;
-        }
-
-
-
+        // public function _xmlToArr($xml) {
+        //     $res = @simplexml_load_string ( $xml,NULL, LIBXML_NOCDATA );
+        //     $res = json_decode ( json_encode ( $res), true );
+        //     return $res;
+        // }
 
 
 
