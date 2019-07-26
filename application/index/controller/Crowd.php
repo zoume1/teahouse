@@ -268,7 +268,8 @@ class Crowd extends Controller
         if($request->isPost()){
             $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only('member_id')['member_id'];
-            $money = $request->only('money')['money'];
+            // $money = $request->only('money')['money'];
+            $money = 0.01;
             $id = $request->only('id')['id'];
             $crowd = db("crowd_special")->where("id",$id)->find();       
             $user_information = db("member")->where("member_id",$member_id)->find();
