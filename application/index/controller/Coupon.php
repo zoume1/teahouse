@@ -29,7 +29,7 @@ class Coupon extends Controller
             $open_id = $request->only(['open_id'])['open_id'];
             $coupon = Db::name("coupon")
                     ->where("store_id","EQ",$store_id)
-                    ->field('id,use_price,scope,start_time,end_time,money,suit,label')
+                    ->field('id,use_price,scope,start_time,end_time,money,suit,label,suit_price')
                     ->select();
             $time = strtotime(date("Y-m-d",strtotime("-1 day")));
 
