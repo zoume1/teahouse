@@ -187,7 +187,7 @@ class Pay extends  Controller{
             ->where("member_id", $member_id)
             ->find();
         $activity_name ="打赏";//名称
-        $cost_moneny = $order_datas["money"];//金额
+        $cost_moneny = 0.01;//金额
         //         初始化值对象
         $input = new \WxPayUnifiedOrder();
         $rester = new \WxPayConfig($open_ids["store_id"]);
