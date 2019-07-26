@@ -182,7 +182,7 @@ class WxTest extends Controller
                 $component_verify_ticket = $array_e->item(0)->nodeValue;
                 // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
                 $da['component_verify_ticket']=$component_verify_ticket;
-                $da['token_time']=$time()+300;
+                $da['token_time']=time()+300;
                  db('wx_threeopen')->where('id',1)->update($da);
     
                  echo "success";
