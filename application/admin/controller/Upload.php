@@ -371,7 +371,7 @@ class Upload extends Controller
         //授权开始
         $redirect_uri='http://zhihuichacang.com/$APPID$/callback';
         $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
-        return view('auth_index',['data'=>$url]);
+        return view('auth_index',['data'=>"/qrcode?url2=".$url]);
     }
     /**
      * lilu
