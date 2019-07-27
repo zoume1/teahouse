@@ -112,47 +112,6 @@ class WxTest extends Controller
      * lilu
      * 微信公众平台---第三方授权（小程序）
      */
-    public function receive_ticket2(){
-        $res = $this->component_detail();//获取第三方平台基础信息
-        $last_time = $res['token_time'];//上一次component_access_token获取时间
-        $component_access_token = $res['component_access_token'];//获取数据查询到的component_access_token
-        $difference_time = $this->validity($last_time);//上一次获取时间与当前时间的时间差
-        //判断component_access_token是否为空或者是否超过有效期
-        if(empty($component_access_token) || $difference_time>7000){
-            $component_access_token = $this->get_component_access_token_again();
-        }
-        return $component_access_token;
-    }
-        //获取第三方平台基础信息
-    public function component_detail(){
-        //获取
-            $res = db('wx_threeopen')->where(array('id'=>1))->find();
-            return $res;
-        }
-    //重新获取component_access_token
-    public function get_component_access_token_again(){
-        // $url = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
-        $url = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
-        $tok = $this->component_detail();
-        $param ['component_appid'] = $tok['appid'];
-        $param ['component_appsecret'] = $tok['appsecret'];
-        $param ['component_verify_ticket'] = $tok['componentverifyticket'];
-        $data =$this->post_data ( $url, $param );
-        $token['component_access_token'] = $data ['component_access_token'];
-        $token['token_time'] = time()+300;
-        db('wx_threeopen') ->where(array('id'=>1))->update($token);
-        return $data['component_access_token'];
-    }
-        //获取时间差
-        public function validity($time){
-            $current_time = time();
-            $difference_time = $current_time - $time;
-            return $difference_time;
-        }
-         /**
-     * lilu
-     * 微信公众平台---第三方授权（小程序）
-     */
     public function receive_ticket(){
             $timeStamp  = empty($_GET['timestamp'])     ? ""    : trim($_GET['timestamp']) ;
             $nonce      = empty($_GET['nonce'])     ? ""    : trim($_GET['nonce']) ;
@@ -184,7 +143,6 @@ class WxTest extends Controller
                 $component_verify_ticket = $array_e->item(0)->nodeValue;
                 $pp2['msg']=$component_verify_ticket;
                 db('test')->insert($pp2);
-                // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
@@ -192,20 +150,9 @@ class WxTest extends Controller
             }else{
                 $pp['msg']=$errCode;
                 db('test')->insert($pp);
-                // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
-                // DB::getDB()->insert("wechat_verifyticket",array(
-                //     'component_verify_ticket'    => $errCode,
-                //     'uptime'                    => time()));
                 echo "false";
             }
-    
         }
-        // public function _xmlToArr($xml) {
-        //     $res = @simplexml_load_string ( $xml,NULL, LIBXML_NOCDATA );
-        //     $res = json_decode ( json_encode ( $res), true );
-        //     return $res;
-        // }
-
         /**
          * 微信公众号获取token
          */
@@ -240,7 +187,6 @@ class WxTest extends Controller
                      return false;
                 }
         }
-
         public function responseMsg()
         {
                 $postStr = file_get_contents('php://input');    
