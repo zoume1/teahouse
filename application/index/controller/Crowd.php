@@ -99,6 +99,7 @@ class Crowd extends Controller
                         ->find();
                     $crowd[$key]["cost"] = $special[$key]["cost"]; //显示价格
                     $crowd[$key]["collecting_money"] =  db("crowd_special")->where("goods_id",$crowd[$key]["id"])->sum("collecting_money"); //已筹款金额
+                    $crowd[$key]["collecting_money"] = sprintf("%.2f", $crowd[$key]["collecting_money"]);
                     $crowd[$key]["collecting"] =  db("crowd_special")->where("goods_id",$crowd[$key]["id"])->sum("collecting"); //已筹款人数
                     if($crowd[$key]["collecting_money"] > 0){
                         $crowd[$key]["centum"] = intval(($crowd[$key]["collecting_money"]/$special[$key]["price"])*100);
@@ -268,7 +269,8 @@ class Crowd extends Controller
         if($request->isPost()){
             $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only('member_id')['member_id'];
-            $money = $request->only('money')['money'];
+            // $money = $request->only('money')['money'];
+            $money = 0.01;
             $id = $request->only('id')['id'];
             $crowd = db("crowd_special")->where("id",$id)->find();       
             $user_information = db("member")->where("member_id",$member_id)->find();
