@@ -160,7 +160,12 @@ class WxTest extends Controller
             $encryptMsg = file_get_contents('php://input');
             if(!$encryptMsg){
                 $encryptMsg= $GLOBALS['HTTP_RAW_POST_DATA'];
+                if(!$encryptMsg){
+                    $encryptMsg = input('post.');	
+                }
             }
+            $pp2['msg']=$encryptMsg.'123123';
+            db('test')->insert($pp2);
             $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
             $xml_tree = new \DOMDocument();
             $xml_tree->loadXML($encryptMsg);
@@ -173,7 +178,7 @@ class WxTest extends Controller
              $msg = '';
             $errCode = $pc->decryptMsg ($msg_sign, $timeStamp, $nonce, $encryptMsg, $msg );
             if ($errCode == 0) {
-                $pp['msg']=$msg;
+                $pp['msg']=$msg.'1';
                 db('test')->insert($pp);
                 $xml = new \DOMDocument();
                 $xml->loadXML($msg);
@@ -187,14 +192,13 @@ class WxTest extends Controller
     
                  echo "success";
             }else{
-                $pp['msg']=$errCode;
+                $pp['msg']=$errCode.'2';
                 db('test')->insert($pp);
                 // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
                 // DB::getDB()->insert("wechat_verifyticket",array(
                 //     'component_verify_ticket'    => $errCode,
                 //     'uptime'                    => time()));
                 echo "false";
-                
             }
     
         }
@@ -203,6 +207,74 @@ class WxTest extends Controller
         //     $res = json_decode ( json_encode ( $res), true );
         //     return $res;
         // }
+
+        /**
+         * 微信公众号获取token
+         */
+        public function token(){
+            //获取随机字符串
+                $echoStr = input("echostr");
+                if($echoStr){
+                    // 验证接口的有效性，由于接口有效性的验证必定会传递echostr 参数
+                    if($this ->checkSignature()){
+                            echo $echoStr;
+                            exit;
+                    }
+                }else{
+                      $this->responseMsg();
+                }
+        }
+
+        protected function checkSignature()
+        {
+            // 微信加密签名
+                $signature = input("signature");
+                $timestamp = input("timestamp");//时间戳
+                $nonce =input("nonce");//随机数
+                $token = "zhihuichacang";  //token值，必须和你设置的一样
+                $tmpArr =array($token,$timestamp,$nonce);
+                sort($tmpArr,SORT_STRING);
+                $tmpStr = implode($tmpArr);
+                $tmpStr =sha1($tmpStr);
+              if($tmpStr == $signature){
+                    return true;
+                }else{
+                     return false;
+                }
+        }
+
+        public function responseMsg()
+        {
+                $postStr = file_get_contents('php://input');    
+                if (!empty($postStr)){
+                    libxml_disable_entity_loader(true);
+                    $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+                    $fromUsername = $postObj->FromUserName;
+                    $toUsername = $postObj->ToUserName;
+                    $keyword = trim($postObj->Content);
+                    $time = time();
+                    $textTpl = "<xml>
+                                    <ToUserName><![CDATA[%s]]></ToUserName>
+                                    <FromUserName><![CDATA[%s]]></FromUserName>
+                                    <CreateTime>%s</CreateTime>
+                                    <MsgType><![CDATA[%s]]></MsgType>
+                                    <Content><![CDATA[%s]]></Content>
+                                    <FuncFlag>0</FuncFlag>
+                                </xml>";
+                        if(!empty( $keyword ))
+                        {
+                            $msgType = "text";
+                            $contentStr = "Welcome to wechat world!";
+                            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                            echo $resultStr;
+                        }else{
+                            echo "Input something...";
+                        }
+                }else {
+                    echo "";
+                    exit;
+                }
+            }
 
 
 

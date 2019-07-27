@@ -396,6 +396,7 @@ Route::group("",[
     /* 微信公众平台路由  */
     "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
     "receive_ticket2"=>"index/WxTest/receive_ticket2",        //微信小程序接受ticket
+    "token"=>"index/WxTest/token",                          //微信小程序--微信公众号获取token
     
 
 

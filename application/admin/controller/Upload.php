@@ -368,8 +368,8 @@ class Upload extends Controller
     public function auth_index(){
         //授权开始
         $redirect_uri='http://zhihuichacang.com/$APPID$/callback';
-        $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
-
+        // $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
+        // https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE&component_appid=component_appid#wechat_redirect
         return view('auth_index',['data'=>$url]);
     }
     /**
