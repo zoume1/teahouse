@@ -448,10 +448,10 @@ class Upload extends Controller
                     "component_verify_ticket": "'.$this->component_ticket.'"
                 }';
                 $ret = json_decode($this->https_post($url,$data));
-                if($ret->errcode == 0) {
-                    return $ret->component_access_token;
+                if($ret['errcode'] == 0) {
+                    return $ret['component_access_token'];
                 } else {
-                    return $ret->errcode;
+                    return $ret['errcode'];
                 }
             }
 
