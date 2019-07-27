@@ -448,7 +448,6 @@ class Upload extends Controller
                     "component_verify_ticket": "'.$this->component_ticket.'"
                 }';
                 $ret = json_decode($this->https_post($url,$data),true);
-                halt($ret);
                 if($ret['errcode'] == 0) {
                     return $ret['component_access_token'];
                 } else {
@@ -467,7 +466,7 @@ class Upload extends Controller
     {
         $url = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token=".$this->get_component_access_token();
         $data = '{"component_appid":"'.$this->appid.'"}';
-        $ret = json_decode($this->https_post($url,$data));
+        $ret = json_decode($this->https_post($url,$data),true);
         if($ret['errcode'] == 0) {
             return $ret['pre_auth_code'];
         } else {
