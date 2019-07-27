@@ -447,8 +447,8 @@ class Upload extends Controller
                     "component_appsecret": "'.$this->appsecret.'",
                     "component_verify_ticket": "'.$this->component_ticket.'"
                 }';
-                $ret = json_decode($this->https_post($url,$data));
-                halt($this->https_post($url,$data));
+                $ret = json_decode($this->https_post($url,$data),true);
+                halt($ret);
                 if($ret['errcode'] == 0) {
                     return $ret['component_access_token'];
                 } else {
