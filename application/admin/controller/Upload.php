@@ -360,8 +360,11 @@ class Upload extends Controller
      * 一键生成起始页面
      */
     public function auth_pre(){
-        
-        return view('auth_pre');
+        //授权开始
+        $redirect_uri='https://www.zhihuichacang.com/$APPID$/callback';
+        $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
+        return view('auth_index',['data'=>$url]);
+        return view('auth_pre',['data'=>$url]);
     }
     /**
      * lilu
@@ -369,9 +372,9 @@ class Upload extends Controller
      */
     public function auth_index(){
         //授权开始
-        $redirect_uri='http://zhihuichacang.com/$APPID$/callback';
+        $redirect_uri='https://www.zhihuichacang.com/$APPID$/callback';
         $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
-        return view('auth_index',['data'=>"/qrcode?url2=".$url]);
+        return view('auth_index',['data'=>$url]);
     }
     /**
      * lilu
