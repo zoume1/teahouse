@@ -164,38 +164,33 @@ class WxTest extends Controller
                     $encryptMsg = input('post.');	
                 }
             }
-        //     $encryptMsg='<xml>
-        //     <AppId><![CDATA[wx4a653e89161abf1c]]></AppId>
-        //     <Encrypt><![CDATA[E2bZpr0nMC0rlfujX5+qmdbfl1Z6VZ0DoYL44lmdo4xKzUqUKQ3ou4b4UaTyUGBVZBTN/ZdNn9228ZMVB3oqKjRiTOj22FsEJ3+usH36UzCyV8lKEWlHPUFrfeyDBOA1F6wskvQRyUwtrlNpV44zCQt86W2yac/VQOmTKmD7TdraTe1VLsxVcZGAoBvLJIX5HvvPLLx8LeFvcl2NmZVsuFFwAv8RGMaraZ+iT/m/YMaP/DflKvwJaEzoZmhtOqscRvK/e7nLoP6vdpCUBRbGqRB7wPljJGHYtdOlUpdk8tnb15u9fLv2KgwhAfSBzHwTKnFbba73dGeUL0TRwV08N3aayTQfFvCd9C6Kj3CfYQcZmGCFE9ERPwQb59yrSD4tGtgUhLt/ax0SjSyEf5EpQnehaTs5hZniLHIdjku8sBZoF/EGMCoID+WXDwIWh4RqJyZbRu6SSeaSjwZbbAiVww==]]></Encrypt>
-        // </xml>
-        // ';
             $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
             $xml_tree = new \DOMDocument();
             $xml_tree->loadXML($encryptMsg);
             $array_e = $xml_tree->getElementsByTagName('Encrypt');
             $encrypt = $array_e->item(0)->nodeValue;
             $format = "<xml><AppId><![CDATA[AppId]]></AppId><Encrypt><![CDATA[%s]]></Encrypt></xml>";
-            // $format = "";
             $from_xml = sprintf($format, $encrypt);
              // 第三方收到公众号平台发送的消息
              $msg = '';
             $errCode = $pc->decryptMsg ($msg_sign, $timeStamp, $nonce, $encryptMsg, $msg );
             if ($errCode == 0) {
-                $pp['msg']=$msg.'1';
+                $pp['msg']=$msg;
                 db('test')->insert($pp);
                 $xml = new \DOMDocument();
                 $xml->loadXML($msg);
                 $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
     
                 $component_verify_ticket = $array_e->item(0)->nodeValue;
+                $pp['msg']=$component_verify_ticket;
+                db('test')->insert($pp);
                 // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
                 $da['component_verify_ticket']=$component_verify_ticket;
-                $da['token_time']=time()+300;
+                $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
-    
                  echo "success";
             }else{
-                $pp['msg']=$errCode.'2';
+                $pp['msg']=$errCode;
                 db('test')->insert($pp);
                 // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
                 // DB::getDB()->insert("wechat_verifyticket",array(
