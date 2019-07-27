@@ -182,8 +182,8 @@ class WxTest extends Controller
                 $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
     
                 $component_verify_ticket = $array_e->item(0)->nodeValue;
-                $pp['msg']=$component_verify_ticket;
-                db('test')->insert($pp);
+                $pp2['msg']=$component_verify_ticket;
+                db('test')->insert($pp2);
                 // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
