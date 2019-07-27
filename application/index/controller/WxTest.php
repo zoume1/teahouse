@@ -12,7 +12,7 @@ include('../extend/SampleCode/php/wxBizMsgCrypt.php');
 
 class WxTest extends Controller
 {
-    private $appid = ' wx4a653e89161abf1c';            //第三方平台应用appid
+    private $appid = 'wx4a653e89161abf1c';            //第三方平台应用appid
     private $appsecret = '4d88679173c2eb375b20ed57459973be';     //第三方平台应用appsecret
     private $token = 'zhihuichacang';           //第三方平台应用token（消息校验Token）
     private $encodingAesKey = 'zhihuichacangzhihuicangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
@@ -164,15 +164,18 @@ class WxTest extends Controller
                     $encryptMsg = input('post.');	
                 }
             }
-            $pp2['msg']=$encryptMsg.'123123';
-            db('test')->insert($pp2);
+        //     $encryptMsg='<xml>
+        //     <AppId><![CDATA[wx4a653e89161abf1c]]></AppId>
+        //     <Encrypt><![CDATA[E2bZpr0nMC0rlfujX5+qmdbfl1Z6VZ0DoYL44lmdo4xKzUqUKQ3ou4b4UaTyUGBVZBTN/ZdNn9228ZMVB3oqKjRiTOj22FsEJ3+usH36UzCyV8lKEWlHPUFrfeyDBOA1F6wskvQRyUwtrlNpV44zCQt86W2yac/VQOmTKmD7TdraTe1VLsxVcZGAoBvLJIX5HvvPLLx8LeFvcl2NmZVsuFFwAv8RGMaraZ+iT/m/YMaP/DflKvwJaEzoZmhtOqscRvK/e7nLoP6vdpCUBRbGqRB7wPljJGHYtdOlUpdk8tnb15u9fLv2KgwhAfSBzHwTKnFbba73dGeUL0TRwV08N3aayTQfFvCd9C6Kj3CfYQcZmGCFE9ERPwQb59yrSD4tGtgUhLt/ax0SjSyEf5EpQnehaTs5hZniLHIdjku8sBZoF/EGMCoID+WXDwIWh4RqJyZbRu6SSeaSjwZbbAiVww==]]></Encrypt>
+        // </xml>
+        // ';
             $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
             $xml_tree = new \DOMDocument();
             $xml_tree->loadXML($encryptMsg);
             $array_e = $xml_tree->getElementsByTagName('Encrypt');
             $encrypt = $array_e->item(0)->nodeValue;
-            // $format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
-            $format = "";
+            $format = "<xml><AppId><![CDATA[AppId]]></AppId><Encrypt><![CDATA[%s]]></Encrypt></xml>";
+            // $format = "";
             $from_xml = sprintf($format, $encrypt);
              // 第三方收到公众号平台发送的消息
              $msg = '';
