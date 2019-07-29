@@ -1795,11 +1795,13 @@ class Crowdfinancing extends Controller
                 $order_quantity = $user_information["order_quantity"];  // 商品数量
                 $special_id = $user_information["special_id"];          // 规格id
                 $order_amount = $user_information["order_amount"];      // 商品总金额
+                $price = $user_information["price"];                    // 规格金额
 
                 $rest_special = db("crowd_special")->where("id",$special_id)->find();
                 $collecting = $rest_special['collecting'] + 1;
                 $stock = $rest_special['stock'] - $order_quantity;
-                if(($stock == 0 ||$stock < 0)){
+                $collecting_money = $rest_special['collecting_money'] + $order_amount;
+                if(($stock == 0 || $stock < 0 || $collecting_money > $price)){
                     $rest_special['state'] = 2;
                 }
                 $crowd_data = [
