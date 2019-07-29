@@ -360,10 +360,18 @@ class Upload extends Controller
      * 一键生成起始页面
      */
     public function auth_pre(){
-        //授权开始
-        $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
-        $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
-        return view('auth_pre',['data'=>$url]);
+        //获取店铺id
+        $store_id=Session::get('store_id');
+        //判断是否已授权
+        $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
+        if($is_shou){
+            return view('auth_detail',['data'=>$is_shou]);
+        }else{
+            //授权开始
+            $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
+            $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
+            return view('auth_pre',['data'=>$url]);
+        }
     }
     /**
      * lilu
