@@ -177,6 +177,8 @@ class Crowdfinancing extends Controller
                             $harvester_phone_num = $is_address_status['phone_num'];              
                         } 
                     }
+                    //测试
+                        $datas["order_real_pay"] = 0.01;
                         $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
                         $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datas["parts_goods_name"] = $goods_data["project_name"];//众筹项目
