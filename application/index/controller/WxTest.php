@@ -392,7 +392,7 @@ class WxTest extends Controller
              * 获取小程序二维码
              */
             public function getHeadpic($access_token){
-                $url = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?access_token=".$access_token;
+                $url = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$access_token;
                 $data = '{
                     "path":"/pages/logs/logs" 
                 }';
