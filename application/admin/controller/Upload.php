@@ -361,7 +361,7 @@ class Upload extends Controller
      */
     public function auth_pre(){
         //授权开始
-        $redirect_uri='https://www.zhihuichacang.com/$APPID$/callback';
+        $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
         $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
         return view('auth_pre',['data'=>$url]);
     }
@@ -371,7 +371,7 @@ class Upload extends Controller
      */
     public function auth_index(){
         //授权开始
-        $redirect_uri='https://www.zhihuichacang.com/$APPID$/callback';
+        $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
         $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
         return view('auth_index',['data'=>$url]);
     }
