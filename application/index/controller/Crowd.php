@@ -174,9 +174,9 @@ class Crowd extends Controller
                     $crowd[$key]["state"] = $special[$key]["state"];
                     
                     if($crowd[$key]["goods_member"] == 1){
-                        $crowd[$key]["cost"] = sprintf("%.2f",$special[$key]["cost"] * $discount) ;
+                        $crowd[$key]["cost"] = sprintf("%.2f",$special[$key]["cost"] * $discount);
                         foreach($standard as $m => $n){
-                            $standard[$m]["cost"] = $standard[$m]["cost"]* $discount ;
+                            $standard[$m]["cost"] = sprintf("%.2f",$standard[$m]["cost"]* $discount);
                         }
                     } else {
                         $crowd[$key]["cost"] = sprintf("%.2f",$special[$key]["cost"]);
