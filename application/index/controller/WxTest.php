@@ -17,7 +17,12 @@ class WxTest extends Controller
     private $appsecret = '4d88679173c2eb375b20ed57459973be';     //第三方平台应用appsecret
     private $token = 'zhihuichacang';           //第三方平台应用token（消息校验Token）
     private $encodingAesKey = 'zhihuichacangzhihuicangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
-    private $component_ticket= 'ticket@**xv-g';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
+    // private $component_ticket= 'ticket@@@mMQLlMnPx_y9E5HWGdfJKeKJadwSFBhcrzA8eJrMSmfIZInb_8ck42Y9eitnPWnkZXlNkgR33-P3otpQ1c00-A';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
+    
+    public function __construct(){
+        ///获取component_ticket
+        $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
+    }
     /**
      **************李火生*******************
      * @param Request $request
