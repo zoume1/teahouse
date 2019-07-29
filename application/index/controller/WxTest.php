@@ -232,9 +232,9 @@ class WxTest extends Controller
             $auth_code=$data2['auth_code'];     //授权码
             // $auth_code='queryauthcode@@@fv0KPet287j1PS_kwJutHswzJehTmWv_GoPvh06E4IBlZ9V5pJR23PMBZPUHLlxiyZNeuz_BmJmhqqFegjV3BA';
             //根据授权码，获取用户信息
-            $info=$this->getAuthInfo($auth_code);
+            $auth_info=$this->getAuthInfo($auth_code);
             //获取授权方的基本信息 
-            $public_info= $this->getPublicInfo ( $info ['authorization_info']['authorizer_appid'] );
+            $public_info= $this->getPublicInfo ( $auth_info ['authorization_info']['authorizer_appid'] );
             $data['wename'] = $public_info ['authorizer_info'] ['nick_name'];   //小程序名称
             // $data['wechat'] = $public_info ['authorizer_info'] ['alias'];       //别名
             //转换帐号类型 
