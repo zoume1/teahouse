@@ -1760,11 +1760,11 @@ class Crowdfinancing extends Controller
             $res = Db::name("crowd_order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);   
-
+            if($information['order_type'] == 3){
                 $host_rest = Db::name("house_order")
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
-
+            }
                 $all_money = $information["order_real_pay"];       //实际支付的金额
                 $member_id = $information["member_id"];            //会员id
                 $goods_id = $information["goods_id"];              // 商品id
@@ -1773,19 +1773,23 @@ class Crowdfinancing extends Controller
                 $order_amount = $information["order_amount"];      // 商品总金额
 
                 $rest_special = db("crowd_special")->where("id",$special_id)->find();
-                $collecting = $rest_special['collecting'] + 1;
-                $stock = $rest_special['stock'] - $order_quantity;
-                $price = $rest_special['collecting_money'];
-                $collecting_money = $rest_special['collecting_money'] + $order_amount;
-                if(($stock == 0 || $stock < 0 || $collecting_money > $price)){
-                    $rest_special['state'] = 2;
+
+                $collecting = $rest_special['collecting'] + 1;   //众筹人数 +1
+                $stock = $rest_special['stock'] - $order_quantity; //众筹库存
+                $price = $rest_special['price']; //众筹金额
+                $collecting_money = $rest_special['collecting_money'] + $order_amount; //更新众筹金额
+
+                if(($stock > 0) && ($collecting_money < $price)){
+                    $state = 1;
+                } else {
+                    $state = 2;
                 }
                 $crowd_data = [
                     'collecting_number'=> $rest_special['collecting_number'] + $order_quantity, //众筹商品数量添加
                     'collecting_money' => $rest_special['collecting_money'] + $order_amount, //众筹金额添加
                     'collecting' => $collecting,//众筹人数
                     'stock' => $stock,//众筹库存
-                    'state'=> $rest_special['state'] //众筹状态
+                    'state'=> $state //众筹状态
                 ];
                 $bool_number = Db::name('crowd_specail')->where("id",$special_id)->update($crowd_data);
 
