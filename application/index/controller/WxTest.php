@@ -261,7 +261,7 @@ class WxTest extends Controller
             //记录授权信息
             $res=db('miniprogram')->insert($data);
             if($res){
-                $this->redirect('Upload/auth_detail', ['data' => $data]);
+                $this->success('授权成功',url('admin/Upload/auth_pre'));
             }else{
                 $this->error('用户未授权或授权错误，请重新授权',url('admin/Upload/auth_pre'));
 
