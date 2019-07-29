@@ -248,8 +248,12 @@ class WxTest extends Controller
         public function getAuthInfo($auth_code) { 
                 $component_access_token = $this ->get_component_access_token(); 
                 $url ="https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=".$component_access_token; 
-                $param['component_appid'] =  $this->appid; 
-                $param['authorization_code'] = $auth_code; 
+                $param = '{
+                    "component_appid":"'.$this->appid.'" ,
+                    "authorization_code": "'.$auth_code.'"
+                }';
+                // $param['component_appid'] =  $this->appid; 
+                // $param['authorization_code'] = $auth_code; 
                 $info = $this->https_post ( $url, $param );
                 $pp['msg']=$info;
                 db('test')->insert($pp);
