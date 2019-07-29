@@ -132,7 +132,7 @@
 		height: 400px;
 		background: #fff;
 	}
-
+    
 	.popup_doms1 {
 		width: 900px;
 		background: #fff;
@@ -238,7 +238,7 @@
 		margin-bottom: 30px;
 	}
 
-	.quxiao {}
+	/* .quxiao {} */
 
 	.daying {
 		background: rgb(22, 155, 213);
@@ -249,7 +249,7 @@
 	/*
      * 弹窗end
 		 */
-	.seach_button_all {}
+	/* .seach_button_all {} */
 
 	.seach_button {
 		border-radius: 4px;
@@ -382,6 +382,10 @@
 		justify-content: space-between;
 		padding: 0 15px;
 		align-items: flex-end;
+	}
+	.four{
+		height: 50px;
+		line-height: 50px;
 	}
 </style>
 
@@ -569,7 +573,7 @@
 						</td>
 						<td class="four">
 							{volist name="vo['detail']" id="vo2"}
-							<div style="">{$vo2.parts_goods_name}</div>
+							<div style="line-height: 50px;">{$vo2.parts_goods_name}</div>
 							{/volist}
 						</td>
 						<td>
