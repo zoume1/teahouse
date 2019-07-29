@@ -383,6 +383,7 @@ class WxTest extends Controller
             $pp['msg']=$data;
             db('test')->insert($pp);
             $data=json_decode($data,true);
+            halt($data);
             return $data; 
             }
 
