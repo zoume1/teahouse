@@ -256,7 +256,7 @@ class WxTest extends Controller
             $data['principal_name']=$public_info['authorizer_info']['principal_name'];  //公司名称 
             $data['qrcode_url'] = $public_info ['authorizer_info'] ['qrcode_url'];     //二维码地址
             $data['store_id']=Session::get('store_id');//当前店铺的id
-            $store_type=$public_info['authorizer_info']['MiniProgramInfo']['categories']['first'].'-'.$public_info['authorizer_info']['MiniProgramInfo']['categories']['second'];  //公司名称 
+            $store_type=$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['first'].'-'.$public_info['authorizer_info']['MiniProgramInfo'][0]['categories']['second'];  //公司名称 
             $data['store_type']=$store_type;//当前店铺的id
             //记录授权信息
             $res=db('miniprogram')->insert($data);
