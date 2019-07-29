@@ -118,7 +118,7 @@
 		border: solid 1px #D7D7D7;
 		box-sizing: border-box;
 	}
-	
+
 	.submit_btns {
 		width: 100px;
 		height: 38px;
@@ -137,6 +137,7 @@
 		width: 900px;
 		background: #fff;
 	}
+
 	.popup_content {
 		padding: 20px;
 	}
@@ -189,10 +190,12 @@
 	.operation div {
 		margin-right: 10px;
 	}
-    .tip{
-		color:red;
-		margin-left:200px;
+
+	.tip {
+		color: red;
+		margin-left: 200px;
 	}
+
 	.noshow {
 		display: none;
 	}
@@ -344,23 +347,41 @@
 		left: 170px;
 
 	}
-	td>div{border-bottom: 1px solid #e2e2e2;}
-	td>div:last-of-type{border: 0;}
-	td{padding: 4px 0 !important;}
-	td img{width: 50px; height:50px;}
-	.popup_content1 {padding: 0 15px;}
-	.popup_content1 > td {
+
+	td>div {
+		border-bottom: 1px solid #e2e2e2;
+	}
+
+	td>div:last-of-type {
+		border: 0;
+	}
+
+	td {
+		padding: 4px 0 !important;
+	}
+
+	td img {
+		width: 50px;
+		height: 50px;
+	}
+
+	.popup_content1 {
+		padding: 0 15px;
+	}
+
+	.popup_content1>td {
 		width: 120px;
 	}
+
 	.popup_t {
 		font-size: 18px;
-    	font-weight: 500;
-		color:black;
+		font-weight: 500;
+		color: black;
 		line-height: 40px;
 		display: flex;
-		justify-content : space-between;
+		justify-content: space-between;
 		padding: 0 15px;
-		align-items : flex-end;
+		align-items: flex-end;
 	}
 </style>
 
@@ -388,8 +409,8 @@
 				<div class="operation"></div>
 				<div class="chenge_money" data-id="">
 					<div style="position:relative; margin-right: 100px;">
-						订单金额 <input type="text" name="amount" readonly autocomplete="off"
-							class="layui-input" style="width:150px;"><span class="danwei">元</span>
+						订单金额 <input type="text" name="amount" readonly autocomplete="off" class="layui-input"
+							style="width:150px;"><span class="danwei">元</span>
 					</div>
 					<div style="position:relative">
 						修改订单金额 <input type="text" name="changePriceVal" required lay-verify="required" placeholder="请输入"
@@ -397,7 +418,8 @@
 							style="left: 240px;">元</span>
 					</div>
 					<div style="margin-left:45px;">
-						<button class="layui-btn changePrice" style="background-color:rgb(22, 155, 213);border-radius: 5px;">确定改价</button>
+						<button class="layui-btn changePrice"
+							style="background-color:rgb(22, 155, 213);border-radius: 5px;">确定改价</button>
 					</div>
 				</div>
 			</div>
@@ -406,16 +428,9 @@
 	<div class="popup popup_two noshow">
 		<div class="popup_doms1">
 			<div id="dvMain">
-				<!-- <div class="popup_t" >
-					<div>订单基本信息</div>
-					<div><h1>周记茶叶</h1></div>
-					<div>账号：13414098760</div>
-				</div>
-				<div class="popup_content1" id="">
-					
-				</div> -->
+
 			</div>
-			<div class="button_all" >
+			<div class="button_all">
 				<div class="quxiao button">取消</div>
 				<div class="daying button">打印</div>
 			</div>
@@ -440,7 +455,7 @@
 					<div class="seach_list">
 						<div class="seach_laber">请搜索：</div>
 						<div class="seach_input">
-							<input type="text" name="search_a"  lay-verify="title" autocomplete="off"
+							<input type="text" name="search_a" lay-verify="title" autocomplete="off"
 								placeholder="订单编号/商品名称/用户账号" class="layui-input">
 						</div>
 					</div>
@@ -540,44 +555,45 @@
 					{if !empty($data)}
 					{volist name="data" id="vo"}
 					<tr>
-						<td ><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
 						</td>
-						<td  class="orderNumber">{$vo.parts_order_number}</td>
+						<td class="orderNumber">{$vo.parts_order_number}</td>
 						<td>
 							{volist name="vo['detail']" id="vo2"}
-								{if !empty($vo2["goods_image"])}
-									<div><img src="__UPLOADS__/{$vo2.goods_image}" /></div>
-									{else}
-									<div >无</div>
-								{/if}
+							{if !empty($vo2["goods_image"])}
+							<div><img src="__UPLOADS__/{$vo2.goods_image}" /></div>
+							{else}
+							<div>无</div>
+							{/if}
 							{/volist}
 						</td>
 						<td class="four">
 							{volist name="vo['detail']" id="vo2"}
-								<div style="">{$vo2.parts_goods_name}</div>
+							<div style="">{$vo2.parts_goods_name}</div>
 							{/volist}
 						</td>
 						<td>
 							{volist name="vo['detail']" id="vo2"}
-								<div style="height: 50px; line-height: 50px;">{$vo2.order_quantity}</div>
+							<div style="height: 50px; line-height: 50px;">{$vo2.order_quantity}</div>
 							{/volist}
 						</td>
-								
-								<!-- <td>
+
+						<!-- <td>
 								<div class="overflow">{$vo2.parts_goods_name}</div>
 							</td>
 							<td>{$vo2.order_quantity}</td> -->
-                        
-						<td >{$vo.user_phone_number}</td>
-						<td >{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
-						<td  class="am">{$vo.order_real_pay}</td>
-						<td >
+
+						<td>{$vo.user_phone_number}</td>
+						<td>{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
+						<td class="am">{$vo.order_real_pay}</td>
+						<td>
 							{$vo.order_type|order_type_status}
 						</td>
-						<td >
+						<td>
 							<div class="line">
 								<div class="static_btus" data-id="{$vo.id}" data-value="{$vo.status}">
-									{if $vo.order_type != 3}{$vo.status|show_order_status}{else}{$vo.status|show_house_order}{/if}
+									{if $vo.order_type !=
+									3}{$vo.status|show_order_status}{else}{$vo.status|show_house_order}{/if}
 								</div>
 								<div class="static_btus1">
 									<div class="not_apply">未申请开票</div>
@@ -729,11 +745,10 @@
 		})
 		$(".static_btus").click(function () {
 			var _this = this;
-			var name=$(this).find('.state').text();
-			if(name=='已入仓')
-			{
-				window.location.href="/admin/stores_divergence/data-id/152";
-			    return false;
+			var name = $(this).find('.state').text();
+			if (name == '已入仓') {
+				window.location.href = "/admin/stores_divergence/data-id/152";
+				return false;
 			}
 			// 订单金额
 			var amount = +$(this).parents('tr').children('td.am').text();
@@ -771,28 +786,28 @@
 				}
 			});
 			//获取订单的信息
-			var express=0;
-			var express_name='EMS';
+			var express = 0;
+			var express_name = 'EMS';
 			$.ajax({
-						type: "POST",
-						url: "{:url('admin/Order/order_information_return')}",
-						data: {
-							"order_id": data_id,
-						},
-						async: false,
-						success: function (data) {
-							var data = JSON.parse(data);
-							console.log(data)
-							way = data.data.order_type;   //邮寄方式  
-							 express=data.data.courier_number;  
-							 express_name=data.data.express_name_ch; 
-							// $(".operation").find('.curier').value(express);
-							// $(".operation").find('.danhao').val(express_name);
-						},
-						error: function (data) {
+				type: "POST",
+				url: "{:url('admin/Order/order_information_return')}",
+				data: {
+					"order_id": data_id,
+				},
+				async: false,
+				success: function (data) {
+					var data = JSON.parse(data);
+					console.log(data)
+					way = data.data.order_type;   //邮寄方式  
+					express = data.data.courier_number;
+					express_name = data.data.express_name_ch;
+					// $(".operation").find('.curier').value(express);
+					// $(".operation").find('.danhao').val(express_name);
+				},
+				error: function (data) {
 
-						}
-					});
+				}
+			});
 			var dhtml1 = "";
 			dhtml1 += '<div class="select_static">';
 			dhtml1 += '<span class="operation_title">选择操作</span>';
@@ -857,19 +872,19 @@
 			// dhtml2 += '<option value="youshuwuliu">优速</option>';
 			// dhtml2 += '<option value="quanfengkuaidi">全峰</option>';
 			// dhtml2 += '<option value="quanfengkuaidi">其他物流</option>';
-			dhtml2 += '<option value="'+express_name+'">'+express_name+'</option>';
+			dhtml2 += '<option value="' + express_name + '">' + express_name + '</option>';
 			dhtml2 += '</select>';
 			dhtml2 += '</div>';
 			$('.tip').remove();
 			var tip = '';
-			if(data_value=='8' || data_value==0){    //已完成
-				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" readonly class="layui-input danhao" value="'+express+'" style="width:58%;"  >';
-			}else{
-				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" value="'+express+'" style="width:58%;"  >';
+			if (data_value == '8' || data_value == 0) {    //已完成
+				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" readonly class="layui-input danhao" value="' + express + '" style="width:58%;"  >';
+			} else {
+				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" value="' + express + '" style="width:58%;"  >';
 				dhtml2 += '<button type="button" class="submit_btns" data-id="">修改单号</button>';
-				
+
 			}
-			
+
 			var dhtml3 = "";
 			dhtml3 += '<div class="select_courier">';
 			dhtml3 += '<span class="operation_title">选择快递</span>';
@@ -898,7 +913,7 @@
 			dhtml3 += '<option value="quanfengkuaidi">其他物流</option>';
 			dhtml3 += '</select>';
 			dhtml3 += '</div>';
-			
+
 			dhtml3 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  style="width:58%;" >';
 			dhtml3 += '<button type="button" class="submit_btns" data-id="">确认发货</button>';
 			tip += '<text class="tip" >注：选择顺丰时单号前要加：SF</text>';
@@ -917,31 +932,31 @@
 			// dhtml2+='<button type="button" class="submit_btns"  data-id="">确定</button>';
 			// var dhtml3="";
 			// dhtml3+='<button type="button" class="submit_btns"  data-id="">确定</button>';
-				if (data_value == 2 || data_value==3) {   //代发货
-					$('.chenge_money').hide();
-					$(".operation").append(dhtml3);
-					$(".popup_content").append(tip);
-					$(".operation").data("id", data_value);
-				}else if (data_value ==4 ||  data_value ==5 ||   data_value==6 ||  data_value==7 ) {
-					$('.chenge_money').hide();
-					$(".operation").append(dhtml2);
-					
-					$(".operation").data("id", data_value);
-				}else if(data_value=='8' || data_value==0){    	  //已完成
-                    $('.chenge_money').hide();
-					$(".operation").append(dhtml2);
-					
-					$(".operation").data("id", data_value);
-				}else{
-					$('.chenge_money').show();
-				}
+			if (data_value == 2 || data_value == 3) {   //代发货
+				$('.chenge_money').hide();
+				$(".operation").append(dhtml3);
+				$(".popup_content").append(tip);
+				$(".operation").data("id", data_value);
+			} else if (data_value == 4 || data_value == 5 || data_value == 6 || data_value == 7) {
+				$('.chenge_money').hide();
+				$(".operation").append(dhtml2);
+
+				$(".operation").data("id", data_value);
+			} else if (data_value == '8' || data_value == 0) {    	  //已完成
+				$('.chenge_money').hide();
+				$(".operation").append(dhtml2);
+
+				$(".operation").data("id", data_value);
+			} else {
+				$('.chenge_money').show();
+			}
 			$(".popup_one").removeClass("noshow");
 
 			// 改价
-			$('.changePrice').click(function(){
+			$('.changePrice').click(function () {
 				var orderNumber = $(_this).parents('tr').children('td.orderNumber').text().trim();
 				var order_real_pay = $('input[name=changePriceVal]').val();
-				if(+order_real_pay > 0){
+				if (+order_real_pay > 0) {
 					$.ajax({
 						url: 'changeOderPrice',
 						type: 'POST',
@@ -951,22 +966,22 @@
 							id: data_id,
 							order_real_pay: order_real_pay,
 						},
-						success: function(res){
-							if(res.status == 1){
+						success: function (res) {
+							if (res.status == 1) {
 								layer.msg(res.info, {
-									icon: 1 
+									icon: 1
 								});
-								setTimeout(function(){
+								setTimeout(function () {
 									location.reload();
 								}, 1200)
-							}else{
+							} else {
 								layer.msg(res.info, {
 									icon: 2
 								});
 							}
 						}
 					})
-				}else{
+				} else {
 					layer.alert('请输入正确金额！', {
 						skin: 'layui-layer-molv', //样式类名
 						closeBtn: 0
@@ -978,14 +993,14 @@
 		$(".popup_x").click(function () {
 			$(".popup").addClass("noshow");
 		});
-        //点击操作按钮
-		
+		//点击操作按钮
+
 		$(".operation").on("click", ".submit_btns", function () {
 			$(".popup").addClass("noshow");
 			var repay = $(".repay").val();
 			var id = $(this).parent(".operation").data("id");   //订单状态
 			var value = $(this).parent(".operation").data("value");   //订单的id
-            
+
 			//    快递选择
 			var curier = $(".curier option:selected").val();
 			var curier2 = $(".curier option:selected").text();
@@ -994,9 +1009,9 @@
 			//    快递单号
 			var danhao = $(".danhao").val();
 			if (danhao != '') {  //判断单号
-			    //根据id判断订单的类型
-				if(id=='2' || id=='4'){     //待发货----已发货
-                    $.ajax({
+				//根据id判断订单的类型
+				if (id == '2' || id == '4') {     //待发货----已发货
+					$.ajax({
 						type: "POST",
 						url: "{:url('admin/Order/order_confirm_shipment')}",
 						data: {
@@ -1016,8 +1031,7 @@
 
 						}
 					});
-				}else
-				{
+				} else {
 					$.ajax({
 						type: "POST",
 						url: "{:url('admin/Order/order_confirm_shipment')}",
@@ -1043,13 +1057,13 @@
 			else {
 				alert("请输入单号");
 			}
-		
+
 		});
-		
+
 		// 点击订单详情
 		$(".static_btus2").click(function () {
 			$(".popup_two").removeClass("noshow");
-			$(".popup_content1").empty();
+			$("#dvMain").empty();
 			var data_id = $(this).data("id");
 			$.ajax({
 				type: "POST",
@@ -1061,12 +1075,12 @@
 				success: function (data) {
 					var data = eval('(' + data + ')');
 					console.log(data);
-					
-					var dhtm9 = "";
+					let dhtm9 = "";
 					dhtm9 += '<div class="popup_t" >';
 					dhtm9 += '<div>订单基本信息</div>';
 					// dhtm9 += '<div><h1>周记茶叶</h1></div>';
-					dhtm9 += '<div>账号：'+data.data.user_phone_number+'</div></div>';
+					dhtm9 += '<div>账号：' + data.data.user_phone_number + '</div>';
+					dhtm9 += '</div>';
 					dhtm9 += '<div class="popup_content1">';
 					dhtm9 += '<table class="layui-table">';
 					dhtm9 += '<tbody class="news_content">';
@@ -1090,12 +1104,12 @@
 					dhtm9 += '	</tr>';
 					dhtm9 += '<tr>';
 					dhtm9 += '<td>订单类型：</td>';
-					if(data.data.order_type==1){
-					    	dhtm9 += '<td>直邮</td>';
-					}else if(data.data.order_type==2){
-							dhtm9 += '<td>到店自提</td>';
-					}else{
-							dhtm9 += '<td>存茶</td>';
+					if (data.data.order_type == 1) {
+						dhtm9 += '<td>直邮</td>';
+					} else if (data.data.order_type == 2) {
+						dhtm9 += '<td>到店自提</td>';
+					} else {
+						dhtm9 += '<td>存茶</td>';
 					}
 					dhtm9 += '<td>订单配送费用：</td>';
 					dhtm9 += '<td>' + data.data.goods_franking + ' </td>';
@@ -1133,6 +1147,7 @@
 					dhtm9 += '</tbody>';
 					dhtm9 += '	</table>';
 					dhtm9 += '	</div>';
+					// console.log(dhtm9)
 					$("#dvMain").append(dhtm9);
 
 				},
@@ -1188,7 +1203,7 @@
 			var printData = document.getElementById("dvMain").innerHTML;
 			// var printMain = document.getElementById("dvMain").innerHTML;
 			var oldstr = document.body.innerHTML;
-			document.body.innerHTML = headstr + printData  + footstr;
+			document.body.innerHTML = headstr + printData + footstr;
 			window.print();
 			document.body.innerHTML = oldstr;
 		})
