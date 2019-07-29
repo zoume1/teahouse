@@ -235,8 +235,9 @@ class WxTest extends Controller
             db('test')->insert($pp);
             // $auth_code='queryauthcode@@@fv0KPet287j1PS_kwJutHswzJehTmWv_GoPvh06E4IBlZ9V5pJR23PMBZPUHLlxiyZNeuz_BmJmhqqFegjV3BA';
             //根据授权码，获取用户信息
-            $re=$this->getAuthInfo($auth_code);
- 
+            $info=$this->getAuthInfo($auth_code);
+            //获取授权方的基本信息 
+            $public_info= $this->getPublicInfo ( $info ['authorization_info']['authorizer_appid'] );
             
 
 
@@ -255,8 +256,7 @@ class WxTest extends Controller
                 // $param['component_appid'] =  $this->appid; 
                 // $param['authorization_code'] = $auth_code; 
                 $info = $this->https_post ( $url, $param );
-                $pp['msg']=$info;
-                db('test')->insert($pp);
+               
                 return $info; 
             }
         /*
@@ -272,8 +272,6 @@ class WxTest extends Controller
                     "component_verify_ticket": "'.$this->component_ticket.'"
                 }';
                 $ret = json_decode($this->https_post($url,$data),true);
-                $pp['msg']=$ret;    //获取到的数据插入到日志表中
-                db('test')->insert($pp);
                 if($ret['component_access_token']) {
                     return $ret['component_access_token'];
                 } else {
@@ -338,6 +336,23 @@ class WxTest extends Controller
             curl_close($curl);
             return $result;
         }
-
+        /**
+         * lilu
+         * 获取授权方的基本信息 
+         */
+        public function getPublicInfo($authorizer_appid) { 
+            $component_access_token =$this->get_component_access_token(); 
+            $url = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token='.$component_access_token; 
+            $param = '{
+                "component_appid":"'.$this->appid.'" ,
+                "authorizer_appid": "'.$authorizer_appid.'"
+            }';
+            // $param ['component_appid'] = '第三方平台appid '; 
+            // $param ['authorizer_appid'] =$authorizer_appid; 
+            $data = $this->https_post ( $url, $param ); 
+            $pp['msg']=$data;
+            db('test')->insert($pp);
+            return $data; 
+            }
 
 }
