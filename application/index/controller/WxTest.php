@@ -134,20 +134,17 @@ class WxTest extends Controller
              $msg = '';
             $errCode = $pc->decryptMsg ($msg_sign, $timeStamp, $nonce, $encryptMsg, $msg );
             if ($errCode == 0) {
-                $pp['msg']=$msg;
-                db('test')->insert($pp);
                 $xml = new \DOMDocument();
                 $xml->loadXML($msg);
                 $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
     
                 $component_verify_ticket = $array_e->item(0)->nodeValue;
-                $pp2['msg']=$component_verify_ticket;
-                db('test')->insert($pp2);
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
                  echo "success";
             }else{
+                //错误代码日志
                 $pp['msg']=$errCode;
                 db('test')->insert($pp);
                 echo "false";
@@ -219,6 +216,21 @@ class WxTest extends Controller
                     exit;
                 }
             }
+        /**
+         * lilu
+         * 微信第三方授权后。获取回调信息
+         */
+        public function callback(){
+            //获取回调的信息
+            $data=input();
+            $data=json_encode($input);
+            $pp['msg']=$data;    //获取到的数据插入到日志表中
+            db('test')->insert($pp);
+                       
+
+
+        }
+
 
 
 
