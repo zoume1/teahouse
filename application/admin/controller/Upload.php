@@ -9,16 +9,18 @@ use think\View;
 
 class Upload extends Controller
 {
-    private $appid = ' wx4a653e89161abf1c';            //第三方平台应用appid
-
+    private $appid = 'wx4a653e89161abf1c';            //第三方平台应用appid
     private $appsecret = '4d88679173c2eb375b20ed57459973be';     //第三方平台应用appsecret
-
     private $token = 'zhihuichacang';           //第三方平台应用token（消息校验Token）
-
     private $encodingAesKey = 'zhihuichacangzhihuicangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
-
-    private $component_ticket= 'ticket@**xv-g';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
-    
+    private $component_ticket= 'ticket@@@mMQLlMnPx_y9E5HWGdfJKeKJadwSFBhcrzA8eJrMSmfIZInb_8ck42Y9eitnPWnkZXlNkgR33-P3otpQ1c00-A';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
+    /**
+     * 
+     */
+    public function __construct(){
+         //获取component_ticket
+         $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
+    }
     // public function index(){
     //          $user_id=Session::get('user_id');
     //          if(!$user_id)
@@ -358,8 +360,10 @@ class Upload extends Controller
      * 一键生成起始页面
      */
     public function auth_pre(){
-        
-        return view('auth_pre');
+        //授权开始
+        $redirect_uri='https://www.zhihuichacang.com/$APPID$/callback';
+        $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
+        return view('auth_pre',['data'=>$url]);
     }
     /**
      * lilu
@@ -367,9 +371,8 @@ class Upload extends Controller
      */
     public function auth_index(){
         //授权开始
-        $redirect_uri='http://zhihuichacang.com/$APPID$/callback';
+        $redirect_uri='https://www.zhihuichacang.com/$APPID$/callback';
         $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
-
         return view('auth_index',['data'=>$url]);
     }
     /**
@@ -380,86 +383,11 @@ class Upload extends Controller
  
         return view('auth_detail');
     }
-
-     /*
-        *    接收微信官方推送的消息（每10分钟1次）
-        *    这里需要引入微信官方提供的加解密码示例包
-        *    官方文档：https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419318479&token=&lang=zh_CN
-        *    示例包下载：https://wximg.gtimg.com/shake_tv/mpwiki/cryptoDemo.zip
-        */
-
-    public function receive_ticket()
-    {
-        $encryptMsg = file_get_contents("php://input");
-        $xml_tree = new \DOMDocument();
-        $xml_tree->loadXML($encryptMsg);
-        $xml_array = $xml_tree->getElementsByTagName("Encrypt");
-        $encrypt = $xml_array->item(0)->nodeValue;
-        // require_once('wxBizMsgCrypt.php');
-        include('../extend/SampleCode/php/wxBizMsgCrypt.php');
-
-        $Prpcrypt = new \Prpcrypt($this->encodingAesKey);
-
-        $postData = $Prpcrypt->decrypt($encrypt, $this->appid);
-
-        if ($postData[0] != 0) {
-
-            return $postData[0];
-
-        } else {
-
-            $msg = $postData[1];
-
-            $xml = new \DOMDocument();
-
-            $xml->loadXML($msg);
-
-            $array_a = $xml->getElementsByTagName("InfoType");
-
-            $infoType = $array_a->item(0)->nodeValue;
-
-            if ($infoType == "unauthorized") {
-                //取消公众号/小程序授权
-                $array_b = $xml->getElementsByTagName("AuthorizerAppid");
-
-                $AuthorizerAppid = $array_b->item(0)->nodeValue;    //公众号/小程序appid
-
-                $where = array("type" => 1, "appid" => $AuthorizerAppid);
-
-                $save = array("authorizer_access_token" => "", "authorizer_refresh_token" => "", "authorizer_expires" => 0);
-
-                Db::name("wxuser")->where($where)->update($save);   //公众号取消授权
-
-                Db::name("wxminiprograms")->where('authorizer_appid',$AuthorizerAppid)->update($save);   //小程序取消授权
-
-            } else if ($infoType == "component_verify_ticket") {
-
-                //微信官方推送的ticket值
-
-                $array_e = $xml->getElementsByTagName("ComponentVerifyTicket");
-
-                $component_verify_ticket = $array_e->item(0)->nodeValue;
-
-                if (Db::name("weixin_account")->where(array("type" => 1))->update(array("component_verify_ticket" => $component_verify_ticket, "date_time" => time()))) {
-
-                    $this->updateAccessToken($component_verify_ticket);
-
-                    echo "success";
-
-                }
-
-            }
-
-        }
-
-    }
-
      /*
         * 扫码授权，注意此URL必须放置在页面当中用户点击进行跳转，不能通过程序跳转，否则将出现“请确认授权入口页所在域名，与授权后回调页所在域名相同....”错误
         * @params string $redirect_uri : 扫码成功后的回调地址
         * @params int $auth_type : 授权类型，1公众号，2小程序，3公众号/小程序同时展现。不传参数默认都展示    
         */
-
     public function startAuth($redirect_uri,$auth_type = 3)
 
     {
@@ -468,29 +396,66 @@ class Upload extends Controller
     }
 
      
-
-    /*
-
-    * 获取第三方平台access_token
-
-    * 注意，此值应保存，代码这里没保存
-
-    */
-    private function get_component_access_token()
-    {
-        $url = "https://api.weixin.qq.com/cgi-bin/component/api_component_token";
-        $data = '{
-            "component_appid":"'.$this->appid.'" ,
-            "component_appsecret": "'.$this->appsecret.'",
-            "component_verify_ticket": "'.$this->component_ticket.'"
-        }';
-        $ret = json_decode($this->https_post($url,$data));
-        if($ret['errcode'] == 0) {
-            return $ret['component_access_token'];
-        } else {
-            return $ret['errcode'];
-        }
-    }
+    // /**
+    //  * lilu  
+    //  * 获取component_access_token
+    //  */
+    // public function get_component_access_token(){
+    //         $res = $this->component_detail();//获取第三方平台基础信息
+    //         $last_time = $res['token_time'];//上一次component_access_token获取时间
+    //         $component_access_token = $res['component_access_token'];//获取数据查询到的component_access_token
+    //         $difference_time = $this->validity($last_time);//上一次获取时间与当前时间的时间差
+    //         //判断component_access_token是否为空或者是否超过有效期
+    //         if(empty($component_access_token) || $difference_time>0){
+    //             $component_access_token = $this->get_component_access_token_again();
+    //         }
+    //         return $component_access_token;
+    //     }
+    //     //获取第三方平台基础信息
+    //     public function component_detail(){
+    //         $res = db('wx_threeopen')->where('id',1)->find();
+    //         return $res;
+    //     }
+    //     //重新获取component_access_token
+    //     public function get_component_access_token_again(){
+    //         $url = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
+    //         $tok = $this->component_detail();
+    //         $param ['component_appid'] = $tok['appid'];
+    //         $param ['component_appsecret'] = $tok['appsecret'];
+    //         $param ['component_verify_ticket'] = $tok['component_verify_ticket'];
+    //         $param=json_encode($param);
+    //         $data = $this->https_post ( $url, $param );
+    //         halt($data);
+    //         $token['component_access_token'] = $data ['component_access_token'];
+    //         $token['token_time'] = time()+7000;
+    //         db('wx_threeopen')->where('id',1)->update($token);
+    //         return $data['component_access_token'];
+    //     }
+    //     //获取时间差
+    //     public function validity($time){
+    //         $current_time = time();
+    //         $difference_time = $current_time -$time;
+    //         return $difference_time;
+    //     }
+            /*
+            * 获取第三方平台access_token
+            * 注意，此值应保存，代码这里没保存
+            */
+            private function get_component_access_token()
+            {
+                $url = "https://api.weixin.qq.com/cgi-bin/component/api_component_token";
+                $data = '{
+                    "component_appid":"'.$this->appid.'" ,
+                    "component_appsecret": "'.$this->appsecret.'",
+                    "component_verify_ticket": "'.$this->component_ticket.'"
+                }';
+                $ret = json_decode($this->https_post($url,$data),true);
+                if($ret['component_access_token']) {
+                    return $ret['component_access_token'];
+                } else {
+                    return false;
+                }
+            }
 
     /*
 
@@ -503,34 +468,20 @@ class Upload extends Controller
     {
         $url = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token=".$this->get_component_access_token();
         $data = '{"component_appid":"'.$this->appid.'"}';
-        $ret = json_decode($this->https_post($url,$data));
-        halt($ret);
-        if($ret['errcode'] == 0) {
-
+        $ret = json_decode($this->https_post($url,$data),true);
+        if($ret['pre_auth_code']) {
             return $ret['pre_auth_code'];
-
         } else {
-
-            return $ret['errcode'];
-
+            return false;
         }
 
     }
-
-     
-
     /*
-
     * 发起POST网络提交
-
     * @params string $url : 网络地址
-
     * @params json $data ： 发送的json格式数据
-
     */
-
     private function https_post($url,$data)
-
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -543,12 +494,10 @@ class Upload extends Controller
         curl_close($curl);
         return $output;
     }
-
      /*
         * 发起GET网络提交
         * @params string $url : 网络地址
         */
-
     private function https_get($url)
     {
         $curl = curl_init();
@@ -565,6 +514,7 @@ class Upload extends Controller
         curl_close($curl);
         return $result;
     }
+   
 
      
 
