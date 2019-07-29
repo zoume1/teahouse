@@ -224,7 +224,7 @@ class WxTest extends Controller
         public function callback(){
             //获取回调的信息
             $data=input();
-            $data=json_encode($input);
+            $data=json_encode($data);
             $pp['msg']=$data;    //获取到的数据插入到日志表中
             db('test')->insert($pp);
                        
