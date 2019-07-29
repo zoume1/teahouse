@@ -1789,13 +1789,13 @@ class Crowdfinancing extends Controller
                 ];
                 Db::name("wallet")->insert($datas); //存入消费记录表
 
-                $all_money = $user_information["order_real_pay"];       //实际支付的金额
-                $member_id = $user_information["member_id"];            //会员id
-                $goods_id = $user_information["goods_id"];              // 商品id
-                $order_quantity = $user_information["order_quantity"];  // 商品数量
-                $special_id = $user_information["special_id"];          // 规格id
-                $order_amount = $user_information["order_amount"];      // 商品总金额
-                $price = $user_information["price"];                    // 规格金额
+                $all_money = $information["order_real_pay"];       //实际支付的金额
+                $member_id = $information["member_id"];            //会员id
+                $goods_id = $information["goods_id"];              // 商品id
+                $order_quantity = $information["order_quantity"];  // 商品数量
+                $special_id = $information["special_id"];          // 规格id
+                $order_amount = $information["order_amount"];      // 商品总金额
+                $price = $information["price"];                    // 规格金额
 
                 $rest_special = db("crowd_special")->where("id",$special_id)->find();
                 $collecting = $rest_special['collecting'] + 1;
