@@ -228,16 +228,42 @@ class WxTest extends Controller
          */
         public function callback(){
             //获取回调的信息
-            $data=input();
-            $auth_code=$data['auth_code'];     //授权码
-            $data=json_encode($data);
-            $pp['msg']=$data;    //获取到的数据插入到日志表中
-            db('test')->insert($pp);
+            $data2=input();
+            $auth_code=$data2['auth_code'];     //授权码
             // $auth_code='queryauthcode@@@fv0KPet287j1PS_kwJutHswzJehTmWv_GoPvh06E4IBlZ9V5pJR23PMBZPUHLlxiyZNeuz_BmJmhqqFegjV3BA';
             //根据授权码，获取用户信息
             $info=$this->getAuthInfo($auth_code);
             //获取授权方的基本信息 
             $public_info= $this->getPublicInfo ( $info ['authorization_info']['authorizer_appid'] );
+            $data['wename'] = $public_info ['authorizer_info'] ['nick_name'];   //小程序名称
+            // $data['wechat'] = $public_info ['authorizer_info'] ['alias'];       //别名
+            //转换帐号类型 
+            if($public_info ['authorizer_info'] ['service_type_info'] ['id'] == 2) { // 服务号 
+            $data['type'] = 2; 
+            }else { // 订阅号 
+            $data['type'] = 0; 
+            } 
+            if($public_info ['authorizer_info'] ['verify_type_info'] ['id'] != - 1) { // 已认证 
+            $data['type'] = 1; 
+            } 
+            $data['appid'] = $public_info ['authorization_info'] ['authorizer_appid'];   //appid
+            $data['acc_time'] = time();                     //时间
+            $data['authorizer_refresh_token'] = $auth_info ['authorization_info']['authorizer_refresh_token'];    //授权token
+            $data['access_token'] = $auth_info ['authorization_info']['authorizer_access_token']; 
+            $data['head_img'] = $public_info ['authorizer_info'] ['head_img'];     //头像
+            $data['principal_name']=$public_info['authorizer_info']['principal_name'];  //公司名称 
+            $data['qrcode_url'] = $public_info ['authorizer_info'] ['qrcode_url'];     //二维码地址
+            $data['uid']=Session::get('store_id');//当前店铺的id
+            //记录授权信息
+            $res=db('miniprogram')->insert($data);
+            if($res){
+                return view('auth_detail',['data'=>$data]);
+            }else{
+                $this->error('用户未授权或授权错误，请重新授权',url('admin/Upload/auth_pre'));
+
+            }
+
+         
             
 
 
@@ -352,6 +378,7 @@ class WxTest extends Controller
             $data = $this->https_post ( $url, $param ); 
             $pp['msg']=$data;
             db('test')->insert($pp);
+            $data=json_decode($data,true);
             return $data; 
             }
 
