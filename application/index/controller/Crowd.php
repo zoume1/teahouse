@@ -97,7 +97,7 @@ class Crowd extends Controller
                         ->limit(1)
                         ->order("cost asc")
                         ->find();
-                    $crowd[$key]["cost"] = $special[$key]["cost"]; //显示价格
+                    $crowd[$key]["cost"] = sprintf("%.2f",$special[$key]["cost"]); //显示价格
                     $crowd[$key]["collecting_money"] =  db("crowd_special")->where("goods_id",$crowd[$key]["id"])->sum("collecting_money"); //已筹款金额
                     $crowd[$key]["collecting_money"] = sprintf("%.2f", $crowd[$key]["collecting_money"]);
                     $crowd[$key]["collecting"] =  db("crowd_special")->where("goods_id",$crowd[$key]["id"])->sum("collecting"); //已筹款人数
