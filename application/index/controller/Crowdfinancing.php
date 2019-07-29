@@ -177,8 +177,6 @@ class Crowdfinancing extends Controller
                             $harvester_phone_num = $is_address_status['phone_num'];              
                         } 
                     }
-                    //测试
-                        $datas["order_real_pay"] = 0.01;
                         $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
                         $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datas["parts_goods_name"] = $goods_data["project_name"];//众筹项目
@@ -205,7 +203,7 @@ class Crowdfinancing extends Controller
                         $datas["receipt_id"] = $receipt_id;
                         $datas["receipt_price"] = $receipt_price;
                         $datas["store_id"] = $store_id;
-                        // $datas["order_real_pay"] = 0.01;
+                        $datas["order_real_pay"] = 0.01;
                                         
                         $res = Db::name('crowd_order')->insertGetId($datas);
                         if ($res) {
