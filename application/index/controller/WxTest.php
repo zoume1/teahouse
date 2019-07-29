@@ -8,6 +8,8 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Db;
+use think\Session;
+use think\View;
 
 include('../extend/SampleCode/php/wxBizMsgCrypt.php');
 
