@@ -7,6 +7,7 @@
  */
 namespace app\index\controller;
 use think\Controller;
+use think\Db;
 
 include('../extend/SampleCode/php/wxBizMsgCrypt.php');
 
