@@ -7,16 +7,22 @@
  */
 namespace app\index\controller;
 use think\Controller;
+use think\Db;
 
 include('../extend/SampleCode/php/wxBizMsgCrypt.php');
 
 class WxTest extends Controller
 {
-    private $appid = ' wx4a653e89161abf1c';            //第三方平台应用appid
+    private $appid = 'wx4a653e89161abf1c';            //第三方平台应用appid
     private $appsecret = '4d88679173c2eb375b20ed57459973be';     //第三方平台应用appsecret
     private $token = 'zhihuichacang';           //第三方平台应用token（消息校验Token）
     private $encodingAesKey = 'zhihuichacangzhihuicangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
-    private $component_ticket= 'ticket@**xv-g';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
+    // private $component_ticket= 'ticket@@@mMQLlMnPx_y9E5HWGdfJKeKJadwSFBhcrzA8eJrMSmfIZInb_8ck42Y9eitnPWnkZXlNkgR33-P3otpQ1c00-A';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
+    
+    public function __construct(){
+        ///获取component_ticket
+        $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
+    }
     /**
      **************李火生*******************
      * @param Request $request
@@ -112,47 +118,6 @@ class WxTest extends Controller
      * lilu
      * 微信公众平台---第三方授权（小程序）
      */
-    public function receive_ticket2(){
-        $res = $this->component_detail();//获取第三方平台基础信息
-        $last_time = $res['token_time'];//上一次component_access_token获取时间
-        $component_access_token = $res['component_access_token'];//获取数据查询到的component_access_token
-        $difference_time = $this->validity($last_time);//上一次获取时间与当前时间的时间差
-        //判断component_access_token是否为空或者是否超过有效期
-        if(empty($component_access_token) || $difference_time>7000){
-            $component_access_token = $this->get_component_access_token_again();
-        }
-        return $component_access_token;
-    }
-        //获取第三方平台基础信息
-    public function component_detail(){
-        //获取
-            $res = db('wx_threeopen')->where(array('id'=>1))->find();
-            return $res;
-        }
-    //重新获取component_access_token
-    public function get_component_access_token_again(){
-        // $url = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
-        $url = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
-        $tok = $this->component_detail();
-        $param ['component_appid'] = $tok['appid'];
-        $param ['component_appsecret'] = $tok['appsecret'];
-        $param ['component_verify_ticket'] = $tok['componentverifyticket'];
-        $data =$this->post_data ( $url, $param );
-        $token['component_access_token'] = $data ['component_access_token'];
-        $token['token_time'] = time()+300;
-        db('wx_threeopen') ->where(array('id'=>1))->update($token);
-        return $data['component_access_token'];
-    }
-        //获取时间差
-        public function validity($time){
-            $current_time = time();
-            $difference_time = $current_time - $time;
-            return $difference_time;
-        }
-         /**
-     * lilu
-     * 微信公众平台---第三方授权（小程序）
-     */
     public function receive_ticket(){
             $timeStamp  = empty($_GET['timestamp'])     ? ""    : trim($_GET['timestamp']) ;
             $nonce      = empty($_GET['nonce'])     ? ""    : trim($_GET['nonce']) ;
@@ -160,50 +125,234 @@ class WxTest extends Controller
             $encryptMsg = file_get_contents('php://input');
             if(!$encryptMsg){
                 $encryptMsg= $GLOBALS['HTTP_RAW_POST_DATA'];
+                if(!$encryptMsg){
+                    $encryptMsg = input('post.');	
+                }
             }
             $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
             $xml_tree = new \DOMDocument();
             $xml_tree->loadXML($encryptMsg);
             $array_e = $xml_tree->getElementsByTagName('Encrypt');
             $encrypt = $array_e->item(0)->nodeValue;
-            // $format = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
-            $format = "";
+            $format = "<xml><AppId><![CDATA[AppId]]></AppId><Encrypt><![CDATA[%s]]></Encrypt></xml>";
             $from_xml = sprintf($format, $encrypt);
              // 第三方收到公众号平台发送的消息
              $msg = '';
             $errCode = $pc->decryptMsg ($msg_sign, $timeStamp, $nonce, $encryptMsg, $msg );
             if ($errCode == 0) {
-                $pp['msg']=$msg;
-                db('test')->insert($pp);
                 $xml = new \DOMDocument();
                 $xml->loadXML($msg);
                 $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
     
                 $component_verify_ticket = $array_e->item(0)->nodeValue;
-                // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
                 $da['component_verify_ticket']=$component_verify_ticket;
-                $da['token_time']=time()+300;
+                $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
-    
                  echo "success";
             }else{
+                //错误代码日志
                 $pp['msg']=$errCode;
                 db('test')->insert($pp);
-                // DB::getDB()->delete("wechat_verifyticket",'uptime!=1');
-                // DB::getDB()->insert("wechat_verifyticket",array(
-                //     'component_verify_ticket'    => $errCode,
-                //     'uptime'                    => time()));
                 echo "false";
-                
             }
-    
         }
-        // public function _xmlToArr($xml) {
-        //     $res = @simplexml_load_string ( $xml,NULL, LIBXML_NOCDATA );
-        //     $res = json_decode ( json_encode ( $res), true );
-        //     return $res;
-        // }
+        /**
+         * 微信公众号获取token
+         */
+        public function token(){
+            //获取随机字符串
+                $echoStr = input("echostr");
+                if($echoStr){
+                    // 验证接口的有效性，由于接口有效性的验证必定会传递echostr 参数
+                    if($this ->checkSignature()){
+                            echo $echoStr;
+                            exit;
+                    }
+                }else{
+                      $this->responseMsg();
+                }
+        }
+
+        protected function checkSignature()
+        {
+            // 微信加密签名
+                $signature = input("signature");
+                $timestamp = input("timestamp");//时间戳
+                $nonce =input("nonce");//随机数
+                $token = "zhihuichacang";  //token值，必须和你设置的一样
+                $tmpArr =array($token,$timestamp,$nonce);
+                sort($tmpArr,SORT_STRING);
+                $tmpStr = implode($tmpArr);
+                $tmpStr =sha1($tmpStr);
+              if($tmpStr == $signature){
+                    return true;
+                }else{
+                     return false;
+                }
+        }
+        public function responseMsg()
+        {
+                $postStr = file_get_contents('php://input');    
+                if (!empty($postStr)){
+                    libxml_disable_entity_loader(true);
+                    $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+                    $fromUsername = $postObj->FromUserName;
+                    $toUsername = $postObj->ToUserName;
+                    $keyword = trim($postObj->Content);
+                    $time = time();
+                    $textTpl = "<xml>
+                                    <ToUserName><![CDATA[%s]]></ToUserName>
+                                    <FromUserName><![CDATA[%s]]></FromUserName>
+                                    <CreateTime>%s</CreateTime>
+                                    <MsgType><![CDATA[%s]]></MsgType>
+                                    <Content><![CDATA[%s]]></Content>
+                                    <FuncFlag>0</FuncFlag>
+                                </xml>";
+                        if(!empty( $keyword ))
+                        {
+                            $msgType = "text";
+                            $contentStr = "Welcome to wechat world!";
+                            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                            echo $resultStr;
+                        }else{
+                            echo "Input something...";
+                        }
+                }else {
+                    echo "";
+                    exit;
+                }
+            }
+        /**
+         * lilu
+         * 微信第三方授权后。获取回调信息
+         */
+        public function callback(){
+            //获取回调的信息
+            $data=input();
+            $auth_code=$data['auth_code'];     //授权码
+            $data=json_encode($data);
+            $pp['msg']=$data;    //获取到的数据插入到日志表中
+            db('test')->insert($pp);
+            // $auth_code='queryauthcode@@@fv0KPet287j1PS_kwJutHswzJehTmWv_GoPvh06E4IBlZ9V5pJR23PMBZPUHLlxiyZNeuz_BmJmhqqFegjV3BA';
+            //根据授权码，获取用户信息
+            $info=$this->getAuthInfo($auth_code);
+            //获取授权方的基本信息 
+            $public_info= $this->getPublicInfo ( $info ['authorization_info']['authorizer_appid'] );
+            
 
 
+        }
+        /**
+         * lilu
+         * 获取微信公众号接口调用凭据和授权信
+         */
+        public function getAuthInfo($auth_code) { 
+                $component_access_token = $this ->get_component_access_token(); 
+                $url ="https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=".$component_access_token; 
+                $param = '{
+                    "component_appid":"'.$this->appid.'" ,
+                    "authorization_code": "'.$auth_code.'"
+                }';
+                // $param['component_appid'] =  $this->appid; 
+                // $param['authorization_code'] = $auth_code; 
+                $info = json_decode($this->https_post ( $url, $param ),true);
+               
+                return $info; 
+            }
+        /*
+            * 获取第三方平台access_token
+            * 注意，此值应保存，代码这里没保存
+            */
+            private function get_component_access_token()
+            {
+                $url = "https://api.weixin.qq.com/cgi-bin/component/api_component_token";
+                $data = '{
+                    "component_appid":"'.$this->appid.'" ,
+                    "component_appsecret": "'.$this->appsecret.'",
+                    "component_verify_ticket": "'.$this->component_ticket.'"
+                }';
+                $ret = json_decode($this->https_post($url,$data),true);
+                if($ret['component_access_token']) {
+                    return $ret['component_access_token'];
+                } else {
+                    return false;
+                }
+            }
+
+    /*
+
+    *  第三方平台方获取预授权码pre_auth_code
+
+    */
+
+    private function get_pre_auth_code()
+
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token=".$this->get_component_access_token();
+        $data = '{"component_appid":"'.$this->appid.'"}';
+        $ret = json_decode($this->https_post($url,$data),true);
+        if($ret['pre_auth_code']) {
+            return $ret['pre_auth_code'];
+        } else {
+            return false;
+        }
+
+    }
+        /*
+        * 发起POST网络提交
+        * @params string $url : 网络地址
+        * @params json $data ： 发送的json格式数据
+        */
+        private function https_post($url,$data)
+        {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            if (!empty($data)){
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            }
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($curl);
+            curl_close($curl);
+            return $output;
+        }
+        /*
+            * 发起GET网络提交
+            * @params string $url : 网络地址
+            */
+        private function https_get($url)
+        {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE); 
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); 
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); 
+            curl_setopt($curl, CURLOPT_HEADER, FALSE) ; 
+            curl_setopt($curl, CURLOPT_TIMEOUT,60);
+            if (curl_errno($curl)) {
+                return 'Errno'.curl_error($curl);
+            }
+            else{$result=curl_exec($curl);}
+            curl_close($curl);
+            return $result;
+        }
+        /**
+         * lilu
+         * 获取授权方的基本信息 
+         */
+        public function getPublicInfo($authorizer_appid) { 
+            $component_access_token =$this->get_component_access_token(); 
+            $url = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token='.$component_access_token; 
+            $param = '{
+                "component_appid":"'.$this->appid.'" ,
+                "authorizer_appid": "'.$authorizer_appid.'"
+            }';
+            // $param ['component_appid'] = '第三方平台appid '; 
+            // $param ['authorizer_appid'] =$authorizer_appid; 
+            $data = $this->https_post ( $url, $param ); 
+            $pp['msg']=$data;
+            db('test')->insert($pp);
+            return $data; 
+            }
 
 }

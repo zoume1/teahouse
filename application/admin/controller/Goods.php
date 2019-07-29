@@ -418,6 +418,7 @@ class Goods extends Controller
                 $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]);
             } 
             $goods_data["goods_member"] = isset($goods_data["goods_member"])?$goods_data["goods_member"]:0;
+            halt($goods_data["goods_member"]);
             
             if(!empty($goods_data["goods_sign"])){     
                 $goods_data["server"] = json_encode($goods_data["server"]); 
