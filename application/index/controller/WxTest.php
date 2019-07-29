@@ -7,6 +7,9 @@
  */
 namespace app\index\controller;
 use think\Controller;
+use think\Db;
+use think\Session;
+use think\View;
 
 include('../extend/SampleCode/php/wxBizMsgCrypt.php');
 
@@ -16,7 +19,12 @@ class WxTest extends Controller
     private $appsecret = '4d88679173c2eb375b20ed57459973be';     //第三方平台应用appsecret
     private $token = 'zhihuichacang';           //第三方平台应用token（消息校验Token）
     private $encodingAesKey = 'zhihuichacangzhihuicangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
-    private $component_ticket= 'ticket@**xv-g';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
+    // private $component_ticket= 'ticket@@@mMQLlMnPx_y9E5HWGdfJKeKJadwSFBhcrzA8eJrMSmfIZInb_8ck42Y9eitnPWnkZXlNkgR33-P3otpQ1c00-A';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
+    
+    public function __construct(){
+        ///获取component_ticket
+        $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
+    }
     /**
      **************李火生*******************
      * @param Request $request
@@ -134,20 +142,17 @@ class WxTest extends Controller
              $msg = '';
             $errCode = $pc->decryptMsg ($msg_sign, $timeStamp, $nonce, $encryptMsg, $msg );
             if ($errCode == 0) {
-                $pp['msg']=$msg;
-                db('test')->insert($pp);
                 $xml = new \DOMDocument();
                 $xml->loadXML($msg);
                 $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
     
                 $component_verify_ticket = $array_e->item(0)->nodeValue;
-                $pp2['msg']=$component_verify_ticket;
-                db('test')->insert($pp2);
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
                  echo "success";
             }else{
+                //错误代码日志
                 $pp['msg']=$errCode;
                 db('test')->insert($pp);
                 echo "false";
@@ -219,7 +224,185 @@ class WxTest extends Controller
                     exit;
                 }
             }
+        /**
+         * lilu
+         * 微信第三方授权后。获取回调信息
+         */
+        public function callback(){
+            //获取回调的信息
+            $data2=input();
+            $auth_code=$data2['auth_code'];     //授权码
+            // $auth_code='queryauthcode@@@fv0KPet287j1PS_kwJutHswzJehTmWv_GoPvh06E4IBlZ9V5pJR23PMBZPUHLlxiyZNeuz_BmJmhqqFegjV3BA';
+            //根据授权码，获取用户信息
+            $auth_info=$this->getAuthInfo($auth_code);
+            //获取授权方的基本信息 
+            $public_info= $this->getPublicInfo ( $auth_info ['authorization_info']['authorizer_appid'] );
+            $data['wename'] = $public_info ['authorizer_info'] ['nick_name'];   //小程序名称
+            // $data['wechat'] = $public_info ['authorizer_info'] ['alias'];       //别名
+            //转换帐号类型 
+            if($public_info ['authorizer_info'] ['service_type_info'] ['id'] == 2) { // 服务号 
+            $data['service_type_info'] = 2; 
+            }else { // 订阅号 
+            $data['service_type_info'] = 0; 
+            } 
+            if($public_info ['authorizer_info'] ['verify_type_info'] ['id'] != - 1) { // 已认证 
+            $data['service_type_info'] = 1; 
+            } 
+            $data['appid'] = $public_info ['authorization_info'] ['authorizer_appid'];   //appid
+            $data['auth_time'] = time();                     //时间
+            $data['authorizer_refresh_token'] = $auth_info ['authorization_info']['authorizer_refresh_token'];    //授权token
+            $data['access_token'] = $auth_info ['authorization_info']['authorizer_access_token']; 
+            $data['head_img'] = $public_info ['authorizer_info'] ['head_img'];     //头像
+            $data['principal_name']=$public_info['authorizer_info']['principal_name'];  //公司名称 
+            $data['qrcode_url'] = $public_info ['authorizer_info'] ['qrcode_url'];     //二维码地址
+            $data['store_id']=Session::get('store_id');//当前店铺的id
+            $store_type=$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['first'].'-'.$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['second'];  //公司名称 
+            $data['store_type']=$store_type;//当前店铺的id
+            //获取小程序的二维码
+            $head_pic=$this->getHeadpic($auth_info ['authorization_info']['authorizer_access_token']);
+            //记录授权信息
+            $res=db('miniprogram')->insert($data);
+            if($res){
+                $this->success('授权成功',url('admin/Upload/auth_pre'));
+            }else{
+                $this->error('用户未授权或授权错误，请重新授权',url('admin/Upload/auth_pre'));
+
+            }
+
+         
+            
 
 
+        }
+        /**
+         * lilu
+         * 获取微信公众号接口调用凭据和授权信
+         */
+        public function getAuthInfo($auth_code) { 
+                $component_access_token = $this ->get_component_access_token(); 
+                $url ="https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=".$component_access_token; 
+                $param = '{
+                    "component_appid":"'.$this->appid.'" ,
+                    "authorization_code": "'.$auth_code.'"
+                }';
+                // $param['component_appid'] =  $this->appid; 
+                // $param['authorization_code'] = $auth_code; 
+                $info = json_decode($this->https_post ( $url, $param ),true);
+               
+                return $info; 
+            }
+        /*
+            * 获取第三方平台access_token
+            * 注意，此值应保存，代码这里没保存
+            */
+            private function get_component_access_token()
+            {
+                $url = "https://api.weixin.qq.com/cgi-bin/component/api_component_token";
+                $data = '{
+                    "component_appid":"'.$this->appid.'" ,
+                    "component_appsecret": "'.$this->appsecret.'",
+                    "component_verify_ticket": "'.$this->component_ticket.'"
+                }';
+                $ret = json_decode($this->https_post($url,$data),true);
+                if($ret['component_access_token']) {
+                    return $ret['component_access_token'];
+                } else {
+                    return false;
+                }
+            }
+
+    /*
+
+    *  第三方平台方获取预授权码pre_auth_code
+
+    */
+
+    private function get_pre_auth_code()
+
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token=".$this->get_component_access_token();
+        $data = '{"component_appid":"'.$this->appid.'"}';
+        $ret = json_decode($this->https_post($url,$data),true);
+        if($ret['pre_auth_code']) {
+            return $ret['pre_auth_code'];
+        } else {
+            return false;
+        }
+
+    }
+        /*
+        * 发起POST网络提交
+        * @params string $url : 网络地址
+        * @params json $data ： 发送的json格式数据
+        */
+        private function https_post($url,$data)
+        {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            if (!empty($data)){
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            }
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($curl);
+            curl_close($curl);
+            return $output;
+        }
+        /*
+            * 发起GET网络提交
+            * @params string $url : 网络地址
+            */
+        private function https_get($url)
+        {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE); 
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); 
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); 
+            curl_setopt($curl, CURLOPT_HEADER, FALSE) ; 
+            curl_setopt($curl, CURLOPT_TIMEOUT,60);
+            if (curl_errno($curl)) {
+                return 'Errno'.curl_error($curl);
+            }
+            else{$result=curl_exec($curl);}
+            curl_close($curl);
+            return $result;
+        }
+        /**
+         * lilu
+         * 获取授权方的基本信息 
+         */
+        public function getPublicInfo($authorizer_appid) { 
+            $component_access_token =$this->get_component_access_token(); 
+            $url = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token='.$component_access_token; 
+            $param = '{
+                "component_appid":"'.$this->appid.'" ,
+                "authorizer_appid": "'.$authorizer_appid.'"
+            }';
+            // $param ['component_appid'] = '第三方平台appid '; 
+            // $param ['authorizer_appid'] =$authorizer_appid; 
+            $data = $this->https_post ( $url, $param ); 
+            $pp['msg']=$data;
+            db('test')->insert($pp);
+            $data=json_decode($data,true);
+            return $data; 
+            }
+            /**
+             * lilu
+             * 获取小程序二维码
+             */
+            public function getHeadpic($access_token){
+                $url = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$access_token;
+                $data = '{
+                    "path":"/pages/logs/logs" 
+                }';
+                $ret = json_decode($this->https_post($url,$data),true);
+                halt($ret);
+                if($ret['pre_auth_code']) {
+                    return $ret['pre_auth_code'];
+                } else {
+                    return false;
+                }
+            }
 
 }

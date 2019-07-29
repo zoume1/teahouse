@@ -656,7 +656,7 @@
                     <label class="form-label">商品折扣</label>
                     <div class="form-input line">
                         {if $value.goods_member == 1}
-                        <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked=""
+                        <input type="checkbox" name="goods_member" value="{$value.goods_member}" lay-skin="primary" checked=""
                             title="参加会员折扣"> {else}
                         <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
                         <a href="index/My/show_grade">管理会员卡</a>
@@ -824,9 +824,9 @@
                     <label class="form-label">商品折扣</label>
                     <div class="form-input line">
                         {if $value.goods_member == 1}
-                        <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked=""
+                        <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked="" lay-filter="choose1"
                             title="参加会员折扣"> {else}
-                        <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
+                        <input type="checkbox" name="goods_member" value="" lay-skin="primary" lay-filter="choose1" title="参加会员折扣">{/if}
                         <a href="{:url('admin/User/grade')}">管理会员卡</a>
                     </div>
                 </div>

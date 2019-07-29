@@ -241,6 +241,7 @@ class Commodity extends Controller
                 $goods[0]["unit"] = $goods[0]["monomer"];
 
             }
+
             
             //获取当前商铺当前商品的所有评论
             $evolution=db('order_evaluate')->where(['store_id'=>$store_id,'goods_id'=>$goods_id])->order('create_time desc')->select();

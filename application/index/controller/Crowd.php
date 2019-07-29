@@ -172,18 +172,19 @@ class Crowd extends Controller
                         ->order("cost asc")                                                                                                                                                                                                                                                                                                                                                                                                                                                          
                         ->select();
                     $crowd[$key]["state"] = $special[$key]["state"];
-                    $crowd[$key]["cost"] = $special[$key]["cost"];
                     
                     if($crowd[$key]["goods_member"] == 1){
-                        $crowd[$key]["cost"] = $special[$key]["cost"] * $discount ;
+                        $crowd[$key]["cost"] = sprintf("%.2f",$special[$key]["cost"] * $discount);
                         foreach($standard as $m => $n){
-                            $standard[$m]["cost"] = $standard[$m]["cost"]* $discount ;
+                            $standard[$m]["cost"] = sprintf("%.2f",$standard[$m]["cost"]* $discount);
                         }
+                    } else {
+                        $crowd[$key]["cost"] = sprintf("%.2f",$special[$key]["cost"]);
                     }
                     $crowd[$key]["standard"] = $standard;
                     $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
-                    $crowd[$key]["collecting_money"] = $special[$key]["collecting_money"];
+                    $crowd[$key]["collecting_money"] = sprintf("%.2f",$special[$key]["collecting_money"]);
                                       
                 }             
                 ajax_success('传输成功', $crowd);
@@ -229,12 +230,14 @@ class Crowd extends Controller
                         ->limit(1)
                         ->order("cost asc")
                         ->find();
-                    $crowd[$key]["cost"] = $special[$key]["cost"];
+                    
                     if($crowd[$key]["goods_member"] == 1){
-                        $crowd[$key]["cost"] = $special[$key]["cost"] * $discount ;
+                        $crowd[$key]["cost"] = sprintf("%.2f",$special[$key]["cost"] * $discount);
+                    } else {
+                        $crowd[$key]["cost"] = sprintf("%.2f",$special[$key]["cost"]);
                     }
                     $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
-                    $crowd[$key]["collecting"] = $special[$key]["collecting"];
+                    $crowd[$key]["collecting"] = sprintf("%.2f",$special[$key]["collecting"]);
                     
                     if(!empty($crowd[$key]["scope"])){
                         if(!in_array($member_grade_name,$crowd[$key]["scope"])){ 

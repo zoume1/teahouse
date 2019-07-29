@@ -246,13 +246,12 @@ class StoreHouse extends Controller{
     public function stores_series_index(){
         $store_id = Session::get("store_id");
         $store_order = Db::table("tb_series_house_order")
-            ->field("tb_series_house_order.series_parts_number,series_price,tb_house_order.pay_time,store_number,end_time,tb_store_house.name")
+            ->field("tb_series_house_order.store_house_id,series_parts_number,series_price,tb_house_order.pay_time,store_number,end_time,user_account_name,parts_goods_name,tb_store_house.name")
             ->join("tb_house_order","tb_house_order.id = tb_series_house_order.store_house_id",'left')
             ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
             ->where("tb_series_house_order.store_id",$store_id)
             ->where("tb_series_house_order.pay_status",">",1)
             ->select();
-
         foreach($store_order as $key => $value){
         $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
         }    

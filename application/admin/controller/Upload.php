@@ -13,13 +13,13 @@ class Upload extends Controller
     private $appsecret = '4d88679173c2eb375b20ed57459973be';     //第三方平台应用appsecret
     private $token = 'zhihuichacang';           //第三方平台应用token（消息校验Token）
     private $encodingAesKey = 'zhihuichacangzhihuicangxuanmingkeji12345678';      //第三方平台应用Key（消息加解密Key）
-    private $component_ticket= 'ticket@@@mMQLlMnPx_y9E5HWGdfJKeKJadwSFBhcrzA8eJrMSmfIZInb_8ck42Y9eitnPWnkZXlNkgR33-P3otpQ1c00-A';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
+    // private $component_ticket= 'ticket@@@mMQLlMnPx_y9E5HWGdfJKeKJadwSFBhcrzA8eJrMSmfIZInb_8ck42Y9eitnPWnkZXlNkgR33-P3otpQ1c00-A';   //微信后台推送的ticket,用于获取第三方平台接口调用凭据
     /**
      * 
      */
     public function __construct(){
-         //获取component_ticket
-         $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
+        ///获取component_ticket
+        $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
     }
     // public function index(){
     //          $user_id=Session::get('user_id');
@@ -360,10 +360,18 @@ class Upload extends Controller
      * 一键生成起始页面
      */
     public function auth_pre(){
-        //授权开始
-        $redirect_uri='https://www.zhihuichacang.com/$APPID$/callback';
-        $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
-        return view('auth_pre',['data'=>$url]);
+        //获取店铺id
+        $store_id=Session::get('store_id');
+        //判断是否已授权
+        $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
+        if($is_shou){
+            return view('auth_detail',['data'=>$is_shou]);
+        }else{
+            //授权开始
+            $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
+            $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
+            return view('auth_pre',['data'=>$url]);
+        }
     }
     /**
      * lilu
@@ -371,7 +379,7 @@ class Upload extends Controller
      */
     public function auth_index(){
         //授权开始
-        $redirect_uri='https://www.zhihuichacang.com/$APPID$/callback';
+        $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
         $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
         return view('auth_index',['data'=>$url]);
     }
