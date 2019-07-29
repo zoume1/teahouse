@@ -256,10 +256,12 @@ class WxTest extends Controller
             $data['principal_name']=$public_info['authorizer_info']['principal_name'];  //公司名称 
             $data['qrcode_url'] = $public_info ['authorizer_info'] ['qrcode_url'];     //二维码地址
             $data['store_id']=Session::get('store_id');//当前店铺的id
+            $store_type=$public_info['authorizer_info']['categories']['first'].'-'.$public_info['authorizer_info']['categories']['second'];  //公司名称 
+            $data['store_type']=$store_type;//当前店铺的id
             //记录授权信息
             $res=db('miniprogram')->insert($data);
             if($res){
-                return view('auth_detail',['data'=>$data]);
+                $this->redirect('Upload/auth_detail', ['data' => $data]);
             }else{
                 $this->error('用户未授权或授权错误，请重新授权',url('admin/Upload/auth_pre'));
 
