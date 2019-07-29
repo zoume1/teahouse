@@ -233,8 +233,9 @@ class WxTest extends Controller
             $data=json_encode($data);
             $pp['msg']=$data;    //获取到的数据插入到日志表中
             db('test')->insert($pp);
+            // $auth_code='queryauthcode@@@fv0KPet287j1PS_kwJutHswzJehTmWv_GoPvh06E4IBlZ9V5pJR23PMBZPUHLlxiyZNeuz_BmJmhqqFegjV3BA';
             //根据授权码，获取用户信息
-            $re=$this->getAuthInfo($auto_code);
+            $re=$this->getAuthInfo($auth_code);
  
             
 
@@ -267,6 +268,8 @@ class WxTest extends Controller
                     "component_verify_ticket": "'.$this->component_ticket.'"
                 }';
                 $ret = json_decode($this->https_post($url,$data),true);
+                $pp['msg']=$ret;    //获取到的数据插入到日志表中
+                db('test')->insert($pp);
                 if($ret['component_access_token']) {
                     return $ret['component_access_token'];
                 } else {
