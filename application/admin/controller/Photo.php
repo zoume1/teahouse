@@ -62,6 +62,7 @@ class Photo extends Base{
         }else{
             $all = Db::table('ims_sudu8_page_pic')
                 ->where("uniacid",$appletid)
+                ->where("gid", 0)
                 ->order('id desc')
                 ->paginate(12,false,[ 'query' => array('appletid'=>input("appletid"),'type'=>input("type"))]);
             $gid = 0;
@@ -78,7 +79,7 @@ class Photo extends Base{
                 }
             }
         }
-        $count = Db::table('ims_sudu8_page_pic')->where("uniacid",$appletid)->count();
+        $count = Db::table('ims_sudu8_page_pic')->where("uniacid",$appletid)->where("gid", 0)->count();
         $this->assign('type',$type);
         $this->assign('group',$group);
         $this->assign('gid',$gid);
@@ -112,6 +113,7 @@ class Photo extends Base{
             $num=count($files['uploadfile']);
             foreach ($files['uploadfile'] as $k=>$v) {
                 $info = $v->move(ROOT_PATH . 'public' . DS . 'upimages');
+               
                 if($k==$num-1)
                 {
                     $list .= "/upimages/".date("Ymd",time())."/".$info->getFilename();
@@ -125,6 +127,7 @@ class Photo extends Base{
             $data['type'] = 1;
             $pid = Db::table("ims_sudu8_page_pic")->insertGetId($data);
             $arr = array("url"=>$list,"pid"=>$pid);
+
             return json_encode($arr);
             // foreach($files as $file){
             //     // 移动到框架应用根目录/public/upimages/ 目录下
@@ -247,15 +250,31 @@ class Photo extends Base{
      **************************************
      */
     public function phone_del(){
-        $data['id'] = input("cateid");
-        $res = Db::table('ims_sudu8_page_score_cate')->where($data)->delete();
+        $id = input("id");
+        $res = Db::table('ims_sudu8_page_picgroup')->where("id", $id)->delete();
+        $res = Db::table('ims_sudu8_page_pic')->where('gid', $id)->delete();
         if($res){
             $this->success('删除成功');
         }else{
             $this->success('删除失败');
         }
     }
-
+    
+    /**
+     **************lilu*******************
+     * @param Request $request
+     * Notes:图片删除操作
+     **************************************
+     */
+    public function pic_del(){
+        $id = input("id");
+        $res = Db::table('ims_sudu8_page_pic')->where('id', $id)->delete();
+        if($res){
+            $this->success('删除成功');
+        }else{
+            $this->success('删除失败');
+        }
+    }
 
     /**
      **************李火生*******************
