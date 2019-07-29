@@ -258,6 +258,8 @@ class WxTest extends Controller
             $data['store_id']=Session::get('store_id');//当前店铺的id
             $store_type=$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['first'].'-'.$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['second'];  //公司名称 
             $data['store_type']=$store_type;//当前店铺的id
+            //获取小程序的二维码
+            $head_pic=$this->getHeadpic($auth_info ['authorization_info']['authorizer_access_token']);
             //记录授权信息
             $res=db('miniprogram')->insert($data);
             if($res){
@@ -384,6 +386,23 @@ class WxTest extends Controller
             db('test')->insert($pp);
             $data=json_decode($data,true);
             return $data; 
+            }
+            /**
+             * lilu
+             * 获取小程序二维码
+             */
+            public function getHeadpic($access_token){
+                $url = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?access_token=".$access_token;
+                $data = '{
+                    "path":"/pages/logs/logs" 
+                }';
+                $ret = json_decode($this->https_post($url,$data),true);
+                halt($ret);
+                if($ret['pre_auth_code']) {
+                    return $ret['pre_auth_code'];
+                } else {
+                    return false;
+                }
             }
 
 }
