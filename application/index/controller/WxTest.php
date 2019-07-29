@@ -241,21 +241,21 @@ class WxTest extends Controller
             // $data['wechat'] = $public_info ['authorizer_info'] ['alias'];       //别名
             //转换帐号类型 
             if($public_info ['authorizer_info'] ['service_type_info'] ['id'] == 2) { // 服务号 
-            $data['type'] = 2; 
+            $data['service_type_info'] = 2; 
             }else { // 订阅号 
-            $data['type'] = 0; 
+            $data['service_type_info'] = 0; 
             } 
             if($public_info ['authorizer_info'] ['verify_type_info'] ['id'] != - 1) { // 已认证 
-            $data['type'] = 1; 
+            $data['service_type_info'] = 1; 
             } 
             $data['appid'] = $public_info ['authorization_info'] ['authorizer_appid'];   //appid
-            $data['acc_time'] = time();                     //时间
+            $data['auth_time'] = time();                     //时间
             $data['authorizer_refresh_token'] = $auth_info ['authorization_info']['authorizer_refresh_token'];    //授权token
             $data['access_token'] = $auth_info ['authorization_info']['authorizer_access_token']; 
             $data['head_img'] = $public_info ['authorizer_info'] ['head_img'];     //头像
             $data['principal_name']=$public_info['authorizer_info']['principal_name'];  //公司名称 
             $data['qrcode_url'] = $public_info ['authorizer_info'] ['qrcode_url'];     //二维码地址
-            $data['uid']=Session::get('store_id');//当前店铺的id
+            $data['store_id']=Session::get('store_id');//当前店铺的id
             //记录授权信息
             $res=db('miniprogram')->insert($data);
             if($res){
