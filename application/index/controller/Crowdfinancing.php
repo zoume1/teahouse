@@ -1765,10 +1765,6 @@ class Crowdfinancing extends Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
 
-            $restel_one  =   Db::name("crowd_special") -> where("id",$information['special_id'])->setInc('collecting_money',$information['order_amount']);
-            $restel_two  =   Db::name("crowd_special") -> where("id",$information['special_id'])->setInc('collecting');
-            $restel_three  = Db::name("crowd_special") -> where("id",$information['special_id'])->setInc('collecting_number',$information['order_quantity']);
-            $restel_three  = Db::name("crowd_special") -> where("id",$information['special_id'])->setDec('stock',$information['order_quantity']);
 
 
             if($res || $host_rest){
@@ -1793,14 +1789,12 @@ class Crowdfinancing extends Controller
                 ];
                 Db::name("wallet")->insert($datas); //存入消费记录表
 
-
-
                 $all_money = $user_information["order_real_pay"];       //实际支付的金额
                 $member_id = $user_information["member_id"];            //会员id
                 $goods_id = $user_information["goods_id"];              // 商品id
                 $order_quantity = $user_information["order_quantity"];  // 商品数量
                 $special_id = $user_information["special_id"];          // 规格id
-                $order_amount = $user_information["order_amount"];      // 商品金额
+                $order_amount = $user_information["order_amount"];      // 商品总金额
 
                 $rest_special = db("crowd_special")->where("id",$special_id)->find();
                 $collecting = $rest_special['collecting'] + 1;
