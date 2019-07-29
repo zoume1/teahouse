@@ -1765,9 +1765,9 @@ class Crowdfinancing extends Controller
                 ->where("parts_order_number",$val["out_trade_no"])
                 ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
 
-            $restel_one  = Db::name("crowd_special") -> where("goods_id",$information['special_id'])->setInc('collecting_money',$information['order_amount']);
-            $restel_two  = Db::name("crowd_special") -> where("goods_id",$information['special_id'])->setInc('collecting');
-            $restel_three  = Db::name("crowd_special") -> where("goods_id",$information['special_id'])->setInc('collecting_number',$information['order_quantity']);
+            $restel_one  = Db::name("crowd_special") -> where("id",$information['special_id'])->setInc('collecting_money',$information['order_amount']);
+            $restel_two  = Db::name("crowd_special") -> where("id",$information['special_id'])->setInc('collecting');
+            $restel_three  = Db::name("crowd_special") -> where("id",$information['special_id'])->setInc('collecting_number',$information['order_quantity']);
 
 
             if($res || $host_rest){
