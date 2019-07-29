@@ -255,7 +255,7 @@ class WxTest extends Controller
                 }';
                 // $param['component_appid'] =  $this->appid; 
                 // $param['authorization_code'] = $auth_code; 
-                $info = $this->https_post ( $url, $param );
+                $info = json_decode($this->https_post ( $url, $param ),true);
                
                 return $info; 
             }
