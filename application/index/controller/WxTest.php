@@ -224,15 +224,108 @@ class WxTest extends Controller
         public function callback(){
             //获取回调的信息
             $data=input();
+            $auto_code=$data['auth_code'];     //授权码
             $data=json_encode($data);
             $pp['msg']=$data;    //获取到的数据插入到日志表中
             db('test')->insert($pp);
-                       
+            //根据授权码，获取用户信息
+            $re=$this->getAuthInfo($auto_code);
+ 
+            
 
 
         }
+        /**
+         * lilu
+         * 获取微信公众号接口调用凭据和授权信
+         */
+        public function getAuthInfo($auth_code) { 
+                $component_access_token = $this ->get_component_access_token(); 
+                $url ="https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=".$component_access_token; 
+                $param['component_appid'] =  $this->appid; 
+                $param['authorization_code'] = $auth_code; 
+                $info = $this->https_post ( $url, $param );
+                $pp['msg']=$info;
+                db('test')->insert($pp);
+                return $info; 
+            }
+        /*
+            * 获取第三方平台access_token
+            * 注意，此值应保存，代码这里没保存
+            */
+            private function get_component_access_token()
+            {
+                $url = "https://api.weixin.qq.com/cgi-bin/component/api_component_token";
+                $data = '{
+                    "component_appid":"'.$this->appid.'" ,
+                    "component_appsecret": "'.$this->appsecret.'",
+                    "component_verify_ticket": "'.$this->component_ticket.'"
+                }';
+                $ret = json_decode($this->https_post($url,$data),true);
+                if($ret['component_access_token']) {
+                    return $ret['component_access_token'];
+                } else {
+                    return false;
+                }
+            }
 
+    /*
 
+    *  第三方平台方获取预授权码pre_auth_code
+
+    */
+
+    private function get_pre_auth_code()
+
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token=".$this->get_component_access_token();
+        $data = '{"component_appid":"'.$this->appid.'"}';
+        $ret = json_decode($this->https_post($url,$data),true);
+        if($ret['pre_auth_code']) {
+            return $ret['pre_auth_code'];
+        } else {
+            return false;
+        }
+
+    }
+        /*
+        * 发起POST网络提交
+        * @params string $url : 网络地址
+        * @params json $data ： 发送的json格式数据
+        */
+        private function https_post($url,$data)
+        {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            if (!empty($data)){
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            }
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($curl);
+            curl_close($curl);
+            return $output;
+        }
+        /*
+            * 发起GET网络提交
+            * @params string $url : 网络地址
+            */
+        private function https_get($url)
+        {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE); 
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); 
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); 
+            curl_setopt($curl, CURLOPT_HEADER, FALSE) ; 
+            curl_setopt($curl, CURLOPT_TIMEOUT,60);
+            if (curl_errno($curl)) {
+                return 'Errno'.curl_error($curl);
+            }
+            else{$result=curl_exec($curl);}
+            curl_close($curl);
+            return $result;
+        }
 
 
 }
