@@ -229,7 +229,7 @@ class WxTest extends Controller
         public function callback(){
             //获取回调的信息
             $data=input();
-            $auto_code=$data['auth_code'];     //授权码
+            $auth_code=$data['auth_code'];     //授权码
             $data=json_encode($data);
             $pp['msg']=$data;    //获取到的数据插入到日志表中
             db('test')->insert($pp);
