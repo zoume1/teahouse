@@ -343,10 +343,10 @@ class  Order extends  Controller
                     $datas["goods_money"]=$goods_data['goods_new_money']* $member_consumption_discount["member_consumption_discount"];//商品价钱
                     $data['unit'] = explode(",",$goods_data['unit']);
                     $data['num'] = explode(",",$goods_data['num']);
-                    //判断商品的库存的是否够用
-                    if($goods_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
-                        return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
-                   }
+                //     //判断商品的库存的是否够用
+                //     if($goods_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
+                //         return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
+                //    }
                 } else {
                     //图片
                     $special_data =Db::name("special")
@@ -357,10 +357,10 @@ class  Order extends  Controller
                     $datas['goods_standard'] = $special_data["name"]; //商品规格  
                     $data['unit'] = explode(",",$special_data['unit']);
                     $data['num'] = explode(",",$special_data['num']);
-                    //判断商品的库存的是否够用
-                    if($special_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
-                        return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
-                   }
+                //     //判断商品的库存的是否够用
+                //     if($special_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
+                //         return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
+                //    }
 
                 }
                 if($order_type != 3){
@@ -440,7 +440,7 @@ class  Order extends  Controller
                             //     $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
                             // }
                             $order_datas =Db::name("order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
@@ -480,7 +480,6 @@ class  Order extends  Controller
                         $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
                         $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datase["status"] = 1;
-                        // $datase["harvester"] = $store_name;
                         $datase["goods_id"] = $values;
                         $datase["buy_message"] = $buy_message;//买家留言
                         $datase["normal_future_time"] =$normal_future_time;//未来时间
@@ -500,6 +499,7 @@ class  Order extends  Controller
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;  
+                        $datas["coupon_type"] = 1;  
                 
                         $key = array_search($unit[$keys],$data['unit']);
                         //先判断有多少位数量等级
@@ -507,7 +507,7 @@ class  Order extends  Controller
                         $res = Db::name('house_order')->insertGetId($datas);
                         if ($res) {
                             $order_datas =Db::name("house_order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
@@ -902,6 +902,7 @@ class  Order extends  Controller
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;
+                        $datas["coupon_type"] = 1;
                         $datas["house_price"] = $house_price[$keys];
                         $key = array_search($unit[$keys],$data['unit']);
                         //先判断有多少位数量等级
@@ -912,7 +913,7 @@ class  Order extends  Controller
             if($order_type != 3){
                 if ($res) {
                     $order_datas =Db::name("order")
-                        ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
+                        ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
                         ->where('id',$res)
                         ->where("member_id",$user_id)
                         ->find();
@@ -2256,7 +2257,7 @@ class  Order extends  Controller
 
             $host_rest = Db::name("house_order")
             ->where("parts_order_number",$val["out_trade_no"])
-            ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            ->update(["status"=>3,"pay_time"=>time(),"si_pay_type"=>2]);
             //商品库存减少、销量增加
 
             $goods_order = Db::name("order") 
@@ -2937,13 +2938,12 @@ class  Order extends  Controller
         //获取参数
         $input=input();
         //判断是否有记录
-        if($input['order_type']==1 || $input['order_type']=='2'){   //到店自提或直邮
-            $re=db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
-        }elseif($input['order_type']=='3'){
-            $res=db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
-            $re=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
-        }elseif($input['order_type']=='0'){
-            $re=db('reward')->where('order_number',$input['parts_order_number'])->delete();
+        if($input['coupon_type'] == 1 ){   
+            $re =  db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
+            $re = db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
+        }elseif($input['coupon_type'] == 2){
+            $re=db('crowd_order')->where('parts_order_number',$input['parts_order_number'])->delete();
+            $res=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
         }
         if($re){
             return ajax_success('删除成功');

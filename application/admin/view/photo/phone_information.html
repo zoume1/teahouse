@@ -42,14 +42,24 @@
                     </div>
                 </div>
             </div>
+            <div class="deletepic">
+                <div class="cjxdelete">
+                    <div class="del_tel">确定要删除该图片么？</div>
+                    <div class="btn_del">
+                        <div class="delete_sure" id='delPic' data-id='' onclick="pic_del(this)">确定</div>
+                        <div class="delete_close">取消</div>
+                    </div>
+                </div>
+            </div>
             <div class="alert_head1 clearfix">
                 <div class="alert_head1_left">我的图片</div>
             </div>
             <div class="alert_head2 clearfix">
                 <div class="uploadimg" onclick='uploadphoto.click();'>上传图片</div>
                 <div class="creatphoto">创建相册</div>
-                <div class="deletephoto"
-                    style="background-color: #fff;color: #000; border: 1px solid #777; border-radius: 5px;">删除相册</div>
+                {if $gid>0}
+                <div class="deletephoto">删除相册</div>
+                {/if}
             </div>
             <div class="content clearfix">
                 <div class="content_left">
@@ -91,10 +101,20 @@
                                     <div class="content_right_single" onclick="imgurls('{$v.imgurl}',this)">
                                         <img class="content_right_single_img" src="{$v.imgurl}" data-id="{$v.id}" />
                                         <img class="content_right_single_select" src="/image/select.png" />
-                                        <div style="margin-top: 120px;">
-                                            <a href="#">修改分组</a>
-                                            <a href="#" style="float: right;" onclick="pic_del('{$v.id}')">删除</a>
+                                    {if $gid>0}
+                                        <div style="margin-top: 120px;position: relative;">
+                                            <a href="#" onclick="show_tan('{$v.id}',this)">修改分组</a>
+                                            <a href="#" style="float: right;" data-id="{$v.id}" onclick="show_del(this)">删除</a>
+                                            <div class="div_tan">
+                                                <div class="moren">移动到</div>
+                                                {foreach $group as $v}
+                                                {if $gid != $v.id}
+                                                <div class="sel_div" onclick="to_pic('{$v.id}',this)">{$v.name}</div>
+                                                {/if}
+                                                {/foreach}
+                                            </div>
                                         </div>
+                                        {/if}
                                     </div>
 
                                     {/foreach}
@@ -115,26 +135,68 @@
     var type = {$type};
     var gid = {$gid};
     var uniacid = {$uniacid};
-    function pic_del(e) {
+    //显示分组弹框
+    function show_tan(e, b) {
+        let div_tan = $(b).siblings('.div_tan')[0];
+        $(div_tan).slideToggle(200);
+        $('.div_tan').attr("data-id", e);
+    };
+    $(document).click(function(e) {
+        if($(e.target).find('.div_tan').length != 0) {
+            $('.div_tan').slideUp(200);
+        }
+    })
+    //分组
+    function to_pic(e) {
+        let pic_id = $('.sel_div').parent('.div_tan').data('id');
+        let album_id = e;
         $.ajax({
-            url: "{:Url('admin/Photo/pic_del')}",
-            type: "post",
-            dataType: "json",
-            data: {
-                id: e
-            },
-            success: function (res){
-                console.log(res);
-                window.location.href = "/admin/phone_information.html?appletid={$uniacid}&gid=" +gid+ "&type=" + type;
-            }
-        })
+                url: "{:Url('admin/Photo/picGrouping')}",
+                type: "post",
+                dataType: "json",
+                data: {
+                    pic_id: pic_id,
+                    album_id: album_id
+                },
+                success: function (res) {
+                    // $('.deletepic').hide();
+                    alert(res.msg);
+                    window.location.href = "/admin/phone_information.html?appletid={$uniacid}&gid=" + gid + "&type=" + type;
+                }
+            })
     }
+    //删除图片
+    function show_del(e) {
+        let id = e.getAttribute('data-id');
+        $('.deletepic').show();
+        $('#delPic').attr("data-id", id);
+    };
+    function pic_del(e) {
+        if(gid > 0) {
+            let id = e.getAttribute('data-id');
+            $.ajax({
+                url: "{:Url('admin/Photo/pic_del')}",
+                type: "post",
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                success: function (res) {
+                    $('.deletepic').hide();
+                    alert(res.msg);
+                    window.location.href = "/admin/phone_information.html?appletid={$uniacid}&gid=" + gid + "&type=" + type;
+                }
+            })
+        } else {
+            alert('系统图片不能删除！')
+        }
+    };
     function groupid(i) {
         gid = i;
         // if(i > 0) $('.deletephoto').show();
         // else $('.deletephoto').hide();
         window.location.href = "/admin/phone_information.html?appletid={$uniacid}&gid=" + i + "&type=" + type;
-    }
+    };
     function deletebox() {
         if (gid > 0) {
             $.ajax({
@@ -142,11 +204,11 @@
                 type: "post",
                 dataType: "json",
                 data: {
-                    id: {$gid}
+                    id: { $gid }
                 },
                 success: function (res) {
                     $('.deletebox').hide();
-                    alert('删除成功');
+                    alert(res.msg);
                     window.location.href = "/admin/phone_information.html?appletid={$uniacid}&gid=0&type=" + type;
                 },
                 error: function (e) {
@@ -157,7 +219,7 @@
             $('.deletebox').hide();
             alert('系统图库不能删！');
         }
-    }
+    };
     function makegroup() {
         var cjxcalert_input = $(".cjxcalert_input").val();
         $.ajax({
@@ -183,15 +245,15 @@
                 }
             }
         });
-    }
+    };
     $('.content_left_single').click(function () {
         $('.content_left_single').removeClass('content_left_single_on');
         $(this).addClass('content_left_single_on')
-    })
+    });
     $('.content_left_single').click(function () {
         $('.content_left_single').removeClass('content_left_single_on');
         $(this).addClass('content_left_single_on')
-    })
+    });
     // if(type==1){
     // 	$('.content_right_single').click(function(){
     // 		$('.content_right_single').removeClass('content_right_single_on');
@@ -214,6 +276,7 @@
     });
     $('.delete_close').click(function () {
         $('.deletebox').hide();
+        $('.deletepic').hide();
     })
     $('.creatphoto').click(function () {
         $('.cjxcalertbox').show();
@@ -242,7 +305,7 @@
                     }
                     var count = $(".group" + gid).data("count") + 1;
                     $(".group" + gid + " .content_left_single_div2").html(count);
-                    var html = '<div class="content_right_single" onclick="imgurls(\'' + url + '\',this)"><img class="content_right_single_img" src="' + url + '" data-id="' + pid + '"/><img class="content_right_single_select" src="/image/select.png"/><div style="margin-top: 120px;"><a href="#" >修改分组</a><a href="#" style="float: right;" onclick="pic_del('+pid+')">删除</a></div></div> ' + $("#allpic").html();
+                    var html = '<div class="content_right_single" onclick="imgurls(\'' + url + '\',this)"><img class="content_right_single_img" src="' + url + '" data-id="' + pid + '"/><img class="content_right_single_select" src="/image/select.png"/><div style="margin-top: 120px;"><a href="#" >修改分组</a><a href="#" style="float: right;" onclick="pic_del(' + pid + ')">删除</a></div></div> ' + $("#allpic").html();
                     $("#allpic").html(html);
                 },
                 error: (e) => {

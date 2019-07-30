@@ -347,12 +347,23 @@
 		left: 170px;
 
 	}
-
-	td>div {
+	td.three>div,
+	td.four>div,
+	td.five>div{
 		border-bottom: 1px solid #e2e2e2;
 	}
 
-	td>div:last-of-type {
+	td.four>div {
+		line-height: 50px;
+		white-space: nowrap;
+		max-width: 450px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	td.three>div:last-of-type, 
+	td.four>div:last-of-type, 
+	td.five>div:last-of-type{
 		border: 0;
 	}
 
@@ -383,10 +394,7 @@
 		padding: 0 15px;
 		align-items: flex-end;
 	}
-	.four{
-		height: 50px;
-		line-height: 50px;
-	}
+	
 </style>
 
 {/block}
@@ -562,21 +570,21 @@
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
 						</td>
 						<td class="orderNumber">{$vo.parts_order_number}</td>
-						<td>
+						<td class="three">
 							{volist name="vo['detail']" id="vo2"}
 							{if !empty($vo2["goods_image"])}
 							<div><img src="__UPLOADS__/{$vo2.goods_image}" /></div>
 							{else}
 							<div>无</div>
 							{/if}
-							{/volist}
+							{/volist} 
 						</td>
 						<td class="four">
 							{volist name="vo['detail']" id="vo2"}
-							<div style="line-height: 50px;">{$vo2.parts_goods_name}</div>
+							<div>{$vo2.parts_goods_name}</div>
 							{/volist}
 						</td>
-						<td>
+						<td class="five">
 							{volist name="vo['detail']" id="vo2"}
 							<div style="height: 50px; line-height: 50px;">{$vo2.order_quantity}</div>
 							{/volist}
@@ -602,7 +610,7 @@
 								<div class="static_btus1">
 									<div class="not_apply">未申请开票</div>
 								</div>
-								<div class="static_btus2" data-id="{$vo.id}">
+								<div class="static_btus2" data-id="{$vo.parts_order_number}">
 									订单详情
 								</div>
 							</div>
