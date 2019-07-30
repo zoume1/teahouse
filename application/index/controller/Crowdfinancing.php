@@ -180,6 +180,7 @@ class Crowdfinancing extends Controller
                             $harvester_phone_num = $is_address_status['phone_num'];              
                         } 
                     }
+                        
                         $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
                         $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datas["parts_goods_name"] = $goods_data["project_name"];//众筹项目
@@ -211,7 +212,7 @@ class Crowdfinancing extends Controller
                         $res = Db::name('crowd_order')->insertGetId($datas);
                         if ($res) {
                             $order_datas =Db::name("crowd_order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
@@ -233,7 +234,7 @@ class Crowdfinancing extends Controller
                         $datase['goods_image'] = $datas['goods_image'];   //图片
                         $datase["goods_money"]= $datas["goods_money"];//商品价钱
                         $datase['goods_standard'] = $datas['goods_standard']; //商品规格  
-                        $datase["coupon_type"] = $goods_data["coupon_type"];//商品类型
+                        $datase["coupon_type"] = 2;//商品类型
                         $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datase["parts_goods_name"] = $goods_data["project_name"];//名字
                         $datase["distribution"] = $goods_data["distribution"];//是否分销
@@ -314,7 +315,7 @@ class Crowdfinancing extends Controller
                         $res = Db::name('house_order')->insertGetId($datas);
                         if ($res) {
                             $order_datas =Db::name("house_order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();

@@ -440,7 +440,7 @@ class  Order extends  Controller
                             //     $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
                             // }
                             $order_datas =Db::name("order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
@@ -480,7 +480,6 @@ class  Order extends  Controller
                         $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
                         $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datase["status"] = 1;
-                        // $datase["harvester"] = $store_name;
                         $datase["goods_id"] = $values;
                         $datase["buy_message"] = $buy_message;//买家留言
                         $datase["normal_future_time"] =$normal_future_time;//未来时间
@@ -500,6 +499,7 @@ class  Order extends  Controller
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;  
+                        $datas["coupon_type"] = 1;  
                 
                         $key = array_search($unit[$keys],$data['unit']);
                         //先判断有多少位数量等级
@@ -507,7 +507,7 @@ class  Order extends  Controller
                         $res = Db::name('house_order')->insertGetId($datas);
                         if ($res) {
                             $order_datas =Db::name("house_order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
@@ -902,6 +902,7 @@ class  Order extends  Controller
                         $datas["store_unit"] = $unit[$keys];
                         $datas['end_time'] = strtotime(date('Y-m-d H:i:s',$create_time+$year*365*24*60*60));  
                         $datas["age_limit"] = $year;
+                        $datas["coupon_type"] = 1;
                         $datas["house_price"] = $house_price[$keys];
                         $key = array_search($unit[$keys],$data['unit']);
                         //先判断有多少位数量等级
@@ -912,7 +913,7 @@ class  Order extends  Controller
             if($order_type != 3){
                 if ($res) {
                     $order_datas =Db::name("order")
-                        ->field("order_real_pay,parts_goods_name,parts_order_number,order_type")
+                        ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
                         ->where('id',$res)
                         ->where("member_id",$user_id)
                         ->find();
