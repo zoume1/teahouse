@@ -634,7 +634,7 @@ class Miniprogram extends Model
         $url = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=' . $this->thirdAccessToken;
         $data = '{"component_appid":"' . $this->thirdAppId . '","authorizer_appid":"' . $appid . '","authorizer_refresh_token":"' . $refresh_token . '"}';
         $ret = json_decode($this->https_post($url, $data),true);
-        if (isset($re['authorizer_access_token'])) {
+        if (isset($ret['authorizer_access_token'])) {
             Db::name('miniprogram')->where(['appid' => $appid])->update(['access_token' => $ret['authorizer_access_token'], 'authorizer_refresh_token' => $ret['authorizer_refresh_token']]);
             return $ret;
         } else {
@@ -648,7 +648,9 @@ class Miniprogram extends Model
     */
     private function errorLog($msg,$ret)
     {
-        file_put_contents(ROOT_PATH . 'runtime/error/miniprogram.log', "[" . date('Y-m-d H:i:s') . "] ".$msg."," .json_encode($ret).PHP_EOL, FILE_APPEND);
+        // file_put_contents(ROOT_PATH . 'runtime/error/miniprogram.log', "[" . date('Y-m-d H:i:s') . "] ".$msg."," .json_encode($ret).PHP_EOL, FILE_APPEND);
+        $pp['msg']=$msg;
+        db('test')->insert($pp);
     }
      /*
     * 发起POST网络提交
