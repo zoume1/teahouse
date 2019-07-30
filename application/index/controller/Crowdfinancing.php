@@ -130,6 +130,9 @@ class Crowdfinancing extends Controller
                 $special_data =Db::name("crowd_special")
                     ->where("id",$goods_standard_id[$keys])
                     ->find();
+                if($numbers[$keys] > $special_data['stock'] ){
+                    return ajax_error('商品库存量不够');
+                }
                 $datas['goods_image'] = $special_data['images'];   //图片
                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                 $datas['goods_standard'] = $special_data["name"]; //商品规格  
