@@ -98,14 +98,14 @@
                 <li>
                     <span class="fl">小程序二维码</span>
                     <div class="pl150">
-                        <img src="{$data['qrcode_url']}" class="qr-code">
+                        <img src="{$data['head_img']}" class="qr-code">
                         <a href="#" class="show-big">查看大图</a>
                     </div>
                 </li>
                 <li>
                     <span class="fl">添加体验号</span>
                     <div class="pl150">
-                        <input type="text" class="wx-num" placeholder="请填写微信号">
+                        <input type="text" name="wx" class="wx-num" placeholder="请填写微信号">
                         <button class="set-btn set-tiyaner">设为体验者</button>
                     </div>
                 </li>
@@ -209,35 +209,54 @@
         $('.show-big').click(function(){
             var src = $(this).prev('img')[0].src;
             $('.mask').show().append('<img src="'+src+'"><span class="close">×<span>');
-
-            $('.mask .close').add('.mask img').click(function(){
-                $('.mask').hide().empty();
-            })
+        })
+        // 查看大图 关闭
+        $('.mask .close').add('.mask img').click(function(){
+            $('.mask').hide().empty();
         })
         // 一键上传店铺代码
         $('.upload').click(function(){
-            $('.mask').show();
-            // 需要判断有没有装修
-            if(true){
-                // 装修了
-                $('.check-qrcode').show();
-            }else{
-                // 没有装修
-                $('.renovation').show();
-            }
+            // $('.mask').show();
+            $.ajax({
+                url:"send_message",
+                type:"post",
+                success : function(data) {
+                    var data = JSON.parse(data);
+                    if(data.status=='1'){
+                        alert("");
+                    }else{
+                        alert('');
+                    }
+                }
+            })
         })
 
         // 获取体验二维码
-        $('.get-code').click(function(){
-            $('.mask').show();
-            // 判断是否上传了代码
-            if(true){
-                // 上传了代码
-                $('.final-vers').show();
-            }else{
-                // 没有上传代码
-                $('.no-upload-code').show();
-            }
+        $('.get-code').click(function()
+        {
+            $.ajax({
+                url:'get_qrcode',
+                type:"post",
+                success : function(data){
+                    var data = JSON.parse(data);
+                    if(data.status=='0'){
+                        alert("获取体验码失败");
+                    }else{
+                        alert(data.data.url);
+                        $('.mask').show().append('<img src="'+data.data.url+'"><span class="close">×<span>');
+                    }
+
+                }
+            })
+            // $('.mask').show();
+            // // 判断是否上传了代码
+            // if(true){
+            //     // 上传了代码
+            //     $('.final-vers').show();
+            // }else{
+            //     // 没有上传代码
+            //     $('.no-upload-code').show();
+            // }
         })
 
         // 发布正式版小程序
@@ -256,6 +275,27 @@
         // 解除授权绑定
         $('.relieve').click(function(){
             $('.mask').add('.unbind').show();
+        })
+        // 设置体验者
+        $('.set-tiyaner').click(function(){
+            var wxhao=$(this).prev('input[name="wx"]').val();  //微信号
+            $.ajax({
+                url:'set_tiyan',
+                type:"post",
+                data: {
+								"wx": wxhao,
+							},
+                success : function(data){
+                    var data = JSON.parse(data);
+                    if(data.status=='1'){
+                        alert("设置体验号成功");
+                    }else{
+                        alert(data.info);
+
+                    }
+
+                }
+            })
         })
 
     </script>

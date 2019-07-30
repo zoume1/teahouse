@@ -132,7 +132,7 @@
 		height: 400px;
 		background: #fff;
 	}
-
+    
 	.popup_doms1 {
 		width: 900px;
 		background: #fff;
@@ -238,7 +238,7 @@
 		margin-bottom: 30px;
 	}
 
-	.quxiao {}
+	/* .quxiao {} */
 
 	.daying {
 		background: rgb(22, 155, 213);
@@ -249,7 +249,7 @@
 	/*
      * 弹窗end
 		 */
-	.seach_button_all {}
+	/* .seach_button_all {} */
 
 	.seach_button {
 		border-radius: 4px;
@@ -261,8 +261,8 @@
 	}
 
 	.all0 {
-		background: #F4FBFF;
-		color: #999;
+		background: rgb(246, 244, 255);
+		color: rgba(153, 153, 153, 0.541);
 	}
 
 	.all1 {
@@ -348,11 +348,16 @@
 
 	}
 
-	td>div {
+	td.four>div {
 		border-bottom: 1px solid #e2e2e2;
+		line-height: 50px;
+		white-space: nowrap;
+		max-width: 450px;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
-	td>div:last-of-type {
+	td.four>div:last-of-type {
 		border: 0;
 	}
 
@@ -383,6 +388,7 @@
 		padding: 0 15px;
 		align-items: flex-end;
 	}
+	
 </style>
 
 {/block}
@@ -450,7 +456,7 @@
 		<!--</ul>-->
 		<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Order/order_search')}">
+			<form class="layui-form" action="{:url('admin/CrowdOder/crowd_order_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">请搜索：</div>
@@ -525,12 +531,12 @@
 			</form>
 		</blockquote>
 		<div class="seach_button_all">
-			<a href="{:url('admin/Order/order_index')}" class="seach_button all0">全部</a>
-			<a href="{:url('admin/Order/order_way_pay')}" class="seach_button all1">待付款</a>
-			<a href="{:url('admin/Order/order_wait_send')}" class="seach_button all2">待发货</a>
-			<a href="{:url('admin/Order/order_shipped')}" class="seach_button all3">已发货</a>
-			<a href="{:url('admin/Order/order_completed')}" class="seach_button all4">已完成</a>
-			<a href="{:url('admin/Order/order_closed')}" class="seach_button all5">已关闭</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_index')}" class="seach_button all0">全部</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_way_pay')}" class="seach_button all1">待付款</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_wait_send')}" class="seach_button all2">待发货</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_shipped')}" class="seach_button all3">已发货</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_completed')}" class="seach_button all4">已完成</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_closed')}" class="seach_button all5">已关闭</a>
 		</div>
 		<div class="layui-form news_list">
 			<table class="layui-table">
@@ -557,32 +563,15 @@
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
 						</td>
-						<td class="orderNumber">{$vo.parts_order_number}</td>
+						<td>{$vo.parts_order_number}</td>
 						<td>
-							{volist name="vo['detail']" id="vo2"}
-							{if !empty($vo2["goods_image"])}
-							<div><img src="__UPLOADS__/{$vo2.goods_image}" /></div>
+							{if !empty($vo.goods_image)}
+							<div><img src="__UPLOADS__/{$vo.goods_image}" /></div>
 							{else}
 							<div>无</div>
-							{/if}
-							{/volist}
-						</td>
-						<td class="four">
-							{volist name="vo['detail']" id="vo2"}
-							<div style="">{$vo2.parts_goods_name}</div>
-							{/volist}
-						</td>
-						<td>
-							{volist name="vo['detail']" id="vo2"}
-							<div style="height: 50px; line-height: 50px;">{$vo2.order_quantity}</div>
-							{/volist}
-						</td>
-
-						<!-- <td>
-								<div class="overflow">{$vo2.parts_goods_name}</div>
-							</td>
-							<td>{$vo2.order_quantity}</td> -->
-
+							{/if}</td>
+						<td>{$vo.parts_goods_name}</td>
+						<td>{$vo.order_quantity}</td>
 						<td>{$vo.user_phone_number}</td>
 						<td>{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
 						<td class="am">{$vo.order_real_pay}</td>
@@ -621,6 +610,9 @@
 					</button>
 				</div>
 			</div>
+            {if !empty($data)}
+            {$data->render()}
+            {/if}
 		</div>
 	</div>
 
@@ -790,7 +782,7 @@
 			var express_name = 'EMS';
 			$.ajax({
 				type: "POST",
-				url: "{:url('admin/Order/order_information_return')}",
+				url: "{:url('admin/CrowdOrder/crowd_order_information_return')}",
 				data: {
 					"order_id": data_id,
 				},
@@ -1013,7 +1005,7 @@
 				if (id == '2' || id == '4') {     //待发货----已发货
 					$.ajax({
 						type: "POST",
-						url: "{:url('admin/Order/order_confirm_shipment')}",
+						url: "{:url('admin/CrowdOder/crowd_order_confirm_shipment')}",
 						data: {
 							"order_id": value,
 							"courier_number": danhao,
@@ -1034,7 +1026,7 @@
 				} else {
 					$.ajax({
 						type: "POST",
-						url: "{:url('admin/Order/order_confirm_shipment')}",
+						url: "{:url('admin/CrowdOder/order_confirm_shipment')}",
 						data: {
 							"order_id": value,
 							"courier_number": danhao,
@@ -1067,7 +1059,7 @@
 			var data_id = $(this).data("id");
 			$.ajax({
 				type: "POST",
-				url: "{:url('admin/Order/order_information_return')}",
+				url: "{:url('admin/CrowdOder/crowd_order_information_return')}",
 				data: {
 					"order_id": data_id,
 				},

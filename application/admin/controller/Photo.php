@@ -277,6 +277,24 @@ class Photo extends Base{
     }
 
     /**
+     **************lilu*******************
+     * @param Request $request
+     * Notes:图片分组操作
+     **************************************
+     */
+    public function picGrouping(){
+        $pic_id = input("pic_id");
+        $album_id = input("album_id");
+        $res = Db::table('ims_sudu8_page_pic')->where("id", $pic_id)->update(["gid" => $album_id]);
+
+        if($res){
+            $this->success('移动成功');
+        }else{
+            $this->success('移动失败');
+        }
+    }
+
+    /**
      **************李火生*******************
      * @param Request $request
      * Notes:小程序栏目信息更新保存
