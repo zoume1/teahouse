@@ -26,7 +26,7 @@ class Crowdfinancing extends Controller
             $member_id = $request->only('member_id')['member_id'];
             $store_id = $request->only('uniacid')['uniacid'];
             $member_grade_id = db('member')->where('member_id',$member_id)->value('member_grade_id');
-            $member_consumption_discount =Db::name('member_grade')  //会员折扣
+            $member_consumption_discount = Db::name('member_grade')  //会员折扣
             ->where('member_grade_id',$member_grade_id)
             ->find();
             $special_id = $request->only("guige")["guige"];
@@ -130,6 +130,9 @@ class Crowdfinancing extends Controller
                 $special_data =Db::name("crowd_special")
                     ->where("id",$goods_standard_id[$keys])
                     ->find();
+                if($numbers[$keys] > $special_data['stock'] ){
+                    return ajax_error('商品库存量不够');
+                }
                 $datas['goods_image'] = $special_data['images'];   //图片
                 $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                 $datas['goods_standard'] = $special_data["name"]; //商品规格  
@@ -1772,72 +1775,51 @@ class Crowdfinancing extends Controller
                 $special_id = $information["special_id"];          // 规格id
                 $order_amount = $information["order_amount"];      // 商品总金额
 
-                $rest_special = db("crowd_special")->where("id",$special_id)->find();
 
-                $collecting = $rest_special['collecting'] + 1;   //众筹人数 +1
-                $stock = $rest_special['stock'] - $order_quantity; //众筹库存
-                $price = $rest_special['price']; //众筹金额
-                $collecting_money = $rest_special['collecting_money'] + $order_amount; //更新众筹金额
-                $collecting_number = $rest_special['collecting_number'] + $order_amount; //更新众筹金额
+            if($res){
+                $one = db("crowd_special")->where("id",$special_id)->setInc("collecting");
+                $twe = db("crowd_special")->where("id",$special_id)->setInc("collecting_money",$order_amount);
+                $three = db("crowd_special")->where("id",$special_id)->setInc("collecting_number",$order_quantity);
+                $four = db("crowd_special")->where("id",$special_id)->setDec("stock",$order_quantity);
 
-                if(($stock > 0) && ($collecting_money < $price)){
-                    $state = 1;
-                } else {
-                    $state = 2;
-                }
-                $crowd_data = [
-                    'collecting_number'=> $collecting_number, //已经众筹数量
-                    'collecting_money' => $collecting_money, //众筹金额添加
-                    'collecting' => $collecting,//众筹人数
-                    'stock' => $stock,//众筹库存
-                    'state'=> $state //众筹状态
+                //做消费记录
+                $user_information =Db::name("member")
+                    ->field("member_wallet,member_recharge_money")
+                    ->where("member_id",$information["member_id"])
+                    ->find();
+                $now_money = $user_information["member_wallet"] + $user_information["member_recharge_money"];
+                $datas=[
+                    "user_id"=>$information["member_id"],//用户ID
+                    "wallet_operation"=> $information["order_real_pay"],//消费金额
+                    "wallet_type"=> -1,//消费操作(1入，-1出)
+                    "operation_time"=>date("Y-m-d H:i:s"),//操作时间
+                    "operation_linux_time"=>time(), //操作时间
+                    "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，微信消费".$information["order_real_pay"]."元",//消费备注
+                    "wallet_img"=>" ",//图标
+                    "title"=>$information["parts_goods_name"],//标题（消费内容）
+                    "order_nums"=>$val["out_trade_no"],//订单编号
+                    "pay_type"=>"小程序", //支付方式
+                    "wallet_balance"=>$now_money,//此刻钱包余额
                 ];
-                $bool_number = Db::name('crowd_specail')->where("id",$special_id)->update($crowd_data);
-
-
-            // if($res || $host_rest){
-            //     //做消费记录
-            //     $user_information =Db::name("member")
-            //         ->field("member_wallet,member_recharge_money")
-            //         ->where("member_id",$information["member_id"])
-            //         ->find();
-            //     $now_money = $user_information["member_wallet"] + $user_information["member_recharge_money"];
-            //     $datas=[
-            //         "user_id"=>$information["member_id"],//用户ID
-            //         "wallet_operation"=> $information["order_real_pay"],//消费金额
-            //         "wallet_type"=> -1,//消费操作(1入，-1出)
-            //         "operation_time"=>date("Y-m-d H:i:s"),//操作时间
-            //         "operation_linux_time"=>time(), //操作时间
-            //         "wallet_remarks"=>"订单号：".$val["out_trade_no"]."，微信消费".$information["order_real_pay"]."元",//消费备注
-            //         "wallet_img"=>" ",//图标
-            //         "title"=>$information["parts_goods_name"],//标题（消费内容）
-            //         "order_nums"=>$val["out_trade_no"],//订单编号
-            //         "pay_type"=>"小程序", //支付方式
-            //         "wallet_balance"=>$now_money,//此刻钱包余额
-            //     ];
-            //     Db::name("wallet")->insert($datas); //存入消费记录表
-            // }
-
-
-                
-            // $coin = db("recommend_integral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
-            // $integral = db("recommend_integral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
-            // //消费满多少金额赠送多少积分
-            // if( $all_money > $coin){
-            //     $rest = db("member")->where("member_id",$member_id)->setInc('member_integral_wallet',$integral);//满足条件则增加积分
-            //     $many = db("member")->where("member_id",$member_id)->value("member_integral_wallet");//获取所有积分
-            //     //插入积分记录
-            //     $integral_data = [
-            //         "member_id" => $member_id,
-            //         "integral_operation" => $integral,//获得积分
-            //         "integral_balance" => $many,//积分余额
-            //         "integral_type" => 1, //积分类型（1获得，-1消费）
-            //         "operation_time" => date("Y-m-d H:i:s"), //操作时间
-            //         "integral_remarks" => "消费满" . $coin . "送".$integral."积分",
-            //     ];
-            //     Db::name("integral")->insert($integral_data);
-            // }
-            if($bool_number){
+                Db::name("wallet")->insert($datas); //存入消费记录表
+                       
+                $coin = db("recommend_integral")->where("id",1)->value("coin"); //消费满多少送积分金额条件
+                $integral = db("recommend_integral")->where("id",1)->value("consume_integral"); //消费满多少送多少积分
+                //消费满多少金额赠送多少积分
+                if( $all_money > $coin){
+                    $rest = db("member")->where("member_id",$member_id)->setInc('member_integral_wallet',$integral);//满足条件则增加积分
+                    $many = db("member")->where("member_id",$member_id)->value("member_integral_wallet");//获取所有积分
+                    //插入积分记录
+                    $integral_data = [
+                        "member_id" => $member_id,
+                        "integral_operation" => $integral,//获得积分
+                        "integral_balance" => $many,//积分余额
+                        "integral_type" => 1, //积分类型（1获得，-1消费）
+                        "operation_time" => date("Y-m-d H:i:s"), //操作时间
+                        "integral_remarks" => "消费满" . $coin . "送".$integral."积分",
+                    ];
+                    Db::name("integral")->insert($integral_data);
+                }
             echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             } else {
                 return ajax_error("失败");
