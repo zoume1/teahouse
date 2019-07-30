@@ -2938,13 +2938,12 @@ class  Order extends  Controller
         //获取参数
         $input=input();
         //判断是否有记录
-        if($input['order_type']==1 || $input['order_type']=='2'){   //到店自提或直邮
-            $re=db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
-        }elseif($input['order_type']=='3'){
-            $res=db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
-            $re=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
-        }elseif($input['order_type']=='0'){
-            $re=db('reward')->where('order_number',$input['parts_order_number'])->delete();
+        if($input['coupon_type'] == 1 ){   
+            $re =  db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
+            $re = db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
+        }elseif($input['coupon_type'] == 2){
+            $re=db('crowd_order')->where('parts_order_number',$input['parts_order_number'])->delete();
+            $res=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
         }
         if($re){
             return ajax_success('删除成功');
