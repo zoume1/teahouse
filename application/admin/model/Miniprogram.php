@@ -212,17 +212,11 @@ class Miniprogram extends Model
         $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$this->authorizer_access_token;
 
         $data = '{"wechatid":"'.$wechatid.'"}';
-
         $ret = json_decode($this->https_post($url,$data),true);
-
-        if($ret->errcode == 0) {
-
+        if($ret['errcode'] == 0) {
             return true;
-
         } else {
-
             $this->errorLog("绑定小程序体验者操作失败,appid:".$this->authorizer_appid,$ret);
-
             return false;
 
         }
