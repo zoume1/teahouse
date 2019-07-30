@@ -20,8 +20,7 @@ class Upload extends Controller
     public function __construct(){
         //获取授权的APPID
         $store_id=Session::get('store_id');
-        $appid_auth=db('miniprogram')->where('store_id',$store_id)->value('appid');
-        $mini= new Miniprogram($appid_auth);
+        $this->appid_auth=db('miniprogram')->where('store_id',$store_id)->value('appid');
         ///获取component_ticket
         $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
     }
@@ -406,49 +405,6 @@ class Upload extends Controller
         $url = "https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=".$this->appid."&pre_auth_code=".$this->get_pre_auth_code()."&redirect_uri=".urlencode($redirect_uri)."&auth_type=".$auth_type;
         return $url;
     }
-
-     
-    // /**
-    //  * lilu  
-    //  * 获取component_access_token
-    //  */
-    // public function get_component_access_token(){
-    //         $res = $this->component_detail();//获取第三方平台基础信息
-    //         $last_time = $res['token_time'];//上一次component_access_token获取时间
-    //         $component_access_token = $res['component_access_token'];//获取数据查询到的component_access_token
-    //         $difference_time = $this->validity($last_time);//上一次获取时间与当前时间的时间差
-    //         //判断component_access_token是否为空或者是否超过有效期
-    //         if(empty($component_access_token) || $difference_time>0){
-    //             $component_access_token = $this->get_component_access_token_again();
-    //         }
-    //         return $component_access_token;
-    //     }
-    //     //获取第三方平台基础信息
-    //     public function component_detail(){
-    //         $res = db('wx_threeopen')->where('id',1)->find();
-    //         return $res;
-    //     }
-    //     //重新获取component_access_token
-    //     public function get_component_access_token_again(){
-    //         $url = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
-    //         $tok = $this->component_detail();
-    //         $param ['component_appid'] = $tok['appid'];
-    //         $param ['component_appsecret'] = $tok['appsecret'];
-    //         $param ['component_verify_ticket'] = $tok['component_verify_ticket'];
-    //         $param=json_encode($param);
-    //         $data = $this->https_post ( $url, $param );
-    //         halt($data);
-    //         $token['component_access_token'] = $data ['component_access_token'];
-    //         $token['token_time'] = time()+7000;
-    //         db('wx_threeopen')->where('id',1)->update($token);
-    //         return $data['component_access_token'];
-    //     }
-    //     //获取时间差
-    //     public function validity($time){
-    //         $current_time = time();
-    //         $difference_time = $current_time -$time;
-    //         return $difference_time;
-    //     }
             /*
             * 获取第三方平台access_token
             * 注意，此值应保存，代码这里没保存
@@ -468,13 +424,9 @@ class Upload extends Controller
                     return false;
                 }
             }
-
     /*
-
     *  第三方平台方获取预授权码pre_auth_code
-
     */
-
     private function get_pre_auth_code()
 
     {
@@ -532,15 +484,126 @@ class Upload extends Controller
         * */
     public function set_tiyan()
     {
+        //获取参数
         $input=input();
-        $mini= new Miniprogram();
-        $is_success=$mini->bindMember($input['wx']);
-        $pp['msg']=$is_success;
+        //判断access_token是否过期，重新获取
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$timeout['authorizer_access_token'];
+        $data = '{"wechatid":"'.$input['wx'].'"}';
+        $ret = json_decode($this->https_post($url,$data),true);
+        $pp['msg']=$ret;
         db('test')->insert($pp);
-        if($is_success['errcode'] == 0) {
+        if($ret['errcode'] == 0) {
             return  ajax_success('绑定成功');
         } else {
             return   ajax_error("绑定小程序体验者操作失败");
+        }
+    }
+    /**
+     * lilu
+     * 检验access_token是否过期，重新获取
+     * appid    授权小程序APPID
+     */
+    public function is_timeout($appid)
+    {
+        $store_id=Session::get('store_id');
+        $weixin_account = Db::name('wx_threeopen')->where('id','1')->find(); //第三方信息
+        if ($weixin_account) {
+            //获取第三方的开放平台access_token
+            $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
+            $url = "https://api.weixin.qq.com/cgi-bin/component/api_component_token";
+            $data = '{
+                "component_appid":"'.$this->appid.'" ,
+                "component_appsecret": "'.$this->appsecret.'",
+                "component_verify_ticket": "'.$this->component_ticket.'"
+            }';
+            $ret = json_decode($this->https_post($url,$data),true);
+            $this->thirdAccessToken=$ret['component_access_token'];
+            if($ret['component_access_token']) {
+            $miniprogram = Db::name('miniprogram')->where('appid',$appid)
+                ->field('access_token,authorizer_refresh_token')->find();
+            //重新获取小程序的authorizer_access_token
+            $access=$this->update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
+            $access['thirdAccessToken']=$ret['component_access_token'];
+            return $access;
+        } else {
+            $this->errorLog("请增加微信第三方公众号平台账户信息",'');
+            exit;
+        }
+    }
+ }
+  /*
+    * 更新授权小程序的authorizer_access_token
+    * @params string $appid : 小程序appid
+    * @params string $refresh_token : 小程序authorizer_refresh_token
+    * */
+    private function update_authorizer_access_token($appid,$refresh_token,$thirdAccessToken)
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=' . $thirdAccessToken;
+        $data = '{"component_appid":"' . $this->appid . '","authorizer_appid":"' . $appid . '","authorizer_refresh_token":"' . $refresh_token . '"}';
+        $ret = json_decode($this->https_post($url, $data),true);
+        if (isset($ret['authorizer_access_token'])) {
+            Db::name('miniprogram')->where(['appid' => $appid])->update(['access_token' => $ret['authorizer_access_token'], 'authorizer_refresh_token' => $ret['authorizer_refresh_token']]);
+            return $ret;
+        } else {
+            $this->errorLog("更新授权小程序的authorizer_access_token操作失败,appid:".$appid,$ret);
+            return null;
+        }
+    }
+     /**
+    * lilu
+    * 错误日志
+    */
+    private function errorLog($msg,$ret)
+    {
+        // file_put_contents(ROOT_PATH . 'runtime/error/miniprogram.log', "[" . date('Y-m-d H:i:s') . "] ".$msg."," .json_encode($ret).PHP_EOL, FILE_APPEND);
+        $pp['msg']=$msg;
+        db('test')->insert($pp);
+    }
+    /**
+     * lilu
+     * 一键上传店铺---短信提醒
+     */
+    public function send_message(){
+        $user=Session::get('user_info');
+         //获取店铺的信息
+         $store_name=DB::table('applet')->where('id',$user[0]['store_id'])->value('name');
+         $phone = '13922830809';
+        //  $phone = '13502882637';
+         $content = $store_name."一键上传店铺代码，请尽快完成上传";
+         $account='chacang';
+         $password="123qwe";
+         $re=phone($account,$password,$phone,$content);   //发送短信实时提醒  
+         if($re){
+                return ajax_success('发送成功');
+            }else{
+                return ajax_error('发送失败');
+         }
+    }
+    /**
+     * lilu
+     * 获取体验码
+     */
+    public function get_qrcode()
+    {
+        //判断access_token是否过期，重新获取
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $path='/pages/logs/logs';
+        if($path){
+            $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
+        } else {
+            $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+        }
+        $ret = json_decode($this->https_get($url),true);
+        if($ret['errcode']) {
+            $this->errorLog("获取体验小程序的体验二维码操作失败,appid:".$this->authorizer_appid,$ret);
+            return ajax_error('获取体验小程序的体验二维码操作失败');
+        } else {
+            return ajax_success('获取体验小程序的体验二维码操作成功',["url"=>"/qrcode?url2=".$url]);
         }
     }
    

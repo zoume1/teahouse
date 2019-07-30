@@ -932,12 +932,9 @@ function paging_data($data,$url,$pag_number){
 function unit_list($unit){
     foreach($unit as $kk => $yy)
     {
-        $unit_list[$kk] = $yy["unit"];
+        $unit_liste[] = $yy['name'];
     }
-    $list_string = implode(",",$unit_list);
-    $list = explode(",",$list_string);
-    $list = array_flip($list);
-    $list = array_keys($list);
+    $list = array_values($unit_liste);
     return $list;
 }
 

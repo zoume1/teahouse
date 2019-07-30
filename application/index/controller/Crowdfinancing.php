@@ -237,7 +237,7 @@ class Crowdfinancing extends Controller
                         $datase["coupon_type"] = 2;//商品类型
                         $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datase["parts_goods_name"] = $goods_data["project_name"];//名字
-                        $datase["distribution"] = $goods_data["distribution"];//是否分销
+                        // $datase["distribution"] = $goods_data["distribution"];//是否分销
                         $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datase["order_quantity"] = $numbers[$keys];//订单数量
                         $datase["member_id"] = $user_id;//用户id
@@ -256,7 +256,9 @@ class Crowdfinancing extends Controller
                         $datase["coupon_id"] = $coupon_id;
                         $datase["receipt_status"] = $receipt_status; 
                         $datase["receipt_id"] = $receipt_id;
-                        $datase["receipt_price"] = $receipt_price;   
+                        $datase["receipt_price"] = $receipt_price;
+                        $datase["order_type"] = $order_type; //1为选择直邮，2到店自提，3选择存茶
+                        $datase["order_real_pay"] = 0.01;   
 
                         $rest_id = Db::name('crowd_order')->insertGetId($datase);
                         $datas = $datase;
@@ -319,7 +321,7 @@ class Crowdfinancing extends Controller
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
-                                $order_datas['balance']=$money;
+                                $order_datas['balance'] = $money;
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);
