@@ -254,14 +254,14 @@ class WxTest extends Controller
             $data['access_token'] = $auth_info ['authorization_info']['authorizer_access_token']; 
             $data['head_img'] = $public_info ['authorizer_info'] ['head_img'];     //头像
             $data['principal_name']=$public_info['authorizer_info']['principal_name'];  //公司名称 
-            $data['qrcode_url'] = $public_info ['authorizer_info'] ['qrcode_url'];     //二维码地址
             // $data['store_id']=Session::get('store_id');//当前店铺的id
             $data['store_id']='119';//当前店铺的id
             $store_type=$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['first'].'-'.$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['second'];  //公司名称 
             $data['store_type']=$store_type;//当前店铺的经营类型
             //获取小程序的二维码
             $appsecret=Db::table('applet')->where('id',$data['store_id'])->value('appSecret');
-            $head_pic=$this->getHeadpic($public_info ['authorization_info'] ['authorizer_appid'],$appsecret);
+            $head_pic=$this->getHeadpic($public_info ['authorization_info'] ['authorizer_appid'],$appsecret);   //小程序菊花码
+            $data['qrcode_url'] = $head_pic;     //二维码地址
             //记录授权信息
             $res=db('miniprogram')->insert($data);
             if($res){
@@ -389,15 +389,13 @@ class WxTest extends Controller
             public function getHeadpic($appid,$appsecret){
                $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
                $info = json_decode($this->https_get($url),true);     //获取access_token
-               dump($info['access_token']);
                 $url2 = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$info['access_token'];
                 $data = '{
                     "path":"/pages/logs/logs" 
                 }';
                 $ret = $this->https_post($url2,$data);
-                halt($ret);
-                if($ret['access_token']) {
-                    return $ret['access_token'];
+                if($ret) {
+                    return $ret;
                 } else {
                     return false;
                 }
