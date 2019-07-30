@@ -203,6 +203,8 @@ class Crowd extends Controller
     public function crowd_period(Request $request)
     {
         if ($request->isPost()){
+            $re = __DIR__;
+            halt($re);
             $date_time = time();
             $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only('member_id')['member_id'];//会员id
