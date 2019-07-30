@@ -18,6 +18,10 @@ class Upload extends Controller
      * 
      */
     public function __construct(){
+        //获取授权的APPID
+        $store_id=Session::get('store_id');
+        $appid_auth=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $mini= new Miniprogram($appid_auth);
         ///获取component_ticket
         $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
     }
@@ -526,28 +530,17 @@ class Upload extends Controller
         * 成员管理，绑定小程序体验者
         * @params string $wechatid : 体验者的微信号
         * */
-    public function bindMember($wechatid)
-
+    public function set_tiyan()
     {
-
-        $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$this->authorizer_access_token;
-
-        $data = '{"wechatid":"'.$wechatid.'"}';
-
-        $ret = json_decode(https_post($url,$data));
-
-        if($ret->errcode == 0) {
-
-            return true;
-
+        $input=input();
+        $is_success=$mini->bindMember($input['wx']);
+        $pp['msg']=$is_success;
+        db('test')->insert($pp);
+        if($is_success['errcode'] == 0) {
+            return  ajax_success('绑定成功');
         } else {
-
-            $this->errorLog("绑定小程序体验者操作失败,appid:".$this->authorizer_appid,$ret);
-
-            return false;
-
+            return   ajax_error("绑定小程序体验者操作失败");
         }
-
     }
    
 
