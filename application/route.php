@@ -497,6 +497,7 @@ Route::group("admin",[
     "makegroup"=>"admin/Photo/makegroup", //创建相册
     "phone_del"=>"admin/Photo/phone_del", //删除相册
     "pic_del"=>"admin/Photo/pic_del", //删除图片
+    "picGrouping"=>"admin/Photo/picGrouping", //图片分组
     /* TODO:图片库结束*/
 
     /*TODO:订单开始*/
