@@ -260,7 +260,7 @@ class WxTest extends Controller
             $store_type=$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['first'].'-'.$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['second'];  //公司名称 
             $data['store_type']=$store_type;//当前店铺的经营类型
             //获取小程序的二维码
-            $appsecret=Db::table('applet')->where('id',$data['store_id'])->value('appSecret');
+            // $appsecret=Db::table('applet')->where('id',$data['store_id'])->value('appSecret');
             $head_pic=$this->getHeadpic($public_info ['authorization_info'] ['authorizer_appid'],$appsecret);
             //记录授权信息
             $res=db('miniprogram')->insert($data);
@@ -270,11 +270,6 @@ class WxTest extends Controller
                 $this->error('用户未授权或授权错误，请重新授权',url('admin/Upload/auth_pre'));
 
             }
-
-         
-            
-
-
         }
         /**
          * lilu
@@ -383,7 +378,7 @@ class WxTest extends Controller
             }';
             // $param ['component_appid'] = '第三方平台appid '; 
             // $param ['authorizer_appid'] =$authorizer_appid; 
-            $data = $this->https_post ( $url, $param ); 
+            $data = $this->https_post( $url, $param ); 
             $pp['msg']=$data;
             db('test')->insert($pp);
             $data=json_decode($data,true);
@@ -395,16 +390,15 @@ class WxTest extends Controller
              */
             public function getHeadpic($appid,$appsecret){
                $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
-               $info = json_decode($this->https_get($url),true);
-               halt($info);
-                // $url = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$access_token;
+               $info = json_decode($this->https_get($url),true);     //获取access_token
+                $url2 = "https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$info['access_token'];
                 $data = '{
                     "path":"/pages/logs/logs" 
                 }';
-                $ret = json_decode($this->https_post($url,$data),true);
+                $ret = json_decode($this->https_post($url2,$data),true);
                 halt($ret);
-                if($ret['pre_auth_code']) {
-                    return $ret['pre_auth_code'];
+                if($ret['access_token']) {
+                    return $ret['access_token'];
                 } else {
                     return false;
                 }
