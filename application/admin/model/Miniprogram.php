@@ -650,5 +650,43 @@ class Miniprogram extends Model
     {
         file_put_contents(ROOT_PATH . 'runtime/error/miniprogram.log', "[" . date('Y-m-d H:i:s') . "] ".$msg."," .json_encode($ret).PHP_EOL, FILE_APPEND);
     }
+     /*
+    * 发起POST网络提交
+    * @params string $url : 网络地址
+    * @params json $data ： 发送的json格式数据
+    */
+    private function https_post($url,$data)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        if (!empty($data)){
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+     /*
+        * 发起GET网络提交
+        * @params string $url : 网络地址
+        */
+    private function https_get($url)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE); 
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); 
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); 
+        curl_setopt($curl, CURLOPT_HEADER, FALSE) ; 
+        curl_setopt($curl, CURLOPT_TIMEOUT,60);
+        if (curl_errno($curl)) {
+            return 'Errno'.curl_error($curl);
+        }
+        else{$result=curl_exec($curl);}
+        curl_close($curl);
+        return $result;
+    }
 
 }
