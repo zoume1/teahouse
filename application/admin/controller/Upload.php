@@ -405,49 +405,6 @@ class Upload extends Controller
         $url = "https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=".$this->appid."&pre_auth_code=".$this->get_pre_auth_code()."&redirect_uri=".urlencode($redirect_uri)."&auth_type=".$auth_type;
         return $url;
     }
-
-     
-    // /**
-    //  * lilu  
-    //  * 获取component_access_token
-    //  */
-    // public function get_component_access_token(){
-    //         $res = $this->component_detail();//获取第三方平台基础信息
-    //         $last_time = $res['token_time'];//上一次component_access_token获取时间
-    //         $component_access_token = $res['component_access_token'];//获取数据查询到的component_access_token
-    //         $difference_time = $this->validity($last_time);//上一次获取时间与当前时间的时间差
-    //         //判断component_access_token是否为空或者是否超过有效期
-    //         if(empty($component_access_token) || $difference_time>0){
-    //             $component_access_token = $this->get_component_access_token_again();
-    //         }
-    //         return $component_access_token;
-    //     }
-    //     //获取第三方平台基础信息
-    //     public function component_detail(){
-    //         $res = db('wx_threeopen')->where('id',1)->find();
-    //         return $res;
-    //     }
-    //     //重新获取component_access_token
-    //     public function get_component_access_token_again(){
-    //         $url = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
-    //         $tok = $this->component_detail();
-    //         $param ['component_appid'] = $tok['appid'];
-    //         $param ['component_appsecret'] = $tok['appsecret'];
-    //         $param ['component_verify_ticket'] = $tok['component_verify_ticket'];
-    //         $param=json_encode($param);
-    //         $data = $this->https_post ( $url, $param );
-    //         halt($data);
-    //         $token['component_access_token'] = $data ['component_access_token'];
-    //         $token['token_time'] = time()+7000;
-    //         db('wx_threeopen')->where('id',1)->update($token);
-    //         return $data['component_access_token'];
-    //     }
-    //     //获取时间差
-    //     public function validity($time){
-    //         $current_time = time();
-    //         $difference_time = $current_time -$time;
-    //         return $difference_time;
-    //     }
             /*
             * 获取第三方平台access_token
             * 注意，此值应保存，代码这里没保存
@@ -467,13 +424,9 @@ class Upload extends Controller
                     return false;
                 }
             }
-
     /*
-
     *  第三方平台方获取预授权码pre_auth_code
-
     */
-
     private function get_pre_auth_code()
 
     {
@@ -537,11 +490,12 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        halt($input);
-        $is_success=$mini->bindMember($input['wx']);
-        $pp['msg']=$is_success;
+        $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$timeout['authorizer_access_token'];
+        $data = '{"wechatid":"'.$input['wx'].'"}';
+        $ret = json_decode($this->https_post($url,$data),true);
+        $pp['msg']=$ret;
         db('test')->insert($pp);
-        if($is_success['errcode'] == 0) {
+        if($ret['errcode'] == 0) {
             return  ajax_success('绑定成功');
         } else {
             return   ajax_error("绑定小程序体验者操作失败");
@@ -571,10 +525,7 @@ class Upload extends Controller
             $miniprogram = Db::name('miniprogram')->where('appid',$appid)
                 ->field('access_token,authorizer_refresh_token')->find();
             //重新获取小程序的authorizer_access_token
-            $access=$this-> update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
-            // $authorizer_appid=$appid;
-            // $authorizer_access_token=$access['authorizer_access_token'];
-            // $authorizer_refresh_token=$access['authorizer_refresh_token'];
+            $access=$this->update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
             $access['thirdAccessToken']=$ret['component_access_token'];
             return $access;
         } else {
@@ -593,7 +544,6 @@ class Upload extends Controller
         $url = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=' . $thirdAccessToken;
         $data = '{"component_appid":"' . $this->appid . '","authorizer_appid":"' . $appid . '","authorizer_refresh_token":"' . $refresh_token . '"}';
         $ret = json_decode($this->https_post($url, $data),true);
-        halt($ret);
         if (isset($ret['authorizer_access_token'])) {
             Db::name('miniprogram')->where(['appid' => $appid])->update(['access_token' => $ret['authorizer_access_token'], 'authorizer_refresh_token' => $ret['authorizer_refresh_token']]);
             return $ret;
