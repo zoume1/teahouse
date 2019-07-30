@@ -792,6 +792,7 @@ Route::group("admin",[
     "stores_divergence" =>"admin/StoreHouse/stores_divergence",         //入仓
     "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out", //出仓
     "stores_series_index" =>"admin/StoreHouse/stores_series_index",     //仓储续费
+    "stores_order_confirm_shipment" =>"admin/StoreHouse/stores_order_confirm_shipment",//订单出仓订单发货
 
     /*资产*/
     "property_day" =>"admin/Property/property_day",     //对账单日汇报

@@ -581,7 +581,7 @@
 						<td>
 							<div class="line">
 								<div class="static_btus" data-id="{$vo.id}" data-value="{$vo.status}">
-								{$vo.status|show_order_status}
+										{if $vo.order_type !=3}{$vo.status|show_order_status}{else}{$vo.status|show_house_orderer}{/if}
 								</div>
 								<div class="static_btus1">
 									<div class="not_apply">未申请开票</div>
@@ -1025,7 +1025,7 @@
 				} else {
 					$.ajax({
 						type: "POST",
-						url: "{:url('admin/CrowdOder/order_confirm_shipment')}",
+						url: "{:url('admin/CrowdOder/crowd_order_confirm_shipment')}",
 						data: {
 							"order_id": value,
 							"courier_number": danhao,
@@ -1187,6 +1187,70 @@
 		});
 		$(".button").click(function () {
 			$(".popup").addClass("noshow");
+		});
+		$(".operation").on("click", ".submit_btns", function () {
+			$(".popup").addClass("noshow");
+			var repay = $(".repay").val();
+			var id = $(this).parent(".operation").data("id");   //订单状态
+			var value = $(this).parent(".operation").data("value");   //订单的id
+
+			//    快递选择
+			var curier = $(".curier option:selected").val();
+			var curier2 = $(".curier option:selected").text();
+			//    操作选择
+			var operation_select = $(".operation_select option:selected").val();
+			//    快递单号
+			var danhao = $(".danhao").val();
+			if (danhao != '') {  //判断单号
+				//根据id判断订单的类型
+				if (id == '2' || id == '4') {     //待发货----已发货
+					$.ajax({
+						type: "POST",
+						url: "{:url('admin/Order/order_confirm_shipment')}",
+						data: {
+							"order_id": value,
+							"courier_number": danhao,
+							"status": 4,
+							"express_name": curier,
+							"express_name_ch": curier2
+						},
+						success: function (data) {
+							location.reload();
+							var data = eval('(' + data + ')');
+							console.log(data);
+
+						},
+						error: function (data) {
+
+						}
+					});
+				} else {
+					$.ajax({
+						type: "POST",
+						url: "{:url('admin/Order/order_confirm_shipment')}",
+						data: {
+							"order_id": value,
+							"courier_number": danhao,
+							"status": 5,
+							"express_name": curier
+						},
+						success: function (data) {
+							location.reload();
+							var data = eval('(' + data + ')');
+							console.log(data);
+
+						},
+						error: function (data) {
+
+						}
+					});
+				}
+
+			}
+			else {
+				alert("请输入单号");
+			}
+
 		});
 		$('.daying').click(function testprint() {
 			var headstr = "<html><head><title></title></head><body>";
