@@ -394,7 +394,13 @@
 		padding: 0 15px;
 		align-items: flex-end;
 	}
-	
+	.norm > div:last-child{
+		border-bottom: 0px;
+	}
+	.norm_div {
+		border-bottom:1px solid rgb(226,226,226);
+		line-height: 25px;
+	}
 </style>
 
 {/block}
@@ -1086,11 +1092,10 @@
 				async: false,
 				success: function (data) {
 					var data = eval('(' + data + ')');
-					console.log(data);
 					let dhtm9 = "";
 					dhtm9 += '<div class="popup_t" >';
 					dhtm9 += '<div>订单基本信息</div>';
-					// dhtm9 += '<div><h1>周记茶叶</h1></div>';
+					dhtm9 += '<div><h1>'+ data.data.store_name +'</h1></div>';
 					dhtm9 += '<div>账号：' + data.data.user_phone_number + '</div>';
 					dhtm9 += '</div>';
 					dhtm9 += '<div class="popup_content1">';
@@ -1104,9 +1109,19 @@
 					dhtm9 += '</tr>';
 					dhtm9 += '<tr>';
 					dhtm9 += '<td>商品名称：</td>';
-					dhtm9 += '<td>' + data.data.parts_goods_name + '</td>';
+					dhtm9 += '<td class="norm">';
+					for(let i =0; i<data.data.parts_goods_name.length;i++) {
+
+					 dhtm9 += '<div class="norm_div">' + data.data.parts_goods_name[i].parts_goods_name + '</div>';
+					}
+					dhtm9 += '</td>';
 					dhtm9 += '<td>商品数量：</td>';
-					dhtm9 += '<td>' + data.data.order_quantity + '</td>';
+					dhtm9 += '<td class="norm">';
+					for(let i =0; i<data.data.order_quantity.length;i++) {
+
+					 dhtm9 += '<div class="norm_div">' + data.data.order_quantity[i].order_quantity + '</div>';
+					}
+					dhtm9 += '</td>';
 					dhtm9 += '</tr>';
 					dhtm9 += '<tr>';
 					dhtm9 += '<td>下单时间：</td>';
