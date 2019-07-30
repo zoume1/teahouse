@@ -132,7 +132,7 @@
 		height: 400px;
 		background: #fff;
 	}
-
+    
 	.popup_doms1 {
 		width: 900px;
 		background: #fff;
@@ -238,7 +238,7 @@
 		margin-bottom: 30px;
 	}
 
-	.quxiao {}
+	/* .quxiao {} */
 
 	.daying {
 		background: rgb(22, 155, 213);
@@ -249,7 +249,7 @@
 	/*
      * 弹窗end
 		 */
-	.seach_button_all {}
+	/* .seach_button_all {} */
 
 	.seach_button {
 		border-radius: 4px;
@@ -348,11 +348,16 @@
 
 	}
 
-	td>div {
+	td.four>div {
 		border-bottom: 1px solid #e2e2e2;
+		line-height: 50px;
+		white-space: nowrap;
+		max-width: 450px;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
-	td>div:last-of-type {
+	td.four>div:last-of-type {
 		border: 0;
 	}
 
@@ -383,6 +388,7 @@
 		padding: 0 15px;
 		align-items: flex-end;
 	}
+	
 </style>
 
 {/block}
@@ -557,32 +563,15 @@
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
 						</td>
-						<td class="orderNumber">{$vo.parts_order_number}</td>
+						<td>{$vo.parts_order_number}</td>
 						<td>
-							{volist name="vo['detail']" id="vo2"}
-							{if !empty($vo2["goods_image"])}
-							<div><img src="__UPLOADS__/{$vo2.goods_image}" /></div>
+							{if !empty($vo.goods_image)}
+							<div><img src="__UPLOADS__/{$vo.goods_image}" /></div>
 							{else}
 							<div>无</div>
-							{/if}
-							{/volist}
-						</td>
-						<td class="four">
-							{volist name="vo['detail']" id="vo2"}
-							<div style="">{$vo2.parts_goods_name}</div>
-							{/volist}
-						</td>
-						<td>
-							{volist name="vo['detail']" id="vo2"}
-							<div style="height: 50px; line-height: 50px;">{$vo2.order_quantity}</div>
-							{/volist}
-						</td>
-
-						<!-- <td>
-								<div class="overflow">{$vo2.parts_goods_name}</div>
-							</td>
-							<td>{$vo2.order_quantity}</td> -->
-
+							{/if}</td>
+						<td>{$vo.parts_goods_name}</td>
+						<td>{$vo.order_quantity}</td>
 						<td>{$vo.user_phone_number}</td>
 						<td>{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
 						<td class="am">{$vo.order_real_pay}</td>
@@ -621,6 +610,9 @@
 					</button>
 				</div>
 			</div>
+            {if !empty($data)}
+            {$data->render()}
+            {/if}
 		</div>
 	</div>
 
