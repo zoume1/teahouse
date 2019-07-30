@@ -263,6 +263,36 @@ class StoreHouse extends Controller{
         return view("stores_series_index",["stores"=>$stores]);
     }
 
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:订单确认发货（填写订单编号）
+     **************************************
+     */
+    public function  stores_order_confirm_shipment(Request $request){
+        if($request->isPost()){
+            $order_id =$request->only(["order_id"])["order_id"];
+            $status =$request->only(["status"])["status"];
+            $courier_number =$request->only(["courier_number"])["courier_number"];
+            $express_name =$request->only(["express_name"])["express_name"];
+            $express_name2 =$request->only(["express_name_ch"])["express_name_ch"];
+            $data =[
+                "status"=>$status,
+                "courier_number"=>$courier_number,
+                "express_name"=>$express_name,
+                "express_name_ch"=>$express_name2,
+            ];
+            $order_number = Db::name("out_house_order")->where("id",$order_id)->value('parts_order_number');
+            $bool = Db::name("out_house_order")->where("id",$order_id)->update(['status'=>$status]);
+            $boole = Db::name("order")->where("parts_order_number",$order_number)->update($data);
+            if($bool){
+                return ajax_success("发货成功",["status"=>1]);
+            }else{
+                return ajax_error("发货失败",["status"=>0]);
+            }
+        }
+    }
+
 
     
  }
