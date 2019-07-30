@@ -537,6 +537,7 @@ class Upload extends Controller
                 ->field('access_token,authorizer_refresh_token')->find();
             //重新获取小程序的authorizer_access_token
             $access=$this->update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
+            halt($access);
             $access['thirdAccessToken']=$ret['component_access_token'];
             return $access;
         } else {
@@ -603,7 +604,6 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        halt($timeout);
         $path='/pages/logs/logs';
         if($path){
             $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
