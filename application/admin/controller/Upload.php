@@ -622,10 +622,10 @@ class Upload extends Controller
         $address = "pages/index/index";
         $category = $this->getCategory($timeout['authorizer_access_token']);
         if(!empty($category)) {
-            $first_class = $category[0]->first_class ? $category[0]->first_class : '' ;
-            $second_class = $category[0]->second_class ? $category[0]->second_class : '';
-            $first_id = $category[0]->first_id ? $category[0]->first_id : 0;
-            $second_id = $category[0]->second_id ? $category[0]->second_id : 0;
+            $first_class = $category[0]['first_class'] ? $category[0]['first_class'] : '' ;
+            $second_class = $category[0]['second_class'] ? $category[0]['second_class'] : '';
+            $first_id = $category[0]['first_id'] ? $category[0]['first_id'] : 0;
+            $second_id = $category[0]['second_id'] ? $category[0]['second_id'] : 0;
         }
         $getpage = $this->getPage($timeout['authorizer_access_token']);
         if(!empty($getpage) && isset($getpage[0])) {
