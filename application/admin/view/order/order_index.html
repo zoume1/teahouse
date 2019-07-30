@@ -348,11 +348,16 @@
 
 	}
 
-	td>div {
+	td.four>div {
 		border-bottom: 1px solid #e2e2e2;
+		line-height: 50px;
+		white-space: nowrap;
+		max-width: 450px;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
-	td>div:last-of-type {
+	td.four>div:last-of-type {
 		border: 0;
 	}
 
@@ -383,10 +388,7 @@
 		padding: 0 15px;
 		align-items: flex-end;
 	}
-	.four{
-		height: 50px;
-		line-height: 50px;
-	}
+	
 </style>
 
 {/block}
@@ -569,11 +571,11 @@
 							{else}
 							<div>无</div>
 							{/if}
-							{/volist}
+							{/volist} 
 						</td>
 						<td class="four">
 							{volist name="vo['detail']" id="vo2"}
-							<div style="line-height: 50px;">{$vo2.parts_goods_name}</div>
+							<div>{$vo2.parts_goods_name}</div>
 							{/volist}
 						</td>
 						<td>
