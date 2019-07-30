@@ -174,7 +174,7 @@ class CrowdOder extends Controller{
  */
 public function crowd_order_way_pay(){
     $store_id = Session::get("store_id");
-    $data =Db::name("order")
+    $data =Db::name("crowd_order")
         ->order("order_create_time","desc")
         ->where("store_id",$store_id)
         ->where("status",1)
