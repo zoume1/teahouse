@@ -40,10 +40,10 @@ class Miniprogram extends Model
             $ret = json_decode($this->https_post($url,$data),true);
             $this->thirdAccessToken=$ret['component_access_token'];
             if($ret['component_access_token']) {
-            $miniprogram = Db::name('wxminiprogram')->where('authorizer_appid',$appid)
+            $miniprogram = Db::name('miniprogram')->where('appid',$appid)
                 ->field('authorizer_access_token,authorizer_refresh_token,authorizer_expires')->find();
             //重新获取小程序的authorizer_access_token
-            $access=$this->authorizer_access_token($appid,$miniprogram['authauthorizer_refresh_token']);
+            $access=$this->authorizer_access_token($appid,$miniprogram['authorizer_refresh_token']);
             $authorizer_appid=$appid;
             $authorizer_access_token=$access['authorizer_access_token'];
             $authorizer_refresh_token=$access['authauthorizer_refresh_token'];
@@ -432,7 +432,7 @@ class Miniprogram extends Model
 
         if($ret->errcode == 0) {
 
-            Db::name('wxminiprogram_audit')->insert([
+            Db::name('miniprogram_audit')->insert([
 
                 'appid'=>$this->authorizer_appid,
 
@@ -506,7 +506,7 @@ class Miniprogram extends Model
 
             $reason = $ret->reason ? $ret->reason : '';
 
-            Db::name('wxminiprogram_audit')->where(['appid'=>$this->authorizer_appid,'auditid'=>$auditid])->update([
+            Db::name('miniprogram_audit')->where(['appid'=>$this->authorizer_appid,'auditid'=>$auditid])->update([
 
                 'status'=>$ret->status,
 
@@ -544,7 +544,7 @@ class Miniprogram extends Model
 
             $reason = $ret->reason ? $ret->reason : '';
 
-            Db::name('wxminiprogram_audit')->where(['appid'=>$this->authorizer_appid,'auditid'=>$ret->auditid])->update([
+            Db::name('miniprogram_audit')->where(['appid'=>$this->authorizer_appid,'auditid'=>$ret->auditid])->update([
 
                 'status'=>$ret->status,
 
