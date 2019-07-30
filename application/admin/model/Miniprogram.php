@@ -1,13 +1,9 @@
 <?php
-
 /*
 *    代小程序实现业务
 */
-
-namespace app\home\model;
-
+namespace app\admin\model;
 use think\Model;
-
 use think\Db;
 use think\Session;
 use think\Cache;
@@ -194,15 +190,9 @@ class Miniprogram extends Model
             }';
 
         }
-
- 
-
         $ret = json_decode(https_post($url,$data));
-
         if($ret->errcode == 0) {
-
             return true;
-
         } else {
 
             $this->errorLog("设置小程序业务域名失败,appid:".$this->authorizer_appid,$ret);
