@@ -522,6 +522,33 @@ class Upload extends Controller
         curl_close($curl);
         return $result;
     }
+     /*
+        * 成员管理，绑定小程序体验者
+        * @params string $wechatid : 体验者的微信号
+        * */
+    public function bindMember($wechatid)
+
+    {
+
+        $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$this->authorizer_access_token;
+
+        $data = '{"wechatid":"'.$wechatid.'"}';
+
+        $ret = json_decode(https_post($url,$data));
+
+        if($ret->errcode == 0) {
+
+            return true;
+
+        } else {
+
+            $this->errorLog("绑定小程序体验者操作失败,appid:".$this->authorizer_appid,$ret);
+
+            return false;
+
+        }
+
+    }
    
 
      

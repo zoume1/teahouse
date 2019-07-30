@@ -261,7 +261,6 @@ class WxTest extends Controller
             //获取小程序的二维码
             $appsecret=Db::table('applet')->where('id',$data['store_id'])->value('appSecret');
             $head_pic=$this->getHeadpic($public_info ['authorization_info'] ['authorizer_appid'],$appsecret);   //小程序菊花码
-            halt($head_pic);
             $data['qrcode_url'] = $head_pic;     //二维码地址
             //记录授权信息
             $res=db('miniprogram')->insert($data);
@@ -396,7 +395,6 @@ class WxTest extends Controller
                 }';
                 $ret = $this->https_post($url2,$data);
                 if($ret) {
-                    dump($ret);
                     return $ret;
                 } else {
                     return false;
