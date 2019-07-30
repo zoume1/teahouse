@@ -367,6 +367,8 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         //判断是否已授权
         $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
+        $p='qrcode'.$store_id;
+         $is_shou['qrcode']=Session::get($p);
         if($is_shou){
             return view('auth_detail',['data'=>$is_shou]);
         }else{
