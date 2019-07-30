@@ -2257,7 +2257,7 @@ class  Order extends  Controller
 
             $host_rest = Db::name("house_order")
             ->where("parts_order_number",$val["out_trade_no"])
-            ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+            ->update(["status"=>3,"pay_time"=>time(),"si_pay_type"=>2]);
             //商品库存减少、销量增加
 
             $goods_order = Db::name("order") 

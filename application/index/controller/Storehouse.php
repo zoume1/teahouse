@@ -43,7 +43,7 @@ class Storehouse extends Controller
                                         ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
                                         ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                         ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')  
-                                        ->where("tb_house_order.status",">",1)                                                                                                                                                            
+                                        ->where("tb_house_order.status",">",2)                                                                                                                                                            
                                         ->where("tb_house_order.order_quantity",">",0)                                                                                                                                                            
                                         ->where(["tb_house_order.store_id"=>$store_id, "tb_house_order.store_house_id" =>$depot[$key]['id'] ,"tb_house_order.member_id"=>$member_id])
                                         ->order("order_create_time asc")

@@ -94,7 +94,7 @@
 						<td width="100px;">
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/User/grade_edit',['id'=>$vo.member_grade_id])}"> 编辑</a>
 
-							<a href="{:url('admin/User/grade_del',['id'=>$vo.member_grade_id])}" onclick="if(!confirm('您可编辑修改，请谨慎删除！')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
+							<a href="{:url('admin/User/grade_del',['id'=>$vo.member_grade_id])}" onclick="if(!confirm('会员等级，可添加和编辑操作，请谨慎删除，影响会员注册的账号信息显示！')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del"
 							 data-id="undefined"><i class="layui-icon"></i> 删除</a>
 						</td>
 					</tr>
