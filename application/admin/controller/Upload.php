@@ -20,8 +20,7 @@ class Upload extends Controller
     public function __construct(){
         //获取授权的APPID
         $store_id=Session::get('store_id');
-        $appid_auth=db('miniprogram')->where('store_id',$store_id)->value('appid');
-        $mini= new Miniprogram($appid_auth);
+        $this->appid_auth=db('miniprogram')->where('store_id',$store_id)->value('appid');
         ///获取component_ticket
         $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
     }
@@ -533,7 +532,7 @@ class Upload extends Controller
     public function set_tiyan()
     {
         $input=input();
-        $mini= new Miniprogram();
+        $mini= new Miniprogram($this->appid_auth);
         $is_success=$mini->bindMember($input['wx']);
         $pp['msg']=$is_success;
         db('test')->insert($pp);
