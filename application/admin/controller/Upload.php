@@ -533,6 +533,7 @@ class Upload extends Controller
     public function set_tiyan()
     {
         $input=input();
+        $mini= new Miniprogram();
         $is_success=$mini->bindMember($input['wx']);
         $pp['msg']=$is_success;
         db('test')->insert($pp);
