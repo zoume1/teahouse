@@ -390,11 +390,11 @@ class WxTest extends Controller
                $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
                $info = json_decode($this->https_get($url),true);     //获取access_token
                dump($info['access_token']);
-                $url2 = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$info['access_token'];
-                $data = '{
-                    "path":"/pages/logs/logs" 
-                }';
-                $ret = json_decode($this->https_post($url2,$data),true);
+                $url2 = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$info['access_token']."&path=/pages/logs/logs";
+                // $data = '{
+                //     "path":"/pages/logs/logs" 
+                // }';
+                $ret = json_decode($this->https_get($url2),true);
                 halt($ret);
                 if($ret['access_token']) {
                     return $ret['access_token'];
