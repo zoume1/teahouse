@@ -993,7 +993,7 @@ Route::group("admin",[
 
     /*众筹订单*/
     "crowd_order_index" => "admin/CrowdOder/crowd_order_index",                         //众筹订单显示
-    "crowd_order_search"=>"admin/CrowdOder/crowd_crowd_order_search",                  //众筹订单搜索
+    "crowd_order_search"=>"admin/CrowdOder/crowd_order_search",                  //众筹订单搜索
     "crowd_order_way_pay"=>"admin/CrowdOder/crowd_order_way_pay",                     //众筹订单待付款
     "crowd_order_wait_send"=>"admin/CrowdOder/crowd_order_wait_send",                //众筹订单待发货
     "crowd_order_shipped"=>"admin/CrowdOder/crowd_order_shipped",                   //众筹订单已发货
@@ -1001,6 +1001,7 @@ Route::group("admin",[
     "crowd_order_closed"=>"admin/CrowdOder/crowd_order_closed",                   //众筹订单已关闭
     "crowd_order_confirm_shipment"=>"admin/CrowdOder/crowd_order_confirm_shipment", //众筹订单卖家确认发货
     "crowd_order_information_return"=>"admin/CrowdOder/crowd_order_information_return", //众筹订单基本信息
+    "changeCrowdOderPrice"=>"admin/CrowdOder/changeCrowdOderPrice",//订单改价
 
     /*TODO:*/
 

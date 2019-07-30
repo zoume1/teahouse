@@ -456,7 +456,7 @@
 		<!--</ul>-->
 		<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Order/order_search')}">
+			<form class="layui-form" action="{:url('admin/CrowdOder/crowd_order_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">请搜索：</div>
@@ -581,8 +581,7 @@
 						<td>
 							<div class="line">
 								<div class="static_btus" data-id="{$vo.id}" data-value="{$vo.status}">
-									{if $vo.order_type !=
-									3}{$vo.status|show_order_status}{else}{$vo.status|show_house_order}{/if}
+								{$vo.status|show_order_status}
 								</div>
 								<div class="static_btus1">
 									<div class="not_apply">未申请开票</div>
@@ -950,7 +949,7 @@
 				var order_real_pay = $('input[name=changePriceVal]').val();
 				if (+order_real_pay > 0) {
 					$.ajax({
-						url: 'changeOderPrice',
+						url: 'changeCrowdOderPrice',
 						type: 'POST',
 						dataType: 'JSON',
 						data: {
