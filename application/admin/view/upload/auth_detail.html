@@ -209,11 +209,14 @@
         $('.show-big').click(function(){
             var src = $(this).prev('img')[0].src;
             $('.mask').show().append('<img src="'+src+'"><span class="close">×<span>');
+            closeEven();
         })
-        // 查看大图 关闭
-        $('.mask .close').add('.mask img').click(function(){
-            $('.mask').hide().empty();
-        })
+        function closeEven(){
+            // 查看大图 关闭
+            $('.mask .close').add('.mask img').click(function(){
+                $('.mask').hide().empty();
+            })
+        }
         // 一键上传店铺代码
         $('.upload').click(function(){
             // $('.mask').show();
@@ -242,34 +245,37 @@
                     if(data.status=='0'){
                         alert("获取体验码失败");
                     }else{
-                        alert(data.data.url);
                         $('.mask').show().append('<img src="'+data.data.url+'"><span class="close">×<span>');
+                        closeEven();
                     }
+                }
+            })
+        })
 
+        // 发布正式版小程序
+        $('.publish').click(function(){
+            $.ajax({
+                url:'publish',
+                type:"post",
+                success : function(data){
+                    var data = JSON.parse(data);
+                    if(data.status=='0'){
+                        alert("获取体验码失败");
+                    }else{
+                        $('.mask').show().append('<img src="'+data.data.url+'"><span class="close">×<span>');
+                        closeEven();
+                    }
                 }
             })
             // $('.mask').show();
             // // 判断是否上传了代码
             // if(true){
             //     // 上传了代码
-            //     $('.final-vers').show();
+            //     $('.publish-confirm').show();
             // }else{
             //     // 没有上传代码
-            //     $('.no-upload-code').show();
+            //     $('.publish-no-code').show();
             // }
-        })
-
-        // 发布正式版小程序
-        $('.publish').click(function(){
-            $('.mask').show();
-            // 判断是否上传了代码
-            if(true){
-                // 上传了代码
-                $('.publish-confirm').show();
-            }else{
-                // 没有上传代码
-                $('.publish-no-code').show();
-            }
         })
 
         // 解除授权绑定

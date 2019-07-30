@@ -606,6 +606,70 @@ class Upload extends Controller
             return ajax_success('获取体验小程序的体验二维码操作成功',["url"=>"/qrcode?url2=".$url]);
         }
     }
+    /**
+     * lilu
+     * 发布正式版
+     */
+    public function publish()
+    {
+        //判断access_token是否过期，重新获取
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+
+
+        $first_class = '';$second_class = '';$first_id = 0;$second_id = 0;
+        $address = "pages/index/index";
+        $category = $this->getCategory();
+        if(!empty($category)) {
+            $first_class = $category[0]->first_class ? $category[0]->first_class : '' ;
+            $second_class = $category[0]->second_class ? $category[0]->second_class : '';
+            $first_id = $category[0]->first_id ? $category[0]->first_id : 0;
+            $second_id = $category[0]->second_id ? $category[0]->second_id : 0;
+        }
+        $getpage = $this->getPage();
+        if(!empty($getpage) && isset($getpage[0])) {
+            $address = $getpage[0];
+        }
+        $url = "https://api.weixin.qq.com/wxa/submit_audit?access_token=".$this->authorizer_access_token;
+        $data = '{
+                "item_list":[{
+                    "address":"'.$address.'",
+                    "tag":"'.$tag.'",
+                    "title":"'.$title.'",
+                    "first_class":"'.$first_class.'",
+                    "second_class":"'.$second_class.'",
+                    "first_id":"'.$first_id.'",
+                    "second_id":"'.$second_id.'"
+                }]
+            }';
+        $ret = json_decode($this->https_post($url,$data),true);
+        if($ret['errcode'] == 0) {
+            Db::name('miniprogram_audit')->insert([
+                'appid'=>$this->authorizer_appid,
+                'auditid'=>$ret->auditid,
+                'create_time'=>date('Y-m-d H:i:s')
+            ]);
+            return true;
+        } else {
+            $this->errorLog("小程序提交审核操作失败，appid:".$this->authorizer_appid,$ret);
+            return false;
+        }
+
+        // $path='/pages/logs/logs';
+        // if($path){
+        //     $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
+        // } else {
+        //     $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+        // }
+        // $ret = json_decode($this->https_get($url),true);
+        // if($ret['errcode']) {
+        //     $this->errorLog("获取体验小程序的体验二维码操作失败,appid:".$this->authorizer_appid,$ret);
+        //     return ajax_error('获取体验小程序的体验二维码操作失败');
+        // } else {
+        //     return ajax_success('获取体验小程序的体验二维码操作成功',["url"=>"/qrcode?url2=".$url]);
+        // }
+    }
    
 
      
