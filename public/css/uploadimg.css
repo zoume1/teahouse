@@ -112,7 +112,7 @@ a:active {
 	float: right;
 	position: relative;
 }
-.creatphoto, .deletephoto{
+.creatphoto{
 	padding: 4px 12px;
 	background-color: #ffba00;
 	cursor: pointer;
@@ -122,7 +122,17 @@ a:active {
 	float: right;
 	margin-right: 20px;
 }
-
+.deletephoto {
+	padding: 4px 12px;
+	background-color: #fff;
+	color: #000;
+	border: 1px solid #777; 
+	border-radius: 5px;
+	cursor: pointer;
+	float: right;
+	font-size: 13px;
+	margin-right: 20px;
+}
 .uploadimg input{
 	opacity: 0;
 	position: absolute;
@@ -286,24 +296,14 @@ a:active {
 .uploadvideo_on{
 	color: #0077DD;
 }
-.deletebox {
-	width: 990px;
-	height: 630px;
-	background-color: rgba(0,0,0,0.3);
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	z-index: 8000;
-	display: none;
-	
-}
+
 .cjxdelete {
 	width: 300px;
 	height: 150px;
 	margin: 30px auto;
 	background-color: #fff;
 }
-.cjxcalertbox{
+.cjxcalertbox, .deletebox, .deletepic {
 	width: 990px;
 	height: 630px;
 	background-color: rgba(0,0,0,0.3);
@@ -414,4 +414,23 @@ a:active {
 .delete_close {
 	background-color: #fff;
 	border: 1px solid #777;
+}
+.div_tan {
+	background-color:#fff;
+	position: absolute;
+	left: 10px;
+	z-index:100;
+	border: 1px solid rgb(221, 221, 221);
+	width: 150px;
+	line-height: 25px;
+	display: none;
+}
+.sel_div, .moren{
+	padding: 5px 10px;
+}
+.sel_div:hover {
+	background-color: rgb(245, 245, 245);
+}
+.moren {
+	color:rgb(166, 153, 179);
 }
