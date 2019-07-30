@@ -537,7 +537,6 @@ class Upload extends Controller
                 ->field('access_token,authorizer_refresh_token')->find();
             //重新获取小程序的authorizer_access_token
             $access=$this->update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
-            halt($access);
             $access['thirdAccessToken']=$ret['component_access_token'];
             return $access;
         } else {
@@ -553,7 +552,7 @@ class Upload extends Controller
     * */
     private function update_authorizer_access_token($appid,$refresh_token,$thirdAccessToken)
     {
-        $url = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=' . $thirdAccessToken;
+        $url = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token='.$thirdAccessToken;
         $data = '{"component_appid":"' . $this->appid . '","authorizer_appid":"' . $appid . '","authorizer_refresh_token":"' . $refresh_token . '"}';
         $ret = json_decode($this->https_post($url, $data),true);
         if (isset($ret['authorizer_access_token'])) {
