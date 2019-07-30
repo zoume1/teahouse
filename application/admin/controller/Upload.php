@@ -559,7 +559,7 @@ class Upload extends Controller
     private function errorLog($msg,$ret)
     {
         // file_put_contents(ROOT_PATH . 'runtime/error/miniprogram.log', "[" . date('Y-m-d H:i:s') . "] ".$msg."," .json_encode($ret).PHP_EOL, FILE_APPEND);
-        $pp['msg']=$msg;
+        $pp['msg']=$ret;
         db('test')->insert($pp);
     }
     /**
@@ -622,10 +622,10 @@ class Upload extends Controller
         $address = "pages/index/index";
         $category = $this->getCategory($timeout['authorizer_access_token']);
         if(!empty($category)) {
-            $first_class = $category[0]->first_class ? $category[0]->first_class : '' ;
-            $second_class = $category[0]->second_class ? $category[0]->second_class : '';
-            $first_id = $category[0]->first_id ? $category[0]->first_id : 0;
-            $second_id = $category[0]->second_id ? $category[0]->second_id : 0;
+            $first_class = $category[0]['first_class'] ? $category[0]['first_class'] : '' ;
+            $second_class = $category[0]['second_class'] ? $category[0]['second_class'] : '';
+            $first_id = $category[0]['first_id'] ? $category[0]['first_id'] : 0;
+            $second_id = $category[0]['second_id'] ? $category[0]['second_id'] : 0;
         }
         $getpage = $this->getPage($timeout['authorizer_access_token']);
         if(!empty($getpage) && isset($getpage[0])) {
@@ -644,6 +644,7 @@ class Upload extends Controller
                 }]
             }';
         $ret = json_decode($this->https_post($url,$data),true);
+        halt($ret);
         if($ret['errcode'] == 0) {
             // Db::name('miniprogram_audit')->insert([
             //     'appid'=>$this->authorizer_appid,
@@ -652,37 +653,36 @@ class Upload extends Controller
             // ]);
             return ajax_success('发布成功');
         } else {
-            $this->errorLog("小程序提交审核操作失败，appid:",$ret);
+            $this->errorLog("小程序提交审核操作失败",$ret);
             return ajax_error('发布失败');
         }
     }
     /*
      * 获取授权小程序帐号的可选类目
      * */
-    private function getCategory()
+    private function getCategory($authorizer_access_token)
     {
         $url = "https://api.weixin.qq.com/wxa/get_category?access_token=".$authorizer_access_token;
         $ret = json_decode($this->https_get($url),true);
         if($ret['errcode'] == 0) {
             return $ret['category_list'];
         } else {
-            $this->errorLog("获取授权小程序帐号的可选类目操作失败");
+            $this->errorLog("获取授权小程序帐号的可选类目操作失败",$ret);
             return false;
         }
     }
     /*
      * 获取小程序的第三方提交代码的页面配置
      * */
-    private function getPage()
+    private function getPage($authorizer_access_token)
     {
         $url = "https://api.weixin.qq.com/wxa/get_page?access_token=".$authorizer_access_token;
         $ret = json_decode($this->https_get($url),true);
         if($ret['errcode'] == 0) {
             return $ret['page_list'];
         } else {
-            $this->errorLog("获取小程序的第三方提交代码的页面配置失败");
+            $this->errorLog("获取小程序的第三方提交代码的页面配置失败",$ret);
             return false;
-
         }
 
     }

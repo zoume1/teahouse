@@ -61,7 +61,6 @@ class Photo extends Base{
                 ->paginate(12,false,[ 'query' => array('appletid'=>input("appletid"),'type'=>input("type"))]);
         }else{
             $all = Db::table('ims_sudu8_page_pic')
-                ->where("uniacid",$appletid)
                 ->where("gid", 0)
                 ->order('id desc')
                 ->paginate(12,false,[ 'query' => array('appletid'=>input("appletid"),'type'=>input("type"))]);
@@ -79,7 +78,7 @@ class Photo extends Base{
                 }
             }
         }
-        $count = Db::table('ims_sudu8_page_pic')->where("uniacid",$appletid)->where("gid", 0)->count();
+        $count = Db::table('ims_sudu8_page_pic')->where("gid", 0)->count();
         $this->assign('type',$type);
         $this->assign('group',$group);
         $this->assign('gid',$gid);
