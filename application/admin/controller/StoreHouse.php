@@ -282,7 +282,7 @@ class StoreHouse extends Controller{
                 "express_name"=>$express_name,
                 "express_name_ch"=>$express_name2,
             ];
-            $order_number = Db::name("out_house_order")->where("id",$order_id)->value('parts_order_number');
+            $order_number = Db::name("out_house_order")->where("id",$order_id)->value('out_order_number');
             $bool = Db::name("out_house_order")->where("id",$order_id)->update(['status'=>$status]);
             $boole = Db::name("order")->where("parts_order_number",$order_number)->update($data);
             if($bool){
