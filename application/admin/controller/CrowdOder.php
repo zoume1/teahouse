@@ -27,30 +27,18 @@ class CrowdOder extends Controller{
     {
         $store_id = Session::get("store_id");
         $where['status']= array('between',array(0,8));
-        $data =Db::name("crowd_order")
+        $datas =Db::name("crowd_order")
             ->order("order_create_time","desc")
             ->where("store_id",'EQ',$store_id)
             ->where($where)
             ->group('parts_order_number')
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
-            $data2=[];
-            foreach($data as $k=>$v){
-                //获取相同订单的数据
-                $list = db('crowd_order')->where('parts_order_number',$v['parts_order_number'])->select();
-                $order=[];
-                foreach($list as $k2 =>$v2){
-                    $order[$k2]['goods_image']=$v2['goods_image'];
-                    $order[$k2]['parts_goods_name']=$v2['parts_goods_name'];
-                    $order[$k2]['order_quantity']=$v2['order_quantity'];
-                }
-                $num = count($order);
-                $data2[$k]=$v;
-                $data2[$k]['detail']=$order;
-                $data2[$k]['num']=$num;
-            }
-        return view("crowd_order_index",["data"=>$data2]);
+            ->select();
+
+
+            $url = 'admin/CrowdOder/crowd_order_index';
+            $pag_number = 20;
+            $data = paging_data($datas,$url,$pag_number);
+        return view("crowd_order_index",["data"=>$data]);
     }
 
 
