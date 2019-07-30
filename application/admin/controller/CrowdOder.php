@@ -270,4 +270,30 @@ public function crowd_order_way_pay(){
         return view("crowd_order_index",["data"=>$data]);
     }
 
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:更改订单价格
+     **************************************
+     * @return \think\response\View
+     */
+    public function  changeCrowdOderPrice(Request $request){
+        if($request->isPost()){
+            $status =$request->only(["status"])["status"];//订单状态
+            $order_id =$request->only(["id"])["id"];
+            $parts_order_number = Db::name("order")->where("id",'EQ',$order_id)->value("parts_order_number");
+            $price = $request->only(["order_real_pay"])["order_real_pay"];//更改价格
+            if($status != 1){
+                return ajax_error("该订单不支持改价");
+            } else {
+                $bool = db("crowd_order")->where("parts_order_number",$parts_order_number)->update(["order_real_pay" =>$price]);
+                if($bool){
+                    return ajax_success("改价成功");
+                } else {
+                    return ajax_error("改价失败");
+                }
+            }
+        }
+    }
+
 }
