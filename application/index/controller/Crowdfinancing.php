@@ -256,7 +256,8 @@ class Crowdfinancing extends Controller
                         $datase["coupon_id"] = $coupon_id;
                         $datase["receipt_status"] = $receipt_status; 
                         $datase["receipt_id"] = $receipt_id;
-                        $datase["receipt_price"] = $receipt_price;   
+                        $datase["receipt_price"] = $receipt_price;
+                        $datase["order_real_pay"] = 0.01;   
 
                         $rest_id = Db::name('crowd_order')->insertGetId($datase);
                         $datas = $datase;
@@ -319,7 +320,7 @@ class Crowdfinancing extends Controller
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
-                                $order_datas['balance']=$money;
+                                $order_datas['balance'] = $money;
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);
