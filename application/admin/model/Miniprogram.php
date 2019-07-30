@@ -213,12 +213,13 @@ class Miniprogram extends Model
 
         $data = '{"wechatid":"'.$wechatid.'"}';
         $ret = json_decode($this->https_post($url,$data),true);
+        $pp['msg']=$ret;
+        db('test')->insert($pp);
         if($ret['errcode'] == 0) {
             return true;
         } else {
             $this->errorLog("绑定小程序体验者操作失败,appid:".$this->authorizer_appid,$ret);
             return false;
-
         }
 
     }
