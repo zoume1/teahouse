@@ -98,8 +98,7 @@
                 <li>
                     <span class="fl">小程序二维码</span>
                     <div class="pl150">
-                        <!-- <img src="{$data['qrcode']}" class="qr-code"> -->
-                        {$data['qrcode']}
+                        <img src="{$data['head_img']}" class="qr-code">
                         <a href="#" class="show-big">查看大图</a>
                     </div>
                 </li>
@@ -289,7 +288,7 @@
                     var data = JSON.parse(data);
                     if(data.status=='1'){
                         alert("解除授权成功");
-                        window.location.href="auth_pre";
+                        window.location.href="auth_pre"
                     }else{
                         alert("解除授权失败，请联系管理员");
                     }
