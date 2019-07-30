@@ -254,8 +254,7 @@ class WxTest extends Controller
             $data['access_token'] = $auth_info ['authorization_info']['authorizer_access_token']; 
             $data['head_img'] = $public_info ['authorizer_info'] ['head_img'];     //头像
             $data['principal_name']=$public_info['authorizer_info']['principal_name'];  //公司名称 
-            // $data['store_id']=Session::get('store_id');//当前店铺的id
-            $data['store_id']='119';//当前店铺的id
+            $data['store_id']=Session::get('store_id');//当前店铺的id
             $store_type=$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['first'].'-'.$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['second'];  //公司名称 
             $data['store_type']=$store_type;//当前店铺的经营类型
             //获取小程序的二维码
