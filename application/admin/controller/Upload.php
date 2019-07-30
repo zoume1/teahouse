@@ -18,6 +18,10 @@ class Upload extends Controller
      * 
      */
     public function __construct(){
+        //获取授权的APPID
+        $store_id=Session::get('store_id');
+        $appid_auth=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $mini= new Miniprogram($appid_auth);
         ///获取component_ticket
         $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
     }
@@ -521,6 +525,22 @@ class Upload extends Controller
         else{$result=curl_exec($curl);}
         curl_close($curl);
         return $result;
+    }
+     /*
+        * 成员管理，绑定小程序体验者
+        * @params string $wechatid : 体验者的微信号
+        * */
+    public function set_tiyan()
+    {
+        $input=input();
+        $is_success=$mini->bindMember($input['wx']);
+        $pp['msg']=$is_success;
+        db('test')->insert($pp);
+        if($is_success['errcode'] == 0) {
+            return  ajax_success('绑定成功');
+        } else {
+            return   ajax_error("绑定小程序体验者操作失败");
+        }
     }
    
 

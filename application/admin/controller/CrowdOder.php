@@ -26,7 +26,19 @@ class CrowdOder extends Controller{
     public function crowd_order_index()
     {
         $store_id = Session::get("store_id");
-        return view("crowd_order_index");
+        $where['status']= array('between',array(0,8));
+        $datas =Db::name("crowd_order")
+            ->order("order_create_time","desc")
+            ->where("store_id",'EQ',$store_id)
+            ->where($where)
+            ->group('parts_order_number')
+            ->select();
+
+
+            $url = 'admin/CrowdOder/crowd_order_index';
+            $pag_number = 20;
+            $data = paging_data($datas,$url,$pag_number);
+        return view("crowd_order_index",["data"=>$data]);
     }
 
 

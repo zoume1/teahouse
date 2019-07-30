@@ -71,7 +71,7 @@ class  Order extends  Controller{
                 "express_name"=>$express_name,
                 "express_name_ch"=>$express_name2,
             ];
-            $bool =Db::name("order")->where("id",$order_id)->update($data);
+            $bool = Db::name("order")->where("id",$order_id)->update($data);
             if($bool){
                 return ajax_success("发货成功",["status"=>1]);
             }else{
