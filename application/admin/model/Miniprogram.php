@@ -23,7 +23,7 @@ class Miniprogram extends Model
 
  
 
-    public function __construct($appid)
+    public function __construct()
 
     {
         $store_id=Session::get('store_id');

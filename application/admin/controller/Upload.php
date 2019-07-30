@@ -531,8 +531,13 @@ class Upload extends Controller
         * */
     public function set_tiyan()
     {
+        //获取参数
         $input=input();
-        $mini= new Miniprogram($this->appid_auth);
+        //判断access_token是否过期，重新获取
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        halt($input);
         $is_success=$mini->bindMember($input['wx']);
         $pp['msg']=$is_success;
         db('test')->insert($pp);
@@ -540,6 +545,60 @@ class Upload extends Controller
             return  ajax_success('绑定成功');
         } else {
             return   ajax_error("绑定小程序体验者操作失败");
+        }
+    }
+    /**
+     * lilu
+     * 检验access_token是否过期，重新获取
+     * appid    授权小程序APPID
+     */
+    public function is_timeout($appid)
+    {
+        $store_id=Session::get('store_id');
+        $weixin_account = Db::name('wx_threeopen')->where('id','1')->find(); //第三方信息
+        if ($weixin_account) {
+            //获取第三方的开放平台access_token
+            $this->component_ticket=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
+            $url = "https://api.weixin.qq.com/cgi-bin/component/api_component_token";
+            $data = '{
+                "component_appid":"'.$this->appid.'" ,
+                "component_appsecret": "'.$this->appsecret.'",
+                "component_verify_ticket": "'.$this->component_ticket.'"
+            }';
+            $ret = json_decode($this->https_post($url,$data),true);
+            $this->thirdAccessToken=$ret['component_access_token'];
+            if($ret['component_access_token']) {
+            $miniprogram = Db::name('miniprogram')->where('appid',$appid)
+                ->field('access_token,authorizer_refresh_token')->find();
+            //重新获取小程序的authorizer_access_token
+            $access=$this-> update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
+            // $authorizer_appid=$appid;
+            // $authorizer_access_token=$access['authorizer_access_token'];
+            // $authorizer_refresh_token=$access['authorizer_refresh_token'];
+            $access['thirdAccessToken']=$ret['component_access_token'];
+            return $access;
+        } else {
+            $this->errorLog("请增加微信第三方公众号平台账户信息",'');
+            exit;
+        }
+    }
+ }
+  /*
+    * 更新授权小程序的authorizer_access_token
+    * @params string $appid : 小程序appid
+    * @params string $refresh_token : 小程序authorizer_refresh_token
+    * */
+    private function update_authorizer_access_token($appid,$refresh_token,$thirdAccessToken)
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=' . $thirdAccessToken;
+        $data = '{"component_appid":"' . $this->appid . '","authorizer_appid":"' . $appid . '","authorizer_refresh_token":"' . $refresh_token . '"}';
+        $ret = json_decode($this->https_post($url, $data),true);
+        if (isset($ret['authorizer_access_token'])) {
+            Db::name('miniprogram')->where(['appid' => $appid])->update(['access_token' => $ret['authorizer_access_token'], 'authorizer_refresh_token' => $ret['authorizer_refresh_token']]);
+            return $ret;
+        } else {
+            $this->errorLog("更新授权小程序的authorizer_access_token操作失败,appid:".$appid,$ret);
+            return null;
         }
     }
    
