@@ -265,7 +265,7 @@ class WxTest extends Controller
             //记录授权信息
             $res=db('miniprogram')->insert($data);
             if($res){
-                $this->success('授权成功',url('admin/Upload/auth_pre'));
+                $this->success('授权成功',url('admin/Upload/auth_detail'));
             }else{
                 $this->error('用户未授权或授权错误，请重新授权',url('admin/Upload/auth_pre'));
 
@@ -394,6 +394,8 @@ class WxTest extends Controller
                     "path":"/pages/logs/logs" 
                 }';
                 $ret = $this->https_post($url2,$data);
+                $store_id='qrcode'.Session::get('store_id');
+                Session::set($store_id,$ret);
                 if($ret) {
                     return $ret;
                 } else {

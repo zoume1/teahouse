@@ -98,7 +98,7 @@
                 <li>
                     <span class="fl">小程序二维码</span>
                     <div class="pl150">
-                        <img src="{$data['head_img']}" class="qr-code">
+                        <img src="{$data['qrcode']}" class="qr-code">
                         <a href="#" class="show-big">查看大图</a>
                     </div>
                 </li>
@@ -280,7 +280,20 @@
 
         // 解除授权绑定
         $('.relieve').click(function(){
-            $('.mask').add('.unbind').show();
+            // $('.mask').add('.unbind').show();
+            $.ajax({
+                url:"relieve",
+                type:"post",
+                success : function(data){
+                    var data = JSON.parse(data);
+                    if(data.status=='1'){
+                        alert("解除授权成功");
+                        window.location.href="auth_pre";
+                    }else{
+                        alert("解除授权失败，请联系管理员");
+                    }
+                }
+            })
         })
         // 设置体验者
         $('.set-tiyaner').click(function(){
