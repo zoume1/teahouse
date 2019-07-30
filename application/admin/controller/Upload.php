@@ -603,14 +603,14 @@ class Upload extends Controller
             $this->errorLog("获取体验小程序的体验二维码操作失败,appid:".$this->authorizer_appid,$ret);
             return ajax_error('获取体验小程序的体验二维码操作失败');
         } else {
-            return ajax_success('获取体验小程序的体验二维码操作成功',["url"=>"/qrcode?url2=".$url]);
+            return ajax_success('获取体验小程序的体验二维码操作成功',["url"=>$url]);
         }
     }
     /**
      * lilu
      * 发布正式版
      */
-    public function publish()
+    public function publish($tag = "微信小程序" ,$title = "微信小程序")
     {
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
@@ -620,18 +620,18 @@ class Upload extends Controller
 
         $first_class = '';$second_class = '';$first_id = 0;$second_id = 0;
         $address = "pages/index/index";
-        $category = $this->getCategory();
+        $category = $this->getCategory($timeout['authorizer_access_token']);
         if(!empty($category)) {
             $first_class = $category[0]->first_class ? $category[0]->first_class : '' ;
             $second_class = $category[0]->second_class ? $category[0]->second_class : '';
             $first_id = $category[0]->first_id ? $category[0]->first_id : 0;
             $second_id = $category[0]->second_id ? $category[0]->second_id : 0;
         }
-        $getpage = $this->getPage();
+        $getpage = $this->getPage($timeout['authorizer_access_token']);
         if(!empty($getpage) && isset($getpage[0])) {
             $address = $getpage[0];
         }
-        $url = "https://api.weixin.qq.com/wxa/submit_audit?access_token=".$this->authorizer_access_token;
+        $url = "https://api.weixin.qq.com/wxa/submit_audit?access_token=".$timeout['authorizer_access_token'];
         $data = '{
                 "item_list":[{
                     "address":"'.$address.'",
@@ -645,30 +645,46 @@ class Upload extends Controller
             }';
         $ret = json_decode($this->https_post($url,$data),true);
         if($ret['errcode'] == 0) {
-            Db::name('miniprogram_audit')->insert([
-                'appid'=>$this->authorizer_appid,
-                'auditid'=>$ret->auditid,
-                'create_time'=>date('Y-m-d H:i:s')
-            ]);
-            return true;
+            // Db::name('miniprogram_audit')->insert([
+            //     'appid'=>$this->authorizer_appid,
+            //     'auditid'=>$ret->auditid,
+            //     'create_time'=>date('Y-m-d H:i:s')
+            // ]);
+            return ajax_success('发布成功');
         } else {
-            $this->errorLog("小程序提交审核操作失败，appid:".$this->authorizer_appid,$ret);
+            $this->errorLog("小程序提交审核操作失败，appid:",$ret);
+            return ajax_error('发布失败');
+        }
+    }
+    /*
+     * 获取授权小程序帐号的可选类目
+     * */
+    private function getCategory()
+    {
+        $url = "https://api.weixin.qq.com/wxa/get_category?access_token=".$authorizer_access_token;
+        $ret = json_decode($this->https_get($url),true);
+        if($ret['errcode'] == 0) {
+            return $ret['category_list'];
+        } else {
+            $this->errorLog("获取授权小程序帐号的可选类目操作失败");
             return false;
         }
+    }
+    /*
+     * 获取小程序的第三方提交代码的页面配置
+     * */
+    private function getPage()
+    {
+        $url = "https://api.weixin.qq.com/wxa/get_page?access_token=".$authorizer_access_token;
+        $ret = json_decode($this->https_get($url),true);
+        if($ret['errcode'] == 0) {
+            return $ret['page_list'];
+        } else {
+            $this->errorLog("获取小程序的第三方提交代码的页面配置失败");
+            return false;
 
-        // $path='/pages/logs/logs';
-        // if($path){
-        //     $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
-        // } else {
-        //     $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
-        // }
-        // $ret = json_decode($this->https_get($url),true);
-        // if($ret['errcode']) {
-        //     $this->errorLog("获取体验小程序的体验二维码操作失败,appid:".$this->authorizer_appid,$ret);
-        //     return ajax_error('获取体验小程序的体验二维码操作失败');
-        // } else {
-        //     return ajax_success('获取体验小程序的体验二维码操作成功',["url"=>"/qrcode?url2=".$url]);
-        // }
+        }
+
     }
    
 
