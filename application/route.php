@@ -927,6 +927,7 @@ Route::group("admin",[
     "set_tiyan"=>"admin/Upload/set_tiyan",                             //一键生成--授权获取的详情
     "send_message"=>"admin/Upload/send_message",                             //一键生成--短信提醒
     "get_qrcode"=>"admin/Upload/get_qrcode",                             //一键生成--获取体验码
+    "publish"=>"admin/Upload/publish",                               //一键生成--发布正式版
     
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
@@ -1000,6 +1001,7 @@ Route::group("admin",[
     "crowd_order_closed"=>"admin/CrowdOder/crowd_order_closed",                   //众筹订单已关闭
     "crowd_order_confirm_shipment"=>"admin/CrowdOder/crowd_order_confirm_shipment", //众筹订单卖家确认发货
     "crowd_order_information_return"=>"admin/CrowdOder/crowd_order_information_return", //众筹订单基本信息
+    "changeCrowdOderPrice"=>"admin/CrowdOder/changeCrowdOderPrice",//订单改价
 
     /*TODO:*/
 

@@ -394,6 +394,7 @@ class WxTest extends Controller
                     "path":"/pages/logs/logs" 
                 }';
                 $ret = $this->https_post($url2,$data);
+                halt($ret);
                 if($ret) {
                     return $ret;
                 } else {

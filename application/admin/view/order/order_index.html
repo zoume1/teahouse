@@ -347,9 +347,13 @@
 		left: 170px;
 
 	}
+	td.three>div,
+	td.four>div,
+	td.five>div{
+		border-bottom: 1px solid #e2e2e2;
+	}
 
 	td.four>div {
-		border-bottom: 1px solid #e2e2e2;
 		line-height: 50px;
 		white-space: nowrap;
 		max-width: 450px;
@@ -357,7 +361,9 @@
 		overflow: hidden;
 	}
 
-	td.four>div:last-of-type {
+	td.three>div:last-of-type, 
+	td.four>div:last-of-type, 
+	td.five>div:last-of-type{
 		border: 0;
 	}
 
@@ -570,7 +576,7 @@
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
 						</td>
 						<td class="orderNumber">{$vo.parts_order_number}</td>
-						<td>
+						<td class="three">
 							{volist name="vo['detail']" id="vo2"}
 							{if !empty($vo2["goods_image"])}
 							<div><img src="__UPLOADS__/{$vo2.goods_image}" /></div>
@@ -584,7 +590,7 @@
 							<div>{$vo2.parts_goods_name}</div>
 							{/volist}
 						</td>
-						<td>
+						<td class="five">
 							{volist name="vo['detail']" id="vo2"}
 							<div style="height: 50px; line-height: 50px;">{$vo2.order_quantity}</div>
 							{/volist}

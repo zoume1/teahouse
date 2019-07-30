@@ -340,91 +340,48 @@ class Miniprogram extends Model
     }
 
     /*
-
      * 提交审核
-
      * @params string $tag : 小程序标签，多个标签以空格分开
-
      * @params strint $title : 小程序页面标题，长度不超过32
-
      * */
-
     public function submitReview($tag = "魔盒CMS 微信投票 微网站 微信商城" ,$title = "魔盒CMS微信公众号营销小程序开发")
-
     {
-
         $first_class = '';$second_class = '';$first_id = 0;$second_id = 0;
-
         $address = "pages/index/index";
-
         $category = $this->getCategory();
-
         if(!empty($category)) {
-
             $first_class = $category[0]->first_class ? $category[0]->first_class : '' ;
-
             $second_class = $category[0]->second_class ? $category[0]->second_class : '';
-
             $first_id = $category[0]->first_id ? $category[0]->first_id : 0;
-
             $second_id = $category[0]->second_id ? $category[0]->second_id : 0;
-
         }
-
         $getpage = $this->getPage();
-
         if(!empty($getpage) && isset($getpage[0])) {
-
             $address = $getpage[0];
-
         }
-
         $url = "https://api.weixin.qq.com/wxa/submit_audit?access_token=".$this->authorizer_access_token;
-
         $data = '{
-
                 "item_list":[{
-
                     "address":"'.$address.'",
-
                     "tag":"'.$tag.'",
-
                     "title":"'.$title.'",
-
                     "first_class":"'.$first_class.'",
-
                     "second_class":"'.$second_class.'",
-
                     "first_id":"'.$first_id.'",
-
                     "second_id":"'.$second_id.'"
-
                 }]
-
             }';
-
         $ret = json_decode($this->https_post($url,$data),true);
-
-        if($ret->errcode == 0) {
-
+        if($ret['errcode'] == 0) {
             Db::name('miniprogram_audit')->insert([
-
                 'appid'=>$this->authorizer_appid,
-
                 'auditid'=>$ret->auditid,
-
                 'create_time'=>date('Y-m-d H:i:s')
-
             ]);
-
             return true;
-
         } else {
-
             $this->errorLog("小程序提交审核操作失败，appid:".$this->authorizer_appid,$ret);
-
             return false;
-
         }
 
     }
