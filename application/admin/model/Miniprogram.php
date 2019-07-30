@@ -46,7 +46,7 @@ class Miniprogram extends Model
             $access=$this-> update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token']);
             $authorizer_appid=$appid;
             $authorizer_access_token=$access['authorizer_access_token'];
-            $authorizer_refresh_token=$access['authauthorizer_refresh_token'];
+            $authorizer_refresh_token=$access['authorizer_refresh_token'];
             // if($miniprogram){
             //     $this->authorizer_appid = $appid;
             //     if(time() > $miniprogram['authorizer_expires']){
