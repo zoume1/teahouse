@@ -41,7 +41,7 @@ class Miniprogram extends Model
             $this->thirdAccessToken=$ret['component_access_token'];
             if($ret['component_access_token']) {
             $miniprogram = Db::name('miniprogram')->where('appid',$appid)
-                ->field('access_token,authorizer_refresh_token,authorizer_expires')->find();
+                ->field('access_token,authorizer_refresh_token')->find();
             //重新获取小程序的authorizer_access_token
             $access=$this-> update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token']);
             $authorizer_appid=$appid;
