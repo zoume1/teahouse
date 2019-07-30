@@ -1000,6 +1000,7 @@ Route::group("admin",[
     "crowd_order_closed"=>"admin/CrowdOder/crowd_order_closed",                   //众筹订单已关闭
     "crowd_order_confirm_shipment"=>"admin/CrowdOder/crowd_order_confirm_shipment", //众筹订单卖家确认发货
     "crowd_order_information_return"=>"admin/CrowdOder/crowd_order_information_return", //众筹订单基本信息
+    "changeCrowdOderPrice"=>"admin/CrowdOder/changeCrowdOderPrice",//订单改价
 
     /*TODO:*/
 

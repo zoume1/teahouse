@@ -258,6 +258,7 @@ class Crowdfinancing extends Controller
                         $datase["receipt_id"] = $receipt_id;
                         $datase["receipt_price"] = $receipt_price;
                         $datase["order_type"] = $order_type; //1为选择直邮，2到店自提，3选择存茶
+                        $datas["store_id"] = $store_id;
                         $datase["order_real_pay"] = 0.01;   
 
                         $rest_id = Db::name('crowd_order')->insertGetId($datase);
