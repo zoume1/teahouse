@@ -394,8 +394,6 @@ class WxTest extends Controller
                     "path":"/pages/logs/logs" 
                 }';
                 $ret = $this->https_post($url2,$data);
-                $store_id='qrcode'.Session::get('store_id');
-                Session::set($store_id,$ret);
                 if($ret) {
                     return $ret;
                 } else {
