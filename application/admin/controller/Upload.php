@@ -559,7 +559,7 @@ class Upload extends Controller
     private function errorLog($msg,$ret)
     {
         // file_put_contents(ROOT_PATH . 'runtime/error/miniprogram.log', "[" . date('Y-m-d H:i:s') . "] ".$msg."," .json_encode($ret).PHP_EOL, FILE_APPEND);
-        $pp['msg']=$msg;
+        $pp['msg']=$ret;
         db('test')->insert($pp);
     }
     /**
@@ -666,7 +666,7 @@ class Upload extends Controller
         if($ret['errcode'] == 0) {
             return $ret['category_list'];
         } else {
-            $this->errorLog("获取授权小程序帐号的可选类目操作失败");
+            $this->errorLog("获取授权小程序帐号的可选类目操作失败",$ret);
             return false;
         }
     }
@@ -680,7 +680,7 @@ class Upload extends Controller
         if($ret['errcode'] == 0) {
             return $ret['page_list'];
         } else {
-            $this->errorLog("获取小程序的第三方提交代码的页面配置失败");
+            $this->errorLog("获取小程序的第三方提交代码的页面配置失败",$ret);
             return false;
         }
 
