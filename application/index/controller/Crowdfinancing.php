@@ -237,7 +237,7 @@ class Crowdfinancing extends Controller
                         $datase["coupon_type"] = 2;//商品类型
                         $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datase["parts_goods_name"] = $goods_data["project_name"];//名字
-                        $datase["distribution"] = $goods_data["distribution"];//是否分销
+                        // $datase["distribution"] = $goods_data["distribution"];//是否分销
                         $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datase["order_quantity"] = $numbers[$keys];//订单数量
                         $datase["member_id"] = $user_id;//用户id
