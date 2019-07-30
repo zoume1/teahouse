@@ -659,7 +659,7 @@ class Upload extends Controller
     /*
      * 获取授权小程序帐号的可选类目
      * */
-    private function getCategory()
+    private function getCategory($authorizer_access_token)
     {
         $url = "https://api.weixin.qq.com/wxa/get_category?access_token=".$authorizer_access_token;
         $ret = json_decode($this->https_get($url),true);
@@ -673,7 +673,7 @@ class Upload extends Controller
     /*
      * 获取小程序的第三方提交代码的页面配置
      * */
-    private function getPage()
+    private function getPage($authorizer_access_token)
     {
         $url = "https://api.weixin.qq.com/wxa/get_page?access_token=".$authorizer_access_token;
         $ret = json_decode($this->https_get($url),true);
@@ -682,7 +682,6 @@ class Upload extends Controller
         } else {
             $this->errorLog("获取小程序的第三方提交代码的页面配置失败");
             return false;
-
         }
 
     }
