@@ -216,28 +216,49 @@
         })
         // 一键上传店铺代码
         $('.upload').click(function(){
-            $('.mask').show();
-            // 需要判断有没有装修
-            if(true){
-                // 装修了
-                $('.check-qrcode').show();
-            }else{
-                // 没有装修
-                $('.renovation').show();
-            }
+            // $('.mask').show();
+            $.ajax({
+                url:"send_message",
+                type:"post",
+                success : function(data) {
+                    var data = JSON.parse(data);
+                    if(data.status=='1'){
+                        alert("");
+                    }else{
+                        alert('');
+                    }
+                }
+            })
         })
 
         // 获取体验二维码
         $('.get-code').click(function(){
-            $('.mask').show();
-            // 判断是否上传了代码
-            if(true){
-                // 上传了代码
-                $('.final-vers').show();
-            }else{
-                // 没有上传代码
-                $('.no-upload-code').show();
-            }
+            $.ajax({
+                url:'get_qrcode',
+                type:"post",
+                data: {
+								"wx": wxhao,
+							},
+                success : function(data){
+                    var data = JSON.parse(data);
+                    if(data.status=='1'){
+                        alert("设置体验号成功");
+                    }else{
+                        alert(data.info);
+
+                    }
+
+                }
+            })
+            // $('.mask').show();
+            // // 判断是否上传了代码
+            // if(true){
+            //     // 上传了代码
+            //     $('.final-vers').show();
+            // }else{
+            //     // 没有上传代码
+            //     $('.no-upload-code').show();
+            // }
         })
 
         // 发布正式版小程序
@@ -266,9 +287,16 @@
                 data: {
 								"wx": wxhao,
 							},
-                            success : function(data){
+                success : function(data){
+                    var data = JSON.parse(data);
+                    if(data.status=='1'){
+                        alert("设置体验号成功");
+                    }else{
+                        alert(data.info);
 
-                            }
+                    }
+
+                }
             })
         })
 

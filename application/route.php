@@ -925,6 +925,8 @@ Route::group("admin",[
     "auth_index"=>"admin/Upload/auth_index",                             //一键生成--开始授权
     "auth_detail"=>"admin/Upload/auth_detail",                             //一键生成--授权获取的详情
     "set_tiyan"=>"admin/Upload/set_tiyan",                             //一键生成--授权获取的详情
+    "send_message"=>"admin/Upload/send_message",                             //一键生成--短信提醒
+    "get_qrcode"=>"admin/Upload/get_qrcode",                             //一键生成--获取体验码
     
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成

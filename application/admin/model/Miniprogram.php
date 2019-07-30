@@ -287,19 +287,12 @@ class Miniprogram extends Model
     }
 
     /*
-
      * 为授权的小程序帐号上传小程序代码
-
      * @params int $template_id : 模板ID
-
      * @params json $ext_json : 小程序配置文件，json格式
-
      * @params string $user_version : 代码版本号
-
      * @params string $user_desc : 代码描述
-
      * */
-
     public function uploadCode($template_id = 1, $user_version = 'v1.0.0', $user_desc = "魔盒CMS小程序模板库")
 
     {
@@ -330,31 +323,18 @@ class Miniprogram extends Model
      * @params string $path :   指定体验版二维码跳转到某个具体页面
      * */
     public function getExpVersion($path = '')
-
     {
-
         if($path){
-
             $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$this->authorizer_access_token."&path=".urlencode($path);
-
         } else {
-
             $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$this->authorizer_access_token;
-
         }
-
-        $ret = json_decode(https_get($url));
-
-        if($ret->errcode) {
-
+        $ret = json_decode($this->https_get($url));
+        if($ret['errcode']) {
             $this->errorLog("获取体验小程序的体验二维码操作失败,appid:".$this->authorizer_appid,$ret);
-
             return false;
-
         } else {
-
             return $url;
-
         }
 
     }
