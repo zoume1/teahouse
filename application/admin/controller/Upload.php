@@ -644,6 +644,7 @@ class Upload extends Controller
                 }]
             }';
         $ret = json_decode($this->https_post($url,$data),true);
+        halt($ret);
         if($ret['errcode'] == 0) {
             // Db::name('miniprogram_audit')->insert([
             //     'appid'=>$this->authorizer_appid,
@@ -652,7 +653,7 @@ class Upload extends Controller
             // ]);
             return ajax_success('发布成功');
         } else {
-            $this->errorLog("小程序提交审核操作失败，appid:",$ret);
+            $this->errorLog("小程序提交审核操作失败",$ret);
             return ajax_error('发布失败');
         }
     }
