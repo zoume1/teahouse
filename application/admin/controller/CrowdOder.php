@@ -58,7 +58,9 @@ class CrowdOder extends Controller{
                 "express_name"=>$express_name,
                 "express_name_ch"=>$express_name2,
             ];
+            $order_number = Db::name("crowd_order")->where("id",$order_id)->value('parts_order_number');
             $bool = Db::name("crowd_order")->where("id",$order_id)->update($data);
+            $boole = Db::name("house_order")->where("parts_order_number",$order_number)->update($data);
             if($bool){
                 return ajax_success("发货成功",["status"=>1]);
             }else{
