@@ -90,7 +90,7 @@ class StoreHouse extends Controller{
                 $where = "update tb_store_house set label = 0 where store_id = $store_id";
                 $rest = Db::query($where);
             }
-            halt( $data);
+     
             $bool = db("store_house")->where('id', $request->only(["id"])["id"])->update($data);
 
             if($bool){
