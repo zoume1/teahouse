@@ -393,7 +393,7 @@ class WxTest extends Controller
                 $data = '{
                     "path":"/pages/logs/logs" 
                 }';
-                $ret = json_decode($this->https_post($url2),true);
+                $ret = json_decode($this->https_post($url2,$data),true);
                 halt($ret);
                 if($ret['access_token']) {
                     return $ret['access_token'];
