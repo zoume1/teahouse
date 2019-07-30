@@ -839,27 +839,27 @@ Route::group("admin",[
     "test_select_url"=>"admin/Test/select_url",//轮播图功能库（数据来源）
     "test_select_source"=>"admin/Test/select_source",//公告来源栏目（数据来源）
 
-    "added_service_index"=>"admin/General/added_service_index",      //增值服务(增值商品显示)
-    "added_service_list"=>"admin/General/added_service_list",        //增值服务(增值商品列表)
-    "added_service_show"=>"admin/General/added_service_show",        //增值服务(增值商品详情)
-    "added_service_look"=>"admin/General/added_service_look",        //增值服务(增值商品再看看)
-    "added_service_search"=>"admin/General/added_service_search",    //增值服务(增值商品分类搜索)
-    "order_package_index"=>"admin/General/order_package_index",      //订单套餐
-    "order_package_show"=>"admin/General/order_package_show",        //订单套餐(显示)
-    "order_package_buy"=>"admin/General/order_package_buy",          //订单套餐购买页面（ajax订单信息返回）
-    "order_package_condition"=>"admin/General/order_package_condition",          //下套餐之前需要判断的条件
-    "order_package_do_by"=>"admin/General/order_package_do_by",          //订单套餐购买操作
-    "order_code_pay"=>"admin/General/order_code_pay",                    //套餐订购微信二维码扫码支付
-    "order_code_pay2"=>"admin/General/order_code_pay2",                    //资金管理在线充值-微信
-    "check_code_apy"=>"admin/General/check_code_apy",                    //轮询套餐订购微信二维码扫码支付是否成功
-    "order_code_alipay"=>"admin/General/order_code_alipay",                    //套餐订购支付宝二维码扫码支付
-    "order_code_alipay2"=>"admin/General/order_code_alipay2",                    //后台充值支付宝二维码扫码支付
+    "added_service_index"=>"admin/General/added_service_index",         //增值服务(增值商品显示)
+    "added_service_list"=>"admin/General/added_service_list",           //增值服务(增值商品列表)
+    "added_service_show"=>"admin/General/added_service_show",           //增值服务(增值商品详情)
+    "added_service_look"=>"admin/General/added_service_look",           //增值服务(增值商品再看看)
+    "added_service_search"=>"admin/General/added_service_search",       //增值服务(增值商品分类搜索)
+    "order_package_index"=>"admin/General/order_package_index",         //订单套餐
+    "order_package_show"=>"admin/General/order_package_show",           //订单套餐(显示)
+    "order_package_buy"=>"admin/General/order_package_buy",             //订单套餐购买页面（ajax订单信息返回）
+    "order_package_condition"=>"admin/General/order_package_condition", //下套餐之前需要判断的条件
+    "order_package_do_by"=>"admin/General/order_package_do_by",         //订单套餐购买操作
+    "order_code_pay"=>"admin/General/order_code_pay",                   //套餐订购微信二维码扫码支付
+    "order_code_pay2"=>"admin/General/order_code_pay2",                 //资金管理在线充值-微信
+    "check_code_apy"=>"admin/General/check_code_apy",                   //轮询套餐订购微信二维码扫码支付是否成功
+    "order_code_alipay"=>"admin/General/order_code_alipay",             //套餐订购支付宝二维码扫码支付
+    "order_code_alipay2"=>"admin/General/order_code_alipay2",           //后台充值支付宝二维码扫码支付
     "order_package_remittance"=>"admin/General/order_package_remittance",      //订单套餐支付汇款
-    "order_package_balance"=>"admin/General/order_package_balance",          //订单套餐余额支付
+    "order_package_balance"=>"admin/General/order_package_balance",  //订单套餐余额支付
     "order_package_del"=>"admin/General/order_package_del",          //套餐订单删除
     "is_exist_app"=>"admin/General/is_exist_app",                    //判断小程序是否存在
     "getShareCode"=>"admin/General/getShareCode",                    //判断分享码是否正确
-    "change_edition"=>"admin/General/change_edition",                 //切换店铺版本号
+    "change_edition"=>"admin/General/change_edition",                //切换店铺版本号
 
     "order_package_purchase"=>"admin/General/order_package_purchase",//套餐订购页面(未写)
     "capital_management"=>"admin/General/capital_management",//资金管理资金明细
@@ -986,7 +986,15 @@ Route::group("admin",[
     "analyse_optimize_update"=>"admin/Analyse/analyse_optimize_update", //SEO优化编辑
 
     /*众筹订单*/
-    "crowd_order_index" => "admin/CrowdOder/crowd_order_index", //众筹订单显示
+    "crowd_order_index" => "admin/CrowdOder/crowd_order_index",                         //众筹订单显示
+    "crowd_order_search"=>"admin/CrowdOder/crowd_crowd_order_search",                  //众筹订单搜索
+    "crowd_order_way_pay"=>"admin/CrowdOder/crowd_order_way_pay",                     //众筹订单待付款
+    "crowd_order_wait_send"=>"admin/CrowdOder/crowd_order_wait_send",                //众筹订单待发货
+    "crowd_order_shipped"=>"admin/CrowdOder/crowd_order_shipped",                   //众筹订单已发货
+    "crowd_order_completed"=>"admin/CrowdOder/crowd_order_completed",              //众筹订单已完成
+    "crowd_order_closed"=>"admin/CrowdOder/crowd_order_closed",                   //众筹订单已关闭
+    "crowd_order_confirm_shipment"=>"admin/CrowdOder/crowd_order_confirm_shipment", //众筹订单卖家确认发货
+    "crowd_order_information_return"=>"admin/CrowdOder/crowd_order_information_return", //众筹订单基本信息
 
     /*TODO:*/
 

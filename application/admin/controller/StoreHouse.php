@@ -90,6 +90,7 @@ class StoreHouse extends Controller{
                 $where = "update tb_store_house set label = 0 where store_id = $store_id";
                 $rest = Db::query($where);
             }
+            halt( $data);
             $bool = db("store_house")->where('id', $request->only(["id"])["id"])->update($data);
 
             if($bool){
@@ -130,10 +131,10 @@ class StoreHouse extends Controller{
      * 郭杨
      */
     public function store_house_unit(){
-        $unit = db("special")->distinct(true)->field("unit")->select();
+        $unit = db("express")->where("store_id","EQ",79)->distinct(true)->field("name")->select();
         if(!empty($unit)){
-            $list = unit_list($unit);
-            return ajax_success('传输成功', $list);
+            $liste = unit_list($unit);
+            return ajax_success('传输成功', $liste);
         } else {
             return ajax_error('数据为空');
         }      

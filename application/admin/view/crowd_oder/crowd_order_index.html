@@ -261,8 +261,8 @@
 	}
 
 	.all0 {
-		background: #F4FBFF;
-		color: #999;
+		background: rgb(246, 244, 255);
+		color: rgba(153, 153, 153, 0.541);
 	}
 
 	.all1 {
@@ -531,12 +531,12 @@
 			</form>
 		</blockquote>
 		<div class="seach_button_all">
-			<a href="{:url('admin/Order/order_index')}" class="seach_button all0">全部</a>
-			<a href="{:url('admin/Order/order_way_pay')}" class="seach_button all1">待付款</a>
-			<a href="{:url('admin/Order/order_wait_send')}" class="seach_button all2">待发货</a>
-			<a href="{:url('admin/Order/order_shipped')}" class="seach_button all3">已发货</a>
-			<a href="{:url('admin/Order/order_completed')}" class="seach_button all4">已完成</a>
-			<a href="{:url('admin/Order/order_closed')}" class="seach_button all5">已关闭</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_index')}" class="seach_button all0">全部</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_way_pay')}" class="seach_button all1">待付款</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_wait_send')}" class="seach_button all2">待发货</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_shipped')}" class="seach_button all3">已发货</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_completed')}" class="seach_button all4">已完成</a>
+			<a href="{:url('admin/CrowdOder/crowd_order_closed')}" class="seach_button all5">已关闭</a>
 		</div>
 		<div class="layui-form news_list">
 			<table class="layui-table">
@@ -782,7 +782,7 @@
 			var express_name = 'EMS';
 			$.ajax({
 				type: "POST",
-				url: "{:url('admin/Order/order_information_return')}",
+				url: "{:url('admin/CrowdOrder/crowd_order_information_return')}",
 				data: {
 					"order_id": data_id,
 				},
@@ -1005,7 +1005,7 @@
 				if (id == '2' || id == '4') {     //待发货----已发货
 					$.ajax({
 						type: "POST",
-						url: "{:url('admin/Order/order_confirm_shipment')}",
+						url: "{:url('admin/CrowdOder/crowd_order_confirm_shipment')}",
 						data: {
 							"order_id": value,
 							"courier_number": danhao,
@@ -1026,7 +1026,7 @@
 				} else {
 					$.ajax({
 						type: "POST",
-						url: "{:url('admin/Order/order_confirm_shipment')}",
+						url: "{:url('admin/CrowdOder/order_confirm_shipment')}",
 						data: {
 							"order_id": value,
 							"courier_number": danhao,
@@ -1059,7 +1059,7 @@
 			var data_id = $(this).data("id");
 			$.ajax({
 				type: "POST",
-				url: "{:url('admin/Order/order_information_return')}",
+				url: "{:url('admin/CrowdOder/crowd_order_information_return')}",
 				data: {
 					"order_id": data_id,
 				},
