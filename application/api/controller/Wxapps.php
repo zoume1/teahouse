@@ -701,7 +701,7 @@ class  Wxapps extends  Controller{
                                 $list = db("goods")
                                     ->where(['pid'=>$sourceid,'status'=>1,'store_id'=>$uniacid,'limit_goods'=>'0'])
                                     ->limit(0,$count)
-                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money,goods_repertory")
+                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money,goods_repertory,goods_sign")
                                     ->select();
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
@@ -713,13 +713,25 @@ class  Wxapps extends  Controller{
                                     ->where("member_grade_id", $member_grade_id)
                                     ->value("member_grade_img");
                                 foreach ($list as $kks => $vvs) {
+                                    //商品标签
+                                    $ar=[];
+                                    if($vvs['goods_sign']){
+                                        $sign=json_decode($vvs['goods_sign'],true);
+                                        foreach($sign as $k=>$v){
+                                            $num=count($v);
+                                            if($num>1){
+                                                $ar[$k]=$v['text'];
+                                            }
+                                        }
+                                        $list[$kks]["goods_sign2"] = $ar;
+
+                                    }
                                     if($vvs['goods_repertory']=='0'){
                                         //商品下架
                                         $pp['label']=0;
                                         $re=db('goods')->where('id',$vvs['id'])->update($pp);
                                         unset($list[$kks]);
                                         continue;
-
                                     }
                                     if (!empty($list[$kks]["scope"])) {
                                         $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
