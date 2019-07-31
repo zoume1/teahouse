@@ -233,6 +233,8 @@ class WxTest extends Controller
             $timeStamp = input('timestamp');
             $nonce = input('nonce');
             $encryptMsg = file_get_contents ( 'php://input' );
+            $pp['msg']=$appid.$msg_sign.$timeStamp.$nonce.$encryptMsg;
+            db('test')->insert($pp);
             trace($encryptMsg,'php://input');
             //解密
             $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
