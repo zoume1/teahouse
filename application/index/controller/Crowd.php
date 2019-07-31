@@ -310,6 +310,8 @@ class Crowd extends Controller
                             ->where('id',$rest_id)
                             ->where('member_id',$member_id)
                             ->find();
+                $order_datas['order_type']=0; 
+                $order_datas['coupon_type']=2;  
                 $order_datas['balance']=$money;
                 return ajax_success('下单成功',$order_datas);
             } else {
