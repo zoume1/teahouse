@@ -712,20 +712,20 @@ class  Wxapps extends  Controller{
                                 $member_grade_img = db("member_grade")
                                     ->where("member_grade_id", $member_grade_id)
                                     ->value("member_grade_img");
-                                foreach ($list as $kks => $vvs) {
-                                    $sign=json_decode($vvs['goods_sign'],true);
-                                    if($sign){
-                                        foreach($sign as $k=>$v){
-                                            $num=count($v);
-                                            if($num>1){
-                                                $ar[$k]=$v['text'];
-                                           }
-                                        }
-                                    }else{
-                                        $ar=[];
-                                    }
-                                    $list[$kks]["goods_sign"] = $ar;
-                                }
+                                // foreach ($list as $kks => $vvs) {
+                                //     $sign=json_decode($vvs['goods_sign'],true);
+                                //     if($sign){
+                                //         foreach($sign as $k=>$v){
+                                //             $num=count($v);
+                                //             if($num>1){
+                                //                 $ar[$k]=$v['text'];
+                                //            }
+                                //         }
+                                //     }else{
+                                //         $ar=[];
+                                //     }
+                                //     $list[$kks]["goods_sign"] = $ar;
+                                // }
                                 foreach ($list as $kks => $vvs) {
                                         
                                     if($vvs['goods_repertory']=='0'){
