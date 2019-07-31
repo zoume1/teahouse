@@ -84,6 +84,8 @@ Route::group("",[
      "set_meal_notify_alipay2"=>"index/AdminWx/set_meal_notify_alipay2",//后台资金管理微信充值支付宝扫码支付回调
      "series_notify"=>"index/order/series_notify",//茶仓订单续费支付回调
      "continuAtion_notify"=>"index/order/continuAtion_notify",//茶仓订单出仓支付回调
+     "analyse_meal_notify"=>"index/AdminWx/analyse_meal_notify",//增值服务订购订单微信扫码支付回调
+     "analyse_meal_notify_alipay"=>"index/AdminWx/analyse_meal_notify_alipay",//增值服务订单支付宝扫码支付回调
 
 
     /*TODO:end*/
@@ -398,6 +400,8 @@ Route::group("",[
     "receive_ticket2"=>"index/WxTest/receive_ticket2",        //微信小程序接受ticket
     "token"=>"index/WxTest/token",                          //微信小程序--微信公众号获取token
     "callback"=>"index/WxTest/callback",                      //微信小程序--授权成功后，获取回调信息
+
+
     
 
 
@@ -995,7 +999,7 @@ Route::group("admin",[
 
     /*众筹订单*/
     "crowd_order_index" => "admin/CrowdOder/crowd_order_index",                         //众筹订单显示
-    "crowd_order_search"=>"admin/CrowdOder/crowd_order_search",                  //众筹订单搜索
+    "crowd_order_search"=>"admin/CrowdOder/crowd_order_search",                        //众筹订单搜索
     "crowd_order_way_pay"=>"admin/CrowdOder/crowd_order_way_pay",                     //众筹订单待付款
     "crowd_order_wait_send"=>"admin/CrowdOder/crowd_order_wait_send",                //众筹订单待发货
     "crowd_order_shipped"=>"admin/CrowdOder/crowd_order_shipped",                   //众筹订单已发货
@@ -1006,6 +1010,12 @@ Route::group("admin",[
     "changeCrowdOderPrice"=>"admin/CrowdOder/changeCrowdOderPrice",//订单改价
 
     /*TODO:*/
+
+    /* 增值服务下单 */
+    "adder_place"=>"admin/AddeOrder/adder_place",                  //增值订单数据返回
+    "analyse_code_pay"=>"admin/AddeOrder/analyse_code_pay",        //增值商品订购微信二维码扫码支付
+    "analyse_code_alipay"=>"admin/AddeOrder/analyse_code_alipay",  //增值商品订购支付宝二维码扫码支付
+    "analyse_small_pay"=>"admin/AddeOrder/analyse_small_pay",      //增值商品店铺余额支付
 
 
 ]);

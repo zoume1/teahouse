@@ -61,16 +61,24 @@ class  Order extends  Controller{
     public function  order_confirm_shipment(Request $request){
         if($request->isPost()){
             $order_id =$request->only(["order_id"])["order_id"];
-            $status =$request->only(["status"])["status"];
-            $courier_number =$request->only(["courier_number"])["courier_number"];
-            $express_name =$request->only(["express_name"])["express_name"];
-            $express_name2 =$request->only(["express_name_ch"])["express_name_ch"];
-            $data =[
-                "status"=>$status,
-                "courier_number"=>$courier_number,
-                "express_name"=>$express_name,
-                "express_name_ch"=>$express_name2,
-            ];
+            $order_type =$request->only(["order_type"])["order_type"];
+
+            if($order_type != 2){
+                $status =$request->only(["status"])["status"];
+                $courier_number =$request->only(["courier_number"])["courier_number"];
+                $express_name =$request->only(["express_name"])["express_name"];
+                $express_name2 =$request->only(["express_name_ch"])["express_name_ch"];
+                $data =[
+                    "status"=>$status,
+                    "courier_number"=>$courier_number,
+                    "express_name"=>$express_name,
+                    "express_name_ch"=>$express_name2,
+                ];
+            } else {
+                $data =[
+                    "status"=>$status,
+                ];
+            }
             $bool = Db::name("order")->where("id",$order_id)->update($data);
             if($bool){
                 return ajax_success("发货成功",["status"=>1]);
@@ -91,11 +99,11 @@ class  Order extends  Controller{
         if($request->isPost()){
             $order_id =$request->only(["order_id"])["order_id"];
             if(!empty($order_id)){
-                $data =Db::name("order")->where("parts_order_number",$order_id)->find();
+                $data =Db::name("order")->where("id",$order_id)->find();
                 if(!empty($data)){
                     $data['store_name'] = db("store")->where("id",$data['store_id'])->value('store_name');
-                    $data['parts_goods_name'] = Db::name("order")->where("parts_order_number",$order_id)->field('parts_goods_name')->select();
-                    $data['order_quantity'] = Db::name("order")->where("parts_order_number",$order_id)->field('order_quantity')->select();
+                    $data['parts_goods_name'] = Db::name("order")->where("id",$order_id)->field('parts_goods_name')->select();
+                    $data['order_quantity'] = Db::name("order")->where("id",$order_id)->field('order_quantity')->select();
                     $data["goods_franking"] = Db::name("goods")->where("id",$data["goods_id"])->value("goods_franking");
                     return ajax_success("数据返回成功",$data);
                 }else{

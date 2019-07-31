@@ -293,6 +293,37 @@ class StoreHouse extends Controller{
         }
     }
 
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:这是处理回复
+     **************************************
+     * @param Request $request
+     */
+    public function stores_notice_index(Request $request){
+        if($request->isPost()){
+            $order_id = $request->only("order_id")["order_id"];
+            $datas = Db::name("note_notification")
+                ->where("order_id",$order_id)
+                ->order("create_time","desc")
+                ->select();
+            $order_type =Db::name("order")->where("id",$order_id)->value("order_type");
+            $courier_number =Db::name("order")->where("id",$order_id)->value("courier_number");
+            $express_name =Db::name("order")->where("id",$order_id)->value("express_name");
+            $data =[
+                "datas"=>$datas,
+                "order_type"=>$order_type,
+                "express_name"=>$express_name,
+                "courier_number"=>$courier_number
+            ];
+            if(!empty($data)){
+                return ajax_success("数据返回成功",$data);
+            }else{
+                return ajax_error("没有数据",["status"=>0]);
+            }
+        }
+    }
+
 
     
  }
