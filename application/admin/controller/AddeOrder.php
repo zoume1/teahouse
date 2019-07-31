@@ -137,7 +137,8 @@ class  AddeOrder extends  Controller{
                     'order_real_pay' => $order_real_pay,
                     'order_amount' => $order_amount,
                     'order_quantity' => $order_quantity,
-                    'coupon_deductible' => $coupon_deductible
+                    'coupon_deductible' => $coupon_deductible,
+                    'freight'=>0
                 ]
             }
 
@@ -251,32 +252,30 @@ class  AddeOrder extends  Controller{
      */
      public function analyse_small_pay(Request $request){
         if($request->isPost()){
-            //支付宝二维码
-            $money =$request->only(["money"])["money"];//支付钱数
-            $order_number =$request->only(["order_number"])["order_number"];//订单编号
-            $goods_name =$request->only(["goods_name"])["goods_name"];//商品名称
-            header("Content-type:text/html;charset=utf-8");
-            include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
-            $obj_alipay = new \alipay();
-            $arr_data = array(
-                "return_url" => trim(config("domain.url")."admin"),
-                "notify_url" => trim(config("domain.url")."/set_meal_notify_alipay.html"),
-                "service" => "create_direct_pay_by_user", //服务参数，这个是用来区别这个接口是用的什么接口，所以绝对不能修改
-                "payment_type" => 1, //支付类型，没什么可说的直接写成1，无需改动。
-                "seller_email" => '717797081@qq.com', //卖家
-                "out_trade_no" => $order_number, //订单编号
-                "subject" => $goods_name, //商品订单的名称
-                "total_fee" => number_format($money, 2, '.', ''),
-            );
-            $bool = Db::name("set_meal_order")->where("order_number",'EQ',$order_number)->update(["pay_money"=>$money]);
-            $boole = Db::name("meal_orders")->where("order_number",'EQ',$order_number)->update(["pay_money"=>$money]);
-            $str_pay_html = $obj_alipay->make_form($arr_data, true);
-            if($str_pay_html){
-                return ajax_success("二维码成功",["url"=>$str_pay_html]);
-            }else{
-                return ajax_error("生成二维码失败");
+            $store_id = Session::get("store_id"); //店铺id
+            $password =$request->only(["password"])["password"];
+            $meal_order_id =$request->only(["id"])["id"];//订单的id
+            $store_pass = Db::name("store")
+                ->where("id",$store_id)
+                ->field("store_pay_pass,store_wallet")
+                ->find();
+            if(empty( $store_pass['store_pay_pass'])){
+                exit(json_encode(array("status" => 2, "info" => "没有设置支付密码，请前往设置")));
             }
+            if(md5($password) !==$store_pass["store_pay_pass"]){
+                exit(json_encode(array("status" => 3, "info" => "支付密码错误")));
+            }
+
+            if($store_pass["store_wallet"]<$order_data['amount_money']){
+                exit(json_encode(array("status" => 3, "info" => "账号余额不足")));
+            }
+
+            //逻辑处理
         }
     }
+
+
+
+
 
 }
