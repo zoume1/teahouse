@@ -958,7 +958,7 @@
 				if (id == '2' || id == '4') {     //待发货----已发货
 					$.ajax({
 						type: "POST",
-						url: "{:url('admin/Order/order_confirm_shipment')}",
+						url: "{:url('admin/StoreHouse/stores_order_confirm_shipment')}",
 						data: {
 							"order_id": value,
 							"courier_number": danhao,
@@ -979,7 +979,7 @@
 				} else {
 					$.ajax({
 						type: "POST",
-						url: "{:url('admin/Order/order_confirm_shipment')}",
+						url: "{:url('admin/StoreHouse/stores_order_confirm_shipment')}",
 						data: {
 							"order_id": value,
 							"courier_number": danhao,

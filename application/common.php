@@ -1261,6 +1261,19 @@ function show_house_order($status){
     }
 }
 
+function show_house_orderer($status){
+    if($status==0){
+        echo '<button type="button" class="state   close-btu" >已关闭</button>';
+    }else if($status==1){
+        echo '<button type="button" class="state color1" >待付款</button>';
+        //暂时显示到入仓状态
+    }else  if($status==2){
+        echo '<button type="button" class="state  enter-btu" >待发货</button>';
+    }else  if($status==3){
+        echo '<button type="button" class="state  close-btu" >已入仓</button>';
+    }
+}
+
 
 /**
  * google api 二维码生成【QRcode可以存储最多4296个字母数字类型的任意文本，具体可以查看二维码数据格式】

@@ -792,6 +792,7 @@ Route::group("admin",[
     "stores_divergence" =>"admin/StoreHouse/stores_divergence",         //入仓
     "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out", //出仓
     "stores_series_index" =>"admin/StoreHouse/stores_series_index",     //仓储续费
+    "stores_order_confirm_shipment" =>"admin/StoreHouse/stores_order_confirm_shipment",//订单出仓订单发货
 
     /*资产*/
     "property_day" =>"admin/Property/property_day",     //对账单日汇报
@@ -928,6 +929,7 @@ Route::group("admin",[
     "send_message"=>"admin/Upload/send_message",                             //一键生成--短信提醒
     "get_qrcode"=>"admin/Upload/get_qrcode",                             //一键生成--获取体验码
     "publish"=>"admin/Upload/publish",                               //一键生成--发布正式版
+    "relieve"=>"admin/Upload/relieve",                               //一键生成--接触授权绑定
     
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
