@@ -701,7 +701,7 @@ class  Wxapps extends  Controller{
                                 $list = db("goods")
                                     ->where(['pid'=>$sourceid,'status'=>1,'store_id'=>$uniacid,'limit_goods'=>'0'])
                                     ->limit(0,$count)
-                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money,goods_repertory")
+                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money,goods_repertory,goods_sign")
                                     ->select();
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
