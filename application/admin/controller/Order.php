@@ -62,9 +62,9 @@ class  Order extends  Controller{
         if($request->isPost()){
             $order_id =$request->only(["order_id"])["order_id"];
             $order_type =$request->only(["order_type"])["order_type"];
+            $status =$request->only(["status"])["status"];
 
             if($order_type != 2){
-                $status =$request->only(["status"])["status"];
                 $courier_number =$request->only(["courier_number"])["courier_number"];
                 $express_name =$request->only(["express_name"])["express_name"];
                 $express_name2 =$request->only(["express_name_ch"])["express_name_ch"];
@@ -79,7 +79,7 @@ class  Order extends  Controller{
                     "status"=>$status,
                 ];
             }
-            $bool = Db::name("order")->where("id",$order_id)->update($data);
+            $bool = Db::name("order")->where("parts_order_number",$order_id)->update($data);
             if($bool){
                 return ajax_success("发货成功",["status"=>1]);
             }else{
@@ -99,7 +99,7 @@ class  Order extends  Controller{
         if($request->isPost()){
             $order_id =$request->only(["order_id"])["order_id"];
             if(!empty($order_id)){
-                $data =Db::name("order")->where("id",$order_id)->find();
+                $data =Db::name("order")->where("parts_order_number",$order_id)->find();
                 if(!empty($data)){
                     $data['store_name'] = db("store")->where("id",$data['store_id'])->value('store_name');
                     $data['parts_goods_name'] = Db::name("order")->where("id",$order_id)->field('parts_goods_name')->select();

@@ -850,6 +850,7 @@
 					harvester_address = data.data.harvester_address;
 					harvester = data.data.harvester;
 					order_type = data.data.order_type;
+					order_type_status = data.data.status;
 					// $(".operation").find('.curier').value(express);
 					// $(".operation").find('.danhao').val(express_name);
 				},
@@ -972,7 +973,9 @@
 			dhtml4 += '<div style=" font-size: 18px;margin-left: 20px;align-items: center;">';
 			dhtml4 += '<div style="text-align: left;"><span></span>' + harvester + '</span><span style="margin-left: 20px;">' + harvest_phone_num + '</span></div>';
 			dhtml4 += '<div>' + harvester_address + '</div></div></div>';
-			dhtml4 += '<button type="button" class="submit_btns" data-id="">确认发货</button>';
+			if(order_type_status == 3) {
+				dhtml4 += '<button type="button" class="submit_btns" data-id="">确认发货</button>';
+			}
 			// var dhtml2="";
 			// dhtml2+='<div class="select_static">';
 			// dhtml2+='<span class="operation_title">选择操作</span>';
@@ -991,7 +994,7 @@
 			if (data_value == 2 || data_value == 3) {   //代发货
 				$('.chenge_money').hide();
 				$(".operation").data("id", data_value);
-				$(".operation").data("type", order_type);
+				$(".operation").data("order_type", order_type);
 				if (data_type == '到店自提') {
 					$(".operation").append(dhtml4);
 				} else {
@@ -1000,13 +1003,21 @@
 				}
 			} else if (data_value == 4 || data_value == 5 || data_value == 6 || data_value == 7) {
 				$('.chenge_money').hide();
-				$(".operation").append(dhtml2);
-				$(".operation").data("type", order_type);
+				if (data_type == '到店自提') {
+					$(".operation").append(dhtml4);
+				} else {
+					$(".operation").append(dhtml2);
+				}
+				$(".operation").data("order_type", order_type);
 				$(".operation").data("id", data_value);
 			} else if (data_value == '8' || data_value == 0) {    	  //已完成
 				$('.chenge_money').hide();
-				$(".operation").append(dhtml2);
-				$(".operation").data("type", order_type);
+				if (data_type == '到店自提') {
+					$(".operation").append(dhtml4);
+				} else {
+					$(".operation").append(dhtml2);
+				}
+				$(".operation").data("order_type", order_type);
 				$(".operation").data("id", data_value);
 			} else {
 				$('.chenge_money').show();
@@ -1062,6 +1073,7 @@
 			var id = $(this).parent(".operation").data("id");   //订单状态
 			var value = $(this).parent(".operation").data("value");   //订单的id
 			var order_type = $(this).parent(".operation").data("order_type");   //订单的类型
+			console.log(order_type)
 			//    快递选择
 			var curier = $(".curier option:selected").val();
 			var curier2 = $(".curier option:selected").text();
@@ -1076,6 +1088,7 @@
 			if (danhao != '' || order_type == 2) {  //判断单号
 				//根据id判断订单的类型
 				if (id == '2' || id == '4') {     //待发货----已发货
+				console.log(order_type)
 					$.ajax({
 						type: "POST",
 						url: "{:url('admin/Order/order_confirm_shipment')}",
