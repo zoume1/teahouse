@@ -391,8 +391,19 @@ class Upload extends Controller
      * 一键生成授权详情
      */
     public function auth_detail(){
+         //获取店铺id
+         $store_id=Session::get('store_id');
+         //判断是否已授权
+         $is_shou=db('miniprogram')->where('store_id',119)->find();
+         if($is_shou){
+             return view('auth_detail',['data'=>$is_shou]);
+         }else{
+             //授权开始
+             $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
+             $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
+             return view('auth_pre',['data'=>$url]);
+         }
  
-        return view('auth_detail');
     }
      /*
         * 扫码授权，注意此URL必须放置在页面当中用户点击进行跳转，不能通过程序跳转，否则将出现“请确认授权入口页所在域名，与授权后回调页所在域名相同....”错误
@@ -541,7 +552,7 @@ class Upload extends Controller
     * */
     private function update_authorizer_access_token($appid,$refresh_token,$thirdAccessToken)
     {
-        $url = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=' . $thirdAccessToken;
+        $url = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token='.$thirdAccessToken;
         $data = '{"component_appid":"' . $this->appid . '","authorizer_appid":"' . $appid . '","authorizer_refresh_token":"' . $refresh_token . '"}';
         $ret = json_decode($this->https_post($url, $data),true);
         if (isset($ret['authorizer_access_token'])) {
@@ -644,7 +655,6 @@ class Upload extends Controller
                 }]
             }';
         $ret = json_decode($this->https_post($url,$data),true);
-        halt($ret);
         if($ret['errcode'] == 0) {
             // Db::name('miniprogram_audit')->insert([
             //     'appid'=>$this->authorizer_appid,
@@ -655,6 +665,21 @@ class Upload extends Controller
         } else {
             $this->errorLog("小程序提交审核操作失败",$ret);
             return ajax_error('发布失败');
+        }
+    }
+    /**
+     * lilu
+     * 解除绑定
+     */
+    public function relieve()
+    {
+        //判断access_token是否过期，重新获取
+        $store_id=Session::get('store_id');
+        $re=db('miniprogram')->where('store_id',$store_id)->delete();
+        if($re) {
+            return ajax_success('解绑成功');
+        } else {
+            return ajax_error('解绑失败');
         }
     }
     /*

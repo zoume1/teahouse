@@ -701,7 +701,7 @@ class  Wxapps extends  Controller{
                                 $list = db("goods")
                                     ->where(['pid'=>$sourceid,'status'=>1,'store_id'=>$uniacid,'limit_goods'=>'0'])
                                     ->limit(0,$count)
-                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money,goods_repertory")
+                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money,goods_repertory,goods_sign")
                                     ->select();
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
@@ -712,7 +712,22 @@ class  Wxapps extends  Controller{
                                 $member_grade_img = db("member_grade")
                                     ->where("member_grade_id", $member_grade_id)
                                     ->value("member_grade_img");
+                                // foreach ($list as $kks => $vvs) {
+                                //     $sign=json_decode($vvs['goods_sign'],true);
+                                //     if($sign){
+                                //         foreach($sign as $k=>$v){
+                                //             $num=count($v);
+                                //             if($num>1){
+                                //                 $ar[$k]=$v['text'];
+                                //            }
+                                //         }
+                                //     }else{
+                                //         $ar=[];
+                                //     }
+                                //     $list[$kks]["goods_sign"] = $ar;
+                                // }
                                 foreach ($list as $kks => $vvs) {
+                                        
                                     if($vvs['goods_repertory']=='0'){
                                         //商品下架
                                         $pp['label']=0;

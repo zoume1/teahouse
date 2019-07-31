@@ -32,7 +32,7 @@
         .tip-pop .btns button.decorate{background-color: #169bd5; margin-left: 50px;}
         
         .main{width: 50%; margin: 50px auto 0;}
-        .main ul li{padding: 18px 0;}
+        .main ul li{padding: 15px 0;}
         .main ul li .qr-code{width: 100px; height: 100px; vertical-align: top;}
         .main li .wx-num{height: 25px;}
         .main li .set-btn{width: 100px; height: 30px; line-height: 30px; text-align: center; color: #fff; background-color: #169bd5; border: 0; border-radius: 3px;}
@@ -98,7 +98,8 @@
                 <li>
                     <span class="fl">小程序二维码</span>
                     <div class="pl150">
-                        <img src="{$data['head_img']}" class="qr-code">
+                        <!-- <img src="{$data['head_img']}" class="qr-code"> -->
+                        待获取
                         <a href="#" class="show-big">查看大图</a>
                     </div>
                 </li>
@@ -226,9 +227,9 @@
                 success : function(data) {
                     var data = JSON.parse(data);
                     if(data.status=='1'){
-                        alert("");
+                        alert("你的店铺已上传成功，1~2天审核成功");
                     }else{
-                        alert('');
+                        alert('上传失败');
                     }
                 }
             })
@@ -260,10 +261,9 @@
                 success : function(data){
                     var data = JSON.parse(data);
                     if(data.status=='0'){
-                        alert("获取体验码失败");
+                        alert("发布失败");
                     }else{
-                        $('.mask').show().append('<img src="'+data.data.url+'"><span class="close">×<span>');
-                        closeEven();
+                        alert("发布成功");
                     }
                 }
             })
@@ -280,7 +280,20 @@
 
         // 解除授权绑定
         $('.relieve').click(function(){
-            $('.mask').add('.unbind').show();
+            // $('.mask').add('.unbind').show();
+            $.ajax({
+                url:"relieve",
+                type:"post",
+                success : function(data){
+                    var data = JSON.parse(data);
+                    if(data.status=='1'){
+                        alert("解除授权成功");
+                        window.location.href="auth_pre"
+                    }else{
+                        alert("解除授权失败，请联系管理员");
+                    }
+                }
+            })
         })
         // 设置体验者
         $('.set-tiyaner').click(function(){
