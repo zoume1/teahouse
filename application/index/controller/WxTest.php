@@ -640,7 +640,20 @@ class WxTest extends Controller
         return $response;
         //return array($http_code, $response,$requestinfo);
     }
-
+//   //商品标签
+//   $ar=[];
+//   if($vvs['goods_sign']){
+//       $sign=json_decode($vvs['goods_sign'],true);
+//       if($sign){
+//           foreach($sign as $k=>$v){
+//               $num=count($v);
+//               if($num>1){
+//                   $ar[$k]=$v['text'];
+//               }
+//           }
+//       }
+//       $list[$kks]["goods_sign2"] = $ar;
+//   }
           
             
 
