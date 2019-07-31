@@ -713,20 +713,20 @@ class  Wxapps extends  Controller{
                                     ->where("member_grade_id", $member_grade_id)
                                     ->value("member_grade_img");
                                 foreach ($list as $kks => $vvs) {
-                                    // //   //商品标签
-                                          $ar=[];
-                                          if($vvs['goods_sign']){
-                                              $sign=json_decode($vvs['goods_sign'],true);
-                                              if($sign){
-                                                  foreach($sign as $k=>$v){
-                                                      $num=count($v);
-                                                      if($num>1){
-                                                          $ar[$k]=$v['text'];
-                                                      }
-                                                  }
-                                              }
-                                              $list[$kks]["goods_sign2"] = $ar;
-                                          }
+                                    // // //   //商品标签
+                                    //       $ar=[];
+                                    //       if($vvs['goods_sign']){
+                                    //           $sign=json_decode($vvs['goods_sign'],true);
+                                    //           if($sign){
+                                    //               foreach($sign as $k=>$v){
+                                    //                   $num=count($v);
+                                    //                   if($num>1){
+                                    //                       $ar[$k]=$v['text'];
+                                    //                   }
+                                    //               }
+                                    //           }
+                                    //           $list[$kks]["goods_sign2"] = $ar;
+                                    //       }
                                     if($vvs['goods_repertory']=='0'){
                                         //商品下架
                                         $pp['label']=0;
