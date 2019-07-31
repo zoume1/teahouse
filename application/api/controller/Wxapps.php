@@ -717,14 +717,15 @@ class  Wxapps extends  Controller{
                                     $ar=[];
                                     if($vvs['goods_sign']){
                                         $sign=json_decode($vvs['goods_sign'],true);
-                                        foreach($sign as $k=>$v){
-                                            $num=count($v);
-                                            if($num>1){
-                                                $ar[$k]=$v['text'];
+                                        if($sign){
+                                            foreach($sign as $k=>$v){
+                                                $num=count($v);
+                                                if($num>1){
+                                                    $ar[$k]=$v['text'];
+                                                }
                                             }
                                         }
                                         $list[$kks]["goods_sign2"] = $ar;
-
                                     }
                                     if($vvs['goods_repertory']=='0'){
                                         //商品下架
