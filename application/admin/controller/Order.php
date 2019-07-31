@@ -61,16 +61,24 @@ class  Order extends  Controller{
     public function  order_confirm_shipment(Request $request){
         if($request->isPost()){
             $order_id =$request->only(["order_id"])["order_id"];
-            $status =$request->only(["status"])["status"];
-            $courier_number =$request->only(["courier_number"])["courier_number"];
-            $express_name =$request->only(["express_name"])["express_name"];
-            $express_name2 =$request->only(["express_name_ch"])["express_name_ch"];
-            $data =[
-                "status"=>$status,
-                "courier_number"=>$courier_number,
-                "express_name"=>$express_name,
-                "express_name_ch"=>$express_name2,
-            ];
+            $order_type =$request->only(["order_type"])["order_type"];
+
+            if($order_type != 2){
+                $status =$request->only(["status"])["status"];
+                $courier_number =$request->only(["courier_number"])["courier_number"];
+                $express_name =$request->only(["express_name"])["express_name"];
+                $express_name2 =$request->only(["express_name_ch"])["express_name_ch"];
+                $data =[
+                    "status"=>$status,
+                    "courier_number"=>$courier_number,
+                    "express_name"=>$express_name,
+                    "express_name_ch"=>$express_name2,
+                ];
+            } else {
+                $data =[
+                    "status"=>$status,
+                ];
+            }
             $bool = Db::name("order")->where("id",$order_id)->update($data);
             if($bool){
                 return ajax_success("发货成功",["status"=>1]);
