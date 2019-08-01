@@ -64,7 +64,7 @@ class  AddeOrder extends  Controller{
                     $bool = Db::name("adder_order")->insert($analyse);
                     if($bool){
                         $restult = [
-                            'order_number'=>$parts_order_number, //订单号
+                            'order_number'=>$parts_order_number,       //订单号
                             'goods_id'=>$data['goods_id'],             //商品
                             'order_quinity'=>$data['order_quinity'],   //订单数量
                             'goods_money'=>$price,                     //商品单价
