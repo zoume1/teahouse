@@ -162,7 +162,7 @@
                             :key="i"
                             :class="{'addr-cur': addrSelectedIdx==i, 'addr-set': !v.default}">
                             <div class="inner"
-                                @click="selectAddr(i)">
+                                @click="selectAddr(i, v.id)">
                                 <div class="addr-hd">
                                     <span class="prov">{{v.prov}}</span>
                                     <span class="city">{{v.city}}</span>
@@ -571,6 +571,7 @@
                 orderInfo: [],  //订单信息
                 addrData: [], // 收货地址数组
                 addrSelectedIdx: 0, //被选中收货地址 索引
+                addrSelectedId: 0, //收货地址 id
                 accountMoney: 0, //用户账户余额,
                 remittanceInfo: {
                     name: null,
@@ -629,13 +630,30 @@
                 // 支付宝支付
                 getAlipay: function(){
                     clearInterval(this.onlinePayInterval);
-                    var param = {
-                        money: +(this.virtualTag ? this.payment : this.virtualPayment),
-                        order_number: this.orderInfo[0].order_number,
-                        goods_name: this.orderInfo[0].goods_name,
-                    }
+                    var param = {};
+                    var url = '';
                     var _this = this;
-                    this.myAjax('order_code_alipay', param, function(data){
+                    var orderInfo = this.orderInfo[0];
+                    if(!this.zzspBool){
+                        url = 'analyse_code_alipay';
+                        param = {
+                            order_real_pay: +(this.virtualTag ? this.payment : this.virtualPayment),
+                            order_amount: +(this.virtualTag ? this.payment : this.virtualPayment),
+                            order_quinity: orderInfo.goods_quantity,
+                            order_number: orderInfo.order_number,
+                            goods_name: orderInfo.goods_name,
+                            address_id: this.virtualTag ? 0 : this.addrSelectedId,
+                            goods_franking: orderInfo.goods_franking ? orderInfo.goods_franking : 0
+                        }
+                    }else{
+                        url = 'order_code_alipay';
+                        param = {
+                            money: +(this.virtualTag ? this.payment : this.virtualPayment),
+                            order_number: orderInfo.order_number,
+                            goods_name: orderInfo.goods_name,
+                        }
+                    }
+                    this.myAjax(url, param, function(data){
                         console.log(111, data)
                         // 付款二维码生成成功， 监听支付
                         if(data.body.status == 1){
@@ -665,26 +683,40 @@
                 // 获取微信支付二维码
                 getWxCode: function(){
                     var _this = this;
-                    if(!zzspBool){
-                        
-                    }else{
-                        var param = {
-                            money: +(this.virtualTag ? this.payment : this.virtualPayment),
-                            order_number: this.orderInfo[0].order_number,
-                            goods_name: this.orderInfo[0].goods_name,
+                    var url = '';
+                    var param = {};
+                    var orderInfo = this.orderInfo[0];
+                    // 增值商品
+                    if(!this.zzspBool){
+                        url = 'analyse_code_pay';
+                        param = {
+                            order_real_pay: +(this.virtualTag ? this.payment : this.virtualPayment),
+                            order_amount: +(this.virtualTag ? this.payment : this.virtualPayment),
+                            order_quinity: orderInfo.goods_quantity,
+                            order_number: orderInfo.order_number,
+                            goods_name: orderInfo.goods_name,
+                            address_id: this.virtualTag ? 0 : this.addrSelectedId,
+                            goods_franking: orderInfo.goods_franking ? orderInfo.goods_franking : 0
                         }
-                        this.myAjax('order_code_pay', param, function(data){
-                            console.log(data)
-                            // 付款二维码生成成功， 监听支付
-                            if(data.body.status == 1){
-                                _this.onlinePayImg = data.body.data.url;
-                                // _this.onlinePayImg = JSON.parse(data.data.data);
-                                _this.onlinePayInterval = setInterval(function(){
-                                    _this.monitorOnlinePay(param.order_number);
-                                }, 2000)
-                            }
-                        })
+                    }else{
+                        url = 'order_code_pay';
+                        param = {
+                            money: +(this.virtualTag ? this.payment : this.virtualPayment),
+                            order_number: orderInfo.order_number,
+                            goods_name: orderInfo.goods_name,
+                        }
                     }
+                    this.myAjax(url, param, function(data){
+                        console.log(data)
+                        // 付款二维码生成成功， 监听支付
+                        if(data.body.status == 1){
+                            _this.onlinePayImg = data.body.data.url;
+                            // _this.onlinePayImg = JSON.parse(data.data.data);
+                            _this.onlinePayInterval = setInterval(function(){
+                                _this.monitorOnlinePay(param.order_number);
+                            }, 2000)
+                        }
+                    })
                 },
                 // 选择汇款时间
                 getRemitTime: function(){
@@ -710,12 +742,12 @@
                     var _this = this;
                     _this.myAjax('general_address_return_info', '', function(data){
                         _this.addrData = data.body.data;
+                        _this.addrSelectedId = data.body.data[0].id;
                     });
                 },
                 // 获取套餐订单信息
                 getOrderInfo: function(){
                     var param = {id: this.getCookie('TCid')};
-                    this.delCookie('TCid')
                     var _this = this;
                     this.myAjax('order_package_buy', param, function(data){
                         console.log(data)
@@ -734,7 +766,6 @@
                 // 增值商品
                 getServiceInfo: function(){
                     this.$set(this.orderInfo, 0, JSON.parse(this.getCookie('zzsp_data')));
-                    this.delCookie('zzsp_data');
                     // 增值商品中的虚拟商品 不用显示收货地址
                     if(this.orderInfo[0].goods_type == 2){
                         this.zzVir = false;
@@ -783,8 +814,9 @@
                     });
                 },
                 // 选择收货地址
-                selectAddr: function(i){
+                selectAddr: function(i, id){
                     this.addrSelectedIdx = i;
+                    this.addrSelectedId = id;
                 },
                 // 减
                 minusEvent: function(item){
