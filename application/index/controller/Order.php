@@ -2346,8 +2346,6 @@ class  Order extends  Controller
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
 //          file_put_contents(EXTEND_PATH."data.txt",$val);
-           $pp['msg']=$val;
-           db('test')->insert($pp);
             $data['status'] = 1;
             $data['pay_time'] = time();
             $data['pay_type_name'] = "微信";
@@ -2402,9 +2400,11 @@ class  Order extends  Controller
                     Db::name("member")->where("member_id",$recharge_record_data["user_id"])
                         ->update(["member_recharge_money"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]]);
                     //插入积分记录
-                         Db::name("member")
-                        ->where("member_id",$recharge_record_data["user_id"])
-                        ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
+                    if($recharge_record_data['upgrade_id']<0){
+                        Db::name("member")
+                       ->where("member_id",$recharge_record_data["user_id"])
+                       ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
+                    }
                     $integral_res = Db::name("member")
                         ->where("member_id",$recharge_record_data["user_id"])
                         ->value("member_integral_wallet");//获取所有积分
