@@ -64,14 +64,16 @@ class  AddeOrder extends  Controller{
                     $bool = Db::name("adder_order")->insert($analyse);
                     if($bool){
                         $restult = [
-                            'order_number'=>$parts_order_number,       //订单号
-                            'goods_id'=>$data['goods_id'],             //商品
-                            'order_quinity'=>$data['order_quinity'],   //订单数量
-                            'goods_money'=>$price,                     //商品单价
-                            'store_name'=>$store_data['store_name'],   //店铺名
-                            'goods_name'=> $goods['goods_name'],       //商品名称
+                            'order_number'=>$parts_order_number,        //订单号
+                            'goods_id'=>$data['goods_id'],              //商品
+                            'goods_quantity'=>$data['order_quinity'],    //订单数量
+                            'amount_money'=>$price,                      //商品单价
+                            'store_name'=>$store_data['store_name'],    //店铺名
+                            'goods_name'=> $goods['goods_name'],        //商品名称
                             'goods_franking'=> $goods['goods_franking'],//商品统一邮费
-                            'goods_type'=> $goods['goods_type']       //商品类型 1=》物流商品  2=》虚拟商品
+                            'goods_type'=> $goods['goods_type'],        //商品类型 1=》物流商品  2=》虚拟商品
+                            'create_time'=> time(),                     //当前时间戳 
+                            'goods_show_image'=> $goods['goods_show_image'],      //商品图片 
                         ];
                         return ajax_success("发送成功",$restult);
                     } else {
