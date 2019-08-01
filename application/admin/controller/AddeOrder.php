@@ -62,14 +62,14 @@ class  AddeOrder extends  Controller{
                     $bool = Db::name("adder_order")->insert($analyse);
                     if($bool){
                         $restult = [
-                            'parts_order_number'=>$parts_order_number, //订单号
+                            'order_number'=>$parts_order_number, //订单号
                             'goods_id'=>$data['goods_id'],             //商品
                             'order_quinity'=>$data['order_quinity'],   //订单数量
                             'goods_money'=>$price,                     //商品单价
                             'store_name'=>$store_data['store_name'],   //店铺名
                             'goods_name'=> $goods['goods_name'],       //商品名称
-                            'goods_franking'=> $goods['goods_franking']//商品统一邮费
-                            'goods_type'=> $goods['goods_type'],       //商品类型 1=》物流商品  2=》虚拟商品
+                            'goods_franking'=> $goods['goods_franking'],//商品统一邮费
+                            'goods_type'=> $goods['goods_type']       //商品类型 1=》物流商品  2=》虚拟商品
                         ];
                         return ajax_success("发送成功",$restult);
                     } else {
@@ -139,12 +139,12 @@ class  AddeOrder extends  Controller{
                     'order_quantity' => $order_quantity,
                     'coupon_deductible' => $coupon_deductible,
                     'freight'=>0
-                ]
+                ];
             }
 
 
 
-            $booles = Db::name('adder_order')->where('parts_order_number',$parts_order_number)->update($datas);
+            $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
             if($booles){
                 $notify = new \NativePay();
                 $input = new \WxPayUnifiedOrder();//统一下单
@@ -186,35 +186,46 @@ class  AddeOrder extends  Controller{
             //支付宝二维码
             $store_id = Session::get("store_id"); //店铺id
             $money = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
-            $order_amount = $request->only(["order_amount"])["order_amount"];      //订单实际支付的金额(即优惠抵扣之后的价钱）
+            $order_amount = $request->only(["order_amount"])["order_amount"];      //订单总金额
             $order_number = $request->only(["order_number"])["order_number"];      //订单编号
             $goods_name = $request->only(["goods_name"])["goods_name"];            //商品名称
             $order_quantity = $request->only(["order_quantity"])["order_quantity"];//商品数量
             $address_id = $request->only(["address_id"])["address_id"];            //收货地址id
             $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
             $freight = $request->only(["goods_franking"])["goods_franking"];                    //邮费
-            $is_address_status = Db::name("pc_store_address")->where('id',$address_id)->find(); //收货地址详细
-            if (empty($is_address_status)) {
-                return ajax_error('收货地址错误',['status'=>0]);
+    
+            if($address_id > 0){
+                $is_address_status = Db::name("pc_store_address")->where('id',$address_id)->find(); //收货地址详细
+                if (empty($is_address_status)) {
+                    return ajax_error('收货地址错误',['status'=>0]);
+                } else {
+                    $harvest_address_city = str_replace(' ','',$is_address_status['address']);
+                    $harvest_address = $harvest_address_city.$is_address_status['street']; //收货人地址
+                    $harvester = $is_address_status['name'];
+                    $harvester_phone_num = $is_address_status['phone'];
+
+                    $datas = [
+                        'order_real_pay' => $order_real_pay,
+                        'order_amount' => $order_amount,
+                        'order_quantity' => $order_quantity,
+                        'harvester' => $harvester,
+                        'harvest_phone_num' => $harvester_phone_num,
+                        'harvester_address' => $harvester_address,
+                        'coupon_deductible' => $coupon_deductible,
+                        'freight'=>$freight
+                    ];
+                }
             } else {
-                $harvest_address_city = str_replace(' ','',$is_address_status['address']);
-                $harvest_address = $harvest_address_city.$is_address_status['street']; //收货人地址
-                $harvester = $is_address_status['name'];
-                $harvester_phone_num = $is_address_status['phone'];
+                $datas = [
+                    'order_real_pay' => $order_real_pay,
+                    'order_amount' => $order_amount,
+                    'order_quantity' => $order_quantity,
+                    'coupon_deductible' => $coupon_deductible,
+                    'freight'=>0
+                ];
             }
 
-            $datas = [
-                'order_real_pay' => $order_real_pay,
-                'order_amount' => $order_amount,
-                'order_quantity' => $order_quantity,
-                'harvester' => $harvester,
-                'harvest_phone_num' => $harvester_phone_num,
-                'harvester_address' => $harvester_address,
-                'coupon_deductible' => $coupon_deductible,
-                'freight'=>$freight
-            ];
-
-            $booles = Db::name('adder_order')->where('parts_order_number',$parts_order_number)->update($datas);
+            $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
             if($booles){
                 header("Content-type:text/html;charset=utf-8");
                 include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
@@ -254,7 +265,15 @@ class  AddeOrder extends  Controller{
         if($request->isPost()){
             $store_id = Session::get("store_id"); //店铺id
             $password =$request->only(["password"])["password"];
-            $meal_order_id =$request->only(["id"])["id"];//订单的id
+            $order_real_pay = $request->only(["order_real_pay"])["order_real_pay"];//订单实际支付的金额(即优惠抵扣之后的价钱）
+            $order_amount = $request->only(["order_amount"])["order_amount"];      //订单总金额
+            $order_number = $request->only(["order_number"])["order_number"];      //订单编号
+            $goods_name = $request->only(["goods_name"])["goods_name"];            //商品名称
+            $order_quantity = $request->only(["order_quantity"])["order_quantity"];//商品数量
+            $address_id = $request->only(["address_id"])["address_id"];            //收货地址id
+            $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
+            $freight = $request->only(["goods_franking"])["goods_franking"];                    //邮费
+            
             $store_pass = Db::name("store")
                 ->where("id",$store_id)
                 ->field("store_pay_pass,store_wallet")
@@ -263,14 +282,64 @@ class  AddeOrder extends  Controller{
                 exit(json_encode(array("status" => 2, "info" => "没有设置支付密码，请前往设置")));
             }
             if(md5($password) !==$store_pass["store_pay_pass"]){
-                exit(json_encode(array("status" => 3, "info" => "支付密码错误")));
+                exit(json_encode(array("status" => 3, "info" => "支付密码错误,请重试")));
             }
 
-            if($store_pass["store_wallet"]<$order_data['amount_money']){
-                exit(json_encode(array("status" => 3, "info" => "账号余额不足")));
+            if($store_pass["store_wallet"] < $order_real_pay){
+                exit(json_encode(array("status" => 4, "info" => "账号余额不足,请前往资金管理出充值")));
             }
 
-            //逻辑处理
+            if($address_id > 0){
+                $is_address_status = Db::name("pc_store_address")->where('id',$address_id)->find(); //收货地址详细
+                if (empty($is_address_status)) {
+                    return ajax_error('收货地址错误',['status'=>0]);
+                } else {
+                    $harvest_address_city = str_replace(' ','',$is_address_status['address']);
+                    $harvest_address = $harvest_address_city.$is_address_status['street']; //收货人地址
+                    $harvester = $is_address_status['name'];
+                    $harvester_phone_num = $is_address_status['phone'];
+
+                    $datas = [
+                        'order_real_pay' => $order_real_pay,
+                        'order_amount' => $order_amount,
+                        'order_quantity' => $order_quantity,
+                        'harvester' => $harvester,
+                        'harvest_phone_num' => $harvester_phone_num,
+                        'harvester_address' => $harvester_address,
+                        'coupon_deductible' => $coupon_deductible,
+                        'freight'=>$freight
+                    ];
+                }
+            } else {
+                $datas = [
+                    'order_real_pay' => $order_real_pay,
+                    'order_amount' => $order_amount,
+                    'order_quantity' => $order_quantity,
+                    'coupon_deductible' => $coupon_deductible,
+                    'freight'=>0
+                ];
+            }
+
+            $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
+
+            if($booles){
+                $back = [
+                    'pay_time' => time(),
+                    'status'=> 3,
+                    'si_pay_type'=>3,
+                ];
+                $rest = Db::name('adder_order')->where('parts_order_number',$order_number)->update($back);
+                $store_rest = Db::name("store")
+                ->where("id",$store_id)
+                ->setDec('store_wallet',$order_real_pay);
+                if($rest && $store_rest){
+                    return ajax_success("支付成功");
+                } else {
+                    return ajax_error("支付失败");
+                }
+            } else {
+                return ajax_error("支付失败");
+            }
         }
     }
 
