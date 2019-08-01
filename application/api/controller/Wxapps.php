@@ -727,7 +727,6 @@ class  Wxapps extends  Controller{
                                 //     $list[$kks]["goods_sign"] = $ar;
                                 // }
                                 foreach ($list as $kks => $vvs) {
-                                        
                                     if($vvs['goods_repertory']=='0'){
                                         //商品下架
                                         $pp['label']=0;
@@ -740,7 +739,9 @@ class  Wxapps extends  Controller{
                                         $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
                                     }
                                     if($list[$kks]["goods_member"] != 1){
-                                        $discount = 1;
+                                        $discount2 = 1;
+                                    }else{
+                                        $discount2=$discount;
                                     }
                                     $list[$kks]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vvs["id"]; //跳转详情链接
                                     // $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
@@ -752,7 +753,7 @@ class  Wxapps extends  Controller{
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
                                         $list[$kks]["member_grade_img"] =$member_grade_img;
                                         $list[$kks]['sale_num'] = db('special')->where('goods_id',$vvs['id'])->sum('volume');; //销量
-                                        $list[$kks]["price"] = $min[$kks] * $discount; //价钱
+                                        $list[$kks]["price"] = $min[$kks] * $discount2; //价钱
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
                                                 unset($list[$kks]);
@@ -761,7 +762,7 @@ class  Wxapps extends  Controller{
                                     } else {
                                         //单规格商品
                                         $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
-                                        $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount;
+                                        $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount2;
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
                                         $list[$kks]["member_grade_img"] =$member_grade_img;
                                         if (!empty($list[$kks]["scope"])) {
@@ -771,6 +772,8 @@ class  Wxapps extends  Controller{
                                         }
                                     }
                                 }
+                                halt($list);
+                                die;
                                 $list = array_values($list);
                                 $data['items'][$k]['data'] = $list;
                             }else {
