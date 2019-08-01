@@ -1123,6 +1123,8 @@ class  Order extends  Controller
                             }
                             //2.删除订单
                             $rr=db('order')->where('parts_order_number',$value['parts_order_number'])->delete();
+                            unset($data[$key]);
+                            continue;
                         }
                  }
 
@@ -1327,6 +1329,8 @@ class  Order extends  Controller
                     }
                     //2.删除订单
                     $rr=db('order')->where('parts_order_number',$value['parts_order_number'])->delete();
+                    unset($data[$key]);
+                    continue;
                 }
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
@@ -2402,9 +2406,11 @@ class  Order extends  Controller
                     Db::name("member")->where("member_id",$recharge_record_data["user_id"])
                         ->update(["member_recharge_money"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]]);
                     //插入积分记录
-                         Db::name("member")
-                        ->where("member_id",$recharge_record_data["user_id"])
-                        ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
+                    if($recharge_record_data['upgrade_id']<0){
+                        Db::name("member")
+                       ->where("member_id",$recharge_record_data["user_id"])
+                       ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
+                    }
                     $integral_res = Db::name("member")
                         ->where("member_id",$recharge_record_data["user_id"])
                         ->value("member_integral_wallet");//获取所有积分

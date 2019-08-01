@@ -74,6 +74,7 @@ class  Wallet extends  Controller{
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];
             $money =$request->only(["money"])["money"];
+            $type = isset($request->only(["type"])["type"])?$request->only(["type"])["type"]:null;
             $member_grade_id = isset($request->only(["member_grade_id"])["member_grade_id"])?$request->only(["member_grade_id"])["member_grade_id"]:null;
             if(!empty($money)){
                 $time=date("Y-m-d",time());
@@ -89,6 +90,10 @@ class  Wallet extends  Controller{
                 ];
                 if(!empty($member_grade_id)){
                     $data['upgrade_id'] = $member_grade_id;
+                }else{
+                    if(!empty($type)){
+                            $data['upgrade_id'] = $type;
+                    }
                 }
                 $recharge_id =Db::name("recharge_record")->insertGetId($data);
                 if(!empty($recharge_id)){
