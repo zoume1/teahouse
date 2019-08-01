@@ -2940,7 +2940,7 @@ class  Order extends  Controller
         //判断是否有记录
         if($input['coupon_type'] == 1 ){   
             $re =  db('order')->where('parts_order_number',$input['parts_order_number'])->delete();
-            $re = db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
+            $res = db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
         }elseif($input['coupon_type'] == 2){
             $re=db('crowd_order')->where('parts_order_number',$input['parts_order_number'])->delete();
             $res=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
