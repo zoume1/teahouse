@@ -31,7 +31,7 @@ class  AddeOrder extends  Controller{
                 $v = explode('-',$time);
                 $time_second = date("H:i:s",time());
                 $vs = explode(':',$time_second);
-                $parts_order_number ="ZZ".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号 
+                $parts_order_number ="ZZ".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($store_id+1001); //订单编号 
 
                 $goods = Db::name("analyse_goods")->where("id",$data['goods_id'])->find();
                 if(!empty($goods)){
