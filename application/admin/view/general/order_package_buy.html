@@ -154,7 +154,7 @@
         </div>
         <div class="main-bg">
             <div class="main">
-                <div class="addrs" v-if="virtualTag">
+                <div class="addrs" v-if="virtualTag && zzVir">
                     <h2 class="addrs-tit">选择收货地址</h2>
                     <div class="addr-list">
                         <div class="addr"
@@ -191,68 +191,71 @@
                         <span @click="toEditAddr">管理收货地址</span>
                     </div>
                 </div>
-                <div class="carts" 
-                    v-for="(item, index) in orderInfo"
-                    :key="index"
-                >
-                    <p class="shop-name">订购店铺：<span>{{item.store_name}}</span></p>
-                    <div class="cart-item">
-                        <div class="carts-head">
-                            <input type="checkbox" checked @change="selectGoods(item, index, $event)">
-                            <div class="time">{{timetrans(item.create_time)}}</div>
-                            <div class="order-number">订单号：{{item.order_number}}</div>
-                            <div class="unit-text">数量</div>
-                            <div class="money-text">金额</div>
-                            <div class="total-text">小计（元）</div>
-                        </div>
-                        <div class="goods-item">
-                            <div class="img-box">
-                                <img :src="item.images_url" width="50" height="50">
+                <template v-if="">
+                    <div class="carts" 
+                        v-for="(item, index) in orderInfo"
+                        :key="index"
+                    >
+                        <p class="shop-name">订购店铺：<span>{{item.store_name}}</span></p>
+                        <div class="cart-item">
+                            <div class="carts-head">
+                                <input type="checkbox" checked @change="selectGoods(item, index, $event)">
+                                <div class="time">{{timetrans(item.create_time)}}</div>
+                                <div class="order-number">订单号：{{item.order_number}}</div>
+                                <div class="unit-text">数量</div>
+                                <div class="money-text">金额</div>
+                                <div class="total-text">小计（元）</div>
                             </div>
-                            <div class="goods-name">{{item.goods_name}}</div>
-                            <div class="counter">
+                            <div class="goods-item">
+                                <div class="img-box">
+                                    <img :src="item.images_url" width="50" height="50">
+                                </div>
+                                <div class="goods-name">{{item.goods_name}}</div>
+                                <div class="counter">
 
-                                <template v-if="virtualTag">
-                                    <button class="minus" @click="minusEvent(item)">-</button>
-                                    <input type="num" 
-                                        v-model="item.goods_quantity"
-                                        @keyup="inputNumber(item, index)"
-                                        ref="num">
-                                    <button class="plus" @click="plusEvent(item)">+</button>
-                                </template>
-                                <template v-else>
-                                    {{item.year}}
-                                </template>
+                                    <template v-if="virtualTag">
+                                        <button class="minus" @click="minusEvent(item)">-</button>
+                                        <input type="num" 
+                                            v-model="item.goods_quantity"
+                                            @keyup="inputNumber(item, index)"
+                                            ref="num">
+                                        <button class="plus" @click="plusEvent(item)">+</button>
+                                    </template>
+                                    <template v-else>
+                                        {{item.year}}
+                                    </template>
 
-                                <span class="unit">{{item.unit}}</span>
-                                
-                            </div>
-                            <div class="unit-price">{{item.amount_money.toFixed(2)}}</div>
-                            <div class="total-price-box">
-                                <p class="total-price">{{(item.goods_quantity * item.amount_money).toFixed(2)}}</p>
-                                <button class="del-order" @click="delEvent(item.order_number)">删除订单</button>
+                                    <span class="unit">{{item.unit}}</span>
+                                    
+                                </div>
+                                <div class="unit-price">{{item.amount_money.toFixed(2)}}</div>
+                                <div class="total-price-box">
+                                    <p class="total-price">{{(item.goods_quantity * item.amount_money).toFixed(2)}}</p>
+                                    <!-- 增值商品 隐藏删除订单按钮 -->
+                                    <button v-if="zzspBool" class="del-order" @click="delEvent(item.order_number)">删除订单</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="agreement">
-                    <input type="checkbox" id="agreement" 
-                        :checked="protocolFlag"
-                        @change="agreement">
-                    <label for="agreement">我已阅读并同意</label>
-                    <i @click="showProtocolEvent">《智慧茶仓商家服务协议》</i>
-                </div>
-                <div class="invite-code">
-                    <input type="checkbox" id="invite-code"
-                        @change="useDiscount"
-                        :checked="inputCodeYet">
-                    <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
-                    <input type="text" :class="{'invite-code-input': true, 'bandCode': inputCodeYet}" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
-                        v-show="showInviteCode"
-                        v-model="inviteCode"
-                        :readonly="inputCodeYet"
-                    >
-                </div>
+                    <div class="agreement">
+                        <input type="checkbox" id="agreement" 
+                            :checked="protocolFlag"
+                            @change="agreement">
+                        <label for="agreement">我已阅读并同意</label>
+                        <i @click="showProtocolEvent">《智慧茶仓商家服务协议》</i>
+                    </div>
+                    <div class="invite-code" v-if="zzspBool">
+                        <input type="checkbox" id="invite-code"
+                            @change="useDiscount"
+                            :checked="inputCodeYet">
+                        <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
+                        <input type="text" :class="{'invite-code-input': true, 'bandCode': inputCodeYet}" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
+                            v-show="showInviteCode"
+                            v-model="inviteCode"
+                            :readonly="inputCodeYet"
+                        >
+                    </div>
+                </template>
                 <div class="settlement-cont">
                     <!-- <p class="total">合计：￥{{ totalPrice }}</p> -->
                     <!-- <p class="discount">优惠：￥{{ virtualTag ? 0 : showDiscount }}</p> -->
@@ -298,7 +301,8 @@
                             >
                             <label for="scan">扫码支付</label>
                         </div>
-                        <div>
+                        <div v-if="zzspBool">
+                            <!-- 增值商品隐藏汇款支付 -->
                             <input 
                                 type="radio" 
                                 name="way" 
@@ -581,14 +585,26 @@
                 timer: null, 
                 correctCode: false,
                 inputCodeYet: false, //如果填写过邀请码 input框不可输入
+                zzspBool: true, //增值商品过来 隐藏邀请码
+                zzVir: true, //增值商品中的虚拟商品  不用显示收货地址
             },
             mounted: function(){
-                this.getRemitTime(); //初始化日期选择
-                this.getOrderInfo(); //订单信息
+                // 从增值商品过来
+                if(this.getCookie('zzsp_data')){
+                    this.getServiceInfo();
+                    this.zzspBool = false;
+                }else{
+                    this.getRemitTime(); //初始化日期选择
+                    this.getOrderInfo()
+                }
+                // this.getCookie('TCid') ? : ; //套餐订单  增值服务商品信息
                 this.getAllAddr(); // 收货地址
                 this.getacountMoney(); //用户账户余额
-                this.virtualTag = JSON.parse(this.getCookie('virtual'));
-                this.year=this.getCookie('year');
+                if(this.getCookie('virtual')){
+                    this.virtualTag = JSON.parse(this.getCookie('virtual'));
+                    this.delCookie('virtual');
+                }
+                this.year = this.getCookie('year');
             },
             methods: {
                 // 查看协议
@@ -692,9 +708,10 @@
                         _this.addrData = data.body.data;
                     });
                 },
-                // 获取订单信息
+                // 获取套餐订单信息
                 getOrderInfo: function(){
                     var param = {id: this.getCookie('TCid')};
+                    this.delCookie('TCid')
                     var _this = this;
                     this.myAjax('order_package_buy', param, function(data){
                         console.log(data)
@@ -710,6 +727,16 @@
                         }
                     });
                 },
+                // 增值商品
+                getServiceInfo: function(){
+                    this.$set(this.orderInfo, 0, JSON.parse(this.getCookie('zzsp_data')));
+                    this.delCookie('zzsp_data');
+                    // 增值商品中的虚拟商品 不用显示收货地址
+                    if(this.orderInfo[0].goods_type == 2){
+                        this.zzVir = false;
+                    }
+                    console.log(this.orderInfo);
+                },
                 // get cookie
                 getCookie: function(name){
                     var reg = RegExp(name + '=([^;]+)'),
@@ -721,6 +748,10 @@
                     var date = new Date();
                     date.setDate(date.getDate() + day);
                     document.cookie = name + '=' + value + ';expires=' + date;
+                },
+                //删除cookie
+                delCookie: function(name) {
+                    this.setCookie(name, null, -1);
                 },
                 // 转换时间戳
                 timetrans: function(date){
@@ -753,11 +784,14 @@
                 },
                 // 减
                 minusEvent: function(item){
-                    item.number > 1 ? item.number-- : '';
+                    item.goods_quantity > 1 ? item.goods_quantity-- : '';
                 },
                 // 加
                 plusEvent: function(item){
-                    item.goods_quantity < item.stock ? item.goods_quantity++ : layer.msg('不得大于库存！', {time: 1000});
+                    if(item.goods_type != 2){
+                        item.goods_quantity < item.stock ? '' : layer.msg('不得大于库存！', {time: 1000});
+                    }
+                    item.goods_quantity++;
                 },
                 // 选中商品
                 // selectGoods: function(item, index, e){
@@ -766,7 +800,9 @@
                 // 输入购买数量
                 inputNumber: function(item, index){
                     var num = +this.$refs.num[index].value || 1;
-                    if(num > item.stock) layer.msg('不能大于库存！', {time: 1000});
+                    if(item.goods_type != 2){
+                        if(num > item.stock) layer.msg('不能大于库存！', {time: 1000});
+                    }
                     this.$set(item, 'number', num > item.stock ? item.stock : (num < 0 ? 1 : num));
                 },
                 // 删除订单
@@ -802,6 +838,7 @@
                 },
                 // 显示邀请码输入框
                 useDiscount: function(){
+                    if(this.inputCodeYet) return;
                     this.showInviteCode = !this.showInviteCode;
                 },
                 // 同意协议
