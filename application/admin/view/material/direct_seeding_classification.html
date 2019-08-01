@@ -70,30 +70,34 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {if !empty($data)}
+                        {volist name="data" id="value"}
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose" value={$value.id}>
                                 </div>
                             </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">4</div>
+                            <td>{$value.title}</td>
+                            <td class="">
+                                    <div class="tdimg"><img src="__UPLOADS__/{$value.icon_image}" /></div>
                             </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">5</div>
+                            <td class="td-status">
+                                    {if $value.status == 1}
+                                    <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="" lay-filter="isShows" checked data-id="{$value.id}"> 
+                                    {else}
+                                    <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="" lay-filter="isShows" data-id="{$value.id}">
+                                    {/if}
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭" checked>
-                                </div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">
-                                    <a  class="layui-btn layui-btn-mini edit" href="{:url('admin/Material/direct_seeding_classification_add',['id'=>$value.id])}">编辑</a>
-                                    <button class="layui-btn">删除</button>
+                                    <a  class="layui-btn layui-btn-mini edit" href="{:url('admin/Material/direct_seeding_classification_edit',['id'=>$value.id])}">编辑</a>
+                                    <a href="{:url('admin/Material/direct_seeding_classification_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                                 </div>
                             </td>
                         </tr>
+                        {/volist}
+                        {/if}
                     </tbody>
                 </table>
             </div>
@@ -108,6 +112,8 @@
                     <button type="button" id="operation-btn" class="operation-btn">确定</button>
                 </div>
                 {if !empty($data)}
+                {$data ->render()}
+                {/if}
             </div>
         </div>
     </div>

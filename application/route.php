@@ -817,7 +817,11 @@ Route::group("admin",[
     "direct_seeding_add" =>"admin/Material/direct_seeding_add",                                     //视频直播添加设备
     "direct_seeding_classification" =>"admin/Material/direct_seeding_classification",               //视频直播分类
     "direct_seeding_classification_save" =>"admin/Material/direct_seeding_classification_save",     //视频直播分类保存
-    "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加编辑
+    "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加
+    "direct_seeding_classification_edit" =>"admin/Material/direct_seeding_classification_edit",     //直播分类添加
+    "direct_seeding_classification_delete" =>"admin/Material/direct_seeding_classification_delete", //直播分类删除
+    "direct_seeding_classification_update" =>"admin/Material/direct_seeding_classification_update", //直播分类更新
+    "direct_seeding_classification_delete_image" =>"admin/Material/direct_seeding_classification_delete_image", //直播分类图片删除
     "interaction_index" =>"admin/Material/interaction_index",                                       //温湿感应
     "interaction_add" =>"admin/Material/interaction_add",                                           //温湿感应
 

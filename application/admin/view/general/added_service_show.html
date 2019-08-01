@@ -337,6 +337,10 @@
                     date.setDate(date.getDate() + day);
                     document.cookie = name + '=' + value + ';expires=' + date;
                 },
+                //删除cookie
+                delCookie: function(name) {
+                    this.setCookie(name, null, -1);
+                },
                 goodsDetail: function(_id){
                     location.href = 'added_service_show?id=' + _id; 
                     // window.open('added_service_show?id=' + _id);
@@ -351,6 +355,8 @@
                     var _this = this;
                     this.myAjax('adder_place', params, function(data){
                         _this.setCookie('zzsp_data', JSON.stringify(data.body.data), 7);
+                        // 清除套餐id 
+                        _this.delCookie('TCid');
                         location.href = 'order_package_buy';
                     })
                 },
