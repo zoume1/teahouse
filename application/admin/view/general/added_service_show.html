@@ -335,15 +335,17 @@
                 },
                 // 立即购买
                 tbBuy: function(){
-                    alert('正在加紧开发中……');
+                    // alert('正在加紧开发中……');
                 },
                 inputNumber: function(){
                     this.number > this.selectStock ? this.outStock = true : this.outStock = false;
                 },
+                // 减
                 decrease: function(){
                     this.number > 1 ? this.number -- : '';
                     this.number <= this.selectStock ? this.outStock = false : '';
                 },
+                // 加
                 increase: function(){
                     this.number ++;
                     this.number < this.selectStock ? '' : this.outStock = true;
