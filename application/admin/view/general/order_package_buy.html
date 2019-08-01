@@ -154,7 +154,7 @@
         </div>
         <div class="main-bg">
             <div class="main">
-                <div class="addrs" v-if="virtualTag">
+                <div class="addrs" v-if="virtualTag && zzVir">
                     <h2 class="addrs-tit">选择收货地址</h2>
                     <div class="addr-list">
                         <div class="addr"
@@ -231,7 +231,8 @@
                                 <div class="unit-price">{{item.amount_money.toFixed(2)}}</div>
                                 <div class="total-price-box">
                                     <p class="total-price">{{(item.goods_quantity * item.amount_money).toFixed(2)}}</p>
-                                    <button class="del-order" @click="delEvent(item.order_number)">删除订单</button>
+                                    <!-- 增值商品 隐藏删除订单按钮 -->
+                                    <button v-if="zzspBool" class="del-order" @click="delEvent(item.order_number)">删除订单</button>
                                 </div>
                             </div>
                         </div>
@@ -300,7 +301,8 @@
                             >
                             <label for="scan">扫码支付</label>
                         </div>
-                        <div>
+                        <div v-if="zzspBool">
+                            <!-- 增值商品隐藏汇款支付 -->
                             <input 
                                 type="radio" 
                                 name="way" 
@@ -584,6 +586,7 @@
                 correctCode: false,
                 inputCodeYet: false, //如果填写过邀请码 input框不可输入
                 zzspBool: true, //增值商品过来 隐藏邀请码
+                zzVir: true, //增值商品中的虚拟商品  不用显示收货地址
             },
             mounted: function(){
                 // 从增值商品过来
@@ -728,6 +731,10 @@
                 getServiceInfo: function(){
                     this.$set(this.orderInfo, 0, JSON.parse(this.getCookie('zzsp_data')));
                     this.delCookie('zzsp_data');
+                    // 增值商品中的虚拟商品 不用显示收货地址
+                    if(this.orderInfo[0].goods_type == 2){
+                        this.zzVir = false;
+                    }
                     console.log(this.orderInfo);
                 },
                 // get cookie
@@ -777,11 +784,14 @@
                 },
                 // 减
                 minusEvent: function(item){
-                    item.number > 1 ? item.number-- : '';
+                    item.goods_quantity > 1 ? item.goods_quantity-- : '';
                 },
                 // 加
                 plusEvent: function(item){
-                    item.goods_quantity < item.stock ? item.goods_quantity++ : layer.msg('不得大于库存！', {time: 1000});
+                    if(item.goods_type != 2){
+                        item.goods_quantity < item.stock ? '' : layer.msg('不得大于库存！', {time: 1000});
+                    }
+                    item.goods_quantity++;
                 },
                 // 选中商品
                 // selectGoods: function(item, index, e){
@@ -790,7 +800,9 @@
                 // 输入购买数量
                 inputNumber: function(item, index){
                     var num = +this.$refs.num[index].value || 1;
-                    if(num > item.stock) layer.msg('不能大于库存！', {time: 1000});
+                    if(item.goods_type != 2){
+                        if(num > item.stock) layer.msg('不能大于库存！', {time: 1000});
+                    }
                     this.$set(item, 'number', num > item.stock ? item.stock : (num < 0 ? 1 : num));
                 },
                 // 删除订单
@@ -932,7 +944,6 @@
             computed: {
                 // 商品合计金额
                 totalPrice: function(){
-                    return false;
                     // if(this.selectData.length > 0){
                         // for(var i = 0, len = this.selectData.length; i < len; i++){
                             // if(this.selectData[i]){
@@ -948,7 +959,6 @@
                 },
                 // 最终付款金额
                 payment: function(){
-                    return false;
                     var sum = this.totalPrice;
                     if(this.correctCode){
                         return (sum - this.discountPrice).toFixed(2);
@@ -958,7 +968,6 @@
                 },
                 // 虚拟商品 最终付款金额
                 virtualPayment: function(){
-                    return false;
                     var orderInfo = this.orderInfo[0];
                     if(orderInfo){
                         if(orderInfo.last_money == 0){
@@ -970,7 +979,6 @@
                 },
                 // 优惠 价格展示
                 showDiscount: function(){
-                    return false;
                     var orderInfo = this.orderInfo[0];
                     console.log(orderInfo);
                     if (orderInfo) {
