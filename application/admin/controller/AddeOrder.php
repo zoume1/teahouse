@@ -57,7 +57,7 @@ class  AddeOrder extends  Controller{
                         'product_type' => $goods['product_type'],  //归属分类
                         'store_id'=>$store_id,                     //店铺id
                         'user_account_name'=>$store_data['contact_name'], //账号名字
-                        'user_phone_number'=>$store_data['user_phone_number'], //联系方式
+                        'user_phone_number'=>$store_data['phone_number'], //联系方式
                         'goods_describe' => $goods['goods_describe'] //商品买点
                     ];
 
