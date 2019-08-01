@@ -191,68 +191,70 @@
                         <span @click="toEditAddr">管理收货地址</span>
                     </div>
                 </div>
-                <div class="carts" 
-                    v-for="(item, index) in orderInfo"
-                    :key="index"
-                >
-                    <p class="shop-name">订购店铺：<span>{{item.store_name}}</span></p>
-                    <div class="cart-item">
-                        <div class="carts-head">
-                            <input type="checkbox" checked @change="selectGoods(item, index, $event)">
-                            <div class="time">{{timetrans(item.create_time)}}</div>
-                            <div class="order-number">订单号：{{item.order_number}}</div>
-                            <div class="unit-text">数量</div>
-                            <div class="money-text">金额</div>
-                            <div class="total-text">小计（元）</div>
-                        </div>
-                        <div class="goods-item">
-                            <div class="img-box">
-                                <img :src="item.images_url" width="50" height="50">
+                <template v-if="">
+                    <div class="carts" 
+                        v-for="(item, index) in orderInfo"
+                        :key="index"
+                    >
+                        <p class="shop-name">订购店铺：<span>{{item.store_name}}</span></p>
+                        <div class="cart-item">
+                            <div class="carts-head">
+                                <input type="checkbox" checked @change="selectGoods(item, index, $event)">
+                                <div class="time">{{timetrans(item.create_time)}}</div>
+                                <div class="order-number">订单号：{{item.order_number}}</div>
+                                <div class="unit-text">数量</div>
+                                <div class="money-text">金额</div>
+                                <div class="total-text">小计（元）</div>
                             </div>
-                            <div class="goods-name">{{item.goods_name}}</div>
-                            <div class="counter">
+                            <div class="goods-item">
+                                <div class="img-box">
+                                    <img :src="item.images_url" width="50" height="50">
+                                </div>
+                                <div class="goods-name">{{item.goods_name}}</div>
+                                <div class="counter">
 
-                                <template v-if="virtualTag">
-                                    <button class="minus" @click="minusEvent(item)">-</button>
-                                    <input type="num" 
-                                        v-model="item.goods_quantity"
-                                        @keyup="inputNumber(item, index)"
-                                        ref="num">
-                                    <button class="plus" @click="plusEvent(item)">+</button>
-                                </template>
-                                <template v-else>
-                                    {{item.year}}
-                                </template>
+                                    <template v-if="virtualTag">
+                                        <button class="minus" @click="minusEvent(item)">-</button>
+                                        <input type="num" 
+                                            v-model="item.goods_quantity"
+                                            @keyup="inputNumber(item, index)"
+                                            ref="num">
+                                        <button class="plus" @click="plusEvent(item)">+</button>
+                                    </template>
+                                    <template v-else>
+                                        {{item.year}}
+                                    </template>
 
-                                <span class="unit">{{item.unit}}</span>
-                                
-                            </div>
-                            <div class="unit-price">{{item.amount_money.toFixed(2)}}</div>
-                            <div class="total-price-box">
-                                <p class="total-price">{{(item.goods_quantity * item.amount_money).toFixed(2)}}</p>
-                                <button class="del-order" @click="delEvent(item.order_number)">删除订单</button>
+                                    <span class="unit">{{item.unit}}</span>
+                                    
+                                </div>
+                                <div class="unit-price">{{item.amount_money.toFixed(2)}}</div>
+                                <div class="total-price-box">
+                                    <p class="total-price">{{(item.goods_quantity * item.amount_money).toFixed(2)}}</p>
+                                    <button class="del-order" @click="delEvent(item.order_number)">删除订单</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="agreement">
-                    <input type="checkbox" id="agreement" 
-                        :checked="protocolFlag"
-                        @change="agreement">
-                    <label for="agreement">我已阅读并同意</label>
-                    <i @click="showProtocolEvent">《智慧茶仓商家服务协议》</i>
-                </div>
-                <div class="invite-code">
-                    <input type="checkbox" id="invite-code"
-                        @change="useDiscount"
-                        :checked="inputCodeYet">
-                    <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
-                    <input type="text" :class="{'invite-code-input': true, 'bandCode': inputCodeYet}" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
-                        v-show="showInviteCode"
-                        v-model="inviteCode"
-                        :readonly="inputCodeYet"
-                    >
-                </div>
+                    <div class="agreement">
+                        <input type="checkbox" id="agreement" 
+                            :checked="protocolFlag"
+                            @change="agreement">
+                        <label for="agreement">我已阅读并同意</label>
+                        <i @click="showProtocolEvent">《智慧茶仓商家服务协议》</i>
+                    </div>
+                    <div class="invite-code">
+                        <input type="checkbox" id="invite-code"
+                            @change="useDiscount"
+                            :checked="inputCodeYet">
+                        <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
+                        <input type="text" :class="{'invite-code-input': true, 'bandCode': inputCodeYet}" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
+                            v-show="showInviteCode"
+                            v-model="inviteCode"
+                            :readonly="inputCodeYet"
+                        >
+                    </div>
+                </template>
                 <div class="settlement-cont">
                     <!-- <p class="total">合计：￥{{ totalPrice }}</p> -->
                     <!-- <p class="discount">优惠：￥{{ virtualTag ? 0 : showDiscount }}</p> -->
@@ -583,11 +585,20 @@
                 inputCodeYet: false, //如果填写过邀请码 input框不可输入
             },
             mounted: function(){
-                this.getRemitTime(); //初始化日期选择
-                this.getOrderInfo(); //订单信息
+                // 从增值商品过来
+                if(this.getCookie('zzsp_data')){
+                    this.getServiceInfo()
+                }else{
+                    this.getRemitTime(); //初始化日期选择
+                    this.getOrderInfo()
+                }
+                // this.getCookie('TCid') ? : ; //套餐订单  增值服务商品信息
                 this.getAllAddr(); // 收货地址
                 this.getacountMoney(); //用户账户余额
-                this.virtualTag = JSON.parse(this.getCookie('virtual'));
+                if(this.getCookie('virtual')){
+                    this.virtualTag = JSON.parse(this.getCookie('virtual'));
+                    this.delCookie('virtual');
+                }
                 this.year=this.getCookie('year');
             },
             methods: {
@@ -692,9 +703,10 @@
                         _this.addrData = data.body.data;
                     });
                 },
-                // 获取订单信息
+                // 获取套餐订单信息
                 getOrderInfo: function(){
                     var param = {id: this.getCookie('TCid')};
+                    this.delCookie('TCid')
                     var _this = this;
                     this.myAjax('order_package_buy', param, function(data){
                         console.log(data)
@@ -710,6 +722,12 @@
                         }
                     });
                 },
+                // 增值商品
+                getServiceInfo: function(){
+                    this.$set(this.orderInfo, 0, JSON.parse(this.getCookie('zzsp_data')));
+                    this.delCookie('zzsp_data');
+                    console.log(this.orderInfo);
+                },
                 // get cookie
                 getCookie: function(name){
                     var reg = RegExp(name + '=([^;]+)'),
@@ -721,6 +739,10 @@
                     var date = new Date();
                     date.setDate(date.getDate() + day);
                     document.cookie = name + '=' + value + ';expires=' + date;
+                },
+                //删除cookie
+                delCookie: function(name) {
+                    this.setCookie(name, null, -1);
                 },
                 // 转换时间戳
                 timetrans: function(date){
@@ -802,6 +824,7 @@
                 },
                 // 显示邀请码输入框
                 useDiscount: function(){
+                    if(this.inputCodeYet) return;
                     this.showInviteCode = !this.showInviteCode;
                 },
                 // 同意协议
@@ -907,6 +930,7 @@
             computed: {
                 // 商品合计金额
                 totalPrice: function(){
+                    return false;
                     // if(this.selectData.length > 0){
                         // for(var i = 0, len = this.selectData.length; i < len; i++){
                             // if(this.selectData[i]){
@@ -922,6 +946,7 @@
                 },
                 // 最终付款金额
                 payment: function(){
+                    return false;
                     var sum = this.totalPrice;
                     if(this.correctCode){
                         return (sum - this.discountPrice).toFixed(2);
@@ -931,6 +956,7 @@
                 },
                 // 虚拟商品 最终付款金额
                 virtualPayment: function(){
+                    return false;
                     var orderInfo = this.orderInfo[0];
                     if(orderInfo){
                         if(orderInfo.last_money == 0){
@@ -942,6 +968,7 @@
                 },
                 // 优惠 价格展示
                 showDiscount: function(){
+                    return false;
                     var orderInfo = this.orderInfo[0];
                     console.log(orderInfo);
                     if (orderInfo) {
