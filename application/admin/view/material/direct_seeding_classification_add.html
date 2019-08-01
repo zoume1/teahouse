@@ -27,7 +27,7 @@
                     <label class="layui-form-label">分类图标</label>
                     <div class="layui-input-block">
                         <div class="img-edit">
-                            <div class="imgcontent">
+                            <div class="imgcontent" style="display: none;">
                                 <span class="img">
                                     <img src="__STATIC__/admin/common/img/a11.png" width="100%">
                                     <i class="remove-img" name="icon_image" value="" data-id="" data-value="2"><img
@@ -81,30 +81,39 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
-        // 图片删除
-        $(".remove-img").click(function () {
-            var remove = $(this).parent();
-            var id = $(this).data("id");
-            var value = $(this).data("value");
-            console.log(value)
-            console.log(id);
-            $.ajax({
-                type: "POST",
-                url: "{:url('admin/General/general_logo_del')}",
-                data: {
-                    "id": id
-                },
-                dataType: "json",
-                success: function (data) {
-                    remove.remove();
-                    alert(data.info);
-                    location.reload();
-                },
-                error: function (data) {
-                    console.log("错误");
-                }
-            });
-        });
+   layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                $ = layui.jquery,
+                upload = layui.upload;
+
+                // 图片删除
+                $(".remove-img").click(function () {
+                    var remove = $(this).parent();
+                    var id = $(this).data("id");
+                    var value = $(this).data("value");
+                    console.log(value)
+                    console.log(id);
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/General/general_logo_del')}",
+                        data: {
+                            "id": id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            remove.remove();
+                            alert(data.info);
+                            location.reload();
+                        },
+                        error: function (data) {
+                            console.log("错误");
+                        }
+                    });
+                });
+        })
     </script>
 
     {/block}
