@@ -89,7 +89,7 @@
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <a href="direct_seeding_classification_add" class="layui-btn">编辑</a>
+                                    <a  class="layui-btn layui-btn-mini edit" href="{:url('admin/Material/direct_seeding_classification_add',['id'=>$value.id])}">编辑</a>
                                     <button class="layui-btn">删除</button>
                                 </div>
                             </td>
@@ -107,6 +107,7 @@
                 <div>
                     <button type="button" id="operation-btn" class="operation-btn">确定</button>
                 </div>
+                {if !empty($data)}
             </div>
         </div>
     </div>
