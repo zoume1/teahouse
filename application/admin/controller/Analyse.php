@@ -68,6 +68,7 @@ class  Analyse extends  Controller{
     public function analyse_add(Request $request){
             if ($request->isPost()) {
                 $goods_data = $request->param(); 
+                $store_id = Session::get("store_id"); //店铺id
                 $show_images = $request->file("goods_show_images");
                 $imgs = $request->file("imgs");
                 $list = [];
@@ -94,7 +95,7 @@ class  Analyse extends  Controller{
                 if ($goods_data["goods_standard"] == "1") {
                     $goods_special = [];
                     $goods_special["goods_name"] = $goods_data["goods_name"];
-                    $goods_special["store_id"] = $goods_data["store_id"];
+                    $goods_special["store_id"] = $store_id;
                     $goods_special["produce"] = $goods_data["produce"];
                     $goods_special["goods_type"] = $goods_data["goods_type"];
                     $goods_special["brand"] = $goods_data["brand"];
