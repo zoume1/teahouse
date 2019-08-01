@@ -728,7 +728,14 @@ class  Wxapps extends  Controller{
                                 // }
                                 foreach ($list as $kks => $vvs) {
                                         
-                                    
+                                    if($vvs['goods_repertory']=='0'){
+                                        //商品下架
+                                        $pp['label']=0;
+                                        $re=db('goods')->where('id',$vvs['id'])->update($pp);
+                                        unset($list[$kks]);
+                                        continue;
+
+                                    }
                                     if (!empty($list[$kks]["scope"])) {
                                         $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
                                     }
@@ -740,21 +747,6 @@ class  Wxapps extends  Controller{
                                     if ($list[$kks]["goods_standard"] == 1) {
                                         //多规格商品
                                         $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->select();
-                                        //判断多规格的商品库存
-                                        $po=false;
-                                        foreach($standard[$kks] as $k =>$v){
-                                            if($v['stock']>0){
-                                                $po=true;
-                                                break;
-                                            }
-                                        }
-                                        if($po='false'){
-                                            //商品下架
-                                            $pp['label']=0;
-                                            $re=db('goods')->where('id',$vvs['id'])->update($pp);
-                                            unset($list[$kks]);
-                                            continue;
-                                        }
                                         $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") ;//最低价格
                                         $list[$kks]["goods_standard"] = $standard[$kks];
                                         $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
@@ -767,14 +759,6 @@ class  Wxapps extends  Controller{
                                             }
                                         }
                                     } else {
-                                        if($vvs['goods_repertory']=='0'){
-                                            //商品下架
-                                            $pp['label']=0;
-                                            $re=db('goods')->where('id',$vvs['id'])->update($pp);
-                                            unset($list[$kks]);
-                                            continue;
-    
-                                        }
                                         //单规格商品
                                         $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
                                         $list[$kks]["price"] = $list[$kks]["goods_new_money"] * $discount;

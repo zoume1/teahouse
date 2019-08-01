@@ -23,31 +23,45 @@
                         <input type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <div class="form-item">
-                    <label class="form-label">一级图标</label>
-                    <div class="form-input">
-                        <div class="img-box full">
-                            <section class=" img-section">
-                                <div class="z_photo upimg-div clear">
-                                    <section class="z_file fl">
-                                        <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                        <input type="file" name="icon_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类图标</label>
+                    <div class="layui-input-block">
+                        <div class="img-edit">
+                            <div class="imgcontent" style="display: none;">
+                                <span class="img">
+                                    <img src="__STATIC__/admin/common/img/a11.png" width="100%">
+                                    <i class="remove-img" name="icon_image" value="" data-id="" data-value="2"><img
+                                            src="__STATIC__/admin/common/img/a7.png"></i>
+                                </span>
+                            </div>
+                            <div class="form-input">
+                                <div class="img-box full">
+                                    <section class=" img-section">
+                                        <div class="z_photo upimg-div clear">
+                                            <section class="z_file fl">
+                                                <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                                <input type="file" name="icon_image" id="file" class="file" value=""
+                                                    accept="image/jpg,image/jpeg,image/png,image/bmp" multiple
+                                                    data-id="1" />
+                                            </section>
+                                        </div>
                                     </section>
                                 </div>
-                            </section>
-                        </div>
-                        <aside class="mask works-mask">
-                            <div class="mask-content">
-                                <p class="del-p ">您确定要删除作品图片吗？</p>
-                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                                <aside class="mask works-mask">
+                                    <div class="mask-content">
+                                        <p class="del-p ">您确定要删除作品图片吗？</p>
+                                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span
+                                                class="wsdel-no">取消</span></p>
+                                    </div>
+                                </aside>
                             </div>
-                        </aside>
+                        </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">上架</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="status" lay-skin="switch">
+                        <input type="checkbox" name="voice" lay-skin="switch" lay-filter="isShow" value="0">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -67,30 +81,47 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
-        // 图片删除
-        $(".remove-img").click(function () {
-            var remove = $(this).parent();
-            var id = $(this).data("id");
-            var value = $(this).data("value");
-            console.log(value)
-            console.log(id);
-            $.ajax({
-                type: "POST",
-                url: "{:url('admin/General/general_logo_del')}",
-                data: {
-                    "id": id
-                },
-                dataType: "json",
-                success: function (data) {
-                    remove.remove();
-                    alert(data.info);
-                    location.reload();
-                },
-                error: function (data) {
-                    console.log("错误");
-                }
-            });
-        });
+   layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                $ = layui.jquery,
+                upload = layui.upload;
+
+
+                form.on('switch(isShow)', function(data) {
+                    if($(this).val() == 0) {
+                        $(this).val(1);
+                    } else {
+                        $(this).val(0);
+                    }
+    			})
+                // 图片删除
+                $(".remove-img").click(function () {
+                    var remove = $(this).parent();
+                    var id = $(this).data("id");
+                    var value = $(this).data("value");
+                    console.log(value)
+                    console.log(id);
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/General/general_logo_del')}",
+                        data: {
+                            "id": id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            remove.remove();
+                            alert(data.info);
+                            location.reload();
+                        },
+                        error: function (data) {
+                            console.log("错误");
+                        }
+                    });
+                });
+        })
     </script>
 
     {/block}
