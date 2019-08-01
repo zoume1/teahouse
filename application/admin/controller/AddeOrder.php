@@ -8,8 +8,10 @@ namespace  app\admin\controller;
 
 use think\Controller;
 use think\Db;
+use think\Request;
 use think\paginator\driver\Bootstrap;
 use think\Session;
+use think\View;
 
 class  AddeOrder extends  Controller{
     
@@ -273,7 +275,7 @@ class  AddeOrder extends  Controller{
             $address_id = $request->only(["address_id"])["address_id"];            //收货地址id
             $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
             $freight = $request->only(["goods_franking"])["goods_franking"];                    //邮费
-            
+
             $store_pass = Db::name("store")
                 ->where("id",$store_id)
                 ->field("store_pay_pass,store_wallet")
