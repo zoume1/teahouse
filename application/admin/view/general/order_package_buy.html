@@ -639,7 +639,7 @@
                         param = {
                             order_real_pay: +(this.virtualTag ? this.payment : this.virtualPayment),
                             order_amount: +(this.virtualTag ? this.payment : this.virtualPayment),
-                            order_quinity: orderInfo.goods_quantity,
+                            goods_quantity: orderInfo.goods_quantity,
                             order_number: orderInfo.order_number,
                             goods_name: orderInfo.goods_name,
                             address_id: this.virtualTag ? 0 : this.addrSelectedId,
@@ -692,7 +692,7 @@
                         param = {
                             order_real_pay: +(this.virtualTag ? this.payment : this.virtualPayment),
                             order_amount: +(this.virtualTag ? this.payment : this.virtualPayment),
-                            order_quinity: orderInfo.goods_quantity,
+                            goods_quantity: orderInfo.goods_quantity,
                             order_number: orderInfo.order_number,
                             goods_name: orderInfo.goods_name,
                             address_id: this.virtualTag ? 0 : this.addrSelectedId,
