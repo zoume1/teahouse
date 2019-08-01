@@ -298,6 +298,7 @@
                 selectDelPrice: 0, //选择规格后的划线价
                 selectStock: 0, // 选择规格后的库存
                 number: 1, //购买数量
+                specId: 0, //规格id 没有规格则为0
                 outStock: false, //输入数量超出库存
                 dataObj: [],
                 aldData: [],//右侧'再看看'板块 data
@@ -324,7 +325,9 @@
                 // 获取数据
                 myAjax: function(url, param, callback){
                     this.$http.post(url, param).then(function(res){
-                        callback(res);
+                        if(res.body.status == 1){
+                            callback(res);
+                        }
                     }, function(res){
                         layer.msg(res.body.info, {time: 1000});
                     })
@@ -335,20 +338,34 @@
                 },
                 // 立即购买
                 tbBuy: function(){
-                    // alert('正在加紧开发中……');
+                    var params = {
+                        goods_id: this.id,
+                        special_id: this.specId,
+                        order_quinity: this.number
+                    }
+                    this.myAjax('adder_place', params, function(data){
+                        console.log(data);
+                    })
                 },
                 inputNumber: function(){
-                    this.number > this.selectStock ? this.outStock = true : this.outStock = false;
+                    // 普通商品才有库存限制
+                    if(this.dataObj[0].goods_type != 2){
+                        this.number > this.selectStock ? this.outStock = true : this.outStock = false;
+                    }
                 },
-                // 减
                 decrease: function(){
+                    // 普通商品才有库存限制
+                    if(this.dataObj[0].goods_type != 2){
+                        this.number <= this.selectStock ? this.outStock = false : '';
+                    }
                     this.number > 1 ? this.number -- : '';
-                    this.number <= this.selectStock ? this.outStock = false : '';
                 },
-                // 加
                 increase: function(){
+                    // 普通商品才有库存限制
+                    if(this.dataObj[0].goods_type != 2){
+                        this.number < this.selectStock ? '' : this.outStock = true;
+                    }
                     this.number ++;
-                    this.number < this.selectStock ? '' : this.outStock = true;
                 },
                 // 返回
                 backPage: function(){
@@ -405,6 +422,7 @@
                     this.selectPrice = v.price;
                     this.selectDelPrice = v.line;
                     this.selectStock = +v.stock;
+                    this.specId = v.goods_id;
                 },
                 // 拼接图片url
                 getImgUrl: function(url){
@@ -418,7 +436,9 @@
                         _this.myAjax('added_service_show', param, function(data){
                             if(data.body.status == 1){
                                 _this.$set(_this.dataObj, 0, data.body.data);
-                                _this.selectStock = _this.dataObj[0].goods_repertory;
+                                _this.selectStock = +_this.dataObj[0].goods_repertory;
+                                // 多规格还是单规格
+                                _this.dataObj[0].goods_standard == 1 ? _this.specId = _this.dataObj[0].standard[0].goods_id: '';
                                 console.log(_this.dataObj);
                             }
                         })
@@ -430,7 +450,7 @@
                     this.myAjax('added_service_look', '', function(data){
                         if(data.body.status == 1){
                             _this.aldData = data.body.data;
-                            console.log('再看看',data.body.data)
+                            // console.log('再看看',data.body.data)
                         }
                     })
                 },
