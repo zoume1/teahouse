@@ -164,7 +164,10 @@ class Commodity extends Controller
             if(empty($discount)){
                 $discount = 1;
             }
-            $goods = db("goods")->where("id", $goods_id)->where("label",1)->where("store_id","EQ",$store_id)->select(); // 获取商品信息
+            $goods = db("goods")->where("id", $goods_id)->where("store_id",$store_id)->select(); // 获取商品信息
+            if(empty($goods)){
+                return ajax_error("获取商品出错");
+            }
             //判断商品是否参加会员折扣
             if($goods[0]["goods_member"] != 1){
                 $discount = 1;
