@@ -23,7 +23,7 @@ class  AddeOrder extends  Controller{
         if($request->isPost()){
             $data = input();
             //商品id、规格special_id、数量order_quinity
-            if(isset($data['goods_id']) && isset($data['special_id']) && isset($data['order_quinity']))
+            if(isset($data['goods_id']) && isset($data['special_id']) && isset($data['order_quantity']))
             {
                 $store_id = Session::get("store_id");
                 $store_data = Db::name("store")->where("id",$store_id)->find();
@@ -50,7 +50,7 @@ class  AddeOrder extends  Controller{
                         'parts_order_number'=>$parts_order_number, //订单号
                         'special_id'=>$data['special_id'],         //规格id
                         'goods_id'=>$data['goods_id'],             //商品
-                        'order_quantity'=>$data['order_quinity'],   //订单数量
+                        'order_quantity'=>$data['order_quantity'],   //订单数量
                         'goods_money'=>$price,                     //商品单价
                         'status'=> 1,                              //支付状态
                         'goods_standard'=> $goods_standard,        //规格名称
@@ -68,7 +68,7 @@ class  AddeOrder extends  Controller{
                         $restult = [
                             'order_number'=>$parts_order_number,        //订单号
                             'goods_id'=>$data['goods_id'],              //商品
-                            'goods_quantity'=>$data['order_quinity'],    //订单数量
+                            'goods_quantity'=>$data['order_quantity'],    //订单数量
                             'amount_money'=>$price,                      //商品单价
                             'store_name'=>$store_data['store_name'],    //店铺名
                             'goods_name'=> $goods['goods_name'],        //商品名称
