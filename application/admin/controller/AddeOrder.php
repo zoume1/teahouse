@@ -68,7 +68,7 @@ class  AddeOrder extends  Controller{
                         $restult = [
                             'order_number'=>$parts_order_number,        //订单号
                             'goods_id'=>$data['goods_id'],              //商品
-                            'goods_quantity'=>$data['order_quinity'],    //订单数量
+                            'goods_quantity'=>$data['order_quantity'],    //订单数量
                             'amount_money'=>$price,                      //商品单价
                             'store_name'=>$store_data['store_name'],    //店铺名
                             'goods_name'=> $goods['goods_name'],        //商品名称
