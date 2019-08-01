@@ -70,6 +70,8 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {if !empty($data)}
+                        {volist name = "data"}
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
@@ -84,7 +86,7 @@
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭" checked>
+                                    <input type="checkbox" name="status" lay-skin="switch" lay-text="开启|关闭" checked>
                                 </div>
                             </td>
                             <td class="table-cell">
@@ -108,6 +110,8 @@
                     <button type="button" id="operation-btn" class="operation-btn">确定</button>
                 </div>
                 {if !empty($data)}
+                {$data ->render()}
+                {/if}
             </div>
         </div>
     </div>
