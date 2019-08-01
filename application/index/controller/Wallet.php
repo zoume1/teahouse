@@ -91,9 +91,9 @@ class  Wallet extends  Controller{
                 if(!empty($member_grade_id)){
                     $data['upgrade_id'] = $member_grade_id;
                 }else{
-                    $pp['msg']=$type;
-                    db('test')->insert($pp);
                     if(!empty($type)){
+                        $pp['msg']=$type;
+                        db('test')->insert($pp);
                             $data['upgrade_id'] = $type;
                     }
                 }
