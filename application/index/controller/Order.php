@@ -1123,6 +1123,8 @@ class  Order extends  Controller
                             }
                             //2.删除订单
                             $rr=db('order')->where('parts_order_number',$value['parts_order_number'])->delete();
+                            unset($data[$key]);
+                            continue;
                         }
                  }
 
@@ -1327,6 +1329,8 @@ class  Order extends  Controller
                     }
                     //2.删除订单
                     $rr=db('order')->where('parts_order_number',$value['parts_order_number'])->delete();
+                    unset($data[$key]);
+                    continue;
                 }
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
@@ -2342,6 +2346,8 @@ class  Order extends  Controller
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
 //          file_put_contents(EXTEND_PATH."data.txt",$val);
+           $pp['msg']=$val;
+           db('test')->insert($pp);
             $data['status'] = 1;
             $data['pay_time'] = time();
             $data['pay_type_name'] = "微信";
