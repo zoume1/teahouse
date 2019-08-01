@@ -50,7 +50,7 @@ class  AddeOrder extends  Controller{
                         'parts_order_number'=>$parts_order_number, //订单号
                         'special_id'=>$data['special_id'],         //规格id
                         'goods_id'=>$data['goods_id'],             //商品
-                        'order_quinity'=>$data['order_quinity'],   //订单数量
+                        'order_quintity'=>$data['order_quinity'],   //订单数量
                         'goods_money'=>$price,                     //商品单价
                         'status'=> 1,                              //支付状态
                         'goods_standard'=> $goods_standard,        //规格名称
