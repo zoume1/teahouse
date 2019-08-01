@@ -243,7 +243,7 @@
                         <label for="agreement">我已阅读并同意</label>
                         <i @click="showProtocolEvent">《智慧茶仓商家服务协议》</i>
                     </div>
-                    <div class="invite-code">
+                    <div class="invite-code" v-if="zzspBool">
                         <input type="checkbox" id="invite-code"
                             @change="useDiscount"
                             :checked="inputCodeYet">
@@ -583,11 +583,13 @@
                 timer: null, 
                 correctCode: false,
                 inputCodeYet: false, //如果填写过邀请码 input框不可输入
+                zzspBool: true, //增值商品过来 隐藏邀请码
             },
             mounted: function(){
                 // 从增值商品过来
                 if(this.getCookie('zzsp_data')){
-                    this.getServiceInfo()
+                    this.getServiceInfo();
+                    this.zzspBool = false;
                 }else{
                     this.getRemitTime(); //初始化日期选择
                     this.getOrderInfo()
@@ -599,7 +601,7 @@
                     this.virtualTag = JSON.parse(this.getCookie('virtual'));
                     this.delCookie('virtual');
                 }
-                this.year=this.getCookie('year');
+                this.year = this.getCookie('year');
             },
             methods: {
                 // 查看协议
