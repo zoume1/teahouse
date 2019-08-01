@@ -94,7 +94,6 @@ class  Analyse extends  Controller{
                 if ($goods_data["goods_standard"] == "1") {
                     $goods_special = [];
                     $goods_special["goods_name"] = $goods_data["goods_name"];
-                    $goods_special["store_id"] = $goods_data["store_id"];
                     $goods_special["produce"] = $goods_data["produce"];
                     $goods_special["goods_type"] = $goods_data["goods_type"];
                     $goods_special["brand"] = $goods_data["brand"];

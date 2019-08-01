@@ -476,6 +476,64 @@ class  AdminWx extends Controller{
 
     }
 
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:增值订单微信扫码支付回调
+     **************************************
+     */
+    public function analyse_meal_notify(Request $request){
+        if($request->isPost()){
+            $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+            $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $val = json_decode(json_encode($xml_data), true);
+            if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){   //回调成功
+                    //逻辑处理
+
+
+                echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+            }else {
+                return "fail";
+            }
+        }
+    }
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:增值订单支付宝充值扫码支付回调
+     **************************************
+     */
+    public function analyse_meal_notify_alipay()
+    {
+        include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
+        $obj_alipay = new \alipay();
+        if (!$obj_alipay->verify_notify()) {
+            //验证未通过
+            echo "fail";
+            exit();
+        } else {    
+            //这里可以做一下你自己的订单逻辑处理
+            $pay_time = time();
+            $data['pay_time'] = $pay_time;
+            //原始订单号
+            $out_trade_no = input('out_trade_no');
+            //支付宝交易号
+            $trade_no = input('trade_no');
+            //交易状态
+            $trade_status = input('trade_status');
+            if ($trade_status == 'TRADE_FINISHED' || $trade_status == 'TRADE_SUCCESS') {     //支付成功
+                //逻辑处理
+
+                  return "success";
+                }else{
+                    return "fail";
+                }
+            }
+
+    }
+    
+
 
 
 
