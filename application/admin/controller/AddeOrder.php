@@ -39,9 +39,11 @@ class  AddeOrder extends  Controller{
                         $special = Db::name("analyse_special")->where("id",$data['special_id'])->find();
                         $price = $special['price'];
                         $goods_standard= $special['goods_standard'];
+                        $stock = $special['stock'];
                     } else {
                         $price = $goods['goods_new_money'];
                         $goods_standard= 0;
+                        $stock = $goods['goods_repertory'];
                     }
                     $analyse = [
                         'order_create_time' => time(),             //订单创建时间
@@ -64,14 +66,17 @@ class  AddeOrder extends  Controller{
                     $bool = Db::name("adder_order")->insert($analyse);
                     if($bool){
                         $restult = [
-                            'order_number'=>$parts_order_number,       //订单号
-                            'goods_id'=>$data['goods_id'],             //商品
-                            'order_quinity'=>$data['order_quinity'],   //订单数量
-                            'goods_money'=>$price,                     //商品单价
-                            'store_name'=>$store_data['store_name'],   //店铺名
-                            'goods_name'=> $goods['goods_name'],       //商品名称
+                            'order_number'=>$parts_order_number,        //订单号
+                            'goods_id'=>$data['goods_id'],              //商品
+                            'goods_quantity'=>$data['order_quinity'],    //订单数量
+                            'amount_money'=>$price,                      //商品单价
+                            'store_name'=>$store_data['store_name'],    //店铺名
+                            'goods_name'=> $goods['goods_name'],        //商品名称
                             'goods_franking'=> $goods['goods_franking'],//商品统一邮费
-                            'goods_type'=> $goods['goods_type']       //商品类型 1=》物流商品  2=》虚拟商品
+                            'goods_type'=> $goods['goods_type'],        //商品类型 1=》物流商品  2=》虚拟商品
+                            'create_time'=> time(),                     //当前时间戳 
+                            'images_url'=> $goods['goods_show_image'],  //商品图片 
+                            'stock' => $stock                           //库存
                         ];
                         return ajax_success("发送成功",$restult);
                     } else {
