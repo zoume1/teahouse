@@ -772,8 +772,6 @@ class  Wxapps extends  Controller{
                                         }
                                     }
                                 }
-                                halt($list);
-                                die;
                                 $list = array_values($list);
                                 $data['items'][$k]['data'] = $list;
                             }else {
