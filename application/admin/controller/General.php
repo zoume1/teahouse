@@ -1380,7 +1380,7 @@ class  General extends  Base {
     public function added_service_show(Request $request){
         if($request->isPost()){
             $id = $request->only("id")["id"];
-            $goods = db("analyse_goods")->where("id",$id)->field("id,goods_name,goods_selling,goods_type,goods_new_money,goods_sign,goods_describe,goods_bottom_money,comment,trade,goods_standard,goods_show_images,goods_show_image,goods_text,goods_delivery,goods_franking,templet_id")->find();    
+            $goods = db("analyse_goods")->where("id",$id)->field("id,goods_name,goods_selling,goods_type,goods_new_money,goods_sign,goods_describe,goods_bottom_money,comment,trade,goods_standard,goods_show_images,goods_show_image,goods_text,goods_delivery,goods_franking,goods_repertory")->find();    
             if(!empty($goods)){
                 $goods["goods_show_images"] = explode(",",$goods["goods_show_images"]);
                 if($goods["goods_standard"] == 1){   //多规格

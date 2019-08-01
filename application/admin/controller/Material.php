@@ -7,13 +7,18 @@
 namespace  app\admin\controller;
 
 use think\Controller;
+use think\Db;
+use think\Request;
+use think\paginator\driver\Bootstrap;
+use think\Session;
+use think\View;
 
 
 class  Material extends  Controller{
 
 
     /**
-     **************李火生*******************
+     **************GY*******************
      * @param Request $request
      * Notes:视频直播
      **************************************
@@ -24,7 +29,7 @@ class  Material extends  Controller{
     }
 
     /**
-     **************李火生*******************
+     **************GY*******************
      * @param Request $request
      * Notes:视频直播添加编辑设备
      **************************************
@@ -34,7 +39,7 @@ class  Material extends  Controller{
     }
 
     /**
-     **************李火生*******************
+     **************GY*******************
      * @param Request $request
      * Notes:直播分类
      **************************************
@@ -44,18 +49,22 @@ class  Material extends  Controller{
     }
 
     /**
-     **************李火生*******************
+     **************GY******************* 
      * @param Request $request
      * Notes:直播分类添加编辑
      **************************************
      * @return \think\response\View
      */
-    public function direct_seeding_classification_add(){
+    public function direct_seeding_classification_add(Request $request){
+        if($request->isPost()){
+
+        }
         return view("direct_seeding_classification_add");
+        
     }
 
     /**
-     **************李火生*******************
+     **************GY*******************
      * @param Request $request
      * Notes:防伪溯源
      **************************************
@@ -66,7 +75,7 @@ class  Material extends  Controller{
     }
 
     /**
-     **************李火生*******************
+     **************GY*******************
      * @param Request $request
      * Notes:温湿传感
      **************************************
@@ -77,7 +86,7 @@ class  Material extends  Controller{
     }
 
     /**
-     **************李火生*******************
+     **************GY*******************
      * @param Request $request
      * Notes:温湿传感添加编辑
      **************************************

@@ -61,7 +61,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">上架</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="voice" lay-skin="switch">
+                        <input type="checkbox" name="voice" lay-skin="switch" lay-filter="isShow" value="0">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -89,6 +89,14 @@
                 $ = layui.jquery,
                 upload = layui.upload;
 
+
+                form.on('switch(isShow)', function(data) {
+                    if($(this).val() == 0) {
+                        $(this).val(1);
+                    } else {
+                        $(this).val(0);
+                    }
+    			})
                 // 图片删除
                 $(".remove-img").click(function () {
                     var remove = $(this).parent();
