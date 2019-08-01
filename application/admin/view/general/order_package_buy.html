@@ -664,23 +664,27 @@
                 },
                 // 获取微信支付二维码
                 getWxCode: function(){
-                    var param = {
-                        money: +(this.virtualTag ? this.payment : this.virtualPayment),
-                        order_number: this.orderInfo[0].order_number,
-                        goods_name: this.orderInfo[0].goods_name,
-                    }
                     var _this = this;
-                    this.myAjax('order_code_pay', param, function(data){
-                        console.log(data)
-                        // 付款二维码生成成功， 监听支付
-                        if(data.body.status == 1){
-                            _this.onlinePayImg = data.body.data.url;
-                            // _this.onlinePayImg = JSON.parse(data.data.data);
-                            _this.onlinePayInterval = setInterval(function(){
-                                _this.monitorOnlinePay(param.order_number);
-                            }, 2000)
+                    if(!zzspBool){
+                        
+                    }else{
+                        var param = {
+                            money: +(this.virtualTag ? this.payment : this.virtualPayment),
+                            order_number: this.orderInfo[0].order_number,
+                            goods_name: this.orderInfo[0].goods_name,
                         }
-                    })
+                        this.myAjax('order_code_pay', param, function(data){
+                            console.log(data)
+                            // 付款二维码生成成功， 监听支付
+                            if(data.body.status == 1){
+                                _this.onlinePayImg = data.body.data.url;
+                                // _this.onlinePayImg = JSON.parse(data.data.data);
+                                _this.onlinePayInterval = setInterval(function(){
+                                    _this.monitorOnlinePay(param.order_number);
+                                }, 2000)
+                            }
+                        })
+                    }
                 },
                 // 选择汇款时间
                 getRemitTime: function(){
