@@ -920,7 +920,8 @@
                             order_number: orderInfo.order_number,
                             goods_name: orderInfo.goods_name,
                             address_id: this.virtualTag ? 0 : this.addrSelectedId,
-                            goods_franking: orderInfo.goods_franking ? orderInfo.goods_franking : 0
+                            goods_franking: orderInfo.goods_franking ? orderInfo.goods_franking : 0,
+                            password: this.password
                         }
                     }else{
                         url = 'order_package_balance';
