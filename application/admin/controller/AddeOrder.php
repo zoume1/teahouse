@@ -319,23 +319,18 @@ class  AddeOrder extends  Controller{
             }
 
             $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
-
-            if($booles){
-                $back = [
-                    'pay_time' => time(),
-                    'status'=> 3,
-                    'si_pay_type'=>3,
-                ];
-                $rest = Db::name('adder_order')->where('parts_order_number',$order_number)->update($back);
-                $store_rest = Db::name("store")
-                ->where("id",$store_id)
-                ->setDec('store_wallet',$order_real_pay);
-                halt($store_rest);
-                if($rest && $store_rest){
-                    return ajax_success("支付成功");
-                } else {
-                    return ajax_error("支付失败");
-                }
+            $back = [
+                'pay_time' => time(),
+                'status'=> 3,
+                'si_pay_type'=>3,
+            ];
+            $rest = Db::name('adder_order')->where('parts_order_number',$order_number)->update($back);
+            $store_rest = Db::name("store")
+            ->where("id",$store_id)
+            ->setDec('store_wallet',$order_real_pay);
+            
+            if($rest && $store_rest){
+                return ajax_success("支付成功");
             } else {
                 return ajax_error("支付失败");
             }
