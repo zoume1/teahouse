@@ -44,8 +44,16 @@ class  Analyse extends  Controller{
      **************************************
      */
     public function  analyse_order(){
-
-        return view("analyse_order");
+        $rest_data = Db::table("tb_adder_order")
+        ->alias('a')
+        ->join('tb_store b','b.id = a.store_id','left')
+        ->where("a.status",'>',1)
+        ->field("a.*,b.store_name")
+        ->select();
+        $url = 'admin/Analyse/analyse_order';
+        $pag_number = 20;
+        $data = paging_data($rest_data,$url,$pag_number);
+        return view("analyse_order",["data"=>$data]);
     }
 
     /**

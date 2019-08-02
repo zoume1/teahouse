@@ -318,14 +318,18 @@ class  AddeOrder extends  Controller{
                     'freight'=>0
                 ];
             }
+            $goods_type = Db::name("adder_order")->where('parts_order_number',$order_number)->value('goods_type');
+    
+            if($goods_type == 1){
+                $status = 3;
+            } else {
+                $status = 12;
+            }
 
-            $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
-            $back = [
-                'pay_time' => time(),
-                'status'=> 3,
-                'si_pay_type'=>3,
-            ];
-            $rest = Db::name('adder_order')->where('parts_order_number',$order_number)->update($back);
+            $datas['pay_time'] = time();
+            $datas['status'] = $status;
+            $datas['si_pay_type'] = 3;
+            $rest = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
             $store_rest = Db::name("store")
             ->where("id",$store_id)
             ->setDec('store_wallet',$order_real_pay);
