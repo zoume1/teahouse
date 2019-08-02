@@ -330,6 +330,7 @@ class  AddeOrder extends  Controller{
                 $store_rest = Db::name("store")
                 ->where("id",$store_id)
                 ->setDec('store_wallet',$order_real_pay);
+                halt($store_rest);
                 if($rest && $store_rest){
                     return ajax_success("支付成功");
                 } else {
