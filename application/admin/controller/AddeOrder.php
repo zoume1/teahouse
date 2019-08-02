@@ -185,7 +185,7 @@ class  AddeOrder extends  Controller{
         if($request->isPost()){
             //支付宝二维码
             $store_id = Session::get("store_id"); //店铺id
-            $order_real_pay = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
+            $order_real_pay = $request->only(["order_real_pay"])["order_real_pay"];//订单实际支付的金额(即优惠抵扣之后的价钱）
             $order_amount = $request->only(["order_amount"])["order_amount"];      //订单总金额
             $order_number = $request->only(["order_number"])["order_number"];      //订单编号
             $goods_name = $request->only(["goods_name"])["goods_name"];            //商品名称
