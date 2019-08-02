@@ -233,29 +233,27 @@ class  AddeOrder extends  Controller{
             }
 
             $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
-            if($booles){
-                header("Content-type:text/html;charset=utf-8");
-                include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
-                $obj_alipay = new \alipay();
-                $arr_data = array(
-                    "return_url" => trim(config("domain.url")."admin"),
-                    "notify_url" => trim(config("domain.url")."/analyse_meal_notify_alipay.html"),
-                    "service" => "create_direct_pay_by_user", //服务参数，这个是用来区别这个接口是用的什么接口，所以绝对不能修改
-                    "payment_type" => 1, //支付类型，没什么可说的直接写成1，无需改动。
-                    "seller_email" => '717797081@qq.com', //卖家
-                    "out_trade_no" => $order_number, //订单编号
-                    "subject" => $goods_name, //商品订单的名称
-                    "total_fee" => number_format($order_real_pay, 2, '.', ''),
-                );
-                $str_pay_html = $obj_alipay->make_form($arr_data, true);
-                if($str_pay_html){
-                    return ajax_success("二维码成功",["url"=>$str_pay_html]);
-                }else{
-                    return ajax_error("生成二维码失败");
-                }
-            } else {
-                   return ajax_error("订单有误");
+
+            header("Content-type:text/html;charset=utf-8");
+            include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
+            $obj_alipay = new \alipay();
+            $arr_data = array(
+                "return_url" => trim(config("domain.url")."admin"),
+                "notify_url" => trim(config("domain.url")."/analyse_meal_notify_alipay.html"),
+                "service" => "create_direct_pay_by_user", //服务参数，这个是用来区别这个接口是用的什么接口，所以绝对不能修改
+                "payment_type" => 1, //支付类型，没什么可说的直接写成1，无需改动。
+                "seller_email" => '717797081@qq.com', //卖家
+                "out_trade_no" => $order_number, //订单编号
+                "subject" => $goods_name, //商品订单的名称
+                "total_fee" => number_format($order_real_pay, 2, '.', ''),
+            );
+            $str_pay_html = $obj_alipay->make_form($arr_data, true);
+            if($str_pay_html){
+                return ajax_success("二维码成功",["url"=>$str_pay_html]);
+            }else{
+                return ajax_error("生成二维码失败");
             }
+
         }
     }
 
