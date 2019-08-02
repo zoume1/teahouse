@@ -38,6 +38,10 @@ class  Shopping extends  Controller{
                 ->join("tb_special","tb_shopping.goods_standard_id = tb_special.id","left")
                 ->where("tb_shopping.user_id", $member_id)
                 ->select();               //获取购物车中的商品
+                //获取当前用户的信息
+                $memebr_grade_id = Db::name("member")->where("member_openid", $open_id)->value("memebr_grade_id");
+                $member_pic = Db::name("member_grade")->where("memebr_grade_id", $memebr_grade_id)->value("memebr_grade_img");
+
             //判断购物车中商品是否为限时限购商品
             foreach($shopping_data as $k=>$v){
                 //判断该商品是否为限时限购
@@ -52,6 +56,7 @@ class  Shopping extends  Controller{
                 }
                 //获取商品信息
                 $shopping_data[$k]['goods_sign'] = json_decode($shopping_data[$k]['goods_sign'],true);
+                $shopping_data[$k]['member_pic'] =$member_pic;
                 $goods_info= db('goods')->where('id',$v['goods_id'])->find();
                 if($goods_info['limit_goods']=='1'){  //秒杀商品
                     $shopping_data[$k]['money']=$goods_info['limit_price'];
