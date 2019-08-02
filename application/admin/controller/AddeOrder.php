@@ -134,7 +134,7 @@ class  AddeOrder extends  Controller{
                         'order_quantity' => $order_quantity,
                         'harvester' => $harvester,
                         'harvest_phone_num' => $harvester_phone_num,
-                        'harvester_address' => $harvester_address,
+                        'harvester_address' => $harvest_address,
                         // 'coupon_deductible' => $coupon_deductible,
                         'freight'=>$freight
                     ];
@@ -210,7 +210,7 @@ class  AddeOrder extends  Controller{
                         'order_quantity' => $order_quantity,
                         'harvester' => $harvester,
                         'harvest_phone_num' => $harvester_phone_num,
-                        'harvester_address' => $harvester_address,
+                        'harvester_address' => $harvest_address,
                         // 'coupon_deductible' => $coupon_deductible,
                         'freight'=>$freight
                     ];
@@ -303,7 +303,7 @@ class  AddeOrder extends  Controller{
                         'order_quantity' => $order_quantity,
                         'harvester' => $harvester,
                         'harvest_phone_num' => $harvester_phone_num,
-                        'harvester_address' => $harvester_address,
+                        'harvester_address' => $harvest_address,
                         // 'coupon_deductible' => $coupon_deductible,
                         'freight'=>$freight
                     ];
