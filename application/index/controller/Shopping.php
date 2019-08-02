@@ -40,7 +40,7 @@ class  Shopping extends  Controller{
                 ->select();               //获取购物车中的商品
                 //获取当前用户的信息
                 $member_grade_id = Db::name("member")->where("member_openid", $open_id)->value("member_grade_id");
-                $member_pic = Db::name("member_grade")->where("member_grade_id", $member_grade_id)->value("memebr_grade_img");
+                $member_pic = Db::name("member_grade")->where("member_grade_id", $member_grade_id)->value("member_grade_img");
 
             //判断购物车中商品是否为限时限购商品
             foreach($shopping_data as $k=>$v){
