@@ -2579,7 +2579,7 @@ class  General extends  Base {
                 "datas"=>$datas,
                 "order_type"=>$rest['order_type'],
                 "express_name"=>$rest['express_name'],
-                "courier_number"=>$est['courier_number']
+                "courier_number"=>$rest['courier_number']
             ];
             if(!empty($data)){
                 return ajax_success("数据返回成功",$data);
