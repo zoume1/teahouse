@@ -639,7 +639,7 @@
                         param = {
                             order_real_pay: +(this.virtualTag ? this.payment : this.virtualPayment),
                             order_amount: +(this.virtualTag ? this.payment : this.virtualPayment),
-                            order_quinity: orderInfo.goods_quantity,
+                            order_quantity: orderInfo.goods_quantity,
                             order_number: orderInfo.order_number,
                             goods_name: orderInfo.goods_name,
                             address_id: this.virtualTag ? 0 : this.addrSelectedId,
@@ -692,7 +692,7 @@
                         param = {
                             order_real_pay: +(this.virtualTag ? this.payment : this.virtualPayment),
                             order_amount: +(this.virtualTag ? this.payment : this.virtualPayment),
-                            order_quinity: orderInfo.goods_quantity,
+                            order_quantity: orderInfo.goods_quantity,
                             order_number: orderInfo.order_number,
                             goods_name: orderInfo.goods_name,
                             address_id: this.virtualTag ? 0 : this.addrSelectedId,
@@ -908,8 +908,29 @@
                         id: this.orderInfo[0].id,
                         password: this.password
                     }
+                    var url = '';
                     var _this = this;
-                    _this.myAjax('order_package_balance', param, function(data){
+                    var orderInfo = this.orderInfo[0];
+                    if(!this.zzspBool){
+                        url = 'analyse_small_pay';
+                        param = {
+                            order_real_pay: +(this.virtualTag ? this.payment : this.virtualPayment),
+                            order_amount: +(this.virtualTag ? this.payment : this.virtualPayment),
+                            order_quantity: orderInfo.goods_quantity,
+                            order_number: orderInfo.order_number,
+                            goods_name: orderInfo.goods_name,
+                            address_id: this.virtualTag ? 0 : this.addrSelectedId,
+                            goods_franking: orderInfo.goods_franking ? orderInfo.goods_franking : 0
+                        }
+                    }else{
+                        url = 'order_package_balance';
+                        param = {
+                            id: orderInfo.id,
+                            password: this.password
+                        }
+                    }
+
+                    _this.myAjax(url, param, function(data){
                         if(data.body.status == 1){
                             layer.alert('支付成功！我们将在3个工作日内审核完毕，通过后自动完成订购。', function(index){
                                 layer.close(index);
