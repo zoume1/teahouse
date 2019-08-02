@@ -496,13 +496,28 @@ class  AdminWx extends Controller{
                 //减库存
                 $data = Db::name("adder_order")->where("parts_order_number",$val['out_trade_no'])->find();
                 if($data['goods_type'] == 1){
-                    $rest = [
-                        'status'=> $status,  //订单状态
-                        'si_pay_type'=>1,   //支付类型
-                        'pay_time'=>time()      //支付时间
-                    ];
+                    $status = 3; //待发货
+                } else {
+                    $status = 12;//待服务
                 }
+                $rest = [
+                    'status'=> $status,  //订单状态
+                    'si_pay_type'=>1,   //支付类型
+                    'pay_time'=>time()      //支付时间
+                ];
 
+                $bool = Db::name("adder_order")->where("parts_order_number",$val['out_trade_no'])->update($rest);
+
+                if($bool){
+                    if($data['special_id'] > 0) {
+                        $one = Db::name("analyse_goods")->where("id",$data['goods_id'])->setInc('goods_volume',$data['order_quantity']);
+                        $two = Db::name("analyse_special")->where("id",$data['special_id'])->setInc('sales',$data['order_quantity']);
+                        $three = Db::name("analyse_special")->where("id",$data['special_id'])->setDec('stock',$data['order_quantity']);
+                    } else {
+                        $one = Db::name("analyse_goods")->where("id",$data['goods_id'])->setInc('goods_volume',$data['order_quantity']);
+                        $two = Db::name("analyse_goods")->where("id",$data['goods_id'])->setDec('goods_repertory',$data['order_quantity']);
+                    }
+                }
 
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
             }else {

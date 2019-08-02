@@ -2562,6 +2562,36 @@ class  General extends  Base {
     /**
      **************李火生*******************
      * @param Request $request
+     * Notes:这是处理回复
+     **************************************
+     * @param Request $request
+     */
+    public function store_notice_index(Request $request){
+        if($request->isPost()){
+            $order_id = $request->only("order_id")["order_id"];
+            $datas =Db::name("note_notification")
+                ->where("order_id",$order_id)
+                ->order("create_time","desc")
+                ->select();
+            $rest = Db::name("adder_order")->where("id",$order_id)->find();
+
+            $data =[
+                "datas"=>$datas,
+                "order_type"=>$rest['order_type'],
+                "express_name"=>$rest['express_name'],
+                "courier_number"=>$est['courier_number']
+            ];
+            if(!empty($data)){
+                return ajax_success("数据返回成功",$data);
+            }else{
+                return ajax_error("没有数据",["status"=>0]);
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
      * Notes:售后维权
      **************************************
      * @return \think\response\View
