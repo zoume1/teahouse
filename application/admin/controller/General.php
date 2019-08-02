@@ -2542,13 +2542,21 @@ class  General extends  Base {
     }
 
     /**
-     **************李火生*******************
+     **************GY*******************
      * @param Request $request
      * Notes:增值订单
      **************************************
      */
     public function store_order(){
-        return view("store_order");
+        $store_id = Session::get('store_id');
+        $data = Db::name("adder_order")
+                ->where("store_id",$store_id)
+                ->where("status",'>',1)
+                ->paginate(20,false, [
+                    'query' => request()->param(),
+                ]); 
+                
+        return view("store_order",["data"=>$data]);
     }
 
     /**

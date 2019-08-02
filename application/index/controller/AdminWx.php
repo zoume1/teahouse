@@ -487,8 +487,21 @@ class  AdminWx extends Controller{
             $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
             $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
             $val = json_decode(json_encode($xml_data), true);
-            if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){   //回调成功
-                    //逻辑处理
+            if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){   
+                //回调成功
+                //更新订单状态
+                //逻辑处理
+                //找到订单
+                //加销量
+                //减库存
+                $data = Db::name("adder_order")->where("parts_order_number",$val['out_trade_no'])->find();
+                if($data['goods_type'] == 1){
+                    $rest = [
+                        'status'=> $status,  //订单状态
+                        'si_pay_type'=>1,   //支付类型
+                        'pay_time'=>time()      //支付时间
+                    ];
+                }
 
 
                 echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';

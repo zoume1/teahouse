@@ -60,7 +60,8 @@ class  AddeOrder extends  Controller{
                         'store_id'=>$store_id,                     //店铺id
                         'user_account_name'=>$store_data['contact_name'], //账号名字
                         'user_phone_number'=>$store_data['phone_number'], //联系方式
-                        'goods_describe' => $goods['goods_describe'] //商品买点
+                        'goods_describe' => $goods['goods_describe'], //商品买点
+                        'goods_image' => $goods['goods_show_image']
                     ];
 
                     $bool = Db::name("adder_order")->insert($analyse);
@@ -328,7 +329,7 @@ class  AddeOrder extends  Controller{
             $store_rest = Db::name("store")
             ->where("id",$store_id)
             ->setDec('store_wallet',$order_real_pay);
-            
+
             if($rest && $store_rest){
                 return ajax_success("支付成功");
             } else {

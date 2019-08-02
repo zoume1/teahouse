@@ -68,7 +68,411 @@
 		padding-left: 50px;
 		background: #FDFDFE;
     }
+
+    <style type="text/css">
+	body {
+		background: #fff;
+	}
+
+	#page {
+		width: 97%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+	}
+
+	.on {
+		color: #21A5FA !important;
+		border-bottom: solid 3px #21A5FA;
+	}
+
+	.static_btus1 {
+		width: 100px;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		cursor: pointer;
+		margin-left: 10px
+	}
+
+	/* 没申请 */
+	.not_apply {
+		color: #BCBCBC;
+		border: solid 1px #BCBCBC;
+		border-radius: 3px;
+	}
+
+	/* 申请 */
+	.apply {
+		color: #FF9900;
+		border: solid 1px #FF9900;
+		border-radius: 3px;
+	}
+
+	/* 已开票
+	 */
+	.applyed {
+		color: #669900;
+		border: solid 1px #669900;
+		border-radius: 3px;
+	}
+
+	.static_btus2 {
+		width: 100px;
+		height: 30px;
+		line-height: 30px;
+		color: #0099FF;
+		cursor: pointer;
+		text-align: center;
+	}
+
+	.distribution_list {
+		margin-bottom: 10px;
+		border-bottom: solid 1px #D7D7D7;
+	}
+
+	.distribution_list ul {
+		display: flex;
+		align-items: center;
+	}
+
+
+	.line {
+		justify-content: center;
+	}
+
+
+	.distribution_list a {
+		font-size: 14px;
+		padding: 9px;
+		color: #5E5E5E;
+	}
+
+	.distribution_list ul li {}
+
+	.static_btus {
+		border-radius: 5px;
+	}
+
+
+	.state {
+		width: 100px;
+		height: 30px;
+		line-height: 30px;
+		border-radius: 4px;
+		/* background: #007AFF; */
+		color: #fff;
+		margin: 0 auto;
+	}
+
+	/*
+     * 弹窗
+     4*/
+
+	.popup {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 99999;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: solid 1px #D7D7D7;
+		box-sizing: border-box;
+	}
+
+	.submit_btns {
+		width: 100px;
+		height: 38px;
+		color: #fff;
+		background: #169BD5;
+		border-radius: 10px;
+	}
+
+	.popup_doms {
+		width: 790px;
+		height: 400px;
+		background: #fff;
+	}
+
+	.popup_doms1 {
+		width: 900px;
+		background: #fff;
+	}
+
+	.popup_content {
+		padding: 20px;
+	}
+
+	.popup_title {
+		height: 40px;
+		line-height: 40px;
+		color: #66662B;
+		background: #EEF7EA;
+		padding-left: 20px;
+	}
+
+	.span {
+		display: inline-block;
+		width: 80px;
+		text-align: left;
+		margin-right: 20px;
+	}
+
+	.repany .layui-input {
+		width: 530px;
+	}
+
+	.repany {
+		margin-bottom: 10px;
+	}
+
+	.operation {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.chat {
+		height: 210px;
+	}
+
+	.danhao {
+		width: 200px;
+		margin-right: 10px;
+	}
+
+	.operation select {
+		width: 130px;
+		height: 40px;
+		border-color: #ABADB3;
+		color: #000;
+		background: #fff;
+	}
+
+	.operation div {
+		margin-right: 10px;
+	}
+
+	.tip {
+		color: red;
+		margin-left: 200px;
+	}
+
+	.noshow {
+		display: none;
+	}
+
+	.popup_title {
+		position: relative;
+	}
+
+	.popup_x {
+		width: 25px;
+		position: absolute;
+		right: 12px;
+		top: -4px;
+	}
+
+	.repay_tip {
+		display: inline-block;
+		width: 100px;
+		height: 35px;
+		text-align: center;
+		line-height: 35px;
+		color: #fff;
+		background: #669900;
+		border-radius: 5px;
+	}
+
+	.button {
+		width: 100px;
+		line-height: 30px;
+		text-align: center;
+		border: 1px solid #a2a2a2;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+
+	.button_all {
+		display: flex;
+		justify-content: space-around;
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+
+	/* .quxiao {} */
+
+	.daying {
+		background: rgb(22, 155, 213);
+		color: #fff;
+	}
+
+
+	/*
+     * 弹窗end
+		 */
+	/* .seach_button_all {} */
+
+	.seach_button {
+		border-radius: 4px;
+		display: inline-block;
+		width: 80px;
+		line-height: 30px;
+		color: #fff;
+		text-align: center;
+	}
+
+	.all0 {
+		background: #F4FBFF;
+		color: #999;
+	}
+
+	.all1 {
+		background: #CC3366;
+	}
+
+	.all2 {
+		background: #CC00CC;
+	}
+
+	.all3 {
+		background: #FF0000;
+	}
+
+	.all4 {
+		background: #669900;
+	}
+
+	.all5 {
+		background: #A1A1A1;
+		color: #000;
+	}
+
+	/* 状态颜色 */
+	/* 待付款 */
+	.color1 {
+		background: #CC3366;
+	}
+
+	/* 待发货 */
+	.color2 {
+		background: #CC00CC;
+	}
+
+	/* 已发货 */
+	.color3 {
+		background: #FF0000;
+	}
+
+	/* 已完成 */
+	.color4 {
+		background: #669900;
+	}
+
+	/* 已关闭 */
+	.color5 {
+		background: #A1A1A1;
+	}
+
+	/* 已退款 */
+	.color6 {
+		background: #CC9900;
+	}
+
+	/* 已入仓 */
+	.color7 {
+		background: #0000CC;
+	}
+
+
+	/*  待发货*/
+	.color8 {
+		background: #CC00CC;
+	}
+
+	/* 已取消 */
+	.color9 {
+		background: #831626;
+	}
+
+	.chenge_money {
+		display: flex;
+		margin-left: 10px;
+		text-align: center;
+		justify-content: space-between;
+		padding-top: 20px;
+		border-top: 2px dashed rgb(223, 223, 223)
+	}
+
+	.danwei {
+		position: absolute;
+		top: 10px;
+		left: 170px;
+
+	}
+
+	td.three>div,
+	td.four>div,
+	td.five>div {
+		border-bottom: 1px solid #e2e2e2;
+	}
+
+	td.four>div {
+		line-height: 50px;
+		white-space: nowrap;
+		max-width: 450px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	td.three>div:last-of-type,
+	td.four>div:last-of-type,
+	td.five>div:last-of-type {
+		border: 0;
+	}
+
+	td {
+		padding: 4px 0 !important;
+	}
+
+	td img {
+		width: 50px;
+		height: 50px;
+	}
+
+	.popup_content1 {
+		padding: 0 15px;
+	}
+
+	.popup_content1>td {
+		width: 120px;
+	}
+
+	.popup_t {
+		font-size: 18px;
+		font-weight: 500;
+		color: black;
+		line-height: 40px;
+		display: flex;
+		justify-content: space-between;
+		padding: 0 15px;
+		align-items: flex-end;
+	}
+
+	.norm>div:last-child {
+		border-bottom: 0px;
+	}
+
+	.norm_div {
+		border-bottom: 1px solid rgb(226, 226, 226);
+		line-height: 25px;
+	}
 </style>
+
 
 {/block}
 
@@ -93,11 +497,11 @@
             </div>
             <div>
                 <a href="#" class="layui-btn">全部</a>
-                <a href="#" class="layui-btn btn-dfk">待付款</a>
                 <a href="#" class="layui-btn btn-dfh">待发货</a>
                 <a href="#" class="layui-btn btn-yfh">已发货</a>
-                <a href="#" class="layui-btn btn-ywc">已完成</a>
-                <a href="#" class="layui-btn btn-ygb">已关闭</a>
+                <a href="#" class="layui-btn btn-ywc">待收货</a>
+                <a href="#" class="layui-btn btn-ygb">待服务</a>
+                <a href="#" class="layui-btn btn-ygb">已完成</a>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
@@ -127,10 +531,7 @@
                                 <div class="table-cell-div">订单金额</div>
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">填写邀请码奖励</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">实付金额</div>
+                                <div class="table-cell-div">支付类型</div>
                             </th>
                             <th class="table-cell">
                                 <div class="table-cell-div">操作</div>
@@ -138,53 +539,50 @@
                         </tr>
                     </thead>
                     <tbody>
+                            {if !empty($data)}
+                            {volist name="data" id="vo"}
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">2</div>
+                                <div class="table-cell-div">{$vo.parts_order_number}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">3</div>
+                                    {if !empty($vo2["goods_image"])}
+                                    <div><img src="__UPLOADS__/{$vo2.goods_image}" /></div>
+                                    {else}
+                                    <div>无</div>
+                                    {/if}
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">4</div>
+                                <div class="table-cell-div">{$vo.parts_goods_name}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">5</div>
+                                <div class="table-cell-div">{$vo.order_quantity}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">5</div>
+                                <div class="table-cell-div">{$vo.order_create_time|date="Y-m-d H:i:s",###}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">5</div>
+                                <div class="table-cell-div">￥{$vo.order_real_pay}</div>
                             </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">5</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">6</div>
+                            <td>
+                                {$vo.si_pay_type|pay_types}
                             </td>
                             
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <button class="layui-btn btn-dfk">待付款</button>
-                                    <!-- <button class="layui-btn btn-dfh">待收货</button>
-                                    <button class="layui-btn btn-yfh">已发货</button>
-                                    <button class="layui-btn btn-ywc">已完成</button>
-                                    <button class="layui-btn btn-ygb">已关闭</button>
-                                    <button class="layui-btn btn-ytk">已退款</button>
-                                    <button class="layui-btn btn-yqx">已取消</button> -->
-                                    <button class="layui-btn line-exam">未申请开票</button>
-                                    <!-- <button class="layui-btn line-ing">已申请开票</button>
-                                    <button class="layui-btn line-pass">已开票完成</button> -->
+                                    {$vo.status|show_order_statues}
+                                   <button class="layui-btn line-exam">未申请开票</button>
                                     <a href="capital_management_details" class="dtl">订单详情</a>
                                 </div>
                             </td>
                         </tr>
+                        {/volist}
+                        {/if}
                     </tbody>
                 </table>
             </div>
@@ -199,6 +597,9 @@
                     <button type="button" id="operation-btn" class="operation-btn">确定</button>
                 </div>
             </div>
+            {if !empty($data)}
+            {$data->render()}
+            {/if}
         </div>
     </div>
 
