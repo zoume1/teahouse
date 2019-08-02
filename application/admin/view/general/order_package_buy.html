@@ -642,7 +642,7 @@
                             order_quantity: orderInfo.goods_quantity,
                             order_number: orderInfo.order_number,
                             goods_name: orderInfo.goods_name,
-                            address_id: this.virtualTag ? 0 : this.addrSelectedId,
+                            address_id: this.zzVir ? this.addrSelectedId : 0,
                             goods_franking: orderInfo.goods_franking ? orderInfo.goods_franking : 0
                         }
                     }else{
@@ -682,6 +682,7 @@
                 },
                 // 获取微信支付二维码
                 getWxCode: function(){
+                    this.testAddr();
                     var _this = this;
                     var url = '';
                     var param = {};
@@ -695,7 +696,7 @@
                             order_quantity: orderInfo.goods_quantity,
                             order_number: orderInfo.order_number,
                             goods_name: orderInfo.goods_name,
-                            address_id: this.virtualTag ? 0 : this.addrSelectedId,
+                            address_id: this.zzVir ? this.addrSelectedId : 0,
                             goods_franking: orderInfo.goods_franking ? orderInfo.goods_franking : 0
                         }
                     }else{
@@ -741,8 +742,10 @@
                 getAllAddr: function(){
                     var _this = this;
                     _this.myAjax('general_address_return_info', '', function(data){
-                        _this.addrData = data.body.data;
-                        _this.addrSelectedId = data.body.data[0].id;
+                        if(data.body.status == 1){
+                            _this.addrData = data.body.data;
+                            _this.addrSelectedId = data.body.data[0].id;
+                        }
                     });
                 },
                 // 获取套餐订单信息
@@ -798,7 +801,7 @@
                 },
                 // 管理地址
                 toEditAddr: function(){
-                    location.href = 'general_address';
+                    location.href = 'general_address?zzsp=1';
                 },
                 // 修改地址
                 modifyAddr: function(){
@@ -818,6 +821,15 @@
                     this.addrSelectedIdx = i;
                     this.addrSelectedId = id;
                 },
+                // 从增值商品过来  判断用户是否有收获地址
+                testAddr: function(){
+                    // if(this.orderInfo)
+                    if(this.orderInfo[0].goods_type == 1 && this.addrSelectedId == 0){
+                        if(confirm('您还未添加收获地址，是否立即前往添加？')){
+                            location.href = 'general_address?zzsp=1';
+                        }
+                    }
+                }, 
                 // 减
                 minusEvent: function(item){
                     item.goods_quantity > 1 ? item.goods_quantity-- : '';
@@ -919,7 +931,7 @@
                             order_quantity: orderInfo.goods_quantity,
                             order_number: orderInfo.order_number,
                             goods_name: orderInfo.goods_name,
-                            address_id: this.virtualTag ? 0 : this.addrSelectedId,
+                            address_id: this.zzVir ? this.addrSelectedId : 0,
                             goods_franking: orderInfo.goods_franking ? orderInfo.goods_franking : 0,
                             password: this.password
                         }
@@ -933,9 +945,14 @@
 
                     _this.myAjax(url, param, function(data){
                         if(data.body.status == 1){
-                            layer.alert('支付成功！我们将在3个工作日内审核完毕，通过后自动完成订购。', function(index){
-                                layer.close(index);
-                                window.parent.document.getElementById('tcdl').click();
+                            layer.alert('支付成功！', function(index){
+                                // 增值商品过来 zzspBool为false
+                                if(!this.zzspBool){
+                                    location.href = 'store_order';
+                                }else{
+                                    layer.close(index);
+                                    window.parent.document.getElementById('tcdl').click();
+                                }
                             });
                         }else if(data.body.status == 2){
                             layer.alert('您还未设置支付密码，是否跳转去设置？', function(index){

@@ -262,9 +262,17 @@
             function saveData(data){
                 if(data.status == 1){
                     layer.msg(data.info, {time: 1000});
-                    setTimeout(function(){
-                        location.reload();
-                    }, 1100)
+                    if(location.search){
+                        if(location.search.substring(1).split('=')[0] == 'zzsp'){
+                            setTimeout(function(){
+                                location.href = 'order_package_buy';
+                            }, 1100)
+                        }
+                    }else{
+                        setTimeout(function(){
+                            location.reload();
+                        }, 1100)
+                    }
                 }
             }
             // 设置默认

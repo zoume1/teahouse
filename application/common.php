@@ -645,6 +645,28 @@ function order_type_status($label){
     }
 }
 
+/**
+ **************李火生*******************
+ * @param Request $request
+ * Notes:后台初始订单类型
+ **************************************
+ * @param $label
+ * @return string
+ */
+function pay_types($label){
+    switch ($label){
+        case '1':
+            return "微信支付";
+            break;
+        case '2':
+            return "支付宝支付";
+            break;
+        case '3':
+            return "余额支付";
+            break;
+    }
+}
+
 
 /**
  **************李火生*******************
@@ -736,6 +758,8 @@ function show_order_statues($status){
         echo '<button type="button" class="state  cancel-btu" >取消订单</button>';
     }else  if($status==11){
         echo '<button type="button" class="state  cancel-btu" >退货</button>';
+    }else  if($status==12){
+        echo '<button type="button" class="state  cancel-btu" >待服务</button>';
     }
 }
 
