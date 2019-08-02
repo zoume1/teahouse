@@ -325,8 +325,6 @@ class WxTest extends Controller
             $data['store_type']=$store_type;//当前店铺的经营类型
             //获取小程序的二维码
             $appsecret=Db::table('applet')->where('id',$data['store_id'])->value('appSecret');
-            $pp['msg']=$public_info;
-            db('test')->insert($pp);
             $head_pic=$this->getHeadpic($public_info ['authorization_info'] ['authorizer_appid'],$appsecret);   //小程序菊花码
             $data['qrcode_url'] = $head_pic;     //二维码地址
             //记录授权信息
@@ -454,10 +452,10 @@ class WxTest extends Controller
              * 获取小程序二维码
              */
             public function getHeadpic($appid,$appsecret){
-              $pp['msg']=$appid;
-              db('test')->insert($pp);
-               $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
-               $info = json_decode($this->https_get($url),true);     //获取access_token
+                $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
+                $info = json_decode($this->https_get($url),true);     //获取access_token
+                $pp['msg']=$info;
+                db('test')->insert($pp);
                 $url2 = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$info['access_token'];
                 $data = '{
                     "path":"/pages/logs/logs" 
