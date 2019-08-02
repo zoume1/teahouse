@@ -134,7 +134,7 @@ class  AddeOrder extends  Controller{
                         'order_quantity' => $order_quantity,
                         'harvester' => $harvester,
                         'harvest_phone_num' => $harvester_phone_num,
-                        'harvester_address' => $harvester_address,
+                        'harvester_address' => $harvest_address,
                         // 'coupon_deductible' => $coupon_deductible,
                         'freight'=>$freight
                     ];
@@ -185,7 +185,7 @@ class  AddeOrder extends  Controller{
         if($request->isPost()){
             //支付宝二维码
             $store_id = Session::get("store_id"); //店铺id
-            $order_real_pay = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
+            $order_real_pay = $request->only(["order_real_pay"])["order_real_pay"];//订单实际支付的金额(即优惠抵扣之后的价钱）
             $order_amount = $request->only(["order_amount"])["order_amount"];      //订单总金额
             $order_number = $request->only(["order_number"])["order_number"];      //订单编号
             $goods_name = $request->only(["goods_name"])["goods_name"];            //商品名称
@@ -210,7 +210,7 @@ class  AddeOrder extends  Controller{
                         'order_quantity' => $order_quantity,
                         'harvester' => $harvester,
                         'harvest_phone_num' => $harvester_phone_num,
-                        'harvester_address' => $harvester_address,
+                        'harvester_address' => $harvest_address,
                         // 'coupon_deductible' => $coupon_deductible,
                         'freight'=>$freight
                     ];
@@ -303,7 +303,7 @@ class  AddeOrder extends  Controller{
                         'order_quantity' => $order_quantity,
                         'harvester' => $harvester,
                         'harvest_phone_num' => $harvester_phone_num,
-                        'harvester_address' => $harvester_address,
+                        'harvester_address' => $harvest_address,
                         // 'coupon_deductible' => $coupon_deductible,
                         'freight'=>$freight
                     ];
@@ -319,22 +319,18 @@ class  AddeOrder extends  Controller{
             }
 
             $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
-
-            if($booles){
-                $back = [
-                    'pay_time' => time(),
-                    'status'=> 3,
-                    'si_pay_type'=>3,
-                ];
-                $rest = Db::name('adder_order')->where('parts_order_number',$order_number)->update($back);
-                $store_rest = Db::name("store")
-                ->where("id",$store_id)
-                ->setDec('store_wallet',$order_real_pay);
-                if($rest && $store_rest){
-                    return ajax_success("支付成功");
-                } else {
-                    return ajax_error("支付失败");
-                }
+            $back = [
+                'pay_time' => time(),
+                'status'=> 3,
+                'si_pay_type'=>3,
+            ];
+            $rest = Db::name('adder_order')->where('parts_order_number',$order_number)->update($back);
+            $store_rest = Db::name("store")
+            ->where("id",$store_id)
+            ->setDec('store_wallet',$order_real_pay);
+            
+            if($rest && $store_rest){
+                return ajax_success("支付成功");
             } else {
                 return ajax_error("支付失败");
             }

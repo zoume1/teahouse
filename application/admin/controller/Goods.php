@@ -930,8 +930,10 @@ class Goods extends Controller
         $crowd_data = db("crowd_goods")->where("store_id","EQ",$store_id)->order("sort_number desc")->select();
         if(!empty($crowd_data)){
             foreach ($crowd_data as $key => $value) {
-                $sum[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->sum("price");//众筹金额
-                $crowd_data[$key]["sum_price"] = sprintf("%.2f", $sum[$key]);
+                $min_price[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->min("cost");//金额
+                $min_stock[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->min("stock");//数量
+                $crowd_data[$key]["min_price"] = sprintf("%.2f", $min_price[$key]);
+                $crowd_data[$key]["min_stock"] = $min_stock[$key];
             }
         }   
 
