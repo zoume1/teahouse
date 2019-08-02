@@ -45,22 +45,123 @@ class  Material extends  Controller{
      **************************************
      */
     public function direct_seeding_classification(){
-        return view("direct_seeding_classification");
+        $store_id = Session::get("store_id");
+        $direct_data = Db::name("direct_seeding") 
+                ->where("store_id",$store_id)
+                ->select();
+        $url = 'admin/Material/direct_seeding_classification';
+        $pag_number = 20;
+        $data = paging_data($direct_data,$url,$pag_number);
+        return view("direct_seeding_classification",["data"=>$data]);
     }
 
     /**
      **************GY******************* 
      * @param Request $request
-     * Notes:直播分类添加编辑
+     * Notes:直播分类添加保存
      **************************************
      * @return \think\response\View
      */
     public function direct_seeding_classification_add(Request $request){
         if($request->isPost()){
-
+            $store_id = Session::get("store_id");
+            $data = input();
+            $data['status'] = isset($data['status'])?$data['status']:0;
+            $data['store_id'] = $store_id;
+            $show_images = $request->file("icon_image");
+            if ($show_images) {
+                $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            }
+            $bool = Db::name("direct_seeding")->insert($data);
+            if ($bool) {
+                $this->success("添加成功", url("admin/Material/direct_seeding_classification"));
+            } else {
+                $this->error("添加失败", url("admin/Material/direct_seeding_classification"));
+            }
         }
         return view("direct_seeding_classification_add");
         
+    }
+
+
+    /**
+     **************GY******************* 
+     * @param Request $request
+     * Notes:直播分类编辑
+     **************************************
+     * @return \think\response\View
+     */
+    public function direct_seeding_classification_edit($id){
+        $store_id = Session::get("store_id");
+        $bool = Db::name("direct_seeding")->where("id",$id)->select();
+        return view("direct_seeding_classification_edit",['bool'=>$bool]);
+    }
+
+    /**
+     **************GY******************* 
+     * @param Request $request
+     * Notes:直播分类删除
+     **************************************
+     * @return \think\response\View
+     */
+    public function direct_seeding_classification_delete($id){
+
+        $store_id = Session::get("store_id");
+        $bool = Db::name("direct_seeding")->where("id",$id)->delete();
+        if ($bool) {
+            $this->success("删除成功", url("admin/Material/direct_seeding_classification"));
+        } else {
+            $this->error("删除失败", url("admin/Material/direct_seeding_classification"));
+        }
+    }
+
+    /**
+     **************GY******************* 
+     * @param Request $request
+     * Notes:直播分类更新
+     **************************************
+     * @return \think\response\View
+     */
+    public function direct_seeding_classification_update(Request $request){
+        if($request->isPost()){
+            $data = input();
+            $id = $request->only(["id"])["id"];
+            $data['status'] = isset($data['status'])?$data['status']:0;
+            $show_images = $request->file("icon_image");
+            if ($show_images) {
+                $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            }
+            $bool = Db::name("direct_seeding")->where("id",$id)->update($data);
+            if ($bool) {
+                $this->success("更新成功", url("admin/Material/direct_seeding_classification"));
+            } else {
+                $this->error("未更改数据", url("admin/Material/direct_seeding_classification"));
+            }
+        }
+        
+    }
+       
+    /**
+     * [图片删除]
+     * 郭杨
+     */
+    public function direct_seeding_classification_delete_image(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(['id'])['id'];
+            $image_url = db("direct_seeding")->where("id", $id)->field("icon_image")->find();
+            if ($image_url['icon_image'] != null) {
+                unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['icon_image']);
+            }
+            $bool = db("direct_seeding")->where("id", $id)->field("icon_image")->update(["icon_image" => null]);
+            if ($bool) {
+                return ajax_success("删除成功");
+            } else {
+                return ajax_error("删除失败");
+            }
+        }
     }
 
     /**

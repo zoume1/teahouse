@@ -194,12 +194,13 @@ class  General extends  Base {
      **************************************
      */
     public function  general_address_return_info(Request $request){
-        $store_id =$this->store_ids ;
         if($request->isPost()){
+            $store_id =$this->store_ids;
             $data =Db::name("pc_store_address")
                 ->where('store_id',$store_id)
                 ->order("default","desc")
                 ->select();
+
             if(!empty($data)){
                 $list=array();
                 foreach ($data as $key=>$value){

@@ -16,7 +16,7 @@
 <body>
     {block name="content"}
         <div class="wrapper">
-            <form class="layui-form" action="">
+            <form class="layui-form layui-form-lists" action="{:url('admin/Material/direct_seeding_classification_add')}" method="post" enctype="multipart/form-data">
                 <div class="layui-form-item">
                     <label class="layui-form-label">分类名称</label>
                     <div class="layui-input-block">
@@ -61,7 +61,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">上架</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="voice" lay-skin="switch" lay-filter="isShow" value="0">
+                        <input type="checkbox" name="status" lay-skin="switch" lay-filter="isShow" value="0">
                     </div>
                 </div>
                 <div class="layui-form-item">

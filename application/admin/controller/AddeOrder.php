@@ -23,7 +23,7 @@ class  AddeOrder extends  Controller{
         if($request->isPost()){
             $data = input();
             //商品id、规格special_id、数量order_quinity
-            if(isset($data['goods_id']) && isset($data['special_id']) && isset($data['order_quinity']))
+            if(isset($data['goods_id']) && isset($data['special_id']) && isset($data['order_quantity']))
             {
                 $store_id = Session::get("store_id");
                 $store_data = Db::name("store")->where("id",$store_id)->find();
@@ -50,7 +50,7 @@ class  AddeOrder extends  Controller{
                         'parts_order_number'=>$parts_order_number, //订单号
                         'special_id'=>$data['special_id'],         //规格id
                         'goods_id'=>$data['goods_id'],             //商品
-                        'order_quinity'=>$data['order_quinity'],   //订单数量
+                        'order_quantity'=>$data['order_quantity'],   //订单数量
                         'goods_money'=>$price,                     //商品单价
                         'status'=> 1,                              //支付状态
                         'goods_standard'=> $goods_standard,        //规格名称
@@ -68,7 +68,7 @@ class  AddeOrder extends  Controller{
                         $restult = [
                             'order_number'=>$parts_order_number,        //订单号
                             'goods_id'=>$data['goods_id'],              //商品
-                            'goods_quantity'=>$data['order_quinity'],    //订单数量
+                            'goods_quantity'=>$data['order_quantity'],    //订单数量
                             'amount_money'=>$price,                      //商品单价
                             'store_name'=>$store_data['store_name'],    //店铺名
                             'goods_name'=> $goods['goods_name'],        //商品名称
@@ -109,13 +109,13 @@ class  AddeOrder extends  Controller{
             include('../extend/WxpayAllone/example/log.php');
 
             $store_id = Session::get("store_id"); //店铺id
-            $money = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
+            $order_real_pay = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
             $order_amount = $request->only(["order_amount"])["order_amount"];      //订单实际支付的金额(即优惠抵扣之后的价钱）
             $order_number = $request->only(["order_number"])["order_number"];      //订单编号
             $goods_name = $request->only(["goods_name"])["goods_name"];            //商品名称
             $order_quantity = $request->only(["order_quantity"])["order_quantity"];//商品数量
             $address_id = $request->only(["address_id"])["address_id"];            //收货地址id
-            $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
+            // $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
             $freight = $request->only(["goods_franking"])["goods_franking"];                    //邮费
 
             if($address_id > 0){
@@ -135,7 +135,7 @@ class  AddeOrder extends  Controller{
                         'harvester' => $harvester,
                         'harvest_phone_num' => $harvester_phone_num,
                         'harvester_address' => $harvester_address,
-                        'coupon_deductible' => $coupon_deductible,
+                        // 'coupon_deductible' => $coupon_deductible,
                         'freight'=>$freight
                     ];
                 }
@@ -144,39 +144,32 @@ class  AddeOrder extends  Controller{
                     'order_real_pay' => $order_real_pay,
                     'order_amount' => $order_amount,
                     'order_quantity' => $order_quantity,
-                    'coupon_deductible' => $coupon_deductible,
+                    // 'coupon_deductible' => $coupon_deductible,
                     'freight'=>0
                 ];
             }
 
-
-
             $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
-            if($booles){
-                $notify = new \NativePay();
-                $input = new \WxPayUnifiedOrder();//统一下单
-                $goods_id = 123456789; //商品Id
-                $input->SetBody($goods_name);//设置商品或支付单简要描述
-                $input->SetAttach($goods_name);//设置附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
-                $input->SetOut_trade_no($order_number);//设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
-                $input->SetTotal_fee($money * 100);//金额乘以100
-                $input->SetTime_start(date("YmdHis")); //设置订单生成时间,格式为yyyyMMddHHmmss
-                $input->SetTime_expire(date("YmdHis", time() + 600)); //设置订单失效时间
-                $input->SetGoods_tag("test"); //设置商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
-                $input->SetNotify_url(config("domain.url")."/analyse_meal_notify"); //回调地址
-                $input->SetTrade_type("NATIVE"); //交易类型(扫码)
-                $input->SetProduct_id($goods_id);//设置trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
-                $result = $notify->GetPayUrl($input);
-                $url2 = $result["code_url"];
-                if($url2){
-                    return ajax_success("微信二维码返回成功",["url"=>"/qrcode?url2=".$url2]);
-                }else{
-                    return ajax_error("二维码生成失败");
-                }
-            } else {
-                return ajax_error("订单有误,请稍后再试");
+            $notify = new \NativePay();
+            $input = new \WxPayUnifiedOrder();//统一下单
+            $goods_id = 123456789; //商品Id
+            $input->SetBody($goods_name);//设置商品或支付单简要描述
+            $input->SetAttach($goods_name);//设置附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+            $input->SetOut_trade_no($order_number);//设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
+            $input->SetTotal_fee($order_real_pay * 100);//金额乘以100
+            $input->SetTime_start(date("YmdHis")); //设置订单生成时间,格式为yyyyMMddHHmmss
+            $input->SetTime_expire(date("YmdHis", time() + 600)); //设置订单失效时间
+            $input->SetGoods_tag("test"); //设置商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
+            $input->SetNotify_url(config("domain.url")."/analyse_meal_notify"); //回调地址
+            $input->SetTrade_type("NATIVE"); //交易类型(扫码)
+            $input->SetProduct_id($goods_id);//设置trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
+            $result = $notify->GetPayUrl($input);
+            $url2 = $result["code_url"];
+            if($url2){
+                return ajax_success("微信二维码返回成功",["url"=>"/qrcode?url2=".$url2]);
+            }else{
+                return ajax_error("二维码生成失败");
             }
-
         }
     }
 
@@ -192,13 +185,13 @@ class  AddeOrder extends  Controller{
         if($request->isPost()){
             //支付宝二维码
             $store_id = Session::get("store_id"); //店铺id
-            $money = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
+            $order_real_pay = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
             $order_amount = $request->only(["order_amount"])["order_amount"];      //订单总金额
             $order_number = $request->only(["order_number"])["order_number"];      //订单编号
             $goods_name = $request->only(["goods_name"])["goods_name"];            //商品名称
             $order_quantity = $request->only(["order_quantity"])["order_quantity"];//商品数量
             $address_id = $request->only(["address_id"])["address_id"];            //收货地址id
-            $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
+            // $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
             $freight = $request->only(["goods_franking"])["goods_franking"];                    //邮费
     
             if($address_id > 0){
@@ -218,7 +211,7 @@ class  AddeOrder extends  Controller{
                         'harvester' => $harvester,
                         'harvest_phone_num' => $harvester_phone_num,
                         'harvester_address' => $harvester_address,
-                        'coupon_deductible' => $coupon_deductible,
+                        // 'coupon_deductible' => $coupon_deductible,
                         'freight'=>$freight
                     ];
                 }
@@ -227,35 +220,33 @@ class  AddeOrder extends  Controller{
                     'order_real_pay' => $order_real_pay,
                     'order_amount' => $order_amount,
                     'order_quantity' => $order_quantity,
-                    'coupon_deductible' => $coupon_deductible,
+                    // 'coupon_deductible' => $coupon_deductible,
                     'freight'=>0
                 ];
             }
 
             $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
-            if($booles){
-                header("Content-type:text/html;charset=utf-8");
-                include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
-                $obj_alipay = new \alipay();
-                $arr_data = array(
-                    "return_url" => trim(config("domain.url")."admin"),
-                    "notify_url" => trim(config("domain.url")."/analyse_meal_notify_alipay.html"),
-                    "service" => "create_direct_pay_by_user", //服务参数，这个是用来区别这个接口是用的什么接口，所以绝对不能修改
-                    "payment_type" => 1, //支付类型，没什么可说的直接写成1，无需改动。
-                    "seller_email" => '717797081@qq.com', //卖家
-                    "out_trade_no" => $order_number, //订单编号
-                    "subject" => $goods_name, //商品订单的名称
-                    "total_fee" => number_format($money, 2, '.', ''),
-                );
-                $str_pay_html = $obj_alipay->make_form($arr_data, true);
-                if($str_pay_html){
-                    return ajax_success("二维码成功",["url"=>$str_pay_html]);
-                }else{
-                    return ajax_error("生成二维码失败");
-                }
-            } else {
-                   return ajax_error("订单有误");
+
+            header("Content-type:text/html;charset=utf-8");
+            include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
+            $obj_alipay = new \alipay();
+            $arr_data = array(
+                "return_url" => trim(config("domain.url")."admin"),
+                "notify_url" => trim(config("domain.url")."/analyse_meal_notify_alipay.html"),
+                "service" => "create_direct_pay_by_user", //服务参数，这个是用来区别这个接口是用的什么接口，所以绝对不能修改
+                "payment_type" => 1, //支付类型，没什么可说的直接写成1，无需改动。
+                "seller_email" => '717797081@qq.com', //卖家
+                "out_trade_no" => $order_number, //订单编号
+                "subject" => $goods_name, //商品订单的名称
+                "total_fee" => number_format($order_real_pay, 2, '.', ''),
+            );
+            $str_pay_html = $obj_alipay->make_form($arr_data, true);
+            if($str_pay_html){
+                return ajax_success("二维码成功",["url"=>$str_pay_html]);
+            }else{
+                return ajax_error("生成二维码失败");
             }
+
         }
     }
 
@@ -278,8 +269,8 @@ class  AddeOrder extends  Controller{
             $goods_name = $request->only(["goods_name"])["goods_name"];            //商品名称
             $order_quantity = $request->only(["order_quantity"])["order_quantity"];//商品数量
             $address_id = $request->only(["address_id"])["address_id"];            //收货地址id
-            $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
-            $freight = $request->only(["goods_franking"])["goods_franking"];                    //邮费
+            // $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
+            $freight = $request->only(["goods_franking"])["goods_franking"];       //邮费
 
             $store_pass = Db::name("store")
                 ->where("id",$store_id)
@@ -313,7 +304,7 @@ class  AddeOrder extends  Controller{
                         'harvester' => $harvester,
                         'harvest_phone_num' => $harvester_phone_num,
                         'harvester_address' => $harvester_address,
-                        'coupon_deductible' => $coupon_deductible,
+                        // 'coupon_deductible' => $coupon_deductible,
                         'freight'=>$freight
                     ];
                 }
@@ -322,7 +313,7 @@ class  AddeOrder extends  Controller{
                     'order_real_pay' => $order_real_pay,
                     'order_amount' => $order_amount,
                     'order_quantity' => $order_quantity,
-                    'coupon_deductible' => $coupon_deductible,
+                    // 'coupon_deductible' => $coupon_deductible,
                     'freight'=>0
                 ];
             }

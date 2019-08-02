@@ -812,13 +812,18 @@ Route::group("admin",[
     "property_day_index" =>"admin/Property/property_day_index",     //日账单详
 
     /*物联*/
-    "anti_fake" =>"admin/Material/anti_fake",                 //防伪溯源
-    "direct_seeding" =>"admin/Material/direct_seeding",      //视频直播
-    "direct_seeding_add" =>"admin/Material/direct_seeding_add", //视频直播添加设备
-    "direct_seeding_classification" =>"admin/Material/direct_seeding_classification",       //视频直播分类
-    "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加编辑
-    "interaction_index" =>"admin/Material/interaction_index", //温湿感应
-    "interaction_add" =>"admin/Material/interaction_add", //温湿感应
+    "anti_fake" =>"admin/Material/anti_fake",                                                       //防伪溯源
+    "direct_seeding" =>"admin/Material/direct_seeding",                                             //视频直播
+    "direct_seeding_add" =>"admin/Material/direct_seeding_add",                                     //视频直播添加设备
+    "direct_seeding_classification" =>"admin/Material/direct_seeding_classification",               //视频直播分类
+    "direct_seeding_classification_save" =>"admin/Material/direct_seeding_classification_save",     //视频直播分类保存
+    "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加
+    "direct_seeding_classification_edit" =>"admin/Material/direct_seeding_classification_edit",     //直播分类添加
+    "direct_seeding_classification_delete" =>"admin/Material/direct_seeding_classification_delete", //直播分类删除
+    "direct_seeding_classification_update" =>"admin/Material/direct_seeding_classification_update", //直播分类更新
+    "direct_seeding_classification_delete_image" =>"admin/Material/direct_seeding_classification_delete_image", //直播分类图片删除
+    "interaction_index" =>"admin/Material/interaction_index",                                       //温湿感应
+    "interaction_add" =>"admin/Material/interaction_add",                                           //温湿感应
 
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况

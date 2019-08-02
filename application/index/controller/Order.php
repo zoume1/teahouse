@@ -1123,6 +1123,8 @@ class  Order extends  Controller
                             }
                             //2.删除订单
                             $rr=db('order')->where('parts_order_number',$value['parts_order_number'])->delete();
+                            unset($data[$key]);
+                            continue;
                         }
                  }
 
@@ -1327,6 +1329,8 @@ class  Order extends  Controller
                     }
                     //2.删除订单
                     $rr=db('order')->where('parts_order_number',$value['parts_order_number'])->delete();
+                    unset($data[$key]);
+                    continue;
                 }
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
@@ -2250,21 +2254,27 @@ class  Order extends  Controller
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $val = json_decode(json_encode($xml_data), true);
         if($val["result_code"] == "SUCCESS" ){
+
+            $order_type = Db::name("order")->where("parts_order_number",$val["out_trade_no"])->value("order_type");
+            if($order_type == 2){
+                $status = 5;
+            } else {
+                $status = 2;
+            }
             file_put_contents(EXTEND_PATH."data.txt",$val);
             $res = Db::name("order")
                 ->where("parts_order_number",$val["out_trade_no"])
-                ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>2]);
+                ->update(["status"=>$status,"pay_time"=>time(),"si_pay_type"=>2]);
 
             $host_rest = Db::name("house_order")
             ->where("parts_order_number",$val["out_trade_no"])
             ->update(["status"=>3,"pay_time"=>time(),"si_pay_type"=>2]);
+            
             //商品库存减少、销量增加
-
             $goods_order = Db::name("order") 
             ->where("parts_order_number",$val["out_trade_no"])
             ->field("goods_id,order_quantity,special_id")
             ->select();
-
 
             foreach($goods_order as $k => $v){
                 if($goods_order[$k]['special_id'] != 0){
@@ -2396,9 +2406,11 @@ class  Order extends  Controller
                     Db::name("member")->where("member_id",$recharge_record_data["user_id"])
                         ->update(["member_recharge_money"=>$user_wallet["member_recharge_money"]+$recharge_record_data["recharge_money"]]);
                     //插入积分记录
-                         Db::name("member")
-                        ->where("member_id",$recharge_record_data["user_id"])
-                        ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
+                    if($recharge_record_data['upgrade_id']<0){
+                        Db::name("member")
+                       ->where("member_id",$recharge_record_data["user_id"])
+                       ->setInc('member_integral_wallet',$lists);//满足条件则增加积分
+                    }
                     $integral_res = Db::name("member")
                         ->where("member_id",$recharge_record_data["user_id"])
                         ->value("member_integral_wallet");//获取所有积分

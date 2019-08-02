@@ -332,6 +332,15 @@
                         layer.msg(res.body.info, {time: 1000});
                     })
                 },
+                setCookie: function(name, value, day) {
+                    var date = new Date();
+                    date.setDate(date.getDate() + day);
+                    document.cookie = name + '=' + value + ';expires=' + date;
+                },
+                //删除cookie
+                delCookie: function(name) {
+                    this.setCookie(name, null, -1);
+                },
                 goodsDetail: function(_id){
                     location.href = 'added_service_show?id=' + _id; 
                     // window.open('added_service_show?id=' + _id);
@@ -341,10 +350,14 @@
                     var params = {
                         goods_id: this.id,
                         special_id: this.specId,
-                        order_quinity: this.number
+                        order_quantity: this.number
                     }
+                    var _this = this;
                     this.myAjax('adder_place', params, function(data){
-                        console.log(data);
+                        _this.setCookie('zzsp_data', JSON.stringify(data.body.data), 7);
+                        // 清除套餐id 
+                        _this.delCookie('TCid');
+                        location.href = 'order_package_buy';
                     })
                 },
                 inputNumber: function(){

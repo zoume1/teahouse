@@ -210,6 +210,7 @@
                             if(confirm(res.body.info)){
                                 this.setCookie('TCid', res.body.data.id, 7); //历史订单标志
                                 this.setCookie('virtual', false, 7); //结算页判断是虚拟商品 隐藏收货地址
+                                this.delCookie('zzsp_data');
                                 location.href = 'order_package_buy';
                             }else{
                                this.normalOrder(index);
@@ -230,11 +231,13 @@
                     var param = {
                         id: this.selectData[index].id
                     }
+                    var _this = this;
                     this.$http.post('order_package_do_by', param).then(function(res){
                         console.log(res)
                         if(res.body.status == 1){
-                            this.setCookie('TCid', res.body.data.id, 7);
-                            this.setCookie('virtual', false, 7);//结算页判断是虚拟商品 隐藏收货地址
+                            _this.setCookie('TCid', res.body.data.id, 7);
+                            _this.setCookie('virtual', false, 7);//结算页判断是虚拟商品 隐藏收货地址
+                            _this.delCookie('zzsp_data');
                             location.href = 'order_package_buy';
                         }else{
                             layer.msg(res.body.info, {time: 2000});
@@ -248,8 +251,12 @@
                 setCookie: function(name, value, day){
                     var date = new Date();
                     date.setDate(date.getDate() + day);
-                    document.cookie = name + '=' + value + ';wxpires=' + date;
-                }
+                    document.cookie = name + '=' + value + ';expires=' + date;
+                },
+                //删除cookie
+                delCookie: function(name) {
+                    this.setCookie(name, null, -1);
+                },
             },
             mounted: function(){
                 this.getAllData();
