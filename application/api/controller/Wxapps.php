@@ -874,7 +874,8 @@ class  Wxapps extends  Controller{
                             }
                         }else if ($v['id'] == "yhq") {
                             $counts_yhq = $v['style']['counts'];
-                            $v['coupon'] = Db::table("ims_sudu8_page_coupon")->where("flag", 1)->where("uniacid", $uniacid)->limit(0, $counts_yhq)->select();
+                            // $v['coupon'] = Db::table("ims_sudu8_page_coupon")->where("flag", 1)->where("uniacid", $uniacid)->limit(0, $counts_yhq)->select();
+                            
                         }else if ($v['id'] == "xnlf") {
                             $avatars = Db::table("ims_sudu8_page_user")->where("avatar", "neq", "")->where("uniacid", $uniacid)->order("id desc")->limit(0, 5)->field("avatar")->select();
                             $v['avatars'] = $avatars;
