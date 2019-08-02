@@ -109,7 +109,7 @@ class  AddeOrder extends  Controller{
             include('../extend/WxpayAllone/example/log.php');
 
             $store_id = Session::get("store_id"); //店铺id
-            $money = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
+            $order_real_pay = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
             $order_amount = $request->only(["order_amount"])["order_amount"];      //订单实际支付的金额(即优惠抵扣之后的价钱）
             $order_number = $request->only(["order_number"])["order_number"];      //订单编号
             $goods_name = $request->only(["goods_name"])["goods_name"];            //商品名称
@@ -159,7 +159,7 @@ class  AddeOrder extends  Controller{
                 $input->SetBody($goods_name);//设置商品或支付单简要描述
                 $input->SetAttach($goods_name);//设置附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
                 $input->SetOut_trade_no($order_number);//设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
-                $input->SetTotal_fee($money * 100);//金额乘以100
+                $input->SetTotal_fee($order_real_pay * 100);//金额乘以100
                 $input->SetTime_start(date("YmdHis")); //设置订单生成时间,格式为yyyyMMddHHmmss
                 $input->SetTime_expire(date("YmdHis", time() + 600)); //设置订单失效时间
                 $input->SetGoods_tag("test"); //设置商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
@@ -192,7 +192,7 @@ class  AddeOrder extends  Controller{
         if($request->isPost()){
             //支付宝二维码
             $store_id = Session::get("store_id"); //店铺id
-            $money = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
+            $order_real_pay = $request->only(["order_real_pay"])["order_real_pay"];         //订单实际支付的金额(即优惠抵扣之后的价钱）
             $order_amount = $request->only(["order_amount"])["order_amount"];      //订单总金额
             $order_number = $request->only(["order_number"])["order_number"];      //订单编号
             $goods_name = $request->only(["goods_name"])["goods_name"];            //商品名称
@@ -245,7 +245,7 @@ class  AddeOrder extends  Controller{
                     "seller_email" => '717797081@qq.com', //卖家
                     "out_trade_no" => $order_number, //订单编号
                     "subject" => $goods_name, //商品订单的名称
-                    "total_fee" => number_format($money, 2, '.', ''),
+                    "total_fee" => number_format($order_real_pay, 2, '.', ''),
                 );
                 $str_pay_html = $obj_alipay->make_form($arr_data, true);
                 if($str_pay_html){
