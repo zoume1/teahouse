@@ -454,7 +454,7 @@ class WxTest extends Controller
             public function getHeadpic($appid,$appsecret){
                 $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
                 $info = json_decode($this->https_get($url),true);     //获取access_token
-                $pp['msg']=$info;
+                $pp['msg']=$info.'123121';
                 db('test')->insert($pp);
                 $url2 = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$info['access_token'];
                 $data = '{
