@@ -2618,7 +2618,7 @@ class  General extends  Base {
 
             $data =[
                 "datas"=>$datas,
-                "order_type"=>$rest['order_type'],
+                "goods_type"=>$rest['goods_type'],
                 "express_name"=>$rest['express_name'],
                 "courier_number"=>$rest['courier_number']
             ];
