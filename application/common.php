@@ -749,7 +749,7 @@ function show_order_statues($status){
     }else  if($status==5){
         echo '<button type="button" class="state  gooded-btu" >已收货</button>';
     }else  if($status==7){
-        echo '<button type="button" class="state  obligation" >待评价</button>';
+        echo '<button type="button" class="state  obligation static_btus" >待评价</button>';
     } else  if($status==8){
         echo '<button type="button" class="state  finish-btu" >已完成</button>';
     }else  if($status==9){
@@ -759,7 +759,7 @@ function show_order_statues($status){
     }else  if($status==11){
         echo '<button type="button" class="state  cancel-btu" >退货</button>';
     }else  if($status==12){
-        echo '<button type="button" class="state  cancel-btu" >待服务</button>';
+        echo '<button type="button" class="state  cancel-btu static_btus" >待服务</button>';
     }
 }
 
