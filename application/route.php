@@ -533,6 +533,8 @@ Route::group("admin",[
     "after_sale_status"=>"admin/AfterSale/after_sale_status",//售后状态修改
     "after_sale_express_add"=>"admin/AfterSale/after_sale_express_add",//售后状态修改带快递信息
     "after_sale_money_add"=>"admin/AfterSale/after_sale_money_add",//售后状态修改带退钱操作
+    "after_sale_refound"=>"admin/AfterSale/after_sale_refound",//售后状态-退钱，原路返回
+
     /*TODO:售后结束*/
     /*TODO:退款*/
 //    "order_refund"=>"admin/Api/order_refund",//微信退款
@@ -862,7 +864,9 @@ Route::group("admin",[
     "order_package_do_by"=>"admin/General/order_package_do_by",         //订单套餐购买操作
     "order_code_pay"=>"admin/General/order_code_pay",                   //套餐订购微信二维码扫码支付
     "order_code_pay2"=>"admin/General/order_code_pay2",                 //资金管理在线充值-微信
-    "check_code_apy"=>"admin/General/check_code_apy",                   //轮询套餐订购微信二维码扫码支付是否成功
+    "check_code_apy"=>"admin/General/check_code_apy",                   //轮询充值订购微信二维码扫码支付是否成功
+    "check_code_two"=>"admin/General/check_code_two",                   //轮询增值订购微信二维码扫码支付是否成功
+    "check_code_one"=>"admin/General/check_code_one",                   //轮询套餐订单订购微信二维码扫码支付是否成功
     "order_code_alipay"=>"admin/General/order_code_alipay",             //套餐订购支付宝二维码扫码支付
     "order_code_alipay2"=>"admin/General/order_code_alipay2",           //后台充值支付宝二维码扫码支付
     "order_package_remittance"=>"admin/General/order_package_remittance",      //订单套餐支付汇款

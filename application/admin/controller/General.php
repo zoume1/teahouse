@@ -2076,6 +2076,47 @@ class  General extends  Base {
     }
 
 
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:轮询操作(判断该套餐订单是否支付)
+     **************************************
+     * @param Request $request
+     */
+    public function  check_code_one(Request $request){
+        $order_number = $request->only(["order_number"])["order_number"];
+        $result =Db::name("set_meal_order")
+            ->where("order_number",$order_number)
+            ->where("status",2)
+            ->find();
+        if($result){
+            return ajax_success("付款成功");
+        }else{
+            return ajax_error("未付款成功");
+        }
+    }
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:轮询操作（判断增值订单是否支付）
+     **************************************
+     * @param Request $request
+     */
+    public function  check_code_two(Request $request){
+        $order_number = $request->only(["order_number"])["order_number"];
+        $result =Db::name("adder_order")
+            ->where("parts_order_number",$order_number)
+            ->where("status","=",2)
+            ->find();
+        if($result){
+            return ajax_success("付款成功");
+        }else{
+            return ajax_error("未付款成功");
+        }
+    }
+
+
 
     /**
      **************李火生*******************
@@ -2569,15 +2610,15 @@ class  General extends  Base {
     public function store_notice_index(Request $request){
         if($request->isPost()){
             $order_id = $request->only("order_id")["order_id"];
-            $datas =Db::name("note_notification")
+            $datas = Db::name("note_notification")
                 ->where("order_id",$order_id)
                 ->order("create_time","desc")
                 ->select();
-            $rest = Db::name("adder_order")->where("id",$order_id)->find();
+            $rest = Db::name("adder_order")->where("parts_order_number",$order_id)->find();
 
             $data =[
                 "datas"=>$datas,
-                "order_type"=>$rest['order_type'],
+                "goods_type"=>$rest['goods_type'],
                 "express_name"=>$rest['express_name'],
                 "courier_number"=>$rest['courier_number']
             ];
