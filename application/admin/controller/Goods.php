@@ -1016,7 +1016,6 @@ class Goods extends Controller
                     foreach ($goods_data as $kn => $nl) {
                         if (substr($kn, 0, 3) == "sss") 
                         {
-                            $price[] = $nl["price"];
                             $stock[] = $nl["stock"];
                             $coding[] = $nl["coding"];
                             $story[] = $nl["story"];
@@ -1048,7 +1047,6 @@ class Goods extends Controller
                                 if (substr($key, 0, 3) == "sss") {
                                     $str[] = substr($key, 3);
                                     $values[$k]["name"] = $str[$k];
-                                    $values[$k]["price"] = $price[$k];
                                     $values[$k]["lv1"] = $standard;
                                     $values[$k]["stock"] = $stock[$k];
                                     $values[$k]["offer"] = $offer[$k];

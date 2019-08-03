@@ -118,6 +118,7 @@ class  AddeOrder extends  Controller{
             $address_id = $request->only(["address_id"])["address_id"];            //收货地址id
             // $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
             $freight = $request->only(["goods_franking"])["goods_franking"];                    //邮费
+            $order_real_pay = 0.01;
 
             if($address_id > 0){
                 $is_address_status = Db::name("pc_store_address")->where('id',$address_id)->find(); //收货地址详细
@@ -141,13 +142,31 @@ class  AddeOrder extends  Controller{
                     ];
                 }
             } else {
-                $datas = [
-                    'order_real_pay' => $order_real_pay,
-                    'order_amount' => $order_amount,
-                    'order_quantity' => $order_quantity,
-                    // 'coupon_deductible' => $coupon_deductible,
-                    'freight'=>0
-                ];
+                $is_address_status = Db::name("pc_store_address")->where('store_id',$store_id)->where('default',1)->find(); //默认收货地址详细
+                if(!empty($is_address_status)){
+                    $harvest_address_city = str_replace(' ','',$is_address_status['address']);
+                    $harvest_address = $harvest_address_city.$is_address_status['street']; //收货人地址
+                    $harvester = $is_address_status['name'];
+                    $harvester_phone_num = $is_address_status['phone'];
+                    $datas = [
+                        'order_real_pay' => $order_real_pay,
+                        'order_amount' => $order_amount,
+                        'order_quantity' => $order_quantity,
+                        'harvester' => $harvester,
+                        'harvest_phone_num' => $harvester_phone_num,
+                        'harvester_address' => $harvest_address,
+                        // 'coupon_deductible' => $coupon_deductible,
+                        'freight'=>0
+                    ];
+                } else {
+                    $datas = [
+                        'order_real_pay' => $order_real_pay,
+                        'order_amount' => $order_amount,
+                        'order_quantity' => $order_quantity,
+                        // 'coupon_deductible' => $coupon_deductible,
+                        'freight'=>0
+                    ];
+                }
             }
 
             $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
@@ -217,13 +236,31 @@ class  AddeOrder extends  Controller{
                     ];
                 }
             } else {
-                $datas = [
-                    'order_real_pay' => $order_real_pay,
-                    'order_amount' => $order_amount,
-                    'order_quantity' => $order_quantity,
-                    // 'coupon_deductible' => $coupon_deductible,
-                    'freight'=>0
-                ];
+                $is_address_status = Db::name("pc_store_address")->where('store_id',$store_id)->where('default',1)->find(); //默认收货地址详细
+                if(!empty($is_address_status)){
+                    $harvest_address_city = str_replace(' ','',$is_address_status['address']);
+                    $harvest_address = $harvest_address_city.$is_address_status['street']; //收货人地址
+                    $harvester = $is_address_status['name'];
+                    $harvester_phone_num = $is_address_status['phone'];
+                    $datas = [
+                        'order_real_pay' => $order_real_pay,
+                        'order_amount' => $order_amount,
+                        'order_quantity' => $order_quantity,
+                        'harvester' => $harvester,
+                        'harvest_phone_num' => $harvester_phone_num,
+                        'harvester_address' => $harvest_address,
+                        // 'coupon_deductible' => $coupon_deductible,
+                        'freight'=>0
+                    ];
+                } else {
+                    $datas = [
+                        'order_real_pay' => $order_real_pay,
+                        'order_amount' => $order_amount,
+                        'order_quantity' => $order_quantity,
+                        // 'coupon_deductible' => $coupon_deductible,
+                        'freight'=>0
+                    ];
+                }
             }
 
             $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
@@ -310,13 +347,31 @@ class  AddeOrder extends  Controller{
                     ];
                 }
             } else {
-                $datas = [
-                    'order_real_pay' => $order_real_pay,
-                    'order_amount' => $order_amount,
-                    'order_quantity' => $order_quantity,
-                    // 'coupon_deductible' => $coupon_deductible,
-                    'freight'=>0
-                ];
+                $is_address_status = Db::name("pc_store_address")->where('store_id',$store_id)->where('default',1)->find(); //默认收货地址详细
+                if(!empty($is_address_status)){
+                    $harvest_address_city = str_replace(' ','',$is_address_status['address']);
+                    $harvest_address = $harvest_address_city.$is_address_status['street']; //收货人地址
+                    $harvester = $is_address_status['name'];
+                    $harvester_phone_num = $is_address_status['phone'];
+                    $datas = [
+                        'order_real_pay' => $order_real_pay,
+                        'order_amount' => $order_amount,
+                        'order_quantity' => $order_quantity,
+                        'harvester' => $harvester,
+                        'harvest_phone_num' => $harvester_phone_num,
+                        'harvester_address' => $harvest_address,
+                        // 'coupon_deductible' => $coupon_deductible,
+                        'freight'=>0
+                    ];
+                } else {
+                    $datas = [
+                        'order_real_pay' => $order_real_pay,
+                        'order_amount' => $order_amount,
+                        'order_quantity' => $order_quantity,
+                        // 'coupon_deductible' => $coupon_deductible,
+                        'freight'=>0
+                    ];
+                }
             }
             $goods_type = Db::name("adder_order")->where('parts_order_number',$order_number)->value('goods_type');
     
