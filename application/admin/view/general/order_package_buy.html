@@ -666,7 +666,7 @@
                 monitorOnlinePay: function(orderNum){
                     var param = {order_number: orderNum};
                     var _this = this;
-                    var url = this.zzspBool ? 'check_code_two' : 'check_code_one';
+                    var url = !this.zzspBool ? 'check_code_two' : 'check_code_one';
                     this.myAjax(url, param, function(data){
                         // console.log(data);
                         console.log(data.body.status)
