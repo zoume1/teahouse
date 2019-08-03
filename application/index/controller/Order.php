@@ -2271,26 +2271,25 @@ class  Order extends  Controller
             ->where("parts_order_number",$val["out_trade_no"])
             ->update(["status"=>3,"pay_time"=>time(),"si_pay_type"=>2]);
             
-            //商品库存减少、销量增加
-            $goods_order = Db::name("order") 
-            ->where("parts_order_number",$val["out_trade_no"])
-            ->field("goods_id,order_quantity,special_id")
-            ->select();
-
-            foreach($goods_order as $k => $v){
-                if($goods_order[$k]['special_id'] != 0){
-                    $boolw = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setInc('volume',$goods_order[$k]['order_quantity']);
-                    //按照需求下单即减库存,付款时间超过30分钟恢复库存
-                    $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
-                } else {
-                    //按照需求下单即减库存,付款时间超过30分钟恢复库存
-                    $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
-                    $booltt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setInc('goods_volume',$goods_order[$k]['order_quantity']);
-                }
-            }
-
 
             if($res){
+                //商品库存减少、销量增加
+                $goods_order = Db::name("order") 
+                ->where("parts_order_number",$val["out_trade_no"])
+                ->field("goods_id,order_quantity,special_id")
+                ->select();
+
+                foreach($goods_order as $k => $v){
+                    if($goods_order[$k]['special_id'] != 0){
+                        $boolw = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setInc('volume',$goods_order[$k]['order_quantity']);
+                        //按照需求下单即减库存,付款时间超过30分钟恢复库存
+                        $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
+                    } else {
+                        //按照需求下单即减库存,付款时间超过30分钟恢复库存
+                        $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
+                        $booltt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setInc('goods_volume',$goods_order[$k]['order_quantity']);
+                    }
+                }
                 //做消费记录
                 $information = Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number",$val["out_trade_no"])->find();
                 $user_information =Db::name("member")
