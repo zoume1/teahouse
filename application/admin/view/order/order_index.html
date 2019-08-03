@@ -593,6 +593,7 @@
 						<th>商品图片</th>
 						<th>产品名称</th>
 						<th>订单数量</th>
+						<th>用户昵称</th>
 						<th>用户账号</th>
 						<th>下单时间</th>
 						<th>订单金额</th>
@@ -631,7 +632,7 @@
 								<div class="overflow">{$vo2.parts_goods_name}</div>
 							</td>
 							<td>{$vo2.order_quantity}</td> -->
-
+						<td>{$vo.user_account_name}</td>
 						<td>{$vo.user_phone_number}</td>
 						<td>{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
 						<td class="am">{$vo.order_real_pay}</td>
