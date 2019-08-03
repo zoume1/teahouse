@@ -69,11 +69,6 @@
 		padding-left: 50px;
 		background: #FDFDFE;
     }
-
-	
-
-	
-
 	.static_btus1 {
 		width: 100px;
 		height: 30px;
@@ -425,9 +420,6 @@
 	td.five>div:last-of-type {
 		border: 0;
 	}
-
-	
-
 	td img {
 		width: 50px;
 		height: 50px;
@@ -460,6 +452,8 @@
 		border-bottom: 1px solid rgb(226, 226, 226);
 		line-height: 25px;
 	}
+	.layui-table td{padding: 4px 8px !important; text-align: center;}
+	.layui-table th{padding: 9px 14px !important; text-align: center; white-space: nowrap; font-weight: 700; color: #333;}
 </style>
 
 
@@ -494,56 +488,33 @@
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
+					<colgroup>
+						<col width="3%">
+	
+					</colgroup>
                     <thead>
+						<tr>
+							<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+							<th>订单号</th>
+							<th>商品图片</th>
+							<th>产品名称</th>
+							<th>订单数量</th>
+							<th>下单时间</th>
+							<th>订单金额</th>
+							<th>支付类型</th>
+							<th>店铺名</th>   
+							<th>订单用户</th>   
+							<th>收货地址</th>   
+							<th width="200px">操作</th>
+						</tr>
                         <tr>
-                            <th class="">
-                                <div class="table-cell-div">
-                                    <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose">
-                                </div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">订单号</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">商品图片</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">产品名称</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">订单数量</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">下单时间</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">订单金额</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">支付类型</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">店铺名</div>
-                            </th>
-                            <th class="table-cell">
-                                    <div class="table-cell-div">订单用户</div>
-                            </th>
-                            <th class="table-cell">
-                            <div class="table-cell-div">收货地址</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">操作</div>
-                            </th>
-                        </tr>
                     </thead>
                     <tbody>
                             {if !empty($data)}
                             {volist name="data" id="vo"}
                         <tr>
                             <td class="table-cell">
-                                <div class="table-cell-div">
-                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
-                                </div>
+								<input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
                             </td>
                             <td class="table-cell">
                                 <div class="">{$vo.parts_order_number}</div>
@@ -554,17 +525,13 @@
                                 {else}
                                 <div>无</div>
                                 {/if}</td>
-                            <td class="three">
-                                <div class="">{$vo.parts_goods_name}</div>
+                            <td class="three">{$vo.parts_goods_name}</td>
+                            <td class="table-cell">{$vo.order_quantity}</td>
+                            <td class="table-cell">
+                                {$vo.order_create_time|date="Y-m-d H:i:s",###}<
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">{$vo.order_quantity}</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">{$vo.order_create_time|date="Y-m-d H:i:s",###}</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">￥{$vo.order_real_pay}</div>
+                                ￥{$vo.order_real_pay}
                             </td>
                             <td>
                                 {$vo.si_pay_type|pay_types}
