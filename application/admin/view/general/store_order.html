@@ -45,7 +45,8 @@
     .line-exam{background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
     .line-ing{background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
     .line-pass{background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}
-    .table-cell .dtl{color: rgb(0, 153, 255);}
+    .table-cell {text-align: center;}
+	.table-cell .dtl{color: rgb(0, 153, 255);}
     .table-cell-div button{border-radius: 3px;}
     .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
     .pop{ position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 680px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9; color: #333;}
@@ -68,12 +69,373 @@
 		padding-left: 50px;
 		background: #FDFDFE;
     }
+
+
+	.static_btus1 {
+		width: 100px;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		cursor: pointer;
+		margin-left: 10px
+	}
+
+	/* 没申请 */
+	.not_apply {
+		color: #BCBCBC;
+		border: solid 1px #BCBCBC;
+		border-radius: 3px;
+	}
+
+	/* 申请 */
+	.apply {
+		color: #FF9900;
+		border: solid 1px #FF9900;
+		border-radius: 3px;
+	}
+
+	/* 已开票
+	 */
+	.applyed {
+		color: #669900;
+		border: solid 1px #669900;
+		border-radius: 3px;
+	}
+
+	.static_btus2 {
+		width: 100px;
+		height: 30px;
+		line-height: 30px;
+		color: #0099FF;
+		cursor: pointer;
+		text-align: center;
+	}
+
+
+
+
+	.line {
+		justify-content: center;
+	}
+
+
+
+	.static_btus {
+		border-radius: 5px;
+	}
+
+
+
+	/*
+     * 弹窗
+     4*/
+
+	.popup {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 99999;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: solid 1px #D7D7D7;
+		box-sizing: border-box;
+	}
+
+	.submit_btns {
+		width: 100px;
+		height: 38px;
+		color: #fff;
+		background: #169BD5;
+		border-radius: 10px;
+	}
+
+	.popup_doms {
+		width: 790px;
+		height: 400px;
+		background: #fff;
+	}
+
+	.popup_doms1 {
+		width: 900px;
+		background: #fff;
+	}
+
+	.popup_content {
+		padding: 20px;
+	}
+
+	.popup_title {
+		height: 40px;
+		line-height: 40px;
+		color: #66662B;
+		background: #EEF7EA;
+		padding-left: 20px;
+		position: relative;
+	}
+
+	.span {
+		display: inline-block;
+		width: 80px;
+		text-align: left;
+		
+	}
+
+	.repany .layui-input {
+		width: 530px;
+	}
+
+	.repany {
+		margin-bottom: 10px;
+		display: flex;
+		align-items : center;
+	}
+
+	.operation {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.chat {
+		height: 210px;
+	}
+
+	.danhao {
+		width: 200px;
+		margin-right: 10px;
+	}
+
+	.operation select {
+		width: 130px;
+		height: 40px;
+		border-color: #ABADB3;
+		color: #000;
+		background: #fff;
+	}
+
+	.operation div {
+		margin-right: 10px;
+	}
+
+
+
+	.noshow {
+		display: none;
+	}
+
+
+	.popup_x {
+		width: 25px;
+		position: absolute;
+		right: 12px;
+		top: -4px;
+	}
+
+	.repay_tip {
+		display: inline-block;
+		width: 100px;
+		height: 35px;
+		text-align: center;
+		line-height: 35px;
+		color: #fff;
+		background: #669900;
+		border-radius: 5px;
+	}
+
+
+
+
+
+	/* .quxiao {} */
+
+	.daying {
+		background: rgb(22, 155, 213);
+		color: #fff;
+	}
+
+
+	/*
+     * 弹窗end
+		 */
+
+
+	.seach_button {
+		border-radius: 4px;
+		display: inline-block;
+		width: 80px;
+		line-height: 30px;
+		color: #fff;
+		text-align: center;
+	}
+
+	.all0 {
+		background: #F4FBFF;
+		color: #999;
+	}
+
+	.all1 {
+		background: #CC3366;
+	}
+
+	.all2 {
+		background: #CC00CC;
+	}
+
+	.all3 {
+		background: #FF0000;
+	}
+
+	.all4 {
+		background: #669900;
+	}
+
+	.all5 {
+		background: #A1A1A1;
+		color: #000;
+	}
+
+	/* 状态颜色 */
+	/* 待付款 */
+	.color1 {
+		background: #CC3366;
+	}
+
+	/* 待发货 */
+	.color2 {
+		background: #CC00CC;
+	}
+
+	/* 已发货 */
+	.color3 {
+		background: #FF0000;
+	}
+
+	/* 已完成 */
+	.color4 {
+		background: #669900;
+	}
+
+	/* 已关闭 */
+	.color5 {
+		background: #A1A1A1;
+	}
+
+	/* 已退款 */
+	.color6 {
+		background: #CC9900;
+	}
+
+	/* 已入仓 */
+	.color7 {
+		background: #0000CC;
+	}
+
+
+	/*  待发货*/
+	.color8 {
+		background: #CC00CC;
+	}
+
+	/* 已取消 */
+	.color9 {
+		background: #831626;
+	}
+
+	.chenge_money {
+		display: flex;
+		margin-left: 10px;
+		text-align: center;
+		align-items : center;
+		justify-content: space-between;
+		padding-top: 20px;
+		border-top: 2px dashed rgb(223, 223, 223)
+	}
+
+	.danwei {
+		position: absolute;
+		top: 10px;
+		left: 170px;
+
+	}
+
+	td.three>div,
+	td.four>div,
+	td.five>div {
+		border-bottom: 1px solid #e2e2e2;
+	}
+
+	td.four>div {
+		line-height: 50px;
+		white-space: nowrap;
+		max-width: 450px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	td.three>div:last-of-type,
+	td.four>div:last-of-type,
+	td.five>div:last-of-type {
+		border: 0;
+	}
+
+	td {
+		padding: 4px 0 !important;
+	}
+
+	td img {
+		width: 50px;
+		height: 50px;
+	}
+	.Information {
+		margin-right: 20px;
+	}
+	.logistics {font-size: 20px;margin-right:20px;font-weight:700;}
+
+
+	
+
+	
 </style>
+
 
 {/block}
 
 <body>
 {block name="content"}
+<div class="popup popup_one noshow">
+	<div class="popup_doms">
+		<div class="popup_title">
+			处理回复（个人信息处有提示信息）
+			<div class="popup_x">
+				<img style="width: 20px;" src="__STATIC__/admin/index/img/X.png" />
+			</div>
+		</div>
+		<div class="popup_content">
+			<div class="repany">
+				<span class="span">官方批注</span>
+				<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注"
+					class="layui-input Information">
+				<span class="repay_tip">批注</span>
+			</div>
+			<div class="chat"></div>
+			<div class="operation"></div>
+			<div class="chenge_money" data-id="">
+				<div>
+					<span class="logistics">物流</span>
+					<span>顺丰：</span>
+					<span>SF564564564654646</span>
+				</div>
+				
+				<div style="margin-left:45px;">
+					<button class="layui-btn confirmReceipt"
+						style="background-color:rgb(22, 155, 213);border-radius: 5px;">确认收货</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
     <div class="wrapper">
         {include file="template/_top" /}
         <div class="inner">
@@ -93,11 +455,11 @@
             </div>
             <div>
                 <a href="#" class="layui-btn">全部</a>
-                <a href="#" class="layui-btn btn-dfk">待付款</a>
                 <a href="#" class="layui-btn btn-dfh">待发货</a>
                 <a href="#" class="layui-btn btn-yfh">已发货</a>
-                <a href="#" class="layui-btn btn-ywc">已完成</a>
-                <a href="#" class="layui-btn btn-ygb">已关闭</a>
+                <a href="#" class="layui-btn btn-ywc">待收货</a>
+                <a href="#" class="layui-btn btn-ygb">待服务</a>
+                <a href="#" class="layui-btn btn-ygb">已完成</a>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
@@ -127,10 +489,7 @@
                                 <div class="table-cell-div">订单金额</div>
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">填写邀请码奖励</div>
-                            </th>
-                            <th class="table-cell">
-                                <div class="table-cell-div">实付金额</div>
+                                <div class="table-cell-div">支付类型</div>
                             </th>
                             <th class="table-cell">
                                 <div class="table-cell-div">操作</div>
@@ -138,53 +497,50 @@
                         </tr>
                     </thead>
                     <tbody>
+                            {if !empty($data)}
+                            {volist name="data" id="vo"}
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">2</div>
+                                <div class="table-cell-div">{$vo.parts_order_number}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">3</div>
+                                    {if !empty($vo2["goods_image"])}
+                                    <div><img src="__UPLOADS__/{$vo2.goods_image}" /></div>
+                                    {else}
+                                    <div>无</div>
+                                    {/if}
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">4</div>
+                                <div class="table-cell-div">{$vo.parts_goods_name}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">5</div>
+                                <div class="table-cell-div">{$vo.order_quantity}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">5</div>
+                                <div class="table-cell-div">{$vo.order_create_time|date="Y-m-d H:i:s",###}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">5</div>
+                                <div class="table-cell-div">￥{$vo.order_real_pay}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">5</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">6</div>
+                                {$vo.si_pay_type|pay_types}
                             </td>
                             
                             <td class="table-cell">
-                                <div class="table-cell-div">
-                                    <button class="layui-btn btn-dfk">待付款</button>
-                                    <!-- <button class="layui-btn btn-dfh">待收货</button>
-                                    <button class="layui-btn btn-yfh">已发货</button>
-                                    <button class="layui-btn btn-ywc">已完成</button>
-                                    <button class="layui-btn btn-ygb">已关闭</button>
-                                    <button class="layui-btn btn-ytk">已退款</button>
-                                    <button class="layui-btn btn-yqx">已取消</button> -->
-                                    <button class="layui-btn line-exam">未申请开票</button>
-                                    <!-- <button class="layui-btn line-ing">已申请开票</button>
-                                    <button class="layui-btn line-pass">已开票完成</button> -->
+                                <div class="table-cell-div " data-id="{$vo.parts_order_number}">
+                                    {$vo.status|show_order_statues}
+                                   <button class="layui-btn line-exam">未申请开票</button>
                                     <a href="capital_management_details" class="dtl">订单详情</a>
                                 </div>
                             </td>
                         </tr>
+                        {/volist}
+                        {/if}
                     </tbody>
                 </table>
             </div>
@@ -199,106 +555,14 @@
                     <button type="button" id="operation-btn" class="operation-btn">确定</button>
                 </div>
             </div>
+            {if !empty($data)}
+            {$data->render()}
+            {/if}
         </div>
     </div>
 
     <div class="mask" style="display: none;"></div>
-    <!-- 弹窗 -->
-    <div class="pop" style="display: none;">
-        <div class="head">
-            <i class="close">×</i>
-        </div>
-        <div class="content">
-            <div class="top">
-                <p>
-                    当前订单状态：
-                    <span>待付款</span>
-                    <span>待发货</span>
-                    <span>已发货</span>
-                    <span>已完成</span>
-                    <span>已关闭</span>
-                </p>
-            </div>
-            <div class="mid">
-                <h2>温馨提示</h2>
-                <!-- 待付款 -->
-                <!-- <ul>
-                    <li>
-                        <span>您订购的该商品未完成支付，如果您确定需要该商品，请点击</span>
-                        <button class="layui-btn btn-yfh">立即支付</button>
-                    </li>
-                    <li>
-                        <span>如果您有不清楚的地方，请及时与</span>
-                        <a href="#" class="kf">客服沟通</a>
-                    </li>
-                    <li>
-                        <span>如果您确实无需该商品，您还可 </span>
-                        <button class="layui-btn btn-ygb">关闭订单</button>
-                    </li>
-                </ul> -->
-                <!-- 待发货 -->
-                <!-- <ul>
-                    <li>
-                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
-                    </li>
-                    <li>
-                        <span>如果您有不清楚的地方，请及时与</span>
-                        <a href="#" class="kf">客服沟通</a>
-                    </li>
-                    <li>
-                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
-                        <button class="layui-btn layui-btn-danger">售后维权</button>
-                    </li>
-                </ul> -->
-                <!-- 已发货 -->
-                <!-- <ul>
-                    <li>
-                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
-                    </li>
-                    <li>
-                        <span>如果您已收到货，且对商品满意，请点击</span>
-                        <button class="layui-btn btn-ywc">确认收货</button>
-                    </li>
-                    <li>
-                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
-                        <button class="layui-btn layui-btn-danger">售后维权</button>
-                    </li>
-                </ul> -->
-                <!-- 已完成 -->
-                <ul>
-                    <li>
-                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
-                    </li>
-                    <li>
-                        <span>您已收到货，您还可以</span>
-                        <a href="additional_comments" class="layui-btn layui-btn-normal">追加评论</a>
-                    </li>
-                    <li>
-                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
-                        <a href="store_order_after_edit" class="layui-btn layui-btn-danger">售后维权</a>
-                    </li>
-                </ul>
-                <!-- 已关闭 -->
-                <!-- <ul>
-                    <li>
-                        <span>您订购的该商品未完成支付，现已关闭 </span>
-                    </li>
-                    <li>
-                        <span>如果您有不清楚的地方，请及时与</span>
-                        <a href="#" class="kf">客服沟通</a>
-                    </li>
-                    <li>
-                        <span>如果您确实无需该商品，您还可 </span>
-                        <button class="layui-btn btn-ygb">永久删除</button>
-                    </li>
-                </ul> -->
-            </div>
-            <div class="bot">
-                <div>快递单号：<span>123456789</span></div>
-                <div>物流跟踪：<span>山西同城物流中心</span></div>
-            </div>
-        </div>
-    </div>
+   
 {/block}
 
 
@@ -314,6 +578,120 @@
                 elem: elem
             })
         })
+		// $(".static_btus").click(function () {
+		// 	$(".popup_one").removeClass("noshow");
+		// })
+		$(".static_btus").click(function () {
+			var _this = this;
+			var data_id = $(this).parent().data("id");    //订单id
+			$(".operation").empty();
+			$(".chat").empty();
+			//获取批注
+			$.ajax({
+				type: "POST",
+				url: "{:url('admin/General/store_notice_index')}",
+				data: {
+					"order_id": data_id,
+				},
+				async: false,
+				success: function (data) {
+					var data = JSON.parse(data);
+					console.log(data)
+					// console.log(data)
+					way = data.data.order_type;   //邮寄方式    
+					// for (var i = 0; i < data.data.datas.length; i++) {
+					// 	var dhtm0 = "";
+					// 	dhtm0 += '<div class="chat_list">';
+					// 	dhtm0 += '	<span class="span">' + timestampToTime(data.data.datas[i].create_time) + '</span>';
+					// 	dhtm0 += '<span>' + data.data.datas[i].information + '</span>';
+					// 	dhtm0 += '</div>';
+					// 	$(".chat").append(dhtm0);
+					// }
+				},
+				error: function (data) {
+
+				}
+			});
+			// //获取订单的信息
+			// var express = 0;
+			// var harvester_address, harvester, harvest_phone_num;
+			// $.ajax({
+			// 	type: "POST",
+			// 	url: "{:url('admin/Order/order_information_return')}",
+			// 	data: {
+			// 		"order_id": data_id,
+			// 	},
+			// 	async: false,
+			// 	success: function (data) {
+			// 		var data = JSON.parse(data);
+			// 		// console.log(data)
+			// 		way = data.data.order_type;   //邮寄方式  
+			// 		express = data.data.courier_number;
+			// 		express_name = data.data.express_name_ch;
+			// 		harvest_phone_num = data.data.harvest_phone_num;
+			// 		harvester_address = data.data.harvester_address;
+			// 		harvester = data.data.harvester;
+			// 		order_type = data.data.order_type;
+			// 		order_type_status = data.data.status;
+			// 		// $(".operation").find('.curier').value(express);
+			// 		// $(".operation").find('.danhao').val(express_name);
+			// 	},
+			// 	error: function (data) {
+
+			// 	}
+			// });
+	
+
+
+			// let dhtml4 = '';
+			// dhtml4 += '<div style=" display:flex;"><div style="color: rgb(168, 134, 148);text-align: center; font-size: 18px;margin: auto;">自提点：</div>';
+			// dhtml4 += '<div style=" font-size: 18px;margin-left: 20px;align-items: center;">';
+			// dhtml4 += '<div style="text-align: left;"><span></span>' + harvester + '</span><span style="margin-left: 20px;">' + harvest_phone_num + '</span></div>';
+			// dhtml4 += '<div>' + harvester_address + '</div></div></div>';
+			// if(order_type_status == 2 || order_type_status == 3 || order_type_status == 4 || order_type_status == 5) {
+			// 	dhtml4 += '<div class="zt_all zt_red">未自提</div>';
+			// } else if (order_type_status == 6 || order_type_status == 7 || order_type_status == 8 ){
+			// 	dhtml4 += '<div class="zt_all zt_greed">已自提</div>';
+			// }
+		
+			// if (data_value == 2 || data_value == 3) {   //代发货
+			// 	$('.chenge_money').hide();
+			// 	$(".operation").data("id", data_value);
+			// 	$(".operation").data("order_type", order_type);
+			// 	if (data_type == '到店自提') {
+			// 		$(".operation").append(dhtml4);
+			// 	} else {
+			// 		$(".operation").append(dhtml3);
+			// 	}
+			// } else if (data_value == 4 || data_value == 5 || data_value == 6 || data_value == 7) {
+			// 	$('.chenge_money').hide();
+			// 	if (data_type == '到店自提') {
+			// 		$(".operation").append(dhtml4);
+			// 	} else {
+			// 		$(".operation").append(dhtml2);
+			// 	}
+			// 	$(".operation").data("order_type", order_type);
+			// 	$(".operation").data("id", data_value);
+			// } else if (data_value == '8' || data_value == 0) {    	  //已完成
+			// 	$('.chenge_money').hide();
+			// 	if (data_type == '到店自提') {
+			// 		$(".operation").append(dhtml4);
+			// 	} else {
+			// 		$(".operation").append(dhtml2);
+			// 	}
+			// 	$(".operation").data("order_type", order_type);
+			// 	$(".operation").data("id", data_value);
+			// } else {
+			// 	$('.chenge_money').show();
+			// }
+			$(".popup_one").removeClass("noshow");
+
+			
+		});
+		//弹窗隐藏
+		$(".popup_x").click(function () {
+			$(".popup").addClass("noshow");
+		});
         form.render();
     })
 </script>

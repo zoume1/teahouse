@@ -396,7 +396,7 @@ class Commodity extends Controller
                 $member_grade_name = $member_grade_id['member_grade_name'];
                 $discount = db("member_grade")->where("member_grade_id", $member_grade_id['member_grade_id'])->value("member_consumption_discount");
                 $goods = db("goods")
-                        ->field("id,goods_name,goods_show_image,goods_new_money,goods_bottom_money,goods_volume,goods_standard,scope,goods_selling")
+                        ->field("id,goods_name,goods_member,goods_show_image,goods_new_money,goods_bottom_money,goods_volume,goods_standard,scope,goods_selling")
                         ->where("status",1)
                         ->where("store_id","EQ",$store_id)
                         ->where("label",1)

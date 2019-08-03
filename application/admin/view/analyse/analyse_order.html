@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="expires" content="0">
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
-    <title>套餐订单</title>
+    <title>增值订单</title>
 </head>
 <script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
 <script src="__STATIC__/admin/index/js/index.js"></script>
@@ -24,205 +24,686 @@
     .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
     .distribution_list ul {display: flex; align-items: center; margin-bottom: 10px;}
     .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 20px; margin-bottom: 10px; border-left: 5px solid #009688;}
+    .search-box{display: flex; flex-wrap: wrap; font-size: 14px; color: #333;}
+    .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
+    .search-box button{margin-left: 20px; height: 35px; line-height: 35px;}
+    .search-box input::placeholder{color: #b2b2b2;}
+    .search-box .layui-form-label{margin-bottom: 0;}
+    .search-box label{float: left; display: block; margin-right: 10px; line-height: 38px;}
     .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
     .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
-    .btn-exam{background-color: rgb(0, 0, 255);}
-    .btn-pass{background-color: rgb(102, 153, 0);}
-    .btn-fail{background-color: rgb(255, 0, 0);}
+    .btn-dfk{background-color: rgb(0, 102, 255)}
+    .btn-dfh{background-color: rgb(204, 0, 204)}
+    .btn-yfh{background-color: rgb(255, 0,0)}
+    .btn-ywc{background-color: rgb(102, 153, 0)}
+    .btn-ygb{background-color: rgb(161, 161, 161)}
+    .btn-ytk{background-color: rgb(204, 153, 0)}
+    .btn-yqx{background-color: rgb(131, 22, 38)}
     .line-exam{background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
     .line-ing{background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
     .line-pass{background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}
+    .table-cell .dtl{color: rgb(0, 153, 255);}
+    .table-cell-div button{border-radius: 3px;}
     .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
-    .pop{ position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 650px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9;}
-    .pop .head{position: relative; padding-left: 16px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
-    .pop .head p{height: 35px; line-height: 36px; font-size: 13px;}
+    .pop{ position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 680px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9; color: #333;}
+    .pop .head{position: relative; padding-left: 16px; height: 35px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
     .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer;}
     .content{padding: 0 16px;}
-    .top, .mid, .bot{padding: 0 30px;}
-    .top{height: 50px; line-height: 50px;}
-    .lb{font-size: 16px; font-weight: 700; color: #333; margin-right: 30px;}
-    .top span{font-size: 24px; color: #f00; font-weight: 700;}
+    .top, .mid, .bot{padding: 0 20px;}
+    .top{height: 50px; line-height: 50px; font-size: 13px;}
     .mid{border: 1px dashed #d2d2d2; border-left: 0; border-right: 0;}
-    .mid>div{height: 50px; line-height: 50px; display: flex; align-items: baseline;}
-    .address p{line-height: normal; flex: 1;}
-    .change-addr{text-align: right;height: 35px; line-height: 35px; }
-    .change-addr a{color: #199ED8;}
-    .bot li{height: 65px; line-height: 65px; list-style: disc;}
-    .bot li button{background-color: #669900;}
-    .bot li a{color: #669900;}
+    .mid h2{height: 60px; line-height: 60px; text-align: center; font-size: 20px; color: rgb(0, 153, 255);}
+    .mid li{height: 50px; line-height: 50px; list-style: disc; font-size: 13px;}
+    .mid li a.kf{color: rgb(102, 153, 0);}
+    .bot{height: 65px; display: flex; align-items: center;}
+    .bot>div{flex: 1;}
+	.table-cell{text-align: center;}
+    #page {
+        width: 97%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+    }
+
+	
+
+	
+
+	.static_btus1 {
+		width: 100px;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		cursor: pointer;
+		margin-left: 10px
+	}
+
+	/* 没申请 */
+	.not_apply {
+		color: #BCBCBC;
+		border: solid 1px #BCBCBC;
+		border-radius: 3px;
+	}
+
+	/* 申请 */
+	.apply {
+		color: #FF9900;
+		border: solid 1px #FF9900;
+		border-radius: 3px;
+	}
+
+	/* 已开票
+	 */
+	.applyed {
+		color: #669900;
+		border: solid 1px #669900;
+		border-radius: 3px;
+	}
+
+	.static_btus2 {
+		width: 100px;
+		height: 30px;
+		line-height: 30px;
+		color: #0099FF;
+		cursor: pointer;
+		text-align: center;
+	}
+
+	.distribution_list {
+		margin-bottom: 10px;
+		border-bottom: solid 1px #D7D7D7;
+	}
+
+	.distribution_list ul {
+		display: flex;
+		align-items: center;
+	}
+
+
+	.line {
+		justify-content: center;
+		display: flex;
+		align-items: center;
+	}
+
+
+	.distribution_list a {
+		font-size: 14px;
+		padding: 9px;
+		color: #5E5E5E;
+	}
+
+
+
+	.static_btus {
+		border-radius: 5px;
+	}
+
+
+	.state {
+		width: 100px;
+		height: 30px;
+		line-height: 30px;
+		border-radius: 4px;
+		/* background: #007AFF; */
+		color: #fff;
+		margin: 0 auto;
+	}
+
+	/*
+     * 弹窗
+     4*/
+
+	.popup {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 99999;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: solid 1px #D7D7D7;
+		box-sizing: border-box;
+	}
+
+	.submit_btns {
+		width: 100px;
+		height: 38px;
+		color: #fff;
+		background: #169BD5;
+		border-radius: 10px;
+	}
+
+	.popup_doms {
+		width: 790px;
+		height: 400px;
+		background: #fff;
+	}
+
+	.popup_doms1 {
+		width: 900px;
+		background: #fff;
+	}
+
+	.popup_content {
+		padding: 20px;
+	}
+
+	.popup_title {
+		height: 40px;
+		line-height: 40px;
+		color: #66662B;
+		background: #EEF7EA;
+		padding-left: 20px;
+	}
+
+	.span {
+		display: inline-block;
+		width: 80px;
+		text-align: left;
+		margin-right: 20px;
+	}
+
+	.repany .layui-input {
+		width: 530px;
+	}
+
+	.repany {
+		margin-bottom: 10px;
+	}
+
+	.operation {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.chat {
+		height: 210px;
+	}
+
+	.danhao {
+		width: 200px;
+		margin-right: 10px;
+	}
+
+	.operation select {
+		width: 130px;
+		height: 40px;
+		border-color: #ABADB3;
+		color: #000;
+		background: #fff;
+	}
+
+	.operation div {
+		margin-right: 10px;
+	}
+
+	.tip {
+		color: red;
+		margin-left: 200px;
+	}
+
+	.noshow {
+		display: none;
+	}
+
+	.popup_title {
+		position: relative;
+	}
+
+	.popup_x {
+		width: 25px;
+		position: absolute;
+		right: 12px;
+		top: -4px;
+	}
+
+	.repay_tip {
+		display: inline-block;
+		width: 100px;
+		height: 35px;
+		text-align: center;
+		line-height: 35px;
+		color: #fff;
+		background: #669900;
+		border-radius: 5px;
+	}
+
+	.button {
+		width: 100px;
+		line-height: 30px;
+		text-align: center;
+		border: 1px solid #a2a2a2;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+
+	.button_all {
+		display: flex;
+		justify-content: space-around;
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+
+	/* .quxiao {} */
+
+	.daying {
+		background: rgb(22, 155, 213);
+		color: #fff;
+	}
+
+
+	/*
+     * 弹窗end
+		 */
+	/* .seach_button_all {} */
+
+	.seach_button {
+		border-radius: 4px;
+		display: inline-block;
+		width: 80px;
+		line-height: 30px;
+		color: #fff;
+		text-align: center;
+	}
+
+	.all0 {
+		background: #F4FBFF;
+		color: #999;
+	}
+
+	.all1 {
+		background: #CC3366;
+	}
+
+	.all2 {
+		background: #CC00CC;
+	}
+
+	.all3 {
+		background: #FF0000;
+	}
+
+	.all4 {
+		background: #669900;
+	}
+
+	.all5 {
+		background: #A1A1A1;
+		color: #000;
+	}
+
+	/* 状态颜色 */
+	/* 待付款 */
+	.color1 {
+		background: #CC3366;
+	}
+
+	/* 待发货 */
+	.color2 {
+		background: #CC00CC;
+	}
+
+	/* 已发货 */
+	.color3 {
+		background: #FF0000;
+	}
+
+	/* 已完成 */
+	.color4 {
+		background: #669900;
+	}
+
+	/* 已关闭 */
+	.color5 {
+		background: #A1A1A1;
+	}
+
+	/* 已退款 */
+	.color6 {
+		background: #CC9900;
+	}
+
+	/* 已入仓 */
+	.color7 {
+		background: #0000CC;
+	}
+
+
+	/*  待发货*/
+	.color8 {
+		background: #CC00CC;
+	}
+
+	/* 已取消 */
+	.color9 {
+		background: #831626;
+	}
+
+	.chenge_money {
+		display: flex;
+		margin-left: 10px;
+		text-align: center;
+		justify-content: space-between;
+		padding-top: 20px;
+		border-top: 2px dashed rgb(223, 223, 223)
+	}
+
+	.danwei {
+		position: absolute;
+		top: 10px;
+		left: 170px;
+
+	}
+	td{
+		padding: 4px 0 !important;
+	}
+
+	td.three>div,
+	td.four>div,
+	td.five>div {
+		border-bottom: 1px solid #e2e2e2;
+	}
+
+	td.four>div {
+		line-height: 50px;
+		white-space: nowrap;
+		max-width: 450px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	td.three>div:last-of-type,
+	td.four>div:last-of-type,
+	td.five>div:last-of-type {
+		border: 0;
+	}
+
+	
+
+	td img {
+		width: 50px;
+		height: 50px;
+	}
+
+	.popup_content1 {
+		padding: 0 15px;
+	}
+
+	.popup_content1>td {
+		width: 120px;
+	}
+
+	.popup_t {
+		font-size: 18px;
+		font-weight: 500;
+		color: black;
+		line-height: 40px;
+		display: flex;
+		justify-content: space-between;
+		padding: 0 15px;
+		align-items: flex-end;
+	}
+
+	.norm>div:last-child {
+		border-bottom: 0px;
+	}
+
+	.norm_div {
+		border-bottom: 1px solid rgb(226, 226, 226);
+		line-height: 25px;
+	}
 </style>
+
 
 {/block}
 
 <body>
 {block name="content"}
-
-<div class="wrapper">
-    {include file="template/_top" /}
-    <div class="inner">
-        <div class="layui-form" lay-filter="test2">
-            <table class="layui-table">
-                <thead>
-                <tr>
-                    <th class="table-cell">
-                        <div class="table-cell-div">用户账号（手机号）</div>
-                    </th>
-                    <th class="table-cell">
-                        <div class="table-cell-div">联系人姓名</div>
-                    </th>
-                    <th class="table-cell">
-                        <div class="table-cell-div">入驻商主体</div>
-                    </th>
-                    <th class="table-cell">
-                        <div class="table-cell-div">套餐选择</div>
-                    </th>
-                    <th class="table-cell">
-                        <div class="table-cell-div">金额</div>
-                    </th>
-                    <th class="table-cell">
-                        <div class="table-cell-div">生效时间</div>
-                    </th>
-                    <th class="table-cell">
-                        <div class="table-cell-div">到期时间</div>
-                    </th>
-                    <th class="table-cell">
-                        <div class="table-cell-div">支付方式</div>
-                    </th>
-                    <th class="table-cell">
-                        <div class="table-cell-div">到账情况</div>
-                    </th>
-                    <th class="table-cell">
-                        <div class="table-cell-div">店铺开通</div>
-                    </th>
-                    <th class="table-cell">
-                        <div class="table-cell-div">操作</div>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr>
-                    <td class="table-cell">
-                        <div class="table-cell-div"></div>
-                    </td>
-                    <td class="table-cell">
-                        <div class="table-cell-div"></div>
-                    </td>
-                    <td class="table-cell">
-                        <div class="table-cell-div"></div>
-                    </td>
-                    <td class="table-cell">
-                        <div class="table-cell-div"></div>
-                    </td>
-                    <td class="table-cell">
-                        <div class="table-cell-div"></div>
-                    </td>
-                    <td class="table-cell">
-
-                        <div class="table-cell-div"></div>
-                    </td>
-                    <td class="table-cell">
-
-                        <div class="table-cell-div"></div>
-
-
-                    </td>
-                    <td class="table-cell">
-
-                        <div class="table-cell-div"></div>
-
-
-                    </td>
-                    <td class="table-cell">
-
-                        <div class="table-cell-div"></div>
-
-                        <div class="table-cell-div">待审核</div>
-
-                    </td>
-                    <td class="table-cell">
-                        <div class="table-cell-div"></div>
-                    </td>
-                    <td class="table-cell">
-                        <div class="table-cell-div">
-                            <a href="#" class="layui-btn btn-exam">汇款待审核</a>
-                            <!-- <a href="#" class="layui-btn btn-pass">到账审核通过</a>
-                            <a href="#" class="layui-btn btn-fail">汇款未到账</a>
-                            <a href="#" class="layui-btn btn-pass">线上付款通过</a>
-                            <button class="layui-btn line-exam">未申请开票</button>
-                            <button class="layui-btn line-ing">已申请开票</button>
-                            <button class="layui-btn line-pass">已开票完成</button> -->
-                        </div>
-                    </td>
-                </tr>
-
-                </tbody>
-            </table>
-        </div>
-        <div class="bot-operate">
-            <div class="opation">
-                <select>
-                    <option check="" value="0">请选择</option>
-                    <option value="1">批量删除</option>
-                </select>
+    <div class="wrapper">
+        {include file="template/_top" /}
+        <div class="inner">
+            <div class="search-hd">
+                <div class="search-box layui-form">
+                    <div>
+                        <label>订单编号</label>
+                        <input type="text" class="layui-input">
+                    </div>
+                    <div class="date-input">
+                        <label>下单时间</label>
+                        <input type="text" data-type="date" id="searchDateStart">~
+                        <input type="text" data-type="date" id="searchDateend">
+                    </div>
+                    <button class="layui-btn">搜索</button>
+                </div>
             </div>
             <div>
-                <button type="button" id="operation-btn" class="operation-btn">确定</button>
+                <a href="#" class="layui-btn">全部</a>
+                <a href="#" class="layui-btn btn-dfh">待发货</a>
+                <a href="#" class="layui-btn btn-yfh">已发货</a>
+                <a href="#" class="layui-btn btn-ywc">待收货</a>
+                <a href="#" class="layui-btn btn-ygb">待服务</a>
+                <a href="#" class="layui-btn btn-ygb">已完成</a>
+            </div>
+            <div class="layui-form" lay-filter="test2">
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th class="">
+                                <div class="table-cell-div">
+                                    <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose">
+                                </div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">订单号</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">商品图片</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">产品名称</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">订单数量</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">下单时间</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">订单金额</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">支付类型</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">店铺名</div>
+                            </th>
+                            <th class="table-cell">
+                                    <div class="table-cell-div">订单用户</div>
+                            </th>
+                            <th class="table-cell">
+                            <div class="table-cell-div">收货地址</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">操作</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {if !empty($data)}
+                            {volist name="data" id="vo"}
+                        <tr>
+                            <td class="table-cell">
+                                <div class="table-cell-div">
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
+                                </div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="">{$vo.parts_order_number}</div>
+                            </td>
+                            <td>
+                                {if !empty($vo.goods_image)}
+                                <div><img src="__UPLOADS__/{$vo.goods_image}" /></div>
+                                {else}
+                                <div>无</div>
+                                {/if}</td>
+                            <td class="three">
+                                <div class="">{$vo.parts_goods_name}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$vo.order_quantity}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$vo.order_create_time|date="Y-m-d H:i:s",###}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">￥{$vo.order_real_pay}</div>
+                            </td>
+                            <td>
+                                {$vo.si_pay_type|pay_types}
+                            </td>
+                            <td>
+								{$vo.store_name}
+							</td>
+							<td>
+                                {$vo.user_phone_number}
+							</td>
+							<td class="four">{$vo.harvester_address}
+							</td>
+                            <td class="">
+                                <div class="line">
+                                    {$vo.status|show_order_statues}
+                                    <div class="static_btus1"><div class="not_apply">未申请开票</div></div>
+									<a href="capital_management_details" class="static_btus2">订单详情</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {/volist}
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="bot-operate" id="page">
+                <div class="opation">
+                    <select>
+                        <option check="" value="0">请选择</option>
+                        <option value="1">批量删除</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" id="operation-btn" class="operation-btn">确定</button>
+                </div>
+            </div>
+            {if !empty($data)}
+            {$data->render()}
+            {/if}
+        </div>
+    </div>
+
+    <div class="mask" style="display: none;"></div>
+    <!-- 弹窗 -->
+    <div class="pop" style="display: none;">
+        <div class="head">
+            <i class="close">×</i>
+        </div>
+        <div class="content">
+            <div class="top">
+                <p>
+                    当前订单状态：
+                    <span>待付款</span>
+                    <span>待发货</span>
+                    <span>已发货</span>
+                    <span>已完成</span>
+                    <span>已关闭</span>
+                </p>
+            </div>
+            <div class="mid">
+                <h2>温馨提示</h2>
+                <!-- 待付款 -->
+                <!-- <ul>
+                    <li>
+                        <span>您订购的该商品未完成支付，如果您确定需要该商品，请点击</span>
+                        <button class="layui-btn btn-yfh">立即支付</button>
+                    </li>
+                    <li>
+                        <span>如果您有不清楚的地方，请及时与</span>
+                        <a href="#" class="kf">客服沟通</a>
+                    </li>
+                    <li>
+                        <span>如果您确实无需该商品，您还可 </span>
+                        <button class="layui-btn btn-ygb">关闭订单</button>
+                    </li>
+                </ul> -->
+                <!-- 待发货 -->
+                <!-- <ul>
+                    <li>
+                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
+                    </li>
+                    <li>
+                        <span>如果您有不清楚的地方，请及时与</span>
+                        <a href="#" class="kf">客服沟通</a>
+                    </li>
+                    <li>
+                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
+                        <button class="layui-btn layui-btn-danger">售后维权</button>
+                    </li>
+                </ul> -->
+                <!-- 已发货 -->
+                <!-- <ul>
+                    <li>
+                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
+                    </li>
+                    <li>
+                        <span>如果您已收到货，且对商品满意，请点击</span>
+                        <button class="layui-btn btn-ywc">确认收货</button>
+                    </li>
+                    <li>
+                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
+                        <button class="layui-btn layui-btn-danger">售后维权</button>
+                    </li>
+                </ul> -->
+                <!-- 已完成 -->
+                <ul>
+                    <li>
+                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
+                    </li>
+                    <li>
+                        <span>您已收到货，您还可以</span>
+                        <a href="additional_comments" class="layui-btn layui-btn-normal">追加评论</a>
+                    </li>
+                    <li>
+                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
+                        <a href="store_order_after_edit" class="layui-btn layui-btn-danger">售后维权</a>
+                    </li>
+                </ul>
+                <!-- 已关闭 -->
+                <!-- <ul>
+                    <li>
+                        <span>您订购的该商品未完成支付，现已关闭 </span>
+                    </li>
+                    <li>
+                        <span>如果您有不清楚的地方，请及时与</span>
+                        <a href="#" class="kf">客服沟通</a>
+                    </li>
+                    <li>
+                        <span>如果您确实无需该商品，您还可 </span>
+                        <button class="layui-btn btn-ygb">永久删除</button>
+                    </li>
+                </ul> -->
+            </div>
+            <div class="bot">
+                <div>快递单号：<span>123456789</span></div>
+                <div>物流跟踪：<span>山西同城物流中心</span></div>
             </div>
         </div>
     </div>
-</div>
-<div class="mask" style="display: none;"></div>
-<!-- 弹窗 -->
-<div class="pop" style="display: none;">
-    <div class="head">
-        <p>请填写</p>
-        <i class="close">×</i>
-    </div>
-    <div class="content">
-        <div class="top">
-            <div class="invoice-money">
-                <label class="lb">开票金额</label>
-                <span>￥123</span>
-            </div>
-        </div>
-        <div class="mid">
-            <div class="invoice-head">
-                <label class="lb">发票抬头</label>
-                <input type="text" placeholder="请填写公司名">
-            </div>
-            <div class="invoice-num">
-                <label class="lb">企业税号</label>
-                <input type="text" placeholder="请填写企业税号">
-            </div>
-            <div class="address">
-                <label for="" class="lb">邮寄地址</label>
-                <p>广东省 广州市 天河区 珠吉街道 珠吉路58号津安创意园(李三 收)18451401025 默认地址</p>
-            </div>
-            <p class="change-addr">
-                <a href="#">管理收货地址</a>
-            </p>
-        </div>
-        <div class="bot">
-            <ul>
-                <li>
-                    <span>请确认好开票信息，发票开出后，不在重开，如已确认，你可</span>
-                    <button class="layui-btn">立即开票</button>
-                </li>
-                <!-- <li>
-                    <span>您已申请开票，如有任何疑问，请及时与平台</span>
-                    <a href="#">客服沟通</a>
-                </li>
-                <li>
-                    <span>您的发票已开具，如有任何疑问，请及时与平台</span>
-                    <a href="#">客服沟通</a>
-                </li> -->
-            </ul>
-        </div>
-    </div>
-</div>
 {/block}
 
 
@@ -231,7 +712,14 @@
 <script src="__STATIC__/admin/common/layui/layui.js"></script>
 <script>
     layui.use(['laydate', 'form'], function(){
-
+        var laydate = layui.laydate,
+            form = layui.form;
+        $('input[data-type="date"]').each(function(idx, elem){
+            laydate.render({
+                elem: elem
+            })
+        })
+        form.render();
     })
 </script>
 {/block}

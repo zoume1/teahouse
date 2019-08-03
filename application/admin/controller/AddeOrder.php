@@ -60,7 +60,8 @@ class  AddeOrder extends  Controller{
                         'store_id'=>$store_id,                     //店铺id
                         'user_account_name'=>$store_data['contact_name'], //账号名字
                         'user_phone_number'=>$store_data['phone_number'], //联系方式
-                        'goods_describe' => $goods['goods_describe'] //商品买点
+                        'goods_describe' => $goods['goods_describe'], //商品买点
+                        'goods_image' => $goods['goods_show_image']
                     ];
 
                     $bool = Db::name("adder_order")->insert($analyse);
@@ -317,18 +318,22 @@ class  AddeOrder extends  Controller{
                     'freight'=>0
                 ];
             }
+            $goods_type = Db::name("adder_order")->where('parts_order_number',$order_number)->value('goods_type');
+    
+            if($goods_type == 1){
+                $status = 3;
+            } else {
+                $status = 12;
+            }
 
-            $booles = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
-            $back = [
-                'pay_time' => time(),
-                'status'=> 3,
-                'si_pay_type'=>3,
-            ];
-            $rest = Db::name('adder_order')->where('parts_order_number',$order_number)->update($back);
+            $datas['pay_time'] = time();
+            $datas['status'] = $status;
+            $datas['si_pay_type'] = 3;
+            $rest = Db::name('adder_order')->where('parts_order_number',$order_number)->update($datas);
             $store_rest = Db::name("store")
             ->where("id",$store_id)
             ->setDec('store_wallet',$order_real_pay);
-            
+
             if($rest && $store_rest){
                 return ajax_success("支付成功");
             } else {

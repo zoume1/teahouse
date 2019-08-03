@@ -2542,14 +2542,54 @@ class  General extends  Base {
     }
 
     /**
-     **************李火生*******************
+     **************GY*******************
      * @param Request $request
      * Notes:增值订单
      **************************************
      */
     public function store_order(){
-        return view("store_order");
+        $store_id = Session::get('store_id');
+        $data = Db::name("adder_order")
+                ->where("store_id",$store_id)
+                ->where("status",'>',1)
+                ->paginate(20,false, [
+                    'query' => request()->param(),
+                ]); 
+                
+        return view("store_order",["data"=>$data]);
     }
+
+    /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:这是处理回复
+     **************************************
+     * @param Request $request
+     */
+    public function store_notice_index(Request $request){
+        if($request->isPost()){
+            $order_id = $request->only("order_id")["order_id"];
+            $datas =Db::name("note_notification")
+                ->where("order_id",$order_id)
+                ->order("create_time","desc")
+                ->select();
+            $rest = Db::name("adder_order")->where("id",$order_id)->find();
+
+            $data =[
+                "datas"=>$datas,
+                "order_type"=>$rest['order_type'],
+                "express_name"=>$rest['express_name'],
+                "courier_number"=>$rest['courier_number']
+            ];
+            if(!empty($data)){
+                return ajax_success("数据返回成功",$data);
+            }else{
+                return ajax_error("没有数据",["status"=>0]);
+            }
+        }
+    }
+
+
 
     /**
      **************李火生*******************

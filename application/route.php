@@ -911,6 +911,7 @@ Route::group("admin",[
     "store_order_after_close"=>"admin/General/store_order_after_close",//售后维权已关闭
     "store_order_after_replace"=>"admin/General/store_order_after_replace",//售后维权完成换货
     "store_order_after_complete"=>"admin/General/store_order_after_complete",//售后维权完成退款
+    "store_notice_index"=>"admin/General/store_notice_index",//这是处理回复
     "store_order_after_edit"=>"admin/General/store_order_after_edit",//售后维权详情
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
     "additional_comments"=>"admin/General/additional_comments",//追加评论

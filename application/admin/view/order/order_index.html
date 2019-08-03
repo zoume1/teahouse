@@ -406,6 +406,16 @@
 		border-bottom: 1px solid rgb(226, 226, 226);
 		line-height: 25px;
 	}
+	.zt_all {
+		font-size: 25px;
+		font-weight: 700;
+	}
+	.zt_red {
+		color:red;
+	}
+	.zt_greed {
+		color: rgb(102, 153, 0);
+	}
 </style>
 
 {/block}
@@ -632,8 +642,11 @@
 							<div class="line">
 								<div class="static_btus" data-id="{$vo.parts_order_number}" data-value="{$vo.status}"
 									data-type="{$vo.order_type|order_type_status}">
-									{if $vo.order_type !=
-									3}{$vo.status|show_order_status}{else}{$vo.status|show_house_order}{/if}
+									{if $vo.order_type !=3}
+									{$vo.status|show_order_status}
+									{else}
+									{$vo.status|show_house_order}
+									{/if}
 								</div>
 								<div class="static_btus1">
 									<div class="not_apply">未申请开票</div>
@@ -973,8 +986,10 @@
 			dhtml4 += '<div style=" font-size: 18px;margin-left: 20px;align-items: center;">';
 			dhtml4 += '<div style="text-align: left;"><span></span>' + harvester + '</span><span style="margin-left: 20px;">' + harvest_phone_num + '</span></div>';
 			dhtml4 += '<div>' + harvester_address + '</div></div></div>';
-			if(order_type_status == 3) {
-				dhtml4 += '<button type="button" class="submit_btns" data-id="">确认发货</button>';
+			if(order_type_status == 2 || order_type_status == 3 || order_type_status == 4 || order_type_status == 5) {
+				dhtml4 += '<div class="zt_all zt_red">未自提</div>';
+			} else if (order_type_status == 6 || order_type_status == 7 || order_type_status == 8 ){
+				dhtml4 += '<div class="zt_all zt_greed">已自提</div>';
 			}
 			// var dhtml2="";
 			// dhtml2+='<div class="select_static">';
