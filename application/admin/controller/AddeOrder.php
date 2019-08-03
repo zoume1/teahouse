@@ -118,6 +118,7 @@ class  AddeOrder extends  Controller{
             $address_id = $request->only(["address_id"])["address_id"];            //收货地址id
             // $coupon_deductible = $request->only(["coupon_deductible"])["coupon_deductible"];     //优惠抵扣金额
             $freight = $request->only(["goods_franking"])["goods_franking"];                    //邮费
+            $order_real_pay = 0.01;
 
             if($address_id > 0){
                 $is_address_status = Db::name("pc_store_address")->where('id',$address_id)->find(); //收货地址详细
