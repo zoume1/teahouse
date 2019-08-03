@@ -459,6 +459,7 @@
                 <a href="#" class="layui-btn btn-yfh">已发货</a>
                 <a href="#" class="layui-btn btn-dfk">待收货</a>
                 <a href="#" class="layui-btn btn-ytk">待服务</a>
+                <a href="#" class="layui-btn btn-yqx">待评价</a>
                 <a href="#" class="layui-btn btn-ywc">已完成</a>
             </div>
             <div class="layui-form" lay-filter="test2">
@@ -597,9 +598,9 @@
 				async: false,
 				success: function (data) {
 					var data = JSON.parse(data);
-					console.log(data)
 					// console.log(data)
 					way = data.data.order_type;   //邮寄方式    
+					$(".chenge_money").empty();
 					for (var i = 0; i < data.data.datas.length; i++) {
 						var dhtm0 = "";
 						dhtm0 += '<div class="chat_list">';
@@ -608,83 +609,62 @@
 						dhtm0 += '</div>';
 						$(".chat").append(dhtm0);
 					}
+
+					let dhtml = '',dhtml1 = '';
+					dhtml = `
+						<div>
+							<span class="logistics">物流</span>
+							<span>${data.data.express_name}：</span>
+							<span>${data.data.courier_number}</span>
+						</div>
+						<div style="margin-left:45px;">
+							<button class="layui-btn confirmReceipt" data-id="${data_id}"
+								style="background-color:rgb(22, 155, 213);border-radius: 5px;">确认收货</button>
+						</div>`;
+					dhtml1 = `
+						<div>	
+						</div>
+						<div style="margin-left:45px;">
+							<button class="layui-btn confirmReceipt" data-id="${data_id}"
+								style="background-color:rgb(22, 155, 213);border-radius: 5px;">确认服务</button>
+						</div>`;
+					if(data.data.goods_type == 1) {
+						$(".chenge_money").append(dhtml);
+					} else {
+						$(".chenge_money").append(dhtml1);
+					}
+					//确认收货/服务
+					$('.confirmReceipt').click(function () {
+						var order_id = $(this).data('id');
+						$.ajax({
+								type: "POST",
+								url: "{:url('admin/General/store_confirm_status')}",
+								data: {
+									"order_id": data_id,
+									"status": 7,
+								},
+								async: false,
+								success: function (data) {
+									if(data.data.status == 1) {
+										alert('收货成功')
+									} else {
+										alert('收货失败')
+									}
+
+								},
+								error: function (data) {
+
+								}
+							});
+					})
+
 				},
 				error: function (data) {
 
 				}
 			});
-			// //获取订单的信息
-			// var express = 0;
-			// var harvester_address, harvester, harvest_phone_num;
-			// $.ajax({
-			// 	type: "POST",
-			// 	url: "{:url('admin/Order/order_information_return')}",
-			// 	data: {
-			// 		"order_id": data_id,
-			// 	},
-			// 	async: false,
-			// 	success: function (data) {
-			// 		var data = JSON.parse(data);
-			// 		// console.log(data)
-			// 		way = data.data.order_type;   //邮寄方式  
-			// 		express = data.data.courier_number;
-			// 		express_name = data.data.express_name_ch;
-			// 		harvest_phone_num = data.data.harvest_phone_num;
-			// 		harvester_address = data.data.harvester_address;
-			// 		harvester = data.data.harvester;
-			// 		order_type = data.data.order_type;
-			// 		order_type_status = data.data.status;
-			// 		// $(".operation").find('.curier').value(express);
-			// 		// $(".operation").find('.danhao').val(express_name);
-			// 	},
-			// 	error: function (data) {
-
-			// 	}
-			// });
-	
-
-
-			// let dhtml4 = '';
-			// dhtml4 += '<div style=" display:flex;"><div style="color: rgb(168, 134, 148);text-align: center; font-size: 18px;margin: auto;">自提点：</div>';
-			// dhtml4 += '<div style=" font-size: 18px;margin-left: 20px;align-items: center;">';
-			// dhtml4 += '<div style="text-align: left;"><span></span>' + harvester + '</span><span style="margin-left: 20px;">' + harvest_phone_num + '</span></div>';
-			// dhtml4 += '<div>' + harvester_address + '</div></div></div>';
-			// if(order_type_status == 2 || order_type_status == 3 || order_type_status == 4 || order_type_status == 5) {
-			// 	dhtml4 += '<div class="zt_all zt_red">未自提</div>';
-			// } else if (order_type_status == 6 || order_type_status == 7 || order_type_status == 8 ){
-			// 	dhtml4 += '<div class="zt_all zt_greed">已自提</div>';
-			// }
-		
-			// if (data_value == 2 || data_value == 3) {   //代发货
-			// 	$('.chenge_money').hide();
-			// 	$(".operation").data("id", data_value);
-			// 	$(".operation").data("order_type", order_type);
-			// 	if (data_type == '到店自提') {
-			// 		$(".operation").append(dhtml4);
-			// 	} else {
-			// 		$(".operation").append(dhtml3);
-			// 	}
-			// } else if (data_value == 4 || data_value == 5 || data_value == 6 || data_value == 7) {
-			// 	$('.chenge_money').hide();
-			// 	if (data_type == '到店自提') {
-			// 		$(".operation").append(dhtml4);
-			// 	} else {
-			// 		$(".operation").append(dhtml2);
-			// 	}
-			// 	$(".operation").data("order_type", order_type);
-			// 	$(".operation").data("id", data_value);
-			// } else if (data_value == '8' || data_value == 0) {    	  //已完成
-			// 	$('.chenge_money').hide();
-			// 	if (data_type == '到店自提') {
-			// 		$(".operation").append(dhtml4);
-			// 	} else {
-			// 		$(".operation").append(dhtml2);
-			// 	}
-			// 	$(".operation").data("order_type", order_type);
-			// 	$(".operation").data("id", data_value);
-			// } else {
-			// 	$('.chenge_money').show();
-			// }
+			
+			
 			$(".popup_one").removeClass("noshow");
 
 			
@@ -693,8 +673,9 @@
 		$(".popup_x").click(function () {
 			$(".popup").addClass("noshow");
 		});
-		// 点击批注
+		
 
+		// 点击批注
 		$(".repay_tip").click(function () {
 			var data_id = $(this).data("value");
 			var Information = $(".Information").val();
