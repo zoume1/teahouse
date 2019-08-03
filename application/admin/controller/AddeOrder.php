@@ -376,7 +376,7 @@ class  AddeOrder extends  Controller{
             $goods_type = Db::name("adder_order")->where('parts_order_number',$order_number)->value('goods_type');
     
             if($goods_type == 1){
-                $status = 3;
+                $status = 2;
             } else {
                 $status = 12;
             }

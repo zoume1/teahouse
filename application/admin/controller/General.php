@@ -2107,7 +2107,7 @@ class  General extends  Base {
         $order_number = $request->only(["order_number"])["order_number"];
         $result =Db::name("adder_order")
             ->where("parts_order_number",$order_number)
-            ->where("status",">",2)
+            ->where("status","=",2)
             ->find();
         if($result){
             return ajax_success("付款成功");
