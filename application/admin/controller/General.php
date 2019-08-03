@@ -2593,6 +2593,7 @@ class  General extends  Base {
         $data = Db::name("adder_order")
                 ->where("store_id",$store_id)
                 ->where("status",'>',1)
+                ->order('order_create_time desc')
                 ->paginate(20,false, [
                     'query' => request()->param(),
                 ]); 
@@ -2620,12 +2621,37 @@ class  General extends  Base {
                 "datas"=>$datas,
                 "goods_type"=>$rest['goods_type'],
                 "express_name"=>$rest['express_name'],
+                "express_name_ch"=>$rest['express_name_ch'],
                 "courier_number"=>$rest['courier_number']
             ];
             if(!empty($data)){
                 return ajax_success("数据返回成功",$data);
             }else{
                 return ajax_error("没有数据",["status"=>0]);
+            }
+        }
+    }
+
+
+
+
+
+    /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:确认服务
+     **************************************
+     * @param Request $request
+     */
+    public function store_confirm_status(Request $request){
+        if($request->isPost()){
+            $order_id = $request->only("order_id")["order_id"];
+            $status = $request->only("status")["status"];
+            $rest = Db::name("adder_order")->where("parts_order_number",$order_id)->update(['status'=>$status]);
+            if(!empty($rest)){
+                return ajax_success("确认服务成功");
+            }else{
+                return ajax_error("确认服务失败");
             }
         }
     }
