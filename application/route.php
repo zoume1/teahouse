@@ -533,6 +533,8 @@ Route::group("admin",[
     "after_sale_status"=>"admin/AfterSale/after_sale_status",//售后状态修改
     "after_sale_express_add"=>"admin/AfterSale/after_sale_express_add",//售后状态修改带快递信息
     "after_sale_money_add"=>"admin/AfterSale/after_sale_money_add",//售后状态修改带退钱操作
+    "after_sale_refound"=>"admin/AfterSale/after_sale_refound",//售后状态-退钱，原路返回
+
     /*TODO:售后结束*/
     /*TODO:退款*/
 //    "order_refund"=>"admin/Api/order_refund",//微信退款
