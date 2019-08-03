@@ -458,8 +458,8 @@
                 <a href="#" class="layui-btn btn-dfh">待发货</a>
                 <a href="#" class="layui-btn btn-yfh">已发货</a>
                 <a href="#" class="layui-btn btn-ywc">待收货</a>
-                <a href="#" class="layui-btn btn-ygb">待服务</a>
-                <a href="#" class="layui-btn btn-ygb">已完成</a>
+                <a href="#" class="layui-btn btn-ytk">待服务</a>
+                <a href="#" class="layui-btn btn-ywc">已完成</a>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
@@ -584,6 +584,7 @@
 		$(".static_btus").click(function () {
 			var _this = this;
 			var data_id = $(this).parent().data("id");    //订单id
+			$(".repay_tip").data("value", data_id);
 			$(".operation").empty();
 			$(".chat").empty();
 			//获取批注
@@ -599,14 +600,14 @@
 					console.log(data)
 					// console.log(data)
 					way = data.data.order_type;   //邮寄方式    
-					// for (var i = 0; i < data.data.datas.length; i++) {
-					// 	var dhtm0 = "";
-					// 	dhtm0 += '<div class="chat_list">';
-					// 	dhtm0 += '	<span class="span">' + timestampToTime(data.data.datas[i].create_time) + '</span>';
-					// 	dhtm0 += '<span>' + data.data.datas[i].information + '</span>';
-					// 	dhtm0 += '</div>';
-					// 	$(".chat").append(dhtm0);
-					// }
+					for (var i = 0; i < data.data.datas.length; i++) {
+						var dhtm0 = "";
+						dhtm0 += '<div class="chat_list">';
+						dhtm0 += '	<span class="span">' + timestampToTime(data.data.datas[i].create_time) + '</span>';
+						dhtm0 += '<span>' + data.data.datas[i].information + '</span>';
+						dhtm0 += '</div>';
+						$(".chat").append(dhtm0);
+					}
 				},
 				error: function (data) {
 
@@ -692,6 +693,51 @@
 		$(".popup_x").click(function () {
 			$(".popup").addClass("noshow");
 		});
+		// 点击批注
+
+		$(".repay_tip").click(function () {
+			var data_id = $(this).data("value");
+			var Information = $(".Information").val();
+			if (Information != '') {
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/Notification/option_add_notice')}",
+					data: {
+						"order_id": data_id,
+						"information": Information,
+					},
+					async: false,
+					success: function (data) {
+						var data = eval('(' + data + ')');
+						var dhtm0 = "";
+						dhtm0 += '<div class="chat_list">';
+						dhtm0 += '	<span class="span">' + timestampToTime(data.data.create_time) + '</span>';
+						dhtm0 += '<span>' + data.data.information + '</span>';
+						dhtm0 += '</div>';
+						$(".chat").append(dhtm0);
+						$(".Information").val("");
+
+					},
+					error: function (data) {
+
+					}
+				});
+
+			}
+			else {
+				alert("批注不能为空");
+			}
+		});
+		function timestampToTime(timestamp) {
+			var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+			Y = date.getFullYear();
+			M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+			D = date.getDate();
+			h = date.getHours() + ':';
+			m = date.getMinutes() + ':';
+			s = date.getSeconds();
+			return Y + M + D;
+		}
         form.render();
     })
 </script>
