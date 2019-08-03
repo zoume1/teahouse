@@ -8,7 +8,7 @@
 	body {
 		background: #fff;
 	}
-	
+
 	#page {
 		width: 97%;
 		height: 50px;
@@ -17,44 +17,45 @@
 		padding-left: 50px;
 		background: #FDFDFE;
 	}
-	
+
 	.on {
 		color: #21A5FA !important;
 		border-bottom: solid 3px #21A5FA;
 	}
-	
+
 	.distribution_list {
 		margin-bottom: 10px;
 		border-bottom: solid 1px #D7D7D7;
 	}
-	
+
 	.distribution_list ul {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.distribution_list a {
 		font-size: 14px;
 		padding: 9px;
 		color: #5E5E5E;
 	}
-	
+
 	.distribution_list ul li {
 		flex: 1;
 	}
-	
+
 	.static_btus {
 		width: 100px;
 		height: 30px;
 		line-height: 30px;
-		
+
 		color: #fff;
 		margin: 0 auto;
 	}
+
 	/*
      * 弹窗
      */
-	
+
 	.popup {
 		width: 100%;
 		height: 100%;
@@ -67,7 +68,7 @@
 		border: solid 1px #D7D7D7;
 		box-sizing: border-box;
 	}
-	
+
 	.submit_btns {
 		width: 100px;
 		height: 38px;
@@ -75,17 +76,17 @@
 		background: #169BD5;
 		border-radius: 10px;
 	}
-	
+
 	.popup_doms {
 		width: 765px;
 		height: 413px;
 		background: #fff;
 	}
-	
+
 	.popup_content {
 		padding: 20px;
 	}
-	
+
 	.popup_title {
 		height: 40px;
 		line-height: 40px;
@@ -93,72 +94,72 @@
 		background: #EEF7EA;
 		padding-left: 20px;
 	}
-	
+
 	.span {
 		display: inline-block;
 		width: 80px;
 		text-align: left;
 		margin-right: 20px;
 	}
-	
+
 	.repany .layui-input {
 		width: 510px;
 	}
-	
+
 	.repany {
 		margin-bottom: 10px;
 	}
-	
+
 	.operation {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.chat {
 		height: 172px;
 		overflow-y: scroll;
 	}
-	
+
 	.danhao {
 		width: 200px;
 		margin-right: 10px;
 	}
-	
+
 	.operation select {
 		width: 130px;
 		height: 40px;
 		border-color: #ABADB3;
 		color: #000;
 	}
-	
+
 	.operation div {
 		margin-right: 10px;
 	}
-	
+
 	.noshow {
 		display: none;
 	}
-	
+
 	.popup_title {
 		position: relative;
 	}
-	
+
 	.popup_x {
 		width: 25px;
 		position: absolute;
 		right: 12px;
 		top: -4px;
 	}
-	
+
 	.img_content {
 		display: flex;
 		margin-left: 80px;
 	}
-	
+
 	.img_content img {
 		width: 40px;
 	}
-	
+
 	.local_host_repay {
 		width: 100px;
 		height: 38px;
@@ -166,16 +167,17 @@
 		background: #669900;
 		border-radius: 10px;
 	}
-	
+
 	.layui-inputs {
 		width: 200px;
 	}
+
 	/*
      * 弹窗end
      */
-	
+
 	.seach_button_all {}
-	
+
 	.seach_button {
 		display: inline-block;
 		width: 80px;
@@ -184,28 +186,28 @@
 		text-align: center;
 		border-radius: 4px;
 	}
-	
+
 	.all0 {
 		background: #F4FBFF;
 		color: #999;
 	}
-	
+
 	.all1 {
 		background: #6666FF;
 	}
-	
+
 	.all2 {
 		background: #66CC00;
 	}
-	
+
 	.all3 {
 		background: #FF9900;
 	}
-	
+
 	.all4 {
 		background: #CCA444;
 	}
-	
+
 	.all5 {
 		background: #A1A1A1;
 		color: #fff;
@@ -231,7 +233,8 @@
 				</div>
 				<div class="repany">
 					<span class="span">官方回复</span>
-					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注" class="layui-input Information" value="">
+					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注"
+						class="layui-input Information" value="">
 					<button class="local_host_repay">回复</button>
 				</div>
 				<div class="chat">
@@ -246,39 +249,43 @@
 	<div class="childrenBody">
 
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Order/refund_protection_search')}" >
+			<form class="layui-form" action="{:url('admin/Order/refund_protection_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">请搜索：</div>
 						<div class="seach_input">
-							<input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="服务单号/订单号/用户账号" class="layui-input">
+							<input type="text" name="search_a" lay-verify="title" autocomplete="off"
+								placeholder="服务单号/订单号/用户账号" class="layui-input">
 						</div>
 					</div>
 					<!--<div class="seach_list">-->
-						<!--<div class="seach_laber">订单号：</div>-->
-						<!--<div class="seach_input">-->
-							<!--<input type="text" name="search_b" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">-->
-						<!--</div>-->
+					<!--<div class="seach_laber">订单号：</div>-->
+					<!--<div class="seach_input">-->
+					<!--<input type="text" name="search_b" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">-->
+					<!--</div>-->
 					<!--</div>-->
 
 					<!--<div class="seach_list">-->
-						<!--<div class="seach_laber">用户账号：</div>-->
-						<!--<div class="seach_input">-->
-							<!--<input type="text" name="search_c" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">-->
-						<!--</div>-->
+					<!--<div class="seach_laber">用户账号：</div>-->
+					<!--<div class="seach_input">-->
+					<!--<input type="text" name="search_c" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">-->
+					<!--</div>-->
 					<!--</div>-->
 
 					<div class="seach_list">
 						<div class="seach_laber">开始时间</div>
 						<div class="seach_input">
-							<span class="time"><input name="date_min" type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
+							<span class="time"><input name="date_min" type="text"
+									class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value="">
 							</span>
 						</div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">结束时间</div>
 						<div class="seach_input">
-							<span class="time"><input name="date_max" type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
+							<span class="time"><input name="date_max" type="text"
+									class=" text datetimepicker layui-input" readonly="readonly" id="endTime"
+									value=""></span>
 
 						</div>
 					</div>
@@ -320,7 +327,8 @@
 				<tbody class="news_content">
 					{if !empty($data)} {volist name="data" id="vo"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}"></td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
+						</td>
 						<td>{$vo.sale_order_number}</td>
 						<td class="">
 							{$vo.buy_order_number}
@@ -346,7 +354,8 @@
 							</div>
 						</td>
 						<td>
-							<div class="static_btus" data-id="{$vo.id}" id="static_btus" style="border-radius:4px;overflow:hidden">
+							<div class="static_btus" data-id="{$vo.id}" id="static_btus"
+								style="border-radius:4px;overflow:hidden">
 								{:after_sale_status($vo.status,$vo.who_handle)}
 							</div>
 						</td>
@@ -367,7 +376,8 @@
 					</select>
 				</div>
 				<div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
-					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
+					<button type="button" id="opration_btu"
+						style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
 				{if !empty($data)} {$access} {/if}
@@ -388,7 +398,7 @@
 	<script type="text/javascript">
 		layui.config({
 			base: "js/"
-		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+		}).use(['form', 'layer', 'jquery', 'laypage'], function () {
 			var form = layui.form(),
 				layer = parent.layer === undefined ? layui.layer : parent.layer,
 				laypage = layui.laypage,
@@ -396,21 +406,21 @@
 			var vals = $("input").data("id");
 			//点击操作确认按钮
 			var data_id = [];
-			$("#opration_btu").click(function() {
+			$("#opration_btu").click(function () {
 				var opration_val = $(".opation select option:selected").val();
-				if(opration_val == 0) {
+				if (opration_val == 0) {
 					layer.alert('请选择操作', {
 						skin: 'layui-layer-molv' //样式类名
-							,
+						,
 						closeBtn: 0
 					});
-				} else if(opration_val == 1) {
+				} else if (opration_val == 1) {
 					layer.confirm('你确认要删除吗？', {
 						btn: ['确认', '取消'] //按钮
-					}, function(index) {
+					}, function (index) {
 						layer.close(index);
 						var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
-						for(var i = 0; i < child.length; i++) {
+						for (var i = 0; i < child.length; i++) {
 							data_id.push($(child[i])[0].dataset.id);
 						}
 						$.ajax({
@@ -419,23 +429,23 @@
 							data: {
 								"id": data_id,
 							},
-							success: function(data) {
+							success: function (data) {
 								console.log("成功");
 								console.log(data);
 								var data = $.parseJSON(data);
 								layer.alert(data.info, {
 									skin: 'layui-layer-molv' //样式类名
-										,
+									,
 									closeBtn: 0
 								});
 								location.reload();
 								data_id.splice(0, data_id.length);
 							},
-							error: function(data) {
+							error: function (data) {
 								var data = $.parseJSON(data);
 								layer.alert(data.info, {
 									skin: 'layui-layer-molv' //样式类名
-										,
+									,
 									closeBtn: 0
 								});
 								console.log(data);
@@ -450,19 +460,19 @@
 			});
 
 			//全选
-			form.on('checkbox(allChoose)', function(data) {
+			form.on('checkbox(allChoose)', function (data) {
 				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-				child.each(function(index, item) {
+				child.each(function (index, item) {
 					item.checked = data.elem.checked;
 				});
 				form.render('checkbox');
 			});
 
 			//通过判断文章是否全部选中来确定全选按钮是否选中
-			form.on("checkbox(choose)", function(data) {
+			form.on("checkbox(choose)", function (data) {
 				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
 				var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
-				if(childChecked.length == child.length) {
+				if (childChecked.length == child.length) {
 					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
 				} else {
 					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
@@ -470,8 +480,8 @@
 				form.render('checkbox');
 			})
 
-			form.on('switch(isShow)', function(data) {
-				if($(this).val() == 0) {
+			form.on('switch(isShow)', function (data) {
+				if ($(this).val() == 0) {
 					$(this).val(1);
 				} else {
 					$(this).val(0);
@@ -486,20 +496,20 @@
 						"id": id,
 						"status": status
 					},
-					success: function(data) {
+					success: function (data) {
 						console.log("成功")
 					},
-					error: function(data) {
+					error: function (data) {
 						console.log("错误")
 					}
 				});
 
 			})
 		})
-		$(".static_btus").click(function() {
+		$(".static_btus").click(function () {
 			$(".popup_tree").removeClass("noshow");
 		});
-		$(".popup_x").click(function() {
+		$(".popup_x").click(function () {
 			$(".popup").addClass("noshow");
 		});
 	</script>
@@ -540,9 +550,9 @@
 		dhtml_d += '</div>';
 		dhtml_d += '<div class="repany">';
 		dhtml_d += '<span class="span"> 快递公司 </span>';
-		dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
+		dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=""  style="border:0">';
 		dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
-		dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="77777377373773"  style="border:0">';
+		dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=""  style="border:0">';
 		dhtml_d += '</div>';
 		// 收货中,第三部分
 		var dhtml_c = '';
@@ -602,7 +612,7 @@
 		dhtml2 += ' <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额" class="layui-input danhao" >';
 		dhtml2 += '</div>';
 		dhtml2 += '<button type="button" class="submit_btns"  data-id="">确定</button>';
-		$(".static_btus").click(function() {
+		$(".static_btus").click(function () {
 			var data_id = $(this).data("id");
 			$(".local_host_repay").data("id", data_id);
 			$.ajax({
@@ -612,7 +622,7 @@
 					"after_sale_id": data_id,
 				},
 				async: false,
-				success: function(data) {
+				success: function (data) {
 					var data = eval('(' + data + ')');
 					console.log(data);
 					way = data.data.status;
@@ -623,7 +633,7 @@
 					$(".operation").data("value", data_id);
 					$(".operation").data("name", data.data.is_return_goods);
 					// 申请中
-					if(way == 1) {
+					if (way == 1) {
 						var dhtml_a = '';
 						dhtml_a += '<div class="repany">';
 						dhtml_a += '<span class="span">客户申请</span>';
@@ -637,15 +647,15 @@
 						dhtml_b += '<span>' + data.data.return_reason + '</span>';
 						dhtml_b += '</div>';
 						dhtml_b += '<div class="img_content">';
-						for(var i = 0; i < data.data.images.length; i++) {
+						for (var i = 0; i < data.data.images.length; i++) {
 							// console.log(data.data.images[i])
 							dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
 						}
 						dhtml_b += '</div>';
 						dhtml_b += '</div>';
 						$(".chat").append(dhtml_b);
-						for(var j = 0; j < data.data.reply.length; j++) {
-						
+						for (var j = 0; j < data.data.reply.length; j++) {
+
 							var dhtml_e = '';
 							dhtml_e += '<div class="chat_list_content">';
 							dhtml_e += '<div class="chat_list">';
@@ -670,7 +680,7 @@
 						$(".operation").append(dhtml_c);
 					}
 					// 收货中
-					else if(way == 3) {
+					else if (way == 3) {
 						var dhtml_d = '';
 						dhtml_d += '<div class="repany">';
 						dhtml_d += '<span class="span">客户申请</span>';
@@ -678,9 +688,9 @@
 						dhtml_d += '</div>';
 						dhtml_d += '<div class="repany">';
 						dhtml_d += '<span class="span"> 快递公司 </span>';
-						dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
+						dhtml_d += '<input type="text" name="" id="courier_company" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_company + '"  style="border:0">';
 						dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
-						dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="77777377373773"  style="border:0">';
+						dhtml_d += '<input type="text" name="" id="tracking_number" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_number + '"  style="border:0">';
 						dhtml_d += '</div>';
 						$("#repay_list").append(dhtml_d);
 						var dhtml_b = '';
@@ -690,20 +700,19 @@
 						dhtml_b += '<span>' + data.data.return_reason + '</span>';
 						dhtml_b += '</div>';
 						dhtml_b += '<div class="img_content">';
-						for(var i = 0; i < data.data.images.length; i++) {
+						for (var i = 0; i < data.data.images.length; i++) {
 							// console.log(data.data.images[i])
 							dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
 						}
 						dhtml_b += '</div>';
 						dhtml_b += '</div>';
 						$(".chat").append(dhtml_b);
-						for(var j = 0; j < data.data.reply.length; j++) {
-							alert(111);
+						for (var j = 0; j < data.data.reply.length; j++) {
 							var dhtml_e = '';
 							dhtml_e += '<div class="chat_list_content">';
 							dhtml_e += '<div class="chat_list">';
 							dhtml_e += '<span class="span">' + timestampToTime(data.data.reply[j].create_time) + '</span>';
-						    dhtml_e += '<span>' + data.data.reply[j].content + '</span>';
+							dhtml_e += '<span>' + data.data.reply[j].content + '</span>';
 							dhtml_e += '</div>';
 							dhtml_e += '<div class="img_content">';
 							dhtml_e += '</div>';
@@ -721,8 +730,8 @@
 						dhtml_c += '</div>';
 						dhtml_c += '<button type="button" class="submit_btns" data_id="">确定</button>';
 						$(".operation").append(dhtml_c);
-					} else if(way == 2) {
-						if(data.data.is_return_goods == 1) {
+					} else if (way == 2) {
+						if (data.data.is_return_goods == 1) {
 							var dhtml_d = '';
 							dhtml_d += '<div class="repany">';
 							dhtml_d += '<span class="span">客户申请</span>';
@@ -730,9 +739,9 @@
 							dhtml_d += '</div>';
 							dhtml_d += '<div class="repany">';
 							dhtml_d += '<span class="span"> 快递公司 </span>';
-							dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
+							dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off"  placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_company + '"  style="border:0">';
 							dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
-							dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="77777377373773"  style="border:0">';
+							dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off"  placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_number + '"  style="border:0">';
 							dhtml_d += '</div>';
 							$("#repay_list").append(dhtml_d);
 							var dhtml_b = '';
@@ -742,14 +751,14 @@
 							dhtml_b += '<span>' + data.data.return_reason + '</span>';
 							dhtml_b += '</div>';
 							dhtml_b += '<div class="img_content">';
-							for(var i = 0; i < data.data.images.length; i++) {
+							for (var i = 0; i < data.data.images.length; i++) {
 								// console.log(data.data.images[i])
 								dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
 							}
 							dhtml_b += '</div>';
 							dhtml_b += '</div>';
 							$(".chat").append(dhtml_b);
-							for(var j = 0; j < data.data.reply.length; j++) {
+							for (var j = 0; j < data.data.reply.length; j++) {
 								var dhtml_e = '';
 								dhtml_e += '<div class="chat_list_content">';
 								dhtml_e += '<div class="chat_list">';
@@ -802,18 +811,18 @@
 							dhtml_d += '</div>';
 							dhtml_d += '<div class="repany">';
 							dhtml_d += '<span class="span"> 快递公司 </span>';
-						
-							if(data.data.buy_express_company!=null){
-								dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
+
+							if (data.data.buy_express_company != null) {
+								dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_company + '"  style="border:0">';
 							}
-							else{
+							else {
 								dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="未寄送"  style="border:0">';
 							}
 							dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
-							if(data.data.buy_express_number!=null){
-							 dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="'+data.data.buy_express_number+'"  style="border:0">';
+							if (data.data.buy_express_number != null) {
+								dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_number + '"  style="border:0">';
 							}
-							else{
+							else {
 								dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="未寄送"  style="border:0">';
 							}
 							dhtml_d += '</div>';
@@ -825,14 +834,14 @@
 							dhtml_b += '<span>' + data.data.return_reason + '</span>';
 							dhtml_b += '</div>';
 							dhtml_b += '<div class="img_content">';
-							for(var i = 0; i < data.data.images.length; i++) {
+							for (var i = 0; i < data.data.images.length; i++) {
 								// console.log(data.data.images[i])
 								dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
 							}
 							dhtml_b += '</div>';
 							dhtml_b += '</div>';
 							$(".chat").append(dhtml_b);
-							for(var j = 0; j < data.data.reply.length; j++) {
+							for (var j = 0; j < data.data.reply.length; j++) {
 								var dhtml_e = '';
 								dhtml_e += '<div class="chat_list_content">';
 								dhtml_e += '<div class="chat_list">';
@@ -869,9 +878,9 @@
 						dhtml_d += '</div>';
 						dhtml_d += '<div class="repany">';
 						dhtml_d += '<span class="span"> 快递公司 </span>';
-						dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="顺丰"  style="border:0">';
+						dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_company + '"  style="border:0">';
 						dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
-						dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="77777377373773"  style="border:0">';
+						dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_number + '" style="border:0">';
 						dhtml_d += '</div>';
 						$("#repay_list").append(dhtml_d);
 						var dhtml_b = '';
@@ -881,14 +890,14 @@
 						dhtml_b += '<span>' + data.data.return_reason + '</span>';
 						dhtml_b += '</div>';
 						dhtml_b += '<div class="img_content">';
-						for(var i = 0; i < data.data.images.length; i++) {
+						for (var i = 0; i < data.data.images.length; i++) {
 							// console.log(data.data.images[i])
 							dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
 						}
 						dhtml_b += '</div>';
 						dhtml_b += '</div>';
 						$(".chat").append(dhtml_b);
-						for(var j = 0; j < data.data.reply.length; j++) {
+						for (var j = 0; j < data.data.reply.length; j++) {
 							var dhtml_e = '';
 							dhtml_e += '<div class="chat_list_content">';
 							dhtml_e += '<div class="chat_list">';
@@ -903,97 +912,126 @@
 					}
 
 				},
-				error: function(data) {
+				error: function (data) {
 
 				}
 			});
 		})
-		$(".operation").on("click", ".submit_btns", function() {
-					var static = $(".operation").data("id");
-					var value = $(".operation").data("value");
-					//  申请中  收货中
-					if(static == 1 || static == 3) {
-						var val = $(".operation_select  option:selected").val();
-						if(val != "0") {
-							$.ajax({
-								type: "POST",
-								url: "{:url('admin/AfterSale/after_sale_status')}",
-								data: {
-									"after_sale_id": value,
-									"status": val,
-								},
-								async: false,
-								success: function(data) {
-									location.reload();
-								},
-								error: function(data) {
-
-								}
-							});
-
+		$(".operation").on("click", ".submit_btns", function () {
+			var static = $(".operation").data("id");
+			var value = $(".operation").data("value");   //退款维权记录id
+			console.log($(".operation").data())
+			//  申请中  收货中
+			if (static == 1) {
+				var val = $(".operation_select  option:selected").val();
+				if (val != "0") {
+					$.ajax({
+						type: "POST",
+						url: "{:url('admin/AfterSale/after_sale_status')}",
+						data: {
+							"after_sale_id": value,
+							"status": val,
+						},
+						async: false,
+						success: function (data) {
+							location.reload();
+						},
+						error: function (data) {
 						}
+					});
 
-						$(".popup").addClass("noshow");
-					}
-					//  处理中
-					else if(static == 2) {
-						var val = $(".operation_select  option:selected").val();
-						var kuaidi = $(".curier  option:selected").val();
-						var danhao = $(".danhao").val();
-						if($(".operation").data("name") == 1) {
-							if(val != 0 || danhao != '') {
-								$.ajax({
-									type: "POST",
-									url: "{:url('admin/AfterSale/after_sale_express_add')}",
-									data: {
-										"after_sale_id": value,
-										"status": val,
-										"sell_express_company": kuaidi,
-										"sell_express_number": danhao,
-									},
-									async: false,
-									success: function(data) {
-										location.reload();
-									},
-									error: function(data) {
+				}
 
-									}
-								});
+				$(".popup").addClass("noshow");
+			} else if (static == 2) {
+				//获取快递信息
+				//  处理中
+				var val = $(".operation_select  option:selected").val();
+				var kuaidi = $(".curier  option:selected").val();
+				var danhao = $(".danhao").val();
 
-							} else {
-								alert("单号不能为空")
+				return;
+				if ($(".operation").data("name") == 1) {
+					if (val != 0 || danhao != '') {
+						$.ajax({
+							type: "POST",
+							url: "{:url('admin/AfterSale/after_sale_express_add')}",
+							data: {
+								"after_sale_id": value,
+								"status": val,
+								"sell_express_company": kuaidi,
+								"sell_express_number": danhao,
+							},
+							async: false,
+							success: function (data) {
+								location.reload();
+							},
+							error: function (data) {
+
 							}
-						} 
-						else {
-								if(val != 0 || danhao != '') {
-									$.ajax({
-										type: "POST",
-										url: "{:url('index/Api/order_refund')}",
-										data: {
-											"after_sale_id": value,
-											"status": val,
-											"business_return_money": danhao,
-										},
-										async: false,
-										success: function(data) {
-											location.reload();
-										},
-										error: function(data) {
+						});
 
-										}
-									});
+					} else {
+						alert("单号不能为空")
+					}
+				}
+				else {   //退款操作
+					if (val != 0 || danhao != '') {
+						$.ajax({
+							type: "POST",
+							// url: "{:url('index/Api/order_refund')}",
+							url: "{:url('admin/AfterSale/after_sale_refound')}",
+							data: {
+								"after_sale_id": value,
+								"status": val,
+								"business_return_money": danhao,
+							},
+							async: false,
+							success: function (data) {
+								alert('已退款至余额，请提醒用户及时查看');
+								location.reload();
+							},
+							error: function (data) {
 
-								}
-								 else {
-									alert("钱数不能为空")
-								}
+							}
+						});
+
+					}
+					else {
+						alert("钱数不能为空")
+					}
+				}
+			} else if (static == 3) {
+				var val = $(".operation_select  option:selected").val();
+				var tracking_number = $('#tracking_number').val(); 
+				var courier_company = $('#courier_company').val(); 
+				if (val != 0 && courier_company != 'null' && tracking_number != 'null') {
+					$.ajax({
+						type: "POST",
+						url: "{:url('admin/AfterSale/after_sale_status')}",
+						data: {
+							"after_sale_id": value,
+							"status": val,
+						},
+						async: false,
+						success: function (data) {
+							location.reload();
+						},
+						error: function (data) {
 						}
-						}
-					})
-		$(".local_host_repay").on("click", function() {
+					});
+
+				} else {
+					alert('客户尚未填写物流信息')
+				}
+
+				$(".popup").addClass("noshow");
+			}
+		})
+		$(".local_host_repay").on("click", function () {
 			var data_id = $(this).data("id")
 			var Information = $(".Information").val();
-			if(Information != '') {
+			if (Information != '') {
 				$.ajax({
 					type: "POST",
 					url: "{:url('admin/AfterSale/business_replay')}",
@@ -1002,19 +1040,19 @@
 						"content": Information,
 					},
 					async: false,
-					success: function(data) {
+					success: function (data) {
 						var data = eval('(' + data + ')');
 						console.log(data);
 						var dhtm0 = "";
 						dhtm0 += '<div class="chat_list">';
-						dhtm0 += '	<span class="span">' + timestampToTime(data.data.create_time)+ '</span>';
+						dhtm0 += '	<span class="span">' + timestampToTime(data.data.create_time) + '</span>';
 						dhtm0 += '<span>' + data.data.content + '</span>';
 						dhtm0 += '</div>';
 						$(".chat").append(dhtm0);
 						$(".Information").val("");
 
 					},
-					error: function(data) {
+					error: function (data) {
 
 					}
 				});
@@ -1022,17 +1060,17 @@
 			} else {
 				alert("回复不能为空");
 			}
-			})
-			function timestampToTime(timestamp) {
-				var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-				Y = date.getFullYear() ;
-				M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) ;
-				D = date.getDate() ;
-				h = date.getHours() + ':';
-				m = date.getMinutes() + ':';
-				s = date.getSeconds();
-				return Y+M+D;
-    }
+		})
+		function timestampToTime(timestamp) {
+			var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+			Y = date.getFullYear();
+			M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+			D = date.getDate();
+			h = date.getHours() + ':';
+			m = date.getMinutes() + ':';
+			s = date.getSeconds();
+			return Y + M + D;
+		}
 	</script>
 
 	{/block}

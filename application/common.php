@@ -816,6 +816,9 @@ function after_sale_status($status,$who_handle){
        echo '<div  type="button" class="state  all5" >用户撤销</button>';
    }else  if($status==5 && $who_handle ==3){
        echo '<div  type="button" class="state  all5" >拒绝</button>';
+    }else{
+        echo '<div  type="button" class="state  all5" >完成退款</button>';
+
    }
 }
 
