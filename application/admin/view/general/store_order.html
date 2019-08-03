@@ -645,12 +645,14 @@
 								},
 								async: false,
 								success: function (data) {
-									if(data.data.status == 1) {
-										alert('收货成功')
+									var data = JSON.parse(data);
+									if(data.status == 1) {
+										alert(data.info)
 									} else {
-										alert('收货失败')
+										alert(data.info)
 									}
-
+									$(".popup_one").addClass("noshow");
+									location.reload();
 								},
 								error: function (data) {
 
