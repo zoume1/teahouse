@@ -32,6 +32,7 @@ class Storehouse extends Controller
             $member_id = $request->only(['member_id'])['member_id'];
             $time = time();
             $depot = Db::name("store_house")->where("store_id",$store_id)->select();
+            halt($depot);
             foreach($depot as $kk => $va){
                 $depot_name[] = $va['number'];
             }
@@ -49,7 +50,7 @@ class Storehouse extends Controller
                                         ->order("order_create_time asc")
                                         ->select();   
                     }
-
+                    halt($house_order);
                         $count_number = count($house_order);
                         for($i = 0 ; $i < $count_number ; $i++){
                             foreach($house_order[$i] as $zt => $kl){

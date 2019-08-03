@@ -479,7 +479,7 @@ class  Order extends  Controller
                         $datase["harvester_address"] = $store_name;    //暂时先这样  
                         $datase["order_create_time"] = $create_time;
                         $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                        $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                        $datase["order_real_pay"] = 0.01;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datase["status"] = 1;
                         $datase["goods_id"] = $values;
                         $datase["buy_message"] = $buy_message;//买家留言
