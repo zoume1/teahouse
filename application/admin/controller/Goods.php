@@ -112,7 +112,7 @@ class Goods extends Controller
         
         if ($request->isPost()) {
             $store_id = Session::get("store_id");
-            $goods_data = $request->param(); 
+            $goods_data = $request->param();
             $show_images = $request->file("goods_show_images");
             if(!empty($goods_data['goods_delivery'])){
                 $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
