@@ -1088,7 +1088,6 @@
                         for (var i = 0; i < lv1Arr.length; i++) {
                             tableHTML += '			<th width="50"><input value="' + $(lv1Arr[i]).val() + '"  readonly style="border:0;"></th>';
                         }
-                        tableHTML += '			<th width="100px"><input value="众筹金额"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><textarea name="" id="" cols="" rows="" style="vertical-align:top;outline:none;border:0;width: 100px;overflow: hidden;    text-align: center;" readonly>众筹数量（多少起生产）</textarea></th>';
                         tableHTML += '			<th width="100px"><input value="规格编码"  readonly style="border:0;"></th>';
                         tableHTML += '			<th width="100px"><input value="众筹故事"  readonly style="border:0;"></th>';
@@ -1150,8 +1149,6 @@
                                     tableHTML += '	<td width="50" rowspan="' + rowsArr[j] + '" data-rc="' + (i + 1) + '_' + (j + 1) + '"><input value="' + text + '"  readonly style="border:0;"></td>';
                                 }
                             }
-
-                            tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[price]"  required  /></td>'; //众筹金额
                             tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[stock]"  required /></td>'; // 众筹数量
                             tableHTML += '			<td width="100px"><input type="text" name="sss' + name + '[coding]" class="coding" required /></td>'; //规格编码
                             tableHTML += '			<th width="100px"><textarea name="sss' + name + '[story]" id="" cols="" rows="" style="vertical-align:top;outline:none;  text-align: center; height: 90px;" ></textarea>';//众筹故事
