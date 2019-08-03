@@ -60,6 +60,7 @@
     .mid li a.kf{color: rgb(102, 153, 0);}
     .bot{height: 65px; display: flex; align-items: center;}
     .bot>div{flex: 1;}
+	.table-cell{text-align: center;}
     #page {
         width: 97%;
 		height: 50px;
@@ -69,24 +70,9 @@
 		background: #FDFDFE;
     }
 
-    <style type="text/css">
-	body {
-		background: #fff;
-	}
+	
 
-	#page {
-		width: 97%;
-		height: 50px;
-		line-height: 50px;
-		border: solid 1px #E2E2E2;
-		padding-left: 50px;
-		background: #FDFDFE;
-	}
-
-	.on {
-		color: #21A5FA !important;
-		border-bottom: solid 3px #21A5FA;
-	}
+	
 
 	.static_btus1 {
 		width: 100px;
@@ -141,6 +127,8 @@
 
 	.line {
 		justify-content: center;
+		display: flex;
+		align-items: center;
 	}
 
 
@@ -150,7 +138,7 @@
 		color: #5E5E5E;
 	}
 
-	.distribution_list ul li {}
+
 
 	.static_btus {
 		border-radius: 5px;
@@ -414,6 +402,9 @@
 		left: 170px;
 
 	}
+	td{
+		padding: 4px 0 !important;
+	}
 
 	td.three>div,
 	td.four>div,
@@ -435,9 +426,7 @@
 		border: 0;
 	}
 
-	td {
-		padding: 4px 0 !important;
-	}
+	
 
 	td img {
 		width: 50px;
@@ -507,7 +496,7 @@
                 <table class="layui-table">
                     <thead>
                         <tr>
-                            <th class="table-cell">
+                            <th class="">
                                 <div class="table-cell-div">
                                     <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose">
                                 </div>
@@ -557,7 +546,7 @@
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">{$vo.parts_order_number}</div>
+                                <div class="">{$vo.parts_order_number}</div>
                             </td>
                             <td>
                                 {if !empty($vo.goods_image)}
@@ -565,8 +554,8 @@
                                 {else}
                                 <div>无</div>
                                 {/if}</td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">{$vo.parts_goods_name}</div>
+                            <td class="three">
+                                <div class="">{$vo.parts_goods_name}</div>
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">{$vo.order_quantity}</div>
@@ -581,20 +570,18 @@
                                 {$vo.si_pay_type|pay_types}
                             </td>
                             <td>
-                                    {$vo.store_name}
-                                </td>
-                                <td>
-                                        {$vo.user_phone_number}
-                                    </td>
-                                    <td>
-                                            {$vo.harvester_address}
-                                        </td>
-                            
-                            <td class="table-cell">
-                                <div class="table-cell-div">
+								{$vo.store_name}
+							</td>
+							<td>
+                                {$vo.user_phone_number}
+							</td>
+							<td class="four">{$vo.harvester_address}
+							</td>
+                            <td class="">
+                                <div class="line">
                                     {$vo.status|show_order_statues}
-                                   <button class="layui-btn line-exam">未申请开票</button>
-                                    <a href="capital_management_details" class="dtl">订单详情</a>
+                                    <div class="static_btus1"><div class="not_apply">未申请开票</div></div>
+									<a href="capital_management_details" class="static_btus2">订单详情</a>
                                 </div>
                             </td>
                         </tr>
