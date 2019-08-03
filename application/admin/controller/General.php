@@ -2610,11 +2610,11 @@ class  General extends  Base {
     public function store_notice_index(Request $request){
         if($request->isPost()){
             $order_id = $request->only("order_id")["order_id"];
-            $datas =Db::name("note_notification")
+            $datas = Db::name("note_notification")
                 ->where("order_id",$order_id)
                 ->order("create_time","desc")
                 ->select();
-            $rest = Db::name("adder_order")->where("id",$order_id)->find();
+            $rest = Db::name("adder_order")->where("parts_order_number",$order_id)->find();
 
             $data =[
                 "datas"=>$datas,
