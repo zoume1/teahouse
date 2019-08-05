@@ -2597,7 +2597,6 @@ class  General extends  Base {
                 ->paginate(20,false, [
                     'query' => request()->param(),
                 ]); 
-                
         return view("store_order",["data"=>$data]);
     }
 
