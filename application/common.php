@@ -1317,3 +1317,46 @@ function show_house_orderer($status){
     return '<img src="http://chart.apis.google.com/chart?chs='.$x.'x'.$x.'&cht=qr&chld='.$level.'|'.$margin.'&chl='.urlencode($chl).'" />';
 }
 
+
+/**
+ * @param string $content  短信内容
+ * @param string $mobile   手机号
+ * @return 成功时返回，其他抛异常
+ */
+
+function sendMessage($content,$mobile)
+{
+    // $content = '【Wordphone】短信内容';//带签名的短息内容
+    // $mobile = '15872844800';//手机号
+    $url = "http://47.107.123.77:8860/sendSms";//请求URL
+    $api_code = "240001";//对接协议中的API代码
+    $api_secret = "4SFE6PW1GL";//对接协议中的API密码
+    $sign = md5($content.$api_secret);//md加密后短信内容+API密码 获得签名
+    $bodys = [
+        'cust_code'=>$api_code,
+        'content' => $content,
+        'destMobiles' => $mobile,
+        'sign' => $sign,
+    ];
+    $data_string = json_encode($bodys);
+    if (!function_exists('curl_init'))
+    {
+        return '';
+    }
+    //设置url
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+
+    curl_setopt($ch,CURLOPT_HTTPHEADER,array('Content-Type: text/html'));// 文本提交方式，必须声明请求头
+    $data = curl_exec($ch);
+    if($data === false){
+        var_dump(curl_error($ch));
+    }else{
+        curl_close($ch);
+    }
+    return $data;
+}
+
