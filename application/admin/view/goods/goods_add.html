@@ -1640,9 +1640,9 @@
                             }
                         })
                         // 限制输入的规格数量
-                        $('input[name="num[]"]').keyup(function(){
+                        $('input[name="num[]"]').change(function(){
                             var $value = $(this).val();
-                            var $preVal = $(this).parent().prev().find('input[name="num[]"]').val()
+                            var $preVal = $(this).parent().prev().find('input[name="num[]"]').val();
                             var $index = $(this).parent().index();
                             // 第二个单位的数量
                             if($value != ''){
@@ -1659,7 +1659,6 @@
                                     }
                                 }
                             }
-                            // console.log($(this).parents('#packing_specification').find('input[name="num[]"]'))
                         })
                     }else{
                         layer.msg('最多添加三个单位！');
@@ -1674,7 +1673,7 @@
                             var danwei1 = '';
                             if(len == 0){
                                 danwei1 += '<div class="danwei_content">';
-                                danwei1 += '<input type="text" name="' + select + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" value="1" class="layui-input" required>';
+                                danwei1 += '<input type="text" name="' + select + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" value="1" readonly class="layui-input" required>';
                                 danwei1 += '<input type="text" name="' + select + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" required  data-id="2" >';
                                 danwei1 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                                 danwei1 += '</div>';
@@ -1687,6 +1686,28 @@
                                 danwei1 += '</div>';
                             }
                             $(this).before(danwei1);
+                            // 限制输入的规格数量
+                            $('input[name="'+select+'_num[]"]').change(function(){
+                                var $value = $(this).val();
+                                var $preVal = $(this).parent().prev().find('input[name="'+select+'_num[]"]').val();
+                                var $index = $(this).parent('.danwei_content').index();
+                                console.log($value, $preVal, $index);
+                                // 第二个单位的数量
+                                if($value != ''){
+                                    if($index == 3){
+                                        if($value <= $preVal){
+                                            alert('无效数据，此处数字为前一个单位的大于1的整数倍，请重新输入!');
+                                            $(this).val('');
+                                        }
+                                    }else if($index == 4){
+                                        // 第三个单位的数量
+                                        if($value == $preVal || $value % $preVal != 0){
+                                            alert('无效数据，此处数字为前一个单位的大于1的整数倍，请重新输入!');
+                                            $(this).val('');
+                                        }
+                                    }
+                                }
+                            })
                         }else{
                             layer.msg('最多添加三个单位！');
                         }
@@ -1708,6 +1729,7 @@
                             danwei2 += '<option value="' + codings[j] + '">' + codings[j] + '</option>';
                         }
                         danwei2 += '</select>';
+                        danwei2 += '<div style="display: none;"></div>';
                         danwei2 += '<div class="add_danwei1" style="color: #20A0FF;" data-id="0"> 继续添加单位</div>';
                         danwei2 += '</div>';
                         danwei2 += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img"  style=" left:100px">';
