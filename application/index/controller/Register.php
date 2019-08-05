@@ -47,16 +47,8 @@ class Register extends  Controller{
                     session('mobileCodes',$mobileCode);
                     $_SESSION['mobiles'] = $mobile;
                 }
-                $content = "尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
-                $url = "http://120.26.38.54:8000/interface/smssend.aspx";
-                $post_data = array("account" => "chacang", "password" => "123qwe", "mobile" => "$mobile", "content" => $content);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-                $output = curl_exec($ch);
-                curl_close($ch);
+                $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
+                $output = sendMessage($content,$mobile);
                 if ($output) {
                     return ajax_success("发送成功", $output);
                 } else {
@@ -178,16 +170,8 @@ class Register extends  Controller{
                     session('mobileCodes',$mobileCode);
                     $_SESSION['mobiles'] = $mobile;
                 }
-                $content = "尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
-                $url = "http://120.26.38.54:8000/interface/smssend.aspx";
-                $post_data = array("account" => "chacang", "password" => "123qwe", "mobile" => "$mobile", "content" => $content);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-                $output = curl_exec($ch);
-                curl_close($ch);
+                $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
+                $output = sendMessage($content,$mobile);
                 if ($output) {
                     return ajax_success("发送成功", $output);
                 } else {
