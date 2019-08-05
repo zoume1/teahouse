@@ -9355,6 +9355,9 @@
                 <div class="item-image square">
 
                     <div class="text" data-toggle="selectImg" data-input="#cimg-<%itemid%>" data-img="#pimg-<%itemid%>" onclick='uploadphoto.click();getd("<%itemid%>");'>选择图片</div>
+                    <img src="<%child.imgurl%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg-<%itemid%>" class="feedbackbgimgurl<%itemid%>"/>
+
+                    <input type="hidden" class="diy-bind feedbackbgimg<%itemid%>" data-bind-parent="data" data-bind-child="<%itemid%>" data-bind="imgurl"  id="cimg-<%itemid%>" value="<%child.imgurl%>" />
                     <!-- <div style="border: 1px solid #e7eaec;margin-bottom:5px; position: relative;">
                         <img src="<%child.imgurl%>" onerror="this.src='/diypage/resource/images/diypage/nopic.jpg';" id="pimg-<%itemid%>" class="feedbackbgimgurl<%itemid%>"/>
                         <div class="text" data-toggle="selectIcon3" data-input="#cicon-<%itemid%>" data-element="#picon-<%itemid%>">选择图片</div>
