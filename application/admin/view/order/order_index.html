@@ -644,7 +644,15 @@
 								<div class="static_btus" data-id="{$vo.parts_order_number}" data-value="{$vo.status}"
 									data-type="{$vo.order_type|order_type_status}">
 									{if $vo.order_type !=3}
-									{$vo.status|show_order_status}
+										{if $vo.order_type == 2 && $vo.status == 5}
+										 	<button type="button" class="state color3" >未自提</button>
+										  {elseif $vo.order_type == 2 && $vo.status == 7}
+										  <button type="button" class="state color3" >已自提</button>
+										  {else}
+										  {$vo.status|show_order_status}
+
+										  {/if}
+
 									{else}
 									{$vo.status|show_house_order}
 									{/if}
@@ -1269,7 +1277,7 @@
 		// 点击批注
 
 		$(".repay_tip").click(function () {
-			var data_id = $(this).data("value")
+			var data_id = $(this).data("value");
 			var Information = $(".Information").val();
 			if (Information != '') {
 				$.ajax({

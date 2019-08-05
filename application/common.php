@@ -737,29 +737,29 @@ function show_order_status($status){
 
 function show_order_statues($status){
     if($status==0){
-        echo '<button type="button" class="state   close-btu" >已关闭</button>';
+        echo '<button type="button" class="state layui-btn   close-btu" >已关闭</button>';
     }else if($status==1){
-        echo '<button type="button" class="state  payment-has-been" >已付款</button>';
+        echo '<button type="button" class="state layui-btn  payment-has-been" >已付款</button>';
     }else  if($status==2){
-        echo '<button type="button" class="state  shipmenting-btu" >待发货</button>';
+        echo '<button type="button" class="state layui-btn  shipmenting-btu btn-dfh" >待发货</button>';
     }else  if($status==3){
-        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
+        echo '<button type="button" class="state layui-btn  shipmented-btu btn-yfh" >已发货</button>';
     }else  if($status==4){
-        echo '<button type="button" class="state  gooding-btu" >待收货</button>';
+        echo '<button type="button" class="state layui-btn  gooding-btu static_btus btn-dfk" >待收货</button>';
     }else  if($status==5){
-        echo '<button type="button" class="state  gooded-btu" >已收货</button>';
+        echo '<button type="button" class="state layui-btn  gooded-btu" >已收货</button>';
     }else  if($status==7){
-        echo '<button type="button" class="state  obligation static_btus" >待评价</button>';
+        echo '<button type="button" class="state layui-btn  obligation static_btus btn-yqx" >待评价</button>';
     } else  if($status==8){
-        echo '<button type="button" class="state  finish-btu" >已完成</button>';
+        echo '<button type="button" class="state layui-btn  finish-btu btn-ywc" >已完成</button>';
     }else  if($status==9){
-        echo '<button type="button" class="state  cancel-btu" >取消订单</button>';
+        echo '<button type="button" class="state layui-btn  cancel-btu" >取消订单</button>';
     }else  if($status==10){
-        echo '<button type="button" class="state  cancel-btu" >取消订单</button>';
+        echo '<button type="button" class="state layui-btn  cancel-btu" >取消订单</button>';
     }else  if($status==11){
-        echo '<button type="button" class="state  cancel-btu" >退货</button>';
+        echo '<button type="button" class="state layui-btn  cancel-btu" >退货</button>';
     }else  if($status==12){
-        echo '<button type="button" class="state  cancel-btu static_btus" >待服务</button>';
+        echo '<button type="button" class="state layui-btn  cancel-btu static_btus btn-ytk" >待服务</button>';
     }
 }
 
