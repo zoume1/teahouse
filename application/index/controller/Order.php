@@ -2181,6 +2181,8 @@ class  Order extends  Controller
                     foreach($res as $k=>$v){
                         if($v['coupon_id']>0){
                             db('coupon')->where('id',$v['coupon_id'])->setDec('use_number',1);
+                            $pp['msg']='111';
+                            db('test')->insert($pp);
                         }
                         $data =[
                             "status"=>9,
