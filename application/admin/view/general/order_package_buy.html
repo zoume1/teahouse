@@ -672,7 +672,7 @@
                         console.log(data.body.status)
                         if(data.body.status == 1){
                             layer.msg(data.body.info);
-                            if(_this.zzspBool){
+                            if(!_this.zzspBool){
                                 location.href = 'store_order';
                             }else{
                                 setTimeout(function(){

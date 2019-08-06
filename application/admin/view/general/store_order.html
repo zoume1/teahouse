@@ -47,6 +47,7 @@
     .line-pass{background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}
     .table-cell {text-align: center;}
 	.table-cell .dtl{color: rgb(0, 153, 255);}
+    .table-cell-div{text-align:center;}
     .table-cell-div button{border-radius: 3px;}
     .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
     .pop{ position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 680px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9; color: #333;}
@@ -457,9 +458,10 @@
                 <a href="#" class="layui-btn">全部</a>
                 <a href="#" class="layui-btn btn-dfh">待发货</a>
                 <a href="#" class="layui-btn btn-yfh">已发货</a>
-                <a href="#" class="layui-btn btn-ywc">待收货</a>
-                <a href="#" class="layui-btn btn-ygb">待服务</a>
-                <a href="#" class="layui-btn btn-ygb">已完成</a>
+                <a href="#" class="layui-btn btn-dfk">待收货</a>
+                <a href="#" class="layui-btn btn-ytk">待服务</a>
+                <a href="#" class="layui-btn btn-yqx">待评价</a>
+                <a href="#" class="layui-btn btn-ywc">已完成</a>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
@@ -532,7 +534,7 @@
                             </td>
                             
                             <td class="table-cell">
-                                <div class="table-cell-div " data-id="{$vo.parts_order_number}">
+                                <div class="table-cell-div " data-id="{$vo.parts_order_number}" data-orderStatus="{$vo.status}">
                                     {$vo.status|show_order_statues}
                                    <button class="layui-btn line-exam">未申请开票</button>
                                     <a href="capital_management_details" class="dtl">订单详情</a>
@@ -584,6 +586,8 @@
 		$(".static_btus").click(function () {
 			var _this = this;
 			var data_id = $(this).parent().data("id");    //订单id
+			var order_status = $(this).parent().data("orderstatus");    //订单状态
+			$(".repay_tip").data("value", data_id);
 			$(".operation").empty();
 			$(".chat").empty();
 			//获取批注
@@ -596,94 +600,91 @@
 				async: false,
 				success: function (data) {
 					var data = JSON.parse(data);
-					console.log(data)
 					// console.log(data)
 					way = data.data.order_type;   //邮寄方式    
-					// for (var i = 0; i < data.data.datas.length; i++) {
-					// 	var dhtm0 = "";
-					// 	dhtm0 += '<div class="chat_list">';
-					// 	dhtm0 += '	<span class="span">' + timestampToTime(data.data.datas[i].create_time) + '</span>';
-					// 	dhtm0 += '<span>' + data.data.datas[i].information + '</span>';
-					// 	dhtm0 += '</div>';
-					// 	$(".chat").append(dhtm0);
-					// }
+					$(".chenge_money").empty();
+					for (var i = 0; i < data.data.datas.length; i++) {
+						var dhtm0 = "";
+						dhtm0 += '<div class="chat_list">';
+						dhtm0 += '	<span class="span">' + timestampToTime(data.data.datas[i].create_time) + '</span>';
+						dhtm0 += '<span>' + data.data.datas[i].information + '</span>';
+						dhtm0 += '</div>';
+						$(".chat").append(dhtm0);
+					}
+
+					let dhtml = '',dhtml1 = '',btn = '',class_btn = '';
+					if(order_status == 4) {
+						if(data.data.goods_type == 1) {
+							btn = '确认收货';
+						} else {
+							btn = '确认服务';
+						}
+						class_btn = 'confirmReceipt';
+					} else if(order_status == 7) {
+						btn = '追加评价';
+						class_btn = '';
+					}
+					
+					dhtml = `
+						<div>
+							<span class="logistics">物流</span>
+							<span>${data.data.express_name}：</span>
+							<span>${data.data.courier_number}</span>
+						</div>
+						<div style="margin-left:45px;">
+							<button class="layui-btn ${class_btn}" data-id="${data_id}"
+								style="background-color:rgb(22, 155, 213);border-radius: 5px;">${btn}</button>
+						</div>`;
+					dhtml1 = `
+						<div>	
+						</div>
+						<div style="margin-left:45px;">
+							<button class="layui-btn ${class_btn}" data-id="${data_id}"
+								style="background-color:rgb(22, 155, 213);border-radius: 5px;">${btn}</button>
+						</div>`;
+
+
+					if(data.data.goods_type == 1) {
+						
+						$(".chenge_money").append(dhtml);
+					} else {
+						$(".chenge_money").append(dhtml1);
+					}
+
+					//确认收货/服务
+					$('.confirmReceipt').click(function () {
+						var order_id = $(this).data('id');
+						$.ajax({
+								type: "POST",
+								url: "{:url('admin/General/store_confirm_status')}",
+								data: {
+									"order_id": data_id,
+									"status": 7,
+								},
+								async: false,
+								success: function (data) {
+									var data = JSON.parse(data);
+									if(data.status == 1) {
+										alert(data.info)
+									} else {
+										alert(data.info)
+									}
+									$(".popup_one").addClass("noshow");
+									location.reload();
+								},
+								error: function (data) {
+
+								}
+							});
+					});
+
 				},
 				error: function (data) {
 
 				}
 			});
-			// //获取订单的信息
-			// var express = 0;
-			// var harvester_address, harvester, harvest_phone_num;
-			// $.ajax({
-			// 	type: "POST",
-			// 	url: "{:url('admin/Order/order_information_return')}",
-			// 	data: {
-			// 		"order_id": data_id,
-			// 	},
-			// 	async: false,
-			// 	success: function (data) {
-			// 		var data = JSON.parse(data);
-			// 		// console.log(data)
-			// 		way = data.data.order_type;   //邮寄方式  
-			// 		express = data.data.courier_number;
-			// 		express_name = data.data.express_name_ch;
-			// 		harvest_phone_num = data.data.harvest_phone_num;
-			// 		harvester_address = data.data.harvester_address;
-			// 		harvester = data.data.harvester;
-			// 		order_type = data.data.order_type;
-			// 		order_type_status = data.data.status;
-			// 		// $(".operation").find('.curier').value(express);
-			// 		// $(".operation").find('.danhao').val(express_name);
-			// 	},
-			// 	error: function (data) {
-
-			// 	}
-			// });
-	
-
-
-			// let dhtml4 = '';
-			// dhtml4 += '<div style=" display:flex;"><div style="color: rgb(168, 134, 148);text-align: center; font-size: 18px;margin: auto;">自提点：</div>';
-			// dhtml4 += '<div style=" font-size: 18px;margin-left: 20px;align-items: center;">';
-			// dhtml4 += '<div style="text-align: left;"><span></span>' + harvester + '</span><span style="margin-left: 20px;">' + harvest_phone_num + '</span></div>';
-			// dhtml4 += '<div>' + harvester_address + '</div></div></div>';
-			// if(order_type_status == 2 || order_type_status == 3 || order_type_status == 4 || order_type_status == 5) {
-			// 	dhtml4 += '<div class="zt_all zt_red">未自提</div>';
-			// } else if (order_type_status == 6 || order_type_status == 7 || order_type_status == 8 ){
-			// 	dhtml4 += '<div class="zt_all zt_greed">已自提</div>';
-			// }
-		
-			// if (data_value == 2 || data_value == 3) {   //代发货
-			// 	$('.chenge_money').hide();
-			// 	$(".operation").data("id", data_value);
-			// 	$(".operation").data("order_type", order_type);
-			// 	if (data_type == '到店自提') {
-			// 		$(".operation").append(dhtml4);
-			// 	} else {
-			// 		$(".operation").append(dhtml3);
-			// 	}
-			// } else if (data_value == 4 || data_value == 5 || data_value == 6 || data_value == 7) {
-			// 	$('.chenge_money').hide();
-			// 	if (data_type == '到店自提') {
-			// 		$(".operation").append(dhtml4);
-			// 	} else {
-			// 		$(".operation").append(dhtml2);
-			// 	}
-			// 	$(".operation").data("order_type", order_type);
-			// 	$(".operation").data("id", data_value);
-			// } else if (data_value == '8' || data_value == 0) {    	  //已完成
-			// 	$('.chenge_money').hide();
-			// 	if (data_type == '到店自提') {
-			// 		$(".operation").append(dhtml4);
-			// 	} else {
-			// 		$(".operation").append(dhtml2);
-			// 	}
-			// 	$(".operation").data("order_type", order_type);
-			// 	$(".operation").data("id", data_value);
-			// } else {
-			// 	$('.chenge_money').show();
-			// }
+			
+			
 			$(".popup_one").removeClass("noshow");
 
 			
@@ -692,6 +693,52 @@
 		$(".popup_x").click(function () {
 			$(".popup").addClass("noshow");
 		});
+		
+
+		// 点击批注
+		$(".repay_tip").click(function () {
+			var data_id = $(this).data("value");
+			var Information = $(".Information").val();
+			if (Information != '') {
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/Notification/option_add_notice')}",
+					data: {
+						"order_id": data_id,
+						"information": Information,
+					},
+					async: false,
+					success: function (data) {
+						var data = eval('(' + data + ')');
+						var dhtm0 = "";
+						dhtm0 += '<div class="chat_list">';
+						dhtm0 += '	<span class="span">' + timestampToTime(data.data.create_time) + '</span>';
+						dhtm0 += '<span>' + data.data.information + '</span>';
+						dhtm0 += '</div>';
+						$(".chat").append(dhtm0);
+						$(".Information").val("");
+
+					},
+					error: function (data) {
+
+					}
+				});
+
+			}
+			else {
+				alert("批注不能为空");
+			}
+		});
+		function timestampToTime(timestamp) {
+			var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+			Y = date.getFullYear();
+			M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+			D = date.getDate();
+			h = date.getHours() + ':';
+			m = date.getMinutes() + ':';
+			s = date.getSeconds();
+			return Y + M + D;
+		}
         form.render();
     })
 </script>

@@ -496,7 +496,7 @@ class  AdminWx extends Controller{
                 //减库存
                 $data = Db::name("adder_order")->where("parts_order_number",$val['out_trade_no'])->find();
                 if($data['goods_type'] == 1){
-                    $status = 3; //待发货
+                    $status = 2; //待发货
                 } else {
                     $status = 12;//待服务
                 }
@@ -553,7 +553,7 @@ class  AdminWx extends Controller{
                 //逻辑处理
                 $data = Db::name("adder_order")->where("parts_order_number",$out_trade_no)->find();
                 if($data['goods_type'] == 1){
-                    $status = 3; //待发货
+                    $status = 2; //待发货
                 } else {
                     $status = 12;//待服务
                 }
