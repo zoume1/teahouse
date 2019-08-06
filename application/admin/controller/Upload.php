@@ -556,6 +556,7 @@ class Upload extends Controller
         $url = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token='.$thirdAccessToken;
         $data = '{"component_appid":"' . $this->appid . '","authorizer_appid":"' . $appid . '","authorizer_refresh_token":"' . $refresh_token . '"}';
         $ret = json_decode($this->https_post($url, $data),true);
+        halt($ret);
         if (isset($ret['authorizer_access_token'])) {
             Db::name('miniprogram')->where(['appid' => $appid])->update(['access_token' => $ret['authorizer_access_token'], 'authorizer_refresh_token' => $ret['authorizer_refresh_token']]);
             return $ret;
