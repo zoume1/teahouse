@@ -198,7 +198,6 @@ class User extends Controller{
             $data =$this->request->post();
             $data['create_time'] =time();
             $file =$this->request->file("member_grade_img");
-           
             if($file){
                 $datas = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $images_url = str_replace("\\","/",$datas->getSaveName());
@@ -210,6 +209,7 @@ class User extends Controller{
                 $data['store_id'] = $store_id;
                 $res =Db::name('member_grade')->insertGetId($data);
             }
+            
             if($res>0){
                 $this->success('编辑成功','admin/User/grade');
             }else{

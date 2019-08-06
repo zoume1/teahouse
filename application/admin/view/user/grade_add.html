@@ -12,6 +12,103 @@
 	.layui-form .layui-input-block input {
 		width: 80%;
 	}
+	 /* 弹窗 */
+	 .tan {
+        position: absolute;
+        top: 10%;
+        left: 30%;
+        z-index: 1000;
+    }
+
+    #selectIcon .modal-dialog {
+        width: 760px !important;
+    }
+
+    #selectIcon .modal-body {
+        padding: 10px;
+    }
+
+    #selectIcon .main {
+        height: 420px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #selectIcon .main nav {
+        height: 60px;
+        width: 80px;
+        margin: 5px;
+        display: block;
+        float: left;
+        cursor: pointer;
+    }
+
+    #selectIcon .main nav .iconimg {
+        font-size: 30px;
+        height: 45px;
+        width: 80px;
+        display: block;
+        text-align: center;
+        line-height: 38px;
+    }
+
+    #selectIcon .main nav .iconimg img {
+        height: 100%;
+    }
+
+    #selectIcon .main nav .text {
+        font-size: 10px;
+        height: 22px;
+        width: 80px;
+        display: block;
+        text-align: center;
+        line-height: 22px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    #selectIcon .main nav:hover {
+        background: #f6f6f6;
+    }
+
+    .we7-modal-dialog .modal-header,
+    .modal-dialog .modal-header {
+        background-color: #f4f5f9;
+        border-bottom: 0;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+
+    .noshow {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .choose_pc {
+        border-radius: 5px;
+        background-color: rgb(51, 133, 255);
+        width: 80px;
+        color: #fff;
+        text-align: center;
+        cursor: pointer;
+        margin-top: 20px;
+        line-height: 26px;
+        margin-left: 25px;
+    }
+
+    .choose_pc:hover {
+        background-color: rgb(51, 133, 200);
+    }
+
+    .icon-click_xt>img {
+        width: 50px;
+    }
+
+    /* 弹窗 */
 </style>
 
 
@@ -23,7 +120,338 @@
 	<div class="open">
 
 	</div>
-	
+	<div class="modal fade noshow" id="selectIcon">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">选择图标</h4>
+                </div>
+
+                <ul class="nav nav-tabs" id="selectUrlTab">
+                    <li class="active tab11" id="tab1"><a href="javascript:;" onclick="tab(1)">系统图标</a></li>
+                    <li class="tab21" id="tab2"><a href="javascript:;" onclick="tab(2)">本地图片</a></li>
+                </ul>
+                <!-- 系统图片 -->
+                <div class="modal-body set_c" id="set_c">
+                    <div class="main">
+                        <nav data-class="icon-c-DJ01 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ01.png" alt="DJ01">
+                            </div>
+                            <span class="text">DJ01</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ02 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ02.png" alt="DJ02">
+                            </div>
+                            <span class="text">DJ02</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ03 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ03.png" alt="DJ03">
+                            </div>
+                            <span class="text">DJ03</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ04 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ04.png" alt="DJ04">
+                            </div>
+                            <span class="text">DJ04</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ05 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ05.png" alt="DJ05">
+                            </div>
+                            <span class="text">DJ05</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ06 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ06.png" alt="DJ06">
+                            </div>
+                            <span class="text">DJ06</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ07 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ07.png" alt="DJ07">
+                            </div>
+                            <span class="text">DJ07</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ08 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ08.png" alt="DJ08">
+                            </div>
+                            <span class="text">DJ08</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ09 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ09.png" alt="DJ09">
+                            </div>
+                            <span class="text">DJ09</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ10 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ10.png" alt="DJ10">
+                            </div>
+                            <span class="text">DJ10</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ11 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ11.png" alt="DJ11">
+                            </div>
+                            <span class="text">DJ11</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ12 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ12.png" alt="DJ12">
+                            </div>
+                            <span class="text">DJ12</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ13 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ13.png" alt="DJ13">
+                            </div>
+                            <span class="text">DJ13</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ14 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ14.png" alt="DJ14">
+                            </div>
+                            <span class="text">DJ14</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ15 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ15.png" alt="DJ15">
+                            </div>
+                            <span class="text">DJ15</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ16 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ16.png" alt="DJ16">
+                            </div>
+                            <span class="text">DJ16</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ17 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ17.png" alt="DJ17">
+                            </div>
+                            <span class="text">DJ17</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ18 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ18.png" alt="DJ18">
+                            </div>
+                            <span class="text">DJ18</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ19 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ19.png" alt="DJ19">
+                            </div>
+                            <span class="text">DJ19</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ20 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ20.png" alt="DJ20">
+                            </div>
+                            <span class="text">DJ20</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ21 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ21.png" alt="DJ21">
+                            </div>
+                            <span class="text">DJ21</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ22 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ22.png" alt="DJ22">
+                            </div>
+                            <span class="text">DJ22</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ23 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ23.png" alt="DJ23">
+                            </div>
+                            <span class="text">DJ23</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ24 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ24.png" alt="DJ24">
+                            </div>
+                            <span class="text">DJ24</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ25 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ25.png" alt="DJ25">
+                            </div>
+                            <span class="text">DJ25</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ26 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ26.png" alt="DJ26">
+                            </div>
+                            <span class="text">DJ26</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ27 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ27.png" alt="DJ27">
+                            </div>
+                            <span class="text">DJ27</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ28 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ28.png" alt="DJ28">
+                            </div>
+                            <span class="text">DJ28</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ29 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ29.png" alt="DJ29">
+                            </div>
+                            <span class="text">DJ29</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ30 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ30.png" alt="DJ30">
+                            </div>
+                            <span class="text">DJ30</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ31 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ31.png" alt="DJ31">
+                            </div>
+                            <span class="text">DJ31</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ32 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ32.png" alt="DJ32">
+                            </div>
+                            <span class="text">DJ32</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ33 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ33.png" alt="DJ33">
+                            </div>
+                            <span class="text">DJ33</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ34 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ34.png" alt="DJ34">
+                            </div>
+                            <span class="text">DJ34</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ35 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ35.png" alt="DJ35">
+                            </div>
+                            <span class="text">DJ35</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ36 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ36.png" alt="DJ36">
+                            </div>
+                            <span class="text">DJ36</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ37 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ37.png" alt="DJ37">
+                            </div>
+                            <span class="text">DJ37</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ38 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ38.png" alt="DJ38">
+                            </div>
+                            <span class="text">DJ38</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ39 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ39.png" alt="DJ39">
+                            </div>
+                            <span class="text">DJ39</span>
+                        </nav>
+                        <!-- <nav data-class="icon-c-DJ40 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ40.png" alt="DJ40">
+                            </div>
+                            <span class="text">DJ40</span>
+                        </nav> -->
+                        <nav data-class="icon-c-DJ41 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ41.png" alt="DJ41">
+                            </div>
+                            <span class="text">DJ41</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ42 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ42.png" alt="DJ42">
+                            </div>
+                            <span class="text">DJ42</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ43 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ43.png" alt="DJ43">
+                            </div>
+                            <span class="text">DJ43</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ44 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ44.png" alt="DJ44">
+                            </div>
+                            <span class="text">DJ44</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ45 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ45.png" alt="DJ45">
+                            </div>
+                            <span class="text">DJ45</span>
+                        </nav>
+                        <!-- <nav data-class="icon-c-DJ46 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ46.png" alt="DJ46">
+                            </div>
+                            <span class="text">DJ46</span>
+                        </nav> -->
+                        <nav data-class="icon-c-DJ47 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ47.png" alt="DJ47">
+                            </div>
+                            <span class="text">DJ47</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ48 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ48.png" alt="DJ48">
+                            </div>
+                            <span class="text">DJ48</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ49 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ49.png" alt="DJ49">
+                            </div>
+                            <span class="text">DJ49</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ50 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ50.png" alt="DJ50">
+                            </div>
+                            <span class="text">DJ50</span>
+                        </nav>
+                        <nav data-class="icon-c-DJ51 ">
+                            <div class="iconimg icon-click_xt">
+                                <img src="http://zhihuichacang.com/DJ51.png" alt="DJ51">
+                            </div>
+                            <span class="text">DJ51</span>
+                        </nav>
+
+                    </div>
+                </div>
+                <!-- 本地图片 -->
+                <div class="modal-body set_x" id="set_x" style="display: none">
+                    <input type="button" onclick="aa()" value="上传图片" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade noshow" id="selectIcon"></div>
 	<form class="layui-form" action="{:url('admin/Goods/save')}" method="post" enctype="multipart/form-data">
 
 		<div class="layui-form-item ">
@@ -33,8 +461,42 @@
 					class="layui-input" id="goods_name">
 			</div>
 		</div>
-
 		<div class="layui-form-item">
+            <label class="layui-form-label"><span>*</span>等级图标</label>
+            <div class="layui-input-block">
+                <div class="imgcontent">
+                    <div class="xt_p">
+                        <img id="show_img" src="" style="width: 70px;">
+                        <input type="text" name="goods_show_images" id="get_img" value="" style="display:none;" />
+                    </div>
+                    <div class="bd_p" style="display: none;">
+                        <div class="img-box full">
+                            <section class=" img-section">
+                                <div class="z_photo upimg-div clear">
+                                    <section class="z_file fl  noshow">
+                                        <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                        <input type="file" name="goods_show_images" id="file" class="file1" value=""
+                                            accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1"/>
+                                    </section>
+                                </div>
+                            </section>
+                        </div>
+                        <aside class="mask works-mask">
+                            <div class="mask-content">
+                                <p class="del-p ">您确定要删除作品图片吗？</p>
+                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span
+                                        class="wsdel-no">取消</span>
+                                </p>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-input-block">
+                <div class="choose_pc" id="tup">选择图片</div>
+            </div>
+        </div>
+		<!-- <div class="layui-form-item">
 			<label class="layui-form-label"><span>*</span>等级图标</label>
 			<div class="layui-input-block">
 				<div class="img-box full">
@@ -55,7 +517,7 @@
 					</div>
 				</aside>
 			</div>
-		</div>
+		</div> -->
 
 		<div class="layui-form-item">
 			<label class="layui-form-label">会员卡背景色：</label>
@@ -136,6 +598,92 @@
 	<!--请在下方写此页面业务相关的脚本-->
 	{block name="bottom"}
 	<script type="text/javascript">
+	 function tab(i) {
+            if (i == 1) {
+                $(".tab11").addClass("active");
+                $(".tab21").removeClass("active");
+                $(".set_c").show();
+                $(".set_x").hide();
+                $('#search1').show();
+                $('#search2').hide();
+                $('.xt_p').show();
+                $('.bd_p').hide();
+                $('#get_img')[0].disabled == false;
+                $('#file')[0].disabled == true;
+               
+            }
+            if (i == 2) {
+                $(".tab11").removeClass("active");
+                $(".tab21").addClass("active");
+                $(".set_c").hide();
+                $(".set_x").show();
+                $('#search2').show();
+                $('#search1').hide();
+                $('.xt_p').hide();
+                $('.bd_p').show();
+                $('#get_img')[0].disabled == true;
+                $('#file')[0].disabled == false;
+            }
+        };
+
+        $(function () {
+            $("#selectUrl").find('#selectUrlTab a').click(function (e) {
+                $('#tab').val($(this).attr('href'));
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+        //选择图片--系统
+        $('.icon-click_xt').on('click', (e) => {
+            let img_src = e.delegateTarget.children[0].src;
+            $('#show_img').attr('src', img_src);
+            $('#get_img').val(img_src);
+            $(".fade").removeClass('in show');
+            $(".fade").addClass('noshow');
+            // console.log(e.delegateTarget.children[0].children[2].src)
+        });
+        //选择图片--本地
+        function aa() {
+            $(".fade").removeClass('in show');
+            $(".fade").addClass('noshow');
+            $("#file").trigger("click");
+        }
+        // $('.icon-click_bd').on('click', (e) => {
+        //     let img_src = e.delegateTarget.children[0].children[2].src;
+        //     let div_all = $('#set_x')[0].innerHTML;
+        //     $("#show_div").html(div_all);
+        //     $('#show_img').attr('src', img_src);
+        //     $('#get_img').val(img_src);
+        //     $(".fade").removeClass('in show');
+        //     $(".fade").addClass('noshow');
+        //     // console.log(e.delegateTarget.children[0].children[2].src)
+        // });
+        $(function () {
+            var search_input1 = $("#search_input1"),
+                set_c = $("#set_c");
+
+            $('#search_icon1').click(function () {
+                if (search_input1.val() == '') {
+                    $('#set_c nav').show();
+                }
+                $("#set_c .text:contains(" + search_input1.val().trim() + ")").show();
+                $("#set_c .text:not(:contains(" + search_input1.val().trim() + "))").parent().hide();
+            })
+
+        });
+        $(function () {
+            var search_input2 = $("#search_input2"),
+                set_x = $("#set_x");
+
+            $('#search_icon2').click(function () {
+                if (search_input2.val() == '') {
+                    $('#set_x nav').show();
+                }
+                $("#set_x .text:contains(" + search_input2.val().trim() + ")").show();
+                $("#set_x .text:not(:contains(" + search_input2.val().trim() + "))").parent().hide();
+            })
+
+        });
 		layui.config({
 			base: "js/"
 		}).use(['form', 'layer', 'jquery', 'laypage', 'layedit'], function () {
@@ -144,7 +692,53 @@
 				layer = parent.layer === undefined ? layui.layer : parent.layer,
 				laypage = layui.laypage,
 				$ = layui.jquery;
-
+			
+				$('#tup').click(() => {
+                $(".fade").removeClass('noshow');
+                $(".fade").addClass('in show');
+            	});
+            	$('.close').click(() => {
+                $(".fade").removeClass('in show');
+                $(".fade").addClass('noshow');
+            	});
+			// 图片删除
+            $(".remove-img").click(function () {
+                var remove = $(this).parent();
+                var id = $(this).data("id");
+                var value = $(this).data("value");
+                if (value == 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/User/grade_start_image_del')}",
+                        data: {
+                            "id": id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            remove.remove();
+                        },
+                        error: function (data) {
+                            console.log("错误");
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/User/grade_start_image_del')}",
+                        data: {
+                            "id": id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            remove.remove();
+                        },
+                        error: function (data) {
+                            console.log("错误");
+                        }
+                    });
+                }
+                // 		
+            });
 			//是否展示
 			form.on('switch(isShow)', function (data) {
 				alert(1211);
