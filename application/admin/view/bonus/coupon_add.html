@@ -155,7 +155,7 @@
 		</div>
 
 
-
+		<div>
 		<div class="form-title">选择商品</div>
 		<div class="childrenBody">
 			<blockquote class="layui-elem-quote news_search">
@@ -221,6 +221,7 @@
 
 			</div>
 		</div>
+	</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
@@ -355,16 +356,16 @@
 						console.log(data);
 						var num = 0;
 
-						var dhtml = '';
 						for (var i = 0; i < data.length; i++) {
-							console.log(seach_goods.length);
-							for (var j = 0; j < seach_goods.length; j++) {
-								if (data[i].goods_number == seach_goods[j].goods_number) {
-									num++;
-								}
-							}
-							if (num == 0) {
-								seach_goods.push(data[i]);
+							var dhtml = '';
+							console.log(data);
+							// for (var j = 0; j < seach_goods.length; j++) {
+							// 	if (data[i].goods_number == seach_goods[j].goods_number) {
+							// 		num++;
+							// 	}
+							// }
+							// if (num == 0) {
+							// 	seach_goods.push(data[i]);
 								dhtml += '<tr>';
 								dhtml += '<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="' + data[i].id + '_'+coupon_type+'" name="goods_id[]"></td>';
 								dhtml += '<td>' + data[i].goods_number + '</td>';
@@ -380,10 +381,10 @@
 								dhtml += '</tr>';
 								$('.news_content').append(dhtml);
 								form.render('checkbox');
-							}
-							else {
-								layer.msg('列表中已有此商品，请勿重复添加');
-							}
+							// }
+							// else {
+							// 	layer.msg('列表中已有此商品，请勿重复添加');
+							// }
 
 						}
 					},
