@@ -1122,7 +1122,7 @@ class  Order extends  Controller
                         if($time>0){
                             //返回优惠券
                             if($value['coupon_id']>0){    //使用
-                                db('coupon')->where('id',$coupon_id)->setDec('use_number',1);
+                                db('coupon')->where('id',$value['coupon_id'])->setDec('use_number',1);
                             }
                             //删除订单，并返回库存
                             //1.返回库存
@@ -1332,7 +1332,7 @@ class  Order extends  Controller
                 if($time>0){
                     //返回优惠券
                     if($value['coupon_id']>0){    //使用
-                        db('coupon')->where('id',$coupon_id)->setDec('use_number',1);
+                        db('coupon')->where('id',$value['coupon_id'])->setDec('use_number',1);
                     }
                     // 删除订单，并返回库存
                     // 1.返回库存
