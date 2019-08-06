@@ -1110,7 +1110,7 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantity,coupon_id')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantity,coupon_id,goods_id')
                 ->where('member_id', $member_id)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
