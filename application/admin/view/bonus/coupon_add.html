@@ -130,8 +130,8 @@
 		<div class="form-item">
 			<label class="form-label">金额</label>
 			<div class="form-input">
-				<input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="money" lay-verify="title" autocomplete="off" placeholder="请输入"
-					class="layui-input">
+				<input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/,'')"
+					name="money" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
 
 			</div>
 		</div>
@@ -149,59 +149,60 @@
 		<div class="form-item">
 			<label class="form-label">适用商品</label>
 			<div class="form-input">
-				<input type="radio" name="suit" value="0" title="所有商品/活动" checked="">
-				<input type="radio" name="suit" value="1" title="选择商品/活动">
+				<input type="radio" name="suit" value="0" lay-filter="suit" title="所有商品/活动" checked="">
+				<input type="radio" name="suit" value="1" lay-filter="suit" title="选择商品/活动">
 			</div>
 		</div>
 
 
-		<div>
-		<div class="form-title">选择商品</div>
-		<div class="childrenBody">
-			<blockquote class="layui-elem-quote news_search">
-				<div class="layui-form">
-					<div class="seach">
-						<div class="seach_list">
-							<div class="seach_laber">选择商品</div>
-							<div class="seach_input">
-								<select name="coupon_type" id="coupon_type">
-									<option value="1" selected="">普通商品</option>
-									<option value="2">众筹商品</option>
+		<div id="select_goods" class="noshow">
+			<div class="form-title">选择商品</div>
+			<div class="childrenBody">
+				<blockquote class="layui-elem-quote news_search">
+					<div class="layui-form">
+						<div class="seach">
+							<div class="seach_list">
+								<div class="seach_laber">选择商品</div>
+								<div class="seach_input">
+									<select name="coupon_type" id="coupon_type">
+										<option value="1" selected="">普通商品</option>
+										<option value="2">众筹商品</option>
 
-								</select>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="seach_list">
-							<div class="seach_laber">输入搜索：</div>
-							<div class="seach_input">
-								<input type="text" name="goods_number" lay-verify="title" autocomplete="off"
-									placeholder="请输入商品编码/商品" class="layui-input seach" id="seach_val">
+							<div class="seach_list">
+								<div class="seach_laber">输入搜索：</div>
+								<div class="seach_input">
+									<input type="text" name="goods_number" lay-verify="title" autocomplete="off"
+										placeholder="请输入商品编码/商品" class="layui-input seach" id="seach_val">
+								</div>
 							</div>
+							<button class="layui-btn" type="button" id="seach_button">立即搜索</button>
 						</div>
-						<button class="layui-btn" type="button" id="seach_button">立即搜索</button>
+
 					</div>
+				</blockquote>
 
-				</div>
-			</blockquote>
+				<div class="layui-form news_list">
+					<table class="layui-table">
+						<colgroup>
+							<col width="3%">
 
-			<div class="layui-form news_list">
-				<table class="layui-table">
-					<colgroup>
-						<col width="3%">
-
-					</colgroup>
-					<thead>
-						<tr>
-							<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
-							<th>商品编号</th>
-							<th>商品图片</th>
-							<th>商品名称</th>
-							<th>库存</th>
-							<th>操作</th>
-						</tr>
-					</thead>
-					<tbody class="news_content">
-						<!-- <tr>
+						</colgroup>
+						<thead>
+							<tr>
+								<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id">
+								</th>
+								<th>商品编号</th>
+								<th>商品图片</th>
+								<th>商品名称</th>
+								<th>库存</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody class="news_content">
+							<!-- <tr>
 					<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
 					<td>1000001</td>
 					<td class="">
@@ -215,13 +216,13 @@
 						</a>
 					</td>
 				</tr> -->
-					</tbody>
-				</table>
+						</tbody>
+					</table>
 
 
+				</div>
 			</div>
 		</div>
-	</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
@@ -273,6 +274,18 @@
 				}
 				form.render('checkbox');
 			})
+
+			// 适用商品
+			form.on('radio(suit)', function (data) {
+				var checkval = data.value;
+				// console.log(checkval)
+				if (checkval == "0") { //适用所有商品
+					$("#select_goods").addClass("noshow");
+				} else {
+					$("#select_goods").removeClass("noshow");
+				}
+
+			});
 
 			form.on('switch(isShow)', function (data) {
 				if ($(this).val() == 0) {
@@ -343,13 +356,13 @@
 			var seach_goods = [];
 			$("#seach_button").click(function () {
 				var seach_val = $("#seach_val").val();
-				var coupon_type=$("#coupon_type option:selected").val();
+				var coupon_type = $("#coupon_type option:selected").val();
 				$.ajax({
 					type: "POST",
 					url: "{:url('admin/Bonus/coupon_search')}",
 					data: {
 						"goods_number": seach_val,
-						"coupon_type":coupon_type
+						"coupon_type": coupon_type
 					},
 					success: function (data) {
 						var data = eval("(" + data + ")").data;
@@ -366,21 +379,21 @@
 							// }
 							// if (num == 0) {
 							// 	seach_goods.push(data[i]);
-								dhtml += '<tr>';
-								dhtml += '<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="' + data[i].id + '_'+coupon_type+'" name="goods_id[]"></td>';
-								dhtml += '<td>' + data[i].goods_number + '</td>';
-								dhtml += '<td class="">';
-								dhtml += '<div class="tdimg"><img src="__UPLOADS__/' + data[i].goods_show_images + '" /></div>';
-								dhtml += '</td>';
+							dhtml += '<tr>';
+							dhtml += '<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="" value="' + data[i].id + '_' + coupon_type + '" name="goods_id[]"></td>';
+							dhtml += '<td>' + data[i].goods_number + '</td>';
+							dhtml += '<td class="">';
+							dhtml += '<div class="tdimg"><img src="__UPLOADS__/' + data[i].goods_show_images + '" /></div>';
+							dhtml += '</td>';
 
-								dhtml += '<td>' + data[i].goods_name + '</td>';
-								dhtml += '<td>' + data[i].goods_repertory + '</td>';
-								dhtml += '<td>';
-								dhtml += '<div class="layui-btn layui-btn-mini edit"> 参加活动</div>';
-								dhtml += '</td>';
-								dhtml += '</tr>';
-								$('.news_content').append(dhtml);
-								form.render('checkbox');
+							dhtml += '<td>' + data[i].goods_name + '</td>';
+							dhtml += '<td>' + data[i].goods_repertory + '</td>';
+							dhtml += '<td>';
+							dhtml += '<div class="layui-btn layui-btn-mini edit"> 参加活动</div>';
+							dhtml += '</td>';
+							dhtml += '</tr>';
+							$('.news_content').append(dhtml);
+							form.render('checkbox');
 							// }
 							// else {
 							// 	layer.msg('列表中已有此商品，请勿重复添加');
