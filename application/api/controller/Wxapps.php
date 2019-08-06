@@ -1315,10 +1315,11 @@ class  Wxapps extends  Controller{
             $where4['store_id']=$store_id;   //代付款
             $data['ping_num']=db('order')->where($where4)->count();
             //售后或退款
-            $where['status']=array('between',array(12,15));   //代付款
+            // $where['status']=array('between',array(12,15));   //代付款
+            $where['status']=array('lt',4);   //申请中
             $where['member_id']=$member_id['member_id'];   //会员id
-            $where['store_id']=$store_id;   //代付款
-            $data['tui_num']=db('order')->where($where)->count();
+            $where['store_id']=$store_id;   //店铺id
+            $data['tui_num']=db('after_sale')->where($where)->count();
             if($data){
                 return ajax_success('获取成功',$data);
             }else{

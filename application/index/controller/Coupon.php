@@ -193,7 +193,6 @@ class Coupon extends Controller
                     }
                 }                
             }
-                             
             if (!empty($goods)) {
                 return ajax_success('传输成功', $goods);
             } else {

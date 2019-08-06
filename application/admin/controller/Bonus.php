@@ -443,16 +443,16 @@ class Bonus extends Controller
      */
     public function coupon_search(Request $request)
     {
-        $goods_number = input("goods_number");
-        $coupon_type = input("coupon_type");
-        $store_id = Session::get("store_id");
+        $goods_number = input("goods_number");   //商品编码
+        $coupon_type = input("coupon_type");     //商品类型 
+        $store_id = Session::get("store_id"); 
         /**
          * 鲁文兵改过
          */
         //普通商品
         if($coupon_type == 1){
              $goods = db("goods")
-                ->where("goods_number", $goods_number)
+             ->where('goods_number|goods_name','like','%'.$goods_number.'%')
                 ->where("coupon_type",$coupon_type)
                 ->where("store_id","EQ",$store_id)
                 ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
@@ -470,7 +470,8 @@ class Bonus extends Controller
                 } else {
                     return ajax_error("未找到该商品");
                 }
-                } else {
+            } else {
+                    //众筹商品
                     $id = $goods_number - 1000000;
                     $key = 0;
                     $goods = db("crowd_goods")->where("id", $id)->field("id,goods_show_image,project_name,coupon_type")->find();
