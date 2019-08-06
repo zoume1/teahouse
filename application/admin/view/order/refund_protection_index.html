@@ -775,23 +775,23 @@
 							dhtml1 += '<div class="select_courier">';
 							dhtml1 += '<span class="operation_title">选择快递</span>';
 							dhtml1 += '<select name="" class="curier">';
-							dhtml1 += '<option value="ems">EMS</option>';
-							dhtml1 += '<option value="shentong">申通</option>';
-							dhtml1 += '<option value="shentong">顺丰</option>';
-							dhtml1 += '<option value="shentong">圆通</option>';
-							dhtml1 += '<option value="shentong">韵达</option>';
-							dhtml1 += '<option value="shentong">天天快递</option>';
-							dhtml1 += '<option value="shentong">宅急送</option>';
-							dhtml1 += '<option value="shentong">中国邮政</option>';
-							dhtml1 += '<option value="shentong">全峰快递</option>';
-							dhtml1 += '<option value="shentong">速尔快递</option>';
-							dhtml1 += '<option value="shentong">快捷快递</option>';
-							dhtml1 += '<option value="shentong">中铁快运</option>';
-							dhtml1 += '<option value="shentong">优速快递</option>';
-							dhtml1 += '<option value="shentong">龙邦</option>';
-							dhtml1 += '<option value="shentong">德邦物流</option>';
-							dhtml1 += '<option value="shentong">华宇物流</option>';
-							dhtml1 += '<option value="shentong">佳吉快运</option>';
+							dhtml1 += '<option value="EMS">EMS</option>';
+							dhtml1 += '<option value="申通">申通</option>';
+							dhtml1 += '<option value="顺丰">顺丰</option>';
+							dhtml1 += '<option value="圆通">圆通</option>';
+							dhtml1 += '<option value="韵达">韵达</option>';
+							dhtml1 += '<option value="天天快递">天天快递</option>';
+							dhtml1 += '<option value="宅急送">宅急送</option>';
+							dhtml1 += '<option value="中国邮政">中国邮政</option>';
+							dhtml1 += '<option value="全峰快递">全峰快递</option>';
+							dhtml1 += '<option value="速尔快递">速尔快递</option>';
+							dhtml1 += '<option value="快捷快递">快捷快递</option>';
+							dhtml1 += '<option value="中铁快运">中铁快运</option>';
+							dhtml1 += '<option value="优速快递">优速快递</option>';
+							dhtml1 += '<option value="龙邦">龙邦</option>';
+							dhtml1 += '<option value="德邦物流">德邦物流</option>';
+							dhtml1 += '<option value="华宇物流">华宇物流</option>';
+							dhtml1 += '<option value="佳吉快运">佳吉快运</option>';
 							dhtml1 += '</select>';
 							dhtml1 += '</div>';
 							dhtml1 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  >';
@@ -943,7 +943,6 @@
 				var val = $(".operation_select  option:selected").val();
 				var kuaidi = $(".curier  option:selected").val();
 				var danhao = $(".danhao").val();
-
 				if ($(".operation").data("name") == 1) {
 					if (val != 0 || danhao != '') {
 						$.ajax({
