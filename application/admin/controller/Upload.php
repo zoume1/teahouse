@@ -603,7 +603,7 @@ class Upload extends Controller
                 "template_id":3,
                 "ext_json":"JSON_STRING", //*ext_json需为string类型，请参考下面的格式*
                 "user_version":"V1.0",
-                "user_desc":"test",
+                "user_desc":"test"
                 }';
                 $po=$this->https_post($url,$data);
                 $ret = json_decode($po,true);
@@ -625,7 +625,7 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        $path='/pages/logs/logs';
+        // $path='/pages/logs/logs';
         if($path){
             $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
         } else {
