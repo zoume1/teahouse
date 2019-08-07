@@ -16,6 +16,8 @@
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
+
 <style type="text/css">
     * {margin: 0;padding: 0;}
     body {background: #fff;}
@@ -455,60 +457,57 @@
                 </div>
             </div>
             <div>
-                <a href="#" class="layui-btn">全部</a>
-                <a href="#" class="layui-btn btn-dfh">待发货</a>
-                <a href="#" class="layui-btn btn-yfh">已发货</a>
-                <a href="#" class="layui-btn btn-dfk">待收货</a>
-                <a href="#" class="layui-btn btn-ytk">待服务</a>
-                <a href="#" class="layui-btn btn-yqx">待评价</a>
-                <a href="#" class="layui-btn btn-ywc">已完成</a>
+                <a href="#" class="layui-btn layui-btn-mini">全部</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-dfh">待发货</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-yfh">已发货</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-dfk">待收货</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-ytk">待服务</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-yqx">待评价</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-ywc">已完成</a>
             </div>
-            <div class="layui-form" lay-filter="test2">
+            <div class="layui-form news_list" >
                 <table class="layui-table">
+					
                     <thead>
                         <tr>
                             <th class="table-cell">
-                                <div class="table-cell-div">
                                     <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose">
-                                </div>
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">订单号</div>
+                                订单号
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">商品图片</div>
+                                商品图片
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">产品名称</div>
+                                产品名称
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">订单数量</div>
+                                订单数量
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">下单时间</div>
+                                下单时间
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">订单金额</div>
+                                订单金额
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">支付类型</div>
+                                支付类型
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">操作</div>
+                                操作
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="news_content">
                             {if !empty($data)}
                             {volist name="data" id="vo"}
                         <tr>
                             <td class="table-cell">
-                                <div class="table-cell-div">
                                     <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
-                                </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">{$vo.parts_order_number}</div>
+                                {$vo.parts_order_number}
                             </td>
                             <td class="table-cell">
                                     {if !empty($vo2["goods_image"])}
@@ -518,16 +517,16 @@
                                     {/if}
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">{$vo.parts_goods_name}</div>
+                                {$vo.parts_goods_name}
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">{$vo.order_quantity}</div>
+                                {$vo.order_quantity}
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">{$vo.order_create_time|date="Y-m-d H:i:s",###}</div>
+                                {$vo.order_create_time|date="Y-m-d H:i:s",###}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">￥{$vo.order_real_pay}</div>
+                                ￥{$vo.order_real_pay}
                             </td>
                             <td class="table-cell">
                                 {$vo.si_pay_type|pay_types}
@@ -536,7 +535,7 @@
                             <td class="table-cell">
                                 <div class="table-cell-div " data-id="{$vo.parts_order_number}" data-orderStatus="{$vo.status}">
                                     {$vo.status|show_order_statues}
-                                   <button class="layui-btn line-exam">未申请开票</button>
+                                   <button class="layui-btn-mini line-exam">未申请开票</button>
                                     <a href="capital_management_details" class="dtl">订单详情</a>
                                 </div>
                             </td>
@@ -622,7 +621,7 @@
 						class_btn = 'confirmReceipt';
 					} else if(order_status == 7) {
 						btn = '追加评价';
-						class_btn = '';
+						class_btn = 'toComments';
 					}
 					
 					dhtml = `
@@ -650,7 +649,9 @@
 					} else {
 						$(".chenge_money").append(dhtml1);
 					}
-
+					$(".toComments").click(function() {
+						window.location.href = "{:url('admin/General/additional_comments')}";
+					})
 					//确认收货/服务
 					$('.confirmReceipt').click(function () {
 						var order_id = $(this).data('id');

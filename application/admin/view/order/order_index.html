@@ -25,16 +25,14 @@
 
 	.static_btus1 {
 		width: 100px;
-		height: 30px;
-		line-height: 30px;
 		text-align: center;
 		cursor: pointer;
-		margin-left: 10px
 	}
 
 	/* 没申请 */
 	.not_apply {
 		color: #BCBCBC;
+		background-color: transparent;
 		border: solid 1px #BCBCBC;
 		border-radius: 3px;
 	}
@@ -55,7 +53,6 @@
 	}
 
 	.static_btus2 {
-		width: 100px;
 		height: 30px;
 		line-height: 30px;
 		color: #0099FF;
@@ -574,12 +571,12 @@
 			</form>
 		</blockquote>
 		<div class="seach_button_all">
-			<a href="{:url('admin/Order/order_index')}" class="seach_button all0">全部</a>
-			<a href="{:url('admin/Order/order_way_pay')}" class="seach_button all1">待付款</a>
-			<a href="{:url('admin/Order/order_wait_send')}" class="seach_button all2">待发货</a>
-			<a href="{:url('admin/Order/order_shipped')}" class="seach_button all3">已发货</a>
-			<a href="{:url('admin/Order/order_completed')}" class="seach_button all4">已完成</a>
-			<a href="{:url('admin/Order/order_closed')}" class="seach_button all5">已关闭</a>
+			<a href="{:url('admin/Order/order_index')}" class=" layui-btn layui-btn-mini all0">全部</a>
+			<a href="{:url('admin/Order/order_way_pay')}" class=" layui-btn layui-btn-mini all1">待付款</a>
+			<a href="{:url('admin/Order/order_wait_send')}" class=" layui-btn layui-btn-mini all2">待发货</a>
+			<a href="{:url('admin/Order/order_shipped')}" class=" layui-btn layui-btn-mini all3">已发货</a>
+			<a href="{:url('admin/Order/order_completed')}" class=" layui-btn layui-btn-mini all4">已完成</a>
+			<a href="{:url('admin/Order/order_closed')}" class=" layui-btn layui-btn-mini all5">已关闭</a>
 		</div>
 		<div class="layui-form news_list">
 			<table class="layui-table">
@@ -645,9 +642,9 @@
 									data-type="{$vo.order_type|order_type_status}">
 									{if $vo.order_type !=3}
 										{if $vo.order_type == 2 && $vo.status == 5}
-										 	<button type="button" class="state color3" >未自提</button>
+										 	<button type="button" class=" layui-btn layui-btn-mini color3" >未自提</button>
 										  {elseif $vo.order_type == 2 && $vo.status == 7}
-										  <button type="button" class="state color3" >已自提</button>
+										  <button type="button" class=" layui-btn layui-btn-mini color3" >已自提</button>
 										  {else}
 										  {$vo.status|show_order_status}
 
@@ -658,7 +655,7 @@
 									{/if}
 								</div>
 								<div class="static_btus1">
-									<div class="not_apply">未申请开票</div>
+									<div class=" layui-btn layui-btn-mini not_apply">未申请开票</div>
 								</div>
 								<div class="static_btus2" data-id="{$vo.parts_order_number}">
 									订单详情

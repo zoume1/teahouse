@@ -593,51 +593,57 @@ class Upload extends Controller
     //             return ajax_error('发送失败');
     //      }
     // }
-    public function send_message(){
-            //判断access_token是否过期，重新获取
-            $store_id=Session::get('store_id');
-            $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
-            $timeout=$this->is_timeout($appid);
-            $url = "https://api.weixin.qq.com/wxa/commit?access_token=".$timeout['authorizer_access_token'];
-            $data='{
-                "template_id":3,
-                "ext_json":"JSON_STRING", //*ext_json需为string类型，请参考下面的格式*
-                "user_version":"V1.0",
-                "user_desc":"test"
-                }';
-                $po=$this->https_post($url,$data);
-                $ret = json_decode($po,true);
-                $pp['msg']=$po;
-                db('test')->insert($pp);
-            if($ret['errcode'] == 0) {
-                return ajax_success('上传成功');
-            } else {
-                return ajax_error('上传失败');
-            }
-    }
-    /**
-     * lilu
-     * 获取体验码
-     */
-    public function get_qrcode()
+
+     /*
+        * 为授权的小程序帐号上传小程序代码
+        * @params int $template_id : 模板ID
+        * @params json $ext_json : 小程序配置文件，json格式
+        * @params string $user_version : 代码版本号
+        * @params string $user_desc : 代码描述
+     * */
+    public function send_message($template_id = 3, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
     {
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        // $path='/pages/logs/logs';
-        $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
-        // if($path){
-        //     $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
-        // } else {
-        // }
-        $ret = json_decode($this->https_get($url),true);
-        if($ret['errcode']) {
-            $this->errorLog("获取体验小程序的体验二维码操作失败,appid:".$this->authorizer_appid,$ret);
-            return ajax_error('获取体验小程序的体验二维码操作失败');
+        $ext_json = json_encode('{"extEnable": true,"extAppid": "'.$appid.'","ext":{"appid": "'.$appid.'"}}');
+        $url = "https://api.weixin.qq.com/wxa/commit?access_token=".$timeout['authorizer_access_token'];
+        $data = '{"template_id":"'.$template_id.'","ext_json":'.$ext_json.',"user_version":"'.$user_version.'","user_desc":"'.$user_desc.'"}';
+        $ret2 = $this->https_post($url,$data);
+        $ret = json_decode($ret2,true);
+        $p['msg']=$ret2;
+        db('test')->insert($p);
+        if($ret['errcode'] == 0) {
+            return ajax_success('上传成功');
         } else {
-            return ajax_success('获取体验小程序的体验二维码操作成功',["url"=>$url]);
+            return ajax_error('上传失败');
         }
+    }
+    /**
+     * lilu
+     * 获取体验码
+     */
+    public function get_qrcode($path = '')
+    {
+        //判断access_token是否过期，重新获取
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+            if($path){
+                $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
+            } else {
+                $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+            }
+            $ret2 = $this->https_get($url);
+            $ret = json_decode($ret2,true);
+            $p['msg']=$ret2;
+            db('test')->insert($p);
+            if($ret['errcode']) {
+                return ajax_success('获取失败');
+            } else {
+                return ajax_success('获取成功',["url"=>$url]);
+            }
     }
     /**
      * lilu
