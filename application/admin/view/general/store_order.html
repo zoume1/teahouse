@@ -15,7 +15,7 @@
 <script src="__STATIC__/admin/index/js/index.js"></script>
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
-<link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
 <style type="text/css">
     * {margin: 0;padding: 0;}
     body {background: #fff;}
@@ -455,13 +455,13 @@
                 </div>
             </div>
             <div>
-                <a href="#" class="layui-btn">全部</a>
-                <a href="#" class="layui-btn btn-dfh">待发货</a>
-                <a href="#" class="layui-btn btn-yfh">已发货</a>
-                <a href="#" class="layui-btn btn-dfk">待收货</a>
-                <a href="#" class="layui-btn btn-ytk">待服务</a>
-                <a href="#" class="layui-btn btn-yqx">待评价</a>
-                <a href="#" class="layui-btn btn-ywc">已完成</a>
+                <a href="#" class="layui-btn layui-btn-mini">全部</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-dfh">待发货</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-yfh">已发货</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-dfk">待收货</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-ytk">待服务</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-yqx">待评价</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-ywc">已完成</a>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
@@ -536,7 +536,7 @@
                             <td class="table-cell">
                                 <div class="table-cell-div " data-id="{$vo.parts_order_number}" data-orderStatus="{$vo.status}">
                                     {$vo.status|show_order_statues}
-                                   <button class="layui-btn line-exam">未申请开票</button>
+                                   <button class="layui-btn-mini line-exam">未申请开票</button>
                                     <a href="capital_management_details" class="dtl">订单详情</a>
                                 </div>
                             </td>
@@ -622,7 +622,7 @@
 						class_btn = 'confirmReceipt';
 					} else if(order_status == 7) {
 						btn = '追加评价';
-						class_btn = '';
+						class_btn = 'toComments';
 					}
 					
 					dhtml = `
@@ -650,7 +650,9 @@
 					} else {
 						$(".chenge_money").append(dhtml1);
 					}
-
+					$(".toComments").click(function() {
+						window.location.href = "{:url('admin/General/additional_comments')}";
+					})
 					//确认收货/服务
 					$('.confirmReceipt').click(function () {
 						var order_id = $(this).data('id');

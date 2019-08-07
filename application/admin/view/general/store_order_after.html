@@ -16,6 +16,8 @@
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
+
 <style type="text/css">
     * {margin: 0;padding: 0;}
     body {background: #fff;}
@@ -56,6 +58,9 @@
 		padding-left: 50px;
 		background: #FDFDFE;
     }
+    .static_btus > a, .seach_button_all >a {
+		width: 60px;
+	}
 </style>
 
 {/block}
@@ -79,15 +84,15 @@
                     <button class="layui-btn">搜索</button>
                 </div>
             </div>
-            <div>
-                <a href="#" class="layui-btn btn-all">全部</a>
-                <a href="#" class="layui-btn btn-sqz">申请中</a>
-                <a href="#" class="layui-btn btn-clz">处理中</a>
-                <a href="#" class="layui-btn btn-wchh">完成换货</a>
-                <a href="#" class="layui-btn btn-wctk">完成退款</a>
-                <a href="#" class="layui-btn btn-ycx">已撤销</a>
-                <a href="#" class="layui-btn btn-ygb">已关闭</a>
-                <a href="#" class="layui-btn btn-yjj">已拒绝</a>
+            <div class="seach_button_all">
+                <a href="#" class="layui-btn layui-btn-mini btn-all">全部</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-sqz">申请中</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-clz">处理中</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-wchh">完成换货</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-wctk">完成退款</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-ycx">已撤销</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-ygb">已关闭</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-yjj">已拒绝</a>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
@@ -144,14 +149,14 @@
                                 <div class="table-cell-div">5</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">
-                                    <a href="store_order_after_ing" class="layui-btn btn-sqz">申请中</a>
-                                    <a href="store_order_after_ing" class="layui-btn btn-clz">处理中</a>
-                                    <a href="store_order_after_ing" class="layui-btn btn-wchh">完成换货</a>
-                                    <a href="store_order_after_ing" class="layui-btn btn-wctk">完成退款</a>
-                                    <a href="store_order_after_ing" class="layui-btn btn-ycx">已撤销</a>
-                                    <a href="store_order_after_ing" class="layui-btn btn-ygb">已关闭</a>
-                                    <a href="store_order_after_ing" class="layui-btn btn-yjj">已拒绝</a>
+                                <div class="table-cell-div static_btus">
+                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-sqz">申请中</a>
+                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-clz">处理中</a>
+                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-wchh">完成换货</a>
+                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-wctk">完成退款</a>
+                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-ycx">已撤销</a>
+                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-ygb">已关闭</a>
+                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-yjj">已拒绝</a>
                                 </div>
                             </td>
                             <td class="table-cell">
