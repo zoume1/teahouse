@@ -593,27 +593,24 @@ class Upload extends Controller
     //             return ajax_error('发送失败');
     //      }
     // }
-    public function send_message(){
-            //判断access_token是否过期，重新获取
-            $store_id=Session::get('store_id');
-            $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
-            $timeout=$this->is_timeout($appid);
-            $url = "https://api.weixin.qq.com/wxa/commit?access_token=".$timeout['authorizer_access_token'];
-            $data='{
-                "template_id":3,
-                "ext_json":"JSON_STRING", //*ext_json需为string类型，请参考下面的格式*
-                "user_version":"V1.0",
-                "user_desc":"test"
-                }';
-                $po=$this->https_post($url,$data);
-                $ret = json_decode($po,true);
-                $pp['msg']=$po;
-                db('test')->insert($pp);
-            if($ret['errcode'] == 0) {
-                return ajax_success('上传成功');
-            } else {
-                return ajax_error('上传失败');
-            }
+    public function send_message($template_id = 3, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
+    {
+        //判断access_token是否过期，重新获取
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $ext_json = json_encode('{"extEnable": true,"extAppid": "'.$appid.'","ext":{"appid": "'.$appid.'"}}');
+        $url = "https://api.weixin.qq.com/wxa/commit?access_token=".$timeout['authorizer_access_token'];
+        $data = '{"template_id":"'.$template_id.'","ext_json":'.$ext_json.',"user_version":"'.$user_version.'","user_desc":"'.$user_desc.'"}';
+        $ret2 = $this->https_post($url,$data);
+        $ret = json_decode($ret2,true);
+        $p['msg']=$ret2;
+        db('test')->insert($p);
+        if($ret['errcode'] == 0) {
+            return ajax_success('上传成功');
+        } else {
+            return ajax_error('上传失败');
+        }
     }
     /**
      * lilu
