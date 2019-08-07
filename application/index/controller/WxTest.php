@@ -325,6 +325,9 @@ class WxTest extends Controller
             $data['qrcode_url'] = $head_pic;     //二维码地址
             //记录授权信息
             $res=db('miniprogram')->insert($data);
+            //设置域名---修改服务器
+            $set_service=$this->set_service($data['access_token']);
+            $set_yewu_service=$this->set_yewu_service($data['access_token']);
             if($res){
                 $this->success('授权成功',url('admin/Upload/auth_detail'));
             }else{
@@ -332,6 +335,41 @@ class WxTest extends Controller
 
             }
         }
+        /**
+         * lilu
+         * 设置小程序业务域名
+         */
+        public function set_yewu_service($access_token) { 
+                // $component_access_token = $this ->get_component_access_token(); 
+                $url ="https://api.weixin.qq.com/wxa/modify_domain?access_token=".$access_token; 
+                $param = '{
+                    "action":"add",
+                    "webviewdomain":["https://www.zhihuichacang.com","https://www.zhihuichacang.com"]
+               }';
+                $info = json_decode($this->https_post ( $url, $param ),true);
+                $pp['msg']=$info;
+                db('test')->insert($pp);
+                return $info; 
+            }
+        /**
+         * lilu
+         * 设置小程序服务器域名
+         */
+        public function set_service($access_token) { 
+                // $component_access_token = $this ->get_component_access_token(); 
+                $url ="https://api.weixin.qq.com/wxa/modify_domain?access_token=".$access_token; 
+                $param = '{
+                    "action":"add",
+                    "requestdomain":["https://www.zhihuichacang.com","https://www.zhihuichacang.com"],
+                    "wsrequestdomain":["wss://www.zhihuichacang.com","wss://www.zhihuichacang.com"],
+                    "uploaddomain":["https://www.zhihuichacang.com","https://www.zhihuichacang.com"],
+                    "downloaddomain":["https://www.zhihuichacang.com","https://www.zhihuichacang.com"],
+                       }';
+                $info = json_decode($this->https_post ( $url, $param ),true);
+                $pp['msg']=$info;
+                db('test')->insert($pp);
+                return $info; 
+            }
         /**
          * lilu
          * 获取微信公众号接口调用凭据和授权信
