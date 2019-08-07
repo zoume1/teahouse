@@ -233,7 +233,6 @@ class Coupon extends Controller
                         $rest[] = $va;
                     }
                 }
-
                 foreach($coupons as $keyl => $valuel){
                     if((!in_array($valuel['id'],$rest)) && !empty($valuel) ){  //判断优惠券是否已被使用
                     $valuel['scope'] = explode(",",$valuel['scope']);
