@@ -25,7 +25,11 @@ class  Material extends  Controller{
      * @return \think\response\View
      */
     public function direct_seeding(){
-        return view("direct_seeding");
+        $store_id = Session::get("store_id");
+        $data = Db::name("video_frequency")->where("store_id",$store_id)->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
+        return view("direct_seeding",["data"=>$data]);
     }
 
     /**
@@ -34,10 +38,39 @@ class  Material extends  Controller{
      * Notes:视频直播添加编辑设备
      **************************************
      */
-    public  function  direct_seeding_add(){
-        return  view("direct_seeding_add");
+    public  function  direct_seeding_add(Request $request){
+        if($request->isPost()){
+            $store_id = Session::get("store_id");
+            $data = $request->param();
+            $data['store_id'] = $store_id;
+            $bool = Db::name("video_frequency")->insert($data);
+            if ($bool) {
+                $this->success("添加成功", url("admin/Material/direct_seeding_add"));
+            } else {
+                $this->error("添加失败", url("admin/Material/direct_seeding_add"));
+            }
+        }
+        $store_id = Session::get("store_id");
+        $store_name = Db::name("store_house")->where("store_id",$store_id)->select(); //仓库
+        $direct = Db::name("direct_seeding")->where("store_id",$store_id)->where("status",1)->select();  //分类
+        return  view("direct_seeding_add",["store_name"=>$store_name,"direct"=>$direct]);
     }
 
+
+        /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:视频直播编辑设备
+     **************************************
+     */
+    public  function  direct_seeding_edit($id){
+
+        $data = Db::name("video_frequency")->where("id",$id)->select();
+        $store_id = Session::get("store_id");
+        $store_name = Db::name("store_house")->where("store_id",$store_id)->select(); //仓库
+        $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
+        return  view("direct_seeding_edit",["store_name"=>$store_name,"direct"=>$direct,"data"=>$data]);
+    }
     /**
      **************GY*******************
      * @param Request $request
@@ -73,6 +106,10 @@ class  Material extends  Controller{
                 $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
                 $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
             }
+            if(empty($data['title']) || empty($data['icon_image'])){
+                $this->error("请仔细填写", url("admin/Material/direct_seeding_classification"));
+            }
+            
             $bool = Db::name("direct_seeding")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Material/direct_seeding_classification"));

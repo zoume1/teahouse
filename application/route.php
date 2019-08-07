@@ -815,8 +815,13 @@ Route::group("admin",[
 
     /*物联*/
     "anti_fake" =>"admin/Material/anti_fake",                                                       //防伪溯源
+
     "direct_seeding" =>"admin/Material/direct_seeding",                                             //视频直播
     "direct_seeding_add" =>"admin/Material/direct_seeding_add",                                     //视频直播添加设备
+    "direct_seeding_save" =>"admin/Material/direct_seeding_save",                                   //视频直播保存设备
+    "direct_seeding_edit" =>"admin/Material/direct_seeding_edit",                                   //视频直播编辑设备
+    "direct_seeding_update" =>"admin/Material/direct_seeding_update",                               //视频直播更新设备
+    "direct_seeding_delete" =>"admin/Material/direct_seeding_delete",                               //视频直播删除设备
     "direct_seeding_classification" =>"admin/Material/direct_seeding_classification",               //视频直播分类
     "direct_seeding_classification_save" =>"admin/Material/direct_seeding_classification_save",     //视频直播分类保存
     "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加

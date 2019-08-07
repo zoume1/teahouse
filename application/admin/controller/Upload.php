@@ -577,21 +577,43 @@ class Upload extends Controller
      * lilu
      * 一键上传店铺---短信提醒
      */
+    // public function send_message(){
+    //     $user=Session::get('user_info');
+    //      //获取店铺的信息
+    //      $store_name=DB::table('applet')->where('id',$user[0]['store_id'])->value('name');
+    //      $phone = '13922830809';
+    //     //  $phone = '13502882637';
+    //      $content = $store_name."一键上传店铺代码，请尽快完成上传";
+    //      $account='chacang';
+    //      $password="123qwe";
+    //      $re=phone($account,$password,$phone,$content);   //发送短信实时提醒  
+    //      if($re){
+    //             return ajax_success('发送成功');
+    //         }else{
+    //             return ajax_error('发送失败');
+    //      }
+    // }
     public function send_message(){
-        $user=Session::get('user_info');
-         //获取店铺的信息
-         $store_name=DB::table('applet')->where('id',$user[0]['store_id'])->value('name');
-         $phone = '13922830809';
-        //  $phone = '13502882637';
-         $content = $store_name."一键上传店铺代码，请尽快完成上传";
-         $account='chacang';
-         $password="123qwe";
-         $re=phone($account,$password,$phone,$content);   //发送短信实时提醒  
-         if($re){
-                return ajax_success('发送成功');
-            }else{
-                return ajax_error('发送失败');
-         }
+            //判断access_token是否过期，重新获取
+            $store_id=Session::get('store_id');
+            $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+            $timeout=$this->is_timeout($appid);
+            $url = "https://api.weixin.qq.com/wxa/commit?access_token=".$timeout['authorizer_access_token'];
+            $data='{
+                "template_id":3,
+                "ext_json":"JSON_STRING", //*ext_json需为string类型，请参考下面的格式*
+                "user_version":"V1.0",
+                "user_desc":"test"
+                }';
+                $po=$this->https_post($url,$data);
+                $ret = json_decode($po,true);
+                $pp['msg']=$po;
+                db('test')->insert($pp);
+            if($ret['errcode'] == 0) {
+                return ajax_success('上传成功');
+            } else {
+                return ajax_error('上传失败');
+            }
     }
     /**
      * lilu
@@ -603,12 +625,12 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        $path='/pages/logs/logs';
-        if($path){
-            $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
-        } else {
-            $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
-        }
+        // $path='/pages/logs/logs';
+        $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+        // if($path){
+        //     $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
+        // } else {
+        // }
         $ret = json_decode($this->https_get($url),true);
         if($ret['errcode']) {
             $this->errorLog("获取体验小程序的体验二维码操作失败,appid:".$this->authorizer_appid,$ret);
