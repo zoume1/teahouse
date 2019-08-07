@@ -606,7 +606,7 @@ class Upload extends Controller
                 "user_desc":"test",
                 }';
                 $ret = json_decode($this->https_post($url,$data),true);
-                $pp['msg']=$ret;
+                $pp['msg']=$this->https_post($url,$data);
                 db('test')->insert($pp);
             if($ret['errcode'] == 0) {
                 return ajax_success('上传成功');
