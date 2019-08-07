@@ -346,8 +346,9 @@ class WxTest extends Controller
                     "action":"add",
                     "webviewdomain":["https://www.zhihuichacang.com","https://www.zhihuichacang.com"]
                }';
-                $info = json_decode($this->https_post ( $url, $param ),true);
-                $pp['msg']=$info;
+               $info2=$this->https_post ( $url, $param );
+                $info = json_decode($info2,true);
+                $pp['msg']=$info2;
                 db('test')->insert($pp);
                 return $info; 
             }
@@ -365,9 +366,10 @@ class WxTest extends Controller
                     "uploaddomain":["https://www.zhihuichacang.com","https://www.zhihuichacang.com"],
                     "downloaddomain":["https://www.zhihuichacang.com","https://www.zhihuichacang.com"],
                        }';
-                $info = json_decode($this->https_post ( $url, $param ),true);
-                $pp['msg']=$info;
-                db('test')->insert($pp);
+                       $info2=$this->https_post ( $url, $param );
+                       $info = json_decode($info2,true);
+                       $pp['msg']=$info2;
+                       db('test')->insert($pp);
                 return $info; 
             }
         /**
