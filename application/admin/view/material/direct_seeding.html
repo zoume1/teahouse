@@ -43,7 +43,7 @@
     <div class="wrapper">
         <div class="inner">
             <div class="title">
-                <a href="javascript:void(0);" title="直播列表" class="tit-on">直播列表</a>
+                <a href="direct_seeding" title="直播列表" class="tit-on">直播列表</a>
                 <a href="direct_seeding_classification" title="直播分类">直播分类</a>
             </div>
             <div class="search-hd">
@@ -125,29 +125,31 @@
                         </tr>
                     </thead>
                     <tbody>
+                            {if !empty($data)}
+                            {volist name="data" id="value"}
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose" value={$value.id}>
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">2</div>
+                                <div class="table-cell-div">{$value.classify_name}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">3</div>
+                                <div class="table-cell-div">{$value.numbers}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">4</div>
+                                <div class="table-cell-div">{$value.comments}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">5</div>
+                                <div class="table-cell-div">{$value.clickings}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">6</div>
+                                <div class="table-cell-div">{$value.shares}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">7</div>
+                                <div class="table-cell-div">{$value.title}</div>
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">
@@ -155,27 +157,28 @@
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">9</div>
+                                <div class="table-cell-div">{$value.series_number}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">10</div>
+                                <div class="table-cell-div">{$value.store_name}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">11</div>
+                                <div class="table-cell-div">{$value.sound}</div>
+                            </td>
+                            <td>
+                            {if $value.status == 0}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}"> {/if}
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">开</div>
+                                <div class="table-cell-div">{$value.open_status}</div>
                             </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">公开</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">
-                                    <button class="layui-btn">编辑</button>
-                                    <button class="layui-btn">删除</button>
-                                </div>
+                            <td>
+                                <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Material/direct_seeding_edit',['id'=>$value.id])}"> 编辑</a>
+                                <a href="{:url('admin/Material/direct_seeding_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                             </td>
                         </tr>
+                        {/volist}{/if}
                     </tbody>
                 </table>
             </div>
@@ -190,6 +193,9 @@
                     <button type="button" id="operation-btn" class="operation-btn">确定</button>
                 </div>
             </div>
+            {if !empty($data)}
+            {$data->render()}
+            {/if}
         </div>
     </div>
 

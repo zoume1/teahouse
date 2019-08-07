@@ -25,7 +25,11 @@ class  Material extends  Controller{
      * @return \think\response\View
      */
     public function direct_seeding(){
-        return view("direct_seeding");
+        $store_id = Session::get("store_id");
+        $data = Db::name("video_frequency")->where("store_id",$store_id)->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
+        return view("direct_seeding",["data"=>$data]);
     }
 
     /**
@@ -48,10 +52,25 @@ class  Material extends  Controller{
         }
         $store_id = Session::get("store_id");
         $store_name = Db::name("store_house")->where("store_id",$store_id)->select(); //仓库
-        $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
+        $direct = Db::name("direct_seeding")->where("store_id",$store_id)->where("status",1)->select();  //分类
         return  view("direct_seeding_add",["store_name"=>$store_name,"direct"=>$direct]);
     }
 
+
+        /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:视频直播编辑设备
+     **************************************
+     */
+    public  function  direct_seeding_edit($id){
+
+        $data = Db::name("video_frequency")->where("id",$id)->select();
+        $store_id = Session::get("store_id");
+        $store_name = Db::name("store_house")->where("store_id",$store_id)->select(); //仓库
+        $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
+        return  view("direct_seeding_edit",["store_name"=>$store_name,"direct"=>$direct,"data"=>$data]);
+    }
     /**
      **************GY*******************
      * @param Request $request
