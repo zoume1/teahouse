@@ -593,6 +593,14 @@ class Upload extends Controller
     //             return ajax_error('发送失败');
     //      }
     // }
+
+     /*
+        * 为授权的小程序帐号上传小程序代码
+        * @params int $template_id : 模板ID
+        * @params json $ext_json : 小程序配置文件，json格式
+        * @params string $user_version : 代码版本号
+        * @params string $user_desc : 代码描述
+     * */
     public function send_message($template_id = 3, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
     {
         //判断access_token是否过期，重新获取
@@ -616,25 +624,26 @@ class Upload extends Controller
      * lilu
      * 获取体验码
      */
-    public function get_qrcode()
+    public function get_qrcode($path = '')
     {
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        // $path='/pages/logs/logs';
-        $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
-        // if($path){
-        //     $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
-        // } else {
-        // }
-        $ret = json_decode($this->https_get($url),true);
-        if($ret['errcode']) {
-            $this->errorLog("获取体验小程序的体验二维码操作失败,appid:".$this->authorizer_appid,$ret);
-            return ajax_error('获取体验小程序的体验二维码操作失败');
-        } else {
-            return ajax_success('获取体验小程序的体验二维码操作成功',["url"=>$url]);
-        }
+            if($path){
+                $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
+            } else {
+                $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+            }
+            $ret2 = $this->https_get($url);
+            $ret = json_decode($ret2,true);
+            $p['msg']=$ret2;
+            db('test')->insert($p);
+            if($ret['errcode']) {
+                return ajax_success('获取失败');
+            } else {
+                return ajax_success('获取成功',["url"=>$url]);
+            }
     }
     /**
      * lilu
