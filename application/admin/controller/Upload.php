@@ -577,45 +577,73 @@ class Upload extends Controller
      * lilu
      * 一键上传店铺---短信提醒
      */
-    public function send_message(){
-        $user=Session::get('user_info');
-         //获取店铺的信息
-         $store_name=DB::table('applet')->where('id',$user[0]['store_id'])->value('name');
-         $phone = '13922830809';
-        //  $phone = '13502882637';
-         $content = $store_name."一键上传店铺代码，请尽快完成上传";
-         $account='chacang';
-         $password="123qwe";
-         $re=phone($account,$password,$phone,$content);   //发送短信实时提醒  
-         if($re){
-                return ajax_success('发送成功');
-            }else{
-                return ajax_error('发送失败');
-         }
-    }
-    /**
-     * lilu
-     * 获取体验码
-     */
-    public function get_qrcode()
+    // public function send_message(){
+    //     $user=Session::get('user_info');
+    //      //获取店铺的信息
+    //      $store_name=DB::table('applet')->where('id',$user[0]['store_id'])->value('name');
+    //      $phone = '13922830809';
+    //     //  $phone = '13502882637';
+    //      $content = $store_name."一键上传店铺代码，请尽快完成上传";
+    //      $account='chacang';
+    //      $password="123qwe";
+    //      $re=phone($account,$password,$phone,$content);   //发送短信实时提醒  
+    //      if($re){
+    //             return ajax_success('发送成功');
+    //         }else{
+    //             return ajax_error('发送失败');
+    //      }
+    // }
+
+     /*
+        * 为授权的小程序帐号上传小程序代码
+        * @params int $template_id : 模板ID
+        * @params json $ext_json : 小程序配置文件，json格式
+        * @params string $user_version : 代码版本号
+        * @params string $user_desc : 代码描述
+     * */
+    public function send_message($template_id = 3, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
     {
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        $path='/pages/logs/logs';
-        if($path){
-            $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
+        $ext_json = json_encode('{"extEnable": true,"extAppid": "'.$appid.'","ext":{"appid": "'.$appid.'"}}');
+        $url = "https://api.weixin.qq.com/wxa/commit?access_token=".$timeout['authorizer_access_token'];
+        $data = '{"template_id":"'.$template_id.'","ext_json":'.$ext_json.',"user_version":"'.$user_version.'","user_desc":"'.$user_desc.'"}';
+        $ret2 = $this->https_post($url,$data);
+        $ret = json_decode($ret2,true);
+        $p['msg']=$ret2;
+        db('test')->insert($p);
+        if($ret['errcode'] == 0) {
+            return ajax_success('上传成功');
         } else {
-            $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+            return ajax_error('上传失败');
         }
-        $ret = json_decode($this->https_get($url),true);
-        if($ret['errcode']) {
-            $this->errorLog("获取体验小程序的体验二维码操作失败,appid:".$this->authorizer_appid,$ret);
-            return ajax_error('获取体验小程序的体验二维码操作失败');
-        } else {
-            return ajax_success('获取体验小程序的体验二维码操作成功',["url"=>$url]);
-        }
+    }
+    /**
+     * lilu
+     * 获取体验码
+     */
+    public function get_qrcode($path = '')
+    {
+        //判断access_token是否过期，重新获取
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+            if($path){
+                $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
+            } else {
+                $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+            }
+            $ret2 = $this->https_get($url);
+            $ret = json_decode($ret2,true);
+            $p['msg']=$ret2;
+            db('test')->insert($p);
+            if($ret['errcode']) {
+                return ajax_success('获取失败');
+            } else {
+                return ajax_success('获取成功',["url"=>$url]);
+            }
     }
     /**
      * lilu

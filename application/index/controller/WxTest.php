@@ -325,6 +325,9 @@ class WxTest extends Controller
             $data['qrcode_url'] = $head_pic;     //二维码地址
             //记录授权信息
             $res=db('miniprogram')->insert($data);
+            //设置域名---修改服务器
+            $set_service=$this->setServerDomain($data['access_token']);
+            $set_yewu_service=$this->setBusinessDomain($data['access_token']);
             if($res){
                 $this->success('授权成功',url('admin/Upload/auth_detail'));
             }else{
@@ -332,6 +335,84 @@ class WxTest extends Controller
 
             }
         }
+       /*
+
+     * 设置小程序服务器地址，无需加https前缀，但域名必须可以通过https访问
+     * @params string / array $domains : 域名地址。只接收一维数组。
+     * */
+    public  function setServerDomain($authorizer_access_token)
+    {
+        $domain = 'www.zhihuichacang.com';
+        $url = "https://api.weixin.qq.com/wxa/modify_domain?access_token=".$authorizer_access_token;
+        if(is_array($domain)) {
+            $https = ''; $wss = '';
+            foreach ($domain as $key => $value) {
+                $https .= '"https://'.$value.'",';
+                $wss .= '"wss://'.$value.'",';
+            }
+            $https = rtrim($https,',');
+            $wss = rtrim($wss,',');
+            $data = '{
+                "action":"add",
+                "requestdomain":['.$https.'],
+                "wsrequestdomain":['.$wss.'],
+                "uploaddomain":['.$https.'],
+                "downloaddomain":['.$https.']
+            }';
+        } else {
+            $data = '{
+                "action":"add",
+                "requestdomain":"https://'.$domain.'",
+                "wsrequestdomain":"wss://'.$domain.'",
+                "uploaddomain":"https://'.$domain.'",
+                "downloaddomain":"https://'.$domain.'"
+            }';
+        }
+        $ret2 = $this->https_post($url,$data);
+        $ret = json_decode($ret2,true);
+        $p['msg']=$ret2;
+        db('test')->insert($p);
+        if($ret['errcode'] == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /*
+     * 设置小程序业务域名，无需加https前缀，但域名必须可以通过https访问
+     * @params string / array $domains : 域名地址。只接收一维数组。
+     * */
+    public function setBusinessDomain($authorizer_access_token)
+
+    {
+        $domain = 'www.zhihuichacang.com';
+        $url = "https://api.weixin.qq.com/wxa/setwebviewdomain?access_token=".$authorizer_access_token;
+        if(is_array($domain)) {
+            $https = '';
+            foreach ($domain as $key => $value) {
+                $https .= '"https://'.$value.'",';
+            }
+            $https = rtrim($https,',');
+            $data = '{
+                "action":"add",
+                "webviewdomain":['.$https.']
+            }';
+        } else {
+            $data = '{
+                "action":"add",
+                "webviewdomain":"https://'.$domain.'"
+            }';
+        }
+        $ret2 = $this->https_post($url,$data);
+        $ret = json_decode($ret2,true);
+        $p['msg']=$ret2;
+        db('test')->insert($p);
+        if($ret['errcode'] == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
         /**
          * lilu
          * 获取微信公众号接口调用凭据和授权信
