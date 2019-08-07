@@ -15,15 +15,20 @@
 <body>
     {block name="content"}
         <div class="wrapper">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="{:url('admin/Material/direct_seeding_add')}" method="post" enctype="multipart/form-data">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">直播分类</label>
+                    <label class="layui-form-label"><span class="red">*</span>直播分类</label>
                     <div class="layui-input-block my-input-block">
-                        <select name="city">
-                            <option value="all">全部</option>
-                            <option value="0">茶仓</option>
-                            <option value="1">茶山</option>
-                            <option value="2">茶厂</option>
+                        {if !empty($direct)}
+                        <select name="classify_name" id="admin_role" class="role_list">
+                            {volist name="direct" id="value"}
+                            <option value="{$value.title}">{$value.title}</option>
+                            {/volist}
+                        </select>
+                        {else}
+                        <select name="classify_name" class="role_list">
+                        </select>
+                        {/if}
                         </select>
                         <button class="layui-btn">添加分类</button>
                     </div>
@@ -37,44 +42,55 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label redStar">介绍内容</label>
                     <div class="layui-input-block">
-                        <textarea name="desc" required lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        <textarea name="substance" required lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">直播链接</label>
                     <div class="layui-input-block">
-                        <input type="text" name="liveUrl" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="urls" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">设备序列号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="liveNum" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="series_number" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">所属仓库</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="storeHouse" placeholder="请输入" autocomplete="off" class="layui-input">
+                    <label class="layui-form-label"><span class="red">*</span>所属仓库</label>
+                    <div class="layui-input-block my-input-block">
+                        {if !empty($store_name)}
+                        <select name="store_name" id="admin_role" class="role_list">
+                            {volist name="store_name" id="value"}
+                            <option value="{$value.name}">{$value.name}</option>
+                            {/volist}
+                        </select>
+                        {else}
+                        <select name="store_name" class="role_list">
+                        </select>
+                        {/if}
+                        </select>
+                        <button class="layui-btn">添加仓库</button>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">声音</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="voice" lay-skin="switch">
+                        <input type="checkbox" name="sound" lay-filter="isShow" lay-skin="switch" value="0">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">视频</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="video" lay-skin="switch">
+                        <input type="checkbox" name="video" lay-filter="isShow" lay-skin="switch" value="0">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">单选框</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="onOrOff" value="公开" title="公开" checked>
-                        <input type="radio" name="onOrOff" value="私有" title="私有">
+                        <input type="radio" name="open_status" value="公开"  title="公开" checked>
+                        <input type="radio" name="open_status" value="私有"  title="私有">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -101,7 +117,14 @@
                 layer = parent.layer === undefined ? layui.layer : parent.layer,
                 $ = layui.jquery,
                 upload = layui.upload;
+                form.on('switch(isShow)', function (data) {
+                    if ($(this).val() == 0) {
+                        $(this).val(1);
+                    } else {
+                        $(this).val(0);
+                    }
 
+                });
         })
     </script>
 

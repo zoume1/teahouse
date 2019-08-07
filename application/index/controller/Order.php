@@ -412,8 +412,8 @@ class  Order extends  Controller
                         $datas["harvester_address"] = $harvest_address;
                         $datas["order_create_time"] = $create_time;
                         $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                        // $datas["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
-                        $datas["order_real_pay"] = 0.01;//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                        $datas["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                        // $datas["order_real_pay"] = 0.01;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datas["status"] = 1;
                         $datas["goods_id"] = $values;
                         $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
@@ -432,6 +432,10 @@ class  Order extends  Controller
                                         
                         $res = Db::name('order')->insertGetId($datas);
                         if ($res) {
+                            //判断是否使用优惠卷
+                            if($coupon_id>0){    //使用
+                                db('coupon')->where('id',$coupon_id)->setInc('use_number',1);
+                            }
                             //下单成功，冻结库存
                             if($goods_standard_id[$keys]=='0'){
                                  //单规格商品扣除库存
@@ -479,7 +483,7 @@ class  Order extends  Controller
                         $datase["harvester_address"] = $store_name;    //暂时先这样  
                         $datase["order_create_time"] = $create_time;
                         $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                        $datase["order_real_pay"] = 0.01;//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                        $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datase["status"] = 1;
                         $datase["goods_id"] = $values;
                         $datase["buy_message"] = $buy_message;//买家留言
@@ -846,6 +850,9 @@ class  Order extends  Controller
                         $datas["storage"] = $storage ; 
                         $res = Db::name('order')->insertGetId($datas);
                         if($res){
+                            if($coupon_id>0){    //使用
+                                db('coupon')->where('id',$coupon_id)->setInc('use_number',1);
+                            }
                             //下单成功
                             if($goods_standard_id[$keys]=='0'){
                                  //当前商品是单规格商品
@@ -1103,7 +1110,7 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantity')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantity,coupon_id,goods_id')
                 ->where('member_id', $member_id)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
@@ -1113,6 +1120,10 @@ class  Order extends  Controller
                  if($value['status']=='1'){   //未支付订单
                         $time=time()-$value['order_create_time']-30*60;
                         if($time>0){
+                            //返回优惠券
+                            if($value['coupon_id']>0){    //使用
+                                db('coupon')->where('id',$value['coupon_id'])->setDec('use_number',1);
+                            }
                             //删除订单，并返回库存
                             //1.返回库存
                             if($value['special_id']=='0'){
@@ -1309,7 +1320,7 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录","data"=>["status"=>0])));
             }
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id,special_id,order_quantity,goods_id')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id,special_id,order_quantity,goods_id,coupon_id')
                 ->where('member_id', $member_id)
                 ->where("status",1)
                 ->order('order_create_time', 'desc')
@@ -1319,6 +1330,10 @@ class  Order extends  Controller
                 //判断未支付订单
                 $time=time()-$value['order_create_time']-30*60;
                 if($time>0){
+                    //返回优惠券
+                    if($value['coupon_id']>0){    //使用
+                        db('coupon')->where('id',$value['coupon_id'])->setDec('use_number',1);
+                    }
                     // 删除订单，并返回库存
                     // 1.返回库存
                     if($value['special_id']=='0'){
@@ -2164,6 +2179,11 @@ class  Order extends  Controller
                     ->select();
                 if(!empty($res)){
                     foreach($res as $k=>$v){
+                        if($v['coupon_id']>0){
+                            db('coupon')->where('id',$v['coupon_id'])->setDec('use_number',1);
+                            $pp['msg']='111';
+                            db('test')->insert($pp);
+                        }
                         $data =[
                             "status"=>9,
                             "coupon_id"=>0,
@@ -2271,6 +2291,7 @@ class  Order extends  Controller
             ->where("parts_order_number",$val["out_trade_no"])
             ->update(["status"=>3,"pay_time"=>time(),"si_pay_type"=>2]);
             
+
 
             if($res){
                 //商品库存减少、销量增加

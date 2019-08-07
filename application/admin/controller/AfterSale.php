@@ -121,6 +121,13 @@ class  AfterSale extends  Controller{
                 "sell_express_number"=>$sell_express_number
             ];
             $bool =Db::name("after_sale")->where("id",$after_sale_id)->update($data);
+            //初始订单已关闭
+            $order_id=db('after_sale')->where('id',$after_sale_id)->value('order_id');
+            $order_number=db('order')->where('id',$order_id)->value('parts_order_number');
+            $re=db('order')->where('parts_order_number',$order_number)->select();
+            foreach($re as $k=>$v){
+                db('order')->where('id',$v['id'])->update(['status'=>0]);
+            }
             if($bool){
                 return ajax_success("更改成功");
             }else{

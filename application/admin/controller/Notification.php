@@ -24,7 +24,7 @@ class Notification extends Controller{
         if($request->isPost()){
             $order_id =$request->only("order_id")["order_id"];
             $datas =Db::name("note_notification")
-                ->where("order_id",$order_id)
+                ->where("order_num",$order_id)
                 ->order("create_time","desc")
                 ->select();
             $order_type =Db::name("order")->where("id",$order_id)->value("order_type");

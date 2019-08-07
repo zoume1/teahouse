@@ -292,10 +292,6 @@ class WxTest extends Controller
         //     }
         // }
         // echo "success";
-
-
-
-
             //获取回调的信息
             $data2=input();
             $auth_code=$data2['auth_code'];     //授权码
@@ -372,13 +368,9 @@ class WxTest extends Controller
             }
 
     /*
-
     *  第三方平台方获取预授权码pre_auth_code
-
     */
-
     private function get_pre_auth_code()
-
     {
         $url = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token=".$this->get_component_access_token();
         $data = '{"component_appid":"'.$this->appid.'"}';
@@ -388,7 +380,6 @@ class WxTest extends Controller
         } else {
             return false;
         }
-
     }
         /*
         * 发起POST网络提交
