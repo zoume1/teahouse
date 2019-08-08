@@ -466,8 +466,8 @@ class My extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $tmpInfo = curl_exec($ch);
-        //         var_dump($tmpInfo);
-        //        exit;
+                halt($tmpInfo);
+               exit;
         if (curl_errno($ch)) {
             return false;
         }else{
@@ -516,4 +516,6 @@ class My extends Controller
         $data='image/png;base64,'.base64_encode($result);
         echo '<img src="data:'.$data.'">';
     }
+
+
 }
