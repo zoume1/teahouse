@@ -226,72 +226,185 @@ class WxTest extends Controller
          * 微信第三方授权后。获取回调信息
          */
         public function callback(){
+            //ceshi 
+            $appid = input('appid');
+            $msg_sign = input('msg_signature');
+            $timeStamp = input('timestamp');
+            $nonce = input('nonce');
+            $encryptMsg = file_get_contents ( 'php://input' );
+            trace($encryptMsg,'php://input');
+            //解密
+            $pc = new \WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->appid);
+            $msg = '';
+            $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $encryptMsg, $msg);
+     
+            trace($msg,"3解密后: " );
+            $pp=json_encode(simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA));
+            $response = json_decode($pp, true);
+            $pp['msg']=$pp;
+            db('test')->insert($pp);
+            //生成返回公众号的消息
+            $res_msg = $textTpl = "<xml>
+                <ToUserName><![CDATA[%s]]></ToUserName>
+                <FromUserName><![CDATA[%s]]></FromUserName>
+                <CreateTime>%s</CreateTime>
+                <MsgType><![CDATA[text]]></MsgType>
+                <Content><![CDATA[%s]]></Content>
+                </xml>";
+     
+            //判断事件
+     
+            //2模拟粉丝发送文本消息给专用测试公众号
+     
+            if ($response['MsgType']=="text") {
+                $needle ='QUERY_AUTH_CODE:';
+                $tmparray = explode($needle,$response['Content']);
+                if(count($tmparray)>1){
+                    trace($response,"解密后: " );
+                    //3、模拟粉丝发送文本消息给专用测试公众号，第三方平台方需在5秒内返回空串
+                    //表明暂时不回复，然后再立即使用客服消息接口发送消息回复粉丝
+                    $contentx = str_replace ($needle,'',$response['Content']);//将$query_auth_code$的值赋值给API所需的参数authorization_code
+                    $this->authorization_code = $contentx;//authorization_code
+                    trace($contentx,'authorization_code');
+     
+     
+                    //使用授权码换取公众号或小程序的接口调用凭据和授权信息
+                    $postdata = array(
+                        "component_appid"=>$this->appid,
+                        "authorization_code"=>$this->authorization_code,
+                    );
+                    //获取component_access_token
+                    // $this->component_access_token = $this->component->getAccessToken();
+                    $access_token = $this->get_component_access_token();
+                    $this->component_access_token = $access_token['component_access_token'];
+     
+                    trace($this->component_access_token,'access_token');
+     
+                    $component_return = send_post($this->authorizer_access_token_url.$this->component_access_token,$postdata);
+     
+                    $component_return = json_decode($component_return,true);
+                    trace($component_return,'$component_return');
+                    $this->authorizer_access_token = $test_token = $component_return['authorization_info']['authorizer_access_token'];
+                    $content_re = $contentx."_from_api";
+                    echo '';
+     
+                    //調用客服接口
+     
+                    $data = array(
+                        "touser"=>$response['FromUserName'],
+                        "msgtype"=>"text",
+                        "text" => array(
+                                    "content" =>$content_re
+                        )
+                    );
+                    $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$test_token;
+                    $ret = send_post($url, $data);
+                    trace($ret,'客服消息');
+     
+                } else{
+                    //2、模拟粉丝发送文本消息给专用测试公众号
+                    $contentx = "TESTCOMPONENT_MSG_TYPE_TEXT_callback";
+     
+     
+     
+                    trace($response,"2模拟粉丝发送文本消息给专用测试公众号: " );
+                    $responseText = sprintf( $textTpl, $response[ 'FromUserName' ], $response[ 'ToUserName' ], $response[ 'CreateTime' ],  $contentx );
+    //                echo $responseText;
+                    $echo_msg='';
+                    $errCode = $pc->encryptMsg($responseText, $timeStamp, $nonce, $echo_msg);
+                    trace($responseText,"2222转数组: " );
+                    echo $echo_msg;
+                }
+            }
+     
+            //1、模拟粉丝触发专用测试公众号的事件
+     
+            if ($response['MsgType'] == 'event'){
+                $content = $response['Event']."from_callback";
+     
+                trace($response,"111转数组: " );
+                $responseText = sprintf( $textTpl, $response[ 'FromUserName' ], $response[ 'ToUserName' ], $response[ 'CreateTime' ],  $content );
+                trace($responseText,"111: " );
+    //            echo $responseText;
+                $errCode = $pc->encryptMsg($responseText, $timeStamp, $nonce, $echo_msg);
+     
+                echo $echo_msg;
+            }
+     
 
-        //      // 每个授权小程序的appid，在第三方平台的消息与事件接收URL中设置了 $APPID$ 
-        // $authorizer_appid = input('param.appid/s'); 
-        // // 每个授权小程序传来的加密消息
-        // $postStr = file_get_contents("php://input");
-        // if (!empty($postStr)){
-        //     $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+
+        // 每个授权小程序的appid，在第三方平台的消息与事件接收URL中设置了 $APPID$ 
+        $authorizer_appid = input('param.appid/s'); 
+        // 每个授权小程序传来的加密消息
+        $postStr = file_get_contents("php://input");
+        if (!empty($postStr)){
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
  
-        //     $toUserName = trim($postObj->ToUserName);
-        //     $encrypt = trim($postObj->Encrypt);
+            $toUserName = trim($postObj->ToUserName);
+            $encrypt = trim($postObj->Encrypt);
  
-        //     $format = "<xml><ToUserName><![CDATA[{$toUserName}]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
-        //     $from_xml = sprintf($format, $encrypt);
+            $format = "<xml><ToUserName><![CDATA[{$toUserName}]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
+            $from_xml = sprintf($format, $encrypt);
  
-        //     $inputs = array(
-        //         'encrypt_type' => '',
-        //         'timestamp' => '',
-        //         'nonce' => '',
-        //         'msg_signature' => '',
-        //         'signature' => ''
-        //     );
-        //     foreach ($inputs as $key => $value) {
-        //         $tmp = $_REQUEST[$key];
-        //         if (!empty($tmp)){
-        //             $inputs[$key] = $tmp;
-        //         }
-        //     }
+            $inputs = array(
+                'encrypt_type' => '',
+                'timestamp' => '',
+                'nonce' => '',
+                'msg_signature' => '',
+                'signature' => ''
+            );
+            foreach ($inputs as $key => $value) {
+                $tmp = $_REQUEST[$key];
+                if (!empty($tmp)){
+                    $inputs[$key] = $tmp;
+                }
+            }
  
-        //     // 第三方收到公众号平台发送的消息
-        //     $msg = '';
-        //     $timeStamp = $inputs['timestamp'];
-        //     $msg_sign = $inputs['msg_signature'];
-        //     $nonce = $inputs['nonce'];
-        //     $token = $this->token;
-        //     $encodingAesKey = $this->encodingAesKey;
-        //     $appid = $this->appid;
-        //     // vendor('minicrypto.wxBizMsgCrypt');
-        //     $pc = new \WXBizMsgCrypt($token, $encodingAesKey, $appid);
-        //     $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
-        //     if ($errCode == 0) {
-        //         $msgObj = simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
-        //         $content = trim($msgObj->Content);
+            // 第三方收到公众号平台发送的消息
+            $msg = '';
+            $timeStamp = $inputs['timestamp'];
+            $msg_sign = $inputs['msg_signature'];
+            $nonce = $inputs['nonce'];
+            $token = $this->token;
+            $encodingAesKey = $this->encodingAesKey;
+            $appid = $this->appid;
+            // vendor('minicrypto.wxBizMsgCrypt');
+            $pc = new \WXBizMsgCrypt($token, $encodingAesKey, $appid);
+            $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
+            if ($errCode == 0) {
+                $msgObj = simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
+                $content = trim($msgObj->Content);
  
-        //         //第三方平台全网发布检测普通文本消息测试 
-        //         if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
-        //             $toUsername = trim($msgObj->ToUserName);
-        //             if ($toUsername == 'gh_3c884a361561') { 
-        //                 $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
-        //                 echo $this->responseText($msgObj, $content);
-        //             }
-        //         }
-        //         //第三方平台全网发布检测返回api文本消息测试 
-        //         if (strpos($content, 'QUERY_AUTH_CODE') !== false) { 
-        //             $toUsername = trim($msgObj->ToUserName);
-        //             if ($toUsername == 'gh_3c884a361561') { 
-        //                 $query_auth_code = str_replace('QUERY_AUTH_CODE:', '', $content);
-        //                 $params = $this->dedeLogic->api_query_auth($query_auth_code);
-        //                 $authorizer_access_token = $params['authorization_info']['authorizer_access_token']; 
-        //                 $content = "{$query_auth_code}_from_api"; 
-        //                 $this->sendServiceText($msgObj, $content, $authorizer_access_token);
-        //             }
-        //         }
-        //         // file_put_contents ( ROOT_PATH."/log.txt", date ( "Y-m-d H:i:s" ) . "  " . var_export($msgObj,true) . "\r\n", FILE_APPEND );
-        //     }
-        // }
-        // echo "success";
+                //第三方平台全网发布检测普通文本消息测试 
+                if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
+                    $toUsername = trim($msgObj->ToUserName);
+                    if ($toUsername == 'gh_3c884a361561') { 
+                        $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
+                        echo $this->responseText($msgObj, $content);
+                    }
+                }
+                //第三方平台全网发布检测返回api文本消息测试 
+                if (strpos($content, 'QUERY_AUTH_CODE') !== false) { 
+                    $toUsername = trim($msgObj->ToUserName);
+                    if ($toUsername == 'gh_3c884a361561') { 
+                        $query_auth_code = str_replace('QUERY_AUTH_CODE:', '', $content);
+                        $params = $this->dedeLogic->api_query_auth($query_auth_code);
+                        $authorizer_access_token = $params['authorization_info']['authorizer_access_token']; 
+                        $content = "{$query_auth_code}_from_api"; 
+                        $this->sendServiceText($msgObj, $content, $authorizer_access_token);
+                    }
+                }
+                // file_put_contents ( ROOT_PATH."/log.txt", date ( "Y-m-d H:i:s" ) . "  " . var_export($msgObj,true) . "\r\n", FILE_APPEND );
+            }
+        }
+        echo "success";
+
+
+
+
+
+
             //获取回调的信息
             $data2=input();
             $auth_code=$data2['auth_code'];     //授权码
