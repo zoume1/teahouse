@@ -650,7 +650,7 @@
 						$(".chenge_money").append(dhtml1);
 					}
 					$(".toComments").click(function() {
-						window.location.href = "{:url('admin/General/additional_comments')}";
+						window.location.href = `{:url('admin/General/additional_comments',['data_id'=>${data_id}])}`;
 					})
 					//确认收货/服务
 					$('.confirmReceipt').click(function () {
