@@ -610,18 +610,18 @@
 						dhtm0 += '</div>';
 						$(".chat").append(dhtm0);
 					}
-
 					let dhtml = '',dhtml1 = '',btn = '',class_btn = '';
 					if(order_status == 4) {
 						if(data.data.goods_type == 1) {
 							btn = '确认收货';
-						} else {
-							btn = '确认服务';
-						}
+						} 
 						class_btn = 'confirmReceipt';
 					} else if(order_status == 7) {
 						btn = '追加评价';
 						class_btn = 'toComments';
+					} else if(order_status == 12) {
+						btn = '确认服务';
+						class_btn = 'confirmReceipt';
 					}
 					
 					dhtml = `

@@ -103,6 +103,9 @@ class WxTest extends Controller
         exit();
     
     }
+
+
+    
     public  function qrcode_create($url = 'http://www.baidu.com', $size = '6', $errorlevel = '3')
     {
         include('../extend/WxpayAll/example/phpqrcode/phpqrcode.php');
