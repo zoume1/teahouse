@@ -101,7 +101,7 @@ class My extends Controller
                 $member_data = Db::name('member_grade')
                             ->where('introduction_display', 1)
                             ->where('store_id', $store_id)
-                            // ->whereOr("member_grade_id",$member_information['member_grade_id'])
+                            ->whereOr("member_grade_id",$member_information['member_grade_id'])
                             ->select();
                 
                 $user['member_grade'] = $member_data; //会员等级信息
