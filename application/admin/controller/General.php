@@ -16,6 +16,7 @@ use think\Session;
 use think\View;
 use app\index\controller\Login as Login;
 use app\admin\model\AdderOrder as add;
+use app\admin\model\Store as Store;
 class  General extends  Base {
    
     private  $store_ids;
@@ -2778,9 +2779,12 @@ class  General extends  Base {
      **************************************
      */
     public function additional_comments($id){
+        $store_id=Session::get('store_id');
         $adder = new add;
         $data = $adder->getOrderIdInformation($id);
-        return view("additional_comments");
+        $store = new Store;
+        $store_name = $store->getStoreName($store_id);
+        return view("additional_comments",["data"=>$data,"store_name"=>$store_name]);
     }
 
     /**

@@ -49,14 +49,7 @@ class  Order extends  Controller{
                 $data2[$k]['detail']=$order;
                 $data2[$k]['num']=$num;
             }
-            if (!file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.'6'.DS.'6txt')) {
-                //检查是否有该文件夹，如果没有就创建，并给予最高权限
-             dump(111111111111111);
-            }else{
-                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'6'.DS.'6txt');
-                $this->assign('qq',$re);
-            }
-        return view("order_index",["data"=>$data2,"qrcode"=>$qrcode]);
+        return view("order_index",["data"=>$data2]);
     }
 
     /**
