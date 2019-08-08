@@ -10,8 +10,8 @@ class AdderOrder extends Model
     protected $table = "tb_adder_order";
     protected $resultSetType = 'collection';
 
-    public function getOrderIdInformation($id){
-        $data  = $this->where(['id'=>$id])->select();    
+    public function getOrderIdInformation($order_number){
+        $data  = $this->where(['parts_order_number'=>$order_number])->select();    
         if($data){
             $data = $data->toArray();
             return $data;

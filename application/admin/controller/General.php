@@ -2778,10 +2778,11 @@ class  General extends  Base {
      * Notes:追加评论
      **************************************
      */
-    public function additional_comments($id){
+    public function additional_comments(){
+        $order_number = input('id');
         $store_id=Session::get('store_id');
         $adder = new add;
-        $data = $adder->getOrderIdInformation($id);
+        $data = $adder->getOrderIdInformation($order_number);
         $store = new Store;
         $store_name = $store->getStoreName($store_id);
         return view("additional_comments",["data"=>$data,"store_name"=>$store_name]);
