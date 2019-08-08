@@ -49,7 +49,7 @@ class  Analyse extends  Controller{
         ->join('tb_store b','b.id = a.store_id','left')
         ->where("a.status",'>',1)
         ->field("a.*,b.store_name")
-        ->order('a.order_creat_time desc')
+        ->order("a.order_creat_time")
         ->select();
         $url = 'admin/Analyse/analyse_order';
         $pag_number = 20;
