@@ -561,6 +561,33 @@ class My extends Controller
             }
         }
     }
+    /**
+     * lilu
+     * 分享返积分
+     * member_id   
+     * inviter_id     上级id
+     * uniacid   店铺id
+     */
+    public function qr_back_points(){
+        //获取参数   inviter_id  上级id    member_integral_wallet    积分余额
+        $input=input();
+        //获取扫码获取参数的配置积分  recommend_integral
+        $recommend_data = db('recommend_integral')->where("store_id","EQ",$input['uniacid'])->find();
+        //给上级id增加积分
+        $re=db('member')->where('member_id',$input['inviter_id'])->setInc('member_integral_wallet',$recommend_data['recommend_integral']);
+        $dimension=db('member')->where('member_id',$input['inviter_id'])->value('dimension');
+        //给当前客户记录上级推广码
+        $re2=db('member')->where('member_id',$input['member_id'])->update(['dimension'=>$dimension]);
+        if($re && $re2){
+             return ajax_success('操作成功');
+        }else{
+             return ajax_error('操作失败');
+
+        }
+
+
+
+    }
 
 
 }
