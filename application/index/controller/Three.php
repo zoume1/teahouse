@@ -84,6 +84,7 @@ public $component_access_token;
                 default:
                     break;
             }
+            echo "success";
             
         } else {
             // file_put_contents('/app/error/cccxmlerr.txt', json_encode($errCode) . date('Y-m-d H:i:s', time()) . "/n", FILE_APPEND);
