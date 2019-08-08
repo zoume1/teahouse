@@ -471,7 +471,7 @@
                     <thead>
                         <tr>
                             <th class="table-cell">
-                                    <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose">
+                                <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose">
                             </th>
                             <th class="table-cell">
                                 订单号
@@ -649,8 +649,9 @@
 					} else {
 						$(".chenge_money").append(dhtml1);
 					}
+					//跳转评论页
 					$(".toComments").click(function() {
-						window.location.href = `{:url('admin/General/additional_comments',['data_id'=>${data_id}])}`;
+						window.location.href = '/admin/additional_comments/data-id/'+data_id;
 					})
 					//确认收货/服务
 					$('.confirmReceipt').click(function () {

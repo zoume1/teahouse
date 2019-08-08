@@ -34,7 +34,8 @@
             <div class="step-line"></div>
             <div class="step step-on">5.追加评论</div>
         </div>
-        <div>订购店铺：滴金茶叶</div>
+        <div>订购店铺：{$store_name}</div>
+        {if !empty($data)}{volist name="data" id="vo"}
         <div class="next-table">
             <table>
                 <colgroup>
@@ -47,10 +48,10 @@
                 <thead class="next-table-hd">
                     <tr>
                         <th class="next-table-cell">
-                            <div class="next-table-cell-box">2019-04-16</div>
+                            <div class="next-table-cell-box">{$vo.order_create_time|date="Y-m-d H:i",###}</div>
                         </th>
                         <th class="next-table-cell">
-                            <div class="next-table-cell-box">订单号：7895646517156</div>
+                            <div class="next-table-cell-box">{$vo.parts_order_number}</div>
                         </th>
                         <th class="next-table-cell">
                             <div class="next-table-cell-box">数量</div>
@@ -71,17 +72,17 @@
                             </div>
                         </td>
                         <td class="next-table-cell">
-                            <div class="next-table-cell-box">小程序申请及开通店铺全套服务</div>
+                            <div class="next-table-cell-box">{$vo.parts_goods_name}</div>
                         </td>
                         <td class="next-table-cell">
-                            <div class="next-table-cell-box">1套</div>
+                            <div class="next-table-cell-box">{$vo.order_quantity}</div>
                         </td>
                         <td class="next-table-cell">
-                            <div class="next-table-cell-box">365.00</div>
+                            <div class="next-table-cell-box">{$vo.goods_money}</div>
                         </td>
                         <td class="next-table-cell">
                             <div class="next-table-cell-box">
-                                <p>659.00</p>
+                                <p>{$vo.order_real_pay}</p>
                                 <a href="additional_comments_add">我要评论</a>
                             </div>
                         </td>
@@ -89,6 +90,7 @@
                 </tbody>
             </table>
         </div>
+        {/volist}{/if}
     </div>
     <script src="__STATIC__/admin/common/js/vue.js"></script>
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
