@@ -64,7 +64,8 @@ class My extends Controller
                 //获取携带参数的小程序的二维码
                 $page='pages/logs/logs';
                 $qrcode=$this->mpcode($page,$member_information['member_id'],$store_id);
-                halt($qrcode);
+                Session::set('qrcode',$qrcode);
+                halt( $qrcode);
 
 
                 $data = [];
@@ -466,8 +467,8 @@ class My extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $tmpInfo = curl_exec($ch);
-                halt($tmpInfo);
-               exit;
+        //         var_dump($tmpInfo);
+        //        exit;
         if (curl_errno($ch)) {
             return false;
         }else{
