@@ -58,30 +58,33 @@ class My extends Controller
         if ($request->isPost()) {
             $post_open_id = $request->only(['open_id'])['open_id'];
             $store_id = $request->only(['uniacid'])['uniacid'];
-            if (!empty($post_open_id)) {
-                //获取用户的信息
-                $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
+            //判断用户分享码是否存在
+            if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id.'.txt')) {
+                //检查是否有该文件夹，如果没有就创建，并给予最高权限
+                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id.'.txt');
+            }else{
+                 //获取用户的信息
+                 $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
                 //获取携带参数的小程序的二维码
                 $page='pages/logs/logs';
                 $qrcode=$this->mpcode($page,$member_information['member_id'],$store_id);
                 //把qrcode文件写进文件中，使用的时候拿出来
                 $dateFile =$store_id . "/";  //创建目录
-                $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id;
-                if (!file_exists($new_file)) {
-                    //检查是否有该文件夹，如果没有就创建，并给予最高权限
-                    mkdir($new_file, 750);
-                }
-                $filename = $store_id.'.txt'; //文件名
-                $new_file = $new_file . $filename;
+                $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id.'.txt';
+                // if (!file_exists($new_file)) {
+                //     //检查是否有该文件夹，如果没有就创建，并给予最高权限
+                //     mkdir($new_file, 750);
+                // }
                 if (file_put_contents($new_file, $qrcode)) {
                     // return  $dateFile . $filename;  //返回文件名及路径
-                    $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id.$filename);
-                    dump($re);
-                    halt($dateFile . $filename);
+                    $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id.'.txt');
                 } else {
-                    return false;
+                    return ajax_success('获取失败');
                 }
-
+            }
+            if (!empty($post_open_id)) {
+                //获取用户的信息
+                $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
                 $data = [];
                 $data['member_id'] = $member_information['member_id']; //会员id
                 $data['dimension'] = $member_information['dimension']; //会员码
@@ -89,9 +92,9 @@ class My extends Controller
                 $domain_name = 'http://teahouse.siring.com.cn';  //域名
                 $member_id = $member_information['member_id'];   //所登录的id
                 $reg = 'reg';  //注册地址
-                $share_url = $domain_name . "/" . $reg . "/" . $member_id;
+                // $share_url = $domain_name . "/" . $reg . "/" . $member_id;
                 // $share_code ='http://b.bshare.cn/barCode?site=weixin&url='.$share_url;
-                $share_code = $share_url;
+                $share_code = $re;
                 $data['share_url'] = $share_code; //生成的二维码
                 $data['member_grade_name'] =$member_information['member_grade_name'];
                 $data['member_grade_id'] =$member_information['member_grade_id'];
