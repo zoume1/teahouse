@@ -204,7 +204,11 @@ class  AfterSale extends Controller{
     public function after_sale_information_return(Request $request){
         if($request->isPost()){
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];
+            $store_id =$request->only(["uniacid"])["uniacid"];
             $data =Db::name("after_sale")->where("id",$after_sale_id)->find();
+            //获取售后自动处理的时间
+            $day=db('order_setting')->where('store_id',$store_id)->value('after_sale_time');
+            $data['sale_day']=$day;
             $data["images"] =Db::name("after_image")->where("after_sale_id",$after_sale_id)->select();
             $data["reply"] =Db::name("after_reply")->where("after_sale_id",$after_sale_id)->select();
             $goods_data =Db::name("order")

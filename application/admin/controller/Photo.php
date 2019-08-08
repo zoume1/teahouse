@@ -34,7 +34,8 @@ class Photo extends Base{
      * @return \think\response\View
      */
     public function phone_information(){
-        $appletid = input("appletid");
+        $appletid=Session::get('store_id');   //店铺id
+        // $appletid = input("appletid");
         $res = Db::table('applet')->where("id",$appletid)->find();
         if(!$res){
             $this->error("找不到对应的小程序！");
