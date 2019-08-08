@@ -9,6 +9,7 @@ namespace  app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use think\Session;
 use think\Cache;
 use app\index\controller\Login as LoginPass;
 
@@ -58,11 +59,12 @@ class My extends Controller
             $post_open_id = $request->only(['open_id'])['open_id'];
             $store_id = $request->only(['uniacid'])['uniacid'];
             if (!empty($post_open_id)) {
-                //
+                //获取用户的信息
                 $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
                 //获取携带参数的小程序的二维码
-
-
+                $page='pages/logs/logs';
+                $qrcode=$this->mpcode($page,$member_information['member_id']);
+                halt($qrcode);
 
 
                 $data = [];
@@ -425,12 +427,15 @@ class My extends Controller
      * 生成小程序分享码
      */
     public function getAccesstoken(){
-        $appid = '';                     /*小程序appid*/
-        $srcret = '';                   /*小程序秘钥*/
+        $store_id=Session::get('store_id');
+        //获取小程序的信息
+        $re=Db::name('applet')->where('store_id',$store_id)->find();
+        $appid = $re['appID'];                     /*小程序appid*/
+        $srcret = $re['appSecret'];                   /*小程序秘钥*/
         $tokenUrl="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$srcret;
         $getArr=array();
         $tokenArr=json_decode($this->send_post($tokenUrl,$getArr,"GET"));
-        $access_token=$tokenArr->access_token;
+        $access_token=$tokenArr['access_token'];
         return $access_token;
     }
     public function send_post($url, $post_data,$method='POST') {
@@ -499,7 +504,7 @@ class My extends Controller
     }
     /*码二，正方形的二维码，数量限制调用十万条*/
     public function qrcodes(){
-        $path="pages/postcard/postcard";
+        $path="pages/logs/logs";
         // 宽度
         $postdata['width']=430;
         // 页面
