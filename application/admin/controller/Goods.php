@@ -509,7 +509,7 @@ class Goods extends Controller
              if ($bool || $rest) {
                  $this->success("更新成功", url("admin/Goods/index"));
              } else {
-                 $this->success("更新失败", url('admin/Goods/index'));
+                 $this->success("更新成功", url('admin/Goods/index'));
              }
              
         } else {
@@ -528,7 +528,7 @@ class Goods extends Controller
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));
             } else {
-                $this->success("更新失败", url('admin/Goods/index'));
+                $this->success("更新成功", url('admin/Goods/index'));
             }
 
         }
