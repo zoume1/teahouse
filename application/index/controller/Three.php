@@ -73,7 +73,8 @@ public $component_access_token;
         $msg      = '';
         $errCode  = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
         if ($errCode == 0) {
-            
+            $pp['msg']=$errCode;
+            db('test')->insert($msg);
             $msgObj = json_decode(json_encode(simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA)));
             switch ($msgObj->MsgType) {
                 case "event":
