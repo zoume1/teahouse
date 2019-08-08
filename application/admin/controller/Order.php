@@ -50,8 +50,9 @@ class  Order extends  Controller{
                 $data2[$k]['num']=$num;
             }
             $qrcode=Session::get('qrcode');
+            dump($qrcode);
             $this->assign('qrcode',$qrcode);
-        return view("order_index",["data"=>$data2]);
+        return view("order_index",["data"=>$data2,"qrcode"=>$qrcode]);
     }
 
     /**
