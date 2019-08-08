@@ -31,13 +31,12 @@ public $component_access_token;
 	
 	//公众号消息与事件接收URL
 
-    public function actionTest()
+    public function receive_ticket()
     {
         $msg_signature = $_REQUEST['msg_signature'];
         if ($msg_signature) {
             $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            file_put_contents('/app/error/ccccsimplexml_load_string.txt',json_encode($postObj));
             $toUsername = $postObj->ToUserName;
             if ($toUsername == 'gh_3c884a361561') {
                 $this->encrypt($postStr);
@@ -74,9 +73,6 @@ public $component_access_token;
         if ($errCode == 0) {
             
             $msgObj = json_decode(json_encode(simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA)));
-			// file_put_contents('/app/error/cccchenzhiqmsgObj.txt',json_encode($msgObj));
-            //	{"ToUserName":"gh_3c884a361561","FromUserName":"ozy4qt1eDxSxzCr0aNT0mXCWfrDE","CreateTime":"1446104321","MsgType":"event","Event":"LOCATION","Latitude":"111.000000","Longitude":"222.000000","Precision":"333.000000"}
-            
             switch ($msgObj->MsgType) {
                 case "event":
                     $this->replyEventMessage($timeStamp, $nonce, $msg_sign, $msgObj->Event, $msgObj->ToUserName, $msgObj->FromUserName);
@@ -99,12 +95,10 @@ public $component_access_token;
         
         if ('TESTCOMPONENT_MSG_TYPE_TEXT' == $Content) {
             $text = $Content . '_callback';
-            // file_put_contents('/app/error/cccTESTCOMPONENT_MSG_TYPE_TEXT.txt', $Content);
             $this->replyTextMessage($timeStamp, $nonce, $msg_sign, $text, $toUserName, $fromUserName);
             
         } elseif (stristr($Content, "QUERY_AUTH_CODE")) {
             $textArray = explode(':', $Content);
-            // file_put_contents('/app/error/cccQUERY_AUTH_CODE.txt', $Content);
             $this->replyApiTextMessage($timeStamp, $nonce, $msg_sign, $textArray[1], $toUserName, $fromUserName);
         }else{
 			$this->replyTextMessage($timeStamp, $nonce, $msg_sign, $Content, $toUserName, $fromUserName);
@@ -121,13 +115,11 @@ public $component_access_token;
         ));
         $getreplyApiTextMessage = json_decode($this->curl_get_post($url, $data));
         
-        // file_put_contents('/app/error/ccccgetreplyApiTextMessage.txt', json_encode($getreplyApiTextMessage));
         $text                    = $query_auth_code . '_from_api';
         $sfromUserName           = $getreplyApiTextMessage->authorization_info->authorizer_appid;
         $authorizer_access_token = $getreplyApiTextMessage->authorization_info->authorizer_access_token;
         $authorization           = $this->get_authorization($sfromUserName, 'customer_service', '1');
         if ($authorization == 'ok') {
-            // file_put_contents('/app/error/ccccget_authorization.txt', 'ok');
             $this->processWechatTextMessage($text, $fromUserName, $authorizer_access_token);
         }
         
@@ -145,9 +137,7 @@ public $component_access_token;
                 'content' => $text
             )
         ));
-        // file_put_contents('/app/error/ccccprocessWechatTextMessagedata.txt', $data);
         $getreplyApiTextMessage = json_decode($this->curl_get_post($url, $data));
-        // file_put_contents('/app/error/ccccprocessWechatTextMessage.txt', json_encode($getreplyApiTextMessage));
     }
     /*
     获取授权
@@ -198,20 +188,17 @@ public $component_access_token;
         $encryptMsg = '';
         $time       = time();
         $text       = "<xml><ToUserName><![CDATA[" . $fromUserName . "]]></ToUserName><FromUserName><![CDATA[" . $toUserName . "]]></FromUserName><CreateTime>" . $timeStamp . "</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[" . $content . "]]></Content></xml>";
-        file_put_contents('/app/error/ccctext.txt', $text);
         $errCode = $pc->encryptMsg($text, $time, $nonce, $encryptMsg);
         if ($errCode == 0) {
-            file_put_contents('/app/error/cccencryptMsg.txt', $encryptMsg);
             exit($encryptMsg);
         } else {
-            file_put_contents('/app/error/cccerrCode.txt', $errCode);
             exit($errCode);
             
         }
         
     }
     //授权事件接收URL
-    public function actionAcceptc()
+    public function callback()
     {
         // 第三方发送消息给公众平台
         $encodingAesKey = $this->weixin_account['encodingAesKey'];
@@ -245,15 +232,7 @@ public $component_access_token;
             $xml->loadXML($msg);
             $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
             $component_verify_ticket = $array_e->item(0)->nodeValue;
-            file_put_contents('/app/error/component_verify_ticket.txt', $component_verify_ticket);
-//             $this->accountM->where(array(
-//                 'id' => $this->userid
-//             ))->save(array(
-//                 'component_verify_ticket' => $component_verify_ticket
-//             ));
 			if(isset($component_verify_ticket)){
-// 	            $sql = 'update weixin_account set component_verify_ticket = "'.$component_verify_ticket.'" where id='.$this->userid;
-//     	        $GLOBALS['db'] -> getAll($sql);
 			}
         } else {
             file_put_contents('/app/error/errCode.txt', json_encode($errCode) . date('Y-m-d H:i:s', time()) . "/n", FILE_APPEND);
@@ -263,13 +242,11 @@ public $component_access_token;
     
     public function get_authorizer_access_token()
     {
-        
         $url                     = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=' . $this->get_Access_token();
         $data                    = '{"component_appid":"' . $this->weixin_account['appId'] . '","authorizer_appid":"' . $this->weixin_account['authorizer_appid'] . '","authorizer_refresh_token":"' . $this->weixin_account['authorizer_refresh_token'] . '"}';
         $authorization_code_data = json_decode($this->curl_get_post($url, $data));
         print_r($authorization_code_data);
     }
-	
 	//使用授权码换取公众号的授权信息第一次
     public function get_authorization_code($auth_code)
     {
@@ -288,14 +265,6 @@ public $component_access_token;
             $data['accessToken']              = $authorizer_access_token;
             $data['authorizer_refresh_token'] = $authorizer_refresh_token;
             $data['authorizer_time']          = time() + 7200;
-//             $this->accountM->where(array(
-//                 'uid' => $this->token
-//             ))->save($data);
-            
-//             $sql = 'update weixin_account set authorizer_time='.$data['authorizer_time'].' ,authorizer_refresh_token = "'.$data['authorizer_refresh_token'].'" ,accessToken="'.$data ['accessToken'].'" ,appid="'.$data ['appid'].'" where id='.$this->userid;            
-//             $GLOBALS['db'] -> getAll($sql);
-            
-            
             return $authorization_code_data;
         } else {
             return false;
@@ -304,7 +273,6 @@ public $component_access_token;
     //获取授权方的账户信息（第一次）
     public function authorizer_info()
     {
-        
         $url                 = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=' . $this->get_Access_token();
         $data                = json_encode(array(
             'component_appid' => $this->weixin_account['appId'],
@@ -314,11 +282,7 @@ public $component_access_token;
         $data['name']        = $authorizer_info->authorizer_info->nick_name;  //公众号名称
         $data['original_id'] = $authorizer_info->authorizer_info->user_name;  //原始id 发送接收事件必不可少的
         $data['headpic']     = $authorizer_info->authorizer_info->qrcode_url; //公众号二维码
-        $this->pubs->where(array(
-            'uid' => $this->token
-        ))->save($data);
         return $authorizer_info;
-        
     }
     public function get_Access_token()
     {
