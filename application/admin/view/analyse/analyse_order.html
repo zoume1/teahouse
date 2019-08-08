@@ -16,6 +16,7 @@
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
 <style type="text/css">
     * {margin: 0;padding: 0;}
     body {background: #fff;}
@@ -71,8 +72,8 @@
     }
 	.static_btus1 {
 		width: 100px;
-		height: 30px;
-		line-height: 30px;
+		/* height: 30px; */
+		/* line-height: 30px; */
 		text-align: center;
 		cursor: pointer;
 		margin-left: 10px
@@ -479,12 +480,12 @@
                 </div>
             </div>
             <div>
-                <a href="#" class="layui-btn">全部</a>
-                <a href="#" class="layui-btn btn-dfh">待发货</a>
-                <a href="#" class="layui-btn btn-yfh">已发货</a>
-                <a href="#" class="layui-btn btn-ywc">待收货</a>
-                <a href="#" class="layui-btn btn-ygb">待服务</a>
-                <a href="#" class="layui-btn btn-ygb">已完成</a>
+                <a href="#" class="layui-btn layui-btn-mini">全部</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-dfh">待发货</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-yfh">已发货</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-ywc">待收货</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-ytk">待服务</a>
+                <a href="#" class="layui-btn layui-btn-mini btn-ygb">已完成</a>
             </div>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
@@ -528,7 +529,7 @@
                             <td class="three">{$vo.parts_goods_name}</td>
                             <td class="table-cell">{$vo.order_quantity}</td>
                             <td class="table-cell">
-                                {$vo.order_create_time|date="Y-m-d H:i:s",###}<
+                                {$vo.order_create_time|date="Y-m-d H:i",###}
                             </td>
                             <td class="table-cell">
                                 ￥{$vo.order_real_pay}
@@ -547,7 +548,7 @@
                             <td class="">
                                 <div class="line">
                                     {$vo.status|show_order_statues}
-                                    <div class="static_btus1"><div class="not_apply">未申请开票</div></div>
+                                    <div class="static_btus1"><div class="not_apply layui-btn-mini">未申请开票</div></div>
 									<a href="capital_management_details" class="static_btus2">订单详情</a>
                                 </div>
                             </td>
