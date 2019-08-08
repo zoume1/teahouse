@@ -6,6 +6,7 @@
  */
 
 namespace  app\admin\controller;
+  
 
 use think\Controller;
 use think\Db;
@@ -14,6 +15,7 @@ use think\paginator\driver\Bootstrap;
 use think\Session;
 use think\View;
 use app\index\controller\Login as Login;
+use app\admin\model\AdderOrder as add;
 class  General extends  Base {
    
     private  $store_ids;
@@ -2775,7 +2777,9 @@ class  General extends  Base {
      * Notes:追加评论
      **************************************
      */
-    public function additional_comments(){
+    public function additional_comments($id){
+        $adder = new add;
+        $data = $adder->getOrderIdInformation($id);
         return view("additional_comments");
     }
 
