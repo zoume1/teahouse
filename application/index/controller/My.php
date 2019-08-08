@@ -63,7 +63,7 @@ class My extends Controller
                 $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
                 //获取携带参数的小程序的二维码
                 $page='pages/logs/logs';
-                $qrcode=$this->mpcode($page,$member_information['member_id']);
+                $qrcode=$this->mpcode($page,$member_information['member_id'],$store_id);
                 halt($qrcode);
 
 
@@ -426,17 +426,17 @@ class My extends Controller
      * lilu
      * 生成小程序分享码
      */
-    public function getAccesstoken(){
-        $store_id=Session::get('store_id');
+    public function getAccesstoken($uniacid){
+        // $store_id=Session::get('store_id');
         //获取小程序的信息
-        $re=Db::table('applet')->where('store_id',$store_id)->find();
+        $re=Db::table('applet')->where('store_id',$uniacid)->find();
         $appid = $re['appID'];                     /*小程序appid*/
         $srcret = $re['appSecret'];                   /*小程序秘钥*/
         $tokenUrl="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$srcret;
         $getArr=array();
         $tokenArr=json_decode($this->send_post($tokenUrl,$getArr,"GET"),true);
         dump($re);
-        halt($store_id);
+        halt($tokenArr);
         $access_token=$tokenArr['access_token'];
         return $access_token;
     }
@@ -482,7 +482,7 @@ class My extends Controller
     /*码一，圆形的小程序二维码，数量限制一分钟五千条*/
     /*45009    调用分钟频率受限(目前5000次/分钟，会调整)，如需大量小程序码，建议预生成。
     41030    所传page页面不存在，或者小程序没有发布*/
-    public function mpcode($page,$cardid){
+    public function mpcode($page,$cardid,$uniacid){
         //参数----会员id
         $postdata['scene']=$cardid;
         // 宽度
@@ -497,7 +497,7 @@ class My extends Controller
         // 是否有底色为true时是透明的
         $postdata['is_hyaline']=true;
         $post_data = json_encode($postdata);
-        $access_token=$this->getAccesstoken();
+        $access_token=$this->getAccesstoken($uniacid);
         $url="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$access_token;
         $result=$this->api_notice_increment($url,$post_data);
         $data='image/png;base64,'.base64_encode($result);
