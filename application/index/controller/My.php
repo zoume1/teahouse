@@ -64,7 +64,8 @@ class My extends Controller
                 //获取携带参数的小程序的二维码
                 $page='pages/logs/logs';
                 $qrcode=$this->mpcode($page,$member_information['member_id'],$store_id);
-                halt( $qrcode);
+                Session::set('qrcode_img');
+                halt(  Session::get('qrcode_img'));
 
 
                 $data = [];
