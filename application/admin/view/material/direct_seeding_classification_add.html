@@ -42,7 +42,7 @@
                                                 <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
                                                 <input type="file" name="icon_image" id="file" class="file" value=""
                                                     accept="image/jpg,image/jpeg,image/png,image/bmp" multiple
-                                                    data-id="1" />
+                                                    data-id="1"  required/>
                                             </section>
                                         </div>
                                     </section>
@@ -97,6 +97,10 @@
                         $(this).val(0);
                     }
     			})
+                $("form").submit(function (e) {
+                    console.log(e);
+                    return;
+                })
                 // 图片删除
                 $(".remove-img").click(function () {
                     var remove = $(this).parent();

@@ -9,6 +9,7 @@ namespace  app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use think\Session;
 use think\Cache;
 use app\index\controller\Login as LoginPass;
 
@@ -58,11 +59,13 @@ class My extends Controller
             $post_open_id = $request->only(['open_id'])['open_id'];
             $store_id = $request->only(['uniacid'])['uniacid'];
             if (!empty($post_open_id)) {
-                //
+                //获取用户的信息
                 $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
                 //获取携带参数的小程序的二维码
-
-
+                $page='pages/logs/logs';
+                $qrcode=$this->mpcode($page,$member_information['member_id'],$store_id);
+                Session::set('qrcode_img',$qrcode);
+                halt(Session::get('qrcode_img'));
 
 
                 $data = [];
@@ -424,13 +427,16 @@ class My extends Controller
      * lilu
      * 生成小程序分享码
      */
-    public function getAccesstoken(){
-        $appid = '';                     /*小程序appid*/
-        $srcret = '';                   /*小程序秘钥*/
+    public function getAccesstoken($uniacid){
+        // $store_id=Session::get('store_id');
+        //获取小程序的信息
+        $re=Db::table('applet')->where('store_id',$uniacid)->find();
+        $appid = $re['appID'];                     /*小程序appid*/
+        $srcret = $re['appSecret'];                   /*小程序秘钥*/
         $tokenUrl="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$srcret;
         $getArr=array();
-        $tokenArr=json_decode($this->send_post($tokenUrl,$getArr,"GET"));
-        $access_token=$tokenArr->access_token;
+        $tokenArr=json_decode($this->send_post($tokenUrl,$getArr,"GET"),true);
+        $access_token=$tokenArr['access_token'];
         return $access_token;
     }
     public function send_post($url, $post_data,$method='POST') {
@@ -461,8 +467,8 @@ class My extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $tmpInfo = curl_exec($ch);
-        //         var_dump($tmpInfo);
-        //        exit;
+                halt($tmpInfo);
+               exit;
         if (curl_errno($ch)) {
             return false;
         }else{
@@ -475,7 +481,7 @@ class My extends Controller
     /*码一，圆形的小程序二维码，数量限制一分钟五千条*/
     /*45009    调用分钟频率受限(目前5000次/分钟，会调整)，如需大量小程序码，建议预生成。
     41030    所传page页面不存在，或者小程序没有发布*/
-    public function mpcode($page,$cardid){
+    public function mpcode($page,$cardid,$uniacid){
         //参数----会员id
         $postdata['scene']=$cardid;
         // 宽度
@@ -490,7 +496,7 @@ class My extends Controller
         // 是否有底色为true时是透明的
         $postdata['is_hyaline']=true;
         $post_data = json_encode($postdata);
-        $access_token=$this->getAccesstoken();
+        $access_token=$this->getAccesstoken($uniacid);
         $url="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$access_token;
         $result=$this->api_notice_increment($url,$post_data);
         $data='image/png;base64,'.base64_encode($result);
@@ -499,7 +505,7 @@ class My extends Controller
     }
     /*码二，正方形的二维码，数量限制调用十万条*/
     public function qrcodes(){
-        $path="pages/postcard/postcard";
+        $path="pages/logs/logs";
         // 宽度
         $postdata['width']=430;
         // 页面
@@ -511,4 +517,6 @@ class My extends Controller
         $data='image/png;base64,'.base64_encode($result);
         echo '<img src="data:'.$data.'">';
     }
+
+
 }

@@ -16,12 +16,14 @@
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
+
 <style>
     *{margin: 0; padding: 0; list-style: none;}
     .wrapper{padding: 20px 10px; background-color: #fff;}
     .title {border-bottom: 1px solid #c9c9c9;padding-bottom: 5px; margin-bottom: 20px;}
     .title a{font-size: 18px; padding: 0 10px 5px; color: #333;}
-    .title .tit-on {color: #0066FF;border-bottom: 2px solid #21a5fa;}
+    .title .tit-on {color: #009688;border-bottom: 2px solid #009688;}
     .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 20px; margin-bottom: 10px; border-left: 5px solid #009688;}
     .search-box{display: flex; align-items: center; font-size: 14px; color: #333;}
     .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
@@ -153,7 +155,7 @@
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <button class="layui-btn">查看</button>
+                                    <button class="layui-btn layui-btn-mini"  onclick="look('{$value.urls}')">查看</button>
                                 </div>
                             </td>
                             <td class="table-cell">
@@ -167,8 +169,13 @@
                             </td>
                             <td>
                             {if $value.status == 0}
+<<<<<<< HEAD
                             <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="开启|关闭" lay-filter="isShow" data-id="{$value.id}"> {else}
                             <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="开启|关闭" lay-filter="isShow" checked data-id="{$value.id}"> {/if}
+=======
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch"  lay-filter="isShow" data-id="{$value.id}"> {else}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch"  lay-filter="isShow" checked data-id="{$value.id}"> {/if}
+>>>>>>> 7d5a80a57696cdc25b75f5cb2b46c3da5e3fb488
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">{$value.open_status}</div>
@@ -209,6 +216,10 @@
                 form = layui.form;
             form.render();
         })
+        function look(e){
+            window.location.href = e;
+        }
+        
     </script>
     {/block}
 </body>
