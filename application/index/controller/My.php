@@ -434,8 +434,8 @@ class My extends Controller
         $srcret = $re['appSecret'];                   /*小程序秘钥*/
         $tokenUrl="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$srcret;
         $getArr=array();
-        $tokenArr=json_decode($this->send_post($tokenUrl,$getArr,"GET"));
-        $access_token=$tokenArr->access_token;
+        $tokenArr=json_decode($this->send_post($tokenUrl,$getArr,"GET"),true);
+        $access_token=$tokenArr['access_token'];
         return $access_token;
     }
     public function send_post($url, $post_data,$method='POST') {
