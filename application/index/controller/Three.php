@@ -60,8 +60,8 @@ public $component_access_token;
         $timeStamp      = empty($_GET['timestamp']) ? "" : trim($_GET['timestamp']);
         $nonce          = empty($_GET['nonce']) ? "" : trim($_GET['nonce']);
         $msg_sign       = empty($_GET['msg_signature']) ? "" : trim($_GET['msg_signature']);
-        $pc             = new WXBizMsgCrypt($token, $encodingAesKey, $appId);
-        $xml_tree       = new DOMDocument();
+        $pc             = new \WXBizMsgCrypt($token, $encodingAesKey, $appId);
+        $xml_tree       = new \DOMDocument();
         $xml_tree->loadXML($encyptdata);
         $array_e  = $xml_tree->getElementsByTagName('Encrypt');
         $encrypt  = $array_e->item(0)->nodeValue;
@@ -185,7 +185,7 @@ public $component_access_token;
     
     public function replyTextMessage($timeStamp, $nonce, $msg_sign, $content, $toUserName, $fromUserName)
     {
-        $pc         = new WXBizMsgCrypt($this->weixin_account['token'], $this->weixin_account['encodingAesKey'], $this->weixin_account['appId']);
+        $pc         = new \WXBizMsgCrypt($this->weixin_account['token'], $this->weixin_account['encodingAesKey'], $this->weixin_account['appId']);
         $encryptMsg = '';
         $time       = time();
         $text       = "<xml><ToUserName><![CDATA[" . $fromUserName . "]]></ToUserName><FromUserName><![CDATA[" . $toUserName . "]]></FromUserName><CreateTime>" . $timeStamp . "</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[" . $content . "]]></Content></xml>";
@@ -209,8 +209,8 @@ public $component_access_token;
         $nonce          = empty($_GET['nonce']) ? "" : trim($_GET['nonce']);
         $msg_sign       = empty($_GET['msg_signature']) ? "" : trim($_GET['msg_signature']);
         $encryptMsg     = file_get_contents('php://input');
-        $pc             = new WXBizMsgCrypt($token, $encodingAesKey, $appId);
-        $xml_tree       = new DOMDocument();
+        $pc             = new \WXBizMsgCrypt($token, $encodingAesKey, $appId);
+        $xml_tree       = new \DOMDocument();
         $xml_tree->loadXML($encryptMsg);
         $array_e  = $xml_tree->getElementsByTagName('Encrypt');
         $encrypt  = $array_e->item(0)->nodeValue;
