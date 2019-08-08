@@ -410,12 +410,11 @@ class Upload extends Controller
         * @params string $redirect_uri : 扫码成功后的回调地址
         * @params int $auth_type : 授权类型，1公众号，2小程序，3公众号/小程序同时展现。不传参数默认都展示    
         */
-    public function startAuth($redirect_uri,$auth_type = 3)
-
-    {
-        $url = "https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=".$this->appid."&pre_auth_code=".$this->get_pre_auth_code()."&redirect_uri=".urlencode($redirect_uri)."&auth_type=".$auth_type;
-        return $url;
-    }
+        public function startAuth($redirect_uri,$auth_type = 3)
+        {
+            $url = "https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=".$this->appid."&pre_auth_code=".$this->get_pre_auth_code()."&redirect_uri=".urlencode($redirect_uri)."&auth_type=".$auth_type;
+            return $url;
+        }
             /*
             * 获取第三方平台access_token
             * 注意，此值应保存，代码这里没保存
@@ -436,7 +435,7 @@ class Upload extends Controller
                 }
             }
     /*
-    *  第三方平台方获取预授权码pre_auth_code
+      *  第三方平台方获取预授权码pre_auth_code
     */
     private function get_pre_auth_code()
 
@@ -647,7 +646,7 @@ class Upload extends Controller
     }
     /**
      * lilu
-     * 发布正式版
+     * 提交审核
      */
     public function publish($tag = "微信小程序" ,$title = "微信小程序")
     {
@@ -655,8 +654,6 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-
-
         $first_class = '';$second_class = '';$first_id = 0;$second_id = 0;
         $address = "pages/index/index";
         $category = $this->getCategory($timeout['authorizer_access_token']);
@@ -684,14 +681,27 @@ class Upload extends Controller
             }';
         $ret = json_decode($this->https_post($url,$data),true);
         if($ret['errcode'] == 0) {
-            // Db::name('miniprogram_audit')->insert([
-            //     'appid'=>$this->authorizer_appid,
-            //     'auditid'=>$ret->auditid,
-            //     'create_time'=>date('Y-m-d H:i:s')
-            // ]);
+            return ajax_success('提交成功');
+        } else {
+            return ajax_error('提交失败');
+        }
+    }
+    /*
+     * lilu
+     * 发布已通过审核的小程序
+     * */
+    public function release()
+    {
+        //判断access_token是否过期，重新获取
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/release?access_token=".$timeout['authorizer_access_token'];
+        $data = '{}';
+        $ret = json_decode($this->https_post($url,$data),true);
+        if($ret['errcode'] == 0) {
             return ajax_success('发布成功');
         } else {
-            $this->errorLog("小程序提交审核操作失败",$ret);
             return ajax_error('发布失败');
         }
     }
