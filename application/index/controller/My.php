@@ -64,9 +64,9 @@ class My extends Controller
                 //获取携带参数的小程序的二维码
                 $page='pages/logs/logs';
                 $qrcode=$this->mpcode($page,$member_information['member_id'],$store_id);
-                Session::set('qrcode',$qrcode);
-               
-                halt( $qrcode);
+                $rr=$this->uploadOne($qrcode);
+                dump($qrcode);
+                halt($rr);
 
 
                 $data = [];
@@ -500,18 +500,9 @@ class My extends Controller
         $access_token=$this->getAccesstoken($uniacid);
         $url="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$access_token;
         $result=$this->api_notice_increment($url,$post_data);
-        // $data='image/png;base64,'.base64_encode($result);
-        $base_img = str_replace('data:image/jpg;base64,', '', $result);
-        //  设置文件路径和命名文件名称
-        $path = "./";
-        $prefix = "img_";//前缀可不写
-        $output_file = $prefix.time().rand(100,999).'.jpg';
-        $path = $path.$output_file;
-        //  创建将数据流文件写入我们创建的文件内容中
-        file_put_contents($path, base64_decode($base_img));
-        // 输出文件
-        // print_r($output_file);
-        return $output_file;
+        $data='image/png;base64,'.base64_encode($result);
+       
+        return $data;
 //        echo '<img src="data:'.$data.'">';
     }
     /*码二，正方形的二维码，数量限制调用十万条*/
@@ -527,6 +518,32 @@ class My extends Controller
         $result=$this->api_notice_increment($url,$post_data);
         $data='image/png;base64,'.base64_encode($result);
         echo '<img src="data:'.$data.'">';
+    }
+   public function uploadOne($file)
+    {
+        header('Content-type:text/html;charset=utf-8');
+        $base64_image_content = trim($file);
+        //正则匹配出图片的格式
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)) {
+            $type = $result[2];//图片后缀
+    
+            $dateFile = date('Y-m-d', time()) . "/";  //创建目录
+            $new_file = UPLOAD_BASE_PATH . $dateFile;
+            if (!file_exists($new_file)) {
+                //检查是否有该文件夹，如果没有就创建，并给予最高权限
+                mkdir($new_file, 0700);
+            }
+    
+            $filename = time() . '_' . uniqid() . ".{$type}"; //文件名
+            $new_file = $new_file . $filename;
+            
+            //写入操作
+            if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64_image_content)))) {
+                return $dateFile . $filename;  //返回文件名及路径
+            } else {
+                return false;
+            }
+        }
     }
 
 
