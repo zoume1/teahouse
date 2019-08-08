@@ -741,11 +741,11 @@ function show_order_statues($status){
     }else if($status==1){
         echo '<button type="button" class=" layui-btn layui-btn-mini  payment-has-been" >已付款</button>';
     }else  if($status==2){
-        echo '<button type="button" class=" layui-btn layui-btn-mini  shipmenting-btu btn-dfh" >待发货</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini  shipmenting-btu static_btus btn-dfh" >待发货</button>';
     }else  if($status==3){
         echo '<button type="button" class=" layui-btn layui-btn-mini  shipmented-btu btn-yfh" >已发货</button>';
     }else  if($status==4){
-        echo '<button type="button" class=" layui-btn layui-btn-mini  gooding-btu static_btus btn-ywc" >待收货</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini  gooding-btu  btn-ywc" >待收货</button>';
     }else  if($status==5){
         echo '<button type="button" class=" layui-btn layui-btn-mini gooded-btu" >已收货</button>';
     }else  if($status==7){
