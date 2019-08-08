@@ -1867,13 +1867,21 @@ class  Order extends  Controller
             }
             $condition ="`status` = '6' or `status` = '7'";
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id,collect_goods_time')
                 ->where('member_id', $member_id)
                 ->where($condition)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
             foreach ($data as $key=>$value) {
+                //判断订单是否超过系统配置的评价时间
+                $store_id=Session::get('store_id');
+                $setting=db('order_setting')->where('store_id',$store_id)->find();
+                $time=time()-$setting['start_evaluate_time']*24*60*60-$value['collect_goods_time'];
+                if($time>0){   
+                    // 超过规定的时间未评价,订单状态修改成已完成
+                    $re=db('order')->where('parts_order_number')->update(['statsu'=>8]);
+                }
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k=>$v){
@@ -2101,7 +2109,8 @@ class  Order extends  Controller
                 if(!empty($res)){
                     foreach($res as $k=>$v){
                         $data =[
-                            "status"=>7
+                            "status"=>7,
+                            "collect_goods_time"=>time()
                         ];
                         $bool =Db::name("order")->where("id",$v["id"])->update($data);
                     }

@@ -125,7 +125,7 @@ class  AfterSale extends Controller{
 //                return ajax_error("申请的金额不能超过".$before_order_data["refund_amount"]."元");
 //            }
             $normal_time =Db::name("order_setting")->find();//订单设置的时间
-            $normal_future_time =strtotime("+". $normal_time['after_sale_time']." minute");
+            $normal_future_time =strtotime("+". $normal_time['after_sale_time']." day");
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());
@@ -295,7 +295,7 @@ class  AfterSale extends Controller{
                 $before_order_return =$before_order_data["refund_amount"];
             }
             $normal_time =Db::name("order_setting")->find();//订单设置的时间
-            $normal_future_time =strtotime("+". $normal_time['after_sale_time']." minute");
+            $normal_future_time =strtotime("+". $normal_time['after_sale_time']." day");
             $time=date("Y-m-d",time());
             $v=explode('-',$time);
             $time_second=date("H:i:s",time());

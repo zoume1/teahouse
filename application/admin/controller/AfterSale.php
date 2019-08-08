@@ -72,7 +72,7 @@ class  AfterSale extends  Controller{
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后记录id
             if($status ==5){   //拒绝申请
                 $normal_time =Db::name("order_setting")->find();//订单设置的时间
-                $normal_future_time =strtotime("+". $normal_time['after_sale_time']." minute");
+                $normal_future_time =strtotime("+". $normal_time['after_sale_time']." day");
                 $data =[
                     "status"=>$status,
                     "handle_time"=>time(),
