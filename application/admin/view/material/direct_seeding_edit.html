@@ -15,7 +15,7 @@
 <body>
     {block name="content"}
         <div class="wrapper">
-            {if empty($data)}{volist name="data" id="value"}
+            {if !empty($data)}{volist name="data" id="value"}
             <form class="layui-form" action="{:url('admin/Material/direct_seeding_update')}" method="post" enctype="multipart/form-data">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="red">*</span>直播分类</label>
@@ -36,6 +36,7 @@
                         <button class="layui-btn">添加分类</button>
                     </div>
                 </div>
+                <input type="hidden" name="id" id="" value="{$value.id}" />
                 <div class="layui-form-item">
                     <label class="layui-form-label redStar">直播标题</label>
                     <div class="layui-input-block">
@@ -45,7 +46,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label redStar">介绍内容</label>
                     <div class="layui-input-block">
-                        <textarea name="substance" value="{$value.substance}" required lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        <textarea name="substance"  required lay-verify="required" placeholder="请输入内容" class="layui-textarea">{$value.substance}</textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -83,21 +84,37 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">声音</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="sound" $value="{$value.sound}"lay-filter="isShow" lay-skin="switch" value="0">
+                        {if $value.sound == 1}
+                        <input type="checkbox" name="sound" $value="{$value.sound}"lay-filter="isShow" lay-skin="switch" value="1" checked>{else}
+                        <input type="checkbox" name="sound" $value="{$value.sound}"lay-filter="isShow" lay-skin="switch" value="0" checked>{/if}
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">视频</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="video"  value="{$value.video}"lay-filter="isShow" lay-skin="switch" value="0">
+                        {if $value.video == 1}
+                        <input type="checkbox" name="video"  value="{$value.video}"lay-filter="isShow" lay-skin="switch" value="1" checked>{else}
+                        <input type="checkbox" name="video"  value="{$value.video}"lay-filter="isShow" lay-skin="switch" value="0">{/if}
                     </div>
                 </div>
+                <div class="layui-form-item">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block">
+                            {if $value.status==0}
+                            <input type="radio" name="status" value="0" title="开启" checked="">
+                            <input type="radio" name="status" value="1" title="关闭"> {else}
+                            <input type="radio" name="status" value="0" title="开启">
+                            <input type="radio" name="status" value="1" title="关闭" checked="">{/if}
+                        </div>
+                    </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">单选框</label>
                     <div class="layui-input-block">
                         {if $value.open_status == "公开"}
-                        <input type="radio" name="open_status" value="公开"  title="公开" >{else}
-                        <input type="radio" name="open_status" value="私有"  title="私有">{/if}
+                        <input type="radio" name="open_status" value="公开"  title="公开" checked>
+                        <input type="radio" name="open_status" value="私有"  title="私有">{else}
+                        <input type="radio" name="open_status" value="公开"  title="公开" >
+                        <input type="radio" name="open_status" value="私有"  title="私有" checked>{/if}
                     </div>
                 </div>
                 <div class="layui-form-item">

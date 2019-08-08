@@ -675,7 +675,7 @@ function pay_types($label){
  **************************************
  * @param $status
  */
-//function show_order_status($status){
+//function ($status){
 //    if($status==0){
 //        echo '<button type="button" class="state   close-btu" >已关闭</button>';
 //    }else if($status==1){
@@ -711,24 +711,24 @@ function pay_types($label){
  */
 function show_order_status($status){
     if($status==0){
-        echo '<button type="button" class="state color9" >已关闭</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini color9" >已关闭</button>';
     }else if($status==1){
-        echo '<button type="button" class="state color1" >待付款</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini color1" >待付款</button>';
 //    }else if($status==2){
 //        echo '<button type="button" class="state  payment-has-been" >已付款</button>';
     }else  if($status==2 || $status==3){
-        echo '<button type="button" class="state color2" >待发货</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini color2" >待发货</button>';
 //    }else  if($status==4){
 //        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
     }else  if($status==4 ||$status==5 ||$status==6 ||$status==7 ){
-        echo '<button type="button" class="state color3" >已发货</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini color3" >已发货</button>';
     // }else  if($status==5){
     //     echo '<button type="button" class="state color3" >待收货</button>';
     // }else  if($status==7){
     //     echo '<button type="button" class="state color3" >待评价</button>';
     // }
     }else  if($status==8){
-        echo '<button type="button" class="state color4" >已完成</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini color4" >已完成</button>';
 //    }else  if($status==9){
 //        echo '<button type="button" class="state  cancel-btu" >取消订单</button>';
     }
@@ -737,29 +737,29 @@ function show_order_status($status){
 
 function show_order_statues($status){
     if($status==0){
-        echo '<button type="button" class="state layui-btn   close-btu" >已关闭</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini   close-btu" >已关闭</button>';
     }else if($status==1){
-        echo '<button type="button" class="state layui-btn  payment-has-been" >已付款</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini  payment-has-been" >已付款</button>';
     }else  if($status==2){
-        echo '<button type="button" class="state layui-btn  shipmenting-btu btn-dfh" >待发货</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini  shipmenting-btu btn-dfh" >待发货</button>';
     }else  if($status==3){
-        echo '<button type="button" class="state layui-btn  shipmented-btu btn-yfh" >已发货</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini  shipmented-btu btn-yfh" >已发货</button>';
     }else  if($status==4){
-        echo '<button type="button" class="state layui-btn  gooding-btu static_btus btn-dfk" >待收货</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini  gooding-btu static_btus btn-dfk" >待收货</button>';
     }else  if($status==5){
-        echo '<button type="button" class="state layui-btn  gooded-btu" >已收货</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini gooded-btu" >已收货</button>';
     }else  if($status==7){
-        echo '<button type="button" class="state layui-btn  obligation static_btus btn-yqx" >待评价</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini obligation static_btus btn-yqx" >待评价</button>';
     } else  if($status==8){
-        echo '<button type="button" class="state layui-btn  finish-btu btn-ywc" >已完成</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini finish-btu btn-ywc" >已完成</button>';
     }else  if($status==9){
-        echo '<button type="button" class="state layui-btn  cancel-btu" >取消订单</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini cancel-btu" >取消订单</button>';
     }else  if($status==10){
-        echo '<button type="button" class="state layui-btn  cancel-btu" >取消订单</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini cancel-btu" >取消订单</button>';
     }else  if($status==11){
-        echo '<button type="button" class="state layui-btn  cancel-btu" >退货</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini cancel-btu" >退货</button>';
     }else  if($status==12){
-        echo '<button type="button" class="state layui-btn  cancel-btu static_btus btn-ytk" >待服务</button>';
+        echo '<button type="button" class="state layui-btn layui-btn-mini cancel-btu static_btus btn-ytk" >待服务</button>';
     }
 }
 
@@ -788,9 +788,9 @@ function operation_recharge_status($status){
     if($status==1){
         echo '通过';
     }elseif ($status==-1){
-        echo '<span class="gray">不通过</span>';
+        echo '<span class="layui-btn layui-btn-mini">不通过</span>';
     }elseif($status==2){
-        echo '<span class="red">待审核</sapn>';
+        echo '<span class="layui-btn layui-btn-mini">待审核</sapn>';
     }
 }
 
@@ -803,21 +803,21 @@ function operation_recharge_status($status){
  */
 function after_sale_status($status,$who_handle){
    if($status==1){
-        echo '<div type="button" class="state  all1 " >申请中</div>';
+        echo '<div type="button" class="layui-btn layui-btn-mini  all1 " >申请中</div>';
     }else  if($status==2){
-        echo '<div  type="button" class="state  all2" >收货中</button>';
+        echo '<div  type="button" class="layui-btn layui-btn-mini  all2" >收货中</button>';
     }else  if($status==3){
-        echo '<div  type="button" class="state  all1" >处理中</button>';
+        echo '<div  type="button" class="layui-btn layui-btn-mini  all1" >处理中</button>';
     }else  if($status==4){
-        echo '<div  type="button" class="state  all3" >换货成功</button>';
+        echo '<div  type="button" class="layui-btn layui-btn-mini  all3" >换货成功</button>';
     }else  if($status==5 && $who_handle ==1){
-        echo '<div  type="button" class="state  all5" >用户撤销</button>';
+        echo '<div  type="button" class="layui-btn layui-btn-mini  all5" >用户撤销</button>';
     }else  if($status==5 && $who_handle ==2){
-       echo '<div  type="button" class="state  all5" >用户撤销</button>';
+       echo '<div  type="button" class="layui-btn layui-btn-mini  all5" >用户撤销</button>';
    }else  if($status==5 && $who_handle ==3){
-       echo '<div  type="button" class="state  all5" >拒绝</button>';
+       echo '<div  type="button" class="layui-btn layui-btn-mini  all5" >拒绝</button>';
     }else{
-        echo '<div  type="button" class="state  all5" >完成退款</button>';
+        echo '<div  type="button" class="layui-btn layui-btn-mini  all5" >完成退款</button>';
 
    }
 }
@@ -1277,27 +1277,27 @@ function check_login(){
 
 function show_house_order($status){
     if($status==0){
-        echo '<button type="button" class="state   close-btu" >已关闭</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini close-btu" >已关闭</button>';
     }else if($status==1){
-        echo '<button type="button" class="state color1" >待付款</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini color1" >待付款</button>';
         //暂时显示到入仓状态
     }else  if($status==2){
-        echo '<button type="button" class="state  enter-btu" >已入仓</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini enter-btu" >已入仓</button>';
     }else  if($status==3){
-        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini shipmented-btu" >已发货</button>';
     }
 }
 
 function show_house_orderer($status){
     if($status==0){
-        echo '<button type="button" class="state   close-btu" >已关闭</button>';
+        echo '<button type="button" class="layui-btn layui-btn-mini close-btu" >已关闭</button>';
     }else if($status==1){
-        echo '<button type="button" class="state color1" >待付款</button>';
+        echo '<button type="button" class="layui-btn layui-btn-mini color1" >待付款</button>';
         //暂时显示到入仓状态
     }else  if($status==2){
-        echo '<button type="button" class="state  enter-btu" >待发货</button>';
+        echo '<button type="button" class="layui-btn layui-btn-mini enter-btu" >待发货</button>';
     }else  if($status==3){
-        echo '<button type="button" class="state  close-btu" >已入仓</button>';
+        echo '<button type="button" class="layui-btn layui-btn-mini close-btu" >已入仓</button>';
     }
 }
 

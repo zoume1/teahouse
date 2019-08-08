@@ -1,3 +1,219 @@
+<<<<<<< HEAD
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>视频直播</title>
+</head>
+<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
+<script src="__STATIC__/admin/index/js/index.js"></script>
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<style>
+    *{margin: 0; padding: 0; list-style: none;}
+    .wrapper{padding: 20px 10px; background-color: #fff;}
+    .title {border-bottom: 1px solid #c9c9c9;padding-bottom: 5px; margin-bottom: 20px;}
+    .title a{font-size: 18px; padding: 0 10px 5px; color: #333;}
+    .title .tit-on {color: #0066FF;border-bottom: 2px solid #21a5fa;}
+    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 20px; margin-bottom: 10px; border-left: 5px solid #009688;}
+    .search-box{display: flex; align-items: center; font-size: 14px; color: #333;}
+    .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
+    .s-input{margin-right: 20px;}
+    .search-box input::placeholder{color: #b2b2b2;}
+    .my-form-select{margin: 0; width: 220px; display: flex; margin-right: 20px;}
+    .search-hd label{margin-bottom: 0; margin-right: 10px; height: 35px; line-height: 35px;}
+    .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
+    .bot-operate .opation{float: left}
+    .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
+    .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
+</style>
+{/block}
+
+</head>
+<body>
+    {block name="content"}
+
+    <div class="wrapper">
+        <div class="inner">
+            <div class="title">
+                <a href="direct_seeding" title="直播列表" class="tit-on">直播列表</a>
+                <a href="direct_seeding_classification" title="直播分类">直播分类</a>
+            </div>
+            <div class="search-hd">
+                <div class="search-box layui-form">
+                    <div class="layui-form-item my-form-select">
+                        <label>状态</label>
+                        <select name="interest" lay-filter="zhuagntai">
+                            <option value="0">全部</option>
+                            <option value="1">开</option>
+                            <option value="2">关</option>
+                        </select>
+                    </div>
+                    <div class="layui-form-item my-form-select">
+                        <label>开放</label>
+                        <select name="interest" lay-filter="kaifang">
+                            <option value="0">全部</option>
+                            <option value="1">公开</option>
+                            <option value="2">私有</option>
+                        </select>
+                    </div>
+                    <div class="s-input">
+                        <label>直播类型：</label>
+                        <input type="text" placeholder="请输入" id="searchTxt">
+                    </div>
+                    <button class="layui-btn search-btn">立即搜索</button>
+                </div>
+            </div>
+            <div class="operate-hd">
+                <a href="direct_seeding_add" class="layui-btn layui-btn-danger">添加设备</a>
+            </div>
+            <div class="table layui-form">
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th class="table-cell">
+                                <div class="table-cell-div">
+                                    <input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose">
+                                </div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">直播分类</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">点播次数</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">评论次数</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">点赞次数</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">分享次数</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">直播标题</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">查看</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">设备序列号</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">所属仓库</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">声音</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">状态</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">开放</div>
+                            </th>
+                            <th class="table-cell">
+                                <div class="table-cell-div">操作</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {if !empty($data)}
+                            {volist name="data" id="value"}
+                        <tr>
+                            <td class="table-cell">
+                                <div class="table-cell-div">
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose" value={$value.id}>
+                                </div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$value.classify_name}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$value.numbers}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$value.comments}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$value.clickings}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$value.shares}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$value.title}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">
+                                    <button class="layui-btn">查看</button>
+                                </div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$value.series_number}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$value.store_name}</div>
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$value.sound}</div>
+                            </td>
+                            <td>
+                            {if $value.status == 0}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="开启|关闭" lay-filter="isShow" data-id="{$value.id}"> {else}
+                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="开启|关闭" lay-filter="isShow" checked data-id="{$value.id}"> {/if}
+                            </td>
+                            <td class="table-cell">
+                                <div class="table-cell-div">{$value.open_status}</div>
+                            </td>
+                            <td>
+                                <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Material/direct_seeding_edit',['id'=>$value.id])}"> 编辑</a>
+                                <a href="{:url('admin/Material/direct_seeding_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                            </td>
+                        </tr>
+                        {/volist}{/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="bot-operate">
+                <div class="opation">
+                    <select>
+                        <option check="" value="0">请选择</option>
+                        <option value="1">批量删除</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" id="operation-btn" class="operation-btn">确定</button>
+                </div>
+            </div>
+            {if !empty($data)}
+            {$data->render()}
+            {/if}
+        </div>
+    </div>
+
+    {/block}
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script src="__STATIC__/admin/common/layui/layui.js"></script>
+    <script>
+        layui.use(['laydate', 'form'], function(){
+            var laydate = layui.laydate,
+                form = layui.form;
+            form.render();
+        })
+    </script>
+    {/block}
+</body>
+=======
 <!doctype html>
 <html lang="en">
 
@@ -212,4 +428,5 @@
     </script>
     {/block}
 </body>
+>>>>>>> b705da8d123e56450359b13ce04be3b19e6c3013
 </html>

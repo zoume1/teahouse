@@ -16,6 +16,7 @@
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
 <style>
     *{margin: 0; padding: 0; list-style: none;}
     .wrapper{padding: 20px 10px; background-color: #fff;}
@@ -55,96 +56,89 @@
             <div class="operate-hd">
                 <button class="layui-btn layui-btn-danger">批量导入</button>
             </div>
-            <div class="table layui-form">
+            <div class="layui-form news_list">
                 <table class="layui-table">
                     <thead>
                         <tr>
-                            <th class="table-cell">
-                                <div class="table-cell-div">
-                                    <input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose">
-                                </div>
-                            </th>
-                            <th class="table-cell">
+                            <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+                            <th>
                                 <div class="table-cell-div">NFC编号(商品编码)</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">商品图片</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">商品名称</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">品牌</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">出品商</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">规格</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">原料日期</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">生产日期</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">加工日期</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">原产地</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">产品定位</div>
                             </th>
-                            <th class="table-cell">
+                            <th>
                                 <div class="table-cell-div">操作</div>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="table-cell">
-                                <div class="table-cell-div">
-                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
-                                </div>
+                            <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="">
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">2</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">3</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">4</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">5</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">6</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">7</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">8</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">9</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">10</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">11</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">12</div>
                             </td>
-                            <td class="table-cell">
+                            <td>
                                 <div class="table-cell-div">
-                                    <button class="layui-btn">查看</button>
+                                    <button class="layui-btn layui-btn-mini">查看</button>
                                 </div>
                             </td>
                         </tr>

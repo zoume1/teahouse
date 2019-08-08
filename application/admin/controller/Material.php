@@ -45,9 +45,9 @@ class  Material extends  Controller{
             $data['store_id'] = $store_id;
             $bool = Db::name("video_frequency")->insert($data);
             if ($bool) {
-                $this->success("添加成功", url("admin/Material/direct_seeding_add"));
+                $this->success("添加成功", url("admin/Material/direct_seeding"));
             } else {
-                $this->error("添加失败", url("admin/Material/direct_seeding_add"));
+                $this->error("添加失败", url("admin/Material/direct_seeding"));
             }
         }
         $store_id = Session::get("store_id");
@@ -64,13 +64,49 @@ class  Material extends  Controller{
      **************************************
      */
     public  function  direct_seeding_edit($id){
-
         $data = Db::name("video_frequency")->where("id",$id)->select();
         $store_id = Session::get("store_id");
         $store_name = Db::name("store_house")->where("store_id",$store_id)->select(); //仓库
         $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
         return  view("direct_seeding_edit",["store_name"=>$store_name,"direct"=>$direct,"data"=>$data]);
     }
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:视频直播更新设备
+     **************************************
+     */
+    public  function  direct_seeding_update(Request $request){
+        if($request->isPost()){
+        $data = $request->param();
+        $bool = Db::name("video_frequency")->where("id",$data['id'])->update($data);
+        if ($bool) {
+            $this->success("更新成功", url("admin/Material/direct_seeding"));
+        } else {
+            $this->error("更新失败", url("admin/Material/direct_seeding"));
+        }
+    }
+        
+    }
+
+        /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:视频直播更新设备
+     **************************************
+     */
+    public  function  direct_seeding_delete($id){
+        $bool = Db::name("video_frequency")->where("id",$id)->delete();
+        if ($bool) {
+            $this->success("删除成功", url("admin/Material/direct_seeding"));
+        } else {
+            $this->error("删除失败", url("admin/Material/direct_seeding"));
+        }      
+    }
+
+
+
     /**
      **************GY*******************
      * @param Request $request
