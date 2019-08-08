@@ -30,13 +30,13 @@
                         </select>
                         {/if}
                         </select>
-                        <button class="layui-btn">添加分类</button>
+                        <a  class="layui-btn" href="{:url('admin/Material/direct_seeding_classification_add')}">添加分类</a>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label redStar">直播标题</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" required>
                     </div>
                 </div>
                 <div class="layui-form-item layui-form-text">
@@ -48,13 +48,13 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">直播链接</label>
                     <div class="layui-input-block">
-                        <input type="text" name="urls" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="urls" placeholder="请输入" autocomplete="off" class="layui-input" required>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">设备序列号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="series_number" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="series_number" placeholder="请输入" autocomplete="off" class="layui-input" required>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -71,7 +71,7 @@
                         </select>
                         {/if}
                         </select>
-                        <button class="layui-btn">添加仓库</button>
+                        <a  class="layui-btn" href="{:url('admin/StoreHouse/store_house_add')}">添加仓库</a>
                     </div>
                 </div>
                 <div class="layui-form-item">
