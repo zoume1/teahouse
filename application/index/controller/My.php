@@ -65,6 +65,7 @@ class My extends Controller
                 $page='pages/logs/logs';
                 $qrcode=$this->mpcode($page,$member_information['member_id'],$store_id);
                 Session::set('qrcode',$qrcode);
+               
                 halt( $qrcode);
 
 
@@ -499,8 +500,18 @@ class My extends Controller
         $access_token=$this->getAccesstoken($uniacid);
         $url="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$access_token;
         $result=$this->api_notice_increment($url,$post_data);
-        $data='image/png;base64,'.base64_encode($result);
-        return $data;
+        // $data='image/png;base64,'.base64_encode($result);
+        $base_img = str_replace('data:image/jpg;base64,', '', $result);
+        //  设置文件路径和命名文件名称
+        $path = "./";
+        $prefix = "img_";//前缀可不写
+        $output_file = $prefix.time().rand(100,999).'.jpg';
+        $path = $path.$output_file;
+        //  创建将数据流文件写入我们创建的文件内容中
+        file_put_contents($path, base64_decode($base_img));
+        // 输出文件
+        // print_r($output_file);
+        return $output_file;
 //        echo '<img src="data:'.$data.'">';
     }
     /*码二，正方形的二维码，数量限制调用十万条*/
