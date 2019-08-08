@@ -435,6 +435,7 @@ class My extends Controller
         $tokenUrl="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$srcret;
         $getArr=array();
         $tokenArr=json_decode($this->send_post($tokenUrl,$getArr,"GET"),true);
+        halt($tokenArr);
         $access_token=$tokenArr['access_token'];
         return $access_token;
     }
