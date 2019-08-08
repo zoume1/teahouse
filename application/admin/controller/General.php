@@ -2776,6 +2776,8 @@ class  General extends  Base {
      **************************************
      */
     public function additional_comments(){
+        $input=input();
+
         return view("additional_comments");
     }
 
