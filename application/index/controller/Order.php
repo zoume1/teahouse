@@ -1880,7 +1880,7 @@ class  Order extends  Controller
                 $time=time()-$setting['start_evaluate_time']*24*60*60-$value['collect_goods_time'];
                 if($time>0){   
                     // 超过规定的时间未评价,订单状态修改成已完成
-                    $re=db('order')->where('parts_order_number')->update(['statsu'=>8]);
+                    $re=db('order')->where('parts_order_number')->update(['status'=>8]);
                 }
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
