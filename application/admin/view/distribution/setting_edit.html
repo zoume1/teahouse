@@ -104,13 +104,13 @@
 
         </div>
         <div class="form-item">
-            <label class="form-label">状态</label>
+            <label class="form-label">全局设置</label>
             <div class="form-input">
                 {if $value.status == 1}
-                <input type="radio" name="status" value="1" title="开" checked="">
-                <input type="radio" name="status" value="0" title="关"> {else}
-                <input type="radio" name="status" value="1" title="开">
-                <input type="radio" name="status" value="0" title="关" checked=""> {/if}
+                <input type="radio" name="status" value="1" title="启用" checked="">
+                <input type="radio" name="status" value="0" title="关闭"> {else}
+                <input type="radio" name="status" value="1" title="启用">
+                <input type="radio" name="status" value="0" title="关闭" checked=""> {/if}
 
             </div>
         </div>
