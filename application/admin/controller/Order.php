@@ -55,9 +55,9 @@ class  Order extends  Controller{
              $re=0;
             }else{
                 $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'66txt');
-                $this->assign('qq',$re);
+                $this->assign('pp',$re);
             }
-        return view("order_index",["data"=>$data2,"qq"=>$re]);
+        return view("order_index",["data"=>$data2,"pp"=>$re]);
     }
 
     /**
