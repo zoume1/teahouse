@@ -429,7 +429,7 @@ class My extends Controller
     public function getAccesstoken(){
         $store_id=Session::get('store_id');
         //获取小程序的信息
-        $re=Db::name('applet')->where('store_id',$store_id)->find();
+        $re=Db::table('applet')->where('store_id',$store_id)->find();
         $appid = $re['appID'];                     /*小程序appid*/
         $srcret = $re['appSecret'];                   /*小程序秘钥*/
         $tokenUrl="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$srcret;
