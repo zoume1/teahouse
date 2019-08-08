@@ -65,13 +65,13 @@ class My extends Controller
                 $page='pages/logs/logs';
                 $qrcode=$this->mpcode($page,$member_information['member_id'],$store_id);
                 //把qrcode文件写进文件中，使用的时候拿出来
-                $dateFile =$store . "/";  //创建目录
+                $dateFile =$store_id . "/";  //创建目录
                 $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id;
                 if (!file_exists($new_file)) {
                     //检查是否有该文件夹，如果没有就创建，并给予最高权限
                     mkdir($new_file, 750);
                 }
-                $filename = $store.'txt'; //文件名
+                $filename = $store_id.'txt'; //文件名
                 $new_file = $new_file . $filename;
                 if (file_put_contents($new_file, $qrcode)) {
                     // return  $dateFile . $filename;  //返回文件名及路径
