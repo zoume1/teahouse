@@ -71,7 +71,7 @@ class My extends Controller
                     //检查是否有该文件夹，如果没有就创建，并给予最高权限
                     mkdir($new_file, 750);
                 }
-                $filename = $store_id.'txt'; //文件名
+                $filename = $store_id.'.txt'; //文件名
                 $new_file = $new_file . $filename;
                 if (file_put_contents($new_file, $qrcode)) {
                     // return  $dateFile . $filename;  //返回文件名及路径
