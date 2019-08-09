@@ -98,6 +98,13 @@ class My extends Controller
                 $data['share_url'] = $share_code; //生成的二维码
                 $data['member_grade_name'] =$member_information['member_grade_name'];
                 $data['member_grade_id'] =$member_information['member_grade_id'];
+                //获取上级的推广码
+                if($member_information['inviter_id']=='0'){
+                    $qrcode_up=0;
+                }else{
+                    $qrcode_up=db('member')->where('member_id',$member_information['inviter_id'])->value('dimension');
+                }
+                $data['dimension_up'] =$qrcode_up;
                 $member_data = Db::name('member_grade')
                             ->where('introduction_display', 1)
                             ->where('store_id', $store_id)
@@ -575,9 +582,9 @@ class My extends Controller
         $recommend_data = db('recommend_integral')->where("store_id","EQ",$input['uniacid'])->find();
         //给上级id增加积分
         $re=db('member')->where('member_id',$input['inviter_id'])->setInc('member_integral_wallet',$recommend_data['recommend_integral']);
-        $dimension=db('member')->where('member_id',$input['inviter_id'])->value('dimension');
-        //给当前客户记录上级推广码
-        $re2=db('member')->where('member_id',$input['member_id'])->update(['dimension'=>$dimension]);
+        // $dimension=db('member')->where('member_id',$input['inviter_id'])->value('dimension');
+        //给当前客户记录上级id
+        $re2=db('member')->where('member_id',$input['member_id'])->update(['inviter_id'=>$inviter_id]);
         if($re && $re2){
              return ajax_success('操作成功');
         }else{
