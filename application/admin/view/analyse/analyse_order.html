@@ -17,6 +17,7 @@
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/bootstrap.min.css" />
 <style type="text/css">
     * {margin: 0;padding: 0;}
     body {background: #fff;}
@@ -751,12 +752,7 @@
 					way = data.data.order_type;   //邮寄方式  
 					express = data.data.courier_number;
 					express_name = data.data.express_name_ch;
-					// harvest_phone_num = data.data.harvest_phone_num;
-					// harvester_address = data.data.harvester_address;
-					// harvester = data.data.harvester;
 					order_type_status = data.data.status;
-					// $(".operation").find('.curier').value(express);
-					// $(".operation").find('.danhao').val(express_name);
 				},
 				error: function (data) {
 
@@ -946,7 +942,7 @@
 			var data_id = $(this).data("id");
 			$.ajax({
 				type: "POST",
-				url: "{:url('admin/General/adder_order_information_return')}",
+				url: "{:url('admin/Analyse/adder_order_information_return')}",
 				data: {
 					"order_id": data_id,
 				},
@@ -971,17 +967,12 @@
 					dhtm9 += '<tr>';
 					dhtm9 += '<td>商品名称：</td>';
 					dhtm9 += '<td class="norm">';
-					for (let i = 0; i < data.data.parts_goods_name.length; i++) {
-
-						dhtm9 += '<div class="norm_div">' + data.data.parts_goods_name[i].parts_goods_name + '</div>';
-					}
+					dhtm9 += '<div class="norm_div">' + data.data.parts_goods_name + '</div>';
 					dhtm9 += '</td>';
 					dhtm9 += '<td>商品数量：</td>';
 					dhtm9 += '<td class="norm">';
-					for (let i = 0; i < data.data.order_quantity.length; i++) {
 
-						dhtm9 += '<div class="norm_div">' + data.data.order_quantity[i].order_quantity + '</div>';
-					}
+					dhtm9 += '<div class="norm_div">' + data.data.order_quantity + '</div>';
 					dhtm9 += '</td>';
 					dhtm9 += '</tr>';
 					dhtm9 += '<tr>';
@@ -991,35 +982,29 @@
 					dhtm9 += '<td>' + data.data.order_amount + '</td>';
 					dhtm9 += '	</tr>';
 					dhtm9 += '<tr>';
-					dhtm9 += '<td>订单类型：</td>';
-					if (data.data.order_type == 1) {
-						dhtm9 += '<td>直邮</td>';
-					} else if (data.data.order_type == 2) {
-						dhtm9 += '<td>到店自提</td>';
-					} else {
-						dhtm9 += '<td>存茶</td>';
+					dhtm9 += '<td>商品类型：</td>';
+					if (data.data.goods_type == 1) {
+						dhtm9 += '<td>物流商品</td>';
+					} else if (data.data.goods_type == 2) {
+						dhtm9 += '<td>虚拟商品</td>';
 					}
 					dhtm9 += '<td>订单配送费用：</td>';
 					dhtm9 += '<td>' + data.data.goods_franking + ' </td>';
 					dhtm9 += '	</tr>';
-					dhtm9 += '	<tr>';
-					dhtm9 += '<td>订单税费：</td>';
-					dhtm9 += '<td>' + data.data.receipt_price + ' </td>';
-					dhtm9 += '<td>仓储保险费：</td>';
-					dhtm9 += '	<td>0</td>';
-					dhtm9 += '</tr>';
-					dhtm9 += '<tr>';
-					dhtm9 += '<td>优惠劵：</td>';
-					dhtm9 += '<td>' + data.data.coupon_deductible + ' </td>';
-					dhtm9 += '<td>仓储地址：</td>';
-					dhtm9 += '<td>' + data.data.harvester_address + ' </td>';
-					dhtm9 += '</tr>';
-					dhtm9 += '<tr>';
-					dhtm9 += '<td>仓储费：</td>';
-					dhtm9 += '<td>' + data.data.storage + ' </td>';
-					dhtm9 += '<td>到店自提：</td>';
-					dhtm9 += '<td>' + data.data.harvester_address + ' </td>';
-					dhtm9 += '</tr>';
+					// dhtm9 += '	<tr>';
+					// dhtm9 += '<td>订单税费：</td>';
+					// dhtm9 += '<td>' + data.data.receipt_price + ' </td>';
+					// dhtm9 += '<td>仓储保险费：</td>';
+					// dhtm9 += '	<td>0</td>';
+					// dhtm9 += '</tr>';
+					// dhtm9 += '<tr>';
+					// dhtm9 += '<td>优惠劵：</td>';
+					// dhtm9 += '<td>' + data.data.coupon_deductible + ' </td>';
+
+					// dhtm9 += '<td>仓储地址：</td>';
+					// dhtm9 += '<td>' + data.data.harvester_address + ' </td>';
+					// dhtm9 += '</tr>';
+					
 					dhtm9 += '<tr>';
 					dhtm9 += '<td>运费：</td>';
 					dhtm9 += '<td>' + data.data.freight + ' </td>';
@@ -1080,6 +1065,19 @@
 				alert("批注不能为空");
 			}
 		});
+		$(".button").click(function () {
+			$(".popup").addClass("noshow");
+		});
+		$('.daying').click(function testprint() {
+			var headstr = "<html><head><title></title></head><body>";
+			var footstr = "</body>";
+			var printData = document.getElementById("dvMain").innerHTML;
+			// var printMain = document.getElementById("dvMain").innerHTML;
+			var oldstr = document.body.innerHTML;
+			document.body.innerHTML = headstr + printData + footstr;
+			window.print();
+			document.body.innerHTML = oldstr;
+		})
 		function timestampToTime(timestamp) {
 			var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
 			Y = date.getFullYear();
