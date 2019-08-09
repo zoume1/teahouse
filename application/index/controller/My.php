@@ -432,9 +432,19 @@ class My extends Controller
             $member_id =$request->only(["member_id"])["member_id"];
             $code = Db::name("member")
                 ->where("member_id",$member_id)
-                ->value("dimension");
+                ->find();
+                $data['dimension']=$code['dedimension'];    //自己的邀请码
+                //获取上一级的会员邀请码
+                if($code['inviter_id']=='0'){    //没有上级
+                   $data['dimension_up']='';
+                }else{
+                    $dimension_up = Db::name("member")
+                    ->where("member_id",$code['inviter_id'])
+                    ->value('dimension');
+                    $data['dimension_up']=$dimension_up;
+                }
             if(!empty($code)){
-                return ajax_success("邀请码返回成功",$code);
+                return ajax_success("邀请码返回成功",$data);
             }else{
                 $member_code = new LoginPass;
                 $new_code = $member_code -> memberCode();
