@@ -576,6 +576,9 @@ class My extends Controller
      * uniacid   店铺id
      */
     public function qr_back_points(){
+        if($input['member_id']==$input['inviter_id']){
+            return ajax_error('操作失败,非法操作');
+        }
         //获取参数   inviter_id  上级id    member_integral_wallet    积分余额
         $input=input();
         //获取扫码获取参数的配置积分  recommend_integral
