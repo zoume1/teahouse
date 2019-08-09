@@ -2690,28 +2690,7 @@ class  General extends  Base {
 
  
 
-    /**
-     **************GY*******************
-     * @param Request $request
-     * Notes:增值订单的基本信息
-     **************************************
-     */
-    public function adder_order_information_return(Request $request){
-        if($request->isPost()){
-            $order_id = $request->only(["order_id"])["order_id"];
-            if(!empty($order_id)){
-                $data = Db::name("adder_order")->where("id",$order_id)->find();
-                if(!empty($data)){
-                    $data["member_name"] = Db::name("member")->where("member_id",$data["member_id"])->value("member_name");
-                    $data["store_name"] = Db::name("store")->where("id",$data["store_id"])->value("store_name");
-                    $data["goods_franking"] = Db::name("analyse_goods")->where("id",$data["goods_id"])->value("goods_franking");
-                    return ajax_success("数据返回成功",$data);
-                }else{
-                    return ajax_error("没有数据信息",["status"=>0]);
-                }
-            }
-        }
-    }
+
 
 
     /**
