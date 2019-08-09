@@ -922,7 +922,7 @@ Route::group("admin",[
     "store_order_after_close"=>"admin/General/store_order_after_close",//售后维权已关闭
     "store_order_after_replace"=>"admin/General/store_order_after_replace",//售后维权完成换货
     "store_order_after_complete"=>"admin/General/store_order_after_complete",//售后维权完成退款
-    "store_notice_index"=>"admin/General/store_notice_index",//这是处理回复
+    // "store_notice_index"=>"admin/General/store_notice_index",//这是处理回复
     "store_confirm_status"=>"admin/General/store_confirm_status",//更改订单状态
     "adder_order_information_return"=>"admin/General/adder_order_information_return",//增值订单详情
     "store_confirm_status"=>"admin/General/store_confirm_status",//更改订单状态
@@ -1010,6 +1010,7 @@ Route::group("admin",[
     "analyse_status"=>"admin/Analyse/analyse_status",        //增值商品系统推荐
     "control_charging_update"=>"admin/Analyse/control_charging_update",//线下充值申请审核
     "control_withdraw_update"=>"admin/Analyse/control_withdraw_update",//线下提现申请审核
+    "store_notice_index"=>"admin/Analyse/store_notice_index",//增值商品处理回复
 
 
     "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单

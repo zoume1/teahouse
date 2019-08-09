@@ -61,6 +61,11 @@
 		width: 70px;
 		margin-left: 5px;
 	}
+	.red {
+		color: red;
+		font-size: 15px;
+		margin-left: 15px;
+	}
 </style>
 
 {/block}
@@ -161,6 +166,7 @@
 							</div>
 						</div>
 						<button class="layui-btn" type="button" id="seach_button">立即搜索</button>
+						<span class="red">注：只搜索出单规格商品，多规格商品不参与活动，请自行拆分后参加活动</span>
 					</div>
 
 				</div>
@@ -179,6 +185,7 @@
 							<th>商品编号</th>
 							<th>商品图片</th>
 							<th>商品名称</th>
+							<th>价格</th>
 							<th>库存</th>
 							<th>限购状态</th>
 							<th>操作</th>
@@ -342,7 +349,7 @@
 					success: function (data) {
 						var data = eval("(" + data + ")").data;
 						var num = 0;
-
+						console.log(data)
 						var dhtml = '';
 						for (var i = 0; i < data.length; i++) {
 							// console.log(seach_goods.length);
@@ -361,6 +368,7 @@
 								dhtml += '</td>';
 
 								dhtml += '<td>' + data[i].goods_name + '</td>';
+								dhtml += '<td>' + data[i].goods_new_money + '</td>';
 								dhtml += '<td>' + data[i].goods_repertory + '</td>';
 								dhtml += '<td>' + data[i].is_limit + '</td>';
 								dhtml += '<td>';
