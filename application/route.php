@@ -924,7 +924,7 @@ Route::group("admin",[
     "store_order_after_complete"=>"admin/General/store_order_after_complete",//售后维权完成退款
     "store_notice_index"=>"admin/General/store_notice_index",//这是处理回复
     "store_confirm_status"=>"admin/General/store_confirm_status",//更改订单状态
-    "adder_order_information_return"=>"admin/General/adder_order_information_return",//增值订单详情
+    "adder_order_information_return"=>"admin/General/adder_order_information_return",//增值订单确认发货
     "store_confirm_status"=>"admin/General/store_confirm_status",//更改订单状态
     "store_order_after_edit"=>"admin/General/store_order_after_edit",//售后维权详情
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
