@@ -669,4 +669,36 @@ class  Analyse extends  Controller{
     }
 
 
+        /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:这是处理回复
+     **************************************
+     * @param Request $request
+     */
+    public function store_notice_index(Request $request){
+        if($request->isPost()){
+            $order_id = $request->only("order_id")["order_id"];
+            $datas = Db::name("note_notification")
+                ->where("order_id",$order_id)
+                ->order("create_time","desc")
+                ->select();
+            $rest = Db::name("adder_order")->where("parts_order_number",$order_id)->find();
+
+            $data =[
+                "datas"=>$datas,
+                "goods_type"=>$rest['goods_type'],
+                "express_name"=>$rest['express_name'],
+                "express_name_ch"=>$rest['express_name_ch'],
+                "courier_number"=>$rest['courier_number']
+            ];
+            if(!empty($data)){
+                return ajax_success("数据返回成功",$data);
+            }else{
+                return ajax_error("没有数据",["status"=>0]);
+            }
+        }
+    }
+
+
  }
