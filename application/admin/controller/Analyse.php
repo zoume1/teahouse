@@ -751,6 +751,28 @@ class  Analyse extends  Controller{
             }else{
                 return ajax_error("发货失败",["status"=>0]);
             }
+
+            
+        }
+    }
+
+        /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:确认服务
+     **************************************
+     * @param Request $request
+     */
+    public function store_confirm_status(Request $request){
+        if($request->isPost()){
+            $order_id = $request->only("order_id")["order_id"];
+            $status = $request->only("status")["status"];
+            $rest = Db::name("adder_order")->where("parts_order_number",$order_id)->update(['status'=>$status]);
+            if(!empty($rest)){
+                return ajax_success("修改状态成功");
+            }else{
+                return ajax_error("修改状态失败");
+            }
         }
     }
 
