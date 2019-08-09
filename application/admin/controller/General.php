@@ -2658,6 +2658,60 @@ class  General extends  Base {
         }
     }
 
+        /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:增值订单确认发货（填写订单编号）
+     **************************************
+     */
+    public function  adder_order_confirm_shipment(Request $request){
+        if($request->isPost()){
+            $order_id =$request->only(["order_id"])["order_id"];
+            $status =$request->only(["status"])["status"];
+            $courier_number =$request->only(["courier_number"])["courier_number"];
+            $express_name =$request->only(["express_name"])["express_name"];
+            $express_name2 =$request->only(["express_name_ch"])["express_name_ch"];
+            $data =[
+                "status"=>$status,
+                "courier_number"=>$courier_number,
+                "express_name"=>$express_name,
+                "express_name_ch"=>$express_name2,
+            ];
+            $order_number = Db::name("adder_order")->where("id",$order_id)->value('parts_order_number');
+            $bool = Db::name("adder_order")->where("id",$order_id)->update($data);
+            $boole = Db::name("adder_order")->where("parts_order_number",$order_number)->update($data);
+            if($bool){
+                return ajax_success("发货成功",["status"=>1]);
+            }else{
+                return ajax_error("发货失败",["status"=>0]);
+            }
+        }
+    }
+
+ 
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:增值订单的基本信息
+     **************************************
+     */
+    public function adder_order_information_return(Request $request){
+        if($request->isPost()){
+            $order_id = $request->only(["order_id"])["order_id"];
+            if(!empty($order_id)){
+                $data = Db::name("adder_order")->where("id",$order_id)->find();
+                if(!empty($data)){
+                    $data["member_name"] = Db::name("member")->where("member_id",$data["member_id"])->value("member_name");
+                    $data["store_name"] = Db::name("store")->where("id",$data["store_id"])->value("store_name");
+                    $data["goods_franking"] = Db::name("analyse_goods")->where("id",$data["goods_id"])->value("goods_franking");
+                    return ajax_success("数据返回成功",$data);
+                }else{
+                    return ajax_error("没有数据信息",["status"=>0]);
+                }
+            }
+        }
+    }
 
 
     /**

@@ -15,7 +15,9 @@ public $component_access_token;
         $this->weixin_account['appSecret'] = '4d88679173c2eb375b20ed57459973be';
         $this->weixin_account['token'] = 'zhihuichacang';
         $this->weixin_account['encodingAesKey'] = 'zhihuichacangzhihuicangxuanmingkeji12345678';
-        $this->weixin_account['component_verify_ticket'] = 'ticket@@@mMQLlMnPx_y9E5HWGdfJKeKJadwSFBhcrzA8eJrMSmfIZInb_8ck42Y9eitnPWnkZXlNkgR33-P3otpQ1c00-A';
+        // $this->weixin_account['component_verify_ticket'] = 'ticket@@@mMQLlMnPx_y9E5HWGdfJKeKJadwSFBhcrzA8eJrMSmfIZInb_8ck42Y9eitnPWnkZXlNkgR33-P3otpQ1c00-A';
+        ///获取component_ticket
+        $this->weixin_account['component_verify_ticket']=db('wx_threeopen')->where('id',1)->value('component_verify_ticket');
     }
 	//发起授权页的体验URL
     public function actionLogin()
@@ -71,7 +73,8 @@ public $component_access_token;
         $msg      = '';
         $errCode  = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
         if ($errCode == 0) {
-            
+            $pp['msg']=$errCode;
+            db('test')->insert($msg);
             $msgObj = json_decode(json_encode(simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA)));
             switch ($msgObj->MsgType) {
                 case "event":
@@ -87,6 +90,8 @@ public $component_access_token;
             echo "success";
             
         } else {
+            $pp['msg']=$errCode;
+            db('test')->insert($msg);
             // file_put_contents('/app/error/cccxmlerr.txt', json_encode($errCode) . date('Y-m-d H:i:s', time()) . "/n", FILE_APPEND);
         }
     }

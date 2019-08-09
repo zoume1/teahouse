@@ -163,6 +163,7 @@ class Goods extends Controller
             }
             if ($goods_data["goods_standard"] == "1") {
                 $goods_special = [];
+                $goods_special['server'] = $goods_data['server'];
                 $goods_special["goods_name"] = $goods_data["goods_name"];
                 $goods_special["produce"] = $goods_data["produce"];
                 $goods_special["store_id"] = $goods_data["store_id"];
@@ -419,7 +420,7 @@ class Goods extends Controller
             } 
             $goods_data["goods_member"] = isset($goods_data["goods_member"])?$goods_data["goods_member"]:0;
         
-            if(!empty($goods_data["goods_sign"])){     
+            if(!empty($goods_data["server"])){     
                 $goods_data["server"] = json_encode($goods_data["server"]); 
             }
             $show_images = $request->file("goods_show_images");
@@ -509,7 +510,7 @@ class Goods extends Controller
              if ($bool || $rest) {
                  $this->success("更新成功", url("admin/Goods/index"));
              } else {
-                 $this->success("更新失败", url('admin/Goods/index'));
+                 $this->success("更新成功", url('admin/Goods/index'));
              }
              
         } else {
@@ -528,7 +529,7 @@ class Goods extends Controller
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));
             } else {
-                $this->success("更新失败", url('admin/Goods/index'));
+                $this->success("更新成功", url('admin/Goods/index'));
             }
 
         }
