@@ -162,7 +162,7 @@ class Crowd extends Controller
                     }
                     $special[$key] = db("crowd_special")
                         ->where("goods_id",$id)
-                        ->field("price,cost,collecting_money,collecting,state")
+                        ->field("price,cost,collecting_money,collecting,state,stock")
                         ->limit(1)
                         ->order("cost asc")
                         ->find();
@@ -182,7 +182,7 @@ class Crowd extends Controller
                         $crowd[$key]["cost"] = sprintf("%.2f",$special[$key]["cost"]);
                     }
                     $crowd[$key]["standard"] = $standard;
-                    $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"]/$special[$key]["price"])*100);
+                    $crowd[$key]["centum"] = intval(($special[$key]["collecting_money"])/($special[$key]["cost"]*$special[$key]["stock"])*100);  //百分比
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
                     $crowd[$key]["collecting_money"] = sprintf("%.2f",$special[$key]["collecting_money"]);
                                       
