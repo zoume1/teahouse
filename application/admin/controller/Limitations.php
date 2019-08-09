@@ -379,6 +379,7 @@ class  Limitations extends  Controller{
         $goods = db("goods")
                 ->where('goods_number|goods_name','like','%'.$goods_number.'%')
                 ->where("store_id","EQ",$store_id)
+                ->where("goods_standard",0)
                 ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
                 ->select();
         if(!empty($goods)){
