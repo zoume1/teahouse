@@ -580,8 +580,11 @@
                             <td class="">
                                 <div class="line" data-id="{$vo.parts_order_number}" data-orderStatus="{$vo.status}">
                                     {$vo.status|show_order_statues}
-                                    <div class="static_btus1"><div class="not_apply layui-btn-mini">未申请开票</div></div>
-									<a href="capital_management_details" class="static_btus2">订单详情</a>
+									<div class="static_btus1"><div class="not_apply layui-btn-mini">未申请开票</div></div>
+									<div class="static_btus2" data-id="{$vo.parts_order_number}">
+										订单详情
+									</div>
+									<!-- <a href="capital_management_details" class="static_btus2">订单详情</a> -->
                                 </div>
                             </td>
                         </tr>
@@ -607,103 +610,7 @@
         </div>
     </div>
 
-    <div class="mask" style="display: none;"></div>
-    <!-- 弹窗 -->
-    <div class="pop" style="display: none;">
-        <div class="head">
-            <i class="close">×</i>
-        </div>
-        <div class="content">
-            <div class="top">
-                <p>
-                    当前订单状态：
-                    <span>待付款</span>
-                    <span>待发货</span>
-                    <span>已发货</span>
-                    <span>已完成</span>
-                    <span>已关闭</span>
-                </p>
-            </div>
-            <div class="mid">
-                <h2>温馨提示</h2>
-                <!-- 待付款 -->
-                <!-- <ul>
-                    <li>
-                        <span>您订购的该商品未完成支付，如果您确定需要该商品，请点击</span>
-                        <button class="layui-btn btn-yfh">立即支付</button>
-                    </li>
-                    <li>
-                        <span>如果您有不清楚的地方，请及时与</span>
-                        <a href="#" class="kf">客服沟通</a>
-                    </li>
-                    <li>
-                        <span>如果您确实无需该商品，您还可 </span>
-                        <button class="layui-btn btn-ygb">关闭订单</button>
-                    </li>
-                </ul> -->
-                <!-- 待发货 -->
-                <!-- <ul>
-                    <li>
-                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
-                    </li>
-                    <li>
-                        <span>如果您有不清楚的地方，请及时与</span>
-                        <a href="#" class="kf">客服沟通</a>
-                    </li>
-                    <li>
-                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
-                        <button class="layui-btn layui-btn-danger">售后维权</button>
-                    </li>
-                </ul> -->
-                <!-- 已发货 -->
-                <!-- <ul>
-                    <li>
-                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
-                    </li>
-                    <li>
-                        <span>如果您已收到货，且对商品满意，请点击</span>
-                        <button class="layui-btn btn-ywc">确认收货</button>
-                    </li>
-                    <li>
-                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
-                        <button class="layui-btn layui-btn-danger">售后维权</button>
-                    </li>
-                </ul> -->
-                <!-- 已完成 -->
-                <ul>
-                    <li>
-                        <span>如果商家还未发货，物流信息暂时不显示，发货后，状态将显示已发货，同时将显示物流信息</span>
-                    </li>
-                    <li>
-                        <span>您已收到货，您还可以</span>
-                        <a href="additional_comments" class="layui-btn layui-btn-normal">追加评论</a>
-                    </li>
-                    <li>
-                        <span>如果您收到货，对商品不满意，请及时与平台<a href="#" class="kf">客服沟通</a>，如沟通后任不满意，您还可</span>
-                        <a href="store_order_after_edit" class="layui-btn layui-btn-danger">售后维权</a>
-                    </li>
-                </ul>
-                <!-- 已关闭 -->
-                <!-- <ul>
-                    <li>
-                        <span>您订购的该商品未完成支付，现已关闭 </span>
-                    </li>
-                    <li>
-                        <span>如果您有不清楚的地方，请及时与</span>
-                        <a href="#" class="kf">客服沟通</a>
-                    </li>
-                    <li>
-                        <span>如果您确实无需该商品，您还可 </span>
-                        <button class="layui-btn btn-ygb">永久删除</button>
-                    </li>
-                </ul> -->
-            </div>
-            <div class="bot">
-                <div>快递单号：<span>123456789</span></div>
-                <div>物流跟踪：<span>山西同城物流中心</span></div>
-            </div>
-        </div>
-    </div>
+   
 {/block}
 
 
@@ -939,6 +846,116 @@
 		$(".popup_x").click(function () {
 			$(".popup").addClass("noshow");
 		});
+
+		
+		// 点击订单详情
+		$(".static_btus2").click(function () {
+			$(".popup_two").removeClass("noshow");
+			$("#dvMain").empty();
+			var data_id = $(this).data("id");
+			$.ajax({
+				type: "POST",
+				url: "{:url('admin/Order/adder_order_information_return')}",
+				data: {
+					"order_id": data_id,
+				},
+				async: false,
+				success: function (data) {
+					var data = eval('(' + data + ')');
+					let dhtm9 = "";
+					dhtm9 += '<div class="popup_t" >';
+					dhtm9 += '<div>订单基本信息</div>';
+					dhtm9 += '<div><h1>' + data.data.store_name + '</h1></div>';
+					dhtm9 += '<div>账号：' + data.data.user_phone_number + '</div>';
+					dhtm9 += '</div>';
+					dhtm9 += '<div class="popup_content1">';
+					dhtm9 += '<table class="layui-table">';
+					dhtm9 += '<tbody class="news_content">';
+					dhtm9 += '	<tr>';
+					dhtm9 += '	<td>昵称：</td>';
+					dhtm9 += '<td>' + data.data.user_account_name + '</td>';
+					dhtm9 += '<td>订单号：</td>';
+					dhtm9 += '<td>' + data.data.parts_order_number + '</td>';
+					dhtm9 += '</tr>';
+					dhtm9 += '<tr>';
+					dhtm9 += '<td>商品名称：</td>';
+					dhtm9 += '<td class="norm">';
+					for (let i = 0; i < data.data.parts_goods_name.length; i++) {
+
+						dhtm9 += '<div class="norm_div">' + data.data.parts_goods_name[i].parts_goods_name + '</div>';
+					}
+					dhtm9 += '</td>';
+					dhtm9 += '<td>商品数量：</td>';
+					dhtm9 += '<td class="norm">';
+					for (let i = 0; i < data.data.order_quantity.length; i++) {
+
+						dhtm9 += '<div class="norm_div">' + data.data.order_quantity[i].order_quantity + '</div>';
+					}
+					dhtm9 += '</td>';
+					dhtm9 += '</tr>';
+					dhtm9 += '<tr>';
+					dhtm9 += '<td>下单时间：</td>';
+					dhtm9 += '<td>' + new Date(data.data.order_create_time) + '</td>';
+					dhtm9 += '<td>订单金额：</td>';
+					dhtm9 += '<td>' + data.data.order_amount + '</td>';
+					dhtm9 += '	</tr>';
+					dhtm9 += '<tr>';
+					dhtm9 += '<td>订单类型：</td>';
+					if (data.data.order_type == 1) {
+						dhtm9 += '<td>直邮</td>';
+					} else if (data.data.order_type == 2) {
+						dhtm9 += '<td>到店自提</td>';
+					} else {
+						dhtm9 += '<td>存茶</td>';
+					}
+					dhtm9 += '<td>订单配送费用：</td>';
+					dhtm9 += '<td>' + data.data.goods_franking + ' </td>';
+					dhtm9 += '	</tr>';
+					dhtm9 += '	<tr>';
+					dhtm9 += '<td>订单税费：</td>';
+					dhtm9 += '<td>' + data.data.receipt_price + ' </td>';
+					dhtm9 += '<td>仓储保险费：</td>';
+					dhtm9 += '	<td>0</td>';
+					dhtm9 += '</tr>';
+					dhtm9 += '<tr>';
+					dhtm9 += '<td>优惠劵：</td>';
+					dhtm9 += '<td>' + data.data.coupon_deductible + ' </td>';
+					dhtm9 += '<td>仓储地址：</td>';
+					dhtm9 += '<td>' + data.data.harvester_address + ' </td>';
+					dhtm9 += '</tr>';
+					dhtm9 += '<tr>';
+					dhtm9 += '<td>仓储费：</td>';
+					dhtm9 += '<td>' + data.data.storage + ' </td>';
+					dhtm9 += '<td>到店自提：</td>';
+					dhtm9 += '<td>' + data.data.harvester_address + ' </td>';
+					dhtm9 += '</tr>';
+					dhtm9 += '<tr>';
+					dhtm9 += '<td>运费：</td>';
+					dhtm9 += '<td>' + data.data.freight + ' </td>';
+					dhtm9 += '<td>运费单号：</td>';
+					dhtm9 += '<td>' + data.data.courier_number + ' </td>';
+					dhtm9 += '</tr>';
+					dhtm9 += '<tr>';
+					dhtm9 += '	<td>配送地址：</td>';
+					dhtm9 += '<td>' + data.data.harvester_address + '</td>';
+					dhtm9 += '<td>收货人信息：</td>';
+					dhtm9 += '<td>收件人：' + data.data.harvester + '联系电话：' + data.data.harvest_phone_num + '</td>';
+					dhtm9 += '	</tr>';
+					dhtm9 += '</tbody>';
+					dhtm9 += '	</table>';
+					dhtm9 += '	</div>';
+					// console.log(dhtm9)
+					$("#dvMain").append(dhtm9);
+
+				},
+				error: function (data) {
+
+				}
+			});
+
+
+		})
+
         form.render();
     })
 </script>
