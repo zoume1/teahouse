@@ -13,7 +13,28 @@ use think\Db;
 use think\Request;
 
 class evaluate extends Controller{
-    
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:评价管理页面
+     **************************************
+     * @return \think\response\View
+     */
+    public function evaluate_index(){
+        $store_id = Session::get("store_id");
+        $data_status = Db::name("order_evaluate")->where("store_id","EQ",$store_id)->find();
+        $data =Db::name("order_evaluate")
+        ->where("store_id","EQ",$store_id)
+        ->order("create_time","desc")
+        ->paginate(20 ,false, [
+            'query' => request()->param(),
+        ]);
+        return view("evaluate_index",["data"=>$data,"data_status"=>$data_status]);
+        }
+
+
 public function record_index(){
     $record = db("order")->where("distribution",1)->where("status",2)->select();//方便测试，后期再加上订单条件(已付款)
     foreach($record as $key => $value) {
@@ -28,8 +49,6 @@ public function record_index(){
             $record[$key]["integrals"] = round($rest['scale'] * $record[$key]['order_real_pay']/100);//积分
         }
     }
-   
-
     $all_idents = $record;//这里是需要分页的数据
     $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
     $listRow = 20;//每页20行记录
@@ -44,8 +63,43 @@ public function record_index(){
     $this->assign('record', $record->render());
     return view('record_index',["record"=>$record]);
 }
+/**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:评价编辑
+     **************************************
+     * @return \think\response\View
+     */
+    public function evaluate_edit($id){
+        $evaluate_details =Db::name('order_evaluate')->where('id',$id)->find();//评价信息
+        $evaluate_images =Db::name('order_evaluate_images')->where('evaluate_order_id',$id)->select();
+        return view("evaluate_edit",['evaluate_details'=>$evaluate_details,'evaluate_images'=>$evaluate_images]);
+    }
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:配件商订单评价状态删除功能
+     **************************************
+     * @param $id
+     */
+    public function  evaluate_del($id){
+        $res =Db::name('order_evaluate')->where('id',$id)->delete();
+        if($res){
+            //如果存在图片则连图片一块删除
+            $url_string = Db::name("order_evaluate_images")->where("evaluate_order_id",$id)->field("images")->select();
+            if(!empty($url_string)){
+                foreach ($url_string as $k=>$v){
+                    if(!empty($v["images"])){
+                        unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$v["images"]);
+                    }
+                }
+            }
+            $this->success('删除成功','admin/Evaluate/evaluate_index');
+        }else{
+            $this->error('删除失败','admin/Evaluate/evaluate_index');
 
-
+        }
+    }
 /**
  * [商品列表添加商品分销设置]
  * GY
@@ -90,7 +144,6 @@ public function goods_savetwo(Request $request)
     }
 }
 
-}
     /**
      **************李火生*******************
      * @param Request $request
