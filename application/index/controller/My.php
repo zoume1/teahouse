@@ -584,7 +584,7 @@ class My extends Controller
         $re=db('member')->where('member_id',$input['inviter_id'])->setInc('member_integral_wallet',$recommend_data['recommend_integral']);
         // $dimension=db('member')->where('member_id',$input['inviter_id'])->value('dimension');
         //给当前客户记录上级id
-        $re2=db('member')->where('member_id',$input['member_id'])->update(['inviter_id'=>$inviter_id]);
+        $re2=db('member')->where('member_id',$input['member_id'])->update(['inviter_id'=>$input['inviter_id']]);
         if($re && $re2){
              return ajax_success('操作成功');
         }else{
