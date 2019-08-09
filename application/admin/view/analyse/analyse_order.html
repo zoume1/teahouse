@@ -169,7 +169,7 @@
 		box-sizing: border-box;
 	}
 
-	.submit_btns {
+	.submit_btns, .submit_btns_fw{
 		width: 100px;
 		height: 38px;
 		color: #fff;
@@ -599,7 +599,7 @@
                                     {$vo.status|show_order_statues}
 									<div class="static_btus1"><div class="not_apply layui-btn-mini">未申请开票</div></div>
 									<div class="static_btus2" data-id="{$vo.parts_order_number}">
-										订单详情{$vo.status}
+										订单详情
 									</div>
 									<!-- <a href="capital_management_details" class="static_btus2">订单详情</a> -->
                                 </div>
@@ -646,51 +646,7 @@
 		$(".static_btus22").click(function () {
 			$(".popup_one").removeClass("noshow");
 			var data_id = $(this).parent().data("id");    //订单id
-			$.ajax({
-				type: "POST",
-				url: "{:url('admin/Analyse/adder_order_information_return')}",
-				data: {
-					"order_id": data_id,
-				},
-				async: false,
-				success: function (data) {
-					var data = JSON.parse(data);
-					console.log(data)
-					// console.log(data)
-					// way = data.data.order_type;   //邮寄方式  
-					// express = data.data.courier_number;
-					// express_name = data.data.express_name_ch;
-					// harvest_phone_num = data.data.harvest_phone_num;
-					// harvester_address = data.data.harvester_address;
-					// harvester = data.data.harvester;
-					// order_type = data.data.order_type;
-					// order_type_status = data.data.status;
-					// $(".operation").find('.curier').value(express);
-					// $(".operation").find('.danhao').val(express_name);
-				},
-				error: function (data) {
-
-				}
-			});
-			// //获取批注
-			// $.ajax({
-			// 	type: "POST",
-			// 	url: "{:url('admin/Analyse/store_notice_index')}",
-			// 	data: {
-			// 		"order_id": data_id,
-			// 	},
-			// 	async: false,
-			// 	success: function (data) {
-			// 		// var data = JSON.parse(data);
-			// 		console.log(data)
-					
-
-
-			// 	},
-			// 	error: function (data) {
-
-			// 	}
-			// });
+		
 		})
 		$(".static_btus").click(function () {
 			var _this = this;
@@ -698,7 +654,7 @@
 			var data_value = $(this).parent().data("orderstatus");    //订单状态
 			$(".operation").data("value", data_id);
 			// var name = $(this).find('.state').text();
-			
+			$(".repay_tip").data("value", data_id);
 			// // 订单金额
 			// var amount = +$(this).parents('tr').children('td.am').text();
 			// $('input[name=amount]').val(amount);
@@ -772,15 +728,14 @@
 			if(data_value == 3) {
 				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" value="' + express + '" style="width:58%;"  >';
 				dhtml2 += '<button type="button" class="submit_btns" data-id="">修改单号</button>';
-			} else if(data_value == 7) {
-				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" value="' + express + '" style="width:58%;"  >';
-				dhtml2 += '<button type="button" class="submit_btns" data-id="">追加评价</button>';
 			} else {
 				dhtml2 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" readonly class="layui-input danhao" value="' + express + '" style="width:58%;"  >';
+				dhtml2 += '<div style="flex:1;"></div>';
+				
 			}
 			var dhtml4 = '';
 			dhtml4 += '<div style="flex:1;"></div><div style="flex:1;"></div>';
-			dhtml4 += '<button type="button" style="float:right;" class="submit_btns_fw" data-id="">确认服务</button>';
+			dhtml4 += '<button type="button"  class="submit_btns_fw" data-id="">确认服务</button>';
 
 			
 
@@ -857,14 +812,11 @@
 						url: "{:url('admin/Analyse/store_confirm_status')}",
 						data: {
 							"order_id": value,
-							"courier_number": danhao,
-							"status": 3,
-							"express_name": curier,
-							"express_name_ch": curier2
+							"status": 7,
 						},
 						success: function (data) {
 							location.reload();
-							var data = eval('(' + data + ')');
+							// var data = eval('(' + data + ')');
 							console.log(data);
 
 						},
