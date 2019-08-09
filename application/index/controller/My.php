@@ -433,7 +433,7 @@ class My extends Controller
             $code = Db::name("member")
                 ->where("member_id",$member_id)
                 ->find();
-                $data['dimension']=$code['dedimension'];    //自己的邀请码
+                $data['dimension']=$code['dimension'];    //自己的邀请码
                 //获取上一级的会员邀请码
                 if($code['inviter_id']=='0'){    //没有上级
                    $data['dimension_up']='';
