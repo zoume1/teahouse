@@ -712,9 +712,8 @@ class  Analyse extends  Controller{
         if($request->isPost()){
             $order_id = $request->only(["order_id"])["order_id"];
             if(!empty($order_id)){
-                $data = Db::name("adder_order")->where("id",$order_id)->find();
+                $data = Db::name("adder_order")->where("parts_order_number",$order_id)->find();
                 if(!empty($data)){
-                    $data["member_name"] = Db::name("member")->where("member_id",$data["member_id"])->value("member_name");
                     $data["store_name"] = Db::name("store")->where("id",$data["store_id"])->value("store_name");
                     $data["goods_franking"] = Db::name("analyse_goods")->where("id",$data["goods_id"])->value("goods_franking");
                     return ajax_success("数据返回成功",$data);
