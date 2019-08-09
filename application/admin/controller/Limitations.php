@@ -379,7 +379,8 @@ class  Limitations extends  Controller{
         $goods = db("goods")
                 ->where('goods_number|goods_name','like','%'.$goods_number.'%')
                 ->where("store_id","EQ",$store_id)
-                ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type")
+                ->where("goods_standard",0)
+                ->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory,coupon_type,goods_new_money")
                 ->select();
         if(!empty($goods)){
             foreach ($goods as $key => $value) {

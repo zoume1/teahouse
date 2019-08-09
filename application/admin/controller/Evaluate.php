@@ -12,6 +12,8 @@ use think\Controller;
 use think\Db;
 use think\Request;
 
+class evaluate extends Controller{
+    
 public function record_index(){
     $record = db("order")->where("distribution",1)->where("status",2)->select();//方便测试，后期再加上订单条件(已付款)
     foreach($record as $key => $value) {
