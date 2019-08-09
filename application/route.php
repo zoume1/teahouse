@@ -1011,6 +1011,7 @@ Route::group("admin",[
     "control_charging_update"=>"admin/Analyse/control_charging_update",//线下充值申请审核
     "control_withdraw_update"=>"admin/Analyse/control_withdraw_update",//线下提现申请审核
     "store_notice_index"=>"admin/Analyse/store_notice_index",//增值商品处理回复
+    "adder_order_change"=>"admin/Analyse/adder_order_change",//增值订单修改快递编号
 
 
     "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单

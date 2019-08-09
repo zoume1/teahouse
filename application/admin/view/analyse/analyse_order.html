@@ -784,7 +784,7 @@
 			}
 			var dhtml4 = '';
 			dhtml4 += '<div style="flex:1;"></div><div style="flex:1;"></div>';
-			dhtml4 += '<button type="button" style="float:right;" class="submit_btns" data-id="">确认服务</button>';
+			dhtml4 += '<button type="button" style="float:right;" class="submit_btns_fw" data-id="">确认服务</button>';
 
 			
 
@@ -850,24 +850,15 @@
 		$(".popup_x").click(function () {
 			$(".popup").addClass("noshow");
 		});
-		//确认发货
-		$(".operation").on("click", ".submit_btns", function () {
+		//确认服务
+		$(".operation").on("click", ".submit_btns_fw", function () {
 			$(".popup").addClass("noshow");
 			var repay = $(".repay").val();
 			var id = $(this).parent(".operation").data("id");   //订单状态
 			var value = $(this).parent(".operation").data("value");   //订单的id
-			//    快递选择
-			var curier = $(".curier option:selected").val();
-			var curier2 = $(".curier option:selected").text();
-			//    操作选择
-			var operation_select = $(".operation_select option:selected").val();
-			//    快递单号
-			var danhao = $(".danhao").val();
-			if (danhao != '') {  //判断单号
-				//根据id判断订单的类型
-					$.ajax({
+			$.ajax({
 						type: "POST",
-						url: "{:url('admin/Analyse/adder_confirm_status')}",
+						url: "{:url('admin/Analyse/store_confirm_status')}",
 						data: {
 							"order_id": value,
 							"courier_number": danhao,
@@ -885,6 +876,62 @@
 
 						}
 					});
+		});
+		//确认发货
+		$(".operation").on("click", ".submit_btns", function () {
+			$(".popup").addClass("noshow");
+			var repay = $(".repay").val();
+			var id = $(this).parent(".operation").data("id");   //订单状态
+			var value = $(this).parent(".operation").data("value");   //订单的id
+			//    快递选择
+			var curier = $(".curier option:selected").val();
+			var curier2 = $(".curier option:selected").text();
+			//    操作选择
+			var operation_select = $(".operation_select option:selected").val();
+			//    快递单号
+			var danhao = $(".danhao").val();
+			if (danhao != '') {  //判断单号
+				if(id == 2) {
+				//根据id判断订单的类型
+					$.ajax({
+						type: "POST",
+						url: "{:url('admin/Analyse/adder_order_confirm_shipment')}",
+						data: {
+							"order_id": value,
+							"courier_number": danhao,
+							"status": 3,
+							"express_name": curier,
+							"express_name_ch": curier2
+						},
+						success: function (data) {
+							location.reload();
+							var data = eval('(' + data + ')');
+							console.log(data);
+
+						},
+						error: function (data) {
+
+						}
+					});
+				} else if (id == 3) { //修改单号
+					$.ajax({
+						type: "POST",
+						url: "{:url('admin/Analyse/adder_order_change')}",
+						data: {
+							"order_id": value,
+							"courier_number": danhao,
+						},
+						success: function (data) {
+							location.reload();
+							var data = eval('(' + data + ')');
+							console.log(data);
+
+						},
+						error: function (data) {
+
+						}
+					});
+				}
 			}
 			else {
 				alert("请输入单号");

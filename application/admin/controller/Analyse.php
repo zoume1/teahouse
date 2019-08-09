@@ -732,7 +732,7 @@ class  Analyse extends  Controller{
      */
     public function  adder_order_confirm_shipment(Request $request){
         if($request->isPost()){
-            $order_id =$request->only(["order_id"])["order_id"];
+            $order_number =$request->only(["order_id"])["order_id"];
             $status =$request->only(["status"])["status"];
             $courier_number =$request->only(["courier_number"])["courier_number"];
             $express_name =$request->only(["express_name"])["express_name"];
@@ -743,12 +743,32 @@ class  Analyse extends  Controller{
                 "express_name"=>$express_name,
                 "express_name_ch"=>$express_name2,
             ];
-            $order_number = Db::name("adder_order")->where("id",$order_id)->value('parts_order_number');
-            $bool = Db::name("adder_order")->where("id",$order_id)->update($data);
+            $bool = Db::name("adder_order")->where("parts_order_number",$order_number)->update($data);
             if($bool){
                 return ajax_success("发货成功",["status"=>1]);
             }else{
                 return ajax_error("发货失败",["status"=>0]);
+            }
+        }
+    }
+
+        /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:增值订单修改订单编号
+     **************************************
+     */
+    public function adder_order_change(Request $request){
+        if($request->isPost()){
+            $order_id = $request->only(["order_id"])["order_id"];
+            $courier_number = $request->only(["courier_number"])["courier_number"];
+            if(!empty($order_id)){
+                $data = Db::name("adder_order")->where("parts_order_number",$order_id)->update(['courier_number'=>$courier_number]);
+                if(!empty($data)){
+                    return ajax_success("修改成功",$data);
+                }else{
+                    return ajax_error("修改失败",["status"=>0]);
+                }
             }
         }
     }
