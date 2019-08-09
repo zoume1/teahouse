@@ -162,7 +162,7 @@ class Crowd extends Controller
                     }
                     $special[$key] = db("crowd_special")
                         ->where("goods_id",$id)
-                        ->field("price,cost,collecting_money,collecting,state")
+                        ->field("price,cost,collecting_money,collecting,state,stock")
                         ->limit(1)
                         ->order("cost asc")
                         ->find();
