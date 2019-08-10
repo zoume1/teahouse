@@ -55,9 +55,6 @@ class ThreeTest extends Controller
                 $component_verify_ticket = $array_e->item(0)->nodeValue;
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
-                //记录获取的ticket
-                $pp['msg']=$da['component_verify_ticket'];
-                db('test')->insert($pp);
                  db('wx_threeopen')->where('id',1)->update($da);
                  echo "success";
             }else{
@@ -277,7 +274,7 @@ class ThreeTest extends Controller
         }
         $ret2 = $this->https_post($url,$data);
         $ret = json_decode($ret2,true);
-        $p['msg']=$ret2;
+        $p['msg']=$ret2.'设置域名';
         db('test')->insert($p);
         if($ret['errcode'] == 0) {
             return true;
