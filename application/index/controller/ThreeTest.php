@@ -68,7 +68,7 @@ class ThreeTest extends Controller
          * lilu
          * 微信第三方授权后。获取回调信息
          */
-        public function callback2(){
+        public function callback(){
             $encodingAesKey = $this->encodingAesKey;
             $token = $this->token;
             $appId = $this->appid;
@@ -78,13 +78,20 @@ class ThreeTest extends Controller
             $pc = new \WXBizMsgCrypt ( $token, $encodingAesKey, $appId );
             //获取到微信推送过来post数据（xml格式）
             $postArr =file_get_contents("php://input");
-            $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+            if(!$postArr){
+                $postArr = $GLOBALS["HTTP_RAW_POST_DATA"];
+               $pp['msg']=$postArr;
+               db('test')->insert($pp);
+            }
             $msg = '';
             $errCode =$pc->decryptMsg($msg_sign, $timeStamp, $nonce, $postArr,$msg);
             if ($errCode == 0) {
+                  $pp2['msg']='回调解密成功';
+                  db('test')->insert($pp2);
                 //处理消息类型，并设置回复类型和内容
                    $postObj=simplexml_load_string($msg,'SimpleXMLElement',LIBXML_NOCDATA);
-                   
+                   $pp3['msg']=$postObj.'11';
+                   db('test')->insert($pp3);
                    //判断该数据包是否是订阅（用户关注）的事件推送
                    if(strtolower($postObj->MsgType) == 'event'){
                             //第三方平台全网发布检测发送事件消息测试
@@ -169,8 +176,8 @@ class ThreeTest extends Controller
                             $this->responseText($postObj,$content);
                    }
             }
-            $pp['msg']='postobj111';
-                   db('test')->insert($pp);
+            $pp['msg']='回调解密失败';
+            db('test')->insert($pp);
         }
         
        /*
