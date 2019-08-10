@@ -632,11 +632,7 @@ class ThreeTest extends Controller
         }
         curl_close($ci);
         return $response;
-        //return array($http_code, $response,$requestinfo);
     }
- 
-
- 
     
 
           
