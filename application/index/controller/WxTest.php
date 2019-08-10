@@ -267,8 +267,8 @@ class WxTest extends Controller
                         $pp5['msg']=$query_auth_code;
                         db('test')->insert($pp5);
                         $params = $this->getAuthInfo($query_auth_code);
-                        $pp5['msg']=$params;
-                        db('test')->insert($pp5);
+                        $pp6['msg']=$params;
+                        db('test')->insert($pp6);
                         $authorizer_access_token = $params['authorization_info']['authorizer_access_token']; 
                         $content = "{$query_auth_code}_from_api"; 
                         $this->sendServiceText($msgObj, $content, $authorizer_access_token);
