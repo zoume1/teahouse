@@ -155,40 +155,6 @@ class WxTest extends Controller
                 echo "false";
             }
         }
-        /**
-         * 微信公众号获取token
-         */
-        public function token(){
-            //获取随机字符串
-                $echoStr = input("echostr");
-                if($echoStr){
-                    // 验证接口的有效性，由于接口有效性的验证必定会传递echostr 参数
-                    if($this ->checkSignature()){
-                            echo $echoStr;
-                            exit;
-                    }
-                }else{
-                      $this->responseMsg();
-                }
-        }
-
-        protected function checkSignature()
-        {
-            // 微信加密签名
-                $signature = input("signature");
-                $timestamp = input("timestamp");//时间戳
-                $nonce =input("nonce");//随机数
-                $token = "zhihuichacang";  //token值，必须和你设置的一样
-                $tmpArr =array($token,$timestamp,$nonce);
-                sort($tmpArr,SORT_STRING);
-                $tmpStr = implode($tmpArr);
-                $tmpStr =sha1($tmpStr);
-              if($tmpStr == $signature){
-                    return true;
-                }else{
-                     return false;
-                }
-        }
         public function responseMsg()
         {
                 $postStr = file_get_contents('php://input');    

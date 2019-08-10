@@ -56,7 +56,7 @@ class ThreeTest extends Controller
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
-                 Response.Write('success');
+                 exit('success');
             }else{
                 //错误代码日志
                 $pp['msg']=$errCode;
@@ -68,7 +68,7 @@ class ThreeTest extends Controller
          * lilu
          * 微信第三方授权后。获取回调信息
          */
-        public function callback(){
+        public function callback2(){
             $encodingAesKey = $this->encodingAesKey;
             $token = $this->token;
             $appId = $this->appid;
@@ -78,6 +78,7 @@ class ThreeTest extends Controller
             $pc = new \WXBizMsgCrypt ( $token, $encodingAesKey, $appId );
             //获取到微信推送过来post数据（xml格式）
             $postArr =file_get_contents("php://input");
+            $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
             $msg = '';
             $errCode =$pc->decryptMsg($msg_sign, $timeStamp, $nonce, $postArr,$msg);
             if ($errCode == 0) {
@@ -171,6 +172,7 @@ class ThreeTest extends Controller
             $pp['msg']='postobj111';
                    db('test')->insert($pp);
         }
+        
        /*
 
      * 设置小程序服务器地址，无需加https前缀，但域名必须可以通过https访问
@@ -371,115 +373,6 @@ class ThreeTest extends Controller
                     return false;
                 }
             }
-
-           
-
-             /**
-     * 构造函数
-     * @param String $save_name 保存图片名称
-     * @param String $save_dir 保存路径名称
-     */
-    public function check_all($save_name, $save_dir) {
-        //设置保存图片名称，若未设置，则随机产生一个唯一文件名
-        $this->save_name = $save_name ? $save_name : md5 ( mt_rand (), uniqid () );
-        //设置保存图片路径，若未设置，则使用年/月/日格式进行目录存储
-        $this->save_dir =  $save_dir ? self::ROOT_PATH .$save_dir : self::ROOT_PATH .date ( 'Y/m/d' );
-        //创建文件夹
-        @$this->create_dir ( $this->save_dir );
-        //设置目录+图片完整路径
-        $this->save_fullpath = $this->save_dir . '/' . $this->save_name;
-    }
-    //兼容PHP4
-    public function image() {
-        $this->check_all ($save_name );
-    }
-
-    public function stream2Image() {
-        //二进制数据流
-        $data = file_get_contents ( 'php://input' ) ? file_get_contents ( 'php://input' ) : gzuncompress ( $GLOBALS ['HTTP_RAW_POST_DATA'] );
-        //数据流不为空，则进行保存操作
-        if (! empty ( $data )) {
-            //创建并写入数据流，然后保存文件
-            if (@$fp = fopen ( $this->save_fullpath, 'w+' )) {
-                fwrite ( $fp, $data );
-                fclose ( $fp );
-                $baseurl = "http://" . $_SERVER ["SERVER_NAME"] . ":" . $_SERVER ["SERVER_PORT"] . dirname ( $_SERVER ["SCRIPT_NAME"] ) . '/' . $this->save_name;
-                if ( $this->getimageInfo ( $baseurl )) {
-                    echo $baseurl;
-                } else {
-                    echo ( self::NOT_CORRECT_TYPE  );
-                }
-            } else {
-
-            }
-        } else {
-            //没有接收到数据流
-            echo ( self::NO_STREAM_DATA );
-        }
-    }
-    /**
-     * 创建文件夹
-     * @param String $dirName 文件夹路径名
-     */
-    public function create_dir($dirName, $recursive = 1,$mode=0777) {
-        ! is_dir ( $dirName ) && mkdir ( $dirName,$mode,$recursive );
-    }
-    /**
-     * 获取图片信息，返回图片的宽、高、类型、大小、图片mine类型
-     * @param String $imageName 图片名称
-     */
-    public function getimageInfo($imageName = '') {
-        $imageInfo = getimagesize ( $imageName );
-        if ($imageInfo !== false) {
-            $imageType = strtolower ( substr ( image_type_to_extension ( $imageInfo [2] ), 1 ) );
-            $imageSize = filesize ( $imageInfo );
-            return $info = array ('width' => $imageInfo [0], 'height' => $imageInfo [1], 'type' => $imageType, 'size' => $imageSize, 'mine' => $imageInfo ['mine'] );
-        } else {
-            //不是合法的图片
-            return false;
-        }
-
-    }
-
-
-    /**
-     * 自动回复文本
-     */
-    public function responseText2($object = '', $content = '')
-    {
-        if (!isset($content) || empty($content)){
-            return "";
-        }
- 
-        $xmlTpl =   "<xml>
-                        <ToUserName><![CDATA[%s]]></ToUserName>
-                        <FromUserName><![CDATA[%s]]></FromUserName>
-                        <CreateTime>%s</CreateTime>
-                        <MsgType><![CDATA[text]]></MsgType>
-                        <Content><![CDATA[%s]]></Content>
-                    </xml>";
-        $result = sprintf($xmlTpl, $object->FromUserName, $object->ToUserName, time(), $content);
- 
-        return $result;
-    }
- 
-    /**
-     * 发送文本消息
-     */
-    public function sendServiceText($object = '', $content = '', $access_token = '')
-    {
-        /* 获得openId值 */
-        $openid = (string)$object->FromUserName;
-        $post_data = array(
-            'touser'    => $openid,
-            'msgtype'   => 'text',
-            'text'      => array(
-                            'content'   => $content
-                        )
-        );
-        $this->sendMessages($post_data, $access_token);
-    } 
-    
     /**
      * 发送消息-客服消息
      */
@@ -489,63 +382,7 @@ class ThreeTest extends Controller
         httpRequest($url, 'POST', json_encode($post_data, JSON_UNESCAPED_UNICODE));
     }   
  
-    /**
-     * CURL请求
-     * @param $url 请求url地址
-     * @param $method 请求方法 get post
-     * @param null $postfields post数据数组
-     * @param array $headers 请求header信息
-     * @param bool|false $debug  调试开启 默认false
-     * @return mixed
-     */
-    function httpRequest($url, $method="GET", $postfields = null, $headers = array(), $debug = false) {
-        $method = strtoupper($method);
-        $ci = curl_init();
-        /* Curl settings */
-        curl_setopt($ci, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
-        curl_setopt($ci, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:34.0) Gecko/20100101 Firefox/34.0");
-        curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, 60); /* 在发起连接前等待的时间，如果设置为0，则无限等待 */
-        curl_setopt($ci, CURLOPT_TIMEOUT, 7); /* 设置cURL允许执行的最长秒数 */
-        curl_setopt($ci, CURLOPT_RETURNTRANSFER, true);
-        switch ($method) {
-            case "POST":
-                curl_setopt($ci, CURLOPT_POST, true);
-                if (!empty($postfields)) {
-                    $tmpdatastr = is_array($postfields) ? http_build_query($postfields) : $postfields;
-                    curl_setopt($ci, CURLOPT_POSTFIELDS, $tmpdatastr);
-                }
-                break;
-            default:
-                curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method); /* //设置请求方式 */
-                break;
-        }
-        $ssl = preg_match('/^https:\/\//i',$url) ? TRUE : FALSE;
-        curl_setopt($ci, CURLOPT_URL, $url);
-        if($ssl){
-            curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, FALSE); // https请求 不验证证书和hosts
-            curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, FALSE); // 不从证书中检查SSL加密算法是否存在
-        }
-        //curl_setopt($ci, CURLOPT_HEADER, true); /*启用时会将头文件的信息作为数据流输出*/
-        curl_setopt($ci, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ci, CURLOPT_MAXREDIRS, 2);/*指定最多的HTTP重定向的数量，这个选项是和CURLOPT_FOLLOWLOCATION一起使用的*/
-        curl_setopt($ci, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ci, CURLINFO_HEADER_OUT, true);
-        /*curl_setopt($ci, CURLOPT_COOKIE, $Cookiestr); * *COOKIE带过去** */
-        $response = curl_exec($ci);
-        $requestinfo = curl_getinfo($ci);
-        $http_code = curl_getinfo($ci, CURLINFO_HTTP_CODE);
-        if ($debug) {
-            echo "=====post data======\r\n";
-            var_dump($postfields);
-            echo "=====info===== \r\n";
-            print_r($requestinfo);
-            echo "=====response=====\r\n";
-            print_r($response);
-        }
-        curl_close($ci);
-        return $response;
-        //return array($http_code, $response,$requestinfo);
-    }
+    
    /**
     * lilu 
     * 回复文本信息
@@ -612,6 +449,33 @@ class ThreeTest extends Controller
         }
         echo $res;
             }
+
+            /**
+             * lilu
+             * 消息接收
+             * 
+             * 
+             * 
+             * 
+             */
+            //公众号消息与事件接收URL
+
+    public function callback()
+    {
+        $msg_signature = $_REQUEST['msg_signature'];
+        if ($msg_signature) {
+            $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $toUsername = $postObj->ToUserName;
+            if ($toUsername == 'gh_3c884a361561') {
+                $this->encrypt($postStr);
+            }else{
+				$this->encrypt($postStr);	
+			}
+        } else {
+            return;
+        }
+    }
 
           
             
