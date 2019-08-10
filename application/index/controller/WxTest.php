@@ -197,6 +197,7 @@ class WxTest extends Controller
         // $authorizer_appid = input('param.appid/s'); 
         // 每个授权小程序传来的加密消息
         $postStr = file_get_contents("php://input");
+        trim($postStr);
         $pp4['msg']=$postStr.'123';
         db('test')->insert($pp4);
         if (!empty($postStr)){
@@ -241,7 +242,7 @@ class WxTest extends Controller
                 //第三方平台全网发布检测普通文本消息测试 
                 if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
                     $toUsername = trim($msgObj->ToUserName);
-                    if ($toUsername == 'gh_3c884a361561') { 
+                    if ($toUsername == 'gh_8dad206e9538') { 
                         $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
                         echo $this->responseText($msgObj, $content);
                     }
@@ -249,7 +250,7 @@ class WxTest extends Controller
                 //第三方平台全网发布检测返回api文本消息测试 
                 if (strpos($content, 'QUERY_AUTH_CODE') !== false) { 
                     $toUsername = trim($msgObj->ToUserName);
-                    if ($toUsername == 'gh_3c884a361561') { 
+                    if ($toUsername == 'gh_8dad206e9538') { 
                         $query_auth_code = str_replace('QUERY_AUTH_CODE:', '', $content);
                         $params = $this->dedeLogic->api_query_auth($query_auth_code);
                         $authorizer_access_token = $params['authorization_info']['authorizer_access_token']; 
