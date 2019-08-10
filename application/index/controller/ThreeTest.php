@@ -84,14 +84,14 @@ class ThreeTest extends Controller
             if ($errCode == 0) {
                 //处理消息类型，并设置回复类型和内容
                    $postObj=simplexml_load_string($msg,'SimpleXMLElement',LIBXML_NOCDATA);
-                   $pp['msg']=$postObj.'postobj';
+                   $pp['msg']=$postObj->MsgType.'postobj';
                    db('test')->insert($pp);
                    //判断该数据包是否是订阅（用户关注）的事件推送
-                   if(strtolower($postObj-> MsgType) == 'event'){
+                   if(strtolower($postObj->MsgType) == 'event'){
                             //第三方平台全网发布检测发送事件消息测试
-                            $toUsername= $postObj -> ToUserName;
+                            $toUsername= $postObj ->ToUserName;
                             if($toUsername== 'gh_3c884a361561'){
-                                     $event= $postObj -> Event;
+                                     $event= $postObj ->Event;
                                      $content= $event.'from_callback';
                                      $this->responseText($postObj,$content);
                             }
@@ -107,8 +107,8 @@ class ThreeTest extends Controller
                             }
                    }
                    //第三方平台全网发布检测普通文本消息测试
-                   if(strtolower($postObj-> MsgType) == 'text' &&trim($postObj->Content)=='TESTCOMPONENT_MSG_TYPE_TEXT'){
-                            $toUsername= $postObj -> ToUserName;
+                   if(strtolower($postObj->MsgType) == 'text' &&trim($postObj->Content)=='TESTCOMPONENT_MSG_TYPE_TEXT'){
+                            $toUsername= $postObj ->ToUserName;
                             if($toUsername== 'gh_3c884a361561'){
                                      $content= 'TESTCOMPONENT_MSG_TYPE_TEXT_callback';
                                      $this->responseText($postObj,$content);
@@ -147,7 +147,7 @@ class ThreeTest extends Controller
                    }else{
                             //当微信用户发送关键字，公众号回复对应内容
                             $public_name=strval($postObj->ToUserName);
-                            $keyword=strval(trim($postObj -> Content));
+                            $keyword=strval(trim($postObj ->Content));
                             $log['public_name']=$public_name;
                             $log['keyword']=array('like','%'.$keyword.'%');
                             // $con=M('Keyword')->where($log)->select();
