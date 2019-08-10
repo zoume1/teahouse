@@ -247,7 +247,7 @@ class WxTest extends Controller
             if ($errCode == 0) {
                 $msgObj = simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
                 $content = trim($msgObj->Content);
-                $pp3['msg']=$msgObj;
+                $pp3['msg']=$msgObj.'1';
                 db('test')->insert($pp3);
                 //第三方平台全网发布检测普通文本消息测试 
                 if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
@@ -264,7 +264,11 @@ class WxTest extends Controller
                     db('test')->insert($pp4);
                     if ($toUsername == 'gh_8dad206e9538') { 
                         $query_auth_code = str_replace('QUERY_AUTH_CODE:', '', $content);
+                        $pp5['msg']=$query_auth_code;
+                        db('test')->insert($pp5);
                         $params = $this->getAuthInfo($query_auth_code);
+                        $pp5['msg']=$params;
+                        db('test')->insert($pp5);
                         $authorizer_access_token = $params['authorization_info']['authorizer_access_token']; 
                         $content = "{$query_auth_code}_from_api"; 
                         $this->sendServiceText($msgObj, $content, $authorizer_access_token);
