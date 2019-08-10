@@ -258,6 +258,8 @@ class WxTest extends Controller
         }
             //获取回调的信息
             $data2=input();
+            $pp['msg']=$data2;
+            db('test')->insert($pp);
             $auth_code=$data2['auth_code'];     //授权码
             //根据授权码，获取用户信息
             $auth_info=$this->getAuthInfo($auth_code);
