@@ -69,41 +69,17 @@ class ThreeTest extends Controller
          * 微信第三方授权后。获取回调信息
          */
         public function callback(){
-        // 每个授权小程序的appid，在第三方平台的消息与事件接收URL中设置了 $APPID$ 
-        $authorizer_appid = input('param.appid/s'); 
-        // 每个授权小程序传来的加密消息
-        $postStr = file_get_contents("php://input");
-        $p['msg']=$postStr.'1231312312';
-        db('test')->insert($postStr);
-        if (!empty($postStr)){
-            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            $toUserName = trim($postObj->ToUserName);
-            $encrypt = trim($postObj->Encrypt);
-            $format = "<xml><ToUserName><![CDATA[{$toUserName}]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
-            $from_xml = sprintf($format, $encrypt);
-            $inputs = array(
-                'encrypt_type' => '',
-                'timestamp' => '',
-                'nonce' => '',
-                'msg_signature' => '',
-                'signature' => ''
-            );
-            foreach ($inputs as $key => $value) {
-                $tmp = $_REQUEST[$key];
-                if (!empty($tmp)){
-                    $inputs[$key] = $tmp;
-                }
-            }
-            // 第三方收到公众号平台发送的消息
-            $msg = '';
-            $timeStamp = $inputs['timestamp'];
-            $msg_sign = $inputs['msg_signature'];
-            $nonce = $inputs['nonce'];
-            $token = $this->token;
             $encodingAesKey = $this->encodingAesKey;
-            $appid = $this->appid;
-            $pc = new \WXBizMsgCrypt($token, $encodingAesKey, $appid);
-            $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
+            $token = $this->token;
+            $appId = $this->appid;
+            $timeStamp = empty ($_GET ['timestamp'] ) ? "" : trim ( $_GET ['timestamp'] );
+            $nonce = empty ( $_GET['nonce'] ) ? "" : trim ( $_GET ['nonce'] );
+            $msg_sign = empty ($_GET ['msg_signature'] ) ? "" : trim ( $_GET ['msg_signature'] );
+            $pc = new \WXBizMsgCrypt ( $token, $encodingAesKey, $appId );
+            //获取到微信推送过来post数据（xml格式）
+            $postArr =$GLOBALS['HTTP_RAW_POST_DATA'];
+            $msg = '';
+            $errCode =$pc->decryptMsg($msg_sign, $timeStamp, $nonce, $postArr,$msg);
             if ($errCode == 0) {
                 //处理消息类型，并设置回复类型和内容
                    $postObj=simplexml_load_string($msg,'SimpleXMLElement',LIBXML_NOCDATA);
@@ -116,16 +92,17 @@ class ThreeTest extends Controller
                             if($toUsername== 'gh_3c884a361561'){
                                      $event= $postObj -> Event;
                                      $content= $event.'from_callback';
-                                     responseText($postObj,$content);
+                                     $this->responseText($postObj,$content);
                             }
                             //如果是关注subscribe事件
                             if(strtolower($postObj->Event== 'subscribe')){
                                      $public_name=strval($postObj->ToUserName);
                                      $map['public_name']=$public_name;
-                                     $cont=M('Subscribe')->where($map)->find();
+                                    //  $cont=M('Subscribe')->where($map)->find();
+                                     $cont='saomiaoshijain';
                                      //回复用户消息
                                      $content=$cont['content'];
-                                     responseText($postObj,$content);
+                                     $this->responseText($postObj,$content);
                             }
                    }
                    //第三方平台全网发布检测普通文本消息测试
@@ -133,20 +110,20 @@ class ThreeTest extends Controller
                             $toUsername= $postObj -> ToUserName;
                             if($toUsername== 'gh_3c884a361561'){
                                      $content= 'TESTCOMPONENT_MSG_TYPE_TEXT_callback';
-                                     responseText($postObj,$content);
+                                     $this->responseText($postObj,$content);
                             }
                    }
                    //第三方平台全网发布检测返回api文本消息测试
                    if(strpos ($postObj->Content, 'QUERY_AUTH_CODE' ) !== false){
                             $query_auth_code= str_replace ( 'QUERY_AUTH_CODE:', '', $postObj->Content);
-                            $wechat= A('Wechat/Wechat');
-                            $info= $wechat ->getAuthInfo($query_auth_code);
+                            // $wechat= A('Wechat/Wechat');
+                            $info= $this->getAuthInfo($query_auth_code);
                             $access_info=$info['authorization_info'] ['authorizer_access_token'];
                             $param['touser'] = $postObj ->FromUserName;
                             $param['msgtype'] = 'text';
                             $param['text'] ['content'] = $query_auth_code . '_from_api';
                             $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_info;
-                            $res = post_data ( $url,$param );
+                            $res = $this->https_post ( $url,$param );
                    }
                    //用户发送某一图文关键字的时候，回复图文消息
                    if(strtolower($postObj->MsgType) == 'text' && trim($postObj->Content)=='图文'){
@@ -165,14 +142,15 @@ class ThreeTest extends Controller
                                                'url'=>'https://mp.weixin.qq.com/s?__biz=MjM5NzY4MDc0MA==&tempkey=mKI6U0rlJZofvceyQdxTPDXw5wcPw4rpHzkwOv4U7kDY1V%2BUUirAB0C9oEEsX5HQB8Uv1Ut2zj3buNkRPh6KNYWVyTaxebMkb8IcD9FjNbpcqY0mdRbCxRnbIjtmNBd37cKXm3Egbo1KWdkSEy5NZg%3D%3D&chksm=315123030626aa15c3e454afbd931ec3458149b13370999b16bc72b876326977e7d68b406a8c#rd',
                                      )
                             );
-                            responseNews($postObj,$arr);
+                            $this->responseNews($postObj,$arr);
                    }else{
                             //当微信用户发送关键字，公众号回复对应内容
                             $public_name=strval($postObj->ToUserName);
                             $keyword=strval(trim($postObj -> Content));
                             $log['public_name']=$public_name;
                             $log['keyword']=array('like','%'.$keyword.'%');
-                            $con=M('Keyword')->where($log)->select();
+                            // $con=M('Keyword')->where($log)->select();
+                            $con[0]='微信用户发送关键字';
                             foreach($conas as $vo => $k){
                                      $conn=$con[$vo]['content'];
                             }
@@ -181,16 +159,16 @@ class ThreeTest extends Controller
                             }else{
                                      $lg['public_name']=$public_name;
                                      $lg['keyword']='';
-                                     $con=M('Keyword')->where($lg)->select();
+                                    //  $con=M('Keyword')->where($lg)->select();
+                                    $con[0]='微信用户发送关键字';
                                      foreach($conas as $vo => $k){
                                      $conn=$con[$vo]['content'];
                             }
                             $content=$conn;
                             }
-                            responseText($postObj,$content);
+                            $this->responseText($postObj,$content);
                    }
             }
-        }
         }
        /*
 
@@ -466,7 +444,7 @@ class ThreeTest extends Controller
     /**
      * 自动回复文本
      */
-    public function responseText($object = '', $content = '')
+    public function responseText2($object = '', $content = '')
     {
         if (!isset($content) || empty($content)){
             return "";
@@ -567,6 +545,72 @@ class ThreeTest extends Controller
         return $response;
         //return array($http_code, $response,$requestinfo);
     }
+   /**
+    * lilu 
+    * 回复文本信息
+    */
+    public function responseText($postObj,$content){
+        $template ="<xml>
+                <ToUserName><![CDATA[%s]]></ToUserName>
+                <FromUserName><![CDATA[%s]]></FromUserName>
+                <CreateTime>%s</CreateTime>
+                <MsgType><![CDATA[%s]]></MsgType>
+                <Content><![CDATA[%s]]></Content>
+                </xml>";
+        $fromUser = $postObj ->ToUserName;
+        $toUser   = $postObj -> FromUserName;
+        $time     = time();
+        $msgType  = 'text';
+        $res =sprintf($template,$toUser,$fromUser,$time,$msgType,$content);
+        $encodingAesKey = $this->encodingAesKey;
+        $token =$this->token;
+        $appId = $this->appid;
+        $pc = new \WXBizMsgCrypt ($token, $encodingAesKey, $appId );
+        $encryptMsg = '';
+        $errCode =$pc->encryptMsg($res,$_GET ['timestamp'], $_GET ['nonce'], $encryptMsg);
+        if($errCode ==0){
+                $res = $encryptMsg;
+        }
+        echo $res;
+    }
+    /**
+     * lilu
+     * 回复图文消息
+     */
+    function responseNews($postObj,$arr){
+        $toUser     = $postObj -> FromUserName;
+        $fromUser   = $postObj -> ToUserName;
+        $template  ="<xml>
+                <ToUserName><![CDATA[%s]]></ToUserName>
+                <FromUserName><![CDATA[%s]]></FromUserName>
+                <CreateTime>%s</CreateTime>
+                <MsgType><![CDATA[%s]]></MsgType>
+                <ArticleCount>".count($arr)."</ArticleCount>
+                <Articles>";
+        foreach($arr as $k=>$v){
+                $template.="<item>
+                <Title><![CDATA[".$v['title']."]]></Title>
+                <Description><![CDATA[".$v['description']."]]></Description>
+                <PicUrl><![CDATA[".$v['picUrl']."]]></PicUrl>
+                <Url><![CDATA[".$v['url']."]]></Url>
+                </item>";
+        }
+        $template.="</Articles>
+                </xml>";
+        $time     = time();
+        $msgType  = 'news';
+        $res =sprintf($template,$toUser,$fromUser,$time,$msgType);
+        $encodingAesKey = $this->encodingAesKey;
+        $token =$this->token;
+        $appId = $this->appid;
+        $pc = new \WXBizMsgCrypt ($token, $encodingAesKey, $appId );
+        $encryptMsg = '';
+        $errCode =$pc->encryptMsg($res,$_GET ['timestamp'], $_GET ['nonce'], $encryptMsg);
+        if($errCode ==0){
+                $res = $encryptMsg;
+        }
+        echo $res;
+            }
 
           
             
