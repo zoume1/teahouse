@@ -69,7 +69,7 @@ class ThreeTest extends Controller
          * lilu
          * 微信第三方授权后。获取回调信息
          */
-        public function callback2(){
+        public function callback(){
             $encodingAesKey = $this->encodingAesKey;
             $token = $this->token;
             $appId = $this->appid;
@@ -459,7 +459,7 @@ class ThreeTest extends Controller
    /**
      * 消息与事件接收URL
      */
-    public function callback()
+    public function callback2()
     {
         // 每个授权小程序的appid，在第三方平台的消息与事件接收URL中设置了 $APPID$ 
         $authorizer_appid = I('param.appid/s'); 
