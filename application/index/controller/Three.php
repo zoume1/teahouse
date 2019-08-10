@@ -37,7 +37,8 @@ public $component_access_token;
     {
         $msg_signature = $_REQUEST['msg_signature'];
         if ($msg_signature) {
-            $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+            // $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+            $postStr = file_get_contents("php://input");
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $toUsername = $postObj->ToUserName;
             if ($toUsername == 'gh_3c884a361561') {
