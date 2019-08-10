@@ -147,7 +147,7 @@ class WxTest extends Controller
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
-                 echo "success";
+                 return "success";
             }else{
                 //错误代码日志
                 $pp['msg']=$errCode;
