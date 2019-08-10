@@ -44,13 +44,188 @@ class  Analyse extends  Controller{
      **************************************
      */
     public function  analyse_order(){
-        $rest_data = Db::table("tb_adder_order")
-        ->alias('a')
-        ->join('tb_store b','b.id = a.store_id','left')
-        ->where("a.status",'>',1)
-        ->field("a.*,b.store_name")
-        ->order("a.order_create_time")
-        ->select();
+        $store_id = Session::get("store_id");
+        if($store_id == 0){
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        } else {
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where("a.store_id",'=',$store_id)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        }
+        $url = 'admin/Analyse/analyse_order';
+        $pag_number = 20;
+        $data = paging_data($rest_data,$url,$pag_number);
+        return view("analyse_order",["data"=>$data]);
+    }
+
+        /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:总控增值订单待发货
+     **************************************
+     */
+    public function  analyse_waiting(){
+        $store_id = Session::get("store_id");
+        if($store_id == 0){
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'=',2)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        } else {
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'=',2)
+            ->where("a.store_id",'=',$store_id)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        }
+        $url = 'admin/Analyse/analyse_order';
+        $pag_number = 20;
+        $data = paging_data($rest_data,$url,$pag_number);
+        return view("analyse_order",["data"=>$data]);
+    }
+
+         /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:总控增值订单已发货
+     **************************************
+     */
+    public function  analyse_delivered(){
+        $store_id = Session::get("store_id");
+        if($store_id == 0){
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'=',4)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        } else {
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'=',4)
+            ->where("a.store_id",'=',$store_id)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        }
+        $url = 'admin/Analyse/analyse_order';
+        $pag_number = 20;
+        $data = paging_data($rest_data,$url,$pag_number);
+        return view("analyse_order",["data"=>$data]);
+    }
+
+
+         /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:总控增值订单待收货
+     **************************************
+     */
+    public function  analyse_received(){
+        $store_id = Session::get("store_id");
+        if($store_id == 0){
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'=',4)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        } else {
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'=',4)
+            ->where("a.store_id",'=',$store_id)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        }
+        $url = 'admin/Analyse/analyse_order';
+        $pag_number = 20;
+        $data = paging_data($rest_data,$url,$pag_number);
+        return view("analyse_order",["data"=>$data]);
+    }
+
+
+         /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:总控增值订单待收货
+     **************************************
+     */
+    public function  analyse_served(){
+        $store_id = Session::get("store_id");
+        if($store_id == 0){
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'=',12)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        } else {
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'=',12)
+            ->where("a.store_id",'=',$store_id)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        }
+        $url = 'admin/Analyse/analyse_order';
+        $pag_number = 20;
+        $data = paging_data($rest_data,$url,$pag_number);
+        return view("analyse_order",["data"=>$data]);
+    }
+
+
+         /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:总控增值订单待收货
+     **************************************
+     */
+    public function  analyse_ok (){
+        $store_id = Session::get("store_id");
+        if($store_id == 0){
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'=',8)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        } else {
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'=',8)
+            ->where("a.store_id",'=',$store_id)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        }
         $url = 'admin/Analyse/analyse_order';
         $pag_number = 20;
         $data = paging_data($rest_data,$url,$pag_number);
@@ -712,9 +887,8 @@ class  Analyse extends  Controller{
         if($request->isPost()){
             $order_id = $request->only(["order_id"])["order_id"];
             if(!empty($order_id)){
-                $data = Db::name("adder_order")->where("id",$order_id)->find();
+                $data = Db::name("adder_order")->where("parts_order_number",$order_id)->find();
                 if(!empty($data)){
-                    $data["member_name"] = Db::name("member")->where("member_id",$data["member_id"])->value("member_name");
                     $data["store_name"] = Db::name("store")->where("id",$data["store_id"])->value("store_name");
                     $data["goods_franking"] = Db::name("analyse_goods")->where("id",$data["goods_id"])->value("goods_franking");
                     return ajax_success("数据返回成功",$data);
@@ -733,7 +907,7 @@ class  Analyse extends  Controller{
      */
     public function  adder_order_confirm_shipment(Request $request){
         if($request->isPost()){
-            $order_id =$request->only(["order_id"])["order_id"];
+            $order_number =$request->only(["order_id"])["order_id"];
             $status =$request->only(["status"])["status"];
             $courier_number =$request->only(["courier_number"])["courier_number"];
             $express_name =$request->only(["express_name"])["express_name"];
@@ -744,8 +918,7 @@ class  Analyse extends  Controller{
                 "express_name"=>$express_name,
                 "express_name_ch"=>$express_name2,
             ];
-            $order_number = Db::name("adder_order")->where("id",$order_id)->value('parts_order_number');
-            $bool = Db::name("adder_order")->where("id",$order_id)->update($data);
+            $bool = Db::name("adder_order")->where("parts_order_number",$order_number)->update($data);
             if($bool){
                 return ajax_success("发货成功",["status"=>1]);
             }else{
@@ -772,6 +945,27 @@ class  Analyse extends  Controller{
                 return ajax_success("修改状态成功");
             }else{
                 return ajax_error("修改状态失败");
+            }
+        }
+    }
+
+        /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:增值订单修改订单编号
+     **************************************
+     */
+    public function adder_order_change(Request $request){
+        if($request->isPost()){
+            $order_id = $request->only(["order_id"])["order_id"];
+            $courier_number = $request->only(["courier_number"])["courier_number"];
+            if(!empty($order_id)){
+                $data = Db::name("adder_order")->where("parts_order_number",$order_id)->update(['courier_number'=>$courier_number]);
+                if(!empty($data)){
+                    return ajax_success("修改成功",$data);
+                }else{
+                    return ajax_error("修改失败",["status"=>0]);
+                }
             }
         }
     }

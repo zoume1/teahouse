@@ -3,18 +3,20 @@
 	<div class="right" style="display: flex;">
 		<div style="float: left;
 		padding-left: 13px;
-		width: 35px;margin-right: 5px;">{if !empty($store_logo)}<img style="border-radius: 60px;margin-left: 2px;" src="__UPLOADS__/{$store_logo}"/>{else}<img src="__STATIC__/admin/index/img/rest.png"/>{/if}</div>
+		width: 35px;margin-right: 5px;">{if !empty($store_logo)}<img style="border-radius: 60px;margin-left: 2px;"
+				src="__UPLOADS__/{$store_logo}" />{else}<img src="__STATIC__/admin/index/img/rest.png" />{/if}</div>
 		<div class="name" style="font-size:20px">{$store_name}</div>
-		<div id="cd-time" style="position: absolute; left: 180px; background-color: #fee; display: none; height: 30px; line-height: 30px; color: #f00; margin: 12px 0 0 20px; padding: 0 10px;">	
+		<div id="cd-time"
+			style="position: absolute; left: 180px; background-color: #fee; display: none; height: 30px; line-height: 30px; color: #f00; margin: 12px 0 0 20px; padding: 0 10px;">
 		</div>
 	</div>
 	{else}
 	<div class="right" style="display: flex;">
-			<div style="float: left;
+		<div style="float: left;
 			padding-left: 13px;
-			width: 35px;margin-right: 10px"><img src="__STATIC__/index/img/logo123.png"/></div>
-			<div class="name" style="font-size:20px">智慧茶仓</div>
-		</div>
+			width: 35px;margin-right: 10px"><img src="__STATIC__/index/img/logo123.png" /></div>
+		<div class="name" style="font-size:20px">智慧茶仓</div>
+	</div>
 	{/if}
 
 	<!--<div class="company_information">
@@ -26,36 +28,40 @@
 	
 	</div>-->
 	<div class="loading-box">
-			<div class="message"><img src="__STATIC__/admin/index/img/u44.png"/></div>
+		<div class="message"><img src="__STATIC__/admin/index/img/u44.png" /></div>
 		<div class="self_information">
 			<!--<span class="information-photo"><img src="__STATIC__/admin/index/img/u39.png"></span>-->
 			<!--<span>siring</span>-->
 
-			<span><a class="header-url" data-id="213" data-value="/admin/capital_management" data-url="/admin/capital_management.html" href="javascript:void(0);" >资金管理</a></span>
-			<span><a class="header-url" data-id="179" data-value="/admin/order_package_index" data-url="/admin/order_package_index.html" href="javascript:void(0);" >订购套餐</a></span>
-			<span><a class="header-url" data-id="178" data-value="/admin/added_service_index" data-url="/admin/added_service_index.html" href="javascript:void(0);" >增值服务</a></span>
+			<span><a class="header-url" data-id="213" data-value="/admin/capital_management"
+					data-url="/admin/capital_management.html" href="javascript:void(0);">资金管理</a></span>
+			<span><a class="header-url" data-id="179" data-value="/admin/order_package_index"
+					data-url="/admin/order_package_index.html" href="javascript:void(0);">订购套餐</a></span>
+			<span><a class="header-url" data-id="178" data-value="/admin/added_service_index"
+					data-url="/admin/added_service_index.html" href="javascript:void(0);">增值服务</a></span>
 
 			<span>
-				<a id="qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=415364124&amp;site=qq&amp;menu=yes">客服</a>
+				<a id="qq" target="_blank"
+					href="http://wpa.qq.com/msgrd?v=3&amp;uin=415364124&amp;site=qq&amp;menu=yes">客服</a>
 			</span>
-			<span><a class="header-url" href="#" >{$account}</a></span>
+			<span><a class="header-url" href="#">{$account}</a></span>
 			<span><a href="{:url('admin/Login/logout')}" id="tcdl">退出登录</a></span>
 		</div>
 	</div>
 </div>
 <script>
-	$(function(){
+	$(function () {
 		$.ajax({
 			url: '{:url("admin/index/shop_store_date")}',
 			type: 'POST',
 			dataType: 'json',
-			success: function(res){
+			success: function (res) {
 				console.log(res);
-				if(res.status == 1){
-					$('#cd-time').show().text('您的店铺当前版本： '+res.data.goods_name+' 剩余时间： '+res.data.data_number+'天');
+				if (res.status == 1) {
+					$('#cd-time').show().text('您的店铺当前版本： ' + res.data.goods_name + ' 剩余时间： ' + res.data.data_number + '天');
 				}
 			},
-			error: function(res){
+			error: function (res) {
 				console.log(res.status, res.statusText);
 			}
 		})

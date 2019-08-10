@@ -1011,9 +1011,15 @@ Route::group("admin",[
     "control_charging_update"=>"admin/Analyse/control_charging_update",//线下充值申请审核
     "control_withdraw_update"=>"admin/Analyse/control_withdraw_update",//线下提现申请审核
     "store_notice_index"=>"admin/Analyse/store_notice_index",//增值商品处理回复
+    "adder_order_change"=>"admin/Analyse/adder_order_change",//增值订单修改快递编号
 
 
     "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单
+    "analyse_waiting"=>"admin/Analyse/analyse_waiting",      //总控增值订单待发货
+    "analyse_delivered"=>"admin/Analyse/analyse_delivered",  //总控增值已发货
+    "analyse_received"=>"admin/Analyse/analyse_received",    //总控增值待收货
+    "analyse_served"=>"admin/Analyse/analyse_served",          //总控增值待服务
+    "analyse_ok"=>"admin/Analyse/analyse_ok",          //总控增值已完成
     "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",//总控增值退款维权
 
 

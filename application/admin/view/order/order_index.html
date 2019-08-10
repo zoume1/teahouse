@@ -815,7 +815,7 @@
 				return false;
 			}
 			// 订单金额
-			var amount = +$(this).parents('tr').children('td.am').text();
+			var amount = $(this).parents('tr').children('td.am').text();
 			$('input[name=amount]').val(amount);
 			var data_id = $(this).data("id");    //订单id
 			var way = 0;
