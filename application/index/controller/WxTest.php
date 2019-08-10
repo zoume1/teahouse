@@ -197,6 +197,8 @@ class WxTest extends Controller
         // $authorizer_appid = input('param.appid/s'); 
         // 每个授权小程序传来的加密消息
         $postStr = file_get_contents("php://input");
+        $pp['msg']=$postStr;
+        db('test')->insert($pp);
     //     $postStr='<xml>
     //     <ToUserName><![CDATA[gh_8dad206e9538]]></ToUserName>
     //     <Encrypt><![CDATA[oHhPjRFD3yNf76HBfF1SciWjuu3lBu6e5kpC15WD7IIt+aTxzA1tSFpViEJJyCXGtfQwDYcCju1BP6aC5heNhs8jQauf571WqOqGGfaJ/WHL1rHKfsjc1MYqEpeXVd9PH+Q9mBmJfGn4boq+CrVIlRUgnXiKaAqliJRaCXkDovF7xW+Neizq/OSOwPwaDSKQFCw8YqUA+UXiBsqP6L1/CVx2msJ39dh/eGQ49Cxdbv2o1/wR7AHz2ANdF8hOUsWswvRoLgLLeSuuD+CT16Aorqk3uFwQYHNqVzhCwPN6ZUh3TWkGAEKnY3QjWLUjdmf7EzaNRHZQbOqBp6f8D+Qb5T6UwQWfzW0jrAlYufrcE01sPBPrjtNowyAF2Lhu/QQZnfWUhUx4DE4x2RjM5dgb4ruM6WNyMXdPCXpzJgkV8hCj9+SYsxjR8VD2OkX3WO6j/mVt5MhldpzdA8Sn7KlmJW2ne4V+0Nm0SRmuoer9RGYKSvFI0CEreOH4XG6jrvLQUWedJlPRMT8xXlAynQheeLx5FdUJHS0iTw0cIj4dlBKEotEekZTeaU6li6MUdI0Ppomqti79dONngYieV8uvew==]]></Encrypt>
