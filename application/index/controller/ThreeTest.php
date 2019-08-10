@@ -457,32 +457,8 @@ class ThreeTest extends Controller
         echo $res;
             }
 
-            /**
-             * lilu
-             * 消息接收
-             * 
-             * 
-             * 
-             * 
-             */
-            //公众号消息与事件接收URL
 
-    public function callback()
-    {
-        $msg_signature = $_REQUEST['msg_signature'];
-        if ($msg_signature) {
-            $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
-            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            $toUsername = $postObj->ToUserName;
-            if ($toUsername == 'gh_3c884a361561') {
-                $this->encrypt($postStr);
-            }else{
-				$this->encrypt($postStr);	
-			}
-        } else {
-            return;
-        }
-    }
+    
 
           
             
