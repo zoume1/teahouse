@@ -262,7 +262,7 @@ class WxTest extends Controller
                         db('test')->insert($pp8);
                         $result=$this->responseText($msgObj, $content);
                         // Response.write($result);
-                        echo $result;
+                        Response.Write($result); 
                     }
                 }
                 //第三方平台全网发布检测返回api文本消息测试 
