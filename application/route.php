@@ -397,7 +397,7 @@ Route::group("",[
     
     /* 微信公众平台路由  */
     "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
-    "callback"=>"index/ThreeTest/callback",                      //微信小程序--授权成功后，获取回调信息
+    "callback"=>"index/WxTest/callback",                      //微信小程序--授权成功后，获取回调信息
     /**  分享 */
     "qr_back_points"=>"index/My/qr_back_points",        //微信小程序--分享返积分
 

@@ -194,12 +194,15 @@ class WxTest extends Controller
          */
         public function callback(){
         // 每个授权小程序的appid，在第三方平台的消息与事件接收URL中设置了 $APPID$ 
-        $authorizer_appid = input('param.appid/s'); 
+        // $authorizer_appid = input('param.appid/s'); 
         // 每个授权小程序传来的加密消息
         $postStr = file_get_contents("php://input");
+        $pp4['msg']=$postStr.'123';
+        db('test')->insert($pp4);
         if (!empty($postStr)){
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
- 
+            $pp['msg']=$postObj.'111';
+            db('test')->insert($pp);
             $toUserName = trim($postObj->ToUserName);
             $encrypt = trim($postObj->Encrypt);
  
