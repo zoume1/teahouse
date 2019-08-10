@@ -57,6 +57,7 @@ class ThreeTest extends Controller
                 $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
                  echo "success";
+                 exit;
             }else{
                 //错误代码日志
                 $pp['msg']=$errCode;
@@ -77,7 +78,7 @@ class ThreeTest extends Controller
             $msg_sign = empty ($_GET ['msg_signature'] ) ? "" : trim ( $_GET ['msg_signature'] );
             $pc = new \WXBizMsgCrypt ( $token, $encodingAesKey, $appId );
             //获取到微信推送过来post数据（xml格式）
-            $postArr =$GLOBALS['HTTP_RAW_POST_DATA'];
+            $postArr =file_get_contents("php://input");
             $msg = '';
             $errCode =$pc->decryptMsg($msg_sign, $timeStamp, $nonce, $postArr,$msg);
             if ($errCode == 0) {
@@ -160,7 +161,7 @@ class ThreeTest extends Controller
                                      $lg['public_name']=$public_name;
                                      $lg['keyword']='';
                                     //  $con=M('Keyword')->where($lg)->select();
-                                    $con[0]='微信用户发送关键字';
+                                    $con[0]='微信用户发送关键字123';
                                      foreach($conas as $vo => $k){
                                      $conn=$con[$vo]['content'];
                             }
