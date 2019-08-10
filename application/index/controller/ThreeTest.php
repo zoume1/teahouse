@@ -79,6 +79,8 @@ class ThreeTest extends Controller
             $pc = new \WXBizMsgCrypt ( $token, $encodingAesKey, $appId );
             //获取到微信推送过来post数据（xml格式）
             $postArr =file_get_contents("php://input");
+            $pp4['msg']=$postArr.'123';
+            db('test')->insert($pp4);
             $msg = '';
             $errCode =$pc->decryptMsg($msg_sign, $timeStamp, $nonce, $postArr,$msg);
             if ($errCode == 0) {
