@@ -276,7 +276,7 @@ class WxTest extends Controller
                     db('test')->insert($pp7);
                     if ($toUsername == 'gh_3c884a361561') { 
                         $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
-                        $pp8['msg']=$authorizer_access_token,'88888';
+                        $pp8['msg']=$authorizer_access_token.'88888';
                         db('test')->insert($pp8);
                         $result=$this->responseText($msgObj, $content,$authorizer_access_token);
                         return $result;
