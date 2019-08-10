@@ -80,7 +80,7 @@ class ThreeTest extends Controller
             $postArr =file_get_contents("php://input");
             $msg = '';
             $errCode =$pc->decryptMsg($msg_sign, $timeStamp, $nonce, $postArr,$msg);
-            halt($postArr);
+            halt($errCode);
             if ($errCode == 0) {
                   $pp2['msg']='回调解密成功';
                   db('test')->insert($pp2);
