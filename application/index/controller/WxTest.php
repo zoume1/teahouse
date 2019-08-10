@@ -142,11 +142,12 @@ class WxTest extends Controller
                 $xml = new \DOMDocument();
                 $xml->loadXML($msg);
                 $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
-    
                 $component_verify_ticket = $array_e->item(0)->nodeValue;
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
+                 $pp['msg']=$component_verify_ticket;
+                 db('test')->insert($pp);
                  return "success";
             }else{
                 //错误代码日志
