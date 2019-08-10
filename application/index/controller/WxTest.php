@@ -196,53 +196,54 @@ class WxTest extends Controller
         // 每个授权小程序的appid，在第三方平台的消息与事件接收URL中设置了 $APPID$ 
         // $authorizer_appid = input('param.appid/s'); 
         // 每个授权小程序传来的加密消息
-        // $postStr = file_get_contents("php://input");
-        $postStr='<xml>
-        <AppId><![CDATA[gh_8dad206e9538]]></AppId>
-        <Encrypt><![CDATA[B7DxtjMSLvUUGtwkJC86YgvTCS3SNKTGIljVtzUOt/Z8ut09Pu8ipbOSH8i45KtdLSK2mzr79W/d2+U4kijbXrGW/a1BSTC0SmJ61j6drBrhvuXrYv4hMJnoXqXdNPlCMWcOHBA0jWPXkLY/xHuKOf3gZzZRbijE5vsogGNYlx2M0dl2Y/6j/x81KBOfYvvBui5qoTIV1TdaXTgay5alzSXKTpLoObRkaAM/Z8sAiGk8E1ZZTvLjqGcDE+nbH6QmKyRUosDYe5OGAU6FT7I7OgpvtMIKk7tFc81h+sWKuZuq2s9RPx9hMIYDl30VrX+/Zo0miG1gZYG2xgIREzGP7Ql0Ytzu0glyl/szx/bGpynHYyoytLlZWDuf65yS0J+rYxZeSv39Mk5J7jtWhcqSi3dAYSHWD3nS8g1BLHcnkiTDgn2vYI4Efdf4Lmc8gHApBpE5uPH46aH0SakuRdfNBRAB8W5pfSb8n8tTP7XdIbau9zZaLEVkJLbdJA2Ki7GkoVML7VAJtJ+k0UmUGYz/b2CbSk0HDBq0C+4CTQoKDmZPmVXiwHY2gjsT1PCDL70cSubA9uPWJyXAYsB5iBnucQ==]]></Encrypt>
-        </xml>
-        ';
-        $pp4['msg']=$postStr.'123';
-        db('test')->insert($pp4);
+        $postStr = file_get_contents("php://input");
+    //     $postStr='<xml>
+    //     <ToUserName><![CDATA[gh_8dad206e9538]]></ToUserName>
+    //     <Encrypt><![CDATA[oHhPjRFD3yNf76HBfF1SciWjuu3lBu6e5kpC15WD7IIt+aTxzA1tSFpViEJJyCXGtfQwDYcCju1BP6aC5heNhs8jQauf571WqOqGGfaJ/WHL1rHKfsjc1MYqEpeXVd9PH+Q9mBmJfGn4boq+CrVIlRUgnXiKaAqliJRaCXkDovF7xW+Neizq/OSOwPwaDSKQFCw8YqUA+UXiBsqP6L1/CVx2msJ39dh/eGQ49Cxdbv2o1/wR7AHz2ANdF8hOUsWswvRoLgLLeSuuD+CT16Aorqk3uFwQYHNqVzhCwPN6ZUh3TWkGAEKnY3QjWLUjdmf7EzaNRHZQbOqBp6f8D+Qb5T6UwQWfzW0jrAlYufrcE01sPBPrjtNowyAF2Lhu/QQZnfWUhUx4DE4x2RjM5dgb4ruM6WNyMXdPCXpzJgkV8hCj9+SYsxjR8VD2OkX3WO6j/mVt5MhldpzdA8Sn7KlmJW2ne4V+0Nm0SRmuoer9RGYKSvFI0CEreOH4XG6jrvLQUWedJlPRMT8xXlAynQheeLx5FdUJHS0iTw0cIj4dlBKEotEekZTeaU6li6MUdI0Ppomqti79dONngYieV8uvew==]]></Encrypt>
+    // </xml>';
+        // $postStr='<xml>
+        // <AppId><![CDATA[gh_8dad206e9538]]></AppId>
+        // <Encrypt><![CDATA[B7DxtjMSLvUUGtwkJC86YgvTCS3SNKTGIljVtzUOt/Z8ut09Pu8ipbOSH8i45KtdLSK2mzr79W/d2+U4kijbXrGW/a1BSTC0SmJ61j6drBrhvuXrYv4hMJnoXqXdNPlCMWcOHBA0jWPXkLY/xHuKOf3gZzZRbijE5vsogGNYlx2M0dl2Y/6j/x81KBOfYvvBui5qoTIV1TdaXTgay5alzSXKTpLoObRkaAM/Z8sAiGk8E1ZZTvLjqGcDE+nbH6QmKyRUosDYe5OGAU6FT7I7OgpvtMIKk7tFc81h+sWKuZuq2s9RPx9hMIYDl30VrX+/Zo0miG1gZYG2xgIREzGP7Ql0Ytzu0glyl/szx/bGpynHYyoytLlZWDuf65yS0J+rYxZeSv39Mk5J7jtWhcqSi3dAYSHWD3nS8g1BLHcnkiTDgn2vYI4Efdf4Lmc8gHApBpE5uPH46aH0SakuRdfNBRAB8W5pfSb8n8tTP7XdIbau9zZaLEVkJLbdJA2Ki7GkoVML7VAJtJ+k0UmUGYz/b2CbSk0HDBq0C+4CTQoKDmZPmVXiwHY2gjsT1PCDL70cSubA9uPWJyXAYsB5iBnucQ==]]></Encrypt>
+        // </xml>
+        // ';
         if (!empty($postStr)){
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            $pp['msg']=$postObj.'111';
-            db('test')->insert($pp);
-            $toUserName = trim($postObj->ToUserName);
+            $toUserName = trim($postObj->AppId);
             $encrypt = trim($postObj->Encrypt);
  
-            $format = "<xml><ToUserName><![CDATA[{$toUserName}]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
+            $format = "<xml><AppId><![CDATA[{$toUserName}]]></AppId><Encrypt><![CDATA[%s]]></Encrypt></xml>";
             $from_xml = sprintf($format, $encrypt);
  
-            $inputs = array(
-                'encrypt_type' => '',
-                'timestamp' => '',
-                'nonce' => '',
-                'msg_signature' => '',
-                'signature' => ''
-            );
-            foreach ($inputs as $key => $value) {
-                $tmp = $_REQUEST[$key];
-                if (!empty($tmp)){
-                    $inputs[$key] = $tmp;
-                }
-            }
- 
+            // $inputs = array(
+            //     // 'encrypt_type' => '',
+            //     'timestamp' => '',
+            //     'nonce' => '',
+            //     'msg_signature' => '',
+            //     'signature' => ''
+            // );
+            // foreach ($inputs as $key => $value) {
+            //     $tmp = $_REQUEST[$key];
+            //     if (!empty($tmp)){
+            //         $inputs[$key] = $tmp;
+            //     }
+            // }
             // 第三方收到公众号平台发送的消息
             $msg = '';
-            $timeStamp = $inputs['timestamp'];
-            $msg_sign = $inputs['msg_signature'];
-            $nonce = $inputs['nonce'];
+            // $timeStamp = $inputs['timestamp'];
+            // $msg_sign = $inputs['msg_signature'];
+            // $nonce = $inputs['nonce'];
+            $timeStamp  = empty($_GET['timestamp'])     ? ""    : trim($_GET['timestamp']) ;
+            $nonce      = empty($_GET['nonce'])     ? ""    : trim($_GET['nonce']) ;
+            $msg_sign   = empty($_GET['msg_signature']) ? ""    : trim($_GET['msg_signature']) ;
             $token = $this->token;
             $encodingAesKey = $this->encodingAesKey;
             $appid = $this->appid;
-            // vendor('minicrypto.wxBizMsgCrypt');
             $pc = new \WXBizMsgCrypt($token, $encodingAesKey, $appid);
             $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
             if ($errCode == 0) {
                 $msgObj = simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
                 $content = trim($msgObj->Content);
- 
+               
                 //第三方平台全网发布检测普通文本消息测试 
                 if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
                     $toUsername = trim($msgObj->ToUserName);
@@ -256,7 +257,7 @@ class WxTest extends Controller
                     $toUsername = trim($msgObj->ToUserName);
                     if ($toUsername == 'gh_8dad206e9538') { 
                         $query_auth_code = str_replace('QUERY_AUTH_CODE:', '', $content);
-                        $params = $this->dedeLogic->api_query_auth($query_auth_code);
+                        $params = $this->getAuthInfo($query_auth_code);
                         $authorizer_access_token = $params['authorization_info']['authorizer_access_token']; 
                         $content = "{$query_auth_code}_from_api"; 
                         $this->sendServiceText($msgObj, $content, $authorizer_access_token);
