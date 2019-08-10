@@ -260,8 +260,7 @@ class WxTest extends Controller
                         $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
                         $pp8['msg']=$content;
                         db('test')->insert($pp8);
-                        $result=$this->responseText($msgObj, $content);
-                        Response.Write($result);
+                        echo $this->responseText($msgObj, $content);
                     }
                 }
                 //第三方平台全网发布检测返回api文本消息测试 
