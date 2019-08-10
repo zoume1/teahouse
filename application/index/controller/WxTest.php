@@ -247,8 +247,10 @@ class WxTest extends Controller
             if ($errCode == 0) {
                 $msgObj = simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
                 $content = trim($msgObj->Content);
-                $pp3['msg']=$msgObj.'1';
+                $pp3['msg']=$content;
                 db('test')->insert($pp3);
+                $pp6['msg']=$msgObj->MsgType;
+                db('test')->insert($pp6);
                 //第三方平台全网发布检测普通文本消息测试 
                 if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
                     $toUsername = trim($msgObj->ToUserName);
