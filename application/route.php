@@ -396,19 +396,10 @@ Route::group("",[
     "getHousePrice"=>"index/Storehouse/getHousePrice",      //店铺小程序前端仓库订单出仓运费
     
     /* 微信公众平台路由  */
-    // "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
-    // "callback"=>"index/WxTest/callback",                      //微信小程序--授权成功后，获取回调信息
-    "receive_ticket2"=>"index/WxTest/receive_ticket2",        //微信小程序接受ticket
-    "token"=>"index/WxTest/token",                          //微信小程序--微信公众号获取token
-    
-    "receive_ticket"=>"index/Three/receive_ticket",        //微信小程序接受ticket
-    "callback"=>"index/Three/callback",                      //微信小程序--授权成功后，获取回调信息
+    "receive_ticket"=>"index/ThreeTest/receive_ticket",        //微信小程序接受ticket
+    "callback"=>"index/ThreeTest/callback",                      //微信小程序--授权成功后，获取回调信息
     /**  分享 */
     "qr_back_points"=>"index/My/qr_back_points",        //微信小程序--分享返积分
-    
-
-
-
 
 ]);
 
