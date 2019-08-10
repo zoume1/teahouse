@@ -154,7 +154,7 @@ class WxTest extends Controller
                     db('test')->insert($pp);
                     echo "false";
                 }
-                echo 'success';
+                return 'success';
         }
         public function responseMsg()
         {
