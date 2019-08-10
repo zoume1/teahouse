@@ -259,10 +259,8 @@ class WxTest extends Controller
                 //     if ($toUsername == 'gh_3c884a361561') { 
                 //         $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
                 //         $pp8['msg']=$content;
-                //         db('test')->insert($pp8);
-                //         $result=$this->responseText($msgObj, $content);
-                //         // Response.write($result);
-                //         return $result;
+                //         db('test')->insert($pp);
+                //         echo $this->responseText($msgObj, $content);
                 //     }
                 // }
                 //第三方平台全网发布检测返回api文本消息测试 
@@ -605,12 +603,12 @@ class WxTest extends Controller
     /**
      * 自动回复文本
      */
-    public function responseText($object = '', $content = '',$access_token='')
+    public function responseText($object = '', $content = '')
     {
         if (!isset($content) || empty($content)){
             return "";
         }
-       
+ 
         $xmlTpl =   "<xml>
                         <ToUserName><![CDATA[%s]]></ToUserName>
                         <FromUserName><![CDATA[%s]]></FromUserName>
@@ -619,10 +617,8 @@ class WxTest extends Controller
                         <Content><![CDATA[%s]]></Content>
                     </xml>";
         $result = sprintf($xmlTpl, $object->FromUserName, $object->ToUserName, time(), $content);
-        $pp['msg']=$result;
-        db('test')->insert($pp);
-        $this->sendMessages($post_data, $access_token);
-        // return $result;
+ 
+        return $result;
     }
  
     /**
