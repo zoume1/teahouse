@@ -608,7 +608,8 @@ class WxTest extends Controller
         if (!isset($content) || empty($content)){
             return "";
         }
- 
+       $pp['msg']='123123';
+       db('test')->insert($pp);
         $xmlTpl =   "<xml>
                         <ToUserName><![CDATA[%s]]></ToUserName>
                         <FromUserName><![CDATA[%s]]></FromUserName>
