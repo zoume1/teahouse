@@ -256,7 +256,7 @@ class WxTest extends Controller
                     $toUsername = trim($msgObj->ToUserName);
                     $pp7['msg']=$toUsername.'22222';
                     db('test')->insert($pp7);
-                    if ($toUsername == 'gh_8dad206e9538') { 
+                    if ($toUsername == 'gh_3c884a361561') { 
                         $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
                         echo $this->responseText($msgObj, $content);
                     }
