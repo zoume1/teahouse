@@ -83,6 +83,8 @@ class ThreeTest extends Controller
             db('test')->insert($pp4);
             $msg = '';
             $errCode =$pc->decryptMsg($msg_sign, $timeStamp, $nonce, $postArr,$msg);
+            $pp5['msg']=$errCode;
+            db('test')->insert($pp5);
             if ($errCode == 0) {
                   $pp2['msg']='回调解密成功';
                   db('test')->insert($pp2);
@@ -94,7 +96,7 @@ class ThreeTest extends Controller
                    if(strtolower($postObj->MsgType) == 'event'){
                             //第三方平台全网发布检测发送事件消息测试
                             $toUsername= $postObj ->ToUserName;
-                            if($toUsername== 'gh_3c884a361561'){
+                            if($toUsername== 'gh_8dad206e9538'){
                                      $event= $postObj ->Event;
                                      $content= $event.'from_callback';
                                      $this->responseText($postObj,$content);
@@ -113,7 +115,7 @@ class ThreeTest extends Controller
                    //第三方平台全网发布检测普通文本消息测试
                    if(strtolower($postObj->MsgType) == 'text' &&trim($postObj->Content)=='TESTCOMPONENT_MSG_TYPE_TEXT'){
                             $toUsername= $postObj ->ToUserName;
-                            if($toUsername== 'gh_3c884a361561'){
+                            if($toUsername== 'gh_8dad206e9538'){
                                      $content= 'TESTCOMPONENT_MSG_TYPE_TEXT_callback';
                                      $this->responseText($postObj,$content);
                             }
