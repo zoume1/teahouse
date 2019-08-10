@@ -51,7 +51,6 @@ class ThreeTest extends Controller
                 $xml = new \DOMDocument();
                 $xml->loadXML($msg);
                 $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
-    
                 $component_verify_ticket = $array_e->item(0)->nodeValue;
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
