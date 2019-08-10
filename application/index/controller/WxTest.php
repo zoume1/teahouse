@@ -240,7 +240,6 @@ class WxTest extends Controller
             $appid = $this->appid;
             $pc = new \WXBizMsgCrypt($token, $encodingAesKey, $appid);
             $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
-            halt($errCode);
             if ($errCode == 0) {
                 $msgObj = simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
                 $content = trim($msgObj->Content);
