@@ -211,7 +211,7 @@ class WxTest extends Controller
             $toUserName = trim($postObj->AppId);
             $encrypt = trim($postObj->Encrypt);
  
-            $format = "<xml><AppId><![CDATA[{$toUserName}]]></AppId><Encrypt><![CDATA[%s]]></Encrypt></xml>";
+            $format = "<xml><ToUserName><![CDATA[{$toUserName}]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
             $from_xml = sprintf($format, $encrypt);
  
             // $inputs = array(
@@ -240,6 +240,7 @@ class WxTest extends Controller
             $appid = $this->appid;
             $pc = new \WXBizMsgCrypt($token, $encodingAesKey, $appid);
             $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
+            halt($errCode);
             if ($errCode == 0) {
                 $msgObj = simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
                 $content = trim($msgObj->Content);
