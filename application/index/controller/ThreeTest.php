@@ -78,6 +78,7 @@ class ThreeTest extends Controller
             $pc = new \WXBizMsgCrypt ( $token, $encodingAesKey, $appId );
             //获取到微信推送过来post数据（xml格式）
             $postArr =file_get_contents("php://input");
+            halt($postArr);
             if(!$postArr){
                 $postArr = $GLOBALS["HTTP_RAW_POST_DATA"];
                $pp['msg']=$postArr;
