@@ -254,6 +254,8 @@ class WxTest extends Controller
                 //第三方平台全网发布检测普通文本消息测试 
                 if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
                     $toUsername = trim($msgObj->ToUserName);
+                    $pp7['msg']=$toUsername.'22222';
+                    db('test')->insert($pp7);
                     if ($toUsername == 'gh_8dad206e9538') { 
                         $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
                         echo $this->responseText($msgObj, $content);
