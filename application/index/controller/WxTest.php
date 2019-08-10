@@ -252,19 +252,19 @@ class WxTest extends Controller
                 $pp6['msg']=$msgObj->MsgType;
                 db('test')->insert($pp6);
                 //第三方平台全网发布检测普通文本消息测试 
-                if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
-                    $toUsername = trim($msgObj->ToUserName);
-                    $pp7['msg']=$toUsername.'22222';
-                    db('test')->insert($pp7);
-                    if ($toUsername == 'gh_3c884a361561') { 
-                        $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
-                        $pp8['msg']=$content;
-                        db('test')->insert($pp8);
-                        $result=$this->responseText($msgObj, $content);
-                        // Response.write($result);
-                        echo $result;
-                    }
-                }
+                // if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
+                //     $toUsername = trim($msgObj->ToUserName);
+                //     $pp7['msg']=$toUsername.'22222';
+                //     db('test')->insert($pp7);
+                //     if ($toUsername == 'gh_3c884a361561') { 
+                //         $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
+                //         $pp8['msg']=$content;
+                //         db('test')->insert($pp8);
+                //         $result=$this->responseText($msgObj, $content);
+                //         // Response.write($result);
+                //         return $result;
+                //     }
+                // }
                 //第三方平台全网发布检测返回api文本消息测试 
                 if (strpos($content, 'QUERY_AUTH_CODE') !== false) { 
                     $toUsername = trim($msgObj->ToUserName);
