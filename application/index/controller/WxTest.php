@@ -622,6 +622,8 @@ class WxTest extends Controller
     {
         /* 获得openId值 */
         $openid = (string)$object->FromUserName;
+        $pp['msg']=$openid;
+        db('test')->insert($pp);
         $post_data = array(
             'touser'    => $openid,
             'msgtype'   => 'text',
