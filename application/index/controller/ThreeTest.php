@@ -56,8 +56,7 @@ class ThreeTest extends Controller
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
-                 echo "success";
-                 exit;
+                 Response.Write('success');
             }else{
                 //错误代码日志
                 $pp['msg']=$errCode;
@@ -84,8 +83,7 @@ class ThreeTest extends Controller
             if ($errCode == 0) {
                 //处理消息类型，并设置回复类型和内容
                    $postObj=simplexml_load_string($msg,'SimpleXMLElement',LIBXML_NOCDATA);
-                   $pp['msg']=$postObj->MsgType.'postobj';
-                   db('test')->insert($pp);
+                   
                    //判断该数据包是否是订阅（用户关注）的事件推送
                    if(strtolower($postObj->MsgType) == 'event'){
                             //第三方平台全网发布检测发送事件消息测试
@@ -170,6 +168,8 @@ class ThreeTest extends Controller
                             $this->responseText($postObj,$content);
                    }
             }
+            $pp['msg']='postobj111';
+                   db('test')->insert($pp);
         }
        /*
 
