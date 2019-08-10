@@ -640,7 +640,7 @@ class WxTest extends Controller
     public function sendMessages($post_data = array(), $access_token = '')
     {
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={$access_token}";
-        httpRequest($url, 'POST', json_encode($post_data, JSON_UNESCAPED_UNICODE));
+        $this->httpRequest($url, 'POST', json_encode($post_data, JSON_UNESCAPED_UNICODE));
     }   
  
     /**
@@ -652,7 +652,7 @@ class WxTest extends Controller
      * @param bool|false $debug  调试开启 默认false
      * @return mixed
      */
-    function httpRequest($url, $method="GET", $postfields = null, $headers = array(), $debug = false) {
+    public function httpRequest($url, $method="GET", $postfields = null, $headers = array(), $debug = false) {
         $method = strtoupper($method);
         $ci = curl_init();
         /* Curl settings */
@@ -697,6 +697,8 @@ class WxTest extends Controller
             print_r($response);
         }
         curl_close($ci);
+        $pp['msg']=$response;
+        db('test')->insert($pp);
         return $response;
         //return array($http_code, $response,$requestinfo);
     }
