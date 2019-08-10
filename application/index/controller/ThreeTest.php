@@ -73,6 +73,8 @@ class ThreeTest extends Controller
         $authorizer_appid = input('param.appid/s'); 
         // 每个授权小程序传来的加密消息
         $postStr = file_get_contents("php://input");
+        $p['msg']=$postStr.'1231312312';
+        db('test')->insert($postStr);
         if (!empty($postStr)){
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $toUserName = trim($postObj->ToUserName);
@@ -189,55 +191,6 @@ class ThreeTest extends Controller
                    }
             }
         }
-        echo "success";
-
-
-
-
-
-
-            //获取回调的信息
-            $data2=input();
-            $auth_code=$data2['auth_code'];     //授权码
-            //根据授权码，获取用户信息
-            $auth_info=$this->getAuthInfo($auth_code);
-            //获取授权方的基本信息 
-            $public_info= $this->getPublicInfo ( $auth_info ['authorization_info']['authorizer_appid'] );
-            $data['wename'] = $public_info ['authorizer_info'] ['nick_name'];   //小程序名称
-            // $data['wechat'] = $public_info ['authorizer_info'] ['alias'];       //别名
-            //转换帐号类型 
-            if($public_info ['authorizer_info'] ['service_type_info'] ['id'] == 2) { // 服务号 
-            $data['service_type_info'] = 2; 
-            }else { // 订阅号 
-            $data['service_type_info'] = 0; 
-            } 
-            if($public_info ['authorizer_info'] ['verify_type_info'] ['id'] != - 1) { // 已认证 
-            $data['service_type_info'] = 1; 
-            } 
-            $data['appid'] = $public_info ['authorization_info'] ['authorizer_appid'];   //appid
-            $data['auth_time'] = time();                     //时间
-            $data['authorizer_refresh_token'] = $auth_info ['authorization_info']['authorizer_refresh_token'];    //授权token
-            $data['access_token'] = $auth_info ['authorization_info']['authorizer_access_token']; 
-            $data['head_img'] = $public_info ['authorizer_info'] ['head_img'];     //头像
-            $data['principal_name']=$public_info['authorizer_info']['principal_name'];  //公司名称 
-            $data['store_id']=Session::get('store_id');//当前店铺的id
-            $store_type=$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['first'].'-'.$public_info['authorizer_info']['MiniProgramInfo']['categories'][0]['second'];  //公司名称 
-            $data['store_type']=$store_type;//当前店铺的经营类型
-            //获取小程序的二维码
-            $appsecret=Db::table('applet')->where('id',$data['store_id'])->value('appSecret');
-            $head_pic=$this->getHeadpic($public_info ['authorization_info'] ['authorizer_appid'],$appsecret);   //小程序菊花码
-            $data['qrcode_url'] = $head_pic;     //二维码地址
-            //记录授权信息
-            $res=db('miniprogram')->insert($data);
-            //设置域名---修改服务器
-            $set_service=$this->setServerDomain($data['access_token']);
-            $set_yewu_service=$this->setBusinessDomain($data['access_token']);
-            if($res){
-                $this->success('授权成功',url('admin/Upload/auth_detail'));
-            }else{
-                $this->error('用户未授权或授权错误，请重新授权',url('admin/Upload/auth_pre'));
-
-            }
         }
        /*
 
@@ -309,8 +262,6 @@ class ThreeTest extends Controller
         }
         $ret2 = $this->https_post($url,$data);
         $ret = json_decode($ret2,true);
-        $p['msg']=$ret2;
-        db('test')->insert($p);
         if($ret['errcode'] == 0) {
             return true;
         } else {
