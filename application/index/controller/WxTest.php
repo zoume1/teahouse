@@ -196,8 +196,12 @@ class WxTest extends Controller
         // 每个授权小程序的appid，在第三方平台的消息与事件接收URL中设置了 $APPID$ 
         // $authorizer_appid = input('param.appid/s'); 
         // 每个授权小程序传来的加密消息
-        $postStr = file_get_contents("php://input");
-        trim($postStr);
+        // $postStr = file_get_contents("php://input");
+        $postStr='<xml>
+        <ToUserName><![CDATA[gh_8dad206e9538]]></ToUserName>
+        <Encrypt><![CDATA[B7DxtjMSLvUUGtwkJC86YgvTCS3SNKTGIljVtzUOt/Z8ut09Pu8ipbOSH8i45KtdLSK2mzr79W/d2+U4kijbXrGW/a1BSTC0SmJ61j6drBrhvuXrYv4hMJnoXqXdNPlCMWcOHBA0jWPXkLY/xHuKOf3gZzZRbijE5vsogGNYlx2M0dl2Y/6j/x81KBOfYvvBui5qoTIV1TdaXTgay5alzSXKTpLoObRkaAM/Z8sAiGk8E1ZZTvLjqGcDE+nbH6QmKyRUosDYe5OGAU6FT7I7OgpvtMIKk7tFc81h+sWKuZuq2s9RPx9hMIYDl30VrX+/Zo0miG1gZYG2xgIREzGP7Ql0Ytzu0glyl/szx/bGpynHYyoytLlZWDuf65yS0J+rYxZeSv39Mk5J7jtWhcqSi3dAYSHWD3nS8g1BLHcnkiTDgn2vYI4Efdf4Lmc8gHApBpE5uPH46aH0SakuRdfNBRAB8W5pfSb8n8tTP7XdIbau9zZaLEVkJLbdJA2Ki7GkoVML7VAJtJ+k0UmUGYz/b2CbSk0HDBq0C+4CTQoKDmZPmVXiwHY2gjsT1PCDL70cSubA9uPWJyXAYsB5iBnucQ==]]></Encrypt>
+        </xml>
+        ';
         $pp4['msg']=$postStr.'123';
         db('test')->insert($pp4);
         if (!empty($postStr)){
