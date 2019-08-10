@@ -261,7 +261,7 @@ class WxTest extends Controller
                         $pp8['msg']=$content;
                         db('test')->insert($pp8);
                         $result=$this->responseText($msgObj, $content);
-                        Response.write($result);
+                        // Response.write($result);
                         echo $result;
                     }
                 }
