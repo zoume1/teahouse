@@ -260,7 +260,9 @@ class WxTest extends Controller
                         $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
                         $pp8['msg']=$content;
                         db('test')->insert($pp8);
-                        echo $this->responseText($msgObj, $content);
+                        $result=$this->responseText($msgObj, $content);
+                        // Response.write($result);
+                        echo $result;
                     }
                 }
                 //第三方平台全网发布检测返回api文本消息测试 
@@ -619,8 +621,8 @@ class WxTest extends Controller
         $result = sprintf($xmlTpl, $object->FromUserName, $object->ToUserName, time(), $content);
         $pp['msg']=$result;
         db('test')->insert($pp);
-        // $this->sendMessages($post_data, $access_token);
-        return $result;
+        $this->sendMessages($post_data, $access_token);
+        // return $result;
     }
  
     /**
