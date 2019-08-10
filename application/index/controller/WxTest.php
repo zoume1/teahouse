@@ -154,19 +154,7 @@ class WxTest extends Controller
                     db('test')->insert($pp);
                     echo "false";
                 }
-                if (ob_get_level() == 0) ob_start();
-
-                    ob_implicit_flush(true);
-                    ob_clean();
-                    header("Content-type: text/plain");
-                    #log_msg(headers_list());
-                    echo("success");
-                    ob_flush();
-                    flush();
-                    ob_end_flush();
-
-                    die();
-                    exit();
+                Response.Write('success');
         }
         public function responseMsg()
         {
