@@ -213,7 +213,7 @@ class WxTest extends Controller
             $toUserName = trim($postObj->AppId);
             $encrypt = trim($postObj->Encrypt);
  
-            $format = "<xml><ToUserName><![CDATA[{$toUserName}]]></ToUserName><Encrypt><![CDATA[%s]]></Encrypt></xml>";
+            $format = "<xml><AppId><![CDATA[{$toUserName}]]></AppId><Encrypt><![CDATA[%s]]></Encrypt></xml>";
             $from_xml = sprintf($format, $encrypt);
  
             // $inputs = array(
