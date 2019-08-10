@@ -361,7 +361,6 @@ class WxTest extends Controller
                         $this->sendServiceText($msgObj, $content, $authorizer_access_token);
                     }
                 }
-                // file_put_contents ( ROOT_PATH."/log.txt", date ( "Y-m-d H:i:s" ) . "  " . var_export($msgObj,true) . "\r\n", FILE_APPEND );
             }
         }
         echo "success";
