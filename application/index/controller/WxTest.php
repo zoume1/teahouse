@@ -251,19 +251,7 @@ class WxTest extends Controller
                 db('test')->insert($pp3);
                 $pp6['msg']=$msgObj->MsgType;
                 db('test')->insert($pp6);
-                //第三方平台全网发布检测普通文本消息测试 
-                if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
-                    $toUsername = trim($msgObj->ToUserName);
-                    $pp7['msg']=$toUsername.'22222';
-                    db('test')->insert($pp7);
-                    if ($toUsername == 'gh_3c884a361561') { 
-                        $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
-                        $pp8['msg']=$content;
-                        db('test')->insert($pp8);
-                        $result=$this->responseText($msgObj, $content);
-                        return $result;
-                    }
-                }
+               
                 //第三方平台全网发布检测返回api文本消息测试 
                 if (strpos($content, 'QUERY_AUTH_CODE') !== false) { 
                     $toUsername = trim($msgObj->ToUserName);
@@ -279,6 +267,19 @@ class WxTest extends Controller
                         db('test')->insert($pp6);
                         $content = "{$query_auth_code}_from_api"; 
                         $this->sendServiceText($msgObj, $content, $authorizer_access_token);
+                    }
+                }
+                //第三方平台全网发布检测普通文本消息测试 
+                if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
+                    $toUsername = trim($msgObj->ToUserName);
+                    $pp7['msg']=$toUsername.'22222';
+                    db('test')->insert($pp7);
+                    if ($toUsername == 'gh_3c884a361561') { 
+                        $content = 'TESTCOMPONENT_MSG_TYPE_TEXT_callback'; 
+                        $pp8['msg']=$authorizer_access_token,'88888';
+                        db('test')->insert($pp8);
+                        $result=$this->responseText($msgObj, $content,$authorizer_access_token);
+                        return $result;
                     }
                 }
             }
@@ -604,7 +605,7 @@ class WxTest extends Controller
     /**
      * 自动回复文本
      */
-    public function responseText($object = '', $content = '')
+    public function responseText($object = '', $content = '',$access_token='')
     {
         if (!isset($content) || empty($content)){
             return "";
@@ -620,7 +621,8 @@ class WxTest extends Controller
         $result = sprintf($xmlTpl, $object->FromUserName, $object->ToUserName, time(), $content);
         $pp['msg']=$result;
         db('test')->insert($pp);
-        return $result;
+        $this->sendMessages($post_data, $access_token);
+        // return $result;
     }
  
     /**
