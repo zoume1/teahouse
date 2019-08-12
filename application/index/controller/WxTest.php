@@ -148,7 +148,6 @@ class WxTest extends Controller
                  db('wx_threeopen')->where('id',1)->update($da);
                  $pp['msg']=$component_verify_ticket.'获取到ticket';
                  db('test')->insert($pp);
-                 echo "success";
                 }else{
                     //错误代码日志
                     $pp['msg']=$errCode.'接收ticket出错';
