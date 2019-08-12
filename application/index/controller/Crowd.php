@@ -280,7 +280,7 @@ class Crowd extends Controller
             $type = $request->only('type')['type'];
             // $money = $request->only('money')['money'];
             $money = 0.01;
-            $id = $request->only('id')['id'];
+            $id = $request->only('id')['id'];   //打赏商品的special_id
             $crowd = db("crowd_special")->where("id",$id)->find();       
             $user_information = db("member")->where("member_id",$member_id)->find();
             $create_time = time();
@@ -300,6 +300,7 @@ class Crowd extends Controller
                 "crowd_name"=>$crowd["name"],
                 "status" => 1,
                 "store_id"=>$store_id,
+                "images"=>$crowd['images'],
                 "type"=>$type
             );
              //获取用户余额
