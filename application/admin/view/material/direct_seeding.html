@@ -13,6 +13,8 @@
 </head>
 <script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
 <script src="__STATIC__/admin/index/js/index.js"></script>
+<!-- <script src="https://tv.swlive.cn/js/external-play.js"></script> -->
+<script src="__STATIC__/admin/common/ezuikit/ezuikit.js"></script>
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
@@ -35,6 +37,11 @@
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
     .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
+    .noshow {display: none;}
+    .videos_fd {position: relative;}
+    .videos {position: absolute;  left: 95px;top:0;z-index: 500;}
+    .popup_x > img{ width: 30px;height: 30px; position: absolute;right: 0;z-index: 1000;}
+    .vk {position: relative;}
 </style>
 {/block}
 
@@ -153,9 +160,27 @@
                             <td class="table-cell">
                                 <div class="table-cell-div">{$value.title}</div>
                             </td>
-                            <td class="table-cell">
+                            <td class="table-cell videos_fd">
                                 <div class="table-cell-div">
-                                    <button class="layui-btn layui-btn-mini"  onclick="look('{$value.urls}')">查看</button>
+                                    <button class="layui-btn layui-btn-mini"  onclick="look()">查看</button>
+                                </div>
+                                <div class="videos noshow" id="videos">
+                                    <div class="vk">
+                                        <div class="popup_x" id="stop">
+                                          <img src="__STATIC__/admin/index/img/X.png" />
+                                      </div>
+                                        <video 
+                                        id="myPlayer"
+                                        autoplay
+                                        height="100%"
+                                        width="600px"
+                                        src="{$value.urls}"
+                                        controls
+                                        playsInline 
+                                        webkit-playsinline
+                                      >
+                                      </video>
+                                    </div>
                                 </div>
                             </td>
                             <td class="table-cell">
@@ -212,7 +237,14 @@
             form.render();
         })
         function look(e){
-            window.location.href = e;
+            $('#videos').removeClass('noshow');
+            var player = new EZUIKit.EZUIPlayer('myPlayer');
+            // window.location.href = e;
+            $("#stop").click(function () {
+                // alert(1)
+                player.stop();
+                $('#videos').addClass('noshow');
+            })
         }
         
     </script>
