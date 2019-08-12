@@ -39,9 +39,10 @@
     .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
     .noshow {display: none;}
     .videos_fd {position: relative;}
-    .videos {position: absolute;  left: 95px;top:0;z-index: 500;}
-    .popup_x > img{ width: 30px;height: 30px; position: absolute;right: 0;z-index: 1000;}
-    .vk {position: relative;}
+    .videos {position: absolute;  left: -170%;bottom:80%;z-index: 500;background: url(http://zhihuichacang.com/u991.png)no-repeat 0px 0px;}
+    .popup_x > img{ width: 20px;height: 20px; position: absolute;right: 10px;top: 5px;z-index: 1000;}
+    .vk {position: relative;padding:0 10px;width: 380px;height: 240px;}
+
 </style>
 {/block}
 
@@ -164,7 +165,9 @@
                                 <div class="table-cell-div">
                                     <button class="layui-btn layui-btn-mini"  onclick="look()">查看</button>
                                 </div>
+                                
                                 <div class="videos noshow" id="videos">
+                                    <!-- <img width="100%" height="100%" src="http://zhihuichacang.com/u991.png" alt=""> -->
                                     <div class="vk">
                                         <div class="popup_x" id="stop">
                                           <img src="__STATIC__/admin/index/img/X.png" />
@@ -172,8 +175,8 @@
                                         <video 
                                         id="myPlayer"
                                         autoplay
-                                        height="100%"
-                                        width="600px"
+                                        height="220px"
+                                        width="340px"
                                         src="{$value.urls}"
                                         controls
                                         playsInline 
