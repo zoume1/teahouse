@@ -396,19 +396,10 @@ Route::group("",[
     "getHousePrice"=>"index/Storehouse/getHousePrice",      //店铺小程序前端仓库订单出仓运费
     
     /* 微信公众平台路由  */
-    // "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
-    // "callback"=>"index/WxTest/callback",                      //微信小程序--授权成功后，获取回调信息
-    "receive_ticket2"=>"index/WxTest/receive_ticket2",        //微信小程序接受ticket
-    "token"=>"index/WxTest/token",                          //微信小程序--微信公众号获取token
-    
-    "receive_ticket"=>"index/Three/receive_ticket",        //微信小程序接受ticket
-    "callback"=>"index/Three/callback",                      //微信小程序--授权成功后，获取回调信息
+    "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
+    "callback"=>"index/WxTest/callback",                      //微信小程序--授权成功后，获取回调信息
     /**  分享 */
     "qr_back_points"=>"index/My/qr_back_points",        //微信小程序--分享返积分
-    
-
-
-
 
 ]);
 
@@ -1015,6 +1006,11 @@ Route::group("admin",[
 
 
     "analyse_order"=>"admin/Analyse/analyse_order",          //总控增值订单
+    "analyse_waiting"=>"admin/Analyse/analyse_waiting",      //总控增值订单待发货
+    "analyse_delivered"=>"admin/Analyse/analyse_delivered",  //总控增值已发货
+    "analyse_received"=>"admin/Analyse/analyse_received",    //总控增值待收货
+    "analyse_served"=>"admin/Analyse/analyse_served",          //总控增值待服务
+    "analyse_ok"=>"admin/Analyse/analyse_ok",          //总控增值已完成
     "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",//总控增值退款维权
 
 

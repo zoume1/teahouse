@@ -33,11 +33,12 @@ public $component_access_token;
 	
 	//公众号消息与事件接收URL
 
-    public function receive_ticket()
+    public function callback()
     {
         $msg_signature = $_REQUEST['msg_signature'];
         if ($msg_signature) {
-            $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+            // $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+            $postStr = file_get_contents("php://input");
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $toUsername = $postObj->ToUserName;
             if ($toUsername == 'gh_3c884a361561') {
@@ -54,8 +55,6 @@ public $component_access_token;
     */
     public function encrypt($encyptdata)
     {
-        
-        
         $encodingAesKey = $this->weixin_account['encodingAesKey'];
         $token          = $this->weixin_account['token'];
         $appId          = $this->weixin_account['appId'];
@@ -204,7 +203,7 @@ public $component_access_token;
         
     }
     //授权事件接收URL
-    public function callback()
+    public function receive_ticket()
     {
         // 第三方发送消息给公众平台
         $encodingAesKey = $this->weixin_account['encodingAesKey'];
@@ -234,14 +233,17 @@ public $component_access_token;
          * 
          */
         if ($errCode == 0) {
-            $xml = new DOMDocument();
+            $xml = new \DOMDocument();
             $xml->loadXML($msg);
             $array_e = $xml->getElementsByTagName('ComponentVerifyTicket');
             $component_verify_ticket = $array_e->item(0)->nodeValue;
 			if(isset($component_verify_ticket)){
+                //
+                $pp['msg']=$component_verify_ticket;
+                db('test')->insert($pp);
 			}
         } else {
-            file_put_contents('/app/error/errCode.txt', json_encode($errCode) . date('Y-m-d H:i:s', time()) . "/n", FILE_APPEND);
+            // file_put_contents('/app/error/errCode.txt', json_encode($errCode) . date('Y-m-d H:i:s', time()) . "/n", FILE_APPEND);
         }
         exit('success');
     }

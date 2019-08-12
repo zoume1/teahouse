@@ -33,6 +33,23 @@ class CrowdOder extends Controller{
             ->where($where)
             ->group('parts_order_number')
             ->select();
+            foreach($datas as $k2 =>$v2){
+                $datas[$k2]['type']=0;     //众筹----全额支持
+            }
+        //获取打赏的记录
+        $reward=db('reward')->where('store_id',$store_id)->select();
+        foreach($reward as $k =>$v){
+            //获取商品的信息
+            $goods=db('crowd_special')->where('id',$v['special_id'])->find();
+            $reward[$k]['parts_goods_name']=db('crowd_goods')->where('id',$goods['goods_id'])->value('project_name');   //商品名称
+            $reward[$k]['goods_image']=$goods['images'];
+            $reward[$k]['order_quantity']=1;
+            $reward[$k]['order_create_time']=$v['create_time'];
+            $user_phone_number=db('member')->where('member_id',$v['member_id'])->value('member_phone_num');
+            $reward[$k]['user_phone_number']=$user_phone_number;
+            $reward[$k]['order_real_pay']=$v['money'];
+            $reward[$k]['order_type']=1;    //订单类型
+        }
         $url = 'admin/CrowdOder/crowd_order_index';
         $pag_number = 20;
         $data = paging_data($datas,$url,$pag_number);

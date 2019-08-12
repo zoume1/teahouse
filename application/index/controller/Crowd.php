@@ -269,6 +269,7 @@ class Crowd extends Controller
 
    /**
      * [众筹商品打赏生成订单]
+     * 众筹打赏
      * 郭杨
      */
     public function crowd_reward(Request $request)
@@ -276,6 +277,7 @@ class Crowd extends Controller
         if($request->isPost()){
             $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only('member_id')['member_id'];
+            $type = $request->only('type')['type'];
             // $money = $request->only('money')['money'];
             $money = 0.01;
             $id = $request->only('id')['id'];
@@ -297,7 +299,8 @@ class Crowd extends Controller
                 "order_number"=>$order_number,
                 "crowd_name"=>$crowd["name"],
                 "status" => 1,
-                "store_id"=>$store_id
+                "store_id"=>$store_id,
+                "type"=>$type
             );
              //获取用户余额
             $balance=db('member')->where('member_id',$member_id)->field('member_wallet,member_recharge_money')->find();
