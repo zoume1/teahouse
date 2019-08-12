@@ -522,10 +522,16 @@ Route::group("admin",[
     "refund_protection_search"=>"admin/Order/refund_protection_search",//退款维权搜索
     "changeOderPrice"=>"admin/Order/changeOderPrice",//订单改价
     /*TODO:订单结束*/
+
     /*TODO:地址订单开始*/
-    "reward_index"=>"admin/Order/changeOderPrice",//订单改价
+    "reward_index"=>"admin/Order/reward_index",//众筹打赏页面
 
     /*TODO:地址订单结束*/
+
+    /*TODO:定制订单开始*/
+    "make_oder_index"=>"admin/Order/make_oder_index",//定制订单页面
+
+    /*TODO:定制订单结束*/
     /*TODO:售后开始*/
     "business_replay"=>"admin/AfterSale/business_replay",//售后官方回复
     "business_after_sale_information"=>"admin/AfterSale/business_after_sale_information",//售后页面数据返回
