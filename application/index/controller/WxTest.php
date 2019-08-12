@@ -146,17 +146,16 @@ class WxTest extends Controller
                 $da['component_verify_ticket']=$component_verify_ticket;
                 $da['token_time']=time()+7000;
                  db('wx_threeopen')->where('id',1)->update($da);
-                 $pp['msg']=$component_verify_ticket;
+                 $pp['msg']=$component_verify_ticket.'获取到ticket';
                  db('test')->insert($pp);
                  echo "success";
                 }else{
                     //错误代码日志
-                    $pp['msg']=$errCode;
+                    $pp['msg']=$errCode.'接收ticket出错';
                     db('test')->insert($pp);
                     echo "false";
                 }
-               
-                // Response.Write('success');
+                Response.Write('success');
         }
         public function responseMsg()
         {
@@ -199,8 +198,6 @@ class WxTest extends Controller
         // $authorizer_appid = input('param.appid/s'); 
         // 每个授权小程序传来的加密消息
         $postStr = file_get_contents("php://input");
-        $pp['msg']=$postStr;
-        db('test')->insert($pp);
     //     $postStr='<xml>
     //     <ToUserName><![CDATA[gh_8dad206e9538]]></ToUserName>
     //     <Encrypt><![CDATA[oHhPjRFD3yNf76HBfF1SciWjuu3lBu6e5kpC15WD7IIt+aTxzA1tSFpViEJJyCXGtfQwDYcCju1BP6aC5heNhs8jQauf571WqOqGGfaJ/WHL1rHKfsjc1MYqEpeXVd9PH+Q9mBmJfGn4boq+CrVIlRUgnXiKaAqliJRaCXkDovF7xW+Neizq/OSOwPwaDSKQFCw8YqUA+UXiBsqP6L1/CVx2msJ39dh/eGQ49Cxdbv2o1/wR7AHz2ANdF8hOUsWswvRoLgLLeSuuD+CT16Aorqk3uFwQYHNqVzhCwPN6ZUh3TWkGAEKnY3QjWLUjdmf7EzaNRHZQbOqBp6f8D+Qb5T6UwQWfzW0jrAlYufrcE01sPBPrjtNowyAF2Lhu/QQZnfWUhUx4DE4x2RjM5dgb4ruM6WNyMXdPCXpzJgkV8hCj9+SYsxjR8VD2OkX3WO6j/mVt5MhldpzdA8Sn7KlmJW2ne4V+0Nm0SRmuoer9RGYKSvFI0CEreOH4XG6jrvLQUWedJlPRMT8xXlAynQheeLx5FdUJHS0iTw0cIj4dlBKEotEekZTeaU6li6MUdI0Ppomqti79dONngYieV8uvew==]]></Encrypt>
@@ -249,10 +246,10 @@ class WxTest extends Controller
             if ($errCode == 0) {
                 $msgObj = simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
                 $content = trim($msgObj->Content);
-                $pp3['msg']=$content;
-                db('test')->insert($pp3);
-                $pp6['msg']=$msgObj->MsgType;
-                db('test')->insert($pp6);
+                // $pp3['msg']=$content;
+                // db('test')->insert($pp3);
+                // $pp6['msg']=$msgObj->MsgType;
+                // db('test')->insert($pp6);
                 //第三方平台全网发布检测普通文本消息测试 
                 // if (strtolower($msgObj->MsgType) == 'text' && $content == 'TESTCOMPONENT_MSG_TYPE_TEXT') {
                 //     $toUsername = trim($msgObj->ToUserName);
@@ -268,16 +265,16 @@ class WxTest extends Controller
                 //第三方平台全网发布检测返回api文本消息测试 
                 if (strpos($content, 'QUERY_AUTH_CODE') !== false) { 
                     $toUsername = trim($msgObj->ToUserName);
-                    $pp4['msg']=$toUsername;
-                    db('test')->insert($pp4);
+                    // $pp4['msg']=$toUsername;
+                    // db('test')->insert($pp4);
                     if ($toUsername == 'gh_8dad206e9538') { 
                         $query_auth_code = str_replace('QUERY_AUTH_CODE:', '', $content);
-                        $pp5['msg']=$query_auth_code;
-                        db('test')->insert($pp5);
+                        // $pp5['msg']=$query_auth_code;
+                        // db('test')->insert($pp5);
                         $params = $this->getAuthInfo($query_auth_code);
                         $authorizer_access_token = $params['authorization_info']['authorizer_access_token']; 
-                        $pp6['msg']=$authorizer_access_token;
-                        db('test')->insert($pp6);
+                        // $pp6['msg']=$authorizer_access_token;
+                        // db('test')->insert($pp6);
                         $content = "{$query_auth_code}_from_api"; 
                         $this->sendServiceText($msgObj, $content, $authorizer_access_token);
                     }
@@ -705,8 +702,8 @@ class WxTest extends Controller
             print_r($response);
         }
         curl_close($ci);
-        $pp['msg']=$response;
-        db('test')->insert($pp);
+        // $pp['msg']=$response;
+        // db('test')->insert($pp);
         return $response;
         //return array($http_code, $response,$requestinfo);
     }
