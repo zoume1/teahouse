@@ -684,5 +684,15 @@ class  Order extends  Controller{
             }
         }
     }
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:更改订单价格
+     **************************************
+     * @return \think\response\View
+     */
+    public function  reward_index(){
+        return view("reward_index");
+    }
 
 }
