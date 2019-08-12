@@ -80,7 +80,7 @@
                         <th>销量</th>
                         <th>排序</th>
                         <th>首页推荐</th>
-
+                        <th>分销状态</th>
                         <th width="200px">操作</th>
                     </tr>
                 </thead>
@@ -127,6 +127,10 @@
                             <input type="checkbox" class="Status" name="status" value="{$value.status}"
                                 lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}">
                             {/if}
+                        </td>
+                        <td>
+                            <input type="checkbox" class="Status" name="status" value=""
+                                lay-skin="switch" lay-text="启用|关闭" lay-filter="isShow" data-id="">
                         </td>
                         <td>
                             <a class="layui-btn layui-btn-mini edit"
