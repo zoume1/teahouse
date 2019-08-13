@@ -68,11 +68,11 @@
                             <th class="table-cell">
                                 <div class="table-cell-div">温湿度传感器序列号</div>
                             </th>
-                            <th class="table-cell">
+                            <!-- <th class="table-cell">
                                 <div class="table-cell-div">实时温度</div>
-                            </th>
+                            </th> -->
                             <th class="table-cell">
-                                <div class="table-cell-div">实时湿度</div>
+                                <div class="table-cell-div">实时温湿度</div>
                             </th>
                             <th class="table-cell">
                                 <div class="table-cell-div">操作</div>
@@ -80,6 +80,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {volist name="data" id="vo"}
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
@@ -87,16 +88,13 @@
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">2</div>
+                                <div class="table-cell-div">{$vo['city_name']}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">9</div>
+                                <div class="table-cell-div">{$vo['instrument_number']}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">10</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">11</div>
+                                <div class="table-cell-div" data-id="{$vo['instrument_number']}"  onclick="wenshi(this)">查看</div>
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">
@@ -105,6 +103,7 @@
                                 </div>
                             </td>
                         </tr>
+                        {/volist}
                     </tbody>
                 </table>
             </div>
@@ -133,6 +132,25 @@
                 form = layui.form;
             form.render();
         })
+        //温湿度
+        function wenshi(obj){
+            var instrument_number=$(obj).attr('data-id');
+            alert(instrument_number);
+            $.ajax({
+                url:'https://api.dtuip.com/qy/user/login.html',
+                type:"post",
+                data: {
+                    "userName": "18510393696",
+                    "password": "zhcc63268696"
+                    },
+                success : function(data){
+                    alert(data.userId);
+            
+
+                }
+            })
+
+        }
     </script>
     {/block}
 </body>

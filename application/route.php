@@ -837,6 +837,7 @@ Route::group("admin",[
     "direct_seeding_classification_delete_image" =>"admin/Material/direct_seeding_classification_delete_image", //直播分类图片删除
     "interaction_index" =>"admin/Material/interaction_index",                                       //温湿感应
     "interaction_add" =>"admin/Material/interaction_add",                                           //温湿感应
+    "interaction_add_do" =>"admin/Material/interaction_add_do",                                     //温湿感应仪器添加处理
 
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况

@@ -256,7 +256,15 @@ class  Material extends  Controller{
      * @return \think\response\View
      */
     public function interaction_index(){
-        return view("interaction_index");
+        //获取仪器列表
+        $store_id=Session::get('store_id');
+        $list=db('instrument')->where('store_id',$store_id)->select();
+        if($list){
+            $pp=1;
+        }else{
+           $pp=0;
+        }
+        return view("interaction_index",['pp'=>$pp,'data'=>$list]);
     }
 
     /**
@@ -267,7 +275,36 @@ class  Material extends  Controller{
      * @return \think\response\View
      */
     public function interaction_add(){
+        
         return view("interaction_add");
+    }
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:温湿传感添加编辑
+     **************************************
+     * @return \think\response\View
+     */
+    public function interaction_add_do(){
+       //获取数据
+       $input=input();
+       $input['store_id']=Session::get('store_id');
+       $re=db('instrument')->where('instrument_number',$input['instrument_number'])->find();
+       if(!$re){
+           db('instrument')->insert($input);
+       }else{
+           db('instrument')->where('instrument_number',$input['instrument_number'])->update($input);
+       }
+
+        // return view("interaction_index");/
+        $this->success('操作成功',url('Material/interaction_index'));
+    }
+    /**
+     * lilu
+     * 温湿度查询
+     */
+    public function wenshidu(){
+        
     }
 
     
