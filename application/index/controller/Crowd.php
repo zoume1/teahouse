@@ -310,7 +310,7 @@ class Crowd extends Controller
                  $pp=$num-$number-$money;
                  $pp2=$num-$number;
                  if($pp<0){
-                     return ajax_success('最多购买的次数是'.$pp2.'次',$pp2);
+                     return ajax_error('最多购买的次数是'.$pp2.'次',0);
                  }
                  if($num <=$number){
                      //上期开奖
