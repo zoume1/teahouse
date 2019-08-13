@@ -201,7 +201,7 @@ class  Order extends  Controller{
 
 
     /**
- **************李火生*******************
+ **************lilu*******************
  * @param Request $request
  * Notes:待付款
  **************************************
@@ -215,7 +215,22 @@ class  Order extends  Controller{
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
-        return view("order_index",["data"=>$data]);
+            $data2=[];
+            foreach($data as $k=>$v){
+                //获取相同订单的数据
+                $list=db('order')->where('parts_order_number',$v['parts_order_number'])->select();
+                $order=[];
+                foreach($list as $k2 =>$v2){
+                    $order[$k2]['goods_image']=$v2['goods_image'];
+                    $order[$k2]['parts_goods_name']=$v2['parts_goods_name'];
+                    $order[$k2]['order_quantity']=$v2['order_quantity'];
+                }
+                $num=count($order);
+                $data2[$k]=$v;
+                $data2[$k]['detail']=$order;
+                $data2[$k]['num']=$num;
+            }
+        return view("order_index",["data"=>$data2]);
     }
 
 
@@ -238,7 +253,22 @@ class  Order extends  Controller{
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
-        return view("order_index",["data"=>$data]);
+            $data2=[];
+            foreach($data as $k=>$v){
+                //获取相同订单的数据
+                $list=db('order')->where('parts_order_number',$v['parts_order_number'])->select();
+                $order=[];
+                foreach($list as $k2 =>$v2){
+                    $order[$k2]['goods_image']=$v2['goods_image'];
+                    $order[$k2]['parts_goods_name']=$v2['parts_goods_name'];
+                    $order[$k2]['order_quantity']=$v2['order_quantity'];
+                }
+                $num=count($order);
+                $data2[$k]=$v;
+                $data2[$k]['detail']=$order;
+                $data2[$k]['num']=$num;
+            }
+        return view("order_index",["data"=>$data2]);
     }
 
     /**
@@ -257,7 +287,22 @@ class  Order extends  Controller{
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
-        return view("order_index",["data"=>$data]);
+            $data2=[];
+            foreach($data as $k=>$v){
+                //获取相同订单的数据
+                $list=db('order')->where('parts_order_number',$v['parts_order_number'])->select();
+                $order=[];
+                foreach($list as $k2 =>$v2){
+                    $order[$k2]['goods_image']=$v2['goods_image'];
+                    $order[$k2]['parts_goods_name']=$v2['parts_goods_name'];
+                    $order[$k2]['order_quantity']=$v2['order_quantity'];
+                }
+                $num=count($order);
+                $data2[$k]=$v;
+                $data2[$k]['detail']=$order;
+                $data2[$k]['num']=$num;
+            }
+        return view("order_index",["data"=>$data2]);
     }
 
 
@@ -276,7 +321,22 @@ class  Order extends  Controller{
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
-        return view("order_index",["data"=>$data]);
+            $data2=[];
+            foreach($data as $k=>$v){
+                //获取相同订单的数据
+                $list=db('order')->where('parts_order_number',$v['parts_order_number'])->select();
+                $order=[];
+                foreach($list as $k2 =>$v2){
+                    $order[$k2]['goods_image']=$v2['goods_image'];
+                    $order[$k2]['parts_goods_name']=$v2['parts_goods_name'];
+                    $order[$k2]['order_quantity']=$v2['order_quantity'];
+                }
+                $num=count($order);
+                $data2[$k]=$v;
+                $data2[$k]['detail']=$order;
+                $data2[$k]['num']=$num;
+            }
+        return view("order_index",["data"=>$data2]);
     }
 
     /**
@@ -288,7 +348,8 @@ class  Order extends  Controller{
      */
     public function order_closed(){
         $store_id = Session::get("store_id");
-        $condition =" `status` = '9' or `status` = '10' ";
+        // $condition =" `status` = '9' or `status` = '10' ";
+        $condition =" `status` = '0'  ";
         $data =Db::name("order")
             ->order("order_create_time","desc")
             ->where($condition)
@@ -296,7 +357,23 @@ class  Order extends  Controller{
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
-        return view("order_index",["data"=>$data]);
+            $data2=[];
+            foreach($data as $k=>$v){
+                //获取相同订单的数据
+                $list=db('order')->where('parts_order_number',$v['parts_order_number'])->select();
+                $order=[];
+                foreach($list as $k2 =>$v2){
+                    $order[$k2]['goods_image']=$v2['goods_image'];
+                    $order[$k2]['parts_goods_name']=$v2['parts_goods_name'];
+                    $order[$k2]['order_quantity']=$v2['order_quantity'];
+                }
+                $num=count($order);
+                $data2[$k]=$v;
+                $data2[$k]['detail']=$order;
+                $data2[$k]['num']=$num;
+            }
+
+        return view("order_index",["data"=>$data2]);
     }
 
 

@@ -12,11 +12,11 @@
 <body>
     {block name="content"}
         <div class="wrapper">
-            <form class="layui-form" action="">
+            <form class="layui-form" action="{:url('admin/Material/interaction_add_do')}" method="post" enctype="multipart/form-data">
                 <div class="layui-form-item">
                     <label class="layui-form-label">选择仓库</label>
                     <div class="layui-input-block my-input-block">
-                        <select name="storeHouse">
+                        <select name="city_name">
                             <option value="all">全部</option>
                             <option value="0">茶仓</option>
                             <option value="1">茶山</option>
@@ -25,18 +25,12 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">直播标题</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="title" required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label class="layui-form-label">温湿传感器序列号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="liveNum" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="instrument_number" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <!-- <div class="layui-form-item">
                     <label class="layui-form-label">实时温度</label>
                     <div class="layui-input-block">
                         <p>45℃</p>
@@ -46,7 +40,7 @@
                     <label class="layui-form-label">实时湿度</label>
                     <div class="layui-input-block">
                         <p>45℃</p>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">

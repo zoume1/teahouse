@@ -1870,7 +1870,7 @@ class  Order extends  Controller
                 ->field('parts_order_number,order_create_time,group_concat(id) order_id,collect_goods_time')
                 ->where('member_id', $member_id)
                 ->where($condition)
-                ->order('order_create_time', 'desc')
+                ->order('order_create_time', 'asc')
                 ->group('parts_order_number')
                 ->select();
             foreach ($data as $key=>$value) {
@@ -1878,9 +1878,10 @@ class  Order extends  Controller
                 $store_id=Session::get('store_id');
                 $setting=db('order_setting')->where('store_id',$store_id)->find();
                 $time=time()-$setting['start_evaluate_time']*24*60*60-$value['collect_goods_time'];
+                dump($time);
                 if($time>0){   
                     // 超过规定的时间未评价,订单状态修改成已完成
-                    $re=db('order')->where('parts_order_number')->update(['status'=>8]);
+                    $re=db('order')->where('parts_order_number',$value['parts_order_number'])->update(['status'=>8]);
                 }
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
