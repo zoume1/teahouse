@@ -298,7 +298,7 @@ class Crowd extends Controller
                 $pp=$num-$money;
                 $pp2=$num;
                 if($pp<0){
-                    return ajax_error('最多购买的次数是'.$pp2.'次',$pp2);
+                    return ajax_error('最多购买的次数是'.$pp2.'次',0);
                 }
             }else{
                 //其他期
