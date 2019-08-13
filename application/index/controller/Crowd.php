@@ -305,7 +305,7 @@ class Crowd extends Controller
                  //获取打赏商品的次数
                  $num=ceil($crowd['cost']/1);    //商品需要打赏的次数
                  //统计当前期数的记录数
-                 $number=db('reward')->where(['store_id'=>$store_id,'time_number'=>$time_number])->count();
+                 $number=db('reward')->where(['store_id'=>$store_id,'time_number'=>$time_number,'status'=>2])->sum('money');
                  //判断当前的购买的次数是否大于剩余次数
                  $pp=$num-$number-$money;
                  $pp2=$num-$number;
@@ -315,9 +315,9 @@ class Crowd extends Controller
                  if($num <=$number){
                      //上期开奖
                      //1.获取上期的所有记录
-                     $list_bef=db('reward')->where(['time_number'=>$time_number,'store_id'=>$store_id])->group('member_id')->select();
+                     $list_bef=db('reward')->where(['time_number'=>$time_number,'store_id'=>$store_id,'status'=>2])->group('member_id')->select();
                      foreach($list_bef as $k =>$v){
-                         $arr[$v['id']]=round(db('reward')->where(['time_number'=>$time_number,'store_id'=>$store_id,'member_id'=>$v['member_id']])->sum('money'),2);
+                         $arr[$v['id']]=round(db('reward')->where(['time_number'=>$time_number,'store_id'=>$store_id,'member_id'=>$v['member_id'],'status'=>2])->sum('money'),2);
                      }
                      //2.根据加权算法，获取中奖的id
                      $sum = array_sum($arr);
