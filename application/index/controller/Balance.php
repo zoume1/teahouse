@@ -243,6 +243,9 @@ class Balance extends Controller
                 $money = Db::name("crowd_order")
                     ->where("parts_order_number", $order_num)
                     ->value("order_real_pay");
+                $order_info = Db::name("crowd_order")
+                    ->where("parts_order_number", $order_num)
+                    ->find();
                 if(!empty($money)){
                     $money =round($money,2);
                 }else{
@@ -285,6 +288,11 @@ class Balance extends Controller
                         ->field("member_wallet,member_recharge_money")
                         ->where("member_id",$information["member_id"])
                         ->find();
+                    $one = db("crowd_special")->where("id",$order_info['special_id'])->setInc("collecting");
+                    $twe = db("crowd_special")->where("id",$order_info['special_id'])->setInc("collecting_money",$order_info['order_amount']);
+                    $three = db("crowd_special")->where("id",$order_info['special_id'])->setInc("collecting_number",$order_info['order_quantity']);
+                    $four = db("crowd_special")->where("id",$order_info['special_id'])->setDec("stock",$order_info['order_quantity']);
+
                     $now_money =$user_information["member_wallet"]+$user_information["member_recharge_money"];
                     $datas=[
                         "user_id"=>$information["member_id"],//用户ID

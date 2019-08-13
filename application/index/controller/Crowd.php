@@ -277,9 +277,8 @@ class Crowd extends Controller
         if($request->isPost()){
             $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only('member_id')['member_id'];
+            $money = $request->only('money')['money'];
             $type = $request->only('type')['type'];
-            // $money = $request->only('money')['money'];
-            $money = 0.01;
             $id = $request->only('id')['id'];   //打赏商品的special_id
             $crowd = db("crowd_special")->where("id",$id)->find();       
             $user_information = db("member")->where("member_id",$member_id)->find();
@@ -307,10 +306,84 @@ class Crowd extends Controller
                 //其他期
                  //获取打赏商品的次数
                  $num=ceil($crowd['cost']/1);    //商品需要打赏的次数
-
                  //统计当前期数的记录数
                  $number=db('reward')->where(['store_id'=>$store_id,'time_number'=>$time_number])->count();
-                 if($num <$number){
+                 if($num <=$number){
+                     //上期开奖
+                     //1.获取上期的所有记录
+                     $list_bef=db('reward')->where(['time_number'=>$time_number,'store_id'=>$store_id])->group('member_id')->select();
+                     foreach($list_bef as $k =>$v){
+                         $arr[$v['id']]=round(db('reward')->where(['time_number'=>$time_number,'store_id'=>$store_id,'member_id'=>$v['member_id']])->sum('money'),2);
+                     }
+                     //2.根据加权算法，获取中奖的id
+                     $sum = array_sum($arr);
+                     asort($arr);
+                     foreach ($arr as $key=>$value) {
+                         $rand = mt_rand(1, $sum);
+                         if ( $rand<=$value ) {
+                             $result = $key;
+                             break;
+                         } else {
+                             $sum -= $value;
+                         }
+                     }
+                     //3.修改中奖的记录
+                     $list_all=db('reward')->where(['time_number'=>$time_number,'store_id'=>$store_id])->select();
+                     foreach($list_all as $k =>$v){
+                         if($v['id']==$result){
+                             //修改为已中奖
+                             db('reward')->where('id',$v['id'])->update(['status'=>3]);
+                            }else{
+                            //修改为已中奖
+                            db('reward')->where('id',$v['id'])->update(['status'=>4]);
+                         }
+                     }
+                     //4.众筹商品新下订单，且状态为已付款
+                     //获取众筹商品的信息
+                        $goods_data=db('crowd_goods')->where('id',$crowd['goods_id'])->find();
+                        //获取当前的会员信息
+                        $user_information=db('member')->where('member_id',$member_id)->find();
+                        $time = date("Y-m-d",time());
+                        $v = explode('-',$time);
+                        $time_second = date("H:i:s",time());
+                        $vs = explode(':',$time_second);
+                        $parts_order_number ="ZY".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($member_id+1001); //订单编号 
+                        //获取当前会员的地址信息
+                        $address=db('user_address')->where(['user_id'=>$member_id,'status'=>1])->find();
+                        $datas["order_type"] = 1;//1为选择直邮，2到店自提，3选择存茶
+                        $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
+                        $datas["parts_goods_name"] = $goods_data["project_name"];//众筹项目
+                        $datas["order_quantity"] = 1;//订单数量
+                        $datas["member_id"] = $member_id;//用户id
+                        $datas["user_account_name"] = $user_information["member_name"];//用户名
+                        $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
+                        $datas["harvester"] = $address['harvester'];
+                        $datas["harvest_phone_num"] = $address['harvester_phone_num'];
+                        $datas["harvester_address"] = $address['address_name'].$address['harvester_real_address'];
+                        $datas["order_create_time"] = time();
+                        $datas["order_amount"] = $crowd['cost'];//订单金额
+                        $datas["order_real_pay"] =  $crowd['cost'];//订单实际支付的金额(即优惠券抵扣之后的价钱）
+                        $datas["status"] = 2;
+                        $datas["goods_id"] = $crowd['goods_id'];
+                        $datas["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
+                        $datas["buy_message"] = '';//买家留言
+                        $datas["normal_future_time"] = '';//未来时间
+                        $datas["special_id"] = $id;//规格id
+                        $datas["coupon_id"] = 0;
+                        $datas["refund_amount"] = 1;
+                        $datas["unit"] = $crowd['offer'];    //需
+                        $datas["receipt_status"] = ''; 
+                        $datas["receipt_id"] = '';
+                        $datas["receipt_price"] = '';
+                        $datas["store_id"] = $store_id;
+                        $datas["order_real_pay"] =1;
+                        $datas['goods_image'] = $crowd['images'];   //图片
+                        $datas["goods_money"]= $goods_data['cost'];//商品价钱
+                        $datas['goods_standard'] = 1; //商品规格  
+                        $res=db('crowd_order')->insert($datas);
+                        //5.判断当前众筹的商品是否已满
+                        
+                        halt($res);
                      //进入下一期
                      $time_number=$time_number+1;
                  }
