@@ -6,8 +6,10 @@
     *{margin: 0; padding: 0; list-style: none;}
     .wrapper{padding: 20px; background-color: #fff;}
     .redStar::before{content: '*'; color: #f00;}
-    .my-input-block{display: flex;}
+    .my-input-block, .my-input-line{display: flex;}
     .my-input-block>div{flex: 1; margin-right: 20px;}
+    .live_c .layui-form-select {width: 455px; margin-right: 20px; }
+    /* .layui-unselect {width: 50px;} */
 </style>
 {/block}
 
@@ -57,11 +59,12 @@
                         <input type="text" name="series_number" placeholder="请输入" autocomplete="off" class="layui-input" required>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="red">*</span>所属仓库</label>
-                    <div class="layui-input-block my-input-block">
+                <div class="layui-form-item " style="width: 100%;">
+                    <label class="layui-form-label"><span class="red">*</span>应用场景</label>
+                    <div class="layui-input-block my-input-line live_c">
+                        <input type="radio" name="live" value="仓储直播"  title="仓储直播">
                         {if !empty($store_name)}
-                        <select name="store_name" id="admin_role" class="role_list">
+                        <select name="store_name" id="admin_role" class="role_list live_role">
                             {volist name="store_name" id="value"}
                             <option value="{$value.name}">{$value.name}</option>
                             {/volist}
@@ -72,6 +75,13 @@
                         {/if}
                         </select>
                         <a  class="layui-btn" href="{:url('admin/StoreHouse/store_house_add')}">添加仓库</a>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="width: 100%;">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block my-input-line">
+                        <input type="radio" name="live" value="流动直播"  title="流动直播">
+                        <input  style="width: 455px;" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input" required>
                     </div>
                 </div>
                 <div class="layui-form-item">
