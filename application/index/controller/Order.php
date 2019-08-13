@@ -1878,7 +1878,6 @@ class  Order extends  Controller
                 $store_id=Session::get('store_id');
                 $setting=db('order_setting')->where('store_id',$store_id)->find();
                 $time=time()-$setting['start_evaluate_time']*24*60*60-$value['collect_goods_time'];
-                dump($time);
                 if($time>0){   
                     // 超过规定的时间未评价,订单状态修改成已完成
                     $re=db('order')->where('parts_order_number',$value['parts_order_number'])->update(['status'=>8]);
