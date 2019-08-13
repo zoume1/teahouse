@@ -304,6 +304,9 @@ class Crowd extends Controller
                 //其他期
                  //获取打赏商品的次数
                  $num=ceil($crowd['cost']/1);    //商品需要打赏的次数
+                 if($money>$num){
+                    return ajax_error('最多购买的次数是'.$num.'次',0);
+                 }
                  //统计当前期数的记录数
                  $number=db('reward')->where(['store_id'=>$store_id,'time_number'=>$time_number,'status'=>2])->sum('money');
                  //判断当前的购买的次数是否大于剩余次数
