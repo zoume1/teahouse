@@ -309,7 +309,7 @@ class Crowd extends Controller
                  //判断当前的购买的次数是否大于剩余次数
                  $pp=$num-$number-$money;
                  $pp2=$num-$number;    //剩余的次数
-                 if($pp2<$money){
+                 if($pp2<$money && $pp2>0){
                      return ajax_error('最多购买的次数是'.$pp2.'次',0);
                  }
                  if($num <=$number){
