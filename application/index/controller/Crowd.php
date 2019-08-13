@@ -137,9 +137,7 @@ class Crowd extends Controller
     {
         if ($request->isPost()) {
             $member_id = $request->only('member_id')['member_id'];
-            $store_id = $request->only(['
-            
-            '])['uniacid'];
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $member = db("member")->where('member_id',$member_id)->find(); //会员等级
             $member_grade_name = $member['member_grade_name']; //会员名称
             $member_grade_id = $member['member_grade_id'];
@@ -270,7 +268,7 @@ class Crowd extends Controller
    /**
      * [众筹商品打赏生成订单]
      * 众筹打赏
-     * lilu
+     * 郭杨
      */
     public function crowd_reward(Request $request)
     {
