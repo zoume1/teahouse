@@ -289,7 +289,31 @@ class Crowd extends Controller
             $time_second = date("H:i:s",time());
             $vs = explode(':',$time_second);
             $order_number ="DS".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($member_id+1001); //订单编号
-
+            //获取打赏期数
+            $list=db('reward')->group('time_number')->select();
+            $time_number=count($list);   //当前的期数
+            if($time_number=='0'){
+                //第一期
+                $time_number=1;
+                // //获取打赏商品的次数
+                // $num=ceil($crowd['cost']/1);
+                // if($num >=$time_number){
+                //     //不用进入下一期
+                // }else{
+                //     //进入下一期
+                //     $time_number=$time_number++;
+                // }
+            }else{
+                //其他期
+                 //获取打赏商品的次数
+                 $num=ceil($crowd['cost']/1);    //商品需要打赏的次数
+                 //统计当前期数的记录数
+                 $number=db('reward')->where(['store_id'=>$store_id,'time_number'=>$time_number])->count();
+                 if($num <$number){
+                     //进入下一期
+                     $time_number=$time_number++;
+                 }
+            }
             $data = array(
                 "money"=>$money,
                 "special_id"=>$id,
@@ -301,6 +325,7 @@ class Crowd extends Controller
                 "status" => 1,
                 "store_id"=>$store_id,
                 "images"=>$crowd['images'],
+                "time_number"=>$time_number,
                 "type"=>$type
             );
              //获取用户余额

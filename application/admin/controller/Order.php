@@ -692,7 +692,24 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function  reward_index(){
-        return view("reward_index");
+        //获取店铺信息
+        $store_id=Session::get('store_id');
+        //获取打赏订单
+        $reward_list=db('reward')->where('store_id',$store_id)->order('create_time desc')->select();
+        foreach($reward_list as $k=>$v){
+            //获取打赏订单的状态
+            if($v['status']=='1'){
+                $reward_list[$k]['status']='未支付';
+            }elseif($v['status']=='2'){
+                $reward_list[$k]['status']='未开奖';
+            }elseif($v['status']=='3'){
+                $reward_list[$k]['status']='已中奖';
+            }elseif($v['status']=='0'){
+                $reward_list[$k]['status']='未中奖';
+
+            }
+        }
+        return view("reward_index",["data"=>$reward_list]);
     }
 
 }
