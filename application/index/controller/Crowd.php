@@ -111,8 +111,6 @@ class Crowd extends Controller
                     } else {
                         $crowd[$key]["cost"] = sprintf("%.2f",$special[$key]["cost"]); //显示价格
                     }
-                    
-
                     //会员范围
                     $crowd[$key]["collecting"] = db("crowd_special")->where("goods_id",$crowd[$key]["id"])->sum("collecting");//众筹人数
                     if(!empty($crowd[$key]["scope"])){
@@ -139,7 +137,9 @@ class Crowd extends Controller
     {
         if ($request->isPost()) {
             $member_id = $request->only('member_id')['member_id'];
-            $store_id = $request->only(['uniacid'])['uniacid'];
+            $store_id = $request->only(['
+            
+            '])['uniacid'];
             $member = db("member")->where('member_id',$member_id)->find(); //会员等级
             $member_grade_name = $member['member_grade_name']; //会员名称
             $member_grade_id = $member['member_grade_id'];
@@ -270,7 +270,7 @@ class Crowd extends Controller
    /**
      * [众筹商品打赏生成订单]
      * 众筹打赏
-     * 郭杨
+     * lilu
      */
     public function crowd_reward(Request $request)
     {
@@ -300,7 +300,7 @@ class Crowd extends Controller
                 $pp=$num-$money;
                 $pp2=$num;
                 if($pp<0){
-                    return ajax_success('最多购买的次数是'.$pp2.'次',$pp2);
+                    return ajax_error('最多购买的次数是'.$pp2.'次',$pp2);
                 }
             }else{
                 //其他期
