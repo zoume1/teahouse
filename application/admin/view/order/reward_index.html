@@ -552,40 +552,26 @@
 						<th>订单金额</th>
 						<th>众筹类型</th>
 						<th>众筹状况</th>
-						<th>订单类型</th>
-						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody class="news_content">
+					{volist name="data"  id="vo"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="">
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo['id']}">
 						</td>
-						<td>22</td>
+						<td>{$vo['order_number']}</td>
 						<td>
-							<div><img src="" /></div>
-						<td>11</td>
-						<td>11</td>
-						<td>11</td>
-						<td>11</td>
-						<td class="am">11</td>
-						<td>65</td>
-						<td>已满</td>
-						<td>
-							11
-						</td>
-						<td>
-							<div class="line">
-								<div class="static_btus" data-id="" data-value="">
-								</div>
-								<div class="static_btus1">
-									<div class="layui-btn layui-btn-mini not_apply">未申请开票</div>
-								</div>
-								<div class="static_btus2" data-id="">
-									订单详情
-								</div>
-							</div>
-						</td>
+							<div><img src="__UPLOADS__/{$vo['images']}" /></div>
+						<td>{$vo['crowd_name']}</td>
+						<td>{$vo['money']}</td>
+						<td>{$vo['user_name']}</td>
+						<td>{$vo.create_time |date="Y-m-d H:i:s",###}</td>
+						<td class="am">{$vo['money']}</td>
+						<td>众筹</td>
+						<td>{$vo['status']}</td>
 					</tr>
+				{/volist}
+
 				</tbody>
 			</table>
 			<div id="page">

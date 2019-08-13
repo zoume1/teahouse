@@ -2985,7 +2985,9 @@ class  Order extends  Controller
             $res = db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
         }elseif($input['coupon_type'] == 2){
             $re=db('crowd_order')->where('parts_order_number',$input['parts_order_number'])->delete();
-            $res=db('house_order')->where('parts_order_number',$input['parts_order_number'])->delete();
+        }elseif($input['coupon_type']=='3'){
+            $re=db('reward')->where('order_number',$input['parts_order_number'])->delete();
+            
         }
         if($re){
             return ajax_success('删除成功');
