@@ -307,11 +307,12 @@ class Crowd extends Controller
                 //其他期
                  //获取打赏商品的次数
                  $num=ceil($crowd['cost']/1);    //商品需要打赏的次数
+
                  //统计当前期数的记录数
                  $number=db('reward')->where(['store_id'=>$store_id,'time_number'=>$time_number])->count();
                  if($num <$number){
                      //进入下一期
-                     $time_number=$time_number++;
+                     $time_number=$time_number+1;
                  }
             }
             $data = array(
