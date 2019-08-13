@@ -294,20 +294,26 @@ class Crowd extends Controller
             if($time_number=='0'){
                 //第一期
                 $time_number=1;
-                // //获取打赏商品的次数
-                // $num=ceil($crowd['cost']/1);
-                // if($num >=$time_number){
-                //     //不用进入下一期
-                // }else{
-                //     //进入下一期
-                //     $time_number=$time_number++;
-                // }
+                //获取打赏商品的次数
+                $num=ceil($crowd['cost']/1);    //商品需要打赏的次数
+                //判断当前的购买的次数是否大于剩余次数
+                $pp=$num-$money;
+                $pp2=$num;
+                if($pp<0){
+                    return ajax_success('最多购买的次数是'.$pp2.'次',$pp2);
+                }
             }else{
                 //其他期
                  //获取打赏商品的次数
                  $num=ceil($crowd['cost']/1);    //商品需要打赏的次数
                  //统计当前期数的记录数
                  $number=db('reward')->where(['store_id'=>$store_id,'time_number'=>$time_number])->count();
+                 //判断当前的购买的次数是否大于剩余次数
+                 $pp=$num-$number-$money;
+                 $pp2=$num-$number;
+                 if($pp<0){
+                     return ajax_success('最多购买的次数是'.$pp2.'次',$pp2);
+                 }
                  if($num <=$number){
                      //上期开奖
                      //1.获取上期的所有记录
@@ -378,14 +384,11 @@ class Crowd extends Controller
                         $datas["store_id"] = $store_id;
                         $datas["order_real_pay"] =1;
                         $datas['goods_image'] = $crowd['images'];   //图片
-                        $datas["goods_money"]= $goods_data['cost'];//商品价钱
+                        $datas["goods_money"]= $crowd['cost'];//商品价钱
                         $datas['goods_standard'] = 1; //商品规格  
                         $res=db('crowd_order')->insert($datas);
-                        //5.判断当前众筹的商品是否已满
-                        
-                        halt($res);
-                     //进入下一期
-                     $time_number=$time_number+1;
+                        //5.打赏进入下一期
+                        $time_number=$time_number+1;
                  }
             }
             $data = array(
