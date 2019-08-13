@@ -298,7 +298,7 @@ class Crowd extends Controller
                 $pp=$num-$money;
                 $pp2=$num;
                 if($pp<0){
-                    return ajax_error('最多购买的次数是11111'.$pp2.'次',0);
+                    return ajax_error('最多购买的次数是'.$pp2.'次',0);
                 }
             }else{
                 //其他期
@@ -308,9 +308,9 @@ class Crowd extends Controller
                  $number=db('reward')->where(['store_id'=>$store_id,'time_number'=>$time_number,'status'=>2])->sum('money');
                  //判断当前的购买的次数是否大于剩余次数
                  $pp=$num-$number-$money;
-                 $pp2=$num-$number;
-                 if($pp<0 && $money >'1'){
-                     return ajax_error('最多购买的次数是222222'.$pp2.'次',0);
+                 $pp2=$num-$number;    //剩余的次数
+                 if($pp2<$money){
+                     return ajax_error('最多购买的次数是'.$pp2.'次',0);
                  }
                  if($num <=$number){
                      //上期开奖
