@@ -94,7 +94,15 @@
 			})
 
 		}else{
-			//总控端
+			//总控端  get_info_zong
+			$.ajax({
+				url:'{:url("admin/index/get_info_zong")}',
+				type:'post',
+				success : function (data){
+					console.log(JSON.parse(data));
+					// alert(data);
+				}
+			})
 
 		}
 		// alert(store_id);

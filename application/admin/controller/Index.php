@@ -170,11 +170,28 @@ class Index extends Controller
          $data['2']['type']=2;
          if($data){
              return ajax_success('获取成功',$data);
-            }else{
-            return ajax_error('获取失败');
+        }else{
+             return ajax_error('获取失败');
          }
-        //获取发货
-        //获取普通订单待发货
 
     }
+    /**
+     * lilu
+     * 总控获取消息提醒
+     */
+    public function get_info_zong(){
+        //增值订单        adder_order
+        $where['status']=array('between',array(2,3));
+        $where['store_id']=$input['store_id'];
+        $z_order_number=db('adder_order')->where($where)->count();
+        $data[0]['number']=$z_order_number;
+        $data[0]['type']='0';
+        if($data){
+            return ajax_success('获取成功',$data);
+        }else{
+            return ajax_error('获取失败');
+        }
+
+    }
+    
 }
