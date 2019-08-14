@@ -96,6 +96,7 @@ class Index extends Controller
         //获取参数
         $input=input();
         if($input){
+            halt($input);
             $data['wendu']=$input['wendu'];
             $data['shidu']=$input['shidu'];
             $re=db('instrument')->where(['instrument_number'=>'8606S86YL8295C5Y','store_id'=>$input['uniacid']])->update($data);
