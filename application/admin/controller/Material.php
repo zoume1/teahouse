@@ -303,20 +303,19 @@ class  Material extends  Controller{
      * lilu
      * 温湿度查询
      */
-    public function wenshidu(){
-        $url='https://api.dtuip.com/qy/user/login.html';
-        $data='{
-            "userName": "18510393696",
-            "password": "zhcc63268696"
-            }';
-            $ret = json_decode($this->https_post($url,$data),true);
-        if($ret){
-             return ajax_success('登录成功',$ret);
-        }else{
-            return ajax_success('登录失败',$ret);
-        }
-        
-    }
+    // public function wenshidu(){
+    //     $url='https://api.dtuip.com/qy/user/login.html';
+    //     $data='{
+    //         "userName": "18510393696",
+    //         "password": "zhcc63268696"
+    //         }';
+    //         $ret = json_decode($this->https_post($url,$data),true);
+    //     if($ret){
+    //          return ajax_success('登录成功',$ret);
+    //     }else{
+    //         return ajax_success('登录失败',$ret);
+    //     }
+    // }
      /*
         * 发起POST网络提交
         * @params string $url : 网络地址
