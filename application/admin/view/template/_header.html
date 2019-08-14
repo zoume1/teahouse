@@ -76,10 +76,14 @@
 		if(store_id>0){
 			//店铺端
 			$.ajax({
-				url:'',
+				url:'{:url("admin/index/get_info_store")}',
 				type:'post',
 				data:{
-					
+					"store_id":store_id,
+				},
+				success : function (data){
+					console.log(JSON.parse(data));
+					// alert(data);
 				}
 			})
 

@@ -151,10 +151,28 @@ class Index extends Controller
         //获取参数 store_id
         $input=input();
         //获取普通订单待发货
-        $p_order_number_dai=db('order')->where(['store_id'=>$input['store_id'],'status'=>3])->count();
+        $where['status']=array('between',array(2,3));
+        $where['store_id']=$input['store_id'];
+        $p_order_number_dai=db('order')->where($where)->count();
         //获取众筹订单待发货
-        $z_order_number_dai=db('crowd_order')->where(['store_id'=>$input['store_id'],'status'=>3])->count();
-
+        $where2['status']=array('between',array(2,3));
+        $where2['store_id']=$input['store_id'];
+        $z_order_number_dai=db('crowd_order')->where($where2)->count();
+        //获取积分订单待发货
+        // $j_order_number_dai=db('crowd_order')->where(['store_id'=>$input['store_id'],'status'=>3])->count();
+        //售后
+        $s_order_number_dai=db('after_sale')->where(['store_id'=>$input['store_id'],'status'=>1])->count();
+         $data['0']['number']=$p_order_number_dai;
+         $data['1']['number']=$z_order_number_dai;
+         $data['2']['number']=$s_order_number_dai;
+         $data['0']['type']=0;
+         $data['1']['type']=1;
+         $data['2']['type']=2;
+         if($data){
+             return ajax_success('获取成功',$data);
+            }else{
+            return ajax_error('获取失败');
+         }
         //获取发货
         //获取普通订单待发货
 
