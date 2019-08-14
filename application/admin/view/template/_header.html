@@ -28,7 +28,14 @@
 	
 	</div>-->
 	<div class="loading-box">
-		<div class="message"><img src="__STATIC__/admin/index/img/u44.png" /></div>
+		<div class="message">
+			<img src="__STATIC__/admin/index/img/u44.png" />
+			<ul class="dropdown">
+				<li class="dropdown-item">[订单] 您有<span class="red">100</span>个<span class="red">普通</span>订单流程需及时处理</li>
+				<div class="popper__arrow"></div>
+				<div class="clearall">全部设为已处理</div>
+			</ul>
+		</div>
 		<!-- <div>
 			<div>
 				<div>【订单】您有<span>2</span>个<span>普通</span>订单流程需及时处理</div>
@@ -47,8 +54,7 @@
 					data-url="/admin/added_service_index.html" href="javascript:void(0);">增值服务</a></span>
 
 			<span>
-				<a id="qq" target="_blank"
-					href="http://wpa.qq.com/msgrd?v=3&amp;uin=415364124&amp;site=qq&amp;menu=yes">客服</a>
+				<a id="qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=415364124&amp;site=qq&amp;menu=yes">客服</a>
 			</span>
 			<span><a class="header-url" href="#">{$account}</a></span>
 			<span><a href="{:url('admin/Login/logout')}" id="tcdl">退出登录</a></span>
@@ -94,3 +100,59 @@
 		// alert(store_id);
 	})
 </script>
+<style>
+.message:hover .dropdown{
+	display: block;
+}
+.dropdown {
+	display: none;
+	position: absolute;
+	top: 48px;
+	right: -15px;
+	width: 320px;
+	max-width: 320px;
+	padding: 10px 0 20px;
+	margin: 5px 0;
+	background-color: #FFF;
+	border: 1px solid #EBEEF5;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+}
+
+.dropdown .dropdown-item {
+	list-style: none;
+	line-height: 36px;
+	padding: 0 20px;
+	margin: 0;
+	font-size: 14px;
+	color: #606266;
+	cursor: pointer;
+	outline: 0;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.dropdown .popper__arrow{
+	border-bottom-color: #fff;
+	border-width: 10px;
+	top: -20px;
+	left: 89%;
+}
+.dropdown .clearall{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 20px;
+	line-height: 20px;
+	padding: 0 20px;
+	text-align: right;
+	color: #606266;
+	background-color: #f1f1f1;
+	cursor: pointer;
+}
+.dropdown .red{
+	color: #F00;
+}
+</style>
