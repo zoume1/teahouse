@@ -415,6 +415,12 @@
 	.zt_greed {
 		color: rgb(102, 153, 0);
 	}
+	.beizhu {color: rgb(255, 177, 201);margin:0 0 10px 10px ;}
+	.chat_1{height: 110px;}
+	.fl_text{float: left;font-weight: 700;font-size: 20px;}
+	.fr_text{float: right;color: rgb(254, 151, 80);}
+	.fp_div{width: 100%;height: 30px;}
+	.invoice{padding: 0 30px;}
 </style>
 
 {/block}
@@ -422,7 +428,7 @@
 <body>
 
 	{block name="content"}
-	<div class="popup popup_one noshow">
+	<!-- <div class="popup popup_one noshow">
 		<div class="popup_doms">
 			<div class="popup_title">
 				处理回复（个人信息处有提示信息）
@@ -439,6 +445,56 @@
 				</div>
 				<div class="chat"></div>
 				<div class="operation"></div>
+				<div class="chenge_money" data-id="">
+					
+					<div style="position:relative; margin-right: 100px;">
+						订单金额 <input type="text" name="amount" readonly autocomplete="off" class="layui-input"
+							style="width:150px;"><span class="danwei">元</span>
+					</div>
+					<div style="position:relative">
+						修改订单金额 <input type="text" name="changePriceVal" required lay-verify="required" placeholder="请输入"
+							autocomplete="off" class="layui-input" style="width:190px;"><span class="danwei"
+							style="left: 240px;">元</span>
+					</div>
+					<div style="margin-left:45px;">
+						<button class="layui-btn changePrice"
+							style="background-color:rgb(22, 155, 213);border-radius: 5px;">确定改价</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<div class="popup popup_one noshow">
+		<div class="popup_doms">
+			<div class="popup_title">
+				处理回复（个人信息处有提示信息）
+				<div class="popup_x">
+					<img src="__STATIC__/admin/index/img/X.png" />
+				</div>
+			</div>
+			<div class="popup_content">
+				<div class="invoice">	
+					<div class="fp_div">
+						<div class="fl_text">办理时间</div>
+						<div class="fr_text">2018年10月 00：16：45</div>
+					</div>
+					<div class="fp_div">
+						<div class="fl_text">发票抬头</div>
+						<div class="fr_text">深圳市市场监督管理局</div>
+					</div>
+					<div class="fp_div">
+						<div class="fl_text">发票金额</div>
+						<div class="fr_text">100.00元</div>
+					</div>
+					<div class="fp_div">
+						<div class="fl_text">邮寄地址</div>
+						<div class="fr_text">北京市***</div>
+					</div>
+
+				</div>
+				<div class="chat"></div>
+				<div class="operation"></div>
+				<div class="beizhu">备注：如果是客户购物车多订单下单，此处已合并发票金额，只开一张发票即可</div>
 				<div class="chenge_money" data-id="">
 					<!-- <div class="zt noshow">
 						<div style=" display:flex;">
@@ -656,8 +712,8 @@
 									{$vo.status|show_house_order}
 									{/if}
 								</div>
-								<div class="static_btus1">
-									<div class=" layui-btn layui-btn-mini not_apply">未申请开票</div>
+								<div class="static_btus1" data-id="{$vo.parts_order_number}">
+									<div class=" layui-btn layui-btn-mini not_apply ">未申请开票</div>
 								</div>
 								<div class="static_btus2" data-id="{$vo.parts_order_number}">
 									订单详情
@@ -804,6 +860,7 @@
 
 			})
 		})
+		
 		// $(".static_btus").click(function () {
 		// 	$(".popup_one").removeClass("noshow");
 		// })
@@ -1164,7 +1221,55 @@
 			}
 
 		});
+		'';
+		$(".static_btus1").click(function () {
+			$(".popup_one").removeClass("noshow");
+			var data_id = $(this).data("id");
+			$('.popup_content').empty();
+			$.ajax({
+				type: "POST",
+				url: "{:url('admin/Order/get_receipt_detail')}",
+				data: { 
+					order_id: data_id
+				},
+				success: function(data) {
+					var data = eval('(' + data + ')');
+					console.log(data)
+					let dhtml = ``;
+					dhtml = `<div class="invoice">	
+					<div class="fp_div">
+						<div class="fl_text">办理时间</div>
+						<div class="fr_text">2018年10月 00：16：45</div>
+					</div>
+					<div class="fp_div">
+						<div class="fl_text">发票抬头</div>
+						<div class="fr_text">深圳市市场监督管理局</div>
+					</div>
+					<div class="fp_div">
+						<div class="fl_text">发票金额</div>
+						<div class="fr_text">100.00元</div>
+					</div>
+					<div class="fp_div">
+						<div class="fl_text">邮寄地址</div>
+						<div class="fr_text">北京市***</div>
+					</div>
 
+				</div>
+				<div class="chat1"></div>
+				<div class="operation"></div>
+				<div class="beizhu">备注：如果是客户购物车多订单下单，此处已合并发票金额，只开一张发票即可</div>
+				<div class="chenge_money" data-id="">
+						<div class="select_static">
+						<span class="operation_title">选择操作</span>
+						<select name="" class="operation_select">
+						<option value="1" selected="">已发货</option>
+						</select>
+						</div>
+						<button type="button" class="submit_btns" data-id="">确定</button>
+						</div>`
+				}
+			})
+		})
 		// 点击订单详情
 		$(".static_btus2").click(function () {
 			$(".popup_two").removeClass("noshow");

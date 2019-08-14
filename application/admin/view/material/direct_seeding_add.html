@@ -64,7 +64,7 @@
                     <div class="layui-input-block my-input-line live_c">
                         <input type="radio" name="live" value="仓储直播"  title="仓储直播">
                         {if !empty($store_name)}
-                        <select name="store_name" id="admin_role" class="role_list live_role">
+                        <select name="store_name" id="admin_role" class="role_list">
                             {volist name="store_name" id="value"}
                             <option value="{$value.name}">{$value.name}</option>
                             {/volist}
