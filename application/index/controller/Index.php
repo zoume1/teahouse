@@ -85,5 +85,22 @@ class Index extends Controller
         }
         return $phone_num;
     }
+    /**
+     * lilu
+     * 实时获取温湿度
+     * wendu
+     * shidu
+     * uniacid
+     */
+    public function get_wenshidu(){
+        //获取参数
+        $input=input();
+        if($input){
+            $re=db('instrument')->where(['instrument_number'=>'8606S86YL8295C5Y','store_id'=>$input['uniacid']])->update($input);
+            return ajax_success('获取成功');
+        }else{
+            return ajax_error('获取失败');
+        }
+    }
 
 }

@@ -142,4 +142,19 @@ class Index extends Controller
             }
         }
     }
+    /**
+     * lilu
+     * 后台店铺获取消息提醒
+     * store_id
+     */
+    public function get_info_store(){
+        //获取参数 store_id
+        $input=input();
+        //获取普通订单待发货
+        $order_number_dai=db('order')->where(['store_id'=>$input['store_id'],'status'=>3])->select();
+        //获取普通订单待发货
+        //获取普通订单待发货
+        //获取普通订单待发货
+
+    }
 }

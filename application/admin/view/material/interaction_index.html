@@ -137,12 +137,11 @@
             var instrument_number=$(obj).attr('data-id');
             $.ajax({
                 url:'https://api.dtuip.com/qy/user/login.html',
-                type:"post",
+                type:"POST",
                 dataType:"json",
                 data: {
                     "userName":"18510393696",
                     "password":"zhcc63268696"
-	
                 },
                 success : function(data){
                     // console.log(data);
