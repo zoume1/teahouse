@@ -524,6 +524,7 @@ Route::group("admin",[
     "refund_protection_refuse"=>"admin/Order/refund_protection_refuse",//退款维权拒绝
     "refund_protection_search"=>"admin/Order/refund_protection_search",//退款维权搜索
     "changeOderPrice"=>"admin/Order/changeOderPrice",//订单改价
+    "get_receipt_detail"=>"admin/Order/get_receipt_detail",//获取发票详情
     /*TODO:订单结束*/
 
     /*TODO:地址订单开始*/
