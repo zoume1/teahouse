@@ -611,8 +611,24 @@ class My extends Controller
              return ajax_error('操作失败');
 
         }
+    }
+    /**
+     * lilu
+     * 获取首页的银行卡列表
+     * uncacid
+     * member_id
+     */
+    public function get_bank_list(){
+        //获取参数信息
+        $input=input();
+        //获取银行卡信息
+        $list=db('store_bank_icard')->where(['store_id'=>$input['uncacid'],'status'=>1])->select();
+        if($list){
+           return ajax_success('获取成功',$list);
+        }else{
+            return ajax_error('获取失败');
 
-
+        }
 
     }
 

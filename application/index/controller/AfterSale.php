@@ -427,6 +427,14 @@ class  AfterSale extends Controller{
                 ->select();
             if(!empty($data)){
                 foreach ($data as $key=>$value){
+                    //判断申诉的订单是否超过系统配置的时间未处理
+                    if(empty($value['who_handle'])){
+                        //未处理
+                        //修改当前的申请记录状态，记录当前的时间未handle时间
+                        db('after_sale')->where('id',$value['id'])->update(['who_handle'=>4,'handle_time'=>time(),'status'=>2]);
+                        unset($data[$key]);
+                        continue;
+                    }
                     $order_data =Db::name("order")
                         ->field("goods_image,parts_goods_name,goods_money,order_quantity,refund_amount,goods_describe")
                         ->where("id",$value["order_id"])

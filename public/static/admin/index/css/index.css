@@ -216,7 +216,9 @@ a{
 }
 .message{
 	float: left;
+	cursor: pointer;
 	width: 26px;
+	position: relative;
 }
 .company_information{
 	width      : 48%;

@@ -58,6 +58,9 @@ Route::group("",[
     "sign_in"=>"index/index/sign_in", //登录
     "forget_pw"=>"index/index/forget_pw", //登录
     "my_shop"=>"index/index/my_shop", //我的店铺
+    "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
+    "get_bank_list"=>"index/My/get_bank_list", //获取用户的银行卡列表
+
 
 
     /*TODO：start*/
@@ -410,8 +413,10 @@ Route::group("",[
 Route::group("admin",[
     /*首页*/
     "/$"=>"admin/index/index",
-    "get_id_return_info"=>"admin/index/get_id_return_info",//获取点击二级菜单下三级菜单的权限菜单
-    "shop_store_date"=>"admin/index/shop_store_date",//进入店铺后台显示但前使用版本及日期
+    "get_id_return_info"=>"admin/index/get_id_return_info",   //获取点击二级菜单下三级菜单的权限菜单
+    "shop_store_date"=>"admin/index/shop_store_date",         //进入店铺后台显示但前使用版本及日期
+    "get_info_store"=>"admin/index/get_info_store",           //店铺后台获取消息
+    "get_info_zong"=>"admin/index/get_info_zong",             //总控后台获取消息
 
     /* 后台首页 */
     "home_index"=>"admin/Home/index",
@@ -521,6 +526,8 @@ Route::group("admin",[
     "refund_protection_refuse"=>"admin/Order/refund_protection_refuse",//退款维权拒绝
     "refund_protection_search"=>"admin/Order/refund_protection_search",//退款维权搜索
     "changeOderPrice"=>"admin/Order/changeOderPrice",//订单改价
+    "get_receipt_detail"=>"admin/Order/get_receipt_detail",//获取发票详情
+    "receipt_do"=>"admin/Order/receipt_do",                //申请发票处理
     /*TODO:订单结束*/
 
     /*TODO:地址订单开始*/
@@ -838,6 +845,7 @@ Route::group("admin",[
     "interaction_index" =>"admin/Material/interaction_index",                                       //温湿感应
     "interaction_add" =>"admin/Material/interaction_add",                                           //温湿感应
     "interaction_add_do" =>"admin/Material/interaction_add_do",                                     //温湿感应仪器添加处理
+    "wenshidu" =>"admin/Material/wenshidu",                                                         //温湿感应仪器登录操作
 
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况

@@ -304,8 +304,34 @@ class  Material extends  Controller{
      * 温湿度查询
      */
     public function wenshidu(){
-        
+        //获取店铺id
+        $store_id=Session::get('store_id');
+        $ret=db('instrument')->where(['instrument_number'=>'8606S86YL8295C5Y','store_id'=>$store_id])->find();
+        $ret['update_time']=date('Y-m-d H:i:s' , time());
+        if($ret){
+             return ajax_success('登录成功',$ret);
+        }else{
+            return ajax_success('登录失败',$ret);
+        }
     }
+     /*
+        * 发起POST网络提交
+        * @params string $url : 网络地址
+        * @params json $data ： 发送的json格式数据
+        */
+        public function https_post($url,$data)
+        {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            if (!empty($data)){
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            }
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($curl);
+            curl_close($curl);
+            return $output;
+        }
 
     
  }
