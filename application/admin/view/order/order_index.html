@@ -116,7 +116,7 @@
 		box-sizing: border-box;
 	}
 
-	.submit_btns {
+	.submit_btns, .invoice_btns {
 		width: 100px;
 		height: 38px;
 		color: #fff;
@@ -1229,24 +1229,26 @@
 				type: "POST",
 				url: "{:url('admin/Order/get_receipt_detail')}",
 				data: { 
-					order_id: data_id
+					parts_order_number: data_id
 				},
 				success: function(data) {
 					var data = eval('(' + data + ')');
 					console.log(data)
+					let time = timestampToTime(data.data.create_time),
+					money = (data.data.receipt_money).toFixed(2);
 					let dhtml = ``;
 					dhtml = `<div class="invoice">	
 					<div class="fp_div">
 						<div class="fl_text">办理时间</div>
-						<div class="fr_text">2018年10月 00：16：45</div>
+						<div class="fr_text">${time}</div>
 					</div>
 					<div class="fp_div">
 						<div class="fl_text">发票抬头</div>
-						<div class="fr_text">深圳市市场监督管理局</div>
+						<div class="fr_text">${data.data.company}</div>
 					</div>
 					<div class="fp_div">
 						<div class="fl_text">发票金额</div>
-						<div class="fr_text">100.00元</div>
+						<div class="fr_text">${money}元</div>
 					</div>
 					<div class="fp_div">
 						<div class="fl_text">邮寄地址</div>
@@ -1254,21 +1256,49 @@
 					</div>
 
 				</div>
-				<div class="chat1"></div>
+				<div class="chat_1"></div>
 				<div class="operation"></div>
 				<div class="beizhu">备注：如果是客户购物车多订单下单，此处已合并发票金额，只开一张发票即可</div>
-				<div class="chenge_money" data-id="">
+				<div class="chenge_money">
 						<div class="select_static">
 						<span class="operation_title">选择操作</span>
 						<select name="" class="operation_select">
-						<option value="1" selected="">已发货</option>
+						<option value="0" selected="">请选择</option>
+						<option value="1" >已开票</option>
 						</select>
 						</div>
-						<button type="button" class="submit_btns" data-id="">确定</button>
+						<button type="button" class="invoice_btns">确定</button>
 						</div>`
+						$('.popup_content').append(dhtml);
+						$('.invoice_btns').click(function() {
+							var operation_select = $(".operation_select option:selected").val();
+							if(operation_select == 0) {
+								$(".popup_one").addClass("noshow");
+							} else {
+								$.ajax({
+									type: "POST",
+									url: "{:url('admin/Order/receipt_do')}",
+									data: { 
+										parts_order_number: data_id
+									},
+									success: function(data) {
+										alert('修改成功');
+										$(".popup_one").addClass("noshow");
+									}
+								});
+							}
+							console.log(operation_select)
+						})
 				}
 			})
 		})
+		// $(".chenge_money").on("click", ".invoice_btns", function () {
+		// 	$(".popup_one").addClass("noshow");
+		// 	//    操作选择
+		// 	console.log('11111111111111111')
+		// 	// var operation_select = $(".operation_select option:selected").val();
+		// 	console.log(operation_select)
+		// 	})
 		// 点击订单详情
 		$(".static_btus2").click(function () {
 			$(".popup_two").removeClass("noshow");
