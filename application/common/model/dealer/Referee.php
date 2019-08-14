@@ -11,7 +11,7 @@ use app\common\model\BaseModel;
  */
 class Referee extends BaseModel
 {
-    protected $name = 'dealer_referee';
+    protected $table = 'yoshop_dealer_referee';
 
     /**
      * 关联用户表

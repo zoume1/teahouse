@@ -239,7 +239,7 @@ class  Order extends  Controller
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
                             $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
-                            $datas["distribution"] =$goods_data["distribution"];//是否分销
+                            $datas["distribution"] =$goods_data["distribution_status"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
                             $datas["order_quantity"] =$numbers[$keys];//订单数量
@@ -400,7 +400,7 @@ class  Order extends  Controller
                         } 
                     }
                         $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
-                        $datas["distribution"] = $goods_data["distribution"];//是否分销
+                        $datas["distribution"] = $goods_data["distribution_status"];//是否分销
                         $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datas["parts_goods_name"] = $goods_data["goods_name"];//名字
                         $datas["order_quantity"] = $numbers[$keys];//订单数量
@@ -473,7 +473,7 @@ class  Order extends  Controller
                         $datase["goods_money"]= $datas['goods_money'];//商品价钱
                         $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datase["parts_goods_name"] = $goods_data["goods_name"];//名字
-                        $datase["distribution"] = $goods_data["distribution"];//是否分销
+                        $datase["distribution"] = $goods_data["distribution_status"];//是否分销
                         $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datase["order_quantity"] = $numbers[$keys];//订单数量
                         $datase["member_id"] = $user_id;//用户id
@@ -637,7 +637,7 @@ class  Order extends  Controller
                                 $datas['goods_standard'] = $special_data["name"]; //商品规格
                             }
                             $datas["order_type"] =$order_type;//1为选择直邮，2到店自提，3选择存茶
-                            $datas["distribution"] =$goods_data["distribution"];//是否分销
+                            $datas["distribution"] =$goods_data["distribution_status"];//是否分销
                             $datas["goods_describe"] =$goods_data["goods_describe"];//卖点
                             $datas["parts_goods_name"] =$goods_data["goods_name"];//名字
                             $datas["order_quantity"] =$numbers[$keys];//订单数量
@@ -820,7 +820,7 @@ class  Order extends  Controller
                             } 
                         }
                         $datas["order_type"] = $order_type;//1为选择直邮，2到店自提，3选择存茶
-                        $datas["distribution"] = $goods_data["distribution"];//是否分销
+                        $datas["distribution"] = $goods_data["distribution_status"];//是否分销
                         $datas["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datas["parts_goods_name"] = $goods_data["goods_name"];//名字
                         $datas["order_quantity"] = $numbers[$keys];//订单数量
@@ -878,7 +878,7 @@ class  Order extends  Controller
                         $datase['goods_standard'] = $datas['goods_standard'];
                         $datase["parts_order_number"] = $parts_order_number;//时间+4位随机数+用户id构成订单号
                         $datase["parts_goods_name"] = $goods_data["goods_name"];//名字
-                        $datase["distribution"] = $goods_data["distribution"];//是否分销
+                        $datase["distribution"] = $goods_data["distribution_status"];//是否分销
                         $datase["goods_describe"] = $goods_data["goods_describe"];//卖点
                         $datase["coupon_type"] = $goods_data["coupon_type"];//商品类型
                         $datase["order_quantity"] = $numbers[$keys];//订单数量

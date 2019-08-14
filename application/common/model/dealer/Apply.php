@@ -11,7 +11,7 @@ use app\common\model\BaseModel;
  */
 class Apply extends BaseModel
 {
-    protected $name = 'dealer_apply';
+    protected $table = 'yoshop_dealer_apply';
 
     /**
      * 申请状态

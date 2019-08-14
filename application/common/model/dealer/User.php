@@ -1,7 +1,7 @@
 <?php
 
 namespace app\common\model\dealer;
-
+use think\Db;
 use app\common\model\BaseModel;
 
 /**
@@ -13,24 +13,24 @@ class User extends BaseModel
 {
     protected $name = 'dealer_user';
 
-    /**
-     * 关联会员记录表
-     * @return \think\model\relation\BelongsTo
-     */
-    public function user()
-    {
-        return $this->belongsTo('app\common\model\User');
-    }
+    // /**
+    //  * 关联会员记录表
+    //  * @return \think\model\relation\BelongsTo
+    //  */
+    // public function user()
+    // {
+    //     return $this->belongsTo('app\common\model\User');
+    // }
 
-    /**
-     * 关联推荐人表
-     * @return \think\model\relation\BelongsTo
-     */
-    public function referee()
-    {
-        return $this->belongsTo('app\common\model\User', 'referee_id')
-            ->field(['user_id', 'nickName']);
-    }
+    // /**
+    //  * 关联推荐人表
+    //  * @return \think\model\relation\BelongsTo
+    //  */
+    // public function referee()
+    // {
+    //     return $this->belongsTo('app\common\model\User', 'referee_id')
+    //         ->field(['user_id', 'nickName']);
+    // }
 
     /**
      * 获取分销商用户信息
@@ -64,11 +64,10 @@ class User extends BaseModel
      */
     public static function add($user_id, $data)
     {
-        $model = static::detail($user_id) ?: new static;
         return $model->save(array_merge([
             'user_id' => $user_id,
             'is_delete' => 0,
-            'wxapp_id' => $model::$wxapp_id
+            'wxapp_id' => $data['wxapp_id']
         ], $data));
     }
 

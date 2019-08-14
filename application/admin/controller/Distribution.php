@@ -177,9 +177,9 @@ class Distribution extends Controller
 
             $bool = db("commodity")->where('id', $request->only(["id"])["id"])->update($goods_data);
             if ($bool) {
-                $this->success("编辑成功", url("admin/Distribution/goods_index"));
+                $this->success("编辑成功", url("admin/Goods/index"));
             } else {
-                $this->error("编辑失败", url("admin/Distribution/goods_edit"));
+                $this->error("编辑失败", url("admin/Goods/index"));
             }
         }
     }
@@ -313,9 +313,9 @@ class Distribution extends Controller
             $bool = db("goods")->where("id",$data["restid"])->update(["distribution_id" =>$boole]);
          
             if ($boole) {
-                $this->success("添加成功", url("admin/Distribution/goods_index"));
+                $this->success("添加成功", url("admin/Goods/index"));
             } else {
-                $this->error("添加失败", url("admin/Distribution/goods_add"));
+                $this->error("添加失败", url("admin/Goods/index"));
             }
         }
     }

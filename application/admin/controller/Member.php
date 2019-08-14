@@ -12,6 +12,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
+use think\Session;
 use think\paginator\driver\Bootstrap;
 
 class Member extends Controller{
@@ -21,20 +22,9 @@ class Member extends Controller{
      * GY
      */
     public function member_index(){
-        $member = db("member") -> select();
-        foreach($member as $key => $value) {
-            $member[$key]["higher_inviter"] = db("member")->where("member_id", $member[$key]["member_id"])->value("inviter_id");//上一级member_id
-            $member[$key]["phone_numbers"] = db("member")->where("member_id", $member[$key]["higher_inviter"])->value("member_phone_num");//上一级手机号（用户账号)
-            $member[$key]["count_money"] = db("order")->where("member_id", $member[$key]["member_id"])->where("distribution",1)->where("status",2)->sum("order_real_pay");//已付款
-            $member[$key]["count_money"] = round($member[$key]["count_money"],2);
-            $member[$key]["one_number"] = db("member")->where("rank_one", $member[$key]["member_id"])->count("rank_one");
-            $member[$key]["two_number"] = db("member")->where("rank_two", $member[$key]["member_id"])->count("rank_two");
-            $member[$key]["three_number"] = db("member")->where("rank_three", $member[$key]["member_id"])->count("rank_three");
-            if($member[$key]["one_number"] == 0){ //说明该用户未参与分销活动
-                unset($member[$key]);
-            }           
-            
-        }
+        $store_id = Session::get('store_id');
+        $member = db("member") -> where("store_id",100)-> select();
+
                
         $all_idents = $member;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
@@ -42,7 +32,7 @@ class Member extends Controller{
         $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
         $member = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
             'var_page' => 'page',
-            'path' => url('admin/Distribution/member_index'),//这里根据需要修改url
+            'path' => url('admin/Member/member_index'),//这里根据需要修改url
             'query' => [],
             'fragment' => '',
         ]);
@@ -66,8 +56,16 @@ class Member extends Controller{
      */
     public function member_save(Request $request){
         if ($request->isPost()){
+            $store_id = Session::get('store_id');
             $data = $request->param();
-            $rest = db("member") -> where("member_name",$data["member_name"])->field("member_id,inviter_id,member_phone_num")->find();
+            $rest = db("member") 
+             ->where("member_phone_num",$data["member_name"])
+             ->where("store_id",$store_id)
+             ->field("member_id,inviter_id,member_phone_num,leaguer_id")
+             ->find();
+            if($rest['leaguer_id'] > 0){
+                $this->error("该用户已经是分销成员，请勿重复添加", url("admin/Member/member_index"));
+            }
             if(!empty($rest)){
                 $data["member_id"] = $rest["member_id"];
                 $data["inviter_id"] = $rest["inviter_id"];
@@ -76,15 +74,18 @@ class Member extends Controller{
                 $data["scale"] = implode(",",$data["scale"]);
                 $data["integral"] = implode(",",$data["integral"]);
                 $data["award"] = implode(",",$data["award"]);
-                $member = db("leaguer")->insert($data);
+                $data["rank"] = implode(",",$data["rank"]);
+                $data["store_id"] = $store_id;
+                $member = db("leaguer")->insertGetId($data);
+                $mbool = db("member")->where("member_id",$data['member_id'])->update(['leaguer_id'=>$member]);
                 if ($member) {
-                    $this->success("添加成功", url("admin/Distribution/member_index"));
+                    $this->success("添加成功", url("admin/Member/member_index"));
                 } else {
-                    $this->error("添加失败", url("admin/Distribution/member_index"));
+                    $this->error("添加失败", url("admin/Member/member_index"));
                 }
 
             }else{
-                $this->error("没有该用户,请仔细核对后添加", url("admin/Distribution/member_index"));
+                $this->error("没有该用户,请仔细核对后添加", url("admin/Member/member_index"));
             }
 
             return view('member_add');
