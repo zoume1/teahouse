@@ -151,9 +151,11 @@ class Index extends Controller
         //获取参数 store_id
         $input=input();
         //获取普通订单待发货
-        $order_number_dai=db('order')->where(['store_id'=>$input['store_id'],'status'=>3])->select();
-        //获取普通订单待发货
-        //获取普通订单待发货
+        $p_order_number_dai=db('order')->where(['store_id'=>$input['store_id'],'status'=>3])->count();
+        //获取众筹订单待发货
+        $z_order_number_dai=db('crowd_order')->where(['store_id'=>$input['store_id'],'status'=>3])->count();
+
+        //获取发货
         //获取普通订单待发货
 
     }
