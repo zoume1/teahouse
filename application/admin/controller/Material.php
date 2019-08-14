@@ -309,9 +309,9 @@ class  Material extends  Controller{
             "userName": "18510393696",
             "password": "zhcc63268696"
             }';
-        // $ret=$this->https_post($url,$data);
-        $ret = json_decode($this->https_post($url,$data),true);
+        $ret=$this->https_post($url,$data);
         halt($ret);
+        // $ret = json_decode($this->https_post($url,$data),true);
         if($ret){
              return ajax_success('登录成功',$ret);
             }else{
