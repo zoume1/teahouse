@@ -795,6 +795,7 @@ class  Order extends  Controller{
         //获取开发票的详情
         $receipt=db('member_receipt')->where('id',$info['receipt_id'])->find();
         $receipt['receipt_money']=$info['receipt_price'];
+        $receipt['address']=$info['harvester_address'];
         if($receipt){
               return ajax_success('获取成功',$receipt);
             }else{
