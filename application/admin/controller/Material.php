@@ -310,12 +310,10 @@ class  Material extends  Controller{
             "password": "zhcc63268696"
             }';
             $ret = json_decode($this->https_post($url,$data),true);
-            halt($ret);
         if($ret){
              return ajax_success('登录成功',$ret);
-            }else{
+        }else{
             return ajax_success('登录失败',$ret);
-
         }
         
     }
