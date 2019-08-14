@@ -133,18 +133,33 @@
             form.render();
         })
         //温湿度
+        // function wenshi(obj){
+        //     var instrument_number=$(obj).attr('data-id');
+        //     $.ajax({
+        //         url:'https://api.dtuip.com/qy/user/login.html',
+        //         type:"POST",
+        //         dataType:"json",
+        //         data: {
+        //             "userName":"18510393696",
+        //             "password":"zhcc63268696"
+        //         },
+        //         success : function(data){
+        //             // console.log(data);
+        //             alert(data);
+            
+
+        //         }
+        //     })
+        // }
+        //后台获取温湿度
         function wenshi(obj){
             var instrument_number=$(obj).attr('data-id');
             $.ajax({
                 url:'wenshidu',
-                type:"post",
-                data: {
-                    "userName": "18510393696",
-                    "password": "zhcc63268696"
-                    },
+                type:"POST",
                 success : function(data){
-                    console.log(data);
-                    // alert();
+                    // console.log(data);
+                    alert(data);
             
 
                 }

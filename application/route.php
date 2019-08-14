@@ -58,6 +58,7 @@ Route::group("",[
     "sign_in"=>"index/index/sign_in", //登录
     "forget_pw"=>"index/index/forget_pw", //登录
     "my_shop"=>"index/index/my_shop", //我的店铺
+    "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
 
 
     /*TODO：start*/
@@ -410,8 +411,10 @@ Route::group("",[
 Route::group("admin",[
     /*首页*/
     "/$"=>"admin/index/index",
-    "get_id_return_info"=>"admin/index/get_id_return_info",//获取点击二级菜单下三级菜单的权限菜单
-    "shop_store_date"=>"admin/index/shop_store_date",//进入店铺后台显示但前使用版本及日期
+    "get_id_return_info"=>"admin/index/get_id_return_info",   //获取点击二级菜单下三级菜单的权限菜单
+    "shop_store_date"=>"admin/index/shop_store_date",         //进入店铺后台显示但前使用版本及日期
+    "get_info_store"=>"admin/index/get_info_store",           //店铺后台获取消息
+    "get_info_zong"=>"admin/index/get_info_zong",             //总控后台获取消息
 
     /* 后台首页 */
     "home_index"=>"admin/Home/index",

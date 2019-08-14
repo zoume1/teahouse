@@ -77,7 +77,23 @@
 				console.log(res.status, res.statusText);
 			}
 		})
+		//获取消息提醒
+		var store_id={$store_id};
+		if(store_id>0){
+			//店铺端
+			$.ajax({
+				url:'',
+				type:'post',
+				data:{
+					
+				}
+			})
 
+		}else{
+			//总控端
+
+		}
+		// alert(store_id);
 	})
 </script>
 <style>
