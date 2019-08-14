@@ -96,7 +96,9 @@ class Index extends Controller
         //获取参数
         $input=input();
         if($input){
-            $re=db('instrument')->where(['instrument_number'=>'8606S86YL8295C5Y','store_id'=>$input['uniacid']])->update($input);
+            $data['wendu']=$input['wendu'];
+            $data['shidu']=$input['shidu'];
+            $re=db('instrument')->where(['instrument_number'=>'8606S86YL8295C5Y','store_id'=>$input['uniacid']])->update($data);
             return ajax_success('获取成功');
         }else{
             return ajax_error('获取失败');
