@@ -135,21 +135,20 @@
         //温湿度
         function wenshi(obj){
             var instrument_number=$(obj).attr('data-id');
-            alert(instrument_number);
             $.ajax({
-                url:'https://api.dtuip.com/qy/user/login.html',
+                url:'wenshidu',
                 type:"post",
                 data: {
                     "userName": "18510393696",
                     "password": "zhcc63268696"
                     },
                 success : function(data){
-                    alert(data.userId);
+                    console.log(data);
+                    // alert();
             
 
                 }
             })
-
         }
     </script>
     {/block}

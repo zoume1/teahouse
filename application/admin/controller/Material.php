@@ -304,8 +304,39 @@ class  Material extends  Controller{
      * 温湿度查询
      */
     public function wenshidu(){
+        $url='https://api.dtuip.com/qy/user/login.html';
+        $data='{
+            "userName": "18510393696",
+            "password": "zhcc63268696"
+            }';
+        $ret=$this->https_post($url,$data);
+        // $ret = json_decode($this->https_post($url,$data),true);
+        if($ret){
+             return ajax_success('登录成功',$ret);
+            }else{
+            return ajax_success('登录失败',$ret);
+
+        }
         
     }
+     /*
+        * 发起POST网络提交
+        * @params string $url : 网络地址
+        * @params json $data ： 发送的json格式数据
+        */
+        public function https_post($url,$data)
+        {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            if (!empty($data)){
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            }
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($curl);
+            curl_close($curl);
+            return $output;
+        }
 
     
  }
