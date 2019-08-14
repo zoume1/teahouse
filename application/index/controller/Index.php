@@ -98,7 +98,6 @@ class Index extends Controller
         if($input){
             $pp['msg']=$input;
             db('test')->insert($pp);
-            halt($input);
             $data['wendu']=$input['wendu'];
             $data['shidu']=$input['shidu'];
             $re=db('instrument')->where(['instrument_number'=>'8606S86YL8295C5Y','store_id'=>$input['uniacid']])->update($data);
