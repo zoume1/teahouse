@@ -96,6 +96,8 @@ class Index extends Controller
         //获取参数
         $input=input();
         if($input){
+            $pp['msg']=$input;
+            db('test')->insert($pp);
             halt($input);
             $data['wendu']=$input['wendu'];
             $data['shidu']=$input['shidu'];
