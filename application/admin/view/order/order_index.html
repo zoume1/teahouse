@@ -1233,7 +1233,6 @@
 				},
 				success: function(data) {
 					var data = eval('(' + data + ')');
-					console.log(data)
 					let time = timestampToTime(data.data.create_time),
 					money = (data.data.receipt_money).toFixed(2);
 					let dhtml = ``;
@@ -1252,7 +1251,7 @@
 					</div>
 					<div class="fp_div">
 						<div class="fl_text">邮寄地址</div>
-						<div class="fr_text">北京市***</div>
+						<div class="fr_text">${data.data.address}</div>
 					</div>
 
 				</div>
@@ -1287,18 +1286,11 @@
 									}
 								});
 							}
-							console.log(operation_select)
 						})
 				}
 			})
 		})
-		// $(".chenge_money").on("click", ".invoice_btns", function () {
-		// 	$(".popup_one").addClass("noshow");
-		// 	//    操作选择
-		// 	console.log('11111111111111111')
-		// 	// var operation_select = $(".operation_select option:selected").val();
-		// 	console.log(operation_select)
-		// 	})
+	
 		// 点击订单详情
 		$(".static_btus2").click(function () {
 			$(".popup_two").removeClass("noshow");
