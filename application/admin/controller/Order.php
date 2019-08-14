@@ -803,5 +803,20 @@ class  Order extends  Controller{
 
         }
     }
-
+    /**
+     * lilu
+     * 开发票操作 
+     * parts_order_number
+     */
+    public function  receipt_do(){
+        //获取参数
+        $input=input();
+        //修改订单开发票的状态
+        $re=db('order')->where('parts_order_number',$input['parts_order_number'])->update(['is_receipt'=>1]);
+        if($re){
+            return ajax_success('获取成功',$re);
+        }else{
+            return ajax_error('获取失败');
+        }
+    }
 }
