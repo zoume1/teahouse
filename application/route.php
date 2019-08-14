@@ -58,6 +58,7 @@ Route::group("",[
     "sign_in"=>"index/index/sign_in", //登录
     "forget_pw"=>"index/index/forget_pw", //登录
     "my_shop"=>"index/index/my_shop", //我的店铺
+    "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
 
 
     /*TODO：start*/
@@ -410,8 +411,10 @@ Route::group("",[
 Route::group("admin",[
     /*首页*/
     "/$"=>"admin/index/index",
-    "get_id_return_info"=>"admin/index/get_id_return_info",//获取点击二级菜单下三级菜单的权限菜单
-    "shop_store_date"=>"admin/index/shop_store_date",//进入店铺后台显示但前使用版本及日期
+    "get_id_return_info"=>"admin/index/get_id_return_info",   //获取点击二级菜单下三级菜单的权限菜单
+    "shop_store_date"=>"admin/index/shop_store_date",         //进入店铺后台显示但前使用版本及日期
+    "get_info_store"=>"admin/index/get_info_store",           //店铺后台获取消息
+    "get_info_zong"=>"admin/index/get_info_zong",             //总控后台获取消息
 
     /* 后台首页 */
     "home_index"=>"admin/Home/index",
@@ -620,6 +623,7 @@ Route::group("admin",[
     "goods_standard"=>"admin/Goods/standard",    //普通商品多规格列表单位id查找 
     "goods_templet"=>"admin/Goods/goods_templet",//普通商品运费模板编辑 
     "crowd_templet"=>"admin/Goods/crowd_templet",//众筹商品运费模板编辑 
+    "distribution_status"=>"admin/Goods/distribution_status",//普通商品分销开关
 
     "crowd_index"=>"admin/Goods/crowd_index",        //众筹商品列表显示
     "crowd_add"=>"admin/Goods/crowd_add",            //众筹商品列表添加
@@ -836,6 +840,8 @@ Route::group("admin",[
     "direct_seeding_classification_delete_image" =>"admin/Material/direct_seeding_classification_delete_image", //直播分类图片删除
     "interaction_index" =>"admin/Material/interaction_index",                                       //温湿感应
     "interaction_add" =>"admin/Material/interaction_add",                                           //温湿感应
+    "interaction_add_do" =>"admin/Material/interaction_add_do",                                     //温湿感应仪器添加处理
+    "wenshidu" =>"admin/Material/wenshidu",                                                         //温湿感应仪器登录操作
 
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况

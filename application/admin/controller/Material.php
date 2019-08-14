@@ -256,7 +256,15 @@ class  Material extends  Controller{
      * @return \think\response\View
      */
     public function interaction_index(){
-        return view("interaction_index");
+        //获取仪器列表
+        $store_id=Session::get('store_id');
+        $list=db('instrument')->where('store_id',$store_id)->select();
+        if($list){
+            $pp=1;
+        }else{
+           $pp=0;
+        }
+        return view("interaction_index",['pp'=>$pp,'data'=>$list]);
     }
 
     /**
@@ -267,8 +275,63 @@ class  Material extends  Controller{
      * @return \think\response\View
      */
     public function interaction_add(){
+        
         return view("interaction_add");
     }
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:温湿传感添加编辑
+     **************************************
+     * @return \think\response\View
+     */
+    public function interaction_add_do(){
+       //获取数据
+       $input=input();
+       $input['store_id']=Session::get('store_id');
+       $re=db('instrument')->where('instrument_number',$input['instrument_number'])->find();
+       if(!$re){
+           db('instrument')->insert($input);
+       }else{
+           db('instrument')->where('instrument_number',$input['instrument_number'])->update($input);
+       }
+
+        // return view("interaction_index");/
+        $this->success('操作成功',url('Material/interaction_index'));
+    }
+    /**
+     * lilu
+     * 温湿度查询
+     */
+    public function wenshidu(){
+        //获取店铺id
+        $store_id=Session::get('store_id');
+        $ret=db('instrument')->where(['instrument_number'=>'8606S86YL8295C5Y','store_id'=>$store_id])->find();
+        $ret['update_time']=date('Y-m-d H:i:s' , time());
+        if($ret){
+             return ajax_success('登录成功',$ret);
+        }else{
+            return ajax_success('登录失败',$ret);
+        }
+    }
+     /*
+        * 发起POST网络提交
+        * @params string $url : 网络地址
+        * @params json $data ： 发送的json格式数据
+        */
+        public function https_post($url,$data)
+        {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            if (!empty($data)){
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            }
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($curl);
+            curl_close($curl);
+            return $output;
+        }
 
     
  }
