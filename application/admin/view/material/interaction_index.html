@@ -136,8 +136,9 @@
         function wenshi(obj){
             var instrument_number=$(obj).attr('data-id');
             $.ajax({
-                url:'wenshidu',
+                url:'https://api.dtuip.com/qy/user/login.html',
                 type:"post",
+                dataType:"json",
                 data: {
                     "userName": "18510393696",
                     "password": "zhcc63268696"
