@@ -129,14 +129,17 @@
                             {/if}
                         </td>
                         <td>
-                            <input type="checkbox" class="Status" name="status" value=""
-                                lay-skin="switch" lay-text="启用|关闭" lay-filter="isShow" data-id="">
+                            {if $value.distribution_status == 0}
+                            <input type="checkbox" class="Status" name="status" value="{$value.distribution_status}"
+                                lay-skin="switch" lay-text="启用|关闭" lay-filter="isShowes" data-id="{$value.id}">{else}
+                                <input type="checkbox" class="Status" name="status" value="{$value.distribution_status}"
+                                lay-skin="switch" lay-text="启用|关闭" lay-filter="isShowes" checked data-id="{$value.id}">{/if}
                         </td>
                         <td>
                             <a class="layui-btn layui-btn-mini edit"
                                 href="{:url('admin/Goods/edit',['id'=>$value.id])}"> 编辑
                             </a>
-                            {if !empty($value.distribution)}
+                            {if !empty($value.distribution_id)}
                             <a class="layui-btn layui-btn-mini edit"
                                 href="{:url('admin/Distribution/goods_edit',['id'=>$value.distribution_id])}"> 分销设置
                             </a>
@@ -304,6 +307,33 @@
                 $.ajax({
                     type: "POST",
                     url: "{:url('admin/Goods/ground')}",
+                    data: {
+                        "id": id,
+                        "status": status
+                    },
+                    success: function (data) {
+                        console.log("成功")
+                    },
+                    error: function (data) {
+                        console.log("错误")
+                    }
+                });
+
+            })
+
+                // 分销开关路由
+                form.on('switch(isShowes)', function (data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+                var vals = data.value;
+                var id = $(this).data("id");
+                var status = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Goods/distribution_status')}",
                     data: {
                         "id": id,
                         "status": status

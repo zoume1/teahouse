@@ -298,7 +298,6 @@ class Distribution extends Controller
             $data = $request->param();
             $store_id = Session::get("store_id");
             $goods = db("goods")->where("id",$data["restid"])->field("id,goods_number,goods_show_image,goods_name")->find();
-            $bool = db("goods")->where("id",$data["restid"])->update(["distribution" => 1]);
             $goods["rank"] = implode(",",$data["rank"]);
             $goods["grade"] = implode(",",$data["grade"]);
             $goods["scale"] = implode(",",$data["scale"]);
@@ -310,7 +309,8 @@ class Distribution extends Controller
             $goods["store_id"] = $store_id; 
             unset($goods["id"]);               
         
-            $boole = db("commodity")->insert($goods);
+            $boole = db("commodity")->insertGetId($goods);
+            $bool = db("goods")->where("id",$data["restid"])->update(["distribution_id" =>$boole]);
          
             if ($boole) {
                 $this->success("添加成功", url("admin/Distribution/goods_index"));
