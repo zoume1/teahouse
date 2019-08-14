@@ -59,6 +59,8 @@ Route::group("",[
     "forget_pw"=>"index/index/forget_pw", //登录
     "my_shop"=>"index/index/my_shop", //我的店铺
     "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
+    "get_bank_list"=>"index/My/get_bank_list", //获取用户的银行卡列表
+
 
 
     /*TODO：start*/
