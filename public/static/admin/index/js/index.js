@@ -58,6 +58,7 @@ $('.header-url').click(function(){
 	var url = $(this).data('url');
 	var id = $(this).data("id");
 	var value = $(this).data("value");
+	console.log(111)
 	setCookie("item_id", value);
 	setCookie("page_id", id);
 	$.ajax({
