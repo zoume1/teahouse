@@ -197,7 +197,7 @@ class  Wallet extends  Controller{
             $user_name =$request->only(["user_name"])["user_name"];
             $bank_name =$request->only(["bank_name"])["bank_name"];   //银行名称
             $bank_card =$request->only(["bank_card"])["bank_card"];   //银行卡号
-            $code =$request->only(["code"])["code"];
+            // $code =$request->only(["code"])["code"];
             $member_recharge_money =Db::name("member")
                 ->where("member_id",$member_id)
                 ->value("member_recharge_money");     //会员余额
@@ -216,14 +216,14 @@ class  Wallet extends  Controller{
             $member_phone_num =Db::name("member")
                 ->where("member_id",$member_id)
                 ->value("member_phone_num");
-            $mobileCode =Cache::get('mobileCode');    //
-            $mobile =Cache::get('mobile');
-            if($mobileCode != $code) {
-                return ajax_error("验证码不正确");
-            }
-            if($member_phone_num != $mobile){
-                return ajax_error("手机号不匹配");
-            }
+            // $mobileCode =Cache::get('mobileCode');    //
+            // $mobile =Cache::get('mobile');
+            // if($mobileCode != $code) {
+            //     return ajax_error("验证码不正确");
+            // }
+            // if($member_phone_num != $mobile){
+            //     return ajax_error("手机号不匹配");
+            // }
             //提现限制条件
             $condition =Db::name("withdrawal")->find();
             //最少提现金额
