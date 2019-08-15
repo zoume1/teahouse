@@ -608,14 +608,14 @@ class My extends Controller
     /**
      * lilu
      * 获取首页的银行卡列表
-     * uncacid
+     * uniacid
      * member_id
      */
     public function get_bank_list(){
         //获取参数信息
         $input=input();
         //获取银行卡信息
-        $list=db('store_bank_icard')->where(['store_id'=>$input['uncacid'],'status'=>1])->select();
+        $list=db('store_bank_icard')->where(['store_id'=>$input['uniacid'],'status'=>1])->select();
         if($list){
            return ajax_success('获取成功',$list);
         }else{

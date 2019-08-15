@@ -394,7 +394,7 @@ class Upload extends Controller
          //获取店铺id
          $store_id=Session::get('store_id');
          //判断是否已授权
-         $is_shou=db('miniprogram')->where('store_id',119)->find();
+         $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
          if($is_shou){
              return view('auth_detail',['data'=>$is_shou]);
          }else{
@@ -600,7 +600,7 @@ class Upload extends Controller
         * @params string $user_version : 代码版本号
         * @params string $user_desc : 代码描述
      * */
-    public function send_message($template_id = 5, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
+    public function send_message($template_id = 6, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
     {
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
