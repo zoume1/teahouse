@@ -23,12 +23,12 @@
 		border-bottom: solid 3px #21A5FA;
 	}
 
-	.static_btus1 {
+	.static_btus1, .static_btus_y {
 		width: 100px;
 		text-align: center;
 		cursor: pointer;
 	}
-
+	
 	/* 没申请 */
 	.not_apply {
 		color: #BCBCBC;
@@ -712,9 +712,15 @@
 									{$vo.status|show_house_order}
 									{/if}
 								</div>
+								{if $vo.is_receipt == 0}
 								<div class="static_btus1" data-id="{$vo.parts_order_number}">
 									<div class=" layui-btn layui-btn-mini not_apply ">未申请开票</div>
 								</div>
+								{else}
+								<div class="static_btus_y" data-id="{$vo.parts_order_number}">
+										<div class=" layui-btn layui-btn-mini not_apply applyed ">已开票</div>
+									</div>
+								{/if}
 								<div class="static_btus2" data-id="{$vo.parts_order_number}">
 									订单详情
 								</div>
@@ -1283,13 +1289,14 @@
 									success: function(data) {
 										alert('修改成功');
 										$(".popup_one").addClass("noshow");
+										window.location.reload();
 									}
 								});
 							}
 						})
 				}
 			})
-		})
+		});
 	
 		// 点击订单详情
 		$(".static_btus2").click(function () {
