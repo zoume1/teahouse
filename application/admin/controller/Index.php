@@ -168,6 +168,9 @@ class Index extends Controller
          $data['0']['type']=0;
          $data['1']['type']=1;
          $data['2']['type']=2;
+         $data['0']['id']=188;
+         $data['1']['id']=234;
+         $data['2']['id']=130;
          if($data){
              return ajax_success('获取成功',$data);
         }else{
