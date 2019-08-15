@@ -15,15 +15,12 @@ use think\Db;
 use think\Request;
 use think\Image;
 use app\admin\model\Good;
-use app\admin\model\Distribution as Distribution;
-use app\admin\model\Leaguer as Leaguer;
-use app\admin\model\Commodity as Commodity;
-use app\api\model\dealer\Referee as RefereeModel;
-use app\admin\Apply as Applyll;
 use app\admin\model\GoodsImages;
 use think\Session;
 use think\Loader;
 use think\paginator\driver\Bootstrap;
+
+
 
 class Goods extends Controller
 {
@@ -35,14 +32,7 @@ class Goods extends Controller
      */
     public function index(Request $request)
     {
-        $member_id = 1144;
-        $member_data = Db::name("member")->where('member_id','=',$member_id)->find();
-        $apply = new Applyll;
-        $rest = $apply->submit($member_data);
-        RefereeModel::createRelation($member_id, $member_data['inviter_id']);
-        halt(11111);
-        $store_id = Session::get("store_id");
-        RefereeModel::createRelation($input['member_id'], $input['inviter_id']);
+        $store_id = Session::get('store_id');
         $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number desc")->select();
         $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
