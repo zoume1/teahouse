@@ -34,7 +34,7 @@
 			<ul class="dropdown">
 				<!-- <li class="dropdown-item">[订单] 您有<span class="red">100</span>个<span class="red">普通</span>订单流程需及时处理</li> -->
 				<div class="popper__arrow"></div>
-				<div class="clearall">全部设为已处理</div>
+				<!-- <div class="clearall">全部设为已处理</div> -->
 			</ul>
 		</div>
 		<div class="self_information">
@@ -99,6 +99,21 @@
 						})
 						$('.dropdown').append(str);
 						$('.message').append('<em class="unread">'+num+'</em>');
+
+						$('.header-url').click(function(){
+							var url = $(this).data('url');
+							// var value = $(this).data("value");
+							// setCookie("item_id", value);
+							$.ajax({
+								type: "get",
+								url: url,
+								cache: true,
+								success: function () {
+									$('#add').attr('src', url);
+								}
+							});
+						})
+
 					}
 				}
 			})
