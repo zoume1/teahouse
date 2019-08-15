@@ -229,7 +229,9 @@ class Address extends  Controller{
     public function member_default_address_return(Request $request)
     {
         if ($request->isPost()) {
-            $member_id =$request->only(['member_id'])['member_id'];
+            $open_id =$request->only(['open_id'])['open_id'];
+            //获取member_id
+            $member_id=db('member')->where('member_openid',$open_id)->value('member_id');
             if(empty($member_id)){
                 exit(json_encode(array("status"=>2,"info"=>"参数有误")));
             }           

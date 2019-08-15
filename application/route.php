@@ -59,6 +59,8 @@ Route::group("",[
     "forget_pw"=>"index/index/forget_pw", //登录
     "my_shop"=>"index/index/my_shop", //我的店铺
     "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
+    "get_bank_list"=>"index/My/get_bank_list", //获取用户的银行卡列表
+
 
 
     /*TODO：start*/
@@ -525,6 +527,7 @@ Route::group("admin",[
     "refund_protection_search"=>"admin/Order/refund_protection_search",//退款维权搜索
     "changeOderPrice"=>"admin/Order/changeOderPrice",//订单改价
     "get_receipt_detail"=>"admin/Order/get_receipt_detail",//获取发票详情
+    "receipt_do"=>"admin/Order/receipt_do",                //申请发票处理
     /*TODO:订单结束*/
 
     /*TODO:地址订单开始*/
