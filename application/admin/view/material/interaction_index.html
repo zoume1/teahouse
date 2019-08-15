@@ -108,9 +108,10 @@
     }
 
     .placement {
+        display: none;
         position: absolute;
         top: -65px;
-        left: -24px;
+        left: -420%;
         padding: 10px 5px;
         margin: 5px 0;
         background-color: #fefefe;
@@ -118,6 +119,9 @@
         border-radius: 4px;
         -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+    }
+    .placement.show{
+        display: block;
     }
     .palce-inner{
         white-space: nowrap;
@@ -199,8 +203,14 @@
                                 <div class="table-cell-div">{$vo['instrument_number']}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div" data-id="{$vo['instrument_number']}" style="cursor: pointer;" onmouseenter="wenshi(this)" onmouseleave="removewenshi(this)">
-                                    查看
+                                <div class="table-cell-div" data-id="{$vo['instrument_number']}" style="cursor: pointer;" onclick="wenshi(this)">
+                                    <span style="position: relative;">
+                                        <div class="placement">
+                                            <div class="palce-inner">实时温度：<span class="temp"></span>℃；实时湿度：<span class="humidity"></span>%</div>
+                                            <div class="popper__arrow"></div>
+                                        </div>
+                                        查看
+                                    </span>
                                 </div>
                             </td>
                             <td class="table-cell">
@@ -266,19 +276,16 @@
                 type: "POST",
                 success: function (data) {
                     var data = JSON.parse(data);
+                    console.log(data)
                     if(data.status == 1){
-                        var str = '<div class="placement">\
-                                        <div class="palce-inner">实时温度：'+data.data.wendu+'℃；实时湿度：'+data.data.shidu+'%</div>\
-                                        <div class="popper__arrow"></div>\
-                                    </div>';
-                        $(_this).append(str);
+                        $(_this).find('.placement').toggleClass('show').find('.temp').text(data.data.wendu).end().find('.humidity').text(data.data.shidu);
                     }
                 }
             })
         }
-        function removewenshi(_this){
-            $(_this).children('.placement').remove();
-        }
+        // function removewenshi(_this){
+        //     $(_this).find('.placement').remove();
+        // }
     </script>
     {/block}
 </body>
