@@ -394,7 +394,7 @@ class Upload extends Controller
          //获取店铺id
          $store_id=Session::get('store_id');
          //判断是否已授权
-         $is_shou=db('miniprogram')->where('store_id',119)->find();
+         $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
          if($is_shou){
              return view('auth_detail',['data'=>$is_shou]);
          }else{
