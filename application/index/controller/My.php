@@ -616,7 +616,7 @@ class My extends Controller
         //获取参数信息
         $input=input();
         //获取银行卡信息
-        $list=db('store_bank_icard')->where(['store_id'=>$input['uniacid'],'status'=>1])->select();
+        $list=db('user_bank')->where(['store_id'=>$input['uniacid'],'status'=>1,'user_id'=>$input['member_id']])->select();
         if($list){
            return ajax_success('获取成功',$list);
         }else{
