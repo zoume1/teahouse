@@ -36,32 +36,32 @@ class Goods extends Controller
      */
     public function index(Request $request)
     {
-        $data = [
-            'member_id'=>1144,
-            'id'=>2133,
-            'parts_order_number'=>'ZY201907231129002145',
-            'goods_id'=>[243,265,295],
-            'store_id'=>6,
-            'order_amount'=>[200,100,100],
-            'goods_money'=>400,
-            'status'=>2,
+        // $data = [
+        //     'member_id'=>1144,
+        //     'id'=>2133,
+        //     'parts_order_number'=>'ZY201907231129002145',
+        //     'goods_id'=>[243,265,295],
+        //     'store_id'=>6,
+        //     'order_amount'=>[200,100,100],
+        //     'goods_money'=>400,
+        //     'status'=>2,
             
-        ];
+        // ];
 
 
-        halt(Order::createOrder($data));
-        $order_type = Db::name("order")->where("parts_order_number",$data["parts_order_number"])->find();
-        $order = GoodsOrder::getOrderInforMation($order_type);
-        $model = OrderModel::grantMoney($order);
-        // halt(Order::grantMoney($data));
-        $store_id = Session::get('store_id');
-        $member_id = 1122;
-        $member_data = Db::name("member")->where('member_id','=',$member_id)->find();
-        $apply = new Apply;
-        $rest = $apply->submit($member_data);
-        $inviter_id = 0;
+        // halt(Order::createOrder($data));
+        // $order_type = Db::name("order")->where("parts_order_number",$data["parts_order_number"])->find();
+        // $order = GoodsOrder::getOrderInforMation($order_type);
+        // $model = OrderModel::grantMoney($order);
+        // // halt(Order::grantMoney($data));
+        // $store_id = Session::get('store_id');
+        // $member_id = 1122;
+        // $member_data = Db::name("member")->where('member_id','=',$member_id)->find();
+        // $apply = new Apply;
+        // $rest = $apply->submit($member_data);
+        // $inviter_id = 0;
         
-        RefereeModel::createRelation($member_id, $inviter_id,$store_id);
+        // RefereeModel::createRelation($member_id, $inviter_id,$store_id);
 
 
         $store_id = Session::get('store_id');

@@ -23,7 +23,15 @@ class Member extends Controller{
      */
     public function member_index(){
         $store_id = Session::get('store_id');
-
+        $member =Db::name('dealer_user')
+            ->field("tb_dealer_user.*,tb_member.member_phone_num")
+            ->join("tb_member","tb_dealer_user.referee_id = tb_member.member_id",'left')
+            ->where("tb_dealer_user.wxapp_id",$store_id)
+            ->where("tb_dealer_user.status",'=',1) 
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+      
         return view('member_index',["member"=>$member]);
     }
 
@@ -82,7 +90,25 @@ class Member extends Controller{
      * [分销成员编辑页面]
      * GY
      */
-    public function member_edit(){
+    public function member_edit($user_id){
+        $data = db('leaguer')->where("member_id",'=',$user_id)->select();
+        if(!empty($data)){
+            $data[0]["grade"] = explode(",", $data[0]["grade"]);
+            $data[0]["award"] = explode(",", $data[0]["award"]);
+            $data[0]["scale"] = explode(",", $data[0]["scale"]);
+            $data[0]["integral"] = explode(",", $data[0]["integral"]);
+            return view('member_edit',['data'=>$data]);
+        } else {
+            return view('member_edit');
+        }
+    }
+
+
+    /**
+     * [分销成员编辑页面]
+     * GY
+     */
+    public function member_update(){
         return view('member_edit');
     }
 
