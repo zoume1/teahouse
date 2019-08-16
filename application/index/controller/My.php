@@ -59,25 +59,25 @@ class My extends Controller
             $post_open_id = $request->only(['open_id'])['open_id'];
             $store_id = $request->only(['uniacid'])['uniacid'];
             //判断用户分享码是否存在
-            if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id.'.txt')) {
+            $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
+            if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.$member_information['member_id'].'.txt')) {
                 //检查是否有该文件夹，如果没有就创建，并给予最高权限
-                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id.'.txt');
+                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$member_information['member_id'].'.txt');
             }else{
                  //获取用户的信息
-                 $member_information = Db::name('member')->where('member_openid', $post_open_id)->find();
                 //获取携带参数的小程序的二维码
                 $page='pages/logs/logs';
-                $qrcode=$this->mpcode($page,$member_information['member_id'],$store_id);
+                $qrcode=$this->mpcode($page,$member_information['member_id'],$member_information['member_id']);
                 //把qrcode文件写进文件中，使用的时候拿出来
                 $dateFile =$store_id . "/";  //创建目录
-                $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id.'.txt';
+                $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.$member_information['member_id'].'.txt';
                 // if (!file_exists($new_file)) {
                 //     //检查是否有该文件夹，如果没有就创建，并给予最高权限
                 //     mkdir($new_file, 750);
                 // }
                 if (file_put_contents($new_file, $qrcode)) {
                     // return  $dateFile . $filename;  //返回文件名及路径
-                    $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$store_id.'.txt');
+                    $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$member_information['member_id'].'.txt');
                 } else {
                     return ajax_success('获取失败');
                 }
@@ -552,6 +552,7 @@ class My extends Controller
         $data='image/png;base64,'.base64_encode($result);
         echo '<img src="data:'.$data.'">';
     }
+
    public function uploadOne($file)
     {
         header('Content-type:text/html;charset=utf-8');
@@ -615,7 +616,7 @@ class My extends Controller
         //获取参数信息
         $input=input();
         //获取银行卡信息
-        $list=db('store_bank_icard')->where(['store_id'=>$input['uniacid'],'status'=>1])->select();
+        $list=db('user_bank')->where(['status'=>1,'user_id'=>$input['member_id']])->select();
         if($list){
            return ajax_success('获取成功',$list);
         }else{

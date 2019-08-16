@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 use think\Controller;
 use app\admin\model\Miniprogram;
+use app\index\controller\My;
 use think\Db;
 use think\Request;
 use think\Session;
@@ -366,7 +367,29 @@ class Upload extends Controller
         //获取店铺id
         $store_id=Session::get('store_id');
         //判断是否已授权
+        //获取小程序二维码
+        if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt')) {
+            //检查是否有该文件夹，如果没有就创建，并给予最高权限
+            $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
+        }else{
+            //获取携带参数的小程序的二维码
+            $page='pages/logs/logs';
+            $qr=new My();
+            $qrcode=$qr->mpcode($page,0,$store_id);
+            //把qrcode文件写进文件中，使用的时候拿出来
+            $dateFile =$store_id . "/";  //创建目录
+            $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
+            // if (!file_exists($new_file)) {
+            //     //检查是否有该文件夹，如果没有就创建，并给予最高权限
+            //     mkdir($new_file, 750);
+            // }
+            if (file_put_contents($new_file, $qrcode)) {
+                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
+            } 
+        }
+        //判断是否已授权
         $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
+        $is_shou['qr_img']=$re;
         if($is_shou){
             return view('auth_detail',['data'=>$is_shou]);
         }else{
@@ -393,8 +416,29 @@ class Upload extends Controller
     public function auth_detail(){
          //获取店铺id
          $store_id=Session::get('store_id');
+         //获取小程序二维码
+          if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt')) {
+            //检查是否有该文件夹，如果没有就创建，并给予最高权限
+            $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
+        }else{
+            //获取携带参数的小程序的二维码
+            $page='pages/logs/logs';
+            $qr=new My();
+            $qrcode=$qr->mpcode($page,0,$store_id);
+            //把qrcode文件写进文件中，使用的时候拿出来
+            $dateFile =$store_id . "/";  //创建目录
+            $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
+            // if (!file_exists($new_file)) {
+            //     //检查是否有该文件夹，如果没有就创建，并给予最高权限
+            //     mkdir($new_file, 750);
+            // }
+            if (file_put_contents($new_file, $qrcode)) {
+                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
+            } 
+        }
          //判断是否已授权
          $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
+         $is_shou['qr_img']=$re;
          if($is_shou){
              return view('auth_detail',['data'=>$is_shou]);
          }else{
@@ -476,6 +520,31 @@ class Upload extends Controller
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE); 
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); 
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); 
+        curl_setopt($curl, CURLOPT_HEADER, FALSE) ; 
+        curl_setopt($curl, CURLOPT_TIMEOUT,60);
+        if (curl_errno($curl)) {
+            return 'Errno'.curl_error($curl);
+        }
+        else{$result=curl_exec($curl);}
+        curl_close($curl);
+        return $result;
+    }
+     /*
+         测试获取体验码
+        * 发起GET网络提交
+        * @params string $url : 网络地址
+        */
+    private function https_get2($url)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        $proxy = "80.25.198.25";
+        $proxyport = "8080";
+        curl_setopt($curl,CURLOPT_proxy,$proxy);
+        curl_setopt($curl,CURLOPT_proxyPORT,$proxyport);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE); 
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); 
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); 
@@ -634,7 +703,7 @@ class Upload extends Controller
             } else {
                 $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
             }
-            $ret2 = $this->https_get($url);
+            $ret2 = $this->https_get2($url);
             $ret = json_decode($ret2,true);
             $p['msg']=$ret2;
             db('test')->insert($p);
