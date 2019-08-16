@@ -99,7 +99,7 @@ class Member extends Controller{
             $data[0]["integral"] = explode(",", $data[0]["integral"]);
             return view('member_edit',['data'=>$data]);
         } else {
-            return view('member_edit');
+            return view('member_add');
         }
     }
 

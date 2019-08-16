@@ -301,7 +301,7 @@ class  Order extends  Controller
                             $goods_bool = Goods::getDistributionStatus($commodity_id);
                             if($goods_bool){
                                 $data = [
-                                    'member_id'=>$member_id,
+                                    'member_id'=>$user_id,
                                     'id'=>$res,
                                     'parts_order_number'=>$order_datas['parts_order_number'],
                                     'goods_id'=>$goods_bool,
@@ -387,7 +387,7 @@ class  Order extends  Controller
                         $goods_bool = Goods::getDistributionStatus($commodity_id);
                         if($goods_bool){
                             $data = [
-                                'member_id'=>$member_id,
+                                'member_id'=>$user_id,
                                 'id'=>$res,
                                 'parts_order_number'=>$order_datas['parts_order_number'],
                                 'goods_id'=>$goods_bool,
@@ -660,7 +660,7 @@ class  Order extends  Controller
                 if($goods_bool){
                     $count_money = Goods::getDistributionPrice($commodity_id,$goods_bool,$all_money);
                     $data = [
-                        'member_id'=>$member_id,
+                        'member_id'=>$user_id,
                         'id'=>$res,
                         'parts_order_number'=>$order_datas['parts_order_number'],
                         'goods_id'=>$goods_bool,
@@ -697,7 +697,7 @@ class  Order extends  Controller
                 if($goods_bool){
                     $count_money = Goods::getDistributionPrice($commodity_id,$goods_bool,$all_money);
                     $data = [
-                        'member_id'=>$member_id,
+                        'member_id'=>$user_id,
                         'id'=>$res,
                         'parts_order_number'=>$order_datas['parts_order_number'],
                         'goods_id'=>$goods_bool,

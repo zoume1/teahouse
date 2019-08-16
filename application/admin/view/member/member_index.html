@@ -105,8 +105,8 @@
 						<td>{$value.create_time|date="Y-m-d H:i",###}</td>
 						<td>
 						{if $value.status == 1}
-						<input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.member_id"> {else}
-						<input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.member_id}"> {/if}
+						<input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.user_id_id"> {else}
+						<input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.user_id}"> {/if}
 						</td>
 						<td><a class="layui-btn layui-btn-mini edit"  href="{:url('admin/Member/member_edit',['user_id'=>$value.user_id])}"> 编辑
 						</a></td>						
