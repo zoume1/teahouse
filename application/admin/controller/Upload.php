@@ -704,7 +704,6 @@ class Upload extends Controller
                 $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
             }
             $ret2 = $this->https_get2($url);
-            halt(file_get_contents($url));
             $ret = json_decode($ret2,true);
             $p['msg']=$ret2;
             db('test')->insert($p);
