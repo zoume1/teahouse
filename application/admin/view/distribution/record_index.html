@@ -77,41 +77,41 @@
 			
 				<thead>
 					<tr>
-						<th>商品编号</th>
-						<th>商品名称</th>
 						<th>用户账号(手机号 )</th>
+						<th>用户账号(昵称 )</th>
+						<th>上级账号(手机号)</th>
 						<th>订单号</th>
 						<th>订单金额</th>
-						<th>分成级别</th>
-						<th>佣金比例</th>
-						<th>佣金金额</th>
-						<th>积分比例</th>
-						<th>积分</th>
+						<th>一级佣金</th>
+						<th>二级佣金</th>
+						<th>三级级佣金</th>
+						<th>一级积分</th>
+						<th>二级积分</th>
+						<th>三级积分</th>
 						<th>时间</th>
-						<th>上级账号（手机号 ）</th>
 					</tr>
 				</thead>
 				<tbody class="news_content">
 					{volist name="record" id="value"}
 					<tr>
-						<td>{$value.goods_number}</td>						
-						<td>{$value.parts_goods_name}</td>
 						<td>{if !empty($value.user_phone_number)}{$value.user_phone_number}{else}无{/if}</td>
-						<td>{$value.parts_order_number}</td>
-						<td>￥{$value.order_real_pay}</td>
-						<td>{if empty($value.higher_level)}0{else}1{/if}</td>
-						<td>{if empty($value.higher_level)}{$value.commission}{else}1{/if}</td>
-						<td>{if empty($value.higher_level)}{$value.money}{else}1{/if}</td>
-						<td>{if empty($value.higher_level)}{$value.integral}{else}2{/if}</td>
-						<td>{if empty($value.higher_level)}{$value.integrals}{else}3{/if}</td>
-						<td>{$value.pay_time|date="Y-m-d H:i",###}</td>
-						<td>{if !empty($value.phone_numbers)}{$value.phone_numbers}{else}无{/if}</td>
+						<td>{if !empty($value.user_account_name)}{$value.user_account_name}{else}无{/if}</td>
+						<td>{if !empty($value.member_phone_num)}{$value.member_phone_num}{else}无{/if}</td>
+						<td>{$value.order_no}</td>
+						<td>￥{$value.order_price}</td>
+						<td>￥{$value.first_money}</td>
+						<td>￥{$value.second_money}</td>
+						<td>￥{$value.third_money}</td>
+						<td>{$value.first_integral}</td>
+						<td>{$value.second_integral}</td>
+						<td>{$value.third_integral}</td>
+						<td>{$value.settle_time|date="Y-m-d H:i",###}</td>
 						
 					</tr>
 					{/volist}
 				</tbody>
 			</table>
-			{$record}
+			{if !empty($record)}{$record->render()}{/if}
 		</div>
 
 	</div>

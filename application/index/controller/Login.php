@@ -96,11 +96,10 @@ class Login extends Controller{
                     
                     // 判断推荐人是否为分销商
                         if (!User::isDealerUser($bool)) {
+                            //新增分销商
                             $member_data = Db::name("member")->where('member_id','=',$bool)->find();
                             $apply = new Apply;
                             $rest = $apply->submit($member_data);
-                            $inviter_id = 0;
-                            RefereeModel::createRelation($member_id, $inviter_id,$user_data['store_id']);
                         }
 
                 if($register_login > 0){
@@ -142,6 +141,13 @@ class Login extends Controller{
                         "member_id"=>$is_register["member_id"],
                         "uniacid"=>$user_data['store_id']
                     ];
+
+                    // 判断推荐人是否为分销商
+                    if (!User::isDealerUser($is_register['member_id'])) {
+                        //新增分销商
+                        $apply = new Apply;
+                        $rest = $apply->submit($is_register);
+                    }
                     return ajax_error('该用户已经注册过，请不要重复注册',$data);
                 }
             }else{

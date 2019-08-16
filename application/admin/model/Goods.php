@@ -40,5 +40,28 @@ class Goods extends Model
          return  isset($data) ? array_values($data) : null;
         
     }
+
+
+    /**
+     * 返回订单金额
+     * @param $goods_first
+     * @param $goods_second
+     * @param $money
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public static function getDistributionPrice($goods_first,$goods_second,$money)
+    {
+        
+        foreach($goods_first as $key => $value)
+        {
+            if(in_array($value,$goods_second)){
+                $data[] = $money[$key];
+            }
+        }
+
+         return  isset($data) ? array_values($data) : null;
+        
+    }
  
 }

@@ -3,6 +3,7 @@
 namespace app\common\model\dealer;
 
 use app\common\model\BaseModel;
+use app\common\model\dealer\Order as Order;
 use app\admin\model\Member as Member;
 
 /**
@@ -130,6 +131,37 @@ class User extends BaseModel
     {
         $fields = [1 => 'first_num', 2 => 'second_num', 3 => 'third_num'];
         return self::where('user_id',$dealer_id)->setInc($fields[$level]);
+    }
+
+    /**
+     * 增加分销订单总额
+     * @param $user_id
+     * @param $money
+     * @return bool
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     */
+    public static function addMemberPrice($data, $money)
+    {
+        // 分销订单详情
+        $model = Order::detail(['order_id' => $data['id']]);
+        if (!$model || $model['is_settled'] == 1) {
+            return false;
+        }
+        // 累积分销商可提现佣金
+        self::where('user_id','=',$data['member_id'])->setInc('order_money', $money);
+
+        // 记录分销商资金明细
+        Capital::add([
+            'user_id' => $data['member_id'],
+            'flow_type' => 10,
+            'number' => $money,
+            'describe' => '增加分销订单金额',
+            'wxapp_id' => $data['store_id'],
+            'is_status' => 2,
+
+        ]);
+        return true;
     }
 
 }

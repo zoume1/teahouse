@@ -122,7 +122,7 @@ class Order extends BaseModel
         // 发放三级分销商积分
         $model['third_user_id'] > 0 && User::grantIntegral($model['third_user_id'], $capital['third_integral'],$order['store_id']);
         // 更新分销订单记录
-
+        User::addMemberPrice($order, $capital['orderPrice']);
         return $model->save([
             'order_price' => $capital['orderPrice'],
             'first_money' => $capital['first_money'],
@@ -250,6 +250,7 @@ class Order extends BaseModel
         // 计算订单分销佣金
         $capital = $model->getCapitalByOrder($order);
         // 保存分销订单记录
+    
         return $model->save([
             'user_id' => $order['member_id'],
             'order_id' => $order['id'],

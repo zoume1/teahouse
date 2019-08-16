@@ -604,10 +604,11 @@ class My extends Controller
         $re2 = db('member')->where('member_id',$input['member_id'])->update(['inviter_id'=>$input['inviter_id']]);
         if($re && $re2){
             $member_data = Db::name("member")->where('member_id','=',$input['member_id'])->find();
-            $apply = new ApplyModel;
-            $rest = $apply->submit($member_data);
-            RefereeModel::createRelation($input['member_id'], $input['inviter_id'],$member_data['store_id']);
- 
+            if(!User::isDealerUser($input['member_id'])){
+                $apply = new ApplyModel;
+                $rest = $apply->submit($member_data);
+                RefereeModel::createRelation($input['member_id'], $input['inviter_id'],$member_data['store_id']);
+            }
              return ajax_success('操作成功');
         }else{
              return ajax_error('操作失败');

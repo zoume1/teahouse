@@ -245,33 +245,18 @@ class Distribution extends Controller
      * GY
      */
     public function record_index(){
-        $record = db("order")->where("distribution",1)->where("status",2)->select();//方便测试，后期再加上订单条件(已付款)
-        foreach($record as $key => $value) {
-            $record[$key]["higher_level"] = db("member")->where("member_id", $record[$key]["member_id"])->value("inviter_id");//上一级member_id
-            $record[$key]["phone_numbers"] = db("member")->where("member_id", $record[$key]["higher_level"])->value("member_phone_num");//上一级手机号（用户账号）
-            $record[$key]["goods_number"] = db("goods")->where("id", $record[$key]["goods_id"])->value("goods_number");//商品编号
-            if(empty($record[$key]["higher_level"])){
-                $rest = db("distribution") -> where("id",1)->find();
-                $record[$key]["commission"] = ($rest['grade']/100);
-                $record[$key]["money"] = round(($rest['grade'] * $record[$key]['order_real_pay']/100),2);
-                $record[$key]["integral"] = $rest['scale'];//积分比例
-                $record[$key]["integrals"] = round($rest['scale'] * $record[$key]['order_real_pay']/100);//积分
-            }
-        }
-       
+        $store_id = Session::get("store_id");
+        $record =Db::table('tb_dealer_order')
+            ->field("tb_dealer_order.*,tb_member.member_phone_num,tb_order.user_phone_number,user_account_name")
+            ->join("tb_dealer_user","tb_dealer_order.user_id= tb_dealer_user.user_id",'left')
+            ->join("tb_order","tb_order.id= tb_dealer_order.order_id",'left')
+            ->join("tb_member","tb_dealer_user.referee_id = tb_member.member_id",'left')
+            ->where("tb_dealer_order.wxapp_id",$store_id)
+            ->where("tb_dealer_order.is_settled",'=',1) //已结算
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
 
-        $all_idents = $record;//这里是需要分页的数据
-        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
-        $listRow = 20;//每页20行记录
-        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
-        $record = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
-            'var_page' => 'page',
-            'path' => url('admin/Distribution/record_index'),//这里根据需要修改url
-            'query' => [],
-            'fragment' => '',
-        ]);
-        $record->appends($_GET);
-        $this->assign('record', $record->render());
         return view('record_index',["record"=>$record]);
     }
 

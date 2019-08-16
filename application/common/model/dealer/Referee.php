@@ -95,10 +95,10 @@ class Referee extends BaseModel
         if (self::isExistReferee($user_id)) {
             return false;
         }
-        // // 判断推荐人是否为分销商
-        // if (!User::isDealerUser($referee_id)) {
-        //     return false;
-        // }
+        // 判断推荐人是否为分销商
+        if (!User::isDealerUser($referee_id)) {
+            return false;
+        }
         // 新增关系记录
         $model = new self;
         $model->add($referee_id, $user_id,$store_id,1);
