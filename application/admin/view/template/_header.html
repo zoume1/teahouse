@@ -34,13 +34,19 @@
 			<ul class="dropdown">
 				<!-- <li class="dropdown-item">[订单] 您有<span class="red">100</span>个<span class="red">普通</span>订单流程需及时处理</li> -->
 				<div class="popper__arrow"></div>
-				<div class="clearall">全部设为已处理</div>
+				<!-- <div class="clearall">全部设为已处理</div> -->
 			</ul>
 		</div>
 		<div class="self_information">
 			<!--<span class="information-photo"><img src="__STATIC__/admin/index/img/u39.png"></span>-->
 			<!--<span>siring</span>-->
 
+			<span><div><a class="header-url" data-id="188" data-value="/admin/order_index"
+					data-url="/admin/order_index.html" href="javascript:void(0);">初始订单</a>
+					<a class="header-url" data-id="188" data-value="/admin/crowd_order_index"
+					data-url="/admin/crowd_order_index.html" href="javascript:void(0);">众筹订单</a>
+			</div>
+			</span>
 			<span><a class="header-url" data-id="213" data-value="/admin/capital_management"
 					data-url="/admin/capital_management.html" href="javascript:void(0);">资金管理</a></span>
 			<span><a class="header-url" data-id="179" data-value="/admin/order_package_index"
@@ -90,15 +96,30 @@
 						data.data.forEach(function(v, i){
 							num += v.number;
 							if(v.type == 0){
-								str += '<li class="dropdown-item"><a class="header-url" data-value="/admin/order_index" data-url="/admin/order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">'+v.number+ '</span>个<span class="red">普通</span>订单流程需及时处理</a></li>'
+								str += '<li class="dropdown-item"><a class="header-url" data-id="'+v.id+'" data-value="/admin/order_index" data-url="/admin/order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">'+v.number+ '</span>个<span class="red">普通</span>订单流程需及时处理</a></li>'
 							}else if(v.type == 1){
-								str += '<li class="dropdown-item"><a class="header-url" data-value="/admin/crowd_order_index" data-url="/admin/crowd_order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">'+v.number+'</span>个<span class="red">众筹</span>订单流程需及时处理</a></li>'
+								str += '<li class="dropdown-item"><a class="header-url" data-id="'+v.id+'" data-value="/admin/crowd_order_index" data-url="/admin/crowd_order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">'+v.number+'</span>个<span class="red">众筹</span>订单流程需及时处理</a></li>'
 							}else{
-								str += '<li class="dropdown-item"><a class="header-url" data-value="/admin/refund_protection_index" data-url="/admin/refund_protection_index.html" href="javascript:void(0);">[订单] 您有<span class="red">'+v.number+'</span>个<span class="red">售后</span>订单流程需及时处理</a></li>'
+								str += '<li class="dropdown-item"><a class="header-url" data-id="'+v.id+'" data-value="/admin/refund_protection_index" data-url="/admin/refund_protection_index.html" href="javascript:void(0);">[订单] 您有<span class="red">'+v.number+'</span>个<span class="red">售后</span>订单流程需及时处理</a></li>'
 							}
 						})
 						$('.dropdown').append(str);
 						$('.message').append('<em class="unread">'+num+'</em>');
+
+						$('.header-url').click(function(){
+							var url = $(this).data('url');
+							// var value = $(this).data("value");
+							// setCookie("item_id", value);
+							$.ajax({
+								type: "get",
+								url: url,
+								cache: true,
+								success: function () {
+									$('#add').attr('src', url);
+								}
+							});
+						})
+
 					}
 				}
 			})
