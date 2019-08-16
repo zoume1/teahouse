@@ -533,6 +533,31 @@ class Upload extends Controller
         return $result;
     }
      /*
+         测试获取体验码
+        * 发起GET网络提交
+        * @params string $url : 网络地址
+        */
+    private function https_get2($url)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        // $proxy = "80.25.198.25";
+        // $proxyport = "8080";
+        // curl_setopt($curl,CURLOPT_proxy,$proxy);
+        // curl_setopt($curl,CURLOPT_proxyPORT,$proxyport);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE); 
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); 
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); 
+        curl_setopt($curl, CURLOPT_HEADER, FALSE) ; 
+        curl_setopt($curl, CURLOPT_TIMEOUT,60);
+        if (curl_errno($curl)) {
+            return 'Errno'.curl_error($curl);
+        }
+        else{$result=curl_exec($curl);}
+        curl_close($curl);
+        return $result;
+    }
+     /*
         * 成员管理，绑定小程序体验者
         * @params string $wechatid : 体验者的微信号
         * */
@@ -678,7 +703,7 @@ class Upload extends Controller
             } else {
                 $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
             }
-            $ret2 = $this->https_get($url);
+            $ret2 = $this->https_get2($url);
             $ret = json_decode($ret2,true);
             $p['msg']=$ret2;
             db('test')->insert($p);
@@ -688,6 +713,20 @@ class Upload extends Controller
                 return ajax_success('获取成功',["url"=>$url]);
             }
     }
+    // public function serverIp(){
+    //     if(isset($_SERVER)){
+    //         if($_SERVER['SERVER_ADDR']){
+    //             $server_ip=$_SERVER['SERVER_ADDR'];
+    //         }else{
+    //             $server_ip=$_SERVER['LOCAL_ADDR'];
+    //         }
+    //     }else{
+    //         $server_ip = getenv('SERVER_ADDR');
+    //     }
+    //     return $server_ip;
+    // }
+    
+    
     /**
      * lilu
      * 提交审核

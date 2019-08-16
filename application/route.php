@@ -1057,6 +1057,10 @@ Route::group("admin",[
     "analyse_code_pay"=>"admin/AddeOrder/analyse_code_pay",        //增值商品订购微信二维码扫码支付
     "analyse_code_alipay"=>"admin/AddeOrder/analyse_code_alipay",  //增值商品订购支付宝二维码扫码支付
     "analyse_small_pay"=>"admin/AddeOrder/analyse_small_pay",      //增值商品店铺余额支付
+    
+    /*高级分销设置 */
+    "setting_index"=>"admin/Setting/setting_index",                  //高级分销设置显示
+    
 
 
 ]);
