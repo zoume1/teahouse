@@ -20,6 +20,10 @@ use think\Session;
 use think\Loader;
 use think\paginator\driver\Bootstrap;
 
+use app\common\model\dealer\Apply ;
+use app\common\model\dealer\Referee as RefereeModel;
+use app\common\model\dealer\User;
+use app\common\model\dealer\Order;
 
 
 class Goods extends Controller
@@ -32,6 +36,31 @@ class Goods extends Controller
      */
     public function index(Request $request)
     {
+        $data = [
+            'member_id'=>1140,
+            'id'=>1135,
+            'parts_order_number'=>'SDFRT665768',
+            'goods_id'=>[238],
+            'store_id'=>6,
+            'order_amount'=>[200],
+            'goods_money'=>200,
+            'status'=>2,
+            
+        ];
+
+
+        // halt(Order::createOrder($data));
+        // halt(Order::grantMoney($data));
+        $store_id = Session::get('store_id');
+        $member_id = 1122;
+        $member_data = Db::name("member")->where('member_id','=',$member_id)->find();
+        $apply = new Apply;
+        $rest = $apply->submit($member_data);
+        $inviter_id = 0;
+        
+        RefereeModel::createRelation($member_id, $inviter_id,$store_id);
+
+
         $store_id = Session::get('store_id');
         $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number desc")->select();
         $goods_list = getSelectListes("wares");

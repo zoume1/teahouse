@@ -13,6 +13,8 @@ use think\Controller;
 use think\Request;
 use think\Db;
 use think\Session;
+use app\admin\model\Goods;
+use app\common\model\dealer\Order;
 
 class  Order extends  Controller
 {
@@ -445,11 +447,28 @@ class  Order extends  Controller
                                 $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
                             }
                             $order_datas =Db::name("order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type,order_amount")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
                             $order_datas['balance']=$money;
+
+                            //判断是否生成分销订单
+                            $goods_bool = Goods::getDistributionStatus($commodity_id);
+                            if($goods_bool){
+                                $data = [
+                                    'member_id'=>$member_id,
+                                    'id'=>$res,
+                                    'parts_order_number'=>$order_datas['parts_order_number'],
+                                    'goods_id'=>$goods_bool,
+                                    'store_id'=>6,
+                                    'order_amount'=>$order_datas['order_amount'],
+                                    'goods_money'=>$order_datas['order_amount'],//总金额
+                                    'status'=>0,
+                                    
+                                ];                                               
+                                Order::createOrder($data);
+                            }
                             return ajax_success('下单成功',$order_datas);
                         }else{
 
@@ -517,6 +536,23 @@ class  Order extends  Controller
                                 ->where("member_id",$user_id)
                                 ->find();
                             $order_datas['balance']=$money;
+
+
+                        //判断是否生成分销订单
+                        $goods_bool = Goods::getDistributionStatus($commodity_id);
+                        if($goods_bool){
+                            $data = [
+                                'member_id'=>$member_id,
+                                'id'=>$res,
+                                'parts_order_number'=>$order_datas['parts_order_number'],
+                                'goods_id'=>$goods_bool,
+                                'store_id'=>6,
+                                'order_amount'=>$order_datas['order_amount'],
+                                'goods_money'=>$order_datas['order_amount'],//总金额
+                                'status'=>0,
+                                
+                            ];                                               
+                            Order::createOrder($data);
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);
@@ -862,7 +898,7 @@ class  Order extends  Controller
                                  $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
 
                             }
-                        }
+
                     } else {
                         $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
@@ -932,7 +968,25 @@ class  Order extends  Controller
                 }else{
                     $where ='id='.$shopping_id;
                 }
-                $list =  Db::name('shopping')->where($where)->delete();    
+                $list =  Db::name('shopping')->where($where)->delete(); 
+                
+                //判断是否生成分销订单
+                $goods_bool = Goods::getDistributionStatus($commodity_id);
+                if($goods_bool){
+                    $data = [
+                        'member_id'=>$member_id,
+                        'id'=>$res,
+                        'parts_order_number'=>$order_datas['parts_order_number'],
+                        'goods_id'=>$goods_bool,
+                        'store_id'=>6,
+                        'order_amount'=>$order_datas['order_amount'],
+                        'goods_money'=>$order_datas['order_amount'],//总金额
+                        'status'=>0,
+                        
+                    ];                                               
+                    Order::createOrder($data);
+                }  
+
                 exit(json_encode(array("status" => 1, "info" => "下单成功","data"=>$order_datas,"authority"=>$authority)));
                 }else{
 
@@ -952,6 +1006,24 @@ class  Order extends  Controller
                     $where ='id='.$shopping_id;
                 }
                 $list =  Db::name('shopping')->where($where)->delete();
+                
+                //判断是否生成分销订单
+                $goods_bool = Goods::getDistributionStatus($commodity_id);
+                if($goods_bool){
+                    $data = [
+                        'member_id'=>$member_id,
+                        'id'=>$res,
+                        'parts_order_number'=>$order_datas['parts_order_number'],
+                        'goods_id'=>$goods_bool,
+                        'store_id'=>6,
+                        'order_amount'=>$order_datas['order_amount'],
+                        'goods_money'=>$order_datas['order_amount'],//总金额
+                        'status'=>0,
+                        
+                    ];                                               
+                    Order::createOrder($data);
+                }
+                
                 exit(json_encode(array("status" => 1, "info" => "下单成功","data"=>$order_datas,"authority"=>$authority)));
                 }else{
                     return ajax_error('失败',['status'=>0]);

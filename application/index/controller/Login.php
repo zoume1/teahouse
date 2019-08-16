@@ -13,6 +13,10 @@ use think\Loader;
 use think\Session;
 use think\Cache;
 use think\Request;
+use app\common\model\dealer\Apply ;
+use app\common\model\dealer\Referee as RefereeModel;
+use app\common\model\dealer\User;
+use app\common\model\dealer\Order;
 
 class Login extends Controller{
 
@@ -89,6 +93,15 @@ class Login extends Controller{
                     $data['member_grade_name'] = $grade_name['member_grade_name'];
                     $data["store_id"] = $user_data['store_id']; //店铺id
                     $bool = Db::name('member')->insertGetId($data);
+                    
+                    // 判断推荐人是否为分销商
+                        if (!User::isDealerUser($bool)) {
+                            $member_data = Db::name("member")->where('member_id','=',$bool)->find();
+                            $apply = new Apply;
+                            $rest = $apply->submit($member_data);
+                            $inviter_id = 0;
+                            RefereeModel::createRelation($member_id, $inviter_id,$user_data['store_id']);
+                        }
 
                 if($register_login > 0){
                     //插入积分记录

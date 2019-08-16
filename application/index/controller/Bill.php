@@ -13,7 +13,24 @@ namespace  app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use app\admin\model\Goods;
 class Bill extends Controller{
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:我的消费
+     **************************************
+     * @return \think\response\View
+     */
+    public function ceshi12(Request $request){
+        if($request->isPost()){
+            $goods_id = [238,234,365,366];
+            halt(Goods::getDistributionStatus($goods_id));
+        }
+        
+    }
 
     /**
      **************李火生*******************

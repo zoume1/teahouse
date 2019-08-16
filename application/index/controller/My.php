@@ -12,8 +12,9 @@ use think\Db;
 use think\Session;
 use think\Cache;
 use app\index\controller\Login as LoginPass;
-use app\api\model\dealer\Referee as RefereeModel;
-use app\api\model\dealer\Apply as ApplyModel;
+use app\common\model\dealer\Apply as ApplyModel;
+use app\common\model\dealer\Referee as RefereeModel;
+
 
 class My extends Controller
 {
@@ -604,8 +605,8 @@ class My extends Controller
             $member_data = Db::name("member")->where('member_id','=',$input['member_id'])->find();
             $apply = new ApplyModel;
             $rest = $apply->submit($member_data);
-            RefereeModel::createRelation($input['member_id'], $input['inviter_id']);
-            halt(11111);
+            RefereeModel::createRelation($input['member_id'], $input['inviter_id'],$member_data['store_id']);
+ 
              return ajax_success('操作成功');
         }else{
              return ajax_error('操作失败');
