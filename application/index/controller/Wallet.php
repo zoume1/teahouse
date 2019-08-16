@@ -237,7 +237,7 @@ class  Wallet extends  Controller{
             //每日提现笔数需要低于设置
             $today =date("Y-m-d");
             $is_set_number =Db::name("recharge_reflect")
-                ->where("operation_time","link","%" .$today ."%")
+                ->where("operation_time","like","%" .$today ."%")
                 ->where("operation_type",-1)
                 ->where("user_id",$member_id)
                 ->count();      //统计一天提现的笔数
