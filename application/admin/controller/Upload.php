@@ -543,8 +543,8 @@ class Upload extends Controller
         curl_setopt($curl, CURLOPT_URL, $url);
         $proxy = "80.25.198.25";
         $proxyport = "8080";
-        curl_setopt($curl,curlOPT_proxy,$proxy);
-        curl_setopt($curl,curlOPT_proxyPORT,$proxyport);
+        curl_setopt($curl,CURLOPT_proxy,$proxy);
+        curl_setopt($curl,CURLOPT_proxyPORT,$proxyport);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE); 
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); 
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); 
