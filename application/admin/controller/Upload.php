@@ -705,6 +705,9 @@ class Upload extends Controller
             }
             $ret2 = $this->https_get2($url);
             $ret = json_decode($ret2,true);
+             //测试serverip
+             $ip=$this->serverIp();
+             halt($ip);
             $p['msg']=$ret2;
             db('test')->insert($p);
             if($ret['errcode']) {
@@ -713,6 +716,20 @@ class Upload extends Controller
                 return ajax_success('获取成功',["url"=>$url]);
             }
     }
+    public function serverIp(){
+        if(isset($_SERVER)){
+            if($_SERVER['SERVER_ADDR']){
+                $server_ip=$_SERVER['SERVER_ADDR'];
+            }else{
+                $server_ip=$_SERVER['LOCAL_ADDR'];
+            }
+        }else{
+            $server_ip = getenv('SERVER_ADDR');
+        }
+        return $server_ip;
+    }
+    
+    
     /**
      * lilu
      * 提交审核
