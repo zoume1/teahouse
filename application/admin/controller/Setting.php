@@ -22,8 +22,9 @@ class Setting extends Controller{
      * @return \think\response\View
      */
     public function setting_index(Request $request){
+        $store_id = Session::get('store_id');
         if($request->isPost()){
-            
+
         }
         return view("setting_index");
     }

@@ -57,6 +57,26 @@ class Member extends Model
         $model->where('member_id','=',$user_id)->setInc('member_integral_wallet', $integral);
         return true;
     }
+
+
+    /**
+     * 判断用户是否是普通会员
+     * @param $user_id
+     * @return bool
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     */
+    public static function isCommonMember($user_id)
+    {
+        // 分销商详情
+        $model = static::detail($user_id);
+        if (!$model) {
+            return false;
+        }
+        // 发放分销商积分
+        $model->where('member_id','=',$user_id)->setInc('member_integral_wallet', $integral);
+        return true;
+    }
  
  
 }
