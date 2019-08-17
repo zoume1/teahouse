@@ -246,7 +246,6 @@ class Order extends BaseModel
     {
         //是否符合高级分销条件
         $rest = Settings::isMemberRank($order);
-        halt($rest);
         // 分销订单模型
         $model = new self;
         // 获取当前买家的所有上级分销商用户id
