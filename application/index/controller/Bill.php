@@ -13,7 +13,43 @@ namespace  app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use app\admin\model\Goods;
+use app\admin\model\Order as GoodsOrder;
+use app\common\model\dealer\Order as OrderModel;
 class Bill extends Controller{
+
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:我的消费
+     **************************************
+     * @return \think\response\View
+     */
+    public function ceshi12(Request $request){
+        if($request->isPost()){
+
+            $data = [
+                'member_id'=>1144,
+                'id'=>2133,
+                'parts_order_number'=>'ZY201907231129002145',
+                'goods_id'=>[243,265,295],
+                'store_id'=>6,
+                'order_amount'=>[200,100,100],
+                'goods_money'=>400,
+                'status'=>0,
+                
+            ];
+    
+    
+            OrderModel::createOrder($data);
+            $order_type = Db::name("order")->where("parts_order_number",$data["parts_order_number"])->find();
+            $order = GoodsOrder::getOrderInforMation($order_type);
+            $model = OrderModel::grantMoney($order);
+            // halt(Order::grantMoney($data));
+        }
+        
+    }
 
     /**
      **************李火生*******************

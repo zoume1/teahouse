@@ -292,6 +292,7 @@ Route::group("",[
 
     /*TODO:我的账单开始*/
     "consume_index"=>"index/Bill/consume_index",//账单我的消费
+    "ceshi12"=>"index/Bill/ceshi12",//账单我的消费
     "consume_search"=>"index/Bill/consume_search",//账单我的消费搜索
     /*TODO:我的账单结束*/
 

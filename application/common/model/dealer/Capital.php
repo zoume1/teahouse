@@ -13,6 +13,15 @@ class Capital extends BaseModel
 {
     protected $name = 'dealer_capital';
 
+
+    /**
+     * 隐藏字段
+     * @var array
+     */
+    protected $hidden = [
+        'create_time',
+        'update_time',
+    ];
     /**
      * 分销商资金明细
      * @param $data
