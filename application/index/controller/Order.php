@@ -377,7 +377,7 @@ class  Order extends  Controller
                     
                         if ($res) {
                             $order_datas =Db::name("house_order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_amount,order_type,coupon_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
@@ -398,7 +398,6 @@ class  Order extends  Controller
                                 'status'=>0,
                                 
                             ];
-                            halt($commind_data);
                             OrderModel::createOrder($commind_data);
                         }                                                                         
                             return ajax_success('下单成功',$order_datas);
