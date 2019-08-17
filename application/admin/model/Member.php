@@ -59,23 +59,19 @@ class Member extends Model
     }
 
 
+
+
+    
     /**
-     * 判断用户是否是普通会员
+     * 获取店铺等级会员id
      * @param $user_id
-     * @return bool
-     * @throws \think\Exception
+     * @return null|static
      * @throws \think\exception\DbException
      */
-    public static function isCommonMember($user_id)
+    public static function getGradeId($member_id)
     {
-        // 分销商详情
-        $model = static::detail($user_id);
-        if (!$model) {
-            return false;
-        }
-        // 发放分销商积分
-        $model->where('member_id','=',$user_id)->setInc('member_integral_wallet', $integral);
-        return true;
+        $member_grade_id = self::where(['member_id'=>$member_id])->value('member_grade_id');
+        return $member_grade_id;
     }
  
  

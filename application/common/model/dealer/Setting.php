@@ -5,6 +5,7 @@ namespace app\common\model\dealer;
 use app\common\model\BaseModel;
 use think\Cache;
 use\app\admin\model\MemberGrade; 
+use\app\admin\model\Member; 
 
 /**
  * 分销商设置模型
@@ -90,7 +91,8 @@ class Setting extends BaseModel
             case 2:
                 //普通会员
                 $lowest = MemberGrade::getLowestMember($data['store_id']);
-                if($lowest == $data['member_id']){
+                $grade_id = Member::getGradeId($data['member_id']);
+                if($lowest == $grade_id){
                     return false;
                 } else {
                     if($data['goods_money'] >= $stting['price_status']){
