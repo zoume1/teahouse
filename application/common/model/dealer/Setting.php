@@ -78,7 +78,7 @@ class Setting extends BaseModel
      */
     public static function isMemberRank($data)
     {
-        $stting =  self::getItem($data['store_id']);
+        $setting =  self::getItem($data['store_id']);
         switch($setting['rank_status'])
         {
             case 1:
