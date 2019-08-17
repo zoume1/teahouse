@@ -399,6 +399,7 @@ class  Order extends  Controller
                                 
                             ];                                               
                             OrderModel::createOrder($data);
+                        }
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);
