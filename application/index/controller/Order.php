@@ -550,7 +550,7 @@ class  Order extends  Controller
                         $datas["harvester_address"] = $harvest_address;
                         $datas["order_create_time"] = $create_time;
                         $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                        $all_moneys[] = $datas["goods_money"]*$numbers[$keys];//订单金额
+                        $all_moneyes[] = $datas["goods_money"]*$numbers[$keys];//订单金额
                         $datas["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datas["status"] = 1;
                         $datas["goods_id"] = $values;
@@ -609,7 +609,7 @@ class  Order extends  Controller
                         $datase["harvester_address"] = $harvest_address;
                         $datase["order_create_time"] = $create_time;
                         $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                        $all_money[] = $datas["goods_money"]*$numbers[$keys];//订单金额
+                        $all_moneyes[] = $datas["goods_money"]*$numbers[$keys];//订单金额
                         $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datase["status"] = 1;
                         $datase["goods_id"] = $values;
@@ -659,7 +659,7 @@ class  Order extends  Controller
                 //判断是否生成分销订单
                 $goods_bool = Goods::getDistributionStatus($commodity_id);
                 if($goods_bool){
-                    $count_money = Goods::getDistributionPrice($commodity_id,$goods_bool,$all_money);
+                    $count_money = Goods::getDistributionPrice($commodity_id,$goods_bool,$all_moneyes);
                     $data = [
                         'member_id'=>$user_id,
                         'id'=>$res,
@@ -696,7 +696,7 @@ class  Order extends  Controller
                 //判断是否生成分销订单
                 $goods_bool = Goods::getDistributionStatus($commodity_id);
                 if($goods_bool){
-                    $count_money = Goods::getDistributionPrice($commodity_id,$goods_bool,$all_money);
+                    $count_money = Goods::getDistributionPrice($commodity_id,$goods_bool,$all_moneyes);
                     $data = [
                         'member_id'=>$user_id,
                         'id'=>$res,
