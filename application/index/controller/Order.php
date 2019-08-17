@@ -398,7 +398,8 @@ class  Order extends  Controller
                                 'status'=>0,
                                 
                             ];
-                        }                                               
+                        }        
+                            halt($commind_data);                                     
                             OrderModel::createOrder($commind_data);
                             return ajax_success('下单成功',$order_datas);
                         }else{
