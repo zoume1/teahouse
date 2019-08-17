@@ -82,7 +82,7 @@ class Setting extends BaseModel
         switch($setting['rank_status'])
         {
             case 1:
-                if($data['goods_money'] >= $stting['price_status']){
+                if($data['goods_money'] >= $setting['price_status']){
                     return true;
                 } else {
                     return false;
@@ -95,7 +95,7 @@ class Setting extends BaseModel
                 if($lowest == $grade_id){
                     return false;
                 } else {
-                    if($data['goods_money'] >= $stting['price_status']){
+                    if($data['goods_money'] >= $setting['price_status']){
                         return true;
                     } else {
                         return false;
@@ -116,7 +116,7 @@ class Setting extends BaseModel
      */
     public static function isRturnPrice($store_id)
     {
-        $stting =  self::getItem($store_id);
+        $setting =  self::getItem($store_id);
         return $setting ? $setting['opportunity'] : false;
         
     }
