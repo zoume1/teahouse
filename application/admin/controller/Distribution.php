@@ -27,11 +27,18 @@ class Distribution extends Controller
     public function setting_index()
     {
         $store_id = Session::get("store_id");
-        $store = config("store_id");
         $distribution = db("distribution") ->where("store_id","EQ",$store_id)-> select();
 
+        $setting = Db::name("setting")->where("store_id",$store_id)->find();
+        if(empty($setting)){
+            $data = Db::name("setting")->where("store_id",6)->find();
+            unset($data['id']);
+            $data['store_id'] = $store_id;
+            $bool = Db::name("setting")->insert($data);
+        }
+
         if(empty($distribution)){
-            $rest = db("distribution") ->where("store_id","EQ",$store)-> select();
+            $rest = db("distribution") ->where("store_id","EQ",$store_id)-> select();
             foreach($rest as $key => $value){
                 unset($rest[$key]['id']);
                 $rest[$key]['store_id'] = $store_id;
@@ -42,21 +49,7 @@ class Distribution extends Controller
             }
         }
         
-        //刷新页面
-        $members = db("member")->field("member_id,member_name,member_grade_id,member_grade_name,inviter_id")->select();
-        foreach($members as $k=>$v){
-            if(!empty($members[$k]['inviter_id'])){ 
-             $members[$k]['rank_one'] = $members[$k]['inviter_id'];
-            if(!empty($members[$k]['rank_one'])){
-             $members[$k]['rank_two'] = db("member")->where("member_id", $members[$k]['rank_one'])->value("inviter_id");//1021=>1024
 
-            if(!empty($members[$k]['rank_two']) ){
-                $members[$k]['rank_three'] = db("member")->where("member_id", $members[$k]['rank_two'])->value("inviter_id");//1021=>1024
-                       
-            }
-          }
-        }
-     }
      
         return view("setting_index",["distribution" =>$distribution ]);
     }

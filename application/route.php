@@ -1060,6 +1060,7 @@ Route::group("admin",[
     
     /*高级分销设置 */
     "setting_index"=>"admin/Setting/setting_index",                  //高级分销设置显示
+    "setting_update"=>"admin/Setting/setting_update",                //高级分销设置编辑
     
 
 
