@@ -21,7 +21,10 @@ class Setting extends Controller{
      **************************************
      * @return \think\response\View
      */
-    public function setting_index(){
+    public function setting_index(Request $request){
+        if($request->isPost()){
+            
+        }
         return view("setting_index");
     }
 

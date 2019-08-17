@@ -638,10 +638,11 @@ class  Order extends  Controller
                         $datas["store_number"]= $this->unit_calculate($data['unit'], $data['num'],$key,$datase["order_quantity"]);
                         $res = Db::name('house_order')->insertGetId($datas);        
                     }
+                }
                 
             if($order_type != 3){
                 if ($res) {
-                    $order_datas =Db::name("order")
+                    $order_datas = Db::name("order")
                         ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
                         ->where('id',$res)
                         ->where("member_id",$user_id)
@@ -717,7 +718,7 @@ class  Order extends  Controller
             }          
         }
     }
-}
+
 
 
     /**
