@@ -374,7 +374,7 @@ class  Order extends  Controller
                         //先判断有多少位数量等级
                         $datas["store_number"]= $this->unit_calculate($data['unit'], $data['num'],$key,$datase["order_quantity"]);
                         $res = Db::name('house_order')->insertGetId($datas);
-                    }
+                    
                         if ($res) {
                             $order_datas =Db::name("house_order")
                                 ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
@@ -397,9 +397,9 @@ class  Order extends  Controller
                                 'goods_money'=>$order_datas['order_amount'],//总金额
                                 'status'=>0,
                                 
-                            ];                                               
+                            ];
+                        }                                               
                             OrderModel::createOrder($data);
-                        }
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);
@@ -711,8 +711,7 @@ class  Order extends  Controller
                         
                     ];                                               
                     OrderModel::createOrder($data);
-                } 
-                
+                }                
                 exit(json_encode(array("status" => 1, "info" => "下单成功","data"=>$order_datas,"authority"=>$authority)));
                 }else{
                     return ajax_error('失败',['status'=>0]);
