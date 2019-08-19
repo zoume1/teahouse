@@ -57,6 +57,22 @@ class Member extends Model
         $model->where('member_id','=',$user_id)->setInc('member_integral_wallet', $integral);
         return true;
     }
+
+
+
+
+    
+    /**
+     * 获取店铺等级会员id
+     * @param $user_id
+     * @return null|static
+     * @throws \think\exception\DbException
+     */
+    public static function getGradeId($member_id)
+    {
+        $member_grade_id = self::where(['member_id'=>$member_id])->value('member_grade_id');
+        return $member_grade_id;
+    }
  
  
 }

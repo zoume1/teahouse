@@ -300,7 +300,7 @@ class  Order extends  Controller
                             //判断是否生成分销订单
                             $goods_bool = Goods::getDistributionStatus($commodity_id);
                             if($goods_bool){
-                                $data = [
+                                $getDistributionStatus = [
                                     'member_id'=>$user_id,
                                     'id'=>$res,
                                     'parts_order_number'=>$order_datas['parts_order_number'],
@@ -311,7 +311,7 @@ class  Order extends  Controller
                                     'status'=>0,
                                     
                                 ];                                               
-                                OrderModel::createOrder($data);
+                                OrderModel::createOrder($getDistributionStatus);
                             }
                             return ajax_success('下单成功',$order_datas);
                         }else{
@@ -374,9 +374,10 @@ class  Order extends  Controller
                         //先判断有多少位数量等级
                         $datas["store_number"]= $this->unit_calculate($data['unit'], $data['num'],$key,$datase["order_quantity"]);
                         $res = Db::name('house_order')->insertGetId($datas);
+                    
                         if ($res) {
                             $order_datas =Db::name("house_order")
-                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
+                                ->field("order_real_pay,parts_goods_name,parts_order_number,order_amount,order_type,coupon_type")
                                 ->where('id',$res)
                                 ->where("member_id",$user_id)
                                 ->find();
@@ -386,7 +387,7 @@ class  Order extends  Controller
                         //判断是否生成分销订单
                         $goods_bool = Goods::getDistributionStatus($commodity_id);
                         if($goods_bool){
-                            $data = [
+                            $commind_data = [
                                 'member_id'=>$user_id,
                                 'id'=>$res,
                                 'parts_order_number'=>$order_datas['parts_order_number'],
@@ -396,8 +397,9 @@ class  Order extends  Controller
                                 'goods_money'=>$order_datas['order_amount'],//总金额
                                 'status'=>0,
                                 
-                            ];                                               
-                            OrderModel::createOrder($data);
+                            ];
+                            OrderModel::createOrder($commind_data);
+                        }                                                                         
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);
@@ -406,7 +408,7 @@ class  Order extends  Controller
             }           
         }
     }
-}
+
 
 
 
@@ -660,7 +662,7 @@ class  Order extends  Controller
                 $goods_bool = Goods::getDistributionStatus($commodity_id);
                 if($goods_bool){
                     $count_money = Goods::getDistributionPrice($commodity_id,$goods_bool,$all_moneyes);
-                    $data = [
+                    $count_datas = [
                         'member_id'=>$user_id,
                         'id'=>$res,
                         'parts_order_number'=>$order_datas['parts_order_number'],
@@ -670,7 +672,7 @@ class  Order extends  Controller
                         'goods_money'=>array_sum($count_money),//总金额
                         'status'=>0,                      
                     ];                                               
-                    OrderModel::createOrder($data);
+                    OrderModel::createOrder($count_datas);
                 }  
 
                 exit(json_encode(array("status" => 1, "info" => "下单成功","data"=>$order_datas,"authority"=>$authority)));
@@ -697,7 +699,7 @@ class  Order extends  Controller
                 $goods_bool = Goods::getDistributionStatus($commodity_id);
                 if($goods_bool){
                     $count_money = Goods::getDistributionPrice($commodity_id,$goods_bool,$all_moneyes);
-                    $data = [
+                    $data_info_goods = [
                         'member_id'=>$user_id,
                         'id'=>$res,
                         'parts_order_number'=>$order_datas['parts_order_number'],
@@ -708,9 +710,8 @@ class  Order extends  Controller
                         'status'=>0,
                         
                     ];                                               
-                    OrderModel::createOrder($data);
-                } 
-                
+                    OrderModel::createOrder($data_info_goods);
+                }                
                 exit(json_encode(array("status" => 1, "info" => "下单成功","data"=>$order_datas,"authority"=>$authority)));
                 }else{
                     return ajax_error('失败',['status'=>0]);

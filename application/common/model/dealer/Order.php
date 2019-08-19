@@ -6,6 +6,7 @@ use think\Hook;
 use app\common\model\BaseModel;
 use app\common\enum\OrderType as OrderTypeEnum;
 use app\admin\model\Commodity  as Commodity;
+use app\common\model\dealer\Setting as Settings;
 const Setting = 2;
 /**
  * 分销商订单模型
@@ -243,32 +244,36 @@ class Order extends BaseModel
      */
     public static function createOrder(&$order,$order_type=10)
     {
-        // 分销订单模型
-        $model = new self;
-        // 获取当前买家的所有上级分销商用户id
-        $dealerUser = $model->getDealerUserId($order['member_id'], Setting);
-        // 计算订单分销佣金
-        $capital = $model->getCapitalByOrder($order);
-        // 保存分销订单记录
-    
-        return $model->save([
-            'user_id' => $order['member_id'],
-            'order_id' => $order['id'],
-            'order_type' => $order_type,
-            'order_no' => $order['parts_order_number'],  
-            'order_price' => $capital['orderPrice'],
-            'first_money' => max($capital['first_money'], 0),
-            'second_money' => max($capital['second_money'], 0),
-            'third_money' => max($capital['third_money'], 0),
-            'first_integral' => max($capital['first_integral'], 0),
-            'second_integral' => max($capital['second_integral'], 0),
-            'third_integral' => max($capital['third_integral'], 0),
-            'first_user_id' => $dealerUser['first_user_id'],
-            'second_user_id' => $dealerUser['second_user_id'],
-            'third_user_id' => $dealerUser['third_user_id'],
-            'is_settled' => 0,
-            'wxapp_id' => $order['store_id']
-        ]);
+        //是否符合高级分销条件
+        $rest = Settings::isMemberRank($order);
+        if($rest){
+            // 分销订单模型
+            $model = new self;
+            // 获取当前买家的所有上级分销商用户id
+            $dealerUser = $model->getDealerUserId($order['member_id'], Setting);
+            // 计算订单分销佣金
+            $capital = $model->getCapitalByOrder($order);
+            // 保存分销订单记录
+
+            return $model->save([
+                'user_id' => $order['member_id'],
+                'order_id' => $order['id'],
+                'order_type' => $order_type,
+                'order_no' => $order['parts_order_number'],  
+                'order_price' => $capital['orderPrice'],
+                'first_money' => max($capital['first_money'], 0),
+                'second_money' => max($capital['second_money'], 0),
+                'third_money' => max($capital['third_money'], 0),
+                'first_integral' => max($capital['first_integral'], 0),
+                'second_integral' => max($capital['second_integral'], 0),
+                'third_integral' => max($capital['third_integral'], 0),
+                'first_user_id' => $dealerUser['first_user_id'],
+                'second_user_id' => $dealerUser['second_user_id'],
+                'third_user_id' => $dealerUser['third_user_id'],
+                'is_settled' => 0,
+                'wxapp_id' => $order['store_id']
+            ]);
+        }
     }
 
     /**

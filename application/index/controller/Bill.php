@@ -14,8 +14,10 @@ use think\Controller;
 use think\Request;
 use think\Db;
 use app\admin\model\Goods;
+use\app\admin\model\MemberGrade;
 use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
+use app\common\model\dealer\Setting;
 class Bill extends Controller{
 
 
@@ -28,24 +30,28 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-
-            $data = [
-                'member_id'=>1144,
-                'id'=>2133,
-                'parts_order_number'=>'ZY201907231129002145',
-                'goods_id'=>[243,265,295],
-                'store_id'=>6,
-                'order_amount'=>[200,100,100],
-                'goods_money'=>400,
-                'status'=>0,
+            // $wxapp_id = 6;
+            // $hhh = MemberGrade::getLowestMember($wxapp_id);
+            // halt($hhh);
+            // $rest = Setting::getItem($wxapp_id);
+            // halt($rest);
+            // $data = [
+            //     'member_id'=>1144,
+            //     'id'=>2133,
+            //     'parts_order_number'=>'ZY201907231129002145',
+            //     'goods_id'=>[243,265,295],
+            //     'store_id'=>6,
+            //     'order_amount'=>[200,100,100],
+            //     'goods_money'=>400,
+            //     'status'=>0,
                 
-            ];
+            // ];
     
     
-            OrderModel::createOrder($data);
-            $order_type = Db::name("order")->where("parts_order_number",$data["parts_order_number"])->find();
-            $order = GoodsOrder::getOrderInforMation($order_type);
-            $model = OrderModel::grantMoney($order);
+            // OrderModel::createOrder($data);
+            // $order_type = Db::name("order")->where("parts_order_number",$data["parts_order_number"])->find();
+            // $order = GoodsOrder::getOrderInforMation($order_type);
+            // $model = OrderModel::grantMoney($order);
             // halt(Order::grantMoney($data));
         }
         
