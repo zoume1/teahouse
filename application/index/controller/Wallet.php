@@ -32,8 +32,7 @@ class  Wallet extends  Controller{
                 ->find();
             if(!empty($data)){
                 //提现配置信息
-                $cash_info =Db::name("withdrawal")->where("id",1)->select();
-
+                $cash_info =Db::name("withdrawal")->where("id",1)->find();
                 $datas =[
                     "member_wallet"=>$data["member_wallet"]+$data["member_recharge_money"],//总共的余额
                     "member_integral_wallet"=>$data["member_integral_wallet"],//积分
@@ -205,7 +204,7 @@ class  Wallet extends  Controller{
             // $bank_card =$request->only(["bank_card"])["bank_card"];   //银行卡号
             //统计用户一日内提现的金额以及笔数
             //1.获取提现的参数配置
-            $cash_info =Db::name("withdrawal")->where("id",1)->select();
+            $cash_info =Db::name("withdrawal")->where("id",1)->find();
             //2.获取提现的记录
             $where['user_id']=$member_id;
             $start_time=date('Y-m-d');
