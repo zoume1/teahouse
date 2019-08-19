@@ -55,7 +55,7 @@
                     <p class="title">全部商品</p>
                     <select id="screen"
                         @change="selectScreen">
-                        <option value="选择商品分类">选择商品分类</option>
+                        <option value="">选择商品分类</option>
                         <option v-for="(v, i) in screenList"
                             :value="v">{{v}}</option>
                     </select>
@@ -155,10 +155,14 @@
                 },
                 // 搜索 确定
                 filterScreen: function(){
+                    var _this = this;
                     this.$http.post('added_service_search', {
                         product_type: this.selectScreenVal
                     }).then(function(res){
                         console.log(res);
+                        if(res.body.status == 1){
+                            _this.allGoodsList = res.body.data;
+                        }
                     }, function(res){
                         console.log(res.status, res.statusText);
                     })

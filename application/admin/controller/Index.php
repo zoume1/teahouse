@@ -198,7 +198,44 @@ class Index extends Controller
     }
     /**
      * lilu
-     * 判断
+     * 判断订单待发货，发起售后（提示音）
      */
+    public function informationhint(){
+        //获取店铺消息
+        $store_id =Session::get('store_id');
+        //判断session是否存在（待发货）
+        $where['status']=array('between',array(2,3));
+        $where['store_id']=$store_id;
+        $number=db('order')->where($where)->count();
+        if(empty(Session::get('daifa'.$store_id))){
+             Session::set('daifu'.$store_id,$number);
+             $pp=0;
+        }else{
+            if($number > Session::get('daifu'.$store_id)){
+                Session::set('daifu'.$store_id,$number);
+                $pp=1;
+            }else{
+                $pp=0;
+            }
+        }
+        //售后申请
+        //判断session是否存在（待发货）
+        $where['status']=1;
+        $where['store_id']=$store_id;
+        $number2=db('after_sale')->where($where)->count();
+        if(empty(Session::get('shouhou'.$store_id))){
+             Session::set('shouhou'.$store_id,$number2);
+             $pp=0;
+        }else{
+            if($number2 > Session::get('shouhou'.$store_id)){
+                Session::set('shouhou'.$store_id,$number2);
+                $pp=1;
+            }else{
+                $pp=0;
+            }
+        }
+        return ajax_success('获取成功',$pp);
+
+    }
     
 }

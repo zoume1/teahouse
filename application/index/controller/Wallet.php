@@ -31,10 +31,15 @@ class  Wallet extends  Controller{
                 ->field("member_wallet,member_integral_wallet,member_recharge_money")
                 ->find();
             if(!empty($data)){
+                //提现配置信息
+                $cash_info =Db::name("withdrawal")->where("id",1)->find();
                 $datas =[
                     "member_wallet"=>$data["member_wallet"]+$data["member_recharge_money"],//总共的余额
                     "member_integral_wallet"=>$data["member_integral_wallet"],//积分
                     "member_recharge_money" =>$data["member_recharge_money"],//可提现金额
+                    "min_money" =>$cash_info["min_money"],//最小金额
+                    "day_max_money" =>$cash_info["day_max_money"],//最大金额
+                    "service_charge" =>$cash_info["service_charge"],//最大金额
                 ];
                 return ajax_success("余额信息返回成功",$datas);
             }else{
@@ -193,11 +198,28 @@ class  Wallet extends  Controller{
     public function withdrawal(Request $request){
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];   //会员id
-            $money =$request->only(["money"])["money"];               //金额
-            $user_name =$request->only(["user_name"])["user_name"];
-            $bank_name =$request->only(["bank_name"])["bank_name"];   //银行名称
-            $bank_card =$request->only(["bank_card"])["bank_card"];   //银行卡号
-            // $code =$request->only(["code"])["code"];
+            // $money =$request->only(["money"])["money"];               //金额
+            // $user_name =$request->only(["user_name"])["user_name"];
+            // $bank_name =$request->only(["bank_name"])["bank_name"];   //银行名称
+            // $bank_card =$request->only(["bank_card"])["bank_card"];   //银行卡号
+            //统计用户一日内提现的金额以及笔数
+            //1.获取提现的参数配置
+            $cash_info =Db::name("withdrawal")->where("id",1)->find();
+            //2.获取提现的记录
+            $where['user_id']=$member_id;
+            $start_time=date('Y-m-d');
+            $end_time=date('Y-m-d H:i:s');
+            $where['operation_time']=array('between',array($start_time,$end_time));
+            $num=db('recharge_reflect')->where($where)->count();   //今日提现的笔数
+            $money=round( db('recharge_reflect')->where($where)->sum('operation_amount'),2);   //今日提现的笔数
+            //判断提现次数
+            if($num>$cash_info['day_frequency']-1){
+                return ajax_error('今日提现次数已用完');
+            }
+            //判断每日最高金额
+            if($money >$cash_info['day_max_money']){
+                return ajax_error('今日可提现金额已用完');
+            }
             $member_recharge_money =Db::name("member")
                 ->where("member_id",$member_id)
                 ->value("member_recharge_money");     //会员余额
