@@ -79,37 +79,35 @@
 			}
 		})
 		//获取消息提醒
-		var store_id={$store_id};
-		if(store_id>0){
+		var store_id = {$store_id};
+		if (store_id > 0) {
 			//店铺端
 			$.ajax({
-				url:'{:url("admin/index/get_info_store")}',
-				type:'post',
-				data:{
-					"store_id":store_id,
+				url: '{:url("admin/index/get_info_store")}',
+				type: 'post',
+				data: {
+					"store_id": store_id,
 				},
-				success : function (data){
+				success: function (data) {
 					var data = JSON.parse(data);
-					if(data.status == 1){
+					if (data.status == 1) {
 						var str = '';
 						var num = 0;
-						data.data.forEach(function(v, i){
+						data.data.forEach(function (v, i) {
 							num += v.number;
-							if(v.type == 0){
-								str += '<li class="dropdown-item"><a class="header-url" data-id="'+v.id+'" data-value="/admin/order_index" data-url="/admin/order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">'+v.number+ '</span>个<span class="red">普通</span>订单流程需及时处理</a></li>'
-							}else if(v.type == 1){
-								str += '<li class="dropdown-item"><a class="header-url" data-id="'+v.id+'" data-value="/admin/crowd_order_index" data-url="/admin/crowd_order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">'+v.number+'</span>个<span class="red">众筹</span>订单流程需及时处理</a></li>'
-							}else{
-								str += '<li class="dropdown-item"><a class="header-url" data-id="'+v.id+'" data-value="/admin/refund_protection_index" data-url="/admin/refund_protection_index.html" href="javascript:void(0);">[订单] 您有<span class="red">'+v.number+'</span>个<span class="red">售后</span>订单流程需及时处理</a></li>'
+							if (v.type == 0) {
+								str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/order_index" data-url="/admin/order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">' + v.number + '</span>个<span class="red">普通</span>订单流程需及时处理</a></li>'
+							} else if (v.type == 1) {
+								str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/crowd_order_index" data-url="/admin/crowd_order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">' + v.number + '</span>个<span class="red">众筹</span>订单流程需及时处理</a></li>'
+							} else {
+								str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/refund_protection_index" data-url="/admin/refund_protection_index.html" href="javascript:void(0);">[订单] 您有<span class="red">' + v.number + '</span>个<span class="red">售后</span>订单流程需及时处理</a></li>'
 							}
 						})
 						$('.dropdown').append(str);
-						$('.message').append('<em class="unread">'+num+'</em>');
+						$('.message').append('<em class="unread">' + num + '</em>');
 
-						$('.header-url').click(function(){
+						$('.header-url').click(function () {
 							var url = $(this).data('url');
-							// var value = $(this).data("value");
-							// setCookie("item_id", value);
 							$.ajax({
 								type: "get",
 								url: url,
@@ -119,101 +117,160 @@
 								}
 							});
 						})
-
 					}
 				}
 			})
-
-		}else{
+		} else {
 			//总控端  get_info_zong
 			$.ajax({
-				url:'{:url("admin/index/get_info_zong")}',
-				type:'post',
-				success : function (data){
+				url: '{:url("admin/index/get_info_zong")}',
+				type: 'post',
+				success: function (data) {
 					console.log(JSON.parse(data));
 				}
 			})
-
 		}
-		// alert(store_id);
 	})
+
+	$(document).ready(function () {
+		var it = setInterval(function () {
+			refreshCount()
+		}, 3000);
+
+		function refreshCount() {
+			$.ajax({
+				type: 'POST',
+				url: "informationhint",
+				dataType: 'json',
+				success: function (data) {
+					console.log(data);
+					if (data.data.czsq == 6) {
+						ring();
+						// $.ajax({
+						// 	type: 'POST',
+						// 	url: "{:url('admin/indextInformationHint')}",
+						// 	data: { "name": "wxcz" },
+						// 	dataType: 'json',
+						// 	async: true,
+						// 	success: function (data) {
+						// 	},
+						// 	error: function () {
+						// 		console.log('失败')
+						// 	}
+						// });
+					}
+
+				},
+				error: function () {
+					console.log('失败')
+				}
+			})
+		}
+	});
+
+	function times() {
+		var audioElement = document.createElement('audio');
+		audioElement.setAttribute('src', '__STATIC__/admin/music/orderprompt.mp3');
+		audioElement.setAttribute('autoplay', 'autoplay'); //打开自动播放
+		setTimeout(function () {
+			audioElement.pause();
+		}, 5000);
+	}
+	function ring() {
+		times();
+		var t2 = setInterval(function () {
+			times()
+		}, 10000);
+
+		setTimeout(function () {
+			clearInterval(t2);
+		}, 60000);
+	}
+
 </script>
 <style>
-.message:hover .dropdown{
-	display: block;
-}
-.dropdown {
-	display: none;
-	position: absolute;
-	top: 45px;
-	left: -600%;
-	width: 320px;
-	max-width: 320px;
-	padding: 10px 0 20px;
-	margin: 5px 0;
-	background-color: #FFF;
-	border: 1px solid #EBEEF5;
-	border-radius: 4px;
-	-webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
-	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
-}
+	.message:hover .dropdown {
+		display: block;
+	}
 
-.dropdown .dropdown-item {
-	list-style: none;
-	line-height: 36px;
-	padding: 0 20px;
-	margin: 0;
-	font-size: 14px;
-	cursor: pointer;
-	outline: 0;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-}
-.dropdown .dropdown-item a{
-	color: #606266;
-}
-.dropdown .popper__arrow{
-	border-bottom-color: #fff;
-	border-width: 10px;
-	top: -20px;
-	margin-left: -10px;
-}
-.dropdown .clearall{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	height: 20px;
-	line-height: 20px;
-	padding: 0 20px;
-	text-align: right;
-	color: #606266;
-	background-color: #f1f1f1;
-	cursor: pointer;
-}
-.dropdown .red{
-	color: #F00;
-}
-.unread{
-	position: absolute;
-	top: 10px;
-	right: -5px;
-	border-radius: 10px;
-	background-color: #e62d31;
-	text-align: center;
-	line-height: normal;
-	font-size: 14px;
-	animation: unicon .5s linear alternate infinite;
-	font-style: normal;
-}
-@keyframes unicon {
-	from{
+	.dropdown {
+		display: none;
+		position: absolute;
+		top: 45px;
+		left: -600%;
+		width: 320px;
+		max-width: 320px;
+		padding: 10px 0 20px;
+		margin: 5px 0;
+		background-color: #FFF;
+		border: 1px solid #EBEEF5;
+		border-radius: 4px;
+		-webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+	}
+
+	.dropdown .dropdown-item {
+		list-style: none;
+		line-height: 36px;
+		padding: 0 20px;
+		margin: 0;
+		font-size: 14px;
+		cursor: pointer;
+		outline: 0;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	.dropdown .dropdown-item a {
+		color: #606266;
+	}
+
+	.dropdown .popper__arrow {
+		border-bottom-color: #fff;
+		border-width: 10px;
+		top: -20px;
+		margin-left: -10px;
+	}
+
+	.dropdown .clearall {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 20px;
+		line-height: 20px;
+		padding: 0 20px;
+		text-align: right;
+		color: #606266;
+		background-color: #f1f1f1;
+		cursor: pointer;
+	}
+
+	.dropdown .red {
+		color: #F00;
+	}
+
+	.unread {
+		position: absolute;
+		top: 10px;
+		right: -5px;
+		border-radius: 10px;
 		background-color: #e62d31;
+		text-align: center;
+		line-height: normal;
+		font-size: 14px;
+		animation: unicon .5s linear alternate infinite;
+		font-style: normal;
 	}
-	to{
-		background-color: #e62d3069;
-	}
-}
 
+	@keyframes unicon {
+		from {
+			background-color: #e62d31;
+		}
+
+		to {
+			background-color: #e62d3069;
+		}
+	}
 </style>
