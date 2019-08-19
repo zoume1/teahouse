@@ -418,6 +418,7 @@ Route::group("admin",[
     "shop_store_date"=>"admin/index/shop_store_date",         //进入店铺后台显示但前使用版本及日期
     "get_info_store"=>"admin/index/get_info_store",           //店铺后台获取消息
     "get_info_zong"=>"admin/index/get_info_zong",             //总控后台获取消息
+    "informationhint"=>"admin/index/informationhint",         //总控后台判断消息提醒
 
     /* 后台首页 */
     "home_index"=>"admin/Home/index",
