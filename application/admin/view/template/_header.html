@@ -133,14 +133,14 @@
 	})
 
 	$(document).ready(function () {
-		// var it = setInterval(function () {
-		// 	refreshCount()
-		// }, 3000);
+		var it = setInterval(function () {
+			refreshCount()
+		}, 3000);
 
 		function refreshCount() {
 			$.ajax({
 				type: 'POST',
-				url: "informationhint",
+				url:'{:url("admin/index/informationhint")}',
 				dataType: 'json',
 				success: function (data) {
 					console.log(data);

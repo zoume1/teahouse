@@ -205,13 +205,14 @@ class Index extends Controller
         $store_id =Session::get('store_id');
         //判断session是否存在（待发货）
         $where['status']=array('between',array(2,3));
-        $where['store_id']=$stpre_id;
+        $where['store_id']=$store_id;
         $number=db('order')->where($where)->count();
         if(empty(Session::get('daifa'.$store_id))){
              Session::set('daifu'.$store_id,$number);
              $pp=0;
         }else{
-            if($number == Session::get('daifu'.$store_id)){
+            if($number > Session::get('daifu'.$store_id)){
+                Session::set('daifu'.$store_id,$number);
                 $pp=1;
             }else{
                 $pp=0;
@@ -220,13 +221,14 @@ class Index extends Controller
         //售后申请
         //判断session是否存在（待发货）
         $where['status']=1;
-        $where['store_id']=$stpre_id;
+        $where['store_id']=$store_id;
         $number2=db('after_sale')->where($where)->count();
         if(empty(Session::get('shouhou'.$store_id))){
              Session::set('shouhou'.$store_id,$number2);
              $pp=0;
         }else{
-            if($number2 == Session::get('shouhou'.$store_id)){
+            if($number2 > Session::get('shouhou'.$store_id)){
+                Session::set('shouhou'.$store_id,$number2);
                 $pp=1;
             }else{
                 $pp=0;
