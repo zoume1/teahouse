@@ -415,7 +415,7 @@
 	.zt_greed {
 		color: rgb(102, 153, 0);
 	}
-	.beizhu {color: rgb(255, 177, 201);margin:0 0 10px 10px ;}
+	.beizhu {color: rgb(255, 177, 201);margin:110px 0 10px 10px ;}
 	.chat_1{height: 110px;}
 	.fl_text{float: left;font-weight: 700;font-size: 20px;}
 	.fr_text{float: right;color: rgb(254, 151, 80);}
@@ -434,7 +434,7 @@
 <body>
 
 	{block name="content"}
-	<!-- <div class="popup popup_one noshow">
+	<div class="popup popup_one noshow">
 		<div class="popup_doms">
 			<div class="popup_title">
 				处理回复（个人信息处有提示信息）
@@ -469,8 +469,8 @@
 				</div>
 			</div>
 		</div>
-	</div> -->
-	<div class="popup popup_one noshow">
+	</div>
+	<!-- <div class="popup popup_one noshow">
 		<div class="popup_doms">
 			<div class="popup_title">
 				处理回复（个人信息处有提示信息）
@@ -502,21 +502,7 @@
 				<div class="operation"></div>
 				<div class="beizhu">备注：如果是客户购物车多订单下单，此处已合并发票金额，只开一张发票即可</div>
 				<div class="chenge_money" data-id="">
-					<!-- <div class="zt noshow">
-						<div style=" display:flex;">
-							<div style="color: rgb(168, 134, 148);text-align: center; font-size: 18px;margin: auto;">
-								自提点：</div>
-							<div style=" font-size: 18px;margin-left: 20px;align-items: center;">
-								<div style="text-align: left;"><span></span>北京8号</span><span style="margin-left: 20px;">075-5569116</span></div>
-								<div>数据库连接后发货的价格</div>
-							</div>
-						</div>
-						<div style="margin-left:45px;">
-							<button class="layui-btn changePrice"
-								style="background-color:rgb(22, 155, 213);border-radius: 5px;">确定发货</button>
-						</div>
-					</div>
-					<div class="zy"> -->
+					
 					<div style="position:relative; margin-right: 100px;">
 						订单金额 <input type="text" name="amount" readonly autocomplete="off" class="layui-input"
 							style="width:150px;"><span class="danwei">元</span>
@@ -530,11 +516,10 @@
 						<button class="layui-btn changePrice"
 							style="background-color:rgb(22, 155, 213);border-radius: 5px;">确定改价</button>
 					</div>
-					<!-- </div> -->
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<div class="popup popup_two noshow">
 		<div class="popup_doms1">
 			<div id="dvMain">
@@ -1233,6 +1218,7 @@
 			}
 
 		});
+		//开票
 		$(".static_btus1").click(function () {
 			$(".popup_one").removeClass("noshow");
 			var data_id = $(this).data("id");
@@ -1267,7 +1253,6 @@
 					</div>
 
 				</div>
-				<div class="chat_1"></div>
 				<div class="operation"></div>
 				<div class="beizhu">备注：如果是客户购物车多订单下单，此处已合并发票金额，只开一张发票即可</div>
 				<div class="chenge_money">
