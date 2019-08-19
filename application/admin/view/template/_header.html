@@ -133,9 +133,9 @@
 	})
 
 	$(document).ready(function () {
-		var it = setInterval(function () {
-			refreshCount()
-		}, 3000);
+		// var it = setInterval(function () {
+		// 	refreshCount()
+		// }, 3000);
 
 		function refreshCount() {
 			$.ajax({
@@ -146,20 +146,7 @@
 					console.log(data);
 					if (data.data.czsq == 6) {
 						ring();
-						// $.ajax({
-						// 	type: 'POST',
-						// 	url: "{:url('admin/indextInformationHint')}",
-						// 	data: { "name": "wxcz" },
-						// 	dataType: 'json',
-						// 	async: true,
-						// 	success: function (data) {
-						// 	},
-						// 	error: function () {
-						// 		console.log('失败')
-						// 	}
-						// });
 					}
-
 				},
 				error: function () {
 					console.log('失败')
