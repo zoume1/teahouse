@@ -927,6 +927,7 @@ Route::group("admin",[
     "store_write_receipt"=>"admin/General/store_write_receipt",//后台店铺申请开发票
     "store_receipt_now"=>"admin/General/store_receipt_now",//后台店铺立即开发票
     "store_order"=>"admin/General/store_order",//增值订单
+    "store_order_search"=>"admin/General/store_order_search",//增值订单搜索
     "store_order_after"=>"admin/General/store_order_after",//售后维权
     "store_order_after_ing"=>"admin/General/store_order_after_ing",//售后维权申请中
     "store_order_after_refuse"=>"admin/General/store_order_after_refuse",//售后维权已拒绝

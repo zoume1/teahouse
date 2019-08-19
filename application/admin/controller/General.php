@@ -2689,6 +2689,101 @@ class  General extends  Base {
     }
 
  
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:增值订单
+     **************************************
+     */
+    public function store_order_search(){
+        $parst_order_number = input("parts_order_number") ? input("parts_order_number"):null ;//订单号
+        $start_time = input("start_time") ? strtotime(input("start_time")):null;//开始时间
+        $end_time = input("end_time")?strtotime(date('Y-m-d H:i:s',strtotime(input("end_time"))+1*24*60*60)):null;//结束时间
+        $store_id = Session::get('store_id');
+
+        if((!empty($parst_order_number)) && (!empty($start_time)) && (!empty($end_time))){
+            $time_condition  = "order_create_time>{$start_time} and order_create_time< {$end_time}";
+            $data = Db::name("adder_order")
+                    ->where("store_id",$store_id)
+                    ->where("parts_order_number",'=',$parst_order_number)
+                    ->where("status",'>',1)
+                    ->where($time_condition)
+                    ->order('order_create_time desc')
+                    ->paginate(20,false, [
+                        'query' => request()->param(),
+                    ]); 
+        } else if((empty($parst_order_number)) && (!empty($start_time)) && (!empty($end_time))){
+            $time_condition  = "order_create_time>{$start_time} and order_create_time< {$end_time}";
+            $data = Db::name("adder_order")
+                    ->where("store_id",$store_id)
+                    ->where("status",'>',1)
+                    ->where($time_condition)
+                    ->order('order_create_time desc')
+                    ->paginate(20,false, [
+                        'query' => request()->param(),
+                    ]); 
+        } else if((!empty($parst_order_number)) && (empty($start_time)) && (!empty($end_time))){
+            $time_condition  = "order_create_time< {$end_time}";
+            $data = Db::name("adder_order")
+                    ->where("store_id",$store_id)
+                    ->where("parts_order_number",'=',$parst_order_number)
+                    ->where("status",'>',1)
+                    ->where($time_condition)
+                    ->order('order_create_time desc')
+                    ->paginate(20,false, [
+                        'query' => request()->param(),
+                    ]); 
+        } else if((!empty($parst_order_number)) && (!empty($start_time)) && (empty($end_time))){
+            $time_condition  = "order_create_time>{$start_time}";
+            $data = Db::name("adder_order")
+                    ->where("store_id",$store_id)
+                    ->where("parts_order_number",'=',$parst_order_number)
+                    ->where("status",'>',1)
+                    ->where($time_condition)
+                    ->order('order_create_time desc')
+                    ->paginate(20,false, [
+                        'query' => request()->param(),
+                    ]); 
+        } else if((!empty($parst_order_number)) && (empty($start_time)) && (empty($end_time))){
+            $data = Db::name("adder_order")
+                    ->where("store_id",$store_id)
+                    ->where("parts_order_number",'=',$parst_order_number)
+                    ->where("status",'>',1)
+                    ->order('order_create_time desc')
+                    ->paginate(20,false, [
+                        'query' => request()->param(),
+                    ]); 
+        } else if((empty($parst_order_number)) && (!empty($start_time)) && (empty($end_time))){
+            $time_condition  = "order_create_time>{$start_time}";
+            $data = Db::name("adder_order")
+                    ->where("store_id",$store_id)
+                    ->where("status",'>',1)
+                    ->where($time_condition)
+                    ->order('order_create_time desc')
+                    ->paginate(20,false, [
+                        'query' => request()->param(),
+                    ]); 
+        } else if((empty($parst_order_number)) && (empty($start_time)) && (!empty($end_time))){
+            $time_condition  = "order_create_time<{$end_time}";
+            $data = Db::name("adder_order")
+                    ->where("store_id",$store_id)
+                    ->where($time_condition)
+                    ->where("status",'>',1)
+                    ->order('order_create_time desc')
+                    ->paginate(20,false, [
+                        'query' => request()->param(),
+                    ]); 
+        } else if((empty($parst_order_number)) && (empty($start_time)) && (empty($end_time))){
+            $data = Db::name("adder_order")
+                    ->where("store_id",$store_id)
+                    ->where("status",'>',1)
+                    ->order('order_create_time desc')
+                    ->paginate(20,false, [
+                        'query' => request()->param(),
+                    ]); 
+        }
+        return view("store_order",["data"=>$data]);
+    }
 
 
 
