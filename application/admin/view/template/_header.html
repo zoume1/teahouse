@@ -135,7 +135,7 @@
 	$(document).ready(function () {
 		var it = setInterval(function () {
 			refreshCount()
-		}, 3000);
+		}, 5000);
 
 		function refreshCount() {
 			$.ajax({
@@ -143,9 +143,8 @@
 				url:'{:url("admin/index/informationhint")}',
 				dataType: 'json',
 				success: function (data) {
-					console.log(data);
-					if (data.data.czsq == 6) {
-						ring();
+					if (data.data == 1) {
+						times();
 					}
 				},
 				error: function () {
@@ -157,21 +156,11 @@
 
 	function times() {
 		var audioElement = document.createElement('audio');
-		audioElement.setAttribute('src', '__STATIC__/admin/music/orderprompt.mp3');
-		audioElement.setAttribute('autoplay', 'autoplay'); //打开自动播放
+		audioElement.setAttribute('src', '__STATIC__/admin/orderprompt.mp3');
+		audioElement.play();
 		setTimeout(function () {
 			audioElement.pause();
-		}, 5000);
-	}
-	function ring() {
-		times();
-		var t2 = setInterval(function () {
-			times()
-		}, 10000);
-
-		setTimeout(function () {
-			clearInterval(t2);
-		}, 60000);
+		}, 3200);
 	}
 
 </script>
