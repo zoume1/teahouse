@@ -140,7 +140,7 @@
 		function refreshCount() {
 			$.ajax({
 				type: 'POST',
-				url: "informationhint",
+				url:'{:url("admin/index/informationhint")}',
 				dataType: 'json',
 				success: function (data) {
 					console.log(data);
