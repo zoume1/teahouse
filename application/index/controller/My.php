@@ -70,7 +70,7 @@ class My extends Controller
                  //获取用户的信息
                 //获取携带参数的小程序的二维码
                 $page='pages/logs/logs';
-                $qrcode=$this->mpcode($page,$member_information['member_id'],$member_information['member_id']);
+                $qrcode=$this->mpcode($page,$member_information['member_id'],$store_id);
                 //把qrcode文件写进文件中，使用的时候拿出来
                 $dateFile =$store_id . "/";  //创建目录
                 $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.$member_information['member_id'].'.txt';
