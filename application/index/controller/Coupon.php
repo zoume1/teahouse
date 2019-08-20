@@ -217,7 +217,7 @@ class Coupon extends Controller
             // $goods_id = $datas['goods_id'];
             
             // $goods_id=array(
-            //     '0'=>305,
+            //     '0'=>403,
             // );
             $open_id = $datas['open_id'];
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
@@ -245,7 +245,7 @@ class Coupon extends Controller
             //去除使用的优惠券
             foreach($coupon_info as $k3 =>$v3){
                     //判断优惠券是否使用
-                    $is_use=db('order')->where(['member_id'=>$member_id,'id'=>$v3['id']])->find();
+                    $is_use=db('order')->where(['member_id'=>$member_id,'coupon_id'=>$v3['id']])->find();
                     if($is_use){
                         unset($coupon_info[$k3]);
                         continue;
@@ -259,8 +259,10 @@ class Coupon extends Controller
                         unset($coupon_info[$k3]);
                         continue;
                     }
+                    $coupon_info[$k3]['suit_price2'] = explode(",",$coupon_info[$k3]['suit_price']);
 
             }
+           
             if (!empty($coupon_info)) {
                 return ajax_success('传输成功', $coupon_info);
             } else {
