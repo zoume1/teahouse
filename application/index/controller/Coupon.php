@@ -205,6 +205,7 @@ class Coupon extends Controller
     /**
      * [商品下单适用优惠券]
      * 郭杨
+     * uniacid
      */
     public function coupon_appropriated(Request $request)
     {
@@ -214,57 +215,56 @@ class Coupon extends Controller
             $datas = $request->param(); //包含goods_id and  open_id
             $goods_id = array_unique($datas['goods_id']);
             // $goods_id = $datas['goods_id'];
+            
+            // $goods_id=array(
+            //     '0'=>403,
+            // );
             $open_id = $datas['open_id'];
+            $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
             $money = $datas['money'];     //优惠价金额
             $member_grade_name = $datas['member_grade_name'];   //会员等级
-            $goods_type = $datas['coupon_type'];
-                     
-            $coupons = Db::name("coupon")->where("use_price","<=",$money)->where("store_id","EQ",$store_id)->where("coupon_type",$goods_type)->field('id,use_price,scope,start_time,end_time,money,suit,label,suit_price')->select();
-            $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
-            $coupon_id = Db::name("order")->where("member_id",$member_id)//已使用优惠券
-                        ->where("coupon_id",'<>',0)
-                        ->where("status",2)
-                        ->distinct($member_id)
-                        ->field("coupon_id")
-                        ->select();
-            if(count($coupon_id)>0){
-                foreach($coupon_id as $key => $value){
-                    foreach($value as $ke => $va){
-                        $rest[] = $va;
+            $goods_type = $datas['coupon_type'];  //商品类型   1  普通商品
+            //所有使用的优惠券    
+            foreach($goods_id as $k =>$v){
+                    $coupons = Db::name("coupon")->where("use_price","<=",$money)->where("store_id","EQ",$store_id)->where("coupon_type",$goods_type)->field('id,use_price,scope,start_time,end_time,money,suit,label,suit_price')->select();
+                    foreach($coupons as $k2 =>$v2){
+                        if($v2['suit']==1){   //部分商品
+                            //获取该商品可用的优惠券
+                            $pp=db('join')->where(['goods_id'=>$v,'coupon_id'=>$v2['id']])->select();
+                            if($pp){
+                                foreach($pp as $k4 =>$v4){
+                                    $coupon_info[]=db('coupon')->where('id',$v4['coupon_id'])->find();
+                                }
+                            }
+                        }else{
+                            //全部商品
+                            $coupon_info[]=$v2;
+                        }
                     }
-                }
-                foreach($coupons as $keyl => $valuel){
-                    if((!in_array($valuel['id'],$rest)) && !empty($valuel) ){  //判断优惠券是否已被使用
-                    $valuel['scope'] = explode(",",$valuel['scope']);
-                    $valuel['suit_price2'] = explode(",",$valuel['suit_price']);
-                    $valuel['start_time'] = strtotime($valuel['start_time']);
-                    $valuel['end_time'] = strtotime($valuel['end_time']);
-                    if(in_array($member_grade_name,$valuel['scope']) && $valuel['end_time'] > $time){ //判断是否在适用范围和是否过期
-                        $data[] = $valuel;
-                    } else {
-                        $data = array();
-                    }
-                } else {
-                    $data = array();
-                }
             }
-        
-        } else { //如果没有使用过
+            //去除使用的优惠券
+            foreach($coupon_info as $k3 =>$v3){
+                    //判断优惠券是否使用
+                    $is_use=db('order')->where(['member_id'=>$member_id,'coupon_id'=>$v3['id']])->find();
+                    if($is_use){
+                        unset($coupon_info[$k3]);
+                        continue;
+                    }
+                    //判断会员面向范围
+                    $scope = explode(",",$v3['scope']);
+                    //判断是否在适用范围和是否过期
+                    if(in_array($member_grade_name,$scope) && strtotime($v3['end_time']) > $time){ 
+                       
+                    }else{
+                        unset($coupon_info[$k3]);
+                        continue;
+                    }
+                    $coupon_info[$k3]['suit_price2'] = explode(",",$coupon_info[$k3]['suit_price']);
 
-                foreach($coupons as $key => $values){
-                    $values['scope'] = explode(",",$values['scope']);
-                    $values['suit_price2'] = explode(",",$values['suit_price']);
-                    $values['start_time'] = strtotime($values['start_time']);
-                    $values['end_time'] = strtotime($values['end_time']);
-                    $values['suit_price'] = explode(",",$values['suit_price']);
-                    if(in_array($member_grade_name,$values['scope']) && $values['end_time'] > $time){
-                        $data[] = $values;
-                    }
-                }
             }
-            
-            if (!empty($data)) {
-                return ajax_success('传输成功', $data);
+           
+            if (!empty($coupon_info)) {
+                return ajax_success('传输成功', $coupon_info);
             } else {
                 return ajax_error("没有适用优惠券"); 
             }   
