@@ -442,20 +442,23 @@
     <div class="wrapper">
         {include file="template/_top" /}
         <div class="inner">
+			<form class="layui-form" action="{:url('admin/General/store_order_search')}">
             <div class="search-hd">
                 <div class="search-box layui-form">
                     <div>
                         <label>订单编号</label>
-                        <input type="text" class="layui-input">
+                        <input type="text" name="parts_order_number" class="layui-input">
                     </div>
                     <div class="date-input">
                         <label>下单时间</label>
-                        <input type="text" data-type="date" id="searchDateStart">~
-                        <input type="text" data-type="date" id="searchDateend">
+                        <input type="text" data-type="date" name="start_time" id="searchDateStart">~
+                        <input type="text" data-type="date" name="end_time" id="searchDateend">
                     </div>
                     <button class="layui-btn">搜索</button>
                 </div>
-            </div>
+			</div>
+		</form>
+
             <div>
                 <a href="{:url('admin/Analyse/analyse_order')}" class="layui-btn layui-btn-mini">全部</a>
                 <a href="{:url('admin/Analyse/analyse_waiting')}" class="layui-btn layui-btn-mini btn-dfh">待发货</a>
