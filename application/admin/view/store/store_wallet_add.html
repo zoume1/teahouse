@@ -107,7 +107,7 @@
                             </div>
                             <div class="layui-form-item">
                                 <div class="layui-input-block">
-                                    <button class="layui-btn confirm  confirm2">确定</button>
+                                    <button class="layui-btn confirm confirm2">确定</button>
                                 </div>
                                 <p class="tips">单笔充值金额应不少于¥1000.00元</p>
                             </div>
@@ -342,26 +342,26 @@
         })
     })
     //  //银行转账提交
-    // function myAjax(params){
-    //     $.ajax({
-    //         url: 'OfflineRecharge',
-    //         type: 'POST',
-    //         dataType: 'JSON',
-    //         data: params,
-    //         success: function(res){
-    //             console.log(res);
-    //             if(res.status == 1){
-    //                 layer.msg(res.info);
-    //                 setTimeout(function(){
-    //                     location.reload();
-    //                 }, 1200);
-    //             }else{
-    //                 layer.msg(res.info);
-    //             }
-    //         },
-    //         error: function(){}
-    //     })
-    // }
+    function myAjax(params){
+        $.ajax({
+            url: 'OfflineRecharge',
+            type: 'POST',
+            dataType: 'JSON',
+            data: params,
+            success: function(res){
+                console.log(res);
+                if(res.status == 1){
+                    layer.msg(res.info);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1200);
+                }else{
+                    layer.msg(res.info);
+                }
+            },
+            error: function(){}
+        })
+    }
     
     //测试
    
