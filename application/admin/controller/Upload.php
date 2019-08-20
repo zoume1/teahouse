@@ -389,8 +389,8 @@ class Upload extends Controller
         }
         //判断是否已授权
         $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
-        $is_shou['qr_img']=$re;
         if($is_shou){
+            $is_shou['qr_img']=$re;
             return view('auth_detail',['data'=>$is_shou]);
         }else{
             //授权开始

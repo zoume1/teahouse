@@ -225,7 +225,7 @@
                     if (data.body.status == 1) {
                         // _this.myWindow = window.open();
                         // _this.myWindow.document.write(data.body.data.url);
-                        // $('body').append(data.body.data.url);
+                        $('body').append(data.body.data.url);
                         _this.aliPayInterval = setInterval(function(){
                             _this.monitorOnlinePay(data.body.data.orderid);
                         }, 2000)
@@ -238,7 +238,6 @@
                 var param = { order_number: orderNum };
                 var _this = this;
                 this.myAjax('check_code_apy', param, function (data) {
-                    // console.log(data);
                     console.log(data.body.status)
                     if (data.body.status == 1) {
                         layer.msg(data.body.info);
@@ -263,7 +262,6 @@
                     if (data.body.status == 1) {
                         _this.onlinePayImg = data.body.data.url;
                         _this.wxPayInterval = setInterval(function () {
-                            // _this.monitorOnlinePay(param.order_number);
                             _this.monitorOnlinePay(data.body.data.out_trade_no);
                         }, 2000)
                     }
@@ -281,6 +279,7 @@
             // 关闭支付弹窗
             closePop: function () {
                 clearInterval(this.wxPayInterval);
+                clearInterval(this.aliPayInterval);
                 this.wayFlag = false;
             },
         },
@@ -315,14 +314,15 @@
             for(var i = 0; i < 2; i++){
                 if(radio[i].checked){
                     var pay_type = radio[i].value;
-                    if(pay_type == 1){
-                        // 在线充值
-                        var params = {
-                            pay_type: pay_type,
-                            money: $('.online-item input[name=money]').val()
-                        }
-                        myAjax(params);
-                    }else if(pay_type == 2){
+                    // if(pay_type == 1){
+                    //     // 在线充值
+                    //     var params = {
+                    //         pay_type: pay_type,
+                    //         money: $('.online-item input[name=money]').val()
+                    //     }
+                    //     myAjax(params);
+                    // }else 
+                    if(pay_type == 2){
                         // 银行转账
                         var params = {
                             pay_type: pay_type,
@@ -331,6 +331,7 @@
                             create_time: $('input[name=create_time]').val(),
                             message: $('textarea[name=message]').val()
                         }
+                        console.log(params)
                         if(params.bank_icard_id && params.money && params.create_time && params.message){
                             myAjax(params);
                         }else{
@@ -354,7 +355,7 @@
                     layer.msg(res.info);
                     setTimeout(function(){
                         location.reload();
-                    }, 1200);
+                    }, 2500);
                 }else{
                     layer.msg(res.info);
                 }

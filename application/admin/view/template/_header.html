@@ -80,7 +80,7 @@
 		})
 		//获取消息提醒
 		var store_id = {$store_id};
-		if (store_id > 0) {
+		// if (store_id > 0) {
 			//店铺端
 			$.ajax({
 				url: '{:url("admin/index/get_info_store")}',
@@ -100,7 +100,7 @@
 							} else if (v.type == 1) {
 								str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/crowd_order_index" data-url="/admin/crowd_order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">' + v.number + '</span>个<span class="red">众筹</span>订单流程需及时处理</a></li>'
 							} else {
-								str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/refund_protection_index" data-url="/admin/refund_protection_index.html" href="javascript:void(0);">[订单] 您有<span class="red">' + v.number + '</span>个<span class="red">售后</span>订单流程需及时处理</a></li>'
+								str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/refund_protection_index" data-url="/admin/refund_protection_index.html" href="javascript:void(0);">[售后] 您有<span class="red">' + v.number + '</span>个<span class="red">售后</span>订单流程需及时处理</a></li>'
 							}
 						})
 						$('.dropdown').append(str);
@@ -120,16 +120,16 @@
 					}
 				}
 			})
-		} else {
-			//总控端  get_info_zong
-			$.ajax({
-				url: '{:url("admin/index/get_info_zong")}',
-				type: 'post',
-				success: function (data) {
-					console.log(JSON.parse(data));
-				}
-			})
-		}
+		// } else {
+		// 	//总控端  get_info_zong
+		// 	$.ajax({
+		// 		url: '{:url("admin/index/get_info_zong")}',
+		// 		type: 'post',
+		// 		success: function (data) {
+		// 			console.log(JSON.parse(data));
+		// 		}
+		// 	})
+		// }
 	})
 
 	$(document).ready(function () {
