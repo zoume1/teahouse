@@ -40,6 +40,7 @@ class Index extends Controller
                 ->where("store_id",$store_id)
                 ->value("id");
         }else{
+            $store_id=0;
             $phone_id =0;
         }
         
@@ -180,12 +181,12 @@ class Index extends Controller
     }
     /**
      * lilu
-     * 总控获取消息提醒
+     * 总控获取消息提醒---增值订单
+     * store_id 
      */
     public function get_info_zong(){
         //增值订单        adder_order
         $where['status']=array('between',array(2,3));
-        $where['store_id']=$input['store_id'];
         $z_order_number=db('adder_order')->where($where)->count();
         $data[0]['number']=$z_order_number;
         $data[0]['type']='0';
@@ -203,35 +204,55 @@ class Index extends Controller
     public function informationhint(){
         //获取店铺消息
         $store_id =Session::get('store_id');
-        //判断session是否存在（待发货）
-        $where['status']=array('between',array(2,3));
-        $where['store_id']=$store_id;
-        $number=db('order')->where($where)->count();
-        if(empty(Session::get('daifa'.$store_id))){
-             Session::set('daifu'.$store_id,$number);
-             $pp=0;
-        }else{
-            if($number > Session::get('daifu'.$store_id)){
-                Session::set('daifu'.$store_id,$number);
-                $pp=1;
-            }else{
+        if(empty($store_id)){
+            //总控---增值订单
+            $where['status']=array('between',array(2,3));
+            $z_order_number=db('adder_order')->where($where)->count();
+            if(empty(Session::get('zongk'))){
+                Session::set('zongk',$z_order_number);
                 $pp=0;
+            }else{
+                if($z_order_number > Session::get('zongk')){
+                    Session::set('zongk',$z_order_number);
+                    $pp=1;
+                }else{
+                    $pp=0;
+                }
             }
-        }
-        //售后申请
-        //判断session是否存在（待发货）
-        $where['status']=1;
-        $where['store_id']=$store_id;
-        $number2=db('after_sale')->where($where)->count();
-        if(empty(Session::get('shouhou'.$store_id))){
-             Session::set('shouhou'.$store_id,$number2);
-             $pp=0;
+            //总控---售后订单（先不做）
+
+
         }else{
-            if($number2 > Session::get('shouhou'.$store_id)){
-                Session::set('shouhou'.$store_id,$number2);
-                $pp=1;
+            //判断session是否存在（待发货）
+            $where['status']=array('between',array(2,3));
+            $where['store_id']=$store_id;
+            $number=db('order')->where($where)->count();
+            if(empty(Session::get('daifa'.$store_id))){
+                 Session::set('daifu'.$store_id,$number);
+                 $pp=0;
             }else{
-                $pp=0;
+                if($number > Session::get('daifu'.$store_id)){
+                    Session::set('daifu'.$store_id,$number);
+                    $pp=1;
+                }else{
+                    $pp=0;
+                }
+            }
+            //售后申请
+            //判断session是否存在（待发货）
+            $where['status']=1;
+            $where['store_id']=$store_id;
+            $number2=db('after_sale')->where($where)->count();
+            if(empty(Session::get('shouhou'.$store_id))){
+                 Session::set('shouhou'.$store_id,$number2);
+                 $pp=0;
+            }else{
+                if($number2 > Session::get('shouhou'.$store_id)){
+                    Session::set('shouhou'.$store_id,$number2);
+                    $pp=1;
+                }else{
+                    $pp=0;
+                }
             }
         }
         return ajax_success('获取成功',$pp);

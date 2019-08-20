@@ -80,7 +80,7 @@
 		})
 		//获取消息提醒
 		var store_id = {$store_id};
-		if (store_id > 0) {
+		// if (store_id > 0) {
 			//店铺端
 			$.ajax({
 				url: '{:url("admin/index/get_info_store")}',
@@ -120,16 +120,16 @@
 					}
 				}
 			})
-		} else {
-			//总控端  get_info_zong
-			$.ajax({
-				url: '{:url("admin/index/get_info_zong")}',
-				type: 'post',
-				success: function (data) {
-					console.log(JSON.parse(data));
-				}
-			})
-		}
+		// } else {
+		// 	//总控端  get_info_zong
+		// 	$.ajax({
+		// 		url: '{:url("admin/index/get_info_zong")}',
+		// 		type: 'post',
+		// 		success: function (data) {
+		// 			console.log(JSON.parse(data));
+		// 		}
+		// 	})
+		// }
 	})
 
 	$(document).ready(function () {
