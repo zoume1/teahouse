@@ -177,18 +177,34 @@ class Coupon extends Controller
             {
                 foreach($goods_id as $key=>$value)
                 {
-                    $goods[] = db("goods")->where("id",$value["goods_id"])->find(); //该商品是否上架                  
+                    //根据优惠券id判断商品类型
+                    $coupon_type = db("join")->where("coupon_id",$coupon_id)->where("label",1)->value('coupon_type');
+                    if($coupon_type=='1'){
+                        $goods[] = db("goods")->where("id",$value["goods_id"])->find(); //该商品是否上架                  
+                    }else{
+                        //众筹商品
+                        $re= db("crowd_goods")->where("id",$value["goods_id"])->find(); //该商品是否上架    
+                        $re['goods_standard'] ='2';  //多规格
+                        $goods[]=$re;           
+                    }
                 }
                 foreach ($goods as $k => $v)
                 {
-                    if($goods[$k]["goods_standard"] == 1){
+                    if($goods[$k]["goods_standard"] == 1){   //普通商品
                         $standard[$k] = db("special")->where("goods_id", $goods[$k]['id'])->select();
                         $max[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
                         $min[$k] = db("special")->where("goods_id", $goods[$k]['id'])-> min("price") * $discount;//最低价格
                         $goods[$k]["goods_standard"] = $standard[$k];
                         $goods[$k]["max_price"] = $max[$k];
                         $goods[$k]["min_price"] = $min[$k];
-                    } else {
+                    } elseif($goods[$k]["goods_standard"] == 2){  //众筹商品
+                        $standard[$k] = db("crowd_special")->where("goods_id", $goods[$k]['id'])->select();
+                        $max[$k] = db("crowd_special")->where("goods_id", $goods[$k]['id'])-> max("price") * $discount;//最高价格
+                        $min[$k] = db("crowd_special")->where("goods_id", $goods[$k]['id'])-> min("price") * $discount;//最低价格
+                        $goods[$k]["goods_standard"] = $standard[$k];
+                        $goods[$k]["max_price"] = $max[$k];
+                        $goods[$k]["min_price"] = $min[$k];
+                    }else {
                         $goods[$k]["goods_new_money"] = $goods[$k]["goods_new_money"] * $discount;
                     }
                 }                
@@ -217,7 +233,7 @@ class Coupon extends Controller
             // $goods_id = $datas['goods_id'];
             
             // $goods_id=array(
-            //     '0'=>403,
+            //     '0'=>305,
             // );
             $open_id = $datas['open_id'];
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
@@ -262,7 +278,7 @@ class Coupon extends Controller
                     $coupon_info[$k3]['suit_price2'] = explode(",",$coupon_info[$k3]['suit_price']);
 
             }
-           
+
             if (!empty($coupon_info)) {
                 return ajax_success('传输成功', $coupon_info);
             } else {
