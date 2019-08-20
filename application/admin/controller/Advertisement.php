@@ -389,7 +389,7 @@ class Advertisement extends Controller
         $store_id = Session::get("store_id");
         $time = time();
         $titles = input('titles')?input('titles'):null;
-        $ppd = input('ppd')?input('ppd'):null;
+        $pdd = input('ppd')?input('ppd'):null;
         $times = input('times')?input('times'):null;
         if($times == 1){
             $time_condition  = "start_time>{$time}";

@@ -65,7 +65,7 @@
                         <div class="seach_input">
                             {if !empty($goods)}
                             <select name="ppd" id="admin_role" class="role_list">
-								<option value="0">顶级</option>
+								<option value="">顶级</option>
 								{volist name="goods" id="vl"}
 								<option value="{$vl.id}">{$vl.name}</option>
 								{/volist}
@@ -78,6 +78,7 @@
                         <div class="seach_laber">状态</div>
                         <div class="seach_input">
                             <select name="times">
+                                <option  value="">请选择</option>  
                                 <option  value="1">未过期</option>  
                                 <option  value="2">过期</option>
 							</select>
