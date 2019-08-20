@@ -865,14 +865,16 @@ class Goods extends Controller
                     ->order("id desc")
                     ->select();
         } else if ((!empty($goods_number)) && (empty($pid))) {
+            $condition =" `goods_number` like '%{$goods_number}%' or `goods_name` like '%{$goods_number}%'";
             $goods = db("goods")
-                    ->where("goods_number",$goods_number)
+                    ->where($condition)
                     ->where("store_id","EQ",$store_id)
                     ->order("id desc")
                     ->select();
         } else if ((!empty($goods_number)) && (!empty($pid))) {
+            $condition =" `goods_number` like '%{$goods_number}%' or `goods_name` like '%{$goods_number}%'";
             $goods = db("goods")
-            ->where("goods_number",$goods_number)
+            ->where($condition)
             ->where("store_id","EQ",$store_id)
             ->where("pid",$pid)
             ->order("id desc")
@@ -1074,6 +1076,7 @@ class Goods extends Controller
                 $this->error("请添加规格值", url('admin/Goods/crowd_add'));
             } else {
                 $goods_id = db('crowd_goods')->insertGetId($goods);
+                $goods_number_id = $goods_id + 1000000;
                 $standard = implode(",", $result);
                 if (!empty($goods_data)) {
                     foreach ($goods_data as $kn => $nl) {
@@ -1152,6 +1155,7 @@ class Goods extends Controller
             foreach ($values as $kz => $vw) {
                 $rest = db('crowd_special')->insertGetId($vw);
             }
+            $boolte = db('crowd_goods')->where('id',$goods_id)->update(['goods_number'=>$goods_number]);
             if ($rest || $goods_id) {
                 $this->success("添加成功", url("admin/Goods/crowd_index"));
             } else {
@@ -1582,9 +1586,10 @@ class Goods extends Controller
         $goods_number = input('project_name');
         $store_id = Session::get("store_id");
         if(!empty($goods_number)){
+            $condition =" `goods_number` like '%{$goods_number}%' or `project_name` like '%{$goods_number}%'";
                $crowd_data = db("crowd_goods")
+                    ->where($condition)
                     ->where("store_id", $store_id)
-                    ->where("project_name",$goods_number)
                     ->select();
             } else {
                 $crowd_data = db("crowd_goods")->where("store_id", $store_id)->select();
@@ -1592,8 +1597,10 @@ class Goods extends Controller
       
         if(!empty($crowd_data)){
             foreach ($crowd_data as $key => $value) {
-                $sum[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->sum("price");//众筹金额
-                $crowd_data[$key]["sum_price"] = $sum[$key];
+                $min_price[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->min("cost");//金额
+                $min_stock[$key] = db("crowd_special")->where("goods_id", $crowd_data[$key]['id'])->min("stock");//数量
+                $crowd_data[$key]["min_price"] = sprintf("%.2f", $min_price[$key]);
+                $crowd_data[$key]["min_stock"] = $min_stock[$key];
             }
         }   
 
@@ -1603,6 +1610,9 @@ class Goods extends Controller
         return view("crowd_index",["crowd"=>$crowd]);
 
     }
+
+
+
 
 
 

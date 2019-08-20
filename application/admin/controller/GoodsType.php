@@ -205,8 +205,9 @@ class GoodsType extends Controller{
         $interest = input('interest'); //分类状态
         $store_id = Session::get("store_id");//店铺
 
-        if ((!empty($ppd)) || (!empty($interest))) {
-            $activ = db("wares")->where("pid", "like", "%" . $ppd . "%")->where('store_id','EQ',$store_id)->where("status", "like", "%" . $interest . "%")->select();
+        if (!empty($interest)) {
+            if($interest == 2){ $interest = 0;}
+            $activ = db("wares")->where("pid",$ppd)->where('store_id','EQ',$store_id)->where("status",$interest)->select();
             foreach ($activ as $key => $value) {
                 if ($value["pid"]) {
                     $res = db("wares")->where("id", $value['pid'])->field("name")->find();

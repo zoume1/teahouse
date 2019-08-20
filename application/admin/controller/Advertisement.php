@@ -47,7 +47,10 @@ class Advertisement extends Controller
         ]);
         $accessories->appends($_GET);
         $this->assign('access', $accessories->render());
-        return view("accessories_business_advertising", ["accessories" => $accessories]);
+        $goods = [];
+        $goods = getSelectListes("goods_type");
+        
+        return view("accessories_business_advertising", ["accessories" => $accessories,"goods"=>$goods]);
     }
 
 
@@ -374,6 +377,99 @@ class Advertisement extends Controller
             $this->assign('access', $data->render());
             return view("accessories_business_advertising", ["accessories" => $data]);
         }
+    }
+
+    /**
+     * [活动管理显示]
+     * 郭杨
+     */
+    public function accessories_advertising_search()
+    {
+
+        $store_id = Session::get("store_id");
+        $time = time();
+        $titles = input('titles')?input('titles'):null;
+        $ppd = input('ppd')?input('ppd'):null;
+        $times = input('times')?input('times'):null;
+        if($times == 1){
+            $time_condition  = "start_time>{$time}";
+        } elseif($times == 2){
+            $time_condition  = "start_time<{$time}";
+        }
+        if((!empty($titles)) && (!empty($ppd)) && (!empty($times))){
+            $accessories = db("teahost")
+            ->where("store_id","EQ",$store_id)
+            ->where("pid","EQ",$pdd)
+            ->where($time_condition)
+            ->where("activity_name", "like", "%" . $titles . "%")
+            ->order("order_ing desc")
+            ->select();
+        } elseif((!empty($titles)) && (empty($ppd)) && (empty($times))){
+            $accessories = db("teahost")
+            ->where("store_id","EQ",$store_id)
+            ->where("activity_name", "like", "%" . $titles . "%")
+            ->order("order_ing desc")
+            ->select();
+        } elseif((empty($titles)) && (!empty($ppd)) && (empty($times))){
+            $accessories = db("teahost")
+            ->where("store_id","EQ",$store_id)
+            ->where("pid","EQ",$pdd)
+            ->order("order_ing desc")
+            ->select();
+        } elseif((empty($titles)) && (empty($ppd)) && (!empty($times))){
+            $accessories = db("teahost")
+            ->where("store_id","EQ",$store_id)
+            ->where($time_condition)
+            ->order("order_ing desc")
+            ->select();
+        } elseif((!empty($titles)) && (!empty($ppd)) && (empty($times))){
+            $accessories = db("teahost")
+            ->where("store_id","EQ",$store_id)
+            ->where("pid","EQ",$pdd)
+            ->where("activity_name", "like", "%" . $titles . "%")
+            ->order("order_ing desc")
+            ->select();
+        } elseif((!empty($titles)) && (empty($ppd)) && (!empty($times))){
+            $accessories = db("teahost")
+            ->where("store_id","EQ",$store_id)
+            ->where($time_condition)
+            ->where("activity_name", "like", "%" . $titles . "%")
+            ->order("order_ing desc")
+            ->select();
+        } elseif((empty($titles)) && (!empty($ppd)) && (!empty($times))){
+            $accessories = db("teahost")
+            ->where("store_id","EQ",$store_id)
+            ->where($time_condition)
+            ->where("pid", $ppd)
+            ->order("order_ing desc")
+            ->select();
+        } elseif((empty($titles)) && (empty($ppd)) && (empty($times))){
+            $accessories = db("teahost")
+            ->where("store_id","EQ",$store_id)
+            ->order("order_ing desc")
+            ->select();
+        }
+        foreach ($accessories as $key => $value) {
+            if ($value["pid"]) {
+                $res = db("goods_type")->where("id", $value['pid'])->field("name")->find();
+                $accessories[$key]["named"] = $res["name"];
+            }
+        }
+        $all_idents = $accessories;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $accessories = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Advertisement/index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $accessories->appends($_GET);
+        $this->assign('access', $accessories->render());
+        $goods = [];
+        $goods = getSelectListes("goods_type");
+        return view("accessories_business_advertising", ["accessories" => $accessories,'goods'=>$goods]);
     }
 }
 
