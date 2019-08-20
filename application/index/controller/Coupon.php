@@ -259,8 +259,10 @@ class Coupon extends Controller
                         unset($coupon_info[$k3]);
                         continue;
                     }
+                    $coupon_info[$k3]['suit_price2'] = explode(",",$coupon_info[$k3]['suit_price']);
 
             }
+           
             if (!empty($coupon_info)) {
                 return ajax_success('传输成功', $coupon_info);
             } else {
