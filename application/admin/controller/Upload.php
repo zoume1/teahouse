@@ -377,10 +377,9 @@ class Upload extends Controller
             $qr=new My();
             $qrcode=$qr->mpcode($page,0,$store_id);
             //把qrcode文件写进文件中，使用的时候拿出来
-            $dateFile =$store_id . "/";  //创建目录
             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
                 //检查是否有该文件夹，如果没有就创建，并给予最高权限
-                mkdir($new_file, 750);
+                mkdir($new_file, 777);
                 // mkdir($new_file, 750);
             if (file_put_contents($new_file, $qrcode)) {
                 $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
