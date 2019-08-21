@@ -102,16 +102,8 @@ class  Store extends  Controller{
                  }
                 
                 $mobile = $user_data['phone_number'];
-                $content = "尊敬的用户您好！您的店铺申请成功，请及时登陆网站，选择套餐，完成店铺入驻";
-                $url = "http://120.26.38.54:8000/interface/smssend.aspx";
-                $post_data = array("account" => "chacang", "password" => "123qwe", "mobile" => "$mobile", "content" => $content);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-                $output = curl_exec($ch);
-                curl_close($ch);
+                $content = "【智慧茶仓】尊敬的用户您好！您的店铺申请成功，请及时登陆网站，选择套餐，完成店铺入驻";
+                $output = sendMessage($content,$mobile);
                 return ajax_success("您的资料已提交,请耐心等待审核");
             }else{
                 return ajax_error("网络错误，请重新提交");
