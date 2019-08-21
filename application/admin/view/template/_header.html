@@ -78,59 +78,55 @@
 				console.log(res.status, res.statusText);
 			}
 		})
+
+		getMessage();
+	})
+
+	function getMessage() {
 		//获取消息提醒
 		var store_id = {$store_id};
+		$('.message').find('.unread').add('.dropdown-item').remove();
 		// if (store_id > 0) {
-			//店铺端
-			$.ajax({
-				url: '{:url("admin/index/get_info_store")}',
-				type: 'post',
-				data: {
-					"store_id": store_id,
-				},
-				success: function (data) {
-					var data = JSON.parse(data);
-					if (data.status == 1) {
-						var str = '';
-						var num = 0;
-						data.data.forEach(function (v, i) {
-							num += v.number;
-							if (v.type == 0) {
-								str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/order_index" data-url="/admin/order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">' + v.number + '</span>个<span class="red">普通</span>订单流程需及时处理</a></li>'
-							} else if (v.type == 1) {
-								str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/crowd_order_index" data-url="/admin/crowd_order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">' + v.number + '</span>个<span class="red">众筹</span>订单流程需及时处理</a></li>'
-							} else {
-								str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/refund_protection_index" data-url="/admin/refund_protection_index.html" href="javascript:void(0);">[售后] 您有<span class="red">' + v.number + '</span>个<span class="red">售后</span>订单流程需及时处理</a></li>'
-							}
-						})
-						$('.dropdown').append(str);
-						$('.message').append('<em class="unread">' + num + '</em>');
+		//店铺端
+		$.ajax({
+			url: '{:url("admin/index/get_info_store")}',
+			type: 'post',
+			data: {
+				"store_id": store_id,
+			},
+			success: function (data) {
+				var data = JSON.parse(data);
+				if (data.status == 1) {
+					var str = '';
+					var num = 0;
+					data.data.forEach(function (v, i) {
+						num += v.number;
+						if (v.type == 0) {
+							str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/order_index" data-url="/admin/order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">' + v.number + '</span>个<span class="red">普通</span>订单流程需及时处理</a></li>'
+						} else if (v.type == 1) {
+							str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/crowd_order_index" data-url="/admin/crowd_order_index.html" href="javascript:void(0);">[订单] 您有<span class="red">' + v.number + '</span>个<span class="red">众筹</span>订单流程需及时处理</a></li>'
+						} else {
+							str += '<li class="dropdown-item"><a class="header-url" data-id="' + v.id + '" data-value="/admin/refund_protection_index" data-url="/admin/refund_protection_index.html" href="javascript:void(0);">[售后] 您有<span class="red">' + v.number + '</span>个<span class="red">售后</span>订单流程需及时处理</a></li>'
+						}
+					})
+					$('.dropdown').append(str);
+					$('.message').append('<em class="unread">' + num + '</em>');
 
-						$('.header-url').click(function () {
-							var url = $(this).data('url');
-							$.ajax({
-								type: "get",
-								url: url,
-								cache: true,
-								success: function () {
-									$('#add').attr('src', url);
-								}
-							});
-						})
-					}
+					$('.header-url').click(function () {
+						var url = $(this).data('url');
+						$.ajax({
+							type: "get",
+							url: url,
+							cache: true,
+							success: function () {
+								$('#add').attr('src', url);
+							}
+						});
+					})
 				}
-			})
-		// } else {
-		// 	//总控端  get_info_zong
-		// 	$.ajax({
-		// 		url: '{:url("admin/index/get_info_zong")}',
-		// 		type: 'post',
-		// 		success: function (data) {
-		// 			console.log(JSON.parse(data));
-		// 		}
-		// 	})
-		// }
-	})
+			}
+		})
+	}
 
 	$(document).ready(function () {
 		var it = setInterval(function () {
@@ -140,12 +136,13 @@
 		function refreshCount() {
 			$.ajax({
 				type: 'POST',
-				url:'{:url("admin/index/informationhint")}',
+				url: '{:url("admin/index/informationhint")}',
 				dataType: 'json',
 				success: function (data) {
-						console.log(data.data);
+					console.log(data.data);
 					if (data.data == 1) {
 						times();
+						getMessage();
 					}
 				},
 				error: function () {
