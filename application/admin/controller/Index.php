@@ -234,6 +234,7 @@ class Index extends Controller
                 if($number > Session::get('daifu'.$store_id)){
                     Session::set('daifu'.$store_id,$number);
                     $pp=1;
+                    return ajax_success('获取成功',$pp);
                 }else{
                     $pp=0;
                 }
@@ -245,17 +246,18 @@ class Index extends Controller
             $number2=db('after_sale')->where($where)->count();
             if(empty(Session::get('shouhou'.$store_id))){
                  Session::set('shouhou'.$store_id,$number2);
-                 $pp=0;
+                 $pp2=0;
             }else{
                 if($number2 > Session::get('shouhou'.$store_id)){
                     Session::set('shouhou'.$store_id,$number2);
-                    $pp=1;
+                    $pp2=1;
+                    return ajax_success('获取成功',$pp2);
                 }else{
-                    $pp=0;
+                    $pp2=0;
                 }
             }
         }
-        return ajax_success('获取成功',$pp);
+        return ajax_success('获取失败',0);
 
     }
     

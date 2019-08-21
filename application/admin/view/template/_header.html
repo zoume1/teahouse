@@ -143,6 +143,7 @@
 				url:'{:url("admin/index/informationhint")}',
 				dataType: 'json',
 				success: function (data) {
+						console.log(data.data);
 					if (data.data == 1) {
 						times();
 					}
