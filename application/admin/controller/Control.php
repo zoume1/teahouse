@@ -645,7 +645,27 @@ class  Control extends  Controller{
      * [店铺分析]
      * 郭杨
      */    
-    public function control_store_index(){     
+    public function control_store_index(){ 
+        //今日注册会员数量
+        $start_time2=strtotime(date("Y-m-d "));
+        $end_time2=strtotime(date("Y-m-d H:i:s"));
+        $time['member_create_time']=array('between',array($start_time2,$end_time2));
+        $time['member_status']='1';
+        $data['w_member_num']=db('member')->where($time)->count();     //当日会员新增数量   
+        //今日销售总额
+        $time2['create_time']= array('between',array($start_time2,$end_time2));
+        $time2['status']= array('between',array(2,8));
+        $data['w_money_sum']=db('order')->where($time2)->sum('order_amount');
+        //昨日销售总额
+        $start_time=strtotime(date("Y-m-d"));
+        $end_time=strtotime(date("Y-m-d H:i:s"));
+        $time2['create_time']= array('between',array($start_time2,$end_time2));
+
+
+
+
+
+
         return view("control_store_index");
     }
 

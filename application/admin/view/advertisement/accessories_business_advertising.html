@@ -52,7 +52,7 @@
 
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Advertisement/accessories_business_search')}">
+            <form class="layui-form" action="{:url('admin/Advertisement/accessories_advertising_search')}">
                 <div class="seach">
                     <div class="seach_list">
                         <div class="seach_laber">输入搜索</div>
@@ -61,20 +61,26 @@
                         </div>
                     </div>
                     <div class="seach_list">
-                        <div class="seach_laber">标签</div>
+                        <div class="seach_laber">活动分类</div>
                         <div class="seach_input">
-                            <select name="labely">
-                                <option  value="1">已发布</option>
-								<option  value="0">未发布</option>
-							</select>
+                            {if !empty($goods)}
+                            <select name="ppd" id="admin_role" class="role_list">
+								<option value="">顶级</option>
+								{volist name="goods" id="vl"}
+								<option value="{$vl.id}">{$vl.name}</option>
+								{/volist}
+							</select> 
+							</select> {/if}
                         </div>
                     </div>
+
                     <div class="seach_list">
                         <div class="seach_laber">状态</div>
                         <div class="seach_input">
                             <select name="times">
+                                <option  value="">请选择</option>  
                                 <option  value="1">未过期</option>  
-                                <option  value="0">过期</option>
+                                <option  value="2">过期</option>
 							</select>
                         </div>
                     </div>

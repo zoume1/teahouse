@@ -634,6 +634,29 @@ class My extends Controller
         }
 
     }
+    /**
+     * lilu
+     * 生成小城序的二维码
+     */
+    public function create_qrcode($store_id){
+         //获取携带参数的小程序的二维码
+         $page='pages/logs/logs';
+         $qrcode=$this->mpcode($page,0,$store_id);
+         //把qrcode文件写进文件中，使用的时候拿出来
+         $dateFile =$store_id . "/";  //创建目录
+         $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
+         // if (!file_exists($new_file)) {
+         //     //检查是否有该文件夹，如果没有就创建，并给予最高权限
+         //     mkdir($new_file, 750);
+         // }
+         if (file_put_contents($new_file, $qrcode)) {
+             // return  $dateFile . $filename;  //返回文件名及路径
+             $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$member_information['member_id'].'.txt');
+             return $re;
+         } else {
+             return 0;
+         }
+    }
 
 
 }

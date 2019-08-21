@@ -518,6 +518,7 @@ Route::group("admin",[
     "order_information_return"=>"admin/Order/order_information_return",//初始订单基本信息
    
     "order_integral"=>"admin/Order/order_integral",//积分订单
+    "order_integral_search"=>"admin/Order/order_integral_search",//积分订单搜索
     "transaction_setting"=>"admin/Order/transaction_setting",//交易设置
     "order_setting_update"=>"admin/Order/order_setting_update",//更新
     "refund_protection_index"=>"admin/Order/refund_protection_index",//退款维权
@@ -534,6 +535,7 @@ Route::group("admin",[
 
     /*TODO:地址订单开始*/
     "reward_index"=>"admin/Order/reward_index",//众筹打赏页面
+    "reward_search"=>"admin/Order/reward_search",//众筹打赏搜索页面
 
     /*TODO:地址订单结束*/
 
@@ -585,6 +587,7 @@ Route::group("admin",[
     "category_search"=>"admin/Category/search", //活动分类分组状态修改
 
     "accessories_business_advertising"=>"admin/Advertisement/index",                 //活动管理分组显示
+    "accessories_advertising_search"=>"admin/Advertisement/accessories_advertising_search",              //活动管理分组搜索显示
     "accessories_business_add"=>"admin/Advertisement/accessories_business_add",      //活动管理分组添加
     "accessories_business_edit"=>"admin/Advertisement/accessories_business_edit",    //活动管理分组编辑
     "accessories_business_save"=>"admin/Advertisement/accessories_business_save",    //活动管理分组保存
@@ -902,6 +905,7 @@ Route::group("admin",[
     "capital_management"=>"admin/General/capital_management",//资金管理资金明细
     "capital_management_details"=>"admin/General/capital_management_details",//资金管理资金详情
     "unline_recharge_record"=>"admin/General/unline_recharge_record",//资金管理线下充值记录
+    "unline_recharge_serach"=>"admin/General/unline_recharge_serach",//资金管理线下充记录搜索
     "unline_withdrawal_record"=>"admin/General/unline_withdrawal_record",//资金管理提现记录
     "agency_invitation"=>"admin/General/agency_invitation",//代理分销邀请
     "now_agency_invitation"=>"admin/General/now_agency_invitation",//立即分销邀请

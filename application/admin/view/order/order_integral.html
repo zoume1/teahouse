@@ -286,35 +286,20 @@
 		<!--</ul>-->
 		<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Category/search')}">
+			<form class="layui-form" action="{:url('admin/Order/order_integral_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">订单编号：</div>
 						<div class="seach_input">
-							<input type="text" name="parts_order_number" lay-verify="title" autocomplete="off"
-								placeholder="" class="layui-input">
-						</div>
-					</div>
-					<div class="seach_list">
-						<div class="seach_laber">商品名称：</div>
-						<div class="seach_input">
-							<input type="text" name="goods_name" lay-verify="title" autocomplete="off" placeholder=""
-								class="layui-input">
+							<input type="text" name="search_a" lay-verify="title" autocomplete="off"
+							placeholder="订单编号/商品名称/用户账号" class="layui-input">
 						</div>
 					</div>
 
-
-					<div class="seach_list">
-						<div class="seach_laber">用户账号：</div>
-						<div class="seach_input">
-							<input type="text" name="user_account_name" lay-verify="title" autocomplete="off"
-								placeholder="" class="layui-input">
-						</div>
-					</div>
 					<div class="seach_list">
 						<div class="seach_laber">开始时间</div>
 						<div class="seach_input">
-							<span class="start_time"><input type="text" class="text datetimepicker layui-input"
+							<span class="start_time"><input type="text"  name="date_min" class="text datetimepicker layui-input"
 									readonly="readonly" id="beginTime" value="">
 							</span>
 						</div>
@@ -322,7 +307,7 @@
 					<div class="seach_list">
 						<div class="seach_laber">结束时间</div>
 						<div class="seach_input">
-							<span class="end_time"><input type="text" class=" text datetimepicker layui-input"
+							<span class="end_time"><input type="text"  name="date_max" class=" text datetimepicker layui-input"
 									readonly="readonly" id="endTime" value=""></span>
 
 						</div>
