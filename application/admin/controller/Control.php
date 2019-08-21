@@ -646,27 +646,19 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_store_index(){ 
-        //今日注册会员数量
+        //今日注册店铺数量
         $start_time2=strtotime(date("Y-m-d "));
         $end_time2=strtotime(date("Y-m-d H:i:s"));
-        $time['member_create_time']=array('between',array($start_time2,$end_time2));
-        $time['member_status']='1';
-        $data['w_member_num']=db('member')->where($time)->count();     //当日会员新增数量   
+        $time['create_time']=array('between',array($start_time2,$end_time2));
+        $time['store_use']='0';
+        $data['w_member_num']=db('store')->where($time)->count();     //今日注册店铺数量   
 
-        //今日销售总额
-        $time2['order_create_time']= array('between',array($start_time2,$end_time2));
-        $time2['status']= array('between',array(2,8));
-        $data['j_money_sum']=round(db('order')->where($time2)->sum('order_amount'),2);
-
-        //昨日销售总额
-        $start_time=strtotime(date("Y-m-d"))-24*3600;
-        $end_time=strtotime(date("Y-m-d"));
-        $time3['order_create_time']= array('between',array($start_time,$end_time));
-        $time3['status']= array('between',array(2,8));
-        $data['z_money_sum']=round(db('order')->where($time3)->sum('order_amount'),2);
-
-        //近七天销售总额
-        $start_time3=strtotime(date("Y-m-d "))-24*3600*6;
+        //注册店铺总数量
+        $time2['store_use']= '0';
+        $data['j_money_sum']=db('store')->where($time2)->count();
+        
+        //近七天增值消费销售总额
+        $start_time3=strtotime(date("Y-m-d"))-24*3600*6;
         $end_time3=strtotime(date("Y-m-d H:i:s"));
         $where3['order_create_time']=array('between',array($start_time3,$end_time3));
         $where3['status']=array('between',array(2,8));
