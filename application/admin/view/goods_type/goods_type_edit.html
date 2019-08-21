@@ -61,7 +61,7 @@
             <label class="form-label">状态</label>
             <div class="form-input">
                 {if $vo.status== 0}
-                <input type="radio" name="status" value="" title="启用">
+                <input type="radio" name="status" value="1" title="启用">
                 <input type="radio" name="status" value="{$vo.status}" title="禁用" checked=""> {else}
                 <input type="radio" name="status" value="{$vo.status}" title="启用" checked="">
                 <input type="radio" name="status" value="" title="禁用"> {/if}

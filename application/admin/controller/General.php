@@ -2430,6 +2430,31 @@ class  General extends  Base {
         $offlines = paging_data($offline_data,$url,$pag_number);
         return view("unline_withdrawal_record",["offlines"=>$offlines,"store_wallet"=>$store_wallet]);
     }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:线下充值记录
+     **************************************
+     */
+    public function unline_recharge_serach(){
+        $data = input();
+        $start_time = input('start_time')?strtotime(input('start_time')):null;
+        $start_time = input('start_time')?strtotime(input('start_time')):null;
+        $store_wallet =$this->store_wallet($this->store_ids);
+        $offline_data = db('offline_recharge')->where("pay_type",'EQ',2)->where("store_id",$this->store_ids)->select();
+        if(!empty($offline_data)){
+            foreach ($offline_data as $key => $value) {
+                $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
+                $offline_data[$key]["name"] = $bank['name'];
+                $offline_data[$key]["count"] = $bank['count'];                               
+                }
+            }  
+        $url = 'admin/General/unline_recharge_record';
+        $pag_number = 20;
+        $offline = paging_data($offline_data,$url,$pag_number);
+        return view("unline_recharge_record",["offline"=>$offline,"store_wallet"=>$store_wallet]);
+    }
     /**
      **************李火生*******************
      * @param Request $request

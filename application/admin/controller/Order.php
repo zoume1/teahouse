@@ -137,6 +137,7 @@ class  Order extends  Controller{
                     ->paginate(20 ,false, [
                         'query' => request()->param(),
                     ]);
+
             }else if (!empty($order_type)){
                 $data =Db::name("order")
                     ->where("order_type",$order_type)
@@ -145,7 +146,7 @@ class  Order extends  Controller{
                     ->paginate(20 ,false, [
                         'query' => request()->param(),
                     ]);
-            }else{
+            } else {
                 if(!empty($time_min)){
                     $timemin =strtotime($time_min);
                 }
@@ -195,7 +196,22 @@ class  Order extends  Controller{
 
                 }
             }
-            return view("order_index",["data"=>$data]);
+            $data2=[];
+            foreach($data as $k=>$v){
+                //获取相同订单的数据
+                $list=db('order')->where('parts_order_number',$v['parts_order_number'])->select();
+                $order=[];
+                foreach($list as $k2 =>$v2){
+                    $order[$k2]['goods_image']=$v2['goods_image'];
+                    $order[$k2]['parts_goods_name']=$v2['parts_goods_name'];
+                    $order[$k2]['order_quantity']=$v2['order_quantity'];
+                }
+                $num=count($order);
+                $data2[$k]=$v;
+                $data2[$k]['detail']=$order;
+                $data2[$k]['num']=$num;
+            }
+            return view("order_index",["data"=>$data2]);
 
     }
 
@@ -758,7 +774,7 @@ class  Order extends  Controller{
     /**
      **************GY*******************
      * @param Request $request
-     * Notes:更改订单价格
+     * Notes:打赏订单显示
      **************************************
      * @return \think\response\View
      */
@@ -767,19 +783,19 @@ class  Order extends  Controller{
         $store_id=Session::get('store_id');
         //获取打赏订单
         $reward_list=db('reward')->where('store_id',$store_id)->order('create_time desc')->select();
-        foreach($reward_list as $k=>$v){
-            //获取打赏订单的状态
-            if($v['status']=='1'){
-                $reward_list[$k]['status']='未支付';
-            }elseif($v['status']=='2'){
-                $reward_list[$k]['status']='未开奖';
-            }elseif($v['status']=='3'){
-                $reward_list[$k]['status']='已中奖';
-            }elseif($v['status']=='0'){
-                $reward_list[$k]['status']='未中奖';
+        // foreach($reward_list as $k=>$v){
+        //     //获取打赏订单的状态
+        //     if($v['status']=='1'){
+        //         $reward_list[$k]['status']='未支付';
+        //     }elseif($v['status']=='2'){
+        //         $reward_list[$k]['status']='未开奖';
+        //     }elseif($v['status']=='3'){
+        //         $reward_list[$k]['status']='已中奖';
+        //     }elseif($v['status']=='0'){
+        //         $reward_list[$k]['status']='未中奖';
 
-            }
-        }
+        //     }
+        // }
         return view("reward_index",["data"=>$reward_list]);
     }
     /**
@@ -818,5 +834,175 @@ class  Order extends  Controller{
         }else{
             return ajax_error('获取失败');
         }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:积分订单搜索
+     **************************************
+     * @return \think\response\View
+     */
+    public function order_integral_search(){
+        $store_id = Session::get("store_id");
+        $search_a =input("search_a") ? input("search_a"):null;
+        $time_min  =input("date_min") ? input("date_min"):null;
+        $date_max  =input('date_max') ? input('date_max'):null;
+        if(!empty($search_a)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            $data =Db::name("buyintegral")
+                ->where($condition)
+                ->where("store_id",'EQ',$store_id)
+                ->order("order_create_time","desc")
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+        } else {
+            if(!empty($time_min)){
+                $timemin =strtotime($time_min);
+            }
+            if(!empty($date_max)){
+                /*添加一天（23：59：59）*/
+                $t=date('Y-m-d H:i:s',strtotime($date_max)+1*24*60*60);
+                $timemax  =strtotime($t);
+
+            }
+            if(!empty($time_min) && empty($date_max)){
+                $time_condition  = "order_create_time>{$timemin}";
+                //开始时间
+                $data =Db::name("buyintegral")
+                    ->where($time_condition)
+                    ->where("store_id",'EQ',$store_id)
+                    ->order("order_create_time","desc")
+                    ->paginate(20 ,false, [
+                        'query' => request()->param(),
+                    ]);
+            }else if (empty($time_min) && (!empty($date_max))){
+                $time_condition  = "order_create_time< {$timemax}";
+                //结束时间
+                $data =Db::name("buyintegral")
+                    ->where($time_condition)
+                    ->order("order_create_time","desc")
+                    ->where("store_id",'EQ',$store_id)
+                    ->paginate(20 ,false, [
+                        'query' => request()->param(),
+                    ]);
+            }else if((!empty($timemin)) && (!empty($date_max))){
+                $time_condition  = "order_create_time>{$timemin} and order_create_time< {$timemax}";
+                //既有开始又有结束
+                $data =Db::name("buyintegral")
+                    ->where($time_condition)
+                    ->order("order_create_time","desc")
+                    ->where("store_id",'EQ',$store_id)
+                    ->paginate(20 ,false, [
+                        'query' => request()->param(),
+                    ]);
+            }else{
+                $data =Db::name("buyintegral")
+                    ->order("order_create_time","desc")
+                    ->where("store_id",'EQ',$store_id)
+                    ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+
+            }
+        }
+
+        return view("order_integral",["data"=>$data]);
+    }
+
+    function make_oder_index(){
+        $this->error("功能待完善","admin/Goods/exclusive_index");
+    }
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:打赏订单显示
+     **************************************
+     * @return \think\response\View
+     */
+    public function  reward_search(){
+        //获取店铺信息
+        $store_id = Session::get('store_id');
+        //获取打赏订单
+        $search_a =input("search_a") ? input("search_a"):null;
+        $time_min  =input("date_min") ? input("date_min"):null;
+        $date_max  =input('date_max') ? input('date_max'):null;
+        if(!empty($search_a)){
+            $condition =" `order_number` like '%{$search_a}%' or `crowd_name` like '%{$search_a}%' or `user_name` like '%{$search_a}%'";
+            $data =Db::name("reward")
+                ->where($condition)
+                ->where("store_id",'EQ',$store_id)
+                ->order("create_time","desc")
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+
+        } else {
+            if(!empty($time_min)){
+                $timemin =strtotime($time_min);
+            }
+            if(!empty($date_max)){
+                /*添加一天（23：59：59）*/
+                $t=date('Y-m-d H:i:s',strtotime($date_max)+1*24*60*60);
+                $timemax  =strtotime($t);
+
+            }
+            if(!empty($time_min) && empty($date_max)){
+                $time_condition  = "create_time>{$timemin}";
+                //开始时间
+                $data =Db::name("reward")
+                    ->where($time_condition)
+                    ->where("store_id",'EQ',$store_id)
+                    ->order("create_time","desc")
+                    ->paginate(20 ,false, [
+                        'query' => request()->param(),
+                    ]);
+            }else if (empty($time_min) && (!empty($date_max))){
+                $time_condition  = "create_time< {$timemax}";
+                //结束时间
+                $data =Db::name("reward")
+                    ->where($time_condition)
+                    ->order("create_time","desc")
+                    ->where("store_id",'EQ',$store_id)
+                    ->paginate(20 ,false, [
+                        'query' => request()->param(),
+                    ]);
+            }else if((!empty($timemin)) && (!empty($date_max))){
+                $time_condition  = "create_time>{$timemin} and create_time< {$timemax}";
+                //既有开始又有结束
+                $data =Db::name("reward")
+                    ->where($time_condition)
+                    ->order("create_time","desc")
+                    ->where("store_id",'EQ',$store_id)
+                    ->paginate(20 ,false, [
+                        'query' => request()->param(),
+                    ]);
+            }else{
+                $data =Db::name("reward")
+                    ->order("create_time","desc")
+                    ->where("store_id",'EQ',$store_id)
+                    ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+
+            }
+        }
+
+        // foreach($data as $k=>$v){
+        //     //获取打赏订单的状态
+        //     if($v['status']=='1'){
+        //         $data[$k]['status']='未支付';
+        //     }elseif($v['status']=='2'){
+        //         $data[$k]['status']='未开奖';
+        //     }elseif($v['status']=='3'){
+        //         $data[$k]['status']='已中奖';
+        //     }elseif($v['status']=='4'){
+        //         $data[$k]['status']='未中奖';
+
+        //     }
+        // }
+        return view("reward_index",["data"=>$data]);
     }
 }

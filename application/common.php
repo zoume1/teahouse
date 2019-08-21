@@ -1360,3 +1360,24 @@ function sendMessage($content,$mobile)
     return $data;
 }
 
+
+
+function show_ds_orderer($status){
+    switch($status)
+    {
+        case '1':
+            echo '未支付';
+        break;
+            case '2':
+        echo '未开奖';
+        break;
+            case '3':
+        echo '已中奖';
+        break;
+        case '4':
+            echo '未中奖';
+        break;
+    }
+
+}
+
