@@ -465,7 +465,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- <div class="popup popup_one noshow">
+	<div class="popup popup_kp noshow">
 		<div class="popup_doms">
 			<div class="popup_title">
 				处理回复（个人信息处有提示信息）
@@ -473,7 +473,7 @@
 					<img src="__STATIC__/admin/index/img/X.png" />
 				</div>
 			</div>
-			<div class="popup_content">
+			<div class="popup_content popup_content_kp">
 				<div class="invoice">	
 					<div class="fp_div">
 						<div class="fl_text">办理时间</div>
@@ -514,7 +514,7 @@
 				</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
 	<div class="popup popup_two noshow">
 		<div class="popup_doms1">
 			<div id="dvMain">
@@ -1216,9 +1216,9 @@
 		});
 		//开票
 		$(".static_btus1").click(function () {
-			$(".popup_one").removeClass("noshow");
+			$(".popup_kp").removeClass("noshow");
 			var data_id = $(this).data("id");
-			$('.popup_content').empty();
+			$('.popup_content_kp').empty();
 			$.ajax({
 				type: "POST",
 				url: "{:url('admin/Order/get_receipt_detail')}",
@@ -1261,11 +1261,11 @@
 						</div>
 						<button type="button" class="invoice_btns">确定</button>
 						</div>`
-						$('.popup_content').append(dhtml);
+						$('.popup_content_kp').append(dhtml);
 						$('.invoice_btns').click(function() {
 							var operation_select = $(".operation_select option:selected").val();
 							if(operation_select == 0) {
-								$(".popup_one").addClass("noshow");
+								$(".popup_kp").addClass("noshow");
 							} else {
 								$.ajax({
 									type: "POST",
@@ -1275,7 +1275,7 @@
 									},
 									success: function(data) {
 										alert('修改成功');
-										$(".popup_one").addClass("noshow");
+										$(".popup_kp").addClass("noshow");
 										window.location.reload();
 									}
 								});
