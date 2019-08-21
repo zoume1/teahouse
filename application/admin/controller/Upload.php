@@ -703,8 +703,6 @@ class Upload extends Controller
             }
             $ret2 = $this->https_get2($url);
             $ret = json_decode($ret2,true);
-            dump($ret2);
-            halt($ret);
             $p['msg']=$ret2.'体验码';
             db('test')->insert($p);
             if($ret['errcode']) {
