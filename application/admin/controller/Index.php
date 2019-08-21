@@ -227,14 +227,15 @@ class Index extends Controller
             $where['status']=array('between',array(2,3));
             $where['store_id']=$store_id;
             $number=db('order')->where($where)->count();
-            if(empty(Session::get('daifa'.$store_id))){
+            if(empty(Session::get('daifu'.$store_id))){
                  Session::set('daifu'.$store_id,$number);
                  $pp=0;
             }else{
                 if($number > Session::get('daifu'.$store_id)){
                     Session::set('daifu'.$store_id,$number);
                     $pp=1;
-                    return ajax_success('获取成功',$pp);
+                    return ajax_success('获取成功1',$pp);
+                    die;
                 }else{
                     $pp=0;
                 }
@@ -251,13 +252,14 @@ class Index extends Controller
                 if($number2 > Session::get('shouhou'.$store_id)){
                     Session::set('shouhou'.$store_id,$number2);
                     $pp2=1;
-                    return ajax_success('获取成功',$pp2);
+                    return ajax_success('获取成功2',$pp2);
+                    die;
                 }else{
                     $pp2=0;
                 }
             }
         }
-        return ajax_success('获取失败',0);
+        return ajax_success('获取失败3',0);
 
     }
     
