@@ -709,20 +709,21 @@ class Upload extends Controller
                 return ajax_success('获取失败');
             } else {
                 //304支持
-            if (0 && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
-            {
-                header('Cache-Control: public');
-                header('Last-Modified:' . $_SERVER['HTTP_IF_MODIFIED_SINCE'], true, 304);
-                exit();
-            }
-            
-            header('Cache-Control: public');
-            header('Last-Modified: ' . $_SERVER['REQUEST_TIME']);
-            header('Content-Type: image/jpeg');
-            //这就是1张图 Content-Type: image/jpeg 
-            halt(file_get_contents($url));
-            // echo  '<img src="data:'.file_get_contents($url).'">';
-                // return ajax_success('获取成功',["url"=>$url]);
+                    if (0 && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+                    {
+                        header('Cache-Control: public');
+                        header('Last-Modified:' . $_SERVER['HTTP_IF_MODIFIED_SINCE'], true, 304);
+                        exit();
+                    }
+                    
+                    header('Cache-Control: public');
+                    header('Last-Modified: ' . $_SERVER['REQUEST_TIME']);
+                    header('Content-Type: image/jpeg');
+                    //这就是1张图 Content-Type: image/jpeg 
+                    echo file_get_contents($url);
+                    // halt(file_get_contents($url));
+                    // echo  '<img src="data:'.file_get_contents($url).'">';
+                        // return ajax_success('获取成功',["url"=>$url]);
             }
     }
     // public function serverIp(){
