@@ -572,8 +572,6 @@ class Upload extends Controller
         $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$timeout['authorizer_access_token'];
         $data = '{"wechatid":"'.$input['wx'].'"}';
         $ret = json_decode($this->https_post($url,$data),true);
-        $pp['msg']=$ret;
-        db('test')->insert($pp);
         if($ret['errcode'] == 0) {
             return  ajax_success('绑定成功');
         } else {
@@ -705,7 +703,7 @@ class Upload extends Controller
             }
             $ret2 = $this->https_get2($url);
             $ret = json_decode($ret2,true);
-            $p['msg']=$ret2;
+            $p['msg']=$ret2.'体验码';
             db('test')->insert($p);
             if($ret['errcode']) {
                 return ajax_success('获取失败');

@@ -144,7 +144,7 @@
             <li class="list">
                 <div class="img"><img src="__STATIC__/admin/index/img/u168.png"></div>
                 <div class="num-title">今日注册总数</div>
-                <div class="num">200</div>
+                <div class="num">{$data['w_member_num']}</div>
             </li>
             <li class="list">
                 <div class="img"><img src="__STATIC__/admin/index/img/u168.png"></div>
@@ -203,14 +203,14 @@
                     <span>待发货订单</span>
 
                     <span style="color: red; float: right;">
-						(10)
+						({$data['order_number_dai']})
 					</span>
                 </td>
                 <td>
                     <span>待处理售后维修订单</span>
 
                     <span style="color: red;float: right;">
-						(10)
+						({$data['shou_order_number']})
 					</span>
                 </td>
             </tr>
