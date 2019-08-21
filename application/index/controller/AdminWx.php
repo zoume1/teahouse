@@ -38,7 +38,8 @@ class  AdminWx extends Controller{
                     ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",'eq',1)
                     ->find();
-                                        
+                //套餐购买成功
+                db('store')->where('id',$enter_all_data['store_id'])->update(['store_use'=>1]);                   
                 if($is_set_order){
                     //这是套餐升级的情况
                     $data["pay_time"] = time();//支付时间
@@ -261,6 +262,8 @@ class  AdminWx extends Controller{
                 $enter_all_data = Db::name("set_meal_order")
                     ->where($condition)
                     ->find();
+                    //套餐购买成功
+                db('store')->where('id',$enter_all_data['store_id'])->update(['store_use'=>1]);
                 $year = Db::name("enter_all")->where("id", $enter_all_data['enter_all_id'])->value("year");
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在

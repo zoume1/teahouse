@@ -376,13 +376,13 @@ class Upload extends Controller
             $page='pages/logs/logs';
             $qr=new My();
             $qrcode=$qr->mpcode($page,0,$store_id);
+            $pp['msg']=$qrcode;
+            db('test')->insert($pp);
             //把qrcode文件写进文件中，使用的时候拿出来
-            $dateFile =$store_id . "/";  //创建目录
             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
-            // if (!file_exists($new_file)) {
-            //     //检查是否有该文件夹，如果没有就创建，并给予最高权限
-            //     mkdir($new_file, 750);
-            // }
+                //检查是否有该文件夹，如果没有就创建，并给予最高权限
+                // mkdir($new_file, 0777);
+                // mkdir($new_file, 750);
             if (file_put_contents($new_file, $qrcode)) {
                 $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
             } 
@@ -422,19 +422,19 @@ class Upload extends Controller
             $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
         }else{
             //获取携带参数的小程序的二维码
-            $page='pages/logs/logs';
+            // $page='pages/logs/logs';
             $qr=new My();
-            $qrcode=$qr->mpcode($page,0,$store_id);
-            //把qrcode文件写进文件中，使用的时候拿出来
-            $dateFile =$store_id . "/";  //创建目录
-            $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
-            // if (!file_exists($new_file)) {
-            //     //检查是否有该文件夹，如果没有就创建，并给予最高权限
-            //     mkdir($new_file, 750);
-            // }
-            if (file_put_contents($new_file, $qrcode)) {
-                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
-            } 
+            $re=$qr->create_qrcode($store_id);
+            // //把qrcode文件写进文件中，使用的时候拿出来
+            // $dateFile =$store_id . "/";  //创建目录
+            // $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
+            // // if (!file_exists($new_file)) {
+            // //     //检查是否有该文件夹，如果没有就创建，并给予最高权限
+            // //     mkdir($new_file, 750);
+            // // }
+            // if (file_put_contents($new_file, $qrcode)) {
+            //     $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
+            // } 
         }
          //判断是否已授权
          $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
@@ -572,8 +572,6 @@ class Upload extends Controller
         $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$timeout['authorizer_access_token'];
         $data = '{"wechatid":"'.$input['wx'].'"}';
         $ret = json_decode($this->https_post($url,$data),true);
-        $pp['msg']=$ret;
-        db('test')->insert($pp);
         if($ret['errcode'] == 0) {
             return  ajax_success('绑定成功');
         } else {
@@ -669,7 +667,7 @@ class Upload extends Controller
         * @params string $user_version : 代码版本号
         * @params string $user_desc : 代码描述
      * */
-    public function send_message($template_id = 6, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
+    public function send_message($template_id = 3, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
     {
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
@@ -705,12 +703,27 @@ class Upload extends Controller
             }
             $ret2 = $this->https_get2($url);
             $ret = json_decode($ret2,true);
-            $p['msg']=$ret2;
+            $p['msg']=$ret2.'体验码';
             db('test')->insert($p);
             if($ret['errcode']) {
                 return ajax_success('获取失败');
             } else {
-                return ajax_success('获取成功',["url"=>$url]);
+                //304支持
+                    // if (0 && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+                    // {
+                    //     header('Cache-Control: public');
+                    //     header('Last-Modified:' . $_SERVER['HTTP_IF_MODIFIED_SINCE'], true, 304);
+                    //     exit();
+                    // }
+                    
+                    header('Cache-Control: public');
+                    // header('Last-Modified: ' . $_SERVER['REQUEST_TIME']);/
+                    header('Content-Type: image/jpeg');
+                    //这就是1张图 Content-Type: image/jpeg 
+                    echo file_get_contents($url);
+                    // halt(file_get_contents($url));
+                    // echo  '<img src="data:'.file_get_contents($url).'">';
+                        // return ajax_success('获取成功',["url"=>$url]);
             }
     }
     // public function serverIp(){

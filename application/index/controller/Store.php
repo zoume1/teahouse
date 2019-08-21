@@ -71,6 +71,7 @@ class  Store extends  Controller{
                 //店铺状态(1审核通过,-1审核不通过,2审核中）
                 "status"=>1,
                 "store_name"=>$store_name,
+                "create_time"=>time(),
             ];
 
             $bool = Db::name("store")->insertGetId($data);

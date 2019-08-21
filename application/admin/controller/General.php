@@ -2141,7 +2141,8 @@ class  General extends  Base {
             if(md5($password) !==$store_pass["store_pay_pass"]){
                 exit(json_encode(array("status" => 3, "info" => "支付密码错误")));
             }
-            
+            //套餐购买成功
+            db('store')->where('id',$this->store_ids)->update(['store_use'=>1]);
             $order_data = Db::name("meal_orders")
                 ->where("id",$meal_order_id)
                 ->find();

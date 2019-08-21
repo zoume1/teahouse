@@ -184,6 +184,7 @@ class  Order extends  Controller
                     $normal_future_time = null;
                 }
                 if($goods_data["goods_standard"]==0){
+                    //普通商品
                     $datas['goods_image'] = $goods_data['goods_show_image'];//图片
                     $datas["goods_money"]=$goods_data['goods_new_money']* $member_consumption_discount["member_consumption_discount"];//商品价钱
                     $data['unit'] = explode(",",$goods_data['unit']);
@@ -193,6 +194,7 @@ class  Order extends  Controller
                         return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                    }
                 } else {
+                    //多规格商品
                     //图片
                     $special_data =Db::name("special")
                         ->where("id",$goods_standard_id[$keys])
@@ -203,7 +205,7 @@ class  Order extends  Controller
                     $data['unit'] = explode(",",$special_data['unit']);
                     $data['num'] = explode(",",$special_data['num']);
                     //判断商品的库存的是否够用
-                    if($special_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
+                    if($special_data['stock']< $numbers[$keys]){     //购买数量大于库存
                         return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                    }
 

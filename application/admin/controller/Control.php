@@ -645,8 +645,35 @@ class  Control extends  Controller{
      * [店铺分析]
      * 郭杨
      */    
-    public function control_store_index(){     
-        return view("control_store_index");
+    public function control_store_index(){ 
+        //今日注册店铺数量
+        $start_time2=strtotime(date("Y-m-d "));
+        $end_time2=strtotime(date("Y-m-d H:i:s"));
+        $time['create_time']=array('between',array($start_time2,$end_time2));
+        $time['store_use']='0';
+        $data['w_member_num']=db('store')->where($time)->count();     //今日注册店铺数量   
+
+        //注册店铺总数量
+        $time2['store_use']= '0';
+        $data['j_money_sum']=db('store')->where($time2)->count();
+        
+        //近七天增值消费销售总额
+        $start_time3=strtotime(date("Y-m-d"))-24*3600*6;
+        $end_time3=strtotime(date("Y-m-d H:i:s"));
+        $where3['order_create_time']=array('between',array($start_time3,$end_time3));
+        $where3['status']=array('between',array(2,8));
+        $data['order_money3']=db('order')->where($where3)->sum('order_amount');   //七日总销售额     2-8
+        $data['order_money3']=round($data['order_money3'],2);
+
+        //待发货订单
+        $where['status']=array('between',array(2,3));
+        $data['order_number_dai']=db('order')->where($where)->count();   //待发货订单
+        
+        //售后待处理订单
+        $where2['status']=1;
+        $data['shou_order_number']=db('after_sale')->where($where2)->count();  
+
+        return view("control_store_index",['data'=>$data]);
     }
 
 

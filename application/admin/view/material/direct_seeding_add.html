@@ -85,6 +85,32 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">直播封面</label>
+                    <div class="layui-input-block">
+                        <div class="img-box full">
+                            <section class=" img-section">
+                                <div class="z_photo upimg-div clear">
+                                    <section class="z_file fl">
+                                        <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                        <input type="file" name="goods_show_images" id="file" class="file" value=""
+                                            accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" required />
+                                    </section>
+                                </div>
+                            </section>
+                        </div>
+                        <aside class="mask works-mask">
+                            <div class="mask-content">
+                                <p class="del-p ">您确定要删除作品图片吗？</p>
+                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span>
+                                </p>
+                            </div>
+                        </aside>
+                        <div class="tips">
+                                建议尺寸：750*300
+                            </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">声音</label>
                     <div class="layui-input-block">
                         <input type="checkbox" name="sound" lay-filter="isShow" lay-skin="switch" value="0">

@@ -211,15 +211,6 @@ class WxTest extends Controller
         $postStr = file_get_contents("php://input");
         $pp['msg']=$postStr;
         db('test')->insert($pp);
-    //     $postStr='<xml>
-    //     <ToUserName><![CDATA[gh_8dad206e9538]]></ToUserName>
-    //     <Encrypt><![CDATA[oHhPjRFD3yNf76HBfF1SciWjuu3lBu6e5kpC15WD7IIt+aTxzA1tSFpViEJJyCXGtfQwDYcCju1BP6aC5heNhs8jQauf571WqOqGGfaJ/WHL1rHKfsjc1MYqEpeXVd9PH+Q9mBmJfGn4boq+CrVIlRUgnXiKaAqliJRaCXkDovF7xW+Neizq/OSOwPwaDSKQFCw8YqUA+UXiBsqP6L1/CVx2msJ39dh/eGQ49Cxdbv2o1/wR7AHz2ANdF8hOUsWswvRoLgLLeSuuD+CT16Aorqk3uFwQYHNqVzhCwPN6ZUh3TWkGAEKnY3QjWLUjdmf7EzaNRHZQbOqBp6f8D+Qb5T6UwQWfzW0jrAlYufrcE01sPBPrjtNowyAF2Lhu/QQZnfWUhUx4DE4x2RjM5dgb4ruM6WNyMXdPCXpzJgkV8hCj9+SYsxjR8VD2OkX3WO6j/mVt5MhldpzdA8Sn7KlmJW2ne4V+0Nm0SRmuoer9RGYKSvFI0CEreOH4XG6jrvLQUWedJlPRMT8xXlAynQheeLx5FdUJHS0iTw0cIj4dlBKEotEekZTeaU6li6MUdI0Ppomqti79dONngYieV8uvew==]]></Encrypt>
-    // </xml>';
-        // $postStr='<xml>
-        // <AppId><![CDATA[gh_8dad206e9538]]></AppId>
-        // <Encrypt><![CDATA[B7DxtjMSLvUUGtwkJC86YgvTCS3SNKTGIljVtzUOt/Z8ut09Pu8ipbOSH8i45KtdLSK2mzr79W/d2+U4kijbXrGW/a1BSTC0SmJ61j6drBrhvuXrYv4hMJnoXqXdNPlCMWcOHBA0jWPXkLY/xHuKOf3gZzZRbijE5vsogGNYlx2M0dl2Y/6j/x81KBOfYvvBui5qoTIV1TdaXTgay5alzSXKTpLoObRkaAM/Z8sAiGk8E1ZZTvLjqGcDE+nbH6QmKyRUosDYe5OGAU6FT7I7OgpvtMIKk7tFc81h+sWKuZuq2s9RPx9hMIYDl30VrX+/Zo0miG1gZYG2xgIREzGP7Ql0Ytzu0glyl/szx/bGpynHYyoytLlZWDuf65yS0J+rYxZeSv39Mk5J7jtWhcqSi3dAYSHWD3nS8g1BLHcnkiTDgn2vYI4Efdf4Lmc8gHApBpE5uPH46aH0SakuRdfNBRAB8W5pfSb8n8tTP7XdIbau9zZaLEVkJLbdJA2Ki7GkoVML7VAJtJ+k0UmUGYz/b2CbSk0HDBq0C+4CTQoKDmZPmVXiwHY2gjsT1PCDL70cSubA9uPWJyXAYsB5iBnucQ==]]></Encrypt>
-        // </xml>
-        // ';
         if (!empty($postStr)){
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $toUserName = trim($postObj->AppId);
@@ -227,25 +218,8 @@ class WxTest extends Controller
  
             $format = "<xml><AppId><![CDATA[{$toUserName}]]></AppId><Encrypt><![CDATA[%s]]></Encrypt></xml>";
             $from_xml = sprintf($format, $encrypt);
- 
-            // $inputs = array(
-            //     // 'encrypt_type' => '',
-            //     'timestamp' => '',
-            //     'nonce' => '',
-            //     'msg_signature' => '',
-            //     'signature' => ''
-            // );
-            // foreach ($inputs as $key => $value) {
-            //     $tmp = $_REQUEST[$key];
-            //     if (!empty($tmp)){
-            //         $inputs[$key] = $tmp;
-            //     }
-            // }
             // 第三方收到公众号平台发送的消息
             $msg = '';
-            // $timeStamp = $inputs['timestamp'];
-            // $msg_sign = $inputs['msg_signature'];
-            // $nonce = $inputs['nonce'];
             $timeStamp  = empty($_GET['timestamp'])     ? ""    : trim($_GET['timestamp']) ;
             $nonce      = empty($_GET['nonce'])     ? ""    : trim($_GET['nonce']) ;
             $msg_sign   = empty($_GET['msg_signature']) ? ""    : trim($_GET['msg_signature']) ;
@@ -290,8 +264,6 @@ class WxTest extends Controller
         }
             //获取回调的信息
             $data2=input();
-            $pp['msg']=$data2;
-            db('test')->insert($pp);
             $auth_code=$data2['auth_code'];     //授权码
             //根据授权码，获取用户信息
             $auth_info=$this->getAuthInfo($auth_code);
@@ -319,8 +291,8 @@ class WxTest extends Controller
             $data['store_type']=$store_type;//当前店铺的经营类型
             //获取小程序的二维码
             $appsecret=Db::table('applet')->where('id',$data['store_id'])->value('appSecret');
-            $head_pic=$this->getHeadpic($public_info ['authorization_info'] ['authorizer_appid'],$appsecret);   //小程序菊花码
-            $data['qrcode_url'] = $head_pic;     //二维码地址
+            // $head_pic=$this->getHeadpic($public_info ['authorization_info'] ['authorizer_appid'],$appsecret);   //小程序菊花码
+            // $data['qrcode_url'] = $head_pic;     //二维码地址
             //记录授权信息
             $res=db('miniprogram')->insert($data);
             //设置域名---修改服务器
@@ -519,22 +491,22 @@ class WxTest extends Controller
              * lilu
              * 获取小程序二维码
              */
-            public function getHeadpic($appid,$appsecret){
-                $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
-                $info = json_decode($this->https_get($url),true);     //获取access_token
-                $pp['msg']=$this->https_get($url);
-                db('test')->insert($pp);
-                $url2 = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$info['access_token'];
-                $data = '{
-                    "path":"/pages/logs/logs" 
-                }';
-                $ret = $this->https_post($url2,$data);
-                if($ret) {
-                    return $ret;
-                } else {
-                    return false;
-                }
-            }
+            // public function getHeadpic($appid,$appsecret){
+            //     $url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$appsecret;
+            //     $info = json_decode($this->https_get($url),true);     //获取access_token
+            //     $pp['msg']=$this->https_get($url);
+            //     db('test')->insert($pp);
+            //     $url2 = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$info['access_token'];
+            //     $data = '{
+            //         "path":"/pages/logs/logs" 
+            //     }';
+            //     $ret = $this->https_post($url2,$data);
+            //     if($ret) {
+            //         return $ret;
+            //     } else {
+            //         return false;
+            //     }
+            // }
 
            
 
