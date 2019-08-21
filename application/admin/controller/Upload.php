@@ -667,7 +667,7 @@ class Upload extends Controller
         * @params string $user_version : 代码版本号
         * @params string $user_desc : 代码描述
      * */
-    public function send_message($template_id = 6, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
+    public function send_message($template_id = 3, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
     {
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
