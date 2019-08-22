@@ -701,14 +701,14 @@ class Upload extends Controller
             } else {
                 $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
             }
+            //这就是1张图 Content-Type: image/jpeg
+            $data=file_get_contents($url);
+            // echo '<img src="data:'.$data.'">';
             header('Cache-Control: public');
             header('Last-Modified: '.$_SERVER['REQUEST_TIME']);
             header('Content-Type: image/jpeg');
-            //这就是1张图 Content-Type: image/jpeg
-            $data=file_get_contents($url);
-            halt($data); 
-            // echo '<img src="data:'.$data.'">';
-            exit();
+            echo $data;
+            die;
             $ret2 = $this->https_get2($url);
             $ret = json_decode($ret2,true);
             $p['msg']=$ret2.'体验码';
