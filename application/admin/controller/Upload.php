@@ -394,11 +394,12 @@ class Upload extends Controller
              //获取体验码的url
              $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
              $timeout=$this->is_timeout($appid);
-             $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+            //  $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+             $url = $timeout['authorizer_access_token'];
              $this->assign('url',$url);
-            return view('auth_detail',['data'=>$is_shou]);
-        }else{
-            //授权开始
+             return view('auth_detail',['data'=>$is_shou]);
+            }else{
+                //授权开始
             $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
             $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
             return view('auth_pre',['data'=>$url]);
