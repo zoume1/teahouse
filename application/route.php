@@ -710,6 +710,7 @@ Route::group("admin",[
 
     /*限时限购*/
     "limitations_index"=>"admin/Limitations/limitations_index",  //限时限购列表显示  
+    "limitations_search"=>"admin/Limitations/limitations_search",//限时限购列表搜索  
     "limitations_edit"=>"admin/Limitations/limitations_edit",    //限时限购编辑 
     "limitations_add"=>"admin/Limitations/limitations_add",      //限时限购添加商品
     "limitations_save"=>"admin/Limitations/limitations_save",    //限时限购添加
@@ -717,7 +718,7 @@ Route::group("admin",[
     "limitations_weave"=>"admin/Limitations/limitations_weave",  //限时限购编辑商品
     "limitations_update"=>"admin/Limitations/limitations_update",//限时限购更新
     "limitations_delete"=>"admin/Limitations/limitations_delete",//限时限购删除
-    "limitations_search"=>"admin/Limitations/limitations_search",//限时限购删除
+    // "limitations_search"=>"admin/Limitations/limitations_search",//限时限购删除
        
 
     /*优惠券*/
@@ -741,6 +742,7 @@ Route::group("admin",[
     "operate_problem_update"=>"admin/operate/operate_problem_update",    //常见问题更新
     "operate_problem_delete"=>"admin/operate/operate_problem_delete",    //常见问题删除
     "operate_problem_status"=>"admin/operate/operate_problem_status",    //常见问题状态值修改
+    "operate_problem_search"=>"admin/operate/operate_problem_search",    //常见问题搜索
 
 
     "operate_contract"=>"admin/operate/operate_contract",                //协议合同显示
@@ -998,6 +1000,7 @@ Route::group("admin",[
     "control_meal_update"=>"admin/Control/control_meal_update",    //入驻套餐编辑保存
     "control_order_index"=>"admin/Control/control_order_index",    //入驻订单页面
     "control_store_return"=>"admin/Control/control_store_return",  //入驻资料审核页面
+    "control_store_search"=>"admin/Control/control_store_search",  //入驻资料搜索
     "control_order_add"=>"admin/Control/control_order_add",        //入驻订单店铺编辑审核
     "control_order_delete"=>"admin/Control/control_order_delete",  //入驻订单店铺删除
     "control_order_update"=>"admin/Control/control_order_update",  //入驻订单店铺审核更新操作
@@ -1016,6 +1019,12 @@ Route::group("admin",[
     "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
     "store_examine_receipt"=>"admin/Control/store_examine_receipt",//admin后台审核订单发票
     "admin_auditing_receipt"=>"admin/Control/admin_auditing_receipt",//后台审核发票
+    "control_order_index_search"=>"admin/Control/control_order_index_search",    //入驻订单搜索
+    "control_online_charging_search"=>"admin/Control/control_online_charging_search",//线下充值申请搜索
+    "control_withdraw_deposit_search"=>"admin/Control/control_withdraw_deposit_search",//提现申请搜索
+
+
+
 
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
@@ -1045,6 +1054,8 @@ Route::group("admin",[
     "analyse_served"=>"admin/Analyse/analyse_served",          //总控增值待服务
     "analyse_ok"=>"admin/Analyse/analyse_ok",          //总控增值已完成
     "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",//总控增值退款维权
+    "analyse_order_search"=>"admin/Analyse/analyse_order_search",          //总控增值订单搜索
+
 
 
     "analyse_optimize_index"=>"admin/Analyse/analyse_optimize_index",   //SEO优化

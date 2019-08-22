@@ -601,4 +601,44 @@ class Operate extends  Controller{
         }     
     }
 
+       /**
+     * [常见问题显示]
+     * GY
+    */
+    public function operate_problem_search(){
+        $store_id = Session::get("store_id");
+        $titles = input('titles')?input('titles'):null;
+        $pid = input('pid')?input('pid'):null;
+
+        if(!empty($titles) && !empty($pid)){
+            $problem = db("common_ailment")
+            ->where("store_id","EQ",$store_id)
+            ->where("title", "like", "%" . $titles . "%")
+            ->where("pid","EQ",$pid)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(empty($titles) && !empty($pid)){
+            $problem = db("common_ailment")
+            ->where("store_id","EQ",$store_id)
+            ->where("pid","EQ",$pid)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(!empty($titles) && empty($pid)){
+            $problem = db("common_ailment")
+            ->where("store_id","EQ",$store_id)
+            ->where("title", "like", "%" . $titles . "%")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } else {
+            $problem = db("common_ailment")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        }
+
+        return view("operate_problem",["problem"=>$problem]);
+    }
+
 }

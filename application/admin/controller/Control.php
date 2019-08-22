@@ -730,7 +730,7 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_online_charging(){  
-        $offline_data = db('offline_recharge')->where("pay_type",'EQ',2)->select();
+        $offline_data = db('offline_recharge')->where("pay_type",'EQ',2)->order("create_time desc")->select();
         if(!empty($offline_data)){
             foreach ($offline_data as $key => $value) {
                 $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
@@ -770,7 +770,7 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_withdraw_deposit(){     
-        $offline_data = db('offline_recharge')->where("pay_type",'EQ',3)->select();
+        $offline_data = db('offline_recharge')->where("pay_type",'EQ',3)->order('create_time desc')->select();
         if(!empty($offline_data)){
             foreach ($offline_data as $key => $value) {
                 $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
@@ -879,4 +879,301 @@ class  Control extends  Controller{
 
     }
 
+    /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:入驻资料店铺页面搜索
+     **************************************
+     */
+    public function control_store_search(){
+        $contact_name = input('contact_name')?input('contact_name'):null;
+        if(!empty($contact_name)){
+            $condition = " `phone_number` like '%{$contact_name}%' or `contact_name` like '%{$contact_name}%' or `store_name` like '%{$contact_name}%'";
+            $order =Db::table('tb_store')
+            ->field("phone_number,contact_name,is_business,address_real_data,status store_status,store_name,id")
+            ->where("store_del",1)
+            ->where( $condition)
+            ->where("status",1)
+            ->order('id',"desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } else {
+            $order =Db::table('tb_store')
+            ->field("phone_number,contact_name,is_business,address_real_data,status store_status,store_name,id")
+            ->where("store_del",1)
+            ->where("status",1)
+            ->order('id',"desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        }
+
+        return view("control_store_return",["order"=>$order]);
+    }
+
+        /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:入驻订单搜索
+     **************************************
+     * @return \think\response\View
+     */
+    public function control_order_index_search(){
+        $audit_status = input('audit_status')?input('audit_status'):null;
+        $contact_name = input('contact_name')?input('contact_name'):null;
+        if(!empty($contact_name) && !empty($audit_status)){
+            $condition = " `phone_number` like '%{$contact_name}%' or `contact_name` like '%{$contact_name}%' or `tb_store.store_name` like '%{$contact_name}%'";
+            $order =Db::table('tb_meal_orders')
+            ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
+            ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
+            ->where("is_del",1)
+            ->where("tb_store.status",1)
+            ->where($condition)
+            ->where('tb_meal_orders.audit_status','=',$audit_status)
+            ->where("tb_meal_orders.pay_type","NEQ","NULL")
+            ->order("tb_meal_orders.create_time","desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(empty($contact_name) && !empty($audit_status)){
+            $order =Db::table('tb_meal_orders')
+            ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
+            ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
+            ->where("is_del",1)
+            ->where("tb_store.status",1)
+            ->where('tb_meal_orders.audit_status','=',$audit_status)
+            ->where("tb_meal_orders.pay_type","NEQ","NULL")
+            ->order("tb_meal_orders.create_time","desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(!empty($contact_name) && empty($audit_status)){
+            $condition = "`phone_number` like '%{$contact_name}%' or `contact_name` like '%{$contact_name}%'";
+            $order =Db::table('tb_meal_orders')
+            ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
+            ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
+            ->where("is_del",1)
+            ->where("tb_store.status",1)
+            ->where($condition)
+            ->where("tb_meal_orders.pay_type","NEQ","NULL")
+            ->order("tb_meal_orders.create_time","desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(empty($contact_name) && empty($audit_status)){
+            $order =Db::table('tb_meal_orders')
+            ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
+            ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
+            ->where("is_del",1)
+            ->where("tb_store.status",1)
+            ->where("tb_meal_orders.pay_type","NEQ","NULL")
+            ->order("tb_meal_orders.create_time","desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        }
+
+        $enter_meal = db("enter_meal")->field("name")->select();
+        // $type_meal['0']['audit_status']='入驻审核不通过';
+        // $type_meal['1']['audit_status']='入驻审核';
+        // $type_meal['2']['audit_status']='入驻审核通过';
+        
+
+             
+        return view("control_order_index",["order"=>$order,"enter_meal"=>$enter_meal]);
+    }
+
+
+    /**
+     * [线下充值申请搜索]
+     * 郭杨
+     */    
+    public function control_online_charging_search(){  
+        $account = input('account')?input('account'):null;
+        $parameter_one = input('status')?input('status'):null;
+        $parameter_two = input('date_min')?strtotime(input('date_min')):null;
+        $parameter_three = input('date_max')?strtotime(input('date_max')):null;
+
+        if(!empty($parameter_three)){
+            /*添加一天（23：59：59）*/
+            $t = date('Y-m-d H:i:s',$parameter_three+1*24*60*60);
+            $parameter_three  = strtotime($t);
+        }
+            
+        if(!empty($parameter_one) && empty($parameter_two) && empty($parameter_three) && empty($account)){
+            $offline_data = db('offline_recharge')
+                            ->where("pay_type",'EQ',2)
+                            ->where("status",'EQ',$parameter_one)
+                            ->order("create_time desc")
+                            ->select();
+        } else if(empty($parameter_one) && !empty($parameter_two) && empty($parameter_three)){
+            $time_condition  = "create_time>{$parameter_two}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',2)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+        } else if(empty($parameter_one) && empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time<{$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',2)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+        } else if(!empty($parameter_one) && !empty($parameter_two) && empty($parameter_three)){
+            $time_condition  = "create_time >{$parameter_two}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',2)
+            ->where("status",'EQ',$parameter_one)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+        } else if(!empty($parameter_one) && empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time <{$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',2)
+            ->where("status",'EQ',$parameter_one)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+        } else if (empty($parameter_one) && !empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time > {$parameter_two} and create_time < {$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',2)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+            
+        } else if(empty(!$parameter_one) && !empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time > {$parameter_two} and create_time < {$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',2)
+            ->where("status",'EQ',$parameter_one)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+        } else {
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',2)
+            ->order("create_time desc")
+            ->select();
+        }
+            
+        if(!empty($offline_data)){
+            foreach ($offline_data as $key => $value) {
+                $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
+                $offline_data[$key]["name"] = $bank['name'];
+                $offline_data[$key]["count"] = $bank['count'];                               
+                    $offline_data[$key]["store_number"] = db("store")->where("id",$offline_data[$key]['store_id'])->value("phone_number");                               
+                    if(!empty($account)){
+                        if($offline_data[$key]["store_number"] != $account){
+                            unset($offline_data[$key]);
+                        }
+                    }
+                }
+            }
+        
+        $offline_data = array_values($offline_data);
+        $url = 'admin/Control/control_online_charging';
+        $pag_number = 20;
+        $offline = paging_data($offline_data,$url,$pag_number);  
+        return view("control_online_charging",['offline'=>$offline]);
+    }
+
+        /**
+     * [提现申请搜索]
+     * 郭杨
+     */    
+    public function control_withdraw_deposit_search(){     
+        $account = input('account')?input('account'):null;
+        $parameter_one = input('status')?input('status'):null;
+        $parameter_two = input('date_min')?strtotime(input('date_min')):null;
+        $parameter_three = input('date_max')?strtotime(input('date_max')):null;
+
+        if(!empty($parameter_three)){
+            /*添加一天（23：59：59）*/
+            $t = date('Y-m-d H:i:s',$parameter_three+1*24*60*60);
+            $parameter_three  = strtotime($t);
+        }
+            
+        if(!empty($parameter_one) && empty($parameter_two) && empty($parameter_three) && empty($account)){
+            $offline_data = db('offline_recharge')
+                            ->where("pay_type",'EQ',3)
+                            ->where("status",'EQ',$parameter_one)
+                            ->order("create_time desc")
+                            ->select();
+        } else if(empty($parameter_one) && !empty($parameter_two) && empty($parameter_three)){
+            $time_condition  = "create_time>{$parameter_two}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+        } else if(empty($parameter_one) && empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time<{$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+        } else if(!empty($parameter_one) && !empty($parameter_two) && empty($parameter_three)){
+            $time_condition  = "create_time >{$parameter_two}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where("status",'EQ',$parameter_one)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+        } else if(!empty($parameter_one) && empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time <{$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where("status",'EQ',$parameter_one)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+        } else if (empty($parameter_one) && !empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time > {$parameter_two} and create_time < {$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+            
+        } else if(empty(!$parameter_one) && !empty($parameter_two) && !empty($parameter_three)){
+            $time_condition  = "create_time > {$parameter_two} and create_time < {$parameter_three}";
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->where("status",'EQ',$parameter_one)
+            ->where($time_condition)
+            ->order("create_time desc")
+            ->select();
+        } else {
+            $offline_data = db('offline_recharge')
+            ->where("pay_type",'EQ',3)
+            ->order("create_time desc")
+            ->select();
+        }
+            
+        if(!empty($offline_data)){
+            foreach ($offline_data as $key => $value) {
+                $bank = db("store_bank_icard")->where("id",'EQ',$offline_data[$key]['bank_icard_id'])->find();
+                $offline_data[$key]["name"] = $bank['name'];
+                $offline_data[$key]["count"] = $bank['count'];                               
+                    $offline_data[$key]["store_number"] = db("store")->where("id",$offline_data[$key]['store_id'])->value("phone_number");                               
+                    if(!empty($account)){
+                        if($offline_data[$key]["store_number"] != $account){
+                            unset($offline_data[$key]);
+                        }
+                    }
+                }
+            }
+        
+        $offline_data = array_values($offline_data);
+        $url = 'admin/Control/control_withdraw_deposit';
+        $pag_number = 20;
+        $offlines = paging_data($offline_data,$url,$pag_number); 
+        return view("control_withdraw_deposit",['offlines'=>$offlines]);
+    }
  }

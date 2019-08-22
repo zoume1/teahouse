@@ -73,19 +73,28 @@
             <!--</ul>-->
         <!--</div>-->
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Category/search')}">
+            <form class="layui-form" action="{:url('admin/operate/operate_problem_search')}">
                 <div class="seach">
                     <div class="seach_list">
                         <div class="seach_laber">标题:</div>
                         <div class="seach_input">
-                            <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入内容" class="layui-input">
+                            <input type="text" name="titles" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
 
                         </div>
                     </div>
-
+                    <div class="seach_list">
+						<div class="seach_laber">问题分类</div>
+						<div class="seach_input">
+							<select name="pid">
+								<option value="" selected="">请选择</option>
+                                <option value="1">常见问题</option>
+                                <option value="2">订单问题</option>
+                                <option value="3">支付问题</option>
+							</select>
+						</div>
+					</div>
                     <button class="layui-btn" type="submit" id="seach">立即搜索</button>
                 </div>
-
             </form>
         </blockquote>
 
