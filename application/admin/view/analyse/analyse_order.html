@@ -742,9 +742,8 @@
 		{include file="template/_top" /}
 
 		<div class="inner">
-			<blockquote class="layui-elem-quote news_search">
 				<form class="layui-form" action="{:url('admin/Order/order_search')}">
-			<div class="search-hd">
+					<div class="search-hd">
 						<div class="search-box layui-form">
 							<div>
 								<label>订单编号</label>
@@ -755,11 +754,11 @@
 								<input type="text" data-type="date_min" id="searchDateStart">~
 								<input type="text" data-type="date_max" id="searchDateend">
 							</div>
-							<button class="layui-btn">搜索</button>
+							<button class="layui-btn" type="submit" >搜索</button>
 						</div>
 					</div>
+					
 					</form>
-				</blockquote>
 			<div>
 				<a href="{:url('admin/Analyse/analyse_order')}" class="layui-btn layui-btn-mini">全部</a>
 				<a href="{:url('admin/Analyse/analyse_waiting')}" class="layui-btn layui-btn-mini btn-dfh">待发货</a>
