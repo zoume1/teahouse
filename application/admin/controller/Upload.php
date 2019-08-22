@@ -701,6 +701,12 @@ class Upload extends Controller
             } else {
                 $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
             }
+            header('Cache-Control: public');
+            header('Last-Modified: '.$_SERVER['REQUEST_TIME']);
+            header('Content-Type: image/jpeg');
+            //这就是1张图 Content-Type: image/jpeg 
+            echo file_get_contents($url);
+            exit();
             $ret2 = $this->https_get2($url);
             $ret = json_decode($ret2,true);
             $p['msg']=$ret2.'体验码';
@@ -708,22 +714,7 @@ class Upload extends Controller
             if($ret['errcode']) {
                 return ajax_success('获取失败');
             } else {
-                //304支持
-                    // if (0 && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
-                    // {
-                    //     header('Cache-Control: public');
-                    //     header('Last-Modified:' . $_SERVER['HTTP_IF_MODIFIED_SINCE'], true, 304);
-                    //     exit();
-                    // }
-                    
-                    header('Cache-Control: public');
-                    // header('Last-Modified: ' . $_SERVER['REQUEST_TIME']);/
-                    header('Content-Type: image/jpeg');
-                    //这就是1张图 Content-Type: image/jpeg 
-                    echo file_get_contents($url);
-                    // halt(file_get_contents($url));
-                    // echo  '<img src="data:'.file_get_contents($url).'">';
-                        // return ajax_success('获取成功',["url"=>$url]);
+                return ajax_success('获取成功',["url"=>$url]);
             }
     }
     // public function serverIp(){
