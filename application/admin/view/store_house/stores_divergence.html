@@ -62,12 +62,12 @@
 
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Category/search')}">
+			<form class="layui-form" action="{:url('admin/StoreHouse/stores_divergence_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">请搜索</div>
 						<div class="seach_input">
-							<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="订单编号/商品名称/用户账号" class="layui-input">
+							<input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="订单编号/商品名称/用户账号" class="layui-input">
 
 						</div>
 					</div>
@@ -82,7 +82,6 @@
 						<div class="seach_laber">结束时间</div>
 						<div class="seach_input">
 							<span class="time"><input type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  name="date_max" ></span>
-
 						</div>
 					</div>
 					<button class="layui-btn" type="submit" id="seach">立即搜索</button>

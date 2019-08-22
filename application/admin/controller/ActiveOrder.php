@@ -39,9 +39,11 @@ class  ActiveOrder extends  Controller{
             'query'    =>  [],
             'fragment' => '',
         ]);
+        $goods = [];
+        $goods = getSelectListes("goods_type");
         $active->appends($_GET);
         $this->assign('actived', $active->render());
-        return view("active_order_index",["active"=>$active]);
+        return view("active_order_index",["active"=>$active,"goods"=>$goods]);
     }
 
 
@@ -51,11 +53,29 @@ class  ActiveOrder extends  Controller{
      */
     public function search(){
         $store_id = Session::get("store_id");
-        $ativity_name = input('search_name');  //活动名称
-        $ativity_number = input('search_key'); //用户账号
+        $search_a = input('search_name');       //活动名称
+        $ativity_number = input('ppd');        //活动分类
         
-        if((!empty($ativity_name)) || (!empty($ativity_number)) ){
-            $active = db("activity_order")->where("activity_name", "like","%" .$ativity_name ."%")->where("account", "like","%" .$ativity_number ."%")->select();
+        if((!empty($search_a)) && (!empty($ativity_number))){
+            $condition =" `activity_name` like '%{$search_a}%' or `parts_order_number` like '%{$search_a}%' or `account` like '%{$search_a}%'";
+            $active = db("activity_order") 
+            ->where("store_id","EQ",$store_id)
+            ->where($condition)
+            ->where("pid","EQ",$ativity_number)
+            ->select();
+        } elseif((!empty($search_a)) && (empty($ativity_number))){
+            $condition =" `activity_name` like '%{$search_a}%' or `parts_order_number` like '%{$search_a}%' or `account` like '%{$search_a}%'";
+            $active = db("activity_order") 
+            ->where("store_id","EQ",$store_id)
+            ->where($condition)
+            ->select();
+        } elseif((empty($search_a)) && (!empty($ativity_number))){
+            $active = db("activity_order") 
+            ->where("store_id","EQ",$store_id)
+            ->where("pid","EQ",$ativity_number)
+            ->select(); 
+        }
+         
             foreach($active as $key => $value){
                 if($value["pid"]){
                     $res = db("goods_type")->where("id",$value['pid'])->field("name")->find();
@@ -73,11 +93,12 @@ class  ActiveOrder extends  Controller{
                 'query'    =>  [],
                 'fragment' => '',
             ]);
+            $goods = [];
+            $goods = getSelectListes("goods_type");
             $active->appends($_GET);
             if(!empty($active)){
-            return view("active_order_index",["active"=>$active]);
+            return view("active_order_index",["active"=>$active,"goods"=>$goods]);
             }
-        }
 
     }
 
