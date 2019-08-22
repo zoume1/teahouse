@@ -645,10 +645,10 @@ class My extends Controller
          //把qrcode文件写进文件中，使用的时候拿出来
          $dateFile =$store_id . "/";  //创建目录
          $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
-         // if (!file_exists($new_file)) {
-         //     //检查是否有该文件夹，如果没有就创建，并给予最高权限
-         //     mkdir($new_file, 750);
-         // }
+         if (!file_exists($new_file)) {
+             //检查是否有该文件夹，如果没有就创建，并给予最高权限
+             mkdir($new_file, 777);
+         }
          if (file_put_contents($new_file, $qrcode)) {
              // return  $dateFile . $filename;  //返回文件名及路径
              $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$member_information['member_id'].'.txt');
