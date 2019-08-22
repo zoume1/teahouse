@@ -373,8 +373,9 @@ class Upload extends Controller
         // }else{
             //获取携带参数的小程序的二维码
             $page='pages/logs/logs';
-            $qr=new My();
-            $qrcode=$qr->mpcode($page,1190,$store_id);
+            // $qr=new My();
+            // $qrcode=$qr->mpcode($page,1190,$store_id);
+            $qrcode=$this->getwxacode($store_id);
             halt($qrcode);
             //把qrcode文件写进文件中，使用的时候拿出来
             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
@@ -797,6 +798,29 @@ class Upload extends Controller
         } else {
             $this->errorLog("获取小程序的第三方提交代码的页面配置失败",$ret);
             return false;
+        }
+
+    }
+    /**
+     * lilu
+     * 获取小程序码
+     * store_id
+     */
+    public function getwxacode($store_id){
+
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$timeout['authorizer_access_token'];
+        $data = '{
+            "path":"page/logs/logs",
+            "width":430
+           }';
+        $ret = json_decode($this->https_post($url,$data),true);
+        halt($ret);
+        if($ret['errcode'] == 0) {
+            return ajax_success('发布成功');
+        } else {
+            return ajax_error('发布失败');
         }
 
     }
