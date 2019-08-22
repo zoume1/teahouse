@@ -1,0 +1,217 @@
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+   body {
+        background: #fff;
+    }
+    
+    #page {
+        width: 96%;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #E2E2E2;
+        padding-left: 50px;
+        background: #FDFDFE;
+    }
+    
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+    
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+    
+    .distribution_list ul {
+        display: flex;
+        align-items: center;
+    }
+    
+    .distribution_list a {
+        font-size: 14px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+    .gr {
+        background-color: rgb(102, 153, 0);
+    }
+	
+</style>
+
+{/block}
+
+<body>
+
+    {block name="content"}
+
+    <div class="childrenBody">
+        {include file="template/_top"/}
+        <a class="layui-btn batchDel gr" href="control_notice_add">添加</a>
+        <div class="layui-form news_list">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="3%">
+
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+                        <th>内容</th>
+                        <th>开始时间</th>
+                        <th>结束时间</th>
+                        <th>显示时长</th>
+                        <th>状态</th>
+                        <th width="200px">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="news_content">
+                    <tr>
+                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="}"></td>
+                     
+                        <td>好消息，好消息，好消息</td>                    
+                        <td>9102-10-01</td>        
+                        <td>9202-10-01</td>
+                        <td>10s</td>
+                        <td>
+                            <input type="checkbox" class="Status" name="status" value="" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="">
+                        </td>
+                        <td>
+                            <a href="{:url('admin/Control/control_notice_edit')}">编辑</a>
+                            <a href="{:url('admin/Control/control_withdraw_edit')}">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="page">
+                <div class="opation" style="width: 200px; float: left;">
+                    <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
+                        <option check="" value="0">请选择</option>
+                        <option value="1">批量删除</option>
+                    </select>
+                </div>
+                <div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
+                    <button type="button" id="opration_btu"
+                        style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
+                    </button>
+                </div>
+               
+            </div>
+
+        </div>
+        {if !empty($offlines)}{$offlines}{/if}
+    </div>
+
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery;
+            var vals = $("input").data("id");
+            form.on('switch(isShow)', function(data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+            })
+            //点击操作确认按钮
+            var data_id = [];
+            $("#opration_btu").click(function () {
+                var opration_val = $(".opation select option:selected").val();
+                if (opration_val == 0) {
+                    layer.alert('请选择操作', {
+                        skin: 'layui-layer-molv' //样式类名
+                        ,
+                        closeBtn: 0
+                    });
+                } else if (opration_val == 1) {
+                    layer.confirm('你确认要删除吗？', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
+                        var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
+                        for (var i = 0; i < child.length; i++) {
+                            data_id.push($(child[i])[0].dataset.id);
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "{:url('admin/Goods/dels')}",
+                            data: {
+                                "id": data_id,
+                            },
+                            success: function (data) {
+                                console.log("成功");
+                                console.log(data);
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                location.reload();
+                                data_id.splice(0, data_id.length);
+                            },
+                            error: function (data) {
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                console.log(data);
+                                console.log("错误");
+                                data_id.splice(0, data_id.length);
+                            }
+                        });
+                    });
+
+                }
+
+            });
+
+            //全选
+            form.on('checkbox(allChoose)', function (data) {
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                child.each(function (index, item) {
+                    item.checked = data.elem.checked;
+                });
+                form.render('checkbox');
+            });
+            //通过判断文章是否全部选中来确定全选按钮是否选中
+            form.on("checkbox(choose)", function (data) {
+                // console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
+                
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
+                if (childChecked.length === child.length) {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
+                } else {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
+                }
+                form.render('checkbox');
+            })
+            
+        })
+    </script>
+
+    {/block}
+
+</body>
+
+</html>

@@ -116,13 +116,15 @@
         <div class="flow-btns">
             <button class="upload">一键上传店铺代码</button>
             <img src="__STATIC__/admin/index/img/u40262p000.png">
-            <button class="get-code">获取体验二维码</button>
+            <button class="get-code" >获取体验二维码</button>
             <img src="__STATIC__/admin/index/img/u40262p000.png">
             <button class="publish">发布正式版小程序</button>
             <span class="dott"></span>
             <button class="relieve">解除授权绑定</button>
         </div>
     </div>
+    <input  name="url" value="{$pp}" >
+    <input  name="store" value="{$store}" >
 
     <div class="mask" style="display: none;"></div>
     <!-- 发布提示 -->
@@ -239,19 +241,24 @@
         // 获取体验二维码
         $('.get-code').click(function()
         {
-            $.ajax({
-                url:'get_qrcode',
-                type:"post",
-                success : function(data){
-                    var data = JSON.parse(data);
-                    if(data.status=='0'){
-                        alert("获取体验码失败");
-                    }else{
-                        $('.mask').show().append('<img src="'+data.data.url+'"><span class="close">×<span>');
-                        closeEven();
-                    }
-                }
-            })
+            // $.ajax({
+            //     url:'get_qrcode',
+            //     type:"get",
+            //     success : function(data){
+            //         var data = JSON.parse(data);
+            //         if(data.status=='0'){
+            //             alert("获取体验码失败");
+            //         }else{
+            //             console.log(data.data.url);
+            //             $('.mask').show().append('<img src="'+data.data.url+'"><span class="close">×<span>');
+            //             closeEven();
+            //         }
+            //     }
+            // })
+            var url='https://api.weixin.qq.com/wxa/get_qrcode?access_token='+$('input[name="url"]').val();
+            var store=$('input[name="store"]').val();
+            alert(store);
+            window.open("https://www.zhihuichacang.com/test.php?url="+url+"&store="+store);
         })
 
         // 发布正式版小程序

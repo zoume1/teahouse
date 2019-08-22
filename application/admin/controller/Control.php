@@ -878,6 +878,7 @@ class  Control extends  Controller{
         }
 
     }
+<<<<<<< HEAD
 
     /**
      **************gy*******************
@@ -1175,5 +1176,30 @@ class  Control extends  Controller{
         $pag_number = 20;
         $offlines = paging_data($offline_data,$url,$pag_number); 
         return view("control_withdraw_deposit",['offlines'=>$offlines]);
+=======
+    /**
+     * [公告通知]
+     * 郭杨
+     */    
+    public function control_notice_index(){
+        
+        return view("control_notice_index");
+    }
+    /**
+     * [公告通知添加]
+     * 郭杨
+     */    
+    public function control_notice_add(){
+        
+        return view("control_notice_add");
+    }
+    /**
+     * [公告通知编辑]
+     * 郭杨
+     */    
+    public function control_notice_edit(){
+        
+        return view("control_notice_edit");
+>>>>>>> 9479c703769cb4e38aa8599129bac15094c21ba4
     }
  }
