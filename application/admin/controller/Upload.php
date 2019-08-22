@@ -815,6 +815,7 @@ class Upload extends Controller
             "width":430
            }';
         $pp=$this->https_post($url,$data);
+        $data2='image/jpeg;base64,'.base64_encode($pp);
         // $ret = json_decode($pp,true);
         // dump($pp);
         // halt($ret.'123123');
@@ -823,7 +824,7 @@ class Upload extends Controller
         // } else {
         //     return ajax_error('发布失败');
         // }
-        return $pp;
+        return $data2;
 
     }
    

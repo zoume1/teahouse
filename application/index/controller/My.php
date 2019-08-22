@@ -533,7 +533,6 @@ class My extends Controller
         $access_token=$this->getAccesstoken($uniacid);
         $url="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$access_token;
         $result=$this->api_notice_increment($url,$post_data);
-        halt($result);
         $data='image/png;base64,'.base64_encode($result);
        
         return $data;
