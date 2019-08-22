@@ -123,6 +123,8 @@
             <button class="relieve">解除授权绑定</button>
         </div>
     </div>
+    <input  name="url" value="{$pp}" >
+
     <div class="mask" style="display: none;"></div>
     <!-- 发布提示 -->
     <div class="tip-pop publish-confirm" style="display: none;">
@@ -238,24 +240,7 @@
         // 获取体验二维码
         $('.get-code').click(function()
         {
-            // $.ajax({
-            //     url:'get_qrcode',
-            //     type:"get",
-            //     success : function(data){
-            //         var data = JSON.parse(data);
-            //         if(data.status=='0'){
-            //             alert("获取体验码失败");
-            //         }else{
-            //             console.log(data.data.url);
-            //             $('.mask').show().append('<img src="'+data.data.url+'"><span class="close">×<span>');
-            //             closeEven();
-            //         }
-            //     }
-            // })
             var url='https://api.weixin.qq.com/wxa/get_qrcode?access_token='+$('input[name="url"]').val();
-            // var store=$('input[name="store"]').val();
-            // alert(store);
-            // window.open("https://www.zhihuichacang.com/test.php?url="+url+"&store="+store);
             $('.mask').show().append('<img src="https://www.zhihuichacang.com/test.php?url='+url+'"><span class="close">×<span>');
              closeEven();
         })
