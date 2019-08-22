@@ -672,9 +672,11 @@ class My extends Controller
         $postdata['is_hyaline']=true;
         $post_data = json_encode($postdata);
         $access_token=$this->getAccesstoken($store_id);
+        dump($access_token);
         $url="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$access_token;
         $result=$this->api_notice_increment($url,$post_data);
         $data='image/png;base64,'.base64_encode($result);
+        echo '<img src="data:'.$data.'">';
         halt($data);
         return $data;
 //        echo '<img src="data:'.$data.'">';
