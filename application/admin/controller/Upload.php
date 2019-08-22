@@ -704,8 +704,8 @@ class Upload extends Controller
             //这就是1张图 Content-Type: image/jpeg
             $data=file_get_contents($url);
             // echo '<img src="data:'.$data.'">';
-            header('Cache-Control: public');
-            header('Last-Modified: '.$_SERVER['REQUEST_TIME']);
+            // header('Cache-Control: public');
+            // header('Last-Modified: '.$_SERVER['REQUEST_TIME']);
             header('Content-Type: image/jpeg');
             echo $data;
             die;
