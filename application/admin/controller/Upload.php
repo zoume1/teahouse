@@ -709,7 +709,8 @@ class Upload extends Controller
             // header('Cache-Control: public');
             // header('Last-Modified: '.$_SERVER['REQUEST_TIME']);
             header('Content-Type: image/jpeg;');
-            echo $data;
+            echo '<img src="'.$data.'">';
+            // echo $data;
             // $ret2 = $this->https_get2($url);
             // $ret = json_decode($ret2,true);
             // $p['msg']=$ret2.'体验码';
