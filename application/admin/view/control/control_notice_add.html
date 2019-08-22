@@ -15,7 +15,7 @@
     }
 
     .texts {
-        width: 150px;
+        width: 200px;
     }
 
     .text {
@@ -43,13 +43,13 @@
             <label class="form-label">公告时间</label>
             <div class="text">开始时间</div>
             <input type="text" name="start_time" class="texts datetimepicker layui-input" readonly="readonly"
-                id="beginTimes" placeholder="年/月/日" value="">
+                id="datetimepicker2" placeholder="年/月/日" value="">
         </div>
         <div class="form-item">
             <label class="form-label"></label>
             <div class="text">结束时间</div>
             <input type="text" name="end_time" class="texts datetimepicker layui-input" readonly="readonly"
-                id="endTimes" placeholder="年/月/日" value="">
+                id="datetimepicker3" placeholder="年/月/日" value="">
         </div>
         <div class="form-item">
             <label class="form-label">展示时长</label>
@@ -86,23 +86,31 @@
         }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function () {
             var form = layui.form(),
                 $ = layui.jquery;
-            $('#beginTimes').datetimepicker({
-                //					yearOffset:222,
-                lang: 'ch',
-                timepicker: false,
-                //					format:'d/m/Y',
-                formatDate: 'Y/m/d',
-                minDate: '-2018/01/02', // yesterday is minimum date
-                maxDate: '+2050/01/02' // and tommorow is maximum date calendar
+            // $('#beginTimes').datetimepicker({
+            //     //					yearOffset:222,
+            //     lang: 'ch',
+            //     timepicker: false,
+            //     //					format:'d/m/Y',
+            //     formatDate: 'Y/m/d',
+            //     minDate: '-2018/01/02', // yesterday is minimum date
+            //     maxDate: '+2050/01/02' // and tommorow is maximum date calendar
+            // });
+            // $('#endTimes').datetimepicker({
+            //     //					yearOffset:222,
+            //     lang: 'ch',
+            //     timepicker: false,
+            //     //					format:'d/m/Y',
+            //     formatDate: 'Y/m/d',
+            //     minDate: '2018/01/02', // yesterday is minimum date
+            //     maxDate: '2050/01/02' // and tommorow is maximum date calendar
+            // });
+            $('#datetimepicker2').datetimepicker({
+                format: 'Y/m/d H:i:s',
+                step: 1,
             });
-            $('#endTimes').datetimepicker({
-                //					yearOffset:222,
-                lang: 'ch',
-                timepicker: false,
-                //					format:'d/m/Y',
-                formatDate: 'Y/m/d',
-                minDate: '2018/01/02', // yesterday is minimum date
-                maxDate: '2050/01/02' // and tommorow is maximum date calendar
+            $('#datetimepicker3').datetimepicker({
+                format: 'Y/m/d H:i:s',
+                step: 1,
             });
             form.render();
 
