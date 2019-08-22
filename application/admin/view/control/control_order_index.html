@@ -69,20 +69,20 @@
         <!--</ul>-->
         <!--</div>-->
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Control/control_order_search')}">
+            <form class="layui-form" action="{:url('admin/Control/control_order_index_search')}">
                 <div class="seach">
                     <div class="seach_list">
-                        <div class="seach_laber">入驻商名称</div>
+                        <div class="seach_laber">请输入:</div>
                         <div class="seach_input">
                             <input type="text" name="contact_name" lay-verify="title" autocomplete="off"
-                                placeholder="姓名/公司名" class="layui-input">
+                                placeholder="手机号/姓名" class="layui-input">
                         </div>
                     </div>
-                    <div class="form-item">
+                    <!-- <div class="form-item">
                         <label class="form-label">入驻审核：</label>
                         <div class="form-input" style="width: 250px;">
                             {if !empty($type_meal)}
-                            <select name="name" id="admin_role" class="role_list">
+                            <select name="audit_status" id="admin_role" class="role_list">
                                 <option value="" select>请选择</option>
                                 {volist name="type_meal" id="val" key="k"}
                                 <option value="{$k}">{$val.audit_status}</option>
@@ -94,6 +94,19 @@
                             </select>
                             {/if}
                             </select>
+                        </div>
+                    </div> -->
+
+
+                    <div class="seach_list">
+                        <div class="seach_laber">入驻审核</div>
+                        <div class="seach_input">
+                            <select name="audit_status">
+                                <option  value="">请选择</option>  
+                                <option  value="1">审核通过</option>  
+                                <option  value="0">审核待通过</option>
+                                <option  value="-1">审核未通过</option>
+							</select>
                         </div>
                     </div>
                     <button class="layui-btn" type="submit" id="seach">立即搜索</button>

@@ -970,5 +970,71 @@ class  Analyse extends  Controller{
         }
     }
 
+        /**
+     * [增值商品搜索]
+     * 郭杨
+     */    
+    public function analyse_search(){     
+        $goods_number = input('goods_number')?input('goods_number'):null;
+        if(!empty($goods_number)){
+            $condition = " `goods_number` like '%{$goods_number}%' or `goods_name` like '%{$goods_number}%'";
+            $analyse_data = db("analyse_goods")
+            ->order('sort_number desc')
+            ->where($condition)
+            ->select();
+        } else {
+            $analyse_data = db("analyse_goods")
+            ->order('sort_number desc')
+            ->select();
+        }
+        if(!empty($analyse_data)){
+            foreach ($analyse_data as $key => $value) {
+                    if($analyse_data[$key]["goods_standard"] == "1")
+                    {
+                        $max[$key] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->max("price");//最高价格
+                        $min[$key] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->min("price");//最低价格
+                        $analyse_data[$key]["goods_repertory"] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->sum("stock");//库存
+                        $analyse_data[$key]["max_price"] = $max[$key];
+                        $analyse_data[$key]["min_price"] = $min[$key];
+                    }               
+                }
+            }   
+        $url = 'admin/Analyse/analyse_index';
+        $pag_number = 20;
+        $analyse = paging_data($analyse_data,$url,$pag_number);
+        return view("analyse_index",["analyse"=>$analyse]);
+    }
+
+    /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:总控增值订单搜索
+     **************************************
+     */
+    public function  analyse_order_search(){
+        $store_id = Session::get("store_id");
+        if($store_id == 0){
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        } else {
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where("a.store_id",'=',$store_id)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time")
+            ->select();
+        }
+        $url = 'admin/Analyse/analyse_order';
+        $pag_number = 20;
+        $data = paging_data($rest_data,$url,$pag_number);
+        return view("analyse_order",["data"=>$data]);
+    }
 
  }
