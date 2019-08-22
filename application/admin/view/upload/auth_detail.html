@@ -116,7 +116,7 @@
         <div class="flow-btns">
             <button class="upload">一键上传店铺代码</button>
             <img src="__STATIC__/admin/index/img/u40262p000.png">
-            <a class="get-code" >获取体验二维码</a>
+            <button class="get-code" >获取体验二维码</button>
             <img src="__STATIC__/admin/index/img/u40262p000.png">
             <button class="publish">发布正式版小程序</button>
             <span class="dott"></span>
@@ -124,6 +124,7 @@
         </div>
     </div>
     <input  name="url" value="{$pp}" >
+    <input  name="store" value="{$store}" >
 
     <div class="mask" style="display: none;"></div>
     <!-- 发布提示 -->
@@ -255,10 +256,9 @@
             //     }
             // })
             var url='https://api.weixin.qq.com/wxa/get_qrcode?access_token='+$('input[name="url"]').val();
-            alert(url);
-            window.open("https://www.zhihuichacang.com/test.php?url="+url);
-            //  $('.mask').show().append('<img src="'+url+'"><span class="close">×<span>');
-            //  closeEven();
+            var store=$('input[name="store"]').val();
+            alert(store);
+            window.open("https://www.zhihuichacang.com/test.php?url="+url+"&store="+store);
         })
 
         // 发布正式版小程序

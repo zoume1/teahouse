@@ -396,7 +396,7 @@ class Upload extends Controller
              $timeout=$this->is_timeout($appid);
              //  $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
              $pp = $timeout['authorizer_access_token'];
-             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp]);
+             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id]);
             }else{
                 //授权开始
             $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
