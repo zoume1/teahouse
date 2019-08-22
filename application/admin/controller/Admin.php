@@ -4,10 +4,11 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Request;
 use think\Session;
+use think\paginator\driver\Bootstrap;
 class Admin extends Controller
 {
     /**
-     **************李火生*******************
+     **************gy*******************
      * @param Request $request
      * Notes: [管理员列表]
      **************************************
@@ -30,11 +31,12 @@ class Admin extends Controller
             }
             $roleList = getSelectList("role");
         }
+
         return view("index",["account_list"=>$account_list,"roleList"=>$roleList]);
     }
 
     /**
-     **************李火生*******************
+     **************gy*******************
      * @param Request $request
      * Notes:管理员查询
      **************************************
@@ -57,7 +59,7 @@ class Admin extends Controller
     }
 
     /**
-     **************李火生*******************
+     **************gy*******************
      * @param Request $request
      * Notes:管理员添加入库
      **************************************
@@ -80,7 +82,7 @@ class Admin extends Controller
     }
 
     /**
-     **************李火生*******************
+     **************gy*******************
      * @param Request $request
      * Notes:管理员删除
      **************************************
@@ -96,7 +98,7 @@ class Admin extends Controller
     }
 
     /**
-     **************李火生*******************
+     **************gy*******************
      * @param Request $request
      * Notes:管理员编辑
      **************************************
@@ -116,7 +118,7 @@ class Admin extends Controller
     }
 
     /**
-     **************李火生*******************
+     **************gy*******************
      * @param Request $request
      * Notes:管理员修改
      **************************************
@@ -137,7 +139,7 @@ class Admin extends Controller
 
 
     /**
-     **************李火生*******************
+     **************gy*******************
      * @param Request $request
      * Notes:管理员状态修改
      **************************************
@@ -169,7 +171,7 @@ class Admin extends Controller
 
 
     /**
-     **************李火生*******************
+     **************gy*******************
      * @param Request $request
      * Notes:密码修改
      **************************************
@@ -182,6 +184,37 @@ class Admin extends Controller
         if($bool){
             $this->success("修改成功，请重新登录", "admin/Login/index");
         }
+    }
+
+        /**
+     **************gy*******************
+     * @param Request $request
+     * Notes: [管理员列表搜索]
+     **************************************
+     * @param Request $request
+     * @return \think\response\View
+     */
+    public function search(){
+        $search_a = input('goods_number')?input('goods_number'):null;
+        if(!empty($goods_number)){
+            $condition =" `account` like '%{$search_a}%' or `name` like '%{$search_a}%'";
+            $account_list = db("admin")
+            ->order("id")
+            ->where($condition)
+            ->select();
+        } else {
+            $account_list = db("admin")
+            ->order("id")
+            ->select();
+        }
+        foreach ($account_list as $key=>$value){
+            $account_list[$key]["role_name"] = db("role")->where("id",$value["role_id"])->value("name");
+        }
+        $roleList = getSelectList("role");
+        $url = 'admin/admin/index';
+        $pag_number = 20;
+        $account_list = paging_data($account_list,$url,$pag_number);
+        return view("index",["account_list"=>$account_list,"roleList"=>$roleList]);
     }
 
 

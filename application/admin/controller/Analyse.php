@@ -51,7 +51,7 @@ class  Analyse extends  Controller{
             ->join('tb_store b','b.id = a.store_id','left')
             ->where("a.status",'>',1)
             ->field("a.*,b.store_name")
-            ->order("a.order_create_time")
+            ->order("a.order_create_time desc")
             ->select();
         } else {
             $rest_data = Db::table("tb_adder_order")
@@ -60,7 +60,7 @@ class  Analyse extends  Controller{
             ->where("a.status",'>',1)
             ->where("a.store_id",'=',$store_id)
             ->field("a.*,b.store_name")
-            ->order("a.order_create_time")
+            ->order("a.order_create_time desc")
             ->select();
         }
         $url = 'admin/Analyse/analyse_order';
@@ -1012,25 +1012,96 @@ class  Analyse extends  Controller{
      **************************************
      */
     public function  analyse_order_search(){
-        $store_id = Session::get("store_id");
-        if($store_id == 0){
+        $search_a =input("search_a") ? input("search_a"):null;
+        $time_min  =input("date_min") ? input("date_min"):null;
+        $time_max  =input('date_max') ? strtotime(date('Y-m-d H:i:s',strtotime(input('date_max'))+1*24*60*60)):null;
+        if(!empty($search_a) && !empty($time_min) && !empty($time_max)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            $time_condition  = "order_create_time>{$time_min} and order_create_time< {$time_max}";
             $rest_data = Db::table("tb_adder_order")
             ->alias('a')
             ->join('tb_store b','b.id = a.store_id','left')
             ->where("a.status",'>',1)
+            ->where($condition)
+            ->where($time_condition)
             ->field("a.*,b.store_name")
-            ->order("a.order_create_time")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(!empty($search_a) && empty($time_min) && empty($time_max)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            $time_condition  = "order_create_time< {$time_max}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(empty($search_a) && !empty($time_min) && empty($time_max)){
+            $time_condition  = "order_create_time>{$time_min}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(empty($search_a) && empty($time_min) && !empty($time_max)){
+            $time_condition  = "order_create_time< {$time_max}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(!empty($search_a) && !empty($time_min) && empty($time_max)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            $time_condition  = "order_create_time>{$time_min}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($condition)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(!empty($search_a) && empty($time_min) && !empty($time_max)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            $time_condition  = "order_create_time< {$time_max}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($condition)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(empty($search_a) && !empty($time_min) && !empty($time_max)){
+            $time_condition  = "order_create_time>{$time_min} and order_create_time< {$time_max}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
             ->select();
         } else {
             $rest_data = Db::table("tb_adder_order")
             ->alias('a')
             ->join('tb_store b','b.id = a.store_id','left')
             ->where("a.status",'>',1)
-            ->where("a.store_id",'=',$store_id)
             ->field("a.*,b.store_name")
-            ->order("a.order_create_time")
+            ->order("a.order_create_time desc")
             ->select();
         }
+
         $url = 'admin/Analyse/analyse_order';
         $pag_number = 20;
         $data = paging_data($rest_data,$url,$pag_number);

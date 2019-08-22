@@ -440,6 +440,7 @@ Route::group("admin",[
     "admin_updata"=>"admin/admin/updata",
     "admin_status"=>"admin/admin/status",
     "admin_passwd"=>"admin/admin/passwd",
+    "admin_search"=>"admin/admin/search",
 
 
     /*菜单列表*/
@@ -1022,12 +1023,11 @@ Route::group("admin",[
     "control_order_index_search"=>"admin/Control/control_order_index_search",    //入驻订单搜索
     "control_online_charging_search"=>"admin/Control/control_online_charging_search",//线下充值申请搜索
     "control_withdraw_deposit_search"=>"admin/Control/control_withdraw_deposit_search",//提现申请搜索
-
-
-
     "control_notice_index"=>"admin/Control/control_notice_index",//公告通知
     "control_notice_edit"=>"admin/Control/control_notice_edit",//公告通知
     "control_notice_add"=>"admin/Control/control_notice_add",//公告通知
+
+
 
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
