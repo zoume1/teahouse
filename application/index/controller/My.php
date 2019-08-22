@@ -659,6 +659,7 @@ class My extends Controller
     41030    所传page页面不存在，或者小程序没有发布-----小程序码
     */
     public function mpcode2($page,$store_id){
+        $postdata['scene']='1190';
         // 宽度
         $postdata['width']=430;
         // 页面
