@@ -701,12 +701,14 @@ class Upload extends Controller
             } else {
                 $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
             }
+            $url2='https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83erUq9zRORvYTzicicKsZyVs5h0GcJ11DE8GXIEndMKen9miaRwnrXcIvEnMibMDwY7onTJLT77b46iaUmA/132';
             //这就是1张图 Content-Type: image/jpeg
-            // $data=file_get_contents($url);
+            $data=file_get_contents($url2);
             // echo '<img src="data:'.$data.'">';
             // header('Cache-Control: public');
             // header('Last-Modified: '.$_SERVER['REQUEST_TIME']);
-            // header('Content-Type: image/jpeg');
+            header('Content-Type: image/jpeg;');
+            echo $data;
             $ret2 = $this->https_get2($url);
             $ret = json_decode($ret2,true);
             $p['msg']=$ret2.'体验码';
