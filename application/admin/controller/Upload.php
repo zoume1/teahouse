@@ -391,6 +391,11 @@ class Upload extends Controller
         $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
         if($is_shou){
             $is_shou['qr_img']=$re;
+             //获取体验码的url
+             $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+             $timeout=$this->is_timeout($appid);
+             $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+             $this->assign('url',$url);
             return view('auth_detail',['data'=>$is_shou]);
         }else{
             //授权开始
