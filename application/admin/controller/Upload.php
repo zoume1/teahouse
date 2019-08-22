@@ -376,7 +376,6 @@ class Upload extends Controller
             // $qr=new My();
             // $qrcode=$qr->mpcode($page,1190,$store_id);
             $qrcode=$this->getwxacode($store_id);
-            halt($qrcode);
             //把qrcode文件写进文件中，使用的时候拿出来
             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
                 //检查是否有该文件夹，如果没有就创建，并给予最高权限
@@ -816,14 +815,15 @@ class Upload extends Controller
             "width":430
            }';
         $pp=$this->https_post($url,$data);
-        $ret = json_decode($pp,true);
-        dump($pp);
-        halt($ret.'123123');
-        if($ret['errcode'] == 0) {
-            return ajax_success('发布成功');
-        } else {
-            return ajax_error('发布失败');
-        }
+        // $ret = json_decode($pp,true);
+        // dump($pp);
+        // halt($ret.'123123');
+        // if($ret['errcode'] == 0) {
+        //     return ajax_success('发布成功');
+        // } else {
+        //     return ajax_error('发布失败');
+        // }
+        return $pp;
 
     }
    
