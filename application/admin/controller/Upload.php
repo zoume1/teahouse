@@ -375,7 +375,6 @@ class Upload extends Controller
             $page='pages/logs/logs';
             $qr=new My();
             $qrcode=$qr->mpcode2($page,$store_id);
-            halt($qrcode);
             //把qrcode文件写进文件中，使用的时候拿出来
             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
                 //检查是否有该文件夹，如果没有就创建，并给予最高权限
@@ -445,11 +444,11 @@ class Upload extends Controller
          $is_shou['qr_img']=$re;
          if($is_shou){
              //获取体验码的url
-            $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
-            $timeout=$this->is_timeout($appid);
-            $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
-            $this->assign('url',$url);
-            return view('auth_detail',['data'=>$is_shou,'url'=>$url]);
+             $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+             $timeout=$this->is_timeout($appid);
+             //  $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+             $pp = $timeout['authorizer_access_token'];
+            return view('auth_detail',['data'=>$is_shou,'pp'=>$pp]);
          }else{
              //授权开始
              $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
