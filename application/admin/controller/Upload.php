@@ -705,8 +705,8 @@ class Upload extends Controller
             header('Last-Modified: '.$_SERVER['REQUEST_TIME']);
             header('Content-Type: image/jpeg');
             //这就是1张图 Content-Type: image/jpeg
-            echo file_get_contents($url); 
-            // $data=file_get_contents($url);
+            $data=file_get_contents($url);
+            halt($data); 
             // echo '<img src="data:'.$data.'">';
             exit();
             $ret2 = $this->https_get2($url);
