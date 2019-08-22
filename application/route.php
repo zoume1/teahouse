@@ -440,6 +440,7 @@ Route::group("admin",[
     "admin_updata"=>"admin/admin/updata",
     "admin_status"=>"admin/admin/status",
     "admin_passwd"=>"admin/admin/passwd",
+    "admin_search"=>"admin/admin/search",
 
 
     /*菜单列表*/
