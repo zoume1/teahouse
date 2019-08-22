@@ -815,8 +815,10 @@ class Upload extends Controller
             "path":"page/logs/logs",
             "width":430
            }';
-        $ret = json_decode($this->https_post($url,$data),true);
-        halt($ret);
+        $pp=$this->https_post($url,$data);
+        $ret = json_decode($pp,true);
+        dump($pp);
+        halt($ret.'123123');
         if($ret['errcode'] == 0) {
             return ajax_success('发布成功');
         } else {
