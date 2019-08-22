@@ -123,6 +123,7 @@
             <button class="relieve">解除授权绑定</button>
         </div>
     </div>
+    <input  name="url" value="{$url}" >
 
     <div class="mask" style="display: none;"></div>
     <!-- 发布提示 -->
@@ -253,7 +254,7 @@
             //         }
             //     }
             // })
-            var url={$url};
+            var url=$('input[name="url"]').val();
             window.location.href="http://www.zhihuichacang.com/test.php?url=".url;
             //  $('.mask').show().append('<img src="'+url+'"><span class="close">×<span>');
             //  closeEven();
