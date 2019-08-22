@@ -298,4 +298,40 @@ class Distribution extends Controller
         }
     }
 
+
+    /**
+     * [分销记录页面]
+     * GY
+     */
+    public function record_search(){
+        $store_id = Session::get("store_id");
+        $search_a = input('search_name')?input('search_name'):null;
+        if(!empty($search_a)){
+            $condition =" `order_no` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            $record =Db::table('tb_dealer_order')
+            ->field("tb_dealer_order.*,tb_member.member_phone_num,tb_order.user_phone_number,user_account_name")
+            ->join("tb_dealer_user","tb_dealer_order.user_id= tb_dealer_user.user_id",'left')
+            ->join("tb_order","tb_order.id= tb_dealer_order.order_id",'left')
+            ->join("tb_member","tb_dealer_user.referee_id = tb_member.member_id",'left')
+            ->where("tb_dealer_order.wxapp_id",$store_id)
+            ->where($condition)
+            ->where("tb_dealer_order.is_settled",'=',1) //已结算
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } else {
+            $record =Db::table('tb_dealer_order')
+            ->field("tb_dealer_order.*,tb_member.member_phone_num,tb_order.user_phone_number,user_account_name")
+            ->join("tb_dealer_user","tb_dealer_order.user_id= tb_dealer_user.user_id",'left')
+            ->join("tb_order","tb_order.id= tb_dealer_order.order_id",'left')
+            ->join("tb_member","tb_dealer_user.referee_id = tb_member.member_id",'left')
+            ->where("tb_dealer_order.wxapp_id",$store_id)
+            ->where("tb_dealer_order.is_settled",'=',1) //已结算
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        }
+        return view('record_index',["record"=>$record]);
+    }
+
 }

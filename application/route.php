@@ -685,10 +685,13 @@ Route::group("admin",[
     "distribution_goods_delete"=>"admin/Distribution/goods_delete",    //分销商品组删除
     "distribution_goods_search"=>"admin/Distribution/goods_search",    //分销商品组搜素
     "distribution_record_index"=>"admin/Distribution/record_index",    //分销记录页面
+    "distribution_record_search"=>"admin/Distribution/record_search",   //分销记录页面搜索
     "distribution_member_index"=>"admin/Member/member_index",          //分销成员页面
     "distribution_member_add"=>"admin/Member/member_add",              //分销成员添加
     "distribution_member_edit"=>"admin/Member/member_edit",            //分销成员页面编辑
+    "distribution_member_update"=>"admin/Member/member_update",        //分销成员页面更新
     "distribution_member_save"=>"admin/Member/member_save",            //分销成员保存入库
+    "distribution_member_status"=>"admin/Member/member_status",        //分销成员状态更改
     /*TODO：分销结束*/
 
 
@@ -814,8 +817,11 @@ Route::group("admin",[
     "store_house_cost" =>"admin/StoreHouse/store_house_cost",           //仓库编辑价格单位
     "store_house_status" =>"admin/StoreHouse/store_house_status",       //仓库编辑默认入仓
     "stores_divergence" =>"admin/StoreHouse/stores_divergence",         //入仓
+    "stores_divergence_search" =>"admin/StoreHouse/stores_divergence_search",     //入仓订单搜索
     "stores_divergence_out" =>"admin/StoreHouse/stores_divergence_out", //出仓
+    "stores_divergence_out_search" =>"admin/StoreHouse/stores_divergence_out_search", //出仓搜索
     "stores_series_index" =>"admin/StoreHouse/stores_series_index",     //仓储续费
+    "stores_series_search" =>"admin/StoreHouse/stores_series_search",   //仓储续费订单搜索
     "stores_order_confirm_shipment" =>"admin/StoreHouse/stores_order_confirm_shipment",//订单出仓订单发货
 
     /*资产*/

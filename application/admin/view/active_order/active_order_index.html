@@ -68,15 +68,22 @@
 					<div class="seach_list">
 						<div class="seach_laber">输入搜索</div>
 						<div class="seach_input">
-							<input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input" id="zhanghu">
+							<input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="活动名称/订单号/用户账号" class="layui-input" id="zhanghu">
 						</div>
 					</div>
-					<div class="seach_list">
-						<div class="seach_laber">用户账号</div>
-						<div class="seach_input">
-							<input type="text" name="search_key" lay-verify="title" autocomplete="off" placeholder="活动名称" class="layui-input" id="nichwng">
-						</div>
-					</div>
+                    <div class="seach_list">
+                        <div class="seach_laber">活动分类</div>
+                        <div class="seach_input">
+                            {if !empty($goods)}
+                            <select name="ppd" id="admin_role" class="role_list">
+								<option value="">顶级</option>
+								{volist name="goods" id="vl"}
+								<option value="{$vl.id}">{$vl.name}</option>
+								{/volist}
+							</select> 
+							</select> {/if}
+                        </div>
+                    </div>
 					 <button class="layui-btn" type="submit">立即搜索</button>
 				</div>
 			</form>

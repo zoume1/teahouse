@@ -324,6 +324,317 @@ class StoreHouse extends Controller{
         }
     }
 
+    /**
+     * [仓库入仓订单搜索]
+     * 郭杨
+     */    
+    public function stores_divergence_search()
+    { 
+        $search_a = input('search_name')?input('search_name'):null;
+        $timemin = input('date_min')?strtotime(input('date_min')):null;
+        $timemax = input('date_max')?strtotime(date('Y-m-d H:i:s',strtotime(input('date_max'))+1*24*60*60)):null; 
+        $store_id = Session::get("store_id");
+        if(!empty($search_a)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            if(!empty($timemin) && !empty($timemax)){
+                $time_condition  = "order_create_time>{$timemin} and order_create_time< {$timemax}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("status",">",1)
+                ->where($condition)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            } elseif(empty($timemin) && !empty($timemax)){
+                $time_condition  = "order_create_time < {$timemax}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("status",">",1)
+                ->where($condition)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            }  elseif(!empty($timemin) && empty($timemax)){
+                $time_condition  = "order_create_time > {$timemin}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("status",">",1)
+                ->where($condition)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            } elseif(empty($timemin) && empty($timemax)){
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("status",">",1)
+                ->where($condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            }
+
+        } else {
+            if(!empty($timemin) && !empty($timemax)){
+                $time_condition  = "order_create_time>{$timemin} and order_create_time< {$timemax}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("status",">",1)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+               
+            } elseif(empty($timemin) && !empty($timemax)){
+                $time_condition  = "order_create_time < {$timemax}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("status",">",1)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            }  elseif(!empty($timemin) && empty($timemax)){
+                $time_condition  = "order_create_time > {$timemin}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("status",">",1)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            } elseif(empty($timemin) && empty($timemax)){
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("status",">",1)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            }
+        }
+
+        foreach($store_order as $key => $value){
+            $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
+            $store_order[$key]["store_name"] = db("store_house")->where("id",$store_order[$key]["store_house_id"])->value('name');
+        }    
+
+        $url = 'admin/StoreHouse/stores_divergence';
+        $pag_number = 20;
+        $stores_divergence = paging_data($store_order,$url,$pag_number);
+        return view("stores_divergence",["stores_divergence"=>$stores_divergence]);
+    }
+
+
+        /**
+     * [仓库出仓搜索]
+     * 郭杨
+     */
+    public function stores_divergence_out_search(){
+        $search_a = input('search_name')?input('search_name'):null;
+        $timemin = input('date_min')?strtotime(input('date_min')):null;
+        $timemax = input('date_max')?strtotime(date('Y-m-d H:i:s',strtotime(input('date_max'))+1*24*60*60)):null;
+        $store_id = Session::get("store_id");
+        if(!empty($search_a)){
+            $condition =" `out_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%'";
+            if(!empty($timemin) && !empty($timemax)){
+                $time_condition  = "tb_out_house_order.pay_time>{$timemin} and tb_out_house_order.pay_time< {$timemax}";
+                $store_order = Db::table("tb_out_house_order")
+                ->field("tb_out_house_order.user_phone_number,user_account_name,out_order_number,house_charges,tb_house_order.parts_goods_name,end_time,tb_out_house_order.pay_time,tb_out_house_order.status,tb_store_house.name,tb_out_house_order.store_number,tb_out_house_order.id")
+                ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
+                ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
+                ->where("tb_out_house_order.store_id",$store_id)
+                ->where("tb_out_house_order.status",">",0)
+                ->where($condition)
+                ->where($time_condition)
+                ->select();
+            } elseif(empty($timemin) && !empty($timemax)){
+                $time_condition  = "tb_out_house_order.pay_time < {$timemax}";
+                $store_order = Db::table("tb_out_house_order")
+                ->field("tb_out_house_order.user_phone_number,user_account_name,out_order_number,house_charges,tb_house_order.parts_goods_name,end_time,tb_out_house_order.pay_time,tb_out_house_order.status,tb_store_house.name,tb_out_house_order.store_number,tb_out_house_order.id")
+                ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
+                ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
+                ->where("tb_out_house_order.store_id",$store_id)
+                ->where("tb_out_house_order.status",">",0)
+                ->where($condition)
+                ->where($time_condition)
+                ->select();
+            }  elseif(!empty($timemin) && empty($timemax)){
+                $time_condition  = "tb_out_house_order.pay_time > {$timemin}";
+                $store_order = Db::table("tb_out_house_order")
+                ->field("tb_out_house_order.user_phone_number,user_account_name,out_order_number,house_charges,tb_house_order.parts_goods_name,end_time,tb_out_house_order.pay_time,tb_out_house_order.status,tb_store_house.name,tb_out_house_order.store_number,tb_out_house_order.id")
+                ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
+                ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
+                ->where("tb_out_house_order.store_id",$store_id)
+                ->where("tb_out_house_order.status",">",0)
+                ->where($condition)
+                ->where($time_condition)
+                ->select();
+            } elseif(empty($timemin) && empty($timemax)){
+                $store_order = Db::table("tb_out_house_order")
+                ->field("tb_out_house_order.user_phone_number,user_account_name,out_order_number,house_charges,tb_house_order.parts_goods_name,end_time,tb_out_house_order.pay_time,tb_out_house_order.status,tb_store_house.name,tb_out_house_order.store_number,tb_out_house_order.id")
+                ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
+                ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
+                ->where("tb_out_house_order.store_id",$store_id)
+                ->where("tb_out_house_order.status",">",0)
+                ->where($condition)
+                ->select();
+            }
+
+        } else {
+            if(!empty($timemin) && !empty($timemax)){
+                $time_condition  = "tb_out_house_order.pay_time>{$timemin} and tb_out_house_order.pay_time< {$timemax}";
+                $store_order = Db::table("tb_out_house_order")
+                ->field("tb_out_house_order.user_phone_number,user_account_name,out_order_number,house_charges,tb_house_order.parts_goods_name,end_time,tb_out_house_order.pay_time,tb_out_house_order.status,tb_store_house.name,tb_out_house_order.store_number,tb_out_house_order.id")
+                ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
+                ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
+                ->where("tb_out_house_order.store_id",$store_id)
+                ->where("tb_out_house_order.status",">",0)
+                ->where($time_condition)
+                ->select();
+            } elseif(empty($timemin) && !empty($timemax)){
+                $time_condition  = "tb_out_house_order.pay_time < {$timemax}";
+                $store_order = Db::table("tb_out_house_order")
+                ->field("tb_out_house_order.user_phone_number,user_account_name,out_order_number,house_charges,tb_house_order.parts_goods_name,end_time,tb_out_house_order.pay_time,tb_out_house_order.status,tb_store_house.name,tb_out_house_order.store_number,tb_out_house_order.id")
+                ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
+                ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
+                ->where("tb_out_house_order.store_id",$store_id)
+                ->where("tb_out_house_order.status",">",0)
+                ->where($time_condition)
+                ->select();
+            }  elseif(!empty($timemin) && empty($timemax)){
+                $time_condition  = "tb_out_house_order.pay_time > {$timemin}";
+                $store_order = Db::table("tb_out_house_order")
+                ->field("tb_out_house_order.user_phone_number,user_account_name,out_order_number,house_charges,tb_house_order.parts_goods_name,end_time,tb_out_house_order.pay_time,tb_out_house_order.status,tb_store_house.name,tb_out_house_order.store_number,tb_out_house_order.id")
+                ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
+                ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
+                ->where("tb_out_house_order.store_id",$store_id)
+                ->where("tb_out_house_order.status",">",0)
+                ->where($time_condition)
+                ->select();
+            } elseif(empty($timemin) && empty($timemax)){
+                $store_order = Db::table("tb_out_house_order")
+                ->field("tb_out_house_order.user_phone_number,user_account_name,out_order_number,house_charges,tb_house_order.parts_goods_name,end_time,tb_out_house_order.pay_time,tb_out_house_order.status,tb_store_house.name,tb_out_house_order.store_number,tb_out_house_order.id")
+                ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
+                ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
+                ->where("tb_out_house_order.store_id",$store_id)
+                ->where("tb_out_house_order.status",">",0)
+                ->select();
+            }
+        }
+
+
+        foreach($store_order as $key => $value){
+            $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
+        }    
+
+        $url = 'admin/StoreHouse/stores_divergence_out';
+        $pag_number = 20;
+        $stores_divergences = paging_data($store_order,$url,$pag_number);
+        return view("stores_divergence_out",["stores_divergences"=>$stores_divergences]);
+    }
+
+
+    /**
+     * [仓库续费订单搜索]
+     * 郭杨
+     */
+    public function stores_series_search(){
+        $store_id = Session::get("store_id");
+        $search_a = input('search_name')?input('search_name'):null;
+        $timemin = input('date_min')?strtotime(input('date_min')):null;
+        $timemax = input('date_max')?strtotime(date('Y-m-d H:i:s',strtotime(input('date_max'))+1*24*60*60)):null;
+        if(!empty($search_a)){
+            $condition =" `series_parts_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%'";
+            if(!empty($timemin) && !empty($timemax)){
+                $time_condition  = "tb_house_order.pay_time>{$timemin} and tb_house_order.pay_time< {$timemax}";
+                $store_order = Db::table("tb_series_house_order")
+                ->field("tb_series_house_order.store_house_id,series_parts_number,series_price,tb_house_order.pay_time,store_number,end_time,user_account_name,parts_goods_name,tb_store_house.name")
+                ->join("tb_house_order","tb_house_order.id = tb_series_house_order.store_house_id",'left')
+                ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
+                ->where("tb_series_house_order.store_id",$store_id)
+                ->where($condition)
+                ->where($time_condition)
+                ->where("tb_series_house_order.pay_status",">",1)
+                ->select();
+            } elseif(empty($timemin) && !empty($timemax)){
+                $time_condition  = "tb_house_order.pay_time< {$timemax}";
+                $store_order = Db::table("tb_series_house_order")
+                ->field("tb_series_house_order.store_house_id,series_parts_number,series_price,tb_house_order.pay_time,store_number,end_time,user_account_name,parts_goods_name,tb_store_house.name")
+                ->join("tb_house_order","tb_house_order.id = tb_series_house_order.store_house_id",'left')
+                ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
+                ->where("tb_series_house_order.store_id",$store_id)
+                ->where($condition)
+                ->where($time_condition)
+                ->where("tb_series_house_order.pay_status",">",1)
+                ->select();
+            }  elseif(!empty($timemin) && empty($timemax)){
+                $time_condition  = "tb_house_order.pay_time>{$timemin}";
+                $store_order = Db::table("tb_series_house_order")
+                ->field("tb_series_house_order.store_house_id,series_parts_number,series_price,tb_house_order.pay_time,store_number,end_time,user_account_name,parts_goods_name,tb_store_house.name")
+                ->join("tb_house_order","tb_house_order.id = tb_series_house_order.store_house_id",'left')
+                ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
+                ->where("tb_series_house_order.store_id",$store_id)
+                ->where($condition)
+                ->where($time_condition)
+                ->where("tb_series_house_order.pay_status",">",1)
+                ->select();
+            } elseif(empty($timemin) && empty($timemax)){
+                $store_order = Db::table("tb_series_house_order")
+                ->field("tb_series_house_order.store_house_id,series_parts_number,series_price,tb_house_order.pay_time,store_number,end_time,user_account_name,parts_goods_name,tb_store_house.name")
+                ->join("tb_house_order","tb_house_order.id = tb_series_house_order.store_house_id",'left')
+                ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
+                ->where("tb_series_house_order.store_id",$store_id)
+                ->where($condition)
+                ->where("tb_series_house_order.pay_status",">",1)
+                ->select();
+            }
+
+        } else {
+            if(!empty($timemin) && !empty($timemax)){
+                $time_condition  = "tb_house_order.pay_time>{$timemin} and tb_house_order.pay_time< {$timemax}";
+                $store_order = Db::table("tb_series_house_order")
+                ->field("tb_series_house_order.store_house_id,series_parts_number,series_price,tb_house_order.pay_time,store_number,end_time,user_account_name,parts_goods_name,tb_store_house.name")
+                ->join("tb_house_order","tb_house_order.id = tb_series_house_order.store_house_id",'left')
+                ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
+                ->where("tb_series_house_order.store_id",$store_id)
+                ->where($time_condition)
+                ->where("tb_series_house_order.pay_status",">",1)
+                ->select();
+            } elseif(empty($timemin) && !empty($timemax)){
+                $time_condition  = "tb_house_order.pay_time< {$timemax}";
+                $store_order = Db::table("tb_series_house_order")
+                ->field("tb_series_house_order.store_house_id,series_parts_number,series_price,tb_house_order.pay_time,store_number,end_time,user_account_name,parts_goods_name,tb_store_house.name")
+                ->join("tb_house_order","tb_house_order.id = tb_series_house_order.store_house_id",'left')
+                ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
+                ->where("tb_series_house_order.store_id",$store_id)
+                ->where($time_condition)
+                ->where("tb_series_house_order.pay_status",">",1)
+                ->select();
+            }  elseif(!empty($timemin) && empty($timemax)){
+                $time_condition  = "tb_house_order.pay_time>{$timemin}";
+                $store_order = Db::table("tb_series_house_order")
+                ->field("tb_series_house_order.store_house_id,series_parts_number,series_price,tb_house_order.pay_time,store_number,end_time,user_account_name,parts_goods_name,tb_store_house.name")
+                ->join("tb_house_order","tb_house_order.id = tb_series_house_order.store_house_id",'left')
+                ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
+                ->where("tb_series_house_order.store_id",$store_id)
+                ->where($time_condition)
+                ->where("tb_series_house_order.pay_status",">",1)
+                ->select();
+            } elseif(empty($timemin) && empty($timemax)){
+                $store_order = Db::table("tb_series_house_order")
+                ->field("tb_series_house_order.store_house_id,series_parts_number,series_price,tb_house_order.pay_time,store_number,end_time,user_account_name,parts_goods_name,tb_store_house.name")
+                ->join("tb_house_order","tb_house_order.id = tb_series_house_order.store_house_id",'left')
+                ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
+                ->where("tb_series_house_order.store_id",$store_id)
+                ->where("tb_series_house_order.pay_status",">",1)
+                ->select();
+            }
+        }
+
+        foreach($store_order as $key => $value){
+        $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
+        }    
+
+        $url = 'admin/StoreHouse/stores_series_index';
+        $pag_number = 20;
+        $stores = paging_data($store_order,$url,$pag_number);
+        return view("stores_series_index",["stores"=>$stores]);
+    }
+
 
     
  }
