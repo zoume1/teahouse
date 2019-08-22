@@ -706,8 +706,8 @@ class Upload extends Controller
             header('Content-Type: image/jpeg');
             //这就是1张图 Content-Type: image/jpeg
             echo file_get_contents($url); 
-            $data=file_get_contents($url);
-            echo '<img src="data:'.$data.'">';
+            // $data=file_get_contents($url);
+            // echo '<img src="data:'.$data.'">';
             exit();
             $ret2 = $this->https_get2($url);
             $ret = json_decode($ret2,true);
