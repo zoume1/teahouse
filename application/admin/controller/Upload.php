@@ -374,7 +374,7 @@ class Upload extends Controller
             //获取携带参数的小程序的二维码
             $page='pages/logs/logs';
             $qr=new My();
-            $qrcode=$qr->mpcode($page,$store_id);
+            $qrcode=$qr->mpcode2($page,$store_id);
             halt($qrcode);
             //把qrcode文件写进文件中，使用的时候拿出来
             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
