@@ -504,12 +504,9 @@ class My extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $tmpInfo = curl_exec($ch);
-        //         var_dump($tmpInfo);
-        //        exit;
         if (curl_errno($ch)) {
             return false;
         }else{
-            // var_dump($tmpInfo);
             return $tmpInfo;
         }
     }
@@ -641,21 +638,46 @@ class My extends Controller
     public function create_qrcode($store_id){
          //获取携带参数的小程序的二维码
          $page='pages/logs/logs';
-         $qrcode=$this->mpcode($page,0,$store_id);
+         $qrcode=$this->mpcode2($page,$store_id);
          //把qrcode文件写进文件中，使用的时候拿出来
-         $dateFile =$store_id . "/";  //创建目录
          $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
          if (!file_exists($new_file)) {
              //检查是否有该文件夹，如果没有就创建，并给予最高权限
              mkdir($new_file, 777);
          }
          if (file_put_contents($new_file, $qrcode)) {
-             // return  $dateFile . $filename;  //返回文件名及路径
-             $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$member_information['member_id'].'.txt');
+             $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
              return $re;
          } else {
              return 0;
          }
+    }
+     /*上面生成的是数量限制10万的二维码，下面重写数量不限制的码*/
+    /*getWXACodeUnlimit*/
+    /*码一，圆形的小程序二维码，数量限制一分钟五千条*/
+    /*45009    调用分钟频率受限(目前5000次/分钟，会调整)，如需大量小程序码，建议预生成。
+    41030    所传page页面不存在，或者小程序没有发布-----小程序码
+    */
+    public function mpcode2($page,$store_id){
+        // 宽度
+        $postdata['width']=430;
+        // 页面
+        $postdata['page']=$page;     //扫码后进入的小程序页面
+//        $postdata['page']="pages/postcard/postcard";
+        // 线条颜色
+        $postdata['auto_color']=false;
+        //auto_color 为 false 时生效
+        $postdata['line_color']=['r'=>'0','g'=>'0','b'=>'0'];
+        // 是否有底色为true时是透明的
+        $postdata['is_hyaline']=true;
+        $post_data = json_encode($postdata);
+        $access_token=$this->getAccesstoken($store_id);
+        $url="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$access_token;
+        $result=$this->api_notice_increment($url,$post_data);
+        $data='image/png;base64,'.base64_encode($result);
+        halt($data);
+        return $data;
+//        echo '<img src="data:'.$data.'">';
     }
 
 
