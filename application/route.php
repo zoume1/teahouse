@@ -1095,7 +1095,6 @@ Route::group("api",[
     "limit_goods_more"=>"api/Wxapps/limit_goods_more",      //秒杀商品列表--更多
 
 
-    "qrcode_weixin"=>"api/Test/qrcode_weixin",      //获取体验码
     /**
      * 小程序接口
      */

@@ -436,11 +436,16 @@ class Upload extends Controller
             //     $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
             // } 
         }
+        
          //判断是否已授权
          $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
          $is_shou['qr_img']=$re;
          if($is_shou){
-             return view('auth_detail',['data'=>$is_shou]);
+             //获取体验码的url
+            $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+            $timeout=$this->is_timeout($appid);
+            $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+            return view('auth_detail',['data'=>$is_shou,'url'=>$url]);
          }else{
              //授权开始
              $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
