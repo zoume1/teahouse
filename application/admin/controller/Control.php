@@ -878,5 +878,28 @@ class  Control extends  Controller{
         }
 
     }
-
+    /**
+     * [公告通知]
+     * 郭杨
+     */    
+    public function control_notice_index(){
+        
+        return view("control_notice_index");
+    }
+    /**
+     * [公告通知添加]
+     * 郭杨
+     */    
+    public function control_notice_add(){
+        
+        return view("control_notice_add");
+    }
+    /**
+     * [公告通知编辑]
+     * 郭杨
+     */    
+    public function control_notice_edit(){
+        
+        return view("control_notice_edit");
+    }
  }

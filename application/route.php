@@ -1016,6 +1016,9 @@ Route::group("admin",[
     "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
     "store_examine_receipt"=>"admin/Control/store_examine_receipt",//admin后台审核订单发票
     "admin_auditing_receipt"=>"admin/Control/admin_auditing_receipt",//后台审核发票
+    "control_notice_index"=>"admin/Control/control_notice_index",//公告通知
+    "control_notice_edit"=>"admin/Control/control_notice_edit",//公告通知
+    "control_notice_add"=>"admin/Control/control_notice_add",//公告通知
 
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
