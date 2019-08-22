@@ -1,23 +1,10 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-		content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<meta http-equiv="expires" content="0">
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<title>增值订单</title>
-</head>
-<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
-<script src="__STATIC__/admin/index/js/index.js"></script>
-{block name="css"}
-<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+{include file="template/_meta" /}
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
-<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/bootstrap.min.css" />
+<title></title>
+</head>
+
+{block name="css"}
 <style type="text/css">
 	* {
 		margin: 0;
@@ -744,19 +731,34 @@
 		<div class="inner">
 			<blockquote class="layui-elem-quote news_search">
 				<form class="layui-form" action="{:url('admin/Order/order_search')}">
-			<div class="search-hd">
-						<div class="search-box layui-form">
-							<div>
-								<label>订单编号</label>
-								<input type="text" class="layui-input">
+					<div class="seach">
+						<div class="seach_list">
+							<div class="seach_laber">订单编号</div>
+							<div class="seach_input">
+								<input type="text" name="search_a" lay-verify="title" autocomplete="off"
+									placeholder="请输入" class="layui-input">
 							</div>
-							<div class="date-input">
-								<label>下单时间</label>
-								<input type="text" data-type="date_min" id="searchDateStart">~
-								<input type="text" data-type="date_max" id="searchDateend">
-							</div>
-							<button class="layui-btn">搜索</button>
 						</div>
+	
+						<div class="seach_list">
+							<div class="seach_laber">开始时间</div>
+							<div class="seach_input">
+								<span class="time">
+									<input name="date_min" type="text" class="text datetimepicker layui-input"
+										readonly="readonly" id="beginTime" value="">
+								</span>
+							</div>
+						</div>
+						<div class="seach_list">
+							<div class="seach_laber">结束时间</div>
+							<div class="seach_input">
+								<span class="time">
+									<input name="date_max" type="text" class=" text datetimepicker layui-input"
+										readonly="readonly" id="endTime" value="">
+								</span>
+							</div>
+						</div>
+						<button class="layui-btn" type="submit" id="seach">立即搜索</button>
 					</div>
 					</form>
 				</blockquote>
@@ -864,7 +866,9 @@
 
 
 	{/block}
-
+<!--_footer 作为公共模版分离出去-->
+{include file="template/_footer" /}
+<!--/_footer 作为公共模版分离出去-->
 
 	<!--请在下方写此页面业务相关的脚本-->
 	{block name="bottom"}
