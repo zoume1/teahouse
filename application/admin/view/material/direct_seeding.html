@@ -240,9 +240,10 @@
         layui.use(['laydate', 'form'], function(){
             var laydate = layui.laydate,
                 form = layui.form;
+            form.render();
+
                 //   修改状态
             form.on('switch(isShow)', function (data) {
-                console.log('aaaaaaaaaaaa')
                 if ($(this).val() == 0) {
                     $(this).val(1);
                 } else {
@@ -267,7 +268,6 @@
                 });
 
             })
-            form.render();
 
         })
         function look(e){
