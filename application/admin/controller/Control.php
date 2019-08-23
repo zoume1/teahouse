@@ -817,10 +817,10 @@ class  Control extends  Controller{
         //print_r($notice);die;
         
         $url = 'admin/Control/control_notice_index';
-        $pag_number = 20;
+        $pag_number = 10;
 
-        $notice = paging_data($notice,$url,$pag_number); 
-        return view("control_notice_index",['account_list'=>$notice]);
+        $account_list = paging_data($notice,$url,$pag_number); 
+        return view("control_notice_index",['account_list'=>$account_list]);
     }
     /**
      * [添加公告]

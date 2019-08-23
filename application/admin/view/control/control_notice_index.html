@@ -114,9 +114,12 @@
 					</tr>
 					{/volist}
 				</tbody>
-			</table>
+            </table>
+           
 		</div>
-		<div id="page"></div>
+		<div id="page">
+                {if !empty($account_list)}{$account_list->render()}{/if}
+        </div>
 	</div>
 
  	{/block}
