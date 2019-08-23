@@ -184,7 +184,29 @@
                     } else {
                         $(this).val(0);
                     }
+                });
 
+                // 图片删除
+                $(".remove-img").click(function () {
+                    var remove = $(this).parent();
+                    var id = $(this).data("id");
+                    var value = $(this).data("value");
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/Material/direct_seeding_classification_delete_image')}",
+                        data: {
+                            "id": id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            remove.remove();
+                            alert(data.info);
+                            location.reload();
+                        },
+                        error: function (data) {
+                            console.log("错误");
+                        }
+                    });
                 });
         })
     </script>

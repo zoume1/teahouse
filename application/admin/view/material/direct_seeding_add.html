@@ -62,7 +62,7 @@
                 <div class="layui-form-item " style="width: 100%;">
                     <label class="layui-form-label"><span class="red">*</span>应用场景</label>
                     <div class="layui-input-block my-input-line live_c">
-                        <input type="radio" name="live" value="1"  title="仓储直播">
+                        <input type="radio" name="live" value="仓储直播"  title="仓储直播">
                         {if !empty($store_name)}
                         <select name="store_name" id="admin_role" class="role_list">
                             {volist name="store_name" id="value"}
@@ -80,8 +80,8 @@
                 <div class="layui-form-item" style="width: 100%;">
                     <label class="layui-form-label"></label>
                     <div class="layui-input-block my-input-line">
-                        <input type="radio" name="live" value="2"  title="流动直播">
-                        <input  style="width: 455px;" type="text" name="streaming" placeholder="请输入" autocomplete="off" class="layui-input" required>
+                        <input type="radio" name="live" value="流动直播"  title="流动直播">
+                        <input  style="width: 455px;" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input" required>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -92,7 +92,7 @@
                                 <div class="z_photo upimg-div clear">
                                     <section class="z_file fl">
                                         <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                        <input type="file" name="icon_image" id="file" class="file" value=""
+                                        <input type="file" name="goods_show_images" id="file" class="file" value=""
                                             accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" required />
                                     </section>
                                 </div>

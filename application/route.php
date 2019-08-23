@@ -1035,7 +1035,6 @@ Route::group("admin",[
 
 
 
-
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
     "analyse_dels"=>"admin/Analyse/analyse_dels",            //总控增值商品批量删除
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
