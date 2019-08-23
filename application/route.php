@@ -859,6 +859,7 @@ Route::group("admin",[
     "direct_seeding_classification_delete" =>"admin/Material/direct_seeding_classification_delete", //直播分类删除
     "direct_seeding_classification_update" =>"admin/Material/direct_seeding_classification_update", //直播分类更新
     "direct_seeding_classification_delete_image" =>"admin/Material/direct_seeding_classification_delete_image", //直播分类图片删除
+    "direct_seeding_classification_status" =>"admin/Material/direct_seeding_classification_status", //直播分类状态开关
     "direct_seeding_delete_image" =>"admin/Material/direct_seeding_delete_image",                   //视频直播图片删除
     "interaction_index" =>"admin/Material/interaction_index",                                       //温湿感应
     "interaction_add" =>"admin/Material/interaction_add",                                           //温湿感应

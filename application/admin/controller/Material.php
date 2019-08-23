@@ -325,6 +325,36 @@ class  Material extends  Controller{
     /**
      **************GY*******************
      * @param Request $request
+     * Notes:视频直播更新设备
+     **************************************
+     */
+    public  function  direct_seeding_classification_status(Request $request){       
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("direct_seeding")->where("id", $id)->update(["status" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/Material/direct_seeding_classification"));
+                } else {
+                    $this->error("修改失败", url("admin/Material/direct_seeding_classification"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("direct_seeding")->where("id", $id)->update(["status" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/Material/direct_seeding_classification"));
+                } else {
+                    $this->error("修改失败", url("admin/Material/direct_seeding_classification"));
+                }
+            }
+        }
+    }
+
+    /**
+     **************GY*******************
+     * @param Request $request
      * Notes:防伪溯源
      **************************************
      * @return \think\response\View
