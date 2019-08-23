@@ -27,13 +27,30 @@
 
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Limitations/limit_search')}">
+			<form class="layui-form" action="{:url('admin/Limitations/limitations_search')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">输入搜索：</div>
 						<div class="seach_input">
-							<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="秒杀商品名称" class="layui-input">
-
+							<input type="text" name="search_name" lay-verify="title" autocomplete="off" placeholder="秒杀商品名称/秒杀商品编号" class="layui-input">
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">开始时间</div>
+						<div class="seach_input">
+							<span class="time">
+								<input name="date_min" type="text" class="text datetimepicker layui-input"
+									readonly="readonly" id="beginTime" value="">
+							</span>
+						</div>
+					</div>
+					<div class="seach_list">
+						<div class="seach_laber">结束时间</div>
+						<div class="seach_input">
+							<span class="time">
+								<input name="date_max" type="text" class=" text datetimepicker layui-input"
+									readonly="readonly" id="endTime" value="">
+							</span>
 						</div>
 					</div>
 					

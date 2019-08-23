@@ -425,7 +425,90 @@ class  Limitations extends  Controller{
         }
     }
 
-
+    /**
+     * [限时限购搜索]
+     * GY
+     */
+    public function limitations_search() 
+    {
+        $store_id = Session::get("store_id");
+        $search_a =  input("search_name") ? input("search_name"):null;
+        $timemin  = input("date_min") ? strtotime(input("date_min"))  :null;
+        $datemax  = input('date_max') ? strtotime(input('date_max'))  :null;
+        
+        if(!empty($search_a)){
+            $condition = " `goods_number` like '%{$search_a}%' or `goods_name` like '%{$search_a}%'";
+            if(!empty($timemin) && !empty($timemax)){
+                $time_condition  = "create_time>{$timemin} and end_time< {$timemax}";
+                $limit = db("limited")
+                ->where("store_id","EQ",$store_id)
+                ->where($condition)
+                ->where($time_condition)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            } elseif(empty($timemin) && !empty($timemax)){
+                $time_condition  = "end_time< {$timemax}";
+                $limit = db("limited")
+                ->where("store_id","EQ",$store_id)
+                ->where($condition)
+                ->where($time_condition)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            } elseif(!empty($timemin) && empty($timemax)){
+                $time_condition  = "create_time>{$timemin}";
+                $limit = db("limited")
+                ->where("store_id","EQ",$store_id)
+                ->where($condition)
+                ->where($time_condition)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            } elseif(empty($timemin) && empty($timemax)){
+                $limit = db("limited")
+                ->where("store_id","EQ",$store_id)
+                ->where($condition)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            }
+        } else {
+            if(!empty($timemin) && !empty($timemax)){
+                $time_condition  = "create_time>{$timemin} and end_time< {$timemax}";
+                $limit = db("limited")
+                ->where("store_id","EQ",$store_id)
+                ->where($time_condition)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            } elseif(empty($timemin) && !empty($timemax)){
+                $time_condition  = "end_time< {$timemax}";
+                $limit = db("limited")
+                ->where("store_id","EQ",$store_id)
+                ->where($time_condition)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            } elseif(!empty($timemin) && empty($timemax)){
+                $time_condition  = "create_time>{$timemin}";
+                $limit = db("limited")
+                ->where("store_id","EQ",$store_id)
+                ->where($time_condition)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            } elseif(empty($timemin) && empty($timemax)){
+                $limit = db("limited")
+                ->where("store_id","EQ",$store_id)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
+            }
+        }
+               
+        return view('limitations_index',["limit"=>$limit]);
+    }
 
 
 

@@ -70,13 +70,13 @@
     <div class="childrenBody">
         {include file="template/_top"/}
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Control/control_order_search')}">
+            <form class="layui-form" action="{:url('admin/Control/control_store_search')}">
                 <div class="seach">
                     <div class="seach_list">
-                        <div class="seach_laber">入驻商名称</div>
+                        <div class="seach_laber">请输入:</div>
                         <div class="seach_input">
                             <input type="text" name="contact_name" lay-verify="title" autocomplete="off"
-                                placeholder="姓名/公司名" class="layui-input">
+                                placeholder="手机号/姓名/店铺名" class="layui-input">
                         </div>
                     </div>
                     <button class="layui-btn" type="submit" id="seach">立即搜索</button>

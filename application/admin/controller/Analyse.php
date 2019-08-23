@@ -51,7 +51,7 @@ class  Analyse extends  Controller{
             ->join('tb_store b','b.id = a.store_id','left')
             ->where("a.status",'>',1)
             ->field("a.*,b.store_name")
-            ->order("a.order_create_time")
+            ->order("a.order_create_time desc")
             ->select();
         } else {
             $rest_data = Db::table("tb_adder_order")
@@ -60,7 +60,7 @@ class  Analyse extends  Controller{
             ->where("a.status",'>',1)
             ->where("a.store_id",'=',$store_id)
             ->field("a.*,b.store_name")
-            ->order("a.order_create_time")
+            ->order("a.order_create_time desc")
             ->select();
         }
         $url = 'admin/Analyse/analyse_order';
@@ -970,5 +970,142 @@ class  Analyse extends  Controller{
         }
     }
 
+        /**
+     * [增值商品搜索]
+     * 郭杨
+     */    
+    public function analyse_search(){     
+        $goods_number = input('goods_number')?input('goods_number'):null;
+        if(!empty($goods_number)){
+            $condition = " `goods_number` like '%{$goods_number}%' or `goods_name` like '%{$goods_number}%'";
+            $analyse_data = db("analyse_goods")
+            ->order('sort_number desc')
+            ->where($condition)
+            ->select();
+        } else {
+            $analyse_data = db("analyse_goods")
+            ->order('sort_number desc')
+            ->select();
+        }
+        if(!empty($analyse_data)){
+            foreach ($analyse_data as $key => $value) {
+                    if($analyse_data[$key]["goods_standard"] == "1")
+                    {
+                        $max[$key] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->max("price");//最高价格
+                        $min[$key] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->min("price");//最低价格
+                        $analyse_data[$key]["goods_repertory"] = db("analyse_special")->where("goods_id", $analyse_data[$key]['id'])->sum("stock");//库存
+                        $analyse_data[$key]["max_price"] = $max[$key];
+                        $analyse_data[$key]["min_price"] = $min[$key];
+                    }               
+                }
+            }   
+        $url = 'admin/Analyse/analyse_index';
+        $pag_number = 20;
+        $analyse = paging_data($analyse_data,$url,$pag_number);
+        return view("analyse_index",["analyse"=>$analyse]);
+    }
+
+    /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:总控增值订单搜索
+     **************************************
+     */
+    public function  analyse_order_search(){
+        $search_a =input("search_a") ? input("search_a"):null;
+        $time_min  =input("date_min") ? input("date_min"):null;
+        $time_max  =input('date_max') ? strtotime(date('Y-m-d H:i:s',strtotime(input('date_max'))+1*24*60*60)):null;
+        if(!empty($search_a) && !empty($time_min) && !empty($time_max)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            $time_condition  = "order_create_time>{$time_min} and order_create_time< {$time_max}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($condition)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(!empty($search_a) && empty($time_min) && empty($time_max)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            $time_condition  = "order_create_time< {$time_max}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(empty($search_a) && !empty($time_min) && empty($time_max)){
+            $time_condition  = "order_create_time>{$time_min}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(empty($search_a) && empty($time_min) && !empty($time_max)){
+            $time_condition  = "order_create_time< {$time_max}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(!empty($search_a) && !empty($time_min) && empty($time_max)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            $time_condition  = "order_create_time>{$time_min}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($condition)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(!empty($search_a) && empty($time_min) && !empty($time_max)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            $time_condition  = "order_create_time< {$time_max}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($condition)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } elseif(empty($search_a) && !empty($time_min) && !empty($time_max)){
+            $time_condition  = "order_create_time>{$time_min} and order_create_time< {$time_max}";
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->where($time_condition)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        } else {
+            $rest_data = Db::table("tb_adder_order")
+            ->alias('a')
+            ->join('tb_store b','b.id = a.store_id','left')
+            ->where("a.status",'>',1)
+            ->field("a.*,b.store_name")
+            ->order("a.order_create_time desc")
+            ->select();
+        }
+
+        $url = 'admin/Analyse/analyse_order';
+        $pag_number = 20;
+        $data = paging_data($rest_data,$url,$pag_number);
+        return view("analyse_order",["data"=>$data]);
+    }
 
  }

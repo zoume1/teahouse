@@ -1,91 +1,110 @@
-{extend name="layout"}
+{include file="template/_meta" /}
+<title></title>
+</head>
 
 {block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <style type="text/css">
+    body {
+        background: #fff;
+    }
 
-	body {
-		background: #fff;
-	}
-	
-	.layui-anim-upbit {
-		width: 95% !important;
-	}
-   .err{
-		    border: red solid 1px;
-	}
-    .form-item{
-        width: 95% !important;
+    td input {
+        border: 0;
+        text-align: center;
+    }
+
+    .texts {
+        width: 200px;
+    }
+
+    .text {
+        margin-right: 20px;
+        line-height: 38px;
     }
 </style>
 
 {/block}
+
 <body>
-{block name="content"}
-<form class="layui-form  layui-form-lists" action="{:url('admin/Control/control_notice_add')}" method="post">
-		<div class="form-item">
-			<label class="form-label"><span class="red">*</span>公告内容</label>
-			<div class="form-input">
-                <!-- <textarea type="text" name="con" placeholder="请输入内容" class="layui-textarea" ></textarea> -->
-				<input type="text" name="con" placeholder="请输入内容" class="layui-input" id="con">
-			</div>
-        </div>
-		<div class="form-item">
-			<label class="form-label"><span class="red">*</span>公告开始时间</label>
-			<div class="form-input">
-                    <input name="add_time" type="text" class="text datetimepicker layui-input"
-                            placeholder="请选择开始时间" readonly="readonly" id="datetimepicker2" value="">
-            </div>
-        </div>	
+    {block name="content"}
+
+    <form class="layui-form layui-form-lists" action="{:url('admin/Control/control_meal_add')}" method="post"
+        enctype="multipart/form-data">
+        <div class="form-title">添加</div>
+
         <div class="form-item">
-                <label class="form-label"><span class="red">*</span>公告结束时间</label>
-                <div class="form-input">
-                        <input name="end_time" type="text" class=" text datetimepicker layui-input"
-                                    placeholder="请选择结束时间" readonly="readonly" id="datetimepicker3" value="">
-                </div>
+            <label class="form-label">公告内容</label>
+            <div class="form-input">
+                <textarea style="width:600px;" name="" id="" cols="30" rows="10"></textarea>
+            </div>
         </div>
-		<div class="form-item">
-			<label class="form-label"><span class="red">*</span>展示时长</label>
-			<div class="form-input">
-					<input type="text" name="duration" placeholder="请输入时长" class="layui-input"  id="duration">
-			</div>
-		</div>	
-		
+        <div class="form-item">
+            <label class="form-label">公告时间</label>
+            <div class="text">开始时间</div>
+            <input type="text" name="start_time" class="texts datetimepicker layui-input" readonly="readonly"
+                id="datetimepicker2" placeholder="年/月/日" value="">
+        </div>
+        <div class="form-item">
+            <label class="form-label"></label>
+            <div class="text">结束时间</div>
+            <input type="text" name="end_time" class="texts datetimepicker layui-input" readonly="readonly"
+                id="datetimepicker3" placeholder="年/月/日" value="">
+        </div>
+        <div class="form-item">
+            <label class="form-label">展示时长</label>
+            <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/,'')"
+                name="sort_number" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input texts">
+            <div class="text">&nbsp;&nbsp;S</div>
+        </div>
+        <div class="form-item">
+            <label class="form-label"></label>
+            <div class="tips">*请输入数字</div>
+        </div>
         <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" type="submit">保存</button>
-            <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
+                <button type="button" class="layui-btn layui-btn-primary"
+                    onClick="javascript :history.back(-1);">返回</button>
+            </div>
         </div>
-        </div>
-	
-</form>
-{/block}
+    </form>
 
-<!--_footer 作为公共模版分离出去-->
-{include file="template/_footer" /}
-<!--/_footer 作为公共模版分离出去-->
-<!--请在下方写此页面业务相关的脚本-->
-{block name="bottom"}
-<script type="text/javascript">
-// layui.use('laydate', function(){
-//   var laydate = layui.laydate;
-  
-//   //执行一个laydate实例
-//   laydate.render({
-//     elem: '#test1' //指定元素
-//   });
-// });
+    {/block}
 
-layui.config({
-		base: "js/"
-	}).use(['form', 'layer', 'jquery', 'laypage'], function() {
-		var form = layui.form(),
-			layer = parent.layer === undefined ? layui.layer : parent.layer,
-			laypage = layui.laypage,
-			$ = layui.jquery;
-		    form.render();
-	
-	});
-	$('#datetimepicker2').datetimepicker({
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+
+    <script type="text/javascript">
+        var ue = UE.getEditor('editor');
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function () {
+            var form = layui.form(),
+                $ = layui.jquery;
+            // $('#beginTimes').datetimepicker({
+            //     //					yearOffset:222,
+            //     lang: 'ch',
+            //     timepicker: false,
+            //     //					format:'d/m/Y',
+            //     formatDate: 'Y/m/d',
+            //     minDate: '-2018/01/02', // yesterday is minimum date
+            //     maxDate: '+2050/01/02' // and tommorow is maximum date calendar
+            // });
+            // $('#endTimes').datetimepicker({
+            //     //					yearOffset:222,
+            //     lang: 'ch',
+            //     timepicker: false,
+            //     //					format:'d/m/Y',
+            //     formatDate: 'Y/m/d',
+            //     minDate: '2018/01/02', // yesterday is minimum date
+            //     maxDate: '2050/01/02' // and tommorow is maximum date calendar
+            // });
+            $('#datetimepicker2').datetimepicker({
                 format: 'Y/m/d H:i:s',
                 step: 1,
             });
@@ -93,54 +112,14 @@ layui.config({
                 format: 'Y/m/d H:i:s',
                 step: 1,
             });
+            form.render();
 
-	
-	$("#submits").click(function(){
-		checks();
-	});
-	
-	
-	function checks(){
-		
-		if($("#con")[0].value==''){
-			$("#con").addClass("err");
-			return false; 
-		}
-		else{
-			$("#con").removeClass("err");
-//			return true;
-		}
-		if($("#add_time")[0].value==''){
-			$("#add_time").addClass("err");
-			return false;
-			 
-		}else{
-			$("#add_time").removeClass("err");
-//			return true;
-		}
-		if($("#end_time")[0].value==''){
-			$("#end_time").addClass("err");
-			return false;
-			 	 
-			 
-		}else{
-			$("#end_time").removeClass("err");
-//			return true;
-		}if($("#duration")[0].value==''){
-			$("#duration").addClass("err");
-			return false;
-			 
-		}
-		else{
-			$("#duration").removeClass("err");
-//			return true;
-		}
-     $("#submits").attr("type","submit");
-		
-	}
-	</script>
-{/block}
+        });
 
+    </script>
+
+    {/block}
 
 </body>
+
 </html>

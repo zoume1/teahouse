@@ -57,8 +57,15 @@
     <div class="childrenBody">
         {include file="template/_top"/}
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Goods/search')}">
+            <form class="layui-form" action="{:url('admin/Control/control_withdraw_deposit_search')}">
                 <div class="seach">
+                    <div class="seach_list">
+                            <div class="seach_laber">用户账号</div>
+                            <div class="seach_input">
+                                <input type="text" name="account" lay-verify="title" autocomplete="off"
+                                    placeholder="请输入账号" class="layui-input">
+                            </div>
+                        </div>
                     <div class="seach_list">
 						<div class="seach_laber">开始时间</div>
 						<div class="seach_input">
@@ -77,17 +84,11 @@
 							</span>
 						</div>
                     </div>
-                    <div class="seach_list">
-                        <div class="seach_laber">用户账号</div>
-                        <div class="seach_input">
-                            <input type="text" name="goods_number" lay-verify="title" autocomplete="off"
-                                placeholder="请输入账号" class="layui-input">
-                        </div>
-                    </div>
+
                     <div class="seach_list">
                         <div class="seach_laber">交易状态</div>
                         <div class="seach_input">
-                            <select name="interest" lay-filter="aihao">
+                            <select name="status" lay-filter="aihao">
                                 <option value=""></option>
                                 <option value="0" selected="">全部</option>
                                 <option value="1" >申请中</option>

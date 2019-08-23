@@ -366,7 +366,6 @@ class Upload extends Controller
     public function auth_pre(){
         //获取店铺id
         $store_id=Session::get('store_id');
-        //判断是否已授权
         //获取小程序二维码
         if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt')) {
             //检查是否有该文件夹，如果没有就创建，并给予最高权限
@@ -374,15 +373,9 @@ class Upload extends Controller
         }else{
             //获取携带参数的小程序的二维码
             $page='pages/logs/logs';
-            $qr=new My();
-            $qrcode=$qr->mpcode($page,0,$store_id);
-            $pp['msg']=$qrcode;
-            db('test')->insert($pp);
+            $qrcode=$this->getwxacode($store_id);
             //把qrcode文件写进文件中，使用的时候拿出来
             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
-                //检查是否有该文件夹，如果没有就创建，并给予最高权限
-                // mkdir($new_file, 0777);
-                // mkdir($new_file, 750);
             if (file_put_contents($new_file, $qrcode)) {
                 $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
             } 
@@ -391,9 +384,14 @@ class Upload extends Controller
         $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
         if($is_shou){
             $is_shou['qr_img']=$re;
-            return view('auth_detail',['data'=>$is_shou]);
-        }else{
-            //授权开始
+             //获取体验码的url
+             $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+             $timeout=$this->is_timeout($appid);
+             // $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+             $pp = $timeout['authorizer_access_token'];
+             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id]);
+            }else{
+                //授权开始
             $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
             $url=$this->startAuth($redirect_uri,$auth_type=3);   //授权地址
             return view('auth_pre',['data'=>$url]);
@@ -436,11 +434,17 @@ class Upload extends Controller
             //     $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
             // } 
         }
+        
          //判断是否已授权
          $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
          $is_shou['qr_img']=$re;
          if($is_shou){
-             return view('auth_detail',['data'=>$is_shou]);
+             //获取体验码的url
+             $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+             $timeout=$this->is_timeout($appid);
+             //  $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+             $pp = $timeout['authorizer_access_token'];
+            return view('auth_detail',['data'=>$is_shou,'pp'=>$pp]);
          }else{
              //授权开始
              $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
@@ -688,52 +692,6 @@ class Upload extends Controller
     }
     /**
      * lilu
-     * 获取体验码
-     */
-    public function get_qrcode($path = '')
-    {
-        //判断access_token是否过期，重新获取
-        $store_id=Session::get('store_id');
-        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
-        $timeout=$this->is_timeout($appid);
-            if($path){
-                $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token']."&path=".urlencode($path);
-            } else {
-                $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
-            }
-            header('Cache-Control: public');
-            header('Last-Modified: '.$_SERVER['REQUEST_TIME']);
-            header('Content-Type: image/jpeg');
-            //这就是1张图 Content-Type: image/jpeg 
-            $data=file_get_contents($url);
-            echo '<img src="data:'.$data.'">';
-            exit();
-            $ret2 = $this->https_get2($url);
-            $ret = json_decode($ret2,true);
-            $p['msg']=$ret2.'体验码';
-            db('test')->insert($p);
-            if($ret['errcode']) {
-                return ajax_success('获取失败');
-            } else {
-                return ajax_success('获取成功',["url"=>$url]);
-            }
-    }
-    // public function serverIp(){
-    //     if(isset($_SERVER)){
-    //         if($_SERVER['SERVER_ADDR']){
-    //             $server_ip=$_SERVER['SERVER_ADDR'];
-    //         }else{
-    //             $server_ip=$_SERVER['LOCAL_ADDR'];
-    //         }
-    //     }else{
-    //         $server_ip = getenv('SERVER_ADDR');
-    //     }
-    //     return $server_ip;
-    // }
-    
-    
-    /**
-     * lilu
      * 提交审核
      */
     public function publish($tag = "微信小程序" ,$title = "微信小程序")
@@ -835,6 +793,33 @@ class Upload extends Controller
             $this->errorLog("获取小程序的第三方提交代码的页面配置失败",$ret);
             return false;
         }
+
+    }
+    /**
+     * lilu
+     * 获取小程序码
+     * store_id
+     */
+    public function getwxacode($store_id){
+
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$timeout['authorizer_access_token'];
+        $data = '{
+            "path":"page/logs/logs",
+            "width":430
+           }';
+        $pp=$this->https_post($url,$data);
+        $data2='image/jpeg;base64,'.base64_encode($pp);
+        // $ret = json_decode($pp,true);
+        // dump($pp);
+        // halt($ret.'123123');
+        // if($ret['errcode'] == 0) {
+        //     return ajax_success('发布成功');
+        // } else {
+        //     return ajax_error('发布失败');
+        // }
+        return $data2;
 
     }
    
