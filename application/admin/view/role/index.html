@@ -55,26 +55,9 @@
             <form class="layui-form" action="{:url('admin/role/role_search')}" >
            <div class="seach">
 					<div class="seach_list">
-						<div class="seach_laber">账号/用户名</div>
+						<div class="seach_laber">请输入:</div>
 						<div class="seach_input">
-							<input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-						</div>
-					</div>
-					<!--<div class="seach_list">-->
-						<!--<div class="seach_laber">用户名</div>-->
-						<!--<div class="seach_input">-->
-							  <!--<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">-->
-                       <!---->
-						<!--</div>-->
-					<!--</div>-->
-					<div class="seach_list" style="display: none">
-						<div class="seach_laber">角色</div>
-						<div class="seach_input">
-							<select name="search_b" >
-								<option value="" selected="">全部</option>
-								<option value="1">已显示</option>
-								<option value="0">已禁用</option>
-							</select>
+							<input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="角色名称" class="layui-input">
 						</div>
 					</div>
 					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
@@ -134,6 +117,7 @@
                 </tbody>
             </table>
         </div>
+        {if !empty($role_lists)}{$role_lists->render()}{/if}
         <div id="page"></div>
 
     </div>

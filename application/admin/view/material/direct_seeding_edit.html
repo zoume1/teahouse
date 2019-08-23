@@ -63,12 +63,14 @@
                         <input type="text" name="series_number" value="{$value.series_number}" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
+                {if $value.live == 1}
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="red">*</span>所属仓库</label>
                     <div class="layui-input-block  my-input-line live_c">
-                        <input type="radio" name="live" value="仓储直播"  title="仓储直播">
+                        <input type="radio" name="live" value="仓储直播"  title="仓储直播" checked>
                         {if !empty($store_name)}
                         <select name="store_name" id="admin_role" class="role_list">
+                        <option value="">请选择</option>
                         {volist name="store_name" id="v"}{if condition="$value.store_name eq $v.name"}
                         <option value="{$v.name}" selected="">{$v.name}</option>
                         {else}
@@ -87,36 +89,69 @@
                     <label class="layui-form-label"></label>
                     <div class="layui-input-block my-input-line">
                         <input type="radio" name="live" value="流动直播" title="流动直播">
-                        <input style="width: 455px;" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input"
-                            required>
+                        <input style="width: 455px;" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
+                {else}
                 <div class="layui-form-item">
-                    <label class="layui-form-label">直播封面</label>
-                    <div class="layui-input-block">
-                        <div class="img-box full">
-                            <section class=" img-section">
-                                <div class="z_photo upimg-div clear">
-                                    <section class="z_file fl">
-                                        <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
-                                        <input type="file" name="goods_show_images" id="file" class="file" value=""
-                                            accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" required />
-                                    </section>
-                                </div>
-                            </section>
-                        </div>
-                        <aside class="mask works-mask">
-                            <div class="mask-content">
-                                <p class="del-p ">您确定要删除作品图片吗？</p>
-                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span>
-                                </p>
-                            </div>
-                        </aside>
-                        <div class="tips">
-                            建议尺寸：750*300
+                        <label class="layui-form-label"><span class="red">*</span>所属仓库</label>
+                        <div class="layui-input-block  my-input-line live_c">
+                            <input type="radio" name="live" value="仓储直播"  title="仓储直播" >
+                            {if !empty($store_name)}
+                            <select name="store_name" id="admin_role" class="role_list">
+                            <option value="">请选择</option>
+                            {volist name="store_name" id="v"}{if condition="$value.store_name eq $v.name"}
+                            <option value="{$v.name}" selected="">{$v.name}</option>
+                            {else}
+                            <option value="{$v.name}">{$v.name}</option>
+                            {/if}{/volist}
+                            </select>
+                            {else}
+                            <select name="store_name" class="role_list">
+                            </select>
+                            {/if}
+                            </select>
+                            <button class="layui-btn">添加仓库</button>
                         </div>
                     </div>
-                </div>
+                    <div class="layui-form-item" style="width: 100%;">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-block my-input-line">
+                            <input type="radio" name="live" value="流动直播" title="流动直播" checked>
+                            <input style="width: 455px;" type="text" name="store_one" value="{$value.store_name}"placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    {/if}
+                <div class="form-item">
+                        <label class="form-label">直播封面</label>
+                        <div class="form-input">
+                            {if $value.icon_image}
+                            <div class="imgcontent">
+                                <span class="img">
+                                    <img src="__UPLOADS__/{$value.icon_image}" width="100%">
+                                    <i class="remove-img" name="icon_image" value="__UPLOADS__/{$value.icon_image}" data-id="{$value.id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+                                </span>
+                            </div>
+                            {/if}
+                            <div class="img-box full">
+                                <section class=" img-section">
+                                    <div class="z_photo upimg-div clear">
+                                        <section class="z_file fl">
+                                            <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                            <input type="file" name="icon_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                                        </section>
+                                    </div>
+                                </section>
+                            </div>
+            
+                            <aside class="mask works-mask">
+                                <div class="mask-content">
+                                    <p class="del-p ">您确定要删除作品图片吗？</p>
+                                    <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">声音</label>
                     <div class="layui-input-block">
@@ -137,10 +172,10 @@
                         <label class="layui-form-label">状态</label>
                         <div class="layui-input-block">
                             {if $value.status==0}
-                            <input type="radio" name="status" value="0" title="开启" checked="">
-                            <input type="radio" name="status" value="1" title="关闭"> {else}
-                            <input type="radio" name="status" value="0" title="开启">
-                            <input type="radio" name="status" value="1" title="关闭" checked="">{/if}
+                            <input type="radio" name="status" value="1" title="开启" >
+                            <input type="radio" name="status" value="0" title="关闭" checked=""> {else}
+                            <input type="radio" name="status" value="1" title="开启" checked="">
+                            <input type="radio" name="status" value="0" title="关闭" >{/if}
                         </div>
                     </div>
                 <div class="layui-form-item">
@@ -184,7 +219,29 @@
                     } else {
                         $(this).val(0);
                     }
+                });
 
+                // 图片删除
+                $(".remove-img").click(function () {
+                    var remove = $(this).parent();
+                    var id = $(this).data("id");
+                    var value = $(this).data("value");
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/Material/direct_seeding_delete_image')}",
+                        data: {
+                            "id": id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            remove.remove();
+                            alert(data.info);
+                            location.reload();
+                        },
+                        error: function (data) {
+                            console.log("错误");
+                        }
+                    });
                 });
         })
     </script>

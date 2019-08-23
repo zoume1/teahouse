@@ -808,6 +808,7 @@ class  Control extends  Controller{
 
 
     /**
+<<<<<<< HEAD
      * [公告通知]
      * fyk
      */    
@@ -971,6 +972,8 @@ class  Control extends  Controller{
     }
     
     /**
+=======
+>>>>>>> 83336c30ecfcc5876b8601b0c93702b3fb0202fe
      **************GY*******************
      * @param Request $request
      * Notes:admin后台审核订单发票

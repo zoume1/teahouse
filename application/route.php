@@ -462,6 +462,7 @@ Route::group("admin",[
     "role_edit"=>"admin/role/edit",//角色编辑
     "role_updata"=>"admin/role/updata",//角色数据更新
     "role_status"=>"admin/role/status",//角色状态修改
+    "role_search"=>"admin/role/role_search",//角色状态修改
 
 
 
@@ -707,6 +708,7 @@ Route::group("admin",[
     "bonus_delete"=>"admin/Bonus/bonus_delete", //积分商城删除商品
     "bonus_images"=>"admin/Bonus/bonus_images", //积分商城商品图片删除
     "bonus_search"=>"admin/Bonus/bonus_search", //积分商城搜索商品
+    "bonus_dels"=>"admin/Bonus/bonus_dels",     //积分商城批量删除商品
 
 
     /*限时限购*/
@@ -849,6 +851,7 @@ Route::group("admin",[
     "direct_seeding_edit" =>"admin/Material/direct_seeding_edit",                                   //视频直播编辑设备
     "direct_seeding_update" =>"admin/Material/direct_seeding_update",                               //视频直播更新设备
     "direct_seeding_delete" =>"admin/Material/direct_seeding_delete",                               //视频直播删除设备
+    "direct_seeding_status" =>"admin/Material/direct_seeding_status",                               //视频直播状态开启
     "direct_seeding_classification" =>"admin/Material/direct_seeding_classification",               //视频直播分类
     "direct_seeding_classification_save" =>"admin/Material/direct_seeding_classification_save",     //视频直播分类保存
     "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加
@@ -856,6 +859,8 @@ Route::group("admin",[
     "direct_seeding_classification_delete" =>"admin/Material/direct_seeding_classification_delete", //直播分类删除
     "direct_seeding_classification_update" =>"admin/Material/direct_seeding_classification_update", //直播分类更新
     "direct_seeding_classification_delete_image" =>"admin/Material/direct_seeding_classification_delete_image", //直播分类图片删除
+    "direct_seeding_classification_status" =>"admin/Material/direct_seeding_classification_status", //直播分类状态开关
+    "direct_seeding_delete_image" =>"admin/Material/direct_seeding_delete_image",                   //视频直播图片删除
     "interaction_index" =>"admin/Material/interaction_index",                                       //温湿感应
     "interaction_add" =>"admin/Material/interaction_add",                                           //温湿感应
     "interaction_add_do" =>"admin/Material/interaction_add_do",                                     //温湿感应仪器添加处理
@@ -1033,8 +1038,8 @@ Route::group("admin",[
 
 
 
-
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
+    "analyse_dels"=>"admin/Analyse/analyse_dels",            //总控增值商品批量删除
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
     "analyse_invented"=>"admin/Analyse/analyse_invented",    //增值虚拟商品添加
     "analyse_edit"=>"admin/Analyse/analyse_edit",            //增值商品编辑

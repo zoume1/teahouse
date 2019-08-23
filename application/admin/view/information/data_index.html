@@ -35,20 +35,23 @@
 		border: solid 1px #E4E4E4;
 	}
 
-    .infor{
+	.infor {
 		display: inline;
 		border-bottom: #989898;
 	}
-	.mation{
-        display:block;
-		float: left; 
+
+	.mation {
+		display: block;
+		float: left;
 		margin-right: 75px;
-			}
-    .little{
-		color: red;
-		float:center;
-        margin-right: 14px;
 	}
+
+	.little {
+		color: red;
+		float: center;
+		margin-right: 14px;
+	}
+
 	.partb {
 		padding: 11px;
 	}
@@ -57,7 +60,7 @@
 		border: 0;
 		border-color: #E4E4E4;
 		width: 100%;
-		border:#e2e2e2 1px solid;
+		border: #e2e2e2 1px solid;
 	}
 
 	.partb table th {
@@ -65,23 +68,23 @@
 		background: #F3F3F3;
 		padding: 12px;
 		font-weight: bold;
-		border:#e2e2e2 1px solid;
+		border: #e2e2e2 1px solid;
 	}
 
 	.partb table td {
-        border-right:#e4e4e4 1px solid;
+		border-right: #e4e4e4 1px solid;
 		border-color: #E4E4E4;
 		padding: 12px;
 	}
 
 	.partc ul {
 		display: flex;
-		
+
 	}
 
 	.partc ul li {
 		flex: 1;
-        
+
 		padding: 11px;
 		width: 50%;
 	}
@@ -89,7 +92,7 @@
 	.partc ul li table {
 		border: 0;
 		width: 100%;
-		border:#e2e2e2 1px solid;
+		border: #e2e2e2 1px solid;
 	}
 
 	.partc ul li table th {
@@ -104,6 +107,7 @@
 		padding: 12px;
 		text-align: center;
 	}
+
 	.red {
 		color: red;
 		font-size: 25px;
@@ -123,35 +127,56 @@
 		margin-right: 20px;
 		float: left;
 	}
-	.partd table{
+
+	.partd table {
 		border: 0;
 		margin: 11px;
 		width: 98%;
 	}
-	.partd table td{
-	}
-	.partd table th{
-		 border-color: #E4E4E4;
-    background: #F3F3F3;
-    padding: 12px;
-    font-weight: bold;
-	}
-	.parte table{
-		border: 0;
-		margin: 11px;
-		width: 98%;
-	}
-	.parte table td{
-	}
-	.parte table th{
+
+	.partd table td {}
+
+	.partd table th {
 		border-color: #E4E4E4;
 		background: #F3F3F3;
 		padding: 12px;
 		font-weight: bold;
 	}
+
+	.parte table {
+		border: 0;
+		margin: 11px;
+		width: 98%;
+	}
+
+	.parte table td {}
+
+	.parte table th {
+		border-color: #E4E4E4;
+		background: #F3F3F3;
+		padding: 12px;
+		font-weight: bold;
+	}
+
+	#low {
+		position: fixed;
+		width: 400px;
+		height: 250px;
+		background: rgb(249, 239, 252);
+		bottom: 0;
+		right: 0;
+		z-index: 1000;
+		border: 1px solid rgb(162, 158, 163);
+	}
+	.low_top {width:100%;height: 30px;border-bottom: 1px solid rgb(162, 158, 163);display: flex;align-items : center; font-size: 20px;color: rgb(6, 105, 155);padding-left: 10px;}
+	.countdown{color:red;margin-right: 20px;}
+	.close{color: rgb(6, 105, 155);font-size: 24px;margin-right: 15px;}
+	.content{padding: 10px;}
+	
 </style>
 
 {/block}
+
 
 
 {block name="content"}
@@ -182,7 +207,7 @@
 
 	</div>
 	<div class="partb">
-		<table  cellspacing="" cellpadding="">
+		<table cellspacing="" cellpadding="">
 			<tr>
 				<th colspan="3">待处理事务</th>
 			</tr>
@@ -211,67 +236,67 @@
 			<tr>
 				<td>
 					<div class="infor">
-					<span class="mation">普通
+						<span class="mation">普通
 							<span class="little">
-									({$data['daifu_num']})
-								</span>
-					</span>
-					
-					<span class="mation">定制
+								({$data['daifu_num']})
+							</span>
+						</span>
+
+						<span class="mation">定制
 							<span class="little">
-									(0)
-								</span>
-					</span>
-					
-					<span class="mation">众筹
+								(0)
+							</span>
+						</span>
+
+						<span class="mation">众筹
 							<span class="little">
-									(0)
-								</span>
-					</span>
-					
-				</div>
+								(0)
+							</span>
+						</span>
+
+					</div>
 				</td>
 				<td>
-			<div class="infor">
-					<span class="mation">普通
+					<div class="infor">
+						<span class="mation">普通
 							<span class="little">
 								({$data['fahuo_num']})
-								</span>
-					</span>
-					
-					<span class="mation">定制
+							</span>
+						</span>
+
+						<span class="mation">定制
 							<span class="little">
-									(0)
-								</span>
-					</span>
-					
-					<span class="mation">众筹
+								(0)
+							</span>
+						</span>
+
+						<span class="mation">众筹
 							<span class="little">
-									(0)
-								</span>
-					</span>
-</div>
-</td>
-<td>
-<div class="infor">
-		<span class="mation">普通
-				<span class="little">
-						(0)
-					</span>
-		</span>
-		
-		<span class="mation">定制
-				<span class="little">
-						(0)
-					</span>
-		</span>
-		
-		<span class="mation">众筹
-				<span class="little">
-						(0)
-					</span>
-		</span>
-				</div>
+								(0)
+							</span>
+						</span>
+					</div>
+				</td>
+				<td>
+					<div class="infor">
+						<span class="mation">普通
+							<span class="little">
+								(0)
+							</span>
+						</span>
+
+						<span class="mation">定制
+							<span class="little">
+								(0)
+							</span>
+						</span>
+
+						<span class="mation">众筹
+							<span class="little">
+								(0)
+							</span>
+						</span>
+					</div>
 				</td>
 			</tr>
 		</table>
@@ -279,7 +304,7 @@
 	<div class="partc">
 		<ul>
 			<li>
-				<table  cellspacing="" cellpadding="">
+				<table cellspacing="" cellpadding="">
 					<tr>
 						<th colspan="3">商品总览</th>
 					</tr>
@@ -300,7 +325,7 @@
 				</table>
 			</li>
 			<li>
-				<table  cellspacing="" cellpadding="">
+				<table cellspacing="" cellpadding="">
 					<tr>
 						<th colspan="4">用户总览</th>
 					</tr>
@@ -308,7 +333,7 @@
 						<td>
 							<p class="red">{$data['d_member_num']}</p>
 							<p>今日新增</p>
-						</td> 
+						</td>
 						<td>
 							<p class="red">{$data['w_member_num']}</p>
 							<p>昨日新增</p>
@@ -328,158 +353,239 @@
 		</ul>
 	</div>
 	<div class="partd">
-		<table  cellspacing="" cellpadding="">
+		<table cellspacing="" cellpadding="">
 			<tr>
 				<th colspan="2">订单统计</th>
 			</tr>
 			<tr>
 				<td width="14%">
 					<div class="left_content" style="text-align: center;">
-                <p style="font-size: 10px; color: #989898; ">本月订单总数</p>
-								<p style="font-size: 20px; color: #333; ">0</p>
-                <p style="font-size: 10px; color: #989898; "><span style="color: #00A950;">↑0%</span>同比上周</p>
-					</div>
-			<div class="left_content" style="text-align: center;" >
 						<p style="font-size: 10px; color: #989898; ">本月订单总数</p>
 						<p style="font-size: 20px; color: #333; ">0</p>
 						<p style="font-size: 10px; color: #989898; "><span style="color: #00A950;">↑0%</span>同比上周</p>
-			</div>
+					</div>
+					<div class="left_content" style="text-align: center;">
+						<p style="font-size: 10px; color: #989898; ">本月订单总数</p>
+						<p style="font-size: 20px; color: #333; ">0</p>
+						<p style="font-size: 10px; color: #989898; "><span style="color: #00A950;">↑0%</span>同比上周</p>
+					</div>
 				</td>
 				<td width="86%">
 					<div class="select">
-						
-								<ul>
-									<li>
-										选择时间:
-										<span class="time"><input type="text" class="text datetimepicker" readonly="readonly" id="beginTime" value=""
-											 style="width: 100px; height: 20px; font-size: 13px; ">
-										</span>至
-										<span class="time"><input type="text" class=" text datetimepicker" readonly="readonly" id="endTime" value="" style="width: 100px; font-size: 13px; height: 20px;">
-										</span>
-					
-					
-									</li >
-									<li id="data1_refash" style=" height: 20px;line-height: 20px;margin-top: 10px;width: 49px;text-align: center;background: #7CB5EC;color: #fff;">
-										刷新
-									</li>
-								</ul>
-							</div>
-					
-							<div id="container" style="width:80%; height: 400px; margin: 0 auto"></div>
+
+						<ul>
+							<li>
+								选择时间:
+								<span class="time"><input type="text" class="text datetimepicker" readonly="readonly"
+										id="beginTime" value="" style="width: 100px; height: 20px; font-size: 13px; ">
+								</span>至
+								<span class="time"><input type="text" class=" text datetimepicker" readonly="readonly"
+										id="endTime" value="" style="width: 100px; font-size: 13px; height: 20px;">
+								</span>
+
+
+							</li>
+							<li id="data1_refash"
+								style=" height: 20px;line-height: 20px;margin-top: 10px;width: 49px;text-align: center;background: #7CB5EC;color: #fff;">
+								刷新
+							</li>
+						</ul>
+					</div>
+
+					<div id="container" style="width:80%; height: 400px; margin: 0 auto"></div>
 				</td>
 			</tr>
-		</table>	
+		</table>
 	</div>
 	<div class="parte">
-		<table  cellspacing="" cellpadding="">
+		<table cellspacing="" cellpadding="">
 			<tr>
 				<th colspan="2">订单统计</th>
 			</tr>
 			<tr>
 				<td width="14%">
 					<div class="left_content" style="text-align: center;">
-                <p style="font-size: 10px; color: #989898; ">本月销售总额</p>
-								<p style="font-size: 20px; color: #333; ">0</p>
-                <p style="font-size: 10px; color: #989898; "><span style="color: #00A950;">↑10%</span>同比上周</p>
+						<p style="font-size: 10px; color: #989898; ">本月销售总额</p>
+						<p style="font-size: 20px; color: #333; ">0</p>
+						<p style="font-size: 10px; color: #989898; "><span style="color: #00A950;">↑10%</span>同比上周</p>
 					</div>
-			<div class="left_content" style="text-align: center; " >
+					<div class="left_content" style="text-align: center; ">
 						<p style="font-size: 10px; color: #989898; ">本周销售总额</p>
 						<p style="font-size: 20px; color: #333; ">0</p>
 						<p style="font-size: 10px; color: #989898; "><span style="color: #00A950;">↑10%</span>同比上周</p>
-			</div>
+					</div>
 				</td>
 				<td width="86%">
 					<div class="select">
-								<ul>
-									<li>
-										选择时间:
-										<span class="time"><input type="text" class="text datetimepicker" readonly="readonly" id="beginTime1" value=""
-											 style="width: 100px; font-size: 13px; height: 20px;">
-										</span>至
-										<span class="time"><input type="text" class=" text datetimepicker" readonly="readonly" id="endTime1" value="" style="width: 100px; font-size: 13px; height: 20px;">
-										</span>
-					
-					
-					
-					
-									</li>
-									<li id="data2_refash" style=" height: 20px;line-height: 20px;margin-top: 10px;width: 49px;text-align: center;background: #7CB5EC;color: #fff;">
-										刷新
-									</li>
-								</ul>
-							</div>
-					
-							<div id="containerb" style="width:80%; height: 400px; margin: 0 auto"></div>
+						<ul>
+							<li>
+								选择时间:
+								<span class="time"><input type="text" class="text datetimepicker" readonly="readonly"
+										id="beginTime1" value="" style="width: 100px; font-size: 13px; height: 20px;">
+								</span>至
+								<span class="time"><input type="text" class=" text datetimepicker" readonly="readonly"
+										id="endTime1" value="" style="width: 100px; font-size: 13px; height: 20px;">
+								</span>
+
+
+
+
+							</li>
+							<li id="data2_refash"
+								style=" height: 20px;line-height: 20px;margin-top: 10px;width: 49px;text-align: center;background: #7CB5EC;color: #fff;">
+								刷新
+							</li>
+						</ul>
+					</div>
+
+					<div id="containerb" style="width:80%; height: 400px; margin: 0 auto"></div>
 				</td>
 			</tr>
-		</table>	
+		</table>
 	</div>
 
 </div>
 {/block}
-
+<div id="low" style="display: none;">
+		<div class="low_top">
+			<div>公告通知</div>
+			<div style="flex:1;"></div>
+			<div class="countdown">10s</div>
+			<div class="close" onclick="colse()">×</div>
+		</div>
+		<div class="content">
+			
+		</div>
+</div>
 <!--_footer 作为公共模版分离出去-->
 {include file="template/_footer" /}
 <!--/_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="__STATIC__/admin/common/zhexian/highcharts.js"></script>
 <script language="JavaScript">
-	  $('#endTime1').datetimepicker({
-            onGenerate: function(ct) {
-                $(this).find('.xdsoft_date')
-                    .removeClass('xdsoft_disabled');
-            },
-            minDate: '-1970/01/2',
-            maxDate: '+1970/01/2',
-            timepicker: false
-        });
-        $('#beginTime1').datetimepicker({
-            onGenerate: function(ct) {
-                $(this).find('.xdsoft_date')
-                    .removeClass('xdsoft_disabled');
-            },
-           
-            minDate: '-1970/01/2',
-            maxDate: '+1970/01/2',
-            timepicker: false
-        });
-	
-     
-		var title = {
-			text: '本月订单统计'
-		};
-		var subtitle = {
-			text: 'Source: runoob.com'
-		};
-		var xAxis = {
-			categories: []
-		};
-		var yAxis = {
-			title: {
-				text: ''
-			},
-			plotLines: [{
-				// value: 0,
-				width: 1,
-				color: '#808080'
-			}]
-		};
-
-		var tooltip = {
+	$.ajax({
+		url: 'control_notice_shop',
+		data: {},
+		type: 'POST',
+		dataType: 'JSON',
+		success: function (res) {
+			if(res.code == 1) {
+				$('#low').show();
+				$('.content').text(res.data[0].con);
+				countdown(res.data[0].duration);
+			}
 		}
+	})
+	function colse() {
+		$('#low').hide();
+	}
+	function countdown(time) {
+		var downTime ;
+			downTime = Number(time) - 1;
+			$('.countdown').text(downTime+"S");
+		if(downTime == 0){
+			colse();
+		} else {
+			setTimeout(function(){
+				countdown(downTime)
+			},1000)
+		}
+	}
+	$('#endTime1').datetimepicker({
+		onGenerate: function (ct) {
+			$(this).find('.xdsoft_date')
+				.removeClass('xdsoft_disabled');
+		},
+		minDate: '-1970/01/2',
+		maxDate: '+1970/01/2',
+		timepicker: false
+	});
+	$('#beginTime1').datetimepicker({
+		onGenerate: function (ct) {
+			$(this).find('.xdsoft_date')
+				.removeClass('xdsoft_disabled');
+		},
 
-		var legend = {
-			layout: 'vertical',
-			align: 'right',
-			verticalAlign: 'middle',
-			borderWidth: 0
-		};
+		minDate: '-1970/01/2',
+		maxDate: '+1970/01/2',
+		timepicker: false
+	});
 
-		var series = [{
-				name: '日期',
-				data: []
-			},
 
-		];
+	var title = {
+		text: '本月订单统计'
+	};
+	var subtitle = {
+		text: 'Source: runoob.com'
+	};
+	var xAxis = {
+		categories: []
+	};
+	var yAxis = {
+		title: {
+			text: ''
+		},
+		plotLines: [{
+			// value: 0,
+			width: 1,
+			color: '#808080'
+		}]
+	};
+
+	var tooltip = {
+	}
+
+	var legend = {
+		layout: 'vertical',
+		align: 'right',
+		verticalAlign: 'middle',
+		borderWidth: 0
+	};
+
+	var series = [{
+		name: '日期',
+		data: []
+	},
+
+	];
+
+	var json = {};
+	json.title = title;
+	json.subtitle = subtitle;
+	json.xAxis = xAxis;
+	json.yAxis = yAxis;
+	json.tooltip = tooltip;
+	json.legend = legend;
+	json.series = series;
+	$('#container').highcharts(json);
+	$('#containerb').highcharts(json);
+	// 时间戳转化
+	function timestampToTime(timestamp) {
+		var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+		var Y = date.getFullYear() + '/';
+		var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
+		var D = date.getDate() + ' ';
+		var h = date.getHours() + ':';
+		var m = date.getMinutes() + ':';
+		var s = date.getSeconds();
+		return Y + M + D;
+	}
+
+	$("#data1_refash").click(function () {
+		var data_aaa = [];
+		var data_bbb = [];
+		var beginTime = $("#beginTime").val();
+		var endTime = $("#endTime").val();
+		var beginTimea = Date.parse(beginTime);
+		var endTimea = Date.parse(endTime);
+		var utc = endTimea - beginTimea;
+		var day = utc / (24 * 60 * 60 * 1000);
+		for (var i = 0; i < day + 1; i++) {
+			data_aaa.push(timestampToTime((beginTimea + 86400000 * i) / 1000));
+			data_bbb.push(0)
+
+		}
+		series[0].data = data_bbb;
+		xAxis.categories = data_aaa;
 
 		var json = {};
 		json.title = title;
@@ -490,114 +596,75 @@
 		json.legend = legend;
 		json.series = series;
 		$('#container').highcharts(json);
+
+	})
+	$("#data2_refash").click(function () {
+
+		var data_aaa = [];
+		var data_bbb = [];
+		var beginTime = $("#beginTime1").val();
+		var endTime = $("#endTime").val();
+		var beginTimea = Date.parse(beginTime);
+		var endTimea = Date.parse(endTime1);
+		var utc = endTimea - beginTimea;
+		var day = utc / (24 * 60 * 60 * 1000);
+		for (var i = 0; i < day + 1; i++) {
+			data_aaa.push(timestampToTime((beginTimea + 86400000 * i) / 1000));
+			data_bbb.push(0)
+
+		}
+		series[0].data = data_bbb;
+		xAxis.categories = data_aaa;
+
+		var json = {};
+		json.title = title;
+		json.subtitle = subtitle;
+		json.xAxis = xAxis;
+		json.yAxis = yAxis;
+		json.tooltip = tooltip;
+		json.legend = legend;
+		json.series = series;
 		$('#containerb').highcharts(json);
-			// 时间戳转化
-	function timestampToTime(timestamp) {
-        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-        var Y = date.getFullYear() + '/';
-        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '/';
-        var D = date.getDate() + ' ';
-        var h = date.getHours() + ':';
-        var m = date.getMinutes() + ':';
-        var s = date.getSeconds();
-        return Y+M+D;
-       }
-	  
-		$("#data1_refash").click(function(){
-			var data_aaa=[];
-			var data_bbb=[];
-            var beginTime=$("#beginTime").val();
-			var endTime=$("#endTime").val();
-			var beginTimea = Date.parse(beginTime);
-			var endTimea = Date.parse(endTime);
-			var utc=endTimea-beginTimea;
-			var day=utc/(24*60*60*1000);
-			for(var i=0;i<day+1;i++){
-				data_aaa.push(timestampToTime((beginTimea+86400000*i)/1000));
-			    data_bbb.push(0)
-				
-			}
-			series[0].data=data_bbb;
-			xAxis.categories=data_aaa;
-		
-			var json = {};
-			json.title = title;
-			json.subtitle = subtitle;
-			json.xAxis = xAxis;
-			json.yAxis = yAxis;
-			json.tooltip = tooltip;
-			json.legend = legend;
-			json.series = series;
-			$('#container').highcharts(json);
-			
-		})
-		$("#data2_refash").click(function(){
-			
-			var data_aaa=[];
-			var data_bbb=[];
-            var beginTime=$("#beginTime1").val();
-			var endTime=$("#endTime").val();
-			var beginTimea = Date.parse(beginTime);
-			var endTimea = Date.parse(endTime1);
-			var utc=endTimea-beginTimea;
-			var day=utc/(24*60*60*1000);
-			for(var i=0;i<day+1;i++){
-				data_aaa.push(timestampToTime((beginTimea+86400000*i)/1000));
-			    data_bbb.push(0)
-				
-			}
-			series[0].data=data_bbb;
-			xAxis.categories=data_aaa;
-		
-			var json = {};
-			json.title = title;
-			json.subtitle = subtitle;
-			json.xAxis = xAxis;
-			json.yAxis = yAxis;
-			json.tooltip = tooltip;
-			json.legend = legend;
-			json.series = series;
-			$('#containerb').highcharts(json);
-			  
-			
-		})
-		var myDate = new Date();
-		var timestamp = (new Date()).valueOf();
-		var load_time=myDate.getDate();
-		    var data_aaa=[];
-			var data_bbb=[];
-			var beginTimea = timestamp;
-			for(var i=0;i<load_time;i++){
-				data_aaa.push(timestampToTime((beginTimea-86400000*i)/1000));
-			    data_bbb.push(0)
-				
-			}
-			series[0].data=data_bbb;
-			xAxis.categories=reverse(data_aaa);
-		
-			var json = {};
-			json.title = title;
-			json.subtitle = subtitle;
-			json.xAxis = xAxis;
-			json.yAxis = yAxis;
-			json.tooltip = tooltip;
-			json.legend = legend;
-			json.series = series;
-			$('#container').highcharts(json);
-			$('#containerb').highcharts(json);
-			
-				function reverse(a){
-				var len = a.length;//获取数组的长度
-				var mid = parseInt(len/2);//获取数组长度的中间值，由于有可能是不是整数，将得到的数字转为整数
-				//利用交换的思想，将数组内的元素放在相应的地方，循环次数为mid+1次
-				for(i = 0;i <= mid;i++){
-					var temp = a[i];
-					a[i] = a[len-1-i];
-					a[len-1-i] = temp;  
-				}
-				return a;
-				}
-		
+
+
+	})
+	var myDate = new Date();
+	var timestamp = (new Date()).valueOf();
+	var load_time = myDate.getDate();
+	var data_aaa = [];
+	var data_bbb = [];
+	var beginTimea = timestamp;
+	for (var i = 0; i < load_time; i++) {
+		data_aaa.push(timestampToTime((beginTimea - 86400000 * i) / 1000));
+		data_bbb.push(0)
+
+	}
+	series[0].data = data_bbb;
+	xAxis.categories = reverse(data_aaa);
+
+	var json = {};
+	json.title = title;
+	json.subtitle = subtitle;
+	json.xAxis = xAxis;
+	json.yAxis = yAxis;
+	json.tooltip = tooltip;
+	json.legend = legend;
+	json.series = series;
+	$('#container').highcharts(json);
+	$('#containerb').highcharts(json);
+
+	function reverse(a) {
+		var len = a.length;//获取数组的长度
+		var mid = parseInt(len / 2);//获取数组长度的中间值，由于有可能是不是整数，将得到的数字转为整数
+		//利用交换的思想，将数组内的元素放在相应的地方，循环次数为mid+1次
+		for (i = 0; i <= mid; i++) {
+			var temp = a[i];
+			a[i] = a[len - 1 - i];
+			a[len - 1 - i] = temp;
+		}
+		return a;
+	}
+
 </script>
 
 

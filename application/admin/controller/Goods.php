@@ -727,7 +727,7 @@ class Goods extends Controller
             } else {
                 $where = 'id=' . $id;
             }
-            halt($where);
+            $tb_name = 'goods';
             $list = Db::name('goods')->where($where)->delete();
             if (empty($list)) {
                 return ajax_success('成功删除!', ['status' => 1]);
@@ -1481,7 +1481,6 @@ class Goods extends Controller
             } else {
                 $where = 'id=' . $id;
             }
-            halt($where);
             $list = Db::name('crowd_goods')->where($where)->delete();
             if (empty($list)) {
                 return ajax_success('成功删除!', ['status' => 1]);

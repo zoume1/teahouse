@@ -8,7 +8,7 @@ use think\Session;
 class Role extends Controller
 {
     /**
-     **************李火生*******************
+     **************gy*******************
      * @param Request $request
      * Notes:角色列表
      **************************************
@@ -38,6 +38,9 @@ class Role extends Controller
                 }
             }
         }
+        $url = 'admin/role/index';
+        $pag_number = 20;
+        $role_lists = paging_data($role_lists,$url,$pag_number);
         return view("index",["role_lists"=>$role_lists]);
     }
 
@@ -280,6 +283,37 @@ class Role extends Controller
                 }
             }
         }
+    }
+
+
+
+        /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:角色列表
+     **************************************
+     * @param Request $request
+     * @return \think\response\View
+     */
+    public function search(Request $request){
+        $search_a = input('search_a')?input('search_a'):null;
+        if(!empty($search_a)){
+            $condition =" `name` like '%{$search_a}%'";
+            $role_lists = db("role")->where($condition)->select();
+        } else {
+            $role_lists = db("role")->select();
+        }
+
+        foreach($role_lists as $key=>$value){
+            if($value["pid"]){
+                $rs = db("role")->where("id",$value['pid'])->field("name")->find();
+                $role_lists[$key]["parent_depart_name"] = $rs["name"];
+            }
+        }
+        $url = 'admin/role/index';
+        $pag_number = 20;
+        $role_lists = paging_data($role_lists,$url,$pag_number);   
+        return view("index",["role_lists"=>$role_lists]);
     }
 
 
