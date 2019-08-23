@@ -29,7 +29,8 @@ class  Material extends  Controller{
         $data = Db::name("video_frequency")->where("store_id",$store_id)->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
-        return view("direct_seeding",["data"=>$data]);
+        $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
+        return view("direct_seeding",["data"=>$data,'direct'=>$direct]);
     }
 
     /**
@@ -174,10 +175,75 @@ class  Material extends  Controller{
      * Notes:视频直播搜索
      **************************************
      */
-    public  function  direct_seeding_search(Request $request){       
-        if ($request->isPost()) {
+    public  function  direct_seeding_search(){    
+        $status = input('status')?input('status'):null;
+        $open_status = input('open_status')?input('open_status'):null;
+        $classify_name = input('classify_name')?input('classify_name'):null;
+        $store_id = Session::get("store_id");
 
+        if(!empty($status) && !empty($open_status) && !empty($classify_name)){
+            $data = Db::name("video_frequency")
+            ->where("store_id",$store_id)
+            ->where("open_status",$open_status)
+            ->where("status",$status)
+            ->where("classify_name",$classify_name)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(!empty($status) && empty($open_status) && empty($classify_name)){
+            $data = Db::name("video_frequency")
+            ->where("store_id",$store_id)
+            ->where("status",$status)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(empty($status) && !empty($open_status) && empty($classify_name)){
+            $data = Db::name("video_frequency")
+            ->where("store_id",$store_id)
+            ->where("open_status",$open_status)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(empty($status) && empty($open_status) && !empty($classify_name)){
+            $data = Db::name("video_frequency")
+            ->where("store_id",$store_id)
+            ->where("classify_name",$classify_name)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(!empty($status) && !empty($open_status) && empty($classify_name)){
+            $data = Db::name("video_frequency")
+            ->where("store_id",$store_id)
+            ->where("open_status",$open_status)
+            ->where("status",$status)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(!empty($status) && empty($open_status) && !empty($classify_name)){
+            $data = Db::name("video_frequency")
+            ->where("store_id",$store_id)
+            ->where("status",$status)
+            ->where("classify_name",$classify_name)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } elseif(empty($status) && !empty($open_status) && !empty($classify_name)){
+            $data = Db::name("video_frequency")
+            ->where("store_id",$store_id)
+            ->where("open_status",$open_status)
+            ->where("classify_name",$classify_name)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } else {
+            $data = Db::name("video_frequency")
+            ->where("store_id",$store_id)
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
         }
+        $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
+        return view("direct_seeding",["data"=>$data,'direct'=>$direct]);
     }
 
 

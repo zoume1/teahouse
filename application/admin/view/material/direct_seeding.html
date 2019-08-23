@@ -61,24 +61,42 @@
                 <div class="search-box layui-form">
                     <div class="layui-form-item my-form-select">
                         <label>状态</label>
-                        <select name="interest" lay-filter="zhuagntai">
-                            <option value="0">全部</option>
-                            <option value="1">开</option>
-                            <option value="2">关</option>
+                        <select name="status" lay-filter="zhuagntai">
+                            <option value="">请选择</option>
+                            <option value="1">开启</option>
+                            <option value="2">关闭</option>
                         </select>
                     </div>
                     <div class="layui-form-item my-form-select">
                         <label>开放</label>
-                        <select name="interest" lay-filter="kaifang">
-                            <option value="0">全部</option>
-                            <option value="1">公开</option>
-                            <option value="2">私有</option>
+                        <select name="open_status" lay-filter="kaifang">
+                            <option value="">请选择</option>
+                            <option value="公开">公开</option>
+                            <option value="私有">私有</option>
                         </select>
                     </div>
-                    <div class="s-input">
-                        <label>直播类型：</label>
+                    <!-- <div class="s-input"> -->
+                        <!-- <label>直播类型：</label>
                         <input type="text" placeholder="请输入" id="searchTxt">
-                    </div>
+                    </div> -->
+            
+                            <div class="seach_laber">直播类型：</div>
+                            <div class="seach_input">
+                                    {if !empty($direct)}
+                                    <select name="classify_name" id="admin_role" class="role_list">
+                                        <option value="">请选择</option>
+                                        {volist name="direct" id="value"}
+                                        <option value="{$value.title}">{$value.title}</option>
+                                        {/volist}
+                                    </select>
+                                    {else}
+                                    <select name="classify_name" class="role_list">
+                                    </select>
+                                    {/if}
+                                    </select>
+                            </div>
+                        
+                    
                     <button class="layui-btn search-btn">立即搜索</button>
                 </div>
             </div>
