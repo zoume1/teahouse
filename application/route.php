@@ -1125,7 +1125,12 @@ Route::group("api",[
     //个人中心
     "order_count"=>"api/Wxapps/order_count",      //各订单类型统计
 
-
+    /**
+     * 小程序直播接口
+    */
+    "classification" => "api/Live/classification",
+    "video_list" => "api/Live/video_list",
+    "details" =>"api/Live/details"
 ]);
 
 Route::miss("public/miss");
