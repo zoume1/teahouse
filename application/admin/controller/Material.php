@@ -144,7 +144,7 @@ class  Material extends  Controller{
      * Notes:视频直播更新设备
      **************************************
      */
-    public  function  direct_seeding_open(Request $request){       
+    public  function  direct_seeding_status(Request $request){       
         if ($request->isPost()) {
             $status = $request->only(["status"])["status"];
             if ($status == 0) {
@@ -168,34 +168,7 @@ class  Material extends  Controller{
         }
     }
 
-        /**
-     * [众筹商品列表组是否上架]
-     * GY
-     */
-    public function crowd_ground(Request $request)
-    {
-        if ($request->isPost()) {
-            $status = $request->only(["status"])["status"];
-            if ($status == 0) {
-                $id = $request->only(["id"])["id"];
-                $bool = db("crowd_goods")->where("id", $id)->update(["label" => 0]);
-                if ($bool) {
-                    $this->redirect(url("admin/Goods/crowd_index"));
-                } else {
-                    $this->error("修改失败", url("admin/Goods/crowd_index"));
-                }
-            }
-            if ($status == 1) {
-                $id = $request->only(["id"])["id"];
-                $bool = db("crowd_goods")->where("id", $id)->update(["label" => 1]);
-                if ($bool) {
-                    $this->redirect(url("admin/Goods/crowd_index"));
-                } else {
-                    $this->error("修改失败", url("admin/Goods/crowd_index"));
-                }
-            }
-        }
-    }
+
 
     /**
      **************GY*******************
