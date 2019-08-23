@@ -17,6 +17,7 @@ use think\Session;
 use think\Loader;
 use think\paginator\driver\Bootstrap;
 use app\admin\model\Notice;
+use think\Validate;
 
 
 class  Control extends  Controller{
@@ -821,7 +822,6 @@ class  Control extends  Controller{
         $notice = paging_data($notice,$url,$pag_number); 
         return view("control_notice_index",['account_list'=>$notice]);
     }
-
     /**
      * [添加公告]
      * fyk
@@ -831,6 +831,25 @@ class  Control extends  Controller{
             $param = $request->param();
             //print_r($param);die;
             $user = new Notice;
+            $rules = [
+                'con'=>'require',
+                'add_time'=>'require',
+                'end_time'=>'require',
+                'duration'=>'require|number',
+            ];
+            $message = [
+                'con.require'=> '公告不能为空',
+                'add_time.require'=>'开始时间不能为空',
+                'end_time.max'=>'结束时间不能为空',
+                'duration.require'=>'时长不能为空',
+                'duration.number'=>'时长为数字',
+    
+            ];
+            $validate = new Validate($rules,$message);
+            //验证部分数据合法性
+            if (!$validate->check($param)) {
+                $this->error('提交失败：' . $validate->getError());
+            }
             $data = array(
                 "con" => $param["con"],
                 "add_time" => strtotime(date($param["add_time"])),
@@ -850,7 +869,7 @@ class  Control extends  Controller{
         return view("control_notice_add");
     }
     /**
-     * [修改公告]
+     * [修改公告页面]
      * fyk
      */ 
     public function control_notice_edit($id){
@@ -861,49 +880,43 @@ class  Control extends  Controller{
        //print_r($notice_edit);die;
         return view("control_notice_edit",["notice_edit"=>$notice_edit]);
     }
-
     /**
-     * [删除公告]
+     * [更新公告页面]
      * fyk
-     */
-    public function control_notice_del($id){
-        $sql = new Notice;
-        $notice_del =$sql->where("id",$id)->update(['is_del' => 2]);
-        if($notice_del){
-            $this->redirect("admin/Control/control_notice_index");
-        }else{
-            $this->error("admin/Control/control_notice_index");
+     */ 
+    public function control_notice_update(Request $request){
+        $param = $request->param();
+        $rules = [
+            'con'=>'require',
+            'add_time'=>'require',
+            'end_time'=>'require',
+            'duration'=>'require|number',
+        ];
+        $message = [
+            'con.require'=> '公告不能为空',
+            'add_time.require'=>'开始时间不能为空',
+            'end_time.max'=>'结束时间不能为空',
+            'duration.require'=>'时长不能为空',
+            'duration.number'=>'时长为数字',
+
+        ];
+        $validate = new Validate($rules,$message);
+        //验证部分数据合法性
+        if (!$validate->check($param)) {
+            $this->error('提交失败：' . $validate->getError());
         }
-    }
-
-    /**
-     * [公告状态]
-     * fyk
-     */
-    public function control_notice_status(Request $request){
-        if($request->isPost()) {
-            $status = $request->only(["status"])["status"];
-            //print_r($status);die;
-            if($status == 2) {
-                $id = $request->only(["id"])["id"];
-                db("notice")->where("id",'NEQ', $id)->update(["status" => 2]);
-                
-                $bool = db("notice")->where("id", $id)->update(["status" => 1]);
-                if ($bool) {
-                    echo json_encode(array('code'=>1,'msg'=>'切换公告成功'));exit;
-                } else {
-                    echo json_encode(array('code'=>0,'msg'=>'请选择其他公告'));exit;
-                }
-            }
-            // if($status == 1){
-            //     $id = $request->only(["id"])["id"];
-            //     $bool = db("notice")->where("id", $id)->update(["status" => 2]);
-            //     if ($bool) {
-            //         echo json_encode(array('code'=>1,'msg'=>'成功'));exit;
-            //     } else {
-            //         echo json_encode(array('code'=>0,'msg'=>'失败'));exit;
-            //     }
-            // }
+        $data = array(
+            "con" => $param["con"],
+            "add_time" => strtotime(date($param["add_time"])),
+            "end_time" => strtotime(date($param["end_time"])),
+            "duration" => $param["duration"],
+        );
+        $sql = new Notice;
+        $notice_update = $sql ->where("id",$param['id'])->update($data);
+        if ($notice_update){
+            $this->success("编辑成功","admin/Control/control_notice_index");
+        }else{
+            $this->error("编辑失败","admin/Control/control_notice_index");
         }
     }
     /**
@@ -922,6 +935,41 @@ class  Control extends  Controller{
             echo json_encode(array('code'=>0,'msg'=>'失败'));exit;
         }
     }
+     /**
+     * [删除公告]
+     * fyk
+     */
+    public function control_notice_del($id){
+        $sql = new Notice;
+        $notice_del =$sql->where("id",$id)->update(['is_del' => 2]);
+        if($notice_del){
+            $this->redirect("admin/Control/control_notice_index");
+        }else{
+            $this->error("admin/Control/control_notice_index");
+        }
+    }
+     /**
+     * [公告状态]
+     * fyk
+     */
+    public function control_notice_status(Request $request){
+        if($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            //print_r($status);die;
+            if($status == 2) {
+                $id = $request->only(["id"])["id"];
+                db("notice")->where("id",'NEQ', $id)->update(["status" => 2]);
+                
+                $bool = db("notice")->where("id", $id)->update(["status" => 1]);
+                if ($bool) {
+                    echo json_encode(array('code'=>1,'msg'=>'切换公告成功'));exit;
+                } else {
+                    echo json_encode(array('code'=>0,'msg'=>'请选择其他公告'));exit;
+                }
+            }
+        }
+    }
+    
     /**
      **************GY*******************
      * @param Request $request
@@ -1295,116 +1343,7 @@ class  Control extends  Controller{
         $offlines = paging_data($offline_data,$url,$pag_number); 
         return view("control_withdraw_deposit",['offlines'=>$offlines]);
     }
-     /**
-     * [公告通知]
-     * fyk
-     */    
-    public function control_notice_index(){ 
-        $sql = new Notice;    
-        $notice = $sql ->where("is_del",'EQ',1)->select();
-        //print_r($notice);die;
-        
-        $url = 'admin/Control/control_notice_index';
-        $pag_number = 20;
-         $notice = paging_data($notice,$url,$pag_number); 
-        return view("control_notice_index",['account_list'=>$notice]);
-    }
-     /**
-     * [添加公告]
-     * fyk
-     */    
-    public function control_notice_add(Request $request){ 
-        if($request -> isPost()){
-            $param = $request->param();
-            //print_r($param);die;
-            $user = new Notice;
-            $data = array(
-                "con" => $param["con"],
-                "add_time" => strtotime(date($param["add_time"])),
-                "end_time" => strtotime(date($param["end_time"])),
-                "duration" => $param["duration"],
-            );
-            $list = $user->save($data);
-                       
-            if ($list) {
-                $this->success("添加成功", url("admin/Control/control_notice_index"));
-            } else {
-                $this->success("添加失败", url('admin/Control/control_notice_index'));
-            }
-        }
-            
-        
-        return view("control_notice_add");
-    }
-    /**
-     * [修改公告]
-     * fyk
-     */ 
-    public function control_notice_edit($id){
-        $sql = new Notice;
-        $notice_edit = $sql ->where("id",$id)->find();
-        $notice_edit['add_time'] = date('Y-m-d H:i:s',$notice_edit['add_time']);
-        $notice_edit['end_time'] = date('Y-m-d H:i:s',$notice_edit['end_time']);
-       //print_r($notice_edit);die;
-        return view("control_notice_edit",["notice_edit"=>$notice_edit]);
-    }
-     /**
-     * [删除公告]
-     * fyk
-     */
-    public function control_notice_del($id){
-        $sql = new Notice;
-        $notice_del =$sql->where("id",$id)->update(['is_del' => 2]);
-        if($notice_del){
-            $this->redirect("admin/Control/control_notice_index");
-        }else{
-            $this->error("admin/Control/control_notice_index");
-        }
-    }
-     /**
-     * [公告状态]
-     * fyk
-     */
-    public function control_notice_status(Request $request){
-        if($request->isPost()) {
-            $status = $request->only(["status"])["status"];
-            //print_r($status);die;
-            if($status == 2) {
-                $id = $request->only(["id"])["id"];
-                db("notice")->where("id",'NEQ', $id)->update(["status" => 2]);
-                
-                $bool = db("notice")->where("id", $id)->update(["status" => 1]);
-                if ($bool) {
-                    echo json_encode(array('code'=>1,'msg'=>'切换公告成功'));exit;
-                } else {
-                    echo json_encode(array('code'=>0,'msg'=>'请选择其他公告'));exit;
-                }
-            }
-            // if($status == 1){
-            //     $id = $request->only(["id"])["id"];
-            //     $bool = db("notice")->where("id", $id)->update(["status" => 2]);
-            //     if ($bool) {
-            //         echo json_encode(array('code'=>1,'msg'=>'成功'));exit;
-            //     } else {
-            //         echo json_encode(array('code'=>0,'msg'=>'失败'));exit;
-            //     }
-            // }
-        }
-    }
-    /**
-     * [店铺公告通知]
-     * fyk
-     */    
-    public function control_notice_shop(){ 
-        $sql = new Notice; 
-        $where = array('is_del'=>1);  
-        $where = array('status'=>1);   
-        $notice = $sql ->where($where) -> select();
-        //print_r($notice);die;
-        if ($notice) {
-            echo json_encode(array('code'=>1,'msg'=>'成功','data'=>$notice));exit;
-        } else {
-            echo json_encode(array('code'=>0,'msg'=>'失败'));exit;
-        }
-    }
- }
+     
+
+
+}

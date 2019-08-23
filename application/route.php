@@ -1021,6 +1021,7 @@ Route::group("admin",[
     "control_notice_index"=>"admin/Control/control_notice_index",//公告通知
     "control_notice_add"=>"admin/Control/control_notice_add",//公告通知新增
     "control_notice_edit"=>"admin/Control/control_notice_edit",//公告通知编辑
+    "control_notice_update"=>"admin/Control/control_notice_update",//公告通知更新
     "control_notice_status"=>"admin/Control/control_notice_status",//公告通知状态
     "control_notice_shop"=>"admin/Control/control_notice_shop",//公告店铺通知
     "control_notice_del"=>"admin/Control/control_notice_del",//公告通知删除
@@ -1029,9 +1030,6 @@ Route::group("admin",[
     "control_order_index_search"=>"admin/Control/control_order_index_search",    //入驻订单搜索
     "control_online_charging_search"=>"admin/Control/control_online_charging_search",//线下充值申请搜索
     "control_withdraw_deposit_search"=>"admin/Control/control_withdraw_deposit_search",//提现申请搜索
-    "control_notice_index"=>"admin/Control/control_notice_index",//公告通知
-    "control_notice_edit"=>"admin/Control/control_notice_edit",//公告通知
-    "control_notice_add"=>"admin/Control/control_notice_add",//公告通知
 
 
 
