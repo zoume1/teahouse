@@ -31,7 +31,9 @@ class Admin extends Controller
             }
             $roleList = getSelectList("role");
         }
-
+        $url = 'admin/admin/index';
+        $pag_number = 20;
+        $account_list = paging_data($account_list,$url,$pag_number);
         return view("index",["account_list"=>$account_list,"roleList"=>$roleList]);
     }
 

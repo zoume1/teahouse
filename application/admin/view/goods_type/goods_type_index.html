@@ -84,7 +84,7 @@
                 <tbody class="news_content">
                     {volist name="wares" id="value"}
                     <tr>
-                        <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
                         <td>{$value.name}</td>
                         <td>{if $value.pid !=0}{$value.names} {else} 顶级 {/if}</td>
                         <td>{$value.rank}</td>
@@ -137,8 +137,8 @@
                 $ = layui.jquery;
             var vals = $("input").data("id");
             //点击操作确认按钮
-            var data_id = [];
             $("#opration_btu").click(function() {
+                var data_id = [];
                 var opration_val = $(".opation select option:selected").val();
                 if (opration_val == 0) {
                     layer.alert('请选择操作', {
@@ -151,10 +151,11 @@
                         btn: ['确认', '取消'] //按钮
                     },  function(index) {
 						layer.close(index);
-                        var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
+                        var child = $("tbody").find('input[name="handleoperation"]:checked');
                         for (var i = 0; i < child.length; i++) {
                             data_id.push($(child[i])[0].dataset.id);
                         }
+                        console.log(data_id)
                         $.ajax({
                             type: "POST",
                             url: "{:url('admin/GoodsType/dels')}",

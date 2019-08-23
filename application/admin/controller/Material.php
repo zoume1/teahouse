@@ -42,7 +42,13 @@ class  Material extends  Controller{
         if($request->isPost()){
             $store_id = Session::get("store_id");
             $data = $request->param();
+            $show_images = $request->file("icon_image");
+            if ($show_images) {
+                $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            }
             $data['store_id'] = $store_id;
+            halt($data);
             $bool = Db::name("video_frequency")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Material/direct_seeding"));

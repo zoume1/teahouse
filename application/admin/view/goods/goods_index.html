@@ -87,7 +87,7 @@
                 <tbody class="news_content">
                     {volist name="goods" id="value"}
                     <tr>
-                        <td><input type="checkbox" name="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
                         <td>{$value.goods_number}</td>
                         <td class="">
                             <div class="tdimg"><img src="__UPLOADS__/{$value.goods_show_images}" /></div>
@@ -194,8 +194,8 @@
                 $ = layui.jquery;
             var vals = $("input").data("id");
             //点击操作确认按钮
-            var data_id = [];
             $("#opration_btu").click(function () {
+                var data_id = [];
                 var opration_val = $(".opation select option:selected").val();
                 if (opration_val == 0) {
                     layer.alert('请选择操作', {
@@ -207,10 +207,11 @@
                     layer.confirm('你确认要删除吗？', {
                         btn: ['确认', '取消'] //按钮
                     }, function () {
-                        var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
+                        var child = $("tbody").find('input[name="handleoperation"]:checked');
                         for (var i = 0; i < child.length; i++) {
                             data_id.push($(child[i])[0].dataset.id);
                         }
+                        console.log(data_id)
                         $.ajax({
                             type: "POST",
                             url: "{:url('admin/Goods/dels')}",
