@@ -230,6 +230,9 @@
     </div>
 
     {/block}
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script src="__STATIC__/admin/common/layui/layui.js"></script>
@@ -250,7 +253,7 @@
                 var status = $(this).val();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Material/direct_seeding_open')}",
+                    url: "{:url('admin/Material/direct_seeding_status')}",
                     data: {
                         "id": id,
                         "status": status
