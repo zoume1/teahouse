@@ -237,7 +237,34 @@
         layui.use(['laydate', 'form'], function(){
             var laydate = layui.laydate,
                 form = layui.form;
+                //   修改状态
+            form.on('switch(isShow)', function (data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+                var vals = data.value;
+                var id = $(this).data("id");
+                var status = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Material/direct_seeding_open')}",
+                    data: {
+                        "id": id,
+                        "status": status
+                    },
+                    success: function (data) {
+                        console.log("成功")
+                    },
+                    error: function (data) {
+                        console.log("错误")
+                    }
+                });
+
+            })
             form.render();
+
         })
         function look(e){
             // console.log( $(e).parents('.videos_fd').children('.videos'))
