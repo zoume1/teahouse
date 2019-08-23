@@ -168,6 +168,17 @@ class  Material extends  Controller{
         }
     }
 
+        /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:视频直播搜索
+     **************************************
+     */
+    public  function  direct_seeding_search(Request $request){       
+        if ($request->isPost()) {
+
+        }
+    }
 
 
     /**
