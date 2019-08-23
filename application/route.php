@@ -851,7 +851,7 @@ Route::group("admin",[
     "direct_seeding_edit" =>"admin/Material/direct_seeding_edit",                                   //视频直播编辑设备
     "direct_seeding_update" =>"admin/Material/direct_seeding_update",                               //视频直播更新设备
     "direct_seeding_delete" =>"admin/Material/direct_seeding_delete",                               //视频直播删除设备
-    "direct_seeding_open" =>"admin/Material/direct_seeding_open",                                   //视频直播状态开启
+    "direct_seeding_status" =>"admin/Material/direct_seeding_status",                               //视频直播状态开启
     "direct_seeding_classification" =>"admin/Material/direct_seeding_classification",               //视频直播分类
     "direct_seeding_classification_save" =>"admin/Material/direct_seeding_classification_save",     //视频直播分类保存
     "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加
