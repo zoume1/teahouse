@@ -2622,6 +2622,7 @@ class  General extends  Base {
         $data = Db::name("adder_order")
                 ->where("store_id",$store_id)
                 ->where("status",'>',1)
+                ->where("is_del",'=',1)
                 ->order('order_create_time desc')
                 ->paginate(20,false, [
                     'query' => request()->param(),
@@ -2718,7 +2719,7 @@ class  General extends  Base {
     /**
      **************GY*******************
      * @param Request $request
-     * Notes:增值订单
+     * Notes:增值订单搜索
      **************************************
      */
     public function store_order_search(){

@@ -462,6 +462,7 @@ Route::group("admin",[
     "role_edit"=>"admin/role/edit",//角色编辑
     "role_updata"=>"admin/role/updata",//角色数据更新
     "role_status"=>"admin/role/status",//角色状态修改
+    "role_search"=>"admin/role/role_search",//角色状态修改
 
 
 

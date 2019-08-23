@@ -721,13 +721,15 @@ class Goods extends Controller
     public function dels(Request $request)
     {
         if ($request->isPost()) {
-            $id = $request->only(["id"])["id"];
+            // $id = $request->only(["id"])["id"];
+            $id = [306,310];
             if (is_array($id)) {
                 $where = 'id in(' . implode(',', $id) . ')';
             } else {
                 $where = 'id=' . $id;
             }
             halt($where);
+            $tb_name = 'goods';
             $list = Db::name('goods')->where($where)->delete();
             if (empty($list)) {
                 return ajax_success('成功删除!', ['status' => 1]);
