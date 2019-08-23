@@ -48,7 +48,17 @@ class  Material extends  Controller{
                 $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
             }
             $data['store_id'] = $store_id;
-            halt($data);
+            if(empty($data['store_name'])){
+                $data['live'] = 2;
+                $data['store_name'] = $data['store_one'];
+                unset($data['store_one']);
+            } else {
+                $data['live'] = 1;
+                unset($data['store_one']);
+            }
+            if(empty($data['store_name'])){
+                $this->error("请选择直播分类或者输入直播名称", url("admin/Material/direct_seeding"));
+           }
             $bool = Db::name("video_frequency")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Material/direct_seeding"));
@@ -86,6 +96,23 @@ class  Material extends  Controller{
     public  function  direct_seeding_update(Request $request){
         if($request->isPost()){
         $data = $request->param();
+        $show_images = $request->file("icon_image");
+        if ($show_images) {
+            $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+            $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+        }
+        if(empty($data['store_name'])){
+            $data['live'] = 2;
+            $data['store_name'] = $data['store_one'];
+            unset($data['store_one']);
+        } else {
+            $data['live'] = 1;
+            unset($data['store_one']);
+        }
+       if(empty($data['store_name'])){
+            $this->error("请选择直播分类或者输入直播名称", url("admin/Material/direct_seeding"));
+       }
+
         $bool = Db::name("video_frequency")->where("id",$data['id'])->update($data);
         if ($bool) {
             $this->success("更新成功", url("admin/Material/direct_seeding"));
@@ -111,7 +138,64 @@ class  Material extends  Controller{
         }      
     }
 
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:视频直播更新设备
+     **************************************
+     */
+    public  function  direct_seeding_open(Request $request){       
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("video_frequency")->where("id", $id)->update(["status" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/Material/direct_seeding"));
+                } else {
+                    $this->error("修改失败", url("admin/Material/direct_seeding"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("video_frequency")->where("id", $id)->update(["status" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/Material/direct_seeding"));
+                } else {
+                    $this->error("修改失败", url("admin/Material/direct_seeding"));
+                }
+            }
+        }
+    }
 
+        /**
+     * [众筹商品列表组是否上架]
+     * GY
+     */
+    public function crowd_ground(Request $request)
+    {
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("crowd_goods")->where("id", $id)->update(["label" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/Goods/crowd_index"));
+                } else {
+                    $this->error("修改失败", url("admin/Goods/crowd_index"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("crowd_goods")->where("id", $id)->update(["label" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/Goods/crowd_index"));
+                } else {
+                    $this->error("修改失败", url("admin/Goods/crowd_index"));
+                }
+            }
+        }
+    }
 
     /**
      **************GY*******************
@@ -235,6 +319,28 @@ class  Material extends  Controller{
                 unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['icon_image']);
             }
             $bool = db("direct_seeding")->where("id", $id)->field("icon_image")->update(["icon_image" => null]);
+            if ($bool) {
+                return ajax_success("删除成功");
+            } else {
+                return ajax_error("删除失败");
+            }
+        }
+    }
+
+
+        /**
+     * [图片删除]
+     * 郭杨
+     */
+    public function direct_seeding_delete_image(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(['id'])['id'];
+            $image_url = db("video_frequency")->where("id", $id)->field("icon_image")->find();
+            if ($image_url['icon_image'] != null) {
+                unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['icon_image']);
+            }
+            $bool = db("video_frequency")->where("id", $id)->field("icon_image")->update(["icon_image" => null]);
             if ($bool) {
                 return ajax_success("删除成功");
             } else {

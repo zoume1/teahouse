@@ -851,6 +851,7 @@ Route::group("admin",[
     "direct_seeding_edit" =>"admin/Material/direct_seeding_edit",                                   //视频直播编辑设备
     "direct_seeding_update" =>"admin/Material/direct_seeding_update",                               //视频直播更新设备
     "direct_seeding_delete" =>"admin/Material/direct_seeding_delete",                               //视频直播删除设备
+    "direct_seeding_open" =>"admin/Material/direct_seeding_open",                                   //视频直播状态开启
     "direct_seeding_classification" =>"admin/Material/direct_seeding_classification",               //视频直播分类
     "direct_seeding_classification_save" =>"admin/Material/direct_seeding_classification_save",     //视频直播分类保存
     "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加
@@ -858,6 +859,7 @@ Route::group("admin",[
     "direct_seeding_classification_delete" =>"admin/Material/direct_seeding_classification_delete", //直播分类删除
     "direct_seeding_classification_update" =>"admin/Material/direct_seeding_classification_update", //直播分类更新
     "direct_seeding_classification_delete_image" =>"admin/Material/direct_seeding_classification_delete_image", //直播分类图片删除
+    "direct_seeding_delete_image" =>"admin/Material/direct_seeding_delete_image",                   //视频直播图片删除
     "interaction_index" =>"admin/Material/interaction_index",                                       //温湿感应
     "interaction_add" =>"admin/Material/interaction_add",                                           //温湿感应
     "interaction_add_do" =>"admin/Material/interaction_add_do",                                     //温湿感应仪器添加处理
