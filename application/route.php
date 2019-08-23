@@ -1019,14 +1019,18 @@ Route::group("admin",[
     "control_charging_edit"=>"admin/Control/control_charging_edit",//线下充值申请编辑
     "control_withdraw_deposit"=>"admin/Control/control_withdraw_deposit",//提现申请
     "control_withdraw_edit"=>"admin/Control/control_withdraw_edit",//提现申请编辑
+    "control_notice_index"=>"admin/Control/control_notice_index",//公告通知
+    "control_notice_add"=>"admin/Control/control_notice_add",//公告通知新增
+    "control_notice_edit"=>"admin/Control/control_notice_edit",//公告通知编辑
+    "control_notice_update"=>"admin/Control/control_notice_update",//公告通知更新
+    "control_notice_status"=>"admin/Control/control_notice_status",//公告通知状态
+    "control_notice_shop"=>"admin/Control/control_notice_shop",//公告店铺通知
+    "control_notice_del"=>"admin/Control/control_notice_del",//公告通知删除
     "store_examine_receipt"=>"admin/Control/store_examine_receipt",//admin后台审核订单发票
     "admin_auditing_receipt"=>"admin/Control/admin_auditing_receipt",//后台审核发票
     "control_order_index_search"=>"admin/Control/control_order_index_search",    //入驻订单搜索
     "control_online_charging_search"=>"admin/Control/control_online_charging_search",//线下充值申请搜索
     "control_withdraw_deposit_search"=>"admin/Control/control_withdraw_deposit_search",//提现申请搜索
-    "control_notice_index"=>"admin/Control/control_notice_index",//公告通知
-    "control_notice_edit"=>"admin/Control/control_notice_edit",//公告通知
-    "control_notice_add"=>"admin/Control/control_notice_add",//公告通知
 
 
 

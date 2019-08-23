@@ -373,13 +373,9 @@ class Upload extends Controller
         }else{
             //获取携带参数的小程序的二维码
             $page='pages/logs/logs';
-            $qr=new My();
-            $qrcode=$qr->mpcode2($page,$store_id);
+            $qrcode=$this->getwxacode($store_id);
             //把qrcode文件写进文件中，使用的时候拿出来
             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
-                //检查是否有该文件夹，如果没有就创建，并给予最高权限
-                // mkdir($new_file, 0777);
-                // mkdir($new_file, 750);
             if (file_put_contents($new_file, $qrcode)) {
                 $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
             } 
@@ -391,7 +387,7 @@ class Upload extends Controller
              //获取体验码的url
              $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
              $timeout=$this->is_timeout($appid);
-             //  $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+             // $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
              $pp = $timeout['authorizer_access_token'];
              return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id]);
             }else{
@@ -797,6 +793,33 @@ class Upload extends Controller
             $this->errorLog("获取小程序的第三方提交代码的页面配置失败",$ret);
             return false;
         }
+
+    }
+    /**
+     * lilu
+     * 获取小程序码
+     * store_id
+     */
+    public function getwxacode($store_id){
+
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$timeout['authorizer_access_token'];
+        $data = '{
+            "path":"page/logs/logs",
+            "width":430
+           }';
+        $pp=$this->https_post($url,$data);
+        $data2='image/jpeg;base64,'.base64_encode($pp);
+        // $ret = json_decode($pp,true);
+        // dump($pp);
+        // halt($ret.'123123');
+        // if($ret['errcode'] == 0) {
+        //     return ajax_success('发布成功');
+        // } else {
+        //     return ajax_error('发布失败');
+        // }
+        return $data2;
 
     }
    
