@@ -218,7 +218,27 @@ class Bonus extends Controller
     }
 
  
-
+    /**
+     * [积分商品列表组批量删除]
+     * GY
+     */
+    public function bonus_dels(Request $request)
+    {
+        if ($request->isPost()) {
+            $id = $request->only(["id"])["id"];
+            if (is_array($id)) {
+                $where = 'id in(' . implode(',', $id) . ')';
+            } else {
+                $where = 'id=' . $id;
+            }
+            $list = Db::name('bonus_mall')->where($where)->delete();
+            if (empty($list)) {
+                return ajax_success('成功删除!', ['status' => 1]);
+            } else {
+                return ajax_error('删除失败', ['status' => 0]);
+            }
+        }
+    }
 
 
     /**

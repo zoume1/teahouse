@@ -708,6 +708,7 @@ Route::group("admin",[
     "bonus_delete"=>"admin/Bonus/bonus_delete", //积分商城删除商品
     "bonus_images"=>"admin/Bonus/bonus_images", //积分商城商品图片删除
     "bonus_search"=>"admin/Bonus/bonus_search", //积分商城搜索商品
+    "bonus_dels"=>"admin/Bonus/bonus_dels",     //积分商城批量删除商品
 
 
     /*限时限购*/
@@ -1036,6 +1037,7 @@ Route::group("admin",[
 
 
     "analyse_index"=>"admin/Analyse/analyse_index",          //总控增值商品
+    "analyse_dels"=>"admin/Analyse/analyse_dels",            //总控增值商品批量删除
     "analyse_add"=>"admin/Analyse/analyse_add",              //增值商品实物添加
     "analyse_invented"=>"admin/Analyse/analyse_invented",    //增值虚拟商品添加
     "analyse_edit"=>"admin/Analyse/analyse_edit",            //增值商品编辑
