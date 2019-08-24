@@ -390,7 +390,7 @@ class Upload extends Controller
             // $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
             $pp = $timeout['authorizer_access_token'];
             //判断是否已上传店铺代码
-            $is_chuan=Db::table('applet')->where('id',$store_id)->value('template_id');
+            $is_chuan=Db::table('applet')->where('id',$store_id)->value('auditid');
             if($is_chuan=='0'){   //没有上传
                  $is_chuan=0;
                 }else{
