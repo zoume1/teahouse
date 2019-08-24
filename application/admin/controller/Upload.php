@@ -845,10 +845,13 @@ class Upload extends Controller
             "auditid":'.$auditid.'
             }';
         $ret = json_decode($this->https_post($url,$data),true);
-        if($ret['errcode'] == 0) {
-            return ajax_success('获取成功',$ret);
-        } else {
-            return ajax_error('获取失败');
+        if($ret['status'] == 0) {
+            return ajax_success('审核成功',1);
+        } elseif($ret['status'] ==1) {
+            return ajax_error('审核失败',$ret['reason']);
+        }
+        elseif($ret['status'] ==2) {
+            return ajax_success('审核中',2);
         }
         
     } 

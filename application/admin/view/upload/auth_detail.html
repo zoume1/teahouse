@@ -318,6 +318,27 @@
                 }
             })
         })
+        // 查看审核详情
+        $('.check_detail').click(function(){
+            $.ajax({
+                url:'check_detail',
+                type:"post",
+                success : function(data){
+                    var data = JSON.parse(data);
+                    if(data.data=='2'){   //审核中
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
+                        alert('审核中...');
+                    }else if(data.data=='1'){
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
+                        alert("提交审核成功");
+                    }else{   //审核失败原因
+                        alert(data.data);
+                    }
+                }
+            })
+        })
         // 获取体验二维码
         $('.get-code').click(function()
         {
