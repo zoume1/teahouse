@@ -805,10 +805,7 @@ class  Control extends  Controller{
             } 
         return view("control_withdraw_edit",['offline_data'=>$offline_data]);
     }
-
-
     /**
-<<<<<<< HEAD
      * [公告通知]
      * fyk
      */    
@@ -972,8 +969,6 @@ class  Control extends  Controller{
     }
     
     /**
-=======
->>>>>>> 83336c30ecfcc5876b8601b0c93702b3fb0202fe
      **************GY*******************
      * @param Request $request
      * Notes:admin后台审核订单发票
@@ -1346,7 +1341,44 @@ class  Control extends  Controller{
         $offlines = paging_data($offline_data,$url,$pag_number); 
         return view("control_withdraw_deposit",['offlines'=>$offlines]);
     }
-     
+    /**
+     * lilu
+     * 总控小程序列表
+     */
+     public function control_store_list(){
+         //获取所有已申请成功的店铺
+         $xcx_list=Db::table('applet')->field('id,name,template_id')->select();
+         $xcx_list = array_values($xcx_list);
+         $url = 'admin/Control/control_store_list';
+         $pag_number = 20;
+         $xcx_list = paging_data($xcx_list,$url,$pag_number); 
+         return view('control_store_list',['data'=>$xcx_list]);
+
+     }
+    /**
+     * lilu
+     * 总控小程序列表--编辑
+     */
+     public function control_store_edit(){
+         //获取id
+         $input=input();
+         $xcx_list=Db::table('applet')->where('id',$input['id'])->field('id,name,template_id')->find();
+         return view('control_store_edit',['data'=>$xcx_list]);
+     }
+    /**
+     * lilu
+     * 总控小程序列表--编辑
+     */
+     public function control_store_edit_do(){
+         //获取参数
+         $input=input();
+         $data['id']=$input['id'];
+         $data['name']=$input['name'];
+         $data['template_id']=$input['template_id'];
+         //获取所有已申请成功的店铺
+         $xcx_list=Db::table('applet')->where('id',$input['id'])->update($data);
+         $this->success('编辑成功','admin/control/control_store_list');
+     }
 
 
 }

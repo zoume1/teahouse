@@ -366,7 +366,6 @@ class Upload extends Controller
     public function auth_pre(){
         //获取店铺id
         $store_id=Session::get('store_id');
-        
         //判断是否已授权
         $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
         if($is_shou){
@@ -385,11 +384,12 @@ class Upload extends Controller
                 } 
             }
             $is_shou['qr_img']=$re;
-             //获取体验码的url
-             $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
-             $timeout=$this->is_timeout($appid);
-             // $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
-             $pp = $timeout['authorizer_access_token'];
+            // //获取体验码的url
+            // $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+            // $timeout=$this->is_timeout($appid);
+            // // $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+            // $pp = $timeout['authorizer_access_token'];
+            $pp = '123123321321321321';
              return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id]);
             }else{
                 //授权开始
@@ -672,10 +672,12 @@ class Upload extends Controller
         * @params string $user_version : 代码版本号
         * @params string $user_desc : 代码描述
      * */
-    public function send_message($template_id = 3, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
+    public function send_message($user_version = 'v1.0.0', $user_desc = "秒答营业厅")
     {
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
+        //获取当前店铺的模板id
+        $template_id=Db::table('applet')->where('id',$store_id)->value('template_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
         $ext_json = json_encode('{"extEnable": true,"extAppid": "'.$appid.'","ext":{"appid": "'.$appid.'"}}');

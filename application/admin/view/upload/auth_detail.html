@@ -36,11 +36,13 @@
         .main ul li .qr-code{width: 100px; height: 100px; vertical-align: top;}
         .main li .wx-num{height: 25px;}
         .main li .set-btn{width: 100px; height: 30px; line-height: 30px; text-align: center; color: #fff; background-color: #169bd5; border: 0; border-radius: 3px;}
-        .flow-btns{margin-top: 40px; text-align: center;}
+        .flow-btns{margin-top: 5px; text-align: center;}
         .flow-btns button{color: #fff; border-radius: 5px; height: 40px; line-height: 40px; border: 0; padding: 0 25px; cursor: pointer;}
         .flow-btns button.upload{background-color: #35aa47;}
+        .flow-btns button.upload2{background-color: #d3d6d3;}
         .flow-btns button.get-code{background-color: #6699ff;}
-        .flow-btns button.publish{background-color: #ff9900;}
+        .flow-btns button.publish{border:2px solid #8d3ac3;color: #8d3ac3;background: #fff;}
+        .flow-btns button.fabu{background-color: #ff9900;}
         .flow-btns button.relieve{background-color: #ff0000;}
         .flow-btns img{vertical-align: middle;}
         .flow-btns .dott{display: inline-block; width: 50px; border-top: 2px dashed #428bca; vertical-align: middle;}
@@ -89,12 +91,12 @@
                         </select>
                     </div>
                 </li>
-                <li>
+                <!-- <li>
                     <span class="fl">发布状态</span>
                     <div class="pl150">未发布
                         <a href="#" class="check-publish-det">查看发布详情</a>
                     </div>
-                </li>
+                </li> -->
                 <li>
                     <span class="fl">小程序二维码</span>
                     <div class="pl150">
@@ -113,26 +115,39 @@
                 </li>
             </ul>
         </div>
+        <span style="color: red;">注：请按从左到右顺序操作</span>
         <div class="flow-btns">
             <button class="upload">一键上传店铺代码</button>
             <img src="__STATIC__/admin/index/img/u40262p000.png">
             <button class="get-code" >获取体验二维码</button>
             <img src="__STATIC__/admin/index/img/u40262p000.png">
-            <button class="publish">发布正式版小程序</button>
+            <button class="publish"><b>提交审核</b></button>
+            <img src="__STATIC__/admin/index/img/u40262p000.png">
+            <button class="fabu">发布正式版小程序</button>
             <span class="dott"></span>
             <button class="relieve">解除授权绑定</button>
         </div>
+        <span style="margin-left:450px;font-size: 12px;">未提交 <span class="check_detail" style="color: blue">查看提交详情</span> </span>
+        <span style="margin-left:52px;font-size: 12px;">未提交 <span class="check_publish" style="color: blue">查看发布详情</span> </span>
     </div>
     <input type="hidden"  name="url" value="{$pp}" >
 
     <div class="mask" style="display: none;"></div>
     <!-- 发布提示 -->
-    <div class="tip-pop publish-confirm" style="display: none;">
+    <div class="tip-pop fabu-confirm" style="display: none;">
         <p class="title">发布提示</p>
-        <div class="tip-cont">正式版需微信平台方审核通过，一般需要1~2个工作日，您对体验版很满意，确定要发布正式版吗？</div>
+        <div class="tip-cont">正式版需微信平台方审核通过，一般需要3个工作日，您对体验版很满意，确定要发布正式版吗？</div>
         <div class="btns">
             <button class="cancel">取消</button>
-            <button class="confirm">确定</button>
+            <button class="fabu2">确定</button>
+        </div>
+    </div>
+    <div class="tip-pop publish-confirm" style="display: none;">
+        <p class="title">提交提示</p>
+        <div class="tip-cont">正式版需微信平台方审核通过，一般需要3个工作日，您对体验版很满意，确定要提交审核吗？</div>
+        <div class="btns">
+            <button class="cancel">取消</button>
+            <button class="publish2">确定</button>
         </div>
     </div>
     <div class="tip-pop publish-no-code" style="display: none;">
@@ -157,17 +172,17 @@
         <div class="tip-cont">此操作不可逆，如对装修不满意，可解绑后，再次装修上传店铺代码</div>
         <div class="btns">
             <button class="cancel">取消</button>
-            <button class="confirm">确定</button>
+            <button class="relieve2">确定</button>
         </div>
     </div>
 
     <!-- 上传模板代码提示 -->
     <div class="tip-pop renovation" style="display: none;">
-        <p class="title">上传模板代码提示</p>
-        <div class="tip-cont">您还没有装修您的小程序，请认真装修您的店铺，规范的小程序装修，正式版通过机率更大</div>
+        <p class="title">上传模板代码提示<span class="cancel" style="float: right;padding-right:10px;cursor:default">X</span></p>
+        <div class="tip-cont">请认真装修您的店铺，只有规范的小程序装修，才能正式版通过</div>
         <div class="btns">
-            <button class="cancel">取消</button>
             <button class="decorate">立即装修</button>
+            <button class="shangchuan">一键上传</button>
         </div>
     </div>
     <div class="tip-pop check-qrcode" style="display: none;">
@@ -182,7 +197,7 @@
     <!-- 提示 -->
     <div class="tip-pop no-upload-code" style="display: none;">
         <p class="title">提示</p>
-        <div class="tip-cont">您还没有上传店铺代码</div>
+        <div class="tip-cont">您还没有<span style="color: red;" class="shangchuan">上传店铺代码</span></div>
         <div class="btns">
             <button class="cancel">取消</button>
             <button class="confirm">确定</button>
@@ -204,6 +219,28 @@
         $('.cancel').add('.confirm').click(function(){
             $('.tip-pop').add('.mask').hide();
         })
+        // 立即装修
+        $('.decorate').add('.confirm').click(function(){
+            window.location.href="/admin/decoration_routine_index";
+            // $('.tip-pop').add('.mask').hide();
+        })
+        // 上传代码
+        $('.shangchuan').add('.confirm').click(function(){
+            $.ajax({
+                url:"send_message",
+                type:"post",
+                success : function(data) {
+                    var data = JSON.parse(data);
+                    if(data.status=='1'){
+                        $('.upload').addClass('upload2');
+                        alert("你的店铺已上传成功,可获取体验码预览小程序");
+                    }else{
+                        alert('上传失败，请重新一键上传店铺代码');
+                    }
+                }
+            })
+            // $('.tip-pop').add('.mask').hide();
+        })
         // 查看发布详情 
         $('.check-publish-det').click(function(){
             $('.mask').add('.publish-detail').show();
@@ -222,31 +259,24 @@
         }
         // 一键上传店铺代码
         $('.upload').click(function(){
+            $('.mask').add('.renovation').show();
             // $('.mask').show();
-            $.ajax({
-                url:"send_message",
-                type:"post",
-                success : function(data) {
-                    var data = JSON.parse(data);
-                    if(data.status=='1'){
-                        alert("你的店铺已上传成功，1~2天审核成功");
-                    }else{
-                        alert('上传失败');
-                    }
-                }
-            })
+            //上传代码事件
+            // $.ajax({
+            //     url:"send_message",
+            //     type:"post",
+            //     success : function(data) {
+            //         var data = JSON.parse(data);
+            //         if(data.status=='1'){
+            //             alert("你的店铺已上传成功，1~2天审核成功");
+            //         }else{
+            //             alert('上传失败');
+            //         }
+            //     }
+            // })
         })
-
-        // 获取体验二维码
-        $('.get-code').click(function()
-        {
-            var url='https://api.weixin.qq.com/wxa/get_qrcode?access_token='+$('input[name="url"]').val();
-            $('.mask').show().append('<img src="https://www.zhihuichacang.com/test.php?url='+url+'"><span class="close">×<span>');
-             closeEven();
-        })
-
-        // 发布正式版小程序
-        $('.publish').click(function(){
+        // 提交审核操作
+        $('.publish2').click(function(){
             $.ajax({
                 url:'publish',
                 type:"post",
@@ -259,33 +289,79 @@
                     }
                 }
             })
-            // $('.mask').show();
-            // // 判断是否上传了代码
-            // if(true){
-            //     // 上传了代码
-            //     $('.publish-confirm').show();
-            // }else{
-            //     // 没有上传代码
-            //     $('.publish-no-code').show();
-            // }
+        })
+        // 获取体验二维码
+        $('.get-code').click(function()
+        {
+            var url='https://api.weixin.qq.com/wxa/get_qrcode?access_token='+$('input[name="url"]').val();
+            $('.mask').show().append('<img src="https://www.zhihuichacang.com/test.php?url='+url+'"><span class="close">×<span>');
+             closeEven();
         })
 
-        // 解除授权绑定
-        $('.relieve').click(function(){
-            // $('.mask').add('.unbind').show();
+        // 提交审核按钮点击事件判断
+        $('.publish').click(function(){
+            //判断是否已上传小城序代码
+            var num=$('.upload2');
+            if(num.length==0){
+                //没有上传代码
+                $('.mask').add('.no-upload-code').show();
+            }else{   //publish-confirm
+                $('.mask').add('.publish-confirm').show();
+            }
+            // $.ajax({
+            //     url:'publish',
+            //     type:"post",
+            //     success : function(data){
+            //         var data = JSON.parse(data);
+            //         if(data.status=='0'){
+            //             alert("发布失败");
+            //         }else{
+            //             alert("发布成功");
+            //         }
+            //     }
+            // })
+        })
+        //发布正式版小程序按钮点击事件
+        $('.fabu').click(function(){
+            $('.mask').add('.fabu-confirm').show();
+        })
+        //发布正式版小程序
+        $('.fabu2').click(function(){
             $.ajax({
-                url:"relieve",
+                url:'release',
                 type:"post",
                 success : function(data){
                     var data = JSON.parse(data);
-                    if(data.status=='1'){
-                        alert("解除授权成功");
-                        window.location.href="auth_pre"
+                    if(data.status=='0'){
+                        alert("发布失败");
                     }else{
-                        alert("解除授权失败，请联系管理员");
+                        alert("发布成功");
                     }
                 }
             })
+        })
+        // 解除授权绑定
+        $('.relieve').click(function(){
+            $('.mask').add('.unbind').show();
+            // $('.unbind').show();
+            
+        })
+        // 解除授权绑定
+        $('.relieve2').click(function(){
+            // $('.mask').add('.unbind').show();
+            // $.ajax({
+            //     url:"relieve",
+            //     type:"post",
+            //     success : function(data){
+            //         var data = JSON.parse(data);
+            //         if(data.status=='1'){
+            //             alert("解除授权成功");
+            //             window.location.href="auth_pre"
+            //         }else{
+            //             alert("解除授权失败，请联系管理员");
+            //         }
+            //     }
+            // })
         })
         // 设置体验者
         $('.set-tiyaner').click(function(){
