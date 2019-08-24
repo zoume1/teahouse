@@ -855,7 +855,7 @@ class Upload extends Controller
                 return ajax_success('审核中',2);
             }
         }else{
-            return ajax_error('审核失败');
+            return ajax_error('审核失败',3);
         }
         
     } 

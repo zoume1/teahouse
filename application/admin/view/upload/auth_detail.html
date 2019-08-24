@@ -333,8 +333,11 @@
                          //取消第一层弹窗
                          $('.tip-pop').add('.mask').hide();
                         alert("提交审核成功");
-                    }else{   //审核失败原因
+                    }else if(data.data==3){   
+                        alert('审核失败');
+                    }else{          //审核失败原因
                         alert(data.data);
+
                     }
                 }
             })
