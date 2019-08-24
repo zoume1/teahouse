@@ -117,7 +117,11 @@
         </div>
         <span style="color: red;">注：请按从左到右顺序操作</span>
         <div class="flow-btns">
+            {if $is_chuan=='0'}
             <button class="upload">一键上传店铺代码</button>
+            {else}
+            <button class="upload upload2">一键上传店铺代码</button>
+            {/if}
             <img src="__STATIC__/admin/index/img/u40262p000.png">
             <button class="get-code" >获取体验二维码</button>
             <img src="__STATIC__/admin/index/img/u40262p000.png">
@@ -278,7 +282,6 @@
                 //没有上传过店铺的代码
                 $('.mask').add('.renovation').show();
             }else{
-                $('.upload').addClass('upload2');
                 $('.mask').add('.check-qrcode2').show();
             }
             // $('.mask').show();
