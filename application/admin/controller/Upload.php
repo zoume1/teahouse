@@ -366,23 +366,24 @@ class Upload extends Controller
     public function auth_pre(){
         //获取店铺id
         $store_id=Session::get('store_id');
-        //获取小程序二维码
-        if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt')) {
-            //检查是否有该文件夹，如果没有就创建，并给予最高权限
-            $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
-        }else{
-            //获取携带参数的小程序的二维码
-            $page='pages/logs/logs';
-            $qrcode=$this->getwxacode($store_id);
-            //把qrcode文件写进文件中，使用的时候拿出来
-            $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
-            if (file_put_contents($new_file, $qrcode)) {
-                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
-            } 
-        }
+        
         //判断是否已授权
         $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
         if($is_shou){
+            //获取小程序二维码
+            if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt')) {
+                //检查是否有该文件夹，如果没有就创建，并给予最高权限
+                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
+            }else{
+                //获取携带参数的小程序的二维码
+                $page='pages/logs/logs';
+                $qrcode=$this->getwxacode($store_id);
+                //把qrcode文件写进文件中，使用的时候拿出来
+                $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
+                if (file_put_contents($new_file, $qrcode)) {
+                    $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
+                } 
+            }
             $is_shou['qr_img']=$re;
              //获取体验码的url
              $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
