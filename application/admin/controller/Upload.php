@@ -742,7 +742,7 @@ class Upload extends Controller
             Db::table('applet')->where('id',$store_id)->update(['auditid'=>$ret['auditid']]);
             return ajax_success('提交成功');
         } elseif($ret['errcode']=='85009') {
-            return ajax_error('提交失败',$ret['ermsg']);
+            return ajax_error('提交失败',$ret['errmsg']);
         }else{
             return ajax_error('提交失败');
 
