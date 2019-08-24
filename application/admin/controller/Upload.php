@@ -733,7 +733,10 @@ class Upload extends Controller
                     "second_id":"'.$second_id.'"
                 }]
             }';
-        $ret = json_decode($this->https_post($url,$data),true);
+        $ret2=$this->https_post($url,$data);
+        $ret = json_decode($ret2,true);
+        $pp['msg']=$ret2;
+        db('test')->insert($pp);
         if($ret['errcode'] == 0) {
             //保存审核的编号
             Db::table('applet')->where('id',$store_id)->update(['auditid'=>$ret['auditid']]);
