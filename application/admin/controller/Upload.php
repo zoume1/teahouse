@@ -389,7 +389,15 @@ class Upload extends Controller
             $timeout=$this->is_timeout($appid);
             // $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
             $pp = $timeout['authorizer_access_token'];
-             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id]);
+            //判断是否已上传店铺代码
+            $is_chuan=Db::table('applet')->where('id',$store_id)->value('template_id');
+            if($is_chuan=='0'){   //没有上传
+                 $is_chuan=0;
+                }else{
+                $is_chuan=1;
+
+            }
+             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id,'is_chuan'=>$is_chuan]);
             }else{
                 //授权开始
             $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
@@ -496,7 +504,6 @@ class Upload extends Controller
         } else {
             return false;
         }
-
     }
     /*
     * 发起POST网络提交
@@ -729,6 +736,8 @@ class Upload extends Controller
             }';
         $ret = json_decode($this->https_post($url,$data),true);
         if($ret['errcode'] == 0) {
+            //保存审核的编号
+            Db::table('applet')->where('id',$store_id)->update(['auditid'=>$ret['auditid']]);
             return ajax_success('提交成功');
         } else {
             return ajax_error('提交失败');
@@ -813,17 +822,33 @@ class Upload extends Controller
            }';
         $pp=$this->https_post($url,$data);
         $data2='image/jpeg;base64,'.base64_encode($pp);
-        // $ret = json_decode($pp,true);
-        // dump($pp);
-        // halt($ret.'123123');
-        // if($ret['errcode'] == 0) {
-        //     return ajax_success('发布成功');
-        // } else {
-        //     return ajax_error('发布失败');
-        // }
         return $data2;
-
     }
+    /**
+     * lilu
+     * 查看审核详情
+     */
+    public function check_detail(){
+        //获取参数
+        $store_id=Session::get('store_id');
+        //获取auditid----审核编号
+        $auditid=Db::table('applet')->where('id',$store_id)->value('auditid');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/get_auditstatus?access_token=".$timeout['authorizer_access_token'];
+        $data = '{
+            "auditid":'.$auditid.'
+            }';
+        $ret = json_decode($this->https_post($url,$data),true);
+        if($ret['errcode'] == 0) {
+            return ajax_success('获取成功',$ret);
+        } else {
+            return ajax_error('获取失败');
+        }
+        
+    } 
+   
+
    
 
      

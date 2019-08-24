@@ -33,7 +33,7 @@
         
         .main{width: 50%; margin: 50px auto 0;}
         .main ul li{padding: 15px 0;}
-        .main ul li .qr-code{width: 100px; height: 100px; vertical-align: top;}
+        .main ul li .qr-code{width: 70px; height: 70px; vertical-align: top;}
         .main li .wx-num{height: 25px;}
         .main li .set-btn{width: 100px; height: 30px; line-height: 30px; text-align: center; color: #fff; background-color: #169bd5; border: 0; border-radius: 3px;}
         .flow-btns{margin-top: 5px; text-align: center;}
@@ -127,10 +127,11 @@
             <span class="dott"></span>
             <button class="relieve">解除授权绑定</button>
         </div>
-        <span style="margin-left:450px;font-size: 12px;">未提交 <span class="check_detail" style="color: blue">查看提交详情</span> </span>
-        <span style="margin-left:52px;font-size: 12px;">未提交 <span class="check_publish" style="color: blue">查看发布详情</span> </span>
+        <span style="margin-left:450px;font-size: 12px;">未提交 <span class="check_detail" style="color: blue">查看审核详情</span> </span>
+        <!-- <span style="margin-left:52px;font-size: 12px;">未提交 <span class="check_publish" style="color: blue">查看发布详情</span> </span> -->
     </div>
     <input type="hidden"  name="url" value="{$pp}" >
+    <input type="hidden"  name="is_chuan" value="{$is_chuan}" >
 
     <div class="mask" style="display: none;"></div>
     <!-- 发布提示 -->
@@ -193,6 +194,14 @@
             <button class="decorate">立即装修</button>
         </div>
     </div>
+    <div class="tip-pop check-qrcode2" style="display: none;">
+        <p class="title">上传模板代码提示</p>
+        <div class="tip-cont">您当前使用的已经是平台最新版，无需更新小程序平台代码，您还可以去店铺装修板块，装修您的店铺</div>
+        <div class="btns">
+            <button class="cancel">取消</button>
+            <button class="decorate">装修店铺</button>
+        </div>
+    </div>
 
     <!-- 提示 -->
     <div class="tip-pop no-upload-code" style="display: none;">
@@ -233,8 +242,12 @@
                     var data = JSON.parse(data);
                     if(data.status=='1'){
                         $('.upload').addClass('upload2');
+                        //取消第一层弹窗
+                        $('.tip-pop').add('.mask').hide();
                         alert("你的店铺已上传成功,可获取体验码预览小程序");
                     }else{
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
                         alert('上传失败，请重新一键上传店铺代码');
                     }
                 }
@@ -259,7 +272,14 @@
         }
         // 一键上传店铺代码
         $('.upload').click(function(){
-            $('.mask').add('.renovation').show();
+            //判断是否已上传
+            var is_chuan=$('input[name="is_chuan"]').val();
+            if(is_chuan==0){
+                //没有上传过店铺的代码
+                $('.mask').add('.renovation').show();
+            }else{
+                $('.mask').add('.check-qrcode2').show();
+            }
             // $('.mask').show();
             //上传代码事件
             // $.ajax({
@@ -283,9 +303,13 @@
                 success : function(data){
                     var data = JSON.parse(data);
                     if(data.status=='0'){
-                        alert("发布失败");
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
+                        alert("提交审核失败");
                     }else{
-                        alert("发布成功");
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
+                        alert("提交审核成功");
                     }
                 }
             })
@@ -333,8 +357,12 @@
                 success : function(data){
                     var data = JSON.parse(data);
                     if(data.status=='0'){
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
                         alert("发布失败");
                     }else{
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
                         alert("发布成功");
                     }
                 }

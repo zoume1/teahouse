@@ -990,6 +990,8 @@ Route::group("admin",[
     "publish"=>"admin/Upload/publish",                               //一键生成--提交上传的版本
     "release"=>"admin/Upload/release",                               //一键生成--发布正式版
     "relieve"=>"admin/Upload/relieve",                               //一键生成--接触授权绑定
+    "check_detail"=>"admin/Upload/check_detail",                     //一键生成--查看审核详情
+    "check_publish"=>"admin/Upload/check_publish",                     //一键生成--查看发布详情
     
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
