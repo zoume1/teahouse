@@ -718,7 +718,7 @@ class Upload extends Controller
         db('test')->insert($p);
         if($ret['errcode'] == 0) {
             //上传成功，修改本店铺的上传状态
-            Db::table('applet')->where('store_id',$store_id)->update('is_chuan',1);
+            Db::table('applet')->where('store_id',$store_id)->update(['is_chuan'=>1]);
             return ajax_success('上传成功');
         } else {
             return ajax_error('上传失败');
