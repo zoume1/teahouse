@@ -133,7 +133,7 @@
             {if $is_que=='0'}
                  <button class="publish"><b>提交审核</b></button>
             {else}
-                <button class="publish"><b>成功</b></button>
+                <button class="publish"><b>已提交审核</b></button>
             {/if}
             <img src="__STATIC__/admin/index/img/u40262p000.png">
             {if $is_fabu=='0'}
@@ -147,7 +147,7 @@
         {if $is_que=='1'}
         <span style="margin-left:450px;font-size: 12px;"> 
             <span class="check_detail" style="color: blue;cursor: default;">查看审核详情</span> 
-            <span class="che_detail" style="color: blue;cursor: default;">撤销审核</span>
+            <span class="che_detail" style="color: rgb(217, 18, 243);cursor: default;">撤销审核</span>
         </span>
         {/if}
         <!-- <span style="margin-left:52px;font-size: 12px;">未提交 <span class="check_publish" style="color: blue">查看发布详情</span> </span> -->
@@ -287,6 +287,9 @@
                         //取消第一层弹窗
                         $('.tip-pop').add('.mask').hide();
                         alert("你的店铺已上传成功,可获取体验码预览小程序");
+                        setTimeout(function(){
+                             window.location.reload();
+                        },3000);
                     }else{
                          //取消第一层弹窗
                          $('.tip-pop').add('.mask').hide();
@@ -342,6 +345,9 @@
                          //取消第一层弹窗
                          $('.tip-pop').add('.mask').hide();
                         alert("提交审核成功");
+                        setTimeout(function(){
+                             window.location.reload();
+                        },3000);
                     }
                 }
             })
@@ -361,6 +367,9 @@
                          //取消第一层弹窗
                          $('.tip-pop').add('.mask').hide();
                         alert("提交审核成功");
+                        setTimeout(function(){
+                             window.location.reload();
+                        },3000);
                     }else if(data.data==3){   
                         alert('审核失败');
                     }else{          //审核失败原因
@@ -390,6 +399,9 @@
                          //取消第一层弹窗
                          $('.tip-pop').add('.mask').hide();
                         alert("撤销成功");
+                        setTimeout(function(){
+                             window.location.reload();
+                        },3000);
                     }else{   
                          $('.tip-pop').add('.mask').hide();
                         alert('撤销失败');
@@ -446,6 +458,9 @@
                          //取消第一层弹窗
                          $('.tip-pop').add('.mask').hide();
                         alert("发布成功");
+                        setTimeout(function(){
+                             window.location.reload();
+                        },3000);
                     }
                 }
             })
@@ -466,7 +481,9 @@
                     var data = JSON.parse(data);
                     if(data.status=='1'){
                         alert("解除授权成功");
-                        window.location.href="auth_pre"
+                        setTimeout(function(){
+                            window.location.href="auth_pre";
+                        },3000);
                     }else{
                         alert("解除授权失败，请联系管理员");
                     }
