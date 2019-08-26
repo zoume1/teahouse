@@ -245,12 +245,15 @@ class  Material extends  Controller{
         $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
         return view("direct_seeding",["data"=>$data,'direct'=>$direct]);
     }
+<<<<<<< HEAD
+=======
 
+>>>>>>> eed838c1ad1aafd25a119257b471ceca5b65e951
     //直播token
     public function video_token()
     {
 
-        $data = db('tb_config')->find();
+        $data = db('config')->find();
 
         $res = $data ?['code'=>1,'msg'=>'获取成功','data'=>$data] : ['code'=>0,'msg'=>'获取失败'];
 
