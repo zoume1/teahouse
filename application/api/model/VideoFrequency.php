@@ -9,9 +9,9 @@ class VideoFrequency extends Model
     protected $resultSetType = 'collection';
 
     //查询分类直播列表
-    public static function live_broadcast($store_id,$class_id)
+    public static function live_broadcast($store_id,$lid)
     {
-        return self::all(['store_id'=>$store_id,'classify_id'=>$class_id,'status'=>1])
+        return self::all(['store_id'=>$store_id,'classify_id'=>$lid,'status'=>1])
          -> toArray();
     }
 
@@ -25,7 +25,7 @@ class VideoFrequency extends Model
     public static function live_browsing($store_id,$vid)
     {
         $user = model('VideoFrequency');
-        $data = $user::where('store_id'=>$store_id,'id',$vid)-> setInc('numbers');
+        $data = $user::where(['store_id'=>$store_id,'id'=>$vid])-> setInc('numbers');
         return $data; 
     }
 }
