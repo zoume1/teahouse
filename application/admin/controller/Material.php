@@ -169,21 +169,13 @@ class  Material extends  Controller{
             }
         }
     }
-
-<<<<<<< HEAD
-    //直播token
-    public function video_token()
-    {
-
-        $data = db('tb_config')->find();
-=======
-        /**
+    /**
      **************GY*******************
      * @param Request $request
      * Notes:视频直播搜索
      **************************************
      */
-    public  function  direct_seeding_search(){    
+    public  function  direct_seeding_search(){
         $status = input('status')?input('status'):null;
         $open_status = input('open_status')?input('open_status'):null;
         $classify_name = input('classify_name')?input('classify_name'):null;
@@ -191,69 +183,74 @@ class  Material extends  Controller{
 
         if(!empty($status) && !empty($open_status) && !empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("open_status",$open_status)
-            ->where("status",$status)
-            ->where("classify_name",$classify_name)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("open_status",$open_status)
+                ->where("status",$status)
+                ->where("classify_name",$classify_name)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(!empty($status) && empty($open_status) && empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("status",$status)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("status",$status)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(empty($status) && !empty($open_status) && empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("open_status",$open_status)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("open_status",$open_status)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(empty($status) && empty($open_status) && !empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("classify_name",$classify_name)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("classify_name",$classify_name)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(!empty($status) && !empty($open_status) && empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("open_status",$open_status)
-            ->where("status",$status)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("open_status",$open_status)
+                ->where("status",$status)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(!empty($status) && empty($open_status) && !empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("status",$status)
-            ->where("classify_name",$classify_name)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("status",$status)
+                ->where("classify_name",$classify_name)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(empty($status) && !empty($open_status) && !empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("open_status",$open_status)
-            ->where("classify_name",$classify_name)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("open_status",$open_status)
+                ->where("classify_name",$classify_name)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } else {
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         }
         $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
         return view("direct_seeding",["data"=>$data,'direct'=>$direct]);
     }
->>>>>>> 3bf58001c45cc5924cf9ed2c29f38a6869456546
+
+    //直播token
+    public function video_token()
+    {
+
+        $data = db('tb_config')->find();
 
         $res = $data ?['code'=>1,'msg'=>'获取成功','data'=>$data] : ['code'=>0,'msg'=>'获取失败'];
 
