@@ -525,5 +525,8 @@ class  Material extends  Controller{
             return $output;
         }
 
-    
+    //详情
+    public function video_comment(){
+        return view("video_comment");
+    }
  }

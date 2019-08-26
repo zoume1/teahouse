@@ -257,6 +257,21 @@
     {block name="bottom"}
     <script src="__STATIC__/admin/common/layui/layui.js"></script>
     <script>
+        $.ajax({
+                    type: "POST",
+                    url: "https://open.ys7.com/api/lapp/token/get",
+                    data: {
+                        appKey:"97a6343476e24f969dcd649b3ca2fd77",
+                        appSecret:"1612af977029b240d54d7111c34e38fb",
+                    },
+                    success: function (data) {
+                        console.log("成功")
+                    },
+                    error: function (data) {
+                        console.log("错误"+data)
+                    }
+                });
+                
         layui.use(['laydate', 'form'], function(){
             var laydate = layui.laydate,
                 form = layui.form;
