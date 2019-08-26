@@ -879,7 +879,22 @@ class Upload extends Controller
             return  ajax_success('获取失败', $ret['members']);
         }
     }
-   
-     
+    /**
+     * lilu
+     * 撤销版本审核
+     * 小程序审核撤回
+     * 单个帐号每天审核撤回次数最多不超过1次，一个月不超过10次。
+     * */
+    public function unDoCodeAudit()
+    {
+        $url = "https://api.weixin.qq.com/wxa/undocodeaudit?access_token=".$this->authorizer_access_token;
+        $ret = json_decode(https_get($url));
+        if($ret->errcode == 0) {
+            return true;
+        } else {
+            $this->errorLog("小程序审核撤回操作失败，appid:".$this->authorizer_appid,$ret);
+            return false;
+        }
+    }
 
 }
