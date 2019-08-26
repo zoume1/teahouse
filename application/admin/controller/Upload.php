@@ -366,30 +366,37 @@ class Upload extends Controller
     public function auth_pre(){
         //获取店铺id
         $store_id=Session::get('store_id');
-        //获取小程序二维码
-        if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt')) {
-            //检查是否有该文件夹，如果没有就创建，并给予最高权限
-            $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
-        }else{
-            //获取携带参数的小程序的二维码
-            $page='pages/logs/logs';
-            $qrcode=$this->getwxacode($store_id);
-            //把qrcode文件写进文件中，使用的时候拿出来
-            $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
-            if (file_put_contents($new_file, $qrcode)) {
-                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
-            } 
-        }
         //判断是否已授权
         $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
         if($is_shou){
+            //获取小程序二维码
+            if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt')) {
+                //检查是否有该文件夹，如果没有就创建，并给予最高权限
+                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
+            }else{
+                //获取携带参数的小程序的二维码
+                $page='pages/logs/logs';
+                $qrcode=$this->getwxacode($store_id);
+                //把qrcode文件写进文件中，使用的时候拿出来
+                $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
+                if (file_put_contents($new_file, $qrcode)) {
+                    $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
+                } 
+            }
             $is_shou['qr_img']=$re;
-             //获取体验码的url
-             $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
-             $timeout=$this->is_timeout($appid);
-             // $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
-             $pp = $timeout['authorizer_access_token'];
-             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id]);
+            // //获取体验码的url
+            $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+            $timeout=$this->is_timeout($appid);
+            // $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
+            $pp = $timeout['authorizer_access_token'];
+            //判断是否已上传店铺代码
+            $is_chuan=Db::table('applet')->where('id',$store_id)->value('auditid');
+            if($is_chuan=='0'){   //没有上传
+                 $is_chuan=0;
+                }else{
+                $is_chuan=1;
+            }
+             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id,'is_chuan'=>$is_chuan]);
             }else{
                 //授权开始
             $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
@@ -496,7 +503,6 @@ class Upload extends Controller
         } else {
             return false;
         }
-
     }
     /*
     * 发起POST网络提交
@@ -671,10 +677,12 @@ class Upload extends Controller
         * @params string $user_version : 代码版本号
         * @params string $user_desc : 代码描述
      * */
-    public function send_message($template_id = 3, $user_version = 'v1.0.0', $user_desc = "秒答营业厅")
+    public function send_message($user_version = 'v1.0.0', $user_desc = "秒答营业厅")
     {
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
+        //获取当前店铺的模板id
+        $template_id=Db::table('applet')->where('id',$store_id)->value('template_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
         $ext_json = json_encode('{"extEnable": true,"extAppid": "'.$appid.'","ext":{"appid": "'.$appid.'"}}');
@@ -725,11 +733,19 @@ class Upload extends Controller
                     "second_id":"'.$second_id.'"
                 }]
             }';
-        $ret = json_decode($this->https_post($url,$data),true);
+        $ret2=$this->https_post($url,$data);
+        $ret = json_decode($ret2,true);
+        $pp['msg']=$ret2;
+        db('test')->insert($pp);
         if($ret['errcode'] == 0) {
+            //保存审核的编号
+            Db::table('applet')->where('id',$store_id)->update(['auditid'=>$ret['auditid']]);
             return ajax_success('提交成功');
-        } else {
+        } elseif($ret['errcode']=='85009') {
+            return ajax_error('提交失败',$ret['errmsg']);
+        }else{
             return ajax_error('提交失败');
+
         }
     }
     /*
@@ -811,17 +827,40 @@ class Upload extends Controller
            }';
         $pp=$this->https_post($url,$data);
         $data2='image/jpeg;base64,'.base64_encode($pp);
-        // $ret = json_decode($pp,true);
-        // dump($pp);
-        // halt($ret.'123123');
-        // if($ret['errcode'] == 0) {
-        //     return ajax_success('发布成功');
-        // } else {
-        //     return ajax_error('发布失败');
-        // }
         return $data2;
-
     }
+    /**
+     * lilu
+     * 查看审核详情
+     */
+    public function check_detail(){
+        //获取参数
+        $store_id=Session::get('store_id');
+        //获取auditid----审核编号
+        $auditid=Db::table('applet')->where('id',$store_id)->value('auditid');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/get_auditstatus?access_token=".$timeout['authorizer_access_token'];
+        $data = '{
+            "auditid":'.$auditid.'
+            }';
+        $ret = json_decode($this->https_post($url,$data),true);
+        if($ret['errcode']=='0'){
+            if($ret['status'] == 0) {
+                return ajax_success('审核成功',1);
+            } elseif($ret['status'] ==1) {
+                return ajax_error('审核失败',$ret['reason']);
+            }
+            elseif($ret['status'] ==2) {
+                return ajax_success('审核中',2);
+            }
+        }else{
+            return ajax_error('审核失败',3);
+        }
+        
+    } 
+   
+
    
 
      

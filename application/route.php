@@ -987,8 +987,11 @@ Route::group("admin",[
     "set_tiyan"=>"admin/Upload/set_tiyan",                             //一键生成--授权获取的详情
     "send_message"=>"admin/Upload/send_message",                             //一键生成--短信提醒
     "get_qrcode"=>"admin/Upload/get_qrcode",                             //一键生成--获取体验码
-    "publish"=>"admin/Upload/publish",                               //一键生成--发布正式版
+    "publish"=>"admin/Upload/publish",                               //一键生成--提交上传的版本
+    "release"=>"admin/Upload/release",                               //一键生成--发布正式版
     "relieve"=>"admin/Upload/relieve",                               //一键生成--接触授权绑定
+    "check_detail"=>"admin/Upload/check_detail",                     //一键生成--查看审核详情
+    "check_publish"=>"admin/Upload/check_publish",                     //一键生成--查看发布详情
     
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
@@ -1036,6 +1039,9 @@ Route::group("admin",[
     "control_order_index_search"=>"admin/Control/control_order_index_search",    //入驻订单搜索
     "control_online_charging_search"=>"admin/Control/control_online_charging_search",//线下充值申请搜索
     "control_withdraw_deposit_search"=>"admin/Control/control_withdraw_deposit_search",//提现申请搜索
+    "control_store_list"=>"admin/Control/control_store_list",           //总控店铺list
+    "control_store_edit"=>"admin/Control/control_store_edit",           //总控店铺list编辑
+    "control_store_edit_do"=>"admin/Control/control_store_edit_do",           //总控店铺list编辑
 
 
 
