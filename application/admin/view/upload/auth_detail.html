@@ -136,7 +136,10 @@
             <span class="dott"></span>
             <button class="relieve">解除授权绑定</button>
         </div>
-        <span style="margin-left:450px;font-size: 12px;">未提交 <span class="check_detail" style="color: blue;cursor: default;">查看审核详情</span> </span>
+        <span style="margin-left:450px;font-size: 12px;"> 
+            <span class="check_detail" style="color: blue;cursor: default;">查看审核详情</span> 
+            <span class="che_detail" style="color: blue;cursor: default;">撤销审核</span>
+        </span>
         <!-- <span style="margin-left:52px;font-size: 12px;">未提交 <span class="check_publish" style="color: blue">查看发布详情</span> </span> -->
     </div>
     <input type="hidden"  name="url" value="{$pp}" >
@@ -166,6 +169,14 @@
         <div class="btns">
             <button class="cancel">取消</button>
             <button class="confirm">确定</button>
+        </div>
+    </div>
+    <div class="tip-pop che2" style="display: none;">
+        <p class="title">撤销提示</p>
+        <div class="tip-cont">单个帐号每天审核撤回次数最多不超过1次，一个月不超过10次。</div>
+        <div class="btns">
+            <button class="cancel">取消</button>
+            <button class="che2_datail">确定</button>
         </div>
     </div>
     <!-- 小程序发布详情 -->
@@ -354,6 +365,35 @@
                         alert(data.data);
 
                     }
+                }
+            })
+        })
+        // 撤销审核
+        $('.che_detail').click(function(){
+            $('.mask').add('.che2').show();
+        })
+        // 撤销审核
+        $('.che2_datail').click(function(){
+            $.ajax({
+                url:'unDoCodeAudit',
+                type:"get",
+                success : function(data){
+                    console.log(data);
+                    // var data = JSON.parse(data);
+                    // if(data.data=='2'){   //审核中
+                    //      //取消第一层弹窗
+                    //      $('.tip-pop').add('.mask').hide();
+                    //     alert('审核中...');
+                    // }else if(data.data=='1'){
+                    //      //取消第一层弹窗
+                    //      $('.tip-pop').add('.mask').hide();
+                    //     alert("提交审核成功");
+                    // }else if(data.data==3){   
+                    //     alert('审核失败');
+                    // }else{          //审核失败原因
+                    //     alert(data.data);
+
+                    // }
                 }
             })
         })
