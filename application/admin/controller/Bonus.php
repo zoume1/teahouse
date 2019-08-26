@@ -105,6 +105,7 @@ class Bonus extends Controller
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
+            
             $show_images = $request->file("goods_show_images");
             $list = [];
 
@@ -392,11 +393,15 @@ class Bonus extends Controller
      * [优惠券更新]
      * GY
      */
-    public function coupon_update(Request $request)
+    public function coupon_update()
     {
+        $request = Request::instance();
 
         if ($request->isPost()) {
+            
             $data = $request->param();
+            
+            var_dump($data);die;
             if(isset($data["scope"])){
                 $data["scope"] = implode(",", $data["scope"]);
             }

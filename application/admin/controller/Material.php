@@ -12,6 +12,7 @@ use think\Request;
 use think\paginator\driver\Bootstrap;
 use think\Session;
 use think\View;
+use app\api\model\VideoFrequency;
 
 
 class  Material extends  Controller{
@@ -168,8 +169,47 @@ class  Material extends  Controller{
         }
     }
 
+    //直播token
+    public function video_token()
+    {
 
+        $data = db('tb_config')->find();
 
+        $res = $data ?['code'=>1,'msg'=>'获取成功','data'=>$data] : ['code'=>0,'msg'=>'获取失败'];
+
+        return json($res);exit;
+    }
+
+    //直播更新token
+    public function edit_video_token()
+    {
+        $request      = Request::instance();
+        $param        = $request->param();//获取所有参数，最全
+        $validate     = new Validate([
+            ['accesstoken', 'require'],
+            ['expiretime', 'require'],
+        ]);
+        //验证部分数据合法性
+        if (!$validate->check($param)) {
+            echo json_encode(['code' => 0,'msg' => $validate->getError()]);
+        }
+        $data = db('config')->find();
+        if($data){
+            $result = db('config')->where('id',$data['id'])
+                ->update(
+                    [   'accesstoken' => $param['accesstoken'],
+                        'expiretime' => $param['expiretime'],
+                        'upated_time' => date("Y-m-d H:i:s", time())
+                    ]);
+
+            $res = $result ? ['code' => 1, 'msg' => '成功'] : ['code' => 0, 'msg' => '失败'];
+            echo json_encode($res);
+        }else{
+
+            echo json_encode(['code' => 0, 'msg' => '数据有误']);
+        }
+
+    }
     /**
      **************GY*******************
      * @param Request $request

@@ -11,7 +11,7 @@ class DirectSeeding extends Model
     //查询分类
     public static function detail($store_id)
     {
-        return self::all(['store_id'=>$store_id]) -> toArray();
+        return self::all(['store_id'=>$store_id,'status'=>1]) -> toArray();
     }
 
 }
