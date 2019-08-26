@@ -125,25 +125,37 @@
             {if $is_chuan=='0'}
             <button class="upload">一键上传店铺代码</button>
             {else}
-            <button class="upload upload2">一键上传店铺代码</button>
+            <button class="upload upload2">店铺代码上传成功</button>
             {/if}
             <img src="__STATIC__/admin/index/img/u40262p000.png">
             <button class="get-code" >获取体验二维码</button>
             <img src="__STATIC__/admin/index/img/u40262p000.png">
-            <button class="publish"><b>提交审核</b></button>
+            {if $is_que=='0'}
+                 <button class="publish"><b>提交审核</b></button>
+            {else}
+                <button class="publish"><b>成功</b></button>
+            {/if}
             <img src="__STATIC__/admin/index/img/u40262p000.png">
-            <button class="fabu">发布正式版小程序</button>
+            {if $is_fabu=='0'}
+                <button class="fabu">发布正式版小程序</button>
+            {else}
+                <button class="fabu">正式版小程序已发布</button>
+            {/if}
             <span class="dott"></span>
             <button class="relieve">解除授权绑定</button>
         </div>
+        {if $is_que=='1'}
         <span style="margin-left:450px;font-size: 12px;"> 
             <span class="check_detail" style="color: blue;cursor: default;">查看审核详情</span> 
             <span class="che_detail" style="color: blue;cursor: default;">撤销审核</span>
         </span>
+        {/if}
         <!-- <span style="margin-left:52px;font-size: 12px;">未提交 <span class="check_publish" style="color: blue">查看发布详情</span> </span> -->
     </div>
     <input type="hidden"  name="url" value="{$pp}" >
     <input type="hidden"  name="is_chuan" value="{$is_chuan}" >
+    <input type="hidden"  name="is_que" value="{$is_que}" >
+    <input type="hidden"  name="is_fabu" value="{$is_fabu}" >
 
     <div class="mask" style="display: none;"></div>
     <!-- 发布提示 -->
@@ -304,26 +316,16 @@
         $('.upload').click(function(){
             //判断是否已上传
             var is_chuan=$('input[name="is_chuan"]').val();
+             if(is_chuaun==1){
+                 alert('店铺代码已上传成功，请勿重复操作');
+                 return false;
+             }   
             if(is_chuan==0){
                 //没有上传过店铺的代码
                 $('.mask').add('.renovation').show();
             }else{
                 $('.mask').add('.check-qrcode2').show();
             }
-            // $('.mask').show();
-            //上传代码事件
-            // $.ajax({
-            //     url:"send_message",
-            //     type:"post",
-            //     success : function(data) {
-            //         var data = JSON.parse(data);
-            //         if(data.status=='1'){
-            //             alert("你的店铺已上传成功，1~2天审核成功");
-            //         }else{
-            //             alert('上传失败');
-            //         }
-            //     }
-            // })
         })
         // 提交审核操作
         $('.publish2').click(function(){
@@ -389,6 +391,7 @@
                          $('.tip-pop').add('.mask').hide();
                         alert("撤销成功");
                     }else{   
+                         $('.tip-pop').add('.mask').hide();
                         alert('撤销失败');
                     }
                 }
@@ -405,6 +408,12 @@
         // 提交审核按钮点击事件判断
         $('.publish').click(function(){
             //判断是否已上传小城序代码
+            //判断是否已上传
+            var is_que=$('input[name="is_que"]').val();
+             if(is_que==1){
+                 alert('店铺提交审核，请勿重复操作');
+                 return false;
+             }   
             var num=$('.upload2');
             if(num.length==0){
                 //没有上传代码
@@ -412,21 +421,14 @@
             }else{   //publish-confirm
                 $('.mask').add('.publish-confirm').show();
             }
-            // $.ajax({
-            //     url:'publish',
-            //     type:"post",
-            //     success : function(data){
-            //         var data = JSON.parse(data);
-            //         if(data.status=='0'){
-            //             alert("发布失败");
-            //         }else{
-            //             alert("发布成功");
-            //         }
-            //     }
-            // })
         })
         //发布正式版小程序按钮点击事件
         $('.fabu').click(function(){
+            var is_fabu=$('input[name="is_fabu"]').val();
+             if(is_fabu==1){
+                 alert('正式版小城序已发布，请勿重复操作');
+                 return false;
+             }   
             $('.mask').add('.fabu-confirm').show();
         })
         //发布正式版小程序
@@ -457,19 +459,19 @@
         // 解除授权绑定
         $('.relieve2').click(function(){
             // $('.mask').add('.unbind').show();
-            // $.ajax({
-            //     url:"relieve",
-            //     type:"post",
-            //     success : function(data){
-            //         var data = JSON.parse(data);
-            //         if(data.status=='1'){
-            //             alert("解除授权成功");
-            //             window.location.href="auth_pre"
-            //         }else{
-            //             alert("解除授权失败，请联系管理员");
-            //         }
-            //     }
-            // })
+            $.ajax({
+                url:"relieve",
+                type:"post",
+                success : function(data){
+                    var data = JSON.parse(data);
+                    if(data.status=='1'){
+                        alert("解除授权成功");
+                        window.location.href="auth_pre"
+                    }else{
+                        alert("解除授权失败，请联系管理员");
+                    }
+                }
+            })
         })
         // 设置体验者
         $('.set-tiyaner').click(function(){
