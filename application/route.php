@@ -844,7 +844,8 @@ Route::group("admin",[
 
     /*物联*/
     "anti_fake" =>"admin/Material/anti_fake",                                                       //防伪溯源
-
+    "video_token" =>"admin/Material/video_token",       //token值
+    "edit_video_token" =>"admin/Material/edit_video_token",//更新token值
     "direct_seeding" =>"admin/Material/direct_seeding",                                             //视频直播
     "direct_seeding_add" =>"admin/Material/direct_seeding_add",                                     //视频直播添加设备
     "direct_seeding_save" =>"admin/Material/direct_seeding_save",                                   //视频直播保存设备
@@ -993,7 +994,8 @@ Route::group("admin",[
     "relieve"=>"admin/Upload/relieve",                               //一键生成--接触授权绑定
     "check_detail"=>"admin/Upload/check_detail",                     //一键生成--查看审核详情
     "check_publish"=>"admin/Upload/check_publish",                     //一键生成--查看发布详情
-    "get_tiyanlist"=>"admin/Upload/get_tiyanlist",                     //一键生成--查看发布详情
+    "get_tiyanlist"=>"admin/Upload/get_tiyanlist",                     //一键生成--获取体验者列表
+    "unDoCodeAudit"=>"admin/Upload/unDoCodeAudit",                     //一键生成--版本撤销
     
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
@@ -1138,7 +1140,9 @@ Route::group("api",[
     */
     "classification" => "api/Live/classification",
     "video_list" => "api/Live/video_list",
-    "details" =>"api/Live/details"
+    "details" =>"api/Live/details",
+    "video_give" =>"api/Live/video_give",
+    "video_comment" =>"api/Live/video_comment"
 ]);
 
 Route::miss("public/miss");

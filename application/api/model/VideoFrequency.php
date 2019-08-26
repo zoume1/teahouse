@@ -28,4 +28,11 @@ class VideoFrequency extends Model
         $data = $user::where(['store_id'=>$store_id,'id'=>$vid])-> setInc('numbers');
         return $data; 
     }
+
+    //直播token
+    public function token($store_id,$id)
+    {
+        $token = self::where(['member_id'=>$store_id,'id'=>$id])->value('accesstoken,expiretime');
+        return $token;
+    }
 }
