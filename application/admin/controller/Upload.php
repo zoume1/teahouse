@@ -859,10 +859,27 @@ class Upload extends Controller
         }
         
     } 
+    /**
+     * lilu
+     * 获取体验者列表
+     */
+    public function get_tiyanlist(){
+        //获取参数
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/memberauth?access_token=".$timeout['authorizer_access_token'];
+        $data = '{"action":"get_experiencer"}';
+        $pp=https_post($url,$data);
+        db('test')->insert($pp);
+        $ret = json_decode($pp,true);
+        if($ret['errcode'] == 0) {
+            return  ajax_success('获取成功', $ret['members']);
+        } else {
+            return  ajax_success('获取失败', $ret['members']);
+        }
+    }
    
-
-   
-
      
 
 }
