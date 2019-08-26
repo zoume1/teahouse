@@ -870,8 +870,6 @@ class Upload extends Controller
         $timeout=$this->is_timeout($appid);
         $url = "https://api.weixin.qq.com/wxa/memberauth?access_token=".$timeout['authorizer_access_token'];
         $data = '{"action":"get_experiencer"}';
-        $pp=$this->https_post($url,$data);
-        db('test')->insert($pp);
         $ret = json_decode($pp,true);
         if($ret['errcode'] == 0) {
             return  ajax_success('获取成功', $ret['members']);
