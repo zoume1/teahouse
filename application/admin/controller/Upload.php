@@ -870,7 +870,7 @@ class Upload extends Controller
         $timeout=$this->is_timeout($appid);
         $url = "https://api.weixin.qq.com/wxa/memberauth?access_token=".$timeout['authorizer_access_token'];
         $data = '{"action":"get_experiencer"}';
-        $pp=https_post($url,$data);
+        $pp=$this->https_post($url,$data);
         db('test')->insert($pp);
         $ret = json_decode($pp,true);
         if($ret['errcode'] == 0) {
@@ -888,7 +888,7 @@ class Upload extends Controller
     public function unDoCodeAudit()
     {
         $url = "https://api.weixin.qq.com/wxa/undocodeaudit?access_token=".$this->authorizer_access_token;
-        $ret = json_decode(https_get($url));
+        $ret = json_decode($this->https_get($url));
         if($ret->errcode == 0) {
             return true;
         } else {
