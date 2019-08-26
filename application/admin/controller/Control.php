@@ -827,7 +827,6 @@ class  Control extends  Controller{
     public function control_notice_add(Request $request){ 
         if($request -> isPost()){
             $param = $request->param();
-            halt($param);
             //print_r($param);die;
             $user = new Notice;
             $rules = [
