@@ -90,8 +90,8 @@
                             <option value="商家自营-食品类目">商家自营-食品类目</option>
                         </select>
                     </div>
-                    <div style="margin-left:30px;">
-                        <select style="height: 25px;">
+                    <div style="margin-left:30px;" class="list_user">
+                        <select style="height: 25px;" id="list_select">
                             <option value="0">体验者列表</option>
                         </select>
                     </div>
@@ -108,7 +108,7 @@
                         <!-- <img src="{$data['head_img']}" class="qr-code"> -->
                         <img src="data:{$data['qr_img']}" class="qr-code">
                         <!-- 待获取 -->
-                        <!-- <a href="#" class="show-big">查看大图</a> -->
+                        <a href="#" class="show-big">查看大图</a>
                     </div>
                 </li>
                 <li>
@@ -136,7 +136,7 @@
             <span class="dott"></span>
             <button class="relieve">解除授权绑定</button>
         </div>
-        <span style="margin-left:450px;font-size: 12px;"> <span class="check_detail" style="color: blue;cursor: default;">查看审核详情</span> </span>
+        <span style="margin-left:450px;font-size: 12px;">未提交 <span class="check_detail" style="color: blue;cursor: default;">查看审核详情</span> </span>
         <!-- <span style="margin-left:52px;font-size: 12px;">未提交 <span class="check_publish" style="color: blue">查看发布详情</span> </span> -->
     </div>
     <input type="hidden"  name="url" value="{$pp}" >
@@ -233,6 +233,16 @@
 
     <script src="__STATIC__/admin/index/js/jquery.js"></script>
     <script>
+        $('.list_user').click(function() {
+            $.ajax({
+                url:'get_tiyanlist',
+                type:"post",
+                success : function(data){
+                    console.log(data)
+                }
+            })
+            // $('#list_select')
+        })
         // 取消
         $('.cancel').add('.confirm').click(function(){
             $('.tip-pop').add('.mask').hide();
