@@ -25,14 +25,25 @@ class CrowdOder extends Controller{
      */
     public function crowd_order_index()
     {
+        $order_status =input("order_status") ? input("order_status"):null;
         $store_id = Session::get("store_id");
-        $where['status']= array('between',array(0,8));
-        $datas =Db::name("crowd_order")
-            ->order("order_create_time","desc")
-            ->where("store_id",'EQ',$store_id)
-            ->where($where)
-            ->group('parts_order_number')
-            ->select();
+        if($order_status){
+            $where['status']= array('between',array(2,3));
+            $datas =Db::name("crowd_order")
+                ->order("order_create_time","desc")
+                ->where("store_id",'EQ',$store_id)
+                ->where($where)
+                ->group('parts_order_number')
+                ->select();
+        }else{
+            $where['status']= array('between',array(0,8));
+            $datas =Db::name("crowd_order")
+                ->order("order_create_time","desc")
+                ->where("store_id",'EQ',$store_id)
+                ->where($where)
+                ->group('parts_order_number')
+                ->select();
+        }
             foreach($datas as $k2 =>$v2){
                 $datas[$k2]['type']=0;     //众筹----全额支持
             }

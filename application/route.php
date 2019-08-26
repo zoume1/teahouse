@@ -992,6 +992,7 @@ Route::group("admin",[
     "relieve"=>"admin/Upload/relieve",                               //一键生成--接触授权绑定
     "check_detail"=>"admin/Upload/check_detail",                     //一键生成--查看审核详情
     "check_publish"=>"admin/Upload/check_publish",                     //一键生成--查看发布详情
+    "get_tiyanlist"=>"admin/Upload/get_tiyanlist",                     //一键生成--查看发布详情
     
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
