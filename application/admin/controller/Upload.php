@@ -824,6 +824,7 @@ class Upload extends Controller
             return false;
         }
     }
+    
     /*
      * 获取小程序的第三方提交代码的页面配置
      * */
@@ -924,6 +925,23 @@ class Upload extends Controller
             return  ajax_success('获取成功', $ret);
         } else {
             return  ajax_error('获取失败');
+        }
+    }
+    /*
+     * 获取授权小程序帐号的可选类目----主动获取
+     * */
+    private function getCategory2()
+    {
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/get_category?access_token=".$timeout['authorizer_access_token'];
+        $ret = json_decode($this->https_get($url),true);
+        if($ret['errcode'] == 0) {
+            return ajax_success('获取成功',$ret['category_list']);
+        } else {
+            $this->errorLog("获取授权小程序帐号的可选类目操作失败",$ret);
+            return false;
         }
     }
 
