@@ -379,21 +379,18 @@
                 type:"get",
                 success : function(data){
                     console.log(data);
-                    // var data = JSON.parse(data);
-                    // if(data.data=='2'){   //审核中
-                    //      //取消第一层弹窗
-                    //      $('.tip-pop').add('.mask').hide();
-                    //     alert('审核中...');
-                    // }else if(data.data=='1'){
-                    //      //取消第一层弹窗
-                    //      $('.tip-pop').add('.mask').hide();
-                    //     alert("提交审核成功");
-                    // }else if(data.data==3){   
-                    //     alert('审核失败');
-                    // }else{          //审核失败原因
-                    //     alert(data.data);
-
-                    // }
+                    var data = JSON.parse(data);
+                    if(data.data.errcode=='87013'){   //审核中
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
+                        alert('撤回次数达到上限（每天一次，每个月10次）');
+                    }else if(data.data=='0'){
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
+                        alert("撤销成功");
+                    }else{   
+                        alert('撤销失败');
+                    }
                 }
             })
         })
