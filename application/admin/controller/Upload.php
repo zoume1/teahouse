@@ -930,7 +930,7 @@ class Upload extends Controller
     /*
      * 获取授权小程序帐号的可选类目----主动获取
      * */
-    private function getCategory2()
+    private function get_category2()
     {
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
