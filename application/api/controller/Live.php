@@ -58,7 +58,6 @@ class Live extends Controller{
 
         return json($res);exit;
     }
-<<<<<<< HEAD
 
     //视频点赞
     public  function  video_give(){
@@ -114,8 +113,4 @@ class Live extends Controller{
     }
 
 
-=======
-    
-    
->>>>>>> 3bf58001c45cc5924cf9ed2c29f38a6869456546
 }
