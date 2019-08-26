@@ -169,15 +169,7 @@ class  Material extends  Controller{
             }
         }
     }
-
-<<<<<<< HEAD
-    //直播token
-    public function video_token()
-    {
-
-        $data = db('tb_config')->find();
-=======
-        /**
+    /**
      **************GY*******************
      * @param Request $request
      * Notes:视频直播搜索
@@ -253,7 +245,11 @@ class  Material extends  Controller{
         $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
         return view("direct_seeding",["data"=>$data,'direct'=>$direct]);
     }
->>>>>>> 3bf58001c45cc5924cf9ed2c29f38a6869456546
+    //直播token
+    public function video_token()
+    {
+
+        $data = db('config')->find();
 
         $res = $data ?['code'=>1,'msg'=>'获取成功','data'=>$data] : ['code'=>0,'msg'=>'获取失败'];
 
