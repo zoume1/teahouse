@@ -876,7 +876,7 @@ class Upload extends Controller
         if($ret['errcode'] == 0) {
             return  ajax_success('获取成功', $ret['members']);
         } else {
-            return  ajax_success('获取失败', $ret['members']);
+            return  ajax_error('获取失败');
         }
     }
     /**
@@ -887,13 +887,15 @@ class Upload extends Controller
      * */
     public function unDoCodeAudit()
     {
-        $url = "https://api.weixin.qq.com/wxa/undocodeaudit?access_token=".$this->authorizer_access_token;
-        $ret = json_decode($this->https_get($url));
-        if($ret->errcode == 0) {
-            return true;
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/undocodeaudit?access_token=".$timeout['authorizer_access_token'];
+        $ret = json_decode($this->https_get($url),true);
+        if($ret['errcode'] == 0) {
+            return  ajax_success('获取成功', $ret);
         } else {
-            $this->errorLog("小程序审核撤回操作失败，appid:".$this->authorizer_appid,$ret);
-            return false;
+            return  ajax_error('获取失败');
         }
     }
 
