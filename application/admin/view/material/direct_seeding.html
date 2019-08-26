@@ -259,18 +259,31 @@
     <script>
         $.ajax({
                     type: "POST",
-                    url: "https://open.ys7.com/api/lapp/token/get",
+                    url: "admin/Material/video_token",
                     data: {
-                        appKey:"97a6343476e24f969dcd649b3ca2fd77",
-                        appSecret:"1612af977029b240d54d7111c34e38fb",
+                        
                     },
                     success: function (res) {
-                        console.log(res.data.accessToken)
+                        console.log(res)
                     },
                     error: function (err) {
                         console.log("错误"+err)
                     }
                 });
+        // $.ajax({
+        //             type: "POST",
+        //             url: "https://open.ys7.com/api/lapp/token/get",
+        //             data: {
+        //                 appKey:"97a6343476e24f969dcd649b3ca2fd77",
+        //                 appSecret:"1612af977029b240d54d7111c34e38fb",
+        //             },
+        //             success: function (res) {
+        //                 console.log(res.data.accessToken)
+        //             },
+        //             error: function (err) {
+        //                 console.log("错误"+err)
+        //             }
+        //         });
         // $.ajax({
         //             type: "POST",
         //             url: "https://open.ys7.com/api/lapp/device/capture",
