@@ -75,7 +75,7 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th>id</th>
+						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
 						<th>内容</th>
 						<th>开始时间</th>
 						<th>结束时间</th>
@@ -88,7 +88,7 @@
 					{volist name="account_list" id="value"}
 					<tr>
 
- 						<td>{$value.id}</td>
+ 						<td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
 						<td align="left">{$value.con}</td>
 						<td>{$value.add_time|date="Y-m-d H:i:s",###}</td>
 						<td>{$value.end_time|date="Y-m-d H:i:s",###}</td>
@@ -174,7 +174,28 @@
                     //     window.location.href = "";
 					// }
 				});
- 			})
+ 			});
+			  //全选
+			  form.on('checkbox(allChoose)', function (data) {
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                child.each(function (index, item) {
+                    item.checked = data.elem.checked;
+                });
+                form.render('checkbox');
+            });
+            //通过判断文章是否全部选中来确定全选按钮是否选中
+            form.on("checkbox(choose)", function (data) {
+                // console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
+                
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
+                if (childChecked.length === child.length) {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
+                } else {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
+                }
+                form.render('checkbox');
+            });
  		})
  	</script>
 
