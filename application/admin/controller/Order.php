@@ -24,16 +24,31 @@ class  Order extends  Controller{
      * 展示5种类型的订单
      */
     public function order_index(){
+        //获取传参
+        $order_status =input("order_status") ? input("order_status"):null;
         $store_id = Session::get("store_id");
-        $where['status']= array('between',array(0,8));
-        $data =Db::name("order")
-            ->order("order_create_time","desc")
-            ->where("store_id",'EQ',$store_id)
-            ->where($where)
-            ->group('parts_order_number')
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+        if($order_status){
+            $where['status']= array('between',array(2,3));
+            $where['order_type']=1;
+            $data =Db::name("order")
+                ->order("order_create_time","desc")
+                ->where("store_id",'EQ',$store_id)
+                ->where($where)
+                ->group('parts_order_number')
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                    ]);
+        }else{
+            $where['status']= array('between',array(0,8));
+            $data =Db::name("order")
+                ->order("order_create_time","desc")
+                ->where("store_id",'EQ',$store_id)
+                ->where($where)
+                ->group('parts_order_number')
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                    ]);
+        }
             $data2=[];
             foreach($data as $k=>$v){
                 //获取相同订单的数据
@@ -476,11 +491,20 @@ class  Order extends  Controller{
      */
     public function refund_protection_index(){
         //获取店铺id
+        $order_status =input("order_status") ? input("order_status"):null;
         $store_id=Session::get('store_id');
-        $accessories=Db::name("after_sale")
+        if($order_status){
+            $accessories=Db::name("after_sale")
             ->where('store_id',$store_id)
+            ->where('status',1)
             ->order("operation_time","desc")
             ->select();
+        }else{
+            $accessories=Db::name("after_sale")
+                ->where('store_id',$store_id)
+                ->order("operation_time","desc")
+                ->select();
+        }
         foreach ($accessories as $key => $value) {
             if ($value["id"]) {
                 $res = db("member")->where("member_id", $value['member_id'])->field("member_phone_num,member_real_name,member_name")->find();

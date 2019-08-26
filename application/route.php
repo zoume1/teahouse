@@ -853,6 +853,7 @@ Route::group("admin",[
     "direct_seeding_update" =>"admin/Material/direct_seeding_update",                               //视频直播更新设备
     "direct_seeding_delete" =>"admin/Material/direct_seeding_delete",                               //视频直播删除设备
     "direct_seeding_status" =>"admin/Material/direct_seeding_status",                               //视频直播状态开启
+    "direct_seeding_search" =>"admin/Material/direct_seeding_search",                               //视频直播搜索
     "direct_seeding_classification" =>"admin/Material/direct_seeding_classification",               //视频直播分类
     "direct_seeding_classification_save" =>"admin/Material/direct_seeding_classification_save",     //视频直播分类保存
     "direct_seeding_classification_add" =>"admin/Material/direct_seeding_classification_add",       //直播分类添加
@@ -866,6 +867,7 @@ Route::group("admin",[
     "interaction_add" =>"admin/Material/interaction_add",                                           //温湿感应
     "interaction_add_do" =>"admin/Material/interaction_add_do",                                     //温湿感应仪器添加处理
     "wenshidu" =>"admin/Material/wenshidu",                                                         //温湿感应仪器登录操作
+    "video_comment" =>"admin/Material/video_comment",                                               //直播评论
 
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况
@@ -987,8 +989,13 @@ Route::group("admin",[
     "set_tiyan"=>"admin/Upload/set_tiyan",                             //一键生成--授权获取的详情
     "send_message"=>"admin/Upload/send_message",                             //一键生成--短信提醒
     "get_qrcode"=>"admin/Upload/get_qrcode",                             //一键生成--获取体验码
-    "publish"=>"admin/Upload/publish",                               //一键生成--发布正式版
+    "publish"=>"admin/Upload/publish",                               //一键生成--提交上传的版本
+    "release"=>"admin/Upload/release",                               //一键生成--发布正式版
     "relieve"=>"admin/Upload/relieve",                               //一键生成--接触授权绑定
+    "check_detail"=>"admin/Upload/check_detail",                     //一键生成--查看审核详情
+    "check_publish"=>"admin/Upload/check_publish",                     //一键生成--查看发布详情
+    "get_tiyanlist"=>"admin/Upload/get_tiyanlist",                     //一键生成--获取体验者列表
+    "unDoCodeAudit"=>"admin/Upload/unDoCodeAudit",                     //一键生成--版本撤销
     
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
@@ -1036,6 +1043,9 @@ Route::group("admin",[
     "control_order_index_search"=>"admin/Control/control_order_index_search",    //入驻订单搜索
     "control_online_charging_search"=>"admin/Control/control_online_charging_search",//线下充值申请搜索
     "control_withdraw_deposit_search"=>"admin/Control/control_withdraw_deposit_search",//提现申请搜索
+    "control_store_list"=>"admin/Control/control_store_list",           //总控店铺list
+    "control_store_edit"=>"admin/Control/control_store_edit",           //总控店铺list编辑
+    "control_store_edit_do"=>"admin/Control/control_store_edit_do",           //总控店铺list编辑
 
 
 
