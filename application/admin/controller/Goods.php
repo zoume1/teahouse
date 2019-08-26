@@ -24,6 +24,7 @@ use app\common\model\dealer\Apply ;
 use app\common\model\dealer\Referee as RefereeModel;
 use app\common\model\dealer\User;
 use app\common\model\dealer\Order;
+use app\admim\model\UpdateLine;
 
 
 class Goods extends Controller
@@ -188,7 +189,7 @@ class Goods extends Controller
             $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]); 
             $goods_data["server"] = json_encode($goods_data["server"]); 
             if ($goods_data["goods_standard"] == "0") {
-                $bool = db("goods")->insert($goods_data);
+                $bool = db("goods")->insertGetId($goods_data);
                 if ($bool && (!empty($show_images))) {
                     $this->success("添加成功", url("admin/Goods/index"));
                 } else {
@@ -446,6 +447,7 @@ class Goods extends Controller
     public function updata(Request $request)
     {
         if ($request->isPost()) {
+            $store_id = Session :: get("store_id");
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
             unset($goods_data["aaa"]);
@@ -557,6 +559,13 @@ class Goods extends Controller
                 $goods_data["num"] = implode(",",$goods_data["num"]);
                 $goods_data["unit"] = implode(",",$goods_data["unit"]);
             }
+            $rest = new UpdateLine;
+            $update_data = [
+                'goods_line'=>$goods_data['goods_bottom_money'],
+                'goods_id'=>$id,
+                'store_id'=>$store_id
+            ];
+            $update_line = $rest->add($update_data);
         }
             
             $bool = db("goods")->where("id", $id)->update($goods_data);

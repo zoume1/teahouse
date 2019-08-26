@@ -12,6 +12,7 @@ use think\Request;
 use think\paginator\driver\Bootstrap;
 use think\Session;
 use think\View;
+use app\api\model\VideoFrequency;
 
 
 class  Material extends  Controller{
@@ -26,9 +27,8 @@ class  Material extends  Controller{
      */
     public function direct_seeding(){
         $store_id = Session::get("store_id");
-        $data = Db::name("video_frequency")->where("store_id",$store_id)->paginate(20 ,false, [
-            'query' => request()->param(),
-        ]);
+        $rest = new VideoFrequency;
+        $data = $rest->getList($store_id);
         $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
         return view("direct_seeding",["data"=>$data,'direct'=>$direct]);
     }
