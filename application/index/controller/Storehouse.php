@@ -366,6 +366,10 @@ class Storehouse extends Controller
     public function getLinePrice(Request $request)
     {
         if ($request->isPost()){
+            // $content = '【智慧茶仓】短信内容';//带签名的短息内容
+            // $mobile = '18309224319';//手机号
+            // $rett = sendMessage($content,$mobile);
+            // halt($rett);
             $data = input();
             $rest = new UpdateLine;
             if(isset($data['goods_id']) && isset($data['uniacid']) && isset($data['special_id'])){

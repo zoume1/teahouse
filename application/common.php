@@ -1326,8 +1326,8 @@ function show_house_orderer($status){
 
 function sendMessage($content,$mobile)
 {
-    // $content = '【Wordphone】短信内容';//带签名的短息内容
-    // $mobile = '15872844800';//手机号
+    // $content = '【智慧茶仓】短信内容';//带签名的短息内容
+    // $mobile = '18309224319';//手机号
     $url = "http://47.107.123.77:8860/sendSms";//请求URL
     $api_code = "240001";//对接协议中的API代码
     $api_secret = "4SFE6PW1GL";//对接协议中的API密码
