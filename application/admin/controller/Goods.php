@@ -24,7 +24,7 @@ use app\common\model\dealer\Apply ;
 use app\common\model\dealer\Referee as RefereeModel;
 use app\common\model\dealer\User;
 use app\common\model\dealer\Order;
-use app\admim\model\UpdateLine;
+use app\api\model\UpdateLine;
 
 
 class Goods extends Controller
@@ -550,6 +550,7 @@ class Goods extends Controller
              }
              
         } else {
+
             if(empty($goods_data["num"][1]) && empty($goods_data["unit"][0])){ //存空
                 
                 $goods_data["num"] = array();
@@ -774,11 +775,21 @@ class Goods extends Controller
     public function value(Request $request)
     {
         if ($request->isPost()) {
+            $store_id = Session::get('store_id');
             $id = $request->only(["id"])["id"];
             $value = $request->only(["value"])["value"];
             $key = $request->only(["key"])["key"];
-            $valuet = db("special")->where("id", $id)->update([$key => $value]);
 
+            $valuet = db("special")->where("id", $id)->update([$key => $value]);
+            if($key == "line"){
+                $rest = new UpdateLine;
+                $update_data = [
+                    'goods_line'=>$value,
+                    'goods_id'=>$id,
+                    'store_id'=>$store_id
+                ];
+                $update_line = $rest->add($update_data);
+            }
             if (!empty($valuet)) {
                 return ajax_success('更新成功!');
             } else {

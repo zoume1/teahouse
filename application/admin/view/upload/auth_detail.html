@@ -83,11 +83,16 @@
                         {/if}
                     </div>
                 </li>
-                <li>
+                <li style="display: flex;">
                     <span class="fl">小程序服务类目</span>
-                    <div class="pl150">
+                    <div style="margin-left:30px;">
                         <select style="height: 25px;">
                             <option value="商家自营-食品类目">商家自营-食品类目</option>
+                        </select>
+                    </div>
+                    <div style="margin-left:30px;" class="list_user">
+                        <select style="height: 25px;" id="list_select">
+                            <option value="0">更多分类</option>
                         </select>
                     </div>
                 </li>
@@ -103,7 +108,7 @@
                         <!-- <img src="{$data['head_img']}" class="qr-code"> -->
                         <img src="data:{$data['qr_img']}" class="qr-code">
                         <!-- 待获取 -->
-                        <a href="#" class="show-big">查看大图</a>
+                        <!-- <a href="#" class="show-big">查看大图</a> -->
                     </div>
                 </li>
                 <li>
@@ -120,22 +125,37 @@
             {if $is_chuan=='0'}
             <button class="upload">一键上传店铺代码</button>
             {else}
-            <button class="upload upload2">一键上传店铺代码</button>
+            <button class="upload upload2">店铺代码上传成功</button>
             {/if}
             <img src="__STATIC__/admin/index/img/u40262p000.png">
             <button class="get-code" >获取体验二维码</button>
             <img src="__STATIC__/admin/index/img/u40262p000.png">
-            <button class="publish"><b>提交审核</b></button>
+            {if $is_que=='0'}
+                 <button class="publish"><b>提交审核</b></button>
+            {else}
+                <button class="publish"><b>已提交审核</b></button>
+            {/if}
             <img src="__STATIC__/admin/index/img/u40262p000.png">
-            <button class="fabu">发布正式版小程序</button>
+            {if $is_fabu=='0'}
+                <button class="fabu">发布正式版小程序</button>
+            {else}
+                <button class="fabu">正式版小程序已发布</button>
+            {/if}
             <span class="dott"></span>
             <button class="relieve">解除授权绑定</button>
         </div>
-        <span style="margin-left:450px;font-size: 12px;">未提交 <span class="check_detail" style="color: blue;cursor: default;">查看审核详情</span> </span>
+        {if $is_que=='1'}
+        <span style="margin-left:450px;font-size: 12px;"> 
+            <span class="check_detail" style="color: blue;cursor: default;">查看审核详情</span> 
+            <span class="che_detail" style="color: rgb(217, 18, 243);cursor: default;">撤销审核</span>
+        </span>
+        {/if}
         <!-- <span style="margin-left:52px;font-size: 12px;">未提交 <span class="check_publish" style="color: blue">查看发布详情</span> </span> -->
     </div>
     <input type="hidden"  name="url" value="{$pp}" >
     <input type="hidden"  name="is_chuan" value="{$is_chuan}" >
+    <input type="hidden"  name="is_que" value="{$is_que}" >
+    <input type="hidden"  name="is_fabu" value="{$is_fabu}" >
 
     <div class="mask" style="display: none;"></div>
     <!-- 发布提示 -->
@@ -161,6 +181,14 @@
         <div class="btns">
             <button class="cancel">取消</button>
             <button class="confirm">确定</button>
+        </div>
+    </div>
+    <div class="tip-pop che2" style="display: none;">
+        <p class="title">撤销提示</p>
+        <div class="tip-cont">单个帐号每天审核撤回次数最多不超过1次，一个月不超过10次。</div>
+        <div class="btns">
+            <button class="cancel">取消</button>
+            <button class="che2_datail">确定</button>
         </div>
     </div>
     <!-- 小程序发布详情 -->
@@ -228,6 +256,17 @@
 
     <script src="__STATIC__/admin/index/js/jquery.js"></script>
     <script>
+        //测试获取分类
+        $('.list_user').click(function() {
+            $.ajax({
+                url:'getCategory2',
+                type:"get",
+                success : function(data){
+                    console.log(data)
+                }
+            })
+            // $('#list_select')
+        })
         // 取消
         $('.cancel').add('.confirm').click(function(){
             $('.tip-pop').add('.mask').hide();
@@ -249,6 +288,9 @@
                         //取消第一层弹窗
                         $('.tip-pop').add('.mask').hide();
                         alert("你的店铺已上传成功,可获取体验码预览小程序");
+                        setTimeout(function(){
+                             window.location.reload();
+                        },3000);
                     }else{
                          //取消第一层弹窗
                          $('.tip-pop').add('.mask').hide();
@@ -278,26 +320,16 @@
         $('.upload').click(function(){
             //判断是否已上传
             var is_chuan=$('input[name="is_chuan"]').val();
+             if(is_chuan==1){
+                 alert('店铺代码已上传成功，请勿重复操作');
+                 return false;
+             }   
             if(is_chuan==0){
                 //没有上传过店铺的代码
                 $('.mask').add('.renovation').show();
             }else{
                 $('.mask').add('.check-qrcode2').show();
             }
-            // $('.mask').show();
-            //上传代码事件
-            // $.ajax({
-            //     url:"send_message",
-            //     type:"post",
-            //     success : function(data) {
-            //         var data = JSON.parse(data);
-            //         if(data.status=='1'){
-            //             alert("你的店铺已上传成功，1~2天审核成功");
-            //         }else{
-            //             alert('上传失败');
-            //         }
-            //     }
-            // })
         })
         // 提交审核操作
         $('.publish2').click(function(){
@@ -314,6 +346,9 @@
                          //取消第一层弹窗
                          $('.tip-pop').add('.mask').hide();
                         alert("提交审核成功");
+                        setTimeout(function(){
+                             window.location.reload();
+                        },3000);
                     }
                 }
             })
@@ -333,11 +368,44 @@
                          //取消第一层弹窗
                          $('.tip-pop').add('.mask').hide();
                         alert("提交审核成功");
+                        setTimeout(function(){
+                             window.location.reload();
+                        },3000);
                     }else if(data.data==3){   
                         alert('审核失败');
                     }else{          //审核失败原因
                         alert(data.data);
 
+                    }
+                }
+            })
+        })
+        // 撤销审核
+        $('.che_detail').click(function(){
+            $('.mask').add('.che2').show();
+        })
+        // 撤销审核
+        $('.che2_datail').click(function(){
+            $.ajax({
+                url:'unDoCodeAudit',
+                type:"get",
+                success : function(data){
+                    console.log(data);
+                    var data = JSON.parse(data);
+                    if(data.data.errcode=='87013'){   //审核中
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
+                        alert('撤回次数达到上限（每天一次，每个月10次）');
+                    }else if(data.data=='0'){
+                         //取消第一层弹窗
+                         $('.tip-pop').add('.mask').hide();
+                        alert("撤销成功");
+                        setTimeout(function(){
+                             window.location.reload();
+                        },3000);
+                    }else{   
+                         $('.tip-pop').add('.mask').hide();
+                        alert('撤销失败');
                     }
                 }
             })
@@ -353,6 +421,12 @@
         // 提交审核按钮点击事件判断
         $('.publish').click(function(){
             //判断是否已上传小城序代码
+            //判断是否已上传
+            var is_que=$('input[name="is_que"]').val();
+             if(is_que==1){
+                 alert('店铺提交审核，请勿重复操作');
+                 return false;
+             }   
             var num=$('.upload2');
             if(num.length==0){
                 //没有上传代码
@@ -360,21 +434,14 @@
             }else{   //publish-confirm
                 $('.mask').add('.publish-confirm').show();
             }
-            // $.ajax({
-            //     url:'publish',
-            //     type:"post",
-            //     success : function(data){
-            //         var data = JSON.parse(data);
-            //         if(data.status=='0'){
-            //             alert("发布失败");
-            //         }else{
-            //             alert("发布成功");
-            //         }
-            //     }
-            // })
         })
         //发布正式版小程序按钮点击事件
         $('.fabu').click(function(){
+            var is_fabu=$('input[name="is_fabu"]').val();
+             if(is_fabu==1){
+                 alert('正式版小城序已发布，请勿重复操作');
+                 return false;
+             }   
             $('.mask').add('.fabu-confirm').show();
         })
         //发布正式版小程序
@@ -392,6 +459,9 @@
                          //取消第一层弹窗
                          $('.tip-pop').add('.mask').hide();
                         alert("发布成功");
+                        setTimeout(function(){
+                             window.location.reload();
+                        },3000);
                     }
                 }
             })
@@ -405,19 +475,21 @@
         // 解除授权绑定
         $('.relieve2').click(function(){
             // $('.mask').add('.unbind').show();
-            // $.ajax({
-            //     url:"relieve",
-            //     type:"post",
-            //     success : function(data){
-            //         var data = JSON.parse(data);
-            //         if(data.status=='1'){
-            //             alert("解除授权成功");
-            //             window.location.href="auth_pre"
-            //         }else{
-            //             alert("解除授权失败，请联系管理员");
-            //         }
-            //     }
-            // })
+            $.ajax({
+                url:"relieve",
+                type:"post",
+                success : function(data){
+                    var data = JSON.parse(data);
+                    if(data.status=='1'){
+                        alert("解除授权成功");
+                        setTimeout(function(){
+                            window.location.href="auth_pre";
+                        },3000);
+                    }else{
+                        alert("解除授权失败，请联系管理员");
+                    }
+                }
+            })
         })
         // 设置体验者
         $('.set-tiyaner').click(function(){

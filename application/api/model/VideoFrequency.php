@@ -41,4 +41,10 @@ class VideoFrequency extends Model
                 'query' => \request()->request()
             ]);
     }
+    //直播token
+    public function token($store_id,$id)
+    {
+        $token = self::where(['member_id'=>$store_id,'id'=>$id])->value('accesstoken,expiretime');
+        return $token;
+    }
 }

@@ -390,13 +390,27 @@ class Upload extends Controller
             // $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
             $pp = $timeout['authorizer_access_token'];
             //判断是否已上传店铺代码
-            $is_chuan=Db::table('applet')->where('id',$store_id)->value('auditid');
+            $is_chuan=Db::table('applet')->where('id',$store_id)->value('is_chuan');
             if($is_chuan=='0'){   //没有上传
                  $is_chuan=0;
                 }else{
                 $is_chuan=1;
             }
-             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id,'is_chuan'=>$is_chuan]);
+            //判断是否已提交审核
+            $is_que=Db::table('applet')->where('id',$store_id)->value('is_que');
+            if($is_que=='0'){   //没有提交审核
+                 $is_que=0;
+                }else{
+                $is_que=1;
+            }
+            //判断是否已发布
+            $is_fabu=Db::table('applet')->where('id',$store_id)->value('is_fabu');
+            if($is_fabu=='0'){   //没有提交审核
+                 $is_fabu=0;
+                }else{
+                 $is_fabu=1;
+            }
+             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id,'is_chuan'=>$is_chuan,'is_que'=>$is_que,'is_fabu'=>$is_fabu]);
             }else{
                 //授权开始
             $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
@@ -430,18 +444,7 @@ class Upload extends Controller
             // $page='pages/logs/logs';
             $qr=new My();
             $re=$qr->create_qrcode($store_id);
-            // //把qrcode文件写进文件中，使用的时候拿出来
-            // $dateFile =$store_id . "/";  //创建目录
-            // $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
-            // // if (!file_exists($new_file)) {
-            // //     //检查是否有该文件夹，如果没有就创建，并给予最高权限
-            // //     mkdir($new_file, 750);
-            // // }
-            // if (file_put_contents($new_file, $qrcode)) {
-            //     $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
-            // } 
         }
-        
          //判断是否已授权
          $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
          $is_shou['qr_img']=$re;
@@ -449,9 +452,30 @@ class Upload extends Controller
              //获取体验码的url
              $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
              $timeout=$this->is_timeout($appid);
-             //  $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
              $pp = $timeout['authorizer_access_token'];
-            return view('auth_detail',['data'=>$is_shou,'pp'=>$pp]);
+             //判断是否已上传店铺代码
+            $is_chuan=Db::table('applet')->where('id',$store_id)->value('is_chuan');
+            if($is_chuan=='0'){   //没有上传
+                 $is_chuan=0;
+                }else{
+                $is_chuan=1;
+            }
+            //判断是否已提交审核
+            $is_que=Db::table('applet')->where('id',$store_id)->value('is_que');
+            if($is_que=='0'){   //没有提交审核
+                 $is_que=0;
+                }else{
+                $is_que=1;
+            }
+            //判断是否已发布
+            $is_fabu=Db::table('applet')->where('id',$store_id)->value('is_fabu');
+            if($is_fabu=='0'){   //没有提交审核
+                 $is_fabu=0;
+                }else{
+                 $is_fabu=1;
+            }
+            // return view('auth_detail',['data'=>$is_shou,'pp'=>$pp]);
+            return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id,'is_chuan'=>$is_chuan,'is_que'=>$is_que,'is_fabu'=>$is_fabu]);
          }else{
              //授权开始
              $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
@@ -693,6 +717,8 @@ class Upload extends Controller
         $p['msg']=$ret2;
         db('test')->insert($p);
         if($ret['errcode'] == 0) {
+            //上传成功，修改本店铺的上传状态
+            Db::table('applet')->where('store_id',$store_id)->update(['is_chuan'=>1]);
             return ajax_success('上传成功');
         } else {
             return ajax_error('上传失败');
@@ -739,7 +765,7 @@ class Upload extends Controller
         db('test')->insert($pp);
         if($ret['errcode'] == 0) {
             //保存审核的编号
-            Db::table('applet')->where('id',$store_id)->update(['auditid'=>$ret['auditid']]);
+            Db::table('applet')->where('id',$store_id)->update(['auditid'=>$ret['auditid'],'is_que'=>1]);
             return ajax_success('提交成功');
         } elseif($ret['errcode']=='85009') {
             return ajax_error('提交失败',$ret['errmsg']);
@@ -762,6 +788,8 @@ class Upload extends Controller
         $data = '{}';
         $ret = json_decode($this->https_post($url,$data),true);
         if($ret['errcode'] == 0) {
+            //保存小程序已发布
+            Db::table('applet')->where('id',$store_id)->update(['is_fabu'=>1]);
             return ajax_success('发布成功');
         } else {
             return ajax_error('发布失败');
@@ -796,6 +824,7 @@ class Upload extends Controller
             return false;
         }
     }
+    
     /*
      * 获取小程序的第三方提交代码的页面配置
      * */
@@ -859,10 +888,61 @@ class Upload extends Controller
         }
         
     } 
-   
-
-   
-
-     
+    /**
+     * lilu
+     * 获取体验者列表
+     */
+    public function get_tiyanlist(){
+        //获取参数
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/memberauth?access_token=".$timeout['authorizer_access_token'];
+        $data = '{"action":"get_experiencer"}';
+        $pp=$this->https_post($url,$data);
+        // db('test')->insert($pp);
+        $ret = json_decode($pp,true);
+        if($ret['errcode'] == 0) {
+            return  ajax_success('获取成功', $ret['members']);
+        } else {
+            return  ajax_error('获取失败');
+        }
+    }
+    /**
+     * lilu
+     * 撤销版本审核
+     * 小程序审核撤回
+     * 单个帐号每天审核撤回次数最多不超过1次，一个月不超过10次。
+     * */
+    public function unDoCodeAudit()
+    {
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/undocodeaudit?access_token=".$timeout['authorizer_access_token'];
+        $ret = json_decode($this->https_get($url),true);
+        if($ret['errcode'] == 0) {
+            return  ajax_success('获取成功', $ret);
+        } else {
+            return  ajax_error('获取失败');
+        }
+    }
+    /*
+     * 获取授权小程序帐号的可选类目----主动获取
+     * */
+    private function getCategory2()
+    {
+        $store_id=Session::get('store_id');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $timeout=$this->is_timeout($appid);
+        $url = "https://api.weixin.qq.com/wxa/get_category?access_token=".$timeout['authorizer_access_token'];
+        $ret = json_decode($this->https_get($url),true);
+        if($ret['errcode'] == 0) {
+            return ajax_success('获取成功',$ret['category_list']);
+        } else {
+            $this->errorLog("获取授权小程序帐号的可选类目操作失败",$ret);
+            return false;
+        }
+    }
 
 }

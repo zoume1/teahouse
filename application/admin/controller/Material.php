@@ -168,14 +168,13 @@ class  Material extends  Controller{
             }
         }
     }
-
-        /**
+    /**
      **************GY*******************
      * @param Request $request
      * Notes:视频直播搜索
      **************************************
      */
-    public  function  direct_seeding_search(){    
+    public  function  direct_seeding_search(){
         $status = input('status')?input('status'):null;
         $open_status = input('open_status')?input('open_status'):null;
         $classify_name = input('classify_name')?input('classify_name'):null;
@@ -183,70 +182,113 @@ class  Material extends  Controller{
 
         if(!empty($status) && !empty($open_status) && !empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("open_status",$open_status)
-            ->where("status",$status)
-            ->where("classify_name",$classify_name)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("open_status",$open_status)
+                ->where("status",$status)
+                ->where("classify_name",$classify_name)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(!empty($status) && empty($open_status) && empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("status",$status)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("status",$status)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(empty($status) && !empty($open_status) && empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("open_status",$open_status)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("open_status",$open_status)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(empty($status) && empty($open_status) && !empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("classify_name",$classify_name)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("classify_name",$classify_name)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(!empty($status) && !empty($open_status) && empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("open_status",$open_status)
-            ->where("status",$status)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("open_status",$open_status)
+                ->where("status",$status)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(!empty($status) && empty($open_status) && !empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("status",$status)
-            ->where("classify_name",$classify_name)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("status",$status)
+                ->where("classify_name",$classify_name)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } elseif(empty($status) && !empty($open_status) && !empty($classify_name)){
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->where("open_status",$open_status)
-            ->where("classify_name",$classify_name)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->where("open_status",$open_status)
+                ->where("classify_name",$classify_name)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         } else {
             $data = Db::name("video_frequency")
-            ->where("store_id",$store_id)
-            ->paginate(20 ,false, [
-                'query' => request()->param(),
-            ]);
+                ->where("store_id",$store_id)
+                ->paginate(20 ,false, [
+                    'query' => request()->param(),
+                ]);
         }
         $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
         return view("direct_seeding",["data"=>$data,'direct'=>$direct]);
     }
+<<<<<<< HEAD
+=======
 
+>>>>>>> eed838c1ad1aafd25a119257b471ceca5b65e951
+    //直播token
+    public function video_token()
+    {
 
+        $data = db('config')->find();
+
+        $res = $data ?['code'=>1,'msg'=>'获取成功','data'=>$data] : ['code'=>0,'msg'=>'获取失败'];
+
+        return json($res);exit;
+    }
+
+    //直播更新token
+    public function edit_video_token()
+    {
+        $request      = Request::instance();
+        $param        = $request->param();//获取所有参数，最全
+        $validate     = new Validate([
+            ['accesstoken', 'require'],
+            ['expiretime', 'require'],
+        ]);
+        //验证部分数据合法性
+        if (!$validate->check($param)) {
+            echo json_encode(['code' => 0,'msg' => $validate->getError()]);
+        }
+        $data = db('config')->find();
+        if($data){
+            $result = db('config')->where('id',$data['id'])
+                ->update(
+                    [   'accesstoken' => $param['accesstoken'],
+                        'expiretime' => $param['expiretime'],
+                        'upated_time' => date("Y-m-d H:i:s", time())
+                    ]);
+
+            $res = $result ? ['code' => 1, 'msg' => '成功'] : ['code' => 0, 'msg' => '失败'];
+            echo json_encode($res);
+        }else{
+
+            echo json_encode(['code' => 0, 'msg' => '数据有误']);
+        }
+
+    }
     /**
      **************GY*******************
      * @param Request $request
@@ -525,5 +567,8 @@ class  Material extends  Controller{
             return $output;
         }
 
-    
+    //详情
+    public function video_comment(){
+        return view("video_comment");
+    }
  }

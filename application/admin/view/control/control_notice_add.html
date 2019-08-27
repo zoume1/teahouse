@@ -1,143 +1,164 @@
 {extend name="layout"}
 
- {block name="css"}
+{block name="css"}
 <style type="text/css">
- 	body {
+	body {
 		background: #fff;
 	}
-	
+
 	.layui-anim-upbit {
 		width: 95% !important;
 	}
-   .err{
-		    border: red solid 1px;
+
+	.err {
+		border: red solid 1px;
 	}
-    .form-item{
-        width: 95% !important;
-    }
+
+	.form-item {
+		width: 95% !important;
+	}
+
+	.form-input {
+		display: flex;
+		align-items: center;
+	}
+
+	.form-input>input {
+		width: 200px;
+	}
 </style>
 
- {/block}
+{/block}
+
 <body>
-{block name="content"}
-<form class="layui-form  layui-form-lists" action="{:url('admin/Control/control_notice_add')}" method="post">
+	{block name="content"}
+	<form class="layui-form  layui-form-lists" action="{:url('admin/Control/control_notice_add')}" method="post">
 		<div class="form-item">
-			<label class="form-label"><span class="red">*</span>公告内容</label>
+			<label class="form-label">公告内容</label>
 			<div class="form-input">
-                <!-- <textarea type="text" name="con" placeholder="请输入内容" class="layui-textarea" ></textarea> -->
-				<input type="text" name="con" placeholder="请输入内容" class="layui-input" id="con">
+				<textarea name="con" placeholder="请输入内容" required lay-verify="required"
+					class="layui-textarea"></textarea>
+				<!-- <input type="text" name="con" placeholder="请输入内容" class="layui-input" id="con"> -->
 			</div>
-        </div>
+		</div>
 		<div class="form-item">
-			<label class="form-label"><span class="red">*</span>公告开始时间</label>
+			<label class="form-label">公告时间</label>
 			<div class="form-input">
-                    <input name="add_time" type="text" class="text datetimepicker layui-input"
-                            placeholder="请选择开始时间" readonly="readonly" id="datetimepicker2" value="">
-            </div>
-        </div>	
-        <div class="form-item">
-                <label class="form-label"><span class="red">*</span>公告结束时间</label>
-                <div class="form-input">
-                        <input name="end_time" type="text" class=" text datetimepicker layui-input"
-                                    placeholder="请选择结束时间" readonly="readonly" id="datetimepicker3" value="">
-                </div>
-        </div>
-		<div class="form-item">
-			<label class="form-label"><span class="red">*</span>展示时长</label>
-			<div class="form-input">
-					<input type="text" name="duration" placeholder="请输入时长" class="layui-input"  id="duration">
+				<div>开始时间 &nbsp; &nbsp; &nbsp;</div>
+				<input name="add_time" type="text" class="text datetimepicker layui-input" placeholder="请选择开始时间"
+					readonly="readonly" id="datetimepicker2" value="">
 			</div>
-		</div>	
+		</div>
+		<div class="form-item">
+			<label class="form-label">公告时间</label>
+			<div class="form-input">
+				<div>结束时间 &nbsp; &nbsp; &nbsp;</div>
+				<input name="end_time" type="text" class=" text datetimepicker layui-input" placeholder="请选择结束时间"
+					readonly="readonly" id="datetimepicker3" value="">
+			</div>
+		</div>
+		<div class="form-item">
+			<label class="form-label">展示时长</label>
+			<div class="form-input">
+				<input type="text" name="duration" placeholder="请输入时长" class="layui-input" id="duration"><span> &nbsp;
+					&nbsp; &nbsp;S</span>
 
-         <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" type="submit">保存</button>
-            <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
-        </div>
-        </div>
+			</div>
+		</div>
+		<div class="tips" style="margin-left: 110px;">*请输入数字</div>
 
- </form>
-{/block}
 
- <!--_footer 作为公共模版分离出去-->
-{include file="template/_footer" /}
-<!--/_footer 作为公共模版分离出去-->
-<!--请在下方写此页面业务相关的脚本-->
-{block name="bottom"}
-<script type="text/javascript">
-// layui.use('laydate', function(){
-//   var laydate = layui.laydate;
-  
-//   //执行一个laydate实例
-//   laydate.render({
-//     elem: '#test1' //指定元素
-//   });
-// });
- layui.config({
-		base: "js/"
-	}).use(['form', 'layer', 'jquery', 'laypage'], function() {
-		var form = layui.form(),
-			layer = parent.layer === undefined ? layui.layer : parent.layer,
-			laypage = layui.laypage,
-			$ = layui.jquery;
-		    form.render();
-	
-	});
-	$('#datetimepicker2').datetimepicker({
-                format: 'Y/m/d H:i:s',
-                step: 1,
-            });
-            $('#datetimepicker3').datetimepicker({
-                format: 'Y/m/d H:i:s',
-                step: 1,
-            });
- 	
-	$("#submits").click(function(){
-		checks();
-	});
-	
-	
-	function checks(){
-		
-		if($("#con")[0].value==''){
-			$("#con").addClass("err");
-			return false; 
+		<div class="layui-form-item">
+			<div class="layui-input-block" style="margin-top: 30px;">
+				<button class="layui-btn layui-btn-normal" type="submit">保存</button>
+				<button type="button" class="layui-btn layui-btn-primary"
+					onClick="javascript :history.back(-1);">返回</button>
+			</div>
+		</div>
+
+	</form>
+	{/block}
+
+	<!--_footer 作为公共模版分离出去-->
+	{include file="template/_footer" /}
+	<!--/_footer 作为公共模版分离出去-->
+	<!--请在下方写此页面业务相关的脚本-->
+	{block name="bottom"}
+	<script type="text/javascript">
+		// layui.use('laydate', function(){
+		//   var laydate = layui.laydate;
+
+		//   //执行一个laydate实例
+		//   laydate.render({
+		//     elem: '#test1' //指定元素
+		//   });
+		// });
+		layui.config({
+			base: "js/"
+		}).use(['form', 'layer', 'jquery', 'laypage'], function () {
+			var form = layui.form(),
+				layer = parent.layer === undefined ? layui.layer : parent.layer,
+				laypage = layui.laypage,
+				$ = layui.jquery;
+			form.render();
+
+		});
+		$('#datetimepicker2').datetimepicker({
+			format: 'Y/m/d H:i:s',
+			step: 1,
+		});
+		$('#datetimepicker3').datetimepicker({
+			format: 'Y/m/d H:i:s',
+			step: 1,
+		});
+
+		$("#submits").click(function () {
+			checks();
+		});
+
+
+		function checks() {
+
+			if ($("#con")[0].value == '') {
+				$("#con").addClass("err");
+				return false;
+			}
+			else {
+				$("#con").removeClass("err");
+				//			return true;
+			}
+			if ($("#add_time")[0].value == '') {
+				$("#add_time").addClass("err");
+				return false;
+
+			} else {
+				$("#add_time").removeClass("err");
+				//			return true;
+			}
+			if ($("#end_time")[0].value == '') {
+				$("#end_time").addClass("err");
+				return false;
+
+
+			} else {
+				$("#end_time").removeClass("err");
+				//			return true;
+			} if ($("#duration")[0].value == '') {
+				$("#duration").addClass("err");
+				return false;
+
+			}
+			else {
+				$("#duration").removeClass("err");
+				//			return true;
+			}
+			$("#submits").attr("type", "submit");
+
 		}
-		else{
-			$("#con").removeClass("err");
-//			return true;
-		}
-		if($("#add_time")[0].value==''){
-			$("#add_time").addClass("err");
-			return false;
-			 
-		}else{
-			$("#add_time").removeClass("err");
-//			return true;
-		}
-		if($("#end_time")[0].value==''){
-			$("#end_time").addClass("err");
-			return false;
-			 	 
-			 
-		}else{
-			$("#end_time").removeClass("err");
-//			return true;
-		}if($("#duration")[0].value==''){
-			$("#duration").addClass("err");
-			return false;
-			 
-		}
-		else{
-			$("#duration").removeClass("err");
-//			return true;
-		}
-     $("#submits").attr("type","submit");
-		
-	}
 	</script>
-{/block}
+	{/block}
 
 
- </body>
+</body>
+
 </html>
