@@ -372,25 +372,36 @@ class Storehouse extends Controller
                 if($data['special_id'] > 0){
                     $query_data = $rest->getList($data['special_id']);
                     if(empty($query_data)){
-                        $line = db('special')->where('id','=',$data['special_id'])->value('line');
+                        $data[] = db('special')->where('id','=',$data['special_id'])->value('line');
+                        $categories[] = date('Y');
                         $query_data = [
-                            'line'=>$line,
-                            'year_number'=>date('Y'),
+                            'data'=>$data,
+                            'categories'=>$categories,
                         ];
                         return ajax_success('发送成功',[$query_data]);
                     }
                 } else {
                     $query_data = $rest->getList($data['goods_id']);
                     if(empty($query_data)){
-                        $line = db('goods')->where('id','=',$data['goods_id'])->value('goods_bottom_money');
+                        $datas[] = db('goods')->where('id','=',$data['goods_id'])->value('goods_bottom_money');
+                        $categories[] = date('Y');
                         $query_data = [
-                            'line'=>$line,
-                            'year_number'=>date('Y'),
+                            'data'=>$datas,
+                            'categories'=>$categories,
                         ];
                         return ajax_success('发送成功',[$query_data]);
                     }
                 }
-                return ajax_success('发送成功',$query_data);
+
+                foreach($query_data as $value){
+                    $datas[] = $value['line'];
+                    $categories[] = $value['year_number'];
+                }
+                $rest = [
+                    'data'=>$datas,
+                    'categories'=>$categories,
+                ];
+                return ajax_success('发送成功',$rest);
             } else {
                 return ajax_error("请检查参数是否正确");
             }
