@@ -245,51 +245,8 @@ class  Material extends  Controller{
         $direct = Db::name("direct_seeding")->where("store_id",$store_id)->select();  //分类
         return view("direct_seeding",["data"=>$data,'direct'=>$direct]);
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 3f230160a79a029fc61ccf2980496d852877a56b
-    //直播token
-    public function video_token()
-    {
 
-        $data = db('config')->find();
-
-        $res = $data ?['code'=>1,'msg'=>'获取成功','data'=>$data] : ['code'=>0,'msg'=>'获取失败'];
-
-        return json($res);exit;
-    }
-
-    //直播更新token
-    public function edit_video_token()
-    {
-        $request      = Request::instance();
-        $param        = $request->param();//获取所有参数，最全
-        $validate     = new Validate([
-            ['accesstoken', 'require'],
-            ['expiretime', 'require'],
-        ]);
-        //验证部分数据合法性
-        if (!$validate->check($param)) {
-            echo json_encode(['code' => 0,'msg' => $validate->getError()]);
-        }
-        $data = db('config')->find();
-        if($data){
-            $result = db('config')->where('id',$data['id'])
-                ->update(
-                    [   'accesstoken' => $param['accesstoken'],
-                        'expiretime' => $param['expiretime'],
-                        'upated_time' => date("Y-m-d H:i:s", time())
-                    ]);
-
-            $res = $result ? ['code' => 1, 'msg' => '成功'] : ['code' => 0, 'msg' => '失败'];
-            echo json_encode($res);
-        }else{
-
-            echo json_encode(['code' => 0, 'msg' => '数据有误']);
-        }
-
-    }
     /**
      **************GY*******************
      * @param Request $request
@@ -571,5 +528,47 @@ class  Material extends  Controller{
     //详情
     public function video_comment(){
         return view("video_comment");
+    }
+
+    //直播token
+    public function video_token()
+    {
+
+        $data = db('config')->find();
+
+        $res = $data ?['code'=>1,'msg'=>'获取成功','data'=>$data] : ['code'=>0,'msg'=>'获取失败'];
+
+        return json($res);exit;
+    }
+
+    //直播更新token
+    public function edit_video_token()
+    {
+        $request      = Request::instance();
+        $param        = $request->param();//获取所有参数，最全
+        $validate     = new Validate([
+            ['accesstoken', 'require'],
+            ['expiretime', 'require'],
+        ]);
+        //验证部分数据合法性
+        if (!$validate->check($param)) {
+            echo json_encode(['code' => 0,'msg' => $validate->getError()]);
+        }
+        $data = db('config')->find();
+        if($data){
+            $result = db('config')->where('id',$data['id'])
+                ->update(
+                    [   'accesstoken' => $param['accesstoken'],
+                        'expiretime' => $param['expiretime'],
+                        'upated_time' => date("Y-m-d H:i:s", time())
+                    ]);
+
+            $res = $result ? ['code' => 1, 'msg' => '成功'] : ['code' => 0, 'msg' => '失败'];
+            echo json_encode($res);
+        }else{
+
+            echo json_encode(['code' => 0, 'msg' => '数据有误']);
+        }
+
     }
  }
