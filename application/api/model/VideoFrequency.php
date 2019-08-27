@@ -9,7 +9,7 @@ class VideoFrequency extends Model
     protected $resultSetType = 'collection';
 
     //查询分类直播列表
-    public static function live_broadcast($store_id,$lid)
+    public static function live_broadcast($store_id,$lid,$uid)
     {
         $data = self::all(['store_id'=>$store_id,'classify_id'=>$lid,'status'=>1])
          -> toArray();
@@ -23,6 +23,13 @@ class VideoFrequency extends Model
             $give = new Give();
             $gice_count = $give->give_count($store_id,$v['id']);
             $data[$k]['clickings'] = $gice_count;
+            //当前用户是否点赞
+            $give_user = $give->user_give($store_id,$v['id'],$uid);
+            if($give_user){
+                $data[$k]['give_user'] = 1;
+            }else{
+                $data[$k]['give_user'] = 0;
+            }
         }
         return $data;
 
