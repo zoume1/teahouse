@@ -13,6 +13,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
+use app\api\model\UpdateLine;
 
 
 class Storehouse extends Controller
@@ -348,6 +349,31 @@ class Storehouse extends Controller
                     $datas['collect'] = $goods_franking;
                     return json_encode(array("status"=>1,"info"=>"发送成功","franking_type"=>2,"data"=>$datas));
                 }
+            } else {
+                return ajax_error("请检查参数是否正确");
+            }
+        }              
+    }
+
+    
+    /**
+     * @param int $goods_id
+     * @param string  $uniacid
+     * @param int $special_id
+     * [存茶详情年划线价]
+     * @return 成功时返回，其他抛异常
+     */
+    public function getLinePrice(Request $request)
+    {
+        if ($request->isPost()){
+            $data = input();
+            if(isset($data['goods_id']) && isset($data['uniacid']) && isset($data['special_id'])){
+                $rest = new UpdateLine;
+                $query_data = $rest->getList($data['goods_id']);
+                if(!empty($query_data)){
+                    halt($query_data);
+                }
+
             } else {
                 return ajax_error("请检查参数是否正确");
             }
