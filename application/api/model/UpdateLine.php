@@ -35,7 +35,7 @@ class UpdateLine extends Model
     public function getList($goods_id)
     { 
         return $this->where('goods_id',$goods_id)
-        ->field("")
+        ->field("avg(goods_line) as line,year_number")
         ->group('year_number')
         ->select()->toArray();
         

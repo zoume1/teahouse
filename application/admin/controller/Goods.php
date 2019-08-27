@@ -190,6 +190,13 @@ class Goods extends Controller
             $goods_data["server"] = json_encode($goods_data["server"]); 
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insertGetId($goods_data);
+                $restl = new UpdateLine;
+                $update_data = [
+                    'goods_line'=>$goods_data['goods_bottom_money'],
+                    'goods_id'=>$bool,
+                    'store_id'=>$store_id
+                ];
+                $update_line = $restl->add($update_data);
                 if ($bool && (!empty($show_images))) {
                     $this->success("添加成功", url("admin/Goods/index"));
                 } else {
@@ -237,7 +244,7 @@ class Goods extends Controller
                 $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                 $result = implode(",", $goods_data["lv1"]);
                 $goods_id = db('goods')->insertGetId($goods_special);
-                
+
                 if (!empty($goods_data)) {
                     foreach ($goods_data as $kn => $nl) {
                         if (substr($kn, 0, 3) == "sss") {
@@ -319,7 +326,7 @@ class Goods extends Controller
                 }
 
                 foreach ($values as $kz => $vw) {
-                    $rest = db('special')->insertGetId($vw);
+                    $rest[$kz] = db('special')->insertGetId($vw);
                 }    
                 if ($rest && (!empty($show_images))) {
                     $this->success("添加成功", url("admin/Goods/index"));

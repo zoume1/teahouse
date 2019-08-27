@@ -367,13 +367,30 @@ class Storehouse extends Controller
     {
         if ($request->isPost()){
             $data = input();
+            $rest = new UpdateLine;
             if(isset($data['goods_id']) && isset($data['uniacid']) && isset($data['special_id'])){
-                $rest = new UpdateLine;
-                $query_data = $rest->getList($data['goods_id']);
-                if(!empty($query_data)){
-                    halt($query_data);
+                if($data['special_id'] > 0){
+                    $query_data = $rest->getList($data['special_id']);
+                    if(empty($query_data)){
+                        $line = db('special')->where('id','=',$data['special_id'])->value('line');
+                        $query_data = [
+                            'line'=>$line,
+                            'year_number'=>date('Y'),
+                        ];
+                        return ajax_success('发送成功',[$query_data]);
+                    }
+                } else {
+                    $query_data = $rest->getList($data['goods_id']);
+                    if(empty($query_data)){
+                        $line = db('goods')->where('id','=',$data['goods_id'])->value('goods_bottom_money');
+                        $query_data = [
+                            'line'=>$line,
+                            'year_number'=>date('Y'),
+                        ];
+                        return ajax_success('发送成功',[$query_data]);
+                    }
                 }
-
+                return ajax_success('发送成功',$query_data);
             } else {
                 return ajax_error("请检查参数是否正确");
             }
