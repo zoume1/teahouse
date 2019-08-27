@@ -665,14 +665,41 @@ class  Control extends  Controller{
         $end_time3=strtotime(date("Y-m-d H:i:s"));
         $where3['order_create_time']=array('between',array($start_time3,$end_time3));
         $where3['status']=array('between',array(2,8));
-        $data['order_money3']=db('order')->where($where3)->sum('order_amount');   //七日总销售额     2-8
+        $data['order_money3']=db('adder_order')->where($where3)->sum('order_amount');   //七日总销售额     2-8
         $data['order_money3']=round($data['order_money3'],2);
-
-        //待发货订单
-        $where['status']=array('between',array(2,3));
-        $data['order_number_dai']=db('order')->where($where)->count();   //待发货订单
-        
-        //售后待处理订单
+        //增值消费销售总额
+        $where4['status']=array('between',array(2,8));
+        $data['adder_order_money']=db('adder_order')->where($where4)->sum('order_amount');   //七日总销售额     2-8
+        $data['adder_order_money']=round($data['adder_order_money'],2);
+        //今日开通店铺数量
+        $where5['create_time']=array('between',array($start_time2,$end_time2));
+        $where5['store_use']=1;
+        $where5['status']=1;
+        $where5['audit_status']=1;
+        $data['today_store_num']=db('store')->where($where5)->count();
+        //总开通店铺数量
+        $where6['store_use']=1;
+        $data['zong_store_num']=db('store')->where($where6)->count();
+        //近7天店铺套餐总额
+        $where7['status']=1;
+        $where7['audit_status']=1;    //审核通过
+        $where7['create_time']=array('between',array($start_time3,$end_time3));
+        $where7['is_del']=1;          //店铺状态正常
+        $data['week_meal_money']=round(db('meal_orders')->where($where7)->sum('pay_money'),2);
+        //店铺套餐总额
+        $where8['status']=1;
+        $where8['audit_status']=1;    //审核通过
+        $where8['is_del']=1;          //店铺状态正常
+        $data['zong_meal_money']=round(db('meal_orders')->where($where8)->sum('pay_money'),2);
+        //新开通店铺---线下审核流程---未审核
+        $where9['status']=1;
+        $where9['audit_status']=0;    //审核通过
+        $where9['pay_typ']=2;    //审核通过
+        $data['xian_store_num']=db('meal_orders')->where($where9)->count();
+        //待发货订单----增值订单
+        $where10['status']=array('between',array(2,3));
+        $data['adder_order_number_dai']=db('adder_order')->where($where10)->count();   //待发货订单
+        //售后待处理订单---增值订单
         $where2['status']=1;
         $data['shou_order_number']=db('after_sale')->where($where2)->count();  
 

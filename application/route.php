@@ -996,6 +996,7 @@ Route::group("admin",[
     "check_publish"=>"admin/Upload/check_publish",                     //一键生成--查看发布详情
     "get_tiyanlist"=>"admin/Upload/get_tiyanlist",                     //一键生成--获取体验者列表
     "unDoCodeAudit"=>"admin/Upload/unDoCodeAudit",                     //一键生成--版本撤销
+    "cate_list"=>"Admin/Upload/cate_list",                             //一键生成--获取分类
     
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成

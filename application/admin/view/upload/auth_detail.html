@@ -86,15 +86,15 @@
                 <li style="display: flex;">
                     <span class="fl">小程序服务类目</span>
                     <div style="margin-left:30px;">
-                        <select style="height: 25px;">
+                        <select style="height: 25px;width:176px" id="list_select">
                             <option value="商家自营-食品类目">商家自营-食品类目</option>
                         </select>
                     </div>
-                    <div style="margin-left:30px;" class="list_user">
-                        <select style="height: 25px;" id="list_select">
-                            <option value="0">体验者列表</option>
+                    <!-- <div style="margin-left:30px;" class="list_user">
+                        <select style="height: 25px;width: 176px;" id="list_select">
+                            <option value="0">更多分类</option>
                         </select>
-                    </div>
+                    </div> -->
                 </li>
                 <!-- <li>
                     <span class="fl">发布状态</span>
@@ -164,7 +164,7 @@
         <div class="tip-cont">正式版需微信平台方审核通过，一般需要3个工作日，您对体验版很满意，确定要发布正式版吗？</div>
         <div class="btns">
             <button class="cancel">取消</button>
-            <button class="fabu2">确定</button>
+            <button class="fabu2 confirm">确定</button>
         </div>
     </div>
     <div class="tip-pop publish-confirm" style="display: none;">
@@ -172,7 +172,7 @@
         <div class="tip-cont">正式版需微信平台方审核通过，一般需要3个工作日，您对体验版很满意，确定要提交审核吗？</div>
         <div class="btns">
             <button class="cancel">取消</button>
-            <button class="publish2">确定</button>
+            <button class="publish2 confirm">确定</button>
         </div>
     </div>
     <div class="tip-pop publish-no-code" style="display: none;">
@@ -188,7 +188,7 @@
         <div class="tip-cont">单个帐号每天审核撤回次数最多不超过1次，一个月不超过10次。</div>
         <div class="btns">
             <button class="cancel">取消</button>
-            <button class="che2_datail">确定</button>
+            <button class="che2_datail confirm">确定</button>
         </div>
     </div>
     <!-- 小程序发布详情 -->
@@ -205,7 +205,7 @@
         <div class="tip-cont">此操作不可逆，如对装修不满意，可解绑后，再次装修上传店铺代码</div>
         <div class="btns">
             <button class="cancel">取消</button>
-            <button class="relieve2">确定</button>
+            <button class="relieve2 confirm">确定</button>
         </div>
     </div>
 
@@ -215,7 +215,7 @@
         <div class="tip-cont">请认真装修您的店铺，只有规范的小程序装修，才能正式版通过</div>
         <div class="btns">
             <button class="decorate">立即装修</button>
-            <button class="shangchuan">一键上传</button>
+            <button class="shangchuan confirm">一键上传</button>
         </div>
     </div>
     <div class="tip-pop check-qrcode" style="display: none;">
@@ -223,7 +223,7 @@
         <div class="tip-cont">模版代码已上传，请耐心等待1~2天后，查看体验二维码</div>
         <div class="btns">
             <button class="cancel">取消</button>
-            <button class="decorate">立即装修</button>
+            <button class="decorate confirm">立即装修</button>
         </div>
     </div>
     <div class="tip-pop check-qrcode2" style="display: none;">
@@ -231,7 +231,7 @@
         <div class="tip-cont">您当前使用的已经是平台最新版，无需更新小程序平台代码，您还可以去店铺装修板块，装修您的店铺</div>
         <div class="btns">
             <button class="cancel">取消</button>
-            <button class="decorate">装修店铺</button>
+            <button class="decorate confirm">装修店铺</button>
         </div>
     </div>
 
@@ -256,16 +256,25 @@
 
     <script src="__STATIC__/admin/index/js/jquery.js"></script>
     <script>
-        $('.list_user').click(function() {
-            $.ajax({
-                url:'get_tiyanlist',
-                type:"post",
-                success : function(data){
-                    console.log(data)
+        //测试获取分类
+        $.ajax({
+            url: "cate_list",
+            type: "get",
+            success: function (res) {
+                var res = JSON.parse(res);
+                // console.log(res.data);
+                if (res.status == 1) {
+                    $('#list_select').empty();
+                    var arr = '<option value="商家自营-食品类目">商家自营-食品类目</option>';
+                    for (let i = 0; i < res.data.length; i++) {
+                        arr += `<option value='${res.data[i].first_id}'>${res.data[i].first_class}-${res.data[i].second_class}</option>`
+                    }
+                    // console.log(arr);
+                    $("#list_select").append(arr);
                 }
-            })
-            // $('#list_select')
+            }
         })
+        
         // 取消
         $('.cancel').add('.confirm').click(function(){
             $('.tip-pop').add('.mask').hide();
