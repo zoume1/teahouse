@@ -2959,161 +2959,6 @@ class  General extends  Base {
     }
     /**
      * lilu
-     * 店铺-一键生成
-     * 
-     */
-    public function wxxcxinfo()
-    {
-        //获取店铺id
-        $store_id=Session::get('store_id');
-        $uniacid = $store_id;
-        $status = input("status");
-        $token = input("token");
-        $scan_token = input("scan_token");
-        $code_uuid = input("code_uuid");
-        // $this->assign("code_uuid",$code_uuid);
-        $this->assign("code_uuid",'');
-        // $this->assign("scan_token",$scan_token);
-        $this->assign("scan_token",'');
-        $res = Db::table('applet')->where("id",$uniacid)->find();
-        if(!$res){ 
-            $this->error("找不到对应的小程序！");
-            exit;
-        }
-        $this->assign('applet',$res);
-        // if($status){
-        //     $this->assign('applet',$res);
-        //     return $this->fetch("wxxcxinfo");
-        // }else{
-        //     $this->error("登录有误，需重新登录",$this->redirect('Wxreview/index'));
-        // }
-        return $this->fetch("wxxcxinfo");
-    }
-    /**
-     * lilu
-     * 店铺--一键生成---微信登录
-     */
-    public function wx_login(){
-        if(check_login()){     //检查登录
-            //检测权限
-            $user_id=Session::get('user_id');
-            $role_id=db('admin')->where('id',$user_id)->value('role_id');
-            if($role_id=='7')
-            { 
-                $id = input("appletid");
-                $version = input('version');
-                $desc = input('desc');
-                $res = Db::table('applet')->where("id",$id)->find();
-                if(!$res){
-                    $this->error("找不到对应的小程序！");
-                }
-                $this->assign('applet',$res);
-                $commitData = [
-                    'siteroot' => "https://".$_SERVER['HTTP_HOST']."/api/Wxapp2/",//'https://duli.nttrip.cn/api/Wxapps/',
-                    'uip' => $_SERVER['REMOTE_ADDR'] ,
-                    'appid' => $res['appID'],
-                    'site_name' => $res['name'],
-                    'uniacid' => $id,
-                    'version' => '2.05',//当前小程序的版本
-                    'tominiprogram' => unserialize($res['tominiprogram'])
-                ];
-                $params = http_build_query($commitData);
-                $url = "http://wx.hdewm.com/uploadApi.php?".$params;
-                $response = $this->_requestGetcurl($url);
-
-                $result = json_decode($response,true);
-                if(isset($result['data']) && $result['data'] != ""){
-                    $this->assign("code_uuid",$result['code_uuid']);
-                    $this->assign("code_token",$result['data']['code_token']);
-                }
-                $this->assign("appid",$res['appID']);
-                $this->assign("projectname",$res['name']);
-                $this->assign("id",$id);
-                $this->assign("url",$url);
-                $this->assign('version', $version);
-                $this->assign('desc', $desc);
-            }else{
-                // $usergroup = Session::get('usergroup');
-                // if($usergroup==1){
-                //     $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/applet');
-                // }
-                // if($usergroup==2){
-                //     $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
-                // }
-                // if($usergroup==3){
-                //     $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
-                // }
-                $this->error('您没有权限操作该小程序');
-            }
-            return $this->fetch('wx_index');
-        }else{
-            $this->redirect('Login/index');
-        }
-    }
-    /**
-     * lilu
-     * 获取二维码地址
-     */
-    public function _requestGetcurl($url){
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        $data = curl_exec($curl);
-        curl_close($curl);
-        return $data;
-    }
-    public function checkscan(){
-        $token = input("token");
-        $last = input("last");
-        $url = "http://wx.hdewm.com/uploadApi.php?do=checkscan&code_token=".$token."&last=".$last;
-        $response = $this->_requestGetcurl($url);
-        echo $response;
-    }
-    public function checklogin(){
-        $uniacid = input("uniacid");
-        $appid = input('appid');
-        $name = input('name');
-        if(strpos(ROOT_HOST,'https')===false){
-            $host = "https".substr(ROOT_HOST,4);
-        }
-        $url = "http://122.114.217.68:8008/?type=get&op=open&appid=".$appid."&projectname=".$name."&url=".$host."/api/Wxapps/&uniacid=".$uniacid;
-        $result = json_decode($this->_requestGetcurl($url),true);
-        if(isset($result['status']) && (int)$result['status'] == 1){
-            return 1;
-        }else{
-            return 0;
-        }
-    }
-     /*新版本的代码提交*/
-     public function commitcode(){
-        $token = input("token");
-        $uuid = input("uuid");
-        $version = input("version");
-        $desc = input('desc');
-        $data = [
-            'user_version' => $version,'user_desc' => $desc,'code_token' => $token,'code_uuid' => $uuid
-        ];
-        $params = http_build_query($data);
-        $url = "http://wx.hdewm.com/uploadApi.php?do=commitcode&".$params;
-        $response = json_decode($this->_requestGetcurl($url));
-        // var_dump(1);
-        // exit;
-        return $response;
-    }
-    /**
-     * lilu
-     * 新版本预览
-     */
-    public function preview(){
-        $token = input('token');
-        $uuid = input("uuid");
-        $url = "http://wx.hdewm.com/uploadApi.php?do=preview&code_token=".$token."&code_uuid=".$uuid;
-        $response = $this->_requestGetcurl($url);
-        echo $response;
-    }
-    /**
-     * lilu
      */
     public function wx_index(){
         $user_id=Session::get('user_id');
@@ -3482,6 +3327,54 @@ class  General extends  Base {
             return ajax_success('获取成功');
         }else{
             return ajax_error('获取失败');
+        }
+    }
+    /**
+     * lilu
+     * 增值订单评论
+     */
+    public function adder_order_comment()
+    {
+        //获取参数-order_id/information
+        $input=input();
+        $data['create_time']=time();
+        $data['information']=$input['information'];
+        $data['add_order_id']=$input['order_id'];
+        $data['store_id']=Session::get('store_id');
+        $data['is_show']='1';
+       
+        $re=db('adder_comment')->insert('$data');
+        if($re){
+            return ajax_success('评价成功');
+        }else{
+            return ajax_error('评价失败');
+        }
+    }
+    /**
+     * lilu
+     * 获取增值商品的评价
+     * adder_goods_id   增值商品id
+     */
+    public function get_adder_comment()
+    {
+        //获取参数
+        $adder_goods_id=input('adder_goods_id');
+        //获取商品所有的已显示评论
+        $list=db('adder_comment')->where(['adder_goods_id'=>$adder_goods_id,'is_show'=>1])->select();
+        if(empty($list)){
+            return ajax_success('获取成功',$list);
+        }else{
+            foreach($list as $k=>$v){
+                //获取店铺的消息
+                $store_info=db('store')->where('id',$v['store_id'])->field('store_logo,share_code,store_name')->find();
+                $list[$k]['store_logo']=$store_info['stroe_logo'];
+                $list[$k]['share_code']=$store_info['share_code'];
+                $list[$k]['store_name']=$store_info['store_name'];
+                //处理时间戳
+                $list[$k]['time']=data('Y-m-d H:i:s',$v['create_time']);
+    
+            }
+            return ajax_success('获取成功',$list);
         }
     }
 
