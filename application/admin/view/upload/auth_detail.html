@@ -280,12 +280,12 @@
             $('.tip-pop').add('.mask').hide();
         })
         // 立即装修
-        $('.decorate').add('.confirm').click(function(){
+        $('.decorate').click(function(){
             window.location.href="/admin/decoration_routine_index";
             // $('.tip-pop').add('.mask').hide();
         })
         // 上传代码
-        $('.shangchuan').add('.confirm').click(function(){
+        $('.shangchuan').click(function(){
             $.ajax({
                 url:"send_message",
                 type:"post",
