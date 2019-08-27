@@ -149,39 +149,39 @@
             <li class="list">
                 <div class="img"><img src="__STATIC__/admin/index/img/u168.png"></div>
                 <div class="num-title">注册总数</div>
-                <div class="num">200</div>
+                <div class="num">{$data['j_money_sum']}</div>
             </li>
             <li class="list">
                 <div class="img"><img src="__STATIC__/admin/index/img/u170.png"></div>
                 <div class="num-title">近7天增值消费总额</div>
-                <div class="num">200</div>
+                <div class="num">{$data['order_money3']}</div>
             </li>
             <li class="list">
                 <div class="img"><img src="__STATIC__/admin/index/img/u170.png"></div>
                 <div class="num-title">增值消费总额</div>
-                <div class="num">200</div>
+                <div class="num">{$data['adder_order_money']}</div>
             </li>
         </ul>
         <ul>
             <li class="list">
                 <div class="img"><img src="__STATIC__/admin/index/img/u168.png"></div>
                 <div class="num-title">今日开通店铺总数</div>
-                <div class="num">200</div>
+                <div class="num">{$data['today_store_num']}</div>
             </li>
             <li class="list">
                 <div class="img"><img src="__STATIC__/admin/index/img/u168.png"></div>
                 <div class="num-title">开通店铺总数</div>
-                <div class="num">200</div>
+                <div class="num">{$data['zong_store_num']}</div>
             </li>
             <li class="list">
                 <div class="img"><img src="__STATIC__/admin/index/img/u172.png"></div>
                 <div class="num-title">近7天店铺套餐总额</div>
-                <div class="num">200</div>
+                <div class="num">{$data['week_meal_money']}</div>
             </li>
             <li class="list">
                 <div class="img"><img src="__STATIC__/admin/index/img/u172.png"></div>
                 <div class="num-title">店铺套餐总额</div>
-                <div class="num">200</div>
+                <div class="num">{$data['zong_meal_money']}</div>
             </li>
         </ul>
 
@@ -195,7 +195,7 @@
                 <td>
                     <span> 新开通店铺</span>
                     <span style="color: red; float: right;">
-						(10)
+						({$data['xian_store_num']})
 					</span>
 
                 </td>
@@ -203,7 +203,7 @@
                     <span>待发货订单</span>
 
                     <span style="color: red; float: right;">
-						({$data['order_number_dai']})
+						({$data['adder_order_number_dai']})
 					</span>
                 </td>
                 <td>

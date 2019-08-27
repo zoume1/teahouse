@@ -675,7 +675,6 @@ class  Control extends  Controller{
         $where5['create_time']=array('between',array($start_time2,$end_time2));
         $where5['store_use']=1;
         $where5['status']=1;
-        $where5['audit_status']=1;
         $data['today_store_num']=db('store')->where($where5)->count();
         //总开通店铺数量
         $where6['store_use']=1;
@@ -694,7 +693,7 @@ class  Control extends  Controller{
         //新开通店铺---线下审核流程---未审核
         $where9['status']=1;
         $where9['audit_status']=0;    //审核通过
-        $where9['pay_typ']=2;    //审核通过
+        $where9['pay_type']=2;    //审核通过
         $data['xian_store_num']=db('meal_orders')->where($where9)->count();
         //待发货订单----增值订单
         $where10['status']=array('between',array(2,3));
@@ -702,7 +701,7 @@ class  Control extends  Controller{
         //售后待处理订单---增值订单
         $where2['status']=1;
         $data['shou_order_number']=db('after_sale')->where($where2)->count();  
-
+        
         return view("control_store_index",['data'=>$data]);
     }
 

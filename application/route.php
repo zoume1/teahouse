@@ -398,6 +398,7 @@ Route::group("",[
     "logContinuAtion"=>"index/Storehouse/logContinuAtion",  //店铺小程序前端仓库订单续费
     "outPositionOrder"=>"index/Storehouse/outPositionOrder",//店铺小程序前端仓库订单出仓
     "getHousePrice"=>"index/Storehouse/getHousePrice",      //店铺小程序前端仓库订单出仓运费
+    "getLinePrice"=>"index/Storehouse/getLinePrice",        //存茶详情年划线价
     
     /* 微信公众平台路由  */
     "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket

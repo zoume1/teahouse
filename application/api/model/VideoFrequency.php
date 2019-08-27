@@ -29,6 +29,18 @@ class VideoFrequency extends Model
         return $data; 
     }
 
+    /**
+     * 获取列表
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public function getList($store_id)
+    {
+        return $this->where('store_id', '=', $store_id)
+            ->paginate(20, false, [
+                'query' => \request()->request()
+            ]);
+    }
     //直播token
     public function token($store_id,$id)
     {
