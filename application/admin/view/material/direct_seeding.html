@@ -132,7 +132,7 @@
                                 <div class="table-cell-div">直播标题</div>
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">查看</div>
+                                <div class="table-cell-div" id="token" >查看</div>
                             </th>
                             <th class="table-cell">
                                 <div class="table-cell-div">设备序列号</div>
@@ -183,7 +183,7 @@
                             </td>
                             <td class="table-cell videos_fd">
                                 <div class="table-cell-div">
-                                    <button class="layui-btn layui-btn-mini" data-id="{$value.urls}" onclick="look(this)">查看</button>
+                                    <button class="layui-btn layui-btn-mini" data-id="{$value.urls}" onclick="look(this,'{$value.series_number}')">查看</button>
                                 </div>
                                 
                                 <div class="videos noshow" id="videos">
@@ -198,6 +198,7 @@
                                         height="220px"
                                         width="340px"
                                         src="{$value.urls}"
+                                        poster=""
                                         controls
                                         playsInline 
                                         webkit-playsinline
@@ -257,46 +258,78 @@
     {block name="bottom"}
     <script src="__STATIC__/admin/common/layui/layui.js"></script>
     <script>
-        $.ajax({
-                type: "POST",
-                url: "{:url('admin/Material/video_token')}",
-                data: {},
-                success: function (res) {
-                    console.log(res)
-                },
-                error: function (err) {
-                    console.log("错误" + err)
-                }
-            });
         // $.ajax({
-        //             type: "POST",
-        //             url: "https://open.ys7.com/api/lapp/token/get",
-        //             data: {
-        //                 appKey:"97a6343476e24f969dcd649b3ca2fd77",
-        //                 appSecret:"1612af977029b240d54d7111c34e38fb",
-        //             },
-        //             success: function (res) {
-        //                 console.log(res.data.accessToken)
-        //             },
-        //             error: function (err) {
-        //                 console.log("错误"+err)
+        //         type: "POST",
+        //         url: "{:url('admin/Material/video_token')}",
+        //         data: {},
+        //         sync:false,
+        //         success: function (res) {
+        //             console.log(res)
+        //             if(res.code == 1) {
+        //                 if((res.data.expiretime * 1000) <= (new Date()).getTime()) {
+        //                     $.ajax({
+        //                         type: "POST",
+        //                         url: "https://open.ys7.com/api/lapp/token/get",
+        //                         sync:false,
+        //                         data: {
+        //                             appKey: "97a6343476e24f969dcd649b3ca2fd77",
+        //                             appSecret: "1612af977029b240d54d7111c34e38fb",
+        //                         },
+        //                         success: function (res) {
+        //                             console.log('获取更新--')
+        //                             edit_video_token(res.data.accessToken, res.data.expireTime);
+        //                             var accessToken = res.data.accessToken;
+        //                             $("#token").data("token", accessToken);
+        //                         },
+        //                         error: function (err) {
+        //                             console.log("错误" + err)
+        //                         }
+        //                     });
+        //                 } else {
+        //                   var accessToken = res.data.accesstoken;
+        //                   $("#token").data("token", accessToken);
+        //                 }
         //             }
-        //         });
-        // $.ajax({
-        //             type: "POST",
-        //             url: "https://open.ys7.com/api/lapp/device/capture",
-        //             data: {
-        //                 accessToken:"at.0z9ozvv51b43i39x6bwc6vao3gnx9bxp-3k5xrzppxt-08cnb8j-7lzb3b1ok",
-        //                 deviceSerial:612037990,
-        //                 channelNo:1
-        //             },
-        //             success: function (res) {
-        //                 console.log(res)
-        //             },
-        //             error: function (err) {
-        //                 console.log("错误"+err)
-        //             }
-        //         });
+        //         },
+        //         error: function (err) {
+        //             console.log("错误" + err)
+        //         }
+        // });
+        // //更新视频token
+        // function edit_video_token (accesstoken, expiretime) {
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "{:url('admin/Material/edit_video_token')}",
+        //         data: {
+        //             accesstoken: accesstoken,
+        //             expiretime: expiretime,
+        //         },
+        //         success: function (res) {
+        //             console.log('更新成功')
+        //         },
+        //         error: function (err) {
+        //             console.log("错误" + err)
+        //         }
+        //     });
+        // }
+        // function getCapture (series_number) {
+        //     var token = $('#token').data("token");
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "https://open.ys7.com/api/lapp/device/capture",
+        //         data: {
+        //             accessToken: token,
+        //             deviceSerial: series_number,
+        //             channelNo: 1
+        //         },
+        //         success: function (res) {
+        //             console.log(res)
+        //         },
+        //         error: function (err) {
+        //             console.log("错误" + err)
+        //         }
+        //     });
+        // }
 
         layui.use(['laydate', 'form'], function(){
             var laydate = layui.laydate,
@@ -331,10 +364,13 @@
             })
 
         })
-        function look(e){
+        function look(e,series_number){
             // console.log( $(e).parents('.videos_fd').children('.videos'))
             $(e).parents('.videos_fd').children('.videos').removeClass('noshow');
             var player = new EZUIKit.EZUIPlayer('myPlayer');
+            
+            // console.log($('#myPlayer').context)
+            getCapture(series_number);
             $(".stop").click(function () {
                 player.stop();
                 $(this).parents('.videos').addClass('noshow');

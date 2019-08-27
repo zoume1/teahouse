@@ -536,7 +536,7 @@
                             </td>
                             
                             <td class="table-cell">
-                                <div class="table-cell-div " data-id="{$vo.parts_order_number}" data-orderStatus="{$vo.status}">
+                                <div class="table-cell-div " data-id="{$vo.parts_order_number}" data-values="{$vo.id}" data-orderStatus="{$vo.status}">
                                     {$vo.status|show_order_statues}
                                    <button class="layui-btn-mini line-exam">未申请开票</button>
                                     <a href="capital_management_details" class="dtl">订单详情</a>
@@ -587,9 +587,10 @@
 		// })
 		$(".static_btus").click(function () {
 			var _this = this;
-			var data_id = $(this).parent().data("id");    //订单id
+			var data_id = $(this).parent().data("id");    //订单号
+			var order_num = $(this).parent().data("values"); //订单id
 			var order_status = $(this).parent().data("orderstatus");    //订单状态
-			$(".repay_tip").data("value", data_id);
+			$(".repay_tip").data("value", order_num);
 			$(".operation").empty();
 			$(".chat").empty();
 			//获取批注
@@ -702,7 +703,7 @@
 
 		// 点击批注
 		$(".repay_tip").click(function () {
-			var data_id = $(this).data("value");
+			var data_id = $(this).data("values");
 			var Information = $(".Information").val();
 			if (Information != '') {
 				$.ajax({
