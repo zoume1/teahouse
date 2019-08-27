@@ -257,25 +257,24 @@
     <script src="__STATIC__/admin/index/js/jquery.js"></script>
     <script>
         //测试获取分类
-        $('.list_user').click(function() {
-            $.ajax({
-                url:"cate_list",
-                type:"get",
-                success : function(res){
-                    var res = JSON.parse(res);
-                    // console.log(res.data);
-                    if(res.status == 1) {
-                        $('#list_select').empty();
-                        var arr = '<option value="0">更多分类</option>';
-                        for(let i = 0; i < res.data.length; i ++) {
-                            arr += `<option value='${res.data[i].first_id}'>${res.data[i].first_class}-${res.data[i].second_class}</option>`
-                        }
-                        // console.log(arr);
-                        $("#list_select").append(arr);
+        $.ajax({
+            url: "cate_list",
+            type: "get",
+            success: function (res) {
+                var res = JSON.parse(res);
+                // console.log(res.data);
+                if (res.status == 1) {
+                    $('#list_select').empty();
+                    var arr = '<option value="0">更多分类</option>';
+                    for (let i = 0; i < res.data.length; i++) {
+                        arr += `<option value='${res.data[i].first_id}'>${res.data[i].first_class}-${res.data[i].second_class}</option>`
                     }
+                    // console.log(arr);
+                    $("#list_select").append(arr);
                 }
-            })
+            }
         })
+        
         // 取消
         $('.cancel').add('.confirm').click(function(){
             $('.tip-pop').add('.mask').hide();
