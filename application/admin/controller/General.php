@@ -2944,14 +2944,18 @@ class  General extends  Base {
     }
 
     /**
-     **************李火生*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:我要评论
      **************************************
      * @return \think\response\View
      */
     public function additional_comments_add(){
-        return view("additional_comments_add");
+        //获取参数---order_id
+        $order_id=input('order_id');
+        $info=db('adder_order')->where('id',$order_id)->field('id,goods_id,goods_image,parts_goods_name')->find();
+
+        return view("additional_comments_add",['data'=>$info]);
     }
     /**
      * lilu

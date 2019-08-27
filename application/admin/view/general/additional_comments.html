@@ -83,7 +83,7 @@
                         <td class="next-table-cell">
                             <div class="next-table-cell-box">
                                 <p>{$vo.order_real_pay}</p>
-                                <a href="{:url('admin/General/additional_comments_add')}">我要评论</a>
+                                <a href="{:url('admin/General/additional_comments_add',['order_id'=>$vo.id])}">我要评论</a>
                             </div>
                         </td>
                     </tr>
