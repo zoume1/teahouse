@@ -966,24 +966,10 @@ Route::group("admin",[
     "go_to_pay"=>"admin/General/go_to_pay",//我要支付
     "additional_comments"=>"admin/General/additional_comments",//追加评论
     "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
-    "wxxcxinfo"=>"admin/General/wxxcxinfo",                            //一键生成
-    "wx_login"=>"admin/General/wx_login",                            //一键生成
-    "wx_index"=>"admin/General/wx_index",                            //一键生成--二维码
-    "checkscan"=>"admin/General/checkscan",                            //一键生成--二维码
-    "commitcode"=>"admin/General/commitcode",                            //一键生成--提交代码
-    "preview"=>"admin/General/preview",                             //一键生成--预览
+    "adder_order_comment"=>"admin/General/adder_order_comment",     //增加订单评论
+    "get_adder_comment"=>"admin/General/get_adder_comment",     //获取订单评论
    
-    /**测试---一键上传 */
-    "wxxcxinfo2"=>"admin/Upload/wxxcxinfo",                            //一键生成
-    "wx_login2"=>"admin/Upload/wx_login",                            //一键生成
-    "wx_index2"=>"admin/Upload/index",                            //一键生成--二维码
-    "checkscan2"=>"admin/Upload/checkscan",                            //一键生成--二维码
-    "commitcode2"=>"admin/Upload/commitcode",                            //一键生成--提交代码
-    "preview2"=>"admin/Upload/preview",                             //一键生成--预览
-    "upload2"=>"admin/Upload/upload",                             //一键生成--预览
-    "uploadCode"=>"admin/Upload/uploadCode",                             //一键生成--预览
-    
-    
+    /**一键上传 */
     "auth_pre"=>"admin/Upload/auth_pre",                             //一键生成--第一页预备
     "auth_index"=>"admin/Upload/auth_index",                             //一键生成--开始授权
     "auth_detail"=>"admin/Upload/auth_detail",                             //一键生成--授权获取的详情
@@ -998,15 +984,8 @@ Route::group("admin",[
     "get_tiyanlist"=>"admin/Upload/get_tiyanlist",                     //一键生成--获取体验者列表
     "unDoCodeAudit"=>"admin/Upload/unDoCodeAudit",                     //一键生成--版本撤销
     "cate_list"=>"Admin/Upload/cate_list",                             //一键生成--获取分类
-    
-    /**测试---一键上传 2*/
-    "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
-    "wx_login3"=>"admin/Wxview/wx_login",                            //一键生成
-    "wx_index3"=>"admin/Wxview/index",                            //一键生成--二维码
-    "checkscan3"=>"admin/Wxview/checkscan",                         //一键生成--二维码
-    "commitcode3"=>"admin/Wxview/commitcode",                       //一键生成--提交代码
-    "preview3"=>"admin/Wxview/preview",                             //一键生成--预览
 
+    
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
     "control_meal_index"=>"admin/Control/control_meal_index",      //入驻套餐
