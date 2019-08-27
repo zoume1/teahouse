@@ -261,11 +261,18 @@
             $.ajax({
                 url:"cate_list",
                 type:"get",
-                success : function(data){
-                    console.log(data);
+                success : function(res){
+                    // console.log(res);
+                    if(res.status == 1) {
+                        $('.list_user').empty();
+                        var arr = '<option value="0">更多分类</option>';
+                        for(let i = 0; i < res.data.length; i ++) {
+                            arr += `<option value='${res.data[i].first_id}'>${res.data[i].first_class}-${res.data[i].second_class}</option>`
+                        }
+                        $("#list_select").append(arr);
+                    }
                 }
             })
-            // $('#list_select')
         })
         // 取消
         $('.cancel').add('.confirm').click(function(){
