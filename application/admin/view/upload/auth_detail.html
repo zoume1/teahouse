@@ -262,7 +262,7 @@
                 url:"cate_list",
                 type:"get",
                 success : function(res){
-                    var data = JSON.parse(data);
+                    var res = JSON.parse(res);
                     console.log(res.data);
                     if(res.status == 1) {
                         $('.list_user').empty();
