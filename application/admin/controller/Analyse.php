@@ -872,6 +872,7 @@ class  Analyse extends  Controller{
     public function store_notice_index(Request $request){
         if($request->isPost()){
             $order_id = $request->only("order_id")["order_id"];
+            dump($order_id);
             $datas = Db::name("note_notification")
                 ->where("order_id",$order_id)
                 ->order("create_time","desc")
