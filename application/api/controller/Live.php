@@ -18,17 +18,15 @@ use app\api\model\VideoComment;
 class Live extends Controller{
 
     //查询直播分类
-    public function classification($store_id){
+    public function classification($store_id,$uid){
 
         $classif = new DirectSeeding();
         $data = $classif->detail($store_id);
 
         foreach($data as $k=>$v){
             $list = new VideoFrequency();
-            $list1 = $list->live_broadcast($store_id,$v['id']);
+            $list1 = $list->live_broadcast($store_id,$v['id'],$uid);
             $data[$k]['list'] = $list1;
-
-           // print_r($list1);die;
         }
 
 

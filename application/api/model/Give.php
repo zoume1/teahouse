@@ -49,4 +49,15 @@ class Give extends Model
         return $data;
     }
 
+    /**
+     * 用户是否点赞
+     * @author fyk
+     * @time   2019/08/27
+     */
+    public function user_give($sid,$vid,$uid)
+    {
+        $data = Give::where(['store_id'=>$sid,'article_id'=>$vid,'give_uid'=>$uid])-> find();
+        return $data;
+    }
+
 }
