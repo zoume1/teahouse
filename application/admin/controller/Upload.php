@@ -384,10 +384,9 @@ class Upload extends Controller
                 } 
             }
             $is_shou['qr_img']=$re;
-            // //获取体验码的url
+            // // //获取体验码的url
             $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
             $timeout=$this->is_timeout($appid);
-            // $url = "https://api.weixin.qq.com/wxa/get_qrcode?access_token=".$timeout['authorizer_access_token'];
             $pp = $timeout['authorizer_access_token'];
             //判断是否已上传店铺代码
             $is_chuan=Db::table('applet')->where('id',$store_id)->value('is_chuan');
@@ -930,7 +929,7 @@ class Upload extends Controller
     /*
      * 获取授权小程序帐号的可选类目----主动获取
      * */
-    private function getCategory2()
+    public function cate_list()
     {
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');

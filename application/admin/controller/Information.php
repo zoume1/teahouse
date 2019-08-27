@@ -63,21 +63,21 @@ class Information extends Controller{
         $time['member_status']='1';
         $data['d_member_num']=db('member')->where($time)->count();     //当日会员新增数量
         //昨日新增会员数量
-        $time['member_create_time']=array('between',array($start_time2,$end_time2));
-        $time['store_id']=$store_id;
-        $time['member_status']='1';
-        $data['w_member_num']=db('member')->where($time)->count();     //当日会员新增数量
+        $time2['member_create_time']=array('between',array($start_time2,$end_time2));
+        $time2['store_id']=$store_id;
+        $time2['member_status']='1';
+        $data['w_member_num']=db('member')->where($time2)->count();     //当日会员新增数量
         //本月新增会员数量
         $beginThismonth=mktime(0,0,0,date('m'),1,date('Y'));
         $endThismonth=mktime(23,59,59,date('m'),date('t'),date('Y'));
-        $time['member_create_time']=array('between',array($beginThismonth,$endThismonth));
-        $time['store_id']=$store_id;
-        $time['member_status']='1';
-        $data['m_member_num']=db('member')->where($time)->count();     //当日会员新增数量
+        $time3['member_create_time']=array('between',array($beginThismonth,$endThismonth));
+        $time3['store_id']=$store_id;
+        $time3['member_status']='1';
+        $data['m_member_num']=db('member')->where($time3)->count();     //当日会员新增数量
         //总会员数量
-        $time['store_id']=$store_id;
-        $time['member_status']='1';
-        $data['z_member_num']=db('member')->where($time)->count();     //当日会员新增数量
+        $time4['store_id']=$store_id;
+        $time4['member_status']='1';
+        $data['z_member_num']=db('member')->where($time4)->count();     //当日会员新增数量
        
          
 

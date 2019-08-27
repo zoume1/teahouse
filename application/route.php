@@ -997,7 +997,7 @@ Route::group("admin",[
     "check_publish"=>"admin/Upload/check_publish",                     //一键生成--查看发布详情
     "get_tiyanlist"=>"admin/Upload/get_tiyanlist",                     //一键生成--获取体验者列表
     "unDoCodeAudit"=>"admin/Upload/unDoCodeAudit",                     //一键生成--版本撤销
-    "getCategory2"=>"admin/Upload/getCategory2",                       //一键生成--
+    "cate_list"=>"Admin/Upload/cate_list",                             //一键生成--获取分类
     
     /**测试---一键上传 2*/
     "wxxcxinfo3"=>"admin/Wxview/wxxcxinfo",                            //一键生成
@@ -1140,11 +1140,13 @@ Route::group("api",[
     /**
      * 小程序直播接口
     */
-    "classification" => "api/Live/classification",
-    "video_list" => "api/Live/video_list",
-    "details" =>"api/Live/details",
-    "video_give" =>"api/Live/video_give",
-    "video_comment" =>"api/Live/video_comment"
+    "classification" => "api/Live/classification",//视频分类接口
+    "video_list" => "api/Live/video_list",//视频列表接口
+    "details" =>"api/Live/details",//视频详情接口
+    "video_give" =>"api/Live/video_give",//视频点赞接口
+    "video_comment" =>"api/Live/video_comment",//视频直播评论接口
+    "video_reply" => "api/Live/video_reply",//视频直播回复接口
+    "video_index" =>"api/Live/video_index"//评论显示接口
 ]);
 
 Route::miss("public/miss");

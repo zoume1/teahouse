@@ -684,32 +684,28 @@ class  Analyse extends  Controller{
         } else {
             $this->success("删除失败", url('admin/Analyse/analyse_index'));
         }
-       
     }
-
-
-    /**
-     * [增值商品组批量删除]
-     * 陈绪
-     */
-    public function analyse_dels(Request $request)
-    {
-        if ($request->isPost()) {
-            $id = $request->only(["id"])["id"];
-            if (is_array($id)) {
-                $where = 'id in(' . implode(',', $id) . ')';
-            } else {
-                $where = 'id=' . $id;
-            }
-            $list = Db::name('analyse_goods')->where($where)->delete();
-            if (empty($list)) {
-                return ajax_success('成功删除!', ['status' => 1]);
-            } else {
-                return ajax_error('删除失败', ['status' => 0]);
-            }
-        }
-    }
-
+    // /**
+    //  * [增值商品组批量删除]
+    //  * 陈绪
+    //  */
+    // public function analyse_dels(Request $request)
+    // {
+    //     if ($request->isPost()) {
+    //         $id = $request->only(["id"])["id"];
+    //         if (is_array($id)) {
+    //             $where = 'id in(' . implode(',', $id) . ')';
+    //         } else {
+    //             $where = 'id=' . $id;
+    //         }
+    //         $list = Db::name('analyse_goods')->where($where)->delete();
+    //         if (empty($list)) {
+    //             return ajax_success('成功删除!', ['status' => 1]);
+    //         } else {
+    //             return ajax_error('删除失败', ['status' => 0]);
+    //         }
+    //     }
+    // }
     /**
      * [增值商品规格图片删除]
      * 郭杨
