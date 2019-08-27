@@ -590,7 +590,8 @@
 			var data_id = $(this).parent().data("id");    //订单号
 			var order_num = $(this).parent().data("values"); //订单id
 			var order_status = $(this).parent().data("orderstatus");    //订单状态
-			$(".repay_tip").data("value", order_num);
+			$(".repay_tip").data("values", order_num);
+			$(".repay_tip").data("id", data_id);
 			$(".operation").empty();
 			$(".chat").empty();
 			//获取批注
@@ -599,6 +600,7 @@
 				url: "{:url('admin/Analyse/store_notice_index')}",
 				data: {
 					"order_id": data_id,
+					"order_num": order_num,
 				},
 				async: false,
 				success: function (data) {
@@ -703,7 +705,8 @@
 
 		// 点击批注
 		$(".repay_tip").click(function () {
-			var data_id = $(this).data("values");
+			var data_id = $(this).data("values");     //订单id
+			var order_num = $(this).data("id");       //订单编号
 			var Information = $(".Information").val();
 			if (Information != '') {
 				$.ajax({
@@ -712,6 +715,7 @@
 					data: {
 						"order_id": data_id,
 						"information": Information,
+						"order_num": order_num,
 					},
 					async: false,
 					success: function (data) {

@@ -52,13 +52,15 @@ class Notification extends Controller{
      */
     public function option_add_notice(Request $request){
         if($request->isPost()){
-            $order_id =$request->only("order_id")["order_id"];
+            $order_id =$request->only("order_id")["order_id"];   //id
+            $order_num =$request->only("order_num")["order_num"];   //订单编号
             $information =$request->only("information")["information"];
             $information_data =[
                 "information"=>$information,
                 "create_time"=>time(),
                 "option_name"=>"商家",
                 "order_id"=>$order_id,
+                "order_num"=>$order_num,
             ];
            $res  = Db::name("note_notification")->insert($information_data);
             if($res){

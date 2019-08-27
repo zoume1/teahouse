@@ -22,14 +22,16 @@ class Live extends Controller{
 
         $classif = new DirectSeeding();
         $data = $classif->detail($store_id);
-        
+
         foreach($data as $k=>$v){
             $list = new VideoFrequency();
             $list1 = $list->live_broadcast($store_id,$v['id']);
             $data[$k]['list'] = $list1;
+
            // print_r($list1);die;
         }
-       
+
+
         $res = $data ?['code'=>1,'msg'=>'获取成功','data'=>$data] : ['code'=>0,'msg'=>'获取失败'];
 
         return json($res);exit;
@@ -51,10 +53,11 @@ class Live extends Controller{
     //详情
     public function details($store_id,$vid){
         $list = new VideoFrequency();
-       
+        //浏览量+1
         $browsing = $list->live_browsing($store_id,$vid);
 
         $data = $list->live_details($store_id,$vid);
+
         $res = $data ?['code'=>1,'msg'=>'获取成功','data'=>$data] : ['code'=>0,'msg'=>'获取失败'];
 
         return json($res);exit;
