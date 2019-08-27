@@ -86,15 +86,15 @@
                 <li style="display: flex;">
                     <span class="fl">小程序服务类目</span>
                     <div style="margin-left:30px;">
-                        <select style="height: 25px;">
+                        <select style="height: 25px;" id="list_select">
                             <option value="商家自营-食品类目">商家自营-食品类目</option>
                         </select>
                     </div>
-                    <div style="margin-left:30px;" class="list_user">
+                    <!-- <div style="margin-left:30px;" class="list_user">
                         <select style="height: 25px;width: 176px;" id="list_select">
                             <option value="0">更多分类</option>
                         </select>
-                    </div>
+                    </div> -->
                 </li>
                 <!-- <li>
                     <span class="fl">发布状态</span>
@@ -265,7 +265,7 @@
                 // console.log(res.data);
                 if (res.status == 1) {
                     $('#list_select').empty();
-                    var arr = '<option value="0">更多分类</option>';
+                    var arr = '<option value="商家自营-食品类目">商家自营-食品类目</option>';
                     for (let i = 0; i < res.data.length; i++) {
                         arr += `<option value='${res.data[i].first_id}'>${res.data[i].first_class}-${res.data[i].second_class}</option>`
                     }
