@@ -547,13 +547,12 @@
                                         <tbody>
                                             <tr v-for="comment in dataObj[0].comment_list">
                                                 <td class="author-img">
-                                                    <img src="__STATIC__/admin/common/img/icon-qq.png" width="50"
-                                                        height="50">
+                                                    <img :src="getImgUrl(comment.store_logo)" width="50" height="50">
                                                 </td>
                                                 <td class="master">
                                                     <div class="author-info clearfix">
-                                                        <p class="author-name fl">店铺：<strong>滴金茶叶</strong></p>
-                                                        <p class="author-code fl">邀请码：<strong>1234</strong></p>
+                                                        <p class="author-name fl">店铺：<strong>{{ comment.store_name }}</strong></p>
+                                                        <p class="author-code fl">邀请码：<strong>{{ comment.share_code }}</strong></p>
                                                     </div>
                                                     <div class=" fulltxt">{{ comment.information }}</div>
                                                     <!-- <div class="tm-m-photos">
