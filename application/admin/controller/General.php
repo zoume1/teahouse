@@ -1396,12 +1396,32 @@ class  General extends  Base {
                     $goods["standard"] = $standard;
                     $goods["goods_repertory"] = $standard[0]["stock"];
                     //获取增值商品的评论
-                    $comment_list=db('adder_comment')->where('adder_goods_id',$id)->select();
-                    $goods['comment_list']=$comment_list;
+                    $list=db('adder_comment')->where('adder_goods_id',$id)->select();
+                    foreach($list as $k=>$v){
+                        //获取店铺的消息
+                        $store_info=db('store')->where('id',$v['store_id'])->field('store_logo,share_code,store_name')->find();
+                        $list[$k]['store_logo']=$store_info['store_logo'];
+                        $list[$k]['share_code']=$store_info['share_code'];
+                        $list[$k]['store_name']=$store_info['store_name'];
+                        //处理时间戳
+                        $list[$k]['time']=data('Y-m-d H:i:s',$v['create_time']);
+            
+                    }
+                    $goods['comment_list']=$list;
                 }else{
                     //获取增值商品的评论
-                    $comment_list=db('adder_comment')->where('adder_goods_id',$id)->select();
-                    $goods['comment_list']=$comment_list;
+                    $list=db('adder_comment')->where('adder_goods_id',$id)->select();
+                    foreach($list as $k=>$v){
+                        //获取店铺的消息
+                        $store_info=db('store')->where('id',$v['store_id'])->field('store_logo,share_code,store_name')->find();
+                        $list[$k]['store_logo']=$store_info['store_logo'];
+                        $list[$k]['share_code']=$store_info['share_code'];
+                        $list[$k]['store_name']=$store_info['store_name'];
+                        //处理时间戳
+                        $list[$k]['time']=date('Y-m-d H:i:s',$v['create_time']);
+            
+                    }
+                    $goods['comment_list']=$list;
                 }
                 //获取商品的累计评论
                 $goods['comment']=db('adder_comment')->where('adder_goods_id',$id)->count();
@@ -3378,7 +3398,7 @@ class  General extends  Base {
         //获取商品所有的已显示评论
         $list=db('adder_comment')->where(['adder_goods_id'=>$adder_goods_id,'is_show'=>1])->select();
         if(empty($list)){
-            return ajax_success('获取成功',$list);
+            return ajax_error('获取失败');
         }else{
             foreach($list as $k=>$v){
                 //获取店铺的消息
@@ -3410,15 +3430,7 @@ class  General extends  Base {
                         ->field('id,goods_id,goods_image,parts_goods_name,goods_money,order_quantity,order_real_pay,parts_order_number')
                         ->find();
         $goods['store_name']=$store_info['store_name'];
-        // halt($goods);
-        // if($goods){
-        //     //获取数据成功
-        //     return ajax_success('获取数据成功',$goods);
-        // }else{
-        //     return ajax_success('获取数据成功,参数错误');
-        // }
         return view('adder_after_sale',['data'=>$goods]);
-
     }
     /**
      * lilu
