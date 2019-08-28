@@ -51,7 +51,8 @@ class  MobileVerification extends  Controller{
 //                    session('mobileCode',$mobileCode);
 //                    $_SESSION['mobile'] = $mobile;
                 }
-                $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
+                $store_name = db('store')->where('id',$store_id)->value('store_name');
+                $content = "【 $store_name 】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
                 $output = sendMessage($content,$mobile);
                 if ($output) {
                     return ajax_success("发送成功", $output);
@@ -76,6 +77,7 @@ class  MobileVerification extends  Controller{
     {
         //接受验证码的手机号码
         if ($request->isPost()) {
+            $store_id = $request->only(['uniacid'])['uniacid'];
             $member_id = $request->only(['member_id'])['member_id'];
             $mobile =Db::name("member")->where("member_id",$member_id)->value("member_phone_num");
             $pattern = '/^1[3456789]\d{9}$/';
@@ -93,7 +95,8 @@ class  MobileVerification extends  Controller{
 //                    session('mobileCode',$mobileCode);
 //                    $_SESSION['mobile'] = $mobile;
                 }
-                $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
+                $store_name = db('store')->where('id',$store_id)->value('store_name');
+                $content = "【 $store_name 】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
                 $output = sendMessage($content,$mobile);
                 if ($output) {
                     return ajax_success("发送成功", $output);
@@ -134,7 +137,8 @@ class  MobileVerification extends  Controller{
 //                    session('mobileCode',$mobileCode);
 //                    $_SESSION['mobile'] = $mobile;
                 }
-                $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
+                $store_name = db('store')->where('id',$store_id)->value('store_name');
+                $content = "【 $store_name 】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
                 $output = sendMessage($content,$mobile);
                 if ($output) {
                     return ajax_success("发送成功", $output);

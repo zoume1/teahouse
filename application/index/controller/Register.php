@@ -170,7 +170,8 @@ class Register extends  Controller{
                     session('mobileCodes',$mobileCode);
                     $_SESSION['mobiles'] = $mobile;
                 }
-                $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
+                $store_name = db('store')->where('id',$store_id)->value('store_name');
+                $content = "【 $store_name 】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
                 $output = sendMessage($content,$mobile);
                 if ($output) {
                     return ajax_success("发送成功", $output);
