@@ -832,7 +832,11 @@ class Upload extends Controller
     private function getPage($authorizer_access_token)
     {
         $url = "https://api.weixin.qq.com/wxa/get_page?access_token=".$authorizer_access_token;
-        $ret = json_decode($this->https_get($url),true);
+        $pp=$this->https_get($url);
+        $p['msg']=$pp;
+        db('test')->insert($p);
+        $ret = json_decode($pp,true);
+        halt($ret);
         if($ret['errcode'] == 0) {
             return $ret['page_list'];
         } else {
