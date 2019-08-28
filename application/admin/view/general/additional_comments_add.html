@@ -42,17 +42,45 @@
                 <div class="circle-box">
                     <img src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=fefbdd85a4014c080d3620f76b12696d/d4628535e5dde711873013daaaefce1b9d16613f.jpg">
                 </div>
-                <span>放假的山卡拉图二为卡柔儿忘记了发生大健康分机无人克拉维积分拿的身份李经理</span>
+                <span class="goods_name">{$data['parts_goods_name']}</span>
             </div>
-            <textarea placeholder="期待您的好评"></textarea>
+            <textarea id="information" placeholder="期待您的好评"></textarea>
             <div class="btn-wrapper">
-                <button>确定提交</button>
+                <button data-id="{$data['id']}">确定提交</button>
             </div>
         </div>
         
     </div>
-    <script>
-       
-    </script>
 </body>
+<script src="__STATIC__/admin/common/js/jquery.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/common/js/jquery-ui.js"></script>
+<script>
+   $('.btn-wrapper').click(function(){
+       //获取id(订单id)
+       var order_id=$(this).children().data('id');
+       var information=$('#information').val();
+       var goods_name=$('.goods_name').text();
+       $.ajax({
+           url:"{:url('admin/General/adder_order_comment')}",
+           type:"post",
+           data:{
+               "order_id":order_id,
+               "information":information,
+           },
+           success : function(data){
+               data=JSON.parse(data);
+               console.log(data);
+               if(data.status==1){
+                   alert('评价成功');
+                   setTimeout(function() {
+                       var url="{:url('admin/General/store_order')}";
+                       window.location.href=url;
+                   }, 3000);
+               }else{
+                   window.location.reload();
+               }
+           }
+       })
+   })
+</script>
 </html>

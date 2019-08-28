@@ -734,7 +734,7 @@ class Upload extends Controller
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
         $first_class = '';$second_class = '';$first_id = 0;$second_id = 0;
-        $address = "pages/index/index";
+        $address = "pages/logs/logs";
         $category = $this->getCategory($timeout['authorizer_access_token']);
         if(!empty($category)) {
             $first_class = $category[0]['first_class'] ? $category[0]['first_class'] : '' ;
@@ -746,6 +746,8 @@ class Upload extends Controller
         if(!empty($getpage) && isset($getpage[0])) {
             $address = $getpage[0];
         }
+        $pp['msg']=$address;
+        db('test')->insert($pp);
         $url = "https://api.weixin.qq.com/wxa/submit_audit?access_token=".$timeout['authorizer_access_token'];
         $data = '{
                 "item_list":[{

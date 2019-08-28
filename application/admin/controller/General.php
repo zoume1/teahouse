@@ -1395,8 +1395,19 @@ class  General extends  Base {
                     $goods["goods_bottom_money"] = $line;
                     $goods["standard"] = $standard;
                     $goods["goods_repertory"] = $standard[0]["stock"];
-
+                    //获取增值商品的评论
+                    $comment_list=db('adder_comment')->where('adder_goods_id',$id)->select();
+                    $goods['comment_list']=$comment_list;
+                }else{
+                    //获取增值商品的评论
+                    $comment_list=db('adder_comment')->where('adder_goods_id',$id)->select();
+                    $goods['comment_list']=$comment_list;
                 }
+                //获取商品的累计评论
+                $goods['comment']=db('adder_comment')->where('adder_goods_id',$id)->count();
+                //获取商品的交易成功数
+                $where['status']=array('between',array(2,8));
+                $goods['trade']=db('adder_order')->where($where)->count();
                 return ajax_success('传输成功', $goods);
             } else {
                 return ajax_error("数据为空");
@@ -3340,11 +3351,16 @@ class  General extends  Base {
         $data['create_time']=time();
         $data['information']=$input['information'];
         $data['add_order_id']=$input['order_id'];
+        //获取goods_id
+        $adder_goods_id=db('adder_order')->where('id',$input['order_id'])->value('goods_id');
         $data['store_id']=Session::get('store_id');
         $data['is_show']='1';
+        $data['adder_goods_id']=$adder_goods_id;
        
-        $re=db('adder_comment')->insert('$data');
+        $re=db('adder_comment')->insert($data);
         if($re){
+            //修改订单状态
+            db('adder_order')->where('id',$input['order_id'])->update(['status'=>8]);
             return ajax_success('评价成功');
         }else{
             return ajax_error('评价失败');
@@ -3376,6 +3392,40 @@ class  General extends  Base {
             }
             return ajax_success('获取成功',$list);
         }
+    }
+    /**
+     * lilu
+     * 增值订单申请售后申请页面
+     * adder_order_id
+     */
+    public function adder_after_sale()
+    {
+        $store_id=Session::get('store_id');
+        //获取申请售后的order_id
+        $input=input();
+        //获取店铺信息
+        $store_info=db('store')->where('id',$store_id)->field('store_name')->find();
+        $goods['info']=db('adder_order')
+                        ->where('id',$input['adder_order_id'])
+                        ->field('id,goods_id,goods_image,parts_goods_name,goods_money,order_quantity,order_real_pay,parts_order_number')
+                        ->find();
+        $goods['store_name']=$store_info['store_name'];
+        if($goods){
+            //获取数据成功
+            return ajax_success('获取数据成功',$goods);
+        }else{
+            return ajax_success('获取数据成功,参数错误');
+        }
+
+    }
+    /**
+     * lilu
+     * 增值订单申请售后申请
+     */
+    public function adder_after_sale_do()
+    {
+        //
+
     }
 
 

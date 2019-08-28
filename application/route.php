@@ -968,6 +968,8 @@ Route::group("admin",[
     "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
     "adder_order_comment"=>"admin/General/adder_order_comment",     //增加订单评论
     "get_adder_comment"=>"admin/General/get_adder_comment",     //获取订单评论
+    "adder_after_sale" =>"admin/General/adder_after_sale",                                          //增值订单申请售后
+
    
     /**一键上传 */
     "auth_pre"=>"admin/Upload/auth_pre",                             //一键生成--第一页预备
@@ -1056,7 +1058,7 @@ Route::group("admin",[
     "analyse_delivered"=>"admin/Analyse/analyse_delivered",  //总控增值已发货
     "analyse_received"=>"admin/Analyse/analyse_received",    //总控增值待收货
     "analyse_served"=>"admin/Analyse/analyse_served",          //总控增值待服务
-    "analyse_ok"=>"admin/Analyse/analyse_ok",          //总控增值已完成
+    "analyse_ok"=>"admin/Analyse/analyse_ok",               //总控增值已完成
     "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",//总控增值退款维权
     "analyse_order_search"=>"admin/Analyse/analyse_order_search",          //总控增值订单搜索
 

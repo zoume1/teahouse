@@ -959,9 +959,9 @@ class  Analyse extends  Controller{
             $status = $request->only("status")["status"];
             $rest = Db::name("adder_order")->where("parts_order_number",$order_id)->update(['status'=>$status]);
             if(!empty($rest)){
-                return ajax_success("修改状态成功");
+                return ajax_success("确认服务成功");
             }else{
-                return ajax_error("修改状态失败");
+                return ajax_error("确认服务失败");
             }
         }
     }
