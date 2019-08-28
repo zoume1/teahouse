@@ -605,7 +605,6 @@
 				async: false,
 				success: function (data) {
 					var data = JSON.parse(data);
-					// console.log(data)
 					way = data.data.order_type;   //邮寄方式    
 					$(".chenge_money").empty();
 					for (var i = 0; i < data.data.datas.length; i++) {
@@ -617,7 +616,7 @@
 						$(".chat").append(dhtm0);
 					}
 					let dhtml = '',dhtml1 = '',btn = '',class_btn = '';
-					if(order_status == 4) {
+					if(order_status == '3' || order_status == '4') {
 						if(data.data.goods_type == 1) {
 							btn = '确认收货';
 						} 

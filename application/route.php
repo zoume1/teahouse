@@ -1056,7 +1056,7 @@ Route::group("admin",[
     "analyse_delivered"=>"admin/Analyse/analyse_delivered",  //总控增值已发货
     "analyse_received"=>"admin/Analyse/analyse_received",    //总控增值待收货
     "analyse_served"=>"admin/Analyse/analyse_served",          //总控增值待服务
-    "analyse_ok"=>"admin/Analyse/analyse_ok",          //总控增值已完成
+    "analyse_ok"=>"admin/Analyse/analyse_ok",               //总控增值已完成
     "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",//总控增值退款维权
     "analyse_order_search"=>"admin/Analyse/analyse_order_search",          //总控增值订单搜索
 

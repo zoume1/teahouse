@@ -68,10 +68,10 @@
                "information":information,
            },
            success : function(data){
-               $data=JSON.parse(data);
-               alert(data.status);
+               data=JSON.parse(data);
+               console.log(data);
                if(data.status==1){
-                   alert(data.info);
+                   alert('评价成功');
                    setTimeout(function() {
                        var url="{:url('admin/General/store_order')}";
                        window.location.href=url;
