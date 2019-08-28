@@ -42,17 +42,45 @@
                 <div class="circle-box">
                     <img src="__UPLOADS__/{$data['goods_image']}">
                 </div>
-                <span>{$data['parts_goods_name']}</span>
+                <span class="goods_name">{$data['parts_goods_name']}</span>
             </div>
-            <textarea placeholder="期待您的好评"></textarea>
+            <textarea id="information" placeholder="期待您的好评"></textarea>
             <div class="btn-wrapper">
-                <button>确定提交</button>
+                <button data-id="{$data['id']}">确定提交</button>
             </div>
         </div>
         
     </div>
-    <script>
-       
-    </script>
 </body>
+<script src="__STATIC__/admin/common/js/jquery.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/common/js/jquery-ui.js"></script>
+<script>
+   $('.btn-wrapper').click(function(){
+       //获取id(订单id)
+       var order_id=$(this).children().data('id');
+       var information=$('#information').val();
+       var goods_name=$('.goods_name').text();
+       $.ajax({
+           url:"{:url('admin/General/adder_order_comment')}",
+           type:"post",
+           data:{
+               "order_id":order_id,
+               "information":information,
+           },
+           success : function(data){
+               $data=JSON.parse(data);
+               alert(data.status);
+               if(data.status==1){
+                   alert(data.info);
+                   setTimeout(function() {
+                       var url="{:url('admin/General/store_order')}";
+                       window.location.href=url;
+                   }, 3000);
+               }else{
+                   window.location.reload();
+               }
+           }
+       })
+   })
+</script>
 </html>

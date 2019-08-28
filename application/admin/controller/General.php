@@ -3343,8 +3343,10 @@ class  General extends  Base {
         $data['store_id']=Session::get('store_id');
         $data['is_show']='1';
        
-        $re=db('adder_comment')->insert('$data');
+        $re=db('adder_comment')->insert($data);
         if($re){
+            //修改订单状态
+            db('adder_order')->where('id',$input['order_id'])->update(['status'=>8]);
             return ajax_success('评价成功');
         }else{
             return ajax_error('评价失败');
