@@ -627,6 +627,10 @@
 					} else if(order_status == 12) {
 						btn = '确认服务';
 						class_btn = 'confirmReceipt';
+					}else if (order_status=='8'){
+						btn = '申请售后';
+						class_btn = 'afterSale';
+
 					}
 					
 					dhtml = `
@@ -657,6 +661,10 @@
 					//跳转评论页
 					$(".toComments").click(function() {
 						window.location.href = '/admin/additional_comments/data-id/'+data_id;
+					})
+					//跳转售后
+					$(".afterSale").click(function() {
+						window.location.href = '/admin/adder_after_sale/adder_order_id/'+data_id;
 					})
 					//确认收货/服务
 					$('.confirmReceipt').click(function () {

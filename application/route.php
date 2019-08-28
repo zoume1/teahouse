@@ -968,6 +968,8 @@ Route::group("admin",[
     "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
     "adder_order_comment"=>"admin/General/adder_order_comment",     //增加订单评论
     "get_adder_comment"=>"admin/General/get_adder_comment",     //获取订单评论
+    "adder_after_sale" =>"admin/General/adder_after_sale",                                          //增值订单申请售后
+
    
     /**一键上传 */
     "auth_pre"=>"admin/Upload/auth_pre",                             //一键生成--第一页预备
