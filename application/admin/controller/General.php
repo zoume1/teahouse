@@ -3410,12 +3410,13 @@ class  General extends  Base {
                         ->field('id,goods_id,goods_image,parts_goods_name,goods_money,order_quantity,order_real_pay,parts_order_number')
                         ->find();
         $goods['store_name']=$store_info['store_name'];
-        if($goods){
-            //获取数据成功
-            return ajax_success('获取数据成功',$goods);
-        }else{
-            return ajax_success('获取数据成功,参数错误');
-        }
+        // if($goods){
+        //     //获取数据成功
+        //     return ajax_success('获取数据成功',$goods);
+        // }else{
+        //     return ajax_success('获取数据成功,参数错误');
+        // }
+        return view('adder_after_sale',['data'=>$goods]);
 
     }
     /**
