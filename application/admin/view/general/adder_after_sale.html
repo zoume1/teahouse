@@ -7,6 +7,8 @@
     <title>追加评论</title>
     <link rel="stylesheet" href="__STATIC__/admin/common/css/z-comm.css">
     <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/upfile/css/index.css" />
     <style>
         *{margin: 0; padding: 0;}
         .triangle::after{content: ''; position: absolute; left: 50%; top: 110%; margin-left: -4px; width: 0; height: 0; border: 5px solid transparent; border-top-color: #f00;}
@@ -19,6 +21,15 @@
         .next-table th{border: 1px solid #CFECFF; color: #333; background-color: #CFECFF; text-align: left;}
         .next-table .next-table-cell-box{padding: 12px 16px; overflow: hidden; text-overflow: ellipsis; word-break: break-all;}
         .next-table-cell-box a{color: #0099FF; text-decoration: none;}
+        .red{color:red;}
+        .layui-input-block{margin-left: 200px;}
+        .layui-form-label{width: 150px;}
+        .btn_s {margin-left: 300px;display: flex;}
+        .btn{width: 150px;text-align: center;color: #fff;border-radius: 5px;height: 50px; line-height: 50px;}
+        .back{background-color: rgb(174, 174, 174);margin-right: 150px;}
+        .submit{background-color: rgb(255, 103, 0);}
+        .tips{font-size: 18px;color: rgb(174, 174, 174);}
+        .upimg-div .up-section { width: 90px;height: 90px;}
     </style>
 </head>
 <body>
@@ -50,7 +61,7 @@
                             <div class="next-table-cell-box"></div>
                         </th>
                         <th class="next-table-cell">
-                            <div class="next-table-cell-box"></div>
+                            <div class="next-table-cell-box">订单号：{$data.info.parts_order_number}</div>
                         </th>
                         <th class="next-table-cell">
                             <div class="next-table-cell-box">数量</div>
@@ -67,27 +78,72 @@
                     <tr class="next-table-row">
                         <td class="next-table-cell">
                             <div class="next-table-cell-box">
-                                <img src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=fefbdd85a4014c080d3620f76b12696d/d4628535e5dde711873013daaaefce1b9d16613f.jpg" width="50" height="50">
+                                <img src="__UPLOADS__/{$data.info['goods_image']}" width="50" height="50">
                             </div>
                         </td>
                         <td class="next-table-cell">
-                            <div class="next-table-cell-box"></div>
+                            <div class="next-table-cell-box">{$data.info['parts_goods_name']}</div>
                         </td>
                         <td class="next-table-cell">
-                            <div class="next-table-cell-box"></div>
+                            <div class="next-table-cell-box">{$data.info['order_quantity']}</div>
                         </td>
                         <td class="next-table-cell">
-                            <div class="next-table-cell-box"></div>
+                            <div class="next-table-cell-box">{$data.info['goods_money']}</div>
                         </td>
                         <td class="next-table-cell">
-                            <div class="next-table-cell-box">
-                                <p></p>
-                                <a href="">我要评论</a>
-                            </div>
+                            <div class="next-table-cell-box">{$data.info['order_real_pay']}</div>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div style="width: 100%;height: 10px;background-color: #CFECFF;margin: 10px 0;"></div>
+        <div class="layui-form-item" style="font-size: 20px;">
+            <label class="layui-form-label">请选择<span class="red">*</span></label>
+            <div class="layui-input-block  my-input-line">
+                <input type="radio" name="return" checked>
+                <span>要求退货退款金额：</span>
+                <input type="text" name="title" placeholder="不能超过购买总价" autocomplete="off" class="layui-input" style="width: 200px;"
+                    required><span class="red" style="margin-right:220px;">元</span>
+                <input type="radio" name="return" title="要求换货">
+                <span>要求换货</span>
+            </div>
+        </div>
+        <div class="layui-form-item" style="font-size: 20px;">
+            <label class="layui-form-label">请说明理由<span class="red">*</span></label>
+            <div class="layui-input-block  my-input-line">
+                <textarea name="reason" id="" cols="30" rows="10" style="width: 100%;height:150px;"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item" style="font-size: 20px;">
+            <label class="layui-form-label">提交图片<span class="red">*</span></label>
+            <div class="layui-input-block ">
+                <div class="img-box">
+                    <section class=" img-section">
+                        <div class="z_photo upimg-div clear">
+                            <section class="z_file fl">
+                                <img src="__STATIC__/admin/common/upfile/img/a11.png" class="add-img">
+                                <input type="file" name="goods_show_images[]" id="file" class="file" value=""
+                                    accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" required />
+                            </section>
+                        </div>
+                    </section>
+                </div>
+                <aside class="mask works-mask">
+                    <div class="mask-content">
+                        <p class="del-p ">您确定要删除作品图片吗？</p>
+                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span>
+                        </p>
+                    </div>
+                </aside>
+                <div class="tips">
+                    *只能传3张
+                </div>
+            </div>
+        </div>
+        <div class="btn_s">
+            <div class="btn back">返回</div>
+            <div class="btn submit">确定提交</div>
         </div>
     </div>
     <script src="__STATIC__/admin/common/js/vue.js"></script>
@@ -96,6 +152,7 @@
     <script src="__STATIC__/admin/common/js/jquery.js"></script>
     <script src="__STATIC__/admin/common/laydate/laydate.js"></script>
     <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+    <script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp.js"></script>
     <script>
         var vm = new Vue({
             el: '#app'
