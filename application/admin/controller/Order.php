@@ -35,9 +35,7 @@ class  Order extends  Controller{
                 ->where("store_id",'EQ',$store_id)
                 ->where($where)
                 ->group('parts_order_number')
-                ->paginate(20 ,false, [
-                    'query' => request()->param(),
-                    ]);
+                ->select();
         }else{
             $where['status']= array('between',array(0,8));
             $data =Db::name("order")
@@ -45,9 +43,7 @@ class  Order extends  Controller{
                 ->where("store_id",'EQ',$store_id)
                 ->where($where)
                 ->group('parts_order_number')
-                ->paginate(20 ,false, [
-                    'query' => request()->param(),
-                    ]);
+                ->select();
         }
             $data2=[];
             foreach($data as $k=>$v){
@@ -64,6 +60,19 @@ class  Order extends  Controller{
                 $data2[$k]['detail']=$order;
                 $data2[$k]['num']=$num;
             }
+
+        $all_idents = $data2;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $data2 = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Order/order_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $data2->appends($_GET);
+        $this->assign('access', $data2->render());
         return view("order_index",["data"=>$data2]);
     }
 
