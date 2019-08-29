@@ -136,7 +136,7 @@ class Information extends Controller{
                     $arr[$k]=0;
                 }
             }
-            return ajax_success('获取成功',["arr"=>$arr,"precent"=>$pre]);
+            return ajax_success('获取成功',["arr"=>$arr,"precent"=>$pre,'num'=>$order_num]);
         }else{
             return ajax_error('获取失败');
         }
@@ -190,7 +190,7 @@ class Information extends Controller{
                     $arr[$k]=0;
                 }
             }
-            return ajax_success('获取成功',["arr"=>$arr,"precent"=>$pre]);
+            return ajax_success('获取成功',["arr"=>$arr,"precent"=>$pre,'num'=>$order_num]);
         }else{
             return ajax_error('获取失败');
         }
