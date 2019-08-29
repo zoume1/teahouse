@@ -873,6 +873,7 @@ Route::group("admin",[
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况
     "analytical_index" =>"admin/Information/analytical_index",    //溯源分析
+    "store_analyse" =>"admin/Information/store_analyse",            //订单数据
 
     /*店铺*/
     "general_index"=>"admin/General/general_index",             //店铺信息

@@ -78,16 +78,8 @@ class Information extends Controller{
         $time4['store_id']=$store_id;
         $time4['member_status']='1';
         $data['z_member_num']=db('member')->where($time4)->count();     //当日会员新增数量
-       
-         
-
-
         return view("data_index",['data'=>$data]);
     }
-
-
-
-
     /**
      * [溯源分析]
      * 郭杨
@@ -95,5 +87,29 @@ class Information extends Controller{
     public function analytical_index(){     
         return view("analytical_index");
     }
-    
+    /**
+     * lilu
+     * 店铺----店铺分析
+     *      
+    */
+    public function store_analyse()
+    {
+        //获取店铺id
+        $store_id=Session::get('store_id');
+        //统计本月的订单数/天
+        $start_time=strtotime(date('Y-m-01'));  //获取本月第一天的时间戳
+        $j = date("t");                         //获取当前月份天数
+        $xData = array();                       //数组
+        for($i=0;$i<$j;$i++)
+        {
+            $xData[] = date('Y-m-d',$start_time+$i*86400); //每隔一天赋值给数组
+        }
+        //获取当月的订单
+        $where['create_time']=array('between',array(strtotime(date('Y-m-01')),strtotime(date('Y-m-'.$j))));
+        $order_list=db('order')->where($where)->select();
+        halt($order_list);
+       
+
+
+    }
  }
