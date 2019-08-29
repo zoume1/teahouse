@@ -706,7 +706,7 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         //获取当前店铺的模板id
         $template_id=Db::table('applet')->where('id',$store_id)->value('template_id');
-        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
+        $appid=db('miniprogram')->where('stoer_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
         $ext_json = json_encode('{"extEnable": true,"extAppid": "'.$appid.'","ext":{"appid": "'.$appid.'"}}');
         $url = "https://api.weixin.qq.com/wxa/commit?access_token=".$timeout['authorizer_access_token'];
@@ -836,7 +836,6 @@ class Upload extends Controller
         $p['msg']=$pp;
         db('test')->insert($p);
         $ret = json_decode($pp,true);
-        halt($ret);
         if($ret['errcode'] == 0) {
             return $ret['page_list'];
         } else {
@@ -891,7 +890,6 @@ class Upload extends Controller
         }else{
             return ajax_error('审核失败',3);
         }
-        
     } 
     /**
      * lilu
