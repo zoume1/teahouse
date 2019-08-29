@@ -100,7 +100,7 @@ class Information extends Controller{
         $j = date("t");                         //获取当前月份天数
         $m = date("d");                         //获取当前月份天数
         $xData = array();                       //数组
-        for($i=0;$i<$j;$i++)
+        for($i=0;$i<$m;$i++)
         {
             $xData[] = $start_time+$i*86400; //每隔一天赋值给数组
         }
@@ -154,7 +154,7 @@ class Information extends Controller{
         $j = date("t");                         //获取当前月份天数
         $m = date("d");                         //获取当前月份天数
         $xData = array();                       //数组
-        for($i=0;$i<$j;$i++)
+        for($i=0;$i<$m;$i++)
         {
             $xData[] = $start_time+$i*86400; //每隔一天赋值给数组
         }
