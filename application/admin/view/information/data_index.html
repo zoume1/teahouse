@@ -560,34 +560,7 @@
 		return Y + M + D;
 	}
 
-	$("#data1_refash").click(function () {
-		var data_aaa = [];
-		var data_bbb = [];
-		var beginTime = $("#beginTime").val();
-		var endTime = $("#endTime").val();
-		var beginTimea = Date.parse(beginTime);
-		var endTimea = Date.parse(endTime);
-		var utc = endTimea - beginTimea;
-		var day = utc / (24 * 60 * 60 * 1000);
-		for (var i = 0; i < day + 1; i++) {
-			data_aaa.push(timestampToTime((beginTimea + 86400000 * i) / 1000));
-			data_bbb.push(0)
 
-		}
-		series[0].data = data_bbb;
-		xAxis.categories = data_aaa;
-
-		var json = {};
-		json.title = title;
-		json.subtitle = subtitle;
-		json.xAxis = xAxis;
-		json.yAxis = yAxis;
-		json.tooltip = tooltip;
-		json.legend = legend;
-		json.series = series;
-		$('#container').highcharts(json);
-
-	})
 
 	var myDate = new Date();
 	var timestamp = (new Date()).valueOf();
@@ -617,7 +590,6 @@
 		data: {},
 		success: function (res) {
 			var res = JSON.parse(res), order_precent;
-			console.log(res)
 			if(res.status == 1) {
 				series[0].data = res.data.arr;
 				order_precent = (res.data.precent - 100).toFixed(2);
@@ -634,6 +606,37 @@
 				}
 				$("#order_precent").text(order_precent);
 				$('#container').highcharts(json);
+
+
+				$("#data1_refash").click(function () {
+					var data_aaa = [];
+					var data_bbb = [];
+					var beginTime = $("#beginTime").val();
+					var endTime = $("#endTime").val();
+					var beginTimea = Date.parse(beginTime);
+					var endTimea = Date.parse(endTime);
+					var utc = Number(endTimea) - Number(beginTimea);
+					var day = Number(utc) / (24 * 60 * 60 * 1000);
+					for (var i = 0; i < day + 1; i++) {
+						data_aaa.push(timestampToTime((beginTimea + 86400000 * i) / 1000));
+						data_bbb.push(series[0].data[i])
+
+					}
+					series[0].data = data_bbb;
+					xAxis.categories = data_aaa;
+
+					var json = {};
+					json.title = title;
+					json.subtitle = subtitle;
+					json.xAxis = xAxis;
+					json.yAxis = yAxis;
+					json.tooltip = tooltip;
+					json.legend = legend;
+					json.series = series;
+					$('#container').highcharts(json);
+
+				})
+
 			}
 		},
 		error: function (e) {
@@ -647,7 +650,6 @@
 		data:{},
 		success: function(res) {
 			var res = JSON.parse(res), sales_precent;
-			console.log(res)
 			if(res.status == 1) {
 				series[0].data = res.data.arr;
 				sales_precent = (res.data.precent - 100).toFixed(2);
@@ -669,18 +671,16 @@
 						var data_aaa = [];
 						var data_bbb = [];
 						var beginTime = $("#beginTime1").val();
-						var endTime = $("#endTime").val();
+						var endTime = $("#endTime1").val();
 						var beginTimea = Date.parse(beginTime);
-						var endTimea = Date.parse(endTime1);
-						var utc = endTimea - beginTimea;
-						var day = utc / (24 * 60 * 60 * 1000);
+						var endTimea = Date.parse(endTime);
+						var utc = Number(endTimea) - Number(beginTimea);
+						var day = Number(utc) / (24 * 60 * 60 * 1000);
 						for (var i = 0; i < day + 1; i++) {
 							data_aaa.push(timestampToTime((beginTimea + 86400000 * i) / 1000));
-							data_bbb.push(res.data.arr[i])
+							data_bbb.push(series[0].data[i])
 
 						}
-						console.log(series[0].data)
-						console.log(data_bbb)
 						series[0].data = data_bbb;
 						xAxis.categories = data_aaa;
 
