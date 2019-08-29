@@ -8,7 +8,7 @@
     .redStar::before{content: '*'; color: #f00;}
     .my-input-block, .my-input-line{display: flex;}
     .my-input-block>div{flex: 1; margin-right: 20px;}
-    .live_c .layui-form-select {width: 455px; margin-right: 20px; }
+    .live_c .layui-form-select {width: 28%; margin-right: 20px; }
      /* 数据库展现图片样式 */
      .img {position: relative;display: inline-block;width: 100px;}
     .imgcontent {margin: 10px;}
@@ -20,7 +20,8 @@
 <body>
     {block name="content"}
         <div class="wrapper">
-            {if !empty($data)}{volist name="data" id="value"}
+            {if !empty($data)}{volist name="data" id="value"}.
+
             <form class="layui-form" action="{:url('admin/Material/direct_seeding_update')}" method="post" enctype="multipart/form-data">
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="red">*</span>直播分类</label>
@@ -68,7 +69,7 @@
                     </div>
                 </div>
                 {if $value.live == 1}
-                <div class="layui-form-item">
+                <div class="layui-form-item" style="width: 100%;">
                     <label class="layui-form-label"><span class="red">*</span>所属仓库</label>
                     <div class="layui-input-block  my-input-line live_c">
                         <input type="radio" name="live" value="仓储直播"  title="仓储直播" checked>
@@ -93,14 +94,14 @@
                     <label class="layui-form-label"></label>
                     <div class="layui-input-block my-input-line">
                         <input type="radio" name="live" value="流动直播" title="流动直播">
-                        <input style="width: 455px;" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input style="width: 28%;" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                     <div class="tips" style="margin-left: 220px;">
                             如：茶山、茶树监控直播、茶定制生产的现场直播
                         </div>
                 </div>
                 {else}
-                <div class="layui-form-item">
+                <div class="layui-form-item" style="width: 100%;">
                         <label class="layui-form-label"><span class="red">*</span>所属仓库</label>
                         <div class="layui-input-block  my-input-line live_c">
                             <input type="radio" name="live" value="仓储直播"  title="仓储直播" >
@@ -125,7 +126,7 @@
                         <label class="layui-form-label"></label>
                         <div class="layui-input-block my-input-line">
                             <input type="radio" name="live" value="流动直播" title="流动直播" checked>
-                            <input style="width: 455px;" type="text" name="store_one" value="{$value.store_name}"placeholder="请输入" autocomplete="off" class="layui-input">
+                            <input style="width: 28%;" type="text" name="store_one" value="{$value.store_name}"placeholder="请输入" autocomplete="off" class="layui-input">
                         </div>
                         <div class="tips" style="margin-left: 220px;">
                                 如：茶山、茶树监控直播、茶定制生产的现场直播
