@@ -32,8 +32,9 @@
 	<div class="form-item">
 		<label class="form-label">公告内容</label>
 		<div class="form-input">
-			<textarea name="con" placeholder="请输入内容" required lay-verify="required"
-				class="layui-textarea">{$notice_edit.con}</textarea>
+			<!-- <textarea name="con" placeholder="请输入内容" required lay-verify="required"
+				class="layui-textarea">{$notice_edit.con}</textarea> -->
+				<script id="editor" type="text/plain" name="con" style="width:800px;height:300px;">{$notice_edit.con}</script>
 			<!-- <input type="text" name="con" placeholder="请输入内容" class="layui-input" id="con"> -->
 		</div>
 	</div>
@@ -81,6 +82,8 @@
 <!--/_footer 作为公共模版分离出去-->
 <!--请在下方写此页面业务相关的脚本-->
 {block name="bottom"}
+<script type="text/javascript" src="__STATIC__/admin/common/utf8-php/ueditor.config.js"></script>
+	<script type="text/javascript" src="__STATIC__/admin/common/utf8-php/ueditor.all.js"></script>
 <script type="text/javascript">
 // layui.use('laydate', function(){
 //   var laydate = layui.laydate;

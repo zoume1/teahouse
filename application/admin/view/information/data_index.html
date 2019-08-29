@@ -470,7 +470,7 @@
 		success: function (res) {
 			if(res.code == 1) {
 				$('#low').show();
-				$('.content').text(res.data[0].con);
+				$('.content').html(res.data[0].con);
 				countdown(res.data[0].duration);
 			}
 		}
@@ -509,7 +509,16 @@
 		maxDate: '+1970/01/2',
 		timepicker: false
 	});
-
+	$.ajax({
+		url: "store_analyse",
+		data:{},
+		success: function(res) {
+			console.log(res)
+		},
+		error: function(e) {
+			console.error(e)
+		}
+	})
 
 	var title = {
 		text: '本月订单统计'
