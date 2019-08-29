@@ -97,16 +97,40 @@ class Information extends Controller{
         //获取店铺id
         $store_id=Session::get('store_id');
         //统计本月的订单数/天
-        $start_time=strtotime(date('Y-m-01'));  //获取本月第一天的时间戳
+        $start_time=strtotime(date('Y-m-02'));  //获取本月第一天的时间戳
         $j = date("t");                         //获取当前月份天数
         $xData = array();                       //数组
         for($i=0;$i<$j;$i++)
         {
-            $xData[] = date('Y-m-d',$start_time+$i*86400); //每隔一天赋值给数组
+            $xData[] = $start_time+$i*86400; //每隔一天赋值给数组
         }
         //获取当月的订单
-        $where['create_time']=array('between',array(strtotime(date('Y-m-01')),strtotime(date('Y-m-'.$j))));
-        $order_list=db('order')->where($where)->select();
+        $where['order_create_time']=array('between',array(strtotime(date('Y-m-01')),strtotime(date('Y-m-'.$j))+86400));
+        $order_list=db('order')->where($where)->order('order_create_time asc')->group('order_create_time')->select();
+        if($order_list)
+        {
+            $arr=[];
+            foreach($xData as $k =>$v)
+            {
+                $pp[$k]=0;
+                foreach($order_list as $k2 =>$v2)
+                {
+                    if($v >$v2['order_create_time']){      //当天的订单数据
+                        $pp[$k]++;
+                        // unset($order_list[$k2]);
+                    }else{
+                        if($k==0){
+                            $arr[]=$pp[$k]-$pp[$k];
+                        }else{
+                            $arr[]=$pp[$k]-$pp[$k-1];
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        dump($arr);
+        dump($j);
         halt($order_list);
        
 
