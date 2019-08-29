@@ -874,6 +874,7 @@ Route::group("admin",[
     "data_index" =>"admin/Information/data_index",                //数据概况
     "analytical_index" =>"admin/Information/analytical_index",    //溯源分析
     "store_analyse" =>"admin/Information/store_analyse",            //订单数据
+    "store_money_analyse" =>"admin/Information/store_money_analyse",    //销售额数据统计
 
     /*店铺*/
     "general_index"=>"admin/General/general_index",             //店铺信息

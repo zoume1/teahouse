@@ -89,8 +89,7 @@ class Information extends Controller{
     }
     /**
      * lilu
-     * 店铺----店铺分析
-     *      
+     * 店铺----店铺订单分析
     */
     public function store_analyse()
     {
@@ -99,6 +98,7 @@ class Information extends Controller{
         //统计本月的订单数/天
         $start_time=strtotime(date('Y-m-02'));  //获取本月第一天的时间戳
         $j = date("t");                         //获取当前月份天数
+        $m = date("d");                         //获取当前月份天数
         $xData = array();                       //数组
         for($i=0;$i<$j;$i++)
         {
@@ -106,7 +106,16 @@ class Information extends Controller{
         }
         //获取当月的订单
         $where['order_create_time']=array('between',array(strtotime(date('Y-m-01')),strtotime(date('Y-m-'.$j))+86400));
+        $where['status']=array('between',array(2,8));
         $order_list=db('order')->where($where)->order('order_create_time asc')->group('order_create_time')->select();
+        $order_num=db('order')->where($where)->order('order_create_time asc')->group('order_create_time')->count();
+        $last_month = date('Y-m', strtotime('last month'));
+        $last['first'] =strtotime($last_month . '-01 00:00:00') ;
+        $last['end'] =strtotime(date('Y-m-d H:i:s', strtotime("$last_month +0 month +$m day +23 hours +59 minutes +59 seconds"))) ;
+        $where2['order_create_time']=array('between',array($last['first'],$last['end']));
+        $where2['status']=array('between',array(2,8));
+        $order_num2=db('order')->where($where2)->order('order_create_time asc')->group('order_create_time')->count();
+        $pre=round($order_num/$order_num2*100,2);
         if($order_list)
         {
             $arr=[];
@@ -117,23 +126,73 @@ class Information extends Controller{
                 {
                     if($v >$v2['order_create_time']){      //当天的订单数据
                         $pp[$k]++;
-                        // unset($order_list[$k2]);
+                        unset($order_list[$k2]);
                     }else{
-                        if($k==0){
-                            $arr[]=$pp[$k]-$pp[$k];
-                        }else{
-                            $arr[]=$pp[$k]-$pp[$k-1];
-                        }
+                        $arr[$k]=$pp[$k];
                         break;
                     }
                 }
+                if(!array_key_exists($k,$arr)){
+                    $arr[$k]=0;
+                }
             }
+            return ajax_success('获取成功',["arr"=>$arr,"precent"=>$pre]);
+        }else{
+            return ajax_error('获取失败');
         }
-        dump($arr);
-        dump($j);
-        halt($order_list);
-       
-
-
+    }
+    /**
+     * lilu
+     * 店铺----店铺销售额分析
+    */
+    public function store_money_analyse()
+    {
+        //获取店铺id
+        $store_id=Session::get('store_id');
+        //统计本月的订单数/天
+        $start_time=strtotime(date('Y-m-02'));  //获取本月第一天的时间戳
+        $j = date("t");                         //获取当前月份天数
+        $m = date("d");                         //获取当前月份天数
+        $xData = array();                       //数组
+        for($i=0;$i<$j;$i++)
+        {
+            $xData[] = $start_time+$i*86400; //每隔一天赋值给数组
+        }
+        //获取当月的订单
+        $where['order_create_time']=array('between',array(strtotime(date('Y-m-01')),strtotime(date('Y-m-'.$j))+86400));
+        $where['status']=array('between',array(2,8));
+        $order_list=db('order')->where($where)->order('order_create_time asc')->group('order_create_time')->select();
+        $order_num=db('order')->where($where)->sum('order_real_pay');    //当月的订单总金额
+        $last_month = date('Y-m', strtotime('last month'));
+        $last['first'] =strtotime($last_month . '-01 00:00:00') ;
+        $last['end'] =strtotime(date('Y-m-d H:i:s', strtotime("$last_month +0 month +$m day +23 hours +59 minutes +59 seconds"))) ;
+        $where2['order_create_time']=array('between',array($last['first'],$last['end']));
+        $where2['status']=array('between',array(2,8));
+        $order_num2=db('order')->where($where2)->sum('order_real_pay');    //上月的订单总金额
+        $pre=round($order_num/$order_num2*100,2);
+        if($order_list)
+        {
+            $arr=[];
+            foreach($xData as $k =>$v)
+            {
+                $pp[$k]=0;
+                foreach($order_list as $k2 =>$v2)
+                {
+                    if($v >$v2['order_create_time']){      //当天的订单数据
+                        $pp[$k]=$pp[$k]+$v2['order_real_pay'];
+                        unset($order_list[$k2]);
+                    }else{
+                        $arr[$k]=$pp[$k];
+                        break;
+                    }
+                }
+                if(!array_key_exists($k,$arr)){
+                    $arr[$k]=0;
+                }
+            }
+            return ajax_success('获取成功',["arr"=>$arr,"precent"=>$pre]);
+        }else{
+            return ajax_error('获取失败');
+        }
     }
  }

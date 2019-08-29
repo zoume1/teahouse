@@ -509,8 +509,20 @@
 		maxDate: '+1970/01/2',
 		timepicker: false
 	});
+	//本月订单统计
 	$.ajax({
 		url: "store_analyse",
+		data:{},
+		success: function(res) {
+			console.log(res)
+		},
+		error: function(e) {
+			console.error(e)
+		}
+	})
+	//销售额统计
+	$.ajax({
+		url: "store_money_analyse",
 		data:{},
 		success: function(res) {
 			console.log(res)
