@@ -1316,7 +1316,7 @@ function show_house_order($status){
         echo '<button type="button" class=" layui-btn layui-btn-mini color1" >待付款</button>';
         //暂时显示到入仓状态
     }else  if($status==2){
-        echo '<button type="button" class=" layui-btn layui-btn-mini enter-btu" >已入仓</button>';
+        echo '<button type="button" class=" layui-btn layui-btn-mini states enter-btu" >已入仓</button>';
     }else  if($status==3){
         echo '<button type="button" class=" layui-btn layui-btn-mini shipmented-btu" >已发货</button>';
     }
