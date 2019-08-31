@@ -92,21 +92,23 @@
             </table>
         </div>
         <div style="width: 100%;height: 10px;background-color: #CFECFF;margin: 10px 0;"></div>
+ <form class="layui-form" action="{:url('admin/General/adder_apply_after_sale')}" method="post">
+        <input name="goods_id" value="{$data.info['goods_id']}" type="hidden">
         <div class="layui-form-item" style="font-size: 20px;">
             <label class="layui-form-label">请选择<span class="red">*</span></label>
             <div class="layui-input-block  my-input-line">
-                <input type="radio" name="return" checked>
+                <input type="radio" name="return"  checked>
                 <span>要求退货退款金额：</span>
                 <input type="text" name="title" placeholder="不能超过购买总价" autocomplete="off" class="layui-input" style="width: 200px;"
                     required><span class="red" style="margin-right:220px;">元</span>
-                <input type="radio" name="return" title="要求换货">
+                <input type="radio" name="return"  title="要求换货">
                 <span>要求换货</span>
             </div>
         </div>
         <div class="layui-form-item" style="font-size: 20px;">
             <label class="layui-form-label">请说明理由<span class="red">*</span></label>
             <div class="layui-input-block  my-input-line">
-                <textarea name="reason" id="" cols="30" rows="10" style="width: 100%;height:150px;"></textarea>
+                <textarea name="return_reason" id="" cols="30" rows="10" style="width: 100%;height:150px;"></textarea>
             </div>
         </div>
         <div class="layui-form-item" style="font-size: 20px;">
@@ -137,9 +139,10 @@
         </div>
         <div class="btn_s">
             <div class="btn back">返回</div>
-            <div class="btn submit">确定提交</div>
+            <button class="btn submit">确定提交</button>
         </div>
     </div>
+    </form>
     <script src="__STATIC__/admin/common/js/vue.js"></script>
     <script src="__STATIC__/admin/common/js/vue-resource.js"></script>
     <script src="__STATIC__/admin/common/js/vue-router.js"></script>
