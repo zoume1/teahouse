@@ -3436,10 +3436,73 @@ class  General extends  Base {
      * lilu
      * 增值订单申请售后申请
      */
-    public function adder_after_sale_do()
-    {
-        //
-
+    public function  adder_apply_after_sale(Request $request){
+        if($request->isPost()){
+            $goods_data = $request->param();
+            halt($goods_data);
+            $show_images = $request->file("goods_show_images");
+            $store_id =$request->only(["uniacid"])["uniacid"];//会员id
+            $order_id =$request->only(["order_id"])["order_id"];//订单编号（主键）
+            $return_reason =$request->only(["return_reason"])["return_reason"];//退货原因
+//            $application_amount =$request->only(["application_amount"])["application_amount"];//申请的金额
+            $is_return_goods =$request->only(["is_return_goods"])["is_return_goods"];//判断是否需要换货还是退货退款（1需要要进行换货，2退款退货）
+            $after_image_ids =$request->only(["after_image_ids"])["after_image_ids"];//退货上传的图片id 数组形式
+            //限制一下不能申请超过该单的支付原价
+            $before_order_data =Db::name("order")
+                ->where("id",$order_id)
+                ->find();
+            $is_set_sale =Db::name("after_sale")->where("order_id",$order_id)->find();
+            if(!empty($is_set_sale)){
+                return ajax_error("该订单已申请过售后");
+            }
+            $member_count =Db::name("member")->where("member_id",$member_id)->value("member_phone_num");
+            if($is_return_goods ==1){
+                //1需要要进行换货,没有金额
+                $before_order_return =0;
+            }else{
+                //2退款退货，申请金额
+                $before_order_return =$before_order_data["refund_amount"];
+            }
+//            if($before_order_data["refund_amount"] < $application_amount){
+//                return ajax_error("申请的金额不能超过".$before_order_data["refund_amount"]."元");
+//            }
+            $normal_time =Db::name("order_setting")->find();//订单设置的时间
+            $normal_future_time =strtotime("+". $normal_time['after_sale_time']." day");
+            $time=date("Y-m-d",time());
+            $v=explode('-',$time);
+            $time_second=date("H:i:s",time());
+            $vs=explode(':',$time_second);
+            $sale_order_number  ="SH".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999); //订单编号
+            $insert_data  =[
+                "order_id"=>$order_id, //订单号
+                "sale_order_number"=>$sale_order_number,//售后编号
+                "is_return_goods"=>$is_return_goods,//判断是否为换货还是退货退款，1换货，2退款退货
+                "operation_time"=>time(), //操作时间
+                "future_time"=>$normal_future_time,//未来时间
+                "application_amount"=>$before_order_return,//申请金额
+                "return_reason"=>$return_reason,//退货原因
+                "status"=>1, //申请状态（1为申请中，2商家已同意，等待上传快递单信息，处理中，3收货中，4换货成功，5拒绝）
+                "buy_order_number"=>$before_order_data["parts_order_number"],//原始订单号
+                "member_id"=>$member_id, //会员id
+                "member_count"=>$member_count,
+                'store_id'=>$store_id
+            ];
+            $after_sale_id =Db::name("after_sale")->insertGetId($insert_data);
+            if($after_sale_id){
+                if(!empty($after_image_ids)){
+                    foreach ($after_image_ids as $ks=>$vs){
+                        //插入评价图片数据库
+                        $insert_data =[
+                            "after_sale_id"=>$after_sale_id,
+                        ];
+                        Db::name("after_image")->where("id",$vs)->update($insert_data);
+                    }
+                }
+                return ajax_success("申请成功，请耐心等待审核");
+            }else{
+                return ajax_error("请重新提交申请");
+            }
+        }
     }
 
 

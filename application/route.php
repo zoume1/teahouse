@@ -970,7 +970,8 @@ Route::group("admin",[
     "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
     "adder_order_comment"=>"admin/General/adder_order_comment",     //增加订单评论
     "get_adder_comment"=>"admin/General/get_adder_comment",     //获取订单评论
-    "adder_after_sale" =>"admin/General/adder_after_sale",                                          //增值订单申请售后
+    "adder_after_sale" =>"admin/General/adder_after_sale",                       //增值订单申请售后
+    "adder_apply_after_sale" =>"admin/General/adder_apply_after_sale",           //增值订单申请售后处理
 
    
     /**一键上传 */
