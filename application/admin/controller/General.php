@@ -3438,13 +3438,19 @@ class  General extends  Base {
      */
     public function  adder_apply_after_sale(Request $request){
         if($request->isPost()){
-            $goods_data = $request->param();
-            halt($goods_data);
+            $goods_data = $request->post();
             $show_images = $request->file("goods_show_images");
+            if (!empty($show_images)) {              
+                foreach ($show_images as $k=>$v) {
+                    $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                    $list[] = str_replace("\\", "/", $info->getSaveName());
+                }            
+                $goods_data["goods_show_images"] = implode(',', $list);    //上传的图片
+            }
+            halt($show_images);
             $store_id =$request->only(["uniacid"])["uniacid"];//会员id
             $order_id =$request->only(["order_id"])["order_id"];//订单编号（主键）
             $return_reason =$request->only(["return_reason"])["return_reason"];//退货原因
-//            $application_amount =$request->only(["application_amount"])["application_amount"];//申请的金额
             $is_return_goods =$request->only(["is_return_goods"])["is_return_goods"];//判断是否需要换货还是退货退款（1需要要进行换货，2退款退货）
             $after_image_ids =$request->only(["after_image_ids"])["after_image_ids"];//退货上传的图片id 数组形式
             //限制一下不能申请超过该单的支付原价
