@@ -259,7 +259,8 @@ class Coupon extends Controller
                     }
             }
             //去除使用的优惠券
-            foreach($coupon_info as $k3 =>$v3){
+            if($coupon_info){
+                foreach($coupon_info as $k3 =>$v3){
                     //判断优惠券是否使用
                     $is_use=db('order')->where(['member_id'=>$member_id,'coupon_id'=>$v3['id']])->find();
                     if($is_use){
@@ -277,8 +278,8 @@ class Coupon extends Controller
                     }
                     $coupon_info[$k3]['suit_price2'] = explode(",",$coupon_info[$k3]['suit_price']);
 
+                }
             }
-
             if (!empty($coupon_info)) {
                 return ajax_success('传输成功', $coupon_info);
             } else {
