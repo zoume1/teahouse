@@ -263,7 +263,7 @@ class Coupon extends Controller
                     }
             }
             //去除使用的优惠券
-            if($coupon_info){
+            if(!empty($coupon_info)){
                 foreach($coupon_info as $k3 =>$v3){
                     //判断优惠券是否使用
                     $is_use=db('order')->where(['member_id'=>$member_id,'coupon_id'=>$v3['id']])->find();
