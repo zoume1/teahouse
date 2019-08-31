@@ -229,20 +229,24 @@ class Coupon extends Controller
             $store_id = $request->only(['uniacid'])['uniacid'];
             $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
             $datas = $request->param(); //包含goods_id and  open_id
-            $goods_id = array_unique($datas['goods_id']);
+            // $goods_id = array_unique($datas['goods_id']);
             // $goods_id = $datas['goods_id'];
             
-            // $goods_id=array(
-            //     '0'=>305,
-            // );
+            $goods_id=array(
+                '0'=>15,
+            );
             $open_id = $datas['open_id'];
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
             $money = $datas['money'];     //优惠价金额
             $member_grade_name = $datas['member_grade_name'];   //会员等级
             $goods_type = $datas['coupon_type'];  //商品类型   1  普通商品
             //所有使用的优惠券    
+            // $coupon_info=[];
             foreach($goods_id as $k =>$v){
                     $coupons = Db::name("coupon")->where("use_price","<=",$money)->where("store_id","EQ",$store_id)->where("coupon_type",$goods_type)->field('id,use_price,scope,start_time,end_time,money,suit,label,suit_price')->select();
+                    if(empty($coupons)){
+                        continue;
+                    }
                     foreach($coupons as $k2 =>$v2){
                         if($v2['suit']==1){   //部分商品
                             //获取该商品可用的优惠券
