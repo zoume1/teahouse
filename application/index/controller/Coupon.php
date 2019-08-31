@@ -229,12 +229,11 @@ class Coupon extends Controller
             $store_id = $request->only(['uniacid'])['uniacid'];
             $time = strtotime(date("Y-m-d",strtotime("-1 day")));//当前时间戳减一天
             $datas = $request->param(); //包含goods_id and  open_id
-            // $goods_id = array_unique($datas['goods_id']);
+            $goods_id = array_unique($datas['goods_id']);
             // $goods_id = $datas['goods_id'];
-            
-            $goods_id=array(
-                '0'=>15,
-            );
+            // $goods_id=array(
+            //     '0'=>15,
+            // );
             $open_id = $datas['open_id'];
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
             $money = $datas['money'];     //优惠价金额
