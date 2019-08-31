@@ -92,7 +92,7 @@
             </table>
         </div>
         <div style="width: 100%;height: 10px;background-color: #CFECFF;margin: 10px 0;"></div>
- <form  action="{:url('admin/General/adder_apply_after_sale')}" method="post">
+ <form  action="{:url('admin/General/adder_apply_after_sale')}" method="post" enctype="multipart/form-data">
         <input name="goods_id" value="{$data.info['goods_id']}" type="hidden">
         <div class="layui-form-item" style="font-size: 20px;">
             <label class="layui-form-label">请选择<span class="red">*</span></label>
