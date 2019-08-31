@@ -488,7 +488,7 @@ class  Order extends  Controller
                     $data['num'] = explode(",",$goods_data['num']);
                     //判断商品的库存的是否够用
                     if($goods_data['goods_repertory']<= $numbers[$keys]){     //购买数量大于库存
-                         return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
+                         return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                     }
                 } else {
                     //图片
@@ -502,7 +502,7 @@ class  Order extends  Controller
                     $data['num'] = explode(",",$special_data['num']);
                      //判断商品的库存的是否够用
                      if($special_data['stock']<= $numbers[$keys]){     //购买数量大于库存
-                        return  ajax_error('请修改库存不足的商品（'.$goods_data['good_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
+                        return  ajax_error('请修改库存不足的商品（'.$goods_data['goods_name'].'）小于'.$goods_data['goods_repertory'],['status'=>2]);    //库存不足
                    }
                 }
                 if($order_type != 3){           //不是存茶
