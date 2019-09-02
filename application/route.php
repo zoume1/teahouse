@@ -989,6 +989,7 @@ Route::group("admin",[
     "get_tiyanlist"=>"admin/Upload/get_tiyanlist",                     //一键生成--获取体验者列表
     "unDoCodeAudit"=>"admin/Upload/unDoCodeAudit",                     //一键生成--版本撤销
     "cate_list"=>"Admin/Upload/cate_list",                             //一键生成--获取分类
+    "is_templete"=>"Admin/Upload/is_templete",                             //一键生成--获取分类
 
     
     /*总控*/
