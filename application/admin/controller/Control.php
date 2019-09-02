@@ -1388,7 +1388,7 @@ class  Control extends  Controller{
      public function control_store_edit(){
          //获取id
          $input=input();
-         $xcx_list=Db::table('applet')->where('id',$input['id'])->field('id,name,template_id')->find();
+         $xcx_list=Db::table('applet')->where('id',$input['id'])->field('id,name,template_id,accesskey,secretkey,bucket,domain')->find();
          return view('control_store_edit',['data'=>$xcx_list]);
      }
     /**
