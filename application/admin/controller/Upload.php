@@ -947,5 +947,24 @@ class Upload extends Controller
             return false;
         }
     }
+    /**
+     * lilu
+     * 判断店铺是否已上传代码
+     */
+    public function is_templete()
+    {
+        //获取店铺id
+        $store_id=Session::get('store_id');
+        //根据店铺id获取店铺的信息
+        $template_id=db('applet')->where('store_id',$store_id)->value('template_id');
+        if($template_id=='0'){
+            //未上传
+            $pp=0;
+        }else{
+            $pp=1;
+        }
+        return ajax_success('获取成功',$pp);
+        
+    }
 
 }
