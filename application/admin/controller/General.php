@@ -3438,40 +3438,38 @@ class  General extends  Base {
      */
     public function  adder_apply_after_sale(Request $request){
         if($request->isPost()){
-            $goods_data = $request->post();
+            $goods_data = $request->param();
             $show_images = $request->file("goods_show_images");
+            $list = [];
             if (!empty($show_images)) {              
                 foreach ($show_images as $k=>$v) {
                     $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                     $list[] = str_replace("\\", "/", $info->getSaveName());
-                }            
+                }   
                 $goods_data["goods_show_images"] = implode(',', $list);    //上传的图片
             }
-            halt($show_images);
-            $store_id =$request->only(["uniacid"])["uniacid"];//会员id
-            $order_id =$request->only(["order_id"])["order_id"];//订单编号（主键）
-            $return_reason =$request->only(["return_reason"])["return_reason"];//退货原因
-            $is_return_goods =$request->only(["is_return_goods"])["is_return_goods"];//判断是否需要换货还是退货退款（1需要要进行换货，2退款退货）
-            $after_image_ids =$request->only(["after_image_ids"])["after_image_ids"];//退货上传的图片id 数组形式
+            $store_id =Session::get('store_id');//会员id
+            $order_id =$goods_data['order_id'];//订单id
             //限制一下不能申请超过该单的支付原价
-            $before_order_data =Db::name("order")
-                ->where("id",$order_id)
+            $before_order_data =Db::name("adder_order")
+                ->where("id",$goods_data['order_id'])
                 ->find();
-            $is_set_sale =Db::name("after_sale")->where("order_id",$order_id)->find();
+            //售后表--adder_after_sale
+            $is_set_sale =Db::name("adder_after_sale")->where("order_id",$order_id)->find();
             if(!empty($is_set_sale)){
-                return ajax_error("该订单已申请过售后");
+                return ajax_error("该增值订单已申请过售后");
             }
             $member_count =Db::name("member")->where("member_id",$member_id)->value("member_phone_num");
-            if($is_return_goods ==1){
+            if($goods_data[''] ==1){     
                 //1需要要进行换货,没有金额
                 $before_order_return =0;
             }else{
                 //2退款退货，申请金额
                 $before_order_return =$before_order_data["refund_amount"];
             }
-//            if($before_order_data["refund_amount"] < $application_amount){
-//                return ajax_error("申请的金额不能超过".$before_order_data["refund_amount"]."元");
-//            }
+           if($before_order_data["refund_amount"] < $application_amount){
+               return ajax_error("申请的金额不能超过".$before_order_data["refund_amount"]."元");
+           }
             $normal_time =Db::name("order_setting")->find();//订单设置的时间
             $normal_future_time =strtotime("+". $normal_time['after_sale_time']." day");
             $time=date("Y-m-d",time());
