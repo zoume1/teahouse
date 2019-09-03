@@ -412,19 +412,19 @@
                         {/if}
                         {if $vo['text']=='可存'}
                         <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
-                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/kc.png" />
+                        <img style="width: 38px;height:18px;" src="http://zhihuichacang.com/kecun.png" />
                         {/if}
                         {if $vo['text']=='HOT'}
                         <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
-                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/hot.png" />
+                        <img style="width: 38px;height:18px;" src="http://zhihuichacang.com/hot.png" />
                         {/if}
                         {if $vo['text']=='促销'}
                         <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
-                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/cx.png" />
+                        <img style="width: 38px;height:18px;" src="http://zhihuichacang.com/chuxiao.png" />
                         {/if}
                         {if $vo['text']=='清仓'}
                         <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
-                        <img style="width: 38px;height:18px;" src="__STATIC__/admin/index/img/qc.png" />
+                        <img style="width: 38px;height:18px;" src="http://zhihuichacang.com/qingchang.png" />
                         {/if}
                     </div>
                     {/foreach}
@@ -748,12 +748,12 @@
                                                                         <!--图片放这里-->
 
                                                                         <img class="up-img"
-                                                                            src="__UPLOADS__/{$ve.images}">
+                                                                            src="{$ve.images}">
                                                                         <!--图片放这里-->
 
                                                                         <p class="img-name-p">u4594.png</p><input
                                                                             id="taglocation"
-                                                                            value="__UPLOADS__/{$ve.images}"
+                                                                            value="{$ve.images}"
                                                                             type="hidden">
                                                                         <input id="tags" value="" type="hidden">
                                                                     </section>
@@ -846,7 +846,7 @@
                             <div class="imgcontent">
                                 {foreach name="$value.goods_show_images" id="val"}
                                 <span class="img">
-                                    <img src="__UPLOADS__/{$val}" width="100%">
+                                    <img src="{$val}" width="100%">
                                     <i class="remove-img" data-id="{$val}" data-value="2" data-title="{$value.id}"><img
                                             src="__STATIC__/admin/common/img/a7.png"></i>
                                 </span> {/foreach}
