@@ -1427,13 +1427,16 @@ class  Control extends  Controller{
           //获取传递的版本号
           $input=input();
           //获取店铺id
-          $store_id=Session::get('store_id');
-          $data['auditid']='0';
-          $data['is_chuan']='0';
-          $data['is_que']='0';
-          $data['is_fabu']='0';
-          $data['version']=$input['version'];
-          $re=Db::table('applet')->where('store_id',$store_id)->update($data);
+        //   $store_id=Session::get('store_id');
+        $store_info=Db::table('applet')->select();
+        $data['auditid']='0';
+        $data['is_chuan']='0';
+        $data['is_que']='0';
+        $data['is_fabu']='0';
+        $data['version']=$input['version'];
+        foreach($store_info as $k =>$v){
+            $re=Db::table('applet')->where('id',$v['id'])->update($data);
+        }
           if($re !== false){
             return ajax_success('保存成功');
         }else{
