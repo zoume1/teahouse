@@ -456,54 +456,6 @@ class  General extends  Base {
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
                         ->select();   //获取当前可用的套餐
-                        /*鲁文兵版本切换*/
-                    //    if(!empty($goods_names)){                          
-                    //         if($list[$k]["goods_names"]=="茶进阶版"){
-                    //         $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
-                    //         $list[$k]["goods_names_test"][2]['status_type']=1;
-                    //         $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                    //         $list[$k]["goods_names_test"][1]['status_type']=0;
-                    //         $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //         $list[$k]["goods_names_test"][0]['status_type']=0;
-
-                    //     }
-                    //     if($list[$k]["goods_names"]=="茶行业版"){
-                    //         $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                    //         $list[$k]["goods_names_test"][1]['status_type']=1;
-                    //         $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //         $list[$k]["goods_names_test"][0]['status_type']=0;
-
-                    //     }
-                    //     if($list[$k]["goods_names"]=="万用版"){
-                    //         $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //         $list[$k]["goods_names_test"][0]['status_type']=1;
-
-                    //     }
-                    //     }else{
-                    //         halt($list);
-                    //         $length= count($list[$k]["goods_names_test"]);   //  本店铺的可用版本数                     
-                    //             if($list[$k]["goods_names"]=="茶进阶版"){
-                    //             $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
-                    //             $list[$k]["goods_names_test"][2]['status_type']=1;
-                    //             $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                    //             $list[$k]["goods_names_test"][1]['status_type']=0;
-                    //             $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //             $list[$k]["goods_names_test"][0]['status_type']=0;
-
-                    //         }                                 
-                    //         if($list[$k]["goods_names"]=="茶行业版"){
-                    //             $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                    //             $list[$k]["goods_names_test"][1]['status_type']=1;
-                    //             $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //             $list[$k]["goods_names_test"][0]['status_type']=0;
-
-                    //         }
-                    //         if($list[$k]["goods_names"]=="万用版"){
-                    //             $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //             $list[$k]["goods_names_test"][0]['status_type']=1;
-
-                    //         }
-                    //     }                         
                     } 
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
@@ -528,6 +480,7 @@ class  General extends  Base {
         $bg_music=$a['diy_bg_music'];
         //*鲁文兵版本切换*/
          $goods_names = input("goods_names");
+         $goods_names_id = input("goods_names_id");    //版本记录的id
         if(!empty($goods_names)){
             if(empty(Session::get('goods_names'))){
                 
@@ -535,8 +488,7 @@ class  General extends  Base {
             }else{
                  Session::delete('goods_names');
                  Session::set('goods_names',$goods_names);
-                
-                }
+            }
            
         }
       $this->assign('goods_names',$goods_names);

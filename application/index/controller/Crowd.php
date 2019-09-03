@@ -184,8 +184,17 @@ class Crowd extends Controller
                     $crowd[$key]["collecting"] = $special[$key]["collecting"];
                     $crowd[$key]["collecting_money"] = sprintf("%.2f",$special[$key]["collecting_money"]);
                                       
-                }             
-                ajax_success('传输成功', $crowd);
+                }    
+                //获取当前版本的名称
+                $ban_nane=db('set_meal_order')->where(['store_id'=>$store_id,'status_type'=>1])->value('goods_name'); 
+                if($ban_nane=='茶进阶版'){
+                    $enter_all_id='3';
+                }elseif($ban_nane=='行业版'){
+                    $enter_all_id='2';
+                }else{
+                    $enter_all_id='1';
+                }      
+                ajax_success('传输成功', ['data'=>$crowd,'enter_all_id'=>$enter_all_id]);
                 
             } else {
                 return ajax_error("数据为空");

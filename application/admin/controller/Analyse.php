@@ -10,6 +10,8 @@ use think\Controller;
 use think\Session;
 use think\Db;
 use think\paginator\driver\Bootstrap;
+use app\admin\controller\Qiniu;
+
 
 class  Analyse extends  Controller{
     
@@ -570,35 +572,63 @@ class  Analyse extends  Controller{
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();       
-            $show_images = $request->file("goods_show_images");
-            $list = [];
-            if (!empty($show_images)) {  //有上传的图片
-                foreach ($show_images as $k => $v) {
-                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                    $list[] = str_replace("\\", "/", $show->getSaveName());
-                }               
-                    $liste = implode(',', $list); //上传的图片
-                    $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();//数据库中的图片
-                if(!empty($image["goods_show_images"]))
-                {
-                    //数据库中有图片
-                    $exper = $image["goods_show_images"];
-                    $montage = $exper . "," . $liste;
-                    $goods_data["goods_show_images"] = $montage;
-                } else {                   
-                    $montage = $liste;
-                    $goods_data["goods_show_image"] = $list[0];
-                    $goods_data["goods_show_images"] = $montage;
-                }
-            } else {
-                $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
+            //测试七牛上传图片
+            $store_id=Session::get('store_id');
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain']);
+            if(empty($rr)){
+                $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"])){
                     $goods_data["goods_show_images"] = $image["goods_show_images"];
                 } else {
                     $goods_data["goods_show_images"] = null;
                     $goods_data["goods_show_image"] = null;
                 }
-            } 
+            }else{
+                    $liste = implode(',', $rr);
+                    $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"]))
+                {
+                    $exper = $image["goods_show_images"];
+                    $montage = $exper . "," . $liste;
+                    $goods_data["goods_show_images"] = $montage;
+                } else {                   
+                    $montage = $liste;
+                    $goods_data["goods_show_image"] = $rr[0];
+                    $goods_data["goods_show_images"] = $montage;
+                }
+            }
+            // $show_images = $request->file("goods_show_images");
+            // $list = [];
+            // if (!empty($show_images)) {  //有上传的图片
+            //     foreach ($show_images as $k => $v) {
+            //         $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+            //         $list[] = str_replace("\\", "/", $show->getSaveName());
+            //     }               
+            //         $liste = implode(',', $list); //上传的图片
+            //         $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();//数据库中的图片
+            //     if(!empty($image["goods_show_images"]))
+            //     {
+            //         //数据库中有图片
+            //         $exper = $image["goods_show_images"];
+            //         $montage = $exper . "," . $liste;
+            //         $goods_data["goods_show_images"] = $montage;
+            //     } else {                   
+            //         $montage = $liste;
+            //         $goods_data["goods_show_image"] = $list[0];
+            //         $goods_data["goods_show_images"] = $montage;
+            //     }
+            // } else {
+            //     $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
+            //     if(!empty($image["goods_show_images"])){
+            //         $goods_data["goods_show_images"] = $image["goods_show_images"];
+            //     } else {
+            //         $goods_data["goods_show_images"] = null;
+            //         $goods_data["goods_show_image"] = null;
+            //     }
+            // } 
             $bool = db("analyse_goods")->where("id", $id)->update($goods_data);
             if ($bool ){
                 $this->success("更新成功", url("admin/Analyse/analyse_index"));

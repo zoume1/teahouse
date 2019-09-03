@@ -12,6 +12,8 @@ use think\Db;
 use think\Request;
 use think\paginator\driver\Bootstrap;
 use think\Session;
+use app\admin\controller\Qiniu;
+
 
 class User extends Controller{
     /**
@@ -221,11 +223,16 @@ class User extends Controller{
         if($this->request->isPost()){
             $data =$this->request->post();
             $data['create_time'] =time();
-            $file =$this->request->file("member_grade_img");
-            if($file){
-                $datas = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $images_url = str_replace("\\","/",$datas->getSaveName());
-                $data['member_grade_img'] ='/uploads/'.$images_url;
+            //测试七牛上传图片
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain']);
+            if(empty($rr)){
+
+            }else{
+                $data['member_grade_img'] =$rr[0];
+                   
             }
             if($id > 0){
                 $res =Db::name('member_grade')->where('member_grade_id',$id)->update($data);
@@ -233,7 +240,6 @@ class User extends Controller{
                 $data['store_id'] = $store_id;
                 $res =Db::name('member_grade')->insertGetId($data);
             }
-            
             if($res>0){
                 $this->success('编辑成功','admin/User/grade');
             }else{
