@@ -1417,6 +1417,30 @@ class  Control extends  Controller{
       {
           return view('version_control');
       }
+     /**
+      * lilu
+      * 版本控制chuli 
+      * version
+      */
+      public function version_control_do()
+      {
+          //获取传递的版本号
+          $input=input();
+          //获取店铺id
+          $store_id=Session::get('store_id');
+          $data['auditid']='0';
+          $data['is_chuan']='0';
+          $data['is_que']='0';
+          $data['is_fabu']='0';
+          $data['version']=$input['version'];
+          $re=Db::table('applet')->where('store_id',$store_id)->update($data);
+          if($re !== false){
+            return ajax_success('保存成功');
+        }else{
+            return ajax_error('保存失败');
+
+          }
+      }
 
 
 }
