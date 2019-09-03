@@ -93,16 +93,19 @@
                         content: "请确定您已经上传新的小程序代码了",
                         // time: 3000,
                         btn: ['确定', '返回'],
-                        yes: function () {
-                            alert(1)
+                        yes: function (index, layero) {
                             $.ajax({
                                 url: "version_control_do",
                                 type: "POST",
                                 data: {
-                                    version_control_do: version
+                                    version: version
                                 },
                                 success: function(res) {
-                                    console.log(res)
+                                    var res = JSON.parse(res);
+                                    if(res.status == 1) {
+                                        alert(res.info)
+                                        layer.close(index);
+                                    }
                                 }
                             })
                         }
