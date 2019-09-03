@@ -1388,7 +1388,7 @@ class  Control extends  Controller{
      public function control_store_edit(){
          //获取id
          $input=input();
-         $xcx_list=Db::table('applet')->where('id',$input['id'])->field('id,name,template_id')->find();
+         $xcx_list=Db::table('applet')->where('id',$input['id'])->field('id,name,template_id,accesskey,secretkey,bucket,domain')->find();
          return view('control_store_edit',['data'=>$xcx_list]);
      }
     /**
@@ -1401,6 +1401,10 @@ class  Control extends  Controller{
          $data['id']=$input['id'];
          $data['name']=$input['name'];
          $data['template_id']=$input['template_id'];
+         $data['accesskey']=$input['accesskey'];
+         $data['secretkey']=$input['secretkey'];
+         $data['bucket']=$input['bucket'];
+         $data['domain']=$input['domain'];
          //获取所有已申请成功的店铺
          $xcx_list=Db::table('applet')->where('id',$input['id'])->update($data);
          $this->success('编辑成功','admin/control/control_store_list');

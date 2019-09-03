@@ -25,6 +25,7 @@ use app\common\model\dealer\Referee as RefereeModel;
 use app\common\model\dealer\User;
 use app\common\model\dealer\Order;
 use app\api\model\UpdateLine;
+use app\admin\controller\Qiniu;
 
 
 class Goods extends Controller
@@ -149,6 +150,7 @@ class Goods extends Controller
             $store_id = Session::get("store_id");
             $goods_data = $request->param();
             $show_images = $request->file("goods_show_images");
+           
             if(!empty($goods_data['goods_delivery'])){
                 $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
             } else {
@@ -467,6 +469,12 @@ class Goods extends Controller
                 $goods_data["server"] = json_encode($goods_data["server"]); 
             }
             $show_images = $request->file("goods_show_images");
+             //测试七牛上传图片
+            //  $qiniu=new Qiniu();
+            //  //获取店铺七牛云的配置项
+            //  $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+            //  $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain']);
+
             if(!empty($goods_data['goods_delivery'])){
                 $goods_data['goods_delivery'] = json_encode(array_values($goods_data['goods_delivery']));
             } else {
