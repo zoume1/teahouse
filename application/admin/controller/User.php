@@ -227,7 +227,8 @@ class User extends Controller{
             $qiniu=new Qiniu();
             //获取店铺七牛云的配置项
             $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
-            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain']);
+            $images='goods_show_images';
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
             if(empty($rr)){
 
             }else{

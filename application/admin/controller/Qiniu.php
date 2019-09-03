@@ -19,9 +19,9 @@ class Qiniu extends Controller
     /**
      * 上传图片到七牛云
      */
-    public static function uploadimg($accessKey,$secrectkey,$bucket,$domain)
+    public static function uploadimg($accessKey,$secrectkey,$bucket,$domain,$images)
     {
-        $file = request()->file('goods_show_images');
+        $file = request()->file($images);
         if (!empty($file)) {              
             foreach ($file as $k=>$v) {
                 $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');    //本地保存
