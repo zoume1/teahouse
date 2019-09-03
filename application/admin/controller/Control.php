@@ -1409,6 +1409,14 @@ class  Control extends  Controller{
          $xcx_list=Db::table('applet')->where('id',$input['id'])->update($data);
          $this->success('编辑成功','admin/control/control_store_list');
      }
+     /**
+      * lilu
+      * 版本控制
+      */
+      public function version_control()
+      {
+          return view('version_control');
+      }
 
 
 }

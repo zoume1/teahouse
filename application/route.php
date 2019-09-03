@@ -1033,6 +1033,7 @@ Route::group("admin",[
     "control_store_list"=>"admin/Control/control_store_list",           //总控店铺list
     "control_store_edit"=>"admin/Control/control_store_edit",           //总控店铺list编辑
     "control_store_edit_do"=>"admin/Control/control_store_edit_do",           //总控店铺list编辑
+    "version_control"=>"admin/Control/version_control",                 //总控版本控制
 
 
 
