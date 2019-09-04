@@ -390,9 +390,6 @@ class  Material extends  Controller{
         if ($request->isPost()) {
             $id = $request->only(['id'])['id'];
             $image_url = db("direct_seeding")->where("id", $id)->field("icon_image")->find();
-            if ($image_url['icon_image'] != null) {
-                unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['icon_image']);
-            }
             $bool = db("direct_seeding")->where("id", $id)->field("icon_image")->update(["icon_image" => null]);
             if ($bool) {
                 return ajax_success("删除成功");
@@ -412,9 +409,6 @@ class  Material extends  Controller{
         if ($request->isPost()) {
             $id = $request->only(['id'])['id'];
             $image_url = db("video_frequency")->where("id", $id)->field("icon_image")->find();
-            if ($image_url['icon_image'] != null) {
-                unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['icon_image']);
-            }
             $bool = db("video_frequency")->where("id", $id)->field("icon_image")->update(["icon_image" => null]);
             if ($bool) {
                 return ajax_success("删除成功");
