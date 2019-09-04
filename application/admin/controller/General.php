@@ -2806,6 +2806,7 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function  store_order_after(){
+        //获取店铺增值订单的售后记录
         return view("store_order_after");
     }
 

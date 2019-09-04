@@ -53,7 +53,7 @@ class Qiniu extends Controller
             }    
             return $list;    
         }elseif(!empty($file)){
-            $info = $fiel->move(ROOT_PATH . 'public' . DS . 'uploads');    //本地保存
+            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');    //本地保存
             $filePath = $info->getPathName();
             // 要上传图片的本地路径
             $ext = pathinfo($info->getInfo('name'), PATHINFO_EXTENSION);  //后缀
