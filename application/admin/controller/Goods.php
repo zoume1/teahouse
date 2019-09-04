@@ -574,7 +574,7 @@ class Goods extends Controller
                     $rest = 0;
                  }
              }
-             
+             halt($goods_data);
              $bool = db("goods")->where("id", $id)->update($goods_data);
              if ($bool || $rest) {
                  $this->success("更新成功", url("admin/Goods/index"));
