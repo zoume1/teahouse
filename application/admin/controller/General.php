@@ -1516,7 +1516,9 @@ class  General extends  Base {
         $order_package = db("enter_meal")->where("status",1)->field("id,name,price,favourable_price,year")->select();
         foreach($order_package as $key => $value){
             $order_package[$key]['priceList'] = db("enter_all") -> where("enter_id",$order_package[$key]['id'])->order('year asc')->select();
+            $order_package[$key]['version_introduce'] = db("enter_all") -> where("enter_id",$order_package[$key]['id'])->value('version_introduce');
         }
+       
         if(!empty($order_package)){
             return ajax_success('传输成功',$order_package);
         } else {
