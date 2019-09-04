@@ -290,10 +290,16 @@ class  Material extends  Controller{
             $data = input();
             $data['status'] = isset($data['status'])?$data['status']:0;
             $data['store_id'] = $store_id;
-            $show_images = $request->file("icon_image");
-            if ($show_images) {
-                $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            // $show_images = $request->file("icon_image");
+             //测试七牛上传图片
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+            $images='icon_image';
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            if ($rr) {
+                // $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $data["icon_image"] = $rr[0];
             }
             if(empty($data['title']) || empty($data['icon_image'])){
                 $this->error("请仔细填写", url("admin/Material/direct_seeding_classification"));
@@ -354,10 +360,16 @@ class  Material extends  Controller{
             $data = input();
             $id = $request->only(["id"])["id"];
             $data['status'] = isset($data['status'])?$data['status']:0;
-            $show_images = $request->file("icon_image");
-            if ($show_images) {
-                $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            // $show_images = $request->file("icon_image");
+                //测试七牛上传图片
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+            $images='icon_image';
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            if ($rr) {
+                // $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $data["icon_image"] =$rr[0];
             }
             $bool = Db::name("direct_seeding")->where("id",$id)->update($data);
             if ($bool) {
