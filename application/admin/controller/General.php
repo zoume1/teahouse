@@ -2807,7 +2807,23 @@ class  General extends  Base {
      */
     public function  store_order_after(){
         //获取店铺增值订单的售后记录
-        return view("store_order_after");
+        $store_id=Session::get('store_id');
+        $adder_list=db('adder_after_sale')->where('store_id',$store_id)->order('id desc')->select();
+        //做分页处理
+        $all_idents = $adder_list;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $adder_list = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Order/order_index'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $adder_list->appends($_GET);
+        $this->assign('access', $adder_list->render());
+
+        return view("store_order_after",['adder_list'=>$adder_list]);
     }
 
     /**
