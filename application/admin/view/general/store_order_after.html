@@ -119,50 +119,53 @@
                                 <div class="table-cell-div">提交图片</div>
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">状态</div>
+                                <div class="table-cell-div">处理时间</div>
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div">处理时间</div>
+                                <div class="table-cell-div">状态</div>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="table-cell">
-                                <div class="table-cell-div">
-                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
-                                </div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">2</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">3</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">4</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">5</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">5</div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div static_btus">
-                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-sqz">申请中</a>
-                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-clz">处理中</a>
-                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-wchh">完成换货</a>
-                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-wctk">完成退款</a>
-                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-ycx">已撤销</a>
-                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-ygb">已关闭</a>
-                                    <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-yjj">已拒绝</a>
-                                </div>
-                            </td>
-                            <td class="table-cell">
-                                <div class="table-cell-div">7</div>
-                            </td>
-                        </tr>
+                        {volist name="adder_list" id="vo"}
+                            <tr>
+                                <td class="table-cell">
+                                    <div class="table-cell-div">
+                                        <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
+                                    </div>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="table-cell-div">{$vo['sale_order_number']}</div>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="table-cell-div">{$vo['buy_order_number']}</div>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="table-cell-div">{$vo['operation_time'] | date='Y-m-d H:i:s',###}</div>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="table-cell-div">{$vo['application_amount']}</div>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="table-cell-div">5</div>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="table-cell-div">
+                                        {if empty($vo['handle_time'])}
+                                            暂无处理
+                                        {else}
+                                            {$vo['handle_time'] | date="Y-m-d H:i:s",### }
+                                        {/if}
+                                    </div>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="table-cell-div static_btus">
+                                            {:after_sale_status($vo.status,$vo.who_handle)}
+                                    </div>
+                                </td>
+                            </tr>
+                        {/volist}
+                        {$access}
                     </tbody>
                 </table>
             </div>
