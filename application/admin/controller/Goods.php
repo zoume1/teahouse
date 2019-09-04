@@ -403,7 +403,8 @@ class Goods extends Controller
                 $se = explode(",", $image["goods_show_images"]);
                 foreach ($se as $key => $value) {
                     if ($value == $id) {
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                        // unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                        unset($se[$key]);
                     } else {
                         $new_image[] = $value;
                     }
