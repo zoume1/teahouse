@@ -105,6 +105,7 @@ class  Material extends  Controller{
     public  function  direct_seeding_update(Request $request){
         if($request->isPost()){
         $data = $request->param();
+        $store_id=Session::get('store_id');
          //测试七牛上传图片
          $qiniu=new Qiniu();
          //获取店铺七牛云的配置项
@@ -360,6 +361,7 @@ class  Material extends  Controller{
             $data = input();
             $id = $request->only(["id"])["id"];
             $data['status'] = isset($data['status'])?$data['status']:0;
+            $store_id=Session::get('store_id');
             // $show_images = $request->file("icon_image");
                 //测试七牛上传图片
             $qiniu=new Qiniu();
