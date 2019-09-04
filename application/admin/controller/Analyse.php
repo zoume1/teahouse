@@ -276,7 +276,6 @@ class  Analyse extends  Controller{
     public function analyse_add(Request $request){
             if ($request->isPost()) {
                 $goods_data = $request->param(); 
-
                 // $show_images = $request->file("goods_show_images");
                 // $imgs = $request->file("imgs");
                 //测试七牛上传图片
@@ -355,8 +354,6 @@ class  Analyse extends  Controller{
                             }                              
                         }   
                    }
-                    //测试七牛上传图片
-                   
                     $qiniu=new Qiniu();
                     //获取店铺七牛云的配置项
                     $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
@@ -390,7 +387,7 @@ class  Analyse extends  Controller{
                     foreach ($values as $kz => $vw) {
                         $rest = db('analyse_special')->insertGetId($vw);
                     }    
-                    if ($rest && (!empty($rr))) {
+                    if ($rest || (!empty($rr))) {
                         $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
                         $this->success("添加失败", url('admin/Analyse/analyse_index'));
