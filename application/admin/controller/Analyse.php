@@ -276,21 +276,23 @@ class  Analyse extends  Controller{
     public function analyse_add(Request $request){
             if ($request->isPost()) {
                 $goods_data = $request->param(); 
-                $show_images = $request->file("goods_show_images");
-                $imgs = $request->file("imgs");
-                $list = [];
-    
-                if (!empty($show_images)) {              
-                    foreach ($show_images as $k=>$v) {
-                        $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                        $list[] = str_replace("\\", "/", $info->getSaveName());
-                    }            
-                    $goods_data["goods_show_image"] =  $list[0];
+
+                // $show_images = $request->file("goods_show_images");
+                // $imgs = $request->file("imgs");
+                //测试七牛上传图片
+                $qiniu=new Qiniu();
+                //获取店铺七牛云的配置项
+                $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+                $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+                $bucket = 'goods';
+                 $domain='teahouse.siring.cn';
+                 $images='goods_show_images';
+                 $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
+                if (!empty($rr)) {              
+                    $goods_data["goods_show_image"] =  $rr[0];
                     $goods_data["goods_type"] = 1;     //商品类型
-                    $goods_data["goods_show_images"] = implode(',', $list);
+                    $goods_data["goods_show_images"] = implode(',', $rr);
                 }
-                          
-               
                 if ($goods_data["goods_standard"] == "0") {
                     $bool = db("analyse_goods")->insert($goods_data);
                     if ($bool && (!empty($show_images))) {
@@ -353,11 +355,18 @@ class  Analyse extends  Controller{
                             }                              
                         }   
                    }
-                    if (!empty($imgs)) {
-                        foreach ($imgs as $k => $v) {
-                            $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                            $tab = str_replace("\\", "/", $shows->getSaveName());
-    
+                    //测试七牛上传图片
+                   
+                    $qiniu=new Qiniu();
+                    //获取店铺七牛云的配置项
+                    $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+                    $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+                    $bucket = 'goods';
+                     $domain='teahouse.siring.cn';
+                     $images='imgs';
+                     $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
+                    if (!empty($rr)) {
+                        foreach ($rr as $k => $v) {
                             if (is_array($goods_data)) {
                                 foreach ($goods_data as $key => $value) {
                                     if (substr($key, 0, 3) == "sss") {
@@ -370,7 +379,7 @@ class  Analyse extends  Controller{
                                         $values[$k]["save"] = $save[$k];
                                         $values[$k]["cost"] = $cost[$k];
                                         $values[$k]["line"] = $line[$k];                                    
-                                        $values[$k]["images"] = $tab;
+                                        $values[$k]["images"] = $v;
                                         $values[$k]["goods_id"] = $goods_id;                                       
                                     }
                                 }
@@ -381,7 +390,7 @@ class  Analyse extends  Controller{
                     foreach ($values as $kz => $vw) {
                         $rest = db('analyse_special')->insertGetId($vw);
                     }    
-                    if ($rest && (!empty($show_images))) {
+                    if ($rest && (!empty($rr))) {
                         $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
                         $this->success("添加失败", url('admin/Analyse/analyse_index'));
@@ -398,18 +407,23 @@ class  Analyse extends  Controller{
     public function analyse_invented(Request $request){
         if($request->isPost()){
                 $goods_data = $request->param(); 
-                $show_images = $request->file("goods_show_images");
-                $imgs = $request->file("imgs");
-                $list = [];
+                // $show_images = $request->file("goods_show_images");
+                // $imgs = $request->file("imgs");
+                // $list = [];
+                $qiniu=new Qiniu();
+                //获取店铺七牛云的配置项
+                $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+                $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+                $bucket = 'goods';
+                 $domain='teahouse.siring.cn';
+                 $images='goods_show_images';
+                 $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
     
-                if (!empty($show_images)) {              
-                    foreach ($show_images as $k=>$v) {
-                        $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                        $list[] = str_replace("\\", "/", $info->getSaveName());
-                    }            
-                    $goods_data["goods_show_image"] =  $list[0];
+                if (!empty($rr)) {              
+                         
+                    $goods_data["goods_show_image"] =  $rr[0];
                     $goods_data["goods_type"] = 2;     //商品类型
-                    $goods_data["goods_show_images"] = implode(',', $list);
+                    $goods_data["goods_show_images"] = implode(',', $rr);
                 }
                 
                 if ($goods_data["goods_standard"] == "0") {
@@ -467,10 +481,17 @@ class  Analyse extends  Controller{
                             }                              
                         }   
                    }
-                    if (!empty($imgs)) {
-                        foreach ($imgs as $k => $v) {
-                            $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                            $tab = str_replace("\\", "/", $shows->getSaveName());   
+                   $qiniu=new Qiniu();
+                   //获取店铺七牛云的配置项
+                   $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+                   $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+                   $bucket = 'goods';
+                    $domain='teahouse.siring.cn';
+                    $images='imgs';
+                    $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
+                    if (!empty($rr)) {
+                        foreach ($rr as $k => $v) {
+                           
                             if (is_array($goods_data)) {
                                 foreach ($goods_data as $key => $value) {
                                     if (substr($key, 0, 3) == "sss") {
@@ -482,7 +503,7 @@ class  Analyse extends  Controller{
                                         $values[$k]["save"] = $save[$k];
                                         $values[$k]["cost"] = $cost[$k];
                                         $values[$k]["line"] = $line[$k];                                    
-                                        $values[$k]["images"] = $tab;
+                                        $values[$k]["images"] = $v;
                                         $values[$k]["goods_id"] = $goods_id;                                       
                                     }
                                 }
@@ -544,7 +565,8 @@ class  Analyse extends  Controller{
                 $se = explode(",", $image["goods_show_images"]);
                 foreach ($se as $key => $value) {
                     if ($value == $id) {
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                        // unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                        unset($se[$key]);
                     } else {
                         $new_image[] = $value;
                     }
@@ -573,11 +595,14 @@ class  Analyse extends  Controller{
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();       
             //测试七牛上传图片
-            $store_id=Session::get('store_id');
             $qiniu=new Qiniu();
             //获取店铺七牛云的配置项
-            $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
-            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain']);
+            $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+            $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+            $bucket = 'goods';
+             $domain='teahouse.siring.cn';
+             $images='file';
+             $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
             if(empty($rr)){
                 $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"])){
@@ -787,9 +812,17 @@ class  Analyse extends  Controller{
     {
         if ($request->isPost()) {
             $id = $request -> only(["id"])["id"];
-            $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
-            $images = str_replace("\\", "/", $imag->getSaveName());
-
+            // $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
+            $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+            $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+            $bucket = 'goods';
+             $domain='teahouse.siring.cn';
+            //测试七牛上传图片
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $images='file';
+            $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
+            $images = $rr[0];
             if(!empty($id)){
                 $bool = db("analyse_special")->where("id", $id)->update(["images" => $images]);
             }
