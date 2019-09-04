@@ -2836,6 +2836,7 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function  store_order_after_ing(){
+        
         return view("store_order_after_ing");
     }
 
@@ -2997,22 +2998,9 @@ class  General extends  Base {
                 $this->assign("id",$id);
                 $this->assign("url",$url);
         	}else{
-        		// $usergroup = Session::get('usergroup');
-        		// if($usergroup==1){
-        		// 	$this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/applet');
-        		// }
-        		// if($usergroup==2){
-        		// 	$this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
-        		// }
-                // if($usergroup==3){
-                //     $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
-                // }
                 $this->error('您没有权限操作该小程序');
         	}
             return $this->fetch('wx_index');
-        // }else{
-        //     $this->redirect('Login/index');
-        // }
     }
 
     /**
@@ -3478,6 +3466,16 @@ class  General extends  Base {
                 return ajax_error("请重新提交申请");
             }
         }
+    }
+    /**
+     * lilu
+     * 增值订单---售后维权--批注
+     */
+    public function adder_order_pizhu()
+    {
+        //获取店铺id
+        $store_id=Session::get('store_id');
+        $input=input();
     }
 
 

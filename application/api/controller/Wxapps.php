@@ -382,9 +382,10 @@ class  Wxapps extends  Controller{
                                         // }
                                         $goods_images=$vv['goods_show_images'];
                                         // $list[$kk]['sale_num'] = $vv['sale_num'] + $vv['sale_tnum'];
-                                        if (strpos($goods_images, 'http') === false && $goods_images != "") {
-                                            $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
-                                        }
+                                        // if (strpos($goods_images, 'http') === false && $goods_images != "") {
+                                        //     $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
+                                        // }
+                                        $list2[$kk]['thumb']=$goods_images;
                                         $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
                                         $list2[$kk]['price']=$info['limit_price'];    //商品价格
                                         $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
