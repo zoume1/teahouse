@@ -231,9 +231,8 @@ class Coupon extends Controller
             $datas = $request->param(); //包含goods_id and  open_id
             $goods_id = array_unique($datas['goods_id']);
             // $goods_id = $datas['goods_id'];
-            
             // $goods_id=array(
-            //     '0'=>305,
+            //     '0'=>15,
             // );
             $open_id = $datas['open_id'];
             $member_id = Db::name("member")->where("member_openid",$open_id)->value('member_id');
@@ -241,8 +240,12 @@ class Coupon extends Controller
             $member_grade_name = $datas['member_grade_name'];   //会员等级
             $goods_type = $datas['coupon_type'];  //商品类型   1  普通商品
             //所有使用的优惠券    
+            // $coupon_info=[];
             foreach($goods_id as $k =>$v){
                     $coupons = Db::name("coupon")->where("use_price","<=",$money)->where("store_id","EQ",$store_id)->where("coupon_type",$goods_type)->field('id,use_price,scope,start_time,end_time,money,suit,label,suit_price')->select();
+                    if(empty($coupons)){
+                        continue;
+                    }
                     foreach($coupons as $k2 =>$v2){
                         if($v2['suit']==1){   //部分商品
                             //获取该商品可用的优惠券
@@ -259,7 +262,8 @@ class Coupon extends Controller
                     }
             }
             //去除使用的优惠券
-            foreach($coupon_info as $k3 =>$v3){
+            if(!empty($coupon_info)){
+                foreach($coupon_info as $k3 =>$v3){
                     //判断优惠券是否使用
                     $is_use=db('order')->where(['member_id'=>$member_id,'coupon_id'=>$v3['id']])->find();
                     if($is_use){
@@ -277,8 +281,8 @@ class Coupon extends Controller
                     }
                     $coupon_info[$k3]['suit_price2'] = explode(",",$coupon_info[$k3]['suit_price']);
 
+                }
             }
-
             if (!empty($coupon_info)) {
                 return ajax_success('传输成功', $coupon_info);
             } else {
@@ -489,7 +493,16 @@ class Coupon extends Controller
                                     "integral_remarks" => "购买积分商城商品消费" . $datas["order_amount"] . "积分",
                                 ];
                                 Db::name("integral")->insert($integral_data);
-                                
+                                //获取到小程序的版本id
+                                $meal_name=db('set_meal_order')->where(['store_id'=>$store_id,'status_type'=>1])->value('goods_name');
+                                if($meal_name=='茶进阶版'){
+                                    $enter_all_id='3';
+                                }elseif($meal_name=='行业版'){
+                                    $enter_all_id='2';
+                                }else{
+                                    $enter_all_id='1';
+                                }
+                                $order_datas['enter_all_id']=$enter_all_id;
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);

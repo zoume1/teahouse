@@ -873,6 +873,8 @@ Route::group("admin",[
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况
     "analytical_index" =>"admin/Information/analytical_index",    //溯源分析
+    "store_analyse" =>"admin/Information/store_analyse",            //订单数据
+    "store_money_analyse" =>"admin/Information/store_money_analyse",    //销售额数据统计
 
     /*店铺*/
     "general_index"=>"admin/General/general_index",             //店铺信息
@@ -968,6 +970,9 @@ Route::group("admin",[
     "additional_comments_add"=>"admin/General/additional_comments_add",//我要评论
     "adder_order_comment"=>"admin/General/adder_order_comment",     //增加订单评论
     "get_adder_comment"=>"admin/General/get_adder_comment",     //获取订单评论
+    "adder_after_sale" =>"admin/General/adder_after_sale",                       //增值订单申请售后
+    "adder_apply_after_sale" =>"admin/General/adder_apply_after_sale",           //增值订单申请售后处理
+
    
     /**一键上传 */
     "auth_pre"=>"admin/Upload/auth_pre",                             //一键生成--第一页预备
@@ -984,6 +989,7 @@ Route::group("admin",[
     "get_tiyanlist"=>"admin/Upload/get_tiyanlist",                     //一键生成--获取体验者列表
     "unDoCodeAudit"=>"admin/Upload/unDoCodeAudit",                     //一键生成--版本撤销
     "cate_list"=>"Admin/Upload/cate_list",                             //一键生成--获取分类
+    "is_templete"=>"Admin/Upload/is_templete",                             //一键生成--获取分类
 
     
     /*总控*/
@@ -1027,6 +1033,8 @@ Route::group("admin",[
     "control_store_list"=>"admin/Control/control_store_list",           //总控店铺list
     "control_store_edit"=>"admin/Control/control_store_edit",           //总控店铺list编辑
     "control_store_edit_do"=>"admin/Control/control_store_edit_do",           //总控店铺list编辑
+    "version_control"=>"admin/Control/version_control",                 //总控版本控制
+    "version_control_do"=>"admin/Control/version_control_do",           //总控版本控制处理
 
 
 
@@ -1056,7 +1064,7 @@ Route::group("admin",[
     "analyse_delivered"=>"admin/Analyse/analyse_delivered",  //总控增值已发货
     "analyse_received"=>"admin/Analyse/analyse_received",    //总控增值待收货
     "analyse_served"=>"admin/Analyse/analyse_served",          //总控增值待服务
-    "analyse_ok"=>"admin/Analyse/analyse_ok",          //总控增值已完成
+    "analyse_ok"=>"admin/Analyse/analyse_ok",               //总控增值已完成
     "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",//总控增值退款维权
     "analyse_order_search"=>"admin/Analyse/analyse_order_search",          //总控增值订单搜索
 

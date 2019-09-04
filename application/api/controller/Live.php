@@ -49,12 +49,12 @@ class Live extends Controller{
     }
 
     //详情
-    public function details($store_id,$vid){
+    public function details($store_id,$vid,$uid){
         $list = new VideoFrequency();
         //浏览量+1
         $browsing = $list->live_browsing($store_id,$vid);
 
-        $data = $list->live_details($store_id,$vid);
+        $data = $list->live_details($store_id,$vid,$uid);
 
         $res = $data ?['code'=>1,'msg'=>'获取成功','data'=>$data] : ['code'=>0,'msg'=>'获取失败'];
 

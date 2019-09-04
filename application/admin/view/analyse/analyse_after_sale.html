@@ -4,18 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="expires" content="0">
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
-    <title>套餐订单</title>
+    <title>增值订单</title>
 </head>
 <script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
 <script src="__STATIC__/admin/index/js/index.js"></script>
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
+
 <style type="text/css">
     * {margin: 0;padding: 0;}
     body {background: #fff;}
@@ -24,34 +26,41 @@
     .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
     .distribution_list ul {display: flex; align-items: center; margin-bottom: 10px;}
     .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 20px; margin-bottom: 10px; border-left: 5px solid #009688;}
+    .search-box{display: flex; flex-wrap: wrap; font-size: 14px; color: #333;}
+    .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
+    .search-box button{margin-left: 20px; height: 35px; line-height: 35px;}
+    .search-box input::placeholder{color: #b2b2b2;}
+    .search-box .layui-form-label{margin-bottom: 0;}
+    .search-box label{float: left; display: block; margin-right: 10px; line-height: 38px;}
     .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
     .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
-    .btn-exam{background-color: rgb(0, 0, 255);}
-    .btn-pass{background-color: rgb(102, 153, 0);}
-    .btn-fail{background-color: rgb(255, 0, 0);}
     .line-exam{background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
     .line-ing{background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
     .line-pass{background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}
-    .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
-    .pop{ position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 650px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9;}
-    .pop .head{position: relative; padding-left: 16px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
-    .pop .head p{height: 35px; line-height: 36px; font-size: 13px;}
-    .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer;}
-    .content{padding: 0 16px;}
-    .top, .mid, .bot{padding: 0 30px;}
-    .top{height: 50px; line-height: 50px;}
-    .lb{font-size: 16px; font-weight: 700; color: #333; margin-right: 30px;}
-    .top span{font-size: 24px; color: #f00; font-weight: 700;}
-    .mid{border: 1px dashed #d2d2d2; border-left: 0; border-right: 0;}
-    .mid>div{height: 50px; line-height: 50px; display: flex; align-items: baseline;}
-    .address p{line-height: normal; flex: 1;}
-    .change-addr{text-align: right;height: 35px; line-height: 35px; }
-    .change-addr a{color: #199ED8;}
-    .bot li{height: 65px; line-height: 65px; list-style: disc;}
-    .bot li button{background-color: #669900;}
-    .bot li a{color: #669900;}
+    .table-cell .dtl{color: rgb(0, 153, 255);}
+    .btn-all{background-color: #F4FBFF; color: #333;}
+    .btn-all:hover{color: #333;}
+    .btn-sqz{background-color: #6666FF;}
+    .btn-clz{background-color: #00CCFF;}
+    .btn-wchh{background-color: #FF9900;}
+    .btn-wctk{background-color: #CCA444;}
+    .btn-ycx{background-color: #CC00FF;}
+    .btn-ygb{background-color: #996600;}
+    .btn-yjj{background-color: #A1A1A1;}
+    #page {
+        width: 97%;
+		height: 50px;
+		line-height: 50px;
+		border: solid 1px #E2E2E2;
+		padding-left: 50px;
+		background: #FDFDFE;
+    }
+    .static_btus > a, .seach_button_all >a {
+		width: 60px;
+	}
 </style>
 
 {/block}
@@ -60,7 +69,133 @@
 {block name="content"}
 <div class="wrapper">
     {include file="template/_top" /}
-    售后维权
+    <div class="inner">
+        <div class="search-hd">
+            <div class="search-box layui-form">
+                <div>
+                    <label>请搜索</label>
+                    <input type="text" class="layui-input" placeholder="订单编号/商品名称">
+                </div>
+                <div class="date-input">
+                    <label>下单时间</label>
+                    <input type="text" data-type="date" id="searchDateStart">~
+                    <input type="text" data-type="date" id="searchDateend">
+                </div>
+                <button class="layui-btn">搜索</button>
+            </div>
+        </div>
+        <div class="seach_button_all">
+            <a href="#" class="layui-btn layui-btn-mini btn-all">全部</a>
+            <a href="#" class="layui-btn layui-btn-mini btn-sqz">申请中</a>
+            <a href="#" class="layui-btn layui-btn-mini btn-clz">处理中</a>
+            <a href="#" class="layui-btn layui-btn-mini btn-wchh">完成换货</a>
+            <a href="#" class="layui-btn layui-btn-mini btn-wctk">完成退款</a>
+            <a href="#" class="layui-btn layui-btn-mini btn-ycx">已撤销</a>
+            <a href="#" class="layui-btn layui-btn-mini btn-ygb">已关闭</a>
+            <a href="#" class="layui-btn layui-btn-mini btn-yjj">已拒绝</a>
+        </div>
+        <div class="layui-form" lay-filter="test2">
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th class="table-cell">
+                            <div class="table-cell-div">
+                                <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose">
+                            </div>
+                        </th>
+                        <th class="table-cell">
+                            <div class="table-cell-div">服务单号</div>
+                        </th>
+                        <th class="table-cell">
+                            <div class="table-cell-div">原始订单号</div>
+                        </th>
+                        <th class="table-cell">
+                            <div class="table-cell-div">申请时间</div>
+                        </th>
+                        <th class="table-cell">
+                            <div class="table-cell-div">退款金额</div>
+                        </th>
+                        <th class="table-cell">
+                            <div class="table-cell-div">提交图片</div>
+                        </th>
+                        <th class="table-cell">
+                            <div class="table-cell-div">店铺名</div>
+                        </th>
+                        <th class="table-cell">
+                            <div class="table-cell-div">订单用户</div>
+                        </th>
+                        <th class="table-cell">
+                            <div class="table-cell-div">收货地址</div>
+                        </th>
+                        <th class="table-cell">
+                            <div class="table-cell-div">状态</div>
+                        </th>
+                        <th class="table-cell">
+                            <div class="table-cell-div">处理时间</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="table-cell">
+                            <div class="table-cell-div">
+                                <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose">
+                            </div>
+                        </td>
+                        <td class="table-cell">
+                            <div class="table-cell-div">2</div>
+                        </td>
+                        <td class="table-cell">
+                            <div class="table-cell-div">3</div>
+                        </td>
+                        <td class="table-cell">
+                            <div class="table-cell-div">4</div>
+                        </td>
+                        <td class="table-cell">
+                            <div class="table-cell-div">5</div>
+                        </td>
+                        <td class="table-cell">
+                            <div class="table-cell-div">6</div>
+                        </td>
+                        <td class="table-cell">
+                            <div class="table-cell-div">7</div>
+                        </td>
+                        <td class="table-cell">
+                            <div class="table-cell-div">8</div>
+                        </td>
+                        <td class="table-cell">
+                            <div class="table-cell-div">9</div>
+                        </td>
+                        <td class="table-cell">
+                            <div class="table-cell-div static_btus">
+                                <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-sqz">申请中</a>
+                                <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-clz">处理中</a>
+                                <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-wchh">完成换货</a>
+                                <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-wctk">完成退款</a>
+                                <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-ycx">已撤销</a>
+                                <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-ygb">已关闭</a>
+                                <a href="store_order_after_ing" class="layui-btn layui-btn-mini btn-yjj">已拒绝</a>
+                            </div>
+                        </td>
+                        <td class="table-cell">
+                            <div class="table-cell-div">10</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="bot-operate" id="page">
+            <div class="opation">
+                <select>
+                    <option check="" value="0">请选择</option>
+                    <option value="1">批量删除</option>
+                </select>
+            </div>
+            <div>
+                <button type="button" id="operation-btn" class="operation-btn">确定</button>
+            </div>
+        </div>
+    </div>
 </div>
 {/block}
 

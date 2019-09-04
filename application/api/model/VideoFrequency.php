@@ -36,7 +36,7 @@ class VideoFrequency extends Model
     }
 
     //直播详情
-    public static function live_details($store_id,$vid)
+    public static function live_details($store_id,$vid,$uid)
     {
         $data =  self::get(['store_id'=>$store_id,'id'=>$vid]) ->  toArray();
         //调取评论数
@@ -47,7 +47,13 @@ class VideoFrequency extends Model
         $give = new Give();
         $gice_count = $give->give_count($store_id,$vid);
         $data['clickings'] = $gice_count;
-
+        //当前用户是否点赞
+        $give_user = $give->user_give($store_id,$vid,$uid);
+        if($give_user){
+            $data['give_user'] = 1;
+        }else{
+            $data['give_user'] = 0;
+        }
         return $data;
     }
 

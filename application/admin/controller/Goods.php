@@ -25,6 +25,7 @@ use app\common\model\dealer\Referee as RefereeModel;
 use app\common\model\dealer\User;
 use app\common\model\dealer\Order;
 use app\api\model\UpdateLine;
+use app\admin\controller\Qiniu;
 
 
 class Goods extends Controller
@@ -148,30 +149,31 @@ class Goods extends Controller
         if ($request->isPost()) {
             $store_id = Session::get("store_id");
             $goods_data = $request->param();
-            $show_images = $request->file("goods_show_images");
+            // $show_images = $request->file("goods_show_images");
+           //测试七牛上传图片
+           $qiniu=new Qiniu();
+           //获取店铺七牛云的配置项
+           $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+           $images='goods_show_images';
+           $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+           if(empty($rr)){
+             
+           }else{
+            $goods_data["goods_show_image"] =  $rr[0];
+            $goods_data["goods_show_images"] = implode(',', $rr);
+           }
             if(!empty($goods_data['goods_delivery'])){
                 $goods_data['goods_delivery'] = json_encode($goods_data['goods_delivery']);
             } else {
                 $goods_data['goods_delivery'] = null;
             }
-            $imgs = $request->file("imgs");
             $list = [];
             unset($goods_data["aaa"]);
-            if (!empty($show_images)) {              
-                foreach ($show_images as $k=>$v) {
-                    $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                    $list[] = str_replace("\\", "/", $info->getSaveName());
-                }            
-                $goods_data["goods_show_image"] =  $list[0];
-                $goods_data["goods_show_images"] = implode(',', $list);
-            }
             if(!empty($goods_data["scope"])){
                 $goods_data["scope"] = implode(',', $goods_data["scope"]);
             } else {
                 $goods_data["scope"] = "";
             }
-            
-        
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
             $goods_data["goods_sign"] = isset($goods_data["goods_sign"])?$goods_data["goods_sign"]:null;
@@ -276,11 +278,17 @@ class Goods extends Controller
                         }                        
                     }
                 }
-                if (!empty($imgs)) {
-                    foreach ($imgs as $k => $v) {
-                        $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                        $tab = str_replace("\\", "/", $shows->getSaveName());
-
+                 //测试七牛上传图片
+                $qiniu=new Qiniu();
+                //获取店铺七牛云的配置项
+                $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+                $images='imgs';
+                $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+                // $imgs = $request->file("imgs");
+                if (!empty($rr)) {
+                    foreach ($rr as $k => $v) {
+                        // $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                        // $tab = str_replace("\\", "/", $shows->getSaveName());
                         if (is_array($goods_data)) {
                             foreach ($goods_data as $key => $value) {
                                 if (substr($key, 0, 3) == "sss") {
@@ -315,7 +323,7 @@ class Goods extends Controller
                                     $values[$k]["save"] = $save[$k];
                                     $values[$k]["cost"] = $cost[$k];
                                     $values[$k]["line"] = $line[$k];                                    
-                                    $values[$k]["images"] = $tab;
+                                    $values[$k]["images"] = $v;
                                     $values[$k]["goods_id"] = $goods_id;
                                     $values[$k]["offer"] = $offer[$k];
                                     
@@ -361,21 +369,16 @@ class Goods extends Controller
             $goods[$key]["server"] = json_decode($goods[$key]["server"],true);
         }
      }
-
         $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
-        
         if(!empty($team)){
             foreach($team as $ke => $val){
                 $temp[$ke] = db("express")->where("id",$team[$ke])->field("name,id")->find();
             }
         }
-       
         foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);         
         }
-          
-        
         $goods_list = getSelectListes("wares");
         $restel = $goods[0]["goods_standard"]; //判断是否为通用或特殊
         if ($restel == 0) {
@@ -400,7 +403,8 @@ class Goods extends Controller
                 $se = explode(",", $image["goods_show_images"]);
                 foreach ($se as $key => $value) {
                     if ($value == $id) {
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                        // unlink($value);
+                        unset($se[$key]);
                     } else {
                         $new_image[] = $value;
                     }
@@ -462,11 +466,38 @@ class Goods extends Controller
                 $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]);
             } 
             $goods_data["goods_member"] = isset($goods_data["goods_member"])?$goods_data["goods_member"]:0;
-        
             if(!empty($goods_data["server"])){     
                 $goods_data["server"] = json_encode($goods_data["server"]); 
             }
-            $show_images = $request->file("goods_show_images");
+            // $show_images = $request->file("goods_show_images");  //原上传图片
+             //测试七牛上传图片
+             $qiniu=new Qiniu();
+             //获取店铺七牛云的配置项
+             $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+             $images='goods_show_images';
+             $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+             if(empty($rr)){
+                $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"])){
+                    $goods_data["goods_show_images"] = $image["goods_show_images"];
+                } else {
+                    $goods_data["goods_show_images"] = null;
+                    $goods_data["goods_show_image"] = null;
+                }
+             }else{
+                    $liste = implode(',', $rr);
+                    $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"]))
+                {
+                    $exper = $image["goods_show_images"];
+                    $montage = $exper . "," . $liste;
+                    $goods_data["goods_show_images"] = $montage;
+                } else {                   
+                    $montage = $liste;
+                    $goods_data["goods_show_image"] = $rr[0];
+                    $goods_data["goods_show_images"] = $montage;
+                }
+             }
             if(!empty($goods_data['goods_delivery'])){
                 $goods_data['goods_delivery'] = json_encode(array_values($goods_data['goods_delivery']));
             } else {
@@ -479,41 +510,39 @@ class Goods extends Controller
             }
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
-            $list = [];
-            if (!empty($show_images)) {
-                foreach ($show_images as $k => $v) {
-                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                    $list[] = str_replace("\\", "/", $show->getSaveName());
-                }               
-                    $liste = implode(',', $list);
-                    $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
-                if(!empty($image["goods_show_images"]))
-                {
-                    $exper = $image["goods_show_images"];
-                    $montage = $exper . "," . $liste;
-                    $goods_data["goods_show_images"] = $montage;
-                } else {                   
-                    $montage = $liste;
-                    $goods_data["goods_show_image"] = $list[0];
-                    $goods_data["goods_show_images"] = $montage;
-                }
-            } else {
-                    $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
-                if(!empty($image["goods_show_images"])){
-                    $goods_data["goods_show_images"] = $image["goods_show_images"];
-                } else {
-                    $goods_data["goods_show_images"] = null;
-                    $goods_data["goods_show_image"] = null;
-                }
-            } 
-
+            // $list = [];
+            // if (!empty($show_images)) {
+            //     foreach ($show_images as $k => $v) {
+            //         $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+            //         $list[] = str_replace("\\", "/", $show->getSaveName());
+            //     }               
+            //         $liste = implode(',', $list);
+            //         $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+            //     if(!empty($image["goods_show_images"]))
+            //     {
+            //         $exper = $image["goods_show_images"];
+            //         $montage = $exper . "," . $liste;
+            //         $goods_data["goods_show_images"] = $montage;
+            //     } else {                   
+            //         $montage = $liste;
+            //         $goods_data["goods_show_image"] = $list[0];
+            //         $goods_data["goods_show_images"] = $montage;
+            //     }
+            // } else {
+            //     $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+            //     if(!empty($image["goods_show_images"])){
+            //         $goods_data["goods_show_images"] = $image["goods_show_images"];
+            //     } else {
+            //         $goods_data["goods_show_images"] = null;
+            //         $goods_data["goods_show_image"] = null;
+            //     }
+                   
+            // } 
             if($goods_data["goods_standard"] == 1){
                 $special_id = db("special")->where("goods_id",$id)->field("id")->select();
-
                 foreach($special_id as $pp => $qq){
                     $special[$pp] = $qq["id"];
                 }
-
                 foreach ($goods_data as $kn => $nl) {
                     if(substr($kn,strrpos($kn,"_")+1) == "num"){
                         $num1[substr($kn,0,strrpos($kn,"_"))]["num"] = implode(",",$goods_data[$kn]);
@@ -523,12 +552,10 @@ class Goods extends Controller
                         $unit1[substr($kn,0,strrpos($kn,"_"))]["unit"] = implode(",",$goods_data[$kn]);
                         $unit[substr($kn,0,strrpos($kn,"_"))]["unit"] = $goods_data[$kn]; 
                     } 
-                    
                     if(is_array($nl)){
                         unset($goods_data[$kn]);                    
                     }
                 }
-           
              foreach($special as $tt => $yy){ 
                  if(isset($num1)){
                     if(array_key_exists($yy,$num1)){        
@@ -548,7 +575,6 @@ class Goods extends Controller
                     $rest = 0;
                  }
              }
-             
              $bool = db("goods")->where("id", $id)->update($goods_data);
              if ($bool || $rest) {
                  $this->success("更新成功", url("admin/Goods/index"));
@@ -837,9 +863,14 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request -> only(["id"])["id"];
-            $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
-            $images = str_replace("\\", "/", $imag->getSaveName());
-
+            //测试
+            $qiniu=new Qiniu();
+            $store_id=Session::get('store_id');
+            //获取店铺七牛云的配置项
+            $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+            $images='file';
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            $images = $rr[0];
             if(!empty($id)){
                 $bool = db("special")->where("id", $id)->update(["images" => $images]);
             }
@@ -861,9 +892,14 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request -> only(["id"])["id"];
-            $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
-            $images = str_replace("\\", "/", $imag->getSaveName());
-
+             //测试
+             $qiniu=new Qiniu();
+             $store_id=Session::get('store_id');
+             //获取店铺七牛云的配置项
+             $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+             $images='file';
+             $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+             $images = $rr[0];
             if(!empty($id)){
                 $bool = db("special")->where("id", $id)->update(["images" => $images]);
             }
@@ -1054,19 +1090,20 @@ class Goods extends Controller
             $goods_sign = isset($goods_data["goods_sign"]) ? json_encode($goods_data["goods_sign"]):null;
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
-            $show_images = $request->file("goods_show_images");
+            // $show_images = $request->file("goods_show_images");
             $number_days = intval($goods_data["number_days"]);
-            $imgs = $request->file("imgs");
             $time = time();
             $end_time = strtotime(date('Y-m-d', strtotime ("+ $number_days day", $time)));
-            $list = [];
-            if (!empty($show_images)) {              
-                foreach ($show_images as $k=>$v) {
-                    $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                    $list[] = str_replace("\\", "/", $info->getSaveName());
-                }            
-                $goods_data["goods_show_image"] =  $list[0];
-                $goods_data["goods_show_images"] = implode(',', $list);
+             //测试
+             $qiniu=new Qiniu();
+             $store_id=Session::get('store_id');
+             //获取店铺七牛云的配置项
+             $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+             $images='goods_show_images';
+             $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            if (!empty($rr)) {              
+                $goods_data["goods_show_image"] =  $rr[0];
+                $goods_data["goods_show_images"] = implode(',', $rr);
                 $goods_data["time"] = $time;
             }
 
@@ -1130,11 +1167,18 @@ class Goods extends Controller
                         }                         
                     }
                 }
-                if (!empty($imgs)) {
-                    foreach ($imgs as $k => $v) {
-                        $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                        $tab = str_replace("\\", "/", $shows->getSaveName());
-
+                // $imgs = $request->file("imgs");
+                 //测试
+                $qiniu=new Qiniu();
+                $store_id=Session::get('store_id');
+                //获取店铺七牛云的配置项
+                $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+                $images='imgs';
+                $rr2=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+                if (!empty($rr2)) {
+                    foreach ($rr2 as $k => $v) {
+                        // $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                        // $tab = str_replace("\\", "/", $shows->getSaveName());
                         if (is_array($goods_data)) {
                             foreach ($goods_data as $key => $value) {
                                 if (substr($key, 0, 3) == "sss") {
@@ -1170,7 +1214,7 @@ class Goods extends Controller
                                     $values[$k]["save"] = $save[$k];
                                     $values[$k]["cost"] = $cost[$k];
                                     $values[$k]["limit"] = $line[$k];                                    
-                                    $values[$k]["images"] = $tab;
+                                    $values[$k]["images"] = $v;
                                     $values[$k]["goods_id"] = $goods_id;                                   
                                 }
                             }
@@ -1182,7 +1226,7 @@ class Goods extends Controller
             foreach ($values as $kz => $vw) {
                 $rest = db('crowd_special')->insertGetId($vw);
             }
-            $boolte = db('crowd_goods')->where('id',$goods_id)->update(['goods_number'=>$goods_number]);
+            // $boolte = db('crowd_goods')->where('id',$goods_id)->update(['goods_number'=>$goods_number]);
             if ($rest || $goods_id) {
                 $this->success("添加成功", url("admin/Goods/crowd_index"));
             } else {
@@ -1210,8 +1254,6 @@ class Goods extends Controller
         $goods_list = getSelectListes("wares");
         $expenses = db("express")->where("store_id","EQ",$store_id)->field("id,name")->select();
         $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
-
-
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
@@ -1220,12 +1262,10 @@ class Goods extends Controller
             $goods[$key]["goods_sign"] = json_decode($goods[$key]["goods_sign"],true);
         }
      }
-
      foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);         
         }
-    
         // halt($goods_standard);
         return view("crowd_edit", ["goods" => $goods, "goods_list" => $goods_list, "res" => $res, "goods_standard" => $goods_standard,"expenses"=>$expenses,"scope" => $scope]);
     }
@@ -1243,18 +1283,24 @@ class Goods extends Controller
             $time = time();
             $goods_data = $request->param();
             unset($goods_data["aaa"]);
-            $show_images = $request->file("goods_show_images");
-            $number_days = intval($goods_data["number_days"]);
-            $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
-            $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
-            $end_time = strtotime(date('Y-m-d', strtotime ("+ $number_days day", $time)));           
-            $list = [];
-            if (!empty($show_images)) {
-                foreach ($show_images as $k => $v) {
-                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                    $list[] = str_replace("\\", "/", $show->getSaveName());
-                }               
-                    $liste = implode(',', $list);
+            // $show_images = $request->file("goods_show_images");
+             //测试七牛上传图片
+             $qiniu=new Qiniu();
+             $store_id=Session::get('store_id');
+             //获取店铺七牛云的配置项
+             $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+             $images='goods_show_images';
+             $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+             if(empty($rr)){
+                $image = db("crowd_goods")->where("id", $id)->field("goods_show_images")->find();
+                if(!empty($image["goods_show_images"])){
+                    $goods_data["goods_show_images"] = $image["goods_show_images"];
+                } else {
+                    $goods_data["goods_show_images"] = null;
+                    $goods_data["goods_show_image"] = null;
+                }
+             }else{
+                    $liste = implode(',', $rr);
                     $image = db("crowd_goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"]))
                 {
@@ -1263,18 +1309,41 @@ class Goods extends Controller
                     $goods_data["goods_show_images"] = $montage;
                 } else {                   
                     $montage = $liste;
-                    $goods_data["goods_show_image"] = $list[0];
+                    $goods_data["goods_show_image"] = $rr[0];
                     $goods_data["goods_show_images"] = $montage;
                 }
-            } else {
-                    $image = db("crowd_goods")->where("id", $id)->field("goods_show_images")->find();
-                if(!empty($image["goods_show_images"])){
-                    $goods_data["goods_show_images"] = $image["goods_show_images"];
-                } else {
-                    $goods_data["goods_show_images"] = null;
-                    $goods_data["goods_show_image"] = null;
-                }
-            } 
+             }
+            $number_days = intval($goods_data["number_days"]);
+            $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
+            $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
+            $end_time = strtotime(date('Y-m-d', strtotime ("+ $number_days day", $time)));           
+            // $list = [];
+            // if (!empty($show_images)) {
+            //     foreach ($show_images as $k => $v) {
+            //         $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+            //         $list[] = str_replace("\\", "/", $show->getSaveName());
+            //     }               
+            //         $liste = implode(',', $list);
+            //         $image = db("crowd_goods")->where("id", $id)->field("goods_show_images")->find();
+            //     if(!empty($image["goods_show_images"]))
+            //     {
+            //         $exper = $image["goods_show_images"];
+            //         $montage = $exper . "," . $liste;
+            //         $goods_data["goods_show_images"] = $montage;
+            //     } else {                   
+            //         $montage = $liste;
+            //         $goods_data["goods_show_image"] = $list[0];
+            //         $goods_data["goods_show_images"] = $montage;
+            //     }
+            // } else {
+            //         $image = db("crowd_goods")->where("id", $id)->field("goods_show_images")->find();
+            //     if(!empty($image["goods_show_images"])){
+            //         $goods_data["goods_show_images"] = $image["goods_show_images"];
+            //     } else {
+            //         $goods_data["goods_show_images"] = null;
+            //         $goods_data["goods_show_image"] = null;
+            //     }
+            // } 
             $goods_data["end_time"] = $end_time;
             $special_id = db("crowd_special")->where("goods_id",$id)->field("id")->select();
             foreach($special_id as $pp => $qq){
@@ -1293,7 +1362,6 @@ class Goods extends Controller
                     unset($goods_data[$kn]);                    
                 }
             }
-            
             foreach($special as $tt => $yy){ 
                  if(isset($num1)){
                     if(array_key_exists($yy,$num1)){        
@@ -1305,7 +1373,6 @@ class Goods extends Controller
                     $bools[$tt] = db("crowd_special")->where("id",$yy)->update(["unit"=>null,"num"=>null,"element"=>null]);
                }
             }
-
             foreach($bools as $xx => $cc){
                 if($cc = 1){
                      $rest = 1;
@@ -1588,9 +1655,14 @@ class Goods extends Controller
     {
         if ($request->isPost()) {
             $id = $request -> only(["id"])["id"];
-            $imag = $request-> file("file") -> move(ROOT_PATH . 'public' . DS . 'uploads');
-            $images = str_replace("\\", "/", $imag->getSaveName());
-
+             //测试七牛上传图片
+             $qiniu=new Qiniu();
+             $store_id=Session::get('store_id');
+             //获取店铺七牛云的配置项
+             $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+             $images='file';
+             $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            $images = $rr[0];
             if(!empty($id)){
                 $bool = db("crowd_special")->where("id", $id)->update(["images" => $images]);
             }

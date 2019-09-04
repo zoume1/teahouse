@@ -1408,7 +1408,7 @@ class  Control extends  Controller{
      public function control_store_edit(){
          //获取id
          $input=input();
-         $xcx_list=Db::table('applet')->where('id',$input['id'])->field('id,name,template_id')->find();
+         $xcx_list=Db::table('applet')->where('id',$input['id'])->field('id,name,template_id,accesskey,secretkey,bucket,domain')->find();
          return view('control_store_edit',['data'=>$xcx_list]);
      }
     /**
@@ -1421,10 +1421,49 @@ class  Control extends  Controller{
          $data['id']=$input['id'];
          $data['name']=$input['name'];
          $data['template_id']=$input['template_id'];
+         $data['accesskey']=$input['accesskey'];
+         $data['secretkey']=$input['secretkey'];
+         $data['bucket']=$input['bucket'];
+         $data['domain']=$input['domain'];
          //获取所有已申请成功的店铺
          $xcx_list=Db::table('applet')->where('id',$input['id'])->update($data);
          $this->success('编辑成功','admin/control/control_store_list');
      }
+     /**
+      * lilu
+      * 版本控制
+      */
+      public function version_control()
+      {
+          return view('version_control');
+      }
+     /**
+      * lilu
+      * 版本控制chuli 
+      * version
+      */
+      public function version_control_do()
+      {
+          //获取传递的版本号
+          $input=input();
+          //获取店铺id
+        //   $store_id=Session::get('store_id');
+        $store_info=Db::table('applet')->select();
+        $data['auditid']='0';
+        $data['is_chuan']='0';
+        $data['is_que']='0';
+        $data['is_fabu']='0';
+        $data['version']=$input['version'];
+        foreach($store_info as $k =>$v){
+            $re=Db::table('applet')->where('id',$v['id'])->update($data);
+        }
+          if($re !== false){
+            return ajax_success('保存成功');
+        }else{
+            return ajax_error('保存失败');
+
+          }
+      }
 
 
 }

@@ -734,7 +734,7 @@ class Upload extends Controller
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
         $first_class = '';$second_class = '';$first_id = 0;$second_id = 0;
-        $address = "pages/index/index";
+        $address = "pages/logs/logs";
         $category = $this->getCategory($timeout['authorizer_access_token']);
         if(!empty($category)) {
             $first_class = $category[0]['first_class'] ? $category[0]['first_class'] : '' ;
@@ -746,6 +746,8 @@ class Upload extends Controller
         if(!empty($getpage) && isset($getpage[0])) {
             $address = $getpage[0];
         }
+        $pp['msg']=$address;
+        db('test')->insert($pp);
         $url = "https://api.weixin.qq.com/wxa/submit_audit?access_token=".$timeout['authorizer_access_token'];
         $data = '{
                 "item_list":[{
@@ -830,7 +832,10 @@ class Upload extends Controller
     private function getPage($authorizer_access_token)
     {
         $url = "https://api.weixin.qq.com/wxa/get_page?access_token=".$authorizer_access_token;
-        $ret = json_decode($this->https_get($url),true);
+        $pp=$this->https_get($url);
+        $p['msg']=$pp;
+        db('test')->insert($p);
+        $ret = json_decode($pp,true);
         if($ret['errcode'] == 0) {
             return $ret['page_list'];
         } else {
@@ -885,7 +890,6 @@ class Upload extends Controller
         }else{
             return ajax_error('审核失败',3);
         }
-        
     } 
     /**
      * lilu
@@ -942,6 +946,25 @@ class Upload extends Controller
             $this->errorLog("获取授权小程序帐号的可选类目操作失败",$ret);
             return false;
         }
+    }
+    /**
+     * lilu
+     * 判断店铺是否已上传代码
+     */
+    public function is_templete()
+    {
+        //获取店铺id
+        $store_id=Session::get('store_id');
+        //根据店铺id获取店铺的信息
+        $template_id=Db::table('applet')->where('store_id',$store_id)->value('template_id');
+        if($template_id=='0'){
+            //未上传
+            $pp=0;
+        }else{
+            $pp=1;
+        }
+        return ajax_success('获取成功',$pp);
+        
     }
 
 }

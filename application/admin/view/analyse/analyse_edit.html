@@ -752,10 +752,10 @@
                                                                 <span class="up-span"></span><img class="close-upimg" src="/siring_ow/public/static/admin/common/upfile/img/a7.png">
                                                                 <!--图片放这里-->
 
-                                                                <img class="up-img" src="__UPLOADS__/{$ve.images}">
+                                                                <img class="up-img" src="{$ve.images}">
                                                                 <!--图片放这里-->
 
-                                                                <p class="img-name-p">u4594.png</p><input id="taglocation" value="__UPLOADS__/{$ve.images}" type="hidden">
+                                                                <p class="img-name-p">u4594.png</p><input id="taglocation" value="{$ve.images}" type="hidden">
                                                                 <input id="tags" value="" type="hidden"></section>
                                                             <section class="z_file fl" style="display: none;"> <img src="/teahouse/public/static/admin/common/upfile/img/a11.png" class="add-img">
                                                                 <input type="file" id="file_0" class="file filedelect" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="" data-id="1" data-value="images" data-name="{$ve.id}"> </section>
@@ -814,7 +814,7 @@
                 <div class="imgcontent">
                     {foreach name="$value.goods_show_images" id="val"}
                     <span class="img">
-					<img src="__UPLOADS__/{$val}" width="100%">
+					<img src="{$val}" width="100%">
 					<i class="remove-img"  data-id="{$val}" data-value="2" data-title = "{$value.id}"><img src="__STATIC__/admin/common/img/a7.png"></i>
 					</span> {/foreach}
                 </div>
@@ -1181,10 +1181,10 @@
                                                             <span class="up-span"></span><img class="close-upimg" src="/siring_ow/public/static/admin/common/upfile/img/a7.png">
                                                             <!--图片放这里-->
 
-                                                            <img class="up-img" src="__UPLOADS__/{$ve.images}">
+                                                            <img class="up-img" src="{$ve.images}">
                                                             <!--图片放这里-->
 
-                                                            <p class="img-name-p">u4594.png</p><input id="taglocation" value="__UPLOADS__/{$ve.images}" type="hidden">
+                                                            <p class="img-name-p">u4594.png</p><input id="taglocation" value="{$ve.images}" type="hidden">
                                                             <input id="tags" value="" type="hidden"></section>
                                                         <section class="z_file fl" style="display: none;"> <img src="/teahouse/public/static/admin/common/upfile/img/a11.png" class="add-img">
                                                             <input type="file" id="file_0" class="file filedelect" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="" data-id="1" data-value="images" data-name="{$ve.id}"> </section>
@@ -1237,7 +1237,7 @@
             <div class="imgcontent">
                 {foreach name="$value.goods_show_images" id="val"}
                 <span class="img">
-                <img src="__UPLOADS__/{$val}" width="100%">
+                <img src="{$val}" width="100%">
                 <i class="remove-img"  data-id="{$val}" data-value="2" data-title = "{$value.id}"><img src="__STATIC__/admin/common/img/a7.png"></i>
                 </span> {/foreach}
             </div>

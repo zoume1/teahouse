@@ -380,7 +380,7 @@ class  Wxapps extends  Controller{
                                         // }else{
                                         //     $list2[$kk]['t_flag']=0;
                                         // }
-                                        $goods_images='//uploads/'.$vv['goods_show_images'];
+                                        $goods_images=$vv['goods_show_images'];
                                         // $list[$kk]['sale_num'] = $vv['sale_num'] + $vv['sale_tnum'];
                                         if (strpos($goods_images, 'http') === false && $goods_images != "") {
                                             $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
@@ -750,7 +750,7 @@ class  Wxapps extends  Controller{
                                         $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->select();
                                         $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") ;//最低价格
                                         $list[$kks]["goods_standard"] = $standard[$kks];
-                                        $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
+                                        $list[$kks]["thumb"] = $list[$kks]["goods_show_image"]; //图片
                                         $list[$kks]["member_grade_img"] =$member_grade_img;
                                         $list[$kks]['sale_num'] = db('special')->where('goods_id',$vvs['id'])->sum('volume');; //销量
                                         $list[$kks]["price"] =round($min[$kks] * $discount2,2) ; //价钱
@@ -763,7 +763,7 @@ class  Wxapps extends  Controller{
                                         //单规格商品
                                         $list[$kks]['sale_num'] = $vvs['goods_volume']; //销量
                                         $list[$kks]["price"] = round($list[$kks]["goods_new_money"] * $discount2,2) ;
-                                        $list[$kks]["thumb"] = config("domain.url")."/uploads/".$list[$kks]["goods_show_image"]; //图片
+                                        $list[$kks]["thumb"] =$list[$kks]["goods_show_image"]; //图片
                                         $list[$kks]["member_grade_img"] =$member_grade_img;
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
@@ -1261,7 +1261,7 @@ class  Wxapps extends  Controller{
                             $list2[$kk]['sale_time']=$vv['create_time'];
                             $list2[$kk]['sale_end_time']=$vv['end_time'];
                             $list2[$kk]['pro_kc']=$vv['goods_repertory'];      //商品库存
-                            $goods_images='//uploads/'.$vv['goods_show_images'];
+                            $goods_images=$vv['goods_show_images'];
                             if (strpos($goods_images, 'http') === false && $goods_images != "") {
                                 $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
                             }
