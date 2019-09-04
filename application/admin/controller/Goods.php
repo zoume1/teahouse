@@ -1226,7 +1226,7 @@ class Goods extends Controller
             foreach ($values as $kz => $vw) {
                 $rest = db('crowd_special')->insertGetId($vw);
             }
-            $boolte = db('crowd_goods')->where('id',$goods_id)->update(['goods_number'=>$goods_number]);
+            // $boolte = db('crowd_goods')->where('id',$goods_id)->update(['goods_number'=>$goods_number]);
             if ($rest || $goods_id) {
                 $this->success("添加成功", url("admin/Goods/crowd_index"));
             } else {

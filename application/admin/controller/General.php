@@ -2816,7 +2816,7 @@ class  General extends  Base {
         $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
         $adder_list = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
             'var_page' => 'page',
-            'path' => url('admin/Order/order_index'),//这里根据需要修改url
+            'path' => url('admin/General/store_order_after'),//这里根据需要修改url
             'query' => [],
             'fragment' => '',
         ]);

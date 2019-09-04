@@ -493,7 +493,16 @@ class Coupon extends Controller
                                     "integral_remarks" => "购买积分商城商品消费" . $datas["order_amount"] . "积分",
                                 ];
                                 Db::name("integral")->insert($integral_data);
-                                
+                                //获取到小程序的版本id
+                                $meal_name=db('set_meal_order')->where(['store_id'=>$store_id,'status_type'=>1])->value('goods_name');
+                                if($meal_name=='茶进阶版'){
+                                    $enter_all_id='3';
+                                }elseif($meal_name=='行业版'){
+                                    $enter_all_id='2';
+                                }else{
+                                    $enter_all_id='1';
+                                }
+                                $order_datas['enter_all_id']=$enter_all_id;
                             return ajax_success('下单成功',$order_datas);
                         }else{
                             return ajax_error('失败',['status'=>0]);
