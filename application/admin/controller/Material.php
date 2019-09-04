@@ -14,6 +14,7 @@ use think\Session;
 use think\View;
 use think\Validate;
 use app\api\model\VideoFrequency;
+use app\admin\controller\Qiniu;
 
 
 class  Material extends  Controller{
@@ -44,10 +45,16 @@ class  Material extends  Controller{
         if($request->isPost()){
             $store_id = Session::get("store_id");
             $data = $request->param();
-            $show_images = $request->file("icon_image");
-            if ($show_images) {
-                $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+             //测试七牛上传图片
+           $qiniu=new Qiniu();
+           //获取店铺七牛云的配置项
+           $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+           $images='icon_image';
+           $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            // $show_images = $request->file("icon_image");
+            if ($rr) {
+                // $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+                $data["icon_image"] =$rr[0];
             }
             $data['store_id'] = $store_id;
             if(empty($data['store_name'])){
@@ -98,10 +105,16 @@ class  Material extends  Controller{
     public  function  direct_seeding_update(Request $request){
         if($request->isPost()){
         $data = $request->param();
-        $show_images = $request->file("icon_image");
-        if ($show_images) {
-            $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
-            $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+         //测试七牛上传图片
+         $qiniu=new Qiniu();
+         //获取店铺七牛云的配置项
+         $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+         $images='icon_image';
+         $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+        // $show_images = $request->file("icon_image");
+        if ($rr) {
+            // $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
+            $data["icon_image"] = $rr[0];
         }
         if(empty($data['store_name'])){
             $data['live'] = 2;
