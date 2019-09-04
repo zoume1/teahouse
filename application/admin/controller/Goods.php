@@ -403,7 +403,8 @@ class Goods extends Controller
                 $se = explode(",", $image["goods_show_images"]);
                 foreach ($se as $key => $value) {
                     if ($value == $id) {
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                        // unlink($value);
+                        unset($se[$key]);
                     } else {
                         $new_image[] = $value;
                     }
@@ -574,7 +575,6 @@ class Goods extends Controller
                     $rest = 0;
                  }
              }
-             halt($goods_data);
              $bool = db("goods")->where("id", $id)->update($goods_data);
              if ($bool || $rest) {
                  $this->success("更新成功", url("admin/Goods/index"));
