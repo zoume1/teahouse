@@ -15,6 +15,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\paginator\driver\Bootstrap;
+use app\admin\controller\Qiniu;
 
 class Bonus extends Controller
 {
@@ -54,20 +55,20 @@ class Bonus extends Controller
         if ($request->isPost()) {
             $store_id = Session::get("store_id");
             $goods_data = $request->param();
-            $list = [];
-            $show_images = $request->file("goods_show_images");
+            // $list = [];
+            // $show_images = $request->file("goods_show_images");
+            //测试七牛上传图片
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+            $images='goods_show_images';
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
 
-
-            if (!empty($show_images)) {
-                foreach ($show_images as $ky => $vl) {
-                    $show = $vl->move(ROOT_PATH . 'public' . DS . 'uploads');
-                    $list[] = str_replace("\\", "/", $show->getSaveName());
-                }
-                $goods_data["goods_show_image"] = $list[0];
-                $goods_data["goods_show_images"] = implode(',', $list);
+            if (!empty($rr)) {
+                $goods_data["goods_show_image"] = $rr[0];
+                $goods_data["goods_show_images"] = implode(',', $rr);
                 $goods_data["store_id"] = $store_id;
             }
-
             $bool = db("bonus_mall")->insert($goods_data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Bonus/bonus_index"));
@@ -105,16 +106,17 @@ class Bonus extends Controller
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
-            
-            $show_images = $request->file("goods_show_images");
-            $list = [];
-
-            if (!empty($show_images)) {
-                foreach ($show_images as $k => $v) {
-                    $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-                    $list[] = str_replace("\\", "/", $show->getSaveName());
-                }
-                $liste = implode(',', $list);
+            $store_id=Session::get('store_id');
+            // $show_images = $request->file("goods_show_images");
+            // $list = [];
+            //测试七牛上传图片
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+            $images='goods_show_images';
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            if (!empty($rr)) {
+                $liste = implode(',', $rr);
                 $image = db("bonus_mall")->where("id", $id)->field("goods_show_images")->find();
                 if (!empty($image["goods_show_images"])) {
                     $exper = $image["goods_show_images"];
@@ -122,7 +124,7 @@ class Bonus extends Controller
                     $goods_data["goods_show_images"] = $montage;
                 } else {
                     $montage = $liste;
-                    $goods_data["goods_show_image"] = $list[0];
+                    $goods_data["goods_show_image"] = $rr[0];
                     $goods_data["goods_show_images"] = $montage;
                 }
             } else {
@@ -177,7 +179,8 @@ class Bonus extends Controller
                 $se = explode(",", $image["goods_show_images"]);
                 foreach ($se as $key => $value) {
                     if ($value == $id) {
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                        // unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                        unset($se[$key]);
                     } else {
                         $new_image[] = $value;
                     }
@@ -401,7 +404,6 @@ class Bonus extends Controller
             
             $data = $request->param();
             
-            var_dump($data);die;
             if(isset($data["scope"])){
                 $data["scope"] = implode(",", $data["scope"]);
             }
