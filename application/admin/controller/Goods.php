@@ -199,7 +199,7 @@ class Goods extends Controller
                     'store_id'=>$store_id
                 ];
                 $update_line = $restl->add($update_data);
-                if ($bool && (!empty($show_images))) {
+                if ($bool && (!empty($rr))) {
                     $this->success("添加成功", url("admin/Goods/index"));
                 } else {
                     $this->success("添加失败", url('admin/Goods/add'));
@@ -283,10 +283,10 @@ class Goods extends Controller
                 //获取店铺七牛云的配置项
                 $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
                 $images='imgs';
-                $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+                $rr2=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
                 // $imgs = $request->file("imgs");
-                if (!empty($rr)) {
-                    foreach ($rr as $k => $v) {
+                if (!empty($rr2)) {
+                    foreach ($rr2 as $k => $v) {
                         // $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                         // $tab = str_replace("\\", "/", $shows->getSaveName());
                         if (is_array($goods_data)) {
@@ -336,7 +336,7 @@ class Goods extends Controller
                 foreach ($values as $kz => $vw) {
                     $rest[$kz] = db('special')->insertGetId($vw);
                 }    
-                if ($rest && (!empty($show_images))) {
+                if ($rest && (!empty($rr2))) {
                     $this->success("添加成功", url("admin/Goods/index"));
                 } else {
                     $this->success("添加失败", url('admin/Goods/add'));
