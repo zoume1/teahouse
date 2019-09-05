@@ -294,10 +294,10 @@ class  Analyse extends  Controller{
                 }
                 if ($goods_data["goods_standard"] == "0") {
                     $bool = db("analyse_goods")->insert($goods_data);
-                    if ($bool && (!empty($show_images))) {
+                    if ($bool || (!empty($rr))) {
                         $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                        $this->error("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
                 if ($goods_data["goods_standard"] == "1") {
@@ -361,9 +361,9 @@ class  Analyse extends  Controller{
                     $bucket = 'goods';
                      $domain='teahouse.siring.cn';
                      $images='imgs';
-                     $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
-                    if (!empty($rr)) {
-                        foreach ($rr as $k => $v) {
+                     $rr2=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
+                    if (!empty($rr2)) {
+                        foreach ($rr2 as $k => $v) {
                             if (is_array($goods_data)) {
                                 foreach ($goods_data as $key => $value) {
                                     if (substr($key, 0, 3) == "sss") {
@@ -387,10 +387,10 @@ class  Analyse extends  Controller{
                     foreach ($values as $kz => $vw) {
                         $rest = db('analyse_special')->insertGetId($vw);
                     }    
-                    if ($rest || (!empty($rr))) {
+                    if ($rest || (!empty($rr2))) {
                         $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                        $this->error("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
             }     
@@ -425,10 +425,10 @@ class  Analyse extends  Controller{
                 
                 if ($goods_data["goods_standard"] == "0") {
                     $bool = db("analyse_goods")->insert($goods_data);
-                    if ($bool && (!empty($show_images))) {
+                    if ($bool || (!empty($rr))) {
                         $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                        $this->error("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
                 if ($goods_data["goods_standard"] == "1") {
@@ -485,9 +485,9 @@ class  Analyse extends  Controller{
                    $bucket = 'goods';
                     $domain='teahouse.siring.cn';
                     $images='imgs';
-                    $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
-                    if (!empty($rr)) {
-                        foreach ($rr as $k => $v) {
+                    $rr2=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
+                    if (!empty($rr2)) {
+                        foreach ($rr2 as $k => $v) {
                            
                             if (is_array($goods_data)) {
                                 foreach ($goods_data as $key => $value) {
@@ -510,10 +510,10 @@ class  Analyse extends  Controller{
                     foreach ($values as $kz => $vw) {
                         $rest = db('analyse_special')->insertGetId($vw);
                     }    
-                    if ($rest && (!empty($show_images))) {
+                    if ($rest || (!empty($rr2))) {
                         $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                        $this->error("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
            }     
@@ -527,7 +527,6 @@ class  Analyse extends  Controller{
     public function analyse_edit($id){
         $analyse = db("analyse_goods")->where("id", $id)->select();
         $goods_standard = db("analyse_special")->where("goods_id", $id)->select();
-        
         foreach ($analyse as $key => $value) {
             if(!empty($analyse[$key]["goods_show_images"])){
                 $analyse[$key]["goods_show_images"] = explode(',', $analyse[$key]["goods_show_images"]);
@@ -601,7 +600,7 @@ class  Analyse extends  Controller{
              $images='file';
              $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
             if(empty($rr)){
-                $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+                $image = db("adder_goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"])){
                     $goods_data["goods_show_images"] = $image["goods_show_images"];
                 } else {
@@ -610,7 +609,7 @@ class  Analyse extends  Controller{
                 }
             }else{
                     $liste = implode(',', $rr);
-                    $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+                    $image = db("adder_goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"]))
                 {
                     $exper = $image["goods_show_images"];

@@ -1373,7 +1373,7 @@ class  Control extends  Controller{
      */
      public function control_store_list(){
          //获取所有已申请成功的店铺
-         $xcx_list=Db::table('applet')->field('id,name,template_id')->select();
+         $xcx_list=Db::table('applet')->field('id,name,template_id,is_chuan,is_que,is_fabu,thumb')->select();
          $xcx_list = array_values($xcx_list);
          $url = 'admin/Control/control_store_list';
          $pag_number = 20;
