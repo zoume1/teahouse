@@ -3472,16 +3472,7 @@ class  General extends  Base {
             }
         }
     }
-    /**
-     * lilu
-     * 增值订单---售后维权--批注
-     */
-    public function adder_order_pizhu()
-    {
-        //获取店铺id
-        $store_id=Session::get('store_id');
-        $input=input();
-    }
+   
 
 
 
