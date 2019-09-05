@@ -264,7 +264,27 @@ class  Analyse extends  Controller{
      * @return \think\response\View
      */
     public function  analyse_after_sale(){
-        return view("analyse_after_sale");
+       
+        //获取增值订单的售后记录
+        $adder_order_list=db('adder_after_sale')->order('operation_time desc')->select();
+        foreach($adder_order_list as $k=>$v){
+            //获取店铺名称
+            $adder_order_list[$k]['store_name']=db('store')->where('id',$v['store_id'])->value('store_name');
+        }
+        //分页处理
+        $all_idents = $adder_order_list;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $adder_order_list = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Analyse/analyse_after_sale'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $adder_order_list->appends($_GET);
+        $this->assign('access', $adder_order_list->render());
+        return view("analyse_after_sale",['data'=>$adder_order_list]);
     }
 
 
