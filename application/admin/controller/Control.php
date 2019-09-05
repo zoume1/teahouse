@@ -143,14 +143,23 @@ class  Control extends  Controller{
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $data = $request->param();
-            $data["cost"] = implode(",",$data["cost"]);
-            $data["favourable_cost"] = implode(",",$data["favourable_cost"]);
-
-            $bool = db("enter_meal")->where("id",$id)->update($data);
-            if ($bool) {
+            foreach($data['cost'] as $key =>$value)
+            {
+                $enterall_data = [
+                    'cost'=>$value,
+                    'favourable_cost'=>$data["favourable_cost"][$key],
+                    'version_introduce'=>$data['version_introduce']
+                ];
+                if($key != 0){
+                    unset($enterall_data['version_introduce']);
+                }
+                $rest = db('enter_all')->where('enter_id',$id)->where('year',$key)->update($enterall_data);
+            }
+            
+            if ($rest) {
                 $this->success("编辑成功", url("admin/Control/control_meal_index"));
             } else {
-                $this->success("编辑失败", url('admin/Control/control_meal_index'));
+                $this->success("编辑成功", url('admin/Control/control_meal_index'));
             }
         }
     }
@@ -159,21 +168,32 @@ class  Control extends  Controller{
 
     /**
      * [入驻套餐首页显示]
+     * 郭杨
      * 保存
      * 
      */
     public function control_meal_edit($id)
     {
         $meal = db("enter_meal")->where("id",$id)->find();
+        $meal_cost = db("enter_all")->where("enter_id",$id)->field('cost,favourable_cost,version_introduce')->select();
+
+        foreach($meal_cost as $value){
+            $cost_data[] = $value['cost'] ;
+            $cost_min[] = $value['favourable_cost'] ;
+            $version_introduce[] = $value['version_introduce'];
+        }
+
         $meal_edit = array(
             "id" => $meal["id"],
             "name" => $meal["name"],
             "sort_number"=> $meal["sort_number"],
             "status" => $meal["status"],
-            "cost" => explode(",",$meal["cost"]),
-            "favourable_cost" => explode(",",$meal["favourable_cost"])
+            "cost" => $cost_data,
+            "favourable_cost" => $cost_min,
+            'version_introduce'=>$version_introduce[0]
         );
-       
+      
+   
         return view("control_meal_edit",["meal_edit"=>$meal_edit]);
     }
 
