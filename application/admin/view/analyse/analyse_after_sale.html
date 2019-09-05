@@ -362,7 +362,7 @@
 
 <!--请在下方写此页面业务相关的脚本-->
 {block name="bottom"}
-<script src="__STATIC__/admin/common/layui/layui.js"></script>
+<script src="__STATIC__/admin/index/common/layui/layui.js"></script>
 <script type="text/javascript">
     layui.config({
         base: "js/"
@@ -500,12 +500,12 @@
     dhtml2 += ' <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="输入退款金额" class="layui-input danhao" >';
     dhtml2 += '</div>';
     dhtml2 += '<button type="button" class="submit_btns"  data-id="">确定</button>';
-    $(".static_btus12").click(function () {
+    $(".static_btus").click(function () {
         var data_id = $(this).data("id");
         $(".local_host_repay").data("id", data_id);
         $.ajax({
             type: "POST",
-            url: "{:url('admin/AfterSale/business_after_sale_information')}",
+            url: "{:url('admin/AfterSale/adder_after_sale_information')}",
             data: {
                 "after_sale_id": data_id,
             },
@@ -815,7 +815,7 @@
             if (val != "0") {
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/AfterSale/after_sale_status')}",
+                    url: "{:url('admin/AfterSale/adder_after_sale_status')}",
                     data: {
                         "after_sale_id": value,
                         "status": val,
@@ -841,7 +841,7 @@
                 if (val != 0 || danhao != '') {
                     $.ajax({
                         type: "POST",
-                        url: "{:url('admin/AfterSale/after_sale_express_add')}",
+                        url: "{:url('admin/AfterSale/adder_after_sale_express_add')}",
                         data: {
                             "after_sale_id": value,
                             "status": val,
@@ -866,7 +866,7 @@
                     $.ajax({
                         type: "POST",
                         // url: "{:url('index/Api/order_refund')}",
-                        url: "{:url('admin/AfterSale/after_sale_refound')}",
+                        url: "{:url('admin/AfterSale/adder_after_sale_refound')}",
                         data: {
                             "after_sale_id": value,
                             "status": val,
@@ -894,7 +894,7 @@
             if (val != 0 && courier_company != 'null' && tracking_number != 'null') {
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/AfterSale/after_sale_status')}",
+                    url: "{:url('admin/AfterSale/adder_after_sale_status')}",
                     data: {
                         "after_sale_id": value,
                         "status": val,
@@ -920,7 +920,7 @@
         if (Information != '') {
             $.ajax({
                 type: "POST",
-                url: "{:url('admin/AfterSale/business_replay')}",
+                url: "{:url('admin/AfterSale/adder_business_replay')}",
                 data: {
                     "after_sale_id": data_id,
                     "content": Information,
