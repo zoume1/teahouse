@@ -158,42 +158,42 @@ class  AfterSale extends  Controller{
 //            }
 //        }
 //    }
-/**
- * lilu
- * 退款维权---退款（余额）
- */
-public function after_sale_refound(){
-    //获取参数
-    $input=input();
-    //获取订单信息
-    $order_info=db('after_sale')->where('id',$input['after_sale_id'])->find();
-    //退款至会员余额
-    $re=db('member')->where('member_id',$order_info['member_id'])->setInc('member_wallet',$input['business_return_money']);
-    $money=db('member')->where('member_id',$order_info['member_id'])->value('member_wallet');
-    //退款记录
-    $map['user_id']=$order_info['member_id'];
-    $map['wallet_operation']=$input['business_return_money'];
-    $map['wallet_type']=1;
-    $map['operation_time']=date('Y-m-d H:i:s',time());
-    $map['wallet_remarks']='售后单号为'.$order_info['sale_order_number'].'退款成功';
-    $map['wallet_img']='';
-    $map['title']=date('Y-m-d H:i:s',time());
-    $map['order_nums']=date('Y-m-d H:i:s',time());
-    $map['pay_type']='小城序';
-    $map['wallet_balance']=$money;
-    $map['operation_linux_time']=time();
-    db('wallet')->insert($map);
-    //修改退款维权订单的状态
-    $re2=db('after_sale')->where('id',$input['after_sale_id'])->update(['status'=>'6']);
-    //修改初始订单的状态----已关闭
-    $re3=db('order')->where('id',$order_info['order_id'])->update(['status'=>'0']);
-   if($re && $re2 && $re3){
-       return ajax_success('退款成功');
-    }else{
-        return ajax_error('退款失败');
-   }
+        /**
+         * lilu
+         * 退款维权---退款（余额）
+         */
+        public function after_sale_refound(){
+            //获取参数
+            $input=input();
+            //获取订单信息
+            $order_info=db('after_sale')->where('id',$input['after_sale_id'])->find();
+            //退款至会员余额
+            $re=db('member')->where('member_id',$order_info['member_id'])->setInc('member_wallet',$input['business_return_money']);
+            $money=db('member')->where('member_id',$order_info['member_id'])->value('member_wallet');
+            //退款记录
+            $map['user_id']=$order_info['member_id'];
+            $map['wallet_operation']=$input['business_return_money'];
+            $map['wallet_type']=1;
+            $map['operation_time']=date('Y-m-d H:i:s',time());
+            $map['wallet_remarks']='售后单号为'.$order_info['sale_order_number'].'退款成功';
+            $map['wallet_img']='';
+            $map['title']=date('Y-m-d H:i:s',time());
+            $map['order_nums']=date('Y-m-d H:i:s',time());
+            $map['pay_type']='小城序';
+            $map['wallet_balance']=$money;
+            $map['operation_linux_time']=time();
+            db('wallet')->insert($map);
+            //修改退款维权订单的状态
+            $re2=db('after_sale')->where('id',$input['after_sale_id'])->update(['status'=>'6']);
+            //修改初始订单的状态----已关闭
+            $re3=db('order')->where('id',$order_info['order_id'])->update(['status'=>'0']);
+        if($re && $re2 && $re3){
+            return ajax_success('退款成功');
+            }else{
+                return ajax_error('退款失败');
+        }
 
-}
+        }
 
 
 }

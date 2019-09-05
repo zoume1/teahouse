@@ -1067,6 +1067,11 @@ Route::group("admin",[
     "analyse_ok"=>"admin/Analyse/analyse_ok",               //总控增值已完成
     "analyse_after_sale"=>"admin/Analyse/analyse_after_sale",//总控增值退款维权
     "analyse_order_search"=>"admin/Analyse/analyse_order_search",          //总控增值订单搜索
+    "adder_after_sale_information"=>"admin/Analyse/adder_after_sale_information",          //总控增值订单获取售后信息
+    "adder_after_sale_status"=>"admin/Analyse/adder_after_sale_status",            //总控增值订单修改售后的状态
+    "adder_after_sale_express_add"=>"admin/Analyse/adder_after_sale_express_add",          //总控增值订单--快递信息
+    "adder_after_sale_refound"=>"admin/Analyse/adder_after_sale_refound",          //总控增值订单--退款
+    "adder_business_replay"=>"admin/Analyse/adder_business_replay",                 //总控增值订单--回复
 
 
 
