@@ -1330,6 +1330,21 @@ class  Wxapps extends  Controller{
             return ajax_error('参数错误');
         }
     }
+    /**
+     * lilu
+     * 获取uniacid
+     * appid
+     * is_login   1 登录     0  未登录
+     */
+    public function get_uniacid_by_appid()
+    {
+        //获取传递的参数
+        $input=input();
+        if($input['is_login']=='0'){
+            //模拟一条数据
+
+        }
+    }
 
 
 

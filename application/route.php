@@ -1133,7 +1133,13 @@ Route::group("api",[
     "video_give" =>"api/Live/video_give",//视频点赞接口
     "video_comment" =>"api/Live/video_comment",//视频直播评论接口
     "video_reply" => "api/Live/video_reply",//视频直播回复接口
-    "video_index" =>"api/Live/video_index"//评论显示接口
+    "video_index" =>"api/Live/video_index",//评论显示接口
+    /**
+     * 根据appid获取uniacid
+     */
+    "get_uniacid_by_appid" =>"api/Wxapps/get_uniacid_by_appid",//进入首页获取uniacid
+
+
 ]);
 
 Route::miss("public/miss");
