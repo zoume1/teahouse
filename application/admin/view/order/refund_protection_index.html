@@ -352,7 +352,7 @@
 						<td>
 							<div class="tdimg">
 								{if !empty($vo["images"])} {volist name="vo['images']" id ="value"}
-								<img src="__UPLOADS__/{$value.url}" /> {/volist} {else} 无 {/if}
+								<img src="{$value.url}" /> {/volist} {else} 无 {/if}
 							</div>
 						</td>
 						<td>
@@ -645,7 +645,7 @@
 						dhtml_b += '<div class="img_content">';
 						for (var i = 0; i < data.data.images.length; i++) {
 							// console.log(data.data.images[i])
-							dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
+							dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
 						}
 						dhtml_b += '</div>';
 						dhtml_b += '</div>';
@@ -698,7 +698,7 @@
 						dhtml_b += '<div class="img_content">';
 						for (var i = 0; i < data.data.images.length; i++) {
 							// console.log(data.data.images[i])
-							dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
+							dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
 						}
 						dhtml_b += '</div>';
 						dhtml_b += '</div>';
@@ -749,7 +749,7 @@
 							dhtml_b += '<div class="img_content">';
 							for (var i = 0; i < data.data.images.length; i++) {
 								// console.log(data.data.images[i])
-								dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
+								dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
 							}
 							dhtml_b += '</div>';
 							dhtml_b += '</div>';
@@ -832,7 +832,7 @@
 							dhtml_b += '<div class="img_content">';
 							for (var i = 0; i < data.data.images.length; i++) {
 								// console.log(data.data.images[i])
-								dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
+								dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
 							}
 							dhtml_b += '</div>';
 							dhtml_b += '</div>';
@@ -888,7 +888,7 @@
 						dhtml_b += '<div class="img_content">';
 						for (var i = 0; i < data.data.images.length; i++) {
 							// console.log(data.data.images[i])
-							dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
+							dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
 						}
 						dhtml_b += '</div>';
 						dhtml_b += '</div>';
