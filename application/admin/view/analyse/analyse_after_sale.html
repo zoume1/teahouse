@@ -16,7 +16,9 @@
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/css/index.css" />
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/jquery.datetimepicker.css" />
 
 <style type="text/css">
     * {margin: 0;padding: 0;}
@@ -84,6 +86,7 @@
 		color: #fff;
 		background: #169BD5;
 		border-radius: 10px;
+        border: 0;
 	}
 
 	.popup_doms {
@@ -178,6 +181,7 @@
 		color: #fff;
 		background: #669900;
 		border-radius: 10px;
+        border:0;
 	}
 
 	.layui-inputs {
@@ -505,7 +509,7 @@
         $(".local_host_repay").data("id", data_id);
         $.ajax({
             type: "POST",
-            url: "{:url('admin/AfterSale/adder_after_sale_information')}",
+            url: "{:url('admin/Analyse/adder_after_sale_information')}",
             data: {
                 "after_sale_id": data_id,
             },
@@ -535,10 +539,10 @@
                     dhtml_b += '<span>' + data.data.return_reason + '</span>';
                     dhtml_b += '</div>';
                     dhtml_b += '<div class="img_content">';
-                    for (var i = 0; i < data.data.images.length; i++) {
-                        // console.log(data.data.images[i])
-                        dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
-                    }
+                    // for (var i = 0; i < data.data.images.length; i++) {
+                    //     // console.log(data.data.images[i])
+                    //     dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
+                    // }
                     dhtml_b += '</div>';
                     dhtml_b += '</div>';
                     $(".chat").append(dhtml_b);
@@ -588,10 +592,10 @@
                     dhtml_b += '<span>' + data.data.return_reason + '</span>';
                     dhtml_b += '</div>';
                     dhtml_b += '<div class="img_content">';
-                    for (var i = 0; i < data.data.images.length; i++) {
-                        // console.log(data.data.images[i])
-                        dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
-                    }
+                    // for (var i = 0; i < data.data.images.length; i++) {
+                    //     // console.log(data.data.images[i])
+                    //     dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
+                    // }
                     dhtml_b += '</div>';
                     dhtml_b += '</div>';
                     $(".chat").append(dhtml_b);
@@ -639,10 +643,10 @@
                         dhtml_b += '<span>' + data.data.return_reason + '</span>';
                         dhtml_b += '</div>';
                         dhtml_b += '<div class="img_content">';
-                        for (var i = 0; i < data.data.images.length; i++) {
-                            // console.log(data.data.images[i])
-                            dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
-                        }
+                        // for (var i = 0; i < data.data.images.length; i++) {
+                        //     // console.log(data.data.images[i])
+                        //     dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
+                        // }
                         dhtml_b += '</div>';
                         dhtml_b += '</div>';
                         $(".chat").append(dhtml_b);
@@ -722,10 +726,10 @@
                         dhtml_b += '<span>' + data.data.return_reason + '</span>';
                         dhtml_b += '</div>';
                         dhtml_b += '<div class="img_content">';
-                        for (var i = 0; i < data.data.images.length; i++) {
-                            // console.log(data.data.images[i])
-                            dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
-                        }
+                        // for (var i = 0; i < data.data.images.length; i++) {
+                        //     // console.log(data.data.images[i])
+                        //     dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
+                        // }
                         dhtml_b += '</div>';
                         dhtml_b += '</div>';
                         $(".chat").append(dhtml_b);
@@ -778,10 +782,10 @@
                     dhtml_b += '<span>' + data.data.return_reason + '</span>';
                     dhtml_b += '</div>';
                     dhtml_b += '<div class="img_content">';
-                    for (var i = 0; i < data.data.images.length; i++) {
-                        // console.log(data.data.images[i])
-                        dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
-                    }
+                    // for (var i = 0; i < data.data.images.length; i++) {
+                    //     // console.log(data.data.images[i])
+                    //     dhtml_b += '<img src="' + data.data.images[i].url + '" alt="" >';
+                    // }
                     dhtml_b += '</div>';
                     dhtml_b += '</div>';
                     $(".chat").append(dhtml_b);
@@ -815,7 +819,7 @@
             if (val != "0") {
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/AfterSale/adder_after_sale_status')}",
+                    url: "{:url('admin/Analyse/adder_after_sale_status')}",
                     data: {
                         "after_sale_id": value,
                         "status": val,
@@ -841,7 +845,7 @@
                 if (val != 0 || danhao != '') {
                     $.ajax({
                         type: "POST",
-                        url: "{:url('admin/AfterSale/adder_after_sale_express_add')}",
+                        url: "{:url('admin/Analyse/adder_after_sale_express_add')}",
                         data: {
                             "after_sale_id": value,
                             "status": val,
@@ -866,7 +870,7 @@
                     $.ajax({
                         type: "POST",
                         // url: "{:url('index/Api/order_refund')}",
-                        url: "{:url('admin/AfterSale/adder_after_sale_refound')}",
+                        url: "{:url('admin/Analyse/adder_after_sale_refound')}",
                         data: {
                             "after_sale_id": value,
                             "status": val,
@@ -894,7 +898,7 @@
             if (val != 0 && courier_company != 'null' && tracking_number != 'null') {
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/AfterSale/adder_after_sale_status')}",
+                    url: "{:url('admin/Analyse/adder_after_sale_status')}",
                     data: {
                         "after_sale_id": value,
                         "status": val,
@@ -920,7 +924,7 @@
         if (Information != '') {
             $.ajax({
                 type: "POST",
-                url: "{:url('admin/AfterSale/adder_business_replay')}",
+                url: "{:url('admin/Analyse/adder_business_replay')}",
                 data: {
                     "after_sale_id": data_id,
                     "content": Information,
