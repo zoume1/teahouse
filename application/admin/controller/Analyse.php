@@ -1309,40 +1309,47 @@ class  Analyse extends  Controller{
                 return ajax_error('商家拒绝收货，请及时和客服联系');
             }
        }else{
-           //收货----退款
+           //换货
            //获取订单信息
            $order_info=db('adder_after_sale')->where('id',$input['after_sale_id'])->find();
-           if($order_id['is_return_goods']=='1'){
-               //换货
-
+           if($order_info['is_return_goods']=='1'){
+               //换货--修改订单的状态
+               $data['buy_express_company']=$input['express'];
+                $data['buy_express_number']=$input['danhao'];
+                $data['status']=7;
+               $re2=db('adder_after_sale')->where('id',$input['after_sale_id'])->update($data);   //店铺已退货
+               if($re2){
+                   return ajax_success('发货成功'); 
+                }else{
+                    return ajax_error('发货失败'); 
+               }
            }else{
-               //退款
+               //退款至会员余额
+               $re=db('member')->where('member_id',$order_info['member_id'])->setInc('member_wallet',$input['money']);
+               $money=db('member')->where('member_id',$order_info['member_id'])->value('member_wallet');
+               //退款记录
+               $map['user_id']=$order_info['member_id'];
+               $map['wallet_operation']=$input['money'];
+               $map['wallet_type']=1;
+               $map['operation_time']=date('Y-m-d H:i:s',time());
+               $map['wallet_remarks']='售后单号为'.$order_info['sale_order_number'].'退款成功';
+               $map['wallet_img']='';
+               $map['title']=date('Y-m-d H:i:s',time());
+               $map['order_nums']=date('Y-m-d H:i:s',time());
+               $map['pay_type']='小城序';
+               $map['wallet_balance']=$money;
+               $map['operation_linux_time']=time();
+               db('wallet')->insert($map);
+               //修改退款维权订单的状态
+               $re2=db('adder_after_sale')->where('id',$input['after_sale_id'])->update(['status'=>'6']);
+               if($re && $re2 ){
+                    return ajax_success('退款成功');
+                }else{
+                    return ajax_error('退款失败');
+               }
+           }
 
            }
-           //退款至会员余额
-           $re=db('member')->where('member_id',$order_info['member_id'])->setInc('member_wallet',$input['money']);
-           $money=db('member')->where('member_id',$order_info['member_id'])->value('member_wallet');
-           //退款记录
-           $map['user_id']=$order_info['member_id'];
-           $map['wallet_operation']=$input['money'];
-           $map['wallet_type']=1;
-           $map['operation_time']=date('Y-m-d H:i:s',time());
-           $map['wallet_remarks']='售后单号为'.$order_info['sale_order_number'].'退款成功';
-           $map['wallet_img']='';
-           $map['title']=date('Y-m-d H:i:s',time());
-           $map['order_nums']=date('Y-m-d H:i:s',time());
-           $map['pay_type']='小城序';
-           $map['wallet_balance']=$money;
-           $map['operation_linux_time']=time();
-           db('wallet')->insert($map);
-           //修改退款维权订单的状态
-           $re2=db('adder_after_sale')->where('id',$input['after_sale_id'])->update(['status'=>'6']);
-       }
-   if($re && $re2 ){
-       return ajax_success('退款成功');
-       }else{
-           return ajax_error('退款失败');
-   }
 
    }
    /**
