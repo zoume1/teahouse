@@ -524,6 +524,7 @@
                 $(".operation").data("id", way);
                 $(".operation").data("value", data_id);
                 $(".operation").data("name", data.data.is_return_goods);
+                $(".operation").data("money", data.data.application_amount);
                
                 // 申请中
                 if (way == 1) {
@@ -573,7 +574,7 @@
                     $(".operation").append(dhtml_c);
                 }
                 // 收货中
-                else if (way == 3) {
+                else if (way == 2) {
                     var dhtml_d = '';
                     dhtml_d += '<div class="repany">';
                     dhtml_d += '<span class="span">客户申请</span>';
@@ -623,7 +624,7 @@
                     dhtml_c += '</div>';
                     dhtml_c += '<button type="button" class="submit_btns" data_id="">确定</button>';
                     $(".operation").append(dhtml_c);
-                } else if (way == 2) {
+                } else if (way == 3) {
                     if (data.data.is_return_goods == 1) {
                         var dhtml_d = '';
                         dhtml_d += '<div class="repany">';
@@ -814,7 +815,10 @@
     $(".operation").on("click", ".submit_btns", function () {
         var static = $(".operation").data("id");
         var value = $(".operation").data("value");   //退款维权记录id
+        var money = $(".operation").data("money");   //退款维权--money
         //  申请中  收货中
+        // alert(static);
+        // return false;
         if (static == 1) {
             var val = $(".operation_select  option:selected").val();
             if (val != "0") {
@@ -832,66 +836,27 @@
                     error: function (data) {
                     }
                 });
-
             }
-
             $(".popup").addClass("noshow");
         } else if (static == 2) {
-            //获取快递信息
-            //  处理中
+            // 收货
             var val = $(".operation_select  option:selected").val();
-            var kuaidi = $(".curier  option:selected").val();
-            var danhao = $(".danhao").val();
-            if ($(".operation").data("name") == 1) {
-                if (val != 0 || danhao != '') {
-                    $.ajax({
+            $.ajax({
                         type: "POST",
-                        url: "{:url('admin/Analyse/adder_after_sale_express_add')}",
-                        data: {
-                            "after_sale_id": value,
-                            "status": val,
-                            "sell_express_company": kuaidi,
-                            "sell_express_number": danhao,
-                        },
-                        async: false,
-                        success: function (data) {
-                            location.reload();
-                        },
-                        error: function (data) {
-
-                        }
-                    });
-
-                } else {
-                    alert("单号不能为空")
-                }
-            }
-            else {   //退款操作
-                if (val != 0 || danhao != '') {
-                    $.ajax({
-                        type: "POST",
-                        // url: "{:url('index/Api/order_refund')}",
                         url: "{:url('admin/Analyse/adder_after_sale_refound')}",
                         data: {
                             "after_sale_id": value,
                             "status": val,
-                            "business_return_money": danhao,
+                            "money": money,
                         },
                         async: false,
                         success: function (data) {
-                            alert('已退款至余额，请提醒用户及时查看');
                             location.reload();
                         },
                         error: function (data) {
 
                         }
                     });
-
-                }
-                else {
-                    alert("钱数不能为空")
-                }
-            }
         } else if (static == 3) {
             var val = $(".operation_select  option:selected").val();
             var tracking_number = $('#tracking_number').val(); 

@@ -300,6 +300,50 @@ class  AfterSale extends  Controller{
 
         }
     }
+    /**
+     * lilu
+     * after_salse_id
+     * status
+     * express
+     * danhao
+     */
+     public function  adder_send_goods()
+     {
+         //获取参数
+        $input=input();
+        if(!$input['express']){
+            $input['exprss']=0;
+        }
+        if(!$input['danhao']){
+            $input['danhao']=0;
+        }
+        if($input['status']=='4'){
+            //获取增值售后记录
+            $data['buy_express_company']=$input['express'];
+            $data['buy_express_number']=$input['danhao'];
+            $data['status']='2';
+            $adder_order=db('adder_after_sale')->where('id',$input['after_sale_id'])->update($data);
+            if($adder_order){
+                return ajax_success('发货成功');
+            }else{
+                return ajax_error('发货失败');
+    
+            }
+        }else{
+            //用户拒绝
+            $data['who_handle']=1;
+            $data['buy_express_company']=$input['express'];
+            $data['buy_express_number']=$input['danhao'];
+            $data['status']='5';
+            $adder_order=db('adder_after_sale')->where('id',$input['after_sale_id'])->update($data);
+            if($adder_order){
+                //修改售后状态为已发货
+                return ajax_success('拒绝发货成功，请及时和客服联系');
+            }else{
+                return ajax_error('取消发货失败，请及时和客服联系');
+            }
+        }
+    }
 
 
 }

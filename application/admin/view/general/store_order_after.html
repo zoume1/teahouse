@@ -577,7 +577,7 @@
                     dhtml_c += '</select>';
                     dhtml_c += '</div>';
                     dhtml_c += '<button type="button" class="submit_btns" data_id="">确定</button>';
-                    $(".operation").append(dhtml_c);
+                    // $(".operation").append(dhtml_c);
                     //发货
                 } else if (way == 3) {
                     if (data.data.is_return_goods == 1) {
@@ -769,6 +769,7 @@
     $(".operation").on("click", ".submit_btns", function () {
         var static = $(".operation").data("id");
         var value = $(".operation").data("value");   //退款维权记录id
+        
         //  申请中  收货中
         if (static == 1) {
             var val = $(".operation_select  option:selected").val();
@@ -848,7 +849,36 @@
                 }
             }
         } else if (static == 3) {
-            var val = $(".operation_select  option:selected").val();
+            //发货
+            var val = $(".operation_select  option:selected").val(); //操作---4  发货  5 --拒绝（售后结束）
+            var express = $(".curier  option:selected").val(); //操作---4  发货  5 --拒绝（售后结束）
+            var danhao=$('.danhao').val();
+            if (val != 0 && express != 'null' && danhao != 'null') {
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/AfterSale/adder_send_goods')}",
+                    data: {
+                        "after_sale_id": value,
+                        "status": val,
+                        "express": express,
+                        "danhao": danhao,
+                    },
+                    async: false,
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function (data) {
+                    }
+                });
+
+            } else {
+                alert('客户尚未填写物流信息')
+            }
+            $(".popup").addClass("noshow");
+
+        }else{
+            
+            var val = $(".operation_select  option:selected").val(); //操作---4  发货  5 --拒绝（售后结束）
             var tracking_number = $('#tracking_number').val(); 
             var courier_company = $('#courier_company').val(); 
             if (val != 0 && courier_company != 'null' && tracking_number != 'null') {
@@ -872,6 +902,7 @@
             }
 
             $(".popup").addClass("noshow");
+
         }
     })
     $(".local_host_repay").on("click", function () {
