@@ -1257,12 +1257,15 @@ class Goods extends Controller
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
-            $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
+            $goods[$key]["scope"] = explode(',', $goods[0]["scope"]);
             $goods[$key]["goods_delivery"] = json_decode($goods[$key]["goods_delivery"],true);
             $goods[$key]["goods_sign"] = json_decode($goods[$key]["goods_sign"],true);
+        }else{
+            $goods[$key]["scope"] = explode(',', $goods[0]["scope"]);
+
         }
      }
-     foreach ($goods_standard as $k => $v) {
+        foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);         
         }
