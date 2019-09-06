@@ -1096,9 +1096,14 @@ Route::group("admin",[
     /*高级分销设置 */
     "setting_index"=>"admin/Setting/setting_index",                  //高级分销设置显示
     "setting_update"=>"admin/Setting/setting_update",                //高级分销设置编辑
-    
 
-
+   /*总控分销代理 */
+   "detail_index"=>"admin/City/detail_index",                  //分销代理详细
+   "city_setting"=>"admin/City/city_setting",                  //分销代理设置
+   "city_rank_meal"=>"admin/City/city_rank_meal",              //城市等级套餐
+   "city_rank_setting"=>"admin/City/city_rank_setting",        //城市等级设置
+   "city_datum_verify"=>"admin/City/city_datum_verify",        //城市入驻资料审核
+   "city_price_examine"=>"admin/City/city_price_examine",      //城市入驻费用审核
 ]);
 
 /**
@@ -1135,6 +1140,8 @@ Route::group("api",[
     "video_reply" => "api/Live/video_reply",//视频直播回复接口
     "video_index" =>"api/Live/video_index"//评论显示接口
 ]);
+
+
 
 Route::miss("public/miss");
 
