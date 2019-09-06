@@ -1040,6 +1040,7 @@ Route::group("admin",[
     "control_store_edit_do"=>"admin/Control/control_store_edit_do",           //总控店铺list编辑
     "version_control"=>"admin/Control/version_control",                 //总控版本控制
     "version_control_do"=>"admin/Control/version_control_do",           //总控版本控制处理
+    "control_store_analyse"=>"admin/Control/control_store_analyse",     //总控--增值订单分析
 
 
 
