@@ -524,6 +524,7 @@
                 $(".operation").data("id", way);
                 $(".operation").data("value", data_id);
                 $(".operation").data("name", data.data.is_return_goods);
+               
                 // 申请中
                 if (way == 1) {
                     var dhtml_a = '';
@@ -812,7 +813,6 @@
     $(".operation").on("click", ".submit_btns", function () {
         var static = $(".operation").data("id");
         var value = $(".operation").data("value");   //退款维权记录id
-        console.log($(".operation").data())
         //  申请中  收货中
         if (static == 1) {
             var val = $(".operation_select  option:selected").val();
