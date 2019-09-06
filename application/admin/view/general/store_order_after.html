@@ -719,7 +719,48 @@
                         dhtml2 += '<button type="button" class="submit_btns"  data-id="">确定</button>';
                         $(".operation").append(dhtml2);
                     }
-                } else {
+                } else if(way=='7'){
+                    var dhtml_d = '';
+                    dhtml_d += '<div class="repany">';
+                    dhtml_d += '<span class="span">客户申请</span>';
+                    dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款' + data.data.application_amount + '元"  style="border:0">';
+                    dhtml_d += '</div>';
+                    dhtml_d += '<div class="repany">';
+                    dhtml_d += '<span class="span"> 快递公司 </span>';
+                    dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_company + '"  style="border:0">';
+                    dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
+                    dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_number + '" style="border:0">';
+                    dhtml_d += '</div>';
+                    $("#repay_list").append(dhtml_d);
+                    var dhtml_b = '';
+                    dhtml_b += '<div class="chat_list_content">';
+                    dhtml_b += '<div class="chat_list">';
+                    dhtml_b += '<span class="span">' + timestampToTime(data.data.operation_time) + '</span>';
+                    dhtml_b += '<span>' + data.data.return_reason + '</span>';
+                    dhtml_b += '</div>';
+                    dhtml_b += '<div class="img_content">';
+                    // for (var i = 0; i < data.data.images.length; i++) {
+                    //     // console.log(data.data.images[i])
+                    //     dhtml_b += '<img src="__UPLOADS__/' + data.data.images[i].url + '" alt="" >';
+                    // }
+                    dhtml_b += '</div>';
+                    dhtml_b += '</div>';
+                    $(".chat").append(dhtml_b);
+                    for (var j = 0; j < data.data.reply.length; j++) {
+                        var dhtml_e = '';
+                        dhtml_e += '<div class="chat_list_content">';
+                        dhtml_e += '<div class="chat_list">';
+                        dhtml_e += '<span class="span">' + timestampToTime(data.data.reply[j].create_time) + '</span>';
+                        dhtml_e += '<span>' + data.data.reply[j].content + '</span>';
+                        dhtml_e += '</div>';
+                        dhtml_e += '<div class="img_content">';
+                        dhtml_e += '</div>';
+                        dhtml_e += '</div>';
+                        $(".chat").append(dhtml_e);
+                    }
+                    var dhtml4 = '<button style="margin-left:85%;" type="button" class="submit_btns"  data-id="">确定收货</button>';
+                        $(".operation").append(dhtml4);
+                } else{
                     var dhtml_d = '';
                     dhtml_d += '<div class="repany">';
                     dhtml_d += '<span class="span">客户申请</span>';
@@ -769,14 +810,13 @@
     $(".operation").on("click", ".submit_btns", function () {
         var static = $(".operation").data("id");
         var value = $(".operation").data("value");   //退款维权记录id
-        
         //  申请中  收货中
         if (static == 1) {
             var val = $(".operation_select  option:selected").val();
             if (val != "0") {
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/AfterSale/after_sale_status2')}",
+                    url: "{:url('admin/AfterSale/adder_after_sale_status2')}",
                     data: {
                         "after_sale_id": value,
                         "status": val,
@@ -876,15 +916,35 @@
             }
             $(".popup").addClass("noshow");
 
+        }else if (static=='7'){
+            //换货--确认收货
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/AfterSale/adder_after_sale_status2')}",
+                    data: {
+                        "after_sale_id": value,
+                        "status": 4,
+                    },
+                    async: false,
+                    success: function (data) {
+                        alert('确认收货成功');
+                        setTimeout(function(){
+                             location.reload();
+                        },1500)
+                    },
+                    error: function (data) {
+                    }
+                });
+           
+            $(".popup").addClass("noshow");
         }else{
-            
             var val = $(".operation_select  option:selected").val(); //操作---4  发货  5 --拒绝（售后结束）
             var tracking_number = $('#tracking_number').val(); 
             var courier_company = $('#courier_company').val(); 
             if (val != 0 && courier_company != 'null' && tracking_number != 'null') {
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/AfterSale/after_sale_status2')}",
+                    url: "{:url('admin/AfterSale/adder_after_sale_status2')}",
                     data: {
                         "after_sale_id": value,
                         "status": val,
