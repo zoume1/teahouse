@@ -1212,7 +1212,7 @@ class  Analyse extends  Controller{
         if($request->isPost()){
             $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
             $data =Db::name("adder_after_sale")->where("id",$after_sale_id)->find();
-            $data["reply"] =Db::name("after_reply")->where("after_sale_id",$after_sale_id)->select();
+            $data["reply"] =Db::name("adder_after_reply")->where("after_sale_id",$after_sale_id)->select();
             if(!empty($data)){
                 return ajax_success("售后信息返回成功",$data);
             }else{
@@ -1240,13 +1240,6 @@ class  Analyse extends  Controller{
                     "future_time"=>$normal_future_time,
                     "who_handle"=>3 , //1、用户自己撤销 2 、中途撤销 3、商家拒绝
                 ];
-                //初始订单更改为已关闭
-                $order_id=db('adder_after_sale')->where('id',$after_sale_id)->value('order_id');
-                $order_number=db('order')->where('id',$order_id)->value('parts_order_number');
-                $re=db('order')->where('parts_order_number',$order_number)->select();
-                foreach($re as $k=>$v){
-                    db('order')->where('id',$v['id'])->update(['status'=>0]);
-                }
             }else{      //收货中
                 $data =[
                     "status"=>$status,
