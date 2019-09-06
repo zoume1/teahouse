@@ -17,6 +17,8 @@ use think\View;
 use app\index\controller\Login as Login;
 use app\admin\model\AdderOrder as add;
 use app\admin\model\Store as Store;
+use app\admin\controller\Qiniu;
+
 class  General extends  Base {
    
     private  $store_ids;
@@ -274,10 +276,16 @@ class  General extends  Base {
                 "store_qq"=>$array['store_qq'],
                 "store_introduction"=>$array['store_introduction'],
             ];
-            $store_img =$request->file("store_logo");
-            if(!empty($store_img)){
-                $info = $store_img->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $data["store_logo"] = str_replace("\\","/",$info->getSaveName());
+            // $store_img =$request->file("store_logo");
+            //测试七牛上传图片
+           $qiniu=new Qiniu();
+           //获取店铺七牛云的配置项
+           $store_id=Session::get('store_id');
+           $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+           $images='store_logo';
+           $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            if(!empty($rr)){
+                $data["store_logo"] = $rr[0];
             }
             $bool =Db::table("tb_store")->where("id",$id)->update($data);
             if($bool){
@@ -298,9 +306,6 @@ class  General extends  Base {
         if($request->isPost()){
             $id =$request->only(['id'])['id'];
             $img_logo =Db::table('tb_store')->where("id",$id)->value('store_logo');
-            if(!empty($img_logo)){
-                unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$img_logo);
-            }
             Db::table('tb_store')->where("id",$id)->update(['store_logo'=>null]);
             return ajax_success("删除成功");
         }
@@ -3467,16 +3472,7 @@ class  General extends  Base {
             }
         }
     }
-    /**
-     * lilu
-     * 增值订单---售后维权--批注
-     */
-    public function adder_order_pizhu()
-    {
-        //获取店铺id
-        $store_id=Session::get('store_id');
-        $input=input();
-    }
+   
 
 
 

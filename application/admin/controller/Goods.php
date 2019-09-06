@@ -199,7 +199,7 @@ class Goods extends Controller
                     'store_id'=>$store_id
                 ];
                 $update_line = $restl->add($update_data);
-                if ($bool && (!empty($show_images))) {
+                if ($bool && (!empty($rr))) {
                     $this->success("添加成功", url("admin/Goods/index"));
                 } else {
                     $this->success("添加失败", url('admin/Goods/add'));
@@ -283,10 +283,10 @@ class Goods extends Controller
                 //获取店铺七牛云的配置项
                 $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
                 $images='imgs';
-                $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+                $rr2=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
                 // $imgs = $request->file("imgs");
-                if (!empty($rr)) {
-                    foreach ($rr as $k => $v) {
+                if (!empty($rr2)) {
+                    foreach ($rr2 as $k => $v) {
                         // $shows = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
                         // $tab = str_replace("\\", "/", $shows->getSaveName());
                         if (is_array($goods_data)) {
@@ -336,7 +336,7 @@ class Goods extends Controller
                 foreach ($values as $kz => $vw) {
                     $rest[$kz] = db('special')->insertGetId($vw);
                 }    
-                if ($rest && (!empty($show_images))) {
+                if ($rest && (!empty($rr2))) {
                     $this->success("添加成功", url("admin/Goods/index"));
                 } else {
                     $this->success("添加失败", url('admin/Goods/add'));
@@ -1257,12 +1257,15 @@ class Goods extends Controller
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
-            $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
+            $goods[$key]["scope"] = explode(',', $goods[0]["scope"]);
             $goods[$key]["goods_delivery"] = json_decode($goods[$key]["goods_delivery"],true);
             $goods[$key]["goods_sign"] = json_decode($goods[$key]["goods_sign"],true);
+        }else{
+            $goods[$key]["scope"] = explode(',', $goods[0]["scope"]);
+
         }
      }
-     foreach ($goods_standard as $k => $v) {
+        foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
             $res = explode(',', $v["lv1"]);         
         }
@@ -1421,7 +1424,8 @@ class Goods extends Controller
                 $se = explode(",", $image["goods_show_images"]);
                 foreach ($se as $key => $value) {
                     if ($value == $id) {
-                        unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                        // unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $value);
+                        unset($se[$key]);
                     } else {
                         $new_image[] = $value;
                     }

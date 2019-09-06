@@ -105,31 +105,62 @@
         margin-right: 20px;
         float: left;
     }
-    .partd table{
+
+    .partd table {
         border: 0;
         margin: 11px;
         width: 98%;
     }
-    .partd table td{
-    }
-    .partd table th{
+
+    .partd table td {}
+
+    .partd table th {
         border-color: #E4E4E4;
         background: #F3F3F3;
         padding: 12px;
         font-weight: bold;
     }
-    .parte table{
+
+    .parte table {
         border: 0;
         margin: 11px;
         width: 98%;
     }
-    .parte table td{
-    }
-    .parte table th{
+
+    .parte table td {}
+
+    .parte table th {
         border-color: #E4E4E4;
         background: #F3F3F3;
         padding: 12px;
         font-weight: bold;
+    }
+
+    .low_top {
+        width: 100%;
+        height: 30px;
+        border-bottom: 1px solid rgb(162, 158, 163);
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        color: rgb(6, 105, 155);
+        padding-left: 10px;
+    }
+
+    .countdown {
+        color: red;
+        margin-right: 20px;
+        font-size: 15px;
+    }
+
+    .close {
+        color: rgb(6, 105, 155);
+        font-size: 24px;
+        margin-right: 15px;
+    }
+
+    .content {
+        padding: 10px;
     }
 </style>
 
@@ -195,31 +226,31 @@
                 <td>
                     <span> 新开通店铺</span>
                     <span style="color: red; float: right;">
-						({$data['xian_store_num']})
-					</span>
+                        ({$data['xian_store_num']})
+                    </span>
 
                 </td>
                 <td>
                     <span>待发货订单</span>
 
                     <span style="color: red; float: right;">
-						({$data['adder_order_number_dai']})
-					</span>
+                        ({$data['adder_order_number_dai']})
+                    </span>
                 </td>
                 <td>
                     <span>待处理售后维修订单</span>
 
                     <span style="color: red;float: right;">
-						({$data['shou_order_number']})
-					</span>
+                        ({$data['shou_order_number']})
+                    </span>
                 </td>
             </tr>
             <tr>
-             
+
             </tr>
         </table>
     </div>
-   
+
     <div class="partd">
         <table border="" cellspacing="" cellpadding="">
             <tr>
@@ -229,18 +260,14 @@
                 <td width="14%">
                     <div class="left_content" style="text-align: center;">
                         <p style="font-size: 10px; color: #989898; ">本月订单总数</p>
-                        <p style="font-size: 20px; color: #333; ">10000</p>
-                        <p style="font-size: 10px; color: #989898; "><span style="color: #00A950;">↑10%</span>同比上周</p>
-                    </div>
-                    <div class="left_content" style="text-align: center;" >
-                        <p style="font-size: 10px; color: #989898; ">本月订单总数</p>
-                        <p style="font-size: 20px; color: #333; ">10000</p>
-                        <p style="font-size: 10px; color: #989898; "><span style="color: #00A950;">↑10%</span>同比上周</p>
+                        <p style="font-size: 20px; color: #333; " id="order_all">0</p>
+                        <p style="font-size: 10px; color: #989898; "><span style="color: #00A950;"
+                                id="order_precent">↑0%</span>同比上月</p>
                     </div>
                 </td>
                 <td width="86%">
                     <div class="select">
-                        <ul>
+                        <!-- <ul>
                             <li>
                                 选择时间:
                                 <span class="time"><input type="text" class="text datetimepicker" readonly="readonly" id="beginTime" value=""
@@ -251,7 +278,7 @@
 
 
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
 
                     <div id="container" style="width:80%; height: 400px; margin: 0 auto"></div>
@@ -259,7 +286,7 @@
             </tr>
         </table>
     </div>
-   
+
 
 </div>
 
@@ -270,7 +297,7 @@
 <!--/_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="__STATIC__/admin/common/zhexian/highcharts.js"></script>
 <script language="JavaScript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         var title = {
             text: '本月订单统计'
         };
@@ -278,8 +305,7 @@
             text: 'Source: runoob.com'
         };
         var xAxis = {
-            categories: ['11-1', '11-1', '11-1', '11-1', '11-1', '11-1','11-1',
-            ]
+            categories: []
         };
         var yAxis = {
             title: {
@@ -304,14 +330,39 @@
 
         var series = [{
             name: '日期',
-            data: [100,100,200,200,200,100,300
-            ]
+            data: []
         },
 
         ];
 
         var json = {};
+        function timestampToTime(timestamp) {
+            var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            var Y = date.getFullYear() + '/';
+            var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
+            var D = date.getDate() + ' ';
+            var h = date.getHours() + ':';
+            var m = date.getMinutes() + ':';
+            var s = date.getSeconds();
+            return Y + M + D;
+        }
 
+
+
+        var myDate = new Date();
+        var timestamp = (new Date()).valueOf();
+        var load_time = myDate.getDate();
+        var data_aaa = [];
+        var data_bbb = [];
+        var beginTimea = timestamp;
+        for (var i = 0; i < load_time; i++) {
+            data_aaa.push(timestampToTime((beginTimea - 86400000 * i) / 1000));
+            data_bbb.push(0)
+
+        }
+        // series[0].data = data_bbb;
+        xAxis.categories = reverse(data_aaa);
+        var json = {};
         json.title = title;
         json.subtitle = subtitle;
         json.xAxis = xAxis;
@@ -320,8 +371,108 @@
         json.legend = legend;
         json.series = series;
 
-        $('#container').highcharts(json);
-        $('#containerb').highcharts(json);
+        //本月订单统计
+        $.ajax({
+            url: "control_store_analyse",
+            data: {},
+            success: function (res) {
+                var res = JSON.parse(res), order_precent;
+                if (res.status == 1) {
+                    series[0].data = res.data.arr;
+                    order_precent = (res.data.precent - 100).toFixed(2);
+                    $("#order_all").text(res.data.num);
+                    if (order_precent < 0) {
+                        order_precent = "↓" + order_precent + "%";
+                        $("#order_precent").css("color", "#00A950");
+                    } else if (order_precent > 0) {
+                        order_precent = "↑" + order_precent + "%";
+                        $("#order_precent").css("color", "red");
+                    } else {
+                        order_precent = "↑0%";
+                        $("#order_precent").css("color", "red");
+                    }
+                    $("#order_precent").text(order_precent);
+                    $('#container').highcharts(json);
+
+
+                    $("#data1_refash").click(function () {
+                        var data_aaa = [];
+                        var data_bbb = [];
+                        var beginTime = $("#beginTime").val();
+                        var endTime = $("#endTime").val();
+                        var beginTimea = Date.parse(beginTime);
+                        var endTimea = Date.parse(endTime);
+                        var utc = Number(endTimea) - Number(beginTimea);
+                        var day = Number(utc) / (24 * 60 * 60 * 1000);
+                        for (var i = 0; i < day + 1; i++) {
+                            data_aaa.push(timestampToTime((beginTimea + 86400000 * i) / 1000));
+                            data_bbb.push(series[0].data[i])
+
+                        }
+                        series[0].data = data_bbb;
+                        xAxis.categories = data_aaa;
+
+                        var json = {};
+                        json.title = title;
+                        json.subtitle = subtitle;
+                        json.xAxis = xAxis;
+                        json.yAxis = yAxis;
+                        json.tooltip = tooltip;
+                        json.legend = legend;
+                        json.series = series;
+                        $('#container').highcharts(json);
+
+                    })
+
+                } else {
+                    $("#data1_refash").click(function () {
+                        var data_aaa = [];
+                        var data_bbb = [];
+                        var beginTime = $("#beginTime").val();
+                        var endTime = $("#endTime").val();
+                        var beginTimea = Date.parse(beginTime);
+                        var endTimea = Date.parse(endTime);
+                        var utc = Number(endTimea) - Number(beginTimea);
+                        var day = Number(utc) / (24 * 60 * 60 * 1000);
+                        for (var i = 0; i < day + 1; i++) {
+                            data_aaa.push(timestampToTime((beginTimea + 86400000 * i) / 1000));
+                            data_bbb.push(0)
+
+                        }
+                        series[0].data = data_bbb;
+                        xAxis.categories = data_aaa;
+
+                        var json = {};
+                        json.title = title;
+                        json.subtitle = subtitle;
+                        json.xAxis = xAxis;
+                        json.yAxis = yAxis;
+                        json.tooltip = tooltip;
+                        json.legend = legend;
+                        json.series = series;
+                        $('#container').highcharts(json);
+
+                    });
+                    series[0].data = data_bbb;
+                    $('#container').highcharts(json);
+                }
+            },
+            error: function (e) {
+                console.error(e)
+            }
+        })
+
+        function reverse(a) {
+            var len = a.length;//获取数组的长度
+            var mid = parseInt(len / 2);//获取数组长度的中间值，由于有可能是不是整数，将得到的数字转为整数
+            //利用交换的思想，将数组内的元素放在相应的地方，循环次数为mid+1次
+            for (i = 0; i <= mid; i++) {
+                var temp = a[i];
+                a[i] = a[len - 1 - i];
+                a[len - 1 - i] = temp;
+            }
+            return a;
+        }
     });
 </script>
 

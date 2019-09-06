@@ -57,7 +57,11 @@
                     <tr>
                         <th>店铺id</th>
                         <th>店铺名称</th>
+                        <th>店铺logo</th>
                         <th>当前版本id</th>
+                        <th>是否上传代码</th>
+                        <th>是否提交审核</th>
+                        <th>是否发布</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -67,7 +71,36 @@
 						<tr>
                             <td>{$value.id}</td>
                             <td>{$value.name}</td>
+                            <td>
+                                {if $value.thumb=='0'}
+                                      未上传logo
+                                {else}
+                                    <img src="{$value.thumb}"    >
+                                {/if}
+                            </td>
                             <td>{$value.template_id}</td>
+                            <td>
+                                {if $value.is_chuan=='0'}
+                                   未上传代码
+                                   {else}
+                                   已上传代码
+                                {/if}
+                            </td>
+                            <td>
+                                {if $value.is_que=='0'}
+                                   未提交审核
+                                   {else}
+                                   已提交审核
+                                {/if}
+                            </td>
+                            <td>
+                                {if $value.is_fabu=='0'}
+                                   未发布
+                                   {else}
+                                   已发布
+                                {/if}
+                            </td>
+                           
 							<td>
 								<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Control/control_store_edit',['id'=>$value.id])}"> 编辑
 								</a>

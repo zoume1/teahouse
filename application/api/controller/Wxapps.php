@@ -1330,6 +1330,44 @@ class  Wxapps extends  Controller{
             return ajax_error('参数错误');
         }
     }
+    /**
+     * lilu
+     * 获取uniacid
+     * appid
+     * is_login   1 登录     0  未登录
+     */
+    public function get_uniacid_by_appid()
+    {
+        //获取传递的参数
+        $input=input();
+        if($input['is_login']=='0'){
+            //根据appid获取店铺的信息
+            $store_info=Db::table('applet')->where('appID',$input['appid'])->find();
+            //获取该店铺下的最低级会员
+            //dopagediypage
+            $member_grade_name=db('member_grade')->where('store_id',$store_info['store_id'])->find();
+            //获取open_id
+            $member_open_id=db('member')->where('member_grade_id',$member_grade_name['member_grade_id'])->find();
+            $open_id=$member_open_id['member_openid'];
+            if($store_info){
+                $data['uniacid']=$store_info['store_id'];
+                $data['member_grade_name']=$member_grade_name['member_grade_name'];
+                $data['member_openid']=$open_id;
+                return ajax_success('获取成功',$data);
+            }else{
+                return ajax_error('暂未获取到小程序的店铺信息');
+            }
+        }else{
+            //根据appid获取店铺的信息
+            $store_info=Db::table('applet')->where('appID',$input['appid'])->find();
+            if($store_info){
+                $data['uniacid']=$store_info['store_id'];
+                return ajax_success('获取成功',$data);
+            }else{
+                return ajax_error('暂未获取到小程序的店铺信息');
+            }
+        }
+    }
 
 
 

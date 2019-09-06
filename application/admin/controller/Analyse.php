@@ -264,9 +264,28 @@ class  Analyse extends  Controller{
      * @return \think\response\View
      */
     public function  analyse_after_sale(){
-        return view("analyse_after_sale");
+       
+        //获取增值订单的售后记录
+        $adder_order_list=db('adder_after_sale')->order('operation_time desc')->select();
+        foreach($adder_order_list as $k=>$v){
+            //获取店铺名称
+            $adder_order_list[$k]['store_name']=db('store')->where('id',$v['store_id'])->value('store_name');
+        }
+        //分页处理
+        $all_idents = $adder_order_list;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $adder_order_list = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/Analyse/analyse_after_sale'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $adder_order_list->appends($_GET);
+        $this->assign('access', $adder_order_list->render());
+        return view("analyse_after_sale",['data'=>$adder_order_list]);
     }
-
 
 
     /**
@@ -294,10 +313,10 @@ class  Analyse extends  Controller{
                 }
                 if ($goods_data["goods_standard"] == "0") {
                     $bool = db("analyse_goods")->insert($goods_data);
-                    if ($bool && (!empty($show_images))) {
+                    if ($bool || (!empty($rr))) {
                         $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                        $this->error("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
                 if ($goods_data["goods_standard"] == "1") {
@@ -361,9 +380,9 @@ class  Analyse extends  Controller{
                     $bucket = 'goods';
                      $domain='teahouse.siring.cn';
                      $images='imgs';
-                     $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
-                    if (!empty($rr)) {
-                        foreach ($rr as $k => $v) {
+                     $rr2=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
+                    if (!empty($rr2)) {
+                        foreach ($rr2 as $k => $v) {
                             if (is_array($goods_data)) {
                                 foreach ($goods_data as $key => $value) {
                                     if (substr($key, 0, 3) == "sss") {
@@ -387,10 +406,10 @@ class  Analyse extends  Controller{
                     foreach ($values as $kz => $vw) {
                         $rest = db('analyse_special')->insertGetId($vw);
                     }    
-                    if ($rest || (!empty($rr))) {
+                    if ($rest || (!empty($rr2))) {
                         $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                        $this->error("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
             }     
@@ -425,10 +444,10 @@ class  Analyse extends  Controller{
                 
                 if ($goods_data["goods_standard"] == "0") {
                     $bool = db("analyse_goods")->insert($goods_data);
-                    if ($bool && (!empty($show_images))) {
+                    if ($bool || (!empty($rr))) {
                         $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                        $this->error("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
                 if ($goods_data["goods_standard"] == "1") {
@@ -485,9 +504,9 @@ class  Analyse extends  Controller{
                    $bucket = 'goods';
                     $domain='teahouse.siring.cn';
                     $images='imgs';
-                    $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
-                    if (!empty($rr)) {
-                        foreach ($rr as $k => $v) {
+                    $rr2=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
+                    if (!empty($rr2)) {
+                        foreach ($rr2 as $k => $v) {
                            
                             if (is_array($goods_data)) {
                                 foreach ($goods_data as $key => $value) {
@@ -510,10 +529,10 @@ class  Analyse extends  Controller{
                     foreach ($values as $kz => $vw) {
                         $rest = db('analyse_special')->insertGetId($vw);
                     }    
-                    if ($rest && (!empty($show_images))) {
+                    if ($rest || (!empty($rr2))) {
                         $this->success("添加成功", url("admin/Analyse/analyse_index"));
                     } else {
-                        $this->success("添加失败", url('admin/Analyse/analyse_index'));
+                        $this->error("添加失败", url('admin/Analyse/analyse_index'));
                     }
                 }
            }     
@@ -527,7 +546,6 @@ class  Analyse extends  Controller{
     public function analyse_edit($id){
         $analyse = db("analyse_goods")->where("id", $id)->select();
         $goods_standard = db("analyse_special")->where("goods_id", $id)->select();
-        
         foreach ($analyse as $key => $value) {
             if(!empty($analyse[$key]["goods_show_images"])){
                 $analyse[$key]["goods_show_images"] = explode(',', $analyse[$key]["goods_show_images"]);
@@ -601,7 +619,7 @@ class  Analyse extends  Controller{
              $images='file';
              $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
             if(empty($rr)){
-                $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+                $image = db("adder_goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"])){
                     $goods_data["goods_show_images"] = $image["goods_show_images"];
                 } else {
@@ -610,7 +628,7 @@ class  Analyse extends  Controller{
                 }
             }else{
                     $liste = implode(',', $rr);
-                    $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
+                    $image = db("adder_goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"]))
                 {
                     $exper = $image["goods_show_images"];
@@ -1184,5 +1202,180 @@ class  Analyse extends  Controller{
         $data = paging_data($rest_data,$url,$pag_number);
         return view("analyse_order",["data"=>$data]);
     }
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后页面数据返回---增值订单
+     **************************************
+     */
+    public function  adder_after_sale_information(Request $request){
+        if($request->isPost()){
+            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
+            $data =Db::name("adder_after_sale")->where("id",$after_sale_id)->find();
+            $data["reply"] =Db::name("adder_after_reply")->where("after_sale_id",$after_sale_id)->select();
+            if(!empty($data)){
+                return ajax_success("售后信息返回成功",$data);
+            }else{
+                return ajax_error("暂无售后信息");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后状态修改---增值订单
+     **************************************
+     */
+    public function adder_after_sale_status(Request $request){
+        if($request->isPost()){
+            $status =$request->only(["status"])["status"];     //申请状态
+            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后记录id
+            if($status ==5){   //拒绝申请
+                $normal_time =Db::name("order_setting")->find();//订单设置的时间
+                $normal_future_time =strtotime("+". $normal_time['after_sale_time']." day");
+                $data =[
+                    "status"=>$status,
+                    "handle_time"=>time(),
+                    "future_time"=>$normal_future_time,
+                    "who_handle"=>3 , //1、用户自己撤销 2 、中途撤销 3、商家拒绝
+                ];
+            }else{      //收货中
+                $data =[
+                    "status"=>$status,
+                    "handle_time"=>time()
+                ];
+            }
+            $bool =Db::name("adder_after_sale")
+                ->where("id",$after_sale_id)
+                ->update($data);
+            if($bool){
+                return ajax_success("更改成功");
+            }else{
+                return ajax_error("更改失败");
+            }
+        }
+    }
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:售后状态修改带快递信息
+     **************************************
+     */
+    public function adder_after_sale_express_add(Request $request){
+        if($request->isPost()){
+            $status =$request->only(["status"])["status"];
+            $sell_express_company =$request->only(["sell_express_company"])["sell_express_company"];
+            $sell_express_number =$request->only(["sell_express_number"])["sell_express_number"];
+            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
+            $data =[
+                "status"=>$status,
+                "sell_express_company"=>$sell_express_company,
+                "sell_express_number"=>$sell_express_number
+            ];
+            $bool =Db::name("adder_after_sale")->where("id",$after_sale_id)->update($data);
+            //初始订单已关闭
+            $order_id=db('adder_after_sale')->where('id',$after_sale_id)->value('order_id');
+            $order_number=db('order')->where('id',$order_id)->value('parts_order_number');   //获取订单号
+            $re=db('order')->where('parts_order_number',$order_number)->select();
+            foreach($re as $k=>$v){
+                db('order')->where('id',$v['id'])->update(['status'=>0]);
+            }
+            if($bool){
+                return ajax_success("更改成功");
+            }else{
+                return ajax_error("更改失败");
+            }
+        }
+    }        /**
+    * lilu
+    * 退款维权---退款（余额）
+    */
+   public function adder_after_sale_refound(){
+       //获取参数
+       $input=input();
+       if($input['status']=='5')
+       {
+           //商家拒绝
+            //用户拒绝
+            $data['who_handle']=3;
+            $data['status']='5';
+            $adder_order=db('adder_after_sale')->where('id',$input['after_sale_id'])->update($data);
+            if($adder_order){
+                //修改售后状态为已发货
+                return ajax_success('商家拒绝收货，请及时和客服联系');
+            }else{
+                return ajax_error('商家拒绝收货，请及时和客服联系');
+            }
+       }else{
+           //换货
+           //获取订单信息
+           $order_info=db('adder_after_sale')->where('id',$input['after_sale_id'])->find();
+           if($order_info['is_return_goods']=='1'){
+               //换货--修改订单的状态
+               $data['buy_express_company']=$input['express'];
+                $data['buy_express_number']=$input['danhao'];
+                $data['status']=7;
+               $re2=db('adder_after_sale')->where('id',$input['after_sale_id'])->update($data);   //店铺已退货
+               if($re2){
+                   return ajax_success('发货成功'); 
+                }else{
+                    return ajax_error('发货失败'); 
+               }
+           }else{
+               //退款至会员余额
+               $re=db('member')->where('member_id',$order_info['member_id'])->setInc('member_wallet',$input['money']);
+               $money=db('member')->where('member_id',$order_info['member_id'])->value('member_wallet');
+               //退款记录
+               $map['user_id']=$order_info['member_id'];
+               $map['wallet_operation']=$input['money'];
+               $map['wallet_type']=1;
+               $map['operation_time']=date('Y-m-d H:i:s',time());
+               $map['wallet_remarks']='售后单号为'.$order_info['sale_order_number'].'退款成功';
+               $map['wallet_img']='';
+               $map['title']=date('Y-m-d H:i:s',time());
+               $map['order_nums']=date('Y-m-d H:i:s',time());
+               $map['pay_type']='小城序';
+               $map['wallet_balance']=$money;
+               $map['operation_linux_time']=time();
+               db('wallet')->insert($map);
+               //修改退款维权订单的状态
+               $re2=db('adder_after_sale')->where('id',$input['after_sale_id'])->update(['status'=>'6']);
+               if($re && $re2 ){
+                    return ajax_success('退款成功');
+                }else{
+                    return ajax_error('退款失败');
+               }
+           }
+
+           }
+
+   }
+   /**
+    * lilu
+    * 增值订单回复
+    */
+    public function adder_business_replay(Request $request){
+        if($request->isPost()){
+            $after_sale_id =$request->only(["after_sale_id"])["after_sale_id"];//售后id
+            $content= $request->only(["content"])["content"]; //回复的内容
+            $is_who =1;//谁回复（1卖家，2买家）
+            $data =[
+                "content" =>$content,
+                "after_sale_id"=>$after_sale_id,
+                "is_who"=>$is_who,
+                "create_time" =>time()
+            ];
+            $id =Db::name("adder_after_reply")->insertGetId($data);
+            if($id >0){
+                return ajax_success("回复成功",$data);
+            }else{
+                return ajax_error("回复失败");
+            }
+
+        }
+    }
+
 
  }

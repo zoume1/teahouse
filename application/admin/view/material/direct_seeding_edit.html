@@ -86,7 +86,7 @@
                         <select name="store_name" class="role_list">
                         </select>
                         {/if}
-                        </select> c
+                        </select>
                         <button class="layui-btn">添加仓库</button>
                     </div>
                 </div>
@@ -139,8 +139,8 @@
                             {if $value.icon_image}
                             <div class="imgcontent">
                                 <span class="img">
-                                    <img src="__UPLOADS__/{$value.icon_image}" width="100%">
-                                    <i class="remove-img" name="icon_image" value="__UPLOADS__/{$value.icon_image}" data-id="{$value.id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+                                    <img src="{$value.icon_image}" width="100%">
+                                    <i class="remove-img" name="icon_image" value="{$value.icon_image}" data-id="{$value.id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
                                 </span>
                             </div>
                             {/if}
