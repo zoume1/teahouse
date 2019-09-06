@@ -480,6 +480,7 @@
                 $(".operation").data("value", data_id);
                 $(".operation").data("name", data.data.is_return_goods);
                 // 申请中
+                console.log("1" + way)
                 if (way == 1) {
                     var dhtml_a = '';
                     dhtml_a += '<div class="repany">';
@@ -527,7 +528,7 @@
                     $(".operation").append(dhtml_c);
                 }
                 // 收货中
-                else if (way == 3) {
+                else if (way == 2) {
                     var dhtml_d = '';
                     dhtml_d += '<div class="repany">';
                     dhtml_d += '<span class="span">客户申请</span>';
@@ -577,19 +578,20 @@
                     dhtml_c += '</div>';
                     dhtml_c += '<button type="button" class="submit_btns" data_id="">确定</button>';
                     $(".operation").append(dhtml_c);
-                } else if (way == 2) {
+                    //发货
+                } else if (way == 3) {
                     if (data.data.is_return_goods == 1) {
                         var dhtml_d = '';
                         dhtml_d += '<div class="repany">';
                         dhtml_d += '<span class="span">客户申请</span>';
                         dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-input" value="退货退款' + data.data.application_amount + '元"  style="border:0">';
                         dhtml_d += '</div>';
-                        dhtml_d += '<div class="repany">';
-                        dhtml_d += '<span class="span"> 快递公司 </span>';
-                        dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off"  placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_company + '"  style="border:0">';
-                        dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
-                        dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off"  placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_number + '"  style="border:0">';
-                        dhtml_d += '</div>';
+                        // dhtml_d += '<div class="repany">';
+                        // dhtml_d += '<span class="span"> 快递公司 </span>';
+                        // dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off"  placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_company + '"  style="border:0">';
+                        // dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off" readonly="readonly" placeholder="请输入处理备注" class="layui-inputs" value=" 快递单号"  style="border:0">';
+                        // dhtml_d += '<input type="text" name="" lay-verify="title" autocomplete="off"  placeholder="请输入处理备注" class="layui-inputs" value="' + data.data.buy_express_number + '"  style="border:0">';
+                        // dhtml_d += '</div>';
                         $("#repay_list").append(dhtml_d);
                         var dhtml_b = '';
                         dhtml_b += '<div class="chat_list_content">';
@@ -767,7 +769,6 @@
     $(".operation").on("click", ".submit_btns", function () {
         var static = $(".operation").data("id");
         var value = $(".operation").data("value");   //退款维权记录id
-        console.log($(".operation").data())
         //  申请中  收货中
         if (static == 1) {
             var val = $(".operation_select  option:selected").val();
