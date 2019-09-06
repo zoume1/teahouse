@@ -554,9 +554,10 @@ Route::group("admin",[
     "adder_business_after_sale_information2"=>"admin/AfterSale/adder_business_after_sale_information2",//售后页面数据返回--增值
     "adder_after_sale_status2"=>"admin/AfterSale/adder_after_sale_status2",//售后状态修改--增值
     "adder_after_sale_express_add2"=>"admin/AfterSale/adder_after_sale_express_add2",//售后状态修改带快递信息--增值
-    "adder_adder_business_replay2"=>"admin/AfterSale/adder_adder_business_replay2",//售后状态修改带快递信息----增值
+    "adder_adder_business_replay2"=>"admin/AfterSale/adder_business_replay2",//售后状态修改带快递信息----增值
     "after_sale_money_add"=>"admin/AfterSale/after_sale_money_add",//售后状态修改带退钱操作
-    "after_sale_refound"=>"admin/AfterSale/after_sale_refound",//售后状态-退钱，原路返回
+    "after_sale_refound"=>"admin/AfterSale/after_sale_refound", //售后状态-退钱，原路返回
+    "adder_send_goods"=>"admin/AfterSale/adder_send_goods",     //售后状态-店铺退还商品
 
     /*TODO:售后结束*/
     /*TODO:退款*/
@@ -1039,6 +1040,7 @@ Route::group("admin",[
     "control_store_edit_do"=>"admin/Control/control_store_edit_do",           //总控店铺list编辑
     "version_control"=>"admin/Control/version_control",                 //总控版本控制
     "version_control_do"=>"admin/Control/version_control_do",           //总控版本控制处理
+    "control_store_analyse"=>"admin/Control/control_store_analyse",     //总控--增值订单分析
 
 
 
