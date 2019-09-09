@@ -143,14 +143,23 @@ class  Control extends  Controller{
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $data = $request->param();
-            $data["cost"] = implode(",",$data["cost"]);
-            $data["favourable_cost"] = implode(",",$data["favourable_cost"]);
-
-            $bool = db("enter_meal")->where("id",$id)->update($data);
-            if ($bool) {
+            foreach($data['cost'] as $key =>$value)
+            {
+                $enterall_data = [
+                    'cost'=>$value,
+                    'favourable_cost'=>$data["favourable_cost"][$key],
+                    'version_introduce'=>$data['version_introduce']
+                ];
+                if($key != 0){
+                    unset($enterall_data['version_introduce']);
+                }
+                $rest = db('enter_all')->where('enter_id',$id)->where('year',$key)->update($enterall_data);
+            }
+            
+            if ($rest) {
                 $this->success("编辑成功", url("admin/Control/control_meal_index"));
             } else {
-                $this->success("编辑失败", url('admin/Control/control_meal_index'));
+                $this->success("编辑成功", url('admin/Control/control_meal_index'));
             }
         }
     }
@@ -159,21 +168,32 @@ class  Control extends  Controller{
 
     /**
      * [入驻套餐首页显示]
+     * 郭杨
      * 保存
      * 
      */
     public function control_meal_edit($id)
     {
         $meal = db("enter_meal")->where("id",$id)->find();
+        $meal_cost = db("enter_all")->where("enter_id",$id)->field('cost,favourable_cost,version_introduce')->select();
+
+        foreach($meal_cost as $value){
+            $cost_data[] = $value['cost'] ;
+            $cost_min[] = $value['favourable_cost'] ;
+            $version_introduce[] = $value['version_introduce'];
+        }
+
         $meal_edit = array(
             "id" => $meal["id"],
             "name" => $meal["name"],
             "sort_number"=> $meal["sort_number"],
             "status" => $meal["status"],
-            "cost" => explode(",",$meal["cost"]),
-            "favourable_cost" => explode(",",$meal["favourable_cost"])
+            "cost" => $cost_data,
+            "favourable_cost" => $cost_min,
+            'version_introduce'=>$version_introduce[0]
         );
-       
+      
+   
         return view("control_meal_edit",["meal_edit"=>$meal_edit]);
     }
 
@@ -700,7 +720,7 @@ class  Control extends  Controller{
         $data['adder_order_number_dai']=db('adder_order')->where($where10)->count();   //待发货订单
         //售后待处理订单---增值订单
         $where2['status']=1;
-        $data['shou_order_number']=db('after_sale')->where($where2)->count();  
+        $data['shou_order_number']=db('adder_after_sale')->where($where2)->count();  
         
         return view("control_store_index",['data'=>$data]);
     }
@@ -1373,7 +1393,7 @@ class  Control extends  Controller{
      */
      public function control_store_list(){
          //获取所有已申请成功的店铺
-         $xcx_list=Db::table('applet')->field('id,name,template_id')->select();
+         $xcx_list=Db::table('applet')->field('id,name,template_id,is_chuan,is_que,is_fabu,thumb')->select();
          $xcx_list = array_values($xcx_list);
          $url = 'admin/Control/control_store_list';
          $pag_number = 20;
@@ -1388,7 +1408,7 @@ class  Control extends  Controller{
      public function control_store_edit(){
          //获取id
          $input=input();
-         $xcx_list=Db::table('applet')->where('id',$input['id'])->field('id,name,template_id')->find();
+         $xcx_list=Db::table('applet')->where('id',$input['id'])->field('id,name,template_id,accesskey,secretkey,bucket,domain')->find();
          return view('control_store_edit',['data'=>$xcx_list]);
      }
     /**
@@ -1401,9 +1421,102 @@ class  Control extends  Controller{
          $data['id']=$input['id'];
          $data['name']=$input['name'];
          $data['template_id']=$input['template_id'];
+         $data['accesskey']=$input['accesskey'];
+         $data['secretkey']=$input['secretkey'];
+         $data['bucket']=$input['bucket'];
+         $data['domain']=$input['domain'];
          //获取所有已申请成功的店铺
          $xcx_list=Db::table('applet')->where('id',$input['id'])->update($data);
          $this->success('编辑成功','admin/control/control_store_list');
+     }
+     /**
+      * lilu
+      * 版本控制
+      */
+      public function version_control()
+      {
+          return view('version_control');
+      }
+     /**
+      * lilu
+      * 版本控制chuli 
+      * version
+      */
+      public function version_control_do()
+      {
+          //获取传递的版本号
+          $input=input();
+          //获取店铺id
+        //   $store_id=Session::get('store_id');
+        $store_info=Db::table('applet')->select();
+        $data['auditid']='0';
+        $data['is_chuan']='0';
+        $data['is_que']='0';
+        $data['is_fabu']='0';
+        $data['version']=$input['version'];
+        foreach($store_info as $k =>$v){
+            $re=Db::table('applet')->where('id',$v['id'])->update($data);
+        }
+          if($re !== false){
+            return ajax_success('保存成功');
+        }else{
+            return ajax_error('保存失败');
+
+          }
+      }
+      /**
+      * lilu
+      * 总控----增值订单订单分析
+     */
+     public function control_store_analyse()
+     {
+         //获取店铺id
+         $store_id=Session::get('store_id');
+         //统计本月的订单数/天
+         $start_time=strtotime(date('Y-m-02'));  //获取本月第一天的时间戳
+         $j = date("t");                         //获取当前月份天数
+         $m = date("d");                         //获取当前月份天数
+         $xData = array();                       //数组
+         for($i=0;$i<$m;$i++)
+         {
+             $xData[] = $start_time+$i*86400; //每隔一天赋值给数组
+         }
+         //获取当月的订单
+         $where['order_create_time']=array('between',array(strtotime(date('Y-m-01')),strtotime(date('Y-m-'.$j))+86400));
+         $where['status']=array('between',array(2,8));
+         $order_list=db('adder_order')->where($where)->order('order_create_time asc')->group('order_create_time')->select();
+         $order_num=db('adder_order')->where($where)->order('order_create_time asc')->group('order_create_time')->count();
+         $last_month = date('Y-m', strtotime('last month'));
+         $last['first'] =strtotime($last_month . '-01 00:00:00') ;
+         $last['end'] =strtotime(date('Y-m-d H:i:s', strtotime("$last_month +0 month +$m day +23 hours +59 minutes +59 seconds"))) ;
+         $where2['order_create_time']=array('between',array($last['first'],$last['end']));
+         $where2['status']=array('between',array(2,8));
+         $order_num2=db('adder_order')->where($where2)->order('order_create_time asc')->group('order_create_time')->count();
+         $pre=round($order_num/$order_num2*100,2);
+         if($order_list)
+         {
+             $arr=[];
+             foreach($xData as $k =>$v)
+             {
+                 $pp[$k]=0;
+                 foreach($order_list as $k2 =>$v2)
+                 {
+                     if($v >$v2['order_create_time']){      //当天的订单数据
+                         $pp[$k]++;
+                         unset($order_list[$k2]);
+                     }else{
+                         $arr[$k]=$pp[$k];
+                         break;
+                     }
+                 }
+                 if(!array_key_exists($k,$arr)){
+                     $arr[$k]=0;
+                 }
+             }
+             return ajax_success('获取成功',["arr"=>$arr,"precent"=>$pre,'num'=>$order_num]);
+         }else{
+             return ajax_error('获取失败');
+         }
      }
 
 

@@ -35,6 +35,7 @@
                         </select>
                         <a  class="layui-btn" href="{:url('admin/Material/direct_seeding_classification_add')}">添加分类</a>
                     </div>
+                    <div  class="tips"  style="margin-left: 120px;">*如没有直播分类，请先添加直播分类</div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label redStar">直播标题</label>
@@ -174,6 +175,7 @@
                     }
 
                 });
+                form.render();
         })
     </script>
 

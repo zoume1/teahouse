@@ -31,7 +31,7 @@
         .tip-pop .btns button.confirm,
         .tip-pop .btns button.decorate{background-color: #169bd5; margin-left: 50px;}
         
-        .main{width: 50%; margin: 50px auto 0;}
+        .main{width: 50%; margin: 50px 33%;}
         .main ul li{padding: 15px 0;}
         .main ul li .qr-code{width: 70px; height: 70px; vertical-align: top;}
         .main li .wx-num{height: 25px;}
@@ -120,7 +120,7 @@
                 </li>
             </ul>
         </div>
-        <span style="color: red;">注：请按从左到右顺序操作</span>
+        <span style="color: red;">注：：请按从左到右顺序操作，当提交审核之后，可随时查看审核详情，审核通过后，即可点击发布小程序键</span>
         <div class="flow-btns">
             {if $is_chuan=='0'}
             <button class="upload">一键上传店铺代码</button>
@@ -210,9 +210,9 @@
     </div>
 
     <!-- 上传模板代码提示 -->
-    <div class="tip-pop renovation" style="display: none;">
+    <div class="tip-pop renovation" style="display: none;" id="code">
         <p class="title">上传模板代码提示<span class="cancel" style="float: right;padding-right:10px;cursor:default">X</span></p>
-        <div class="tip-cont">请认真装修您的店铺，只有规范的小程序装修，才能正式版通过</div>
+        <div class="tip-cont" >请认真装修您的店铺，只有规范的小程序装修，才能正式版通过</div>
         <div class="btns">
             <button class="decorate">立即装修</button>
             <button class="shangchuan confirm">一键上传</button>
@@ -271,6 +271,26 @@
                     }
                     // console.log(arr);
                     $("#list_select").append(arr);
+                }
+            }
+        })
+        //判断店铺是否上传模板
+        $.ajax({
+            url: "is_templete",
+            type: "post",
+            success: function (res) {
+                var res = JSON.parse(res);
+                // console.log(res.data);
+                if (res.status == 1) {
+                   if(res.data == 0) {
+                       var text = "您的小程序代码还在生成中，请耐心等待，一般生成时间在2*24小时内";
+                       $('#code').children(".tip-cont").text(text);
+                       $('#code').children(".btns").hide();
+                   } else {
+                       var text = "请认真装修您的店铺，只有规范的小程序装修，才能正式版通过";
+                       $('#code').children(".tip-cont").text(text);
+                       $('#code').children(".btns").show();
+                   }
                 }
             }
         })

@@ -700,13 +700,13 @@ class Upload extends Controller
         * @params string $user_version : 代码版本号
         * @params string $user_desc : 代码描述
      * */
-    public function send_message($user_version = 'v1.0.0', $user_desc = "秒答营业厅")
+    public function send_message($user_version = 'v1.0.0', $user_desc = "智慧茶仓")
     {
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
         //获取当前店铺的模板id
         $template_id=Db::table('applet')->where('id',$store_id)->value('template_id');
-        $appid=db('miniprogram')->where('stoer_id',$store_id)->value('appid');
+        $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
         $ext_json = json_encode('{"extEnable": true,"extAppid": "'.$appid.'","ext":{"appid": "'.$appid.'"}}');
         $url = "https://api.weixin.qq.com/wxa/commit?access_token=".$timeout['authorizer_access_token'];
@@ -946,6 +946,25 @@ class Upload extends Controller
             $this->errorLog("获取授权小程序帐号的可选类目操作失败",$ret);
             return false;
         }
+    }
+    /**
+     * lilu
+     * 判断店铺是否已上传代码
+     */
+    public function is_templete()
+    {
+        //获取店铺id
+        $store_id=Session::get('store_id');
+        //根据店铺id获取店铺的信息
+        $template_id=Db::table('applet')->where('store_id',$store_id)->value('template_id');
+        if($template_id=='0'){
+            //未上传
+            $pp=0;
+        }else{
+            $pp=1;
+        }
+        return ajax_success('获取成功',$pp);
+        
     }
 
 }

@@ -637,6 +637,37 @@
 
 				})
 
+			} else {
+				$("#data1_refash").click(function () {
+					var data_aaa = [];
+					var data_bbb = [];
+					var beginTime = $("#beginTime").val();
+					var endTime = $("#endTime").val();
+					var beginTimea = Date.parse(beginTime);
+					var endTimea = Date.parse(endTime);
+					var utc = Number(endTimea) - Number(beginTimea);
+					var day = Number(utc) / (24 * 60 * 60 * 1000);
+					for (var i = 0; i < day + 1; i++) {
+						data_aaa.push(timestampToTime((beginTimea + 86400000 * i) / 1000));
+						data_bbb.push(0)
+
+					}
+					series[0].data = data_bbb;
+					xAxis.categories = data_aaa;
+
+					var json = {};
+					json.title = title;
+					json.subtitle = subtitle;
+					json.xAxis = xAxis;
+					json.yAxis = yAxis;
+					json.tooltip = tooltip;
+					json.legend = legend;
+					json.series = series;
+					$('#container').highcharts(json);
+
+				});
+				series[0].data = data_bbb;
+				$('#container').highcharts(json);
 			}
 		},
 		error: function (e) {
@@ -695,6 +726,36 @@
 						$('#containerb').highcharts(json);
 					})
 
+			} else {
+				$("#data2_refash").click(function () {
+						var data_aaa = [];
+						var data_bbb = [];
+						var beginTime = $("#beginTime1").val();
+						var endTime = $("#endTime1").val();
+						var beginTimea = Date.parse(beginTime);
+						var endTimea = Date.parse(endTime);
+						var utc = Number(endTimea) - Number(beginTimea);
+						var day = Number(utc) / (24 * 60 * 60 * 1000);
+						for (var i = 0; i < day + 1; i++) {
+							data_aaa.push(timestampToTime((beginTimea + 86400000 * i) / 1000));
+							data_bbb.push(0)
+
+						}
+						series[0].data = data_bbb;
+						xAxis.categories = data_aaa;
+
+						var json = {};
+						json.title = title;
+						json.subtitle = subtitle;
+						json.xAxis = xAxis;
+						json.yAxis = yAxis;
+						json.tooltip = tooltip;
+						json.legend = legend;
+						json.series = series;
+						$('#containerb').highcharts(json);
+					});
+					series[0].data = data_bbb;
+				$('#containerb').highcharts(json);
 			}
 		},
 		error: function(e) {

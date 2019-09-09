@@ -17,6 +17,8 @@ use think\View;
 use app\index\controller\Login as Login;
 use app\admin\model\AdderOrder as add;
 use app\admin\model\Store as Store;
+use app\admin\controller\Qiniu;
+
 class  General extends  Base {
    
     private  $store_ids;
@@ -274,10 +276,16 @@ class  General extends  Base {
                 "store_qq"=>$array['store_qq'],
                 "store_introduction"=>$array['store_introduction'],
             ];
-            $store_img =$request->file("store_logo");
-            if(!empty($store_img)){
-                $info = $store_img->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $data["store_logo"] = str_replace("\\","/",$info->getSaveName());
+            // $store_img =$request->file("store_logo");
+            //测试七牛上传图片
+           $qiniu=new Qiniu();
+           //获取店铺七牛云的配置项
+           $store_id=Session::get('store_id');
+           $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+           $images='store_logo';
+           $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            if(!empty($rr)){
+                $data["store_logo"] = $rr[0];
             }
             $bool =Db::table("tb_store")->where("id",$id)->update($data);
             if($bool){
@@ -298,9 +306,6 @@ class  General extends  Base {
         if($request->isPost()){
             $id =$request->only(['id'])['id'];
             $img_logo =Db::table('tb_store')->where("id",$id)->value('store_logo');
-            if(!empty($img_logo)){
-                unlink(ROOT_PATH . 'public' . DS . 'uploads/'.$img_logo);
-            }
             Db::table('tb_store')->where("id",$id)->update(['store_logo'=>null]);
             return ajax_success("删除成功");
         }
@@ -456,54 +461,6 @@ class  General extends  Base {
                         ->where("store_id",$this->store_ids)
                         ->where("audit_status",1)
                         ->select();   //获取当前可用的套餐
-                        /*鲁文兵版本切换*/
-                    //    if(!empty($goods_names)){                          
-                    //         if($list[$k]["goods_names"]=="茶进阶版"){
-                    //         $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
-                    //         $list[$k]["goods_names_test"][2]['status_type']=1;
-                    //         $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                    //         $list[$k]["goods_names_test"][1]['status_type']=0;
-                    //         $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //         $list[$k]["goods_names_test"][0]['status_type']=0;
-
-                    //     }
-                    //     if($list[$k]["goods_names"]=="茶行业版"){
-                    //         $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                    //         $list[$k]["goods_names_test"][1]['status_type']=1;
-                    //         $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //         $list[$k]["goods_names_test"][0]['status_type']=0;
-
-                    //     }
-                    //     if($list[$k]["goods_names"]=="万用版"){
-                    //         $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //         $list[$k]["goods_names_test"][0]['status_type']=1;
-
-                    //     }
-                    //     }else{
-                    //         halt($list);
-                    //         $length= count($list[$k]["goods_names_test"]);   //  本店铺的可用版本数                     
-                    //             if($list[$k]["goods_names"]=="茶进阶版"){
-                    //             $list[$k]["goods_names_test"][2]['goods_name']="进阶版";
-                    //             $list[$k]["goods_names_test"][2]['status_type']=1;
-                    //             $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                    //             $list[$k]["goods_names_test"][1]['status_type']=0;
-                    //             $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //             $list[$k]["goods_names_test"][0]['status_type']=0;
-
-                    //         }                                 
-                    //         if($list[$k]["goods_names"]=="茶行业版"){
-                    //             $list[$k]["goods_names_test"][1]['goods_name']="行业版";
-                    //             $list[$k]["goods_names_test"][1]['status_type']=1;
-                    //             $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //             $list[$k]["goods_names_test"][0]['status_type']=0;
-
-                    //         }
-                    //         if($list[$k]["goods_names"]=="万用版"){
-                    //             $list[$k]["goods_names_test"][0]['status_type']="万用版";
-                    //             $list[$k]["goods_names_test"][0]['status_type']=1;
-
-                    //         }
-                    //     }                         
                     } 
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
@@ -528,6 +485,7 @@ class  General extends  Base {
         $bg_music=$a['diy_bg_music'];
         //*鲁文兵版本切换*/
          $goods_names = input("goods_names");
+         $goods_names_id = input("goods_names_id");    //版本记录的id
         if(!empty($goods_names)){
             if(empty(Session::get('goods_names'))){
                 
@@ -535,8 +493,7 @@ class  General extends  Base {
             }else{
                  Session::delete('goods_names');
                  Session::set('goods_names',$goods_names);
-                
-                }
+            }
            
         }
       $this->assign('goods_names',$goods_names);
@@ -1547,7 +1504,9 @@ class  General extends  Base {
         $order_package = db("enter_meal")->where("status",1)->field("id,name,price,favourable_price,year")->select();
         foreach($order_package as $key => $value){
             $order_package[$key]['priceList'] = db("enter_all") -> where("enter_id",$order_package[$key]['id'])->order('year asc')->select();
+            $order_package[$key]['version_introduce'] = db("enter_all") -> where("enter_id",$order_package[$key]['id'])->value('version_introduce');
         }
+       
         if(!empty($order_package)){
             return ajax_success('传输成功',$order_package);
         } else {
@@ -2854,7 +2813,24 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function  store_order_after(){
-        return view("store_order_after");
+        //获取店铺增值订单的售后记录
+        $store_id=Session::get('store_id');
+        $adder_list=db('adder_after_sale')->where('store_id',$store_id)->order('id desc')->select();
+        //做分页处理
+        $all_idents = $adder_list;//这里是需要分页的数据
+        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+        $listRow = 20;//每页20行记录
+        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+        $adder_list = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+            'var_page' => 'page',
+            'path' => url('admin/General/store_order_after'),//这里根据需要修改url
+            'query' => [],
+            'fragment' => '',
+        ]);
+        $adder_list->appends($_GET);
+        $this->assign('access', $adder_list->render());
+
+        return view("store_order_after",['adder_list'=>$adder_list]);
     }
 
     /**
@@ -2865,6 +2841,7 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function  store_order_after_ing(){
+        
         return view("store_order_after_ing");
     }
 
@@ -3026,22 +3003,9 @@ class  General extends  Base {
                 $this->assign("id",$id);
                 $this->assign("url",$url);
         	}else{
-        		// $usergroup = Session::get('usergroup');
-        		// if($usergroup==1){
-        		// 	$this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/applet');
-        		// }
-        		// if($usergroup==2){
-        		// 	$this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
-        		// }
-                // if($usergroup==3){
-                //     $this->error("您没有权限操作该小程序或找不到相应小程序！",'Applet/index');
-                // }
                 $this->error('您没有权限操作该小程序');
         	}
             return $this->fetch('wx_index');
-        // }else{
-        //     $this->redirect('Login/index');
-        // }
     }
 
     /**
@@ -3436,11 +3400,79 @@ class  General extends  Base {
      * lilu
      * 增值订单申请售后申请
      */
-    public function adder_after_sale_do()
-    {
-        //
-
+    public function  adder_apply_after_sale(Request $request){
+        if($request->isPost()){
+            $goods_data = $request->param();
+            $show_images = $request->file("goods_show_images");
+            $list = [];
+            if (!empty($show_images)) {              
+                foreach ($show_images as $k=>$v) {
+                    $info = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
+                    $list[] = str_replace("\\", "/", $info->getSaveName());
+                }   
+                // $goods_data["goods_show_images"] = implode(',', $list);    //上传的图片
+            }
+            $store_id =Session::get('store_id');//会员id
+            $order_id =$goods_data['order_id'];//订单id
+            //限制一下不能申请超过该单的支付原价
+            $before_order_data =Db::name("adder_order")
+                ->where("id",$goods_data['order_id'])
+                ->find();
+            //售后表--adder_after_sale
+            $is_set_sale =Db::name("adder_after_sale")->where("order_id",$order_id)->find();
+            if(!empty($is_set_sale)){
+                return ajax_error("该增值订单已申请过售后");
+            }
+            if($goods_data['return'] ==2){     
+                //1需要要进行换货,没有金额
+                $before_order_return =1;
+            }else{
+                //2退款退货，申请金额
+                $before_order_return =$before_order_data["order_real_pay"];
+            }
+           if($before_order_data["order_real_pay"] < $goods_data['price']){
+               return ajax_error("申请的金额不能超过".$before_order_data["order_real_pay"]."元");
+           }
+            $normal_time =Db::name("order_setting")->find();//订单设置的时间
+            $normal_future_time =strtotime("+". $normal_time['after_sale_time']." day");
+            $time=date("Y-m-d",time());
+            $v=explode('-',$time);
+            $time_second=date("H:i:s",time());
+            $vs=explode(':',$time_second);
+            $sale_order_number  ="SH".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].rand(1000,9999); //订单编号
+            $insert_data  =[
+                "order_id"=>$order_id, //订单号
+                "sale_order_number"=>$sale_order_number,//售后编号
+                "is_return_goods"=>$goods_data['return'],//判断是否为换货还是退货退款，1换货，2退款退货
+                "operation_time"=>time(), //操作时间
+                "future_time"=>$normal_future_time,//未来时间
+                "application_amount"=>$before_order_return,//申请金额
+                "return_reason"=>$goods_data['return_reason'],//退货原因
+                "status"=>1, //申请状态（1为申请中，2商家已同意，等待上传快递单信息，处理中，3收货中，4换货成功，5拒绝）
+                "buy_order_number"=>$before_order_data["parts_order_number"],//原始订单号
+                "member_id"=>'0', //会员id
+                "member_count"=>'',
+                'store_id'=>$store_id
+            ];
+            $after_sale_id =Db::name("adder_after_sale")->insertGetId($insert_data);
+            if($after_sale_id){
+                if(!empty($list)){
+                    foreach ($list as $ks=>$vs){
+                        //插入评价图片数据库
+                        $insert_data2 =[
+                            "after_sale_id"=>$after_sale_id,
+                            "url"=>$vs
+                        ];
+                        Db::name("after_image")->insert($insert_data2);
+                    }
+                }
+                return ajax_success("申请成功，请耐心等待审核");
+            }else{
+                return ajax_error("请重新提交申请");
+            }
+        }
     }
+   
 
 
 
