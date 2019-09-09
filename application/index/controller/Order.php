@@ -277,6 +277,7 @@ class  Order extends  Controller
                         $datas["store_id"] = $store_id;
                         $datas["freight"] = $freight;
                         $datas["storage"] = $storage;
+                        $datas["is_receipt"] = $receipt_status;
                                         
                         $res = Db::name('order')->insertGetId($datas);
                         if ($res) {
@@ -361,6 +362,7 @@ class  Order extends  Controller
                         $datase["receipt_price"] = $receipt_price;   
                         $datase["store_id"] = $store_id;   
                         $datase["storage"] = $storage;   
+                        $datase["is_receipt"] = $receipt_status;   
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                        
@@ -566,6 +568,7 @@ class  Order extends  Controller
                         $datas["refund_amount"] = $all_money;
                         $datas["unit"] = $unit[$keys]; 
                         $datas["receipt_status"] = $receipt_status; 
+                        $datas["is_receipt"] = $receipt_status; 
                         $datas["receipt_id"] = $receipt_id;
                         $datas["store_id"] = $store_id;
                         $datas["receipt_price"] = $receipt_price ;                                        
@@ -622,6 +625,7 @@ class  Order extends  Controller
                         $datase["special_id"] = $goods_standard_id[$keys];//规格id
                         $datase["coupon_id"] = $coupon_id;
                         $datase["receipt_status"] = $receipt_status; 
+                        $datase["is_receipt"] = $receipt_status; 
                         $datase["receipt_id"] = $receipt_id;
                         $datase["store_id"] = $store_id;
                         $datase["receipt_price"] = $receipt_price ;

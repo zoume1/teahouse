@@ -619,7 +619,7 @@ class  Analyse extends  Controller{
              $images='file';
              $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
             if(empty($rr)){
-                $image = db("adder_goods")->where("id", $id)->field("goods_show_images")->find();
+                $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"])){
                     $goods_data["goods_show_images"] = $image["goods_show_images"];
                 } else {
@@ -628,7 +628,7 @@ class  Analyse extends  Controller{
                 }
             }else{
                     $liste = implode(',', $rr);
-                    $image = db("adder_goods")->where("id", $id)->field("goods_show_images")->find();
+                    $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
                 if(!empty($image["goods_show_images"]))
                 {
                     $exper = $image["goods_show_images"];
