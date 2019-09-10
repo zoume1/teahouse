@@ -47,6 +47,14 @@ class  City extends  Controller{
     }
 
     /**
+     * [城市等级设置编辑]
+     * 郭杨
+     */    
+    public function city_rank_setting_edit(){
+        return view("city_rank_setting_edit");
+    }
+
+    /**
      * [城市入驻资料审核]
      * 郭杨
      */    
@@ -54,13 +62,21 @@ class  City extends  Controller{
         return view("city_datum_verify");
     }
 
+    /**
+     * [城市入驻资料审核编辑]
+     * 郭杨
+     */    
+    public function city_datum_verify_edit(){
+        return view("city_datum_verify_edit");
+    }
+
 
     
     /**
-     * [城市入驻费用审核]
+     * [城市入驻费用审核编辑]
      * 郭杨
      */    
-    public function city_price_examine(){
-        return view("city_price_examine");
+    public function city_price_examine_update(){
+        return view("city_price_examine_update");
     }
 }
