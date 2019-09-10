@@ -62,6 +62,14 @@ class  City extends  Controller{
         return view("city_datum_verify");
     }
 
+    /**
+     * [城市入驻资料审核编辑]
+     * 郭杨
+     */    
+    public function city_datum_verify_edit(){
+        return view("city_datum_verify_edit");
+    }
+
 
     
     /**
