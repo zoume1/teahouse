@@ -15,7 +15,7 @@ class Qiniu extends Controller
 {
     private $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
     private $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
-    private $bucket = 'xmkj';
+    private $bucket = 'goods';
     private $domain='teahouse.siring.cn';
     // /**
     //  * 上传图片到七牛云
