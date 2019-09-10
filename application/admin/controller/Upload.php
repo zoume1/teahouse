@@ -629,7 +629,10 @@ class Upload extends Controller
                 "component_appsecret": "'.$this->appsecret.'",
                 "component_verify_ticket": "'.$this->component_ticket.'"
             }';
-            $ret = json_decode($this->https_post($url,$data),true);
+            $pp=$this->https_post($url,$data);
+            $ret = json_decode($pp,true);
+            $pp2['msg']=$pp;
+            db('test')->insert($pp2);
             $this->thirdAccessToken=$ret['component_access_token'];
             if($ret['component_access_token']) {
             $miniprogram = Db::name('miniprogram')->where('appid',$appid)

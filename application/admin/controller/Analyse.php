@@ -781,7 +781,7 @@ class  Analyse extends  Controller{
      * [增值商品规格图片删除]
      * 郭杨
      */
-    public function analyse_photos(Request $request)
+    public function anaysle_photos(Request $request)
     {
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
