@@ -660,7 +660,13 @@
 								<div class="static_btus1" data-id="{$vo.parts_order_number}">
 									<div class=" layui-btn layui-btn-mini not_apply ">未申请开票</div>
 								</div>
-								{else}
+								{/if}
+								{if $vo.is_receipt==1}
+								<div class="static_btus_y" data-id="{$vo.parts_order_number}">
+										<div class=" layui-btn layui-btn-mini not_apply applyed ">申请开票</div>
+									</div>
+								{/if}
+								{if $vo.is_receipt==2}
 								<div class="static_btus_y" data-id="{$vo.parts_order_number}">
 										<div class=" layui-btn layui-btn-mini not_apply applyed ">已开票</div>
 									</div>
