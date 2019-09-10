@@ -19,6 +19,7 @@
 use think\paginator\driver\Bootstrap;
 use  think\Db;
 use think\Session;
+use think\Request;
 //手机验证码
 function phone($account= "",$password = '', $phone = "" ,$content = ""){
     $url = "http://120.26.38.54:8000/interface/smssend.aspx";
@@ -1416,4 +1417,23 @@ function show_ds_orderer($status){
     }
 
 }
+
+
+
+
+
+    /**
+     * gy
+     * 生成密码hash值
+     * @param $password
+     * @return string
+     */
+    function changcang_hash($password)
+    {
+        return md5(md5($password) . 'zhihui_chang_cang');
+    }
+
+
+
+
 

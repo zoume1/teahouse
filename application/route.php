@@ -58,6 +58,8 @@ Route::group("",[
     "sign_in"=>"index/index/sign_in", //登录
     "forget_pw"=>"index/index/forget_pw", //登录
     "my_shop"=>"index/index/my_shop", //我的店铺
+    "city_apply"=>"index/index/city_apply", //申请城市合伙人
+    "city_login"=>"index/index/city_login", //合伙人后台登陆
     "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
     "get_bank_list"=>"index/My/get_bank_list", //获取用户的银行卡列表
 
@@ -402,7 +404,7 @@ Route::group("",[
     
     /* 微信公众平台路由  */
     "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
-    "callback"=>"index/WxTest/callback",                      //微信小程序--授权成功后，获取回调信息
+    "callback"=>"index/WxTest/callback",                    //微信小程序--授权成功后，获取回调信息
     /**  分享 */
     "qr_back_points"=>"index/My/qr_back_points",        //微信小程序--分享返积分
 
@@ -1113,8 +1115,11 @@ Route::group("admin",[
    "city_setting"=>"admin/City/city_setting",                  //分销代理设置
    "city_rank_meal"=>"admin/City/city_rank_meal",              //城市等级套餐
    "city_rank_setting"=>"admin/City/city_rank_setting",        //城市等级设置
+   "city_rank_setting_edit"=>"admin/City/city_rank_setting_edit",//城市等级设置编辑
    "city_datum_verify"=>"admin/City/city_datum_verify",        //城市入驻资料审核
+   "city_datum_verify_edit"=>"admin/City/city_datum_verify_edit", //城市入驻资料审核编辑
    "city_price_examine"=>"admin/City/city_price_examine",      //城市入驻费用审核
+   "city_price_examine_update"=>"admin/City/city_price_examine_update",      //城市入驻费用审核编辑
 ]);
 
 /**
@@ -1154,6 +1159,15 @@ Route::group("api",[
      * 根据appid获取uniacid
      */
     "get_uniacid_by_appid" =>"api/Wxapps/get_uniacid_by_appid",//进入首页获取uniacids
+
+
+]);
+
+/**
+ * 城市合伙人
+ */
+Route::group("city",[
+    "apply_login" => "city/Passport/login", //城市合伙人PC端登录
 
 
 ]);

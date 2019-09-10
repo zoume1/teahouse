@@ -85,6 +85,8 @@ class Index extends Controller
         }
         return $phone_num;
     }
+
+
     /**
      * lilu
      * 实时获取温湿度
@@ -104,6 +106,22 @@ class Index extends Controller
         }else{
             return ajax_error('获取失败');
         }
+    }
+
+    /**
+     * gy
+     * 申请城市合伙人
+     */
+    public function city_apply(){
+        return view("city_apply");
+    }
+
+    /**
+     * gy
+     * 合伙人后台登陆
+     */
+    public function city_login(){
+        return view("city_login");
     }
 
 }
