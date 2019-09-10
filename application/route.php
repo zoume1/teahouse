@@ -1115,8 +1115,11 @@ Route::group("admin",[
    "city_setting"=>"admin/City/city_setting",                  //分销代理设置
    "city_rank_meal"=>"admin/City/city_rank_meal",              //城市等级套餐
    "city_rank_setting"=>"admin/City/city_rank_setting",        //城市等级设置
+   "city_rank_setting_edit"=>"admin/City/city_rank_setting_edit",//城市等级设置编辑
    "city_datum_verify"=>"admin/City/city_datum_verify",        //城市入驻资料审核
+   "city_datum_verify_edit"=>"admin/City/city_datum_verify_edit", //城市入驻资料审核编辑
    "city_price_examine"=>"admin/City/city_price_examine",      //城市入驻费用审核
+   "city_price_examine_update"=>"admin/City/city_price_examine_update",      //城市入驻费用审核编辑
 ]);
 
 /**
