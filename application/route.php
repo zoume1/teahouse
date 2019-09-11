@@ -350,6 +350,7 @@ Route::group("",[
     "crowd_period"=>"index/Crowd/crowd_period",             //往期众筹商品
     "crowd_reward"=>"index/Crowd/crowd_reward",             //众筹商品打赏订单
     "getaAnsporTation"=>"index/Crowd/getaAnsporTation",     //众筹商品下单运费
+    "crowd_goods_timeout"=>"index/Crowd/crowd_goods_timeout",     //众筹商品--到期操作
 
     /*发票*/
     "bill"=>"index/Receipt/bill",                      //添加企业新户名
@@ -1119,7 +1120,6 @@ Route::group("admin",[
    "city_rank_setting"=>"admin/City/city_rank_setting",        //城市等级设置
    "city_rank_setting_edit"=>"admin/City/city_rank_setting_edit",//城市等级设置编辑
    "city_datum_verify"=>"admin/City/city_datum_verify",        //城市入驻资料审核
-   "city_datum_verify_edit"=>"admin/City/city_datum_verify_edit", //城市入驻资料审核编辑
    "city_price_examine"=>"admin/City/city_price_examine",      //城市入驻费用审核
    "city_price_examine_update"=>"admin/City/city_price_examine_update",      //城市入驻费用审核编辑
 ]);
@@ -1146,6 +1146,8 @@ Route::group("api",[
      */
     //个人中心
     "order_count"=>"api/Wxapps/order_count",      //各订单类型统计
+    
+    
 
     /**
      * 小程序直播接口
@@ -1175,7 +1177,25 @@ Route::group("city",[
 
 ]);
 
+/**
+ * 智慧茶仓公众号
+ */
+Route::group("rec",[
+    "code" => "rec/User/code", //获取短信验证码
+    "register" =>"rec/User/register",//注册
+    "login" =>"rec/User/login",//登录
+    "vs_code" =>"rec/User/vs_code",//验证码
 
+    "send_invoice" =>"rec/Invoice/requestBilling",
+    "query_invoice" =>"rec/Invoice/CheckEInvoice",
+    "getMerchantToken" =>"rec/Invoice/getMerchantToken",
+
+    "filename" =>"rec/Invoice/index",
+    "refer_invoice" =>"rec/Invoice/refer_invoice",
+    "ele_invoice" =>"rec/Invoice/ele_invoice",
+
+
+]);
 
 Route::miss("public/miss");
 

@@ -1090,6 +1090,7 @@ class Goods extends Controller
             $goods_sign = isset($goods_data["goods_sign"]) ? json_encode($goods_data["goods_sign"]):null;
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
+            $goods_data["goods_member"] = isset($goods_data["goods_member"])?$goods_data["goods_member"]:0;
             // $show_images = $request->file("goods_show_images");
             $number_days = intval($goods_data["number_days"]);
             $time = time();
