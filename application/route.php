@@ -1114,6 +1114,7 @@ Route::group("admin",[
    "detail_index"=>"admin/City/detail_index",                  //分销代理详细
    "city_setting"=>"admin/City/city_setting",                  //分销代理设置
    "city_rank_meal"=>"admin/City/city_rank_meal",              //城市等级套餐
+   "city_rank_meal_edit"=>"admin/City/city_rank_meal_edit",    //城市等级套餐编辑
    "city_rank_setting"=>"admin/City/city_rank_setting",        //城市等级设置
    "city_rank_setting_edit"=>"admin/City/city_rank_setting_edit",//城市等级设置编辑
    "city_datum_verify"=>"admin/City/city_datum_verify",        //城市入驻资料审核

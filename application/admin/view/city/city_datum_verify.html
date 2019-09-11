@@ -1,1 +1,260 @@
-7777
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+    body {background: #fff;}
+    #page {width: 97%;height: 50px;line-height: 50px;border: solid 1px #E2E2E2;padding-left: 50px;background: #FDFDFE;}
+    .on {color: #21A5FA ; border-bottom: solid 3px #21A5FA;}
+    .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
+    .distribution_list ul {display: flex; align-items: center;}
+    .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+    .static_btus {display: inline-block; height: 24px; line-height: 24px; margin: 0 12px; overflow: hidden;color: white;}
+    .static_btus >a {color: #fff;}
+    .static_btus button {width: 100%; padding: 0 10px; border-radius: 4px; }
+    .payment-has-been {background: #669900;}
+    a {color: #669900;}
+    .line-exam {background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
+    .line-ing {background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
+    .line-pass {background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}    
+    .line-exam:hover {color: rgb(188, 188, 188);}
+    .line-ing:hover {color: rgb(255, 153, 0);}
+    .line-pass:hover {color: rgb(102, 153, 0);}
+    .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
+    .pop{position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 650px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9;}
+    .pop .head{position: relative; padding-left: 16px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
+    .pop .head p{height: 35px; line-height: 36px; font-size: 13px;}
+    .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer; font-style: normal; user-select: none;}
+    .content{padding: 0 16px;}
+    .top, .mid, .bot{padding: 0 30px;}
+    .top{height: 50px; line-height: 50px;}
+    .lb{font-size: 16px; font-weight: 700; color: #333; margin-right: 30px;}
+    .top span{font-size: 24px; color: #f00; font-weight: 700;}
+    .mid{border: 1px dashed #d2d2d2; border-left: 0; border-right: 0;}
+    .mid>div{height: 50px; line-height: 50px; display: flex; align-items: baseline;}
+    .mid input{height: 30px; width: 300px; padding-left: 10px;}
+    .address p{line-height: normal; flex: 1;}
+    .change-addr{text-align: right;height: 35px; line-height: 35px; }
+    .change-addr a{color: #199ED8;}
+    .bot li{height: 65px; line-height: 65px; list-style: disc;}
+    .bot li button{background-color: #f00; float: right; transform: translateY(50%);}
+    .bot li a{color: #669900;}
+    td.table-cell{display: flex; align-items: center;padding: 9px 0px;}
+    .table-cell button{height: 22px; line-height: 22px; border-radius: 4px; padding: 0 10px;}
+    
+    .wait-check{color: #669900; margin-left: 10px;}
+    .check-fail{color: #f00;}
+    .layui-table th{padding: 9px 0;}
+    .layui-table td{font-size: 13px;}
+    .static_btus2 {
+		height: 30px;
+		line-height: 30px;
+		color: #0099FF;
+		cursor: pointer;
+		text-align: center;
+        margin-right: 10px;
+	}
+</style>
+
+{/block}
+
+<body>
+
+    {block name="content"}
+
+    <div class="childrenBody">
+        {include file="template/_top"/}
+        <blockquote class="layui-elem-quote news_search">
+            <form class="layui-form" action="{:url('admin/Control/control_order_index_search')}">
+                <div class="seach">
+                    <div class="seach_list">
+                        <div class="seach_laber">输入搜索:</div>
+                        <div class="seach_input">
+                            <input type="text" name="contact_name" lay-verify="title" autocomplete="off"
+                                placeholder="用户账号" class="layui-input">
+                        </div>
+                    </div>
+                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+                </div>
+            </form>
+        </blockquote>
+        <div class="layui-form news_list">
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+                        <th>用户账号</th>
+                        <th>联系人姓名</th>
+                        <th>入驻身份</th>
+                        <th>账号状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody class="news_content">
+                   
+                    <tr>
+                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id=""></td>
+                        <td>22121</td>
+                        <td>6546</td>
+                        <td>个人</td>
+                        <td>
+                            <input type="checkbox" class="Status" name="status" value="0"
+                                lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="">
+                        </td>
+                        <td>
+                                <a href="{:url('admin/City/city_datum_verify_edit')}" class="static_btus2 " data-id="">
+                                        入驻待审核
+                                </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div id="page">
+                    <div class="opation up-form-select" style="width: 200px; float: left;">
+                        <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
+                            <option check="" value="0">请选择</option>
+                            <option value="1">批量删除</option>
+                        </select>
+                    </div>
+                    <div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
+                        <button type="button" id="opration_btu"
+                            style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
+                        </button>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+            //点击操作确认按钮
+            $("#opration_btu").click(function () {
+                var data_id = [];
+                var opration_val = $(".opation select option:selected").val();
+                if (opration_val == 0) {
+                    layer.alert('请选择操作', {
+                        skin: 'layui-layer-molv' //样式类名
+                        ,
+                        closeBtn: 0
+                    });
+                } else if (opration_val == 1) {
+                    layer.confirm('你确认要删除吗？', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
+                        var child = $("tbody").find('input[name="handleoperation"]:checked');
+                        for (var i = 0; i < child.length; i++) {
+                            data_id.push($(child[i])[0].dataset.id);
+                        }
+                        console.log(data_id)
+                        $.ajax({
+                            type: "POST",
+                            url: "{:url('admin/Goods/dels')}",
+                            data: {
+                                "id": data_id,
+                            },
+                            success: function (data) {
+                                console.log("成功");
+                                console.log(data);
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                location.reload();
+                                data_id.splice(0, data_id.length);
+                            },
+                            error: function (data) {
+                                var data = $.parseJSON(data);
+                                layer.alert(data.info, {
+                                    skin: 'layui-layer-molv' //样式类名
+                                    ,
+                                    closeBtn: 0
+                                });
+                                console.log(data);
+                                console.log("错误");
+                                data_id.splice(0, data_id.length);
+                            }
+                        });
+                    });
+
+                }
+
+            });
+
+            //全选
+            form.on('checkbox(allChoose)', function (data) {
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                child.each(function (index, item) {
+                    item.checked = data.elem.checked;
+                });
+                form.render('checkbox');
+            });
+            //通过判断文章是否全部选中来确定全选按钮是否选中
+            form.on("checkbox(choose)", function (data) {
+                // console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
+                
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
+                if (childChecked.length === child.length) {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
+                } else {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
+                }
+                form.render('checkbox');
+            })
+
+
+
+            //账号状态
+            form.on('switch(isShow)', function (data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+                var vals = data.value;
+                var id = $(this).data("id");
+                var status = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Goods/status')}",
+                    data: {
+                        "id": id,
+                        "status": status
+                    },
+                    success: function (data) {
+                        console.log("成功")
+                    },
+                    error: function (data) {
+                        console.log("错误")
+                    }
+                });
+
+            })
+            form.render();
+
+        })
+    </script>
+
+    {/block}
+
+</body>
+
+</html>
