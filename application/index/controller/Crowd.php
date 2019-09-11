@@ -499,7 +499,6 @@ class Crowd extends Controller
             //统计该商品的众筹订单总数
             $where['status']='2';
             $where['goods_id']=$v['goods_id'];
-            $where['store_id']=$v['store_id'];
             $number=db('crowd_order')->where($where)->count();
             $order=db('crowd_order')->where($where)->select();
             if($number>=$v['stock']){
