@@ -203,7 +203,7 @@ class Invoice extends Controller{
         $senid = uniqid(); // generate your meaningful senid
         $body = json_encode(
             array(
-                "invoiceSerialNum" => array("19091117531101000829")
+                "invoiceSerialNum" => array("19091118163501000882")
             )
         );
         $send = new \SendApi();
