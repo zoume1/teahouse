@@ -610,13 +610,13 @@ class  Analyse extends  Controller{
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();       
             //测试七牛上传图片
-             $qiniu=new Qiniu();
+            $qiniu=new Qiniu();
             //获取店铺七牛云的配置项
-             $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
-             $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
-             $bucket = 'goods';
-             $domain= 'teahouse.siring.cn';
-             $images='file';
+            $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+            $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+            $bucket = 'goods';
+             $domain='teahouse.siring.cn';
+             $images='goods_show_images';
              $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
             if(empty($rr)){
                 $image = db("analyse_goods")->where("id", $id)->field("goods_show_images")->find();
@@ -669,6 +669,7 @@ class  Analyse extends  Controller{
             //         $goods_data["goods_show_image"] = null;
             //     }
             // } 
+            unset($goods_data['aa']);
             $bool = db("analyse_goods")->where("id", $id)->update($goods_data);
             if ($bool ){
                 $this->success("更新成功", url("admin/Analyse/analyse_index"));
@@ -780,7 +781,7 @@ class  Analyse extends  Controller{
      * [增值商品规格图片删除]
      * 郭杨
      */
-    public function analyse_photos(Request $request)
+    public function anaysle_photos(Request $request)
     {
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
@@ -835,7 +836,7 @@ class  Analyse extends  Controller{
             //测试七牛上传图片
             $qiniu=new Qiniu();
             //获取店铺七牛云的配置项
-            $images='file';
+            $images='imgs';
             $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
             $images = $rr[0];
             if(!empty($id)){

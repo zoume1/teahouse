@@ -525,7 +525,7 @@ function httpCurl($url, $params, $method = 'POST', $header = array(), $multi = f
         CURLOPT_SSL_VERIFYHOST => false,
         CURLOPT_HTTPHEADER     => $header,
         CURLOPT_COOKIESESSION  => true,
-        CURLOPT_FOLLOWLOCATION => 1,
+        CURLOPT_FOLLOWLOCATION => 0,
         CURLOPT_COOKIE         =>session_name().'='.session_id(),
     );
     /* 根据请求类型设置特定参数 */

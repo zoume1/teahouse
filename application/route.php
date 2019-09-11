@@ -349,6 +349,7 @@ Route::group("",[
     "crowd_period"=>"index/Crowd/crowd_period",             //往期众筹商品
     "crowd_reward"=>"index/Crowd/crowd_reward",             //众筹商品打赏订单
     "getaAnsporTation"=>"index/Crowd/getaAnsporTation",     //众筹商品下单运费
+    "crowd_goods_timeout"=>"index/Crowd/crowd_goods_timeout",     //众筹商品--到期操作
 
     /*发票*/
     "bill"=>"index/Receipt/bill",                      //添加企业新户名
@@ -1114,6 +1115,7 @@ Route::group("admin",[
    "detail_index"=>"admin/City/detail_index",                  //分销代理详细
    "city_setting"=>"admin/City/city_setting",                  //分销代理设置
    "city_rank_meal"=>"admin/City/city_rank_meal",              //城市等级套餐
+   "city_rank_meal_edit"=>"admin/City/city_rank_meal_edit",    //城市等级套餐编辑
    "city_rank_setting"=>"admin/City/city_rank_setting",        //城市等级设置
    "city_rank_setting_edit"=>"admin/City/city_rank_setting_edit",//城市等级设置编辑
    "city_datum_verify"=>"admin/City/city_datum_verify",        //城市入驻资料审核
@@ -1143,6 +1145,8 @@ Route::group("api",[
      */
     //个人中心
     "order_count"=>"api/Wxapps/order_count",      //各订单类型统计
+    
+    
 
     /**
      * 小程序直播接口
