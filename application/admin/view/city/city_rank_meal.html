@@ -1,1 +1,129 @@
-4444
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+    body {background: #fff;}
+    #page {width: 97%;height: 50px;line-height: 50px;border: solid 1px #E2E2E2;padding-left: 50px;background: #FDFDFE;}
+    .on {color: #21A5FA ; border-bottom: solid 3px #21A5FA;}
+    .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
+    .distribution_list ul {display: flex; align-items: center;}
+    .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+    .static_btus {display: inline-block; height: 24px; line-height: 24px; margin: 0 12px; overflow: hidden;color: white;}
+    .static_btus >a {color: #fff;}
+    .static_btus button {width: 100%; padding: 0 10px; border-radius: 4px; }
+    .payment-has-been {background: #669900;}
+    a {color: #669900;}
+    .line-exam {background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
+    .line-ing {background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
+    .line-pass {background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}    
+    .line-exam:hover {color: rgb(188, 188, 188);}
+    .line-ing:hover {color: rgb(255, 153, 0);}
+    .line-pass:hover {color: rgb(102, 153, 0);}
+    .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
+    .pop{position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 650px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9;}
+    .pop .head{position: relative; padding-left: 16px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
+    .pop .head p{height: 35px; line-height: 36px; font-size: 13px;}
+    .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer; font-style: normal; user-select: none;}
+    .content{padding: 0 16px;}
+    .top, .mid, .bot{padding: 0 30px;}
+    .top{height: 50px; line-height: 50px;}
+    .lb{font-size: 16px; font-weight: 700; color: #333; margin-right: 30px;}
+    .top span{font-size: 24px; color: #f00; font-weight: 700;}
+    .mid{border: 1px dashed #d2d2d2; border-left: 0; border-right: 0;}
+    .mid>div{height: 50px; line-height: 50px; display: flex; align-items: baseline;}
+    .mid input{height: 30px; width: 300px; padding-left: 10px;}
+    .address p{line-height: normal; flex: 1;}
+    .change-addr{text-align: right;height: 35px; line-height: 35px; }
+    .change-addr a{color: #199ED8;}
+    .bot li{height: 65px; line-height: 65px; list-style: disc;}
+    .bot li button{background-color: #f00; float: right; transform: translateY(50%);}
+    .bot li a{color: #669900;}
+    td.table-cell{display: flex; align-items: center;padding: 9px 0px;}
+    .table-cell button{height: 22px; line-height: 22px; border-radius: 4px; padding: 0 10px;}
+    
+    .wait-check{color: #669900; margin-left: 10px;}
+    .check-fail{color: #f00;}
+    .layui-table th{padding: 9px 0;}
+    .layui-table td{font-size: 13px;}
+</style>
+
+{/block}
+
+<body>
+
+    {block name="content"}
+
+    <div class="childrenBody">
+        {include file="template/_top"/}
+        <blockquote class="layui-elem-quote news_search">
+            <form class="layui-form" action="{:url('admin/Control/control_order_index_search')}">
+                <div class="seach">
+                    <div class="seach_list">
+                        <div class="seach_laber">输入搜索:</div>
+                        <div class="seach_input">
+                            <input type="text" name="contact_name" lay-verify="title" autocomplete="off"
+                                placeholder="用户账号" class="layui-input">
+                        </div>
+                    </div>
+                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+                </div>
+            </form>
+        </blockquote>
+        <a class="layui-btn layui-btn-danger batchDel" href="goods_type_add">添加等级</a>
+        <div class="layui-form news_list">
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+                        <th>等级名称</th>
+                        <th>等级价格（年费）</th>
+                        <th>卖点介绍</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody class="news_content">
+                   
+                    <tr>
+                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id=""></td>
+                        <td>特级城市</td>
+                        <td>6546</td>
+                        <td>数据库连接后发货的价格是多少</td>
+                        <td>
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/City/city_rank_meal_edit')}"> 编辑</a>
+                            <a href="{:url('')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer;
+            form.render();
+
+        })
+    </script>
+
+    {/block}
+
+</body>
+
+</html>

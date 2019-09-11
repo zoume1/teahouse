@@ -1,1 +1,365 @@
-22222
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<style type="text/css">
+  body {background: #fff;}
+    #page {width: 97%;height: 50px;line-height: 50px;border: solid 1px #E2E2E2;padding-left: 50px;background: #FDFDFE;}
+    .on {color: #21A5FA ; border-bottom: solid 3px #21A5FA;}
+    .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
+    .distribution_list ul {display: flex; align-items: center;}
+    .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+    .static_btus {display: inline-block; height: 24px; line-height: 24px; margin: 0 12px; overflow: hidden;color: white;}
+    .static_btus >a {color: #fff;}
+    .static_btus button {width: 100%; padding: 0 10px; border-radius: 4px; }
+    .payment-has-been {background: #669900;}
+    a {color: #669900;}
+    .line-exam {background-color: transparent; color: rgb(188, 188, 188); border: 1px solid rgb(188, 188, 188);}
+    .line-ing {background-color: transparent; color: rgb(255, 153, 0); border: 1px solid rgb(255, 153, 0);}
+    .line-pass {background-color: transparent; color: rgb(102, 153, 0); border: 1px solid rgb(102, 153, 0);}    
+    .line-exam:hover {color: rgb(188, 188, 188);}
+    .line-ing:hover {color: rgb(255, 153, 0);}
+    .line-pass:hover {color: rgb(102, 153, 0);}
+    .mask{position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); z-index: 9;}
+    .pop{position: absolute; top: 50%; left: 50%; margin: -183px 0 0 -325px; width: 650px; border: 1px solid #d6d6d6; background-color: #fff; z-index: 9;}
+    .pop .head{position: relative; padding-left: 16px; background-color: rgb(238, 247, 234); border-bottom: 1px solid #d6d6d6;}
+    .pop .head p{height: 35px; line-height: 36px; font-size: 13px;}
+    .pop .close{position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 26px; cursor: pointer; font-style: normal; user-select: none;}
+    .content{padding: 0 16px;}
+    .top, .mid, .bot{padding: 0 30px;}
+    .top{height: 50px; line-height: 50px;}
+    .lb{font-size: 16px; font-weight: 700; color: #333; margin-right: 30px;}
+    .top span{font-size: 24px; color: #f00; font-weight: 700;}
+    .mid{border: 1px dashed #d2d2d2; border-left: 0; border-right: 0;}
+    .mid>div{height: 50px; line-height: 50px; display: flex; align-items: baseline;}
+    .mid input{height: 30px; width: 300px; padding-left: 10px;}
+    .address p{line-height: normal; flex: 1;}
+    .change-addr{text-align: right;height: 35px; line-height: 35px; }
+    .change-addr a{color: #199ED8;}
+    .bot li{height: 65px; line-height: 65px; list-style: disc;}
+    .bot li button{background-color: #f00; float: right; transform: translateY(50%);}
+    .bot li a{color: #669900;}
+    td.table-cell{display: flex; align-items: center;padding: 9px 0px;}
+    .table-cell button{height: 22px; line-height: 22px; border-radius: 4px; padding: 0 10px;}
+    
+    .wait-check{color: #669900; margin-left: 10px;}
+    .check-fail{color: #f00;}
+    .layui-table th{padding: 9px 0;}
+    .layui-table td{font-size: 13px;}
+    body {
+        background: #fff;
+    }
+
+    .form-input {
+        width: auto;
+    }
+
+    .form-input > input {
+        width: 130px;
+    }
+
+    .m_r {
+        margin-right: 50px;
+    }
+
+    .m_t {
+        margin-top: 50px;
+    }
+    .p_l {
+        padding-left: 6px;
+    }
+
+    .layui-btn {
+        border-radius: 6px;
+        height: 50px;
+    }
+
+    .layui-form-lists .layui-btn {
+        width: 170px;
+    }
+
+    .layui-btn-primary {
+        margin-right: 150px;
+    }
+
+    .layui-form-item {
+        margin-left: 200px;
+        margin-top: 80px;
+    }
+   
+</style>
+
+{/block}
+
+<body>
+    {block name="content"}
+    <div class="childrenBody">
+        {include file="template/_top"/}
+    </div>
+    <div id="app">
+        
+        <form class="layui-form layui-form-lists" action="{:url('')}" method="post" enctype="multipart/form-data">
+            <blockquote class="layui-elem-quote news_search">
+                <div class="seach_laber">
+                    分销
+                </div>
+            </blockquote>
+            <div class="form-item m_t">
+                    <label class="form-label" style="width:20%">上级商户佣金比例</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            输入0~99数字
+                        </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%">商户套餐优惠金额</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >元</span>
+                        <div class="tips"><span class="red">*</span>
+                            购买时填写了邀请码的有奖励现金
+                        </div>
+                    </div>
+            </div>
+            <blockquote class="layui-elem-quote news_search m_t">
+                    <div class="seach_laber">
+                        代理
+                    </div>
+            </blockquote>
+            <div class="form-item m_t">
+                    <label class="form-label" style="width:20%">城市合伙人保底佣金比例</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            输入0~99数字
+                        </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%">城市合伙人达标佣金比例</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            达标佣金比例
+                        </div>
+                    </div>
+                    <div class="form-input m_r" style="width:365px;">
+                            <label class="form-label" style="width:20%">特级城市</label>
+                            <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                            class="layui-input">
+                            <span >个</span>
+                            <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
+                                发展店铺数
+                            </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%"></label>
+                    <div class="form-input m_r" style="width:147px;"></div>
+                    <div class="form-input m_r" style="width:365px;">
+                            <label class="form-label" style="width:20%">一级城市</label>
+                            <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                            class="layui-input">
+                            <span >个</span>
+                            <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
+                                发展店铺数
+                            </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%"></label>
+                    <div class="form-input m_r" style="width:147px;"></div>
+                    <div class="form-input m_r" style="width:365px;">
+                            <label class="form-label" style="width:20%">二级城市</label>
+                            <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                            class="layui-input">
+                            <span >个</span>
+                            <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
+                                发展店铺数
+                            </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%"></label>
+                    <div class="form-input m_r" style="width:147px;"></div>
+                    <div class="form-input m_r" style="width:365px;">
+                            <label class="form-label" style="width:20%">三级城市</label>
+                            <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                            class="layui-input">
+                            <span >个</span>
+                            <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
+                                发展店铺数
+                            </div>
+                    </div>
+            </div>
+
+            <blockquote class="layui-elem-quote news_search m_t">
+                    <div class="seach_laber" style="width: 21%;">
+                        代理衰减配置（以上佣金随商户续费年限，做梯度修正调整）
+                    </div>
+            </blockquote>
+            <div class="form-item m_t">
+                    <label class="form-label" style="width:20%">第二年</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            保底和达标佣金同时乘该比例，即为当年佣金，不管城市合伙人是非替换
+                        </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%">第三年</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            保底和达标佣金同时乘该比例，即为当年佣金，不管城市合伙人是非替换
+                        </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%">第四年</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            保底和达标佣金同时乘该比例，即为当年佣金，不管城市合伙人是非替换
+                        </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%">5年之后</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            保底和达标佣金同时乘该比例，即为当年佣金，不管城市合伙人是非替换
+                        </div>
+                    </div>
+            </div>
+           
+            <blockquote class="layui-elem-quote news_search m_t">
+                    <div class="seach_laber" style="width: 12%;">
+                            代理服务考评体系（5分为基础）
+                    </div>
+            </blockquote>
+            <div class="form-item m_t">
+                    <label class="form-label" style="width:20%">1分以下</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            扣减保底佣金比例
+                        </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%">1~2分</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            扣减保底佣金比例
+                        </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%">2~3分</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            扣减保底佣金比例
+                        </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%">6~7分</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            扣减保底佣金比例
+                        </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%">7~8分</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            扣减保底佣金比例
+                        </div>
+                    </div>
+            </div>
+            <div class="form-item">
+                    <label class="form-label" style="width:20%">8分以上</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            扣减保底佣金比例
+                        </div>
+                    </div>
+            </div>
+
+
+            <div class="layui-form-item" style="width:100%;">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn layui-btn-primary"
+                        onClick="javascript :history.back(-1);">返回</button>
+                    <button class="layui-btn layui-btn-normal" type="submit" id="submit">保存</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    {/block}
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage'], () =>  {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery;
+        })
+
+
+
+    </script>
+
+    {/block}
+
+</body>
+
+</html>

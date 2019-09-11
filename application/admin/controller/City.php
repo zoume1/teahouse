@@ -39,6 +39,14 @@ class  City extends  Controller{
     }
 
     /**
+     * [城市等级套餐编辑]
+     * 郭杨
+     */    
+    public function city_rank_meal_edit(){
+        return view("city_rank_meal_edit");
+    }
+
+    /**
      * [城市等级设置]
      * 郭杨
      */    
@@ -78,5 +86,12 @@ class  City extends  Controller{
      */    
     public function city_price_examine_update(){
         return view("city_price_examine_update");
+    }
+    /**
+     * [城市入驻费用审核]
+     * 郭杨
+     */    
+    public function city_price_examine(){
+        return view("city_price_examine");
     }
 }

@@ -76,31 +76,25 @@
             <table class="layui-table">
                 <thead>
                     <tr>
-                        <th>时间</th>
-                        <th>用户账号(手机号)
-                        </th>
-                        <th>用户邀请码</th>
-                        <th>用户身份</th>
+                        <th>订单号</th>
+                        <th>商户账号(手机号)</th>
+                        <th>商户邀请码</th>
                         <th>订单套餐</th>
                         <th>订单金额</th>
                         <th>上级账号(手机号)</th>
-                        <th>佣金比例</th>
                         <th>佣金金额</th>
                     </tr>
                 </thead>
                 <tbody class="news_content">
                    
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>201835</td>
+                        <td>4545465</td>
+                        <td>sdsd222</td>
+                        <td>sdsd222</td>
+                        <td>sdsd222</td>
+                        <td>sdsd222</td>
+                        <td>sdsd222</td>
                     </tr>
 
                 </tbody>
@@ -123,70 +117,7 @@
         }).use(['form', 'layer'], function () {
             var form = layui.form(),
                 layer = parent.layer === undefined ? layui.layer : parent.layer;
-
-            $('.line-btn').click(function () {
-                $('.mask').add('.pop').show();
-                $('.pop .close').click(function () {
-                    $('.mask').add('.pop').hide();
-                })
-                var id = this.getAttribute('data-id');
-                $.ajax({
-                    url: 'store_examine_receipt',
-                    data: {
-                        'id': id,
-                    },
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function (res) {
-                        console.log(res);
-                        var data = res.data;
-                        // 开票金额
-                        $('.invoice-money span').text('￥' + data.money);
-                        // 地址
-                        if (data.location) {
-                            $('.address p').text(data.location.address + ' ' + data.location.street + ' ' + data.location.zip + ' (' + data.location.name + '收)' + data.location.phone + ' 默认地址');
-                        }
-                        if (data.apply == 1) {
-                            $('.mid').css('border', 0);
-                        } else if (data.apply == 2) {
-                            $('.bot li:eq(0)').show();
-                            $('.invoice-head input').val(data.title).attr('readonly', true);
-                            $('.invoice-num input').val(data.company_number).attr('readonly', true);
-
-                            // 立即开票
-                            var key = true;
-                            $('.bill-btn').click(function () {
-                                if (key) {
-                                    key = false;
-                                    $.ajax({
-                                        url: 'admin_auditing_receipt',
-                                        data: {
-                                            'id': id,
-                                        },
-                                        type: 'POST',
-                                        dataType: 'JSON',
-                                        success: function (res) {
-                                            console.log(res);
-                                            if (res.status == 1) {
-                                                layer.msg('审核成功！');
-                                                setTimeout(function () {
-                                                    location.reload();
-                                                }, 1200);
-                                            } else {
-                                                layer.msg(res.info);
-                                            }
-                                        }
-                                    })
-                                }
-                            })
-                        } else if(data.apply == 3){
-                            $('.bot li:eq(1)').show();
-                            $('.invoice-head input').val(data.title).attr('readonly', true);
-                            $('.invoice-num input').val(data.company_number).attr('readonly', true);
-                        }
-                    }
-                })
-            })
+            from.render();
 
         })
     </script>
