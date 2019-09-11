@@ -221,9 +221,8 @@ class Crowd extends Controller
             ->where("label",1)
             ->where("store_id",'EQ',$store_id)
             ->where("end_time","<=",$date_time)
-            ->field("id,project_name,end_time,goods_show_image")
+            ->field("id,project_name,end_time,goods_show_image,goods_member")
             ->select();
-
             if(!empty($crowd)){
                 foreach($crowd as $key => $value)
                 {
@@ -481,6 +480,43 @@ class Crowd extends Controller
             } else {
                 return ajax_error("没有运费模板");
             }
+        }
+
+    }
+    /**
+     * lilu
+     * 众筹商品到期操作
+     * goods_id
+     * uniacid
+     */
+    public function crowd_goods_timeout()
+    {
+        //获取参数
+        $input=input();
+        //获取众筹商品的信息
+        $crowd_info=db('crowd_special')->where(['store_id'=>$input['uniacid'],'goods_id'=>$input['goods_id']])->select();
+        foreach($crowd_info as $k =>$v){
+            //统计该商品的众筹订单总数
+            $where['status']='2';
+            $where['goods_id']=$v['goods_id'];
+            $where['store_id']=$v['store_id'];
+            $number=db('crowd_order')->where($where)->count();
+            $order=db('crowd_order')->where($where)->select();
+            if($number>=$v['stock']){
+                //众筹成功
+                foreach($order as $k2 =>$v2){
+                    db('crowd_order')->where('id',$v2['id'])->update(['status'=>'3']);
+                }
+            }else{
+                //众筹失败--退款
+                foreach($order as $k2 =>$v2){
+                    //退款
+                    db('member')->where('member_id',$v2['member_id'])->setInc('member_wallet',$v2['order_real_pay']);
+                    //订单已关闭
+                    db('crowd_order')->where('id',$v2['id'])->update(['status'=>0]);
+                }
+            }
+
         }
 
     }
