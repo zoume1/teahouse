@@ -10,6 +10,11 @@ use think\Controller;
 use think\Db;
 use think\paginator\driver\Bootstrap;
 use think\Session;
+use think\Request;
+use app\city\model\CitySetting;
+use app\city\model\CityDecay;
+use app\city\model\CityEvaluate;
+use app\city\model\StoreCommission;
 
 
 class  City extends  Controller{
@@ -26,8 +31,16 @@ class  City extends  Controller{
      * [分销代理设置]
      * 郭杨
      */    
-    public function city_setting(){
-        return view("city_setting");
+    public function city_setting(Request $request){
+        if($request->isPost()){
+
+        }
+        $store_data = StoreCommission::commission_setting();
+        $citySetting = CitySetting::city_setting();
+        $citydecay = CityDecay::city_decay();
+        $cityevalute = CityEvaluate::city_evaluate();
+        
+        return view("city_setting",['store_data'=>$store_data,'citySetting'=>$citySetting,'citydecay'=>$citydecay,'cityevalute'=>$cityevalute]);
     }
 
     /**

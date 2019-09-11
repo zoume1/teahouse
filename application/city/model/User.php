@@ -171,6 +171,7 @@ class User extends Model
         // 数据验证
         $this->validation($data);
         // 新增申请记录
+        $data['password'] = changcang_hash($data['password']);
         $this->save($data); 
         
     }
@@ -185,28 +186,40 @@ class User extends Model
     {
         
         $validate     = new Validate([
-            ['phone_number', 'require', '账号不能为空'],
-            ['phone_number', 'require|mobile', '手机格式错误'],
+            ['phone_number', 'require', '手机号不能为空'],
             ['password', 'require', '密码不能为空'],
             ['id_image', 'require', '身份证正面照不能为空'],
             ['id_card', 'require', '身份证不能为空'],
-            ['id_card', 'require|idCard', '身份证格式错误'],
             ['city_address', 'require', '城市不能为空'],
             ['user_name', 'require', '姓名不能为空'],
-            ['id_image_reverse','require','证件证明不能为空']
+            ['id_image_reverse','require','证件证明不能为空'],
+            ['identifying_code','require','验证码不能为空']
         ]);
+        $identifying_code = Session::get('identifying_code');
         //验证部分数据合法性
         if (!$validate->check($data)) {
             $this->error = $validate->getError();
             return false;
         }
-       
+        //手机格式
+        if(!isMobile($data['phone_number'])) {
+            $this->error = '手机格式不正确';
+            return false;
+        }
+        //手机验证码
+        if($data['identifying_code'] != $identifying_code) {
+            $this->error = '验证码不正确,请重新输入';
+            return false;
+        }
+        unset($data['identifying_code']);
         // 最否注册
         if ($this->isStatus($data)) {
-            throw new BaseException(['msg' => '该账号已注册']);
+            $this->error = '该账号已注册';
+            return false;
         }
         if ($this->cityStatus($data)) {
-            throw new BaseException(['msg' => '该城市已有合伙人注册']);
+            $this->error =  '该城市已有合伙人注册';
+            return false;  
         }
 
         return true;

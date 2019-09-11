@@ -26,7 +26,7 @@ class Passport extends Controller
         if ($this->request->isAjax()) {
             $model = new UserModel;
             if ($model->login($this->postData('User'))) {
-                return $this->renderSuccess('登录成功', url('index/index'));
+                return $this->renderSuccess('登录成功');
             }
             return $this->renderError($model->getError() ?: '登录失败');
         }
@@ -58,7 +58,7 @@ class Passport extends Controller
             $rest = new UserModel;
             if($rest->submit($data))
             {
-                return $this->renderSuccess('注册成功', url('index/index'));
+                return $this->renderSuccess('注册成功');
             }
             return $this->renderError($rest->getError() ?: '注册失败');
         }
