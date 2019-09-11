@@ -349,6 +349,7 @@ Route::group("",[
     "crowd_period"=>"index/Crowd/crowd_period",             //往期众筹商品
     "crowd_reward"=>"index/Crowd/crowd_reward",             //众筹商品打赏订单
     "getaAnsporTation"=>"index/Crowd/getaAnsporTation",     //众筹商品下单运费
+    "crowd_goods_timeout"=>"index/Crowd/crowd_goods_timeout",     //众筹商品--到期操作
 
     /*发票*/
     "bill"=>"index/Receipt/bill",                      //添加企业新户名
@@ -1145,6 +1146,8 @@ Route::group("api",[
      */
     //个人中心
     "order_count"=>"api/Wxapps/order_count",      //各订单类型统计
+    
+    
 
     /**
      * 小程序直播接口
