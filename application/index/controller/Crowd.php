@@ -494,7 +494,7 @@ class Crowd extends Controller
         //获取参数
         $input=input();
         //获取众筹商品的信息
-        $crowd_info=db('crowd_special')->where(['store_id'=>$input['uniacid'],'goods_id'=>$input['goods_id']])->select();
+        $crowd_info=db('crowd_special')->where('goods_id',$input['goods_id'])->select();
         foreach($crowd_info as $k =>$v){
             //统计该商品的众筹订单总数
             $where['status']='2';
