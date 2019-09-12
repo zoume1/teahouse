@@ -432,8 +432,6 @@ class Crowd extends Controller
             }
         }
     }
-
-
     /**
      **************郭杨*******************
      * @param Request $request
@@ -481,7 +479,6 @@ class Crowd extends Controller
                 return ajax_error("没有运费模板");
             }
         }
-
     }
     /**
      * lilu
