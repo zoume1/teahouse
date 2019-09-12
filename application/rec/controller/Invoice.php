@@ -116,7 +116,7 @@ class Invoice extends Controller{
     }
     /**
      * @author fyk
-     * 诺诺发票 请求开具发票请求（沙箱），先填写appkey、appsecret
+     * 诺诺发票 请求开具发票请求，先填写appkey、appsecret
      */
     public function requestBilling($data)
     {
@@ -124,7 +124,7 @@ class Invoice extends Controller{
         $appSecret = "SD5306BAB0F24B7E";
         $token = "a2146b6330bf40cdb361a10ilweat07s";// 唯一的token
         $taxnum = "339901999999142"; //商家模式对应的是注册的税号
-        $url = "https://sandbox.nuonuocs.cn/open/v1/services"; // 请求地址
+        $url = "https://sandbox.nuonuocs.cn/open/v1/services"; // 请求地址（沙箱）
         $method = "nuonuo.electronInvoice.requestBilling"; // 请求api对应的方法名称
         $senid = uniqid(); // 唯一标识，由自己生成32位随机码
         $body = json_encode(
@@ -190,17 +190,17 @@ class Invoice extends Controller{
 
     /**
      * @author fyk
-     * 诺诺发票  通过流水号查询查询发票接口（沙箱）,先填写appkey、appsecret
+     * 诺诺发票  通过流水号查询查询发票接口,先填写appkey、appsecret
      */
     public function CheckEInvoice()
     {
         $appKey = "SD54278460";
         $appSecret = "SD5306BAB0F24B7E";
-        $token = "a2146b6330bf40cdb361a10ilweat07s";// please store the token and refresh it before expired
+        $token = "a2146b6330bf40cdb361a10ilweat07s";//
         $taxnum = "339901999999142";
-        $url = "https://sandbox.nuonuocs.cn/open/v1/services"; // change to online domain
-        $method = "nuonuo.electronInvoice.CheckEInvoice"; // change to your method
-        $senid = uniqid(); // generate your meaningful senid
+        $url = "https://sandbox.nuonuocs.cn/open/v1/services"; // （沙箱）
+        $method = "nuonuo.electronInvoice.CheckEInvoice"; //
+        $senid = uniqid(); // 随机字符32位
         $body = json_encode(
             array(
                 "invoiceSerialNum" => array("19091118163501000882")
