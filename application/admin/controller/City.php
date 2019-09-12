@@ -14,6 +14,7 @@ use think\Request;
 use app\city\model\CitySetting;
 use app\city\model\CityDecay;
 use app\city\model\CityEvaluate;
+use app\city\model\CityMeal;
 use app\city\model\StoreCommission;
 
 
@@ -59,14 +60,24 @@ class  City extends  Controller{
      * 郭杨
      */    
     public function city_rank_meal(){
-        return view("city_rank_meal");
+        $data = CityMeal::getList();
+        return view("city_rank_meal",['data'=>$data]);
     }
 
     /**
      * [城市等级套餐添加]
      * 郭杨
      */    
-    public function city_rank_meal_add(){
+    public function city_rank_meal_add(Request $request){
+        if($request->isPost()){
+            $data = Request::instance()->param();
+            $rest = CityMeal::city_meal_add($data);
+            if($rest){
+                $this->success("添加成功", url("admin/City/city_rank_meal"));
+            } else {
+                $this->error("添加失败", url("admin/City/city_rank_meal"));
+            }    
+        }
         return view("city_rank_meal_add");
     }
 
@@ -74,8 +85,27 @@ class  City extends  Controller{
      * [城市等级套餐编辑]
      * 郭杨
      */    
-    public function city_rank_meal_edit(){
-        return view("city_rank_meal_edit");
+    public function city_rank_meal_edit($id)
+    {
+        $meal = CityMeal::detail($id);
+        return view("city_rank_meal_edit",['meal'=>$meal]);
+    }
+
+    /**
+     * [城市等级套餐编辑更新]
+     * 郭杨
+     */    
+    public function city_rank_meal_update(Request $request){
+        if($request->isPost()){
+            $data = Request::instance()->param();
+            $restul = CityMeal::meal_update($data);
+            if($restul){
+                $this->success("更新成功", url("admin/City/city_rank_meal"));
+            } else {
+                $this->error("更新失败", url("admin/City/city_rank_meal"));
+            }
+        }
+
     }
 
     /**
