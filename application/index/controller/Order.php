@@ -131,7 +131,7 @@ class  Order extends  Controller
     /**
      **************郭杨*******************
      * @param Request $request
-     * Notes:提交订单(修改过的)
+     * Notes:提交订单(修改过的)---商品详情下单
      **************************************
      * @param Request $request
      */
@@ -154,7 +154,6 @@ class  Order extends  Controller
             $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额--税费
             $freight = $request->only("freight")["freight"];//发票金额
             $storage = $request->only("storage")["storage"];//发票金额
-            
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
@@ -279,8 +278,16 @@ class  Order extends  Controller
                         $datas["storage"] = $storage;
                         $datas["is_receipt"] = $receipt_status;
                                         
-                        $res = Db::name('order')->insertGetId($datas);
+                        $res = Db::name('order')->insertGetId($datas);  //下单
                         if ($res) {
+                            //生成对账单
+                            $dui['order_number']=$datas['parts_order_number'];
+                            $dui['user_account']=$datas['user_account_name'];
+                            $dui['create_time']=$datas['order_create_time'];
+                            $dui['income']=$datas['order_amount'];    //收入
+                            $dui['pay']=0;
+                            $dui['dui_type']='1';    //1  订单入账   2 订单支出   3. 提现  4. 订单退款  
+
                             //判断是否使用优惠卷
                             if($coupon_id>0){    //使用
                                 db('coupon')->where('id',$coupon_id)->setInc('use_number',1);
