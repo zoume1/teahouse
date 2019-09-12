@@ -65,7 +65,7 @@
     }
 
     .m_t {
-        margin-top: 50px;
+        margin-top: 20px;
     }
     .p_l {
         padding-left: 6px;
@@ -89,6 +89,14 @@
         margin-top: 80px;
     }
    #app {display: flex;justify-content : space-around;}
+   .layui-elem-quote{border-left: 0;}
+   .flex_mian{padding: 6px;}
+   .flex{display: flex;justify-content : space-between;width: 100%;line-height: 30px;padding: 2px;}
+   .felx_c{border-top:1px solid rgb(26, 188, 156);border-bottom:1px solid rgb(26, 188, 156);background-color: rgb(249, 249, 249);}
+   .all_btn{color: rgb(26, 188, 156);cursor:pointer;}
+   .move{margin-right: 5px;}
+   .del{}
+   .add{text-align:center;font-size: 18px;border: 1px dashed rgb(153, 153, 153);color: rgb(153, 153, 153);cursor:pointer;}
 </style>
 
 {/block}
@@ -101,78 +109,93 @@
     <div id="app">
         
         <!-- <form class="layui-form layui-form-lists" action="{:url('')}" method="post" enctype="multipart/form-data"> -->
-            <div style="width: 19%;">
+            <div style="width: 15%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
-                        分销
+                        省份
                     </div>
                 </blockquote>
-                <div class="form-item m_t">
-                        <div class="form-input">
-                            <div class="tips"><span class="red">*</span>
-                                输入0~99数字
-                            </div>
-                        </div>
+                <div class="flex_mian m_t">
+                    <div class="flex felx_c">
+                        <div>广东</div>
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn del">删除</div>
+                    </div>
+                    <div class="flex">
+                        <div>湖南</div>
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn del">删除</div>
+                    </div>
+                    <div class="flex">
+                        <div>福建</div>
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn del">删除</div>
+                    </div>
+                    <div class="add">
+                        新增
+                    </div>
                 </div>
             </div>
-            <div style="width: 19%;">
+            <div style="width: 15%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
-                        分销
+                        特级城市
                     </div>
                 </blockquote>
-                <div class="form-item m_t">
-                        <div class="form-input">
-                            <div class="tips"><span class="red">*</span>
-                                输入0~99数字
-                            </div>
-                        </div>
+                <div class="flex_mian m_t">
+                    <div class="flex">
+                        <div>广东</div>
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn move">移动</div>
+                        <div class="all_btn">删除</div>
+                    </div>
                 </div>
             </div>
-            <div style="width: 19%;">
+            <div style="width: 15%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
-                        分销
+                        一级城市
                     </div>
                 </blockquote>
-                <div class="form-item m_t">
-                        <div class="form-input">
-                            <div class="tips"><span class="red">*</span>
-                                输入0~99数字
-                            </div>
-                        </div>
+                <div class="flex_mian m_t">
+                    <div class="flex">
+                        <div>广东</div>
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn move">移动</div>
+                        <div class="all_btn">删除</div>
+                    </div>
                 </div>
             </div>
-            <div style="width: 19%;">
+            <div style="width: 15%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
-                        分销
+                        二级城市
                     </div>
                 </blockquote>
-                <div class="form-item m_t">
-                        <div class="form-input">
-                            <div class="tips"><span class="red">*</span>
-                                输入0~99数字
-                            </div>
-                        </div>
+                <div class="flex_mian m_t">
+                    <div class="flex">
+                        <div>广东</div>
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn move">移动</div>
+                        <div class="all_btn">删除</div>
+                    </div>
                 </div>
             </div>
-            <div style="width: 19%;">
+            <div style="width: 15%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
-                        分销
+                        三级城市
                     </div>
                 </blockquote>
-                <div class="form-item m_t">
-                        <div class="form-input">
-                            <div class="tips"><span class="red">*</span>
-                                输入0~99数字
-                            </div>
-                        </div>
+                <div class="flex_mian m_t">
+                    <div class="flex">
+                        <div>广东</div>
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn move">移动</div>
+                        <div class="all_btn">删除</div>
+                    </div>
                 </div>
             </div>
-            
-
             
         <!-- </form> -->
     </div>
