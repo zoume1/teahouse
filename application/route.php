@@ -31,6 +31,7 @@ Route::group("",[
     "logout"=>"index/Login/logout",//退出登录操作
     "find_password_by_phone"=>"index/Findpwd/find_password_by_phone",//找回密码
     "sendMobileCodeByPhone"=>"index/Findpwd/sendMobileCodeByPhone",//找回密码验证码
+    "sendIdentiFyingCode"=>"index/Findpwd/sendIdentiFyingCode",//发送手机验证码
     "sendMobileCodeByPh"=>"index/Findpwd/sendMobileCodeByPh",//修改密码验证码
     "update_password"=>"index/Findpwd/update_password",//修改密码操作
     "new_phone_update"=>"index/Findpwd/new_phone_update",//修改手机操作
@@ -1171,6 +1172,7 @@ Route::group("api",[
  */
 Route::group("city",[
     "apply_login" => "city/Passport/login", //城市合伙人PC端登录
+    "apply_register" => "city/Passport/register", //城市合伙人PC端注册
 
 
 ]);
