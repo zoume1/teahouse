@@ -63,6 +63,14 @@ class  City extends  Controller{
     }
 
     /**
+     * [城市等级套餐添加]
+     * 郭杨
+     */    
+    public function city_rank_meal_add(){
+        return view("city_rank_meal_add");
+    }
+
+    /**
      * [城市等级套餐编辑]
      * 郭杨
      */    
