@@ -33,7 +33,18 @@ class  City extends  Controller{
      */    
     public function city_setting(Request $request){
         if($request->isPost()){
+            $data = Request::instance()->param();
+            $one = StoreCommission::commission_setting_update($data);
+            $two = CitySetting::city_setting_update($data);
+            $three = CityDecay::city_decay_update($data);
+            $four = CityEvaluate::city_evaluate_update($data);
 
+            if( $one||$two||$three||$four )
+            {
+                $this->success("更新成功", url("admin/City/city_setting"));
+            } else {
+                $this->error("更新失败", url("admin/City/city_setting"));
+            }
         }
         $store_data = StoreCommission::commission_setting();
         $citySetting = CitySetting::city_setting();
