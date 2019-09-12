@@ -1192,6 +1192,10 @@ Route::group("rec",[
     "refer_invoice" =>"rec/Invoice/refer_invoice",
     "ele_invoice" =>"rec/Invoice/ele_invoice",
 
+    //微信登录
+    "wx_accredit" =>"rec/Wechat/wx_accredit",
+    "wx_code" =>"rec/Wechat/wx_code",
+
 
 ]);
 

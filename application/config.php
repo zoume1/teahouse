@@ -262,6 +262,9 @@ return [
     'domain'=>[
         "url"=>"https://teahouse.siring.com.cn/",
     ],
+
+    //域名
+    'web_url' => 'https://www.zhihuichacang.com/',
     /*快递100参数*/
     "express"=>[
         //实时物流
