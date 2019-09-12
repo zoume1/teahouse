@@ -31,6 +31,7 @@ Route::group("",[
     "logout"=>"index/Login/logout",//退出登录操作
     "find_password_by_phone"=>"index/Findpwd/find_password_by_phone",//找回密码
     "sendMobileCodeByPhone"=>"index/Findpwd/sendMobileCodeByPhone",//找回密码验证码
+    "sendIdentiFyingCode"=>"index/Findpwd/sendIdentiFyingCode",//发送手机验证码
     "sendMobileCodeByPh"=>"index/Findpwd/sendMobileCodeByPh",//修改密码验证码
     "update_password"=>"index/Findpwd/update_password",//修改密码操作
     "new_phone_update"=>"index/Findpwd/new_phone_update",//修改手机操作
@@ -1115,6 +1116,7 @@ Route::group("admin",[
    "detail_index"=>"admin/City/detail_index",                  //分销代理详细
    "city_setting"=>"admin/City/city_setting",                  //分销代理设置
    "city_rank_meal"=>"admin/City/city_rank_meal",              //城市等级套餐
+   "city_rank_meal_add"=>"admin/City/city_rank_meal_add",           //城市等级套餐添加
    "city_rank_meal_edit"=>"admin/City/city_rank_meal_edit",    //城市等级套餐编辑
    "city_rank_setting"=>"admin/City/city_rank_setting",        //城市等级设置
    "city_rank_setting_edit"=>"admin/City/city_rank_setting_edit",//城市等级设置编辑
@@ -1171,6 +1173,7 @@ Route::group("api",[
  */
 Route::group("city",[
     "apply_login" => "city/Passport/login", //城市合伙人PC端登录
+    "apply_register" => "city/Passport/register", //城市合伙人PC端注册
 
 
 ]);
@@ -1191,6 +1194,10 @@ Route::group("rec",[
     "filename" =>"rec/Invoice/index",
     "refer_invoice" =>"rec/Invoice/refer_invoice",
     "ele_invoice" =>"rec/Invoice/ele_invoice",
+
+    //微信登录
+    "wx_accredit" =>"rec/Wechat/wx_accredit",
+    "wx_code" =>"rec/Wechat/wx_code",
 
 
 ]);
