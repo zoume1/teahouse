@@ -1187,17 +1187,20 @@ Route::group("rec",[
     "register" =>"rec/User/register",//注册
     "login" =>"rec/User/login",//登录
     "vs_code" =>"rec/User/vs_code",//验证码
+    "forget" =>"rec/User/forget",//忘记密码
+    "edit_phone" =>"rec/User/edit_phone",//修改手机号
 
+    //发票
     "send_invoice" =>"rec/Invoice/requestBilling",
     "query_invoice" =>"rec/Invoice/CheckEInvoice",
     "getMerchantToken" =>"rec/Invoice/getMerchantToken",
 
     "filename" =>"rec/Invoice/index",
     "refer_invoice" =>"rec/Invoice/refer_invoice",
-    "ele_invoice" =>"rec/Invoice/ele_invoice",
+    "ele" =>"rec/Invoice/ele_invoice",
 
     //微信登录
-    "wx_accredit" =>"rec/Wechat/wx_accredit",
+    "wx_openid" =>"rec/Wechat/wx_accredit",
     "wx_code" =>"rec/Wechat/wx_code",
 
 

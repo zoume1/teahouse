@@ -12,8 +12,6 @@ use think\Controller;
 use think\Config;
 class Wechat extends Controller{
 
-    //微信链接
-    //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5a3e6cd230083d86&redirect_uri=http://fy.anhuivision.com/api.php/Wx/wx_login&response_type=code&scope=snsapi_base&state=123#wechat_redirect
     //微信公众平台信息（appid/secret）
     protected $sj_appid = 'wxf120ba19ce55a392';
     protected $sj_secret = '06c0107cff1e3f5fe6c2eb039ac2d0b7';
@@ -27,13 +25,12 @@ class Wechat extends Controller{
      * @function 手机端网页微信登录授权（微信公众平台微信登录授权）
      */
     public function wx_accredit(){
-        $redirect_uri = Config::get('web_url').'/rec/wx_code';
+        $redirect_uri = Config::get('web_url').'rec/wx_code';
         $redirect_uri = urlencode($redirect_uri);
         //微信公众平台appid
         $appid = $this->sj_appid;
 
         $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
-        print_r($url);die;
 
         header('Location:'.$url);
     }
@@ -41,7 +38,8 @@ class Wechat extends Controller{
      * @function 获取openid
      */
     public function wx_code(){
-        $param = I('param.');
+        $request = Request::instance();
+        $param = $request->param();
         if(empty($param['code'])){
             echo json_encode(array('code'=>0,'msg'=>'code参数为空'));exit;
         }
@@ -52,22 +50,31 @@ class Wechat extends Controller{
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$param['code'].'&grant_type=authorization_code';
         $data = $this->curlGet($url);
         //print_r($data);die;
+        if(empty($data['access_token'])){
+            echo json_encode(array('code'=>0,'msg'=>'access_token错误'));exit;
+        }
         if(empty($data['openid'])){
             echo json_encode(array('code'=>0,'msg'=>'openid错误'));exit;
         }
-        $openid_name = M('judge_list')->where(array('openid'=> $data['openid']))->field('id,username')->find();
-        //print_r($openid_name);die;
+        $token = $data['access_token'];
+        $openid = $data['openid'];
+        $url1 = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
+
+        $res = $this->curlGet($url1);
+        print_r($res);die;
+        $openid_name = db('pc_user')->where(array('openid'=> $data['openid']))->field('id,phone_number')->find();
+
         if($openid_name){
             //更新用户信息
             $save['openid'] = $data['openid'];
             $save['utime'] = time();
-            M('judge_list')->where(array('id'=>$openid_name['id']))->save($save);
+            db('pc_user')->where(array('id'=>$openid_name['id']))->save($save);
             //跳转首页
-            $url = C('web_url').$this->app_index.'?jude_id='.$openid_name['id'];
+            $url = Config::get('web_url').$this->app_index.'?jude_id='.$openid_name['id'];
             header('Location:'.$url);
         }else{
             //跳转绑定账号页面
-            $url = C('web_url').$this->app_wx.'?openid='.$data['openid'];
+            $url = Config::get('web_url').$this->app_wx.'?openid='.$data['openid'];
             header('Location:'.$url);
         }
 
@@ -88,7 +95,8 @@ class Wechat extends Controller{
      * @function 获取openid
      */
     public function wx_code_1(){
-        $param = I('param.');
+        $request = Request::instance();
+        $param = $request->param();
         if(empty($param['code'])){
             echo json_encode(array('code'=>0,'msg'=>'code参数为空'));exit;
         }
@@ -102,13 +110,13 @@ class Wechat extends Controller{
         if(empty($data['openid'])){
             echo json_encode(array('code'=>0,'msg'=>'openid错误'));exit;
         }
-        $openid_name = M('judge_list')->where(array('openid'=> $data['openid']))->field('id,username')->find();
+        $openid_name = db('pc_user')->where(array('openid'=> $data['openid']))->field('id,phone_number')->find();
         if($openid_name){
             echo json_encode(array(
                 'code'=>1,
                 'msg'=>'登录成功',
-                'jude_id'=>$openid_name['id'],
-                'username'=>$openid_name['username'],
+                'user_id'=>$openid_name['id'],
+                'phone'=>$openid_name['phone_number'],
             ));exit;
         }else{
             echo json_encode(array(
