@@ -693,8 +693,6 @@ class Goods extends Controller
             }
         }
     }
-
-
     /**
      * [商品列表组是否上架]
      * 陈绪
@@ -725,7 +723,6 @@ class Goods extends Controller
             }
         }
     }
-
         /**
      * [商品列表组是否上架]
      * 陈绪
@@ -754,9 +751,6 @@ class Goods extends Controller
             }
         }
     }
-
-
-
     /**
      * [商品列表组批量删除]
      * 陈绪
@@ -779,8 +773,6 @@ class Goods extends Controller
             }
         }
     }
-
-
     /**
      * [商品列表规格图片删除]
      * 郭杨
@@ -799,8 +791,6 @@ class Goods extends Controller
             }
         }
     }
-
-
     /**
      * [商品列表规格值修改]
      * 郭杨
@@ -830,8 +820,6 @@ class Goods extends Controller
             }
         }
     }
-
-
     /**
      * [商品列表规格开关]
      * 郭杨
@@ -853,8 +841,6 @@ class Goods extends Controller
             }
         }
     }
-
-
     /**
      * [商品列表规格图片添加]
      * 郭杨
@@ -881,9 +867,6 @@ class Goods extends Controller
              }
         }
     }
-
-
-
     /**
      * [商品列表分销设置加载]
      * 郭杨
@@ -910,8 +893,6 @@ class Goods extends Controller
              }
         }
     }
-
-
     /**
      * [商品列表搜索]
      * 郭杨
@@ -945,7 +926,6 @@ class Goods extends Controller
         } else {
             $goods = db("goods")->where("store_id","EQ",$store_id)->order("id desc")->select();
         }
-      
         $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
@@ -977,9 +957,6 @@ class Goods extends Controller
         $this->assign('listpage', $goods->render());
         return view("goods_index", ["goods" => $goods,"goods_list" => $goods_list]);
     }
-
-
-
     /**
      * [普通商品多规格列表单位编辑]
      * 郭杨
@@ -1004,7 +981,6 @@ class Goods extends Controller
                     $unit["unit"][] = explode(',', $v["unit"]);        
                     $num["num"][] = explode(',', $v["num"]);        
                 }
-
                 foreach($offers as $kk => $zz){
                     $rest1["unit"][$kk] = $unit["unit"][$kk];
                     $rest2["num"][$kk] = $num["num"][$kk];
@@ -1015,21 +991,16 @@ class Goods extends Controller
                     
                              
                 }
-                
                 if(!empty($unit1)){
                     return ajax_success('传输成功', $unit1);
                 } else {
                     return ajax_error("数据为空");
                 }
-
             } else {
                 return ajax_error("该商品为统一规格商品");
             }
         }
     }
-    
-
-
     /**
      * [普通商品多规格列表单位id查找]
      * 郭杨
@@ -1047,8 +1018,6 @@ class Goods extends Controller
             } 
         }             
     }
-
-
     /**
      * [众筹商品显示]
      * 郭杨
@@ -1064,15 +1033,11 @@ class Goods extends Controller
                 $crowd_data[$key]["min_stock"] = $min_stock[$key];
             }
         }   
-
         $url = 'admin/Goods/crowd_index';
         $pag_number = 20;
         $crowd = paging_data($crowd_data,$url,$pag_number);     
         return view("crowd_index",["crowd"=>$crowd]);
     }
-
-
-
     /**
      * [众筹商品添加]
      * 郭杨
