@@ -15,17 +15,27 @@ use app\city\model\CitySetting;
 use app\city\model\CityDecay;
 use app\city\model\CityEvaluate;
 use app\city\model\CityMeal;
+use app\city\model\CityDetail;
 use app\city\model\StoreCommission;
 
 
 class  City extends  Controller{
     
     /**
-     * [分销代理明细]
+     * [分销明细]
      * 郭杨
      */    
     public function detail_index(){
+        $data = CityModel::city_detail();
         return view("detail_index");
+    }
+
+    /**
+     * [代理明细]
+     * 郭杨
+     */    
+    public function agent_index(){
+        return view("agent_index");
     }
 
     /**
