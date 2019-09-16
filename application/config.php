@@ -265,6 +265,9 @@ return [
 
     //域名
     'web_url' => 'https://www.zhihuichacang.com/',
+    
+    'wx_appid' =>'wxf120ba19ce55a392',
+    'wx_secret' =>'06c0107cff1e3f5fe6c2eb039ac2d0b7',
     /*快递100参数*/
     "express"=>[
         //实时物流
