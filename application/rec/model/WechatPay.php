@@ -29,10 +29,10 @@ class WechatPay extends Model
 
         $options = [
             // 前面的appid什么的也得保留哦
-            'app_id' => 'wxf120ba19ce55a392',
+            'app_id' => 'wx7a8782e472a6c34a',
             // payment
             'payment' => [
-                'merchant_id'        => '1441082002',
+                'merchant_id'        => '1484093452',
                 'key'                => 'zhihuichacang123456zhihuichacang',
                 //如果没有退款这两个不需要
 //                'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
@@ -46,15 +46,18 @@ class WechatPay extends Model
         $payment = $app->payment;
 
         $order = new Order($attributes);
-
+		
         $result = $payment->prepare($order); // 这里的order是上面一步得来的。 这个prepare()帮你计算了校验码，帮你获取了prepareId.省心。
+         print_r($result);die;
         $prepayId = null;
         if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
             $prepayId = $result->prepay_id; // 这个很重要。有了这个才能调用支付。
+            
         } else {
             return json(array('code'=>0,'msg'=>"发起支付失败"));exit();
         }
         $config = $payment->configForPayment($prepayId);
+        print_r($config);die;
         if($config){
             return $config;exit();
         }else{
