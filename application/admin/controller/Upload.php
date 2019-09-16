@@ -405,11 +405,20 @@ class Upload extends Controller
             //判断是否已发布
             $is_fabu=Db::table('applet')->where('id',$store_id)->value('is_fabu');
             if($is_fabu=='0'){   //没有提交审核
-                 $is_fabu=0;
-                }else{
-                 $is_fabu=1;
+                $is_fabu=0;
+            }else{
+                $is_fabu=1;
             }
-             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id,'is_chuan'=>$is_chuan,'is_que'=>$is_que,'is_fabu'=>$is_fabu]);
+            $auditid=Db::table('applet')->where('id',$store_id)->value('auditid');
+            if($auditid && $is_que=='1'){
+                $auditid=1;      //已提交审核
+            }elseif($auditid && $is_que==0){
+                $auditid=2;     //修改后再提交
+            }else{
+                $auditid=3;     //未提交审核
+
+            }
+             return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id,'is_chuan'=>$is_chuan,'is_que'=>$is_que,'is_fabu'=>$is_fabu,'auditid'=>$auditid]);
             }else{
                 //授权开始
             $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
@@ -885,12 +894,15 @@ class Upload extends Controller
             if($ret['status'] == 0) {
                 return ajax_success('审核成功',1);
             } elseif($ret['status'] ==1) {
+                $rr=Db::table('applet')->where('id',$store_id)->update('is_que',0);
                 return ajax_error('审核失败',$ret['reason']);
             }
             elseif($ret['status'] ==2) {
                 return ajax_success('审核中',2);
             }
         }else{
+            $rr=Db::table('applet')->where('id',$store_id)->update('is_que',0);
+
             return ajax_error('审核失败',3);
         }
     } 
