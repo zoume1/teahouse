@@ -17,7 +17,7 @@ use EasyWeChat\Payment\Order;
 
 class WechatPay extends Controller{
 
-    public function getpay()
+    public function get_pay()
     {
 
         $attributes = [
