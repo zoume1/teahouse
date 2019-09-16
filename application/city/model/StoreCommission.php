@@ -8,7 +8,7 @@ use app\city\controller;
 use app\common\exception\BaseException;
 const STATUS_ONE = 1;
 
-/**
+/**gy
  * 店铺分销代理设置模型
  * Class StoreSetting
  * @package app\city\model
@@ -18,7 +18,7 @@ class StoreCommission extends Model
     protected $name = "store_commission";
 
 
-    /**
+    /**gy
      * 店铺分销代理设置
      * @param $data
      * @return bool
@@ -35,7 +35,7 @@ class StoreCommission extends Model
         
     }
 
-        /**
+        /**gy
      * 店铺分销代理设置更新
      * @param $data
      * @return bool

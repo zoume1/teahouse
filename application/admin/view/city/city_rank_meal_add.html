@@ -18,29 +18,29 @@
 
 <body>
     {block name="content"}
-    <form class="layui-form layui-form-lists" action="{:url('admin/GoodsType/updata')}" method="post" enctype="multipart/form-data">
+    <form class="layui-form layui-form-lists" action="{:url('admin/City/city_rank_meal_add')}" method="post" enctype="multipart/form-data">
         <div class="form-item">
             <label class="form-label"><span class="red">*</span> 等级名称</label>
             <div class="form-input city">
-                <input type="text" name="name" value="" required lay-verify="title" autocomplete="off" class="layui-input">
+                <input type="text" name="city_meal_name" value="" required lay-verify="title" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">套餐价格</label>
             <div class="form-input">
-                <input type="text" name="name" value="" required lay-verify="title" autocomplete="off" placeholder="                                       元" class="layui-input" value="">
+                <input type="text" name="meal_price" value="" required lay-verify="title" autocomplete="off" placeholder="                                       元" class="layui-input" value="">
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">套餐划线价格</label>
             <div class="form-input">
-                <input type="text" name="name" value="" required lay-verify="title" autocomplete="off" placeholder="                                       元" class="layui-input" value="">
+                <input type="text" name="line_price" value="" required lay-verify="title" autocomplete="off" placeholder="                                       元" class="layui-input" value="">
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">卖点介绍</label>
             <div class="form-input">
-               <textarea name="con" placeholder="请输入内容" required lay-verify="required"
+               <textarea name="selling_point" placeholder="请输入内容" required lay-verify="required"
 					class="layui-textarea"></textarea>
             </div>
         </div>

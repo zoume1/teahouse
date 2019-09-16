@@ -13,7 +13,6 @@ use think\Controller;
 use think\Config;
 class Wechat extends Controller{
 
-  
     //微信公众平台信息（appid/secret）
     protected $sj_appid = 'wxf120ba19ce55a392';
     protected $sj_secret = '06c0107cff1e3f5fe6c2eb039ac2d0b7';
@@ -27,14 +26,12 @@ class Wechat extends Controller{
      * @function 手机端网页微信登录授权（微信公众平台微信登录授权）
      */
     public function wx_accredit(){
-        // $redirect_uri = Config::get('web_url').'rec/wx_code';
-        // // print_r($redirect_uri);die;
-        // $redirect_uri = urlencode($redirect_uri);
-        // //微信公众平台appid
-        // $appid = $this->sj_appid;
+        $redirect_uri = Config::get('web_url').'rec/wx_code';
+        $redirect_uri = urlencode($redirect_uri);
+        //微信公众平台appid
+        $appid = $this->sj_appid;
 
-        // $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
-        
+        $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
 
         // header('Location:'.$url);
         $url =new WechatAll();
@@ -59,7 +56,7 @@ class Wechat extends Controller{
         //获取token
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$param['code'].'&grant_type=authorization_code';
         $data = $this->curlGet($url);
-        // print_r($data);die;
+        //print_r($data);die;
         if(empty($data['access_token'])){
             echo json_encode(array('code'=>0,'msg'=>'access_token错误'));exit;
         }
@@ -150,7 +147,8 @@ class Wechat extends Controller{
      * @function 获取openid
      */
     public function wx_code_1(){
-        $param = I('param.');
+        $request = Request::instance();
+        $param = $request->param();
         if(empty($param['code'])){
             echo json_encode(array('code'=>0,'msg'=>'code参数为空'));exit;
         }
@@ -164,13 +162,13 @@ class Wechat extends Controller{
         if(empty($data['openid'])){
             echo json_encode(array('code'=>0,'msg'=>'openid错误'));exit;
         }
-        $openid_name = M('judge_list')->where(array('openid'=> $data['openid']))->field('id,username')->find();
+        $openid_name = db('pc_user')->where(array('openid'=> $data['openid']))->field('id,phone_number')->find();
         if($openid_name){
             echo json_encode(array(
                 'code'=>1,
                 'msg'=>'登录成功',
-                'jude_id'=>$openid_name['id'],
-                'username'=>$openid_name['username'],
+                'user_id'=>$openid_name['id'],
+                'phone'=>$openid_name['phone_number'],
             ));exit;
         }else{
             echo json_encode(array(

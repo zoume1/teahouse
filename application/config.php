@@ -263,9 +263,13 @@ return [
         "url"=>"https://teahouse.siring.com.cn/",
     ],
 
-    //域名
+    //域名fyk
     'web_url' => 'https://www.zhihuichacang.com/',
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> d9ff2900278a91342c62079df711a6e8c11f727d
     'wx_appid' =>'wxf120ba19ce55a392',
     'wx_secret' =>'06c0107cff1e3f5fe6c2eb039ac2d0b7',
     /*快递100参数*/

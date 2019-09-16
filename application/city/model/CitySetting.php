@@ -9,6 +9,7 @@ use app\common\exception\BaseException;
 
 const ONE = 1;
 /**
+ * gy
  * 城市合伙人分销代理设置模型
  * Class StoreSetting
  * @package app\city\model
@@ -18,7 +19,7 @@ class CitySetting extends Model
     protected $table = "tb_city_setting";
 
 
-    /**
+    /**gy
      *  城市合伙人分销代理设置
      * @param $data
      * @return bool
@@ -35,7 +36,7 @@ class CitySetting extends Model
     }
 
 
-        /**
+    /**gy
      *  城市合伙人分销代理设置更新
      * @param $data
      * @return bool

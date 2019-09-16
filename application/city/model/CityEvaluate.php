@@ -19,7 +19,7 @@ class CityEvaluate extends Model
     protected $table = "tb_city_evaluate";
 
 
-    /**
+    /**gy
      *  城市合伙人代理服务考评体系设置
      * @param $data
      * @return bool
@@ -36,7 +36,7 @@ class CityEvaluate extends Model
     }
 
 
-    /**
+    /**gy
      *  城市合伙人代理服务考评体系设置更新
      * @param $data
      * @return bool
