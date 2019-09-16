@@ -12,25 +12,22 @@ use think\Controller;
 use think\Config;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Payment\Order;
-//include __DIR__ . '/vendor/autoload.php'; // 引入 composer 入口文件
-
 
 class WechatPay extends Controller{
 
     public function get_pay()
     {
-		
-        $attributes = [
-            'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
-            'body'             => 'iPad mini 16G 白色',
-            'detail'           => 'iPad mini 16G 白色',
-            'out_trade_no'     => '1217752501201407033233368018',
-            'total_fee'        => 1, // 单位：分
-            'notify_url'       => 'http://www.zhihuichacang.com/rec/app_notice', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
-            'openid'           => 'oYb9gwLrKCi2IxzBQ-GQrM5MSRfM', // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
-            // ...
-        ];
+        // 查询订单信息
+        $id = 451;
+        $order = db('set_meal_order') -> getById($id);
+        print_r($order);die;
+        if(!$order)returnJson(0,'当前订单不存在');
+        if($order['status'] != -1)returnJson(0,'当前订单状态异常');
 
+    }
+
+    public function app_notice2(){
+        //初始化微信sdk
         $options = [
         	
             // 前面的appid什么的也得保留哦
@@ -53,7 +50,6 @@ class WechatPay extends Controller{
         $order = new Order($attributes);
 		// print_r($order);die;
         $result = $payment->prepare($order); // 这里的order是上面一步得来的。 这个prepare()帮你计算了校验码，帮你获取了prepareId.省心。
-        print_r($result);die;
         $prepayId = null;
         if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
             $prepayId = $result->prepay_id; // 这个很重要。有了这个才能调用支付。
