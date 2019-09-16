@@ -894,14 +894,14 @@ class Upload extends Controller
             if($ret['status'] == 0) {
                 return ajax_success('审核成功',1);
             } elseif($ret['status'] ==1) {
-                $rr=Db::table('applet')->where('id',$store_id)->update('is_que',0);
+                $rr=Db::table('applet')->where('id',$store_id)->update(['is_que'=>0]);
                 return ajax_error('审核失败',$ret['reason']);
             }
             elseif($ret['status'] ==2) {
                 return ajax_success('审核中',2);
             }
         }else{
-            $rr=Db::table('applet')->where('id',$store_id)->update('is_que',0);
+            $rr=Db::table('applet')->where('id',$store_id)->update(['is_que'=>0]);
 
             return ajax_error('审核失败',3);
         }
