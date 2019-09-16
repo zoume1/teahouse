@@ -12,7 +12,7 @@ use think\Validate;
 use think\Controller;
 use think\captcha\Captcha;
 
-include('../extend/lib/SendApi.php');
+//include('../extend/lib/SendApi.php');
 class Invoice extends Controller{
 
     /**
@@ -145,7 +145,7 @@ class Invoice extends Controller{
                             "price"=> $data['price'],
                             "zeroRateFlag"=> "",
                             "goodsCode"=> "1090511030000000000",//税收分类编码是税局定义的，不能随便乱传值，具体传什么可以咨询下你们的财务
-                            "goodsName"=> "城市合伙人",
+                            "goodsName"=> "茶叶",
                             "taxIncludedAmount"=> ""
 
                         )
@@ -155,25 +155,25 @@ class Invoice extends Controller{
                     "pushMode"=> "2",//推送方式:-1,不推送;0,邮箱;1,手机（默认）;2,邮箱、手机
                     "departmentId"=> "9F7E9439CA8B4C60A2FFF3EA3290B088",
                     "clerkId"=> "",
-                    "checker"=> "王五",
+                    "checker"=> "",
                     "remark"=> "备注信息",
-                    "payee"=> "李四",
-                    "buyerAddress"=> "杭州市万塘路30号东方科技园12幢2楼",
-                    "buyerTaxNum"=> "91330000692368905R",
+                    "payee"=> "",
+                    "buyerAddress"=> "",
+                    "buyerTaxNum"=> "",
                     "invoiceType"=> "1",
                     "invoiceLine"=> $data['invoiceLine'],
                     "email"=> $data['email'],
-                    "salerAccount"=> "杭州银行彭埠支行120200590990432278",
+                    "salerAccount"=> "",
                     "orderNo"=> $this->get_sn(),//订单编号唯一
                     "salerTel"=> "0571-81029365",
                     "buyerName"=> $data['rise'],
-                    "invoiceDate"=> "2019-9-11 12:30:00",
+                    "invoiceDate"=> date('Y-m-d H:i:s',time()),
                     "invoiceCode"=> "125999915630",
                     "invoiceNum"=> "00130865",
                     "salerAddress"=> "杭州市西湖区万塘路30号高新东方科技园",
                     "clerk"=> "张三",
                     "buyerPhone"=> "17764096309",
-                    "buyerAccount"=> "杭州银行石桥支行125000590990435128",
+                    "buyerAccount"=> "",
                     "productOilFlag"=> "0",
                     "salerTaxNum"=> "339901999999142",
                     "listName"=> "详见销货清单",

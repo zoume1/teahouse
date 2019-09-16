@@ -2,7 +2,6 @@
 
 namespace app\city\controller;
 use think\Session;
-use think\Controller;
 use think\Validate;
 use think\Request;
 use app\city\model\User as UserModel;
@@ -23,14 +22,15 @@ class Passport extends Controller
      */
     public function login()
     {
+
         if ($this->request->isAjax()) {
             $model = new UserModel;
             if ($model->login($this->postData('User'))) {
-                $this->success("登录成功", url("admin/Goods/index"));
+                return $this->renderSuccess('登录成功');
             }
-            return $this->error($model->getError() ?: '登录失败');
+            return $this->renderError($model->getError() ?: '登录失败');
         }
-        return $this->fetch('index/index/city_login');
+        return false;
     }
 
     /**
@@ -43,52 +43,28 @@ class Passport extends Controller
     }
 
 
-
-
         /**
-     * 返回封装后的 API 数据到客户端
-     * @param int $code
-     * @param string $msg
-     * @param string $url
-     * @param array $data
-     * @return array
+     * 城市合伙人PC端申请注册
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    protected function renderJson($code = 1, $msg = '', $url = '', $data = [])
+    public function register(Request $request)
     {
-        return compact('code', 'msg', 'url', 'data');
+
+        if ($request->isPost()) {
+            $data = Request::instance()->param();
+            $rest = new UserModel;
+            if($rest->submit($data))
+            {
+                return $this->renderSuccess('注册成功');
+            }
+            return $this->renderError($rest->getError() ?: '注册失败');
+        }
     }
 
-    /**
-     * 返回操作成功json
-     * @param string $msg
-     * @param string $url
-     * @param array $data
-     * @return array
-     */
-    protected function renderSuccess($msg = 'success', $url = '', $data = [])
-    {
-        return $this->renderJson(1, $msg, $url, $data);
-    }
 
-    /**
-     * 返回操作失败json
-     * @param string $msg
-     * @param string $url
-     * @param array $data
-     * @return array
-     */
-    protected function renderError($msg = 'error', $url = '', $data = [])
-    {
-        return $this->renderJson(0, $msg, $url, $data);
-    }
 
-    /**
-     * 获取post数据 (数组)
-     * @param $key
-     * @return mixed
-     */
-    protected function postData($key)
-    {
-        return $this->request->post($key . '/a');
-    }
+
 }

@@ -58,21 +58,7 @@
 
     <div class="childrenBody">
         {include file="template/_top"/}
-        <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Control/control_order_index_search')}">
-                <div class="seach">
-                    <div class="seach_list">
-                        <div class="seach_laber">输入搜索:</div>
-                        <div class="seach_input">
-                            <input type="text" name="contact_name" lay-verify="title" autocomplete="off"
-                                placeholder="用户账号" class="layui-input">
-                        </div>
-                    </div>
-                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
-                </div>
-            </form>
-        </blockquote>
-        <a class="layui-btn layui-btn-danger batchDel" href="goods_type_add">添加等级</a>
+        <!-- <a class="layui-btn layui-btn-danger batchDel" href="city_rank_meal_add">添加等级</a> -->
         <div class="layui-form news_list">
             <table class="layui-table">
                 <thead>
@@ -85,18 +71,17 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                   
+                   {if !empty($data)}{volist name="data" id="value"}
                     <tr>
-                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id=""></td>
-                        <td>特级城市</td>
-                        <td>6546</td>
-                        <td>数据库连接后发货的价格是多少</td>
+                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+                        <td>{$value.city_meal_name}</td>
+                        <td>{$value.meal_price}</td>
+                        <td>{$value.selling_point}</td>
                         <td>
-                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/City/city_rank_meal_edit')}"> 编辑</a>
-                            <a href="{:url('')}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                            <a class="layui-btn layui-btn-mini edit" href="{:url('admin/City/city_rank_meal_edit',['id'=>$value.id])}"> 编辑</a>
                         </td>
                     </tr>
-
+                    {/volist}{/if}
                 </tbody>
             </table>
         </div>

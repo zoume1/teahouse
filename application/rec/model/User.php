@@ -28,6 +28,23 @@ class User extends Model
         ]);
     }
 
+    //修改密码
+    public function edit($uid, $password)
+    {
+        return $this->save([
+            'password' => $password,
+
+        ],['id' => $uid,]);
+    }
+
+    //修改手机号
+    public function edit_tel($uid, $phone)
+    {
+        return $this->save([
+            'phone' => $phone,
+
+        ],['id' => $uid,]);
+    }
     //获取信息
     public function shop($my_invitation)
     {
