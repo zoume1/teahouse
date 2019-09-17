@@ -48,7 +48,7 @@ class WechatPay extends Model
         $order = new Order($attributes);
 		
         $result = $payment->prepare($order); // 这里的order是上面一步得来的。 这个prepare()帮你计算了校验码，帮你获取了prepareId.省心。
-         print_r($result);die;
+         
         $prepayId = null;
         if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
             $prepayId = $result->prepay_id; // 这个很重要。有了这个才能调用支付。
@@ -57,7 +57,7 @@ class WechatPay extends Model
             return json(array('code'=>0,'msg'=>"发起支付失败"));exit();
         }
         $config = $payment->configForPayment($prepayId);
-        print_r($config);die;
+        // print_r($config);die;
         if($config){
             return $config;exit();
         }else{
