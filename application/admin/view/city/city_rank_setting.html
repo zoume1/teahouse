@@ -200,6 +200,11 @@
                     content:'确定删除？',
                     btn:['确定','取消'],
                     yes:function(index, layero) {
+                        // $.ajax({
+                        //     url: "city_rank_delete",
+                        //     type: "POST",
+
+                        // })
                         _this.parent().remove();
                         layer.close(index);
                         return;
