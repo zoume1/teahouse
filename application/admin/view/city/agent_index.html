@@ -59,13 +59,13 @@
     <div class="childrenBody">
         {include file="template/_top"/}
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/City/detail_index')}">
+            <form class="layui-form" action="{:url('admin/City/agent_index')}">
                 <div class="seach">
                     <div class="seach_list">
                         <div class="seach_laber">输入搜索:</div>
                         <div class="seach_input">
                             <input type="text" name="search" lay-verify="title" autocomplete="off"
-                                placeholder="用户账号"  class="layui-input" >
+                                placeholder="用户账号" class="layui-input">
                         </div>
                     </div>
                     <button class="layui-btn" type="submit" id="seach">立即搜索</button>
@@ -82,11 +82,12 @@
                         <th>订单套餐</th>
                         <th>订单金额</th>
                         <th>上级账号(手机号)</th>
-                        <th>佣金金额</th>
+                        <th>保底佣金</th>
+                        <th>达标佣金</th>
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                   {if !empty($data)}{volist name="data" id="value"}
+                   {if !empty($data)}{volist name="data" id='value'}
                     <tr>
                         <td>{$value.order_number}</td>
                         <td>{$value.phone_number}</td>
@@ -94,7 +95,8 @@
                         <td>{$value.set_meal}</td>
                         <td>￥{$value.meal_price}</td>
                         <td>{$value.higher_phone}</td>
-                        <td>￥{$value.commision}</td>
+                        <td>{$value.base_commision}</td>
+                        <td>{$value.reach_commision}</td>
                     </tr>
                     {/volist}{/if}
                 </tbody>
