@@ -46,7 +46,7 @@ class CityRank extends Model
     public static function rank_delete($id)
     {
         $model = new static;
-        $rest = $model->save($data);
+        $rest = $model->where('id','=', $id)->delete();
         return $rest ? $rest : false;
         
     }
