@@ -188,5 +188,23 @@ class  City extends  Controller{
     }
 
 
+        /**
+     * [城市等级删除]
+     * 郭杨
+     */    
+    public function city_rank_delete($id){
+        if($request->isAjax()){
+            $id = $request->post('id');
+            $rest = CityRank::rank_delete($id);
+            if($rest){
+                return $this->renderSuccess('删除成功');
+            } else {
+                return $this->renderError('删除失败');
+            }
+        }
+        
+    }
+
+
 
 }
