@@ -5,8 +5,6 @@
  * Date: 2018/09/01
  */
 namespace  app\admin\controller;
-
-use think\Controller;
 use think\Db;
 use think\paginator\driver\Bootstrap;
 use think\Session;
