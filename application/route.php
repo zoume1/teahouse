@@ -1206,6 +1206,9 @@ Route::group("rec",[
     "wx_openid" =>"rec/Wechat/wx_accredit",
     "wx_code" =>"rec/Wechat/wx_code",
 
+    "app_notice" =>"rec/WechatPay/app_notice",
+    "get_pay" =>'rec/WechatPay/get_pay',
+
 
 ]);
 

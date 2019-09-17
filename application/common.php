@@ -1397,8 +1397,6 @@ function sendMessage($content,$mobile)
     return $data;
 }
 
-
-
 function show_ds_orderer($status){
     switch($status)
     {
@@ -1417,11 +1415,6 @@ function show_ds_orderer($status){
     }
 
 }
-
-
-
-
-
     /**
      * gy
      * 生成密码hash值
@@ -1432,10 +1425,6 @@ function show_ds_orderer($status){
     {
         return md5(md5($password) . 'zhihui_chang_cang');
     }
-
-
-
-
     //没有使用TP的正则验证，集中在一处方便以后修改
     //不推荐使用正则，因为复用性太差
     //手机号的验证规则
@@ -1449,8 +1438,32 @@ function show_ds_orderer($status){
             return false;
         }
     }
+    /**
+     * lilu
+     * 生成消费记录日志
+     */
+    function create_captacal_log($order_numbner,$member_account,$income,$pay,$cap_type,$store_id)
+    {
+        //获取参数
+        $input=input();
+        if($input){
+            $re=db('captical')->insert($input);
+            return true;
+        }else{
+            return false;
+        }
 
+    }
 
+function returnJson($code,$msg,$data = null,$page = null){
+    $json = array(
+        'code' => $code,
+        'msg' => $msg,
+    );
+    if($data)$json['data'] = $data;
+    if($page)$json['page'] = $page;
+    echo json_encode($json);exit;
+}
 
 
 
