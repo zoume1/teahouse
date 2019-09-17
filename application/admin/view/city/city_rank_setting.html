@@ -91,12 +91,17 @@
    #app {display: flex;justify-content : space-around;}
    .layui-elem-quote{border-left: 0;}
    .flex_mian{padding: 6px;}
-   .flex{display: flex;justify-content : space-between;width: 100%;line-height: 30px;padding: 2px;}
+   .flex{display: flex;justify-content : space-between;width: 100%;line-height: 30px;padding: 2px;position: relative;}
    .felx_c{border-top:1px solid rgb(26, 188, 156);border-bottom:1px solid rgb(26, 188, 156);background-color: rgb(249, 249, 249);}
+   .input_k{border:1px solid rgb(26, 188, 156);border-radius: 3px;display: flex;justify-content : space-between;width: 100%;line-height: 30px;padding: 2px;}
    .all_btn{color: rgb(26, 188, 156);cursor:pointer;}
    .move{margin-right: 5px;}
-   .del{}
-   .add{text-align:center;font-size: 18px;border: 1px dashed rgb(153, 153, 153);color: rgb(153, 153, 153);cursor:pointer;}
+   /* .del, .move{display: none;} */
+   .noshow {display: none;}
+   .save{margin-right: 5px;}
+   .add{text-align:center;font-size: 18px;border: 1px dashed rgb(153, 153, 153);color: rgb(153, 153, 153);cursor:pointer;margin-top: 5px;width:100%;padding: 2px;}
+   .tog{position: absolute;right: 0;top: 30px;background-color: #fff;border: 1px solid rgb(255, 223, 223);padding: 10px;}
+   .tog>div{cursor:pointer;}
 </style>
 
 {/block}
@@ -115,23 +120,30 @@
                         省份
                     </div>
                 </blockquote>
-                <div class="flex_mian m_t">
-                    <div class="flex felx_c">
-                        <div>广东</div>
+                <div class="flex_mian m_t" id="province" data-id="1">
+                    <div class="flex">
+                        <div class="names">广东</div>
                         <div style="flex: 1;"></div>
-                        <div class="all_btn del">删除</div>
+                        <div class="all_btn del noshow">删除</div>
+                        
                     </div>
                     <div class="flex">
-                        <div>湖南</div>
+                        <div class="names">湖南</div>
                         <div style="flex: 1;"></div>
-                        <div class="all_btn del">删除</div>
+                        <div class="all_btn del noshow">删除</div>
                     </div>
                     <div class="flex">
-                        <div>福建</div>
+                        <div class="names">福建</div>
                         <div style="flex: 1;"></div>
-                        <div class="all_btn del">删除</div>
+                        <div class="all_btn del noshow">删除</div>
                     </div>
-                    <div class="add">
+                    <!-- <div class="input_k">
+                        <input type="text" style="border:none;"  autofocus="autofocus">
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn save">保存</div>
+                        <div class="all_btn">取消</div>
+                    </div> -->
+                    <div class="add" onclick="add(this)">
                         新增
                     </div>
                 </div>
@@ -142,12 +154,21 @@
                         特级城市
                     </div>
                 </blockquote>
-                <div class="flex_mian m_t">
+                <div class="flex_mian m_t" id="supers" data-id="2">
                     <div class="flex">
-                        <div>广东</div>
+                        <div class="names">广东</div>
                         <div style="flex: 1;"></div>
-                        <div class="all_btn move">移动</div>
-                        <div class="all_btn">删除</div>
+                        <div class="all_btn move noshow">移动</div>
+                        <div class="all_btn del noshow">删除</div>
+                        <div class="tog noshow">
+                                <div class="choose" data-id="supers">特级城市</div>
+                                <div class="choose" data-id="one">一级城市</div>
+                                <div class="choose" data-id="two">二级城市</div>
+                                <div class="choose" data-id="three">三级城市</div>
+                        </div>
+                    </div>
+                    <div class="add" onclick="add(this)">
+                            新增
                     </div>
                 </div>
             </div>
@@ -157,12 +178,21 @@
                         一级城市
                     </div>
                 </blockquote>
-                <div class="flex_mian m_t">
+                <div class="flex_mian m_t" id="one" data-id="3">
                     <div class="flex">
-                        <div>广东</div>
+                        <div class="names">广东</div>
                         <div style="flex: 1;"></div>
-                        <div class="all_btn move">移动</div>
-                        <div class="all_btn">删除</div>
+                        <div class="all_btn move noshow">移动</div>
+                        <div class="all_btn del noshow">删除</div>
+                        <div class="tog noshow">
+                                <div class="choose" data-id="supers">特级城市</div>
+                                <div class="choose" data-id="one">一级城市</div>
+                                <div class="choose" data-id="two">二级城市</div>
+                                <div class="choose" data-id="three">三级城市</div>
+                        </div>
+                    </div>
+                    <div class="add" onclick="add(this)">
+                            新增
                     </div>
                 </div>
             </div>
@@ -172,12 +202,21 @@
                         二级城市
                     </div>
                 </blockquote>
-                <div class="flex_mian m_t">
+                <div class="flex_mian m_t" id="two" data-id="4">
                     <div class="flex">
-                        <div>广东</div>
+                        <div class="names">广东</div>
                         <div style="flex: 1;"></div>
-                        <div class="all_btn move">移动</div>
-                        <div class="all_btn">删除</div>
+                        <div class="all_btn move noshow">移动</div>
+                        <div class="all_btn del noshow">删除</div>
+                        <div class="tog noshow">
+                                <div class="choose" data-id="supers">特级城市</div>
+                                <div class="choose" data-id="one">一级城市</div>
+                                <div class="choose" data-id="two">二级城市</div>
+                                <div class="choose" data-id="three">三级城市</div>
+                        </div>
+                    </div>
+                    <div class="add" onclick="add(this)">
+                            新增
                     </div>
                 </div>
             </div>
@@ -187,12 +226,21 @@
                         三级城市
                     </div>
                 </blockquote>
-                <div class="flex_mian m_t">
+                <div class="flex_mian m_t" id="three" data-id="5">
                     <div class="flex">
-                        <div>广东</div>
+                        <div class="names">广东</div>
                         <div style="flex: 1;"></div>
-                        <div class="all_btn move">移动</div>
-                        <div class="all_btn">删除</div>
+                        <div class="all_btn move noshow">移动</div>
+                        <div class="all_btn del noshow">删除</div>
+                        <div class="tog noshow">
+                                <div class="choose" data-id="supers">特级城市</div>
+                                <div class="choose" data-id="one">一级城市</div>
+                                <div class="choose" data-id="two">二级城市</div>
+                                <div class="choose" data-id="three">三级城市</div>
+                        </div>
+                    </div>
+                    <div class="add" onclick="add(this)">
+                            新增
                     </div>
                 </div>
             </div>
@@ -214,12 +262,111 @@
                 layer = parent.layer === undefined ? layui.layer : parent.layer,
                 laypage = layui.laypage,
                 $ = layui.jquery;
+
+            //删除某项
+            $('.del').click(function(e) {
+                var _this = $(this);
+                layer.open({
+                    content:'确定删除？',
+                    btn:['确定','取消'],
+                    yes:function(index, layero) {
+                        _this.parent().remove();
+                        layer.close(index);
+                        return;
+                    }  
+                })
+                
+            })
+            form.render();
+        })
+    </script>
+    <script>
+        //新增input框
+        function add(e) {
+            let dif = $(e).parent()[0].id;
+            let html_add = `<div class="input_k">
+                        <input class="input_text" type="text" style="border:none;"  autofocus="autofocus">
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn save" onclick="save(this,${dif})">保存</div>
+                        <div class="all_btn" onclick="cancel(this)">取消</div>
+                    </div>`;
+                    $(e).before(html_add);
+        }
+        //input框取消
+        function cancel(e) {
+            $(e).parent(".input_k").remove();
+        }
+        //input保存
+        function save(e,dif) {
+            let input_text = $(e).parent(".input_k").children(".input_text").val();
+            let city_id = $(e).parents(".flex_mian").data("id");
+            let html_save = `<div class="flex">
+                        <div>${input_text}</div>
+                        <div style="flex: 1;"></div>`;
+            if(dif != "province") {
+                html_save  +=` <div class="all_btn move noshow">移动</div>`;
+            }
+            html_save += `<div class="all_btn del noshow">删除</div>
+                        <div class="tog noshow">
+                                <div class="choose" data-id="supers">特级城市</div>
+                                <div class="choose" data-id="one">一级城市</div>
+                                <div class="choose" data-id="two">二级城市</div>
+                                <div class="choose" data-id="three">三级城市</div>
+                        </div>
+                        </div>`;
+            $.ajax({
+                url: "city_rank_add",
+                type: "POST",
+                data: {
+                    name: input_text,
+                    rank_status: city_id
+                },
+                success: (res) => {
+                    console.log(res)
+                    $(e).parent(".input_k").before(html_save);
+                    $(e).parent(".input_k").remove();
+                },
+                error: (e) => {
+                    console.error(e)
+                }
+                
+            })
+        }
+
+         //点击选中改变样式
+         $(".flex").click(function() {
+                $(this).addClass("felx_c");
+                $(this).find(".del").removeClass("noshow");
+                $(this).find(".move").removeClass("noshow");
+                $(this).siblings().find(".del").addClass("noshow");
+                $(this).siblings().find(".move").addClass("noshow");
+                $(this).siblings().removeClass("felx_c");
         })
 
-
-
+        //移动弹框
+        $('.move').click(function() {
+            $(this).parent().find(".tog").toggle();
+        })
+        //移动分组
+        $(".choose").click(function(){
+            let choose_name = $(this).parents(".flex").find('.names').text();
+            let choose_id = $(this).data("id");
+            let html_save = `<div class="flex">
+                        <div>${choose_name}</div>
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn move noshow">移动</div>
+                        <div class="all_btn del noshow">删除</div>
+                        <div class="tog noshow">
+                                <div class="choose" data-id="supers">特级城市</div>
+                                <div class="choose" data-id="one">一级城市</div>
+                                <div class="choose" data-id="two">二级城市</div>
+                                <div class="choose" data-id="three">三级城市</div>
+                        </div>
+                        </div>`;
+            $(`#${choose_id}`).find(".add").before(html_save);
+            $(this).parents(".flex").remove();
+        })
     </script>
-
     {/block}
 
 </body>
