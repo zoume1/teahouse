@@ -34,6 +34,23 @@ class CityRank extends Model
         
     }
 
+
+    /**gy
+     *  城市等级各等级删除
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function rank_delete($id)
+    {
+        $model = new static;
+        $rest = $model->save($data);
+        return $rest ? $rest : false;
+        
+    }
+
     /**gy
      * 获取等级信息
      * @param $meal_id
