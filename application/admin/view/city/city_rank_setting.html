@@ -121,7 +121,19 @@
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="province" data-id="1">
-                    {if !empty($data['one'])}{volist name="one" id="one"}
+                    {if !empty($data['one'])}{volist name="$data['one']" id="one"}
+                    <div class="flex"  data-id="{$one.id}">
+                            <div class="names">{$one.name}</div>
+                            <div style="flex: 1;"></div>
+                            <div class="all_btn del noshow">删除</div>
+                            <div class="tog noshow">
+                                    <div class="choose" data-id="supers">特级城市</div>
+                                    <div class="choose" data-id="one">一级城市</div>
+                                    <div class="choose" data-id="two">二级城市</div>
+                                    <div class="choose" data-id="three">三级城市</div>
+                            </div>
+                        </div>
+                    {/volist}{/if}
 
                     <div class="add" onclick="add(this)">
                         新增
@@ -135,6 +147,20 @@
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="supers" data-id="2">
+                        {if !empty($data['two'])}{volist name="$data['two']" id="two"}
+                        <div class="flex"  data-id="{$two.id}">
+                                <div class="names">{$two.name}</div>
+                                <div style="flex: 1;"></div>
+                                <div class="all_btn move noshow">移动</div>
+                                <div class="all_btn del noshow">删除</div>
+                                <div class="tog noshow">
+                                        <div class="choose" data-id="supers">特级城市</div>
+                                        <div class="choose" data-id="one">一级城市</div>
+                                        <div class="choose" data-id="two">二级城市</div>
+                                        <div class="choose" data-id="three">三级城市</div>
+                                </div>
+                            </div>
+                        {/volist}{/if}
                     <div class="add" onclick="add(this)">
                             新增
                     </div>
@@ -147,6 +173,20 @@
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="one" data-id="3">
+                        {if !empty($data['three'])}{volist name="$data['three']" id="three"}
+                        <div class="flex"  data-id="{$three.id}">
+                                <div class="names">{$three.name}</div>
+                                <div style="flex: 1;"></div>
+                                <div class="all_btn move noshow">移动</div>
+                                <div class="all_btn del noshow">删除</div>
+                                <div class="tog noshow">
+                                        <div class="choose" data-id="supers">特级城市</div>
+                                        <div class="choose" data-id="one">一级城市</div>
+                                        <div class="choose" data-id="two">二级城市</div>
+                                        <div class="choose" data-id="three">三级城市</div>
+                                </div>
+                            </div>
+                        {/volist}{/if}
                     <div class="add" onclick="add(this)">
                             新增
                     </div>
@@ -159,6 +199,20 @@
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="two" data-id="4">
+                        {if !empty($data['four'])}{volist name="$data['four']" id="four"}
+                        <div class="flex"  data-id="{$four.id}">
+                                <div class="names">{$four.name}</div>
+                                <div style="flex: 1;"></div>
+                                <div class="all_btn move noshow">移动</div>
+                                <div class="all_btn del noshow">删除</div>
+                                <div class="tog noshow">
+                                        <div class="choose" data-id="supers">特级城市</div>
+                                        <div class="choose" data-id="one">一级城市</div>
+                                        <div class="choose" data-id="two">二级城市</div>
+                                        <div class="choose" data-id="three">三级城市</div>
+                                </div>
+                            </div>
+                        {/volist}{/if}
                     <div class="add" onclick="add(this)">
                             新增
                     </div>
@@ -171,18 +225,20 @@
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="three" data-id="5">
-                    <div class="flex">
-                        <div class="names">广东</div>
-                        <div style="flex: 1;"></div>
-                        <div class="all_btn move noshow">移动</div>
-                        <div class="all_btn del noshow">删除</div>
-                        <div class="tog noshow">
-                                <div class="choose" data-id="supers">特级城市</div>
-                                <div class="choose" data-id="one">一级城市</div>
-                                <div class="choose" data-id="two">二级城市</div>
-                                <div class="choose" data-id="three">三级城市</div>
-                        </div>
-                    </div>
+                        {if !empty($data['five'])}{volist name="$data['five']" id="five"}
+                        <div class="flex"  data-id="{$five.id}">
+                                <div class="names">{$five.name}</div>
+                                <div style="flex: 1;"></div>
+                                <div class="all_btn move noshow">移动</div>
+                                <div class="all_btn del noshow">删除</div>
+                                <div class="tog noshow">
+                                        <div class="choose" data-id="supers">特级城市</div>
+                                        <div class="choose" data-id="one">一级城市</div>
+                                        <div class="choose" data-id="two">二级城市</div>
+                                        <div class="choose" data-id="three">三级城市</div>
+                                </div>
+                            </div>
+                        {/volist}{/if}
                     <div class="add" onclick="add(this)">
                             新增
                     </div>

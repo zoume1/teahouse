@@ -126,7 +126,7 @@ class  City extends  Controller{
      */    
     public function city_rank_setting(){
         $data = CityRank::getList();
-        // halt($data);
+        // halt($data['one']);
         return view("city_rank_setting",['data'=>$data]);
     }
 
