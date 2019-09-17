@@ -190,11 +190,11 @@ class  City extends  Controller{
     }
 
 
-        /**
+    /**
      * [城市等级删除]
      * 郭杨
      */    
-    public function city_rank_delete($id){
+    public function city_rank_delete(Request $request){
         if($request->isAjax()){
             $id = $request->post('id');
             $rest = CityRank::rank_delete($id);
@@ -207,6 +207,22 @@ class  City extends  Controller{
         
     }
 
+            /**
+     * [城市等级移动]
+     * 郭杨
+     */    
+    public function city_rank_update(Request $request){
+        if($request->isAjax()){
+            $data = input();
+            $rest = CityRank::rank_update($data);
+            if($rest){
+                return $this->renderSuccess('移动成功');
+            } else {
+                return $this->renderError('移动失败');
+            }
+        }
+        
+    }
 
 
 }
