@@ -169,6 +169,18 @@
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="three" data-id="5">
+                    <div class="flex">
+                        <div class="names">广东</div>
+                        <div style="flex: 1;"></div>
+                        <div class="all_btn move noshow">移动</div>
+                        <div class="all_btn del noshow">删除</div>
+                        <div class="tog noshow">
+                                <div class="choose" data-id="supers">特级城市</div>
+                                <div class="choose" data-id="one">一级城市</div>
+                                <div class="choose" data-id="two">二级城市</div>
+                                <div class="choose" data-id="three">三级城市</div>
+                        </div>
+                    </div>
                     <div class="add" onclick="add(this)">
                             新增
                     </div>
@@ -200,11 +212,6 @@
                     content:'确定删除？',
                     btn:['确定','取消'],
                     yes:function(index, layero) {
-                        // $.ajax({
-                        //     url: "city_rank_delete",
-                        //     type: "POST",
-
-                        // })
                         _this.parent().remove();
                         layer.close(index);
                         return;
