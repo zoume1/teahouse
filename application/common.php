@@ -1365,7 +1365,7 @@ function sendMessage($content,$mobile)
 {
     // $content = '【智慧茶仓】短信内容';//带签名的短息内容
     // $mobile = '18309224319';//手机号
-    $url = "http://47.107.123.77:8860/sendSms";//请求URL
+    $url = "http://47.112.109.159:8860/sendSms";//请求URL
     $api_code = "240001";//对接协议中的API代码
     $api_secret = "4SFE6PW1GL";//对接协议中的API密码
     $sign = md5($content.$api_secret);//md加密后短信内容+API密码 获得签名
@@ -1397,8 +1397,6 @@ function sendMessage($content,$mobile)
     return $data;
 }
 
-
-
 function show_ds_orderer($status){
     switch($status)
     {
@@ -1417,11 +1415,6 @@ function show_ds_orderer($status){
     }
 
 }
-
-
-
-
-
     /**
      * gy
      * 生成密码hash值
@@ -1432,8 +1425,45 @@ function show_ds_orderer($status){
     {
         return md5(md5($password) . 'zhihui_chang_cang');
     }
+    //没有使用TP的正则验证，集中在一处方便以后修改
+    //不推荐使用正则，因为复用性太差
+    //手机号的验证规则
+    function isMobile($value)
+    {
+        $rule = '^1(3|4|5|7|8)[0-9]\d{8}$^';
+        $result = preg_match($rule, $value);
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * lilu
+     * 生成消费记录日志
+     */
+    function create_captacal_log($order_numbner,$member_account,$income,$pay,$cap_type,$store_id)
+    {
+        //获取参数
+        $input=input();
+        if($input){
+            $re=db('captical')->insert($input);
+            return true;
+        }else{
+            return false;
+        }
 
+    }
 
+function returnJson($code,$msg,$data = null,$page = null){
+    $json = array(
+        'code' => $code,
+        'msg' => $msg,
+    );
+    if($data)$json['data'] = $data;
+    if($page)$json['page'] = $page;
+    echo json_encode($json);exit;
+}
 
 
 

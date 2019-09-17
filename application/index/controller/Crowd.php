@@ -394,6 +394,8 @@ class Crowd extends Controller
                         $datas["goods_money"]= $crowd['cost'];//商品价钱
                         $datas['goods_standard'] = 1; //商品规格  
                         $res=db('crowd_order')->insert($datas);
+                         //生成对账单记录
+                         $rr=create_captical_log($parts_order_number,$member_id,$datas['order_amount'],0,0,$store_id);
                         //5.打赏进入下一期
                         $time_number=$time_number+1;
                  }
@@ -432,8 +434,6 @@ class Crowd extends Controller
             }
         }
     }
-
-
     /**
      **************郭杨*******************
      * @param Request $request
@@ -481,7 +481,6 @@ class Crowd extends Controller
                 return ajax_error("没有运费模板");
             }
         }
-
     }
     /**
      * lilu

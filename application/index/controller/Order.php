@@ -131,7 +131,7 @@ class  Order extends  Controller
     /**
      **************郭杨*******************
      * @param Request $request
-     * Notes:提交订单(修改过的)
+     * Notes:提交订单(修改过的)---商品详情下单
      **************************************
      * @param Request $request
      */
@@ -154,7 +154,6 @@ class  Order extends  Controller
             $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额--税费
             $freight = $request->only("freight")["freight"];//发票金额
             $storage = $request->only("storage")["storage"];//发票金额
-            
             if(empty($user_id)){
                 return ajax_error("未登录",['status'=>0]);
             }
@@ -279,8 +278,10 @@ class  Order extends  Controller
                         $datas["storage"] = $storage;
                         $datas["is_receipt"] = $receipt_status;
                                         
-                        $res = Db::name('order')->insertGetId($datas);
+                        $res = Db::name('order')->insertGetId($datas);  //下单
                         if ($res) {
+                             //生成对账单记录
+                             $rr=create_captical_log($parts_order_number,$user_id,$datas['order_amount'],0,0,$store_id);
                             //判断是否使用优惠卷
                             if($coupon_id>0){    //使用
                                 db('coupon')->where('id',$coupon_id)->setInc('use_number',1);
@@ -380,6 +381,9 @@ class  Order extends  Controller
                         $res = Db::name('house_order')->insertGetId($datas);
                     
                         if ($res) {
+                            //生成对账单记录
+                            $rr=create_captical_log($parts_order_number,$user_id,$datase['order_amount'],0,0,$store_id);
+
                             $order_datas =Db::name("house_order")
                                 ->field("order_real_pay,parts_goods_name,parts_order_number,order_amount,order_type,coupon_type")
                                 ->where('id',$res)
@@ -576,6 +580,12 @@ class  Order extends  Controller
                         $datas["storage"] = $storage ; 
                         $res = Db::name('order')->insertGetId($datas);
                         if($res){
+                            //生成对账单记录
+                            $rr=create_captical_log($parts_order_number,$user_id,$datas['order_amount'],0,0,$store_id);
+                            if(!$rr)
+                            {
+                                $this->error('参数错误');
+                            }
                             if($coupon_id>0){    //使用
                                 db('coupon')->where('id',$coupon_id)->setInc('use_number',1);
                             }
@@ -644,7 +654,12 @@ class  Order extends  Controller
                         $key = array_search($unit[$keys],$data['unit']);
                         //先判断有多少位数量等级
                         $datas["store_number"]= $this->unit_calculate($data['unit'], $data['num'],$key,$datase["order_quantity"]);
-                        $res = Db::name('house_order')->insertGetId($datas);        
+                        $res = Db::name('house_order')->insertGetId($datas);  
+                        if($res){
+                              //生成对账单记录
+                              $rr=create_captical_log($parts_order_number,$user_id,$datase['order_amount'],0,0,$store_id);
+                        }
+
                     }
                 }
                 
