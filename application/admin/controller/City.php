@@ -34,7 +34,7 @@ class  City extends  Controller{
      * [代理明细]
      * 郭杨
      */    
-    public function agent_index($search){
+    public function agent_index(){
         $search = input('search');
         $data = CityDetail::city_detail($search);
         return view("agent_index",['data'=>$data]);
