@@ -1113,17 +1113,22 @@ Route::group("admin",[
     "setting_update"=>"admin/Setting/setting_update",                //高级分销设置编辑
 
    /*总控分销代理 */
-   "detail_index"=>"admin/City/detail_index",                  //分销代理详细
-   "city_setting"=>"admin/City/city_setting",                  //分销代理设置
-   "city_rank_meal"=>"admin/City/city_rank_meal",              //城市等级套餐
-   "city_rank_meal_add"=>"admin/City/city_rank_meal_add",      //城市等级套餐添加
-   "city_rank_meal_edit"=>"admin/City/city_rank_meal_edit",    //城市等级套餐编辑
-   "city_rank_meal_update"=>"admin/City/city_rank_meal_update",//城市等级套餐更新
-   "city_rank_setting"=>"admin/City/city_rank_setting",        //城市等级设置
+   "detail_index"=>"admin/City/detail_index",                    //分销详细
+   "agent_index"=>"admin/City/agent_index",                      //代理详细
+   "city_setting"=>"admin/City/city_setting",                    //分销代理设置
+   "city_rank_meal"=>"admin/City/city_rank_meal",                //城市等级套餐
+   "city_rank_meal_add"=>"admin/City/city_rank_meal_add",        //城市等级套餐添加
+   "city_rank_meal_edit"=>"admin/City/city_rank_meal_edit",      //城市等级套餐编辑
+   "city_rank_meal_update"=>"admin/City/city_rank_meal_update",  //城市等级套餐更新
+   "city_rank_setting"=>"admin/City/city_rank_setting",          //城市等级设置
    "city_rank_setting_edit"=>"admin/City/city_rank_setting_edit",//城市等级设置编辑
-   "city_datum_verify"=>"admin/City/city_datum_verify",        //城市入驻资料审核
+   "city_datum_verify"=>"admin/City/city_datum_verify",          //城市入驻资料审核
+   "city_datum_verify_edit"=>"admin/City/city_datum_verify_edit",        //城市入驻资料审核编辑
    "city_price_examine"=>"admin/City/city_price_examine",      //城市入驻费用审核
    "city_price_examine_update"=>"admin/City/city_price_examine_update",      //城市入驻费用审核编辑
+   "city_rank_add"=>"admin/City/city_rank_add",                //城市等级添加
+   "city_rank_delete"=>"admin/City/city_rank_delete",          //城市等级删除
+   "city_rank_update"=>"admin/City/city_rank_update",          //城市等级移动
 ]);
 
 /**

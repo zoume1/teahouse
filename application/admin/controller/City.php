@@ -5,8 +5,6 @@
  * Date: 2018/09/01
  */
 namespace  app\admin\controller;
-
-use think\Controller;
 use think\Db;
 use think\paginator\driver\Bootstrap;
 use think\Session;
@@ -15,17 +13,31 @@ use app\city\model\CitySetting;
 use app\city\model\CityDecay;
 use app\city\model\CityEvaluate;
 use app\city\model\CityMeal;
+use app\city\model\CityDetail;
+use app\city\model\CityRank;
 use app\city\model\StoreCommission;
 
 
 class  City extends  Controller{
     
     /**
-     * [分销代理明细]
+     * [分销明细]
      * 郭杨
      */    
     public function detail_index(){
-        return view("detail_index");
+        $search = input('search');
+        $data = CityDetail::city_detail($search);
+        return view("detail_index",['data'=>$data]);
+    }
+
+    /**
+     * [代理明细]
+     * 郭杨
+     */    
+    public function agent_index(){
+        $search = input('search');
+        $data = CityDetail::city_detail($search);
+        return view("agent_index",['data'=>$data]);
     }
 
     /**
@@ -113,7 +125,9 @@ class  City extends  Controller{
      * 郭杨
      */    
     public function city_rank_setting(){
-        return view("city_rank_setting");
+        $data = CityRank::getList();
+        // halt($data['one']);
+        return view("city_rank_setting",['data'=>$data]);
     }
 
     /**
@@ -156,4 +170,59 @@ class  City extends  Controller{
     public function city_price_examine(){
         return view("city_price_examine");
     }
+
+
+    /**
+     * [城市等级添加]
+     * 郭杨
+     */    
+    public function city_rank_add(Request $request){
+        if($request->isAjax()){
+            $data = $request->post();
+            $rest = CityRank::rank_add($data);
+            if($rest){
+                return $this->renderSuccess('添加成功');
+            } else {
+                return $this->renderError('添加失败');
+            }
+        }
+        
+    }
+
+
+    /**
+     * [城市等级删除]
+     * 郭杨
+     */    
+    public function city_rank_delete(Request $request){
+        if($request->isAjax()){
+            $id = $request->post('id');
+            $rest = CityRank::rank_delete($id);
+            if($rest){
+                return $this->renderSuccess('删除成功');
+            } else {
+                return $this->renderError('删除失败');
+            }
+        }
+        
+    }
+
+            /**
+     * [城市等级移动]
+     * 郭杨
+     */    
+    public function city_rank_update(Request $request){
+        if($request->isAjax()){
+            $data = input();
+            $rest = CityRank::rank_update($data);
+            if($rest){
+                return $this->renderSuccess('移动成功');
+            } else {
+                return $this->renderError('移动失败');
+            }
+        }
+        
+    }
+
+
 }

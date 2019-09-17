@@ -11,7 +11,10 @@ use think\Validate;
 use think\Controller;
 use think\Config;
 use EasyWeChat\Foundation\Application;
+<<<<<<< HEAD
 use EasyWeChat\Payment\Order;
+=======
+>>>>>>> 430301e96bcba21ed97bb2f6666a8c96aac438bd
 use app\rec\model\WechatPay as WeiPay;
 class WechatPay extends Controller{
 
@@ -21,6 +24,7 @@ class WechatPay extends Controller{
         $id = 451;
         $order = db('set_meal_order') -> getById($id);
         // print_r($order);die;
+<<<<<<< HEAD
         // if(!$order)returnJson(0,'当前订单不存在');
         // if($order['status'] != -1)returnJson(0,'当前订单状态异常');
         $wechatpay = new WeiPay();
@@ -66,19 +70,31 @@ class WechatPay extends Controller{
         }else{
             return  json(array('code'=>0,'msg'=>"发起支付失败"));exit();
         }
+=======
+         if(!$order)returnJson(0,'当前订单不存在');
+         if($order['status'] != -1)returnJson(0,'当前订单状态异常');
+         if($order['is_del'] != -1)returnJson(0,'当前订单不存在');
+
+        $wechatpay = new WeiPay();
+        $res = $wechatpay->pay($order['goods_name'],$order['store_name'],$order['order_number'],$order['amount_money']);
+
+        return  $res; exit();
+>>>>>>> 430301e96bcba21ed97bb2f6666a8c96aac438bd
     }
 
+
+    //微信回调
     public function app_notice(){
         //初始化微信sdk
         $options = [
             // 前面的appid什么的也得保留哦
-            'app_id' => 'wxf120ba19ce55a392',
+            'app_id' => 'wx7a8782e472a6c34a',
             // payment
             'payment' => [
-                'merchant_id'        => '1441082002',
+                'merchant_id'        => '1484093452',
                 'key'                => 'zhihuichacang123456zhihuichacang',
-                'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
-                'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！
+//                'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
+//                'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！
                 'notify_url'         => 'http://www.zhihuichacang.com/rec/app_notice',       // 你也可以在下单时单独设置来想覆盖它
             ],
         ];
