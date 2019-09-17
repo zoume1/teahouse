@@ -266,13 +266,27 @@
             //删除某项
             $('.del').click(function(e) {
                 var _this = $(this);
+                var city_id = _this.parent(".flex").data("id");
                 layer.open({
                     content:'确定删除？',
                     btn:['确定','取消'],
                     yes:function(index, layero) {
-                        _this.parent().remove();
-                        layer.close(index);
-                        return;
+                        $.ajax({
+                            url: "city_rank_delete",
+                            type: "POST",
+                            data: {
+                                id : city_id
+                            },
+                            success: (res) => {
+                                console.log(res)
+                                alert("删除成功！")
+                                _this.parent().remove();
+                                layer.close(index);
+                            },
+                            error: (e) => {
+                                console.error(e);
+                            }
+                        })
                     }  
                 })
                 
@@ -322,9 +336,10 @@
                     rank_status: city_id
                 },
                 success: (res) => {
-                    console.log(res)
                     $(e).parent(".input_k").before(html_save);
                     $(e).parent(".input_k").remove();
+                    alert("添加成功！")
+                    window.location.reload();
                 },
                 error: (e) => {
                     console.error(e)
