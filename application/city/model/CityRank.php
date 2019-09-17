@@ -16,6 +16,8 @@ const CITY_ONE = 1;
 class CityRank extends Model
 {
     protected $table = "tb_city_rank";
+    // 设置返回数据集的对象名
+	protected $resultSetType = 'collection';
 
 
     /**gy
@@ -71,7 +73,39 @@ class CityRank extends Model
      */
     public static function getList()
     {
-        return self::all();
+        $model = new static;
+        $data =  $model->all()->toArray();
+        foreach($data as $key => $value){
+            switch($value['rank_status'])
+            {
+                case 1:
+                    $one[] = $value;
+                    break;
+                case 2:
+                    $two[] = $value;
+                    break;
+                case 3:
+                    $three[] = $value;
+                    break;
+                case 4:
+                    $four[] = $value;
+                    break;
+                case 5:
+                    $five[] = $value;
+                    break;
+                default:
+                    break;
+            }
+
+        }
+        $rest = [
+            'one'=>$one,
+            'two'=>$two,
+            'three'=>$three,
+            'four'=>$four,
+            'five'=>$five,
+        ];
+        return  $rest;
     }
 
     /**gy

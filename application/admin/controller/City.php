@@ -125,7 +125,9 @@ class  City extends  Controller{
      * 郭杨
      */    
     public function city_rank_setting(){
-        return view("city_rank_setting");
+        $data = CityRank::getList();
+        // halt($data);
+        return view("city_rank_setting",['data'=>$data]);
     }
 
     /**
