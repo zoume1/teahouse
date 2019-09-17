@@ -120,7 +120,7 @@
                         省份
                     </div>
                 </blockquote>
-                <div class="flex_mian m_t" id="province">
+                <div class="flex_mian m_t" id="province" data-id="1">
                     <div class="flex">
                         <div class="names">广东</div>
                         <div style="flex: 1;"></div>
@@ -154,7 +154,7 @@
                         特级城市
                     </div>
                 </blockquote>
-                <div class="flex_mian m_t" id="supers">
+                <div class="flex_mian m_t" id="supers" data-id="2">
                     <div class="flex">
                         <div class="names">广东</div>
                         <div style="flex: 1;"></div>
@@ -178,7 +178,7 @@
                         一级城市
                     </div>
                 </blockquote>
-                <div class="flex_mian m_t" id="one">
+                <div class="flex_mian m_t" id="one" data-id="3">
                     <div class="flex">
                         <div class="names">广东</div>
                         <div style="flex: 1;"></div>
@@ -202,7 +202,7 @@
                         二级城市
                     </div>
                 </blockquote>
-                <div class="flex_mian m_t" id="two">
+                <div class="flex_mian m_t" id="two" data-id="4">
                     <div class="flex">
                         <div class="names">广东</div>
                         <div style="flex: 1;"></div>
@@ -226,7 +226,7 @@
                         三级城市
                     </div>
                 </blockquote>
-                <div class="flex_mian m_t" id="three">
+                <div class="flex_mian m_t" id="three" data-id="5">
                     <div class="flex">
                         <div class="names">广东</div>
                         <div style="flex: 1;"></div>
@@ -300,7 +300,8 @@
         }
         //input保存
         function save(e,dif) {
-            var input_text = $(e).parent(".input_k").children(".input_text").val();
+            let input_text = $(e).parent(".input_k").children(".input_text").val();
+            let city_id = $(e).parents(".flex_mian").data("id");
             let html_save = `<div class="flex">
                         <div>${input_text}</div>
                         <div style="flex: 1;"></div>`;
@@ -315,8 +316,23 @@
                                 <div class="choose" data-id="three">三级城市</div>
                         </div>
                         </div>`;
-            $(e).parent(".input_k").before(html_save);
-            $(e).parent(".input_k").remove();
+            $.ajax({
+                url: "admin/City/city_rank_add",
+                type: "POST",
+                data: {
+                    name: input_text,
+                    rank_status: city_id
+                },
+                success: (res) => {
+                    console.log(res)
+                    $(e).parent(".input_k").before(html_save);
+                    $(e).parent(".input_k").remove();
+                },
+                error: (e) => {
+                    console.error(e)
+                }
+                
+            })
         }
 
          //点击选中改变样式
