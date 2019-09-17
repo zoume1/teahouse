@@ -126,12 +126,6 @@
                             <div class="names">{$one.name}</div>
                             <div style="flex: 1;"></div>
                             <div class="all_btn del noshow">删除</div>
-                            <div class="tog noshow">
-                                    <div class="choose" data-id="supers">特级城市</div>
-                                    <div class="choose" data-id="one">一级城市</div>
-                                    <div class="choose" data-id="two">二级城市</div>
-                                    <div class="choose" data-id="three">三级城市</div>
-                            </div>
                         </div>
                     {/volist}{/if}
 
@@ -154,10 +148,10 @@
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
-                                        <div class="choose" data-id="supers">特级城市</div>
-                                        <div class="choose" data-id="one">一级城市</div>
-                                        <div class="choose" data-id="two">二级城市</div>
-                                        <div class="choose" data-id="three">三级城市</div>
+                                        <div class="choose" data-city="supers" data-id="2">特级城市</div>
+                                        <div class="choose" data-city="one" data-id="3">一级城市</div>
+                                        <div class="choose" data-city="two" data-id="4">二级城市</div>
+                                        <div class="choose" data-city="three" data-id="5">三级城市</div>
                                 </div>
                             </div>
                         {/volist}{/if}
@@ -180,10 +174,10 @@
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
-                                        <div class="choose" data-id="supers">特级城市</div>
-                                        <div class="choose" data-id="one">一级城市</div>
-                                        <div class="choose" data-id="two">二级城市</div>
-                                        <div class="choose" data-id="three">三级城市</div>
+                                        <div class="choose" data-city="supers" data-id="2">特级城市</div>
+                                        <div class="choose" data-city="one" data-id="3">一级城市</div>
+                                        <div class="choose" data-city="two" data-id="4">二级城市</div>
+                                        <div class="choose" data-city="three" data-id="5">三级城市</div>
                                 </div>
                             </div>
                         {/volist}{/if}
@@ -206,10 +200,10 @@
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
-                                        <div class="choose" data-id="supers">特级城市</div>
-                                        <div class="choose" data-id="one">一级城市</div>
-                                        <div class="choose" data-id="two">二级城市</div>
-                                        <div class="choose" data-id="three">三级城市</div>
+                                        <div class="choose" data-city="supers" data-id="2">特级城市</div>
+                                        <div class="choose" data-city="one" data-id="3">一级城市</div>
+                                        <div class="choose" data-city="two" data-id="4">二级城市</div>
+                                        <div class="choose" data-city="three" data-id="5">三级城市</div>
                                 </div>
                             </div>
                         {/volist}{/if}
@@ -232,10 +226,10 @@
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
-                                        <div class="choose" data-id="supers">特级城市</div>
-                                        <div class="choose" data-id="one">一级城市</div>
-                                        <div class="choose" data-id="two">二级城市</div>
-                                        <div class="choose" data-id="three">三级城市</div>
+                                        <div class="choose" data-city="supers" data-id="2">特级城市</div>
+                                        <div class="choose" data-city="one" data-id="3">一级城市</div>
+                                        <div class="choose" data-city="two" data-id="4">二级城市</div>
+                                        <div class="choose" data-city="three" data-id="5">三级城市</div>
                                 </div>
                             </div>
                         {/volist}{/if}
@@ -278,10 +272,11 @@
                                 id : city_id
                             },
                             success: (res) => {
-                                console.log(res)
-                                alert("删除成功！")
-                                _this.parent().remove();
-                                layer.close(index);
+                                if(res.code == 1) {
+                                    alert(res.msg)
+                                    _this.parent().remove();
+                                    layer.close(index);
+                                }
                             },
                             error: (e) => {
                                 console.error(e);
@@ -322,10 +317,10 @@
             }
             html_save += `<div class="all_btn del noshow">删除</div>
                         <div class="tog noshow">
-                                <div class="choose" data-id="supers">特级城市</div>
-                                <div class="choose" data-id="one">一级城市</div>
-                                <div class="choose" data-id="two">二级城市</div>
-                                <div class="choose" data-id="three">三级城市</div>
+                                <div class="choose" data-city="supers" data-id="2">特级城市</div>
+                                <div class="choose" data-city="one" data-id="3">一级城市</div>
+                                <div class="choose" data-city="two" data-id="4">二级城市</div>
+                                <div class="choose" data-city="three" data-id="5">三级城市</div>
                         </div>
                         </div>`;
             $.ajax({
@@ -336,10 +331,12 @@
                     rank_status: city_id
                 },
                 success: (res) => {
-                    $(e).parent(".input_k").before(html_save);
-                    $(e).parent(".input_k").remove();
-                    alert("添加成功！")
-                    window.location.reload();
+                    if(res.code == 1) {
+                        $(e).parent(".input_k").before(html_save);
+                        $(e).parent(".input_k").remove();
+                        alert(res.msg)
+                        window.location.reload();
+                    }
                 },
                 error: (e) => {
                     console.error(e)
@@ -364,22 +361,41 @@
         })
         //移动分组
         $(".choose").click(function(){
-            let choose_name = $(this).parents(".flex").find('.names').text();
-            let choose_id = $(this).data("id");
+            let choose_name = $(this).parents(".flex").find('.names').text();//城市名
+            let choose_city_id = $(this).data("id"); //城市等级
+            let choose_city = $(this).data("city"); //城市所属id
+            let choose_id = $(this).parents(".flex").data("id");//城市数据库id
             let html_save = `<div class="flex">
                         <div>${choose_name}</div>
                         <div style="flex: 1;"></div>
                         <div class="all_btn move noshow">移动</div>
                         <div class="all_btn del noshow">删除</div>
                         <div class="tog noshow">
-                                <div class="choose" data-id="supers">特级城市</div>
-                                <div class="choose" data-id="one">一级城市</div>
-                                <div class="choose" data-id="two">二级城市</div>
-                                <div class="choose" data-id="three">三级城市</div>
+                            <div class="choose" data-city="supers" data-id="2">特级城市</div>
+                            <div class="choose" data-city="one" data-id="3">一级城市</div>
+                            <div class="choose" data-city="two" data-id="4">二级城市</div>
+                            <div class="choose" data-city="three" data-id="5">三级城市</div>
                         </div>
                         </div>`;
-            $(`#${choose_id}`).find(".add").before(html_save);
-            $(this).parents(".flex").remove();
+            $.ajax({
+                url: "city_rank_update",
+                type: "POST",
+                data: {
+                    id: choose_id,
+                    rank_status: choose_city_id
+                },
+                success: (res) => {
+                    if(res.code == 1) {
+                        $(`#${choose_city}`).find(".add").before(html_save);
+                        $(this).parents(".flex").remove();
+                        alert(res.msg);
+                        window.location.reload();
+                    }
+                },
+                error: (e) => {
+                    console.error(e)
+                }
+            })
         })
     </script>
     {/block}
