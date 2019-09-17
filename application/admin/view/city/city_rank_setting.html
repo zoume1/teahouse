@@ -263,8 +263,6 @@
                 laypage = layui.laypage,
                 $ = layui.jquery;
 
-           
-
             //删除某项
             $('.del').click(function(e) {
                 var _this = $(this);
@@ -317,7 +315,7 @@
                         </div>
                         </div>`;
             $.ajax({
-                url: "admin/City/city_rank_add",
+                url: "city_rank_add",
                 type: "POST",
                 data: {
                     name: input_text,
