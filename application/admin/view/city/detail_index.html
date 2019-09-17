@@ -59,13 +59,13 @@
     <div class="childrenBody">
         {include file="template/_top"/}
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Control/control_order_index_search')}">
+            <form class="layui-form" action="{:url('admin/City/detail_index')}">
                 <div class="seach">
                     <div class="seach_list">
                         <div class="seach_laber">输入搜索:</div>
                         <div class="seach_input">
-                            <input type="text" name="contact_name" lay-verify="title" autocomplete="off"
-                                placeholder="用户账号" class="layui-input">
+                            <input type="text" name="search" lay-verify="title" autocomplete="off"
+                                placeholder="用户账号"  class="layui-input" >
                         </div>
                     </div>
                     <button class="layui-btn" type="submit" id="seach">立即搜索</button>
@@ -86,17 +86,17 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                   
+                   {if !empty($data)}{volist name="data" id="value"}
                     <tr>
-                        <td>201835</td>
-                        <td>4545465</td>
-                        <td>sdsd222</td>
-                        <td>sdsd222</td>
-                        <td>sdsd222</td>
-                        <td>sdsd222</td>
-                        <td>sdsd222</td>
+                        <td>{$value.order_number}</td>
+                        <td>{$value.phone_number}</td>
+                        <td>{$value.share_code}</td>
+                        <td>{$value.set_meal}</td>
+                        <td>￥{$value.meal_price}</td>
+                        <td>{$value.higher_phone}</td>
+                        <td>￥{$value.commision}</td>
                     </tr>
-
+                    {/volist}{/if}
                 </tbody>
             </table>
         </div>

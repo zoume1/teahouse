@@ -16,6 +16,7 @@ use app\city\model\CityDecay;
 use app\city\model\CityEvaluate;
 use app\city\model\CityMeal;
 use app\city\model\CityDetail;
+use app\city\model\CityRank;
 use app\city\model\StoreCommission;
 
 
@@ -26,8 +27,9 @@ class  City extends  Controller{
      * 郭杨
      */    
     public function detail_index(){
-        $data = CityModel::city_detail();
-        return view("detail_index");
+        $search = input('search');
+        $data = CityDetail::city_detail($search);
+        return view("detail_index",['data'=>$data]);
     }
 
     /**
@@ -35,7 +37,8 @@ class  City extends  Controller{
      * 郭杨
      */    
     public function agent_index(){
-        return view("agent_index");
+        $data = CityDetail::city_detail();
+        return view("agent_index",['data'=>$data]);
     }
 
     /**
@@ -166,4 +169,25 @@ class  City extends  Controller{
     public function city_price_examine(){
         return view("city_price_examine");
     }
+
+
+    /**
+     * [城市等级添加]
+     * 郭杨
+     */    
+    public function city_rank_add(Request $request){
+        if($request->isAjax()){
+            $data = $request->post();
+            $rest = CityRank::rank_add($data);
+            if($rest){
+                return $this->renderSuccess('添加成功');
+            } else {
+                return $this->renderError('添加失败');
+            }
+        }
+        
+    }
+
+
+
 }

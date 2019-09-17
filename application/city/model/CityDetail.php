@@ -19,21 +19,23 @@ class CityDetail extends Model
 
 
     /**gy
-     *  分销代理显示
+     *  分销代理列表显示
      * @param $data
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function city_detail()
+    public static function city_detail($search)
     {
         $model = new static;
+        // 查询条件
+        !empty($search) && $model->where('phone_number|order_number', 'like', "%$search%");
         $rest = $model->order(['create_time' => 'desc'])
         ->paginate(20, false, [
             'query' => \request()->request()
         ]);;
-        return $rest ? $rest : false;
+        return $rest;
         
     }
 

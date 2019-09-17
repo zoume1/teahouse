@@ -87,18 +87,18 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                   
+                   {if !empty($data)}{volist name="data" id='value'}
                     <tr>
-                        <td>201835</td>
-                        <td>4545465</td>
-                        <td>sdsd222</td>
-                        <td>sdsd222</td>
-                        <td>sdsd222</td>
-                        <td>sdsd222</td>
-                        <td>sdsd222</td>
-                        <td>sdsd222</td>
+                        <td>{$value.order_number}</td>
+                        <td>{$value.phone_number}</td>
+                        <td>{$value.share_code}</td>
+                        <td>{$value.set_meal}</td>
+                        <td>￥{$value.meal_price}</td>
+                        <td>{$value.higher_phone}</td>
+                        <td>{$value.base_commision}</td>
+                        <td>{$value.reach_commision}</td>
                     </tr>
-
+                    {/volist}{/if}
                 </tbody>
             </table>
         </div>

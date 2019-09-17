@@ -1126,6 +1126,7 @@ Route::group("admin",[
    "city_datum_verify_edit"=>"admin/City/city_datum_verify_edit",        //城市入驻资料审核编辑
    "city_price_examine"=>"admin/City/city_price_examine",      //城市入驻费用审核
    "city_price_examine_update"=>"admin/City/city_price_examine_update",      //城市入驻费用审核编辑
+   "city_rank_add"=>"admin/City/city_rank_add",                //城市等级添加
 ]);
 
 /**
