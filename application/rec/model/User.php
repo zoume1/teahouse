@@ -48,8 +48,14 @@ class User extends Model
     //获取信息
     public function shop($my_invitation)
     {
-//        print_r($my_invitation);die;
+    //      print_r($my_invitation);die;
         return self::get(['my_invitation'=>$my_invitation]);
+    }
+    
+    //获取个人信息
+    public function user_index($uid)
+    {
+        return self::get(['id'=>$uid])  -> toArray();
     }
     
 
