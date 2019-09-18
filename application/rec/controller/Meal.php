@@ -34,14 +34,14 @@ Class Meal extends Controller{
     public function class_index()
     {
         $request = Request::instance();
-        $enter_id = $request->param('enter_id',2);
-//        $limit = $request -> post('size', 6);
+        $enter_id = $request->param('enter_id',5);
+        $year = $request -> param('year', 0);
         $where['enter_id'] = $enter_id;
-        $where['enter_id'] = $enter_id;
+        $where['year'] = $year;
 
-        $field = 'id,name,price';
-        $order = 'sort_number asc';
-        $data = db('enter_meal')->where($where)->field($field)->order($order)->select();
+        $field = 'id,year,cost,favourable_cost,enter_id,version_introduce';
+        $order = 'id asc';
+        $data = db('enter_all')->where($where)->field($field)->order($order)->select();
 
         $data ? returnJson(1,'请求成功',$data) : returnJson(0,'请求失败',$data);
     }

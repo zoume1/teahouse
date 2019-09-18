@@ -53,6 +53,22 @@ class CityRank extends Model
         
     }
 
+        /**gy
+     *  查询城市信息
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function rank_find($name)
+    {
+        $model = new static;
+        $rest = $model->where('name','=', $name)->find();
+        return $rest ? $rest->toArray() : false;
+        
+    }
+
     /**gy
      * 获取等级信息
      * @param $meal_id
