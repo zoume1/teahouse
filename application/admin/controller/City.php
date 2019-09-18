@@ -185,12 +185,19 @@ class  City extends  Controller{
     public function city_rank_add(Request $request){
         if($request->isAjax()){
             $data = $request->post();
-            $rest = CityRank::rank_add($data);
-            if($rest){
-                return $this->renderSuccess('添加成功');
-            } else {
-                return $this->renderError('添加失败');
+            if(isset($data['name']) && !empty($data['name']))
+            {
+                if(CityRank::rank_find($data['name'])){
+                    return $this->renderError('该城市已存在,不能重复添加!');
+                }
+                $rest = CityRank::rank_add($data);
+                if($rest){
+                    return $this->renderSuccess('添加成功');
+                } else {
+                    return $this->renderError('添加失败');
+                }
             }
+            return $this->renderError('添加失败');
         }
         
     }
