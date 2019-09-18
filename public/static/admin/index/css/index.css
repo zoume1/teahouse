@@ -301,6 +301,8 @@ a{
 	padding      : 0px 10px 0px 10px;
 	line-height  : 45px;
 	cursor       : pointer;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 .UCleft dl dt i {
