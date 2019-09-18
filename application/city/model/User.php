@@ -25,7 +25,7 @@ class User extends Model
 
     /**
      * 城市合伙人用户登录
-     * @param $data
+     * @param $user
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -34,7 +34,8 @@ class User extends Model
     public function login($data)
     {
         // 验证用户名密码是否正确
-        if ($this->isStatus($data)) {
+        $user = $this->isStatus($data);
+        if ($user) {
             $this->error = '登录失败, 账号或密码错误';
             return false;
         }  

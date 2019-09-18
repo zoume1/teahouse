@@ -9,6 +9,7 @@
 
 namespace  app\index\controller;
 
+// include('../admin/error.php');
 
 use think\Controller;
 use think\Request;
@@ -33,9 +34,7 @@ class Bill extends Controller{
         if($request->isPost()){
             $data= [	"phone_number"=>18309224319,
             "password"=>123456];
-            $rest = new User;
-            $bool = $rest->cityStatus($data);
-            halt($bool);
+          return  jsonError("失败",ERROR_100);
         }
         
     }

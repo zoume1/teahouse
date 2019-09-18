@@ -192,7 +192,7 @@ class  City extends  Controller{
                 }
                 $rest = CityRank::rank_add($data);
                 if($rest){
-                    return $this->renderSuccess('添加成功');
+                    return $this->renderSuccess('添加成功',$data);
                 } else {
                     return $this->renderError('添加失败');
                 }
