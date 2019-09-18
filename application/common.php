@@ -1461,7 +1461,13 @@ function show_ds_orderer($status){
     function create_captical_log($order_numbner,$member_account,$income,$pay,$cap_type,$store_id)
     {
         //获取参数
-        $input=input();
+        $input['order_number']=$order_numbner;
+        $input['member_account']=$member_account;
+        $input['income']=$income;
+        $input['pay']=$pay;
+        $input['cap_type']=$cap_type;
+        $input['store_id']=$store_id;
+        $input['create_time']=time();
         if($input){
             $re=db('captical')->insert($input);
             return true;
