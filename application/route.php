@@ -1211,6 +1211,10 @@ Route::group("rec",[
     "app_notice" =>"rec/WechatPay/app_notice",
     "get_pay" =>'rec/WechatPay/get_pay',
 
+    //订单
+    "classify" =>"rec/Meal/class_index",
+
+
 
 ]);
 

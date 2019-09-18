@@ -13,7 +13,7 @@ use EasyWeChat\Payment\Order;
 
 class WechatPay extends Model
 {
-    public function pay($title,$detail,$no,$cost)
+    public function pay($title,$detail,$no,$cost,$url,$openid)
     {
 
         $attributes = [
@@ -22,8 +22,8 @@ class WechatPay extends Model
             'detail'           => $detail,//详情
             'out_trade_no'     => $no,//订单号
             'total_fee'        => $cost, // 单位：分
-            'notify_url'       => 'http://www.zhihuichacang.com/rec/app_notice', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
-            'openid'           => 'oYb9gwLrKCi2IxzBQ-GQrM5MSRfM', // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+            'notify_url'       => $url, // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            'openid'           => $openid, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
             // ...
         ];
 
