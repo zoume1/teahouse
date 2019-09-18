@@ -29,90 +29,31 @@ class Invoice extends Controller{
     }
     /**
      * @author fyk
-     * 提交发票
+     * 已支付订单开票接口
      */
-    public function  refer_invoice()
-    {
-        $request = Request::instance();
-        $param = $request->param();
-        $type = $param['type'];
-        switch($type){
-            case 1:
-                $rules = [
-                    'user_id' => 'require',
-                    'type'=>'require',
-                    'status'=>'require',
-                    'email'=>'require',
-                    'rise'=>'require',
-                    'duty'=>'require',
-                    'price'=>'require',
-                    'invoiceLine'=>'require',
-                ];
-                $message = [
-                    'user_id.require' => '用户不能为空',
-                    'type.require' => '用户类型不能为空',
-                    'status.require' => '发票类型不能为空',
-                    'email.require' => '邮箱地址不能为空',
-                    'rise.require' => '抬头不能为空',
-                    'duty.require' => '税号不能为空',
-                    'price.require' => '金额不能为空',
-                    'invitation.require'=>'发票种类:p,普通发票(电票)(默认)s,专用发票不能为空',
-                ];
-                //验证
-                $validate = new Validate($rules,$message);
-                if(!$validate->check($param)){
-                    return json(['code' => 0,'msg' => $validate->getError()]);
-                }
-                
-                $invoice = new InvoiceAll();
-                $res = $invoice->add_enterprise('','','','','','','');
-
-                return $res;
-                break;   // 跳出循环
-            case 2:
-                $rules = [
-                    'user_id' => 'require',
-                    'type'=>'require',
-                    'status'=>'require',
-                    'email'=>'require',
-                    'user_name'=>'require',
-                    'phone'=>'require',
-                    'price'=>'require',
-                    'invoiceLine'=>'require',
-                ];
-                $message = [
-                    'user_id.require' => '用户id不能为空',
-                    'type.require' => '用户类型不能为空',
-                    'status.require' => '发票类型不能为空',
-                    'email.require' => '邮箱地址不能为空',
-                    'user_name.require' => '姓名不能为空',
-                    'phone.require' => '手机号不能为空',
-                    'price.require' => '金额不能为空',
-                    'invitation.require'=>'发票种类:p,普通发票(电票)(默认)s,专用发票不能为空',
-                ];
-                //验证
-                $validate = new Validate($rules,$message);
-                if(!$validate->check($param)){
-                    return json(['code' => 0,'msg' => $validate->getError()]);
-                }
-
-                $invoice = new InvoiceAll();
-                $res = $invoice->add_personal('','','','','','','');
-
-                return $res;
-                break;
-        }
-
-    }
-
     public function ele_invoice()
     {
 
-        $id = 1;
-        $data = InvoiceAll::where('id',$id)->find()->toArray();
-//        print_r($data);die;
-        $res = $this->requestBilling($data);
-        print_r($res);die;
+        $id = 6;
+        $invoice = new InvoiceAll();
+        $data = $invoice->get_order($id);
+
+        //$res = $invoice->requestBilling($data);正式调用
+
+        $res = $this->requestBilling($data);//测试调用
+
+        $list = json_decode($res,true);
+
+        if($list['result'] != null){
+
+            $num = $invoice->edit($id,$list['result']['invoiceSerialNum'],2,'开票成功');
+            return $num;
+        }else{
+
+            $num = $invoice->edit($id,'',4,'开票失败');
+            return $num;
+        }
+
     }
     /**
      * @author fyk
@@ -164,7 +105,7 @@ class Invoice extends Controller{
                     "invoiceLine"=> $data['invoiceLine'],
                     "email"=> $data['email'],
                     "salerAccount"=> "",
-                    "orderNo"=> $this->get_sn(),//订单编号唯一
+                    "orderNo"=> $data['no'],//订单编号唯一
                     "salerTel"=> "0571-81029365",
                     "buyerName"=> $data['rise'],
                     "invoiceDate"=> date('Y-m-d H:i:s',time()),
