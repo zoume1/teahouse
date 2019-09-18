@@ -100,16 +100,18 @@
     </div>
     <div id="app">
         
-        <form class="layui-form layui-form-lists" action="{:url('')}" method="post" enctype="multipart/form-data">
+        <form class="layui-form layui-form-lists" action="{:url('admin/City/city_setting')}" method="post" enctype="multipart/form-data">
+            
             <blockquote class="layui-elem-quote news_search">
                 <div class="seach_laber">
                     分销
                 </div>
             </blockquote>
+            {if !empty($store_data)}
             <div class="form-item m_t">
                     <label class="form-label" style="width:20%">上级商户佣金比例</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="commission" value="{$store_data['commission']}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -120,7 +122,7 @@
             <div class="form-item">
                     <label class="form-label" style="width:20%">商户套餐优惠金额</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="money" value="{$store_data['money']}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >元</span>
                         <div class="tips"><span class="red">*</span>
@@ -128,15 +130,12 @@
                         </div>
                     </div>
             </div>
-            <blockquote class="layui-elem-quote news_search m_t">
-                    <div class="seach_laber">
-                        代理
-                    </div>
-            </blockquote>
+            {else}
+
             <div class="form-item m_t">
-                    <label class="form-label" style="width:20%">城市合伙人保底佣金比例</label>
+                    <label class="form-label" style="width:20%">上级商户佣金比例</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="commission" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -145,9 +144,39 @@
                     </div>
             </div>
             <div class="form-item">
+                    <label class="form-label" style="width:20%">商户套餐优惠金额</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="money" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >元</span>
+                        <div class="tips"><span class="red">*</span>
+                            购买时填写了邀请码的有奖励现金
+                        </div>
+                    </div>
+            </div>
+            {/if}
+            <blockquote class="layui-elem-quote news_search m_t">
+                    <div class="seach_laber">
+                        代理
+                    </div>
+            </blockquote>
+            {if !empty($citySetting)}
+            <div class="form-item m_t">
+                    <label class="form-label" style="width:20%">城市合伙人保底佣金比例</label>
+                    <div class="form-input m_r">
+                        <input type="text" name="commission" value="{$citySetting.commission}"lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >%</span>
+                        <div class="tips"><span class="red">*</span>
+                            输入0~99数字
+                        </div>
+                    </div>
+            </div>
+            
+            <div class="form-item">
                     <label class="form-label" style="width:20%">城市合伙人达标佣金比例</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="reach_commission" value="{$citySetting.reach_commission}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -156,7 +185,7 @@
                     </div>
                     <div class="form-input m_r" style="width:365px;">
                             <label class="form-label" style="width:20%">特级城市</label>
-                            <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                            <input type="text" name="rank_city" value="{$citySetting.rank_city}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                             class="layui-input">
                             <span >个</span>
                             <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
@@ -169,7 +198,7 @@
                     <div class="form-input m_r" style="width:147px;"></div>
                     <div class="form-input m_r" style="width:365px;">
                             <label class="form-label" style="width:20%">一级城市</label>
-                            <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                            <input type="text" name="one_city" value="{$citySetting.one_city}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                             class="layui-input">
                             <span >个</span>
                             <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
@@ -182,7 +211,7 @@
                     <div class="form-input m_r" style="width:147px;"></div>
                     <div class="form-input m_r" style="width:365px;">
                             <label class="form-label" style="width:20%">二级城市</label>
-                            <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                            <input type="text" name="two_city" value="{$citySetting.two_city}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                             class="layui-input">
                             <span >个</span>
                             <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
@@ -195,7 +224,7 @@
                     <div class="form-input m_r" style="width:147px;"></div>
                     <div class="form-input m_r" style="width:365px;">
                             <label class="form-label" style="width:20%">三级城市</label>
-                            <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                            <input type="text" name="three_city" value="{$citySetting.three_city}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                             class="layui-input">
                             <span >个</span>
                             <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
@@ -203,16 +232,77 @@
                             </div>
                     </div>
             </div>
-
+            {else}
+            <div class="form-item">
+                <label class="form-label" style="width:20%">城市合伙人达标佣金比例</label>
+                <div class="form-input m_r">
+                    <input type="text" name="reach_commission" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                    class="layui-input">
+                    <span >%</span>
+                    <div class="tips"><span class="red">*</span>
+                        达标佣金比例
+                    </div>
+                </div>
+                <div class="form-input m_r" style="width:365px;">
+                        <label class="form-label" style="width:20%">特级城市</label>
+                        <input type="text" name="rank_city" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >个</span>
+                        <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
+                            发展店铺数
+                        </div>
+                </div>
+        </div>
+        <div class="form-item">
+                <label class="form-label" style="width:20%"></label>
+                <div class="form-input m_r" style="width:147px;"></div>
+                <div class="form-input m_r" style="width:365px;">
+                        <label class="form-label" style="width:20%">一级城市</label>
+                        <input type="text" name="one_city" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >个</span>
+                        <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
+                            发展店铺数
+                        </div>
+                </div>
+        </div>
+        <div class="form-item">
+                <label class="form-label" style="width:20%"></label>
+                <div class="form-input m_r" style="width:147px;"></div>
+                <div class="form-input m_r" style="width:365px;">
+                        <label class="form-label" style="width:20%">二级城市</label>
+                        <input type="text" name="two_city" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >个</span>
+                        <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
+                            发展店铺数
+                        </div>
+                </div>
+        </div>
+        <div class="form-item">
+                <label class="form-label" style="width:20%"></label>
+                <div class="form-input m_r" style="width:147px;"></div>
+                <div class="form-input m_r" style="width:365px;">
+                        <label class="form-label" style="width:20%">三级城市</label>
+                        <input type="text" name="three_city" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        class="layui-input">
+                        <span >个</span>
+                        <div class="tips" style="margin-left: 80px;"><span class="red">*</span>
+                            发展店铺数
+                        </div>
+                </div>
+        </div>
+        {/if}
             <blockquote class="layui-elem-quote news_search m_t">
                     <div class="seach_laber" style="width: 21%;">
                         代理衰减配置（以上佣金随商户续费年限，做梯度修正调整）
                     </div>
             </blockquote>
+            {if !empty($citydecay)}
             <div class="form-item m_t">
                     <label class="form-label" style="width:20%">第二年</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="two_year" value="{$citydecay.two_year}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -223,7 +313,7 @@
             <div class="form-item">
                     <label class="form-label" style="width:20%">第三年</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="three_year" value="{$citydecay.three_year}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -234,7 +324,7 @@
             <div class="form-item">
                     <label class="form-label" style="width:20%">第四年</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="four_year" value="{$citydecay.four_year}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -245,7 +335,7 @@
             <div class="form-item">
                     <label class="form-label" style="width:20%">5年之后</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="five_year" value="{$citydecay.five_year}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -253,16 +343,62 @@
                         </div>
                     </div>
             </div>
-           
+           {else}
+           <div class="form-item m_t">
+            <label class="form-label" style="width:20%">第二年</label>
+            <div class="form-input m_r">
+                <input type="text" name="two_year" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                class="layui-input">
+                <span >%</span>
+                <div class="tips"><span class="red">*</span>
+                    保底和达标佣金同时乘该比例，即为当年佣金，不管城市合伙人是非替换
+                </div>
+            </div>
+    </div>
+    <div class="form-item">
+            <label class="form-label" style="width:20%">第三年</label>
+            <div class="form-input m_r">
+                <input type="text" name="three_year" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                class="layui-input">
+                <span >%</span>
+                <div class="tips"><span class="red">*</span>
+                    保底和达标佣金同时乘该比例，即为当年佣金，不管城市合伙人是非替换
+                </div>
+            </div>
+    </div>
+    <div class="form-item">
+            <label class="form-label" style="width:20%">第四年</label>
+            <div class="form-input m_r">
+                <input type="text" name="four_year" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                class="layui-input">
+                <span >%</span>
+                <div class="tips"><span class="red">*</span>
+                    保底和达标佣金同时乘该比例，即为当年佣金，不管城市合伙人是非替换
+                </div>
+            </div>
+    </div>
+    <div class="form-item">
+            <label class="form-label" style="width:20%">5年之后</label>
+            <div class="form-input m_r">
+                <input type="text" name="five_year" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                class="layui-input">
+                <span >%</span>
+                <div class="tips"><span class="red">*</span>
+                    保底和达标佣金同时乘该比例，即为当年佣金，不管城市合伙人是非替换
+                </div>
+            </div>
+    </div>
+    {/if}
             <blockquote class="layui-elem-quote news_search m_t">
                     <div class="seach_laber" style="width: 12%;">
                             代理服务考评体系（5分为基础）
                     </div>
             </blockquote>
+            {if !empty($cityevalute)}
             <div class="form-item m_t">
                     <label class="form-label" style="width:20%">1分以下</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="one" value="{$cityevalute.one}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -273,7 +409,7 @@
             <div class="form-item">
                     <label class="form-label" style="width:20%">1~2分</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="two" value="{$cityevalute.two}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -284,7 +420,7 @@
             <div class="form-item">
                     <label class="form-label" style="width:20%">2~3分</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="three" value="{$cityevalute.three}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -295,7 +431,7 @@
             <div class="form-item">
                     <label class="form-label" style="width:20%">6~7分</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="six" value="{$cityevalute.six}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -306,7 +442,7 @@
             <div class="form-item">
                     <label class="form-label" style="width:20%">7~8分</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="seven" value="{$cityevalute.seven}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -317,7 +453,7 @@
             <div class="form-item">
                     <label class="form-label" style="width:20%">8分以上</label>
                     <div class="form-input m_r">
-                        <input type="text" name="sss0[tactics_num]" value="" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="eight" value="{$cityevalute.eight}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -325,7 +461,74 @@
                         </div>
                     </div>
             </div>
-
+            {else}
+            <div class="form-item m_t">
+                <label class="form-label" style="width:20%">1分以下</label>
+                <div class="form-input m_r">
+                    <input type="text" name="one"  lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                    class="layui-input">
+                    <span >%</span>
+                    <div class="tips"><span class="red">*</span>
+                        扣减保底佣金比例
+                    </div>
+                </div>
+        </div>
+        <div class="form-item">
+                <label class="form-label" style="width:20%">1~2分</label>
+                <div class="form-input m_r">
+                    <input type="text" name="two"  lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                    class="layui-input">
+                    <span >%</span>
+                    <div class="tips"><span class="red">*</span>
+                        扣减保底佣金比例
+                    </div>
+                </div>
+        </div>
+        <div class="form-item">
+                <label class="form-label" style="width:20%">2~3分</label>
+                <div class="form-input m_r">
+                    <input type="text" name="three"  lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                    class="layui-input">
+                    <span >%</span>
+                    <div class="tips"><span class="red">*</span>
+                        扣减保底佣金比例
+                    </div>
+                </div>
+        </div>
+        <div class="form-item">
+                <label class="form-label" style="width:20%">6~7分</label>
+                <div class="form-input m_r">
+                    <input type="text" name="six"  lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                    class="layui-input">
+                    <span >%</span>
+                    <div class="tips"><span class="red">*</span>
+                        扣减保底佣金比例
+                    </div>
+                </div>
+        </div>
+        <div class="form-item">
+                <label class="form-label" style="width:20%">7~8分</label>
+                <div class="form-input m_r">
+                    <input type="text" name="seven" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                    class="layui-input">
+                    <span >%</span>
+                    <div class="tips"><span class="red">*</span>
+                        扣减保底佣金比例
+                    </div>
+                </div>
+        </div>
+        <div class="form-item">
+                <label class="form-label" style="width:20%">8分以上</label>
+                <div class="form-input m_r">
+                    <input type="text" name="eight" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                    class="layui-input">
+                    <span >%</span>
+                    <div class="tips"><span class="red">*</span>
+                        扣减保底佣金比例
+                    </div>
+                </div>
+        </div>
+        {/if}
 
             <div class="layui-form-item" style="width:100%;">
                 <div class="layui-input-block">

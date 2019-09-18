@@ -33,7 +33,7 @@ class  Api extends  Controller{
             'id'=>$data["order_id"]
         );
         $refund_amount =Db::name("order")
-            ->field("refund_amount,parts_order_number,order_real_pay")
+            ->field("refund_amount,parts_order_number,order_real_pay,member_id")
             ->where($map)
             ->find();
         if(!$refund_amount){
@@ -54,6 +54,8 @@ class  Api extends  Controller{
        $result =\WxPayApi::refund($input);
         file_put_contents(EXTEND_PATH."refund.txt",$result);
         if ($result['result_code'] == 'SUCCESS' && $result['return_code'] == 'SUCCESS') {
+             //生成对账单记录
+             $rr=create_captical_log($out_trade_no,$refund_amount['member_id'],0,$business_return_money,1,$store_id);
             $result['code'] = 1;
             $result['data'] =  $result['transaction_id'];
           return ajax_success("成功",$result);

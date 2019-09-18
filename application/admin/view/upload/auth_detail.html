@@ -130,10 +130,14 @@
             <img src="__STATIC__/admin/index/img/u40262p000.png">
             <button class="get-code" >获取体验二维码</button>
             <img src="__STATIC__/admin/index/img/u40262p000.png">
-            {if $is_que=='0'}
+            {if $auditid=='1'}
+                 <button class="publish"><b>已提交审核</b></button>
+            {/if}
+            {if $auditid=='2'}
+                 <button class="publish"><b>修改后再提交审核</b></button>
+            {/if}
+            {if $auditid=='3'}
                  <button class="publish"><b>提交审核</b></button>
-            {else}
-                <button class="publish"><b>已提交审核</b></button>
             {/if}
             <img src="__STATIC__/admin/index/img/u40262p000.png">
             {if $is_fabu=='0'}
@@ -155,6 +159,7 @@
     <input type="hidden"  name="url" value="{$pp}" >
     <input type="hidden"  name="is_chuan" value="{$is_chuan}" >
     <input type="hidden"  name="is_que" value="{$is_que}" >
+    <input type="hidden"  name="auditid" value="{$auditid}" >
     <input type="hidden"  name="is_fabu" value="{$is_fabu}" >
 
     <div class="mask" style="display: none;"></div>
@@ -170,6 +175,14 @@
     <div class="tip-pop publish-confirm" style="display: none;">
         <p class="title">提交提示</p>
         <div class="tip-cont">正式版需微信平台方审核通过，一般需要3个工作日，您对体验版很满意，确定要提交审核吗？</div>
+        <div class="btns">
+            <button class="cancel">取消</button>
+            <button class="publish2 confirm">确定</button>
+        </div>
+    </div>
+    <div class="tip-pop publish-confirm2" style="display: none;">
+        <p class="title">提交提示</p>
+        <div class="tip-cont">未通过审核，请<span class="check_detail" style="color:#169bd5">查看详情</span>，如已修改完成，确定再次提交</div>
         <div class="btns">
             <button class="cancel">取消</button>
             <button class="publish2 confirm">确定</button>
@@ -401,8 +414,14 @@
                         },3000);
                     }else if(data.data==3){   
                         alert('审核失败');
+                        setTimeout(function(){
+                             window.location.reload();
+                        },1500);
                     }else{          //审核失败原因
                         alert(data.data);
+                        setTimeout(function(){
+                             window.location.reload();
+                        },5500);
 
                     }
                 }
@@ -450,18 +469,21 @@
         $('.publish').click(function(){
             //判断是否已上传小城序代码
             //判断是否已上传
-            var is_que=$('input[name="is_que"]').val();
-             if(is_que==1){
+            var num=$('.upload2');
+            if(num.length==0){     //未上传代码
+                $('.mask').add('.no-upload-code').show();
+                return fasle;
+            }
+            var auditid=$('input[name="auditid"]').val();
+             if(auditid==1){
                  alert('店铺提交审核，请勿重复操作');
                  return false;
-             }   
-            var num=$('.upload2');
-            if(num.length==0){
-                //没有上传代码
-                $('.mask').add('.no-upload-code').show();
-            }else{   //publish-confirm
+             }else if(auditid==2){
+                $('.mask').add('.publish-confirm2').show();
+             }else{
+                //未提交审核
                 $('.mask').add('.publish-confirm').show();
-            }
+             }
         })
         //发布正式版小程序按钮点击事件
         $('.fabu').click(function(){

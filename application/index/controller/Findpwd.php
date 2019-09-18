@@ -213,4 +213,38 @@ class Findpwd extends Controller{
             }
         }
     }
+
+
+        /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:手机发送验证码
+     **************************************
+     * @param Request $request
+     */
+    public function sendIdentiFyingCode(Request $request)
+    {
+        //接受验证码的手机号码
+        if ($request->isPost()) {
+            $mobile = $_POST["phone_number"];       
+            $mobileCode = rand(100000, 999999);
+            $arr = json_decode($mobile, true);
+            $mobiles = strlen($arr);
+            if (isMobile($mobile)) {
+                return ajax_error("手机号码不正确");
+            }
+            //存入session中
+            if (strlen($mobileCode)> 0){
+                session('identifying code',$mobileCode);
+                session('phone_number',$mobile);
+            }
+            $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
+            $output = sendMessage($content,$mobile);
+            if ($output) {
+                return ajax_success("发送成功", $output);
+            } else {
+                return ajax_error("发送失败",['status'=>0]);
+            }
+        }
+    }
 }

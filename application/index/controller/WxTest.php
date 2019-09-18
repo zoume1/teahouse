@@ -206,8 +206,6 @@ class WxTest extends Controller
         // $authorizer_appid = input('param.appid/s'); 
         // 每个授权小程序传来的加密消息
         $postStr = file_get_contents("php://input");
-        $pp['msg']=$postStr;
-        db('test')->insert($pp);
         if (!empty($postStr)){
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $toUserName = trim($postObj->AppId);
@@ -225,7 +223,7 @@ class WxTest extends Controller
             $appid = $this->appid;
             $pc = new \WXBizMsgCrypt($token, $encodingAesKey, $appid);
             $errCode = $pc->decryptMsg($msg_sign, $timeStamp, $nonce, $from_xml, $msg);
-            $pp2['msg']=$errCode;
+            $pp2['msg']=$errCode.'11';
             db('test')->insert($pp2);
             if ($errCode == 0) {
                 $msgObj = simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -261,6 +259,10 @@ class WxTest extends Controller
         }
             //获取回调的信息
             $data2=input();
+            if(!is_array($data2)){
+                $ppp['msg']=$data;
+                db('test')->insert($ppp);
+            }
             $auth_code=$data2['auth_code'];     //授权码
             //根据授权码，获取用户信息
             $auth_info=$this->getAuthInfo($auth_code);

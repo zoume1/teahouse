@@ -212,6 +212,8 @@ class Crowdfinancing extends Controller
                                         
                         $res = Db::name('crowd_order')->insertGetId($datas);
                         if ($res) {
+                             //生成对账单记录
+                             $rr=create_captical_log($parts_order_number,$user_id,$datas['order_amount'],0,0,$store_id);
                             $order_datas =Db::name("crowd_order")
                                 ->field("order_real_pay,parts_goods_name,parts_order_number,order_type,coupon_type")
                                 ->where('id',$res)
@@ -263,6 +265,8 @@ class Crowdfinancing extends Controller
                         $datase["order_real_pay"] = 0.01;   
 
                         $rest_id = Db::name('crowd_order')->insertGetId($datase);
+                         //生成对账单记录
+                         $rr=create_captical_log($parts_order_number,$user_id,$datase['order_amount'],0,0,$store_id);
                         $datas = $datase;
                         $datas["store_house_id"] = $address_id;
                         $datas["store_name"] = $store_name;

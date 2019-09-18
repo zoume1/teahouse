@@ -1341,6 +1341,8 @@ class  Analyse extends  Controller{
                $map['wallet_balance']=$money;
                $map['operation_linux_time']=time();
                db('wallet')->insert($map);
+                //生成对账单记录
+                $rr=create_captical_log($map['order_nums'],$map['user_id'],0,$map['wallet_operation'],6,$order_info['store_id']);
                //修改退款维权订单的状态
                $re2=db('adder_after_sale')->where('id',$input['after_sale_id'])->update(['status'=>'6']);
                if($re && $re2 ){
