@@ -530,22 +530,22 @@
 	<div class="childrenBody">
 		{include file="template/_top" /}
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Order/order_search')}">
+			<form class="layui-form" action="{:url('admin/City/city_price_examine')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">入驻商名称：</div>
 						<div class="seach_input">
-							<input type="text" name="search_a" lay-verify="title" autocomplete="off"
+							<input type="text" name="name" lay-verify="title" autocomplete="off"
 								placeholder="姓名/公司名" class="layui-input">
 						</div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">入驻审核：</div>
 						<div class="seach_input">
-							<select name="order_type">
-								<option value="0" selected="">全部</option>
-								<option value="1">入驻审核</option>
-								<option value="2">入驻审核通过</option>
+							<select name="status">
+								<option value="" selected="">全部</option>
+								<option value="2">入驻审核</option>
+								<option value="1">入驻审核通过</option>
 								<option value="3">入驻审核不通过</option>
 							</select>
 						</div>
@@ -568,7 +568,7 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+						<!-- <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th> -->
 						<th>订单编号</th>
 						<th>用户账号（手机号）</th>
 						<th>联系人姓名</th>
@@ -584,19 +584,20 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+					{if !empty($data)}{volist name="data" id="value"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="">
-						</td>
-						<td>22</td>
-						<td>33</td>
-						<td>21</td>
-						<td>34</td>
-						<td>第三方</td>
-						<td>是多少</td>
-						<td>飒飒</td>
-						<td>官方</td>
-						<td>官方</td>
-						<td>官方</td>
+						<!-- <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="">
+						</td> -->
+						<td>{$value.order_number}</td>
+						<td>{$value.phone_number}</td>
+						<td>{$value.user_name}</td>
+						<td>{if $value.id_status == 1}企业{else}个人{/if}</td>
+						<td>{$value.city_address}</td>
+						<td>￥{$value.order_price}</td>
+						<td>{$value.start_time|date="Y-m-d H:i",###}</td>
+						<td>{$value.end_time|date="Y-m-d H:i",###}</td>
+						<td>{$value.pay_status|city_pay}</td>
+						<td>{$value.account_status|city_pay_status}</td>
 						<td>
                                 <input type="checkbox" class="Status" name="status" value="0"
                                 lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="">
@@ -604,11 +605,15 @@
 						<td>
 							<div class="line">
                                 <a href="{:url('admin/City/city_price_examine_update')}" class="static_btus2 " data-id="">
-                                      入驻待审核
+                                      {$value.judge_status|city_status}
                                 </a>
 								<div class="static_btus" data-id="" data-value=""
 									data-type="">
-									<button type="button" class=" layui-btn layui-btn-mini all4" >汇款待审核</button>
+									{if $value.pay_status == 3}
+									<button type="button" class=" layui-btn layui-btn-mini all4" >{$value.account_status|city_remit}</button>
+									{else}
+									<button type="button" class=" layui-btn layui-btn-mini all4" >线上付款通过</button>
+									{/if}
 								</div>
                                 <div class="static_btus1" data-id="">
                                     <div class=" layui-btn layui-btn-mini not_apply ">未申请开票</div>
@@ -616,6 +621,7 @@
 							</div>
 						</td>
 					</tr>
+					{/volist}{/if}
 				</tbody>
 			</table>
 			<div id="page">
