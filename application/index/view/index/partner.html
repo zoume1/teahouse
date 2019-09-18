@@ -23,7 +23,7 @@
         .btn-r{background-color: rgb(255,102,0);}
         .foot-box{width: 100%;height: 100px;background-color: rgb(0, 0, 0, .5);display: flex;justify-content: center;align-content: stretch;position: fixed;bottom:0px;}
         .city-title{display: flex;justify-content: space-between;padding: 10px 0;}
-        .title_l{font-weight: 700;font-size: 16px;}
+        .title-l{font-weight: 700;font-size: 16px;}
         .city-apply{color: #fff;background-color:rgb(152,145,52);padding:0 10px;margin-right: 15px;line-height: 23px;border-radius: 3px;}
         .city-login{line-height: 23px;}
         .apply_main{background-color: rgb(0, 0, 0, .5);width:100%;height: 100%;position: absolute;top:-80px;display: none;z-index: 1000;}
@@ -193,7 +193,7 @@
     </div>
     <!-- 底部按钮 -->
     <div class="foot-box">
-            <div class="foot-btn btn-l">已有城市合伙人账号后台登录</div>
+            <a href="{:url('index/index/city_login')}" class="foot-btn btn-l">已有城市合伙人账号后台登录</a>
             <div class="foot-btn btn-r">立即申请城市合伙人</div>
     </div>
 
@@ -271,27 +271,21 @@
             <div class="m_t" style="display: flex;">
                 <div class="input_w">
                     <p>姓名（必填）</p>
-                    <input type="text" name="card" placeholder="  请输入您的真实姓名">
+                    <input type="text" name="card" placeholder="  请输入您的真实姓名" required>
                 </div>
                 <div class="input_w">
                     <p>身份证号（必填）</p>
-                    <input type="text" name="card" placeholder="  请输入您的身份证号">
+                    <input type="text" name="card" placeholder="  请输入您的身份证号" required>
                 </div>
             </div>
             <div class="m_t dz">
                 <p>详细地址（必选-邮寄发票地址请勿填错）</p>
-                <select>
-                        <option value ="volvo">选择省份</option>
-                </select>
-                <select>
-                        <option value ="volvo">选择城市</option>
-                </select>
-                <select>
-                        <option value ="volvo">选择城市</option>
-                </select>
-                <div>
-                    <input type="text" placeholder="  请填写详细地址" style="width: 94%;">
+                <div class="dz" data-toggle="distpicker" id="c-dist">
+                    <select id="province2" data-province="---- 选择省 ----"></select>
+                    <select id="city2" data-city="---- 选择市 ----"></select>
+                    <select id="district2" data-district="---- 选择区 ----"></select>
                 </div>
+                <input type="text" id="c-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)" style="width: 94%;">
             </div>
             <div class="m_t">
                 <p>证明文件（必选）</p>
@@ -340,38 +334,38 @@
             <div class="m_t" style="display: flex;">
                     <div class="input_w">
                         <p>城市合伙人登录账号（必填）</p>
-                        <input type="text" name="card" placeholder="  请输入您的真实姓名">
+                        <input type="text" name="card" placeholder="  请输入您的真实姓名" required>
                     </div>
                     <div class="input_w">
                         <p>手机验证码</p>
-                        <input type="text" name="card" placeholder="  30分钟内有效">
+                        <input type="text" name="card" placeholder="  30分钟内有效" required>
                         <button class="btn-code">获取验证码</button>
                     </div>
             </div>
             <div class="m_t" style="display: flex;">
                     <div class="input_w">
                         <p>城市合伙人登录密码（必填）</p>
-                        <input type="text" name="card" placeholder="  请输入6位以上的密码">
+                        <input type="text" name="card" placeholder="  请输入6位以上的密码" required>
                     </div>
                     <div class="input_w">
                         <p>重新输入城市合伙人登录密码（必填）</p>
-                        <input type="text" name="card" placeholder="  请输入6位以上的密码">
+                        <input type="text" name="card" placeholder="  请输入6位以上的密码" required>
                     </div>
             </div>
             <div class="m_t">
                 <p>我的优势（必填）</p>
-                <textarea style="width: 94%;" name="" id="" cols="30" rows="10"></textarea>
+                <textarea style="width: 94%;" name="" id="" cols="30" rows="10" required></textarea>
             </div>
             <div class="m_t sq">
                 <p>申请城市（必选）</p>
                 <select>
-                        <option value ="volvo">选择省份直辖市</option>
+                        <option value ="0">选择省份直辖市</option>
                 </select>
                 <select>
-                        <option value ="volvo">特级城市</option>
+                        <option value ="0">特级城市</option>
                 </select>
                 <select>
-                        <option value ="volvo">选择城市</option>
+                        <option value ="0">选择城市</option>
                 </select>
                 <button class="btn-sub">立即申请</button>
             </div>
@@ -517,6 +511,8 @@
  
 
     <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/distpicker.data.js"></script>
+    <script src="__STATIC__/index/js/distpicker.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script src="__STATIC__/index/js/swiper-4.3.5.min.js"></script>
     <script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp.js"></script>
@@ -558,13 +554,15 @@
 				}
 			}
 		})
-
+        //调起申请弹框
         $(".btn-r").click(function() {
             $(".apply_main").show();
         })
+        //关闭弹窗
         $(".close").click(function() {
             $(".apply_main").hide();
         })
+        //协议
         $(".deal").click(function() {
             $(".deal_main").toggle();
         })
