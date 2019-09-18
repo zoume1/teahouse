@@ -331,6 +331,8 @@ a{
 	height     : 31px;
 	color      : #333;
 	text-align : center;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 .UCleft dl dd p a:hover,
