@@ -67,15 +67,26 @@
     <div class="childrenBody">
         {include file="template/_top"/}
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Control/control_order_index_search')}">
+            <form class="layui-form" action="{:url('admin/City/city_datum_verify')}">
                 <div class="seach">
                     <div class="seach_list">
-                        <div class="seach_laber">输入搜索:</div>
+                        <div class="seach_laber">城市代理名称:</div>
                         <div class="seach_input">
-                            <input type="text" name="contact_name" lay-verify="title" autocomplete="off"
-                                placeholder="用户账号" class="layui-input">
+                            <input type="text" name="name" lay-verify="title" autocomplete="off"
+                                placeholder="姓名/公司名" class="layui-input">
                         </div>
                     </div>
+                    <div class="seach_list">
+						<div class="seach_laber">入驻审核：</div>
+						<div class="seach_input">
+							<select name="status">
+								<option value="" selected="">全部</option>
+								<option value="1">入驻审核</option>
+								<option value="2">入驻通过</option>
+								<option value="3">入驻不通过</option>
+							</select>
+						</div>
+					</div>
                     <button class="layui-btn" type="submit" id="seach">立即搜索</button>
                 </div>
             </form>
@@ -84,8 +95,8 @@
             <table class="layui-table">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
-                        <th>用户账号</th>
+                        <!-- <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th> -->
+                        <th>用户账号(手机号)</th>
                         <th>联系人姓名</th>
                         <th>入驻身份</th>
                         <th>账号状态</th>
@@ -93,32 +104,34 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                   
+                   {if !empty($data)}{volist name="data" id="value"}
                     <tr>
-                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id=""></td>
-                        <td>22121</td>
-                        <td>6546</td>
-                        <td>个人</td>
+                        <!-- <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id=""></td> -->
+                        <td>{$value.phone_number}</td>
+                        <td>{$value.user_name}</td>
+                        <td>{if $value.id_status == 1}企业{else}个人{/if}</td>
                         <td>
-                            <input type="checkbox" class="Status" name="status" value="0"
-                                lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="">
+                            {if $value.is_delete == 1}
+                            <input type="checkbox" class="Status" name="is_delete" value="{$value.is_delete}"
+                                lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.user_id}"> {else}
+                            <input type="checkbox" class="Status" name="is_delete" value="{$value.is_delete}"
+                                lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.user_id}">
+                            {/if}
                         </td>
                         <td>
-                                <a href="{:url('admin/City/city_datum_verify_edit')}" class="static_btus2 " data-id="">
-                                        入驻待审核
-                                </a>
+                            <a class="static_btus" href="{:url('admin/City/city_datum_verify_edit',['id'=>$value.user_id])}">{$value.status|city_status}</a>
                         </td>
                     </tr>
-
+                    {/volist}{/if}
                 </tbody>
             </table>
             <div id="page">
-                    <div class="opation up-form-select" style="width: 200px; float: left;">
+                    <!-- <div class="opation up-form-select" style="width: 200px; float: left;">
                         <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
                             <option check="" value="0">请选择</option>
                             <option value="1">批量删除</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
                         <button type="button" id="opration_btu"
                             style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定

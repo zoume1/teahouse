@@ -1193,6 +1193,22 @@ function pay_status($status){
 }
 
 /**
+**************李火生*******************
+* @param Request $request
+* Notes:到账状态
+**************************************
+* @param $status
+*/
+function city_pay_status($status){
+   if($status==1){
+       echo '已到账';
+   }else if($status==2){
+       echo '待审核';
+   }else if($status==3){
+    echo '未到账';
+}
+}  
+/**
  * [商品列表组修改]
  * GY
  */
@@ -1465,5 +1481,45 @@ function returnJson($code,$msg,$data = null,$page = null){
     echo json_encode($json);exit;
 }
 
+
+function city_status($status){
+    if($status==1){
+        echo '<button type="button" class="state payment-has-been" >入驻审核已通过</button>';
+    }else  if($status==2){
+        echo '<button type="button" class="state shipmenting-btu">入驻待审核</button>';
+    }else  if($status==3){
+        echo '<button type="button" class="state close-btu">入驻审核未通过</button>';
+    }
+}
+
+function city_pay($status){
+    if($status==1){
+        echo '微信';
+    }else  if($status==2){
+        echo '支付宝';
+    }else  if($status==3){
+        echo '汇款';
+    }
+}
+
+function city_enter_status($status){
+    if($status==1){
+        echo '微信';
+    }else  if($status==2){
+        echo '支付宝';
+    }else  if($status==3){
+        echo '汇款';
+    }
+}
+
+function city_remit($status){
+    if($status==1){
+        echo '<button type="button" class="state payment-has-been" >汇款已到账</button>';
+    }else  if($status==2){
+        echo '<button type="button" class="state shipmenting-btu">汇款待审核</button>';
+    }else  if($status==3){
+        echo '<button type="button" class="state close-btu">汇款未到账/button>';
+    }
+}
 
 

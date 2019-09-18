@@ -16,6 +16,8 @@ use app\city\model\CityMeal;
 use app\city\model\CityDetail;
 use app\city\model\CityRank;
 use app\city\model\StoreCommission;
+use app\city\model\CityCopartner;
+use app\city\model\CityOrder;
 
 
 class  City extends  Controller{
@@ -126,7 +128,6 @@ class  City extends  Controller{
      */    
     public function city_rank_setting(){
         $data = CityRank::getList();
-        // halt($data['one']);
         return view("city_rank_setting",['data'=>$data]);
     }
 
@@ -143,14 +144,17 @@ class  City extends  Controller{
      * 郭杨
      */    
     public function city_datum_verify(){
-        return view("city_datum_verify");
+        $search = input();
+        $data = CityCopartner::city_copartner($search);
+        // halt($data);
+        return view("city_datum_verify",['data'=>$data]);
     }
 
     /**
      * [城市入驻资料审核编辑]
      * 郭杨
      */    
-    public function city_datum_verify_edit(){
+    public function city_datum_verify_edit($id){
         return view("city_datum_verify_edit");
     }
 
@@ -168,7 +172,9 @@ class  City extends  Controller{
      * 郭杨
      */    
     public function city_price_examine(){
-        return view("city_price_examine");
+        $search = input();
+        $data = CityOrder::city_order($search);
+        return view("city_price_examine",['data'=>$data]);
     }
 
 
