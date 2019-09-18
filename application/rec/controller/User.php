@@ -39,7 +39,7 @@ class User extends Controller{
         }
         // 查询
         $user = db('pc_user') ->where('phone_number',$data['phone']) ->find();
-        if (!$user) {
+        if ($user) {
             // 手机号不存在
             $mobileCode = rand(100000, 999999);
             $mobile = $data['phone'];
@@ -227,18 +227,15 @@ class User extends Controller{
 
         $rules = [
             'user_id' => 'require',
-            'phone_number' => 'require|regex:\d{11}',
-            'code'=>'require',
             'new_phone' =>'require|regex:\d{11}',
             'new_code'=>'require',
+            'password'=>'require',
         ];
         $message = [
-            'phone_number.require' => '请输入手机号',
-            'phone_number.regex' => '手机号格式不正确',
             'new_phone.require' => '请输入新手机号',
             'new_phone.regex' => '新手机号格式不正确',
-            'code.require'=>'验证码不能为空',
             'new_code.require'=>'新手机验证码不能为空',
+            'password.require'=>'原密码不能为空',
         ];
         //验证
         $validate = new Validate($rules,$message);
@@ -246,20 +243,25 @@ class User extends Controller{
             return json(['code' => 0,'msg' => $validate->getError()]);
         }
 
-        if (session('mobileCode') != $param['code']) {
-            return json(['code'=>0,'msg'=>$param['code']."验证码不正确"]);
-        }
         if (session('new_code') != $param['new_code']) {
             return json(['code'=>0,'msg'=>$param['new_code']."验证码不正确"]);
         }
+        $user = db('pc_user') ->where('id',$param['user_id']) ->find();
 
-        // 储存
-        $user = new UserAll();
-        $result = $user->edit_tel($param['user_id'],$param['new_phone']);
+        if (password_verify($param['password'] ,$user['password'])) {
+            // 储存
+            $user = new UserAll();
+            $result = $user->edit_tel($param['user_id'],$param['new_phone']);
 
-        $res = $result ? ['code' => 1,'msg' => '修改手机号成功'] : ['code' => 0,'msg' => '修改手机号失败'];
+            $res = $result ? ['code' => 1,'msg' => '修改手机号成功'] : ['code' => 0,'msg' => '修改手机号失败'];
+            return json($res);
 
-        return json($res);
+        }else {
+            return json(['code'=>0,'msg'=>'密码错误']);
+        }
+
+
+
     }
 
 

@@ -21,7 +21,13 @@ class  Store extends  Controller{
      */
     public function  store_add(Request $request){
         if($request->isPost()){
-            $user_id =Session::get("user");
+            $user_id = Session::get("user");
+            if($user_id){
+                $user_id = Session::get("user");
+            }else{
+                $user_id = $request->only(["user_id"])["user_id"];
+            }
+
             $store_code = new LoginPass;
             $is_business =$request->only(["is_business"])["is_business"];
             $id_card =$request->only(["id_card"])["id_card"];
@@ -252,6 +258,11 @@ class  Store extends  Controller{
     public function store_all_data(Request $request){
         if($request->isPost()){
             $user_id =Session::get("user");
+            if($user_id){
+                $user_id = Session::get("user");
+            }else{
+                $user_id = $request->only(["user_id"])["user_id"];
+            }
             $data =Db::name("store")
                 ->where("status","NEQ",3)
                 ->where("user_id",$user_id)

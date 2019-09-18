@@ -1193,6 +1193,22 @@ function pay_status($status){
 }
 
 /**
+**************李火生*******************
+* @param Request $request
+* Notes:到账状态
+**************************************
+* @param $status
+*/
+function city_pay_status($status){
+   if($status==1){
+       echo '已到账';
+   }else if($status==2){
+       echo '待审核';
+   }else if($status==3){
+    echo '未到账';
+}
+}  
+/**
  * [商品列表组修改]
  * GY
  */
@@ -1365,7 +1381,7 @@ function sendMessage($content,$mobile)
 {
     // $content = '【智慧茶仓】短信内容';//带签名的短息内容
     // $mobile = '18309224319';//手机号
-    $url = "http://47.107.123.77:8860/sendSms";//请求URL
+    $url = "http://47.112.109.159:8860/sendSms";//请求URL
     $api_code = "240001";//对接协议中的API代码
     $api_secret = "4SFE6PW1GL";//对接协议中的API密码
     $sign = md5($content.$api_secret);//md加密后短信内容+API密码 获得签名
@@ -1455,15 +1471,55 @@ function show_ds_orderer($status){
 
     }
 
-function returnJson($code,$msg,$data = null,$page = null){
+function    returnJson($code,$msg,$data = null,$page = null){
     $json = array(
-        code => $code,
-        msg => $msg,
+        'code' => $code,
+        'msg' => $msg,
     );
     if($data)$json['data'] = $data;
     if($page)$json['page'] = $page;
     echo json_encode($json);exit;
 }
 
+
+function city_status($status){
+    if($status==1){
+        echo '<button type="button" class="state payment-has-been" >入驻审核已通过</button>';
+    }else  if($status==2){
+        echo '<button type="button" class="state shipmenting-btu">入驻待审核</button>';
+    }else  if($status==3){
+        echo '<button type="button" class="state close-btu">入驻审核未通过</button>';
+    }
+}
+
+function city_pay($status){
+    if($status==1){
+        echo '微信';
+    }else  if($status==2){
+        echo '支付宝';
+    }else  if($status==3){
+        echo '汇款';
+    }
+}
+
+function city_enter_status($status){
+    if($status==1){
+        echo '微信';
+    }else  if($status==2){
+        echo '支付宝';
+    }else  if($status==3){
+        echo '汇款';
+    }
+}
+
+function city_remit($status){
+    if($status==1){
+        echo '<button type="button" class="state payment-has-been" >汇款已到账</button>';
+    }else  if($status==2){
+        echo '<button type="button" class="state shipmenting-btu">汇款待审核</button>';
+    }else  if($status==3){
+        echo '<button type="button" class="state close-btu">汇款未到账/button>';
+    }
+}
 
 
