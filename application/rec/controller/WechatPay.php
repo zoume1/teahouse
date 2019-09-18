@@ -16,12 +16,16 @@ use EasyWeChat\Payment\Order;
 =======
 >>>>>>> 430301e96bcba21ed97bb2f6666a8c96aac438bd
 use app\rec\model\WechatPay as WeiPay;
+
+//微信支付
 class WechatPay extends Controller{
 
     public function get_pay()
     {
         // 查询订单信息
         $id = 451;
+        $url = 'http://www.zhihuichacang.com/rec/app_notice';
+        $openid = 'oYb9gwLrKCi2IxzBQ-GQrM5MSRfM';
         $order = db('set_meal_order') -> getById($id);
         // print_r($order);die;
 <<<<<<< HEAD
@@ -76,7 +80,8 @@ class WechatPay extends Controller{
          if($order['is_del'] != -1)returnJson(0,'当前订单不存在');
 
         $wechatpay = new WeiPay();
-        $res = $wechatpay->pay($order['goods_name'],$order['store_name'],$order['order_number'],$order['amount_money']);
+
+        $res = $wechatpay->pay($order['goods_name'],$order['store_name'],$order['order_number'],$order['amount_money'],$url,$openid);
 
         return  $res; exit();
 >>>>>>> 430301e96bcba21ed97bb2f6666a8c96aac438bd
@@ -105,7 +110,8 @@ class WechatPay extends Controller{
 
             $orderArr = db('tb_set_meal_order')->where($where)->field('status')->find();
             if (empty($orderArr)) { // 如果订单不存在
-                return '订单不存在';
+                returnJson(0,'订单不存在');
+//                return '订单不存在';
             }
             if ($orderArr['status'] == 1) {
                 return true; // 已经支付成功了就不再更新了

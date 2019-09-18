@@ -11,6 +11,7 @@ use think\Request;
 use think\Validate;
 use think\Controller;
 use think\Config;
+//微信授权登录 获取个人信息
 class Wechat extends Controller{
 
     //微信公众平台信息（appid/secret）

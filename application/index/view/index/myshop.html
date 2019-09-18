@@ -545,7 +545,7 @@
                             store_introduction: myEvent.data.storeDesc,
                             business_name: myEvent.data.compName,
                             licence_no: myEvent.data.licenceNum,
-                            store_name: myEvent.data.storeName,
+                            store_name: myEvent.data.storeName
                             // email: myEvent.data.email
                         },
                         success: function(res){
@@ -561,8 +561,8 @@
                                 key = true;
                             }
                         },
-                        error: function(){
-                            console.log('添加店铺失败');
+                        error: function(res){
+                            console.log('添加店铺失败', res);
                             key = true;
                         }
                     })
