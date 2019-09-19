@@ -16,18 +16,44 @@ class Invoice extends Model{
 
     /**
      * @author fyk
+     * 获取开票信息
+     */
+    public function get_order($id)
+    {
+        return self::get($id)->toArray();
+    }
+
+    /**
+     * @author fyk
+     * 更新开票信息
+     */
+    public function edit($id,$invoiceSerialNum, $state,$msg)
+    {
+        return $this->save([
+            'invoiceSerialNum' => $invoiceSerialNum,
+            'state' => $state,
+            'msg' => $msg,
+
+        ],['id' => $id,]);
+    }
+    /**
+     * @author fyk
      * 新增企业开票
      */
-    public function add_enterprise($uid, $no, $type,$status, $rise ,$duty,$price)
+    public function add_enterprise($uid, $no, $type, $status, $email, $rise ,$duty, $price, $tel, $address)
     {
         return $this->save([
             'user_id' => $uid,
             'no'=> $no,
             'type' => $type,
             'status' => $status,
+            'email' =>$email,
             'rise' =>$rise,
             'duty' =>$duty,
             'price' =>$price,
+            'phone'=>$tel,
+            'address'=>$address,
+            'invoiceLine'=>'p',
             'state' =>1,
             'create_time' => time(),
 
@@ -38,16 +64,19 @@ class Invoice extends Model{
      * @author fyk
      * 新增个人开票
      */
-    public function add_personal($uid,$no, $type,$status, $rise ,$tel,$price)
+    public function add_personal($uid, $no, $type, $status, $email, $rise ,$tel,$price,$address)
     {
         return $this->save([
             'user_id' => $uid,
             'no'=> $no,
             'type' => $type,
             'status' => $status,
+            'email' =>$email,
             'rise' =>$rise,
             'phone' =>$tel,
             'price' =>$price,
+            'address'=>$address,
+            'invoiceLine'=>'p',
             'state' =>1,
             'create_time' => time(),
 
@@ -86,7 +115,7 @@ class Invoice extends Model{
                             "price"=> $data['price'],
                             "zeroRateFlag"=> "",
                             "goodsCode"=> "1090511030000000000",//税收分类编码是税局定义的，不能随便乱传值，具体传什么可以咨询下你们的财务
-                            "goodsName"=> "电子防伪标",
+                            "goodsName"=> "茶叶",
                             "taxIncludedAmount"=> ""
 
                         )
@@ -96,27 +125,27 @@ class Invoice extends Model{
                     "pushMode"=> "2",//推送方式:-1,不推送;0,邮箱;1,手机（默认）;2,邮箱、手机
                     "departmentId"=> "9F7E9439CA8B4C60A2FFF3EA3290B088",
                     "clerkId"=> "",
-                    "checker"=> "",//复核
+                    "checker"=> "",
                     "remark"=> "备注信息",
-                    "payee"=> "",//收款人
-                    "buyerAddress"=> "",//购买人地址
-                    "buyerTaxNum"=> "",//纳锐人识别号
+                    "payee"=> "",
+                    "buyerAddress"=> "",
+                    "buyerTaxNum"=> "",
                     "invoiceType"=> "1",
                     "invoiceLine"=> $data['invoiceLine'],
                     "email"=> $data['email'],
-                    "salerAccount"=> "",//购买方开户行
-                    "orderNo"=> $this->get_sn(),//订单编号唯一
+                    "salerAccount"=> "",
+                    "orderNo"=> $data['no'],//订单编号唯一
                     "salerTel"=> "0571-81029365",
                     "buyerName"=> $data['rise'],
                     "invoiceDate"=> date('Y-m-d H:i:s',time()),
                     "invoiceCode"=> "125999915630",
                     "invoiceNum"=> "00130865",
-                    "salerAddress"=> "北京西城区马连道8号院5号楼2层2079 63268696",
-                    "clerk"=> "焦光华",
+                    "salerAddress"=> "杭州市西湖区万塘路30号高新东方科技园",
+                    "clerk"=> "张三",
                     "buyerPhone"=> "17764096309",
-                    "buyerAccount"=> "农商行马连道支行",
+                    "buyerAccount"=> "",
                     "productOilFlag"=> "0",
-                    "salerTaxNum"=> "330100555190356",// //91110102MA006W4TXP
+                    "salerTaxNum"=> "339901999999142",
                     "listName"=> "详见销货清单",
                     "proxyInvoiceFlag"=> "0"
                 )

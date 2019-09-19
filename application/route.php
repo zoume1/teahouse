@@ -1202,7 +1202,7 @@ Route::group("rec",[
 
     "filename" =>"rec/Invoice/index",
     "refer_invoice" =>"rec/Invoice/refer_invoice",
-    "ele" =>"rec/Invoice/ele_invoice",
+    "ele_invoice" =>"rec/Invoice/ele_invoice",
 
     //微信登录
     "wx_openid" =>"rec/Wechat/wx_accredit",
@@ -1213,6 +1213,8 @@ Route::group("rec",[
 
     //订单
     "classify" =>"rec/Meal/class_index",
+
+    "meal_order" =>"rec/Order/meal_order",
 
 
 
