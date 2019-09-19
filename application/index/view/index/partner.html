@@ -375,10 +375,10 @@
             </div>
             <div class="m_t sq">
                 <p>申请城市（必选）</p>
-                <select name="apply_city_one" id="province">
+                <select name="apply_city_one" id="province_sq">
                         <option value="0">选择省份直辖市</option>
                 </select>
-                <select name="city_rank">
+                <select name="city_rank" id="choose_lv" onchange="myEvent.chooseLv()">
                         <option value="2">特级城市</option>
                         <option value="3">一级城市</option>
                         <option value="4">二级城市</option>
@@ -650,14 +650,45 @@
                     }
                 }
             }
+            
+            //获取申请城市
+            myEvent.chooseLv = function() {
+                // console.log($("#choose_lv  option:selected").val());
+                let city_lv = $("#choose_lv  option:selected").val();
+                $.ajax({
+                    url: "city/chooseRank",
+                    type: "POST",
+                    data:{
+                        rank_status: city_lv
+                    },
+                    success: (res) => {console.log(res)},
+                    error: (e) => {}
+                })
+            }
             window.myEvent = myEvent;
         }(window.myEvent || {}));
 
+        //获取申请省份
         $.ajax({
-            
+            url: "city/chooseCity",
+            type: "POST",
+            data: {},
+            success: (res) => {
+                if(res.code == 1) {
+                    let citys = res.data
+                    for(let key in citys) {
+                        var now_city = citys[key].name;
+				        $("#province_sq").append("<option value='" + now_city + "'>" + now_city + "</option>");
+                    }
+                }
+            },
+            error: (e) => {console.error(e)}
         })
+
+        
         // 申请合伙人
         $('#submit').click(function () {
+           
             if (myEvent.data.phone_password != myEvent.data.phone_password_repeat) {
                 layer.msg("两次密码不相同");
                 return false;
