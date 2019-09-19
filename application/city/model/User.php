@@ -240,7 +240,7 @@ class User extends Model
             $this->error =  '该城市已有合伙人注册';
             return false;  
         }
-
+        halt($data);
         return $data;
     }
 
