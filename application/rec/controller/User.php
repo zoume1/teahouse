@@ -6,6 +6,7 @@
  * Time: 14:10
  */
 namespace app\rec\controller;
+use app\rec\model\Store;
 use app\rec\model\User as UserAll;
 use think\Request;
 use think\Validate;
@@ -261,6 +262,34 @@ class User extends Controller{
         }
 
 
+
+    }
+
+    /**
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function user_store()
+    {
+
+        $request = Request::instance();
+        $param = $request->param();
+
+        if(!$param['user_id'])returnJson(0,'用户ID不能为空');
+
+        $data = userAll::where('id',$param['user_id'])
+            ->field('id,phone_number,my_invitation')->find();
+        //判断
+        returnArray($data);
+
+        $data['store_num'] = Store::store_num($param['user_id']); //店铺数
+        $data['withdrawals'] = 100; //已提现金额
+        $data['no_mention'] = 1000; //未提现金额
+        $data['commission'] = 1100; //分销佣金
+
+        $data ? returnJson(1,'获取成功',$data) : returnJson(0,'获取失败');
 
     }
 

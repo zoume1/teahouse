@@ -11,6 +11,7 @@ use think\Validate;
 use think\Controller;
 
 Class Meal extends Controller{
+
     /**
      * 套餐名称列表
      * @return array

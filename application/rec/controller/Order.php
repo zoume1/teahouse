@@ -7,6 +7,7 @@
  */
 namespace app\rec\controller;
 use app\rec\model\MealOrder;
+use app\rec\model\Store;
 use think\Request;
 use think\Validate;
 use think\Controller;
@@ -14,6 +15,30 @@ use think\Db;
 use app\rec\model\Invoice as InvoiceAll;
 
 Class Order extends Controller{
+
+
+    /**
+     * 发票地址
+     * @return array
+     * @author fyk
+     */
+    public function in_address()
+    {
+        $request = Request::instance();
+        $param = $request->param();
+
+        if(!$param['user_id'])returnJson(0,'用户ID不能为空');
+        if(!$param['store_id'])returnJson(0,'店铺ID不能为空');
+
+        $model = new Store();
+        $data = $model->store_address($param['user_id'],$param['store_id']);
+
+        $address = str_replace(',','',$data['address_data'] . $data['address_real_data']);
+
+        $address ? returnJson(1,'地址获取成功',$address) : returnJson(0,'地址获取失败',$address);
+
+    }
+
     /**
      * 创建订单
      * @return array

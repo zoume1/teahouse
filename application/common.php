@@ -1538,6 +1538,10 @@ function city_remit($status){
     }
 }
 
+function returnArray($data){
+    $data ? $data->toArray() : returnJson(0,'数据有误');
+}
+
 
     /**
      * 返回封装后的 API 数据到客户端
