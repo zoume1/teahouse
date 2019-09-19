@@ -1180,6 +1180,7 @@ Route::group("api",[
 Route::group("city",[
     "apply_login" => "city/Passport/login", //城市合伙人PC端登录
     "apply_register" => "city/Passport/register", //城市合伙人PC端注册
+    "chooseCity" => "city/Passport/chooseCity", //城市合伙人选择省份直辖市
 
 
 ]);
