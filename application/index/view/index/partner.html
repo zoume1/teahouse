@@ -40,6 +40,8 @@
         .btn-sub{background-color: rgb(248,84,68);color: #fff;width: 150px;height: 30px;border-radius: 30px;margin-left: 10px;}
         .deal{color: blue;cursor: pointer;}
         .deal_main{overflow-y:scroll;width: 100%;padding: 10px 20px;height: 300px;overflow-y: scroll;display: none;}
+        .upimg-div .up-section {width: 200px; height: 150px;}
+        .tips{color: rgb(215, 215, 215);text-align: center;}
     </style>
 </head>
 <body>
@@ -255,6 +257,7 @@
 
 
     <!-- 申请城市合伙人弹框 -->
+    <form action="{:url('city/apply_register')}" method="post" enctype="multipart/form-data">
     <div class="apply_main">
         <div class="apply_t">
             <div class="m_t" style="width: 100%;display: flex;">
@@ -265,109 +268,144 @@
             </div>
             <div class="m_t">
                 <p>身份选择</p>
-                <input type="radio" name="card" checked><label  style="margin-right: 100px;">企业</label>
-                <input type="radio" name="card" ><label>个人</label>
+                <input type="radio" onchange="myEvent.changeNatureItem(this.id);" id="company" name="id_status" value="1" checked><label  style="margin-right: 100px;">企业</label>
+                <input type="radio" onchange="myEvent.changeNatureItem(this.id);" id="personal" name="id_status" value="2" ><label>个人</label>
             </div>
             <div class="m_t" style="display: flex;">
                 <div class="input_w">
                     <p>姓名（必填）</p>
-                    <input type="text" name="card" placeholder="  请输入您的真实姓名" required>
+                    <input type="text" name="user_name" onblur="myEvent.onBlurGetInfo(this.value, 0)" placeholder="  请输入您的真实姓名" required>
                 </div>
                 <div class="input_w">
                     <p>身份证号（必填）</p>
-                    <input type="text" name="card" placeholder="  请输入您的身份证号" required>
+                    <input type="text" name="id_card" onblur="myEvent.onBlurGetInfo(this.value, 1)" placeholder="  请输入您的身份证号" required>
+                </div>
+            </div>
+            <div class="m_t company-item" style="display: flex;">
+                <div class="input_w">
+                    <p>企业名称（必填）</p>
+                    <input type="text" name="user_name" onblur="myEvent.onBlurGetInfo(this.value, 2)" placeholder="  请输入企业名称"  required>
+                </div>
+                <div class="input_w">
+                    <p>企业营业执照号（必填）</p>
+                    <input type="text" name="id_card" onblur="myEvent.onBlurGetInfo(this.value, 3)" placeholder="  请输入企业营业执照号（必填）" required>
                 </div>
             </div>
             <div class="m_t dz">
                 <p>详细地址（必选-邮寄发票地址请勿填错）</p>
                 <div class="dz" data-toggle="distpicker" id="c-dist">
-                    <select id="province2" data-province="---- 选择省 ----"></select>
-                    <select id="city2" data-city="---- 选择市 ----"></select>
-                    <select id="district2" data-district="---- 选择区 ----"></select>
+                    <select id="province" name="post_address_one" data-province="---- 选择省 ----"></select>
+                    <select id="city" name="post_address_two" data-city="---- 选择市 ----"></select>
+                    <select id="district" name="post_address_three" data-district="---- 选择区 ----"></select>
                 </div>
-                <input type="text" id="c-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)" style="width: 94%;">
+                <input type="text" name="detail" id="c-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 4)" style="width: 94%;">
             </div>
             <div class="m_t">
                 <p>证明文件（必选）</p>
                 <div style="display: flex;">
-                        <div class="form-input">
-                                <div class="img-box full">
-                                    <section class=" img-section">
-                                        <div class="z_photo upimg-div clear">
-                                            <section class="z_file fl">
-                                                <img src="http://zhihuichacang.com/a11.png" class="add-img">
-                                                <input type="file" name="goods_show_images" id="file" class="file" value=""
-                                                    accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" required />
-                                            </section>
-                                        </div>
-                                    </section>
+                    <div class="form-input">
+                        <div class="img-box full">
+                            <section class=" img-section">
+                                <div class="z_photo upimg-div clear">
+                                    <section class="z_file fl" style="width: 200px;">
+                                        <img src="__STATIC__/index/img/id2.png" class="add-img" style="width: 200px;">
+                                        <input type="file" name="id_image" id="file" class="file" value=""
+                                            accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1" required style="width: 200px;"/>
+                                            <div class="tips">+身份证正面照</div>
+                                        </section>
                                 </div>
-                                <aside class="mask works-mask">
-                                    <div class="mask-content">
-                                        <p class="del-p ">您确定要删除作品图片吗？</p>
-                                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
-                                    </div>
-                                </aside>
+                            </section>
                         </div>
-                        <div class="form-input">
-                                <div class="img-box full">
-                                    <section class=" img-section">
-                                        <div class="z_photo upimg-div clear">
-                                            <section class="z_file fl">
-                                                <img src="http://zhihuichacang.com/a11.png" class="add-img">
-                                                <input type="file" name="ss" id="files" class="file" value=""
-                                                    accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="15" required />
-                                            </section>
-                                        </div>
+                        <aside class="mask works-mask">
+                            <div class="mask-content">
+                                <p class="del-p ">您确定要删除作品图片吗？</p>
+                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="form-input company-item">
+                        <div class="img-box full">
+                            <section class=" img-section">
+                                <div class="z_photo upimg-div clear">
+                                    <section class="z_file fl" style="width: 120px;height: 150px;">
+                                        <img src="__STATIC__/index/img/id3.png" class="add-img" style="width: 120px;height: 150px;">
+                                        <input type="file" name="id_image_reverse" id="files" class="file" value="" 
+                                            accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1" required style="width: 120px;height: 150px;"/>
+                                            <div class="tips">+营业执照副本照</div>
                                     </section>
                                 </div>
-                                <aside class="mask works-mask">
-                                    <div class="mask-content">
-                                        <p class="del-p ">您确定要删除作品图片吗？</p>
-                                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
-                                    </div>
-                                </aside>
+                            </section>
+                        </div>
+                        <aside class="mask works-mask">
+                            <div class="mask-content">
+                                <p class="del-p ">您确定要删除作品图片吗？</p>
+                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
                             </div>
+                        </aside>
+                    </div>
+                    <div class="form-input personal-item" style="display: none">
+                        <div class="img-box full">
+                            <section class=" img-section">
+                                <div class="z_photo upimg-div clear">
+                                    <section class="z_file fl" style="width: 200px;">
+                                        <img src="__STATIC__/index/img/id1.png" class="add-img" style="width: 200px;">
+                                        <input type="file" name="id_image_reverse" id="files" class="file" value=""
+                                            accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1" required style="width: 200px;"/>
+                                            <div class="tips">+身份证反面照</div>
+                                        </section>
+                                </div>
+                            </section>
+                        </div>
+                        <aside class="mask works-mask">
+                            <div class="mask-content">
+                                <p class="del-p ">您确定要删除作品图片吗？</p>
+                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                            </div>
+                        </aside>
+                    </div>
                 </div>
                 
             </div>
-            <div class="m_t" style="display: flex;">
+            <div class="m_t" style="display: flex;margin-top: 60px;">
                     <div class="input_w">
                         <p>城市合伙人登录账号（必填）</p>
-                        <input type="text" name="card" placeholder="  请输入您的真实姓名" required>
+                        <input type="number" name="phone_number" placeholder="  请输入您的手机号" required>
                     </div>
                     <div class="input_w">
                         <p>手机验证码</p>
-                        <input type="text" name="card" placeholder="  30分钟内有效" required>
+                        <input type="number" name="identifying_code" id="newphone" placeholder="  30分钟内有效" required>
                         <button class="btn-code">获取验证码</button>
                     </div>
             </div>
             <div class="m_t" style="display: flex;">
                     <div class="input_w">
                         <p>城市合伙人登录密码（必填）</p>
-                        <input type="text" name="card" placeholder="  请输入6位以上的密码" required>
+                        <input type="password" name="password" onblur="myEvent.onBlurGetInfo(this.value, 5)" placeholder="  请输入6位以上的密码" required>
                     </div>
                     <div class="input_w">
                         <p>重新输入城市合伙人登录密码（必填）</p>
-                        <input type="text" name="card" placeholder="  请输入6位以上的密码" required>
+                        <input type="password" name="password_repeat" onblur="myEvent.onBlurGetInfo(this.value, 6)" placeholder="  请输入6位以上的密码" required>
                     </div>
             </div>
             <div class="m_t">
                 <p>我的优势（必填）</p>
-                <textarea style="width: 94%;" name="" id="" cols="30" rows="10" required></textarea>
+                <textarea style="width: 94%;" name="advantage" id="advantage" cols="30" rows="10" required></textarea>
             </div>
             <div class="m_t sq">
                 <p>申请城市（必选）</p>
-                <select>
-                        <option value ="0">选择省份直辖市</option>
+                <select name="apply_city_one">
+                        <option value="0">选择省份直辖市</option>
                 </select>
-                <select>
-                        <option value ="0">特级城市</option>
+                <select name="city_rank">
+                        <option value="2">特级城市</option>
+                        <option value="3">一级城市</option>
+                        <option value="4">二级城市</option>
+                        <option value="5">三级城市</option>
                 </select>
-                <select>
+                <select name="city_address">
                         <option value ="0">选择城市</option>
                 </select>
-                <button class="btn-sub">立即申请</button>
+                <button class="btn-sub" type="submit" id="submit" >立即申请</button>
             </div>
             <div class="m_t">
                 <input style="height: 13px;" type="checkbox" value="0" name="">
@@ -507,12 +545,14 @@
             </div>
         </div>
     </div>
+    </form>
 
  
 
     <script src="__STATIC__/index/js/jquery.js"></script>
     <script src="__STATIC__/index/js/distpicker.data.js"></script>
     <script src="__STATIC__/index/js/distpicker.js"></script>
+    <script src="__STATIC__/index/js/layer/layer.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script src="__STATIC__/index/js/swiper-4.3.5.min.js"></script>
     <script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp.js"></script>
@@ -553,7 +593,90 @@
 					}
 				}
 			}
-		})
+		});
+      
+        (function(myEvent){
+            myEvent.data = {
+                real_name: '',
+                id_number: '',
+                company_name: '',
+                company_number: '',
+                detail: '',
+                phone_password: '',
+                phone_password_repeat: '',
+                // email: '',
+            };
+            // 发送验证码
+            myEvent.sendPhoneCode = function(phone, _this, url){
+                var phoneReg = /^1[345789]\d{9}$/;
+                if(phone !== '' && phoneReg.test(phone)){
+                    getIdentifyingCode(_this, url, phone);
+                }else{
+                    layer.msg('电话号码格式不正确！');
+                }
+            }
+            // 切换个人 公司
+            myEvent.changeNatureItem = function(id){
+                if(id == 'personal'){
+                    $('.personal-item').show();
+                    $('.company-item').hide();
+                    myEvent.data.natureTag = 1;
+                }else{
+                    $('.personal-item').hide();
+                    $('.company-item').show();
+                    myEvent.data.natureTag = 2;
+                }
+            }
+
+            // 获取名字
+            myEvent.onBlurGetInfo = function(val, tag){
+                if(val){
+                    switch(tag){
+                        case 0:
+                            myEvent.data.real_name = val;//姓名
+                            break;
+                        case 1: 
+                            myEvent.data.id_number = val;//身份证
+                            break;
+                        case 2: 
+                            myEvent.data.company_name = val;//企业名
+                            break;
+                        case 3: 
+                            myEvent.data.company_number = val;//企业营业号
+                            break;
+                        case 4: 
+                            myEvent.data.detail = val;//详细地址
+                            break;
+                        case 5: 
+                            myEvent.data.phone_password = val;//密码
+                            break;
+                        case 6: 
+                            myEvent.data.phone_password_repeat = val;//确认密码
+                            break;
+                        // case 7: 
+                        //     myEvent.data.email = val;
+                        //     break;
+                    }
+                }
+            }
+            console.log($('#province').data("province"))
+            window.myEvent = myEvent;
+        }(window.myEvent || {}));
+
+
+        // 申请合伙人
+        (function(){
+            $('.btn-sub').click(function(){
+                
+            })
+        }());
+
+        //手机号发生验证码
+        $('.btn-code').click(function(){
+            var $phone = $('#newphone').val();
+            myEvent.sendPhoneCode($phone, this, 'PcsendMobileCode');
+        })
+
         //调起申请弹框
         $(".btn-r").click(function() {
             $(".apply_main").show();
