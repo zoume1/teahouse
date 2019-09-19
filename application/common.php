@@ -20,6 +20,16 @@ use think\paginator\driver\Bootstrap;
 use  think\Db;
 use think\Session;
 use think\Request;
+
+/**
+ * 错误码
+ * 100-200
+ */
+define("ERROR_100",100);//
+
+
+
+
 //手机验证码
 function phone($account= "",$password = '', $phone = "" ,$content = ""){
     $url = "http://120.26.38.54:8000/interface/smssend.aspx";
@@ -1458,10 +1468,16 @@ function show_ds_orderer($status){
      * lilu
      * 生成消费记录日志
      */
-    function create_captacal_log($order_numbner,$member_account,$income,$pay,$cap_type,$store_id)
+    function create_captical_log($order_numbner,$member_account,$income,$pay,$cap_type,$store_id)
     {
         //获取参数
-        $input=input();
+        $input['order_number']=$order_numbner;
+        $input['member_account']=$member_account;
+        $input['income']=$income;
+        $input['pay']=$pay;
+        $input['cap_type']=$cap_type;
+        $input['store_id']=$store_id;
+        $input['create_time']=time();
         if($input){
             $re=db('captical')->insert($input);
             return true;
@@ -1525,5 +1541,50 @@ function city_remit($status){
 function returnArray($data){
     $data ? $data->toArray() : returnJson(0,'数据有误');
 }
+
+
+    /**
+     * 返回封装后的 API 数据到客户端
+     * @param int $code
+     * @param string $msg
+     * @param string $url
+     * @param array $data
+     * @return array
+     */
+   function renderJsonData($code , $msg = '', $data = [])
+    {
+        if(!empty($data))
+        {
+            return json(compact('code', 'msg', 'data'));
+        } else {
+            return json(compact('code', 'msg'));
+        }
+    }
+
+    /**
+     * 返回操作成功json
+     * @param string $msg
+     * @param string $url
+     * @param array $data
+     * @return array
+     */
+  function jsonSuccess($msg = 'success', $data = [],$code = 1)
+    {
+        return renderJsonData($code, $msg,  $data);
+    }
+
+    /**
+     * 返回操作失败json
+     * @param string $msg
+     * @param string $url
+     * @param array $data
+     * @return array
+     */
+  function jsonError($msg = 'error', $data = [],$code = 0)
+    {
+        
+        return renderJsonData($code, $msg, $data);
+    }
+
 
 

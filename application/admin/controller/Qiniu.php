@@ -46,7 +46,7 @@ class Qiniu extends Controller
                     echo ["err"=>1,"msg"=>$err,"data"=>""];
                 } else {
                     //返回图片的完整URL
-                    // return $ret[''];
+                    return false;
                 }
                 $list[] = 'http://'.$domain.'/'.$ret['key'];
 
@@ -74,7 +74,8 @@ class Qiniu extends Controller
                 echo ["err"=>1,"msg"=>$err,"data"=>""];
             } else {
                 //返回图片的完整URL
-                // return $ret[''];
+                    return false;
+                    // return $ret[''];
             }
             $list[] = 'http://'.$domain.'/'.$ret['key'];
             return $list;
