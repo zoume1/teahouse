@@ -20,6 +20,16 @@ use think\paginator\driver\Bootstrap;
 use  think\Db;
 use think\Session;
 use think\Request;
+
+/**
+ * 错误码
+ * 100-200
+ */
+define("ERROR_100",100);//
+
+
+
+
 //手机验证码
 function phone($account= "",$password = '', $phone = "" ,$content = ""){
     $url = "http://120.26.38.54:8000/interface/smssend.aspx";
