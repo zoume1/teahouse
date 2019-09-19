@@ -375,16 +375,20 @@
             </div>
             <div class="m_t sq">
                 <p>申请城市（必选）</p>
-                <select name="apply_city_one" id="province_sq">
+                <div class="sq" data-toggle="distpicker" id="c-dists" style="display: inline-block;width: 25%;">
+                    <select id="province" name="apply_city_one" data-province="---- 选择省 ----" style="width: 100%;"></select>
+                </div>
+                <!-- <select name="apply_city_one" id="province_sq">
                         <option value="0">选择省份直辖市</option>
-                </select>
+                </select> -->
                 <select name="city_rank" id="choose_lv" onchange="myEvent.chooseLv()">
+                        <option value="0">选择城市等级</option>
                         <option value="2">特级城市</option>
                         <option value="3">一级城市</option>
                         <option value="4">二级城市</option>
                         <option value="5">三级城市</option>
                 </select>
-                <select name="city_address" id="city">
+                <select name="city_address" id="citys">
                         <option value ="0">选择城市</option>
                 </select>
                 <button class="btn-sub" type="submit" id="submit" >立即申请</button>
@@ -655,15 +659,24 @@
             myEvent.chooseLv = function() {
                 // console.log($("#choose_lv  option:selected").val());
                 let city_lv = $("#choose_lv  option:selected").val();
-                $.ajax({
-                    url: "city/chooseRank",
-                    type: "POST",
-                    data:{
-                        rank_status: city_lv
-                    },
-                    success: (res) => {console.log(res)},
-                    error: (e) => {}
-                })
+                if(city_lv > 0) {
+                    $.ajax({
+                        url: "city/chooseRank",
+                        type: "POST",
+                        data:{
+                            rank_status: city_lv
+                        },
+                        success: (res) => {
+                            let citys = res.data;
+                            for(let key in citys) {
+                                var now_city = citys[key].name;
+                                console.log(now_city)
+                                $("#citys").append("<option value='" + now_city + "'>" + now_city + "</option>");
+                            }
+                        },
+                        error: (e) => {console.error(e)}
+                    })
+                }
             }
             window.myEvent = myEvent;
         }(window.myEvent || {}));
@@ -675,7 +688,7 @@
             data: {},
             success: (res) => {
                 if(res.code == 1) {
-                    let citys = res.data
+                    let citys = res.data;
                     for(let key in citys) {
                         var now_city = citys[key].name;
 				        $("#province_sq").append("<option value='" + now_city + "'>" + now_city + "</option>");
@@ -706,6 +719,18 @@
                     layer.msg("企业营业号不能为空！");
                     return false;
                 }
+            }
+            if($("#province_sq  option:selected").val() == 0) {
+                layer.msg("请选择省份");
+                return false;
+            }
+            if($("#choose_lv  option:selected").val() == 0) {
+                layer.msg("请选择城市等级");
+                return false;
+            }
+            if($("#citys  option:selected").val() == 0) {
+                layer.msg("请选择城市");
+                return false;
             }
         })
 
