@@ -4,6 +4,7 @@ namespace app\city\controller;
 use think\Session;
 use think\Validate;
 use think\Request;
+use app\city\model\CityRank;
 use app\city\model\User as UserModel;
 
 /**
@@ -65,7 +66,23 @@ class Passport extends Controller
         }
     }
 
-
+    /**
+     * 城市合伙人选择省份直辖市
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function chooseCity()
+    {
+        $data = CityRank::getList();
+        
+        if($data['one'])
+        {
+            return jsonSuccess('发送成功',$data['one']);
+        }
+        return jsonError('发送失败'); 
+    }
 
 
 }

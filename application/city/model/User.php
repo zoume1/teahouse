@@ -180,6 +180,8 @@ class User extends Model
             'user_name' => $resgister['user_name'],
             'password' => changcang_hash($resgister['password']),
             'id_card' => $resgister['id_card'],
+            'company_prove'=> $resgister['company_prove'],
+            'company_name'=> $resgister['company_name'],
             'id_image' => $img['id_image'],
             'id_image_reverse' => $img['id_image_reverse'],
             'post_address_one' => $resgister['post_address_one'],
