@@ -2066,7 +2066,7 @@ class  Order extends  Controller
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $pp=json_encode($xml_data);
         $p['msg']=$pp.'小程序支付回调';
-        db('test')->insert($pp);
+        db('test')->insert($p);
         $val = json_decode($pp, true);
         if($val["result_code"] == "SUCCESS" ){
 
