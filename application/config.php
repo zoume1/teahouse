@@ -262,6 +262,9 @@ return [
     'domain'=>[
         "url"=>"https://teahouse.siring.com.cn/",
     ],
+    'domain2'=>[
+        "url"=>"https://www.zhihuichacang.com/",
+    ],
 
     //域名fyk
     'web_url' => 'https://www.zhihuichacang.com/',
