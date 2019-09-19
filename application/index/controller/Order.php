@@ -2064,7 +2064,10 @@ class  Order extends  Controller
     public function order_notify(){
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
-        $val = json_decode(json_encode($xml_data), true);
+        $pp=json_encode($xml_data);
+        $p['msg']=$pp.'小程序支付回调';
+        db('test')->insert($p);
+        $val = json_decode($pp, true);
         if($val["result_code"] == "SUCCESS" ){
 
             $order_type = Db::name("order")->where("parts_order_number",$val["out_trade_no"])->find();

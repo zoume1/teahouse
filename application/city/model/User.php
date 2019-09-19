@@ -5,6 +5,7 @@ use think\Session;
 use think\Model;
 use think\Validate;
 use app\city\controller;
+use app\city\controller\Picture;
 use app\common\exception\BaseException;
 
 
@@ -25,7 +26,7 @@ class User extends Model
 
     /**
      * 城市合伙人用户登录
-     * @param $data
+     * @param $user
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -34,7 +35,8 @@ class User extends Model
     public function login($data)
     {
         // 验证用户名密码是否正确
-        if ($this->isStatus($data)) {
+        $user = $this->isStatus($data);
+        if ($user) {
             $this->error = '登录失败, 账号或密码错误';
             return false;
         }  
@@ -138,7 +140,7 @@ class User extends Model
     {
         $user = self::useGlobalScope(false)->where([
             'phone_number' => $data['phone_number'],
-            'password' =>  $data['password']
+            'password' =>  changcang_hash($data['password'])
         ])->find();
         return $user ? true : false;
     }
@@ -152,7 +154,6 @@ class User extends Model
     public function cityStatus($data)
     {
         $user = self::where([
-            'phone_number' => $data['phone_number'],
             'city_address'=>$data['city_address'],
             'status' => STATUS_PAYED 
         ])->find();
@@ -169,11 +170,30 @@ class User extends Model
     public function submit($data)
     {
         // 数据验证
-        $this->validation($data);
+        $resgister = $this->validation($data);
         // 新增申请记录
+        $img = $this->image();
         $data['password'] = changcang_hash($data['password']);
-        $this->save($data); 
-        
+        if(!$this->getError()){
+           return $this->save([	
+            'id_status' => $resgister['id_status'],
+            'user_name' => $resgister['user_name'],
+            'password' => changcang_hash($resgister['password']),
+            'id_card' => $resgister['id_card'],
+            'id_image' => $img['id_image'],
+            'id_image_reverse' => $img['id_image_reverse'],
+            'post_address_one' => $resgister['post_address_one'],
+            'post_address_two' => $resgister['post_address_two'],
+            'post_address_three' => $resgister['post_address_three'],
+            'detail' => $resgister['detail'],
+            'phone_number' => $resgister['phone_number'],
+            'advantage' => $resgister['advantage'],
+            'apply_city_one' => $resgister['apply_city_one'],
+            'city_rank' => $resgister['city_rank'],
+            'create_time'=>time(),
+            'city_address' => $resgister['city_address']]);
+        }
+
     }
 
         /**
@@ -188,12 +208,12 @@ class User extends Model
         $validate     = new Validate([
             ['phone_number', 'require', '手机号不能为空'],
             ['password', 'require', '密码不能为空'],
-            ['id_image', 'require', '身份证正面照不能为空'],
             ['id_card', 'require', '身份证不能为空'],
-            ['city_address', 'require', '城市不能为空'],
+            ['city_address', 'require', '入驻城市不能为空'],
             ['user_name', 'require', '姓名不能为空'],
-            ['id_image_reverse','require','证件证明不能为空'],
-            ['identifying_code','require','验证码不能为空']
+            ['identifying_code','require','验证码不能为空'],
+            ['detail','require','请填写详细地址'],
+            ['city_rank','require','城市等级不能为空'],
         ]);
         $identifying_code = Session::get('identifying_code');
         //验证部分数据合法性
@@ -211,7 +231,6 @@ class User extends Model
             $this->error = '验证码不正确,请重新输入';
             return false;
         }
-        unset($data['identifying_code']);
         // 最否注册
         if ($this->isStatus($data)) {
             $this->error = '该账号已注册';
@@ -222,7 +241,30 @@ class User extends Model
             return false;  
         }
 
-        return true;
+        return $data;
+    }
+
+    /**
+     * 上传图片
+     * @param User 
+     * @param $data
+     * @return false|int
+     * @throws BaseException
+     */
+    public function image()
+    {
+        // 数据验证
+        $rest = new Picture;
+        $id_image = $rest->upload_picture('id_image');
+        $id_image_reverse = $rest->upload_picture('id_image_reverse');
+
+        if($id_image && $id_image_reverse){
+            return ['id_image' =>$id_image,'id_image_reverse' => $id_image_reverse ] ;
+        } else {
+            $this->error =  '图片上传失败';
+            return 0;  
+        }
+ 
     }
  
 

@@ -60,6 +60,7 @@ class Passport extends Controller
             {
                 return $this->renderSuccess('注册成功');
             }
+
             return $this->renderError($rest->getError() ?: '注册失败');
         }
     }
