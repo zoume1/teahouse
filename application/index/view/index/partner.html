@@ -257,7 +257,7 @@
 
 
     <!-- 申请城市合伙人弹框 -->
-    <form action="{:url('city/apply_register')}" method="post" enctype="multipart/form-data">
+    <form action="{:url('city/Passport/register')}" method="post" enctype="multipart/form-data">
     <div class="apply_main">
         <div class="apply_t">
             <div class="m_t" style="width: 100%;display: flex;">
@@ -284,11 +284,11 @@
             <div class="m_t company-item" style="display: flex;">
                 <div class="input_w">
                     <p>企业名称（必填）</p>
-                    <input type="text" name="ss" onblur="myEvent.onBlurGetInfo(this.value, 2)" placeholder="  请输入企业名称">
+                    <input type="text" name="company_name" onblur="myEvent.onBlurGetInfo(this.value, 2)" placeholder="  请输入企业名称">
                 </div>
                 <div class="input_w">
                     <p>企业营业执照号（必填）</p>
-                    <input type="text" name="ssss" onblur="myEvent.onBlurGetInfo(this.value, 3)" placeholder="  请输入企业营业执照号（必填）">
+                    <input type="text" name="company_prove" onblur="myEvent.onBlurGetInfo(this.value, 3)" placeholder="  请输入企业营业执照号（必填）">
                 </div>
             </div>
             <div class="m_t dz">
@@ -375,7 +375,7 @@
             </div>
             <div class="m_t sq">
                 <p>申请城市（必选）</p>
-                <select name="apply_city_one">
+                <select name="apply_city_one" id="province">
                         <option value="0">选择省份直辖市</option>
                 </select>
                 <select name="city_rank">
@@ -384,7 +384,7 @@
                         <option value="4">二级城市</option>
                         <option value="5">三级城市</option>
                 </select>
-                <select name="city_address">
+                <select name="city_address" id="city">
                         <option value ="0">选择城市</option>
                 </select>
                 <button class="btn-sub" type="submit" id="submit" >立即申请</button>
@@ -653,30 +653,30 @@
             window.myEvent = myEvent;
         }(window.myEvent || {}));
 
-
+        $.ajax({
+            
+        })
         // 申请合伙人
-        // (function(){
-            $('#submit').click(function(){
-                if(myEvent.data.phone_password != myEvent.data.phone_password_repeat) {
-                    layer.msg("两次密码不相同");
+        $('#submit').click(function () {
+            if (myEvent.data.phone_password != myEvent.data.phone_password_repeat) {
+                layer.msg("两次密码不相同");
+                return false;
+            }
+            if (!$("#ensure").get(0).checked) {
+                layer.msg("请勾选《城市合伙人代理协议》");
+                return false;
+            }
+            if (myEvent.data.natureTag == 2) {
+                if (myEvent.data.company_name == '' || myEvent.data.company_name == null) {
+                    layer.msg("企业名称不能为空！");
                     return false;
                 }
-                if(!$("#ensure").get(0).checked){
-                    layer.msg("请勾选《城市合伙人代理协议》");
+                if (myEvent.data.company_number == '' || myEvent.data.company_number == null) {
+                    layer.msg("企业营业号不能为空！");
                     return false;
                 }
-                if(myEvent.data.natureTag == 2) {
-                    if(myEvent.data.company_name == '' || myEvent.data.company_name == null) {
-                        layer.msg("企业名称不能为空！");
-                        return false;
-                    }
-                    if(myEvent.data.company_number == '' || myEvent.data.company_number == null) {
-                        layer.msg("企业营业号不能为空！");
-                        return false;
-                    }
-                }
-            })
-        // }());
+            }
+        })
 
         //手机号发送验证码
         $('.btn-code').click(function(){
