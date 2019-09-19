@@ -85,4 +85,24 @@ class Passport extends Controller
     }
 
 
+    /**
+     * 城市合伙人选择等级城市
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function chooseRank(Request $request)
+    {
+        if ($request->isPost()) {
+            $rank = $request->only(['rank_status'])['rank_status'];      
+            $data = CityRank::detail($rank);
+            if($data)
+            {
+                return jsonSuccess('发送成功',$data->toArray());
+            }
+            return jsonError('发送失败'); 
+        }
+    }
+
 }
