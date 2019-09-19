@@ -55,7 +55,7 @@ class User extends Model
     //获取个人信息
     public function user_index($uid)
     {
-        return self::get(['id'=>$uid])  -> toArray();
+        return self::get(['id'=>$uid]) ? self::get(['id'=>$uid])->toArray() : returnJson(0,'数据有误');
     }
     
 

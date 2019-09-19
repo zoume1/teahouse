@@ -1522,4 +1522,8 @@ function city_remit($status){
     }
 }
 
+function returnArray($data){
+    $data ? $data->toArray() : returnJson(0,'数据有误');
+}
+
 

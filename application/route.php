@@ -1188,12 +1188,16 @@ Route::group("city",[
  * 智慧茶仓公众号
  */
 Route::group("rec",[
+    //登录注册
     "code" => "rec/User/code", //获取短信验证码
     "register" =>"rec/User/register",//注册
     "login" =>"rec/User/login",//登录
     "vs_code" =>"rec/User/vs_code",//验证码
     "forget" =>"rec/User/forget",//忘记密码
     "edit_phone" =>"rec/User/edit_phone",//修改手机号
+
+    //我的
+    "user_store"=>"rec/User/user_store",
 
     //发票
     "send_invoice" =>"rec/Invoice/requestBilling",
@@ -1213,10 +1217,11 @@ Route::group("rec",[
 
     //订单
     "classify" =>"rec/Meal/class_index",
-
+    "in_address"=>"rec/Order/in_address",
     "meal_order" =>"rec/Order/meal_order",
 
-
+    //上传
+    "upload"=>"rec/File/upload",
 
 ]);
 
