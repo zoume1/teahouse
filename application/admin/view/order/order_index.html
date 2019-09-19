@@ -640,7 +640,7 @@
 						</td>
 						<td>
 							<div class="line">
-								<div class="static_btus" data-id="{$vo.parts_order_number}" data-value="{$vo.status}"
+								<div class="static_btus" data-id="{$vo.parts_order_number}" data-value="{$vo.status}" data-num="{$vo.id}"
 									data-type="{$vo.order_type|order_type_status}">
 									{if $vo.order_type !=3}
 										{if $vo.order_type == 2 && $vo.status == 5}
@@ -833,9 +833,11 @@
 			var amount = $(this).parents('tr').children('td.am').text();
 			$('input[name=amount]').val(amount);
 			var data_id = $(this).data("id");    //订单id
+			var order_num = $(this).data("num");    //订单数据库id
 			var way = 0;
 			$(".operation").data("value", data_id);
 			$(".repay_tip").data("value", data_id);
+			$(".repay_tip").data("num", order_num);
 			var data_value = $(this).data("value");    //订单状态
 			var data_type = $(this).data("type");    //订单类型
 			$(".operation").empty();
@@ -904,7 +906,7 @@
 			dhtml1 += '<div class="select_courier">';
 			dhtml1 += '<span class="operation_title">选择快递</span>';
 			dhtml1 += '<select name="" class="curier">';
-			dhtml1 += '<option value="ems">EMS</option>';
+			dhtml1 += '<option value="ems1">EMS</option>';
 			dhtml1 += '<option value="youzhengguonei">邮政包裹/平邮</option>';
 			dhtml1 += '<option value="bjemstckj">北京EMS</option>';
 			dhtml1 += '<option value="shunfeng">顺丰</option>';
@@ -1104,19 +1106,19 @@
 			$(".popup").addClass("noshow");
 		});
 		//点击操作按钮
-
 		$(".operation").on("click", ".submit_btns", function () {
 			$(".popup").addClass("noshow");
 			var repay = $(".repay").val();
 			var id = $(this).parent(".operation").data("id");   //订单状态
 			var value = $(this).parent(".operation").data("value");   //订单的id
 			var order_type = $(this).parent(".operation").data("order_type");   //订单的类型
-			console.log(order_type)
+			// console.log(order_type)
 			//    快递选择
 			var curier = $(".curier option:selected").val();
 			var curier2 = $(".curier option:selected").text();
 			//    操作选择
 			var operation_select = $(".operation_select option:selected").val();
+			
 			//    快递单号
 			var danhao = $(".danhao").val();
 
@@ -1214,7 +1216,7 @@
 					</div>
 
 				</div>
-				<div class="operation"></div>
+	
 				<div class="beizhu">备注：如果是客户购物车多订单下单，此处已合并发票金额，只开一张发票即可</div>
 				<div class="chenge_money">
 						<div class="select_static">
@@ -1361,14 +1363,16 @@
 		// 点击批注
 
 		$(".repay_tip").click(function () {
-			var data_id = $(this).data("value");
+			var order_num = $(this).data("value");
+			var order_id = $(this).data("num");
 			var Information = $(".Information").val();
 			if (Information != '') {
 				$.ajax({
 					type: "POST",
 					url: "{:url('admin/Notification/option_add_notice')}",
 					data: {
-						"order_id": data_id,
+						"order_id": order_id,
+						"order_num": order_num,
 						"information": Information,
 					},
 					async: false,
