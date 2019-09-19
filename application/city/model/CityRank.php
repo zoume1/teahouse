@@ -77,7 +77,7 @@ class CityRank extends Model
      */
     public static function detail($meal_id)
     {
-        return self::get($meal_id)->toArray();
+        return self::where('rank_status','=',$meal_id)->select();
     }
 
 
