@@ -258,7 +258,8 @@ class User extends Model
         $rest = new Picture;
         $id_image = $rest->upload_picture('id_image');
         $id_image_reverse = $rest->upload_picture('id_image_reverse');
-        
+        // $id_image = $rest->upload_picture($data['id_image']);
+        // $id_image_reverse = $rest->upload_picture($data['id_image_reverse']);
         if($id_image && $id_image_reverse){
             return ['id_image' =>$id_image,'id_image_reverse' => $id_image_reverse ] ;
         } else {
