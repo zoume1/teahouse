@@ -9,9 +9,9 @@ use app\city\controller\Picture;
 use app\common\exception\BaseException;
 
 
-
-const STATUS_NOPAY = 1;        //审核中
-const STATUS_PAYED = 2;        //通过
+const  STATUS_ZREO = 0;         //未购买套餐
+const STATUS_NOPAY = 1;        //通过
+const STATUS_PAYED = 2;        //审核中
 const STATUS_OTHER = 3;        //拒绝
 
 /**
@@ -36,12 +36,13 @@ class User extends Model
     {
         // 验证用户名密码是否正确
         $user = $this->isStatus($data);
-        if ($user) {
+        if (!$user) {
             $this->error = '登录失败, 账号或密码错误';
-            return false;
-        }  
-        if($this->useApplyStatus($user['status'])){
-            // 保存登录状态
+            return ERROR_100;
+        } 
+        $is_login = $this->useApplyStatus($user);
+        if($is_login == STATUS_NOPAY || $is_login == ERROR_104){
+             // 保存登录状态
             Session::set('User', [
                 'User' => [
                     'user_id' => $user['user_id'],
@@ -49,8 +50,10 @@ class User extends Model
                 ],
                 'is_login' => true,
             ]);
-            return true;
         }
+
+        return $is_login;
+        
         
     }
 
@@ -62,7 +65,8 @@ class User extends Model
      */
     public static function detail($admin_user_id)
     {
-        return self::get($admin_user_id);
+        $user_data =  self::get($admin_user_id);
+        return $user_data ? $user_data->toArray():false;
     }
 
     /**
@@ -110,23 +114,46 @@ class User extends Model
      * @access public
      * @return Query
      */
-    public  function useApplyStatus ($status)
+    public  function useApplyStatus ($user)
     {
-        switch($status)
+        switch($user['status'])
         {
-            case 1:
+            case STATUS_NOPAY://审核通过
+                switch($user['judge_status'])
+                {
+                    case STATUS_ZREO:
+                        $this->error = '请您购买城市合伙人城市等级套餐';
+                        $is_status = ERROR_104;
+                        return $is_status;
+                        break;
+                    case STATUS_NOPAY:
+                        $this->error = '登录成功';
+                        $is_status = STATUS_NOPAY;
+                        return STATUS_NOPAY;
+                        break;
+                    case STATUS_PAYED:
+                        $this->error = '购买的城市套餐正在审核中';
+                        $is_status = ERROR_105;
+                        break;
+                    case STATUS_OTHER:
+                        $this->error = '购买的城市套餐汇款未到账';
+                        $is_status = ERROR_106;
+                        break;
+                    default:
+                        break;
+                }
+                return $is_status;
+                break;
+            case STATUS_PAYED:
                 $this->error = '您的城市合伙人申请还在审核中，请稍后重试';
-                return false;
+                return ERROR_101;
                 break;
-            case 2:
-                return true;
-                break;
-            case 3:
+            case STATUS_OTHER:
                 $this->error = '您的城市合伙人申请被拒绝，请重行申请';
-                return false;
+                return ERROR_103;
                 break;
             default:
-                return false;
+                break;
         }
     }
 
@@ -142,7 +169,7 @@ class User extends Model
             'phone_number' => $data['phone_number'],
             'password' =>  changcang_hash($data['password'])
         ])->find();
-        return $user ? true : false;
+        return $user ? $user->toArray() : false;
     }
 
         /**
@@ -155,7 +182,7 @@ class User extends Model
     {
         $user = self::where([
             'city_address'=>$data['city_address'],
-            'status' => STATUS_PAYED 
+            'status' => STATUS_NOPAY  
         ])->find();
         return $user ? true : false;
     }
