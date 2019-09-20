@@ -306,6 +306,7 @@ class  Analyse extends  Controller{
                  $domain='teahouse.siring.cn';
                  $images='goods_show_images';
                  $rr=$qiniu->uploadimg($accesskey,$secrectkey,$bucket,$domain,$images);
+                 halt($rr);
                 if (!empty($rr)) {              
                     $goods_data["goods_show_image"] =  $rr[0];
                     $goods_data["goods_type"] = 1;     //商品类型
