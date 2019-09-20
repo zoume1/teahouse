@@ -51,9 +51,9 @@ class Picture extends Controller
         $key =substr(md5($info->getRealPath()) , 0, 5). date('YmdHis') . rand(0, 9999) . '.' . $ext;
         // 需要填写你的 Access Key 和 Secret Key
         // 构建鉴权对象
-        $auth = new Auth($this->accessKey,$this->secrectkey);
+        $auth = new Auth(self::accessKey,self::secrectkey);
         // 要上传的空间
-        $token = $auth->uploadToken($this->bucket);
+        $token = $auth->uploadToken(self::bucket);
         // 初始化 UploadManager 对象并进行文件的上传
         $uploadMgr = new UploadManager();
         // 调用 UploadManager 的 putFile 方法进行文件的上传
@@ -61,7 +61,7 @@ class Picture extends Controller
         if ($err !== null) {
             return false;
         } 
-        $domain = $this->domain;
+        $domain = self::domain;
         $list[] = 'http://'.$domain.'/'.$ret['key'];
         return $list;
     }
