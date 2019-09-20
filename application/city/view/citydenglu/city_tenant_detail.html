@@ -12,39 +12,20 @@
     <link rel="stylesheet" href="__STATIC__/index/thirdpart/css/verify.css">
     <script src="__STATIC__/index/js/intlTelInput.min.js"></script>
     <style>
-        body{position: relative;}
+        body{position: relative;background: #fff;}
         .partner-info-container{width: 1350px; margin: 0 auto;}
-        .partner-info-detail .info-item-title-bg{background: url(__STATIC__/index/img/img35.jpg) no-repeat center; width: 1350px; margin: 50px 0;}
-        .partner-info-detail .info-item-title-bg .title{font-size: 32px; line-height: 38px; text-align: center; color: #515551; margin-bottom: 10px;}
-        .partner-info-detail .info-item-title-bg .subtitle{font-size: 18px; line-height: 21px; text-align: center; color: #515551;}
-        .partner-info-item .info-item-img{text-align: center;}
-        .representative{margin: 100px 0;}
-        .representative .swiper-slide{width: 700px; background-color: #fff; box-shadow: 0 8px 30px #ddd;}
-        .representative .swiper-slide img{display: block;}
-        .foot-btn{margin:auto 0;width: 300px;height:35px;line-height:35px;text-align: center;color: #fff;font-size: 18px;font-weight:700;border-radius: 5px;padding: 10px;cursor: pointer;}
-        .btn-l{background-color: rgb(102,153,0);margin-right: 200px;}
-        .btn-r{background-color: rgb(255,102,0);}
-        .foot-box{width: 100%;height: 100px;background-color: rgb(0, 0, 0, .5);display: flex;justify-content: center;align-content: stretch;position: fixed;bottom:0px;}
         .city-title{display: flex;justify-content: space-between;padding: 10px 0;}
         .title-l{font-weight: 700;font-size: 16px;}
         .city-apply{line-height: 23px;margin-right: 15px;}
         .city-login{color: #fff;background-color:rgb(152,145,52);padding:0 10px;line-height: 23px;border-radius: 3px;}
-        .signin-content-inner .signin-form-wrap{width: 350px; margin: 0 auto;border: 1px solid rgb(121,121,121);border-radius: 10px;padding: 30px;}
-        .signin-content-inner .section-group{border-bottom: 1px solid #e5e5e5; display: flex; margin-bottom: 30px; align-items: center; height: 40px;}
-        .signin-content-inner .section-group .form-label{display: inline-block; width: 100px; font-size: 14px; color: #515151; font-weight: 700;}
-        .signin-content-inner .section-group .form-input-wrap{width: 250px; position: relative;}
-        .section-group .form-input-wrap input{border: 0; font-size: 14px;background-color: rgb(244,244,244);}
-        .intl-tel-input.separate-dial-code .selected-flag{background-color: transparent !important;}
-        .section-group .form-input-wrap .pw-icon{position: absolute; right: 20px; top: 0; width: 24px; height: 24px; background-color: #000; cursor: pointer; background: url(__STATIC__/index/img/icon1.png) no-repeat; background-size: 100%;}
-        .section-group .form-input-wrap .pw-icon.pw-icon-show{background: url(__STATIC__/index/img/icon2.png) no-repeat; background-size: 100%;}
-        .button-primary{display: block; margin-top: 30px; width: 350px; height: 45px; border: 0; outline: none; background-color: #38f; color: #fff; font-size: 16px; box-sizing: border-box; border-radius: 2px; cursor: pointer;}
-        .forget-group{ margin-top: 20px;}
-        .forget-group .forget-pw{float: right;}
-        .forget-group a{color: #38f;}
-        .copyright{text-align: center; margin-top: 50px;color: #515151;}
-        .copyright a{color: #515151;}
-        .qr-code-wrap{width: 350px; margin: 0 auto; text-align: center;}
-        .varify-input-code{background-color: rgb(244,244,244);}
+        .parta ul {display: flex;}
+	    .parta ul li {padding: 30px;position: relative;margin: 11px;text-align: center;flex: 1;border: solid 1px #E4E4E4;}
+        img {width: 100%;}
+        .img{position: absolute;width: 40px;}
+        .city_head{border-bottom:1px solid rgb(215,215,215);display: flex;justify-content: space-between;line-height: 60px;padding: 0 10px;}
+        .city_head>div{color:rgb(0,165,255);font-size: 16px;} 
+        /* .city_head>div:first{}  */
+        .city_head span {color:red;} 
     </style>
 </head>
 <body>
@@ -102,8 +83,43 @@
                     <img src="__STATIC__/index/img/u232.png" width="1350" height="210">
                 </div> -->
                <div style="width: 100%;height:15px;background-color:rgb(242,242,242);"></div>
-                <div>
-                    
+               <div class="city_head">
+                   <div style="color: black;font-weight: 700;font-size: 18px;">城市合伙人业绩查询系统</div>
+                   <div>合伙人账号：<span>13922830809</span></div>
+                   <div>代理城市：<span>深圳</span></div>
+                   <div>有效期至：<span>2019年10月01日</span></div>
+                   <div>《城市合伙人代理协议》</div>
+               </div>
+                <div class="parta">
+                    <ul>
+                        <li class="list">
+                            <div class="img"><img src="__STATIC__/admin/index/img/u158.png"></div>
+                            <div class="num-title">城市累计商户总数</div>
+                            <div class="num">200</div>
+                        </li>
+                        <li class="list">
+                            <div class="img"><img src="__STATIC__/admin/index/img/u172.png"></div>
+                            <div class="num-title">城市累计商户获得佣金</div>
+                            <div class="num">￥300</div>
+                        </li>
+                        <li class="list">
+                            <div class="img"><img src="__STATIC__/admin/index/img/u168.png"></div>
+                            <div class="num-title">我邀请的商户总数</div>
+                            <div class="num">4</div>
+                        </li>
+                        <li class="list">
+                            <div class="img"><img src="__STATIC__/admin/index/img/u170.png"></div>
+                            <div class="num-title">我邀请的累计获得佣金</div>
+                            <div class="num">￥200</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="city_nav">
+                    <ul>
+                        <li>城市累计商户明细</li>
+                        <li>我邀请的商户明细</li>
+                        <li>合伙人入驻订单</li>
+                    </ul>
                 </div>
             </div>
         </div>
