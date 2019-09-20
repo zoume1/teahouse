@@ -1123,12 +1123,16 @@ Route::group("admin",[
    "city_rank_setting"=>"admin/City/city_rank_setting",          //城市等级设置
    "city_rank_setting_edit"=>"admin/City/city_rank_setting_edit",//城市等级设置编辑
    "city_datum_verify"=>"admin/City/city_datum_verify",          //城市入驻资料审核
-   "city_datum_verify_edit"=>"admin/City/city_datum_verify_edit",        //城市入驻资料审核编辑
-   "city_price_examine"=>"admin/City/city_price_examine",      //城市入驻费用审核
+   "city_datum_verify_edit"=>"admin/City/city_datum_verify_edit",//城市入驻资料审核编辑
+   "city_price_examine"=>"admin/City/city_price_examine",        //城市入驻费用审核
    "city_price_examine_update"=>"admin/City/city_price_examine_update",      //城市入驻费用审核编辑
    "city_rank_add"=>"admin/City/city_rank_add",                //城市等级添加
    "city_rank_delete"=>"admin/City/city_rank_delete",          //城市等级删除
    "city_rank_update"=>"admin/City/city_rank_update",          //城市等级移动
+   "logCityTenantDetail"=>"admin/City/logCityTenantDetail",    //登陆后-城市累计商户明细
+   "myInviteStore"=>"admin/City/myInviteStore",                //我邀请的商户明细
+   "copartner_order_index"=>"admin/City/copartner_order_index",//我邀请的商户明细
+
 ]);
 
 /**
@@ -1224,6 +1228,8 @@ Route::group("rec",[
 
     //上传
     "upload"=>"rec/File/upload",
+    
+    //分享
 
 ]);
 

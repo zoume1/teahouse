@@ -23,7 +23,7 @@ class Picture extends QiniuPicture
             }    
               
         } elseif (!empty($file)){
-            $picture_list = self::photo_pin($v);
+            $picture_list = self::photo_pin($file);
         }
 
         return isset($picture_list) ? $picture_list : false;
