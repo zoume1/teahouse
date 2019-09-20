@@ -19,6 +19,8 @@ use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
 use app\common\model\dealer\Setting;
 use app\city\model\User;
+use app\city\controller\Picture;
+
 class Bill extends Controller{
 
 
@@ -31,8 +33,8 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-            $data= [	"phone_number"=>18309224319,
-            "password"=>123456];
+            $rest = new Picture;
+            $rest->cheshi2();
           return  jsonError("失败",array(),ERROR_100);
         }
         
