@@ -40,7 +40,7 @@ class User extends Controller{
         }
         // 查询
         $user = db('pc_user') ->where('phone_number',$data['phone']) ->find();
-        if ($user) {
+        if (!$user) {
             // 手机号不存在
             $mobileCode = rand(100000, 999999);
             $mobile = $data['phone'];
