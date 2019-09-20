@@ -35,7 +35,8 @@ class Share extends Controller
 
         $list = 'http://qr.topscan.com/api.php?text=' . $a;
 
-        echo "<img src='" . $list . "'>";
+        return $list;
+//        echo "<img src='" . $list . "'>";
     }
 
 }

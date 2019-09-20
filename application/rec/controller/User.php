@@ -12,6 +12,7 @@ use think\Request;
 use think\Validate;
 use think\Controller;
 use think\captcha\Captcha;
+use think\Session;
 use app\index\controller\Login as Loging;
 use think\Loader;
 //include('../extend/lib/SendApi.php');
@@ -46,8 +47,8 @@ class User extends Controller{
             $mobile = $data['phone'];
             //存入session中
             if (strlen($mobileCode)> 0){
-                session('mobileCode',$mobileCode);
-                session('mobile',$mobile);
+                Session('mobileCode',$mobileCode);
+                Session('mobile',$mobile);
             }
             $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
             $output = sendMessage($content,$mobile);
@@ -93,7 +94,7 @@ class User extends Controller{
             return json(['code' => 0,'msg' => $validate->getError()]);
         }
 
-        if (session('mobileCode') != $param['code']) {
+        if (Session('mobileCode') != $param['code']) {
             return json(['code'=>1,'msg'=>$param['code']."验证码不正确"]);
         }
 
