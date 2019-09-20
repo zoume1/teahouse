@@ -238,30 +238,6 @@ class  City extends  Controller{
     }
 
 
-    /**
-     * [登陆后-城市累计商户明细]
-     * 郭杨
-     */    
-    public function logCityTenantDetail(){
-        return view("city_tenant_detail");
-    }
-        
-    
 
-    /**
-     * [我邀请的商户明细]
-     * 郭杨
-     */    
-    public function myInviteStore(){
-        return view("my_invite_store");
-    }
-
-        /**
-     * [合伙人入驻订单]
-     * 郭杨
-     */    
-    public function copartner_order_index(){
-        return view("copartner_order_index");
-    }
     
 }
