@@ -1228,6 +1228,9 @@ Route::group("rec",[
 
     //上传
     "upload"=>"rec/File/upload",
+    
+    //分享
+    "qr_code"=>"rec/Share/qr_code",
 
 ]);
 

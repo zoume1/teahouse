@@ -14,7 +14,7 @@ use think\Controller;
 use think\captcha\Captcha;
 use app\index\controller\Login as Loging;
 use think\Loader;
-include('../extend/lib/SendApi.php');
+//include('../extend/lib/SendApi.php');
 //include('../extend/SampleCode/php/wxBizMsgCrypt.php');
 class User extends Controller{
     /**
@@ -40,7 +40,7 @@ class User extends Controller{
         }
         // 查询
         $user = db('pc_user') ->where('phone_number',$data['phone']) ->find();
-        if ($user) {
+        if (!$user) {
             // 手机号不存在
             $mobileCode = rand(100000, 999999);
             $mobile = $data['phone'];
@@ -266,6 +266,7 @@ class User extends Controller{
     }
 
     /**
+     * 我的店铺
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
