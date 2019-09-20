@@ -375,12 +375,12 @@
             </div>
             <div class="m_t sq">
                 <p>申请城市（必选）</p>
-                <div class="sq" data-toggle="distpicker" id="c-dists" style="display: inline-block;width: 25%;">
+                <!-- <div class="sq" data-toggle="distpicker" id="c-dists" style="display: inline-block;width: 25%;">
                     <select id="province" name="apply_city_one" data-province="---- 选择省 ----" style="width: 100%;"></select>
-                </div>
-                <!-- <select name="apply_city_one" id="province_sq">
+                </div> -->
+                <select name="apply_city_one" id="province_sq">
                         <option value="0">选择省份直辖市</option>
-                </select> -->
+                </select>
                 <select name="city_rank" id="choose_lv" onchange="myEvent.chooseLv()">
                         <option value="0">选择城市等级</option>
                         <option value="2">特级城市</option>
@@ -668,9 +668,12 @@
                         },
                         success: (res) => {
                             let citys = res.data;
+                            $("#citys").empty();
+                            $("#citys").append("<option value ='0'>选择城市</option>");
                             for(let key in citys) {
                                 var now_city = citys[key].name;
                                 console.log(now_city)
+                                
                                 $("#citys").append("<option value='" + now_city + "'>" + now_city + "</option>");
                             }
                         },
