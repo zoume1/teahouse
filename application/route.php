@@ -1133,6 +1133,8 @@ Route::group("admin",[
    "myInviteStore"=>"admin/City/myInviteStore",                //我邀请的商户明细
    "copartner_order_index"=>"admin/City/copartner_order_index",//我邀请的商户明细
 
+]);
+
 /**
  * 小程序装修部分
  */
