@@ -14,7 +14,7 @@ use think\Controller;
 use think\captcha\Captcha;
 use app\index\controller\Login as Loging;
 use think\Loader;
-include('../extend/lib/SendApi.php');
+// include('../extend/lib/SendApi.php');
 //include('../extend/SampleCode/php/wxBizMsgCrypt.php');
 class User extends Controller{
     /**
