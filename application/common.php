@@ -20,6 +20,16 @@ use think\paginator\driver\Bootstrap;
 use  think\Db;
 use think\Session;
 use think\Request;
+
+/**
+ * 错误码
+ * 100-200
+ */
+define("ERROR_100",100);//
+
+
+
+
 //手机验证码
 function phone($account= "",$password = '', $phone = "" ,$content = ""){
     $url = "http://120.26.38.54:8000/interface/smssend.aspx";
@@ -1527,5 +1537,54 @@ function city_remit($status){
         echo '<button type="button" class="state close-btu">汇款未到账/button>';
     }
 }
+
+function returnArray($data){
+    $data ? $data->toArray() : returnJson(0,'数据有误');
+}
+
+
+    /**
+     * 返回封装后的 API 数据到客户端
+     * @param int $code
+     * @param string $msg
+     * @param string $url
+     * @param array $data
+     * @return array
+     */
+   function renderJsonData($code , $msg = '', $data = [])
+    {
+        if(!empty($data))
+        {
+            return json(compact('code', 'msg', 'data'));
+        } else {
+            return json(compact('code', 'msg'));
+        }
+    }
+
+    /**
+     * 返回操作成功json
+     * @param string $msg
+     * @param string $url
+     * @param array $data
+     * @return array
+     */
+  function jsonSuccess($msg = 'success', $data = [],$code = 1)
+    {
+        return renderJsonData($code, $msg,  $data);
+    }
+
+    /**
+     * 返回操作失败json
+     * @param string $msg
+     * @param string $url
+     * @param array $data
+     * @return array
+     */
+  function jsonError($msg = 'error', $data = [],$code = 0)
+    {
+        
+        return renderJsonData($code, $msg, $data);
+    }
+
 
 

@@ -2,7 +2,7 @@
 
 namespace app\city\controller;
 
-use app\admin\model\Qiniu as QiniuPicture;
+use app\admin\controller\Qiniu as QiniuPicture;
 
 
 class Picture extends QiniuPicture
@@ -26,7 +26,7 @@ class Picture extends QiniuPicture
             $picture_list = self::photo_pin($v);
         }
 
-        return $picture_list ? $picture_list : false;
+        return isset($picture_list) ? $picture_list : false;
     }
 
 
@@ -58,6 +58,7 @@ class Picture extends QiniuPicture
             echo ["err"=>1,"msg"=>$err,"data"=>""];
         } else {
             //返回图片的完整URL
+            return false;
             // return $ret[''];
         }
         $domain = $this->domain;
