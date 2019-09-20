@@ -1,13 +1,17 @@
 <?php
-
 namespace app\city\controller;
+vendor('qiniu.autoload');
+use Qiniu\Auth as Auth;
+use Qiniu\Storage\BucketManager;
+use Qiniu\Storage\UploadManager;
 
-use app\admin\controller\Qiniu as QiniuPicture;
 
-
-class Picture extends QiniuPicture
+class Picture extends Controller
 {
-
+    public $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+    public $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+    public $bucket = 'goods';
+    public $domain='teahouse.siring.cn';
 
     /**
      * 总控上传图片
@@ -55,12 +59,8 @@ class Picture extends QiniuPicture
         // 调用 UploadManager 的 putFile 方法进行文件的上传
         list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
         if ($err !== null) {
-            echo ["err"=>1,"msg"=>$err,"data"=>""];
-        } else {
-            //返回图片的完整URL
             return false;
-            // return $ret[''];
-        }
+        } 
         $domain = $this->domain;
         $list[] = 'http://'.$domain.'/'.$ret['key'];
         return $list;
