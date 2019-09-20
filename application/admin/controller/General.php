@@ -29,7 +29,13 @@ class  General extends  Base {
        if($isset_store){
            $this->store_ids =$isset_store;
        }else{
-           $this->success("该店铺信息不存在","admin/Home/index");
+           //判断是不是总控
+           $user_info=Session::get('user_info');
+           if($user_info[0]['store_id']==0){
+                die;
+           }else{
+               $this->success("该店铺信息不存在","admin/Home/index"); 
+           }
        }
     }
 
