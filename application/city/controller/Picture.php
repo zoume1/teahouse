@@ -13,13 +13,15 @@ class Picture extends Controller
     private  $bucket = 'goods';
     private  $domain='teahouse.siring.cn';
 
+    
+
 
     /**
      * 总控上传图片
      * Class Picture
      * @package app\city\controller
      */
-    public static function upload_picture($images)
+    public  function upload_picture($images)
     {
         $file = request()->file($images);
         if (!empty($file) && is_array($file)) {              
@@ -41,7 +43,7 @@ class Picture extends Controller
      * Class Picture
      * @package app\city\controller
      */
-    public static function photo_pin($file){
+    public  function photo_pin($file){
         $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');    //本地保存
         $filePath = $info->getPathName();
         // 要上传图片的本地路径
@@ -52,9 +54,9 @@ class Picture extends Controller
         $key =substr(md5($info->getRealPath()) , 0, 5). date('YmdHis') . rand(0, 9999) . '.' . $ext;
         // 需要填写你的 Access Key 和 Secret Key
         // 构建鉴权对象
-        $auth = new Auth(self::accesskey,self::secrectkey);
+        $auth = new Auth($this->accesskey,$this->secrectkey);
         // 要上传的空间
-        $token = $auth->uploadToken(self::bucket);
+        $token = $auth->uploadToken($this->bucket);
         // 初始化 UploadManager 对象并进行文件的上传
         $uploadMgr = new UploadManager();
         // 调用 UploadManager 的 putFile 方法进行文件的上传
@@ -62,7 +64,7 @@ class Picture extends Controller
         if ($err !== null) {
             return false;
         } 
-        $domain = self::domain;
+        $domain = $this->domain;
         $list[] = 'http://'.$domain.'/'.$ret['key'];
         return $list;
     }

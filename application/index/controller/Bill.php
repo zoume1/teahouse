@@ -33,8 +33,8 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-            $rest = new Picture();
-            $data = $rest->cheshi2();
+            $rest = new Picture;
+            $rest->cheshi2();
           return  jsonError("失败",array(),ERROR_100);
         }
         
