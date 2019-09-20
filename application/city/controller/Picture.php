@@ -1,13 +1,17 @@
 <?php
-
 namespace app\city\controller;
+vendor('qiniu.autoload');
+use Qiniu\Auth as Auth;
+use Qiniu\Storage\BucketManager;
+use Qiniu\Storage\UploadManager;
 
-use app\admin\controller\Qiniu as QiniuPicture;
 
-
-class Picture extends QiniuPicture
+class Picture extends Controller
 {
-
+    public $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+    public $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+    public $bucket = 'goods';
+    public $domain='teahouse.siring.cn';
 
     /**
      * 总控上传图片
@@ -47,21 +51,17 @@ class Picture extends QiniuPicture
         $key =substr(md5($info->getRealPath()) , 0, 5). date('YmdHis') . rand(0, 9999) . '.' . $ext;
         // 需要填写你的 Access Key 和 Secret Key
         // 构建鉴权对象
-        $auth = new Auth($this->accessKey,$this->secrectkey);
+        $auth = new Auth(self::accessKey,self::secrectkey);
         // 要上传的空间
-        $token = $auth->uploadToken($this->bucket);
+        $token = $auth->uploadToken(self::bucket);
         // 初始化 UploadManager 对象并进行文件的上传
         $uploadMgr = new UploadManager();
         // 调用 UploadManager 的 putFile 方法进行文件的上传
         list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
         if ($err !== null) {
-            echo ["err"=>1,"msg"=>$err,"data"=>""];
-        } else {
-            //返回图片的完整URL
             return false;
-            // return $ret[''];
-        }
-        $domain = $this->domain;
+        } 
+        $domain = self::domain;
         $list[] = 'http://'.$domain.'/'.$ret['key'];
         return $list;
     }
