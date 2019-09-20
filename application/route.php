@@ -1230,6 +1230,7 @@ Route::group("rec",[
     "upload"=>"rec/File/upload",
     
     //分享
+    "qr_code"=>"rec/Share/qr_code",
 
 ]);
 
