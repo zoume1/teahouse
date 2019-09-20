@@ -27,6 +27,7 @@ class Invoice extends Controller{
         $file = file_get_contents('filename.txt');
         print_r($file);die;
     }
+
     /**
      * @author fyk
      * 已支付订单开票接口
@@ -34,7 +35,7 @@ class Invoice extends Controller{
     public function ele_invoice()
     {
 
-        $id = 6;
+        $id = 7;
         $invoice = new InvoiceAll();
         $data = $invoice->get_order($id);
 
@@ -43,14 +44,14 @@ class Invoice extends Controller{
         $res = $this->requestBilling($data);//测试调用
 
         $list = json_decode($res,true);
-
+//        print_r($list);die;
         if($list['result'] != null){
 
-            $num = $invoice->edit($id,$list['result']['invoiceSerialNum'],2,'开票成功');
+            $num = $invoice->edit($id,$list['result']['invoiceSerialNum'],2,$list['describe']);
             return $num;
         }else{
 
-            $num = $invoice->edit($id,'',4,'开票失败');
+            $num = $invoice->edit($id,'',4,$list['describe']);
             return $num;
         }
 
@@ -168,6 +169,9 @@ class Invoice extends Controller{
         return $token;
     }
 
+    /**
+     * @return string
+     */
     //生成发票订单号
     function get_sn() {
         return date('YmdHis').rand(100000, 999999);
