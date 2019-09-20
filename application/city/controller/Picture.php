@@ -8,10 +8,11 @@ use Qiniu\Storage\UploadManager;
 
 class Picture extends Controller
 {
-    public $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
-    public $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
-    public $bucket = 'goods';
-    public $domain='teahouse.siring.cn';
+    private  $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+    private  $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+    private  $bucket = 'goods';
+    private  $domain='teahouse.siring.cn';
+
 
     /**
      * 总控上传图片
@@ -51,7 +52,7 @@ class Picture extends Controller
         $key =substr(md5($info->getRealPath()) , 0, 5). date('YmdHis') . rand(0, 9999) . '.' . $ext;
         // 需要填写你的 Access Key 和 Secret Key
         // 构建鉴权对象
-        $auth = new Auth(self::accessKey,self::secrectkey);
+        $auth = new Auth(self::accesskey,self::secrectkey);
         // 要上传的空间
         $token = $auth->uploadToken(self::bucket);
         // 初始化 UploadManager 对象并进行文件的上传
