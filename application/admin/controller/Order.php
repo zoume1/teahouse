@@ -865,7 +865,9 @@ class  Order extends  Controller{
         //获取店铺信息
         $store_id=Session::get('store_id');
         //获取打赏订单
-        $reward_list=db('reward')->where('store_id',$store_id)->order('create_time desc')->select();
+        $where['store_id']=$store_id;
+        $where['status']=array('neq',1);
+        $reward_list=db('reward')->where($where)->order('create_time desc')->select();
         // foreach($reward_list as $k=>$v){
         //     //获取打赏订单的状态
         //     if($v['status']=='1'){
@@ -899,7 +901,6 @@ class  Order extends  Controller{
               return ajax_success('获取成功',$receipt);
             }else{
                 return ajax_error('获取失败');
-
         }
     }
     /**
