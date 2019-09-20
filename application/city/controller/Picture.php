@@ -33,7 +33,7 @@ class Picture extends Controller
             $picture_list = self::photo_pin($file);
         }
 
-        return isset($picture_list) ? $picture_list : false;
+        return $picture_list ? $picture_list : false;
     }
 
 
