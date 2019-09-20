@@ -26,13 +26,13 @@ class Picture extends Controller
         $file = request()->file($images);
         if (!empty($file) && is_array($file)) {              
             foreach ($file as $k=>$v) {
-                $picture_list = $this->photo_pin($v);
-            }    
+                $picture[] = $this->photo_pin($v);
+            }
+            $picture_list = explode(",",$picture);
               
         } elseif (!empty($file)){
             $picture_list = $this->photo_pin($file);
         }
-        halt($picture_list);
         return $picture_list ? $picture_list : false;
     }
 
@@ -65,7 +65,7 @@ class Picture extends Controller
             return false;
         } 
         $domain = $this->domain;
-        $list[] = 'http://'.$domain.'/'.$ret['key'];
+        $list = 'http://'.$domain.'/'.$ret['key'];
         return $list;
     }
 
