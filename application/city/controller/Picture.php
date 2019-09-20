@@ -26,14 +26,14 @@ class Picture extends Controller
         $file = request()->file($images);
         if (!empty($file) && is_array($file)) {              
             foreach ($file as $k=>$v) {
-                $picture_list = self::photo_pin($v);
+                $picture_list = $this->photo_pin($v);
             }    
               
         } elseif (!empty($file)){
-            $picture_list = self::photo_pin($file);
+            $picture_list = $this->photo_pin($file);
         }
-
-        return isset($picture_list) ? $picture_list : false;
+        halt($picture_list);
+        return $picture_list ? $picture_list : false;
     }
 
 

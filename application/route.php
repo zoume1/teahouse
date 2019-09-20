@@ -1129,9 +1129,7 @@ Route::group("admin",[
    "city_rank_add"=>"admin/City/city_rank_add",                //城市等级添加
    "city_rank_delete"=>"admin/City/city_rank_delete",          //城市等级删除
    "city_rank_update"=>"admin/City/city_rank_update",          //城市等级移动
-   "logCityTenantDetail"=>"admin/City/logCityTenantDetail",    //登陆后-城市累计商户明细
-   "myInviteStore"=>"admin/City/myInviteStore",                //我邀请的商户明细
-   "copartner_order_index"=>"admin/City/copartner_order_index",//我邀请的商户明细
+
 
 ]);
 
@@ -1186,7 +1184,9 @@ Route::group("city",[
     "apply_register" => "city/Passport/register", //城市合伙人PC端注册
     "chooseCity" => "city/Passport/chooseCity", //城市合伙人选择省份直辖市
     "chooseRank" => "city/Passport/chooseRank", //城市合伙人选择等级
-
+    "logCityTenantDetail"=>"city/Citydenglu/logCityTenantDetail",    //登陆后-城市累计商户明细
+    "myInviteStore"=>"city/Citydenglu/myInviteStore",                //我邀请的商户明细
+    "copartner_order_index"=>"city/Citydenglu/copartner_order_index",//我邀请的商户明细
 
 ]);
 
