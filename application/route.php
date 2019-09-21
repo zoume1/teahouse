@@ -1178,6 +1178,7 @@ Route::group("api",[
 
 /**
  * 城市合伙人
+ * gy
  */
 Route::group("city",[
     "apply_login" => "city/Passport/login", //城市合伙人PC端登录
@@ -1187,6 +1188,9 @@ Route::group("city",[
     "logCityTenantDetail"=>"city/Citydenglu/logCityTenantDetail",    //登陆后-城市累计商户明细
     "myInviteStore"=>"city/Citydenglu/myInviteStore",                //我邀请的商户明细
     "copartner_order_index"=>"city/Citydenglu/copartner_order_index",//我邀请的商户明细
+    "order_index"=>"city/CityOrder/order_index",//城市合伙人订单显示
+    "city_meal_notify"=>"city/CityOrder/city_meal_notify",//城市合伙人订单微信支付回调
+    "city_meal_notify_alipay"=>"city/CityOrder/city_meal_notify_alipay",//城市合伙人订单支付宝支付回调
 
 ]);
 
