@@ -1182,7 +1182,8 @@ Route::group("api",[
  */
 Route::group("city",[
     "apply_login" => "city/Passport/login", //城市合伙人PC端登录
-    "apply_register" => "city/Passport/register", //城市合伙人PC端注册
+    "apply_register" => "city/Passport/register", //城市合伙人PC端注册修改密码
+    "forget_password" => "city/Passport/forget_password", //城市合伙人PC端修改密码
     "chooseCity" => "city/Passport/chooseCity", //城市合伙人选择省份直辖市
     "chooseRank" => "city/Passport/chooseRank", //城市合伙人选择等级
     "logCityTenantDetail"=>"city/Citydenglu/logCityTenantDetail",    //登陆后-城市累计商户明细
@@ -1191,6 +1192,8 @@ Route::group("city",[
     "order_index"=>"city/CityOrder/order_index",//城市合伙人订单显示
     "city_meal_notify"=>"city/CityOrder/city_meal_notify",//城市合伙人订单微信支付回调
     "city_meal_notify_alipay"=>"city/CityOrder/city_meal_notify_alipay",//城市合伙人订单支付宝支付回调
+    "payment_image"=>"city/CityOrder/payment_image",//上传汇款支付凭证
+    "mailing_address"=>"city/CityOrder/mailing_address",//开发票邮寄地址
 
 ]);
 

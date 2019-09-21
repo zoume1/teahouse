@@ -103,4 +103,27 @@ class Passport extends Controller
         }
     }
 
+
+    /**
+     * 城市合伙人PC端忘记密码
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function forget_password()
+    {
+
+        if ($this->request->isPost()) {
+            $data = Request::instance()->param();
+            $model = new UserModel;
+            $rest = $model->forget($data);
+            if($rest){
+                return jsonSuccess('修改密码成功');
+            } else {
+                return jsonError($model->getError());
+            }
+        }     
+    }
+
 }

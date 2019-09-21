@@ -6,6 +6,7 @@ use think\Validate;
 use think\Request;
 use app\city\model\CityRank;
 use app\city\model\CityOrder as Order;
+use app\city\controller\Picture;
 use app\city\model\User as UserModel;
 const PAY_WX = 1;
 const CITY_ZFB = 2;
@@ -143,5 +144,65 @@ class CityOrder extends Controller
             }
         }
     }
-    
+
+
+    /**
+     * 上传汇款支付凭证
+     * @param User 
+     * @param $data
+     * @return false|int
+     * @throws BaseException
+     */
+    public function payment_image(Request $request)
+    {
+        if($request->isPost()){
+                //订单号
+                $order_number = $request->only(["order_number"])["order_number"];
+                $rest = new Picture;
+                $id_image = $rest->upload_picture('payment_document');
+                if($id_image){
+                    $data = [
+                        'payment_document'=>$id_image,
+                        'pay_status' => CITY_HK,
+                    ];
+                    $model = new Order;
+                    $order_status = $model -> allowField(true)->save($data,['order_number'=>$order_number]);
+                    if($order_status){
+                        return jsonSuccess("上传汇款凭证成功,我们将在2-3个工作日内进行审核,请您耐心等待");
+                    } else {  
+                        return jsonError("上传汇款凭证失败");
+                }
+            }
+        }
+    }
+
+    /**
+     * 开发票邮寄地址
+     * @param User 
+     * @param $data
+     * @return false|int
+     * @throws BaseException
+     */
+    public function mailing_address(Request $request)
+    {
+            if($request->isPost()){
+                //订单号
+                $user_id = $request->only(["user_id"])["user_id"];
+                $user = UserModel::detail(['user_id'=>$user_id]);
+                if($user){
+                    $mailing_address = [
+                        'post_address_one' => $user['post_address_one'],
+                        'post_address_two' => $user['post_address_two'],
+                        'post_address_three' => $user['post_address_three'],
+                        'user_name' => $user['user_name'],
+                        'phone_number'=>$user['phone_number'],
+                        'detail'=>$user['detail']
+                    ];
+                    return jsonSuccess("发票邮寄地址发送成功",$mailing_address);
+                } else {
+                    return jsonError("发票邮寄地址发送失败");
+            }
+        }
+    }
+
 }

@@ -172,7 +172,7 @@ class User extends Model
         return $user ? $user->toArray() : false;
     }
 
-        /**
+    /**
      * 城市是否已被注册
      * @param $admin_user_id
      * @return null|static
@@ -240,7 +240,7 @@ class User extends Model
             ['id_card', 'require', '身份证不能为空'],
             ['city_address', 'require', '入驻城市不能为空'],
             ['user_name', 'require', '姓名不能为空'],
-            ['identifying_code','require','验证码不能为空'],
+            ['identifying_code','require','短信验证码不能为空'],
             ['detail','require','请填写详细地址'],
             ['city_rank','require','城市等级不能为空'],
         ]);
@@ -285,8 +285,6 @@ class User extends Model
         $rest = new Picture;
         $id_image = $rest->upload_picture('id_image');
         $id_image_reverse = $rest->upload_picture('id_image_reverse');
-        // $id_image = $rest->upload_picture($data['id_image']);
-        // $id_image_reverse = $rest->upload_picture($data['id_image_reverse']);
         if($id_image && $id_image_reverse){
             return ['id_image' =>$id_image,'id_image_reverse' => $id_image_reverse ] ;
         } else {
@@ -294,6 +292,52 @@ class User extends Model
             return 0;  
         }
  
+    }
+
+    /**
+     * 忘记密码
+     * @param User 
+     * @param $data
+     * @return false|int
+     * @throws BaseException
+     */
+    public function forget($data)
+    {
+        $rules = [
+            'user_id' => 'require',
+            'phone_number' => 'require|regex:\d{11}',
+            'password'=>'require|length:6,16',
+            'code'=>'require',
+        ];
+        $message = [
+            'phone_number.require' => '请输入手机号',
+            'phone_number.regex' => '手机号格式不正确',
+            'password.require'=>'密码不能为空',
+            'password.length' => '密码长度必须在6~16位之间',
+            'identifying_code.require'=>'验证码不能为空',
+        ];
+        //验证
+        $validate = new Validate($rules,$message);
+        if(!$validate->check($data)){
+            $this->error = $validate->getError();
+            return false;
+        }
+        $user = $this->detail(['phone_number' => $data['phone_number']]);
+
+        if(!$user){
+            $this->error = '账号不存在';
+            return false;
+        }
+
+        if (session('mobileCode') != $data['code']) {
+            $this->error = '短信验证码错误';
+            return false;
+        }
+        $password = changcang_hash($data['password']);
+        $password_update = ['password' => $password];
+        $user_status = $this -> allowField(true)->save($password_update,['user_id'=>$user['user_id']]);
+
+        return $user_status ? $user_status : false;
     }
  
 

@@ -131,6 +131,7 @@ class CityOrder extends Model
             $rest = $this -> allowField(true)->save($data);
             if($rest){
                 $order_data = [
+                    'user_id'=> $user['user_id'],
                     'city_address' => $user_data['city_address'],
                     'create_time' => time(),
                     'order_number'=> $order_number,
