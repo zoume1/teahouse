@@ -24,14 +24,12 @@ class Passport extends Controller
     public function login()
     {
 
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             $model = new UserModel;
-            if ($model->login($this->postData('User'))) {
-                return $this->renderSuccess('登录成功');
-            }
-            return $this->renderError($model->getError() ?: '登录失败');
+            $code = $model->login($this->postData('User'));
+            return jsonSuccess($model->getError(),array(),$code);
         }
-        return false;
+        
     }
 
     /**
@@ -103,6 +101,29 @@ class Passport extends Controller
             }
             return jsonError('发送失败'); 
         }
+    }
+
+
+    /**
+     * 城市合伙人PC端忘记密码
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function forget_password()
+    {
+
+        if ($this->request->isPost()) {
+            $data = Request::instance()->param();
+            $model = new UserModel;
+            $rest = $model->forget($data);
+            if($rest){
+                return jsonSuccess('修改密码成功');
+            } else {
+                return jsonError($model->getError());
+            }
+        }     
     }
 
 }
