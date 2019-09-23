@@ -8,6 +8,7 @@ use app\city\model\CityRank;
 use app\city\model\CityOrder as Order;
 use app\city\controller\Picture;
 use app\city\model\User as UserModel;
+use app\rec\model\Invoice;
 const PAY_WX = 1;
 const CITY_ZFB = 2;
 const CITY_HK = 3;
@@ -98,7 +99,7 @@ class CityOrder extends Controller
             $pay_object = new Order;
             $order_number = $request->only(["order_number"])["order_number"];
             $pay_code = $pay_object->WeChatPayCode($order_number);
-            return $pay_code ? jsonSuccess('微信支付码返回成功',$pay_code) : jsonError('微信支付码返回失败');
+            return $pay_code ? jsonSuccess('支付页面返回成功',$pay_code) : jsonError('支付页面返回失败');
         }
 
     }
@@ -158,12 +159,14 @@ class CityOrder extends Controller
         if($request->isPost()){
                 //订单号
                 $order_number = $request->only(["order_number"])["order_number"];
+                $remittance_account = $request->only(['remittance_account'])['remittance_account'];
                 $rest = new Picture;
                 $id_image = $rest->upload_picture('payment_document');
                 if($id_image){
                     $data = [
                         'payment_document'=>$id_image,
                         'pay_status' => CITY_HK,
+                        'remittance_account'=>$remittance_account
                     ];
                     $model = new Order;
                     $order_status = $model -> allowField(true)->save($data,['order_number'=>$order_number]);
@@ -201,6 +204,28 @@ class CityOrder extends Controller
                     return jsonSuccess("发票邮寄地址发送成功",$mailing_address);
                 } else {
                     return jsonError("发票邮寄地址发送失败");
+            }
+        }
+    }
+
+
+    /**
+     * 开发票
+     * @param User 
+     * @param $data
+     * @return false|int
+     * @throws BaseException
+     */
+    public function cityOrderReceipt(Request $request)
+    {
+        if($request->isPost()){
+            $data = Request::instance()->param();
+            $receipt_object = new Invoice;
+            $rest = $receipt_object->cityOrderReceipt($data);
+            if($rest){
+                   return jsonSuccess("开具发票成功");
+            } else {
+                    return jsonError("开具发票失败");
             }
         }
     }

@@ -304,10 +304,9 @@ class User extends Model
     public function forget($data)
     {
         $rules = [
-            'user_id' => 'require',
             'phone_number' => 'require|regex:\d{11}',
             'password'=>'require|length:6,16',
-            'code'=>'require',
+            'identifying_code'=>'require',
         ];
         $message = [
             'phone_number.require' => '请输入手机号',
@@ -329,13 +328,13 @@ class User extends Model
             return false;
         }
 
-        if (session('mobileCode') != $data['code']) {
+        if (session('identifying_code') != $data['identifying_code']) {
             $this->error = '短信验证码错误';
             return false;
         }
         $password = changcang_hash($data['password']);
         $password_update = ['password' => $password];
-        $user_status = $this -> allowField(true)->save($password_update,['user_id'=>$user['user_id']]);
+        $user_status = $this -> allowField(true)->save($password_update,['phone_number'=>$user['phone_number']]);
 
         return $user_status ? $user_status : false;
     }
