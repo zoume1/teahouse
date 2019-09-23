@@ -11,7 +11,10 @@ use think\Validate;
 use think\Controller;
 
 Class With extends Controller{
-
+    /**
+     * 微信公众号提现申请
+     * @return \think\response\Json
+     */
     public function cash_with()
     {
         $request = Request::instance();
@@ -40,7 +43,10 @@ Class With extends Controller{
         }
 
         $with = new \app\rec\model\With();
+
         $data = $with->add($param);
+
+        $data ? returnJson(1,'申请成功',$data) : returnJson(0,'申请失败',$data);
     }
 
 

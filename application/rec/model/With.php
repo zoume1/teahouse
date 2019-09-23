@@ -18,7 +18,11 @@ class With extends Model
     protected $table = "tp_wx_with";
     protected $resultSetType = 'collection';
 
-
+    /**
+     * 申请
+     * @param $param
+     * @return false|int
+     */
     public function add($param)
     {
         return $this->save([
