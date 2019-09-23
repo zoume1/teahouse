@@ -181,7 +181,7 @@ class CityOrder extends Model
         include('../extend/WxpayAllone/lib/WxPay.Api.php');
         include('../extend/WxpayAllone/example/WxPay.NativePay.php');
         include('../extend/WxpayAllone/example/log.php');
-        $data = $self::detail(['order_number'=>$order_number]);
+        $data = self::detail(['order_number'=>$order_number]);
         if($data){
             $notify = new \NativePay();
             $input = new \WxPayUnifiedOrder();//统一下单
@@ -219,7 +219,7 @@ class CityOrder extends Model
     {
         header("Content-type:text/html;charset=utf-8");
         include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
-        $data = $self::detail(['order_number'=>$order_number]);
+        $data = self::detail(['order_number'=>$order_number]);
         if($data){
             $obj_alipay = new \alipay();                                           
             $arr_data = array(
