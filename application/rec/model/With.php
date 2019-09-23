@@ -19,15 +19,15 @@ class With extends Model
     protected $resultSetType = 'collection';
 
 
-    public function add($type, $uid, $money ,$name,$bank,$num)
+    public function add($param)
     {
         return $this->save([
-            'type' => $type,
-            'user_id' => $uid,
-            'money' => $money,
-            'account_name' =>$name,
-            'opening_bank' => $bank,
-            'card_num' =>$num,
+            'type' => $param['type'],
+            'user_id' => $param['user_id'],
+            'money' => $param['money'],
+            'account_name' =>$param['account_name'],
+            'opening_bank' => $param['opening_bank'],
+            'card_num' =>$param['card_num'],
             'create_time' =>time()
 
         ]);
