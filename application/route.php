@@ -92,6 +92,8 @@ Route::group("",[
      "continuAtion_notify"=>"index/order/continuAtion_notify",//茶仓订单出仓支付回调
      "analyse_meal_notify"=>"index/AdminWx/analyse_meal_notify",//增值服务订购订单微信扫码支付回调
      "analyse_meal_notify_alipay"=>"index/AdminWx/analyse_meal_notify_alipay",//增值服务订单支付宝扫码支付回调
+     "city_meal_notify"=>"index/AdminWx/city_meal_notify",//城市合伙人订单微信支付回调
+     "city_meal_notify_alipay"=>"index/AdminWx/city_meal_notify_alipay",//城市合伙人订单支付宝支付回调
 
 
     /*TODO:end*/
@@ -1192,8 +1194,6 @@ Route::group("city",[
     "order_index"=>"city/CityOrder/order_index",//城市合伙人订单显示
     "cityWhatChatPay"=>"city/CityOrder/cityWhatChatPay",//城市合伙人订单微信支付
     "cityAlipayCode"=>"city/CityOrder/cityAlipayCode",//城市合伙人订单支付宝支付
-    "city_meal_notify"=>"city/CityOrder/city_meal_notify",//城市合伙人订单微信支付回调
-    "city_meal_notify_alipay"=>"city/CityOrder/city_meal_notify_alipay",//城市合伙人订单支付宝支付回调
     "payment_image"=>"city/CityOrder/payment_image",//上传汇款支付凭证
     "mailing_address"=>"city/CityOrder/mailing_address",//开发票邮寄地址
     "cityOrderReceipt"=>"city/CityOrder/cityOrderReceipt",//开发票
