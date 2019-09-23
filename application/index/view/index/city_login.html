@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="__STATIC__/index/thirdpart/css/verify.css">
     <script src="__STATIC__/index/js/intlTelInput.min.js"></script>
     <style>
+        html,body{height: 100%;}
         body{position: relative;}
         .partner-info-container{width: 1350px; margin: 0 auto;}
         .city-title{display: flex;justify-content: space-between;padding: 10px 0;}
@@ -34,6 +35,21 @@
         .copyright a{color: #515151;}
         .qr-code-wrap{width: 350px; margin: 0 auto; text-align: center;}
         .varify-input-code{background-color: rgb(244,244,244);}
+        .pay_main{width: 100%;height: 100%;background-color: rgb(0,0,0, .5);position: absolute;top: 0;}
+        .pay_box{width: 60%;margin: 10% auto;background: #fff;padding: 30px 40px;}
+        .pay_table table{width:100%;margin:0 auto;text-align: center;border: 1px solid rgb(168,221,255);}
+        .pay_table table thead{background-color: rgb(207,236,255);line-height: 50px;border-bottom: 1px solid rgb(168,221,255);}
+        .pay_table table tbody tr{height: 100px;}
+        .c_city{font-size: 21px;line-height: 50px;}
+        .city_n{color:red;font-weight: 700;}
+        .pay_k{display:flex;flex-direction: column;justify-content: flex-end; margin-top: 50px;text-align: right;}
+        .pay_t{width: 400px;display: inline-block;font-size: 16px;border: 1px solid red;line-height: 70px;background-color: rgb(244,251,255);}
+        .pay_mon{font-size: 25px;padding-right: 10px;font-weight: 700;color: rgb(255,102,0);}
+        .pay_btn{width: 150px;text-align: center;background-color: red;color: #fff;font-size: 20px;line-height: 40px;padding: 7px 30px;cursor: pointer;}
+        .th_one{text-align: left;width: 35%;}
+        .tr_one{text-align: left;padding-left: 12%;}
+        .pay_invoice{display: flex;justify-content: space-between;margin: 10px;}
+        .tips{text-decoration:line-through;color: rgb(174,174,174);}
     </style>
 </head>
 <body>
@@ -127,25 +143,62 @@
                     </div>
                 </div>
                 <div style="text-align: center;margin-top:15px;font-size:12px;color:rgb(121,121,121);">
-                        © 2012-2018 宣铭科技版权所有
+                    © 2012-2018 宣铭科技版权所有
                 </div>
 
             </div>
         </div>
+    </div>
 
-   
-  
-
-
-
-
- 
+    <div class="pay_main" style="display: none;">
+        <div class="pay_box">
+            <div class="c_city">您选择城市：<span class="city_n">北京</span></div>
+            <div class="pay_table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="th_one">
+                                <span><input type="checkbox" name="" id="" checked>20170601</span>
+                                <span  style="margin-left: 30px;">订单号：2068516852135</span>
+                            </th>
+                            <th>数量</th>
+                            <th>介绍</th>
+                            <th>金额</th>
+                            <th>小计（元）</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="tr_one">城市合伙人年代理费</td>
+                            <td>1年</td>
+                            <td>深蓝的会计师课件玻尿酸看见</td>
+                            <td>
+                                <div>657.00</div>
+                                <div class="tips">657.00</div>
+                            </td>
+                            <td>657.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pay_invoice">
+                <div><input type="checkbox" name="invoice" id=""><label for="invoice">我要开票</label></div>
+                <div>0.00</div>
+            </div>
+            <div class="pay_k">
+                <div><div class="pay_t">实付款：<span class="pay_mon">￥610.00</span></div></div>
+                <div><span class="pay_btn">提交订单</span></div>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
 
     <script src="__STATIC__/index/js/jquery.js"></script>
     <script src="__STATIC__/index/js/distpicker.data.js"></script>
     <script src="__STATIC__/index/js/distpicker.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script src="__STATIC__/index/js/swiper-4.3.5.min.js"></script>
+    <script src="__STATIC__/index/js/layer/layer.js"></script>
      <!--数字验证-->
      <script src="__STATIC__/index/thirdpart/js/swiper-4.3.5.min.js"></script>
      <script src="__STATIC__/index/thirdpart/js/verify.js"></script>
@@ -169,26 +222,61 @@
                
                layer.msg('登录成功');
                setTimeout(function(){
-                    statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
+                    statusLog == 1 ? location.href = 'city/Citydenglu/logCityTenantDetail' : (statusLog == 2 ? location.href ="/admin" : '');
                 }, 1000);
            },
            error: function () {
             layer.msg('验证码不匹配！');
            }
        });
-
-        //调起申请弹框
-        $(".btn-r").click(function() {
-            $(".apply_main").show();
-        })
-        //关闭弹窗
-        $(".close").click(function() {
-            $(".apply_main").hide();
-        })
-        //协议
-        $(".deal").click(function() {
-            $(".deal_main").toggle();
-        })
+       var statusLog = null;
+        $('.button-primary').click(function () {
+                var $phone = $('#phone').val(),
+                    $password = $('#password').val();
+                if ($phone !== '' && $password !== '') {
+                    $.ajax({
+                        url: 'city/apply_login',
+                        type: 'POST',
+                        dataType: 'JSON',
+                        data: {
+                            "User": {
+                                "phone_number": $phone,
+                                "password": $password
+                            }
+                        },
+                        success: function (res) {
+                            console.log(res);
+                            statusLog = res.code;
+                            if (res.code == 1) {
+                                //$(".num").css({
+                                //  "display":"block"
+                                //})
+                                // layer.msg(res.info);
+                                myEvent.setCookie(btoa('phone'), btoa($phone), 7); //保存帐号到cookie，有效期7天
+                                myEvent.setCookie(btoa('password'), btoa($password), 7); //保存帐号到cookie，有效期7天
+                                // setTimeout(function(){
+                                //     location.href = 'my_shop';
+                                // }, 1000);
+                            } else if(res.code == 104){
+                                layer.msg(res.msg);
+                                $.ajax({
+                                    url: "city/order_index",
+                                    type: "POST",
+                                    data: {},
+                                    success: (res) => {console.log(res)},
+                                    error: (e) => {console.log(e)}
+                                })
+                            }
+                        },
+                        error: function (res) {
+                            console.log(res.status, res.statusText);
+                        }
+                    })
+                } else {
+                    layer.msg('请填写手机号或密码！');
+                }
+            })
+        
     </script>
 </body>
 </html>
