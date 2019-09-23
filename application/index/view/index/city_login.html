@@ -14,17 +14,6 @@
     <style>
         body{position: relative;}
         .partner-info-container{width: 1350px; margin: 0 auto;}
-        .partner-info-detail .info-item-title-bg{background: url(__STATIC__/index/img/img35.jpg) no-repeat center; width: 1350px; margin: 50px 0;}
-        .partner-info-detail .info-item-title-bg .title{font-size: 32px; line-height: 38px; text-align: center; color: #515551; margin-bottom: 10px;}
-        .partner-info-detail .info-item-title-bg .subtitle{font-size: 18px; line-height: 21px; text-align: center; color: #515551;}
-        .partner-info-item .info-item-img{text-align: center;}
-        .representative{margin: 100px 0;}
-        .representative .swiper-slide{width: 700px; background-color: #fff; box-shadow: 0 8px 30px #ddd;}
-        .representative .swiper-slide img{display: block;}
-        .foot-btn{margin:auto 0;width: 300px;height:35px;line-height:35px;text-align: center;color: #fff;font-size: 18px;font-weight:700;border-radius: 5px;padding: 10px;cursor: pointer;}
-        .btn-l{background-color: rgb(102,153,0);margin-right: 200px;}
-        .btn-r{background-color: rgb(255,102,0);}
-        .foot-box{width: 100%;height: 100px;background-color: rgb(0, 0, 0, .5);display: flex;justify-content: center;align-content: stretch;position: fixed;bottom:0px;}
         .city-title{display: flex;justify-content: space-between;padding: 10px 0;}
         .title-l{font-weight: 700;font-size: 16px;}
         .city-apply{line-height: 23px;margin-right: 15px;}
@@ -161,43 +150,7 @@
      <script src="__STATIC__/index/thirdpart/js/swiper-4.3.5.min.js"></script>
      <script src="__STATIC__/index/thirdpart/js/verify.js"></script>
     <script>
-        var representative = new Swiper('.swiper-container', {
-			watchSlidesProgress: true,
-			slidesPerView: 'auto',
-			centeredSlides: true,
-			loop: true,
-			autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-			on: {
-				progress: function (progress) {
-					for (i = 0; i < this.slides.length; i++) {
-						var slide = this.slides.eq(i);
-						var slideProgress = this.slides[i].progress;
-						modify = 1;
-						if (Math.abs(slideProgress) > 1) {
-							modify = (Math.abs(slideProgress) - 1) * 0.3 + 1;
-						}
-						translate = slideProgress * modify * 260 + 'px';
-						scale = 1 - Math.abs(slideProgress) / 5;
-						zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
-						slide.transform('translateX(' + translate + ') scale(' + scale + ')');
-						slide.css('zIndex', zIndex);
-						slide.css('opacity', 1);
-						if (Math.abs(slideProgress) > 3) {
-							slide.css('opacity', 0);
-						}
-					}
-				},
-				setTransition: function (transition) {
-					for (var i = 0; i < this.slides.length; i++) {
-						var slide = this.slides.eq(i)
-						slide.transition(transition);
-					}
-				}
-			}
-		})
+       
 
 
         // 数字验证码 init
