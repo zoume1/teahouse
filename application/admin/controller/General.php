@@ -48,7 +48,6 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function general_index(){
-
         $code_object = new Login;
         $share_code = $code_object->memberCode();
         $code = Db::table("tb_store")
