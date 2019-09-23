@@ -17,7 +17,7 @@
  * Time: 10:53
  */
 use think\paginator\driver\Bootstrap;
-use  think\Db;
+use think\Db;
 use think\Session;
 use think\Request;
 
@@ -30,7 +30,7 @@ define("ERROR_101",101);//合伙人申请还在审核中
 define("ERROR_103",103);//合伙人申请被拒绝
 define("ERROR_104",104);//合伙人未购买套餐
 define("ERROR_105",105);//合伙人购买套餐正在审核中
-define("ERROR_106",106);//合伙人购买套餐
+define("ERROR_106",106);//购买的城市套餐汇款未到账
 
 
 

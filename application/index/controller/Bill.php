@@ -20,7 +20,7 @@ use app\common\model\dealer\Order as OrderModel;
 use app\common\model\dealer\Setting;
 use app\city\model\User;
 use app\city\controller\Picture;
-
+use app\admin\model\Store;
 class Bill extends Controller{
 
 
@@ -33,12 +33,32 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-            $rest = new Picture;
-            $rest->cheshi2();
-          return  jsonError("失败",array(),ERROR_100);
+                $rest = db('store')->field('address_data,id')->select();
+                // halt($rest);
+                $city = "北京市";
+                
+                foreach($rest as $key =>  $value){
+                    if(in_array($city,explode(",",$value["address_data"]))){
+                        $one[$key]['id'] = $value['id'];
+                        $one[$key]['city_user_id'] = 1;
+                        // $one = new Store;
+                        // $reste[] = $one->where('id', $rest[$key]["id"])->saveAll(['city_user_id'=>1]); 
+                }
+            }
+             $onee = new Store;
+             $reste = $onee->saveAll($one); 
+                halt($one);
+                foreach($one as $k => $l){
+                    unset($l['address_data']);
+                    $one[$k]['ll'] = 1;
+
+                }
+
+                $rest->cheshi2();
+            return  jsonError("失败",array(),ERROR_100);
+            }
         }
-        
-    }
+    
 
     /**
      **************李火生*******************
