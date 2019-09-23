@@ -29,7 +29,7 @@ class MealOrder extends Model{
             'pay_type' => 4,
             'enter_all_id' => $enter_all_id,
             'store_name' => $store_name,
-            'status'=>1,
+            'status'=> -1,
             'unit' =>'年',
             'pay_money'=>$pay,
             'openid' =>$openid,
