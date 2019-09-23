@@ -10,8 +10,6 @@ vendor('qiniu.autoload');
 use Qiniu\Auth as Auth;
 use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;
-//use Qiniu\Auth;
-//use Qiniu\Storage\UploadManager;
 use think\Controller;
 
 class File extends Controller{
@@ -19,7 +17,7 @@ class File extends Controller{
     private $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
     private $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
     public $bucket = 'goods';
-    public $domain='teahouse.siring.cn';
+    public $domain='http://teahouse.siring.cn';
 
     public function upload()
     {
