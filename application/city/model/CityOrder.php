@@ -126,6 +126,7 @@ class CityOrder extends Model
                 'id_status'=> $user_data['id_status'],
                 'order_price' => $city_meal['meal_price'],
                 'city_meal_name' => $city_meal['city_meal_name'],
+                'city_user_id'=> $user['user_id'],
                 'create_time' => time(),
             ];
             $rest = $this -> allowField(true)->save($data);

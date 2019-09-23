@@ -16,4 +16,21 @@ class Store extends Model
         }
     }
 
+
+
+    /**gy
+     *  城市累计商户总数
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function store_number($city_user_id)
+    {
+        $model = new static;
+        !$city_user_id && $rest = $model->where('city_iser_id', '=', $city_user_id)->count();
+        return $rest;
+        
+    }
 }
