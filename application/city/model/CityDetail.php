@@ -40,4 +40,22 @@ class CityDetail extends Model
     }
 
 
+    
+    /**gy
+     *  城市累计商户获得佣金
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function city_store_commission($city_user_id)
+    {
+        $model = new static;
+        !empty($city_user_id) && $rest = $model->where('city_user_id', '=', $city_user_id)->sum('commision');
+        return $rest;
+        
+    }
+
+
 }
