@@ -4,6 +4,7 @@ namespace app\city\model;
 use think\Session;
 use think\Model;
 use think\Validate;
+use app\index\controller\Login as Login;
 use app\city\controller;
 use app\city\controller\Picture;
 use app\common\exception\BaseException;
@@ -197,6 +198,7 @@ class User extends Model
         // 数据验证
         $resgister = $this->validation($data);
         // 新增申请记录
+        $code_object = new Login;
         $img = $this->image();
         $data['password'] = changcang_hash($data['password']);
         if(!$this->getError()){
@@ -218,6 +220,7 @@ class User extends Model
             'apply_city_one' => $resgister['apply_city_one'],
             'city_rank' => $resgister['city_rank'],
             'create_time'=>time(),
+            'my_invitation'=> $code_object->memberCode(),
             'city_address' => $resgister['city_address']]);
         }
 
