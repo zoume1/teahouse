@@ -16,17 +16,16 @@ use app\rec\model\WechatPay as WeiPay;
 //微信支付
 class WechatPay extends Controller{
 
-    public function get_pay()
+    public function get_pay($id)
     {
         // 查询订单信息
-        $id = 451;
         $url = 'http://www.zhihuichacang.com/rec/app_notice';
         $openid = 'oYb9gwLrKCi2IxzBQ-GQrM5MSRfM';
         $order = db('set_meal_order') -> getById($id);
-        // print_r($order);die;
+//         print_r($order);die;
          if(!$order)returnJson(0,'当前订单不存在');
          if($order['status'] != -1)returnJson(0,'当前订单状态异常');
-         if($order['is_del'] != -1)returnJson(0,'当前订单不存在');
+         if($order['is_del'] != 1)returnJson(0,'当前订单已删除');
 
         $wechatpay = new WeiPay();
 
