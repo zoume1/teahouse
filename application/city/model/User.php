@@ -44,12 +44,10 @@ class User extends Model
         if($is_login == STATUS_NOPAY || $is_login == ERROR_104){
              // 保存登录状态
             Session::set('User', [
-                'User' => [
                     'user_id' => $user['user_id'],
                     'phone_number' => $user['phone_number'],
-                ],
-                'is_login' => true,
-            ]);
+                    'is_login' => true,
+                ]);
         }
 
         return $is_login;

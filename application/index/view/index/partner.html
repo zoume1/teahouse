@@ -196,8 +196,8 @@
     </div>
     <!-- 底部按钮 -->
     <div class="foot-box">
-            <!-- <a href="{:url('index/index/city_login')}" class="foot-btn btn-l">已有城市合伙人账号后台登录</a> -->
-            <a href="{:url('city/Citydenglu/logCityTenantDetail')}" class="foot-btn btn-l">已有城市合伙人账号后台登录</a>
+            <a href="{:url('index/index/city_login')}" class="foot-btn btn-l">已有城市合伙人账号后台登录</a>
+            <!-- <a href="{:url('city/Citydenglu/logCityTenantDetail')}" class="foot-btn btn-l">已有城市合伙人账号后台登录</a> -->
             <div class="foot-btn btn-r">立即申请城市合伙人</div>
     </div>
 
@@ -707,14 +707,13 @@
        
         // 申请合伙人
         $('#submit').click(function () {
-           
-            if (myEvent.data.phone_password != myEvent.data.phone_password_repeat) {
-                layer.msg("两次密码不相同");
-                return false;
+            if (myEvent.data.real_name == '' || myEvent.data.real_name == null) {
+                    layer.msg("姓名不能为空！");
+                    return false;
             }
-            if (!$("#ensure").get(0).checked) {
-                layer.msg("请勾选《城市合伙人代理协议》");
-                return false;
+            if (myEvent.data.company_name == '' || myEvent.data.company_name == null) {
+                    layer.msg("身份证号不能为空！");
+                    return false;
             }
             if (myEvent.data.natureTag == 2) {
                 if (myEvent.data.company_name == '' || myEvent.data.company_name == null) {
@@ -726,6 +725,14 @@
                     return false;
                 }
             }
+            if (myEvent.data.detail == '' || myEvent.data.detail == null) {
+                    layer.msg("详细地址不能为空！");
+                    return false;
+            }
+            if (myEvent.data.phone_password != myEvent.data.phone_password_repeat) {
+                layer.msg("两次密码不相同");
+                return false;
+            }
             if($("#province_sq  option:selected").val() == 0) {
                 layer.msg("请选择省份");
                 return false;
@@ -736,6 +743,10 @@
             }
             if($("#citys  option:selected").val() == 0) {
                 layer.msg("请选择城市");
+                return false;
+            }
+            if (!$("#ensure").get(0).checked) {
+                layer.msg("请阅读并勾选《城市合伙人代理协议》");
                 return false;
             }
             // var datas = $('#form1').serialize() + "&id_image=" + myEvent.data.zm + "&id_image_reverse=" +  myEvent.data.fm;
@@ -750,9 +761,7 @@
                 processData: false, //不处理数据
                 success: function (result) {
                     console.log(result);//打印服务端返回的数据(调试用)
-                    // if (result.resultCode == 200) {
-                    //     alert("SUCCESS");
-                    // }
+                    layer.msg(result.msg);
                 },
                 error: function (e) {
                     console.log(e)
