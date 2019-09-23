@@ -283,7 +283,6 @@
                                 type: "POST",
                                 data: {},
                                 success: (res) => {
-                                    console.log(res)
                                     var data = res.data;
                                     if (res.code == 1) {
                                         var dhtml = `<div class="pay_box">
@@ -355,7 +354,6 @@
                     order_number: pay_order
                 },
                 success: (res) => {
-                    console.log(res)
                     if(res.code == 1) {
                         $('#payImg').attr("src", res.data.url)
                         $(".pay_main").hide();
@@ -377,7 +375,7 @@
                     },
                     success: (res) => {
                         if(res.code == 1) {
-                            window.open(res.data.url);
+                            $('body').append(res.data.url);
                         } else {
                             layer.msg(res.msg);
                         }
