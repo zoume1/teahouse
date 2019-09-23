@@ -8,29 +8,32 @@ use Qiniu\Storage\UploadManager;
 
 class Picture extends Controller
 {
-    public $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
-    public $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
-    public $bucket = 'goods';
-    public $domain='teahouse.siring.cn';
+    private  $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+    private  $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+    private  $bucket = 'goods';
+    private  $domain='teahouse.siring.cn';
+
+    
+
 
     /**
      * 总控上传图片
      * Class Picture
      * @package app\city\controller
      */
-    public static function upload_picture($images)
+    public  function upload_picture($images)
     {
         $file = request()->file($images);
         if (!empty($file) && is_array($file)) {              
             foreach ($file as $k=>$v) {
-                $picture_list = self::photo_pin($v);
-            }    
+                $picture[] = $this->photo_pin($v);
+            }
+            $picture_list = explode(",",$picture);
               
         } elseif (!empty($file)){
-            $picture_list = self::photo_pin($file);
+            $picture_list = $this->photo_pin($file);
         }
-
-        return isset($picture_list) ? $picture_list : false;
+        return $picture_list ? $picture_list : false;
     }
 
 
@@ -40,7 +43,7 @@ class Picture extends Controller
      * Class Picture
      * @package app\city\controller
      */
-    public static function photo_pin($file){
+    public  function photo_pin($file){
         $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');    //本地保存
         $filePath = $info->getPathName();
         // 要上传图片的本地路径
@@ -51,9 +54,9 @@ class Picture extends Controller
         $key =substr(md5($info->getRealPath()) , 0, 5). date('YmdHis') . rand(0, 9999) . '.' . $ext;
         // 需要填写你的 Access Key 和 Secret Key
         // 构建鉴权对象
-        $auth = new Auth(self::accessKey,self::secrectkey);
+        $auth = new Auth($this->accesskey,$this->secrectkey);
         // 要上传的空间
-        $token = $auth->uploadToken(self::bucket);
+        $token = $auth->uploadToken($this->bucket);
         // 初始化 UploadManager 对象并进行文件的上传
         $uploadMgr = new UploadManager();
         // 调用 UploadManager 的 putFile 方法进行文件的上传
@@ -61,8 +64,8 @@ class Picture extends Controller
         if ($err !== null) {
             return false;
         } 
-        $domain = self::domain;
-        $list[] = 'http://'.$domain.'/'.$ret['key'];
+        $domain = $this->domain;
+        $list = 'http://'.$domain.'/'.$ret['key'];
         return $list;
     }
 

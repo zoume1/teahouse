@@ -22,10 +22,15 @@ use think\Session;
 use think\Request;
 
 /**
- * 错误码
+ * 状态码
  * 100-200
  */
-define("ERROR_100",100);//
+define("ERROR_100",100);//登录失败, 账号或密码错误
+define("ERROR_101",101);//合伙人申请还在审核中
+define("ERROR_103",103);//合伙人申请被拒绝
+define("ERROR_104",104);//合伙人未购买套餐
+define("ERROR_105",105);//合伙人购买套餐正在审核中
+define("ERROR_106",106);//合伙人购买套餐
 
 
 

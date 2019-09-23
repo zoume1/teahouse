@@ -1129,9 +1129,7 @@ Route::group("admin",[
    "city_rank_add"=>"admin/City/city_rank_add",                //城市等级添加
    "city_rank_delete"=>"admin/City/city_rank_delete",          //城市等级删除
    "city_rank_update"=>"admin/City/city_rank_update",          //城市等级移动
-   "logCityTenantDetail"=>"admin/City/logCityTenantDetail",    //登陆后-城市累计商户明细
-   "myInviteStore"=>"admin/City/myInviteStore",                //我邀请的商户明细
-   "copartner_order_index"=>"admin/City/copartner_order_index",//我邀请的商户明细
+
 
 ]);
 
@@ -1180,13 +1178,22 @@ Route::group("api",[
 
 /**
  * 城市合伙人
+ * gy
  */
 Route::group("city",[
     "apply_login" => "city/Passport/login", //城市合伙人PC端登录
-    "apply_register" => "city/Passport/register", //城市合伙人PC端注册
+    "apply_register" => "city/Passport/register", //城市合伙人PC端注册修改密码
+    "forget_password" => "city/Passport/forget_password", //城市合伙人PC端修改密码
     "chooseCity" => "city/Passport/chooseCity", //城市合伙人选择省份直辖市
     "chooseRank" => "city/Passport/chooseRank", //城市合伙人选择等级
-
+    "logCityTenantDetail"=>"city/Citydenglu/logCityTenantDetail",    //登陆后-城市累计商户明细
+    "myInviteStore"=>"city/Citydenglu/myInviteStore",                //我邀请的商户明细
+    "copartner_order_index"=>"city/Citydenglu/copartner_order_index",//我邀请的商户明细
+    "order_index"=>"city/CityOrder/order_index",//城市合伙人订单显示
+    "city_meal_notify"=>"city/CityOrder/city_meal_notify",//城市合伙人订单微信支付回调
+    "city_meal_notify_alipay"=>"city/CityOrder/city_meal_notify_alipay",//城市合伙人订单支付宝支付回调
+    "payment_image"=>"city/CityOrder/payment_image",//上传汇款支付凭证
+    "mailing_address"=>"city/CityOrder/mailing_address",//开发票邮寄地址
 
 ]);
 
