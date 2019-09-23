@@ -68,7 +68,7 @@
                         :key="v.goods_name">
                         <div class="img-box"
                             @click="goodsDetail(v.id)">
-                            <img :src=`__UPLOADS__/${v.goods_show_image}`>
+                            <img :src=`${v.goods_show_image}`>
                         </div>
                         <div class="row row-1 clearfix">
                             <div class="price">
@@ -104,7 +104,7 @@
                         @click="goodsDetail(v.id)"
                     >
                         <div class="img-box">
-                            <img :src=`__UPLOADS__/${v.goods_show_image}`>
+                            <img :src=`${v.goods_show_image}`>
                         </div>
                         <div class="side-row clearfix">
                             <div class="side-classify fl">
