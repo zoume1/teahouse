@@ -1242,6 +1242,9 @@ Route::group("rec",[
     //分享
     "qr_code"=>"rec/Share/qr_code",
 
+    //提现申请
+    "cash_with"=>"rec/With/cash_with"
+
 ]);
 
 Route::miss("public/miss");

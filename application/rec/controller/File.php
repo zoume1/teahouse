@@ -8,7 +8,6 @@
 namespace app\rec\controller;
 vendor('qiniu.autoload');
 use Qiniu\Auth as Auth;
-use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;
 use think\Controller;
 

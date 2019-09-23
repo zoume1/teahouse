@@ -7,6 +7,7 @@
  */
 namespace app\rec\model;
 use think\Model;
+use think\Validate;
 include('../extend/lib/SendApi.php');
 
 class Invoice extends Model{
@@ -20,7 +21,7 @@ class Invoice extends Model{
      */
     public function get_order($id)
     {
-        return self::get($id)->toArray();
+        return self::get($id) ? self::get($id)->toArray() : returnJson(0,'数据有误');
     }
 
     /**

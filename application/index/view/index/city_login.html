@@ -12,19 +12,9 @@
     <link rel="stylesheet" href="__STATIC__/index/thirdpart/css/verify.css">
     <script src="__STATIC__/index/js/intlTelInput.min.js"></script>
     <style>
+        html,body{height: 100%;}
         body{position: relative;}
         .partner-info-container{width: 1350px; margin: 0 auto;}
-        .partner-info-detail .info-item-title-bg{background: url(__STATIC__/index/img/img35.jpg) no-repeat center; width: 1350px; margin: 50px 0;}
-        .partner-info-detail .info-item-title-bg .title{font-size: 32px; line-height: 38px; text-align: center; color: #515551; margin-bottom: 10px;}
-        .partner-info-detail .info-item-title-bg .subtitle{font-size: 18px; line-height: 21px; text-align: center; color: #515551;}
-        .partner-info-item .info-item-img{text-align: center;}
-        .representative{margin: 100px 0;}
-        .representative .swiper-slide{width: 700px; background-color: #fff; box-shadow: 0 8px 30px #ddd;}
-        .representative .swiper-slide img{display: block;}
-        .foot-btn{margin:auto 0;width: 300px;height:35px;line-height:35px;text-align: center;color: #fff;font-size: 18px;font-weight:700;border-radius: 5px;padding: 10px;cursor: pointer;}
-        .btn-l{background-color: rgb(102,153,0);margin-right: 200px;}
-        .btn-r{background-color: rgb(255,102,0);}
-        .foot-box{width: 100%;height: 100px;background-color: rgb(0, 0, 0, .5);display: flex;justify-content: center;align-content: stretch;position: fixed;bottom:0px;}
         .city-title{display: flex;justify-content: space-between;padding: 10px 0;}
         .title-l{font-weight: 700;font-size: 16px;}
         .city-apply{line-height: 23px;margin-right: 15px;}
@@ -45,6 +35,34 @@
         .copyright a{color: #515151;}
         .qr-code-wrap{width: 350px; margin: 0 auto; text-align: center;}
         .varify-input-code{background-color: rgb(244,244,244);}
+        .pay_main,.pay_bounced{width: 100%;height: 100%;background-color: rgb(0,0,0, .5);position: absolute;top: 0;}
+        .pay_box{width: 60%;margin: 10% auto;background: #fff;padding: 30px 40px;}
+        .pay_table table{width:100%;margin:0 auto;text-align: center;border: 1px solid rgb(168,221,255);}
+        .pay_table table thead{background-color: rgb(207,236,255);line-height: 50px;border-bottom: 1px solid rgb(168,221,255);}
+        .pay_table table tbody tr{height: 100px;}
+        .c_city{font-size: 21px;line-height: 50px;}
+        .city_n{color:red;font-weight: 700;}
+        .pay_k{display:flex;flex-direction: column;justify-content: flex-end; margin-top: 50px;text-align: right;}
+        .pay_t{width: 400px;display: inline-block;font-size: 16px;border: 1px solid red;line-height: 70px;background-color: rgb(244,251,255);}
+        .pay_mon{font-size: 25px;padding-right: 10px;font-weight: 700;color: rgb(255,102,0);}
+        .pay_btn{width: 150px;text-align: center;background-color: red;color: #fff;font-size: 20px;line-height: 40px;padding: 7px 30px;cursor: pointer;}
+        .th_one{text-align: left;width: 35%;}
+        .tr_one{text-align: left;padding-left: 12%;}
+        .pay_invoice{display: flex;justify-content: space-between;margin: 10px;}
+        .tips{text-decoration:line-through;color: rgb(174,174,174);}
+        .pay_bounced_x{width: 30%;margin:10% auto;background-color: #fff;border-radius: 10px;padding: 15px 30px;}
+        .close_box{display: flex;justify-content: space-between;font-size: 30px;border-bottom: 1px solid black;}
+        .close_title{font-weight: 700;}
+        .close{cursor: pointer;}
+        .pay_img{text-align:center;}
+        .pay_img img{width: 50px;height: 50px;}
+        .scan-way{text-align: center;}
+        .scan-way .scan-tip{font-size: 28px; color: #333;}
+        .scan-way .support{margin: 10px 0;}
+        .payment{line-height: 50px;border-bottom: 1px solid rgb(188,188,188);font-size: 20px;margin-bottom: 20px;}
+        .w_l{width: 120px;display:inline-block;}
+        .pay_money{font-size: 26px;color: rgb(255,102,0);}
+        .wx_pay,.ali_pay {cursor: pointer;}
     </style>
 </head>
 <body>
@@ -138,67 +156,75 @@
                     </div>
                 </div>
                 <div style="text-align: center;margin-top:15px;font-size:12px;color:rgb(121,121,121);">
-                        © 2012-2018 宣铭科技版权所有
+                    © 2012-2018 宣铭科技版权所有
                 </div>
 
             </div>
         </div>
+    </div>
+    <!-- 订单弹框 -->
+    <div class="pay_main" style="display: none;" id="app">
+    </div>
 
-   
-  
-
-
-
-
- 
+    <!-- 支付弹框 -->
+    <div class="pay_bounced" style="display: none;">
+        <div class="pay_bounced_x">
+            <div class="close_box">
+                <div class="close_title">选择支付方式</div>
+                <div class="close">×</div>
+            </div>
+            <div class="payment">
+                <div><span class="w_l">支付金额：</span><span class="pay_money">￥9023</span></div>
+                <div><span class="w_l">支付方式：</span><input type="radio" name="pay" checked><label>扫码支付</label></div>
+                <div><span class="w_l"></span><input type="radio" name="pay"><label>汇款支付</label></div>
+            </div>
+            <div class="scan-way">
+                <div class="code-box">
+                    <img id="payImg" src="" width="200" height="200">
+                </div>
+                <div class="support">
+                    <span>
+                        <input type="radio" name='pay_f' checked>
+                        <img src="__STATIC__/admin/common/img/g3.png" width="32" height="32">
+                        <span>微信支付</span>
+                    </span>
+                    <span class="ali_pay">
+                        <input type="radio" name='pay_f'>
+                        <img src="__STATIC__/admin/common/img/g4.png" width="32" height="32">
+                        <span>支付宝</span>
+                    </span>
+                </div>
+                <p class="scan-tip">扫一扫完成支付</p>
+            </div>
+        </div>
+    </div>
+    
 
     <script src="__STATIC__/index/js/jquery.js"></script>
-    <script src="__STATIC__/index/js/distpicker.data.js"></script>
-    <script src="__STATIC__/index/js/distpicker.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
-    <script src="__STATIC__/index/js/swiper-4.3.5.min.js"></script>
+    <script src="__STATIC__/index/js/layer/layer.js"></script>
      <!--数字验证-->
      <script src="__STATIC__/index/thirdpart/js/swiper-4.3.5.min.js"></script>
      <script src="__STATIC__/index/thirdpart/js/verify.js"></script>
     <script>
-        var representative = new Swiper('.swiper-container', {
-			watchSlidesProgress: true,
-			slidesPerView: 'auto',
-			centeredSlides: true,
-			loop: true,
-			autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-			on: {
-				progress: function (progress) {
-					for (i = 0; i < this.slides.length; i++) {
-						var slide = this.slides.eq(i);
-						var slideProgress = this.slides[i].progress;
-						modify = 1;
-						if (Math.abs(slideProgress) > 1) {
-							modify = (Math.abs(slideProgress) - 1) * 0.3 + 1;
-						}
-						translate = slideProgress * modify * 260 + 'px';
-						scale = 1 - Math.abs(slideProgress) / 5;
-						zIndex = 999 - Math.abs(Math.round(10 * slideProgress));
-						slide.transform('translateX(' + translate + ') scale(' + scale + ')');
-						slide.css('zIndex', zIndex);
-						slide.css('opacity', 1);
-						if (Math.abs(slideProgress) > 3) {
-							slide.css('opacity', 0);
-						}
-					}
-				},
-				setTransition: function (transition) {
-					for (var i = 0; i < this.slides.length; i++) {
-						var slide = this.slides.eq(i)
-						slide.transition(transition);
-					}
-				}
-			}
-		})
-
+        $(".close").click(function() {
+            $(".pay_bounced").hide();
+        })
+        function formatDate(inputTime) {
+        var date = new Date(inputTime * 1000);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+        return y  + m +   d ;
+        }
 
         // 数字验证码 init
    
@@ -214,28 +240,155 @@
                        },
            success: function (e) {
                
-               layer.msg('登录成功');
                setTimeout(function(){
-                    statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
+                    statusLog == 1 ? location.href = 'city/Citydenglu/logCityTenantDetail' : (statusLog == 2 ? location.href ="/admin" : '');
                 }, 1000);
            },
            error: function () {
             layer.msg('验证码不匹配！');
            }
        });
+       var statusLog = null;
+        $('.button-primary').click(function () {
+            var $phone = $('#phone').val(),
+                $password = $('#password').val();
+            if ($phone !== '' && $password !== '') {
+                $.ajax({
+                    url: 'city/apply_login',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        "User": {
+                            "phone_number": $phone,
+                            "password": $password
+                        }
+                    },
+                    success: function (res) {
+                        statusLog = res.code;
+                        if (res.code == 1) {
+                            //$(".num").css({
+                            //  "display":"block"
+                            //})
+                            // layer.msg(res.info);
+                            layer.msg('登录成功');
+                            myEvent.setCookie(btoa('phone'), btoa($phone), 7); //保存帐号到cookie，有效期7天
+                            myEvent.setCookie(btoa('password'), btoa($password), 7); //保存帐号到cookie，有效期7天
+                            // setTimeout(function(){
+                            //     location.href = 'my_shop';
+                            // }, 1000);
+                        } else if (res.code == 104) {
+                            layer.msg(res.msg);
+                            $.ajax({
+                                url: "city/order_index",
+                                type: "POST",
+                                data: {},
+                                success: (res) => {
+                                    console.log(res)
+                                    var data = res.data;
+                                    if (res.code == 1) {
+                                        var dhtml = `<div class="pay_box">
+                                                        <div class="c_city">您选择城市：<span class="city_n">${data.city_address}</span></div>
+                                                        <div class="pay_table">
+                                                            <table>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="th_one">
+                                                                            <span><input type="checkbox" name="" id="" checked>${formatDate(data.create_time)}</span>
+                                                                            <span  style="margin-left: 30px;">订单号：${data.order_number}</span>
+                                                                        </th>
+                                                                        <th>数量</th>
+                                                                        <th>介绍</th>
+                                                                        <th>金额</th>
+                                                                        <th>小计（元）</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="tr_one">${data.city_meal_name}</td>
+                                                                        <td>${data.number}年</td>
+                                                                        <td style="color: rgb(174,174,174);">${data.selling_point}</td>
+                                                                        <td>
+                                                                            <div>${data.meal_price.toFixed(2)}</div>
+                                                                            <div class="tips">${data.line_price.toFixed(2)}</div>
+                                                                        </td>
+                                                                        <td>${data.meal_price.toFixed(2)}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="pay_invoice">
+                                                            <div><input type="checkbox" name="invoice" id=""><label for="invoice">我要开票</label></div>
+                                                            <div>0.00</div>
+                                                        </div>
+                                                        <div class="pay_k">
+                                                            <div><div class="pay_t">实付款：<span class="pay_mon">￥${data.meal_price.toFixed(2)}</span></div></div>
+                                                            <div><span class="pay_btn" data-order="${data.order_number}" data-money="${data.meal_price.toFixed(2)}">提交订单</span></div>
+                                                        </div>
+                                                    </div>`;
+                                        $('#app').show();
+                                        $('#app').empty();
+                                        $('#app').append(dhtml);
+                                    }
+                                },
+                                error: (e) => { console.log(e) }
+                            })
+                        } else {
 
-        //调起申请弹框
-        $(".btn-r").click(function() {
-            $(".apply_main").show();
-        })
-        //关闭弹窗
-        $(".close").click(function() {
-            $(".apply_main").hide();
-        })
-        //协议
-        $(".deal").click(function() {
-            $(".deal_main").toggle();
-        })
+                        }
+                    },
+                    error: function (res) {
+                        console.log(res.status, res.statusText);
+                    }
+                })
+            } else {
+                layer.msg('请填写手机号或密码！');
+            }
+        });
+        
+        $("#app").on("click", ".pay_btn" ,function() {
+            let pay_order = $(this).data("order"), pay_money =  $(this).data("money");
+            $(".pay_money").text(pay_money);
+            $.ajax({
+                url: "city/cityWhatChatPay",
+                type: "POST",
+                data: {
+                    order_number: pay_order
+                },
+                success: (res) => {
+                    console.log(res)
+                    if(res.code == 1) {
+                        $('#payImg').attr("src", res.data.url)
+                        $(".pay_main").hide();
+                        $(".pay_bounced").show();
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                },
+                error: (e) => {
+                    console.log(e)
+                }
+            });
+            $(".ali_pay").click(function() {
+                $.ajax({
+                    url: "city/cityAlipayCode",
+                    type: "POST",
+                    data: {
+                        order_number: pay_order
+                    },
+                    success: (res) => {
+                        if(res.code == 1) {
+                            window.open(res.data.url);
+                        } else {
+                            layer.msg(res.msg);
+                        }
+                    },
+                    error: (e) => {
+                        console.log(e)
+                    }
+                })
+            })
+        });
+
     </script>
 </body>
 </html>
