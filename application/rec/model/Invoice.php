@@ -201,4 +201,46 @@ class Invoice extends Model{
     function get_sn() {
         return date('YmdHis').rand(100000, 999999);
     }
+
+
+    /**
+     * //pc端支付开发票
+     * gy
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function cityOrderReceipt($data)
+    {
+
+        $rules = [
+            'user_id'=>'require',
+            'type'=>'require',
+            'status'=>'require',
+            'rise'=>'require',
+            'price'=>'require',
+            'address'=>'require',
+            'phone'=>'require',
+
+        ];
+        $message = [
+            'user_id.require'=>'用户id不能为空',
+            'type.require'=>'发票类型不能为空',
+            'status.require'=>'发票样式不能为空',
+            'rise.require'=>'抬头不能为空',
+            'price.require'=>'金额不能为空',
+            'address.require'=>'邮寄地址不能为空',
+            'phone'=>'联系方式不能为空'
+        ];
+        //验证
+        $validate = new Validate($rules,$message);
+        if(!$validate->check($data)){
+            $this->error = $validate->getError();
+            return false;
+        }
+        $data['create_time'] = time();
+        return  $this -> allowField(true)->save($data);
+
+    }
 }
