@@ -1191,8 +1191,8 @@ Route::group("city",[
     "copartner_order_index"=>"city/Citydenglu/copartner_order_index",//我邀请的商户明细
     "order_index"=>"city/CityOrder/order_index",//城市合伙人订单显示
     "cityWhatChatPay"=>"city/CityOrder/cityWhatChatPay",//城市合伙人订单微信支付
-    "city_meal_notify"=>"city/CityOrder/city_meal_notify",//城市合伙人订单微信支付回调
     "cityAlipayCode"=>"city/CityOrder/cityAlipayCode",//城市合伙人订单支付宝支付
+    "city_meal_notify"=>"city/CityOrder/city_meal_notify",//城市合伙人订单微信支付回调
     "city_meal_notify_alipay"=>"city/CityOrder/city_meal_notify_alipay",//城市合伙人订单支付宝支付回调
     "payment_image"=>"city/CityOrder/payment_image",//上传汇款支付凭证
     "mailing_address"=>"city/CityOrder/mailing_address",//开发票邮寄地址
