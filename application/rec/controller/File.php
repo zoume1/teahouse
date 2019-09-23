@@ -6,8 +6,12 @@
  * Time: 10:57
  */
 namespace app\rec\controller;
-use Qiniu\Auth;
+vendor('qiniu.autoload');
+use Qiniu\Auth as Auth;
+use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;
+//use Qiniu\Auth;
+//use Qiniu\Storage\UploadManager;
 use think\Controller;
 
 class File extends Controller{
