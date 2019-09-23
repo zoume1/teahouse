@@ -92,6 +92,8 @@ Class Order extends Controller{
             $order = new MealOrder();
             $order_list = $order->add($param['user_id'],$param['goods_name'],$param['goods_quantity'],'',$param['store_id'],$param['enter_all_id'],'','',$user_all['openid']);
             $no = $order_list->order_number;
+            $order_id = $order_list->id;
+//            print_r($order_id);die;
             // 提交事务
             Db::commit();
             $type = $param['type'];
@@ -109,9 +111,12 @@ Class Order extends Controller{
 
                     $invoice = new InvoiceAll();
                     $result = $invoice->add_enterprise($param['user_id'],$no,$type,$param['status'],$param['email'],$param['rise'],$param['duty'],$param['price'],$user_all['phone_number'],$param['address']);
-                    $res = $result ? ['code' => 1,'msg' => '成功'] : ['code' => 0,'msg' => '失败'];
 
-                    return json($res);
+                    $pay = new WechatPay();
+                    $data = $pay->get_pay($order_id);
+
+                    $data ? returnJson(1,'成功') : returnJson(0,'失败');
+
                     break;   // 跳出循环
                 case 2:
                     if(empty($param['email'])){
@@ -122,9 +127,12 @@ Class Order extends Controller{
                     }
                     $invoice = new InvoiceAll();
                     $result = $invoice->add_personal($param['user_id'],$no,$type,$param['status'],$param['email'],$param['rise'],$user_all['phone_number'],$param['price'],$param['address']);
-                    $res = $result ? ['code' => 1,'msg' => '成功'] : ['code' => 0,'msg' => '失败'];
 
-                    return json($res);
+                    $pay = new WechatPay();
+                    $data = $pay->get_pay($order_id);
+
+                    $data ? returnJson(1,'成功') : returnJson(0,'失败');
+
                     break;
             }
         } catch (\Exception $e) {
