@@ -98,7 +98,7 @@ class CityOrder extends Controller
         if($request->isPost()){
             $pay_object = new Order;
             $order_number = $request->only(["order_number"])["order_number"];
-            $pay_code = $pay_object->WeChatPayCode($order_number);
+            $pay_code = $pay_object->AlipayCode($order_number);
             return $pay_code ? jsonSuccess('支付页面返回成功',$pay_code) : jsonError('支付页面返回失败');
         }
 
