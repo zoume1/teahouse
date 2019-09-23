@@ -613,16 +613,13 @@ class  AdminWx extends Controller{
                 $data = [
                     'start_time' => time(),
                     'end_time' => strtotime("+1 year"),
-                    'pay_status' => WX_PAY,
-                    'account_status' => WX_PAY,
+                    'pay_status' => 1,
+                    'account_status' => 1
                 ];
-                $rest = $model -> allowField(true)->save($data,['order_number'=>$val['out_trade_no']]);
+                $rest = $model->save($data,['order_number'=>$val['out_trade_no']]);
                 if($rest){                           
                       echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
-                      exit();
-                  } else {
-                      return "fail";
-                  }      
+                } exit();
             }
             return "fail";     
         }
