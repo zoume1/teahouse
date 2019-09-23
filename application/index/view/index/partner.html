@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="description" content="ajax方式">
     <title>招募经销商</title>
     <link rel="stylesheet" href="__STATIC__/index/css/common.css">
     <link rel="stylesheet" href="__STATIC__/index/css/swiper-4.3.5.min.css">
@@ -37,7 +38,7 @@
         .input_w > input{width: 88%}
         .form-input{width: 50%;}
         .btn-code{background-color: rgb(102,204,0);color: #fff;width: 128px;border-radius: 3px;margin-left: -130px;line-height: 35px;text-align: center;cursor: pointer;display: inline-block;}
-        .btn-sub{background-color: rgb(248,84,68);color: #fff;width: 150px;height: 30px;border-radius: 30px;margin-left: 10px;}
+        .btn-sub{background-color: rgb(248,84,68);color: #fff;width: 150px;line-height: 30px;border-radius: 30px;margin-left: 10px;display: inline-block;text-align: center;cursor: pointer;}
         .deal{color: blue;cursor: pointer;}
         .deal_main{overflow-y:scroll;width: 100%;padding: 10px 20px;height: 300px;overflow-y: scroll;display: none;}
         .upimg-div .up-section {width: 200px; height: 150px;}
@@ -195,7 +196,8 @@
     </div>
     <!-- 底部按钮 -->
     <div class="foot-box">
-            <a href="{:url('index/index/city_login')}" class="foot-btn btn-l">已有城市合伙人账号后台登录</a>
+            <!-- <a href="{:url('index/index/city_login')}" class="foot-btn btn-l">已有城市合伙人账号后台登录</a> -->
+            <a href="{:url('city/Citydenglu/logCityTenantDetail')}" class="foot-btn btn-l">已有城市合伙人账号后台登录</a>
             <div class="foot-btn btn-r">立即申请城市合伙人</div>
     </div>
 
@@ -257,7 +259,8 @@
 
 
     <!-- 申请城市合伙人弹框 -->
-    <form action="{:url('city/Passport/register')}" method="post" enctype="multipart/form-data">
+    <!-- <form action="{:url('city/Passport/register')}" method="post" enctype="multipart/form-data"> -->
+    <form id="form1" onsubmit="return false" action="##" method="post" enctype="multipart/form-data">
     <div class="apply_main">
         <div class="apply_t">
             <div class="m_t" style="width: 100%;display: flex;">
@@ -391,7 +394,8 @@
                 <select name="city_address" id="citys">
                         <option value ="0">选择城市</option>
                 </select>
-                <button class="btn-sub" type="submit" id="submit" >立即申请</button>
+                <!-- <button class="btn-sub" type="submit" id="submit" >立即申请</button> -->
+                <div class="btn-sub"  id="submit" >立即申请</div>
             </div>
             <div class="m_t">
                 <input style="height: 13px;" type="checkbox" value="0" id="ensure" checked>
@@ -700,8 +704,7 @@
             },
             error: (e) => {console.error(e)}
         })
-
-        
+       
         // 申请合伙人
         $('#submit').click(function () {
            
@@ -735,6 +738,26 @@
                 layer.msg("请选择城市");
                 return false;
             }
+            // var datas = $('#form1').serialize() + "&id_image=" + myEvent.data.zm + "&id_image_reverse=" +  myEvent.data.fm;
+            
+            var datas = new FormData(document.getElementById("form1"));
+            $.ajax({            //几个参数需要注意一下
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/city/apply_register",//url
+                data: datas,
+                contentType: false, //不设置内容类型
+                processData: false, //不处理数据
+                success: function (result) {
+                    console.log(result);//打印服务端返回的数据(调试用)
+                    // if (result.resultCode == 200) {
+                    //     alert("SUCCESS");
+                    // }
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
         })
 
         //手机号发送验证码

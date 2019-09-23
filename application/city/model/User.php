@@ -9,9 +9,9 @@ use app\city\controller\Picture;
 use app\common\exception\BaseException;
 
 
-
-const STATUS_NOPAY = 1;        //审核中
-const STATUS_PAYED = 2;        //通过
+const  STATUS_ZREO = 0;         //未购买套餐
+const STATUS_NOPAY = 1;        //通过
+const STATUS_PAYED = 2;        //审核中
 const STATUS_OTHER = 3;        //拒绝
 
 /**
@@ -36,12 +36,13 @@ class User extends Model
     {
         // 验证用户名密码是否正确
         $user = $this->isStatus($data);
-        if ($user) {
+        if (!$user) {
             $this->error = '登录失败, 账号或密码错误';
-            return false;
-        }  
-        if($this->useApplyStatus($user['status'])){
-            // 保存登录状态
+            return ERROR_100;
+        } 
+        $is_login = $this->useApplyStatus($user);
+        if($is_login == STATUS_NOPAY || $is_login == ERROR_104){
+             // 保存登录状态
             Session::set('User', [
                 'User' => [
                     'user_id' => $user['user_id'],
@@ -49,8 +50,10 @@ class User extends Model
                 ],
                 'is_login' => true,
             ]);
-            return true;
         }
+
+        return $is_login;
+        
         
     }
 
@@ -62,7 +65,8 @@ class User extends Model
      */
     public static function detail($admin_user_id)
     {
-        return self::get($admin_user_id);
+        $user_data =  self::get($admin_user_id);
+        return $user_data ? $user_data->toArray():false;
     }
 
     /**
@@ -110,23 +114,46 @@ class User extends Model
      * @access public
      * @return Query
      */
-    public  function useApplyStatus ($status)
+    public  function useApplyStatus ($user)
     {
-        switch($status)
+        switch($user['status'])
         {
-            case 1:
+            case STATUS_NOPAY://审核通过
+                switch($user['judge_status'])
+                {
+                    case STATUS_ZREO:
+                        $this->error = '请您购买城市合伙人城市等级套餐';
+                        $is_status = ERROR_104;
+                        return $is_status;
+                        break;
+                    case STATUS_NOPAY:
+                        $this->error = '登录成功';
+                        $is_status = STATUS_NOPAY;
+                        return STATUS_NOPAY;
+                        break;
+                    case STATUS_PAYED:
+                        $this->error = '购买的城市套餐正在审核中';
+                        $is_status = ERROR_105;
+                        break;
+                    case STATUS_OTHER:
+                        $this->error = '购买的城市套餐汇款未到账';
+                        $is_status = ERROR_106;
+                        break;
+                    default:
+                        break;
+                }
+                return $is_status;
+                break;
+            case STATUS_PAYED:
                 $this->error = '您的城市合伙人申请还在审核中，请稍后重试';
-                return false;
+                return ERROR_101;
                 break;
-            case 2:
-                return true;
-                break;
-            case 3:
+            case STATUS_OTHER:
                 $this->error = '您的城市合伙人申请被拒绝，请重行申请';
-                return false;
+                return ERROR_103;
                 break;
             default:
-                return false;
+                break;
         }
     }
 
@@ -142,10 +169,10 @@ class User extends Model
             'phone_number' => $data['phone_number'],
             'password' =>  changcang_hash($data['password'])
         ])->find();
-        return $user ? true : false;
+        return $user ? $user->toArray() : false;
     }
 
-        /**
+    /**
      * 城市是否已被注册
      * @param $admin_user_id
      * @return null|static
@@ -155,7 +182,7 @@ class User extends Model
     {
         $user = self::where([
             'city_address'=>$data['city_address'],
-            'status' => STATUS_PAYED 
+            'status' => STATUS_NOPAY  
         ])->find();
         return $user ? true : false;
     }
@@ -213,7 +240,7 @@ class User extends Model
             ['id_card', 'require', '身份证不能为空'],
             ['city_address', 'require', '入驻城市不能为空'],
             ['user_name', 'require', '姓名不能为空'],
-            ['identifying_code','require','验证码不能为空'],
+            ['identifying_code','require','短信验证码不能为空'],
             ['detail','require','请填写详细地址'],
             ['city_rank','require','城市等级不能为空'],
         ]);
@@ -258,7 +285,6 @@ class User extends Model
         $rest = new Picture;
         $id_image = $rest->upload_picture('id_image');
         $id_image_reverse = $rest->upload_picture('id_image_reverse');
-        
         if($id_image && $id_image_reverse){
             return ['id_image' =>$id_image,'id_image_reverse' => $id_image_reverse ] ;
         } else {
@@ -266,6 +292,52 @@ class User extends Model
             return 0;  
         }
  
+    }
+
+    /**
+     * 忘记密码
+     * @param User 
+     * @param $data
+     * @return false|int
+     * @throws BaseException
+     */
+    public function forget($data)
+    {
+        $rules = [
+            'user_id' => 'require',
+            'phone_number' => 'require|regex:\d{11}',
+            'password'=>'require|length:6,16',
+            'code'=>'require',
+        ];
+        $message = [
+            'phone_number.require' => '请输入手机号',
+            'phone_number.regex' => '手机号格式不正确',
+            'password.require'=>'密码不能为空',
+            'password.length' => '密码长度必须在6~16位之间',
+            'identifying_code.require'=>'验证码不能为空',
+        ];
+        //验证
+        $validate = new Validate($rules,$message);
+        if(!$validate->check($data)){
+            $this->error = $validate->getError();
+            return false;
+        }
+        $user = $this->detail(['phone_number' => $data['phone_number']]);
+
+        if(!$user){
+            $this->error = '账号不存在';
+            return false;
+        }
+
+        if (session('mobileCode') != $data['code']) {
+            $this->error = '短信验证码错误';
+            return false;
+        }
+        $password = changcang_hash($data['password']);
+        $password_update = ['password' => $password];
+        $user_status = $this -> allowField(true)->save($password_update,['user_id'=>$user['user_id']]);
+
+        return $user_status ? $user_status : false;
     }
  
 
