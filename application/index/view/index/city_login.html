@@ -439,6 +439,14 @@
                                 },
                                 error: (e) => { console.log(e) }
                             })
+                        } else if(res.code == 105 || res.code == 106){
+                            $.ajax({
+                                url: "city/remittance_login",
+                                type: "POST",
+                                data: "",
+                                success: (res) => {console.log(res)},
+                                error: (e) => {}
+                            })
                         } else {
                             layer.msg(res.msg);
                         }
