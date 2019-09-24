@@ -11,7 +11,7 @@ use think\Validate;
 use think\Controller;
 use think\Config;
 use EasyWeChat\Foundation\Application;
-use EasyWeChat\Payment\Order;
+use EasyWeChat\Payment\Order as WechatOrder;
 use app\rec\model\WechatPay as WeiPay;
 
 
@@ -54,7 +54,7 @@ class WechatPay extends Controller{
 		
         $payment = $app->payment;
 		// print_r($payment);die;
-        $order = new Order($attributes);
+        $order = new WechatOrder($attributes);
 		// print_r($order);die;
         $result = $payment->prepare($order); // 这里的order是上面一步得来的。 这个prepare()帮你计算了校验码，帮你获取了prepareId.省心。
         $prepayId = null;
