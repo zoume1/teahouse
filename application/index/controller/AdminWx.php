@@ -602,14 +602,7 @@ class  AdminWx extends Controller{
     public function city_meal_notify(Request $request)
     {
         if($request->isPost()){
-
-        $receipt = $_REQUEST;
-        if($receipt==null){
             $receipt = file_get_contents("php://input");
-            if($receipt == null){
-                $receipt = $GLOBALS['HTTP_RAW_POST_DATA'];
-            }
-        }
              libxml_disable_entity_loader(true);
             // $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
             $xml_data = simplexml_load_string($receipt, 'SimpleXMLElement', LIBXML_NOCDATA);
