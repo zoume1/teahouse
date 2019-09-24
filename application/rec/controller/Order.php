@@ -115,7 +115,7 @@ Class Order extends Controller{
                     $pay = new WechatPay();
                     $data = $pay->get_pay($order_id);
 
-                    $data ? returnJson(1,'成功') : returnJson(0,'失败');
+                    $data ? returnJson(1,'成功',$data) : returnJson(0,'失败');
 
                     break;   // 跳出循环
                 case 2:
@@ -131,7 +131,7 @@ Class Order extends Controller{
                     $pay = new WechatPay();
                     $data = $pay->get_pay($order_id);
 
-                    $data ? returnJson(1,'成功') : returnJson(0,'失败');
+                    $data ? returnJson(1,'成功',$data) : returnJson(0,'失败');
 
                     break;
             }
