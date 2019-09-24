@@ -1186,6 +1186,7 @@ Route::group("city",[
     "apply_login" => "city/Passport/login", //城市合伙人PC端登录
     "apply_register" => "city/Passport/register", //城市合伙人PC端注册
     "forget_password" => "city/Passport/forget_password", //城市合伙人PC端修改密码
+    "remittance_login" => "city/Passport/remittance_login", //城市合伙人凭证
     "chooseCity" => "city/Passport/chooseCity", //城市合伙人选择省份直辖市
     "chooseRank" => "city/Passport/chooseRank", //城市合伙人选择等级
     "logCityTenantDetail"=>"city/Citydenglu/logCityTenantDetail",    //登陆后-城市累计商户明细
@@ -1243,7 +1244,8 @@ Route::group("rec",[
     "qr_code"=>"rec/Share/qr_code",
 
     //提现申请
-    "cash_with"=>"rec/With/cash_with"
+    "cash_with"=>"rec/With/cash_with",
+    "record_with"=>"rec/With/record",
 
 ]);
 

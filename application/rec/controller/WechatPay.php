@@ -13,9 +13,14 @@ use think\Config;
 use EasyWeChat\Foundation\Application;
 use app\rec\model\WechatPay as WeiPay;
 
-//微信支付
+
 class WechatPay extends Controller{
 
+    /**
+     * 获取订单相关信息
+     * @param $id
+     * @return array|string|\think\response\Json
+     */
     public function get_pay($id)
     {
         // 查询订单信息
@@ -35,7 +40,10 @@ class WechatPay extends Controller{
     }
 
 
-    //微信回调
+    /**
+     * 微信回调
+     * @throws \EasyWeChat\Core\Exceptions\FaultException
+     */
     public function app_notice(){
         //初始化微信sdk
         $options = [
@@ -56,9 +64,9 @@ class WechatPay extends Controller{
             $where = array('order_number'=>$notify->out_trade_no);
 
             $orderArr = db('tb_set_meal_order')->where($where)->field('status')->find();
-            if (empty($orderArr)) { // 如果订单不存在
+            if (empty($orderArr)) {
+                // 如果订单不存在
                 returnJson(0,'订单不存在');
-//                return '订单不存在';
             }
             if ($orderArr['status'] == 1) {
                 return true; // 已经支付成功了就不再更新了

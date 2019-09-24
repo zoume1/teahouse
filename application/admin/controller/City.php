@@ -146,7 +146,6 @@ class  City extends  Controller{
     public function city_datum_verify(){
         $search = input();
         $data = CityCopartner::city_copartner($search);
-        // halt($data);
         return view("city_datum_verify",['data'=>$data]);
     }
 

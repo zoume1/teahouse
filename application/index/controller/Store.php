@@ -11,6 +11,8 @@ use think\Controller;
 use think\Request;
 use think\Session;
 use think\Db;
+use app\admin\model\Store as AddStore;
+
 use app\index\controller\Login as LoginPass;
 class  Store extends  Controller{
     /**
@@ -79,7 +81,10 @@ class  Store extends  Controller{
                 "store_name"=>$store_name,
                 "create_time"=>time(),
             ];
-
+            $city_user_id = AddStore::find_city_user($address_data);
+            if($city_user_id){
+                $data['city_user_id'] = $city_user_id;
+            }
             $bool = Db::name("store")->insertGetId($data);
             if($bool > 0){
                     $user_data =Db::table("tb_pc_user")
@@ -111,7 +116,7 @@ class  Store extends  Controller{
                 $mobile = $user_data['phone_number'];
                 $content = "【智慧茶仓】尊敬的用户您好！您的店铺申请成功，请及时登陆网站，选择套餐，完成店铺入驻";
                 $output = sendMessage($content,$mobile);
-                return ajax_success("您的资料已提交,请耐心等待审核");
+                return ajax_success("您的资料已提交,请耐心等待审核",["store_id"=>$bool]);
             }else{
                 return ajax_error("网络错误，请重新提交");
             }

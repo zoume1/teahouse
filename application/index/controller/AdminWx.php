@@ -10,6 +10,7 @@ use think\Controller;
 use think\Request;
 use think\Db;
 use app\city\model\CityOrder as Order;
+use app\city\model\CityCopartner as User;
 
 const WX_PAY = 1;
 const ZFB_PAY = 2;
@@ -609,15 +610,18 @@ class  AdminWx extends Controller{
                 //回调成功
                 //找到订单
                 //更新订单状态
-                $model = new Order;
+                $model = new Order; 
+                $user_object = new User;
+                $user_data = $model->detail(['order_number'=>$val['out_trade_no']]);
                 $data = [
                     'start_time' => time(),
                     'end_time' => strtotime("+1 year"),
-                    'pay_status' => 1,
-                    'account_status' => 1
+                    'pay_status' => WX_PAY,
+                    'account_status' => WX_PAY
                 ];
                 $rest = $model->save($data,['order_number'=>$val['out_trade_no']]);
-                if($rest){                           
+                $restul = $user_object->save(['judge_status'=>WX_PAY],['user_id'=>$user_data['city_user_id']]);
+                if($rest && $restul){                           
                       echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                 } exit();
             }
@@ -652,6 +656,8 @@ class  AdminWx extends Controller{
             if($trade_status == 'TRADE_FINISHED' || $trade_status == 'TRADE_SUCCESS'){     //支付成功
             //逻辑处理
             $model = new Order;
+            $user_object = new User;
+            $user_data = $model->detail(['order_number'=>$out_trade_no]);
             $data = [
                 'start_time' => time(),
                 'end_time' => strtotime("+1 year"),
@@ -659,7 +665,8 @@ class  AdminWx extends Controller{
                 'account_status' => WX_PAY,
             ];
             $rest = $model -> allowField(true)->save($data,['order_number'=>$out_trade_no]);
-            if($rest)
+            $restul = $user_object->allowField(true)->save(['judge_status'=>WX_PAY],['user_id'=>$user_data['city_user_id']]);
+            if($rest && $restul)
             {
                 return "success";
             } else {
