@@ -1243,7 +1243,8 @@ Route::group("rec",[
     "qr_code"=>"rec/Share/qr_code",
 
     //提现申请
-    "cash_with"=>"rec/With/cash_with"
+    "cash_with"=>"rec/With/cash_with",
+    "record_with"=>"rec/With/record",
 
 ]);
 

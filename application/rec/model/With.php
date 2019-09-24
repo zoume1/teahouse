@@ -17,7 +17,7 @@ class With extends Model
 {
     protected $table = "tp_wx_with";
     protected $resultSetType = 'collection';
-
+    protected $hidden = ['account_name','opening_bank','card_num','update_time'];
     /**
      * 申请
      * @param $param
@@ -35,6 +35,16 @@ class With extends Model
             'create_time' =>time()
 
         ]);
+    }
+
+    /**
+     * 申请记录
+     * @param $uid
+     * @throws \think\exception\DbException
+     */
+    public function details($uid)
+    {
+        return self::all(['user_id'=>$uid]) ?  self::all(['user_id'=>$uid])->toArray(): returnJson(0,'数据有误');
     }
 
 }

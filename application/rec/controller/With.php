@@ -46,7 +46,23 @@ Class With extends Controller{
 
         $data = $with->add($param);
 
-        $data ? returnJson(1,'申请成功',$data) : returnJson(0,'申请失败',$data);
+        $data ? returnJson(1,'申请成功') : returnJson(0,'申请失败');
+    }
+
+    /**
+     * 获取提现记录
+     */
+    public function record()
+    {
+        $request = Request::instance();
+        $param = $request->param();
+
+        if(!$param['user_id'])returnJson(0,'用户id不能为空');
+
+        $with = new \app\rec\model\With();
+        $data = $with->details($param['user_id']);
+
+        $data ? returnJson(1,'获取记录成功',$data) : returnJson(0,'获取失败',$data);
     }
 
 
