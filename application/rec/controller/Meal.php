@@ -42,7 +42,7 @@ Class Meal extends Controller{
 
         $field = 'id,year,cost,favourable_cost,enter_id,version_introduce';
         $order = 'id asc';
-        $data = db('enter_all')->where($where)->field($field)->order($order)->select();
+        $data = db('enter_all')->where($where)->field($field)->order($order)->find();
 
         $data ? returnJson(1,'请求成功',$data) : returnJson(0,'请求失败',$data);
     }

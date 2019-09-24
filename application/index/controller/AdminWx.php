@@ -9,7 +9,11 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use app\city\model\CityOrder as Order;
 
+const WX_PAY = 1;
+const ZFB_PAY = 2;
+const HK_CITY = 3;
 
 class  AdminWx extends Controller{
 
@@ -588,7 +592,83 @@ class  AdminWx extends Controller{
     
 
 
+    /**
+     * 城市合伙人订单微信支付回调
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function city_meal_notify(Request $request)
+    {
+        if($request->isPost()){
+            $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+            $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $val = json_decode(json_encode($xml_data), true);
+            if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){   
+                //回调成功
+                //找到订单
+                //更新订单状态
+                $model = new Order;
+                $data = [
+                    'start_time' => time(),
+                    'end_time' => strtotime("+1 year"),
+                    'pay_status' => 1,
+                    'account_status' => 1
+                ];
+                $rest = $model->save($data,['order_number'=>$val['out_trade_no']]);
+                if($rest){                           
+                      echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                } exit();
+            }
+            return "fail";     
+        }
 
+    }
+
+
+
+    /**
+     * 城市合伙人订单支付宝支付回调
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function city_meal_notify_alipay()
+    {
+        include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
+        $obj_alipay = new \alipay();
+        if (!$obj_alipay->verify_notify())
+        {
+            //验证未通过
+            echo "fail";
+            exit();
+        } else {  
+            //支付状态  
+            $trade_status = input('trade_status');
+            //原始订单号
+            $out_trade_no = input('out_trade_no');
+            if($trade_status == 'TRADE_FINISHED' || $trade_status == 'TRADE_SUCCESS'){     //支付成功
+            //逻辑处理
+            $model = new Order;
+            $data = [
+                'start_time' => time(),
+                'end_time' => strtotime("+1 year"),
+                'pay_status' => ZFB_PAY,
+                'account_status' => WX_PAY,
+            ];
+            $rest = $model -> allowField(true)->save($data,['order_number'=>$out_trade_no]);
+            if($rest)
+            {
+                return "success";
+            } else {
+                return "fail";
+            } 
+                return "fail"; 
+            }
+        }
+    }
 
 
 

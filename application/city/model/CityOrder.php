@@ -99,7 +99,7 @@ class CityOrder extends Model
     }
 
 
-        /**
+    /**
      * 城市合伙人订单显示
      * @return array|mixed
      * @throws \think\db\exception\DataNotFoundException
@@ -126,6 +126,7 @@ class CityOrder extends Model
                 'id_status'=> $user_data['id_status'],
                 'order_price' => $city_meal['meal_price'],
                 'city_meal_name' => $city_meal['city_meal_name'],
+                'city_user_id'=> $user['user_id'],
                 'create_time' => time(),
             ];
             $rest = $this -> allowField(true)->save($data);
@@ -180,7 +181,7 @@ class CityOrder extends Model
         include('../extend/WxpayAllone/lib/WxPay.Api.php');
         include('../extend/WxpayAllone/example/WxPay.NativePay.php');
         include('../extend/WxpayAllone/example/log.php');
-        $data = $self::detail(['order_number'=>$order_number]);
+        $data = self::detail(['order_number'=>$order_number]);
         if($data){
             $notify = new \NativePay();
             $input = new \WxPayUnifiedOrder();//统一下单
@@ -192,7 +193,7 @@ class CityOrder extends Model
             $input->SetTime_start(date("YmdHis")); //设置订单生成时间,格式为yyyyMMddHHmmss
             $input->SetTime_expire(date("YmdHis", time() + 600)); //设置订单失效时间
             $input->SetGoods_tag("test"); //设置商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
-            $input->SetNotify_url(config("domain.url")."/city/city_meal_notify"); //回调地址
+            $input->SetNotify_url(config("domain.url")."/city_meal_notify"); //回调地址
             $input->SetTrade_type("NATIVE"); //交易类型(扫码)
             $input->SetProduct_id($goods_id);//设置trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义。
             $result = $notify->GetPayUrl($input);
@@ -218,12 +219,12 @@ class CityOrder extends Model
     {
         header("Content-type:text/html;charset=utf-8");
         include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
-        $data = $self::detail(['order_number'=>$order_number]);
+        $data = self::detail(['order_number'=>$order_number]);
         if($data){
             $obj_alipay = new \alipay();                                           
             $arr_data = array(
-                "return_url" => trim(config("domain.url")."city"),
-                "notify_url" => trim(config("domain.url")."/city/city_meal_notify_alipay.html"),
+                "return_url" => trim(config("domain.url")),
+                "notify_url" => trim(config("domain.url")."/city_meal_notify_alipay.html"),
                 "service" => "create_direct_pay_by_user", //服务参数，这个是用来区别这个接口是用的什么接口，所以绝对不能修改
                 "payment_type" => 1, //支付类型，没什么可说的直接写成1，无需改动。
                 "seller_email" => '717797081@qq.com', //卖家

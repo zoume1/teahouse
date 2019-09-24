@@ -4,6 +4,7 @@ namespace app\city\model;
 use think\Session;
 use think\Model;
 use think\Validate;
+use app\index\controller\Login as Login;
 use app\city\controller;
 use app\city\controller\Picture;
 use app\common\exception\BaseException;
@@ -44,12 +45,10 @@ class User extends Model
         if($is_login == STATUS_NOPAY || $is_login == ERROR_104){
              // 保存登录状态
             Session::set('User', [
-                'User' => [
                     'user_id' => $user['user_id'],
                     'phone_number' => $user['phone_number'],
-                ],
-                'is_login' => true,
-            ]);
+                    'is_login' => true,
+                ]);
         }
 
         return $is_login;
@@ -199,6 +198,7 @@ class User extends Model
         // 数据验证
         $resgister = $this->validation($data);
         // 新增申请记录
+        $code_object = new Login;
         $img = $this->image();
         $data['password'] = changcang_hash($data['password']);
         if(!$this->getError()){
@@ -220,6 +220,7 @@ class User extends Model
             'apply_city_one' => $resgister['apply_city_one'],
             'city_rank' => $resgister['city_rank'],
             'create_time'=>time(),
+            'my_invitation'=> $code_object->memberCode(),
             'city_address' => $resgister['city_address']]);
         }
 
@@ -304,10 +305,9 @@ class User extends Model
     public function forget($data)
     {
         $rules = [
-            'user_id' => 'require',
             'phone_number' => 'require|regex:\d{11}',
             'password'=>'require|length:6,16',
-            'code'=>'require',
+            'identifying_code'=>'require',
         ];
         $message = [
             'phone_number.require' => '请输入手机号',
@@ -329,13 +329,13 @@ class User extends Model
             return false;
         }
 
-        if (session('mobileCode') != $data['code']) {
+        if (session('identifying_code') != $data['identifying_code']) {
             $this->error = '短信验证码错误';
             return false;
         }
         $password = changcang_hash($data['password']);
         $password_update = ['password' => $password];
-        $user_status = $this -> allowField(true)->save($password_update,['user_id'=>$user['user_id']]);
+        $user_status = $this -> allowField(true)->save($password_update,['phone_number'=>$user['phone_number']]);
 
         return $user_status ? $user_status : false;
     }
