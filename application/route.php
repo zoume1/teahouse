@@ -1246,6 +1246,10 @@ Route::group("rec",[
     "cash_with"=>"rec/With/cash_with",
     "record_with"=>"rec/With/record",
 
+    //合伙人考核
+    "assessment"=>"rec/Meal/assessment",
+
+
 ]);
 
 Route::miss("public/miss");
