@@ -37,7 +37,7 @@ define("ERROR_106",106);//购买的城市套餐汇款未到账
 
 //手机验证码
 function phone($account= "",$password = '', $phone = "" ,$content = ""){
-    $url = "http://120.26.38.54:8000/interface/smssend.aspx";
+    $url = "http://117.48.217.182:8000/interface/smssend.aspx";    //117.48.217.182   120.26.38.54
     $post_data = array ("account" => $account,"password" => $password,"mobile"=>$phone,"content"=>$content);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL,$url);
