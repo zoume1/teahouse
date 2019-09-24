@@ -75,10 +75,10 @@
         .line{height: 1px;background-color: rgb(188,188,188);margin: 15px 0;}
         .upimg-div .up-section {width: 100%; height: 150px;}
         .img-box {padding-left: 14%;}
-        .pz_title{text-align: center;color: rgb(134,134,134);font-size: 21px;line-height: 70px;}
+        .pz_title,.pz_title_two{text-align: center;color: rgb(134,134,134);font-size: 21px;line-height: 70px;}
         .hk_zh{font-size: 20px;color: rgb(134,134,134);}
         .hk_zh input{border: 0;}
-        .hk_btn{width: 100px;text-align: center;background-color: rgb(22,155,213);color: #fff;border-radius: 3px;line-height: 35px;cursor: pointer;}
+        .hk_btn,.hk_btn_yz{width: 100px;text-align: center;background-color: rgb(22,155,213);color: #fff;border-radius: 3px;line-height: 35px;cursor: pointer;}
     </style>
 </head>
 <body>
@@ -183,13 +183,13 @@
     </div>
 
     <!-- 支付弹框 -->
-    <div class="pay_bounced" style="display: none;">
+    <div class="pay_bounced"  style="display: none;">
         <div class="pay_bounced_x">
             <div class="close_box">
                 <div class="close_title">选择支付方式</div>
                 <div class="close">×</div>
             </div>
-            <div class="online_pay">
+            <div class="online_pay" >
                 <div class="payment">
                     <div><span class="w_l">支付金额：</span><span style="font-size: 26px;color: rgb(255,102,0);">￥</span><span class="pay_money">￥9023</span></div>
                     <div><span class="w_l">支付方式：</span><input type="radio" name="pay" checked><label>扫码支付</label></div>
@@ -261,6 +261,16 @@
                     </div>
                 </form>
             </div>
+            <div class="pz_yz" style="display: none;">
+                <div class="pz_title_two">您的汇款凭证已提交，我们将在3个工作日内审核完毕</div>
+                <div style="margin: 0 auto;text-align: center;"><img src="__STATIC__/index/img/u232.png" alt="" id="pz_img" style="width: 250px;height:150px;"></div>
+                <div class="line"></div>
+                <div style="display: flex;">
+                    <div class="hk_zh">汇款账号： <input type="number" name="hk_account" id="hkAccount" value="" readonly></div>
+                    <div style="flex:1;"></div>
+                    <div class="hk_btn_yz" style="display: none;">我要再次付款</div>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -316,6 +326,11 @@
         $(".close").click(function () {
             $(".pay_bounced").hide();
         })
+        //再次付款
+        $(".hk_btn_yz").click(function(){
+            $(".pay_bounced").hide();
+            dingdang();
+        })
         //时间转换
         function formatDate(inputTime) {
         var date = new Date(inputTime * 1000);
@@ -348,7 +363,7 @@
            success: function (e) {
                
                setTimeout(function(){
-                    statusLog == 1 ? location.href = 'city/logCityTenantDetail' : (statusLog == 2 ? location.href ="/admin" : '');
+                    statusLog == 1 ? location.href = 'city/logCityTenantDetail' : '';
                 }, 1000);
            },
            error: function () {
@@ -386,66 +401,25 @@
                             // }, 1000);
                         } else if (res.code == 104) {
                             layer.msg(res.msg);
-                            $.ajax({
-                                url: "city/order_index",
-                                type: "POST",
-                                data: {},
-                                success: (res) => {
-                                    var data = res.data;
-                                    if (res.code == 1) {
-                                        var dhtml = `<div class="pay_box">
-                                                        <div class="c_city">您选择城市：<span class="city_n">${data.city_address}</span></div>
-                                                        <div class="pay_table">
-                                                            <table>
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th class="th_one">
-                                                                            <span><input type="checkbox" name="" id="" checked>${formatDate(data.create_time)}</span>
-                                                                            <span  style="margin-left: 30px;">订单号：${data.order_number}</span>
-                                                                        </th>
-                                                                        <th>数量</th>
-                                                                        <th>介绍</th>
-                                                                        <th>金额</th>
-                                                                        <th>小计（元）</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td class="tr_one">${data.city_meal_name}</td>
-                                                                        <td>${data.number}年</td>
-                                                                        <td style="color: rgb(174,174,174);">${data.selling_point}</td>
-                                                                        <td>
-                                                                            <div>${data.meal_price.toFixed(2)}</div>
-                                                                            <div class="tips">${data.line_price.toFixed(2)}</div>
-                                                                        </td>
-                                                                        <td>${data.meal_price.toFixed(2)}</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="pay_invoice">
-                                                            <div><input type="checkbox" name="invoice" id=""><label for="invoice">我要开票</label></div>
-                                                            <div>0.00</div>
-                                                        </div>
-                                                        <div class="pay_k">
-                                                            <div><div class="pay_t">实付款：<span class="pay_mon">￥${data.meal_price.toFixed(2)}</span></div></div>
-                                                            <div><span class="pay_btn" data-order="${data.order_number}" data-money="${data.meal_price.toFixed(2)}">提交订单</span></div>
-                                                        </div>
-                                                    </div>`;
-                                        $('#app').show();
-                                        $('#app').empty();
-                                        $('#app').append(dhtml);
-                                    }
-                                },
-                                error: (e) => { console.log(e) }
-                            })
+                            dingdang();//订单页
                         } else if(res.code == 105 || res.code == 106){
                             $.ajax({
                                 url: "city/remittance_login",
                                 type: "POST",
                                 data: "",
-                                success: (res) => {console.log(res)},
-                                error: (e) => {}
+                                success: (res) => {
+                                    $('.pay_bounced').show();
+                                    $('.online_pay').hide();
+                                    $('.pz_yz').show();
+                                    $('.close_title').text("城市合伙人汇款凭证");
+                                    $('#pz_img').attr("src", res.data.payment_document);
+                                    $("#hkAccount").val(res.data.remittance_account);
+                                    if(res.code == 106) {
+                                        $(".pz_title_two").text("经核实， 汇款记录并未到帐，如有任何疑问请联系平台客服");
+                                        $(".hk_btn_yz").show();
+                                    }
+                                },
+                                error: (e) => {console.log(e)}
                             })
                         } else {
                             layer.msg(res.msg);
@@ -466,25 +440,25 @@
             $(".pay_money").text(pay_money);
             $(".pay_money").data("money", pay_money);
             $('#orderNumber').val(pay_order);
-            // $.ajax({
-            //     url: "city/cityWhatChatPay",
-            //     type: "POST",
-            //     data: {
-            //         order_number: pay_order
-            //     },
-            //     success: (res) => {
-            //         if(res.code == 1) {
-            //             $('#payImg').attr("src", res.data.url)
+            $.ajax({
+                url: "city/cityWhatChatPay",
+                type: "POST",
+                data: {
+                    order_number: pay_order
+                },
+                success: (res) => {
+                    if(res.code == 1) {
+                        $('#payImg').attr("src", res.data.url);
                         $(".pay_main").hide();
                         $(".pay_bounced").show();
-            //         } else {
-            //             layer.msg(res.msg);
-            //         }
-            //     },
-            //     error: (e) => {
-            //         console.log(e)
-            //     }
-            // });
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                },
+                error: (e) => {
+                    console.log(e)
+                }
+            });
             $(".ali_pay").click(function() {
                 $.ajax({
                     url: "city/cityAlipayCode",
@@ -505,6 +479,62 @@
                 })
             })
         });
+
+        function dingdang() {
+                $.ajax({
+                    url: "city/order_index",
+                    type: "POST",
+                    data: {},
+                    success: (res) => {
+                        var data = res.data;
+                        if (res.code == 1) {
+                            var dhtml = `<div class="pay_box">
+                                        <div class="c_city">您选择城市：<span class="city_n">${data.city_address}</span></div>
+                                        <div class="pay_table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th class="th_one">
+                                                            <span><input type="checkbox" name="" id="" checked>${formatDate(data.create_time)}</span>
+                                                            <span  style="margin-left: 30px;">订单号：${data.order_number}</span>
+                                                        </th>
+                                                        <th>数量</th>
+                                                        <th>介绍</th>
+                                                        <th>金额</th>
+                                                        <th>小计（元）</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="tr_one">${data.city_meal_name}</td>
+                                                        <td>${data.number}年</td>
+                                                        <td style="color: rgb(174,174,174);">${data.selling_point}</td>
+                                                        <td>
+                                                            <div>${data.meal_price.toFixed(2)}</div>
+                                                            <div class="tips">${data.line_price.toFixed(2)}</div>
+                                                        </td>
+                                                        <td>${data.meal_price.toFixed(2)}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="pay_invoice">
+                                            <div><input type="checkbox" name="invoice" id=""><label for="invoice">我要开票</label></div>
+                                            <div>0.00</div>
+                                        </div>
+                                        <div class="pay_k">
+                                            <div><div class="pay_t">实付款：<span class="pay_mon">￥${data.meal_price.toFixed(2)}</span></div></div>
+                                            <div><span class="pay_btn" data-order="${data.order_number}" data-money="${data.meal_price.toFixed(2)}">提交订单</span></div>
+                                        </div>
+                                    </div>`;
+                            $('#app').show();
+                            $('#app').empty();
+                            $('#app').append(dhtml);
+                        }
+                    },
+                    error: (e) => { console.log(e) }
+                })
+            }
 
     </script>
 </body>
