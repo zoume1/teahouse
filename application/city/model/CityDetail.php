@@ -57,5 +57,35 @@ class CityDetail extends Model
         
     }
 
+    /**gy
+     * 生成分销代理订单
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function store_order_commission($data)
+    {
+        $data = [
+            'order_number' => '入驻订单号',
+            'phone_number' => '联系电话',
+            'share_code' => '分享码',
+            'set_meal' => '订单套餐名 ', 
+            'meal_price' =>'订单金额',
+            'higher_phone' => '上级账号',
+            'commision' =>'分销佣金',
+            'base_commision' => '保低佣金',
+            'reach_commision' => '达标佣金',
+            'create_time' => '创建时间',
+            'update_time' => 'update_time',
+            'city_user_id' => '城市合伙人user_id'
+        ];
+        $model = new static;
+        !empty($city_user_id) && $rest = $model->where('city_user_id', '=', $city_user_id)->sum('commision');
+        return $rest;
+        
+    }
+
 
 }
