@@ -327,10 +327,7 @@
         $(".close").click(function () {
             $(".pay_bounced").hide();
         })
-        // //再次付款
-        // $(".hk_btn_yz").click(function(){
-        //     $(".pay_bounced").hide();
-        // })
+
         //时间转换
         function formatDate(inputTime) {
         var date = new Date(inputTime * 1000);
@@ -418,6 +415,7 @@
                                     if(code == 106) {
                                         $(".pz_title_two").text("经核实，汇款记录并未到帐，如有任何疑问请联系平台客服");
                                         $("#hk_num").val(res.data.remittance_account);
+                                        $('#orderNumber').val(res.data.order_number);
                                         $(".hk_btn_yz").show();
                                     }
                                 },
@@ -442,25 +440,25 @@
             $(".pay_money").text(pay_money);
             $(".pay_money").data("money", pay_money);
             $('#orderNumber').val(pay_order);
-            // $.ajax({
-            //     url: "city/cityWhatChatPay",
-            //     type: "POST",
-            //     data: {
-            //         order_number: pay_order
-            //     },
-            //     success: (res) => {
-            //         if(res.code == 1) {
-            //             $('#payImg').attr("src", res.data.url);
+            $.ajax({
+                url: "city/cityWhatChatPay",
+                type: "POST",
+                data: {
+                    order_number: pay_order
+                },
+                success: (res) => {
+                    if(res.code == 1) {
+                        $('#payImg').attr("src", res.data.url);
                         $(".pay_main").hide();
                         $(".pay_bounced").show();
-                //     } else {
-                //         layer.msg(res.msg);
-                //     }
-                // },
-                // error: (e) => {
-                //     console.log(e)
-                // }
-            // });
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                },
+                error: (e) => {
+                    console.log(e)
+                }
+            });
             $(".ali_pay").click(function() {
                 $.ajax({
                     url: "city/cityAlipayCode",
