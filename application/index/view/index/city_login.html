@@ -172,7 +172,7 @@
                     </div>
                 </div>
                 <div style="text-align: center;margin-top:15px;font-size:12px;color:rgb(121,121,121);">
-                    © 2012-2018 宣铭科技版权所有
+                    © 2016-2019 宣铭科技版权所有
                 </div>
 
             </div>
@@ -305,9 +305,10 @@
                 })
         });
         //带账号到上传凭证页面
-        $('.off_btn').click(function(){
+        $('.off_btn').add(".hk_btn_yz").click(function(){
             $('.offline_pay').hide();
             $('.online_pay').hide();
+            $('.pz_yz').hide();
             $('.offline_pz').show();
             $('.close_title').text("城市合伙人汇款凭证");
             $("#hkZh").val($("#hk_num").val());
@@ -326,11 +327,10 @@
         $(".close").click(function () {
             $(".pay_bounced").hide();
         })
-        //再次付款
-        $(".hk_btn_yz").click(function(){
-            $(".pay_bounced").hide();
-            dingdang();
-        })
+        // //再次付款
+        // $(".hk_btn_yz").click(function(){
+        //     $(".pay_bounced").hide();
+        // })
         //时间转换
         function formatDate(inputTime) {
         var date = new Date(inputTime * 1000);
@@ -403,6 +403,7 @@
                             layer.msg(res.msg);
                             dingdang();//订单页
                         } else if(res.code == 105 || res.code == 106){
+                            var code = res.code;
                             $.ajax({
                                 url: "city/remittance_login",
                                 type: "POST",
@@ -414,8 +415,9 @@
                                     $('.close_title').text("城市合伙人汇款凭证");
                                     $('#pz_img').attr("src", res.data.payment_document);
                                     $("#hkAccount").val(res.data.remittance_account);
-                                    if(res.code == 106) {
-                                        $(".pz_title_two").text("经核实， 汇款记录并未到帐，如有任何疑问请联系平台客服");
+                                    if(code == 106) {
+                                        $(".pz_title_two").text("经核实，汇款记录并未到帐，如有任何疑问请联系平台客服");
+                                        $("#hk_num").val(res.data.remittance_account);
                                         $(".hk_btn_yz").show();
                                     }
                                 },
@@ -440,25 +442,25 @@
             $(".pay_money").text(pay_money);
             $(".pay_money").data("money", pay_money);
             $('#orderNumber').val(pay_order);
-            $.ajax({
-                url: "city/cityWhatChatPay",
-                type: "POST",
-                data: {
-                    order_number: pay_order
-                },
-                success: (res) => {
-                    if(res.code == 1) {
-                        $('#payImg').attr("src", res.data.url);
+            // $.ajax({
+            //     url: "city/cityWhatChatPay",
+            //     type: "POST",
+            //     data: {
+            //         order_number: pay_order
+            //     },
+            //     success: (res) => {
+            //         if(res.code == 1) {
+            //             $('#payImg').attr("src", res.data.url);
                         $(".pay_main").hide();
                         $(".pay_bounced").show();
-                    } else {
-                        layer.msg(res.msg);
-                    }
-                },
-                error: (e) => {
-                    console.log(e)
-                }
-            });
+                //     } else {
+                //         layer.msg(res.msg);
+                //     }
+                // },
+                // error: (e) => {
+                //     console.log(e)
+                // }
+            // });
             $(".ali_pay").click(function() {
                 $.ajax({
                     url: "city/cityAlipayCode",
@@ -479,7 +481,7 @@
                 })
             })
         });
-
+        //订单页
         function dingdang() {
                 $.ajax({
                     url: "city/order_index",
