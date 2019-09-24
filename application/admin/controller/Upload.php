@@ -482,8 +482,17 @@ class Upload extends Controller
                 }else{
                  $is_fabu=1;
             }
+            $auditid=Db::table('applet')->where('id',$store_id)->value('auditid');
+            if($auditid && $is_que=='1'){
+                $auditid=1;      //已提交审核
+            }elseif($auditid && $is_que==0){
+                $auditid=2;     //修改后再提交
+            }else{
+                $auditid=3;     //未提交审核
+
+            }
             // return view('auth_detail',['data'=>$is_shou,'pp'=>$pp]);
-            return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id,'is_chuan'=>$is_chuan,'is_que'=>$is_que,'is_fabu'=>$is_fabu]);
+            return view('auth_detail',['data'=>$is_shou,'pp'=>$pp,'store'=>$store_id,'is_chuan'=>$is_chuan,'is_que'=>$is_que,'is_fabu'=>$is_fabu,'auditid'=>$auditid]);
          }else{
              //授权开始
              $redirect_uri='https://www.zhihuichacang.com/callback/appid/$APPID$';
