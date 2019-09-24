@@ -48,7 +48,8 @@ class CityCopartner extends Model
      */
     public static function detail($meal_id)
     {
-        return self::get($meal_id)->toArray();
+        $rest =  self::get($meal_id);
+        return $rest ? $rest->toArray() :false;
     }
 
 
