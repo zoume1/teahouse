@@ -146,7 +146,8 @@ class Passport extends Controller
         if($order){
             $remittance = [
                 'remittance_account' => $order['remittance_account'],
-                'payment_document' => $order['payment_document']
+                'payment_document' => $order['payment_document'],
+                'order_number'=>$order['order_number']
             ];
             return jsonSuccess('返回凭证成功',$remittance);
         }
