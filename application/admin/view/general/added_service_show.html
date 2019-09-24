@@ -498,7 +498,7 @@
                                     <li class="clearfix" v-for="(v, i) in v.goods_show_images"
                                         :class="{selected: selectedIndex == i}" @mouseenter="selectedImg(i, v)">
                                         <a href="javascript:void(0);" class="fl">
-                                            <img :src=`__UPLOADS__/${v}`> </a> </li> </ul> </div> </div> </div> </div>
+                                            <img :src=`${v}`> </a> </li> </ul> </div> </div> </div> </div>
                                                 <div class="aside-right fr">
                                             <div class="ald-hd clearfix">
                                                 <span>再看看</span>
@@ -508,7 +508,7 @@
                                                 <li class="ald-item fl" v-for="(v, i) in aldData"
                                                     @click="goodsDetail(v.id)">
                                                     <div class="img-box">
-                                                        <img :src=`__UPLOADS__/${v.goods_show_image}`> </div> <div
+                                                        <img :src=`${v.goods_show_image}`> </div> <div
                                                             class="ald-row">
                                                         <strong>￥{{v.goods_new_money}}</strong>
                                                     </div>
@@ -762,7 +762,7 @@
             },
             // 拼接图片url
             getImgUrl: function (url) {
-                return '__UPLOADS__/' + (this.selectedImgUrl || url);
+                return  (this.selectedImgUrl || url);
             },
             getData: function () {
                 location.search ? this.id = +location.search.split('=')[1] : '';
