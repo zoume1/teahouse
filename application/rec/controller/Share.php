@@ -11,6 +11,12 @@ use think\Controller;
 use think\Request;
 class Share extends Controller
 {
+    /**
+     * @ 生成二维码
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function qr_code()
     {
         $request = Request::instance();
@@ -29,8 +35,10 @@ class Share extends Controller
     }
 
 
-
-
+    /**
+     * @param $a
+     * @return string
+     */
     function code($a){
 
         $list = 'http://qr.topscan.com/api.php?text=' . $a;
