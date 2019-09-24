@@ -602,7 +602,7 @@ class  AdminWx extends Controller{
     public function city_meal_notify(Request $request)
     {
         if($request->isPost()){
-            // $receipt = file_get_contents("php://input");
+            // $xml = file_get_contents("php://input");
             //  libxml_disable_entity_loader(true);
             $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
             $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -614,7 +614,7 @@ class  AdminWx extends Controller{
                 // $model = new Order;
                 $data = [
                     'start_time' => time(),
-                    'end_time' => strtotime("+1 year"),
+                    'end_time' => time(),
                     'pay_status' => 1,
                     'account_status' => 1
                 ];
