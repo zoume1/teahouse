@@ -605,7 +605,7 @@ class  Control extends  Controller{
                 }
                 $mobile = $user_data['phone_number'];
                 $content = "尊敬的用户您好！您的店铺申请成功，请及时登陆网站，选择套餐，完成店铺入驻";
-                $url = "http://120.26.38.54:8000/interface/smssend.aspx";
+                $url = "http://117.48.217.182:8000/interface/smssend.aspx";
                 $post_data = array("account" => "chacang", "password" => "123qwe", "mobile" => "$mobile", "content" => $content);
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
