@@ -111,7 +111,7 @@ class  Store extends  Controller{
                 $mobile = $user_data['phone_number'];
                 $content = "【智慧茶仓】尊敬的用户您好！您的店铺申请成功，请及时登陆网站，选择套餐，完成店铺入驻";
                 $output = sendMessage($content,$mobile);
-                return ajax_success("您的资料已提交,请耐心等待审核");
+                return ajax_success("您的资料已提交,请耐心等待审核",["store_id"=>$bool]);
             }else{
                 return ajax_error("网络错误，请重新提交");
             }

@@ -13,11 +13,20 @@ use EasyWeChat\Payment\Order;
 
 class WechatPay extends Model
 {
+    /**
+     * @param $title
+     * @param $detail
+     * @param $no
+     * @param $cost
+     * @param $url
+     * @param $openid
+     * @return array|string|\think\response\Json
+     */
     public function pay($title,$detail,$no,$cost,$url,$openid)
     {
 
         $attributes = [
-            'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
+            'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP
             'body'             => $title,//标题
             'detail'           => $detail,//详情
             'out_trade_no'     => $no,//订单号
