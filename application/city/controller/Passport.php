@@ -141,7 +141,7 @@ class Passport extends Controller
         $user = Session::get('User');
         $order = Db::name('city_order')
                 ->where('city_user_id','=',$user['user_id'])
-                ->where('judge_status','<',3)
+                ->where('judge_status','>',1)
                 ->find();
         if($order){
             $remittance = [
