@@ -11,30 +11,25 @@ use think\Validate;
 use think\Controller;
 use think\Config;
 use EasyWeChat\Foundation\Application;
-<<<<<<< HEAD
 use EasyWeChat\Payment\Order;
-=======
->>>>>>> 430301e96bcba21ed97bb2f6666a8c96aac438bd
 use app\rec\model\WechatPay as WeiPay;
 
 //微信支付
 class WechatPay extends Controller{
 
-    public function get_pay($id)
+    public function get_pay()
     {
+    	$id = 972;
         // 查询订单信息
         $url = 'http://www.zhihuichacang.com/rec/app_notice';
         $openid = 'oYb9gwLrKCi2IxzBQ-GQrM5MSRfM';
         $order = db('set_meal_order') -> getById($id);
-<<<<<<< HEAD
-        // print_r($order);die;
-<<<<<<< HEAD
         // if(!$order)returnJson(0,'当前订单不存在');
         // if($order['status'] != -1)returnJson(0,'当前订单状态异常');
         $wechatpay = new WeiPay();
-        $res = $wechatpay->pay($order['goods_name'],$order['store_name'],$order['order_number'],$order['amount_money']);
-        
-		 return  $res; exit();
+        $res = $wechatpay->pay($order['goods_name'],$order['store_name'],$order['order_number'],$order['amount_money'],$url,$openid);
+
+        return  $res; exit();
     }
 
     public function app_notice2(){
@@ -74,20 +69,7 @@ class WechatPay extends Controller{
         }else{
             return  json(array('code'=>0,'msg'=>"发起支付失败"));exit();
         }
-=======
-=======
-//         print_r($order);die;
->>>>>>> 6d6da104ca78926ca349a1d5dd1c8a8c0993b6cc
-         if(!$order)returnJson(0,'当前订单不存在');
-         if($order['status'] != -1)returnJson(0,'当前订单状态异常');
-         if($order['is_del'] != 1)returnJson(0,'当前订单已删除');
 
-        $wechatpay = new WeiPay();
-
-        $res = $wechatpay->pay($order['goods_name'],$order['store_name'],$order['order_number'],$order['amount_money'],$url,$openid);
-
-        return  $res; exit();
->>>>>>> 430301e96bcba21ed97bb2f6666a8c96aac438bd
     }
 
 
