@@ -117,43 +117,63 @@ class CityOrder extends Model
             //生成订单号
             $order_number = $this->getCityOrderNumber();
             //插入订单表
-            $data = [
-                'order_number' => $order_number,
-                'phone_number' => $user_data['phone_number'],
-                'user_name' => $user_data['user_name'],
-                'rank_status' => $user_data['city_rank'],
-                'city_address' => $user_data['city_address'],
-                'id_status'=> $user_data['id_status'],
-                'order_price' => $city_meal['meal_price'],
-                'city_meal_name' => $city_meal['city_meal_name'],
-                'city_user_id'=> $user['user_id'],
-                'create_time' => time(),
-            ];
-            $rest = $this -> allowField(true)->save($data);
-            if($rest){
+            //查询是否已生成订单
+            $order_rest = self::detail(['user_id'=>$user['user_id']]);
+            if($order_rest){
+                //订单存在
                 $order_data = [
                     'user_id'=> $user['user_id'],
-                    'city_address' => $user_data['city_address'],
+                    'city_address' => $order_rest['city_address'],
                     'create_time' => time(),
-                    'order_number'=> $order_number,
+                    'order_number'=> $order_rest,
                     'number' => CITY_ONES,
-                    'selling_point'=> $city_meal['selling_point'],
-                    'meal_price' => $city_meal['meal_price'],
-                    'city_meal_name' => $city_meal['city_meal_name'],
-                    'line_price' => $city_meal['line_price'],
+                    'selling_point'=> $order_rest['selling_point'],
+                    'meal_price' => $order_rest['meal_price'],
+                    'city_meal_name' => $order_rest['city_meal_name'],
+                    'line_price' => $order_rest['line_price'],
                 ];
-                return $order_data;
             } else {
-                return false;
+                //生成新订单
+                $data = [
+                    'order_number' => $order_number,
+                    'phone_number' => $user_data['phone_number'],
+                    'user_name' => $user_data['user_name'],
+                    'rank_status' => $user_data['city_rank'],
+                    'city_address' => $user_data['city_address'],
+                    'id_status'=> $user_data['id_status'],
+                    'order_price' => $city_meal['meal_price'],
+                    'city_meal_name' => $city_meal['city_meal_name'],
+                    'city_user_id'=> $user['user_id'],
+                    'create_time' => time(),
+                ];
+                $rest = $this -> allowField(true)->save($data);
+                if($rest){
+                    $order_data = [
+                        'user_id'=> $user['user_id'],
+                        'city_address' => $user_data['city_address'],
+                        'create_time' => time(),
+                        'order_number'=> $order_number,
+                        'number' => CITY_ONES,
+                        'selling_point'=> $city_meal['selling_point'],
+                        'meal_price' => $city_meal['meal_price'],
+                        'city_meal_name' => $city_meal['city_meal_name'],
+                        'line_price' => $city_meal['line_price'],
+                    ];
+                } else {
+                    return false;
+                }
             }
+            return $order_data;
         } else {
             return false;
         }
-
-
-        
-        
     }
+
+
+
+        
+        
+    
 
     /**
      * //生成合伙人订单号
