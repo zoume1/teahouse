@@ -19,6 +19,7 @@ class WechatPay extends Controller{
 
     public function get_pay()
     {
+    	 //phpinfo();die;
     	$id = 972;
         // 查询订单信息
         $url = 'http://www.zhihuichacang.com/rec/app_notice';
