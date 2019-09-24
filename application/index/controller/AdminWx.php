@@ -602,23 +602,21 @@ class  AdminWx extends Controller{
     public function city_meal_notify(Request $request)
     {
         if($request->isPost()){
-            $xml = file_get_contents("php://input");
-            //  libxml_disable_entity_loader(true);
-            // $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+            $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
             $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
             $val = json_decode(json_encode($xml_data), true);
             if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){   
                 //回调成功
                 //找到订单
                 //更新订单状态
-                // $model = new Order;
+                $model = new Order;
                 $data = [
                     'start_time' => time(),
-                    'end_time' => time(),
+                    'end_time' => strtotime("+1 year"),
                     'pay_status' => 1,
                     'account_status' => 1
                 ];
-                $rest = db('city_order')->where('order_number',$val['out_trade_no'])->update($data);
+                $rest = $model->save($data,['order_number'=>$val['out_trade_no']]);
                 if($rest){                           
                       echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                 } exit();
