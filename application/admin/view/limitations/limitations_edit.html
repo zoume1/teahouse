@@ -158,6 +158,16 @@
 			{/if}
 			<div class="tips" style="margin-left:110px;">*不选，表示不限时</div>
 			<div class="form-item">
+				<label class="form-label">限购总量</label>
+				<div class="form-input">
+					<input type="text" name="goods_repertory" value="{$limit['goods_repertory']}" lay-verify="title" autocomplete="off" placeholder="商品限时限购总量"
+						class="layui-input" required>
+					<div class="tips">
+						*商品库存不足，会以商品的剩余库存为总量
+					</div>
+				</div>
+			</div>
+			<div class="form-item">
 				<label class="form-label">活动标签</label>
 				<div class="form-input">
 					<input type="text" name="label" lay-verify="title" value="{$scope['label']['label']}" autocomplete="off" placeholder="限时限购"

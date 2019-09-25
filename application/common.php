@@ -1402,7 +1402,7 @@ function sendMessage($content,$mobile)
 {
     // $content = '【智慧茶仓】短信内容';//带签名的短息内容
     // $mobile = '18309224319';//手机号
-    $url = "http://47.112.109.159:8860/sendSms";//请求URL
+    $url = "http://117.48.217.182:8860/sendSms";//请求URL
     $api_code = "240001";//对接协议中的API代码
     $api_secret = "4SFE6PW1GL";//对接协议中的API密码
     $sign = md5($content.$api_secret);//md加密后短信内容+API密码 获得签名
