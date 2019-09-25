@@ -367,7 +367,8 @@
                             $(".pay_money").text(price);
                             $(".pay_mon").text("￥"+price);
                             $(".poundage").text(poundage);
-                            $(".pay_money"),add('.pay_btn').data("money", price);
+                            $(".pay_money").data("money", price);
+                            $('.pay_btn').data("money", price);
                             $("input[name=invoice]").prop('checked',true);
                             $("input[name=order_price]").val(price);//凭证金额
                             $(".pay_bounced_kp").hide();
