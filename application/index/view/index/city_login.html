@@ -270,6 +270,7 @@
             <div class="offline_pz" style="display: none;">
                 <form id="hkPz" onsubmit="return false" action="##" method="post" enctype="multipart/form-data">
                     <div class="pz_title">请拍照上传您的汇款单，作为凭证</div>
+                    <input type="number" name="order_price" style="display: none;">
                     <div style="margin: 0 auto;">
                         <div class="img-box">
                             <section class=" img-section">
@@ -348,6 +349,7 @@
                             $(".poundage").text(poundage);
                             $(".pay_money"),add('.pay_btn').data("money", price);
                             $("input[name=invoice]").prop('checked',true);
+                            $("input[name=order_price]").val(price);//凭证金额
                             $(".pay_bounced_kp").hide();
                         } else {
                             $("input[name=invoice]").prop('checked',false);
@@ -530,7 +532,7 @@
                 layer.msg('请填写手机号或密码！');
             }
         });
-        
+        //下单付款
         $("#app").on("click", ".pay_btn" ,function() {
             let pay_order = $(this).data("order"), pay_money =  $(this).data("money");
             $('.close_title').text("选择付款方式");
