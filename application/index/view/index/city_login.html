@@ -632,6 +632,7 @@
                             $("input[name=user_id]").val(data.user_id);
                             $(".pay_money").text(data.meal_price.toFixed(2));
                             $("input[name=price]").val(data.meal_price.toFixed(2));
+                            $("input[name=order_price]").val(data.meal_price.toFixed(2));//凭证金额
                             $("input[name=no]").val(data.order_number);
                             $('#app').append(dhtml);
                         }
