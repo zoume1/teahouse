@@ -363,7 +363,7 @@
                             } else {
                                 poundage = (Number(price) * 0.06).toFixed(2);
                             }
-                            price = Number(price) + poundage;
+                            price = Number(price) + Number(poundage);
                             $(".pay_money").text(price);
                             $(".pay_mon").text("￥"+price);
                             $(".poundage").text(poundage);
