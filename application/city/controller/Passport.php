@@ -4,7 +4,7 @@ namespace app\city\controller;
 use think\Session;
 use think\Validate;
 use think\Request;
-use think\db;
+use think\Db;
 use app\city\model\CityRank;
 use app\city\model\User as UserModel;
 use app\city\model\CityOrder as Order;

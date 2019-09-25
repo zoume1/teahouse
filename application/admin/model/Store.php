@@ -61,7 +61,7 @@ class Store extends Model
     {
         $address_two = explode(",", $address);
         $user = CityCopartner::detail(['city_address'=>$address_two[ADDRESS_TWO],'judge_status'=>ADDRESS_ONE]);
-        return $user ? $user['user_id'] : false;
+        return $user ? $user['user_id'] : 0;
         
     }
 }

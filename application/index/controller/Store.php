@@ -81,10 +81,7 @@ class  Store extends  Controller{
                 "store_name"=>$store_name,
                 "create_time"=>time(),
             ];
-            $city_user_id = AddStore::find_city_user($address_data);
-            if($city_user_id){
-                $data['city_user_id'] = $city_user_id;
-            }
+
             $bool = Db::name("store")->insertGetId($data);
             if($bool > 0){
                     $user_data =Db::table("tb_pc_user")
