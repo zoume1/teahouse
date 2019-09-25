@@ -143,6 +143,7 @@ class  Limitations extends  Controller{
                     $this->success('保存成功');
                 }
             }
+            //根据商品id获取商品的信息
             if (!empty($data["goods_id"])) {
                 foreach ($data["goods_id"] as $key => $value) {
                     $goods[$key] = db("goods")->where("id", $data["goods_id"][$key])->where("store_id","EQ",$store_id)->field("id,goods_number,goods_show_images,goods_name,goods_standard,goods_repertory")->find();
@@ -152,10 +153,16 @@ class  Limitations extends  Controller{
                 foreach ($goods as $key => $value) {
                     $goods[$key]["goods_id"] = $goods[$key]["id"];
                     if ($goods[$key]["goods_standard"] == 1) {
-                        $goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]["id"])->sum("stock");
+                        // $goods[$key]["goods_repertory"] = db("special")->where("goods_id", $goods[$key]["id"])->sum("stock");
                         $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
                     } else {
                         $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
+                    }
+                    //判断商品的库存是否大于前端设置的限购总数
+                    if($data['goods_repertory']<=$value['goods_repertory']){
+                        $goods[$key]['goods_repertory']=$data['goods_repertory'];
+                    }else{
+                        $goods[$key]['goods_repertory']=$value['goods_repertory'];
                     }
                     unset($goods[$key]["id"]);
                     $goods[$key]['limit_condition']=$pp;
@@ -258,6 +265,16 @@ class  Limitations extends  Controller{
                 $this->error('限购设置和开启秒杀至少选中一个');
             }
             $pp2['limit_condition']=$pp;
+            //获取商品的goods_id
+            $goods_id=db('limited')->where('id',$data['id'])->value('goods_id');  
+            //获取商品的库存
+            $goods_repertory=db('goods')->where('id',$goods_id)->value('goods_repertory');
+            if($data['goods_repertory']>=$goods_repertory){
+                $pp2['goods_repertory']=$goods_repertory;
+            }else{
+                $pp2['goods_repertory']=$data['goods_repertory'];
+
+            }
             $res2=db('limited')->where('id',$data['id'])->update($pp2);   //更改限制条件
             if(array_key_exists('status',$data))
             {
