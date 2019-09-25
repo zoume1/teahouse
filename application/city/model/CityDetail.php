@@ -6,6 +6,8 @@ use think\Model;
 use think\Validate;
 use app\city\controller;
 use app\common\exception\BaseException;
+use app\admin\model\Store as AddStore;
+
 const CITY_ONE = 1;
 
 /**gy
@@ -65,21 +67,24 @@ class CityDetail extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function store_order_commission($data)
+    public static function store_order_commission($order_data,$store_data)
     {
+        $city_user_id = AddStore::find_city_user($store_data['address_data']);
+        $retutn_data = find_rank_data($store_data['highe_share_code'],$order_data['pay_money'],$city_user_id);
         $data = [
-            'order_number' => '入驻订单号',
-            'phone_number' => '联系电话',
-            'share_code' => '分享码',
-            'set_meal' => '订单套餐名 ',  
-            'meal_price' =>'订单金额',
-            'higher_phone' => '上级账号',
-            'commision' =>'分销佣金',
-            'base_commision' => '保低佣金',
-            'reach_commision' => '达标佣金',
-            'create_time' => '创建时间',
-            'update_time' => 'update_time',
-            'city_user_id' => '城市合伙人user_id'
+            'order_number' => $order_data['order_number'],
+            'phone_number' => $store_data['phone_number'],
+            'share_code' => $store_data['share_code'], //自己的分享码
+            'set_meal' => enter_name($order_data['enter_all_id']),  
+            'meal_price' =>$order_data['pay_money'],
+            'highe_share_code' => $store_data['highe_share_code'],
+            'commision' => $retutn_data['commision'],
+            'higher_phone' => $retutn_data['higher_phone'],
+            'base_commision' => $retutn_data['base_commision'],
+            'reach_commision' => $retutn_data['reach_commision'],
+            'create_time' => $order_data['create_time'],
+            'update_time' => time(),
+            'city_user_id' => $city_user_id,
         ];
 
         //传入套餐id生成生成套餐名

@@ -282,7 +282,7 @@ class User extends Controller{
         if(!$param['user_id'])returnJson(0,'用户ID不能为空');
 
         $data = userAll::where('id',$param['user_id'])
-            ->field('id,phone_number,my_invitation')->find();
+            ->field('id,phone_number,my_invitation,img')->find();
         //判断
         returnArray($data);
 
