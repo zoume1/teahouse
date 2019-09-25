@@ -287,7 +287,7 @@ class  AdminWx extends Controller{
                     ->where("audit_status",'eq',1)
                     ->find();
                 //套餐购买成功
-                
+
                 //生成分销代理订单
                 CityDetail::store_order_commission($enter_all_data,$store_data_rest);
 
@@ -680,6 +680,8 @@ class  AdminWx extends Controller{
             $model = new Order;
             $user_object = new User;
             $user_data = $model->detail(['order_number'=>$out_trade_no]);
+            //入驻前的所有店铺更新city_user_id
+            
             $data = [
                 'start_time' => time(),
                 'end_time' => strtotime("+1 year"),
