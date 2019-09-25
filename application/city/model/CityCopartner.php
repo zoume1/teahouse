@@ -6,7 +6,7 @@ use think\Model;
 use think\Validate;
 use app\city\controller;
 use app\common\exception\BaseException;
-const CITY_ONE = 1;
+// const CITY_ONE = 1;
 
 /**
  * 城市入驻资料模型

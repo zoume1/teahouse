@@ -174,7 +174,7 @@ class CityOrder extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function WeChatPayCode($order_number){
+    public function WeChatPayCode($order_number,$pay_money){
     
         header("Content-type: text/html; charset=utf-8");
         ini_set('date.timezone', 'Asia/Shanghai');
@@ -189,7 +189,7 @@ class CityOrder extends Model
             $input->SetBody($data['city_meal_name']);//设置商品或支付单简要描述
             $input->SetAttach($data['city_meal_name']);//设置附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
             $input->SetOut_trade_no($data['order_number']);//设置商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
-            $input->SetTotal_fee($data['order_price'] * 100);//金额乘以100
+            $input->SetTotal_fee($pay_money * 100);//金额乘以100
             $input->SetTime_start(date("YmdHis")); //设置订单生成时间,格式为yyyyMMddHHmmss
             $input->SetTime_expire(date("YmdHis", time() + 600)); //设置订单失效时间
             $input->SetGoods_tag("test"); //设置商品标记，代金券或立减优惠功能的参数，说明详见代金券或立减优惠
@@ -215,7 +215,7 @@ class CityOrder extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function AlipayCode($order_number)
+    public function AlipayCode($order_number,$pay_money)
     {
         header("Content-type:text/html;charset=utf-8");
         include EXTEND_PATH . "/lib/payment/alipay/alipay.class.php";
@@ -230,7 +230,7 @@ class CityOrder extends Model
                 "seller_email" => '717797081@qq.com', //卖家
                 "out_trade_no" => $order_number, //订单编号
                 "subject" => $data['city_meal_name'], //商品订单的名称
-                "total_fee" => number_format($data['order_price'], 2, '.', ''),
+                "total_fee" => number_format($pay_money, 2, '.', ''),
             );
             $str_pay_html = $obj_alipay->make_form($arr_data, true);
             if($str_pay_html){

@@ -17,6 +17,7 @@ use think\Session;
 use think\Loader;
 use think\paginator\driver\Bootstrap;
 use app\admin\model\Notice;
+use app\city\model\CityDetail;
 use think\Validate;
 
 
@@ -371,6 +372,9 @@ class  Control extends  Controller{
                     $data['pay_status'] =  1; //到账状态
                     $data['pay_time'] =  time(); //审核时间
                    
+                    $store_data_rest = Db::name('store')->where('id',$is_pay['store_id'])->find();
+                    //生成分销代理订单
+                    CityDetail::store_order_commission($is_pay,$store_data_rest);
 
                     //升级套餐
                     if($is_set_order){
