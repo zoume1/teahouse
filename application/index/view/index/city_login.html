@@ -323,8 +323,10 @@
     <script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp.js"></script>
 
     <script>
+        //确定开票
         $(".kp_btn").click(function() {
             let datas = new FormData(document.getElementById("invoice_sq"));
+            let price = datas.get("price"), invoiceLine = datas.get("invoiceLine"), poundage = 0;
             $.ajax({
                     url: "city/cityOrderReceipt",
                     type: "POST",
@@ -333,8 +335,23 @@
                     contentType: false, //不设置内容类型
                     processData: false, //不处理数据
                     success: (res) => {
-                        console.log(res)
                         layer.msg(res.msg);
+                        if(res.code == 1) {
+                            if(invoiceLine == "p") {
+                                poundage = (Number(price) * 0.03).toFixed(2);
+                            } else {
+                                poundage = (Number(price) * 0.06).toFixed(2);
+                            }
+                            let price = Number(price) + poundage;
+                            $(".pay_money").text(price);
+                            $(".pay_mon").text("￥"+price);
+                            $(".poundage").text(poundage);
+                            $(".pay_money"),add('.pay_btn').data("money", price);
+                            $("input[name=invoice]").prop('checked',true);
+                            $(".pay_bounced_kp").hide();
+                        } else {
+                            $("input[name=invoice]").prop('checked',false);
+                        }
                     },
                     error: (e) => {
                         console.log(e)
@@ -517,14 +534,14 @@
         $("#app").on("click", ".pay_btn" ,function() {
             let pay_order = $(this).data("order"), pay_money =  $(this).data("money");
             $('.close_title').text("选择付款方式");
-            $(".pay_money").text(pay_money);
             $(".pay_money").data("money", pay_money);
             $('#orderNumber').val(pay_order);
             $.ajax({
                 url: "city/cityWhatChatPay",
                 type: "POST",
                 data: {
-                    order_number: pay_order
+                    order_number: pay_order,
+                    pay_money: pay_money
                 },
                 success: (res) => {
                     if(res.code == 1) {
@@ -544,7 +561,8 @@
                     url: "city/cityAlipayCode",
                     type: "POST",
                     data: {
-                        order_number: pay_order
+                        order_number: pay_order,
+                        pay_money: pay_money
                     },
                     success: (res) => {
                         if(res.code == 1) {
@@ -600,7 +618,7 @@
                                         </div>
                                         <div class="pay_invoice">
                                             <div><input type="checkbox" name="invoice" id="" onchange="makeInvoice(${data.user_id})"><label for="invoice">我要开票</label></div>
-                                            <div>0.00</div>
+                                            <div class="poundage">0.00</div>
                                         </div>
                                         <div class="pay_k">
                                             <div><div class="pay_t">实付款：<span class="pay_mon">￥${data.meal_price.toFixed(2)}</span></div></div>
