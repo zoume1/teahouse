@@ -4,7 +4,7 @@ namespace app\city\controller;
 use think\Session;
 use think\Validate;
 use think\Request;
-use think\db;
+use think\Db;
 use app\city\model\CityRank;
 use app\city\model\User as UserModel;
 use app\city\model\CityOrder as Order;
@@ -146,7 +146,8 @@ class Passport extends Controller
         if($order){
             $remittance = [
                 'remittance_account' => $order['remittance_account'],
-                'payment_document' => $order['payment_document']
+                'payment_document' => $order['payment_document'],
+                'order_number'=>$order['order_number']
             ];
             return jsonSuccess('返回凭证成功',$remittance);
         }

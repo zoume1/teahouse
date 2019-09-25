@@ -11,6 +11,7 @@
     <!-- 数字验证码 样式 -->
     <link rel="stylesheet" href="__STATIC__/index/thirdpart/css/verify.css">
     <script src="__STATIC__/index/js/intlTelInput.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/upfile/css/index.css" />
     <style>
         html,body{height: 100%;}
         body{position: relative;}
@@ -70,8 +71,14 @@
         .off_input{margin-top: 15px;}
         .off_input input {width: 100%;border-radius: 3px;border: 1px solid rgb(188,188,188);height: 40px;}
         .btn_b{text-align:right;}
-        .off_btn{color: #fff;background-color: rgb(22,155,213);border-radius: 3px;font-size: 14px;width: 250px;text-align: center;display: inline-block;}
+        .off_btn{color: #fff;background-color: rgb(22,155,213);border-radius: 3px;font-size: 14px;width: 250px;text-align: center;display: inline-block;cursor: pointer;}
         .line{height: 1px;background-color: rgb(188,188,188);margin: 15px 0;}
+        .upimg-div .up-section {width: 100%; height: 150px;}
+        .img-box {padding-left: 14%;}
+        .pz_title,.pz_title_two{text-align: center;color: rgb(134,134,134);font-size: 21px;line-height: 70px;}
+        .hk_zh{font-size: 20px;color: rgb(134,134,134);}
+        .hk_zh input{border: 0;}
+        .hk_btn,.hk_btn_yz{width: 100px;text-align: center;background-color: rgb(22,155,213);color: #fff;border-radius: 3px;line-height: 35px;cursor: pointer;}
     </style>
 </head>
 <body>
@@ -165,7 +172,7 @@
                     </div>
                 </div>
                 <div style="text-align: center;margin-top:15px;font-size:12px;color:rgb(121,121,121);">
-                    © 2012-2018 宣铭科技版权所有
+                    © 2016-2019 宣铭科技版权所有
                 </div>
 
             </div>
@@ -176,17 +183,17 @@
     </div>
 
     <!-- 支付弹框 -->
-    <div class="pay_bounced" style="display: none;">
+    <div class="pay_bounced"  style="display: none;">
         <div class="pay_bounced_x">
             <div class="close_box">
                 <div class="close_title">选择支付方式</div>
                 <div class="close">×</div>
             </div>
-            <div class="online_pay">
+            <div class="online_pay" >
                 <div class="payment">
-                    <div><span class="w_l">支付金额：</span><span class="pay_money">￥9023</span></div>
+                    <div><span class="w_l">支付金额：</span><span style="font-size: 26px;color: rgb(255,102,0);">￥</span><span class="pay_money">￥9023</span></div>
                     <div><span class="w_l">支付方式：</span><input type="radio" name="pay" checked><label>扫码支付</label></div>
-                    <div><span class="w_l"></span><input type="radio" name="pay" id="offlinePay"><label>汇款支付</label></div>
+                    <div><span class="w_l"></span><input type="radio" name="pay" id="offlinePay" onchange="changeNatureItem(this.id)"><label>汇款支付</label></div>
                 </div>
                 <div class="scan-way">
                     <div class="code-box">
@@ -208,7 +215,7 @@
                 </div>
             </div>
             <div class="offline_pay"  style="display: none;">
-                <div>您需汇款<span class="pay_money">￥9,023</span>至以下官方账户，汇款成功后请填写相关凭证</div>
+                <div>您需汇款<span style="font-size: 26px;color: rgb(255,102,0);">￥</span><span class="pay_money">9,023</span>至以下官方账户，汇款成功后请填写相关凭证</div>
                 <div class="offline_main">
                     <div><span class="s_t">官方开户名：</span><span class="com_name">北京宣铭科技有限公司</span></div>
                     <div><span class="s_t">官方开户行：</span><span class="com_name">北京农村商业银行股份有限公司马连道支行</span></div>
@@ -216,10 +223,52 @@
                 </div>
                 <div class="line"></div>
                 <div class="off_input">
-                    <input type="text" name="" id="" placeholder="请输入您的汇款账号">
+                    <input type="number" name="hk_num" id="hk_num" placeholder="请输入您的汇款账号">
                 </div>
                 <div class="btn_b">
                     <span class="off_btn">已转账汇款，我要上传凭证</span>
+                </div>
+            </div>
+            <div class="offline_pz" style="display: none;">
+                <form id="hkPz" onsubmit="return false" action="##" method="post" enctype="multipart/form-data">
+                    <div class="pz_title">请拍照上传您的汇款单，作为凭证</div>
+                    <div style="margin: 0 auto;">
+                        <div class="img-box">
+                            <section class=" img-section">
+                                <div class="z_photo upimg-div clear">
+                                    <section class="z_file fl" style="width: 100%;height: 150px;">
+                                        <img src="http://teahouse.siring.cn/un211.jpg" class="add-img company-item"
+                                            style="width:100%;height: 150px;">
+                                        <input type="file" name="payment_document" id="file1" class="file" value=""
+                                            accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1" style="height: 150px;" />
+                                    </section>
+                                </div>
+                            </section>
+                        </div>
+                        <aside class="mask works-mask">
+                            <div class="mask-content">
+                                <p class="del-p ">您确定要删除作品图片吗？</p>
+                                <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="line"></div>
+                    <input type="text" name="order_number" id="orderNumber" style="display: none;">
+                    <div style="display: flex;">
+                        <div class="hk_zh">汇款账号： <input type="number" name="remittance_account" id="hkZh" value="47474747" readonly></div>
+                        <div style="flex:1;"></div>
+                        <div class="hk_btn">确定</div>
+                    </div>
+                </form>
+            </div>
+            <div class="pz_yz" style="display: none;">
+                <div class="pz_title_two">您的汇款凭证已提交，我们将在3个工作日内审核完毕</div>
+                <div style="margin: 0 auto;text-align: center;"><img src="__STATIC__/index/img/u232.png" alt="" id="pz_img" style="width: 250px;height:150px;"></div>
+                <div class="line"></div>
+                <div style="display: flex;">
+                    <div class="hk_zh">汇款账号： <input type="number" name="hk_account" id="hkAccount" value="" readonly></div>
+                    <div style="flex:1;"></div>
+                    <div class="hk_btn_yz" style="display: none;">我要再次付款</div>
                 </div>
             </div>
         </div>
@@ -232,23 +281,54 @@
      <!--数字验证-->
      <script src="__STATIC__/index/thirdpart/js/swiper-4.3.5.min.js"></script>
     <script src="__STATIC__/index/thirdpart/js/verify.js"></script>
-    <script>
+    <script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp.js"></script>
 
+    <script>
+        //确定上传凭证
+        $(".hk_btn").click(function() {
+           var datas = new FormData(document.getElementById("hkPz"));
+            $.ajax({
+                    url: "city/payment_image",
+                    type: "POST",
+                    dataType: "json",//预期服务器返回的数据类型
+                    data: datas,
+                    contentType: false, //不设置内容类型
+                    processData: false, //不处理数据
+                    success: (res) => {
+                        $(".pz_title").text("您的汇款凭证已提交，我们将在3个工作日内审核完毕");
+                        $(".hk_btn").hide();
+                        layer.msg(res.msg);
+                    },
+                    error: (e) => {
+                        console.log(e)
+                    }
+                })
+        });
+        //带账号到上传凭证页面
+        $('.off_btn').add(".hk_btn_yz").click(function(){
+            $('.offline_pay').hide();
+            $('.online_pay').hide();
+            $('.pz_yz').hide();
+            $('.offline_pz').show();
+            $('.close_title').text("城市合伙人汇款凭证");
+            $("#hkZh").val($("#hk_num").val());
+        })
+        //支付方式选择线下
         function changeNatureItem(id) {
             if (id == 'offlinePay') {
                 $('.offline_pay').show();
                 $('.online_pay').hide();
-                myEvent.data.natureTag = 1;
-            } else {
-                $('.personal-item').hide();
-                $('.company-item').show();
-                myEvent.data.natureTag = 2;
+                $('.close_title').text("城市合伙人汇款");
+                // var pay_money =  $(this).data("money");
+                // $(".pay_money").text(pay_money);
             }
         }
 
         $(".close").click(function () {
             $(".pay_bounced").hide();
         })
+
+        //时间转换
         function formatDate(inputTime) {
         var date = new Date(inputTime * 1000);
         var y = date.getFullYear();
@@ -280,13 +360,14 @@
            success: function (e) {
                
                setTimeout(function(){
-                    statusLog == 1 ? location.href = 'city/logCityTenantDetail' : (statusLog == 2 ? location.href ="/admin" : '');
+                    statusLog == 1 ? location.href = 'city/logCityTenantDetail' : '';
                 }, 1000);
            },
            error: function () {
             layer.msg('验证码不匹配！');
            }
        });
+       //登录
        var statusLog = null;
         $('.button-primary').click(function () {
             var $phone = $('#phone').val(),
@@ -317,61 +398,31 @@
                             // }, 1000);
                         } else if (res.code == 104) {
                             layer.msg(res.msg);
+                            dingdang();//订单页
+                        } else if(res.code == 105 || res.code == 106){
+                            var code = res.code;
                             $.ajax({
-                                url: "city/order_index",
+                                url: "city/remittance_login",
                                 type: "POST",
-                                data: {},
+                                data: "",
                                 success: (res) => {
-                                    var data = res.data;
-                                    if (res.code == 1) {
-                                        var dhtml = `<div class="pay_box">
-                                                        <div class="c_city">您选择城市：<span class="city_n">${data.city_address}</span></div>
-                                                        <div class="pay_table">
-                                                            <table>
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th class="th_one">
-                                                                            <span><input type="checkbox" name="" id="" checked>${formatDate(data.create_time)}</span>
-                                                                            <span  style="margin-left: 30px;">订单号：${data.order_number}</span>
-                                                                        </th>
-                                                                        <th>数量</th>
-                                                                        <th>介绍</th>
-                                                                        <th>金额</th>
-                                                                        <th>小计（元）</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td class="tr_one">${data.city_meal_name}</td>
-                                                                        <td>${data.number}年</td>
-                                                                        <td style="color: rgb(174,174,174);">${data.selling_point}</td>
-                                                                        <td>
-                                                                            <div>${data.meal_price.toFixed(2)}</div>
-                                                                            <div class="tips">${data.line_price.toFixed(2)}</div>
-                                                                        </td>
-                                                                        <td>${data.meal_price.toFixed(2)}</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="pay_invoice">
-                                                            <div><input type="checkbox" name="invoice" id=""><label for="invoice">我要开票</label></div>
-                                                            <div>0.00</div>
-                                                        </div>
-                                                        <div class="pay_k">
-                                                            <div><div class="pay_t">实付款：<span class="pay_mon">￥${data.meal_price.toFixed(2)}</span></div></div>
-                                                            <div><span class="pay_btn" data-order="${data.order_number}" data-money="${data.meal_price.toFixed(2)}">提交订单</span></div>
-                                                        </div>
-                                                    </div>`;
-                                        $('#app').show();
-                                        $('#app').empty();
-                                        $('#app').append(dhtml);
+                                    $('.pay_bounced').show();
+                                    $('.online_pay').hide();
+                                    $('.pz_yz').show();
+                                    $('.close_title').text("城市合伙人汇款凭证");
+                                    $('#pz_img').attr("src", res.data.payment_document);
+                                    $("#hkAccount").val(res.data.remittance_account);
+                                    if(code == 106) {
+                                        $(".pz_title_two").text("经核实，汇款记录并未到帐，如有任何疑问请联系平台客服");
+                                        $("#hk_num").val(res.data.remittance_account);
+                                        $('#orderNumber').val(res.data.order_number);
+                                        $(".hk_btn_yz").show();
                                     }
                                 },
-                                error: (e) => { console.log(e) }
+                                error: (e) => {console.log(e)}
                             })
                         } else {
-
+                            layer.msg(res.msg);
                         }
                     },
                     error: function (res) {
@@ -385,7 +436,10 @@
         
         $("#app").on("click", ".pay_btn" ,function() {
             let pay_order = $(this).data("order"), pay_money =  $(this).data("money");
+            $('.close_title').text("选择付款方式");
             $(".pay_money").text(pay_money);
+            $(".pay_money").data("money", pay_money);
+            $('#orderNumber').val(pay_order);
             $.ajax({
                 url: "city/cityWhatChatPay",
                 type: "POST",
@@ -394,7 +448,7 @@
                 },
                 success: (res) => {
                     if(res.code == 1) {
-                        $('#payImg').attr("src", res.data.url)
+                        $('#payImg').attr("src", res.data.url);
                         $(".pay_main").hide();
                         $(".pay_bounced").show();
                     } else {
@@ -425,6 +479,62 @@
                 })
             })
         });
+        //订单页
+        function dingdang() {
+                $.ajax({
+                    url: "city/order_index",
+                    type: "POST",
+                    data: {},
+                    success: (res) => {
+                        var data = res.data;
+                        if (res.code == 1) {
+                            var dhtml = `<div class="pay_box">
+                                        <div class="c_city">您选择城市：<span class="city_n">${data.city_address}</span></div>
+                                        <div class="pay_table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th class="th_one">
+                                                            <span><input type="checkbox" name="" id="" checked>${formatDate(data.create_time)}</span>
+                                                            <span  style="margin-left: 30px;">订单号：${data.order_number}</span>
+                                                        </th>
+                                                        <th>数量</th>
+                                                        <th>介绍</th>
+                                                        <th>金额</th>
+                                                        <th>小计（元）</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="tr_one">${data.city_meal_name}</td>
+                                                        <td>${data.number}年</td>
+                                                        <td style="color: rgb(174,174,174);">${data.selling_point}</td>
+                                                        <td>
+                                                            <div>${data.meal_price.toFixed(2)}</div>
+                                                            <div class="tips">${data.line_price.toFixed(2)}</div>
+                                                        </td>
+                                                        <td>${data.meal_price.toFixed(2)}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="pay_invoice">
+                                            <div><input type="checkbox" name="invoice" id=""><label for="invoice">我要开票</label></div>
+                                            <div>0.00</div>
+                                        </div>
+                                        <div class="pay_k">
+                                            <div><div class="pay_t">实付款：<span class="pay_mon">￥${data.meal_price.toFixed(2)}</span></div></div>
+                                            <div><span class="pay_btn" data-order="${data.order_number}" data-money="${data.meal_price.toFixed(2)}">提交订单</span></div>
+                                        </div>
+                                    </div>`;
+                            $('#app').show();
+                            $('#app').empty();
+                            $('#app').append(dhtml);
+                        }
+                    },
+                    error: (e) => { console.log(e) }
+                })
+            }
 
     </script>
 </body>
