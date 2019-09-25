@@ -76,7 +76,6 @@ class User extends Controller{
             'phone_number' => 'require|regex:\d{11}|unique:user',
             'password'=>'require|alphaNum|confirm|length:6,16',
             'code'=>'require',
-            'invitation'=>'require',
         ];
         $message = [
             'phone_number.require' => '请输入手机号',
@@ -86,7 +85,6 @@ class User extends Controller{
             'password.length' => '密码长度必须在6~16位之间',
             'password.confirm' => '两次密码输入不一致',
             'code.require'=>'验证码不能为空',
-            'invitation.require'=>'邀请码不能为空',
         ];
         //验证
         $validate = new Validate($rules,$message);
@@ -97,14 +95,21 @@ class User extends Controller{
         if (Session('mobileCode') != $param['code']) {
             return json(['code'=>1,'msg'=>$param['code']."验证码不正确"]);
         }
+        //判断邀请码
+        if(empty($param['invitation'])){
+            $param['invitation'] = '';
+        }else{
+            $user = new UserAll();
+            $shop_id = $user->shop($param['invitation']);
 
-        $user = new UserAll();
-        $shop_id = $user->shop($param['invitation']);
-
-        if (empty($shop_id)) {
-            return json(['code'=>0,'msg'=>"邀请码有误"]);
+            if (empty($shop_id)) {
+                return json(['code'=>0,'msg'=>"邀请码有误"]);
+            }
         }
 
+        if(empty($param['openid'])){
+            $param['openid'] = '';
+        }
         $password = password_hash($param['password'],PASSWORD_DEFAULT);
 
         //调取生成店铺码
@@ -112,7 +117,7 @@ class User extends Controller{
         $re_code = $my_invitation->memberCode();
         // 储存
 
-        $result = $user->add($param['phone_number'],$password,$param['invitation'],$re_code);
+        $result = $user->add($param['phone_number'],$password,$param['invitation'],$re_code,$param['openid']);
 
         $res = $result ? ['code' => 1,'msg' => '注册成功'] : ['code' => 0,'msg' => '注册失败'];
 

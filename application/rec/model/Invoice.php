@@ -21,7 +21,7 @@ class Invoice extends Model{
      */
     public function get_order($id)
     {
-        return self::get($id) ? self::get($id)->toArray() : returnJson(0,'数据有误');
+        return self::get(['no'=>$id]) ? self::get(['no'=>$id])->toArray() : returnJson(0,'数据有误');
     }
 
     /**

@@ -15,7 +15,7 @@ class User extends Model
     protected $resultSetType = 'collection';
 
     //新增
-    public function add($phone, $password, $invit ,$re_code)
+    public function add($phone, $password, $invit ,$re_code,$openid)
     {
         return $this->save([
             'phone_number' => $phone,
@@ -24,6 +24,7 @@ class User extends Model
             'my_invitation' =>$re_code,
             'create_time' => time(),
             'status' =>1,
+            'openid'=>$openid,
 
         ]);
     }
