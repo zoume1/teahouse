@@ -15,8 +15,8 @@ use think\Config;
 class Wechat extends Controller{
 
     //微信公众平台信息（appid/secret）
-    protected $sj_appid = 'wx7a8782e472a6c34a';
-    protected $sj_secret = 'ae3dce2528dc43edd49e571cb95b9c25';
+    protected $sj_appid = 'wxf120ba19ce55a392';
+    protected $sj_secret = '06c0107cff1e3f5fe6c2eb039ac2d0b7';
 
      //手机端跳转首页
     protected $app_index = 'app/wechat/user/index.html';
@@ -44,6 +44,7 @@ class Wechat extends Controller{
      * @function 获取openid
      */
     public function wx_code(){
+    	
         $request = Request::instance();
         $param = $request->param();
         if(empty($param['code'])){
