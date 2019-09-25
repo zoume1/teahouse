@@ -60,4 +60,21 @@ class CitySetting extends Model
         
     }
 
+
+    /**gy
+     *  计算分销佣金
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function calculate()
+    {
+        $model = new static;
+        $rest = $model->find()->toArray();
+        return $rest ? $rest : false;
+        
+    }
+
 }

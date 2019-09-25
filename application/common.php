@@ -20,6 +20,12 @@ use think\paginator\driver\Bootstrap;
 use think\Db;
 use think\Session;
 use think\Request;
+use app\city\model\StoreCommission;
+use app\city\model\CitySetting;
+use app\city\model\CityCopartner;
+
+
+
 
 /**
  * 状态码
@@ -1590,6 +1596,173 @@ function returnArray($data){
         
         return renderJsonData($code, $msg, $data);
     }
+
+
+    /**
+     * 返回操作失败json
+     * @param string $msg
+     * @param string $url
+     * @param array $data
+     * @return array
+     */
+  function enter_name($enter_all_id)
+  {
+      switch($enter_all_id){
+        case 1:
+            $name = "万用版30天试用期套餐";
+            return $name;
+            break;
+        case 2:
+            $name = "万用版1年套餐";
+            return $name;
+            break;
+        case 3:
+            $name = "万用版2年套餐";
+            return $name;
+            break;
+        case 4:
+            $name = "万用版3年套餐";
+            return $name;
+            break;
+        case 5:
+            $name = "万用版4年套餐";
+            return $name;
+            break;        
+        case 6:
+            $name = "万用版5年套餐";
+            return $name;
+            break;        
+        case 12:
+            $name = "茶行业版30天试用套餐";
+            return $name;
+            break;
+        case 13:
+            $name = "茶行业版1年套餐";
+            return $name;
+            break; 
+        case 14:
+            $name = "茶行业版2年套餐";
+            return $name;
+            break; 
+        case 15:
+            $name = "茶行业版3年套餐";
+            return $name;
+            break; 
+        case 16:
+            $name = "茶行业版4年套餐";
+            return $name;
+            break; 
+        case 17:
+            $name = "茶行业版5年套餐";
+            return $name;
+            break; 
+        case 18:
+            $name = "茶进阶版30天试用套餐";
+            return $name;
+            break; 
+        case 19:
+            $name = "茶进阶版1年套餐";
+            return $name;
+            break; 
+        case 20:
+            $name = "茶进阶版2年套餐";
+            return $name;
+            break; 
+        case 21:
+            $name = "茶进阶版3年套餐";
+            return $name;
+            break; 
+        case 22:
+            $name = "茶进阶版4年套餐";
+            return $name;
+            break; 
+        case 23:
+            $name = "茶进阶版5年套餐";
+            return $name;
+            break; 
+        default:
+            break;       
+         
+      }
+  }
+
+  function find_rank_data($highe_share_code,$pay_money,$city_user_id)
+  {
+      $one = db('store')->where('share_code',$highe_share_code)->find(); //上级是商户
+      $two = db('city_copartner')->where('my_invitation',$highe_share_code)->find();//上级是合伙人
+      $return_data = [
+        'commision' => 0,
+        'higher_phone' => '',
+        'base_commision' => 0,
+        'reach_commision' => 0,
+        'price_status' => 0,
+    ];
+      if(!empty($one)){
+          //商户一级分销
+         $setting = StoreCommission::commission_setting();//找到商户分销设置比例
+         $commission_money = $setting['commission'] * $pay_money;//分销金额
+         //给上一级商户返钱
+         $three = db('store')->where('share_code',$highe_share_code)->setInc('member_wallet',$commission_money);
+         $return_data = [
+            'commision' => $commission_money,
+            'higher_phone' => $one['phone_number'],
+            'base_commision' => 0,
+            'reach_commision' => 0,
+        ];
+         //有无城市合伙人
+         if($city_user_id > 0){
+            $city_setting = CitySetting::city_setting();
+            $base_commision =  $city_setting['commision'] * $pay_money;//保底佣金
+            //是否达标
+            $city_copartner = CityCopartner::detail(['id'=>$city_user_id]);
+            $reach = the_standard($city_copartner,$city_setting);
+            $reach_commision = $reach * $pay_money;//达标佣金
+            $money = $reach_commision + $base_commision;
+            $four = db('city_copartner')->where('city_user_id',$city_user_id)->setInc('member_wallet',$money);//给合伙人返钱
+            $return_data = [
+                'commision' => $commission_money,
+                'higher_phone' => $one['phone_number'],
+                'base_commision' =>$base_commision,
+                'reach_commision' =>$$reach_commision,
+            ];
+         }
+
+         return $return_data;
+      } elseif(!empty($two)){
+        //有无城市合伙人
+         if($city_user_id > 0){
+            $city_setting = CitySetting::city_setting();
+            $base_commision =  $city_setting['commision'] * $pay_money;//保底佣金
+            //是否达标
+            $city_copartner = CityCopartner::detail(['id'=>$city_user_id]);
+            $reach = the_standard($city_copartner,$city_setting);
+            $reach_commision = $reach * $pay_money;//达标佣金
+            $money = $reach_commision + $base_commision;
+            $four = db('city_copartner')->where('city_user_id',$city_user_id)->setInc('member_wallet',$money);//给合伙人返钱
+            $return_data = [
+                'commision' => 0,
+                'higher_phone' => $two['phone_number'],
+                'base_commision' =>$base_commision,
+                'reach_commision' =>$$reach_commision,
+            ];
+         }
+        return $return_data; 
+      } else {
+        return $return_data;
+      }
+  }
+
+  function the_standard($rest,$rest_two){
+        if(($rest['rank_city'] >= $rest_two['rank_city']) || ($rest['one_city'] >= $rest_two['one_city']) || ($rest['two_city'] >= $rest_two['two_city']) || ($rest['three_city'] >= $rest_two['three_city'])){
+            $reach = $rest_two['reach_commision'];
+        } else {
+            $reach = 0;
+        }
+        return $reach;
+  }
+
+
+    
 
 
 

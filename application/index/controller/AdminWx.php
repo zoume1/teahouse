@@ -11,6 +11,8 @@ use think\Request;
 use think\Db;
 use app\city\model\CityOrder as Order;
 use app\city\model\CityCopartner as User;
+use app\city\model\CityDetail;
+
 
 const WX_PAY = 1;
 const ZFB_PAY = 2;
@@ -35,6 +37,7 @@ class  AdminWx extends Controller{
                     ->where("order_number",$val["out_trade_no"])
                     ->find();
                 $year = Db::name("enter_all")->where("id",$enter_all_data['enter_all_id'])->value("year");
+                $store_data_rest = Db::name('store')->where('id',$enter_all_data['store_id'])->find();
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除已付款的订单
@@ -44,6 +47,10 @@ class  AdminWx extends Controller{
                     ->where("audit_status",'eq',1)
                     ->find();
                 //套餐购买成功
+
+                //生成分销代理订单
+                CityDetail::store_order_commission($enter_all_data,$store_data_rest);
+
                 db('store')->where('id',$enter_all_data['store_id'])->update(['store_use'=>1]);                   
                 if($is_set_order){
                     //这是套餐升级的情况
@@ -656,6 +663,8 @@ class  AdminWx extends Controller{
             if($trade_status == 'TRADE_FINISHED' || $trade_status == 'TRADE_SUCCESS'){     //支付成功
             //逻辑处理
             $model = new Order;
+            $user_object = new User;
+            $user_data = $model->detail(['order_number'=>$out_trade_no]);
             $data = [
                 'start_time' => time(),
                 'end_time' => strtotime("+1 year"),
@@ -663,7 +672,8 @@ class  AdminWx extends Controller{
                 'account_status' => WX_PAY,
             ];
             $rest = $model -> allowField(true)->save($data,['order_number'=>$out_trade_no]);
-            if($rest)
+            $restul = $user_object->allowField(true)->save(['judge_status'=>WX_PAY],['user_id'=>$user_data['city_user_id']]);
+            if($rest && $restul)
             {
                 return "success";
             } else {

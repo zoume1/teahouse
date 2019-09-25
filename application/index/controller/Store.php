@@ -11,6 +11,8 @@ use think\Controller;
 use think\Request;
 use think\Session;
 use think\Db;
+use app\admin\model\Store as AddStore;
+
 use app\index\controller\Login as LoginPass;
 class  Store extends  Controller{
     /**
