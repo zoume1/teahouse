@@ -87,13 +87,13 @@ class CityOrder extends Controller
         if($request->isPost()){
             //订单号
             $order_number = $request->only(["order_number"])["order_number"];
-            $pay_money = $request->only(["pay_money"])["pay_money"];
+            $pay_money = $request->only(["order_price"])["order_price"];
             $remittance_account = $request->only(['remittance_account'])['remittance_account'];
             $rest = new Picture;
             $id_image = $rest->upload_picture('payment_document');
             if($id_image){
                 $data = [
-                    'pay_money'=>$pay_money,
+                    'order_price'=>$pay_money,
                     'payment_document'=>$id_image,
                     'pay_status' => CITY_HK,
                     'remittance_account'=>$remittance_account,
