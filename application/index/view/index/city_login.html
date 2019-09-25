@@ -36,7 +36,7 @@
         .copyright a{color: #515151;}
         .qr-code-wrap{width: 350px; margin: 0 auto; text-align: center;}
         .varify-input-code{background-color: rgb(244,244,244);}
-        .pay_main,.pay_bounced{width: 100%;height: 100%;background-color: rgb(0,0,0, .5);position: absolute;top: 0;}
+        .pay_main,.pay_bounced,.pay_bounced_kp{width: 100%;height: 100%;background-color: rgb(0,0,0, .5);position: absolute;top: 0;}
         .pay_box{width: 60%;margin: 10% auto;background: #fff;padding: 30px 40px;}
         .pay_table table{width:100%;margin:0 auto;text-align: center;border: 1px solid rgb(168,221,255);}
         .pay_table table thead{background-color: rgb(207,236,255);line-height: 50px;border-bottom: 1px solid rgb(168,221,255);}
@@ -53,7 +53,7 @@
         .tips{text-decoration:line-through;color: rgb(174,174,174);}
         .pay_bounced_x{width: 30%;margin:10% auto;background-color: #fff;border-radius: 10px;padding: 15px 30px;}
         .close_box{display: flex;justify-content: space-between;font-size: 30px;border-bottom: 1px solid black;}
-        .close_title{font-weight: 700;}
+        .close_title,.close_title_kp{font-weight: 700;}
         .close{cursor: pointer;}
         .pay_img{text-align:center;}
         .pay_img img{width: 50px;height: 50px;}
@@ -182,6 +182,44 @@
     <div class="pay_main" style="display: none;" id="app">
     </div>
 
+    <!-- 开票弹框 -->
+    <div class="pay_bounced_kp" style="display: none;">
+        <div class="pay_bounced_x">
+            <div class="close_box">
+                <div class="close_title_kp">我要开票</div>
+                <div class="close_kp">×</div>
+            </div>
+            <div class="invoice_box">
+                <form id="invoice_sq" onsubmit="return false" action="##" method="post" enctype="multipart/form-data">
+                <div>开票金额：<span style="font-size: 26px;color: rgb(255,102,0);">￥</span><span class="pay_money">9023</span></div>
+                <input type="text" name="user_id" style="display: none">
+                <input type="text" name="no" style="display: none">
+                <input type="number" name="price" style="display: none">
+                <div>发票类型：<input type="radio" name="type" value="1" checked><label class="m_r_x">企业</label><input type="radio" name="type" value="2"><label>个人</label></div>
+                <div>发票样式：<input type="radio" name="status" value="1" checked><label class="m_r_x">电子</label><input type="radio" name="status" value="2"><label>纸质</label></div>
+                <div>邮箱地址：<input class="inp_wid" type="email" name="email" placeholder="  如需电子发票请填写您的邮箱"></div>
+                <div>发票抬头：<input class="inp_wid" type="text" name="duty" placeholder="  请填写公司名/个人姓名"></div>
+                <div>发票税号：<input class="inp_wid" type="text" name="duty" placeholder="  请填写企业税号/个人无需提供税号"></div>
+                <div>邮寄详情：<span class="address"></span></div>
+                <div>手机号码：<span class="phone_number"></span></div>
+                <input type="text" name="address" style="display: none">
+                <input type="number" name="phone" style="display: none">
+                <div>发票种类：<input type="radio" name="invoiceLine" value="p" checked><label class="m_r">普通发票</label><input type="radio" name="invoiceLine" value="s"><label>增值税发票</label></div>
+                <div><span class="tishi">温馨提示：请确认好开票信息，发票一经开出后，不再重开！</span></div>
+                <div class="line"></div>
+                <div class="kp_btn">确定</div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <style>
+        .invoice_box{line-height: 55px;font-size:20px;}
+        .inp_wid{width: 80%;}
+        .m_r{margin-right: 100px;}
+        .m_r_x{margin-right: 140px;}
+        .tishi{color: red;font-size: 14px;}
+        .kp_btn{width: 150px;margin: 0 auto;text-align: center;color: #fff;background-color: rgb(22,155,213);border-radius: 4px;line-height: 45px;}
+    </style>
     <!-- 支付弹框 -->
     <div class="pay_bounced"  style="display: none;">
         <div class="pay_bounced_x">
@@ -191,7 +229,7 @@
             </div>
             <div class="online_pay" >
                 <div class="payment">
-                    <div><span class="w_l">支付金额：</span><span style="font-size: 26px;color: rgb(255,102,0);">￥</span><span class="pay_money">￥9023</span></div>
+                    <div><span class="w_l">支付金额：</span><span style="font-size: 26px;color: rgb(255,102,0);">￥</span><span class="pay_money">9023</span></div>
                     <div><span class="w_l">支付方式：</span><input type="radio" name="pay" checked><label>扫码支付</label></div>
                     <div><span class="w_l"></span><input type="radio" name="pay" id="offlinePay" onchange="changeNatureItem(this.id)"><label>汇款支付</label></div>
                 </div>
@@ -274,6 +312,7 @@
         </div>
     </div>
     
+    
 
     <script src="__STATIC__/index/js/jquery.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
@@ -284,9 +323,27 @@
     <script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp.js"></script>
 
     <script>
+        $(".kp_btn").click(function() {
+            let datas = new FormData(document.getElementById("invoice_sq"));
+            $.ajax({
+                    url: "city/cityOrderReceipt",
+                    type: "POST",
+                    dataType: "json",//预期服务器返回的数据类型
+                    data: datas,
+                    contentType: false, //不设置内容类型
+                    processData: false, //不处理数据
+                    success: (res) => {
+                        console.log(res)
+                        layer.msg(res.msg);
+                    },
+                    error: (e) => {
+                        console.log(e)
+                    }
+            })
+        })
         //确定上传凭证
         $(".hk_btn").click(function() {
-           var datas = new FormData(document.getElementById("hkPz"));
+           let datas = new FormData(document.getElementById("hkPz"));
             $.ajax({
                     url: "city/payment_image",
                     type: "POST",
@@ -323,9 +380,32 @@
                 // $(".pay_money").text(pay_money);
             }
         }
+        //开票
+        function makeInvoice(user_id) {
+            $.ajax({
+                url: "city/mailing_address",
+                type: "POST",
+                data: {"user_id": user_id},
+                success: (res)=> {
+                    var data = res.data;
+                    if(res.code == 1) {
+                        var address = data.post_address_one + data.post_address_two + data.post_address_three + data.detail;
+                        $("input[name=phone]").val(data.phone_number);
+                        $("input[name=address]").val(address);
+                        $('.address').text(address);
+                        $('.phone_number').text(data.phone_number);
+                        $('.pay_bounced_kp').show();
+                    }
+                },
+                error: (e) => {console.log(e)}
+            })
+        }
 
         $(".close").click(function () {
             $(".pay_bounced").hide();
+        })
+        $(".close_kp").click(function () {
+            $(".pay_bounced_kp").hide();
         })
 
         //时间转换
@@ -519,7 +599,7 @@
                                             </table>
                                         </div>
                                         <div class="pay_invoice">
-                                            <div><input type="checkbox" name="invoice" id=""><label for="invoice">我要开票</label></div>
+                                            <div><input type="checkbox" name="invoice" id="" onchange="makeInvoice(${data.user_id})"><label for="invoice">我要开票</label></div>
                                             <div>0.00</div>
                                         </div>
                                         <div class="pay_k">
@@ -529,6 +609,10 @@
                                     </div>`;
                             $('#app').show();
                             $('#app').empty();
+                            $("input[name=user_id]").val(data.user_id);
+                            $(".pay_money").text(data.meal_price.toFixed(2));
+                            $("input[name=price]").val(data.meal_price.toFixed(2));
+                            $("input[name=no]").val(data.order_number);
                             $('#app').append(dhtml);
                         }
                     },

@@ -15,8 +15,8 @@ use think\Config;
 class Wechat extends Controller{
 
     //微信公众平台信息（appid/secret）
-    protected $sj_appid = 'wxf120ba19ce55a392';
-    protected $sj_secret = '06c0107cff1e3f5fe6c2eb039ac2d0b7';
+    protected $sj_appid = 'wx7a8782e472a6c34a';
+    protected $sj_secret = 'ae3dce2528dc43edd49e571cb95b9c25';
 
      //手机端跳转首页
     protected $app_index = 'app/wechat/user/index.html';
@@ -94,8 +94,11 @@ class Wechat extends Controller{
         }
         
 
+
     }
+
     /**
+     * 用户登录直接跳转
      * @throws \think\Exception
      * @throws \think\exception\PDOException
      */
@@ -128,7 +131,7 @@ class Wechat extends Controller{
          $res = $this->curlGet($Allurl);
          //print_r($res);die;
          $openid_name = db('pc_user')->where(array('openid'=> $openid))->field('id,phone_number')->find();
-          //print_r($openid_name);die;
+         // print_r($openid_name);die;
          if($openid_name){
              //更新用户信息
              db('pc_user')->where(array('openid'=> $openid))
@@ -146,6 +149,7 @@ class Wechat extends Controller{
          }
 
      }
+   
     /**
      * @function curl以get方式连接
      */
