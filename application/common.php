@@ -1695,14 +1695,13 @@ function returnArray($data){
         'higher_phone' => '',
         'base_commision' => 0,
         'reach_commision' => 0,
-        'price_status' => 0,
     ];
       if(!empty($one)){
           //商户一级分销
          $setting = StoreCommission::commission_setting();//找到商户分销设置比例
          $commission_money = $setting['commission'] * $pay_money;//分销金额
          //给上一级商户返钱
-         $three = db('store')->where('share_code',$highe_share_code)->setInc('member_wallet',$commission_money);
+         $three = db('store')->where('share_code',$highe_share_code)->setInc('store_wallet',$commission_money);
          $return_data = [
             'commision' => $commission_money,
             'higher_phone' => $one['phone_number'],
@@ -1712,38 +1711,39 @@ function returnArray($data){
          //有无城市合伙人
          if($city_user_id > 0){
             $city_setting = CitySetting::city_setting();
-            $base_commision =  $city_setting['commision'] * $pay_money;//保底佣金
+            $base_commision =  $city_setting['commission'] * $pay_money;//保底佣金
             //是否达标
-            $city_copartner = CityCopartner::detail(['id'=>$city_user_id]);
+            $city_copartner = CityCopartner::detail(['user_id'=>$city_user_id]);
             $reach = the_standard($city_copartner,$city_setting);
             $reach_commision = $reach * $pay_money;//达标佣金
             $money = $reach_commision + $base_commision;
-            $four = db('city_copartner')->where('city_user_id',$city_user_id)->setInc('member_wallet',$money);//给合伙人返钱
+            $four = db('city_copartner')->where('user_id',$city_user_id)->setInc('member_wallet',$money);//给合伙人返钱
             $return_data = [
                 'commision' => $commission_money,
                 'higher_phone' => $one['phone_number'],
                 'base_commision' =>$base_commision,
-                'reach_commision' =>$$reach_commision,
+                'reach_commision' =>$reach_commision,
             ];
          }
 
          return $return_data;
       } elseif(!empty($two)){
         //有无城市合伙人
+         
          if($city_user_id > 0){
             $city_setting = CitySetting::city_setting();
-            $base_commision =  $city_setting['commision'] * $pay_money;//保底佣金
+            $base_commision =  $city_setting['commission'] * $pay_money;//保底佣金
             //是否达标
-            $city_copartner = CityCopartner::detail(['id'=>$city_user_id]);
+            $city_copartner = CityCopartner::detail(['user_id'=>$city_user_id]);
             $reach = the_standard($city_copartner,$city_setting);
             $reach_commision = $reach * $pay_money;//达标佣金
             $money = $reach_commision + $base_commision;
-            $four = db('city_copartner')->where('city_user_id',$city_user_id)->setInc('member_wallet',$money);//给合伙人返钱
+            $four = db('city_copartner')->where('user_id',$city_user_id)->setInc('member_wallet',$money);//给合伙人返钱
             $return_data = [
                 'commision' => 0,
                 'higher_phone' => $two['phone_number'],
                 'base_commision' =>$base_commision,
-                'reach_commision' =>$$reach_commision,
+                'reach_commision' =>$reach_commision,
             ];
          }
         return $return_data; 
@@ -1754,7 +1754,7 @@ function returnArray($data){
 
   function the_standard($rest,$rest_two){
         if(($rest['rank_city'] >= $rest_two['rank_city']) || ($rest['one_city'] >= $rest_two['one_city']) || ($rest['two_city'] >= $rest_two['two_city']) || ($rest['three_city'] >= $rest_two['three_city'])){
-            $reach = $rest_two['reach_commision'];
+            $reach = $rest_two['reach_commission'];
         } else {
             $reach = 0;
         }
