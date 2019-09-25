@@ -277,6 +277,21 @@ class  AdminWx extends Controller{
                     //套餐购买成功
                 db('store')->where('id',$enter_all_data['store_id'])->update(['store_use'=>1]);
                 $year = Db::name("enter_all")->where("id", $enter_all_data['enter_all_id'])->value("year");
+                $store_data_rest = Db::name('store')->where('id',$enter_all_data['store_id'])->find();
+                //进行逻辑处理
+                //1、先判断是否上一单是否到期和是否存在
+                //2、判断如果是升级过来的话需要进行删除已付款的订单
+                
+                $is_set_order = Db::name("set_meal_order")
+                    ->where("store_id",$enter_all_data["store_id"])
+                    ->where("audit_status",'eq',1)
+                    ->find();
+                //套餐购买成功
+                
+                //生成分销代理订单
+                CityDetail::store_order_commission($enter_all_data,$store_data_rest);
+
+
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除已付款的订单

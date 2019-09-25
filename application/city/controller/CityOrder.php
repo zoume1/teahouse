@@ -44,7 +44,8 @@ class CityOrder extends Controller
         if($request->isPost()){
             $pay_object = new Order;
             $order_number = $request->only(["order_number"])["order_number"];
-            $pay_code = $pay_object->WeChatPayCode($order_number);
+            $pay_money = $request->only(["pay_money"])["pay_money"];
+            $pay_code = $pay_object->WeChatPayCode($order_number,$pay_money);
             return $pay_code ? jsonSuccess('微信支付码返回成功',$pay_code) : jsonError('微信支付码返回失败');
         }
 
@@ -64,7 +65,8 @@ class CityOrder extends Controller
         if($request->isPost()){
             $pay_object = new Order;
             $order_number = $request->only(["order_number"])["order_number"];
-            $pay_code = $pay_object->AlipayCode($order_number);
+            $pay_money = $request->only(["pay_money"])["pay_money"];
+            $pay_code = $pay_object->AlipayCode($order_number,$pay_money);
             return $pay_code ? jsonSuccess('支付页面返回成功',$pay_code) : jsonError('支付页面返回失败');
         }
 
@@ -85,11 +87,13 @@ class CityOrder extends Controller
         if($request->isPost()){
             //订单号
             $order_number = $request->only(["order_number"])["order_number"];
+            $pay_money = $request->only(["pay_money"])["pay_money"];
             $remittance_account = $request->only(['remittance_account'])['remittance_account'];
             $rest = new Picture;
             $id_image = $rest->upload_picture('payment_document');
             if($id_image){
                 $data = [
+                    'pay_money'=>$pay_money,
                     'payment_document'=>$id_image,
                     'pay_status' => CITY_HK,
                     'remittance_account'=>$remittance_account,
