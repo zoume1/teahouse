@@ -8,6 +8,8 @@ use app\city\controller;
 use think\Db;
 use app\common\exception\BaseException;
 use app\admin\model\Store as AddStore;
+use app\city\model\User as UserModel;
+
 
 const CITY_ONE_STATUS = 1;
 
@@ -57,7 +59,7 @@ class CityDetail extends Model
     {
         $model = new static;
         !empty($city_user_id) && $rest = $model->where('city_user_id', '=', $city_user_id)->sum('commision');
-        return $rest;
+        return $rest ? $rest : 0;
         
     }
 
@@ -134,7 +136,7 @@ class CityDetail extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function city_store_detail($search = '')
+    public static function city_store_detail($search)
     {
         $model = new static;
         // 查询条件
@@ -154,9 +156,11 @@ class CityDetail extends Model
     private function setWhere($query)
     {
         $user = Session::get('User');
-        // $user_data = 
+        $user_data = UserModel::detail(['user_id'=>$user['user_id']]);
         $this->where('city_user_id', '=' ,$user['user_id']);
-
+        if (isset($query['status']) && $query['status'] == 1) {
+            $this->where('highe_share_code', '=', $user_data['my_invitation']);
+        }
         if (isset($query['name']) && !empty($query['name'])) {
             $this->where('phone_number|share_code', 'like', '%' . trim($query['name']) . '%');
         }
