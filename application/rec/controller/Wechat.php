@@ -69,11 +69,10 @@ class Wechat extends Controller{
         $token = $data['access_token'];
         $openid = $data['openid'];
         $Allurl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
-
+        //查询数据库是否存在
         $res = $this->curlGet($Allurl);
-         //print_r($res);die;
-		$openid_name = db('pc_user')->where(array('openid'=> $openid))->field('id,phone_number')->find();
-		// print_r($openid_name);die;
+        $openid_name = db('pc_user')->where(array('openid'=> $openid))->field('id,phone_number')->find();
+
         if($openid_name){
         	db('pc_user')->where(array('openid'=> $openid))
         	->update([

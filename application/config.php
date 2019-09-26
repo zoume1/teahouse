@@ -260,8 +260,11 @@ return [
     // 添加更多的缓存类型设置
 
     'domain'=>[
-        "url"=>"https://teahouse.siring.com.cn/",
+        "url"=>"https://www.zhihuichacang.com/",
     ],
+    // 'domain'=>[
+    //     "url"=>"https://teahouse.siring.com.cn/",
+    // ],
     'domain2'=>[
         "url"=>"https://www.zhihuichacang.com/",
     ],

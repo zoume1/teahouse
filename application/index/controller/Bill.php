@@ -36,17 +36,19 @@ class Bill extends Controller{
     public function ceshi12(Request $request){
         if($request->isPost()){
             //生成分销代理订单
-            $one = new CityDetail;
-            $bool = $one->city_store_update('云南省',30);
-            halt($bool);
-            // $order_number='TC2019060616044231';
-            // $enter_all_data = Db::name("set_meal_order")
-            //         ->where("order_number",$order_number)
-            //         ->find();
+            // $one = new CityDetail;
+            // $bool = $one->city_store_update('云南省',31);
+            // halt($bool);
+  
+            $order_number='TC2019060616044231';
+            $enter_all_data = Db::name("set_meal_order")
+                    ->where("order_number",$order_number)
+                    ->find();
             
-            // $store_data_rest = Db::name('store')->where('id',$enter_all_data['store_id'])->find();
-            // // halt($store_data_rest);
-            // CityDetail::store_order_commission($enter_all_data,$store_data_rest);
+            $store_data_rest = Db::name('store')->where('id',$enter_all_data['store_id'])->find();
+            // halt($store_data_rest);
+            CityDetail::store_order_commission($enter_all_data,$store_data_rest);
+            halt(222);
             //     $rest = db('store')->field('address_data,id')->select();
             //     // halt($rest);
             //     $city = "北京市";

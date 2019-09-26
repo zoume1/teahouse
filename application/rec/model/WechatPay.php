@@ -35,8 +35,9 @@ class WechatPay extends Model
             'openid'           => $openid, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
             // ...
         ];
-
+		
         $options = [
+        	'debug'  => true,
             // 前面的appid什么的也得保留哦
             'app_id' => 'wx7a8782e472a6c34a',
             // payment
@@ -48,6 +49,11 @@ class WechatPay extends Model
 //                'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！
                 'notify_url'         => $url,       // 你也可以在下单时单独设置来想覆盖它
             ],
+            'log' => [
+	        'level' => 'debug',
+	         'permission' => 0777,
+	        'file'  => ROOT_PATH . 'runtime/wechat/easywechat1.log', // XXX: 绝对路径！！！！
+    			],
         ];
 
         $app = new Application($options);

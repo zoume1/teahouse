@@ -21,7 +21,7 @@ class WechatPay extends Controller{
     {
         //phpinfo();die;
         // 查询订单信息
-        $url = 'https://www.zhihuichacang.com/rec/app_notice';
+        $url = 'http://www.zhihuichacang.com/rec/app_notice';
         $order = db('set_meal_order') -> getById($id);
 
         $pay =1;//先测试1分钱
@@ -33,69 +33,40 @@ class WechatPay extends Controller{
         return  $res; exit();
     }
 
-    public function app_notice2(){
-        //初始化微信sdk
-        $options = [
-        	
-            // 前面的appid什么的也得保留哦
-            'app_id' => 'wxf120ba19ce55a392',
-            // payment
-            'payment' => [
-                'merchant_id'        => '1441082002',
-                'key'                => 'zhihuichacang123456zhihuichacang',
-                // 'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
-                // 'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！
-                'notify_url'         => 'http://www.zhihuichacang.com/rec/app_notice',       // 你也可以在下单时单独设置来想覆盖它
-            ],
-           
-        ];
-		
-        $app = new Application($options);
-		
-        $payment = $app->payment;
-		// print_r($payment);die;
-        $order = new WechatOrder($attributes);
-		// print_r($order);die;
-        $result = $payment->prepare($order); // 这里的order是上面一步得来的。 这个prepare()帮你计算了校验码，帮你获取了prepareId.省心。
-        $prepayId = null;
-        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
-            $prepayId = $result->prepay_id; // 这个很重要。有了这个才能调用支付。
-        } else {
-            return json(array('code'=>0,'msg'=>"发起支付失败"));exit();
-        }
-        $config = $payment->configForPayment($prepayId);
-        if($config){
-            $config['status'] = 0;
-            return  json(($config));exit();
-        }else{
-            return  json(array('code'=>0,'msg'=>"发起支付失败"));exit();
-        }
-
-    }
-
+    
 
     /**
      * 店铺支付成功微信回调
      * @throws \EasyWeChat\Core\Exceptions\FaultException
      */
     public function app_notice(){
+    	
+    	$payType = input('paytype');
+        if($payType == 'wxpay'){
         //初始化微信sdk
+          
         $options = [
+        	'debug'  => true,
             // 前面的appid什么的也得保留哦
-            'app_id' => 'wx7a8782e472a6c34a',
+             'app_id' => 'wx7a8782e472a6c34a',
             // payment
             'payment' => [
                 'merchant_id'        => '1484093452',
                 'key'                => 'zhihuichacang123456zhihuichacang',
-//                'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
-//                'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！
                 'notify_url'         => 'http://www.zhihuichacang.com/rec/app_notice',       // 你也可以在下单时单独设置来想覆盖它
             ],
+            'log' => [
+	        'level' => 'debug',
+	         'permission' => 0777,
+	        'file'  => ROOT_PATH . 'runtime/wechat/easywechat.log', // XXX: 绝对路径！！！！
+    			],
         ];
         $app = new Application($options);
         $response = $app->payment->handleNotify(function($notify, $successful){
             // 使用通知里的 "微信支付订单号transaction_id" 或者 "商户订单号out_trade_no"
-            $where = array('order_number'=>$notify->out_trade_no);
+            $rstArr = json_decode($notify,true);
+            
+            $where = array('order_number'=>$rstArr['out_trade_no']);
 
             $orderArr = db('tb_set_meal_order')->where($where)->field('status,order_number')->find();
             if (empty($orderArr)) {
@@ -111,12 +82,17 @@ class WechatPay extends Controller{
                 $invoice->ele_invoice($orderArr['order_number']);
                 // 不是已经支付状态则修改为已经支付状态
                 db('tb_set_meal_order')->where($where)->update(array('status' => 1, "pay_time" => time()));
-
+		
             }
             return true; // 返回处理完成
         });
         // 将响应输出
-        $response->send();
-    }
+        return $response;
+    
+    }else{
+            //预留处理
+            return false;
+     }
+     }
 
 }
