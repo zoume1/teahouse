@@ -79,6 +79,13 @@
         .hk_zh{font-size: 20px;color: rgb(134,134,134);}
         .hk_zh input{border: 0;}
         .hk_btn,.hk_btn_yz{width: 100px;text-align: center;background-color: rgb(22,155,213);color: #fff;border-radius: 3px;line-height: 35px;cursor: pointer;}
+        .address,.phone_number{font-size: 16px;}
+        .invoice_box{line-height: 55px;font-size:20px;}
+        .inp_wid{width: 80%;}
+        .m_r{margin-right: 100px;}
+        .m_r_x{margin-right: 140px;}
+        .tishi{color: red;font-size: 14px;}
+        .kp_btn{width: 150px;margin: 0 auto;text-align: center;color: #fff;background-color: rgb(22,155,213);border-radius: 4px;line-height: 45px;cursor: pointer;}
     </style>
 </head>
 <body>
@@ -212,14 +219,7 @@
             </div>
         </div>
     </div>
-    <style>
-        .invoice_box{line-height: 55px;font-size:20px;}
-        .inp_wid{width: 80%;}
-        .m_r{margin-right: 100px;}
-        .m_r_x{margin-right: 140px;}
-        .tishi{color: red;font-size: 14px;}
-        .kp_btn{width: 150px;margin: 0 auto;text-align: center;color: #fff;background-color: rgb(22,155,213);border-radius: 4px;line-height: 45px;cursor: pointer;}
-    </style>
+   
     <!-- 支付弹框 -->
     <div class="pay_bounced"  style="display: none;">
         <div class="pay_bounced_x">
@@ -270,6 +270,7 @@
             <div class="offline_pz" style="display: none;">
                 <form id="hkPz" onsubmit="return false" action="##" method="post" enctype="multipart/form-data">
                     <div class="pz_title">请拍照上传您的汇款单，作为凭证</div>
+                    <input type="number" name="order_price" style="display: none;">
                     <div style="margin: 0 auto;">
                         <div class="img-box">
                             <section class=" img-section">
@@ -323,8 +324,30 @@
     <script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp.js"></script>
 
     <script>
+        //开票
+        function makeInvoice(user_id) {
+            $.ajax({
+                url: "city/mailing_address",
+                type: "POST",
+                data: {"user_id": user_id},
+                success: (res)=> {
+                    var data = res.data;
+                    if(res.code == 1) {
+                        var address = data.post_address_one + data.post_address_two + data.post_address_three + data.detail;
+                        $("input[name=phone]").val(data.phone_number);
+                        $("input[name=address]").val(address);
+                        $('.address').text(address);
+                        $('.phone_number').text(data.phone_number);
+                        $('.pay_bounced_kp').show();
+                    }
+                },
+                error: (e) => {console.log(e)}
+            })
+        }
+        //确定开票
         $(".kp_btn").click(function() {
             let datas = new FormData(document.getElementById("invoice_sq"));
+            let price = datas.get("price"), invoiceLine = datas.get("invoiceLine"), poundage = 0;
             $.ajax({
                     url: "city/cityOrderReceipt",
                     type: "POST",
@@ -333,8 +356,25 @@
                     contentType: false, //不设置内容类型
                     processData: false, //不处理数据
                     success: (res) => {
-                        console.log(res)
                         layer.msg(res.msg);
+                        if(res.code == 1) {
+                            if(invoiceLine == "p") {
+                                poundage = (Number(price) * 0.03).toFixed(2);
+                            } else {
+                                poundage = (Number(price) * 0.06).toFixed(2);
+                            }
+                            price = Number(price) + Number(poundage);
+                            $(".pay_money").text(price);
+                            $(".pay_mon").text("￥"+price);
+                            $(".poundage").text(poundage);
+                            $(".pay_money").data("money", price);
+                            $('.pay_btn').data("money", price);
+                            $("input[name=invoice]").prop('checked',true);
+                            $("input[name=order_price]").val(price);//凭证金额
+                            $(".pay_bounced_kp").hide();
+                        } else {
+                            $("input[name=invoice]").prop('checked',false);
+                        }
                     },
                     error: (e) => {
                         console.log(e)
@@ -380,26 +420,7 @@
                 // $(".pay_money").text(pay_money);
             }
         }
-        //开票
-        function makeInvoice(user_id) {
-            $.ajax({
-                url: "city/mailing_address",
-                type: "POST",
-                data: {"user_id": user_id},
-                success: (res)=> {
-                    var data = res.data;
-                    if(res.code == 1) {
-                        var address = data.post_address_one + data.post_address_two + data.post_address_three + data.detail;
-                        $("input[name=phone]").val(data.phone_number);
-                        $("input[name=address]").val(address);
-                        $('.address').text(address);
-                        $('.phone_number').text(data.phone_number);
-                        $('.pay_bounced_kp').show();
-                    }
-                },
-                error: (e) => {console.log(e)}
-            })
-        }
+        
 
         $(".close").click(function () {
             $(".pay_bounced").hide();
@@ -513,18 +534,18 @@
                 layer.msg('请填写手机号或密码！');
             }
         });
-        
+        //下单付款
         $("#app").on("click", ".pay_btn" ,function() {
             let pay_order = $(this).data("order"), pay_money =  $(this).data("money");
             $('.close_title').text("选择付款方式");
-            $(".pay_money").text(pay_money);
             $(".pay_money").data("money", pay_money);
             $('#orderNumber').val(pay_order);
             $.ajax({
                 url: "city/cityWhatChatPay",
                 type: "POST",
                 data: {
-                    order_number: pay_order
+                    order_number: pay_order,
+                    pay_money: pay_money
                 },
                 success: (res) => {
                     if(res.code == 1) {
@@ -544,7 +565,8 @@
                     url: "city/cityAlipayCode",
                     type: "POST",
                     data: {
-                        order_number: pay_order
+                        order_number: pay_order,
+                        pay_money: pay_money
                     },
                     success: (res) => {
                         if(res.code == 1) {
@@ -600,7 +622,7 @@
                                         </div>
                                         <div class="pay_invoice">
                                             <div><input type="checkbox" name="invoice" id="" onchange="makeInvoice(${data.user_id})"><label for="invoice">我要开票</label></div>
-                                            <div>0.00</div>
+                                            <div class="poundage">0.00</div>
                                         </div>
                                         <div class="pay_k">
                                             <div><div class="pay_t">实付款：<span class="pay_mon">￥${data.meal_price.toFixed(2)}</span></div></div>
@@ -612,6 +634,7 @@
                             $("input[name=user_id]").val(data.user_id);
                             $(".pay_money").text(data.meal_price.toFixed(2));
                             $("input[name=price]").val(data.meal_price.toFixed(2));
+                            $("input[name=order_price]").val(data.meal_price.toFixed(2));//凭证金额
                             $("input[name=no]").val(data.order_number);
                             $('#app').append(dhtml);
                         }

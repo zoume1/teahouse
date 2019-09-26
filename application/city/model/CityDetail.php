@@ -5,10 +5,11 @@ use think\Session;
 use think\Model;
 use think\Validate;
 use app\city\controller;
+use think\Db;
 use app\common\exception\BaseException;
 use app\admin\model\Store as AddStore;
 
-const CITY_ONE = 1;
+const CITY_ONE_STATUS = 1;
 
 /**gy
  * 分销代理模型
@@ -18,6 +19,7 @@ const CITY_ONE = 1;
 class CityDetail extends Model
 {
     protected $table = "tb_city_detail";
+    protected $resultSetType = 'collection';
 
 
     /**gy
@@ -69,7 +71,9 @@ class CityDetail extends Model
      */
     public static function store_order_commission($order_data,$store_data)
     {
-        $city_user_id = AddStore::find_city_user($store_data['address_data']);
+        $model = new static;
+        $address_two = explode(",", $store_data['address_data']);
+        $city_user_id = AddStore::find_city_user($address_two[CITY_ONE_STATUS]);
         $retutn_data = find_rank_data($store_data['highe_share_code'],$order_data['pay_money'],$city_user_id);
         $data = [
             'order_number' => $order_data['order_number'],
@@ -85,12 +89,93 @@ class CityDetail extends Model
             'create_time' => $order_data['create_time'],
             'update_time' => time(),
             'city_user_id' => $city_user_id,
+            'city_address' => $address_two[CITY_ONE_STATUS],
         ];
-
+        $rest = $model->allowField(true)->save($data);
+        return $rest ? $rest : false;
         //传入套餐id生成生成套餐名
         //是否有上级账号计算分销佣金
         //判断有无城市合伙人user_id 有计算保底佣金 + 是否有达标佣金
     }
 
+
+    /**gy
+     *  更新城市所有店铺所属合伙人id
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public  function city_store_update($city_address,$city_user_id)
+    {
+        
+        $rest = Db::name('city_detail')->where('city_user_id', '=', 0)
+                ->where('city_address',$city_address)
+                ->field('id')
+                ->select();
+
+        if($rest){
+            foreach($rest as $value){
+                $value['city_user_id'] = $city_user_id;
+                $data[] = $value;
+            }
+            $detail = $this->isUpdate(false)->saveAll($data);      
+        }
+         
+        return true;
+    }
+
+    /**gy
+     *  城市累计商户明细
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function city_store_detail($search = '')
+    {
+        $model = new static;
+        // 查询条件
+        !empty($search) && $model->setWhere($search);
+        $rest = $model->order(['create_time' => 'desc'])
+        ->paginate(20, false, [
+            'query' => \request()->request()
+        ]);;
+        return $rest;
+        
+    }
+
+    /**
+     * 设置检索查询条件
+     * @param $query
+     */
+    private function setWhere($query)
+    {
+        $user = Session::get('User');
+        // $user_data = 
+        $this->where('city_user_id', '=' ,$user['user_id']);
+
+        if (isset($query['name']) && !empty($query['name'])) {
+            $this->where('phone_number|share_code', 'like', '%' . trim($query['name']) . '%');
+        }
+        if (isset($query['start_time']) && !empty($query['start_time'])) {
+            $start_time = strtotime($query['start_time']);
+            $time_condition  = "create_time > {$start_time} ";
+            $this->where($time_condition);
+        }
+        if (isset($query['end_time']) && !empty($query['end_time'])) {
+            $end_time = strtotime($query['end_time']);
+            $time_condition  = "create_time < {$end_time} ";
+            $this->where($time_condition);
+        }
+        if(isset($query['end_time']) && !empty($query['end_time']) && isset($query['start_time']) && !empty($query['start_time'])){
+            $start_time = strtotime($query['start_time']);
+            $end_time = strtotime($query['end_time']);
+            $time_condition  = "create_time > {$start_time} and create_time< {$end_time} ";
+            $this->where($time_condition);
+        }
+    }
 
 }

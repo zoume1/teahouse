@@ -46,7 +46,7 @@ class WechatPay extends Model
                 //如果没有退款这两个不需要
 //                'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
 //                'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！
-                'notify_url'         => 'http://www.zhihuichacang.com/rec/app_notice',       // 你也可以在下单时单独设置来想覆盖它
+                'notify_url'         => $url,       // 你也可以在下单时单独设置来想覆盖它
             ],
         ];
 
