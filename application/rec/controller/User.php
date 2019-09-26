@@ -160,7 +160,7 @@ class User extends Controller{
             if (password_verify($data['password'] ,$user['password'])) {
                 //更新openID
                 if(!empty($data['openid'])){
-                    db('pc_user') ->where('id',$user['id']) ->update(['openid'=>$data['openid']]);
+                    db('pc_user') ->where('id',$user['id']) ->update(['openid'=>$data['open_id']]);
                 }
                 return json(['code'=>1,'msg'=>'登录成功','user_id'=>$user['id']]);
             }else {
