@@ -14,6 +14,7 @@ use app\city\model\CityCopartner as User;
 use app\city\model\CityDetail;
 
 
+
 const WX_PAY = 1;
 const ZFB_PAY = 2;
 const HK_CITY = 3;
@@ -634,6 +635,7 @@ class  AdminWx extends Controller{
                 //更新订单状态
                 $model = new Order; 
                 $user_object = new User;
+                $order_detail = new CityDetail;
                 $user_data = $model->detail(['order_number'=>$val['out_trade_no']]);
                 $data = [
                     'start_time' => time(),
@@ -643,7 +645,8 @@ class  AdminWx extends Controller{
                 ];
                 $rest = $model->save($data,['order_number'=>$val['out_trade_no']]);
                 $restul = $user_object->save(['judge_status'=>WX_PAY],['user_id'=>$user_data['city_user_id']]);
-                if($rest && $restul){                           
+                $detail  = $order_detail->city_store_update($user_data['city_address'],$user_data['city_user_id']);
+                if($rest && $restul && $detail){                           
                       echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                 } exit();
             }
@@ -679,9 +682,10 @@ class  AdminWx extends Controller{
             //逻辑处理
             $model = new Order;
             $user_object = new User;
+            $order_detail = new CityDetail;
             $user_data = $model->detail(['order_number'=>$out_trade_no]);
             //入驻前的所有店铺更新city_user_id
-            
+
             $data = [
                 'start_time' => time(),
                 'end_time' => strtotime("+1 year"),
@@ -690,7 +694,8 @@ class  AdminWx extends Controller{
             ];
             $rest = $model -> allowField(true)->save($data,['order_number'=>$out_trade_no]);
             $restul = $user_object->allowField(true)->save(['judge_status'=>WX_PAY],['user_id'=>$user_data['city_user_id']]);
-            if($rest && $restul)
+            $detail  = $order_detail->city_store_update($user_data['city_address'],$user_data['city_user_id']);
+            if($rest && $restul && $detail)
             {
                 return "success";
             } else {
