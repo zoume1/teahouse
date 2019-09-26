@@ -32,7 +32,6 @@ class CityCopartner extends Model
     {
         $model = new static;
         // 查询条件
-        // halt($search);
         !empty($search) && $model->setWhere($search);
         $rest = $model->order(['create_time' => 'desc'])
         ->paginate(20, false, [
@@ -110,7 +109,7 @@ class CityCopartner extends Model
         $setting = CitySetting::city_setting();
         $user_data =  self::detail($user['user_id']);
         $invitation_store_number = $user_data['invitation_store_number'];
-        switch($user_data){
+        switch($user_data['city_rank']){
             case 2:
                 $number = $setting['rank_city'];
                 return $number;

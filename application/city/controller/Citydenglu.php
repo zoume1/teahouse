@@ -21,7 +21,7 @@ class Citydenglu extends Controller
      * [登陆后-城市累计商户明细]
      * 郭杨
      */    
-    public function logCityTenantDetail($search){
+    public function logCityTenantDetail($search = ''){
         $number = CityCopartner::get_number();
         $data = CityDetail::city_store_detail($search);
         return view("city_tenant_detail",['data'=>$data,'number'=>$number]);
