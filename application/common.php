@@ -1541,11 +1541,11 @@ function city_enter_status($status){
 
 function city_remit($status){
     if($status==1){
-        echo '<button type="button" class="state payment-has-been" >汇款已到账</button>';
+        echo '<button type="button" class="layui-btn layui-btn-mini  all4"  style="width: 90px;">汇款已到账</button>';
     }else  if($status==2){
-        echo '<button type="button" class="state shipmenting-btu">汇款待审核</button>';
+        echo '<button type="button" class="layui-btn layui-btn-mini  color7" style="width: 90px;">汇款待审核</button>';
     }else  if($status==3){
-        echo '<button type="button" class="state close-btu">汇款未到账/button>';
+        echo '<button type="button" class="layui-btn layui-btn-mini  all3" style="width: 90px;">汇款未到账/button>';
     }
 }
 
