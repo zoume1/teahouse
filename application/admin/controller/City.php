@@ -181,8 +181,9 @@ class  City extends  Controller{
      * [城市入驻费用审核编辑]
      * 郭杨
      */    
-    public function city_price_examine_update(){
-        return view("city_price_examine_update");
+    public function city_price_examine_update($id){
+        $order_data =  CityOrder::detail(['id'=>$id]);
+        return view("city_price_examine_update",['order_data'=>$order_data]);
     }
     /**
      * [城市入驻费用审核]
@@ -192,6 +193,18 @@ class  City extends  Controller{
         $search = input();
         $data = CityOrder::city_order($search);
         return view("city_price_examine",['data'=>$data]);
+    }
+
+        /**
+     * [城市入驻费用审核编辑]
+     * 郭杨
+     */    
+    public function city_price_examine_replace(Request $request){
+        if($request->isPost()){
+            $data = input();
+            halt($data);
+        }
+
     }
 
     /**

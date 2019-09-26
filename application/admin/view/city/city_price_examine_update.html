@@ -20,7 +20,8 @@
 
 <body>
     {block name="content"}
-    <form class="layui-form layui-form-lists" action="{:url('admin/GoodsType/updata')}" method="post" enctype="multipart/form-data">
+    {if !empty($order_data)}
+    <form class="layui-form layui-form-lists" action="{:url('admin/City/city_price_examine_replace')}" method="post" enctype="multipart/form-data">
         <blockquote class="layui-elem-quote news_search">
                 <div class="seach_laber">
                    支付信息
@@ -29,13 +30,13 @@
         <div class="form-item">
             <label class="form-label" style="width:10%;">付款账号</label>
             <div class="form-input city">
-                <span class="city_s">18454548254</span>
+                <span class="city_s">{$order_data.remittance_account}</span>
             </div>
         </div>
         <div class="form-item">
-            <label class="form-label" style="width:10%;">联系人身份证</label>
+            <label class="form-label" style="width:10%;">付款凭证</label>
             <div class="form-input city">
-                <img src="http://teahouse.siring.cn/004ce201909091026264868.png" alt="">
+                <img src="{$order_data.payment_document}" alt="">
             </div>
         </div>
         <blockquote class="layui-elem-quote news_search m_t">
@@ -46,22 +47,22 @@
         <div class="form-item">
                 <label class="form-label" style="width:10%;">城市金额</label>
                 <div class="form-input city">
-                    <span class="city_s">3594元</span>
+                    <span class="city_s">{$order_data.order_price}</span>
                 </div>
         </div>
         <div class="form-item">
                 <label class="form-label" style="width:10%;">审核状态</label>
                 <div class="form-input" style="width: 10%;">
                         <select name="order_type" >
-								<option value="0" selected="">通过</option>
-								<option value="1">不通过</option>
-							</select>
+								<option value="1" selected="">通过</option>
+								<option value="3">不通过</option>
+						</select>
                 </div>
         </div>
         <div class="form-item">
                 <label class="form-label" style="width:10%;">审核说明</label>
                 <div class="form-input">
-                    <input type="text" name="" value="" lay-verify="title" autocomplete="off" placeholder="  您的店铺资料不完整，得重新申请"
+                    <input type="text" name="admin_explain" value="{$order_data.admin_explain}" lay-verify="title" autocomplete="off" placeholder="  您的店铺资料不完整，得重新申请"
                     class="layui-input">
                     <div class="tips">
                         *少于20字
@@ -76,6 +77,7 @@
             </div>
         </div>
     </form>
+    {/if}
 
     {/block}
 
