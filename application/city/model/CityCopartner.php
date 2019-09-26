@@ -109,7 +109,7 @@ class CityCopartner extends Model
         $setting = CitySetting::city_setting();
         $user_data =  self::detail($user['user_id']);
         $invitation_store_number = $user_data['invitation_store_number'];
-        switch($user_data){
+        switch($user_data['city_rank']){
             case 2:
                 $number = $setting['rank_city'];
                 return $number;
