@@ -1194,6 +1194,8 @@ Route::group("city",[
     "chooseRank" => "city/Passport/chooseRank", //城市合伙人选择等级
     "logCityTenantDetail"=>"city/Citydenglu/logCityTenantDetail",    //登陆后-城市累计商户明细
     "myInviteStore"=>"city/Citydenglu/myInviteStore",                //我邀请的商户明细
+    "logCityTenantDetail_search"=>"city/Citydenglu/logCityTenantDetail_search",    //登陆后-城市累计商户明细搜索
+    "myInviteStore_search"=>"city/Citydenglu/myInviteStore_search",                //我邀请的商户明细搜索
     "copartner_order_index"=>"city/Citydenglu/copartner_order_index",//我邀请的商户明细
     "city_server_index"=>"city/Citydenglu/city_server_index",//合伙人系统固定页面
     "order_index"=>"city/CityOrder/order_index",//城市合伙人订单显示

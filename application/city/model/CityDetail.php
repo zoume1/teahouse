@@ -136,15 +136,35 @@ class CityDetail extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function city_store_detail($search)
+    public static function city_store_detail()
     {
         $model = new static;
         // 查询条件
-        !empty($search) && $model->setWhere($search);
         $rest = $model->order(['create_time' => 'desc'])
         ->paginate(5, false, [
             'query' => \request()->request()
-        ]);;
+        ]);
+        return $rest;
+        
+    }
+
+        /**gy
+     *  城市累计商户明细
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function city_store_search($search)
+    {
+        $model = new static;
+        // 查询条件
+        $model->setWhere($search);
+        $rest = $model->order(['create_time' => 'desc'])
+        ->paginate(5, false, [
+            'query' => \request()->request()
+        ]);
         return $rest;
         
     }
@@ -157,7 +177,7 @@ class CityDetail extends Model
     {
         $user = Session::get('User');
         $user_data = UserModel::detail(['user_id'=>$user['user_id']]);
-        $this->where('city_user_id', '=' ,$user['user_id']);
+        // $this->where('city_user_id', '=' ,$user['user_id']);
         if (isset($query['status']) && $query['status'] == 1) {
             $this->where('highe_share_code', '=', $user_data['my_invitation']);
         }

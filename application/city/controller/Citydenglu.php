@@ -22,13 +22,22 @@ class Citydenglu extends Controller
      * 郭杨
      */    
     public function logCityTenantDetail(){
-        $search = input();
         $number = CityCopartner::get_number();
-        $data = CityDetail::city_store_detail($search);
+        $data = CityDetail::city_store_detail();
         return view("city_tenant_detail",['data'=>$data,'number'=>$number]);
         
     }
         
+    /**
+     * [登陆后-城市累计商户明细搜索]
+     * 郭杨
+     */    
+    public function logCityTenantDetail_search(){
+        $search = input();
+        $data = CityDetail::city_store_search($search);
+        return view("city_tenant_detail",['data'=>$data]);
+        
+    }
     
 
     /**
@@ -36,10 +45,19 @@ class Citydenglu extends Controller
      * 郭杨
      */    
     public function myInviteStore(){
-        $search = input();
         $number = CityCopartner::get_number();
-        $data = CityDetail::city_store_detail($search);
+        $data = CityDetail::city_store_detail();
         return view("my_invite_store",['data'=>$data,'number'=>$number]);
+    }
+
+    /**
+     * [我邀请的商户明细]
+     * 郭杨
+     */    
+    public function myInviteStore_search(){
+        $search = input();
+        $data = CityDetail::city_store_search($search);
+        return view("my_invite_store",['data'=>$data]);
     }
 
     /**
