@@ -138,13 +138,13 @@
                 </div>
                 <div class="childrenBody">
                     <blockquote class="layui-elem-quote news_search">
-                        <form class="layui-form" action="{:url('')}">
+                        <form class="layui-form" action="{:url('city/Citydenglu/myInviteStore')}">
                             <div class="seach">
                                 <div class="seach_list">
                                     <div class="seach_laber">开始时间</div>
                                     <div class="seach_input">
                                         <span class="time">
-                                            <input name="date_min" type="text" class="text datetimepicker layui-input" readonly="readonly"
+                                            <input name="start_time" type="text" class="text datetimepicker layui-input" readonly="readonly"
                                                 id="beginTime" value="">
                                         </span>
                                     </div>
@@ -153,16 +153,18 @@
                                     <div class="seach_laber">结束时间</div>
                                     <div class="seach_input">
                                         <span class="time">
-                                            <input name="date_max" type="text" class=" text datetimepicker layui-input" readonly="readonly"
+                                            <input name="end_time" type="text" class=" text datetimepicker layui-input" readonly="readonly"
                                                 id="endTime" value="">
                                         </span>
                                     </div>
                                 </div>
+                                <input type="hidden" name="status" id="" value="1" />
+
                                 <div class="seach_list">
                                     <div class="seach_laber">输入搜索：</div>
                                     <div class="seach_input">
-                                        <input type="text" name="project_name" lay-verify="title" autocomplete="off"
-                                            placeholder="项目名称/项目编号" class="layui-input">
+                                        <input type="text" name="name" lay-verify="title" autocomplete="off"
+                                            placeholder="邀请人账号/邀请人邀请码" class="layui-input">
         
                                     </div>
                                 </div>
@@ -173,7 +175,7 @@
                         </form>
                     </blockquote>
                     <a class="layui-btn layui-btn-danger batchDel" href="goods_add">立即分享邀请</a>
-                    <span class="zs">注：为确保达标佣金的获得， 您还需要邀请<span class="red">3000人</span></span>
+                    <span class="zs">注：为确保达标佣金的获得， 您还需要邀请<span class="red">{$number}人</span></span>
                     <div class="layui-form news_list">
                         <table class="layui-table">
                             <colgroup>
@@ -193,22 +195,27 @@
                                 </tr>
                             </thead>
                             <tbody class="news_content">
+                                {if !empty($data)}{volist name="data" id="value"}
                                 <tr>
                                     <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose"
                                             data-id=""></td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
+                                    <td>{$value.create_time}</td>
+                                    <td>{$value.phone_number}</td>
+                                    <td>{$value.share_code}</td>
+                                    <td>{$value.set_meal}</td>
+                                    <td>{$value.meal_price}</td>
+                                    <td>{$value.base_commision}</td>
+                                    <td>{$value.reach_commision}</td>
                                 </tr>
+                                {/volist}{/if}
                             </tbody>
                         </table>
                     </div>
+                    {if !empty($data)}{$data->render()}{/if}
                 </div>
+                
             </div>
+            
         </div>
 
     </div>
