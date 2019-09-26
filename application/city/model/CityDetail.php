@@ -154,7 +154,7 @@ class CityDetail extends Model
     private function setWhere($query)
     {
         $user = Session::get('User');
-        $user_data =
+        // $user_data = 
         $this->where('city_user_id', '=' ,$user['user_id']);
 
         if (isset($query['name']) && !empty($query['name'])) {
