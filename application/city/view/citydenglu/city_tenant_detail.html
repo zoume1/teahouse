@@ -94,9 +94,9 @@
                 <div style="width: 100%;height:15px;background-color:rgb(242,242,242);"></div>
                 <div class="city_head">
                     <div style="color: black;font-weight: 700;font-size: 18px;">城市合伙人业绩查询系统</div>
-                    <div>合伙人账号：<span>13922830809</span></div>
-                    <div>代理城市：<span>深圳</span></div>
-                    <div>有效期至：<span>2019年10月01日</span></div>
+                    <div>合伙人账号：<span class="phone_number"></span></div>
+                    <div>代理城市：<span class="city_address"></span></div>
+                    <div>有效期至：<span class="end_time"></span></div>
                     <div>《城市合伙人代理协议》</div>
                 </div>
                 <div class="parta">
@@ -104,22 +104,22 @@
                         <li class="list">
                             <div class="img"><img src="__STATIC__/admin/index/img/u158.png"></div>
                             <div class="num-title">城市累计商户总数</div>
-                            <div class="num">200</div>
+                            <div class="num city_store_number"></div>
                         </li>
                         <li class="list">
                             <div class="img"><img src="__STATIC__/admin/index/img/u172.png"></div>
                             <div class="num-title">城市累计商户获得佣金</div>
-                            <div class="num">￥300</div>
+                            <div class="num store_count_money"></div>
                         </li>
                         <li class="list">
                             <div class="img"><img src="__STATIC__/admin/index/img/u168.png"></div>
                             <div class="num-title">我邀请的商户总数</div>
-                            <div class="num">4</div>
+                            <div class="num invitation_store_number"></div>
                         </li>
                         <li class="list">
                             <div class="img"><img src="__STATIC__/admin/index/img/u170.png"></div>
                             <div class="num-title">我邀请的累计获得佣金</div>
-                            <div class="num">￥200</div>
+                            <div class="num commission_count"></div>
                         </li>
                     </ul>
                 </div>
@@ -131,8 +131,8 @@
                     </ul>
                 </div>
                 <div class="figure">
-                    <div>保底佣金总额：<span class="red">1000.0元</span></div>
-                    <div>达标佣金总额：<span class="red">1000.0元</span></div>
+                    <div>保底佣金总额：<span class="red commission"></span></div>
+                    <div>达标佣金总额：<span class="red reach_commission"></span></div>
                     <div><span class="tx_btn">申请提现</span></div>
                 </div>
                 <div class="childrenBody">
@@ -198,12 +198,39 @@
     <script src="__STATIC__/index/js/jquery.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
+        //时间转换
+        function formatDate(inputTime) {
+            var date = new Date(inputTime * 1000);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            var h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            var minute = date.getMinutes();
+            var second = date.getSeconds();
+            minute = minute < 10 ? ('0' + minute) : minute;
+            second = second < 10 ? ('0' + second) : second;
+            return y + "年" + m + "月" + d + "日";
+        }
         $.ajax({
-            url: "city/city_server_index",
+            url: "city_server_index",
             type: "POST",
             data: "",
             success: (res) => {
                 console.log(res)
+                if(res.code == 1) {
+                    $(".city_address").text(res.data.city_address);
+                    $(".city_store_number").text(res.data.city_store_number);
+                    $(".commission").text((res.data.commission).toFixed(2) + "元");
+                    $(".reach_commission").text((res.data.reach_commission).toFixed(2) + "元");
+                    $(".end_time").text(formatDate(res.data.end_time));
+                    $(".commission_count").text("￥" + res.data.commission_count);
+                    $(".invitation_store_number").text(res.data.invitation_store_number);
+                    $(".phone_number").text(res.data.phone_number);
+                    $(".store_count_money").text("￥" + res.data.store_count_money);
+                }
             },
             error: (e) => {console.log(e)}
         })
