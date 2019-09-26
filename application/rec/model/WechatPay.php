@@ -38,10 +38,10 @@ class WechatPay extends Model
 
         $options = [
             // 前面的appid什么的也得保留哦
-            'app_id' => 'wxf120ba19ce55a392',
+            'app_id' => 'wx7a8782e472a6c34a',
             // payment
             'payment' => [
-                'merchant_id'        => '1441082002',
+                'merchant_id'        => '1484093452',
                 'key'                => 'zhihuichacang123456zhihuichacang',
                 //如果没有退款这两个不需要
 //                'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！

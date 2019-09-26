@@ -35,7 +35,13 @@ class MealOrder extends Model{
             'openid' =>$openid,
             'create_time'=>time()
         ]);
-        return $data;
+
+        if($data !== false){
+            return $data;
+        }else{
+            return false;
+        }
+
 
     }
 
