@@ -19,12 +19,12 @@ class WechatPay extends Controller{
 
     public function get_pay($id)
     {
-    	 //phpinfo();die;
+        //phpinfo();die;
         // 查询订单信息
         $url = 'https://www.zhihuichacang.com/rec/app_notice';
         $order = db('set_meal_order') -> getById($id);
-        //print_r($order);die;
-        $pay =1;
+
+        $pay =1;//先测试1分钱
         if(!$order)returnJson(0,'当前订单不存在');
         if($order['status'] != -1)returnJson(0,'当前订单状态异常');
         $wechatpay = new WeiPay();
@@ -75,7 +75,7 @@ class WechatPay extends Controller{
 
 
     /**
-     * 微信回调
+     * 店铺支付成功微信回调
      * @throws \EasyWeChat\Core\Exceptions\FaultException
      */
     public function app_notice(){
@@ -97,7 +97,7 @@ class WechatPay extends Controller{
             // 使用通知里的 "微信支付订单号transaction_id" 或者 "商户订单号out_trade_no"
             $where = array('order_number'=>$notify->out_trade_no);
 
-            $orderArr = db('tb_set_meal_order')->where($where)->field('status')->find();
+            $orderArr = db('tb_set_meal_order')->where($where)->field('status,order_number')->find();
             if (empty($orderArr)) {
                 // 如果订单不存在
                 returnJson(0,'订单不存在');
@@ -107,6 +107,8 @@ class WechatPay extends Controller{
             }
             // 用户是否支付成功
             if ($successful) {
+                $invoice = new Invoice();
+                $invoice->ele_invoice($orderArr['order_number']);
                 // 不是已经支付状态则修改为已经支付状态
                 db('tb_set_meal_order')->where($where)->update(array('status' => 1, "pay_time" => time()));
 

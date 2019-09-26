@@ -13,7 +13,7 @@ use think\Controller;
 use think\Config;
 //微信授权登录 获取个人信息
 class Wechat extends Controller{
-
+    //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf120ba19ce55a392&redirect_uri=xxx&response_type=code&scope=xxx&state=STATE#wechat_redirect
     //微信公众平台信息（appid/secret）
     protected $sj_appid = 'wxf120ba19ce55a392';
     protected $sj_secret = '06c0107cff1e3f5fe6c2eb039ac2d0b7';

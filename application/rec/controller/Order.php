@@ -84,13 +84,15 @@ Class Order extends Controller{
         //查询个人信息
         $user = new \app\rec\model\User();
         $user_all = $user->user_index($param['user_id']);
+
         //查询店铺信息
+        $store_all = Store::where('id',$param['store_id'])->find()->toArray();
         // 启动事务
         Db::startTrans();
         try{
             //生成订单
             $order = new MealOrder();
-            $order_list = $order->add($param['user_id'],$param['goods_name'],$param['goods_quantity'],'',$param['store_id'],$param['enter_all_id'],'','',$user_all['openid']);
+            $order_list = $order->add($param['user_id'],$param['goods_name'],$param['goods_quantity'],$param['amount_money'],$param['store_id'],$param['enter_all_id'],$store_all['store_name'],$param['price'],$user_all['openid']);
             $no = $order_list->order_number;
             $order_id = $order_list->id;
 //            print_r($order_id);die;
