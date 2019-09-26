@@ -20,69 +20,80 @@
 
 <body>
     {block name="content"}
-    <form class="layui-form layui-form-lists" action="{:url('admin/GoodsType/updata')}" method="post" enctype="multipart/form-data">
+    {if !empty($user_data)}
+    <form class="layui-form layui-form-lists" action="{:url('admin/City/city_datum_verify_update')}" method="post" enctype="multipart/form-data">
         <blockquote class="layui-elem-quote news_search">
                 <div class="seach_laber">
                    基础信息
                 </div>
         </blockquote>
+        <input type="hidden" name="id" id="" value="{$user_data.user_id}" />
         <div class="form-item">
             <label class="form-label" style="width:10%;">入驻身份</label>
             <div class="form-input city">
+                {if $user_data.id_status == 1}
                 <span class="city_s">企业</span>
+                {else}
+                <span class="city_s">个人</span>
+                {/if}
             </div>
         </div>
         <div class="form-item">
             <label class="form-label" style="width:10%;">合伙人账号</label>
             <div class="form-input city">
-                <span class="city_s">13922830809</span>
+                <span class="city_s">{$user_data.phone_number}</span>
             </div>
         </div>
         <div class="form-item">
             <label class="form-label" style="width:10%;">联系人姓名</label>
             <div class="form-input city">
-                <span class="city_s">刘德华</span>
+                <span class="city_s">{$user_data.user_name}</span>
             </div>
         </div>
         <div class="form-item">
             <label class="form-label" style="width:10%;">联系人身份证</label>
             <div class="form-input city">
-                <span class="city_s">5568516546464842134</span>
+                <span class="city_s">{$user_data.id_card}</span>
             </div>
         </div>
         <div class="form-item">
-            <label class="form-label" style="width:10%;">联系人身份证</label>
+            <label class="form-label" style="width:10%;">证明文件</label>
             <div class="form-input city">
-                <img src="http://teahouse.siring.cn/004ce201909091026264868.png" alt="">
-                <img src="http://teahouse.siring.cn/004ce201909091026264868.png" alt="">
+                <img src="{$user_data.id_image}" alt="">
+                <img src="{$user_data.id_image_reverse}" alt="">
             </div>
         </div>
         <div class="form-item">
                 <label class="form-label" style="width:10%;">申请城市</label>
                 <div class="form-input city">
-                    <span class="city_s">武汉</span>
+                    <span class="city_s">{$user_data.city_address}</span>
                 </div>
         </div>
         <div class="form-item">
             <label class="form-label" style="width:10%;">我的优势</label>
             <div class="form-input">
-               <textarea name="con" placeholder="请输入内容" required lay-verify="required"
-					class="layui-textarea">啊实打实的计算机分不开的肯定积分离开例会上路了我就很不幸</textarea>
+               <textarea  placeholder="请输入内容" required lay-verify="required"
+					class="layui-textarea">{$user_data.advantage}</textarea>
             </div>
         </div>
         <div class="form-item m_t">
                 <label class="form-label" style="width:10%;">审核状态</label>
                 <div class="form-input" style="width: 10%;">
-                        <select name="order_type" >
-								<option value="0" selected="">通过</option>
-								<option value="1">不通过</option>
-							</select>
+                        <select name="status" >
+                        {if $user_data.status == 3}
+								<option value="1" >通过</option>
+                                <option value="3" selected="">不通过</option>
+                        {else}
+                            <option value="1" selected="">通过</option>
+                            <option value="3" >不通过</option>
+                        {/if}
+						</select>
                 </div>
         </div>
         <div class="form-item m_t">
                 <label class="form-label" style="width:10%;">审核说明</label>
                 <div class="form-input">
-                    <input type="text" name="" value="" lay-verify="title" autocomplete="off" placeholder="  您的店铺资料不完整，得重新申请"
+                    <input type="text" name="admin_explain" value="{$user_data.admin_explain}" lay-verify="title" autocomplete="off" placeholder="  您的店铺资料不完整，得重新申请"
                     class="layui-input">
                     <div class="tips">
                         *少于20字
@@ -97,6 +108,7 @@
             </div>
         </div>
     </form>
+    {/if}
 
     {/block}
 

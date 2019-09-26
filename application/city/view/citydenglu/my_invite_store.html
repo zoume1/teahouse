@@ -1,1 +1,365 @@
-我邀请的商户明细
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我邀请的商户明细</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
+    <link rel="stylesheet" href="__STATIC__/index/css/common.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/css/index.css" /> -->
+    <style>
+        body{position: relative;background: #fff;}
+        .partner-info-container{width: 1350px; margin: 0 auto;}
+        .city-title{display: flex;justify-content: space-between;padding: 10px 0;}
+        .title-l{font-weight: 700;font-size: 16px;}
+        .city-apply{line-height: 23px;margin-right: 15px;}
+        .city-login{color: #fff;background-color:rgb(152,145,52);padding:0 10px;line-height: 23px;border-radius: 3px;}
+        .parta ul {display: flex;}
+	    .parta ul li {padding: 30px;position: relative;margin: 11px;text-align: center;flex: 1;border: solid 1px #E4E4E4;}
+        /* img {width: 100%;} */
+        .img{position: absolute;width: 40px;}
+        .city_head{border-bottom:1px solid rgb(215,215,215);display: flex;justify-content: space-between;line-height: 60px;padding: 0 10px;}
+        .city_head>div{color:rgb(0,165,255);font-size: 16px;} 
+        /* .city_head>div:first{}  */
+        .city_head span {color:red;} 
+        .city_nav ul {display: flex;margin: 0 10px;border-bottom: 1px solid rgb(215,215,215);}
+        .city_nav ul li{width: 200px;text-align: center;line-height: 30px;font-size: 15px;cursor: pointer;color: rgb(161,161,161);}
+        .city_nav ul li a{color: rgb(161,161,161);}
+        .li_on a{color: rgb(33,165,250) !important;}
+        a:hover{text-decoration: none;}
+        .li_on {color: rgb(33,165,250) !important;border-bottom: 3px solid rgb(33,165,250);font-weight: 700;}
+        .figure{display: flex; color: rgb(33,165,250);background-color: rgb(236,255,255);margin: 0 10px;padding: 0 10px;line-height: 50px;font-size: 16px;}
+        .figure div {margin-right: 30px;}
+        .red{color: red;font-size: 18px;}
+        .tx_btn{border: 1px solid red;border-radius: 3px;color: red;padding:3px; }
+        .seach_input {width: 208px;font-size: 16px;}
+        .seach_laber {font-size: 13px;width: 80px;text-align: center;color: #333;}
+        .seach {display: flex;flex-wrap: wrap;align-items: center;}
+        .seach_list {display: flex; align-items: center;padding: 4px;}
+        .layui-elem-quote {padding: 6px !important;}
+        .zs{margin-left: 30px; color: rgb(148,148,148);font-size: 18px;}
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div class="header-container">
+                <div class="header-section logo">
+                    <!-- <div class="logo-container">
+                        <img src="__STATIC__/index/img/logo.png" width="50" height="40">
+                    </div>
+                    <span>宣铭科技</span> -->
+                    <img src="__STATIC__/index/img/logo1.png" width="110" height="60">
+                    <!--<p style="font-size:35px;font-weight:bolder;margin-left:7px;">智慧茶仓</p>-->
+                </div>
+                <div class="header-section nav">
+                    <ul class="nav-ul clearfix">
+                        <li class="nav-li"><a href="javascript:;" class="nav-a">首页</a></li>
+                        <li class="nav-li"><a href="javascript:;" class="nav-a">智慧茶仓</a></li>
+                        <li class="nav-li"><a href="javascript:;" class="nav-a nav-on">城市合伙人</a></li>
+                        <li class="nav-li"><a href="javascript:;" class="nav-a">关于我们</a></li>
+                    </ul>
+                </div>
+                {if !empty($phone_num)}
+                <div class="header-section loaded-common">
+                    <div class="loaded-inner">
+                        <span class="loaded-icon"></span>
+                        <a href="javascript:;" target="_blank">
+                            <span class="loaded-mobile">{$phone_num}</span>
+                        </a>
+                        <i class="caret"></i>
+                        <ul class="loaded-menu">
+                            <li><a href="javascript:;" class="backstage">进入后台</a></li>
+                            <li><a href="javascript:;" class="logout">退出登录</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {else}
+                <div class="header-section login">
+                    <a href="javascript:;" class="sign-in">登录</a>
+                    <a href="javascript:;" class="register">注册</a>
+                </div>
+                {/if}
+            </div>
+        </div>
+
+        <div class="partner-info">
+            <div class="partner-info-container">
+                <div class="city-title">
+                    <div class="title-l">服务窗口</div>
+                    <div style="flex:1;"></div>
+                    <div class="city-apply">申请城市合伙人</div>
+                    <div class="city-login">合伙人后台登录</div>
+                </div>
+                <!-- <div class="partner-info-banner">
+                            <img src="__STATIC__/index/img/u232.png" width="1350" height="210">
+                        </div> -->
+                <div style="width: 100%;height:15px;background-color:rgb(242,242,242);"></div>
+                <div class="city_head">
+                    <div style="color: black;font-weight: 700;font-size: 18px;">城市合伙人业绩查询系统</div>
+                    <div>合伙人账号：<span class="phone_number"></span></div>
+                    <div>代理城市：<span class="city_address"></span></div>
+                    <div>有效期至：<span class="end_time"></span></div>
+                    <div>《城市合伙人代理协议》</div>
+                </div>
+                <div class="parta">
+                    <ul>
+                        <li class="list">
+                            <div class="img"><img src="__STATIC__/admin/index/img/u158.png"></div>
+                            <div class="num-title">城市累计商户总数</div>
+                            <div class="num city_store_number"></div>
+                        </li>
+                        <li class="list">
+                            <div class="img"><img src="__STATIC__/admin/index/img/u172.png"></div>
+                            <div class="num-title">城市累计商户获得佣金</div>
+                            <div class="num store_count_money"></div>
+                        </li>
+                        <li class="list">
+                            <div class="img"><img src="__STATIC__/admin/index/img/u168.png"></div>
+                            <div class="num-title">我邀请的商户总数</div>
+                            <div class="num invitation_store_number"></div>
+                        </li>
+                        <li class="list">
+                            <div class="img"><img src="__STATIC__/admin/index/img/u170.png"></div>
+                            <div class="num-title">我邀请的累计获得佣金</div>
+                            <div class="num commission_count"></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="city_nav">
+                    <ul>
+                        <li><a href="{:url('city/Citydenglu/logCityTenantDetail')}">城市累计商户明细</a></li>
+                        <li class="li_on"><a href="{:url('city/Citydenglu/myInviteStore')}">我邀请的商户明细</a></li>
+                        <li><a href="{:url('city/Citydenglu/copartner_order_index')}">合伙人入驻订单</a></li>
+                    </ul>
+                </div>
+                <div class="figure">
+                    <div>保底佣金总额：<span class="red commission"></span></div>
+                    <div>达标佣金总额：<span class="red reach_commission"></span></div>
+                    <div><span class="tx_btn">申请提现</span></div>
+                </div>
+                <div class="childrenBody">
+                    <blockquote class="layui-elem-quote news_search">
+                        <form class="layui-form" action="{:url('city/Citydenglu/myInviteStore')}">
+                            <div class="seach">
+                                <div class="seach_list">
+                                    <div class="seach_laber">开始时间</div>
+                                    <div class="seach_input">
+                                        <span class="time">
+                                            <input name="start_time" type="text" class="text datetimepicker layui-input" readonly="readonly"
+                                                id="beginTime" value="">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="seach_list">
+                                    <div class="seach_laber">结束时间</div>
+                                    <div class="seach_input">
+                                        <span class="time">
+                                            <input name="end_time" type="text" class=" text datetimepicker layui-input" readonly="readonly"
+                                                id="endTime" value="">
+                                        </span>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="status" id="" value="1" />
+
+                                <div class="seach_list">
+                                    <div class="seach_laber">输入搜索：</div>
+                                    <div class="seach_input">
+                                        <input type="text" name="name" lay-verify="title" autocomplete="off"
+                                            placeholder="邀请人账号/邀请人邀请码" class="layui-input">
+        
+                                    </div>
+                                </div>
+        
+                                <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+                            </div>
+        
+                        </form>
+                    </blockquote>
+                    <a class="layui-btn layui-btn-danger batchDel" href="goods_add">立即分享邀请</a>
+                    <span class="zs">注：为确保达标佣金的获得， 您还需要邀请<span class="red">{$number}人</span></span>
+                    <div class="layui-form news_list">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="3%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="id">
+                                    </th>
+                                    <th>日期</th>
+                                    <th>邀请人账号</th>
+                                    <th>邀请人邀请码</th>
+                                    <th>邀请人购买套餐</th>
+                                    <th>邀请人购买金额（元）</th>
+                                    <th>保底佣金金额（元）</th>
+                                    <th>达标佣金金额（元）</th>
+                                </tr>
+                            </thead>
+                            <tbody class="news_content">
+                                {if !empty($data)}{volist name="data" id="value"}
+                                <tr>
+                                    <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose"
+                                            data-id=""></td>
+                                    <td>{$value.create_time}</td>
+                                    <td>{$value.phone_number}</td>
+                                    <td>{$value.share_code}</td>
+                                    <td>{$value.set_meal}</td>
+                                    <td>{$value.meal_price}</td>
+                                    <td>{$value.base_commision}</td>
+                                    <td>{$value.reach_commision}</td>
+                                </tr>
+                                {/volist}{/if}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="float: right;margin: 10px 10px;">
+                        {if !empty($data)}{$data->render()}{/if}
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+
+    </div>
+ 
+   
+    <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/common.js"></script>
+    <script src="__STATIC__/admin/index/common/layui/layui.js"></script>
+    <script>
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery;
+            //全选
+            form.on('checkbox(allChoose)', function (data) {
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                child.each(function (index, item) {
+                    item.checked = data.elem.checked;
+                });
+                form.render('checkbox');
+            });
+            //通过判断文章是否全部选中来确定全选按钮是否选中
+            form.on("checkbox(choose)", function (data) {
+                // console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
+
+                var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
+                var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
+                if (childChecked.length === child.length) {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = true;
+                } else {
+                    $(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0).checked = false;
+                }
+                form.render('checkbox');
+            })
+        });
+        //时间转换
+        function formatDate(inputTime) {
+            var date = new Date(inputTime * 1000);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            var h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            var minute = date.getMinutes();
+            var second = date.getSeconds();
+            minute = minute < 10 ? ('0' + minute) : minute;
+            second = second < 10 ? ('0' + second) : second;
+            return y + "年" + m + "月" + d + "日";
+        }
+        $.ajax({
+            url: "city_server_index",
+            type: "POST",
+            data: "",
+            success: (res) => {
+                console.log(res)
+                if(res.code == 1) {
+                    $(".city_address").text(res.data.city_address);
+                    $(".city_store_number").text(res.data.city_store_number);
+                    $(".commission").text((res.data.commission).toFixed(2) + "元");
+                    $(".reach_commission").text((res.data.reach_commission).toFixed(2) + "元");
+                    $(".end_time").text(formatDate(res.data.end_time));
+                    $(".commission_count").text("￥" + (res.data.commission_count).toFixed(2));
+                    $(".invitation_store_number").text(res.data.invitation_store_number);
+                    $(".phone_number").text(res.data.phone_number);
+                    $(".store_count_money").text("￥" + (res.data.store_count_money).toFixed(2));
+                }
+            },
+            error: (e) => {console.log(e)}
+        })
+
+
+
+        if ($(".datetimepicker").length > 0) {
+            var datenow = new Date();
+            datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + (datenow.getDate());
+            var date = $("#beginTime").val();
+            var date1 = $("#endTime").val();
+            //时间控件
+            $('#beginTime').datetimepicker({
+                timepicker: false,
+                maxDate: datenow,
+                scrollMonth: false,
+                onClose: function (ct, $i) {
+                    $('#endTime').datetimepicker({
+                        minDate: $('#beginTime').val(),
+                        maxDate: datenow,
+                    });
+                }
+            });
+
+            $('#endTime').datetimepicker({
+                timepicker: false,
+                maxDate: datenow,
+                scrollMonth: false,
+                onClose: function (ct, $i) {
+                    $('#beginTime').datetimepicker({
+                        maxDate: $('#endTime').val(),
+                    });
+                }
+            });
+        }
+        //时间插件封装
+        function datetimepicker(beginTime, endTime) {
+            var datenow = new Date();
+            datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + (datenow.getDate());
+            var date = $(beginTime).val();
+            var date1 = $(endTime).val();
+            //时间控件
+            $(beginTime).datetimepicker({
+                timepicker: false,
+                maxDate: datenow,
+                scrollMonth: false,
+                onClose: function (ct, $i) {
+                    $(endTime).datetimepicker({
+                        minDate: $(beginTime).val(),
+                        maxDate: datenow,
+                    });
+                }
+            });
+
+            $(endTime).datetimepicker({
+                timepicker: false,
+                maxDate: datenow,
+                scrollMonth: false,
+                onClose: function (ct, $i) {
+                    $(beginTime).datetimepicker({
+                        maxDate: $(endTime).val(),
+                    });
+                }
+            });
+
+        }
+    </script>
+</body>
+</html>

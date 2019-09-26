@@ -142,7 +142,7 @@ class CityDetail extends Model
         // 查询条件
         !empty($search) && $model->setWhere($search);
         $rest = $model->order(['create_time' => 'desc'])
-        ->paginate(20, false, [
+        ->paginate(5, false, [
             'query' => \request()->request()
         ]);;
         return $rest;

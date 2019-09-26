@@ -154,7 +154,25 @@ class  City extends  Controller{
      * 郭杨
      */    
     public function city_datum_verify_edit($id){
-        return view("city_datum_verify_edit");
+        $user_data = CityCopartner::detail(['user_id'=>$id]);
+        return view("city_datum_verify_edit",['user_data'=>$user_data]);
+    }
+
+    /**
+     * [城市入驻资料更新]
+     * 郭杨
+     */    
+    public function city_datum_verify_update(Request $request){
+        if($request->isPost()){
+            $data = input();
+            $bool = CityCopartner::meal_update($data);
+            if($bool){
+                $this->success("更新成功", url("admin/City/city_datum_verify"));
+            } else {
+                $this->success("更新失败", url("admin/City/city_datum_verify"));
+            }
+        }
+
     }
 
 
@@ -163,8 +181,9 @@ class  City extends  Controller{
      * [城市入驻费用审核编辑]
      * 郭杨
      */    
-    public function city_price_examine_update(){
-        return view("city_price_examine_update");
+    public function city_price_examine_update($id){
+        $data =  CityOrder::detail(['id'=>$id]);
+        return view("city_price_examine_update",['data'=>$data]);
     }
     /**
      * [城市入驻费用审核]
@@ -173,6 +192,40 @@ class  City extends  Controller{
     public function city_price_examine(){
         $search = input();
         $data = CityOrder::city_order($search);
+        return view("city_price_examine",['data'=>$data]);
+    }
+
+        /**
+     * [城市入驻费用审核编辑]
+     * 郭杨
+     */    
+    public function city_price_examine_replace(Request $request){
+        if($request->isPost()){
+            $data = input();
+            $rest = CityOrder::meal_update($data);
+            $restul  = new CityCopartner;
+            $bool  = $restul->allowField(true)->save(['judge_status'=>$data['account_status']],['user_id'=>$data['city_user_id']]);
+
+            if($rest || $bool){
+                $this->success("更新成功", url("admin/City/city_price_examine"));
+            } else {
+                $this->success("更新成功", url("admin/City/city_price_examine"));
+            }
+        }
+
+    }
+
+    /**
+     * //订单号刷选
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+
+    public  function order_preparation($status)
+    {
+        $data = CityOrder::order_preparation($status);
         return view("city_price_examine",['data'=>$data]);
     }
 
