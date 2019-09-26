@@ -34,8 +34,10 @@ class Citydenglu extends Controller
      * [我邀请的商户明细]
      * 郭杨
      */    
-    public function myInviteStore(){
-        return view("my_invite_store");
+    public function myInviteStore($search = ''){
+        $number = CityCopartner::get_number();
+        $data = CityDetail::city_store_detail($search);
+        return view("my_invite_store",['data'=>$data,'number'=>$number]);
     }
 
     /**
@@ -43,14 +45,16 @@ class Citydenglu extends Controller
      * 郭杨
      */    
     public function copartner_order_index(){
-        return view("copartner_order_index");
+        $user = Session::get('User');
+        $user_data = UserModel::detail(['user_id'=>$user['user_id']]);
+        return view("copartner_order_index",['user_data'=>$user_data]);
     }
 
     /**
      * [合伙人系统固定页面]
      * 郭杨
      */    
-    public function city_srever_index(){
+    public function city_server_index(){
         $user = Session::get('User');
         $user_data = UserModel::detail(['user_id'=> $user['user_id']]);
         $store_count_money = CityDetail::city_store_commission($user['user_id']);

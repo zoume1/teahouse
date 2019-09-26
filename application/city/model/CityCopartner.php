@@ -77,7 +77,7 @@ class CityCopartner extends Model
     {
 
         $model = new static;
-        $rest = $model -> allowField(true)->save($data,['id'=>$data['id']]);
+        $rest = $model -> allowField(true)->save($data,['user_id'=>$data['id']]);
         return $rest ? $rest : false;
         
     }

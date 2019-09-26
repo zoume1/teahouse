@@ -107,9 +107,6 @@ class User extends Controller{
             }
         }
 
-        if(empty($param['openid'])){
-            $param['openid'] = '';
-        }
         $password = password_hash($param['password'],PASSWORD_DEFAULT);
 
         //调取生成店铺码
@@ -117,7 +114,7 @@ class User extends Controller{
         $re_code = $my_invitation->memberCode();
         // 储存
 
-        $result = $user->add($param['phone_number'],$password,$param['invitation'],$re_code,$param['openid']);
+        $result = $user->add($param['phone_number'],$password,$param['invitation'],$re_code);
 
         $res = $result ? ['code' => 1,'msg' => '注册成功'] : ['code' => 0,'msg' => '注册失败'];
 

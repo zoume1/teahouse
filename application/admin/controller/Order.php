@@ -47,6 +47,16 @@ class  Order extends  Controller{
         }
             $data2=[];
             foreach($data as $k=>$v){
+                //去除过期的未支付的订单
+                //获取订单过期的配置参数
+                $time=db('order_setting')->where('store_id',$store_id)->value('normal_time');
+                $time_now=time()-$v['order_create_time']-$time*60;
+                if($v['status']==1 && $time_now >0){
+                    //未支付并且已过期，（状态修改为已关闭）
+                    db('order')->where('id',$v['id'])->update(['status'=>0]);
+                    unset($data[$k]);
+                    continue;
+                }
                 //获取相同订单的数据
                 $list=db('order')->where('parts_order_number',$v['parts_order_number'])->select();
                 $order=[];
