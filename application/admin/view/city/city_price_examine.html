@@ -510,7 +510,7 @@
 								</div>
 								<div class="static_btus" data-id="" data-value="" data-type="">
 									{if $value.pay_status == 3}
-									<a href="{:url('admin/City/city_price_examine_update')}" class="">{$value.account_status|city_remit}</a>
+									<a href="{:url('admin/City/city_price_examine_update',['id'=>$value.id])}" class="">{$value.account_status|city_remit}</a>
 									{else}
 									<button type="button" class=" layui-btn layui-btn-mini all4" style="width: 90px;">线上付款通过</button>
 									{/if}
