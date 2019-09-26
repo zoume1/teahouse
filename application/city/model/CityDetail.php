@@ -5,6 +5,7 @@ use think\Session;
 use think\Model;
 use think\Validate;
 use app\city\controller;
+use think\Db;
 use app\common\exception\BaseException;
 use app\admin\model\Store as AddStore;
 
@@ -109,23 +110,72 @@ class CityDetail extends Model
     public  function city_store_update($city_address,$city_user_id)
     {
         
-        $rest = $this->where('city_user_id', '=', 0)
+        $rest = Db::name('city_detail')->where('city_user_id', '=', 0)
                 ->where('city_address',$city_address)
                 ->field('id')
                 ->select();
-        $rest ? $order_data = $rest->toArray() : $order_data = false;
-        // halt($rest);
+
         if($rest){
-            // halt(1111);
             foreach($rest as $value){
                 $value['city_user_id'] = $city_user_id;
                 $data[] = $value;
             }
-            halt($data);
+            $detail = $this->isUpdate(false)->saveAll($data);      
         }
-       
+         
+        return true;
+    }
+
+    /**gy
+     *  城市累计商户明细
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function city_store_detail($search)
+    {
+        $model = new static;
+        // 查询条件
+        !empty($search) && $model->setWhere($search);
+        $rest = $model->order(['create_time' => 'desc'])
+        ->paginate(20, false, [
+            'query' => \request()->request()
+        ]);;
+        return $rest;
         
     }
 
+    /**
+     * 设置检索查询条件
+     * @param $query
+     */
+    private function setWhere($query)
+    {
+        $user = Session::get('User');
+        if ($query['status'] == 1) {
+            $this->where('city_user_id', '=' ,$user['user_id']);
+        }
+        if (isset($query['name']) && !empty($query['name'])) {
+            $this->where('phone_number|share_code', 'like', '%' . trim($query['name']) . '%');
+        }
+        if (isset($query['start_time']) && !empty($query['start_time'])) {
+            $start_time = strtotime($query['start_time']);
+            $time_condition  = "create_time > {$start_time} ";
+            $this->where($time_condition);
+        }
+        if (isset($query['end_time']) && !empty($query['end_time'])) {
+            $end_time = strtotime($query['end_time']);
+            $time_condition  = "create_time < {$end_time} ";
+            $this->where($time_condition);
+        }
+        if(isset($query['end_time']) && !empty($query['end_time']) && isset($query['start_time']) && !empty($query['start_time'])){
+            $start_time = strtotime($query['start_time']);
+            $end_time = strtotime($query['end_time']);
+            $time_condition  = "create_time > {$start_time} and create_time< {$end_time} ";
+            $this->where($time_condition);
+        }
+    }
 
 }

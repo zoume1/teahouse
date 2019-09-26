@@ -6,6 +6,8 @@ use think\Model;
 use think\Validate;
 use app\city\controller;
 use app\common\exception\BaseException;
+use app\city\model\CitySetting;
+
 // const CITY_ONE = 1;
 
 /**
@@ -94,6 +96,46 @@ class CityCopartner extends Model
         if (isset($query['status']) && !empty($query['status'])) {
             $this->where('status', '=', $query['status']);
         }
+    }
+
+        /**gy
+     * 获取城市入驻资料
+     * @param $meal_id
+     * @return null|static
+     * @throws \think\exception\DbException
+     */
+    public static function get_number()
+    {
+        $user = Session::get('User');
+        $setting = CitySetting::city_setting();
+        $user_data =  self::detail($user['user_id']);
+        $invitation_store_number = $user_data['invitation_store_number'];
+        switch($user_data){
+            case 2:
+                $number = $setting['rank_city'];
+                return $number;
+                break;
+            case 3:
+                $number = $setting['one_city'];
+                return $number;
+                break;
+            case 4:
+                $number = $setting['two_city'];
+                return $number;
+                break;
+            case 5:
+                $number = $setting['three_city'];
+                return $number;
+                break;
+            default:
+                break;
+        }
+        if($number > $invitation_store_number){
+            $return_number = $number - $invitation_store_number;
+        } else {
+            $return_number = 0;
+        } 
+        return $return_number;
     }
 
 }
