@@ -134,7 +134,7 @@ class CityDetail extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function city_store_detail($search)
+    public static function city_store_detail($search = '')
     {
         $model = new static;
         // 查询条件
@@ -154,9 +154,9 @@ class CityDetail extends Model
     private function setWhere($query)
     {
         $user = Session::get('User');
-        if ($query['status'] == 1) {
-            $this->where('city_user_id', '=' ,$user['user_id']);
-        }
+        // $user_data = 
+        $this->where('city_user_id', '=' ,$user['user_id']);
+
         if (isset($query['name']) && !empty($query['name'])) {
             $this->where('phone_number|share_code', 'like', '%' . trim($query['name']) . '%');
         }

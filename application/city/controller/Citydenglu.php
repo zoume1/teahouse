@@ -51,8 +51,7 @@ class Citydenglu extends Controller
      * 郭杨
      */    
     public function city_srever_index(){
-        // $user = Session::get('User');
-        $user['user_id'] = 30;
+        $user = Session::get('User');
         $user_data = UserModel::detail(['user_id'=> $user['user_id']]);
         $store_count_money = CityDetail::city_store_commission($user['user_id']);
         $create_time = $user_data['create_time'];
