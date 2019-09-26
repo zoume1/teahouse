@@ -32,10 +32,9 @@ class Invoice extends Controller{
      * @author fyk
      * 已支付订单开票接口
      */
-    public function ele_invoice()
+    public function ele_invoice($id)
     {
 
-        $id = 7;
         $invoice = new InvoiceAll();
         $data = $invoice->get_order($id);
 
