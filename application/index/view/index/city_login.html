@@ -79,6 +79,13 @@
         .hk_zh{font-size: 20px;color: rgb(134,134,134);}
         .hk_zh input{border: 0;}
         .hk_btn,.hk_btn_yz{width: 100px;text-align: center;background-color: rgb(22,155,213);color: #fff;border-radius: 3px;line-height: 35px;cursor: pointer;}
+        .address,.phone_number{font-size: 16px;}
+        .invoice_box{line-height: 55px;font-size:20px;}
+        .inp_wid{width: 80%;}
+        .m_r{margin-right: 100px;}
+        .m_r_x{margin-right: 140px;}
+        .tishi{color: red;font-size: 14px;}
+        .kp_btn{width: 150px;margin: 0 auto;text-align: center;color: #fff;background-color: rgb(22,155,213);border-radius: 4px;line-height: 45px;cursor: pointer;}
     </style>
 </head>
 <body>
@@ -212,14 +219,7 @@
             </div>
         </div>
     </div>
-    <style>
-        .invoice_box{line-height: 55px;font-size:20px;}
-        .inp_wid{width: 80%;}
-        .m_r{margin-right: 100px;}
-        .m_r_x{margin-right: 140px;}
-        .tishi{color: red;font-size: 14px;}
-        .kp_btn{width: 150px;margin: 0 auto;text-align: center;color: #fff;background-color: rgb(22,155,213);border-radius: 4px;line-height: 45px;cursor: pointer;}
-    </style>
+   
     <!-- 支付弹框 -->
     <div class="pay_bounced"  style="display: none;">
         <div class="pay_bounced_x">
@@ -324,6 +324,26 @@
     <script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp.js"></script>
 
     <script>
+        //开票
+        function makeInvoice(user_id) {
+            $.ajax({
+                url: "city/mailing_address",
+                type: "POST",
+                data: {"user_id": user_id},
+                success: (res)=> {
+                    var data = res.data;
+                    if(res.code == 1) {
+                        var address = data.post_address_one + data.post_address_two + data.post_address_three + data.detail;
+                        $("input[name=phone]").val(data.phone_number);
+                        $("input[name=address]").val(address);
+                        $('.address').text(address);
+                        $('.phone_number').text(data.phone_number);
+                        $('.pay_bounced_kp').show();
+                    }
+                },
+                error: (e) => {console.log(e)}
+            })
+        }
         //确定开票
         $(".kp_btn").click(function() {
             let datas = new FormData(document.getElementById("invoice_sq"));
@@ -343,11 +363,12 @@
                             } else {
                                 poundage = (Number(price) * 0.06).toFixed(2);
                             }
-                            let price = Number(price) + poundage;
+                            price = Number(price) + Number(poundage);
                             $(".pay_money").text(price);
                             $(".pay_mon").text("￥"+price);
                             $(".poundage").text(poundage);
-                            $(".pay_money"),add('.pay_btn').data("money", price);
+                            $(".pay_money").data("money", price);
+                            $('.pay_btn').data("money", price);
                             $("input[name=invoice]").prop('checked',true);
                             $("input[name=order_price]").val(price);//凭证金额
                             $(".pay_bounced_kp").hide();
@@ -399,26 +420,7 @@
                 // $(".pay_money").text(pay_money);
             }
         }
-        //开票
-        function makeInvoice(user_id) {
-            $.ajax({
-                url: "city/mailing_address",
-                type: "POST",
-                data: {"user_id": user_id},
-                success: (res)=> {
-                    var data = res.data;
-                    if(res.code == 1) {
-                        var address = data.post_address_one + data.post_address_two + data.post_address_three + data.detail;
-                        $("input[name=phone]").val(data.phone_number);
-                        $("input[name=address]").val(address);
-                        $('.address').text(address);
-                        $('.phone_number').text(data.phone_number);
-                        $('.pay_bounced_kp').show();
-                    }
-                },
-                error: (e) => {console.log(e)}
-            })
-        }
+        
 
         $(".close").click(function () {
             $(".pay_bounced").hide();
