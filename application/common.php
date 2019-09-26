@@ -1511,11 +1511,11 @@ function    returnJson($code,$msg,$data = null,$page = null){
 
 function city_status($status){
     if($status==1){
-        echo '<button type="button" class="state payment-has-been" >入驻审核已通过</button>';
+        echo '<div class=" layui-btn-mini all4"  style="width:100px;color:#fff;">入驻审核已通过</div>';
     }else  if($status==2){
-        echo '<button type="button" class="state shipmenting-btu">入驻待审核</button>';
+        echo '<div class=" layui-btn-mini shipmenting-btu" style="width:100px;color:#fff;">入驻待审核</div>';
     }else  if($status==3){
-        echo '<button type="button" class="state close-btu">入驻审核未通过</button>';
+        echo '<div class=" layui-btn-mini close-btu" style="width:100px;color:#fff;">入驻审核未通过</div>';
     }
 }
 
@@ -1541,11 +1541,11 @@ function city_enter_status($status){
 
 function city_remit($status){
     if($status==1){
-        echo '<button type="button" class="layui-btn layui-btn-mini  all4"  style="width: 90px;">汇款已到账</button>';
+        echo '<button type="button" class="layui-btn layui-btn-mini  all4"  style="width: 100px;">汇款已到账</button>';
     }else  if($status==2){
-        echo '<button type="button" class="layui-btn layui-btn-mini  color7" style="width: 90px;">汇款待审核</button>';
+        echo '<button type="button" class="layui-btn layui-btn-mini  color7" style="width: 100px;">汇款待审核</button>';
     }else  if($status==3){
-        echo '<button type="button" class="layui-btn layui-btn-mini  all3" style="width: 90px;">汇款未到账/button>';
+        echo '<button type="button" class="layui-btn layui-btn-mini  all3" style="width: 100px;">汇款未到账/button>';
     }
 }
 
