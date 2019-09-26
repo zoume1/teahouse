@@ -34,7 +34,8 @@ class CityOrder extends Model
     {
         $model = new static;
         !empty($search) && $model->setWhere($search);
-        $rest = $model->order(['create_time' => 'desc'])
+        $rest = $model->where('account_status', '>', 0)
+        ->order(['create_time' => 'desc'])
         ->paginate(20, false, [
             'query' => \request()->request()
         ]);
@@ -242,5 +243,39 @@ class CityOrder extends Model
     }
     
 
+    /**
+     * //订单号刷选
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
 
+    public static function order_preparation($status)
+    {
+        $model = new static;
+        switch($status){
+            case 1:
+                $model->where('account_status', '=', 2)->where('pay_status','=',3);
+                break;
+            case 2:
+                $model->where('account_status', '=', 1)->where('pay_status','=',3);
+                break;
+            case 3:
+                $model->where('account_status', '=', 3)->where('pay_status','=',3);
+                break;
+            case 4:
+                $model->where('account_status', '=', 1)->where('pay_status','<',3);
+                break;
+            default:
+                break;
+        }
+        $rest = $model->where('account_status', '>', 0)
+        ->order(['create_time' => 'desc'])
+        ->paginate(20, false, [
+            'query' => \request()->request()
+        ]);
+        return $rest;
+        
+    }
 }

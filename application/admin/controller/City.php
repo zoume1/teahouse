@@ -154,7 +154,25 @@ class  City extends  Controller{
      * 郭杨
      */    
     public function city_datum_verify_edit($id){
-        return view("city_datum_verify_edit");
+        $user_data = CityCopartner::detail(['user_id'=>$id]);
+        return view("city_datum_verify_edit",['user_data'=>$user_data]);
+    }
+
+    /**
+     * [城市入驻资料更新]
+     * 郭杨
+     */    
+    public function city_datum_verify_update(Request $request){
+        if($request->isPost()){
+            $data = input();
+            $bool = CityCopartner::meal_update($data);
+            if($bool){
+                $this->success("更新成功", url("admin/City/city_datum_verify"));
+            } else {
+                $this->success("更新失败", url("admin/City/city_datum_verify"));
+            }
+        }
+
     }
 
 
@@ -174,6 +192,20 @@ class  City extends  Controller{
         $search = input();
         $data = CityOrder::city_order($search);
         return view("city_price_examine",['data'=>$data]);
+    }
+
+    /**
+     * //订单号刷选
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+
+    public  function order_preparation($status)
+    {
+        $rest = CityOrder::city_order($status);
+        return $rest;
     }
 
 
