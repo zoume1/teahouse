@@ -473,6 +473,11 @@
             layer.msg('验证码不匹配！');
            }
        });
+       document.onkeydown = function(e){
+            if(e.keyCode == 13){
+                $('.button-primary').click();
+            }
+        }
        //登录
        var statusLog = null;
         $('.button-primary').click(function () {

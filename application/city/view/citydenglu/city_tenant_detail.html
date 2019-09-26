@@ -198,7 +198,15 @@
     <script src="__STATIC__/index/js/jquery.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
-
+        $.ajax({
+            url: "city/city_server_index",
+            type: "POST",
+            data: "",
+            success: (res) => {
+                console.log(res)
+            },
+            error: (e) => {console.log(e)}
+        })
 
     </script>
 </body>
