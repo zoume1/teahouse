@@ -178,12 +178,12 @@ class  Order extends  Controller
                 //判断商品是否是限时限购商品
                 // $wh['store_id']=$store_id;
                 // $wh['goods_id']=$values;
-                $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$values])->find();
-                if(!empty($is_limit)){
-                    $limit=1;
-                }else{
-                    $limit=0;
-                }
+                // $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$values])->find();
+                // if(!empty($is_limit)){
+                //     $limit=1;
+                // }else{
+                //     $limit=0;
+                // }
                 $create_time = time();//下单时间
                 $normal_time =Db::name("order_setting")->find();//订单设置的时间
                 if(!empty($normal_time)){
@@ -286,7 +286,7 @@ class  Order extends  Controller
                         $datas["freight"] = $freight;
                         $datas["storage"] = $storage;
                         $datas["is_receipt"] = $receipt_status;
-                        $datas["is_limit"] = $limit;
+                        // $datas["is_limit"] = $limit;
                                         
                         $res = Db::name('order')->insertGetId($datas);  //下单
                         if ($res) {
@@ -374,7 +374,7 @@ class  Order extends  Controller
                         $datase["store_id"] = $store_id;   
                         $datase["storage"] = $storage;   
                         $datase["is_receipt"] = $receipt_status;   
-                        $datase["is_limit"] = $limit;   
+                        // $datase["is_limit"] = $limit;   
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                        
@@ -488,12 +488,12 @@ class  Order extends  Controller
                 //判断商品是否是限时限购商品
                 // $wh['store_id']=$store_id;
                 // $wh['goods_id']=$values;
-                $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$values])->find();
-                if(!empty($is_limit)){
-                    $limit=1;
-                }else{
-                    $limit=0;
-                }
+                // $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$values])->find();
+                // if(!empty($is_limit)){
+                //     $limit=1;
+                // }else{
+                //     $limit=0;
+                // }
                 $goods_data = Db::name('goods')->where('id',$values)->find();
                 $create_time = time();//下单时间
                 $normal_time =Db::name("order_setting")->find();//订单设置的时间
@@ -598,7 +598,7 @@ class  Order extends  Controller
                         $datas["receipt_price"] = $receipt_price ;                                        
                         $datas["freight"] = $freight ;                                        
                         $datas["storage"] = $storage ; 
-                        $datas["is_limit"] = $limit;
+                        // $datas["is_limit"] = $limit;
 
                         $res = Db::name('order')->insertGetId($datas);
                         if($res){
@@ -664,7 +664,8 @@ class  Order extends  Controller
                         $datase["order_type"] = $order_type;
                         $datase["freight"] = $freight;                                        
                         $datase["storage"] = $storage;     
-                        $datase["is_limit"] = $limit;     
+                        // $datase["is_limit"] = $limit;     
+
                         $rest_id = db('order')->insertGetId($datase);
                         $datas = $datase;
                         $datas["store_house_id"] = $store_house_id;
