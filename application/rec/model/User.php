@@ -24,8 +24,6 @@ class User extends Model
             'my_invitation' =>$re_code,
             'create_time' => time(),
             'status' =>1,
-            'openid'=>$openid,
-
         ]);
     }
 
