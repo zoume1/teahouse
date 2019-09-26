@@ -54,7 +54,7 @@
         .pay_bounced_x{width: 30%;margin:10% auto;background-color: #fff;border-radius: 10px;padding: 15px 30px;}
         .close_box{display: flex;justify-content: space-between;font-size: 30px;border-bottom: 1px solid black;}
         .close_title,.close_title_kp{font-weight: 700;}
-        .close{cursor: pointer;}
+        .close,.close_kp{cursor: pointer;}
         .pay_img{text-align:center;}
         .pay_img img{width: 50px;height: 50px;}
         .scan-way{text-align: center;}
@@ -86,6 +86,7 @@
         .m_r_x{margin-right: 140px;}
         .tishi{color: red;font-size: 14px;}
         .kp_btn{width: 150px;margin: 0 auto;text-align: center;color: #fff;background-color: rgb(22,155,213);border-radius: 4px;line-height: 45px;cursor: pointer;}
+        .close_order{margin: 15%;cursor: pointer;color: rgb(0,178,255);}
     </style>
 </head>
 <body>
@@ -333,7 +334,7 @@
                 success: (res)=> {
                     var data = res.data;
                     if(res.code == 1) {
-                        var address = data.post_address_one + data.post_address_two + data.post_address_three + data.detail;
+                        var address = data.post_address_one + data.post_address_two + data.post_address_three + data.detail + "（" + data.user_name + " 收）";
                         $("input[name=phone]").val(data.phone_number);
                         $("input[name=address]").val(address);
                         $('.address').text(address);
@@ -425,8 +426,12 @@
         $(".close").click(function () {
             $(".pay_bounced").hide();
         })
+        $("#app").on("click", ".close_order" ,function() {
+            $("#app").hide();
+        })
         $(".close_kp").click(function () {
             $(".pay_bounced_kp").hide();
+            $("input[name=invoice]").prop('checked',false);
         })
 
         //时间转换
@@ -538,6 +543,10 @@
         $("#app").on("click", ".pay_btn" ,function() {
             let pay_order = $(this).data("order"), pay_money =  $(this).data("money");
             $('.close_title').text("选择付款方式");
+            $('.online_pay').show();
+            $('.offline_pay').hide();
+            $('.pz_yz').hide();
+            $('.offline_pz').hide();
             $(".pay_money").data("money", pay_money);
             $('#orderNumber').val(pay_order);
             $.ajax({
@@ -626,7 +635,7 @@
                                         </div>
                                         <div class="pay_k">
                                             <div><div class="pay_t">实付款：<span class="pay_mon">￥${data.meal_price.toFixed(2)}</span></div></div>
-                                            <div><span class="pay_btn" data-order="${data.order_number}" data-money="${data.meal_price.toFixed(2)}">提交订单</span></div>
+                                            <div><span class="close_order">取消订单</span><span class="pay_btn" data-order="${data.order_number}" data-money="${data.meal_price.toFixed(2)}">提交订单</span></div>
                                         </div>
                                     </div>`;
                             $('#app').show();
