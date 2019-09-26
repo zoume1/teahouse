@@ -359,7 +359,7 @@
                     <div class="input_w">
                         <p>手机验证码</p>
                         <input type="number" name="identifying_code"  placeholder="  30分钟内有效" required>
-                        <div class="btn-code">获取验证码</div>
+                        <button class="btn-code">获取验证码</button>
                     </div>
             </div>
             <div class="m_t" style="display: flex;">
@@ -378,12 +378,12 @@
             </div>
             <div class="m_t sq">
                 <p>申请城市（必选）</p>
-                <!-- <div class="sq" data-toggle="distpicker" id="c-dists" style="display: inline-block;width: 25%;">
-                    <select id="province" name="apply_city_one" data-province="---- 选择省 ----" style="width: 100%;"></select>
-                </div> -->
-                <select name="apply_city_one" id="province_sq">
+                <div class="sq" data-toggle="distpicker" id="c-dists" style="display: inline-block;width: 25%;">
+                    <select id="province_sq" name="apply_city_one" data-province="---- 选择省 ----" style="width: 100%;" onchange="myEvent.aa()"></select>
+                </div>
+                <!-- <select name="apply_city_one" id="province_sq">
                         <option value="0">选择省份直辖市</option>
-                </select>
+                </select> -->
                 <select name="city_rank" id="choose_lv" onchange="myEvent.chooseLv()">
                         <option value="0">选择城市等级</option>
                         <option value="2">特级城市</option>
@@ -584,7 +584,6 @@
 				}
 			}
 		});
-      
         (function(myEvent){
             myEvent.data = {
                 real_name: '',
@@ -604,7 +603,10 @@
                         url: "sendIdentiFyingCode",
                         type: "POST",
                         data: {"phone_number": phone},
-                        success: (res) => {layer.msg(res.msg)},
+                        success: (res) => {
+                            layer.msg(res.msg);
+                            myEvent.buttonCountdown($(".btn-code"), 1000 * 60 * 1, "ss");
+                        },
                         error: (e) => {console.error(e)}
                     })
                 }else{
@@ -645,6 +647,11 @@
                             break;
                         case 5: 
                             myEvent.data.phone_password = val;//密码
+                            if(myEvent.data.phone_password.length < 6) {
+                                layer.msg("密码长度小于6");
+                            } else if(myEvent.data.phone_password.length > 15) {
+                                layer.msg("密码长度大于15");
+                            }
                             break;
                         case 6: 
                             myEvent.data.phone_password_repeat = val;//确认密码
@@ -658,10 +665,14 @@
                     }
                 }
             }
-            
+            myEvent.aa = function() {
+                let city_lv = $("#province_sq  option:selected").data("code");
+                console.log(ChineseDistricts[city_lv])
+            }
             //获取申请城市
             myEvent.chooseLv = function() {
                 // console.log($("#choose_lv  option:selected").val());
+                let province_lv = ChineseDistricts[$("#province_sq  option:selected").data("code")];
                 let city_lv = $("#choose_lv  option:selected").val();
                 if(city_lv > 0) {
                     $.ajax({
@@ -674,11 +685,13 @@
                             let citys = res.data;
                             $("#citys").empty();
                             $("#citys").append("<option value ='0'>选择城市</option>");
-                            for(let key in citys) {
-                                var now_city = citys[key].name;
-                                console.log(now_city)
-                                
-                                $("#citys").append("<option value='" + now_city + "'>" + now_city + "</option>");
+                            for (let key in citys) {
+                                for (let i in province_lv) {
+                                    var now_city = citys[key].name;
+                                    if (province_lv[i].indexOf(now_city) != -1) {
+                                        $("#citys").append("<option value='" + now_city + "'>" + now_city + "</option>");
+                                    }
+                                }
                             }
                         },
                         error: (e) => {console.error(e)}
@@ -689,21 +702,21 @@
         }(window.myEvent || {}));
 
         //获取申请省份
-        $.ajax({
-            url: "city/chooseCity",
-            type: "POST",
-            data: {},
-            success: (res) => {
-                if(res.code == 1) {
-                    let citys = res.data;
-                    for(let key in citys) {
-                        var now_city = citys[key].name;
-				        $("#province_sq").append("<option value='" + now_city + "'>" + now_city + "</option>");
-                    }
-                }
-            },
-            error: (e) => {console.error(e)}
-        })
+        // $.ajax({
+        //     url: "city/chooseCity",
+        //     type: "POST",
+        //     data: {},
+        //     success: (res) => {
+        //         if(res.code == 1) {
+        //             let citys = res.data;
+        //             for(let key in citys) {
+        //                 var now_city = citys[key].name;
+		// 		        $("#province_sq").append("<option value='" + now_city + "'>" + now_city + "</option>");
+        //             }
+        //         }
+        //     },
+        //     error: (e) => {console.error(e)}
+        // })
        
         // 申请合伙人
         $('#submit').click(function () {
@@ -711,7 +724,7 @@
                     layer.msg("姓名不能为空！");
                     return false;
             }
-            if (myEvent.data.company_name == '' || myEvent.data.company_name == null) {
+            if (myEvent.data.id_number == '' || myEvent.data.id_number == null) {
                     layer.msg("身份证号不能为空！");
                     return false;
             }
@@ -731,6 +744,14 @@
             }
             if (myEvent.data.phone_password != myEvent.data.phone_password_repeat) {
                 layer.msg("两次密码不相同");
+                return false;
+            }
+            if(myEvent.data.phone_password.length < 6 && myEvent.data.phone_password_repeat < 6) {
+                layer.msg("密码长度小于6");
+                return false;
+            }
+            if(myEvent.data.phone_password.length > 15 && myEvent.data.phone_password_repeat > 15) {
+                layer.msg("密码长度大于15");
                 return false;
             }
             if($("#province_sq  option:selected").val() == 0) {
