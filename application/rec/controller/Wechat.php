@@ -21,7 +21,7 @@ class Wechat extends Controller{
      //手机端跳转首页
     protected $app_index = 'app/wechat/user/index.html';
     //手机端跳转绑定账号页面
-    protected $app_wx = 'app/wechat/user/register.html';
+    protected $app_wx = 'app/wechat/user/login.html';
 
     /**
      * @function 手机端网页微信登录授权（微信公众平台微信登录授权）
@@ -32,7 +32,7 @@ class Wechat extends Controller{
         //微信公众平台appid
         $appid = $this->sj_appid;
 
-        $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
+        $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
 
          header('Location:'.$url);
         // $url =new WechatAll();
@@ -43,7 +43,7 @@ class Wechat extends Controller{
     /**
      * @function 获取openid
      */
-    public function wx_code(){
+    public function wx_code1(){
     	
         $request = Request::instance();
         $param = $request->param();
@@ -103,7 +103,7 @@ class Wechat extends Controller{
      * @throws \think\Exception
      * @throws \think\exception\PDOException
      */
-     public function wx_code1(){
+     public function wx_code(){
          $request = Request::instance();
          $param = $request->param();
          if(empty($param['code'])){
