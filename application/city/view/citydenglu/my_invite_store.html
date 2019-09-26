@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>我邀请的商户明细</title>
     <link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
     <link rel="stylesheet" href="__STATIC__/index/css/common.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/bootstrap.min.css" />
     <!-- <link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/css/index.css" /> -->
     <style>
         body{position: relative;background: #fff;}
@@ -25,6 +27,9 @@
         .city_head span {color:red;} 
         .city_nav ul {display: flex;margin: 0 10px;border-bottom: 1px solid rgb(215,215,215);}
         .city_nav ul li{width: 200px;text-align: center;line-height: 30px;font-size: 15px;cursor: pointer;color: rgb(161,161,161);}
+        .city_nav ul li a{color: rgb(161,161,161);}
+        .li_on a{color: rgb(33,165,250) !important;}
+        a:hover{text-decoration: none;}
         .li_on {color: rgb(33,165,250) !important;border-bottom: 3px solid rgb(33,165,250);font-weight: 700;}
         .figure{display: flex; color: rgb(33,165,250);background-color: rgb(236,255,255);margin: 0 10px;padding: 0 10px;line-height: 50px;font-size: 16px;}
         .figure div {margin-right: 30px;}
@@ -127,7 +132,7 @@
                 <div class="city_nav">
                     <ul>
                         <li><a href="{:url('city/Citydenglu/logCityTenantDetail')}">城市累计商户明细</a></li>
-                        <li class="li_on">我邀请的商户明细</li>
+                        <li class="li_on"><a href="{:url('city/Citydenglu/myInviteStore')}">我邀请的商户明细</a></li>
                         <li><a href="{:url('city/Citydenglu/copartner_order_index')}">合伙人入驻订单</a></li>
                     </ul>
                 </div>
@@ -211,7 +216,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {if !empty($data)}{$data->render()}{/if}
+                    <div style="float: right;margin: 10px 10px;">
+                        {if !empty($data)}{$data->render()}{/if}
+                    </div>
                 </div>
                 
             </div>
@@ -219,10 +226,8 @@
         </div>
 
     </div>
-
-
  
-
+   
     <script src="__STATIC__/index/js/jquery.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script src="__STATIC__/admin/index/common/layui/layui.js"></script>
