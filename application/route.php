@@ -1203,8 +1203,8 @@ Route::group("city",[
     "payment_image"=>"city/CityOrder/payment_image",//上传汇款支付凭证
     "mailing_address"=>"city/CityOrder/mailing_address",//开发票邮寄地址
     "cityOrderReceipt"=>"city/CityOrder/cityOrderReceipt",//开发票
-    "city_openid"=>"city/CityOrder/city_accredit",//获取code
-    "city_wx_code"=>"city/CityOrder/city_wx_code",//获取openid跳转
+    "city_openid"=>"city/CityWx/city_accredit",//获取code
+    "city_wx_code"=>"city/CityWx/city_wx_code",//获取openid跳转
 
 ]);
 
