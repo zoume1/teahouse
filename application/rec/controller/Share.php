@@ -13,7 +13,7 @@ use think\Config;
 class Share extends Controller
 {
     /**
-     * @ 生成二维码
+     * @ 生成注册邀请二维码
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -39,7 +39,8 @@ class Share extends Controller
 
 
     /**
-     * 二维码
+     * 传入参数生成二维码
+     * @param $url
      * @param $a
      * @return string
      */
