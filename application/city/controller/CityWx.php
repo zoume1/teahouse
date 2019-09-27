@@ -69,5 +69,5 @@ class CityWx extends Controller{
         }
 
     }
-    
+
 }
