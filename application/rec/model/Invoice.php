@@ -35,7 +35,7 @@ class Invoice extends Model{
             'state' => $state,
             'msg' => $msg,
 
-        ],['id' => $id,]);
+        ],['no' => $id,]);
     }
     /**
      * @author fyk

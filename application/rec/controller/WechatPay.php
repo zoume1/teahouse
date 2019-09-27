@@ -36,30 +36,15 @@ class WechatPay extends Controller{
 
 
     /**
-     * 店铺支付成功微信回调
+     * 店铺支付成功微信回调demo
      * @throws \EasyWeChat\Core\Exceptions\FaultException
      */
     public function app_notice(){
 
         //初始化微信sdk
+        $wxConf = config('wechat');
 
-        $options = [
-            'debug'  => true,
-            // 前面的appid什么的也得保留哦
-            'app_id' => 'wx7a8782e472a6c34a',
-            // payment
-            'payment' => [
-                'merchant_id'        => '1484093452',
-                'key'                => 'zhihuichacang123456zhihuichacang',
-                'notify_url'         => 'https://www.zhihuichacang.com/rec/app_notice',       // 你也可以在下单时单独设置来想覆盖它
-            ],
-            'log' => [
-                'level' => 'debug',
-                'permission' => 0777,
-                'file'  => ROOT_PATH . 'runtime/wechat/easywechat.log', // XXX: 绝对路径！！！！
-            ],
-        ];
-        $app = new Application($options);
+        $app = new Application($wxConf);
         $response = $app->payment->handleNotify(function($notify, $successful){
             // 使用通知里的 "微信支付订单号transaction_id" 或者 "商户订单号out_trade_no"
             $rstArr = json_decode($notify,true);
