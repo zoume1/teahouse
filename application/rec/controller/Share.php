@@ -28,8 +28,10 @@ class Share extends Controller
         $data = User::where('my_invitation',$param['my_invitation'])->find();
         //判断
         returnArray($data);
+        //跳转注册地址
+        $url = Config::get('web_url').'app/wechat/user/register.html';
 
-        $list['code'] = $this->code($param['my_invitation']);
+        $list['code'] = $this->code($url,$param['my_invitation']);
         $list['yqm'] = $param['my_invitation'];
         return returnJson(1,'获取成功',$list);
 
@@ -41,9 +43,7 @@ class Share extends Controller
      * @param $a
      * @return string
      */
-    function code($a){
-        //跳转地址
-        $url = Config::get('web_url').'app/wechat/user/register.html';
+    function code($url,$a){
 
         //生成二维码
         $list = 'http://qr.topscan.com/api.php?text=' .$url.'?yqm='. $a;
