@@ -112,7 +112,7 @@ Class Order extends Controller{
                     }
 
                     $invoice = new InvoiceAll();
-                    $result = $invoice->add_enterprise($param['user_id'],$no,$type,$param['status'],$param['email'],$param['rise'],$param['duty'],$param['price'],$user_all['phone_number'],$param['address']);
+                    $result = $invoice->add_enterprise($param['user_id'],$no,$type,$param['status'],$param['email'],$param['rise'],$param['duty'],'100',$user_all['phone_number'],$param['address']);
 
                     $pay = new WechatPay();
                     $data = $pay->get_pay($order_id);
@@ -128,7 +128,7 @@ Class Order extends Controller{
                         $param['address'] = '';
                     }
                     $invoice = new InvoiceAll();
-                    $result = $invoice->add_personal($param['user_id'],$no,$type,$param['status'],$param['email'],$param['rise'],$user_all['phone_number'],$param['price'],$param['address']);
+                    $result = $invoice->add_personal($param['user_id'],$no,$type,$param['status'],$param['email'],$param['rise'],$user_all['phone_number'],'100',$param['address']);
 
                     $pay = new WechatPay();
                     $data = $pay->get_pay($order_id);
