@@ -19,7 +19,7 @@ use app\city\model\CityOrder as Order;
 class WeiChatSystem extends Controller
 {
     /**
-     *   
+     *   公众号城市合伙人系统页面
      * @return array|mixed
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -28,7 +28,8 @@ class WeiChatSystem extends Controller
     public function WeiChatCityServerShow(Request $request)
     {
 
-        if ($request->isPost()) {
+        if ($request->isPost()) 
+        {
             $user_id = $request->only(['user_id'])['user_id'];
             $user_data = CityCopartner::ServerShow($user_id);
             return jsonSuccess('发送成功',$user_data);
@@ -37,12 +38,21 @@ class WeiChatSystem extends Controller
     }
 
     /**
-     * 退出登录
+     *   公众号城市合伙人保底佣金
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    public function logout()
+    public function WeiChatCityCommissionShow(Request $request)
     {
-        Session::clear('User');
-        $this->redirect('index/index/city_login');
+
+        if ($request->isPost()) {
+            $user_id = $request->only(['user_id'])['user_id'];
+            $user_data = CityCopartner::ServerShow($user_id);
+            return jsonSuccess('发送成功',$user_data);
+        }
+        
     }
 
 
