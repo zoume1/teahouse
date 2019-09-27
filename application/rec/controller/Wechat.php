@@ -64,7 +64,7 @@ class Wechat extends Controller{
             return returnJson(1,'登录成功',$data);exit;
         }else{
             $data['openid'] = $res['openid'];
-            return returnJson(1,'登录成功',$data);exit;
+            return returnJson(2,'获取openID成功',$data);exit;
 
         }
 
