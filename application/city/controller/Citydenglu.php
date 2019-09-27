@@ -21,7 +21,8 @@ class Citydenglu extends Controller
      * [登陆后-城市累计商户明细]
      * 郭杨
      */    
-    public function logCityTenantDetail($search = ''){
+    public function logCityTenantDetail(){
+        $search = input();
         $number = CityCopartner::get_number();
         $data = CityDetail::city_store_detail($search);
         return view("city_tenant_detail",['data'=>$data,'number'=>$number]);
@@ -34,7 +35,8 @@ class Citydenglu extends Controller
      * [我邀请的商户明细]
      * 郭杨
      */    
-    public function myInviteStore($search = ''){
+    public function myInviteStore(){
+        $search = input();
         $number = CityCopartner::get_number();
         $data = CityDetail::city_store_detail($search);
         return view("my_invite_store",['data'=>$data,'number'=>$number]);

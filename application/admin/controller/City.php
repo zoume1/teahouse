@@ -181,8 +181,9 @@ class  City extends  Controller{
      * [城市入驻费用审核编辑]
      * 郭杨
      */    
-    public function city_price_examine_update(){
-        return view("city_price_examine_update");
+    public function city_price_examine_update($id){
+        $data =  CityOrder::detail(['id'=>$id]);
+        return view("city_price_examine_update",['data'=>$data]);
     }
     /**
      * [城市入驻费用审核]
@@ -192,6 +193,26 @@ class  City extends  Controller{
         $search = input();
         $data = CityOrder::city_order($search);
         return view("city_price_examine",['data'=>$data]);
+    }
+
+        /**
+     * [城市入驻费用审核编辑]
+     * 郭杨
+     */    
+    public function city_price_examine_replace(Request $request){
+        if($request->isPost()){
+            $data = input();
+            $rest = CityOrder::meal_update($data);
+            $restul  = new CityCopartner;
+            $bool  = $restul->allowField(true)->save(['judge_status'=>$data['account_status']],['user_id'=>$data['city_user_id']]);
+
+            if($rest || $bool){
+                $this->success("更新成功", url("admin/City/city_price_examine"));
+            } else {
+                $this->success("更新成功", url("admin/City/city_price_examine"));
+            }
+        }
+
     }
 
     /**
@@ -204,8 +225,8 @@ class  City extends  Controller{
 
     public  function order_preparation($status)
     {
-        $rest = CityOrder::city_order($status);
-        return $rest;
+        $data = CityOrder::order_preparation($status);
+        return view("city_price_examine",['data'=>$data]);
     }
 
 

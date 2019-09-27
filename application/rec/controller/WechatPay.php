@@ -21,7 +21,7 @@ class WechatPay extends Controller{
     {
         //phpinfo();die;
         // 查询订单信息
-        $url = 'https://www.zhihuichacang.com/rec/app_notice';
+        $url = 'https://www.zhihuichacang.com/set_meal_notify';//回调请求域名
         $order = db('set_meal_order') -> getById($id);
 
         $pay =1;//先测试1分钱
@@ -36,11 +36,11 @@ class WechatPay extends Controller{
     
 
     /**
-     * 店铺支付成功微信回调
+     * 支付成功微信回调demo
      * @throws \EasyWeChat\Core\Exceptions\FaultException
      */
     public function app_notice(){
-    	
+    	 
         //初始化微信sdk
           
         $options = [
@@ -76,8 +76,8 @@ class WechatPay extends Controller{
             }
             // 用户是否支付成功
             if ($successful) {
-                $invoice = new Invoice();
-                $invoice->ele_invoice($orderArr['order_number']);
+                // $invoice = new Invoice();
+                // $invoice->ele_invoice($orderArr['order_number']);
                 // 不是已经支付状态则修改为已经支付状态
                 Db::table('tb_set_meal_order')->where($where)->update(array('status' => 1, "pay_time" => time()));
 		
@@ -86,6 +86,8 @@ class WechatPay extends Controller{
         });
         // 将响应输出
         return $response;
+    
+   
      }
 
 }
