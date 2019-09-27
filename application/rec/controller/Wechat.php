@@ -27,7 +27,7 @@ class Wechat extends Controller{
      * @function 手机端网页微信登录授权（微信公众平台微信登录授权）
      */
     public function wx_accredit(){
-        $redirect_uri = Config::get('web_url').'rec/wx_code1';
+        $redirect_uri = Config::get('web_url').'rec/wx_code';
         $redirect_uri = urlencode($redirect_uri);
         //微信公众平台appid
         $appid = $this->sj_appid;
