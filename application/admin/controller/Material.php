@@ -592,4 +592,12 @@ class  Material extends  Controller{
         }
 
     }
+    /**
+     * lilu
+     * 物联--防伪溯源--芯片详情
+     */
+    public function chip_details(){
+
+        return view('chip_details');
+    }
  }

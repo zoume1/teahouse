@@ -45,6 +45,16 @@ class CrowdOder extends Controller{
                 ->select();
         }
             foreach($datas as $k2 =>$v2){
+                 //去除过期的未支付的众筹订单
+                //获取订单过期的配置参数
+                $time=db('order_setting')->where('store_id',$store_id)->value('normal_time');
+                $time_now=time()-$v['order_create_time']-$time*60;
+                if($v['status']==1 && $time_now >0){
+                    //未支付并且已过期，（状态修改为已关闭）
+                    db('crowd_order')->where('id',$v['id'])->update(['status'=>0]);
+                    unset($data[$k]);
+                    continue;
+                }
                 $datas[$k2]['type']=0;     //众筹----全额支持
             }
         //获取打赏的记录
