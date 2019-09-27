@@ -42,10 +42,10 @@ class Wechat extends Model
         $data = $this->curlGet($url);
         //print_r($data);die;
         if(empty($data['access_token'])){
-            echo json_encode(array('code'=>0,'msg'=>'access_token错误'));exit;
+            return returnJson(0,'access_token错误');exit;
         }
         if(empty($data['openid'])){
-            echo json_encode(array('code'=>0,'msg'=>'openid错误'));exit;
+            return returnJson(0,'openid错误');exit;
         }
         //拿取头像相关信息
         $token = $data['access_token'];
