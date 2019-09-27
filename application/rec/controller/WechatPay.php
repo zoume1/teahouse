@@ -61,8 +61,8 @@ class WechatPay extends Controller{
             }
             // 用户是否支付成功
             if ($successful) {
-                // $invoice = new Invoice();
-                // $invoice->ele_invoice($orderArr['order_number']);
+                $invoice = new Invoice();
+                $invoice->ele_invoice($orderArr['order_number']);
                 // 不是已经支付状态则修改为已经支付状态
                 Db::table('tb_set_meal_order')->where($where)->update(array('status' => 1, "pay_time" => time()));
 		
