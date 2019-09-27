@@ -1233,6 +1233,7 @@ Route::group("rec",[
     //微信登录
     "wx_openid" =>"rec/Wechat/wx_accredit",
     "wx_code" =>"rec/Wechat/wx_code",
+    "wx_code1" =>"rec/Wechat/wx_code1",//测试
 
     "app_notice" =>"rec/WechatPay/app_notice",
     "get_pay" =>'rec/WechatPay/get_pay',
