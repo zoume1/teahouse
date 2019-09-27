@@ -856,6 +856,7 @@ Route::group("admin",[
 
     /*物联*/
     "anti_fake" =>"admin/Material/anti_fake",                                                       //防伪溯源
+    "chip_details" =>"admin/Material/chip_details",                                                       //防伪溯源
     "video_token" =>"admin/Material/video_token",       //token值
     "edit_video_token" =>"admin/Material/edit_video_token",//更新token值
     "direct_seeding" =>"admin/Material/direct_seeding",                                             //视频直播
