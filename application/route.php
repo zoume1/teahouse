@@ -1203,6 +1203,8 @@ Route::group("city",[
     "payment_image"=>"city/CityOrder/payment_image",//上传汇款支付凭证
     "mailing_address"=>"city/CityOrder/mailing_address",//开发票邮寄地址
     "cityOrderReceipt"=>"city/CityOrder/cityOrderReceipt",//开发票
+    "city_openid"=>"city/CityOrder/city_accredit",//获取code
+    "city_wx_code"=>"city/CityOrder/city_wx_code",//获取openid跳转
 
 ]);
 
@@ -1233,6 +1235,7 @@ Route::group("rec",[
     //微信登录
     "wx_openid" =>"rec/Wechat/wx_accredit",
     "wx_code" =>"rec/Wechat/wx_code",
+    "wx_code1" =>"rec/Wechat/wx_code1",//测试
 
     "app_notice" =>"rec/WechatPay/app_notice",
     "get_pay" =>'rec/WechatPay/get_pay',

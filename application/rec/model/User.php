@@ -15,7 +15,7 @@ class User extends Model
     protected $resultSetType = 'collection';
 
     //新增
-    public function add($phone, $password, $invit ,$re_code,$openid)
+    public function add($phone, $password, $invit ,$re_code)
     {
         return $this->save([
             'phone_number' => $phone,
