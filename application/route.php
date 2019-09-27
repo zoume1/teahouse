@@ -1204,6 +1204,8 @@ Route::group("city",[
     "payment_image"=>"city/CityOrder/payment_image",//上传汇款支付凭证
     "mailing_address"=>"city/CityOrder/mailing_address",//开发票邮寄地址
     "cityOrderReceipt"=>"city/CityOrder/cityOrderReceipt",//开发票
+    "WeiChatCityServerShow"=>"city/WeiChatSystem/WeiChatCityServerShow",//城市合伙人公众号业绩查询页面
+
 
 ]);
 

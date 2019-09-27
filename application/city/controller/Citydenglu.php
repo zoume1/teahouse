@@ -8,6 +8,7 @@ use app\city\model\CityRank;
 use app\city\model\User as UserModel;
 use app\city\model\CityDetail;
 use app\city\model\CityCopartner;
+use app\city\model\CityOrder;
 
 
 /**
@@ -22,7 +23,8 @@ class Citydenglu extends Controller
      * 郭杨
      */    
     public function logCityTenantDetail(){
-        $number = CityCopartner::get_number();
+        $user = Session::get('User');
+        $number = CityCopartner::get_number($user);
         $data = CityDetail::city_store_detail();
         return view("city_tenant_detail",['data'=>$data,'number'=>$number]);
         
@@ -34,8 +36,10 @@ class Citydenglu extends Controller
      */    
     public function logCityTenantDetail_search(){
         $search = input();
+        $user = Session::get('User');
+        $number = CityCopartner::get_number($user);
         $data = CityDetail::city_store_search($search);
-        return view("city_tenant_detail",['data'=>$data]);
+        return view("city_tenant_detail",['data'=>$data,'number'=>$number]);
         
     }
     
@@ -45,19 +49,22 @@ class Citydenglu extends Controller
      * 郭杨
      */    
     public function myInviteStore(){
-        $number = CityCopartner::get_number();
-        $data = CityDetail::city_store_detail();
+        $user = Session::get('User');
+        $number = CityCopartner::get_number($user);
+        $data = CityDetail::city_store_detail_one();
         return view("my_invite_store",['data'=>$data,'number'=>$number]);
     }
 
     /**
-     * [我邀请的商户明细]
+     * [我邀请的商户明细搜索]
      * 郭杨
      */    
     public function myInviteStore_search(){
         $search = input();
+        $user = Session::get('User');
+        $number = CityCopartner::get_number($user);
         $data = CityDetail::city_store_search($search);
-        return view("my_invite_store",['data'=>$data]);
+        return view("my_invite_store",['data'=>$data,'number'=>$number]);
     }
 
     /**
@@ -66,8 +73,8 @@ class Citydenglu extends Controller
      */    
     public function copartner_order_index(){
         $user = Session::get('User');
-        $user_data = UserModel::detail(['user_id'=>$user['user_id']]);
-        return view("copartner_order_index",['user_data'=>$user_data]);
+        $data = CityOrder::detail(['city_user_id'=>$user['user_id'],'account_status'=>1]);
+        return view("copartner_order_index",['data'=>$data]);
     }
 
     /**

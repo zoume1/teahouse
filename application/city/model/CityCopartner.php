@@ -103,9 +103,8 @@ class CityCopartner extends Model
      * @return null|static
      * @throws \think\exception\DbException
      */
-    public static function get_number()
+    public static function get_number($user)
     {
-        $user = Session::get('User');
         $setting = CitySetting::city_setting();
         $user_data =  self::detail($user['user_id']);
         $invitation_store_number = $user_data['invitation_store_number'];
@@ -135,6 +134,44 @@ class CityCopartner extends Model
             $return_number = 0;
         } 
         return $return_number;
+    }
+
+
+    /**
+     * 城市合伙人公众号业绩查询页面
+     * @param User 
+     * @param $user_id
+     * @return false|int
+     * @throws BaseException
+     */
+    public static function ServerShow($user_id)
+    {
+        $model = new static();
+        $user_data = $model->detail($user_id);
+        $city_meal_name = meal_name($user_data['city_rank']);
+        $create_time = $user_data['create_time'];
+        $number = $model->get_number($user_data);
+        $number ? $status = 0 : $status = 1;
+
+        $data = [
+            'weixin_head' => $user_data['weixin_head'],
+            'user_name' => $user_data['user_name'],
+            'city_meal_name'=>$city_meal_name,
+            'city_address' => $user_data['city_address'],
+            'create_time' => strtotime($create_time),
+            'end_time' => strtotime("$create_time+1year"),
+            'withdraw_money'=> $user_data['withdraw_money'],
+            'member_wallet' => $user_data['member_wallet'],
+            'commission' => $user_data['commission'],
+            'reach_commission' => $user_data['reach_commission'],
+            'lock_status' => $status,
+            'city_store_number' => $user_data['city_store_number'],
+            'invitation_store_number' => $user_data['invitation_store_number'],
+            'number' => $number,
+        ];
+
+        return $data;
+
     }
 
 }
