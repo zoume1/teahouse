@@ -26,4 +26,46 @@ class Wechat extends Model
         header('Location:'.$url);
     }
 
+    /**
+     * 获取微信个人信息
+     * @param $code
+     * @return mixed
+     */
+    public function WxOpenid($code)
+    {
+        //微信公众平台信息
+        $appid = Config::get('wx_appid');
+        $secret = Config::get('wx_secret');
+
+        //获取token
+        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$code.'&grant_type=authorization_code';
+        $data = $this->curlGet($url);
+        //print_r($data);die;
+        if(empty($data['access_token'])){
+            echo json_encode(array('code'=>0,'msg'=>'access_token错误'));exit;
+        }
+        if(empty($data['openid'])){
+            echo json_encode(array('code'=>0,'msg'=>'openid错误'));exit;
+        }
+        //拿取头像相关信息
+        $token = $data['access_token'];
+        $openid = $data['openid'];
+        $Allurl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
+        //查询数据库是否存在
+        $res = $this->curlGet($Allurl);
+
+        return $res;
+    }
+
+    /**
+     * @function curl以get方式连接
+     */
+    public function curlGet($url){
+        $curl = curl_init();
+        curl_setopt($curl,CURLOPT_URL,$url);
+        curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);
+        $data = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($data,true);
+    }
 }

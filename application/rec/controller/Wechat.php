@@ -50,26 +50,7 @@ class Wechat extends Controller{
             echo json_encode(array('code'=>0,'msg'=>'code参数为空'));exit;
         }
 
-        //微信公众平台信息
-        $appid = Config::get('wx_appid');
-        $secret = Config::get('wx_secret');
 
-        //获取token
-        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$param['code'].'&grant_type=authorization_code';
-        $data = $this->curlGet($url);
-        //print_r($data);die;
-        if(empty($data['access_token'])){
-            echo json_encode(array('code'=>0,'msg'=>'access_token错误'));exit;
-        }
-        if(empty($data['openid'])){
-            echo json_encode(array('code'=>0,'msg'=>'openid错误'));exit;
-        }
-        //拿取头像相关信息
-        $token = $data['access_token'];
-        $openid = $data['openid'];
-        $Allurl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
-        //查询数据库是否存在
-        $res = $this->curlGet($Allurl);
         $openid_name = db('pc_user')->where(array('openid'=> $openid))->field('id,phone_number')->find();
 
         if($openid_name){
@@ -108,31 +89,14 @@ class Wechat extends Controller{
          }
           //print_r($param['code']);die;
          //微信公众平台信息
-         $appid = Config::get('wx_appid');
-         $secret = Config::get('wx_secret');
-
-         //获取token
-         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$secret.'&code='.$param['code'].'&grant_type=authorization_code';
-         $data = $this->curlGet($url);
-         //print_r($data);die;
-         if(empty($data['access_token'])){
-             echo json_encode(array('code'=>0,'msg'=>'access_token错误'));exit;
-         }
-         if(empty($data['openid'])){
-             echo json_encode(array('code'=>0,'msg'=>'openid错误'));exit;
-         }
-         //拿取头像相关信息
-         $token = $data['access_token'];
-         $openid = $data['openid'];
-         $Allurl = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
-
-         $res = $this->curlGet($Allurl);
+         $code = new \app\rec\model\Wechat();
+         $res = $code->WxOpenid($param['code']);
          //print_r($res);die;
-         $openid_name = db('pc_user')->where(array('openid'=> $openid))->field('id,phone_number')->find();
+         $openid_name = db('pc_user')->where(array('openid'=> $res['openid']))->field('id,phone_number')->find();
          // print_r($openid_name);die;
          if($openid_name){
              //更新用户信息
-             db('pc_user')->where(array('openid'=> $openid))
+             db('pc_user')->where(array('openid'=> $res['openid']))
                  ->update([
                      'img'=>$res['headimgurl'],
                      'utime'=>time()
@@ -142,7 +106,7 @@ class Wechat extends Controller{
              header('Location:'.$url);
          }else{
              //跳转绑定账号页面
-             $url = Config::get('web_url').$this->app_wx.'?openid='.$data['openid'];
+             $url = Config::get('web_url').$this->app_wx.'?openid='.$res['openid'];
              header('Location:'.$url);
          }
 
