@@ -92,6 +92,7 @@ class CityDetail extends Model
             'update_time' => time(),
             'city_user_id' => $city_user_id,
             'city_address' => $address_two[CITY_ONE_STATUS],
+            'store_id'=>$store_data['id'],
         ];
         $rest = $model->allowField(true)->save($data);
         return $rest ? $rest : false;

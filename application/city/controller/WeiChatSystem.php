@@ -49,8 +49,8 @@ class WeiChatSystem extends Controller
 
         if ($request->isPost()) {
             $user_id = $request->only(['user_id'])['user_id'];
-            $user_data = CityCopartner::ServerShow($user_id);
-            return jsonSuccess('发送成功',$user_data);
+            $data = CityCopartner::CommissionShow($user_id);
+            return jsonSuccess('发送成功',$data);
         }
         
     }

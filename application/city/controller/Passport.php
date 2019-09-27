@@ -29,7 +29,10 @@ class Passport extends Controller
 
         if ($this->request->isPost()) {
             $model = new UserModel;
-            $code = $model->login($this->postData('User'));           
+            $code = $model->login($this->postData('User'));
+            if($code === 1){
+
+            }
             return jsonSuccess($model->getError(),array(),$code);
         }
         
