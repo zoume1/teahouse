@@ -36,7 +36,7 @@ class WechatPay extends Controller{
 
 
     /**
-     * 店铺支付成功微信回调
+     * 店铺支付成功微信回调demo
      * @throws \EasyWeChat\Core\Exceptions\FaultException
      */
     public function app_notice(){
