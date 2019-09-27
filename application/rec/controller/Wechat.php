@@ -50,7 +50,7 @@ class Wechat extends Controller{
         if(empty($param['code'])){
             return returnJson(0,'code参数为空');exit;
         }
-        //微信信息
+        //微信信息调用model方法
         $code = new \app\rec\model\Wechat();
         $res = $code->WxOpenid($param['code']);
         $openid_name = db('pc_user')->where(array('openid'=> $res['openid']))->field('id,phone_number')->find();
