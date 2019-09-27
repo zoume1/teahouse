@@ -26,7 +26,7 @@
     .s-input, 
     .date-input{margin-right: 20px;}
     .search-box input::placeholder{color: #b2b2b2;}
-    .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
+    .bot-operate{ width: 97%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
 
@@ -37,14 +37,14 @@
 </head>
 <body>
     {block name="content"}
-    <img src="http://zhihuichacang.com/image779166.gif" style="" role="img">
-    <!-- <div class="wrapper">
+    <!-- <img src="http://zhihuichacang.com/image779166.gif" style="" role="img"> -->
+    <div class="wrapper">
         <div class="inner">
             <div class="search-hd">
                 <div class="search-box">
                     <div class="s-input">
                         <label>输入搜索：</label>
-                        <input type="text" placeholder="产品名称" id="searchTxt">
+                        <input type="text" placeholder="商品名称/商品编号" id="searchTxt">
                     </div>
                     <div class="date-input">
                         <label>生产日期：</label>
@@ -54,45 +54,54 @@
                 </div>
             </div>
             <div class="operate-hd">
-                <button class="layui-btn layui-btn-danger">批量导入</button>
+                <span style="line-height: 30px;">注：绿色文字，表示该数据来源于芯片</span>
             </div>
             <div class="layui-form news_list">
                 <table class="layui-table">
+                        <colgroup>
+                            <col width="3%">
+                        </colgroup>
                     <thead>
                         <tr>
                             <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
                             <th>
-                                <div class="table-cell-div">NFC编号(商品编码)</div>
-                            </th>
-                            <th>
-                                <div class="table-cell-div">商品图片</div>
+                                <div class="table-cell-div">商品编码</div>
                             </th>
                             <th>
                                 <div class="table-cell-div">商品名称</div>
                             </th>
                             <th>
-                                <div class="table-cell-div">品牌</div>
+                                <div class="table-cell-div">商品品牌</div>
                             </th>
                             <th>
                                 <div class="table-cell-div">出品商</div>
                             </th>
                             <th>
-                                <div class="table-cell-div">规格</div>
+                                <div class="table-cell-div">类别</div>
+                            </th>
+                            <th>
+                                <div class="table-cell-div">分类信息</div>
+                            </th>
+                            <th>
+                                <div class="table-cell-div">单位</div>
+                            </th>
+                            <th>
+                                <div class="table-cell-div">包装规格</div>
+                            </th>
+                            <th>
+                                <div class="table-cell-div">入库数量</div>
                             </th>
                             <th>
                                 <div class="table-cell-div">原料日期</div>
                             </th>
                             <th>
-                                <div class="table-cell-div">生产日期</div>
+                                <div class="table-cell-div">生成日期</div>
                             </th>
                             <th>
                                 <div class="table-cell-div">加工日期</div>
                             </th>
                             <th>
                                 <div class="table-cell-div">原产地</div>
-                            </th>
-                            <th>
-                                <div class="table-cell-div">产品定位</div>
                             </th>
                             <th>
                                 <div class="table-cell-div">操作</div>
@@ -107,13 +116,13 @@
                                 <div class="table-cell-div">2</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">3</div>
+                                <div class="table-cell-div green_zi">3</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">4</div>
+                                <div class="table-cell-div green_zi">4</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">5</div>
+                                <div class="table-cell-div green_zi">5</div>
                             </td>
                             <td>
                                 <div class="table-cell-div">6</div>
@@ -131,20 +140,36 @@
                                 <div class="table-cell-div">10</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">11</div>
+                                <div class="table-cell-div green_zi">11</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">12</div>
+                                <div class="table-cell-div green_zi">12</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">
-                                    <button class="layui-btn layui-btn-mini">查看</button>
+                                <div class="table-cell-div green_zi">13</div>
+                            </td>
+                            <td>
+                                <div class="table-cell-div green_zi">13</div>
+                            </td>
+                            <td>
+                                <div style="display:flex;justify-content: center;">
+                                    <div class="table-cell-div details">
+                                        <a href="{:url('admin/Material/chip_details')}" style="color: rgb(10,135,255);">芯片详情</a>
+                                    </div>
+                                    <div class="complete">已生成商品</div>
+                                    <div class="unfinished">未生成商品</div>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <style>
+                .details{border: 1px solid rgb(51,204,255);padding: 5px;border-radius: 3px;margin-right: 20px;}
+                .complete{color: rgb(0,0,255);border: 1px solid rgb(0,0,255);padding: 5px;border-radius: 3px;}
+                .unfinished{color: rgb(188,188,188);border: 1px solid rgb(188,188,188);padding: 5px;border-radius: 3px;}
+                .green_zi{color:rgb(102,153,0);}
+            </style>
             <div class="bot-operate">
                 <div class="opation">
                     <select>
@@ -157,7 +182,7 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
     {/block}
     <!--请在下方写此页面业务相关的脚本-->
