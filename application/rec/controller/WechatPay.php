@@ -13,7 +13,7 @@ use think\Config;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Payment\Order as WechatOrder;
 use app\rec\model\WechatPay as WeiPay;
-
+use think\Db;
 
 class WechatPay extends Controller{
 
@@ -21,7 +21,7 @@ class WechatPay extends Controller{
     {
         //phpinfo();die;
         // 查询订单信息
-        $url = 'http://www.zhihuichacang.com/rec/app_notice';
+        $url = 'https://www.zhihuichacang.com/rec/app_notice';
         $order = db('set_meal_order') -> getById($id);
 
         $pay =1;//先测试1分钱
@@ -41,8 +41,6 @@ class WechatPay extends Controller{
      */
     public function app_notice(){
     	
-    	$payType = input('paytype');
-        if($payType == 'wxpay'){
         //初始化微信sdk
           
         $options = [
@@ -53,7 +51,7 @@ class WechatPay extends Controller{
             'payment' => [
                 'merchant_id'        => '1484093452',
                 'key'                => 'zhihuichacang123456zhihuichacang',
-                'notify_url'         => 'http://www.zhihuichacang.com/rec/app_notice',       // 你也可以在下单时单独设置来想覆盖它
+                'notify_url'         => 'https://www.zhihuichacang.com/rec/app_notice',       // 你也可以在下单时单独设置来想覆盖它
             ],
             'log' => [
 	        'level' => 'debug',
@@ -68,31 +66,26 @@ class WechatPay extends Controller{
             
             $where = array('order_number'=>$rstArr['out_trade_no']);
 
-            $orderArr = db('tb_set_meal_order')->where($where)->field('status,order_number')->find();
+            $orderArr = Db::table('tb_set_meal_order')->where($where)->field('status,order_number')->find();
             if (empty($orderArr)) {
                 // 如果订单不存在
                 returnJson(0,'订单不存在');
             }
             if ($orderArr['status'] == 1) {
-                return true; // 已经支付成功了就不再更新了
+               returnJson(0,'订单已支付'); // 已经支付成功了就不再更新了
             }
             // 用户是否支付成功
             if ($successful) {
                 $invoice = new Invoice();
                 $invoice->ele_invoice($orderArr['order_number']);
                 // 不是已经支付状态则修改为已经支付状态
-                db('tb_set_meal_order')->where($where)->update(array('status' => 1, "pay_time" => time()));
+                Db::table('tb_set_meal_order')->where($where)->update(array('status' => 1, "pay_time" => time()));
 		
             }
-            return true; // 返回处理完成
+            returnJson(1,'订单已完成'); // 返回处理完成
         });
         // 将响应输出
         return $response;
-    
-    }else{
-            //预留处理
-            return false;
-     }
      }
 
 }
