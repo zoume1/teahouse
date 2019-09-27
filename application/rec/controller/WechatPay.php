@@ -42,7 +42,6 @@ class WechatPay extends Controller{
     public function app_notice(){
     	 
         //初始化微信sdk
-          
         $options = [
         	'debug'  => true,
             // 前面的appid什么的也得保留哦
