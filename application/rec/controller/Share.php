@@ -9,6 +9,7 @@ namespace app\rec\controller;
 use app\rec\model\User;
 use think\Controller;
 use think\Request;
+use think\Config;
 class Share extends Controller
 {
     /**
@@ -36,15 +37,18 @@ class Share extends Controller
 
 
     /**
+     * 二维码
      * @param $a
      * @return string
      */
     function code($a){
+        //跳转地址
+        $url = Config::get('web_url').'app/wechat/user/register.html';
 
-        $list = 'http://qr.topscan.com/api.php?text=' . $a;
+        //生成二维码
+        $list = 'http://qr.topscan.com/api.php?text=' .$url.'?yqm='. $a;
 
         return $list;
-//        echo "<img src='" . $list . "'>";
     }
 
 }
