@@ -47,8 +47,8 @@ class User extends Controller{
             $mobile = $data['phone'];
             //存入session中
             if (strlen($mobileCode)> 0){
-                Session('mobileCode',$mobileCode);
-                Session('mobile',$mobile);
+                Session::set('mobileCode',$mobileCode);
+                Session::set('mobile',$mobile);
             }
             $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
             $output = sendMessage($content,$mobile);
@@ -92,7 +92,7 @@ class User extends Controller{
             return json(['code' => 0,'msg' => $validate->getError()]);
         }
 
-        if (Session('mobileCode') != $param['code']) {
+        if (Session::get('mobileCode') != $param['code']) {
             return json(['code'=>1,'msg'=>$param['code']."验证码不正确"]);
         }
         //判断邀请码
@@ -113,7 +113,7 @@ class User extends Controller{
         $my_invitation = new Loging();
         $re_code = $my_invitation->memberCode();
         // 储存
-
+        $user = new UserAll();
         $result = $user->add($param['phone_number'],$password,$param['invitation'],$re_code);
 
         $res = $result ? ['code' => 1,'msg' => '注册成功'] : ['code' => 0,'msg' => '注册失败'];
@@ -209,7 +209,7 @@ class User extends Controller{
             return json(['code' => 0,'msg' => $validate->getError()]);
         }
 
-        if (session('mobileCode') != $param['code']) {
+        if (Session::get('mobileCode') != $param['code']) {
             return json(['code'=>1,'msg'=>$param['code']."验证码不正确"]);
         }
 
@@ -251,7 +251,7 @@ class User extends Controller{
             return json(['code' => 0,'msg' => $validate->getError()]);
         }
 
-        if (session('new_code') != $param['new_code']) {
+        if (Session::get('mobileCode') != $param['new_code']) {
             return json(['code'=>0,'msg'=>$param['new_code']."验证码不正确"]);
         }
         $user = db('pc_user') ->where('id',$param['user_id']) ->find();
