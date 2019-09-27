@@ -246,7 +246,6 @@ class User extends Model
             ['city_rank','require','城市等级不能为空'],
         ]);
         $identifying_code = Session::get('identifying_code');
-        halt($identifying_code);
         //验证部分数据合法性
         if (!$validate->check($data)) {
             $this->error = $validate->getError();
