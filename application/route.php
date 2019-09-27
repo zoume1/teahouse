@@ -856,6 +856,7 @@ Route::group("admin",[
 
     /*物联*/
     "anti_fake" =>"admin/Material/anti_fake",                                                       //防伪溯源
+    "chip_details" =>"admin/Material/chip_details",                                                       //防伪溯源
     "video_token" =>"admin/Material/video_token",       //token值
     "edit_video_token" =>"admin/Material/edit_video_token",//更新token值
     "direct_seeding" =>"admin/Material/direct_seeding",                                             //视频直播
@@ -1236,6 +1237,7 @@ Route::group("rec",[
     //微信登录
     "wx_openid" =>"rec/Wechat/wx_accredit",
     "wx_code" =>"rec/Wechat/wx_code",
+    "wx_code1" =>"rec/Wechat/wx_code1",//测试
 
     "app_notice" =>"rec/WechatPay/app_notice",
     "get_pay" =>'rec/WechatPay/get_pay',

@@ -24,7 +24,7 @@ class WechatPay extends Model
      */
     public function pay($title,$detail,$no,$cost,$url,$openid)
     {
-
+        //支付相关参数
         $attributes = [
             'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP
             'body'             => $title,//标题
@@ -35,25 +35,13 @@ class WechatPay extends Model
             'openid'           => $openid, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
             // ...
         ];
-
-        $options = [
-            // 前面的appid什么的也得保留哦
-            'app_id' => 'wxf120ba19ce55a392',
-            // payment
-            'payment' => [
-                'merchant_id'        => '1441082002',
-                'key'                => 'zhihuichacang123456zhihuichacang',
-                //如果没有退款这两个不需要
-//                'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
-//                'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！
-                'notify_url'         => $url,       // 你也可以在下单时单独设置来想覆盖它
-            ],
-        ];
+        //初始化SDK相关配置
+        $options = config('wechat');
 
         $app = new Application($options);
 
         $payment = $app->payment;
-
+        //生成订单
         $order = new Order($attributes);
 
         $result = $payment->prepare($order); // 这里的order是上面一步得来的。 这个prepare()帮你计算了校验码，帮你获取了prepareId.省心。

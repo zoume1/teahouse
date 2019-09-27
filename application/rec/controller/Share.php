@@ -9,10 +9,11 @@ namespace app\rec\controller;
 use app\rec\model\User;
 use think\Controller;
 use think\Request;
+use think\Config;
 class Share extends Controller
 {
     /**
-     * @ 生成二维码
+     * @ 生成注册邀请二维码
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
@@ -27,8 +28,10 @@ class Share extends Controller
         $data = User::where('my_invitation',$param['my_invitation'])->find();
         //判断
         returnArray($data);
+        //跳转注册地址
+        $url = Config::get('web_url').'app/wechat/user/register.html';
 
-        $list['code'] = $this->code($param['my_invitation']);
+        $list['code'] = $this->code($url,$param['my_invitation']);
         $list['yqm'] = $param['my_invitation'];
         return returnJson(1,'获取成功',$list);
 
@@ -36,15 +39,17 @@ class Share extends Controller
 
 
     /**
+     * 传入参数生成二维码
+     * @param $url
      * @param $a
      * @return string
      */
-    function code($a){
+    function code($url,$a){
 
-        $list = 'http://qr.topscan.com/api.php?text=' . $a;
+        //生成二维码
+        $list = 'http://qr.topscan.com/api.php?text=' .$url.'?yqm='. $a;
 
         return $list;
-//        echo "<img src='" . $list . "'>";
     }
 
 }

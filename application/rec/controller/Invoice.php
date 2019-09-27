@@ -32,11 +32,11 @@ class Invoice extends Controller{
      * @author fyk
      * 已支付订单开票接口
      */
-    public function ele_invoice($id)
+    public function ele_invoice($no)
     {
 
         $invoice = new InvoiceAll();
-        $data = $invoice->get_order($id);
+        $data = $invoice->get_order($no);
 
         //$res = $invoice->requestBilling($data);正式调用
 
@@ -46,11 +46,11 @@ class Invoice extends Controller{
 //        print_r($list);die;
         if($list['result'] != null){
 
-            $num = $invoice->edit($id,$list['result']['invoiceSerialNum'],2,$list['describe']);
+            $num = $invoice->edit($no,$list['result']['invoiceSerialNum'],2,$list['describe']);
             return $num;
         }else{
 
-            $num = $invoice->edit($id,'',4,$list['describe']);
+            $num = $invoice->edit($no,'',4,$list['describe']);
             return $num;
         }
 

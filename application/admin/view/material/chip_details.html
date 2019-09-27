@@ -1,0 +1,133 @@
+{include file="template/_meta" /}
+    <title>防伪溯源</title>
+</head>
+
+{block name="css"}
+<style>
+    *{margin: 0; padding: 0; list-style: none;}
+    .wrapper{padding: 20px 10px; background-color: #fff;}
+    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 20px; margin-bottom: 10px; border-left: 5px solid #009688;}
+    .search-box{display: flex; align-items: center; font-size: 14px; color: #333;}
+    .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
+    .s-input, 
+    .date-input{margin-right: 20px;}
+    .search-box input::placeholder{color: #b2b2b2;}
+    .bot-operate{ width: 97%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
+    .bot-operate .opation{float: left}
+    .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
+
+    .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
+</style>
+{/block}
+
+</head>
+<body>
+    {block name="content"}
+    <!-- <img src="http://zhihuichacang.com/image779166.gif" style="" role="img"> -->
+    <div class="wrapper">
+        <div class="inner">
+            <blockquote class="layui-elem-quote news_search">
+                <form class="layui-form" action="{:url('')}">
+                    <div class="seach">
+                        <div class="seach_list">
+                            <div class="seach_laber">输入搜索：</div>
+                            <div class="seach_input">
+                                <input type="text" name="goods_number" lay-verify="title" autocomplete="off"
+                                    placeholder="商品编号/商品名称" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="seach_list">
+                            <div class="seach_laber">溯源状态：</div>
+                            <div class="seach_input">
+                                <select name="pid" id="admin_role" class="role_list">
+                                    <option value="" select>全部</option>
+                                    <option value="1">已售</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+                    </div>
+                </form>
+            </blockquote>
+           
+            <div class="layui-form news_list">
+                <table class="layui-table">
+                        <colgroup>
+                            <col width="3%">
+                        </colgroup>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
+                            <th>
+                                <div class="table-cell-div">序列号</div>
+                            </th>
+                            <th>
+                                <div class="table-cell-div">商品名称</div>
+                            </th>
+                            <th>
+                                <div class="table-cell-div">母标编号</div>
+                            </th>
+                            <th>
+                                <div class="table-cell-div">子标编号</div>
+                            </th>
+                            <th>
+                                <div class="table-cell-div">入库数量</div>
+                            </th>
+                            <th>
+                                <div class="table-cell-div">溯源状态</div>
+                            </th>
+                            <th>
+                                <div class="table-cell-div">保险单号</div>
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="">
+                            </td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bot-operate">
+                <div class="opation">
+                    <select>
+                        <option check="" value="0">请选择</option>
+                        <option value="1">批量删除</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" id="operation-btn" class="operation-btn">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {/block}
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script>
+        layui.use(['form', 'layer', 'jquery', 'laypage'], function(){
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery;
+            form.render();
+        })
+    </script>
+
+    {/block}
+</body>
+</html>

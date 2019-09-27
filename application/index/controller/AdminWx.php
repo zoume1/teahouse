@@ -6,6 +6,7 @@
  * Time: 11:27
  */
 namespace app\index\controller;
+use app\rec\controller\Invoice;
 use think\Controller;
 use think\Request;
 use think\Db;
@@ -37,6 +38,11 @@ class  AdminWx extends Controller{
                 $enter_all_data = Db::name("set_meal_order")
                     ->where("order_number",$val["out_trade_no"])
                     ->find();
+                //开电子发票
+                if($enter_all_data['openid'] != null){
+                    $invoice = new Invoice();
+                    $invoice->ele_invoice($enter_all_data['order_number']);
+                }
                 $year = Db::name("enter_all")->where("id",$enter_all_data['enter_all_id'])->value("year");
                 $store_data_rest = Db::name('store')->where('id',$enter_all_data['store_id'])->find();
                 //进行逻辑处理
