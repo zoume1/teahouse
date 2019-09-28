@@ -289,6 +289,35 @@ class  City extends  Controller{
         
     }
 
+    /**
+     * [市场反馈]
+     * 郭杨
+     */    
+    public function city_market(){
+        return view("city_market");
+        
+    }
+
+    /**
+     * [市场反馈回复]
+     * 郭杨
+     */    
+    public function city_market_feedback(){
+        return view("city_market_feedback");
+        
+    }
+
+    /**
+     * [市场反馈回会更新]
+     * 郭杨
+     */    
+    public function city_market_feedback_update(){
+        return view("city_market_feedback");
+        
+    }
+
+
+
 
 
     
