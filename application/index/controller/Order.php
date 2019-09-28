@@ -176,14 +176,32 @@ class  Order extends  Controller
             foreach ($commodity_id as $keys=>$values){
                 $goods_data = Db::name('goods')->where('id',$values)->find();
                 //判断商品是否是限时限购商品
-                // $wh['store_id']=$store_id;
-                // $wh['goods_id']=$values;
-                // $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$values])->find();
-                // if(!empty($is_limit)){
-                //     $limit=1;
-                // }else{
-                //     $limit=0;
-                // }
+                $wh['store_id']=$store_id;
+                $wh['goods_id']=$values;
+                $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$values])->find();
+                if(!empty($is_limit)){
+                    if($is_limit['create_time']=='0' && $is_limit['end_time']=='0'){
+                        //不限时
+                        //统计当前客户已购买的限购商品数量
+                        $limit_number=db('order')->where(['member_id'=>$user_id,'goods_id'=>$values,'is_limit'=>1])->count();
+                    }else{
+                        //限时
+                        $ww['store_id']=$store_id;
+                        $ww['member_id']=$user_id;
+                        $ww['goods_id']=$values;
+                        $ww['is_limit']=1;
+                        $ww['order_create_time']=array('between',array($is_limit['create_time'],$li_limit['end_time']));
+                        $limit_number=db('order')->where($ww)->count();
+                    }
+                    $nn=$is_limit['limit_number']-$limit_number-$numbers[$keys];
+                    if($nn < 0){
+                        //当前用户购买超过限制
+                        return ajax_error('用户购买数量超过限购熟练，最多购买'.$nn);
+                    }
+                    $limit=1;
+                }else{
+                    $limit=0;
+                }
                 $create_time = time();//下单时间
                 $normal_time =Db::name("order_setting")->find();//订单设置的时间
                 if(!empty($normal_time)){
@@ -286,7 +304,7 @@ class  Order extends  Controller
                         $datas["freight"] = $freight;
                         $datas["storage"] = $storage;
                         $datas["is_receipt"] = $receipt_status;
-                        // $datas["is_limit"] = $limit;
+                        $datas["is_limit"] = $limit;
                                         
                         $res = Db::name('order')->insertGetId($datas);  //下单
                         if ($res) {
@@ -374,7 +392,7 @@ class  Order extends  Controller
                         $datase["store_id"] = $store_id;   
                         $datase["storage"] = $storage;   
                         $datase["is_receipt"] = $receipt_status;   
-                        // $datase["is_limit"] = $limit;   
+                        $datase["is_limit"] = $limit;   
 
                         $rest_id = Db::name('order')->insertGetId($datase);
                        
@@ -401,8 +419,6 @@ class  Order extends  Controller
                                 ->where("member_id",$user_id)
                                 ->find();
                             $order_datas['balance']=$money;
-
-
                         //判断是否生成分销订单
                         $goods_bool = Goods::getDistributionStatus($commodity_id);
                         if($goods_bool){
@@ -415,7 +431,6 @@ class  Order extends  Controller
                                 'order_amount'=>$all_moneys,
                                 'goods_money'=>$order_datas['order_amount'],//总金额
                                 'status'=>0,
-                                
                             ];
                             OrderModel::createOrder($commind_data);
                         }                                                                         
@@ -485,15 +500,33 @@ class  Order extends  Controller
             
 
             foreach ($commodity_id as $keys=>$values){
-                //判断商品是否是限时限购商品
-                // $wh['store_id']=$store_id;
-                // $wh['goods_id']=$values;
-                // $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$values])->find();
-                // if(!empty($is_limit)){
-                //     $limit=1;
-                // }else{
-                //     $limit=0;
-                // }
+               //判断商品是否是限时限购商品
+               $wh['store_id']=$store_id;
+               $wh['goods_id']=$values;
+               $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$values])->find();
+               if(!empty($is_limit)){
+                   if($is_limit['create_time']=='0' && $is_limit['end_time']=='0'){
+                       //不限时
+                       //统计当前客户已购买的限购商品数量
+                       $limit_number=db('order')->where(['member_id'=>$user_id,'goods_id'=>$values,'is_limit'=>1])->count();
+                   }else{
+                       //限时
+                       $ww['store_id']=$store_id;
+                       $ww['member_id']=$user_id;
+                       $ww['goods_id']=$values;
+                       $ww['is_limit']=1;
+                       $ww['order_create_time']=array('between',array($is_limit['create_time'],$li_limit['end_time']));
+                       $limit_number=db('order')->where($ww)->count();
+                   }
+                   $nn=$is_limit['limit_number']-$limit_number-$numbers[$keys];
+                   if($nn < 0){
+                       //当前用户购买超过限制
+                       return ajax_error('用户购买数量超过限购熟练，最多购买'.$nn);
+                   }
+                   $limit=1;
+               }else{
+                   $limit=0;
+               }
                 $goods_data = Db::name('goods')->where('id',$values)->find();
                 $create_time = time();//下单时间
                 $normal_time =Db::name("order_setting")->find();//订单设置的时间
@@ -598,7 +631,7 @@ class  Order extends  Controller
                         $datas["receipt_price"] = $receipt_price ;                                        
                         $datas["freight"] = $freight ;                                        
                         $datas["storage"] = $storage ; 
-                        // $datas["is_limit"] = $limit;
+                        $datas["is_limit"] = $limit;
 
                         $res = Db::name('order')->insertGetId($datas);
                         if($res){
@@ -664,7 +697,7 @@ class  Order extends  Controller
                         $datase["order_type"] = $order_type;
                         $datase["freight"] = $freight;                                        
                         $datase["storage"] = $storage;     
-                        // $datase["is_limit"] = $limit;     
+                        $datase["is_limit"] = $limit;     
 
                         $rest_id = db('order')->insertGetId($datase);
                         $datas = $datase;

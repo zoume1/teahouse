@@ -1188,6 +1188,7 @@ Route::group("api",[
  */
 Route::group("city",[
     "apply_login" => "city/Passport/login", //城市合伙人PC端登录
+    "apply_watchat_login" => "city/Passport/watchat_login", //城市合伙人公众号端登录
     "apply_register" => "city/Passport/register", //城市合伙人PC端注册
     "forget_password" => "city/Passport/forget_password", //城市合伙人PC端修改密码
     "remittance_login" => "city/Passport/remittance_login", //城市合伙人凭证
@@ -1195,6 +1196,8 @@ Route::group("city",[
     "chooseRank" => "city/Passport/chooseRank", //城市合伙人选择等级
     "logCityTenantDetail"=>"city/Citydenglu/logCityTenantDetail",    //登陆后-城市累计商户明细
     "myInviteStore"=>"city/Citydenglu/myInviteStore",                //我邀请的商户明细
+    "logCityTenantDetail_search"=>"city/Citydenglu/logCityTenantDetail_search",    //登陆后-城市累计商户明细搜索
+    "myInviteStore_search"=>"city/Citydenglu/myInviteStore_search",                //我邀请的商户明细搜索
     "copartner_order_index"=>"city/Citydenglu/copartner_order_index",//我邀请的商户明细
     "city_server_index"=>"city/Citydenglu/city_server_index",//合伙人系统固定页面
     "order_index"=>"city/CityOrder/order_index",//城市合伙人订单显示
@@ -1205,6 +1208,11 @@ Route::group("city",[
     "cityOrderReceipt"=>"city/CityOrder/cityOrderReceipt",//开发票
     "city_openid"=>"city/CityWx/city_accredit",//获取code
     "city_wx_code"=>"city/CityWx/city_wx_code",//获取openid跳转
+    "WeiChatCityServerShow"=>"city/WeiChatSystem/WeiChatCityServerShow",//公众号城市合伙人系统页面
+    "WeiChatCityCommissionShow"=>"city/WeiChatSystem/WeiChatCityCommissionShow",//公众号城市合伙人保底佣金
+    "WeiChatCityReachCommissionShow"=>"city/WeiChatSystem/WeiChatCityReachCommissionShow",//城市合伙人公众号达标佣金总额查询页面
+    "WeiChatCityAccumulativeShow"=>"city/WeiChatSystem/WeiChatCityAccumulativeShow",// 城市合伙人公众号城市总计商户页面
+    "WeiChatCityMyinviteShow"=>"city/WeiChatSystem/WeiChatCityMyinviteShow",//城市合伙人我邀请的商户页面
 
 ]);
 
