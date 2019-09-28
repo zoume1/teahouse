@@ -278,7 +278,7 @@ class CityCopartner extends Model
         $number = $model->get_number($user_data);
         $order = Db::name('city_detail') 
                 ->where('city_user_id','=',$user_id) 
-                ->where('hight_share_code','=',$user_data['my_invitation']) 
+                ->where('highe_share_code','=',$user_data['my_invitation']) 
                 ->field('phone_number,user_name,set_meal,store_id')
                 ->select();
         if(!empty($order)){
@@ -286,11 +286,11 @@ class CityCopartner extends Model
                 $order[$key]['money'] = Db::name('order') 
                 ->where('store_id','=',$order[$key]['store_id'])
                 ->where('status','=',2)
-                ->sum('order_amount');
+                ->count('order_amount');
             }
         }
         $data = [
-            'reach_commision' => $user_data['reach_commision'],
+            'number' => $number,
             'order_data' => $order,
 
         ];

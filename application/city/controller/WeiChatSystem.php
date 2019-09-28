@@ -109,6 +109,24 @@ class WeiChatSystem extends Controller
     }
 
 
+    /**
+     * 城市合伙人商户市场反馈
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function market_feedback(Request $request)
+    {
+
+        if ($request->isPost()) {
+            $user_id = $request->only(['user_id'])['user_id'];
+            $data = CityCopartner::MyinviteShow($user_id);
+            return jsonSuccess('发送成功',$data);
+        }
+    }
+
+
 
 
 }
