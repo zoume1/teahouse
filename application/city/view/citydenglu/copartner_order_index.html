@@ -161,22 +161,24 @@
                                 </tr>
                             </thead>
                             <tbody class="news_content">
+                                {if !empty($data)}
                                 <tr>
-                                    <td>2222222222222222</td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
-                                    <td>22</td>
+                                    <td>{$data.phone_number}</td>
+                                    <td>{$data.user_name}</td>
+                                    <td>{if $data.id_status == 1}企业{else}个人{/if}</td>
+                                    <td>{$data.city_address}</td>
+                                    <td>￥{$data.order_price}</td>
+                                    <td>{$data.start_time|date="Y-m-d H:i",###}</td>
+                                    <td>{$data.end_time|date="Y-m-d H:i",###}</td>
+                                    <td>{$data.pay_status|city_pay}</td>
+                                    <td>{$data.account_status|city_pay_status}</td>
                                     <td>
                                         <div class="static_btus">
                                             <button type="button" class=" layui-btn layui-btn-mini all4">到账审核通过</button> 
                                         </div>
                                     </td>
                                 </tr>
+                                {/if}
                             </tbody>
                         </table>
                     </div>

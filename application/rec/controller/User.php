@@ -42,8 +42,8 @@ class User extends Controller{
             return json(['code' => 0,'msg' => $valid->getError()]);
         }
         // 查询
-        $user = db('pc_user') ->where('phone_number',$data['phone']) ->find();
-        if (!$user) {
+        // $user = db('pc_user') ->where('phone_number',$data['phone']) ->find();
+        // if (!$user) {
             // 手机号不存在
             $mobileCode = rand(100000, 999999);
             $mobile = $data['phone'];
@@ -58,9 +58,9 @@ class User extends Controller{
             $res = $output ? ['code' => 1,'msg' => '发送成功'] : ['code' => 0,'msg' => '发送失败'];
 
             return json($res);
-        }else {
-            return json(['code'=>0,'msg'=>'手机已注册, 请直接登录']);
-        }
+        // }else {
+        //     return json(['code'=>0,'msg'=>'手机已注册, 请直接登录']);
+        // }
 
 
     }
@@ -193,7 +193,6 @@ class User extends Controller{
         $param = $request->param();
 
         $rules = [
-            'user_id' => 'require',
             'phone_number' => 'require|regex:\d{11}',
             'password'=>'require|length:6,16',
             'code'=>'require',
