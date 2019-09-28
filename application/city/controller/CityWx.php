@@ -67,12 +67,15 @@ class CityWx extends Controller{
             header('Location:'.$url);
         }else{
             if($openid_name['judge_status'] === 0){
+                //跳转支付页面
                 $url = Config::get('web_url').$this->app_wxpay.'?openid='.$res['openid'];
                 header('Location:'.$url);
+            }else{
+                //跳转绑定账号页面
+                $url = Config::get('web_url').$this->app_wx.'?openid='.$res['openid'];
+                header('Location:'.$url);
             }
-            //跳转绑定账号页面
-            $url = Config::get('web_url').$this->app_wx.'?openid='.$res['openid'];
-            header('Location:'.$url);
+            
         }
 
     }
