@@ -23,6 +23,9 @@ class CityWx extends Controller{
     //手机端跳转绑定账号页面
     protected $app_wx = 'app/wechat/user/hhr-login.html';
 
+    //手机端跳转支付页面
+    protected $app_wxpay = 'app/wechat/user/hhr-wxpay.html';
+
     /**
      * @function 手机端网页微信登录授权（微信公众平台微信登录授权）
      */
@@ -63,6 +66,10 @@ class CityWx extends Controller{
             $url = Config::get('web_url').$this->app_index.'?user_id='.$openid_name['user_id'];
             header('Location:'.$url);
         }else{
+            if($openid_name['judge_status'] === 0){
+                $url = Config::get('web_url').$this->app_wxpay.'?openid='.$res['openid'];
+                header('Location:'.$url);
+            }
             //跳转绑定账号页面
             $url = Config::get('web_url').$this->app_wx.'?openid='.$res['openid'];
             header('Location:'.$url);
