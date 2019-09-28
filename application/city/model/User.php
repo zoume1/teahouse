@@ -355,8 +355,8 @@ class User extends Model
         if(empty($user_data['open_id'])){
             $bool = $model -> allowField(true)->save(['openid' => $data['openid']],['phone_number'=>$data['phone_number']]);
         }
-
-        return ['']
+        $data['user_id'] = $user_data['user_id'];
+        return $data;
  
     }
  
