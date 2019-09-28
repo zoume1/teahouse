@@ -180,23 +180,25 @@ class  Order extends  Controller
                 $wh['goods_id']=$values;
                 $is_limit=db('limited')->where(['store_id'=>$store_id,'goods_id'=>$values])->find();
                 if(!empty($is_limit)){
+                    $ww['store_id']=$store_id;
+                    $ww['member_id']=$user_id;
+                    $ww['goods_id']=$values;
+                    $ww['is_limit']=1;
+                    $ww['status']=array('between',array('2','8'));
                     if($is_limit['create_time']=='0' && $is_limit['end_time']=='0'){
                         //不限时
                         //统计当前客户已购买的限购商品数量
-                        $limit_number=db('order')->where(['member_id'=>$user_id,'goods_id'=>$values,'is_limit'=>1])->count();
+                        $limit_number=db('order')->where($ww)->sum('order_quantity');
                     }else{
                         //限时
-                        $ww['store_id']=$store_id;
-                        $ww['member_id']=$user_id;
-                        $ww['goods_id']=$values;
-                        $ww['is_limit']=1;
+                      
                         $ww['order_create_time']=array('between',array($is_limit['create_time'],$li_limit['end_time']));
-                        $limit_number=db('order')->where($ww)->count();
+                        $limit_number=db('order')->where($ww)->sum('order_quantity');
                     }
                     $nn=$is_limit['limit_number']-$limit_number-$numbers[$keys];
                     if($nn < 0){
                         //当前用户购买超过限制
-                        return ajax_error('用户购买数量超过限购熟练，最多购买'.$nn);
+                        return ajax_error('用户购买数量已超过限购数量');
                     }
                     $limit=1;
                 }else{
@@ -523,7 +525,7 @@ class  Order extends  Controller
                    $nn2=$is_limit['limit_number']-$limit_number;
                    if($nn < 0){
                        //当前用户购买超过限制
-                       return ajax_error('用户购买数量超过限购熟练，最多购买'.$nn2);
+                       return ajax_error('用户购买数量已超过限购数量');
                    }
                    $limit=1;
                }else{
