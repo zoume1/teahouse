@@ -193,7 +193,7 @@ class  Order extends  Controller
                         $ww['order_create_time']=array('between',array($is_limit['create_time'],$li_limit['end_time']));
                         $limit_number=db('order')->where($ww)->count();
                     }
-                    $nn=$is_limit['limit_number']-$limit_number-$numbers[$key];
+                    $nn=$is_limit['limit_number']-$limit_number-$numbers[$keys];
                     if($nn < 0){
                         //当前用户购买超过限制
                         return ajax_error('用户购买数量超过限购熟练，最多购买'.$nn);
@@ -518,7 +518,7 @@ class  Order extends  Controller
                        $ww['order_create_time']=array('between',array($is_limit['create_time'],$li_limit['end_time']));
                        $limit_number=db('order')->where($ww)->count();
                    }
-                   $nn=$is_limit['limit_number']-$limit_number-$numbers[$key];
+                   $nn=$is_limit['limit_number']-$limit_number-$numbers[$keys];
                    if($nn < 0){
                        //当前用户购买超过限制
                        return ajax_error('用户购买数量超过限购熟练，最多购买'.$nn);
