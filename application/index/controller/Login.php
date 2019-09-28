@@ -117,7 +117,7 @@ class Login extends Controller{
                     if($bool){
                         $member_grade_info =Db::name("member_grade")
                             ->field("member_grade_name,member_grade_img,member_grade_id")
-                            ->where("member_grade_id",$user_data['member_grade_id'])
+                            ->where("member_grade_id",$grade_id)
                             ->find();
                         $info_data =[
                             "member_grade_info"=>$member_grade_info,
