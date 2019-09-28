@@ -1468,6 +1468,7 @@
                 var unit2_a = unit2.unique3();
                 var val = $('input[name="goods_standard"]:checked').val();
                 var vals = $('input[name="aaa"]:checked').val();
+                var huiyuan = $('input[name="scope[]"]:checked').length;
                 // console.log($('input[name="aaa"]:checked'));
                 var text = $(".monomer").val();
                 var nums = 0;
@@ -1484,7 +1485,10 @@
 
                 }
 
-
+                if (huiyuan < 1) {
+                    alert("请选择面向会员范围");
+                    return false;
+                }
 
                 var num = 0;
                 for (var i = 0; i < $(".muban_list").length; i++) {
