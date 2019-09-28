@@ -683,6 +683,7 @@
 		data:{},
 		success: function(res) {
 			var res = JSON.parse(res), sales_precent;
+			json.series = series_two;
 			if(res.status == 1) {
 				series_two[0].data = res.data.arr;
 				sales_precent = (res.data.precent - 100).toFixed(2);

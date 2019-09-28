@@ -47,4 +47,14 @@ class With extends Model
         return self::all(['user_id'=>$uid]) ?  self::all(['user_id'=>$uid])->toArray(): returnJson(0,'数据有误');
     }
 
+    /**
+     * 统计已提现金额
+     * @param $uid
+     * @return float|int
+     */
+    public static function wals($uid)
+    {
+        return self::where(['user_id'=>$uid,'status'=>2])->sum ('money');
+    }
+
 }
