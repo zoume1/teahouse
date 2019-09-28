@@ -28,7 +28,7 @@ class WeiCityPay extends Controller{
 
         $pay =1;//先测试1分钱
         if(!$order)returnJson(0,'当前订单不存在');
-        if($order['status'] != -1)returnJson(0,'当前订单状态异常');
+        // if($order['status'] != -1)returnJson(0,'当前订单状态异常');
         $wechatpay = new WeiPay();
         $res = $wechatpay->pay($order['city_meal_name'],$order['user_name'],$order['order_number'],$pay,$url,$order['openid']);
 
