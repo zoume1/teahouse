@@ -194,7 +194,6 @@ class User extends Controller{
         $param = $request->param();
 
         $rules = [
-            'user_id' => 'require',
             'phone_number' => 'require|regex:\d{11}',
             'password'=>'require|length:6,16',
             'code'=>'require',
