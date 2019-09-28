@@ -54,7 +54,7 @@ class CityWx extends Controller{
         $openid_name = db('city_copartner')->where(array('openid'=> $res['openid']))->field('user_id,phone_number')->find();
         if($openid_name){
             //更新用户信息
-            db('city_copartner')->where(array('open_id'=> $res['openid']))
+            db('city_copartner')->where(array('openid'=> $res['openid']))
                 ->update([
                     'weixin_head'=>$res['headimgurl'],
                     'update_time'=>time()
