@@ -56,114 +56,59 @@ class WeiChatSystem extends Controller
     }
 
 
-        /**
-     * 城市合伙人PC端申请注册
+    /**
+     * 城市合伙人公众号达标佣金总额查询页面
      * @return array|mixed
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function register(Request $request)
+    public function WeiChatCityReachCommissionShow(Request $request)
     {
 
         if ($request->isPost()) {
-            $data = Request::instance()->param();
-            $rest = new UserModel;
-            if($rest->submit($data))
-            {
-                return $this->renderSuccess('注册成功');
-            }
-
-            return $this->renderError($rest->getError() ?: '注册失败');
+            $user_id = $request->only(['user_id'])['user_id'];
+            $data = CityCopartner::ReachCommissionShow($user_id);
+            return jsonSuccess('发送成功',$data);
         }
     }
 
     /**
-     * 城市合伙人选择省份直辖市
+     * 城市合伙人公众号城市总计商户页面
      * @return array|mixed
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function chooseCity()
+    public function WeiChatCityAccumulativeShow(Request $request)
     {
-        $data = CityRank::getList();
-        
-        if($data['one'])
-        {
-            return jsonSuccess('发送成功',$data['one']);
-        }
-        return jsonError('发送失败'); 
-    }
 
-
-    /**
-     * 城市合伙人选择等级城市
-     * @return array|mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
-    public function chooseRank(Request $request)
-    {
         if ($request->isPost()) {
-            $rank = $request->only(['rank_status'])['rank_status'];      
-            $data = CityRank::detail($rank);
-            if($data)
-            {
-                return jsonSuccess('发送成功',$data->toArray());
-            }
-            return jsonError('发送失败'); 
+            $user_id = $request->only(['user_id'])['user_id'];
+            $data = CityCopartner::AccumulativeShow($user_id);
+            return jsonSuccess('发送成功',$data);
         }
     }
 
 
     /**
-     * 城市合伙人PC端忘记密码
+     * 城市合伙人我邀请的商户页面
      * @return array|mixed
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function forget_password()
+    public function WeiChatCityMyinviteShow(Request $request)
     {
 
-        if ($this->request->isPost()) {
-            $data = Request::instance()->param();
-            $model = new UserModel;
-            $rest = $model->forget($data);
-            if($rest){
-                return jsonSuccess('修改密码成功');
-            } else {
-                return jsonError($model->getError());
-            }
-        }     
-    }
-
-    /**
-     * 汇款详情页面
-     * @return array|mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
-    public function remittance_login()
-    {
-        $user = Session::get('User');
-        $order = Db::name('city_order')
-                ->where('city_user_id','=',$user['user_id'])
-                ->where('judge_status','>',1)
-                ->find();
-        if($order){
-            $remittance = [
-                'remittance_account' => $order['remittance_account'],
-                'payment_document' => $order['payment_document'],
-                'order_number'=>$order['order_number']
-            ];
-            return jsonSuccess('返回凭证成功',$remittance);
+        if ($request->isPost()) {
+            $user_id = $request->only(['user_id'])['user_id'];
+            $data = CityCopartner::MyinviteShow($user_id);
+            return jsonSuccess('发送成功',$data);
         }
-        return jsonError('返回凭证失败');
-         
     }
+
+
+
 
 }

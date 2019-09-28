@@ -3,6 +3,7 @@
 namespace app\city\model;
 use think\Session;
 use think\Model;
+use think\Db;
 use think\Validate;
 use app\city\controller;
 use app\common\exception\BaseException;
@@ -193,7 +194,7 @@ class CityCopartner extends Model
                 ->select();
 
         $data = [
-            'base_commision' => $user_data['commission'],
+            'commission' => $user_data['commission'],
             'order_data' => $order,
 
         ];
@@ -220,7 +221,7 @@ class CityCopartner extends Model
                 ->select();
 
         $data = [
-            'reach_commision' => $user_data['reach_commision'],
+            'reach_commission' => $user_data['reach_commission'],
             'order_data' => $order,
 
         ];
@@ -249,11 +250,11 @@ class CityCopartner extends Model
                 $order[$key]['money'] = Db::name('order') 
                 ->where('store_id','=',$order[$key]['store_id'])
                 ->where('status','=',2)
-                ->sum('order_amount');
+                ->count('order_amount');
             }
         }
         $data = [
-            'reach_commision' => $user_data['reach_commision'],
+            'number' => $user_data['city_store_number'],
             'order_data' => $order,
 
         ];
