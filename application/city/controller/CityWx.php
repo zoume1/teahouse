@@ -62,20 +62,20 @@ class CityWx extends Controller{
                     'weixin_head'=>$res['headimgurl'],
                     'update_time'=>time()
                 ]);
-            //跳转首页
-            $url = Config::get('web_url').$this->app_index.'?user_id='.$openid_name['user_id'];
-            header('Location:'.$url);
-        }else{
             if($openid_name['judge_status'] === 0){
                 //跳转支付页面
                 $url = Config::get('web_url').$this->app_wxpay.'?openid='.$res['openid'];
                 header('Location:'.$url);
             }else{
+                //跳转首页
+                $url = Config::get('web_url').$this->app_index.'?user_id='.$openid_name['user_id'];
+                header('Location:'.$url);
+            }
+        }else{
                 //跳转绑定账号页面
                 $url = Config::get('web_url').$this->app_wx.'?openid='.$res['openid'];
                 header('Location:'.$url);
-            }
-            
+    
         }
 
     }
