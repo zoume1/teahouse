@@ -7,6 +7,7 @@ use think\Request;
 use think\Db;
 use app\city\model\CityRank;
 use app\city\model\User as UserModel;
+use app\city\model\CityBack;
 use app\city\model\CityCopartner;
 use app\city\model\CityOrder as Order;
 
@@ -120,19 +121,25 @@ class WeiChatSystem extends Controller
     {
 
         if ($request->isPost()) {
-            $data = $request->post();
+            $data = $request->param();
+            $model = new CityBack;
             $validate     = new Validate([
                 ['user_id', 'require', 'user_id不能为空'],
                 ['text', 'require', '反馈内容不能为空'],
             ]);
-            $identifying_code = Session::get('identifying_code');
             //验证部分数据合法性
             if (!$validate->check($data)) {
-                $this->error = $validate->getError();
-                return false;
+                $error = $validate->getError();
+                return jsonError($error);
+            } else {
+                $data['create_time'] = time();
+                $bool = $model->city_back_add($data);
+                if($bool){
+                    return jsonSuccess('反馈成功');
+                } else {
+                    return jsonError('反馈成功');
+                }
             }
-            $data = CityCopartner::MyinviteShow($user_id);
-            return jsonSuccess('发送成功',$data);
         }
     }
 
