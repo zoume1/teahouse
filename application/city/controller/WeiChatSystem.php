@@ -120,7 +120,17 @@ class WeiChatSystem extends Controller
     {
 
         if ($request->isPost()) {
-            $user_id = $request->only(['user_id'])['user_id'];
+            $data = $request->post();
+            $validate     = new Validate([
+                ['user_id', 'require', 'user_id不能为空'],
+                ['text', 'require', '反馈内容不能为空'],
+            ]);
+            $identifying_code = Session::get('identifying_code');
+            //验证部分数据合法性
+            if (!$validate->check($data)) {
+                $this->error = $validate->getError();
+                return false;
+            }
             $data = CityCopartner::MyinviteShow($user_id);
             return jsonSuccess('发送成功',$data);
         }
