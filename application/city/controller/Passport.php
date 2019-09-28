@@ -30,9 +30,30 @@ class Passport extends Controller
         if ($this->request->isPost()) {
             $model = new UserModel;
             $code = $model->login($this->postData('User'));
-            if($code === 1){
+            return jsonSuccess($model->getError(),array(),$code);
+        }
+        
+    }
 
+    /**
+     * 城市合伙人公众号端登录
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function watchat_login()
+    {
+
+        if ($this->request->isPost()) {
+            $model = new UserModel;
+            $data = $this->postData('User');
+            $code = $model->login($data);
+            if($code == 1 && $code == ERROR_104){
+                $return_data = $model->watchat_login($data);
+                return jsonSuccess($model->getError(),$return_data,$code);
             }
+
             return jsonSuccess($model->getError(),array(),$code);
         }
         

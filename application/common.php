@@ -1752,6 +1752,27 @@ function returnArray($data){
   }
 
 
+  function meal_name($rank_city){
+        switch($rank_city){
+            case 2:
+                $meal_name = "特级城市";
+                break;
+            case 3:
+                $meal_name = "一级城市";
+                break;
+            case 4:
+                $meal_name = "二级城市";
+                break;
+            case 5:
+                $meal_name = "三级城市";
+                break;
+            default:
+                break;
+        }
+        return $meal_name;
+  }
+
+
 
 
     

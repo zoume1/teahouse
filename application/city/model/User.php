@@ -339,6 +339,26 @@ class User extends Model
 
         return $user_status ? $user_status : false;
     }
+
+
+    /**
+     * 上传图片
+     * @param User 
+     * @param $data
+     * @return false|int
+     * @throws BaseException
+     */
+    public function watchat_login($data)
+    {
+        $model = new static();
+        $user_data = $model->detail(['phone_number'=>$data['phone_number']]);
+        if(empty($user_data['open_id'])){
+            $bool = $model -> allowField(true)->save(['openid' => $data['openid']],['phone_number'=>$data['phone_number']]);
+        }
+
+        return ['']
+ 
+    }
  
 
 }
