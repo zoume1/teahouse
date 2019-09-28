@@ -41,28 +41,20 @@ class User extends Controller{
         if (!$valid->check($data)) {
             return json(['code' => 0,'msg' => $valid->getError()]);
         }
-        // 查询
-        // $user = db('pc_user') ->where('phone_number',$data['phone']) ->find();
-        // if (!$user) {
-            // 手机号不存在
-            $mobileCode = rand(100000, 999999);
-            $mobile = $data['phone'];
-            //存入session中
-            if (strlen($mobileCode)> 0){
-                Session::set('mobileCode',$mobileCode);
-                Session::set('mobile',$mobile);
-            }
-            $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
-            $output = sendMessage($content,$mobile);
+       
+        $mobileCode = rand(100000, 999999);
+        $mobile = $data['phone'];
+        //存入session中
+        if (strlen($mobileCode)> 0){
+            Session::set('mobileCode',$mobileCode);
+            Session::set('mobile',$mobile);
+        }
+        $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
+        $output = sendMessage($content,$mobile);
 
-            $res = $output ? ['code' => 1,'msg' => '发送成功'] : ['code' => 0,'msg' => '发送失败'];
+        $res = $output ? ['code' => 1,'msg' => '发送成功'] : ['code' => 0,'msg' => '发送失败'];
 
-            return json($res);
-        // }else {
-        //     return json(['code'=>0,'msg'=>'手机已注册, 请直接登录']);
-        // }
-
-
+        return json($res);
     }
 
     /**
@@ -82,7 +74,7 @@ class User extends Controller{
         $message = [
             'phone_number.require' => '请输入手机号',
             'phone_number.regex' => '手机号格式不正确',
-            'phone_number.unique' => '手机号已存在',
+            'phone_number.unique' => '该用户已存在,请前往登录',
             'password.require'=>'密码不能为空',
             'password.length' => '密码长度必须在6~16位之间',
             'password.confirm' => '两次密码输入不一致',
@@ -256,7 +248,9 @@ class User extends Controller{
             return json(['code'=>0,'msg'=>$param['new_code']."验证码不正确"]);
         }
         $user = db('pc_user') ->where('id',$param['user_id']) ->find();
-
+        if ($user['phone_number'] === $param['new_phone']) {
+            return json(['code'=>0,'msg'=>$param['new_phone']."该手机已注册"]);
+        }
         if (password_verify($param['password'] ,$user['password'])) {
             // 储存
             $user = new UserAll();
