@@ -28,12 +28,12 @@ class User extends Model
     }
 
     //修改密码
-    public function edit($uid, $password)
+    public function edit($tel, $password)
     {
         return $this->save([
             'password' => $password,
 
-        ],['id' => $uid,]);
+        ],['phone_number' => $tel,]);
     }
 
     //修改手机号
