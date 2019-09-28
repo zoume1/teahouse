@@ -1359,7 +1359,6 @@ class  Wxapps extends  Controller{
             }
         }else{
             //根据appid获取店铺的信息
-            $store_info=Db::table('applet')->where('appID',$input['appid'])->find();
             if($store_info){
                 $data['uniacid']=$store_info['store_id'];
                 $data['member_grade_name']=$member_grade_name['member_grade_name'];
