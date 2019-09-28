@@ -3,6 +3,7 @@
 namespace app\city\model;
 use think\Session;
 use think\Model;
+use think\Db;
 use think\Validate;
 use app\city\controller;
 use app\common\exception\BaseException;
@@ -43,9 +44,9 @@ class CityBack extends Model
     public static function detail($user_id)
     {
         $data = Db::name('city_back')
-        ->where('user_id','=',$user_id)
+        ->where('user_id','=',$user_id['user_id'])
         ->where('return_time','>',0)
-        ->order("desc create_time")
+        ->order("create_time desc")
         ->select();
         return $data;
     }

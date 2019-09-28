@@ -155,24 +155,50 @@ class WeiChatSystem extends Controller
     {
 
         if ($request->isPost()) {
-            $user_id = $request->only(['user_id'])['user_id'];
-            $model = new CityBack;
+            $user_id = $request->param();
             $validate     = new Validate([
                 ['user_id', 'require', 'user_id不能为空'],
-                ['text', 'require', '反馈内容不能为空'],
             ]);
             //验证部分数据合法性
-            if (!$validate->check($data)) {
+            if (!$validate->check($user_id)) {
                 $error = $validate->getError();
                 return jsonError($error);
             } else {
-                $data['create_time'] = time();
-                $bool = $model->city_back_add($data);
-                if($bool){
-                    return jsonSuccess('反馈成功');
+                $data =  CityBack::detail($user_id);
+                if($data){
+                    return jsonSuccess("发送成功", $data);
                 } else {
-                    return jsonError('反馈成功');
+                    return jsonError("暂无回复");
                 }
+            }
+        }
+    }
+
+    /**
+     * 城市合伙人官方回复总数
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function admin_market_feedback_number(Request $request)
+    {
+
+        if ($request->isPost()) {
+            $user_id = $request->param();
+            $validate     = new Validate([
+                ['user_id', 'require', 'user_id不能为空'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($user_id)) {
+                $error = $validate->getError();
+                return jsonError($error);
+            } else {
+                $number = Db::name('city_back')
+                ->where('user_id',$user_id['user_id'])  
+                ->where('return_time','>',0)
+                ->count();
+                return jsonSuccess("发送成功", $number);
             }
         }
     }
