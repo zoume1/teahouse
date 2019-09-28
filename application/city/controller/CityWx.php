@@ -23,6 +23,9 @@ class CityWx extends Controller{
     //手机端跳转绑定账号页面
     protected $app_wx = 'app/wechat/user/hhr-login.html';
 
+    //手机端跳转支付页面
+    protected $app_wxpay = 'app/wechat/user/hhr-wxpay.html';
+
     /**
      * @function 手机端网页微信登录授权（微信公众平台微信登录授权）
      */
@@ -51,7 +54,7 @@ class CityWx extends Controller{
         //微信信息调用model方法
         $code = new \app\rec\model\Wechat();
         $res = $code->WxOpenid($param['code']);
-        $openid_name = db('city_copartner')->where(array('openid'=> $res['openid']))->field('user_id,phone_number')->find();
+        $openid_name = db('city_copartner')->where(array('openid'=> $res['openid']))->field('user_id,phone_number,judge_status')->find();
         if($openid_name){
             //更新用户信息
             db('city_copartner')->where(array('openid'=> $res['openid']))
@@ -59,13 +62,20 @@ class CityWx extends Controller{
                     'weixin_head'=>$res['headimgurl'],
                     'update_time'=>time()
                 ]);
-            //跳转首页
-            $url = Config::get('web_url').$this->app_index.'?user_id='.$openid_name['user_id'];
-            header('Location:'.$url);
+            if($openid_name['judge_status'] === 0){
+                //跳转支付页面
+                $url = Config::get('web_url').$this->app_wxpay.'?openid='.$res['openid'];
+                header('Location:'.$url);
+            }else{
+                //跳转首页
+                $url = Config::get('web_url').$this->app_index.'?user_id='.$openid_name['user_id'];
+                header('Location:'.$url);
+            }
         }else{
-            //跳转绑定账号页面
-            $url = Config::get('web_url').$this->app_wx.'?openid='.$res['openid'];
-            header('Location:'.$url);
+                //跳转绑定账号页面
+                $url = Config::get('web_url').$this->app_wx.'?openid='.$res['openid'];
+                header('Location:'.$url);
+    
         }
 
     }
