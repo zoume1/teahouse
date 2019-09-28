@@ -54,7 +54,7 @@ class With extends Model
      */
     public static function wals($uid)
     {
-        return self::where(['user_id'=>$uid,'status'=>2])->sum ('money');
+        return self::where(['user_id'=>$uid,'status'=>2])-> sum ('money')  ? self::where(['user_id'=>$uid,'status'=>2])-> sum ('money') : 0;
     }
 
 }
