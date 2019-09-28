@@ -40,7 +40,7 @@ class User extends Model
     public function edit_tel($uid, $phone)
     {
         return $this->save([
-            'phone' => $phone,
+            'phone_number' => $phone,
 
         ],['id' => $uid,]);
     }
