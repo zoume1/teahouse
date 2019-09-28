@@ -1135,6 +1135,9 @@ Route::group("admin",[
    "city_rank_add"=>"admin/City/city_rank_add",                //城市等级添加
    "city_rank_delete"=>"admin/City/city_rank_delete",          //城市等级删除
    "city_rank_update"=>"admin/City/city_rank_update",          //城市等级移动
+   "city_market"=>"admin/City/city_market",  //城市市场反馈
+   "city_market_feedback"=>"admin/City/city_market_feedback",  //城市市场点击回复
+   "city_market_feedback_update"=>"admin/City/city_market_feedback_update",  //城市市场回复更新
 
 
 ]);
