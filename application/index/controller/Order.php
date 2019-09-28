@@ -184,7 +184,7 @@ class  Order extends  Controller
                     $ww['member_id']=$user_id;
                     $ww['goods_id']=$values;
                     $ww['is_limit']=1;
-                    $ww['status']=array('berween',array('2','8'));
+                    $ww['status']=array('between',array('2','8'));
                     if($is_limit['create_time']=='0' && $is_limit['end_time']=='0'){
                         //不限时
                         //统计当前客户已购买的限购商品数量
