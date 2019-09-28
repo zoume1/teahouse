@@ -54,7 +54,7 @@ class CityWx extends Controller{
         //微信信息调用model方法
         $code = new \app\rec\model\Wechat();
         $res = $code->WxOpenid($param['code']);
-        $openid_name = db('city_copartner')->where(array('openid'=> $res['openid']))->field('user_id,phone_number')->find();
+        $openid_name = db('city_copartner')->where(array('openid'=> $res['openid']))->field('user_id,phone_number,judge_status')->find();
         if($openid_name){
             //更新用户信息
             db('city_copartner')->where(array('openid'=> $res['openid']))
