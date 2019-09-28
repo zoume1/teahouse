@@ -144,6 +144,40 @@ class WeiChatSystem extends Controller
     }
 
 
+    /**
+     * 城市合伙人官方回复
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function admin_market_feedback(Request $request)
+    {
+
+        if ($request->isPost()) {
+            $user_id = $request->only(['user_id'])['user_id'];
+            $model = new CityBack;
+            $validate     = new Validate([
+                ['user_id', 'require', 'user_id不能为空'],
+                ['text', 'require', '反馈内容不能为空'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($data)) {
+                $error = $validate->getError();
+                return jsonError($error);
+            } else {
+                $data['create_time'] = time();
+                $bool = $model->city_back_add($data);
+                if($bool){
+                    return jsonSuccess('反馈成功');
+                } else {
+                    return jsonError('反馈成功');
+                }
+            }
+        }
+    }
+
+
 
 
 }

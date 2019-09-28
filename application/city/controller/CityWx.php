@@ -60,7 +60,7 @@ class CityWx extends Controller{
                     'update_time'=>time()
                 ]);
             //跳转首页
-            $url = Config::get('web_url').$this->app_index.'?user_id='.$openid_name['id'];
+            $url = Config::get('web_url').$this->app_index.'?user_id='.$openid_name['user_id'];
             header('Location:'.$url);
         }else{
             //跳转绑定账号页面
