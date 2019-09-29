@@ -55,7 +55,7 @@ class CityWx extends Controller{
         $code = new \app\rec\model\Wechat();
         $res = $code->WxOpenid($param['code']);
         $openid_name = db('city_copartner')->where(array('openid'=> $res['openid']))->field('user_id,phone_number,judge_status')->find();
-        //有open_id
+        //open_id
         if($openid_name){
             //更新用户信息
             db('city_copartner')->where(array('openid'=> $res['openid']))
@@ -64,8 +64,11 @@ class CityWx extends Controller{
                     'update_time'=>time()
                 ]);
             if($openid_name['judge_status'] === 0){
-                //跳转支付页面
-                $url = Config::get('web_url').$this->app_index.'?user_id='.$openid_name['user_id'];
+                // //跳转支付页面
+                // $url = Config::get('web_url').$this->app_wxpay.'?openid='.$res['openid'];
+                // header('Location:'.$url);
+                //跳转绑定账号页面
+                $url = Config::get('web_url').$this->app_wx.'?openid='.$res['openid'];
                 header('Location:'.$url);
             }else{
                 //跳转首页
