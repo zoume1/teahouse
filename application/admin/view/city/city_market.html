@@ -93,18 +93,11 @@
       <form class="layui-form" action="{:url('admin/Analyse/analyse_search')}">
         <div class="seach">
           <div class="seach_list">
-            <div class="seach_laber" style="width: 100px;">城市代理名称：</div>
+            <div class="seach_laber" style="width: 100px;">请输入：</div>
             <div class="seach_input">
-              <input type="text" name="goods_number" lay-verify="title" autocomplete="off" placeholder="姓名/公司名"
+              <input type="text" name="goods_number" lay-verify="title" autocomplete="off" placeholder="用户账号/联系人姓名"
                 class="layui-input">
             </div>
-            <div class="seach_laber" style="width: 100px;">入驻审核：</div>
-            <select name="">
-              <option value="0">全部</option>
-              <option value="1">入驻审核</option>
-              <option value="2">入驻审核通过</option>
-              <option value="3">入驻审核不通过</option>
-            </select>
           </div>
           <button class="layui-btn" type="submit" id="seach">立即搜索</button>
         </div>
@@ -124,23 +117,29 @@
           </tr>
         </thead>
         <tbody class="news_content">
+          {if !empty($data)}{volist name="data" id="value"}
           <tr>
-            <td>123456789</td>
-            <td>张三</td>
-            <td>深圳</td>
-            <td>反馈内容反馈内容反馈内容反馈内容反馈内容反馈内容反馈内容</td>
+            <td>{$value.phone_number}</td>
+            <td>{$value.user_name}</td>
+            <td>{$value.city_address}</td>
+            <td>{$value.return_text}</td>
             <td>
-              <span class="status unanswered">未回复</span>
+              {if empty($value.return_text)}
+              <a href="{:url('admin/City/city_market_feedback',['id'=>$value.id])}" class="status unanswered">未回复</a>
+              {else}
+
               <span class="status answered">已回复</span>
-              <a href="#" onclick="if(!confirm('确定要删除吗？')) return false"
+              {/if}
+              <a href="{:url('admin/City/city_market_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false"
                 class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="">
                 <i class="layui-icon"></i> 删除</a>
             </td>
           </tr>
+          {/volist}{/if}
         </tbody>
       </table>
-      {if !empty($analyse)}
-      {$analyse ->render()}
+      {if !empty($data)}
+      {$data ->render()}
       {/if}
 
     </div>
