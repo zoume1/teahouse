@@ -1,1 +1,44 @@
-回复页面
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+  body {
+    background: #fff;
+  }
+
+  #page {
+    width: 97%;
+    height: 50px;
+    line-height: 50px;
+    border: solid 1px #E2E2E2;
+    padding-left: 50px;
+    background: #FDFDFE;
+  }
+
+  
+</style>
+
+{/block}
+
+<body>
+  {block name="content"}
+
+ 
+  {/block}
+
+  <!--_footer 作为公共模版分离出去-->
+  {include file="template/_footer" /}
+  <!--/_footer 作为公共模版分离出去-->
+
+  <!--请在下方写此页面业务相关的脚本-->
+  {block name="bottom"}
+  
+
+  {/block}
+
+</body>
+
+</html>
