@@ -72,9 +72,7 @@ class CityWx extends Controller{
                 header('Location:'.$url);
             }else{
                 //跳转首页
-                // $url = Config::get('web_url').$this->app_index.'?user_id='.$openid_name['user_id'];
-                // header('Location:'.$url);
-                $url = Config::get('web_url').$this->app_wx.'?openid='.$res['openid'];
+                $url = Config::get('web_url').$this->app_index.'?user_id='.$openid_name['user_id'];
                 header('Location:'.$url);
             }
         }else{

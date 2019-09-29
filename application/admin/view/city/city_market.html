@@ -76,6 +76,9 @@
   .unanswered{
     background-color: rgb(134,134,134);
   }
+  .unanswered:hover{
+    color: #ffffff;
+  }
   .answered{
     background-color: rgb(36,187,94);
   }
@@ -127,7 +130,6 @@
               {if empty($value.return_text)}
               <a href="{:url('admin/City/city_market_feedback',['id'=>$value.id])}" class="status unanswered">未回复</a>
               {else}
-
               <span class="status answered">已回复</span>
               {/if}
               
