@@ -294,7 +294,15 @@ class  City extends  Controller{
      * 郭杨
      */    
     public function city_market(){
-        return view("city_market");
+        $data = Db::table('tb_city_back')
+            ->field("tb_city_back.return_text,id,tb_city_copartner.phone_number,user_name,city_address")
+            ->join("tb_city_copartner","tb_city_copartner.user_id=tb_city_back.user_id",'left')
+            ->order("tb_city_back.create_time desc")
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+            
+        return view("city_market",['data'=>$data]);
         
     }
 
@@ -302,8 +310,9 @@ class  City extends  Controller{
      * [市场反馈回复]
      * 郭杨
      */    
-    public function city_market_feedback(){
-        return view("city_market_feedback");
+    public function city_market_feedback($id){
+        $data = Db::name('city_back')->where('id',$id)->find();
+        return view("city_market_feedback",['data'=>$data]);
         
     }
 
@@ -316,6 +325,19 @@ class  City extends  Controller{
         
     }
 
+    /**
+     * [市场反馈回会删除]
+     * 郭杨
+     */    
+    public function city_market_feedback_delete($id){
+        $bool = Db::name("city_back")->where('id',$id)->delete();
+        if($bool){
+            $this->success("删除成功",url("admin/City/city_market"));
+        } else {
+            $this->error("删除失败",url("admin/City/city_market"));
+        }
+        
+    }
 
 
 
