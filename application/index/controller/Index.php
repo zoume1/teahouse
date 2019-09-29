@@ -110,10 +110,10 @@ class Index extends Controller
 
     /**
      * gy
-     * 申请城市合伙人
+     * 城市合伙人忘记密码
      */
-    public function city_apply(){
-        return view("city_apply");
+    public function city_forget(){
+        return view("city_forget");
     }
 
     /**

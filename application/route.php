@@ -59,7 +59,7 @@ Route::group("",[
     "sign_in"=>"index/index/sign_in", //登录
     "forget_pw"=>"index/index/forget_pw", //登录
     "my_shop"=>"index/index/my_shop", //我的店铺
-    "city_apply"=>"index/index/city_apply", //申请城市合伙人
+    "city_forget"=>"index/index/city_forget", //申请城市合伙人忘记密码
     "city_login"=>"index/index/city_login", //合伙人后台登陆
     "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
     "get_bank_list"=>"index/My/get_bank_list", //获取用户的银行卡列表
