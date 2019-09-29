@@ -187,6 +187,8 @@ class CityCopartner extends Model
     {
         $model = new static();
         $user_data = $model->detail($user_id);
+        $number = $model->get_number($user_data);
+        $number ? $status = 0 : $status = 1;
         $order = Db::name('city_detail') 
                 ->where('city_user_id','=',$user_id) 
                 ->field('create_time,phone_number,set_meal,base_commision')
@@ -194,6 +196,7 @@ class CityCopartner extends Model
                 ->select();
 
         $data = [
+            'lock_status'=> $status,
             'commission' => $user_data['commission'],
             'order_data' => $order,
 

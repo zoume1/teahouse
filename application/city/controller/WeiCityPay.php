@@ -13,6 +13,8 @@ use think\Config;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Payment\Order as WechatOrder;
 use app\rec\model\WechatPay as WeiPay;
+use app\city\model\CityOrder as Order;
+
 use think\Db;
 
 class WeiCityPay extends Controller{
