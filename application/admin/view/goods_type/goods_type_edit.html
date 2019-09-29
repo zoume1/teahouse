@@ -14,48 +14,80 @@
 
 <body>
     {block name="content"}
-    <form class="layui-form layui-form-lists" action="{:url('admin/GoodsType/updata')}" method="post" enctype="multipart/form-data">
+    <form class="layui-form layui-form-lists" action="{:url('admin/GoodsType/updata')}" method="post"
+        enctype="multipart/form-data">
         {if !empty($category)} {volist name="category" id="vo"}
         <input type="hidden" name="id" id="" value="{$vo.id}" />
         <div class="form-item">
             <label class="form-label">分类名称</label>
             <div class="form-input">
-                <input type="text" name="name" value="{$vo.name}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" value="{$vo.id}">
+                <input type="text" name="name" value="{$vo.name}" lay-verify="title" autocomplete="off"
+                    placeholder="请输入" class="layui-input" value="{$vo.id}">
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">父级分类</label>
             <div class="form-input">
 
-            {if !empty($goods_lists)}
-            <select name="pid" id="admin_role" class="role_list">
-                <option value="0">顶级</option>
-                {volist name="goods_lists" id="v"} {if condition="$vo.pid eq $v.id"}
-                <option value="{$v.id}" selected="">{$v.name}</option>
-                {else}
-                <option value="{$v.id}">{$v.name}</option>
-                {/if} {/volist}
-            </select><br/> {else}
-            <select name="pid" class="role_list">
-                <option value="0">顶级</option>
-            </select><br/> {/if}
-           
-            <div class="tips"> *当不选择时，则该分类名称创建为1级</div>
+                {if !empty($goods_lists)}
+                <select name="pid" id="admin_role" class="role_list">
+                    <option value="0">顶级</option>
+                    {volist name="goods_lists" id="v"} {if condition="$vo.pid eq $v.id"}
+                    <option value="{$v.id}" selected="">{$v.name}</option>
+                    {else}
+                    <option value="{$v.id}">{$v.name}</option>
+                    {/if} {/volist}
+                </select><br /> {else}
+                <select name="pid" class="role_list">
+                    <option value="0">顶级</option>
+                </select><br /> {/if}
+
+                <div class="tips"> *当不选择时，则该分类名称创建为1级</div>
+            </div>
         </div>
-    </div>
+        <div class="form-item">
+            <label class="form-label">分类图片</label>
+            <div class="form-input">
+                <div class="img-box full">
+                    <section class=" img-section">
+                        <div class="z_photo upimg-div clear">
+                            <section class="z_file fl">
+                                <img src="http://zhihuichacang.com/a11.png" class="add-img">
+                                <input type="file" name="show_img" id="file" class="file" value=""
+                                    accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1" required />
+                            </section>
+                        </div>
+                    </section>
+                </div>
+                <aside class="mask works-mask">
+                    <div class="mask-content">
+                        <p class="del-p ">您确定要删除作品图片吗？</p>
+                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                    </div>
+                </aside>
+                <div class="tips">
+                    * 如果是1级请添加520*180大小图片，2级请添加500*500大小图片
+                </div>
+            </div>
+
+        </div>
         <div class="form-item">
             <label class="form-label">级别</label>
             <div class="form-input">
-                <input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="rank" value="{$vo.rank}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/,'')"
+                    name="rank" value="{$vo.rank}" lay-verify="title" autocomplete="off" placeholder="请输入"
+                    class="layui-input">
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">排序</label>
             <div class="form-input">
-                <input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="sort_number" value="{$vo.sort_number}" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/,'')"
+                    name="sort_number" value="{$vo.sort_number}" lay-verify="title" autocomplete="off" placeholder="请输入"
+                    class="layui-input">
                 <div class="tips">*填写正整数，从大到小排序</div>
             </div>
-          
+
         </div>
         <div class="form-item">
             <label class="form-label">状态</label>
@@ -70,7 +102,8 @@
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
-                <button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+                <button type="button" class="layui-btn layui-btn-primary"
+                    onClick="javascript :history.back(-1);">返回</button>
             </div>
         </div>
         {/volist} {/if}
@@ -88,7 +121,7 @@
     <script type="text/javascript">
         layui.config({
             base: "js/"
-        }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
+        }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function () {
             var form = layui.form(),
                 $ = layui.jquery;
             form.render();
