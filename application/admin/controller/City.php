@@ -320,8 +320,18 @@ class  City extends  Controller{
      * [市场反馈回会更新]
      * 郭杨
      */    
-    public function city_market_feedback_update(){
-        return view("city_market_feedback");
+    public function city_market_feedback_update(Request $request){
+        if($request->isPost()){
+            $data =  Request::instance()->param();
+            $data['return_time'] = time();
+            $bool = Db::name("city_back")->where('id',$data['id'])->update($data);
+            if($bool){
+                $this->success("回复成功",url("admin/City/city_market"));
+            } else {
+                $this->error("回复失败",url("admin/City/city_market"));
+            }
+        }
+        
         
     }
 
