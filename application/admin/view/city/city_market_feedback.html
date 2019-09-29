@@ -18,14 +18,60 @@
     background: #FDFDFE;
   }
 
-  
+  .hd{
+    margin: 20px 0 20px 20px;
+    height: 50px;
+    line-height: 50px;
+    background-color: rgb(242,242,242);
+    padding-left: 10px;
+  }
+  .bd{
+    margin-left: 20px;
+  }
+  .item{
+    margin-bottom: 30px;
+  }
+  .item label{
+    float: left;
+    width: 80px;
+    color: #999;
+  }
+  .ft .button{
+    display: inline-block;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    background-color: rgb(22,155,213);
+    border-radius: 5px;
+    margin-left: 100px
+  }
+  .ft .button.back{
+    color: #333;
+    background-color: rgb(242,242,242);
+  }
 </style>
 
 {/block}
 
 <body>
   {block name="content"}
-
+    <div class="hd">反馈回复</div>
+    <div class="bd">
+      <div class="item">
+        <label>用户评论</label>
+        <div style="margin-left: 80px; width: 300px">这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字</div>
+      </div>
+      <div class="item">
+        <label>官方回复</label>
+        <textarea name="" id="" cols="30" rows="10"></textarea>
+      </div>
+    </div>
+    <div class="ft">
+      <button class="button">确定</button>
+      <a href="city_market.html" class="button back">返回</a>
+    </div>
  
   {/block}
 
@@ -35,7 +81,17 @@
 
   <!--请在下方写此页面业务相关的脚本-->
   {block name="bottom"}
-  
+  <script type="text/javascript">
+    layui.config({
+      base: "js/"
+    }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+      var form = layui.form(),
+        layer = parent.layer === undefined ? layui.layer : parent.layer,
+        laypage = layui.laypage,
+        $ = layui.jquery;
+   
+      });
+  </script>
 
   {/block}
 
