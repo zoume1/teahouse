@@ -128,6 +128,7 @@ class CityOrder extends Model
                 'order_price' => $city_meal['meal_price'],
                 'city_meal_name' => $city_meal['city_meal_name'],
                 'city_user_id'=> $user['user_id'],
+                'openid'=>$user_data['openid'],
                 'create_time' => time(),
             ];
             $rest = $this -> allowField(true)->save($data);
@@ -208,6 +209,8 @@ class CityOrder extends Model
             return false;
         }
     }
+
+
 
     /**
      * //生成支付宝支付二维码页面
