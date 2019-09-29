@@ -1220,7 +1220,11 @@ Route::group("city",[
     "WeiChatCityReachCommissionShow"=>"city/WeiChatSystem/WeiChatCityReachCommissionShow",//城市合伙人公众号达标佣金总额查询页面
     "WeiChatCityAccumulativeShow"=>"city/WeiChatSystem/WeiChatCityAccumulativeShow",// 城市合伙人公众号城市总计商户页面
     "WeiChatCityMyinviteShow"=>"city/WeiChatSystem/WeiChatCityMyinviteShow",//城市合伙人我邀请的商户页面
+    "market_feedback"=>"city/WeiChatSystem/market_feedback",//城市合伙人商户市场反馈
+    "admin_market_feedback"=>"city/WeiChatSystem/admin_market_feedback",//城市合伙人商户官方反馈
+    "admin_market_feedback_number"=>"city/WeiChatSystem/admin_market_feedback_number",//城市合伙人商户官方反馈总数
 
+    "city_get_pay" => "city/WeiCityPay/city_get_pay" //公众号购买套餐
 ]);
 
 /**

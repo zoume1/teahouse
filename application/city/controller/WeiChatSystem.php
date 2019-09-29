@@ -7,6 +7,7 @@ use think\Request;
 use think\Db;
 use app\city\model\CityRank;
 use app\city\model\User as UserModel;
+use app\city\model\CityBack;
 use app\city\model\CityCopartner;
 use app\city\model\CityOrder as Order;
 
@@ -120,19 +121,85 @@ class WeiChatSystem extends Controller
     {
 
         if ($request->isPost()) {
-            $data = $request->post();
+            $data = $request->param();
+            $model = new CityBack;
             $validate     = new Validate([
                 ['user_id', 'require', 'user_id不能为空'],
                 ['text', 'require', '反馈内容不能为空'],
             ]);
-            $identifying_code = Session::get('identifying_code');
             //验证部分数据合法性
             if (!$validate->check($data)) {
-                $this->error = $validate->getError();
-                return false;
+                $error = $validate->getError();
+                return jsonError($error);
+            } else {
+                $data['create_time'] = time();
+                $bool = $model->city_back_add($data);
+                if($bool){
+                    return jsonSuccess('反馈成功');
+                } else {
+                    return jsonError('反馈成功');
+                }
             }
-            $data = CityCopartner::MyinviteShow($user_id);
-            return jsonSuccess('发送成功',$data);
+        }
+    }
+
+
+    /**
+     * 城市合伙人官方回复
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function admin_market_feedback(Request $request)
+    {
+
+        if ($request->isPost()) {
+            $user_id = $request->param();
+            $validate     = new Validate([
+                ['user_id', 'require', 'user_id不能为空'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($user_id)) {
+                $error = $validate->getError();
+                return jsonError($error);
+            } else {
+                $data =  CityBack::detail($user_id);
+                if($data){
+                    return jsonSuccess("发送成功", $data);
+                } else {
+                    return jsonError("暂无回复");
+                }
+            }
+        }
+    }
+
+    /**
+     * 城市合伙人官方回复总数
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function admin_market_feedback_number(Request $request)
+    {
+
+        if ($request->isPost()) {
+            $user_id = $request->param();
+            $validate     = new Validate([
+                ['user_id', 'require', 'user_id不能为空'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($user_id)) {
+                $error = $validate->getError();
+                return jsonError($error);
+            } else {
+                $number = Db::name('city_back')
+                ->where('user_id',$user_id['user_id'])  
+                ->where('return_time','>',0)
+                ->count();
+                return jsonSuccess("发送成功", $number);
+            }
         }
     }
 

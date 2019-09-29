@@ -49,7 +49,7 @@ class Passport extends Controller
             $model = new UserModel;
             $data = $this->postData('User');
             $code = $model->login($data);
-            if($code == 1 && $code == ERROR_104){
+            if($code == 1 || $code == ERROR_104){
                 $return_data = $model->watchat_login($data);
                 return jsonSuccess($model->getError(),$return_data,$code);
             }
