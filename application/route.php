@@ -1205,6 +1205,7 @@ Route::group("city",[
     "city_server_index"=>"city/Citydenglu/city_server_index",//合伙人系统固定页面
     "order_index"=>"city/CityOrder/order_index",//城市合伙人订单显示
     "cityWhatChatPay"=>"city/CityOrder/cityWhatChatPay",//城市合伙人订单微信支付
+    "city_WhatChatPay"=>"city/WeiCityPay/city_WhatChatPay",//公众号订单微信支付
     "cityAlipayCode"=>"city/CityOrder/cityAlipayCode",//城市合伙人订单支付宝支付
     "payment_image"=>"city/CityOrder/payment_image",//上传汇款支付凭证
     "mailing_address"=>"city/CityOrder/mailing_address",//开发票邮寄地址
@@ -1220,7 +1221,6 @@ Route::group("city",[
     "admin_market_feedback"=>"city/WeiChatSystem/admin_market_feedback",//城市合伙人商户官方反馈
     "admin_market_feedback_number"=>"city/WeiChatSystem/admin_market_feedback_number",//城市合伙人商户官方反馈总数
 
-    "city_get_pay" => "city/WeiCityPay/city_get_pay" //公众号购买套餐
 ]);
 
 /**
