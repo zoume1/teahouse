@@ -1771,6 +1771,27 @@ function returnArray($data){
         }
         return $meal_name;
   }
+  /**
+   * lilu
+   * 获取用户的默认收货地址
+   */
+  function get_default_address($member_id){
+        $address_list=db('user_address')->where(['user_id'=>$member_id,'status'=>1])->find();
+        if($address_list){
+            $address=$address_list['address_name'].$address_list['harvester_real_address'];
+            return $address;
+        }else{
+            $address_list2=db('user_address')->where('user_id',$member_id)->find();
+            if($address_list2){
+                db('user_address')->where('user_id',$member_id)->update(['status'=>1]);
+                $address=$address_list2['address_name'].$address_list2['harvester_real_address'];
+                return $address;
+            }else{
+                return '暂无收货地址';
+            }
+        }
+        
+  }
 
 
 
