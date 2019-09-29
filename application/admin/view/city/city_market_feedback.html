@@ -57,22 +57,24 @@
 
 <body>
   {block name="content"}
+  <form class="layui-form layui-form-lists" action="{:url('admin/City/city_market_feedback_update')}" method="post" enctype="multipart/form-data">
     <div class="hd">反馈回复</div>
     <div class="bd">
       <div class="item">
         <label>用户评论</label>
-        <div style="margin-left: 80px; width: 300px">{$data.text}</div>
+        <input type="hidden" name="id" id="" value="{$data.id}" />
+        <div style="margin-left: 80px; width: 500px;line-height: 38px;">{$data.text}</div>
       </div>
       <div class="item">
         <label>官方回复</label>
-        <textarea name="return_text" id="" cols="30" rows="10">{$data.return_text}</textarea>
+        <textarea name="return_text" id="" cols="30" rows="10" style="width: 500px;height:200px;">{$data.return_text}</textarea>
       </div>
     </div>
     <div class="ft">
       <button class="button">确定</button>
       <a href="city_market.html" class="button back">返回</a>
     </div>
- 
+ </form>
   {/block}
 
   <!--_footer 作为公共模版分离出去-->
