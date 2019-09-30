@@ -139,8 +139,20 @@ class GoodsType extends Controller{
 
         if($request -> isPost())
          {    
+            $store_id=Session::get('store_id');
             $data = $request -> param();
             $data["pid"] = db("wares")->where("id",$data["id"])->value("pid");
+             //测试七牛上传图片
+             $qiniu=new Qiniu();
+             //获取店铺七牛云的配置项
+             $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+             $images='show_img';
+             $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+             if(empty($rr)){
+             
+             }else{
+                 $data["category_images"] =  $rr[0];
+             }
             $bool = db("wares") -> where('id', $request->only(["id"])["id"]) -> update($data);
             if ($bool) {
                 $this->success("编辑成功", url("admin/GoodsType/index"));
@@ -249,6 +261,20 @@ class GoodsType extends Controller{
         $activ->appends($_GET);
         $this->assign('page', $activ->render());
         return view('goods_type_index', ['wares' => $activ]);
+    }
+    /**
+     * lilu
+     * delete_catetory_image
+     */
+    public function delete_catetory_image()
+    {
+            $data = input();
+            $bool = db("wares")->where("id", $data['id'])->update(["category_images" => null]);
+            if ($bool) {
+                return ajax_success("删除成功");
+            } else {
+                return ajax_error("删除失败");
+            }
     }
 
 

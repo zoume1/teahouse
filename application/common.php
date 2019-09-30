@@ -973,7 +973,7 @@ function base64_upload_flie($base64) {
             $image_name = '.jpg';
             //纯粹是看jpeg不爽才替换的
         }else{
-            $image_name = $result[2];
+            $image_name = '.'.$result[2];
         }
         $dir =ROOT_PATH . 'public' . DS . 'uploads'."/".date('Ymd');
         $file_names =date('Ymd') . DS . md5(microtime(true)).$image_name;
@@ -983,6 +983,7 @@ function base64_upload_flie($base64) {
             $image_file = ROOT_PATH . 'public' . DS . 'uploads'. "/" .$file_names;
         //服务器文件存储路径
         if (file_put_contents($image_file, base64_decode(str_replace($result[1], '', $base64_image)))){
+            return ROOT_PATH . 'public' . DS . 'uploads'. DS .$file_names;
             return $file_names;
         }else{
             return false;
