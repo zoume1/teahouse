@@ -4,6 +4,7 @@
 
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/upfile/css/index.css" />
 <style type="text/css">
     body {
         background: #fff;
@@ -47,17 +48,25 @@
         </div>
         <div class="form-item">
             <label class="form-label">分类图片</label>
+            
             <div class="form-input">
-                <div class="img-box full">
+                <!-- <div class="img-box full">
                     <section class=" img-section">
                         <div class="z_photo upimg-div clear">
                             <section class="z_file fl">
                                 <img src="http://zhihuichacang.com/a11.png" class="add-img">
-                                <input type="file" name="show_img" id="file" class="file" value=""
+                                <input type="file" name="show_img" id="file" class="file" value="{$vo.category_images}"
                                     accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1" required />
                             </section>
                         </div>
                     </section>
+                </div> -->
+                <div class="img-box full">
+                    <span class="img">
+                        <img src="{$vo.category_images}" width="10%">
+                        <i class="remove-img" data-id="{$vo.category_images}" data-value="2" data-title="{$vo.id}"><img
+                                src="http://zhihuichacang.com/a7.png" width="10%"></i>
+                    </span>
                 </div>
                 <aside class="mask works-mask">
                     <div class="mask-content">
