@@ -121,7 +121,9 @@
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="province" data-id="1">
-                    {if !empty($data['one'])}{volist name="$data['one']" id="one"}
+                    
+                   
+                    <!-- {if !empty($data['one'])}{volist name="$data['one']" id="one"}
                     <div class="flex"  data-id="{$one.id}">
                             <div class="names">{$one.name}</div>
                             <div style="flex: 1;"></div>
@@ -131,7 +133,7 @@
 
                     <div class="add" onclick="add(this)">
                         新增
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div style="width: 15%;">
@@ -292,6 +294,15 @@
         })
     </script>
     <script>
+        //获取省份
+        let province_lv = ChineseDistricts["86"];
+        for(let i in province_lv) {
+            var dhtml;
+            dhtml = `<div class="flex"  data-id="">
+                            <div class="names">${province_lv[i]}</div>
+                    </div>`;
+            $("#province").append(dhtml);
+        }
         //新增input框
         function add(e) {
             let dif = $(e).parent()[0].id;
