@@ -63,7 +63,14 @@ Route::group("",[
     "city_login"=>"index/index/city_login", //合伙人后台登陆
     "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
     "get_bank_list"=>"index/My/get_bank_list", //获取用户的银行卡列表
-
+    "merchant"=>"index/index/merchant", //实力商家
+    "more_server"=>"index/index/more_server", //更多服务
+    "zycy"=>"index/index/zycy", //自有茶园
+    "zygc"=>"index/index/zygc", //自有工厂
+    "zyck"=>"index/index/zyck", //自有仓库
+    "wyb"=>"index/index/wyb", //万用版
+    "zyb"=>"index/index/zyb", //专业版
+    "gjb"=>"index/index/gjb", //高级版
 
 
     /*TODO：start*/
