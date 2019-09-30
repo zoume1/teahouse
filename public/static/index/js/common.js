@@ -64,8 +64,10 @@ $('.pw-icon').click(function () {
 $(window).scroll(function () {
     if ($(document).scrollTop() >= 300) {
         $('.aside-item:eq(3)').css('opacity', '1');
+        $('.foot-box').css('display', 'flex');
     } else {
         $('.aside-item:eq(3)').css('opacity', '0');
+        $('.foot-box').css('display', 'none');
     }
 })
 $('.aside-item:eq(3)').click(function () {
