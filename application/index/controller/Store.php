@@ -131,7 +131,7 @@ class  Store extends  Controller{
                 $output = sendMessage($content,$mobile);
                 //发送开发人员--给新注册的店铺注册七牛云子域名
                 $mobile2 ='13414098760';
-                $content2 = "【智慧茶仓】".$store_name."已生成，请尽快申请七牛云子域名";
+                $content2 = "【智慧茶仓】《".$store_name."》已生成，请尽快申请七牛云子域名";
                 $output = sendMessage($content2,$mobile2);
                 return ajax_success("您的资料已提交,请耐心等待审核",["store_id"=>$bool]);
             }else{

@@ -975,8 +975,8 @@ function base64_upload_flie($base64) {
         }else{
             $image_name = '.'.$result[2];
         }
-        $dir =ROOT_PATH . 'public' . DS . 'uploads'."/".date('Ymd');
-        $file_names =date('Ymd') . DS . md5(microtime(true)).$image_name;
+        $dir =ROOT_PATH . 'public' . DS . 'uploads'."/store_pingzheng";
+        $file_names ='store_pingzheng' . DS . md5(microtime(true)).$image_name;
         if(!file_exists($dir)) {
             mkdir($dir, 0777, true);
         }
