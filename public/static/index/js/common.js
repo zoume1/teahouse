@@ -23,7 +23,6 @@ $('.nav-ul').on('click', '.nav-li', function () {
 // 首页 应用场景
 $('.scene-container').on('click', '.scene-item', function () {
     var $index = $(this).index();
-    console.log($index)
     switch ($index) {
         case 0: location.href = 'tea_factory'; break;
         case 1: location.href = 'tea_merchant'; break;
@@ -35,10 +34,9 @@ $('.scene-container').on('click', '.scene-item', function () {
 $('.app-scene-nav-container').on('click', '.app-scene-nav-item', function () {
     var $index = $(this).index();
     switch ($index) {
-        case 0: location.href = 'tea_factory'; break;
-        case 1: location.href = 'tea_merchant'; break;
-        case 2: location.href = 'tea_moment'; break;
-        case 3: location.href = 'consumer'; break;
+        case 0: location.href = 'wisdom'; break;
+        case 1: location.href = 'merchant'; break;
+        case 2: location.href = 'more_server'; break;
     }
 })
 // 登录 注册
