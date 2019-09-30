@@ -15,6 +15,7 @@ use think\Request;
 use think\Image;
 use think\paginator\driver\Bootstrap;
 use think\Session;
+use app\admin\controller\Qiniu;
 
 class GoodsType extends Controller{
 
@@ -27,6 +28,7 @@ class GoodsType extends Controller{
     {
         $goods = [];
         $store_id = Session::get("store_id");
+         
         $wares = db("wares") ->where('store_id','EQ',$store_id)-> select();
         if($pid == 0)
         {
@@ -87,6 +89,17 @@ class GoodsType extends Controller{
         {
             $store_id = Session::get("store_id");
             $data = $request -> param();
+            //测试七牛上传图片
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+            $images='show_img';
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            if(empty($rr)){
+            
+            }else{
+                $data["category_images"] =  $rr[0];
+            }
             $data['store_id'] = $store_id;
             $bool = db("wares") -> insert($data);
             if($bool){
