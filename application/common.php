@@ -984,7 +984,7 @@ function base64_upload_flie($base64) {
         //服务器文件存储路径
         if (file_put_contents($image_file, base64_decode(str_replace($result[1], '', $base64_image)))){
             return ROOT_PATH . 'public' . DS . 'uploads'. DS .$file_names;
-            return $file_names;
+            // return $file_names;
         }else{
             return false;
         }
