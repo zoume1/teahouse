@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>忘记密码</title>
+    <link rel="stylesheet" href="__STATIC__/index/css/common.css">
+    <link rel="stylesheet" href="__STATIC__/index/css/intlTelInput.min.css">
+    <script src="__STATIC__/index/js/intlTelInput.min.js"></script>
+    <style>
+        html,body{height: 100%;}
+        body{position: relative;}
+        .partner-info-container{width: 1350px; margin: 0 auto;}
+        .city-title{display: flex;justify-content: space-between;padding: 10px 0;}
+        .title-l{font-weight: 700;font-size: 16px;}
+        .city-apply{line-height: 23px;margin-right: 15px;}
+        .city-login{color: #fff;background-color:rgb(152,145,52);padding:0 10px;line-height: 23px;border-radius: 3px;}
+        .signin-content-inner .signin-form-wrap{width: 350px; margin: 0 auto;border: 1px solid rgb(121,121,121);border-radius: 10px;padding: 30px;}
+        .signin-content-inner .section-group{border-bottom: 1px solid #e5e5e5; display: flex; margin-bottom: 30px; align-items: center; height: 40px;}
+        .signin-content-inner .section-group .form-label{display: inline-block; width: 100px; font-size: 14px; color: #515151; font-weight: 700;}
+        .signin-content-inner .section-group .form-input-wrap{width: 250px; position: relative;}
+        .section-group .form-input-wrap input{border: 0; font-size: 14px;background-color: rgb(244,244,244);}
+        .intl-tel-input.separate-dial-code .selected-flag{background-color: transparent !important;}
+        .section-group .form-input-wrap .pw-icon{position: absolute; right: 20px; top: 0; width: 24px; height: 24px; background-color: #000; cursor: pointer; background: url(__STATIC__/index/img/icon1.png) no-repeat; background-size: 100%;}
+        .section-group .form-input-wrap .pw-icon.pw-icon-show{background: url(__STATIC__/index/img/icon2.png) no-repeat; background-size: 100%;}
+        .button-primary{display: block; margin-top: 30px; width: 350px; height: 45px; border: 0; outline: none; background-color: #38f; color: #fff; font-size: 16px; box-sizing: border-box; border-radius: 2px; cursor: pointer;}
+        .forget-group{ margin-top: 20px;}
+        .forget-group .forget-pw{float: right;}
+        .forget-group a{color: #38f;}
+        .copyright{text-align: center; margin-top: 50px;color: #515151;}
+        .copyright a{color: #515151;}
+        .qr-code-wrap{width: 350px; margin: 0 auto; text-align: center;}
+        .varify-input-code{background-color: rgb(244,244,244);}
+        .pay_main,.pay_bounced,.pay_bounced_kp{width: 100%;height: 100%;background-color: rgb(0,0,0, .5);position: absolute;top: 0;}
+        .pay_box{width: 60%;margin: 10% auto;background: #fff;padding: 30px 40px;}
+        .pay_table table{width:100%;margin:0 auto;text-align: center;border: 1px solid rgb(168,221,255);}
+        .pay_table table thead{background-color: rgb(207,236,255);line-height: 50px;border-bottom: 1px solid rgb(168,221,255);}
+        .pay_table table tbody tr{height: 100px;}
+        .signup-content-container{border-top: 1px solid #e5e5e5; padding-top: 50px; display: flex; justify-content: space-between;}
+        .signup-content-container .signup-content-inner{width: 450px;}
+        .signup-content-inner .signup-form-wrap{width: 350px; margin: 0 auto;}
+        .signup-content-inner .section-group{border-bottom: 1px solid #e5e5e5; display: flex; margin-bottom: 30px; align-items: center; height: 40px;}
+        .signup-content-inner .section-group .form-label{display: inline-block; width: 100px; font-size: 14px; color: #515151; font-weight: 700;}
+        .signup-content-inner .section-group .form-input-wrap{width: 250px; position: relative;}
+        .section-group .form-input-wrap input{border: 0; font-size: 14px;}
+        .intl-tel-input.separate-dial-code .selected-flag{background-color: transparent !important;}
+        .section-group .form-input-wrap .identifying-button{border: 0; background-color: transparent; color: #38f; outline: none; cursor: pointer;}
+        .section-group .form-input-wrap .pw-icon{position: absolute; right: 20px; top: 0; width: 24px; height: 24px; background-color: #000; cursor: pointer; background: url(__STATIC__/index/img/icon1.png) no-repeat; background-size: 100%;}
+        .section-group .form-input-wrap .pw-icon.pw-icon-show{background: url(__STATIC__/index/img/icon2.png) no-repeat; background-size: 100%;}
+        .button-primary{display: block; margin-top: 30px; width: 350px; height: 45px; border: 0; outline: none; background-color: #38f; color: #fff; font-size: 16px; box-sizing: border-box; border-radius: 2px; cursor: pointer;}
+        .goto-signin{color: #38f; display: block; text-align: right; margin-top: 20px;}
+        .copyright{text-align: center; margin-top: 50px;color: #515151;}
+        .copyright a{color: #515151;}
+        
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div class="header-container">
+                <div class="header-section logo">
+                    <!-- <div class="logo-container">
+                        <img src="__STATIC__/index/img/logo.png" width="50" height="40">
+                    </div>
+                    <span>宣铭科技</span> -->
+                    <img src="__STATIC__/index/img/logo1.png" width="110" height="60">
+                    <!--<p style="font-size:35px;font-weight:bolder;margin-left:7px;">智慧茶仓</p>-->
+                </div>
+                <div class="header-section nav">
+                    <ul class="nav-ul clearfix">
+                        <li class="nav-li"><a href="javascript:;" class="nav-a">首页</a></li>
+                        <li class="nav-li"><a href="javascript:;" class="nav-a">智慧茶仓</a></li>
+                        <li class="nav-li"><a href="javascript:;" class="nav-a nav-on">城市合伙人</a></li>
+                        <li class="nav-li"><a href="javascript:;" class="nav-a">关于我们</a></li>
+                    </ul>
+                </div>
+                {if !empty($phone_num)}
+                <div class="header-section loaded-common">
+                    <div class="loaded-inner">
+                        <span class="loaded-icon"></span>
+                        <a href="javascript:;" target="_blank">
+                            <span class="loaded-mobile">{$phone_num}</span>
+                        </a>
+                        <i class="caret"></i>
+                        <ul class="loaded-menu">
+                            <li><a href="javascript:;" class="backstage">进入后台</a></li>
+                            <li><a href="javascript:;" class="logout">退出登录</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {else}
+                <div class="header-section login">
+                    <a href="javascript:;" class="sign-in">登录</a>
+                    <a href="javascript:;" class="register">注册</a>
+                </div>
+                {/if}
+            </div>
+        </div>
+
+        <div class="partner-info">
+            <div class="partner-info-container">
+                <div class="city-title">
+                    <div class="title-l">服务窗口</div>
+                    <div style="flex:1;"></div>
+                    <div class="city-apply">申请城市合伙人</div>
+                    <div class="city-login">合伙人后台登录</div>
+                </div>
+                <div class="partner-info-banner">
+                    <img src="__STATIC__/index/img/u232.png" width="1350" height="210">
+                </div>
+                <div style="margin: 30px auto;text-align: center;font-size: 30px;font-weight: 700;">
+                    合伙人后台登录
+                </div>
+                <!-- 登录框 -->
+                <div class="signin-content-inner">
+                    <div class="signin-form-wrap">
+                        <div class="section-group phone-wrap">
+                            <label class="form-label">手机号码</label>
+                            <div class="form-input-wrap">
+                                <input type="text" id="phone" name="phone" placeholder="注册时填写的手机号">
+                            </div>
+                        </div>
+                        <div class="section-group identifying-code-wrap">
+                            <label class="form-label">短信验证码</label>
+                            <div class="form-input-wrap">
+                                <input type="text" id="identifying" name="identifying" placeholder="填写短息验证码">
+                                <button class="identifying-button">获取验证码</button>
+                            </div>
+                        </div>
+                        <div class="section-group password-wrap">
+                            <label class="form-label">设置新密码</label>
+                            <div class="form-input-wrap">
+                                <input type="password" id="password" name="password" placeholder="6-15位字符">
+                                <span class="pw-icon"></span>
+                            </div>
+                        </div>
+                        <div class="section-group password-wrap">
+                            <label class="form-label">确认密码</label>
+                            <div class="form-input-wrap">
+                                <input type="password" id="re_password" name="password" placeholder="6-15位字符">
+                                <span class="pw-icon"></span>
+                            </div>
+                        </div>
+                        <button type="submit" class="button-primary">确认修改</button>
+                        <a href="city_login" class="goto-signin">已有账号，立即登录</a>
+                    </div>
+                    <div class="qr-code-wrap" style="display: none;">
+                        <img src="__STATIC__/index/img/qrcode.png" width="260" height="260">
+                    </div>
+                </div>
+                <div style="text-align: center;margin-top:15px;font-size:12px;color:rgb(121,121,121);">
+                    © 2016-2019 宣铭科技版权所有
+                </div>
+
+            </div>
+        </div>
+    </div>
+   
+
+    <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/layer/layer.js"></script>
+    <script src="__STATIC__/index/js/common.js"></script>
+    
+    <script>
+        var phone = document.querySelector('#phone');
+        // http://www.jq22.com/jquery-info12917
+        var iti = window.intlTelInput(phone, {
+            preferredCountries: ['cn'],
+            separateDialCode: true,
+        })
+        // 获取验证码
+        $('.identifying-button').click(function () {
+            var $phone = $('#phone').val();
+            var _this = this;
+            if ($phone !== '' && phoneReg.test($phone)) {
+                sendPhoneCode($phone);
+            } else {
+                layer.msg('电话号码格式不正确！');
+            }
+        })
+        // 发送验证码
+        function sendPhoneCode(phone) {
+            var phoneReg = /^1[345789]\d{9}$/;
+            if (phone !== '' && phoneReg.test(phone)) {
+                $.ajax({
+                    url: "sendIdentiFyingCode",
+                    type: "POST",
+                    data: { "phone_number": phone },
+                    success: (res) => {
+                        layer.msg(res.msg);
+                        myEvent.buttonCountdown($(".btn-code"), 1000 * 60 * 1, "ss");
+                    },
+                    error: (e) => { console.error(e) }
+                })
+            } else {
+                layer.msg('电话号码格式不正确！');
+            }
+        }
+            // 修改密码
+        $('.button-primary').click(function(){
+            
+            var $phone = $('#phone').val(),
+                mobileCode = $('#identifying').val(),
+                $password = $('#password').val();
+                $re_password = $('#re_password').val();
+                if($password != $re_password) {
+                    layer.msg('两次密码不一致');
+                    return false;
+                }
+            if(pwdReg.test($password)){
+                $.ajax({
+                    url: 'city/forget_password',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        "phone_number": $phone,
+                        "identifying_code": mobileCode,
+                        "password": $password,
+                    },
+                    success: function(res){
+                        if(res.code == 1){
+                            layer.msg(res.msg);
+                            setTimeout(function(){
+                                location.href = 'city_login';
+                            },1000)
+                        }else{
+                            layer.msg(res.msg);
+                        }
+                    },
+                    error: function(res){
+                        console.log(res.status, res.statusText);
+                    }
+                })
+            }else{
+                layer.msg('密码格式不正确！');
+            }
+        })
+    </script>
+</body>
+</html>
