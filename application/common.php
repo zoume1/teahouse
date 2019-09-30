@@ -973,17 +973,18 @@ function base64_upload_flie($base64) {
             $image_name = '.jpg';
             //纯粹是看jpeg不爽才替换的
         }else{
-            $image_name = $result[2];
+            $image_name = '.'.$result[2];
         }
-        $dir =ROOT_PATH . 'public' . DS . 'uploads'."/".date('Ymd');
-        $file_names =date('Ymd') . DS . md5(microtime(true)).$image_name;
+        $dir =ROOT_PATH . 'public' . DS . 'uploads'."/store_pingzheng";
+        $file_names ='store_pingzheng' . DS . md5(microtime(true)).$image_name;
         if(!file_exists($dir)) {
             mkdir($dir, 0777, true);
         }
             $image_file = ROOT_PATH . 'public' . DS . 'uploads'. "/" .$file_names;
         //服务器文件存储路径
         if (file_put_contents($image_file, base64_decode(str_replace($result[1], '', $base64_image)))){
-            return $file_names;
+            return ROOT_PATH . 'public' . DS . 'uploads'. DS .$file_names;
+            // return $file_names;
         }else{
             return false;
         }
@@ -1770,6 +1771,27 @@ function returnArray($data){
                 break;
         }
         return $meal_name;
+  }
+  /**
+   * lilu
+   * 获取用户的默认收货地址
+   */
+  function get_default_address($member_id){
+        $address_list=db('user_address')->where(['user_id'=>$member_id,'status'=>1])->find();
+        if($address_list){
+            $address=$address_list['address_name'].$address_list['harvester_real_address'];
+            return $address;
+        }else{
+            $address_list2=db('user_address')->where('user_id',$member_id)->find();
+            if($address_list2){
+                db('user_address')->where('user_id',$member_id)->update(['status'=>1]);
+                $address=$address_list2['address_name'].$address_list2['harvester_real_address'];
+                return $address;
+            }else{
+                return '暂无收货地址';
+            }
+        }
+        
   }
 
 

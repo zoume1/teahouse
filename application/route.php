@@ -691,6 +691,7 @@ Route::group("admin",[
     "goods_type_ajax_add"=>"admin/GoodsType/ajax_add",//商品分类列表组ajax显示
     "goods_type_dels"=>"admin/GoodsType/dels",        //商品分类列表组批量删除
     "goods_type_search"=>"admin/GoodsType/search",    //商品分类列表组模糊搜索 
+    "delete_catetory_image"=>"admin/GoodsType/delete_catetory_image",    //商品分类列表组分类图片删除
 
     /*TODO：分销开始*/
     "distribution_setting_index"=>"admin/Distribution/setting_index",  //分销设置页面

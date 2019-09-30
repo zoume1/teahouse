@@ -12,6 +12,7 @@ use think\Request;
 use think\Session;
 use think\Db;
 use app\admin\model\Store as AddStore;
+use app\admin\controller\Qiniu;
 
 use app\index\controller\Login as LoginPass;
 class  Store extends  Controller{
@@ -59,6 +60,21 @@ class  Store extends  Controller{
             }
             $card_positive_images = base64_upload_flie($card_positive);//身份证正面
             $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
+             //测试七牛上传图片
+             $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+            $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+             $bucket = 'goods';
+            $domain='teahouse.siring.cn';
+            $qiniu=new Qiniu();
+           //获取店铺七牛云的配置项
+           $rr=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$card_side_file);
+           if($rr){
+                $card_side_file= $rr[0];
+           }
+           $rr2=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$card_positive_images);
+           if($rr2){
+                $card_positive_images= $rr2[0];
+           }
             $phone_number = db("pc_user")->where("id",$user_id)->find();//获取手机号
             $data = [
                 "is_business"=>$is_business,
@@ -113,6 +129,10 @@ class  Store extends  Controller{
                 $mobile = $user_data['phone_number'];
                 $content = "【智慧茶仓】尊敬的用户您好！您的店铺申请成功，请及时登陆网站，选择套餐，完成店铺入驻";
                 $output = sendMessage($content,$mobile);
+                //发送开发人员--给新注册的店铺注册七牛云子域名
+                $mobile2 ='13414098760';
+                $content2 = "【智慧茶仓】《".$store_name."》已生成，请尽快申请七牛云子域名";
+                $output = sendMessage($content2,$mobile2);
                 return ajax_success("您的资料已提交,请耐心等待审核",["store_id"=>$bool]);
             }else{
                 return ajax_error("网络错误，请重新提交");

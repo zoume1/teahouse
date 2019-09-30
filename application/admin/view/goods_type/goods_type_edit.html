@@ -4,9 +4,29 @@
 
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/upfile/css/index.css" />
 <style type="text/css">
     body {
         background: #fff;
+    }
+    /* 数据库展现图片样式 */
+
+    .img {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+    }
+
+    .imgcontent {
+        margin: 10px;
+    }
+
+    .img>i {
+        display: inline-block;
+        width: 20px;
+        position: absolute;
+        right: 0;
+        top: 0;
     }
 </style>
 
@@ -46,18 +66,56 @@
             </div>
         </div>
         <div class="form-item">
+            <label class="form-label">分类图标</label>
+            <div class="form-input">
+                {if $vo.category_images}
+                <div class="imgcontent">
+                    <span class="img">
+                        <img src="{$vo.category_images}" width="100%">
+                        <i class="remove-img" name="icon_image" value="{$vo.category_images}" data-id="{$vo.id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+                    </span>
+                </div>
+                {/if}
+                <div class="img-box full">
+                    <section class=" img-section">
+                        <div class="z_photo upimg-div clear">
+                            <section class="z_file fl">
+                                <img src="http://zhihuichacang.com/a11.png" class="add-img">
+                                <input type="file" name="show_img" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                            </section>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="mask works-mask">
+                    <div class="mask-content">
+                        <p class="del-p ">您确定要删除作品图片吗？</p>
+                        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+        <!-- <div class="form-item">
             <label class="form-label">分类图片</label>
+            
             <div class="form-input">
                 <div class="img-box full">
                     <section class=" img-section">
                         <div class="z_photo upimg-div clear">
                             <section class="z_file fl">
                                 <img src="http://zhihuichacang.com/a11.png" class="add-img">
-                                <input type="file" name="show_img" id="file" class="file" value=""
+                                <input type="file" name="show_img" id="file" class="file" value="{$vo.category_images}"
                                     accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1" required />
                             </section>
                         </div>
                     </section>
+                </div> -->
+                <!-- <div class="img-box full">
+                    <span class="img">
+                        <img src="{$vo.category_images}" width="10%">
+                        <i class="remove-img" data-id="{$vo.category_images}" data-value="2" data-title="{$vo.id}"><img
+                                src="http://zhihuichacang.com/a7.png" width="10%"></i>
+                    </span>
                 </div>
                 <aside class="mask works-mask">
                     <div class="mask-content">
@@ -70,7 +128,7 @@
                 </div>
             </div>
 
-        </div>
+        </div> --> 
         <div class="form-item">
             <label class="form-label">级别</label>
             <div class="form-input">
@@ -127,6 +185,32 @@
             form.render();
             //创建一个编辑器
             //var editIndex = layedit.build('LAY_demo_editor');
+             // 图片删除
+             $(".remove-img").click(function () {
+                    var remove = $(this).parent();
+                    var id = $(this).data("id");
+                    var value = $(this).data("value");
+                    console.log(value)
+                    console.log(id);
+                    alert(id);
+                    alert(value);
+                    $.ajax({
+                        type: "POST",
+                        url: "{:url('admin/GoodsType/delete_catetory_image')}",
+                        data: {
+                            "id": id
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            remove.remove();
+                            alert(data.info);
+                            location.reload();
+                        },
+                        error: function (data) {
+                            console.log("错误");
+                        }
+                    });
+                });
 
         });
     </script>
