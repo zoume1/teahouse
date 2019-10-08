@@ -1247,6 +1247,8 @@ Route::group("rec",[
 
     //我的
     "user_store"=>"rec/User/user_store",
+    //分销佣金列表
+    "user_commission" =>"rec/User/user_commission",
 
     //发票
     "send_invoice" =>"rec/Invoice/requestBilling",
@@ -1282,6 +1284,7 @@ Route::group("rec",[
 
     //合伙人考核
     "assessment"=>"rec/Meal/assessment",
+
 
 
 ]);
