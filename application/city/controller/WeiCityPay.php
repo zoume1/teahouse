@@ -25,7 +25,7 @@ class WeiCityPay extends Controller{
         // 查询订单信息
         $url = 'https://www.zhihuichacang.com/rec/app_notice';
         $order = db('city_order') -> getById($id);
-
+       
         $pay =1;//先测试1分钱
         if(!$order)returnJson(0,'当前订单不存在');
         // if($order['status'] != -1)returnJson(0,'当前订单状态异常');
