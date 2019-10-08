@@ -169,6 +169,7 @@ class CityCopartner extends Model
             'city_store_number' => $user_data['city_store_number'],
             'invitation_store_number' => $user_data['invitation_store_number'],
             'number' => $number,
+            'my_invitation' => $user_data['my_invitation'],
         ];
 
         return $data;
@@ -194,6 +195,7 @@ class CityCopartner extends Model
                 ->select();
 
         $data = [
+            
             'commission' => $user_data['commission'],
             'order_data' => $order,
 
@@ -214,6 +216,8 @@ class CityCopartner extends Model
     {
         $model = new static();
         $user_data = $model->detail($user_id);
+        $number = $model->get_number($user_data);
+        $number ? $status = 0 : $status = 1;
         $order = Db::name('city_detail') 
                 ->where('city_user_id','=',$user_id) 
                 ->field('create_time,phone_number,set_meal,reach_commision')
@@ -221,6 +225,7 @@ class CityCopartner extends Model
                 ->select();
 
         $data = [
+            'lock_status'=> $status,
             'reach_commission' => $user_data['reach_commission'],
             'order_data' => $order,
 

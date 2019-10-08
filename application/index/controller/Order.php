@@ -397,7 +397,7 @@ class  Order extends  Controller
                         $datase["is_limit"] = $limit;   
 
                         $rest_id = Db::name('order')->insertGetId($datase);
-                       
+                        unset($datase['is_limit']);
                         $datas = $datase;
                         $datas["store_house_id"] = $store_house_id;
                         $datas["store_name"] = $store_name;
@@ -704,6 +704,7 @@ class  Order extends  Controller
                         $datase["is_limit"] = $limit;     
 
                         $rest_id = db('order')->insertGetId($datase);
+                        unset($datase['is_limit']);
                         $datas = $datase;
                         $datas["store_house_id"] = $store_house_id;
                         $datas["store_name"] = $store_name;

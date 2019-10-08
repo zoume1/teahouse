@@ -43,10 +43,50 @@ class Index extends Controller
         $phone_num =  $this->commons();
         return view("consumer",["phone_num"=>$phone_num]);
     }
-    // 智慧茶仓
+    // 智慧茶仓  源头厂家
     public function wisdom(){
         $phone_num =  $this->commons();
         return view("wisdom",["phone_num"=>$phone_num]);
+    }
+    // 实力商家
+    public function merchant(){
+        $phone_num =  $this->commons();
+        return view("merchant",["phone_num"=>$phone_num]);
+    }
+    // 更多服务
+    public function more_server(){
+        $phone_num =  $this->commons();
+        return view("more_server",["phone_num"=>$phone_num]);
+    }
+    // 自有茶园
+    public function zycy(){
+        $phone_num =  $this->commons();
+        return view("zycy",["phone_num"=>$phone_num]);
+    }
+    // 自有工厂
+    public function zygc(){
+        $phone_num =  $this->commons();
+        return view("zygc",["phone_num"=>$phone_num]);
+    }
+    // 自有仓库
+    public function zyck(){
+        $phone_num =  $this->commons();
+        return view("zyck",["phone_num"=>$phone_num]);
+    }
+    // 万用版
+    public function wyb(){
+        $phone_num =  $this->commons();
+        return view("wyb",["phone_num"=>$phone_num]);
+    }
+    // 专业版
+    public function zyb(){
+        $phone_num =  $this->commons();
+        return view("zyb",["phone_num"=>$phone_num]);
+    }
+    // 高级版
+    public function gjb(){
+        $phone_num =  $this->commons();
+        return view("gjb",["phone_num"=>$phone_num]);
     }
     // 招募合伙人
     public function partner(){
@@ -110,10 +150,10 @@ class Index extends Controller
 
     /**
      * gy
-     * 申请城市合伙人
+     * 城市合伙人忘记密码
      */
-    public function city_apply(){
-        return view("city_apply");
+    public function city_forget(){
+        return view("city_forget");
     }
 
     /**

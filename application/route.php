@@ -59,11 +59,18 @@ Route::group("",[
     "sign_in"=>"index/index/sign_in", //登录
     "forget_pw"=>"index/index/forget_pw", //登录
     "my_shop"=>"index/index/my_shop", //我的店铺
-    "city_apply"=>"index/index/city_apply", //申请城市合伙人
+    "city_forget"=>"index/index/city_forget", //申请城市合伙人忘记密码
     "city_login"=>"index/index/city_login", //合伙人后台登陆
     "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
     "get_bank_list"=>"index/My/get_bank_list", //获取用户的银行卡列表
-
+    "merchant"=>"index/index/merchant", //实力商家
+    "more_server"=>"index/index/more_server", //更多服务
+    "zycy"=>"index/index/zycy", //自有茶园
+    "zygc"=>"index/index/zygc", //自有工厂
+    "zyck"=>"index/index/zyck", //自有仓库
+    "wyb"=>"index/index/wyb", //万用版
+    "zyb"=>"index/index/zyb", //专业版
+    "gjb"=>"index/index/gjb", //高级版
 
 
     /*TODO：start*/
@@ -684,6 +691,7 @@ Route::group("admin",[
     "goods_type_ajax_add"=>"admin/GoodsType/ajax_add",//商品分类列表组ajax显示
     "goods_type_dels"=>"admin/GoodsType/dels",        //商品分类列表组批量删除
     "goods_type_search"=>"admin/GoodsType/search",    //商品分类列表组模糊搜索 
+    "delete_catetory_image"=>"admin/GoodsType/delete_catetory_image",    //商品分类列表组分类图片删除
 
     /*TODO：分销开始*/
     "distribution_setting_index"=>"admin/Distribution/setting_index",  //分销设置页面
@@ -1138,6 +1146,7 @@ Route::group("admin",[
    "city_market"=>"admin/City/city_market",  //城市市场反馈
    "city_market_feedback"=>"admin/City/city_market_feedback",  //城市市场点击回复
    "city_market_feedback_update"=>"admin/City/city_market_feedback_update",  //城市市场回复更新
+   "city_market_feedback_delete"=>"admin/City/city_market_feedback_delete",  //城市市场回复删除
 
 
 ]);
@@ -1205,6 +1214,7 @@ Route::group("city",[
     "city_server_index"=>"city/Citydenglu/city_server_index",//合伙人系统固定页面
     "order_index"=>"city/CityOrder/order_index",//城市合伙人订单显示
     "cityWhatChatPay"=>"city/CityOrder/cityWhatChatPay",//城市合伙人订单微信支付
+    "city_WhatChatPay"=>"city/WeiCityPay/city_WhatChatPay",//公众号订单微信支付
     "cityAlipayCode"=>"city/CityOrder/cityAlipayCode",//城市合伙人订单支付宝支付
     "payment_image"=>"city/CityOrder/payment_image",//上传汇款支付凭证
     "mailing_address"=>"city/CityOrder/mailing_address",//开发票邮寄地址
@@ -1220,7 +1230,6 @@ Route::group("city",[
     "admin_market_feedback"=>"city/WeiChatSystem/admin_market_feedback",//城市合伙人商户官方反馈
     "admin_market_feedback_number"=>"city/WeiChatSystem/admin_market_feedback_number",//城市合伙人商户官方反馈总数
 
-    "city_get_pay" => "city/WeiCityPay/city_get_pay" //公众号购买套餐
 ]);
 
 /**

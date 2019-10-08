@@ -114,6 +114,11 @@ class CityRank extends Model
             }
 
         }
+        isset($three) ? $three : $three = [];
+        isset($one) ? $one : $one = [];
+        isset($two) ? $two : $two = [];
+        isset($four) ? $four : $four = [];
+        isset($five) ? $five : $five = [];
         $rest = [
             'one'=>$one,
             'two'=>$two,

@@ -13,13 +13,32 @@ use think\Config;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Payment\Order as WechatOrder;
 use app\rec\model\WechatPay as WeiPay;
+use app\city\model\CityOrder as Order;
+
 use think\Db;
 
 class WeiCityPay extends Controller{
 
-    public function city_get_pay()
-    {
+    /**
+     * 公众号合伙人订单微信支付
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function city_WhatChatPay(Request $request){
+        if($request->isPost()){
+            $wechatpay = new WeiPay();
+            $url = 'https://www.zhihuichacang.com/city_meal_notify';
+            $order_number = $request->only(["order_number"])["order_number"];
+            $pay_money = $request->only(["pay_money"])["pay_money"];
+            $order =  Order::detail(['order_number'=>$order_number]);
+            if(!$order)jsonError('当前订单不存在');
+            $res = $wechatpay->pay($order['city_meal_name'],$order['user_name'],$order['order_number'],$pay_money,$url,$order['openid']);
+            return  $res; exit();
+        }
 
+<<<<<<< HEAD
         $id = 74;
         //phpinfo();die;
         // 查询订单信息
@@ -31,9 +50,11 @@ class WeiCityPay extends Controller{
         // if($order['status'] != -1)returnJson(0,'当前订单状态异常');
         $wechatpay = new WeiPay();
         $res = $wechatpay->pay($order['city_meal_name'],$order['user_name'],$order['order_number'],$pay,$url,$order['openid']);
-
-        return  $res; exit();
+=======
     }
+
+>>>>>>> f3f269999e336a91227983f1fb8c3c81de5ae96f
+
 
 
 
