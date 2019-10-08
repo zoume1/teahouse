@@ -322,9 +322,14 @@ class User extends Controller{
             $where['create_time'] = ['between',[$param['start_time'],$param['end_time']]];
         }
         $where['phone_number'] = $param['phone'];
+
+        $commission = CityDetail::dist_commission($param['phone']); //分销佣金
+
         $data = CityDetail::where($where)->field('phone_number,set_meal,commision,create_time')->select();
-         
-        $data ? returnJson(1,'获取成功',$data) : returnJson(0,'获取失败');
+
+        $res = $data ? ['code' => 1,'msg' => '获取成功','total_commision'=>$commission, 'data'=>$data] : ['code' => 0,'msg' => '获取失败'];
+
+        return json($res);
     }
 
 
