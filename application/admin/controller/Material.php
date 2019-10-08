@@ -564,7 +564,7 @@ class  Material extends  Controller{
 
     //直播更新token
     public function edit_video_token()
-    {
+    {   
         $request      = Request::instance();
         $param        = $request->param();//获取所有参数，最全
         $validate     = new Validate([
