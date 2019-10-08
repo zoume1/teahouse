@@ -75,7 +75,7 @@ class Qiniu extends Controller
      */
     public static function uploadimg2($accessKey,$secrectkey,$bucket,$domain,$filePath)
     {
-            
+          
             $ext_name=explode('.',$filePath);
             $ext = $ext_name[1];  //后缀
             // 上传到七牛后保存的文件名
