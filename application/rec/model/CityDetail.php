@@ -24,4 +24,6 @@ class CityDetail extends Model{
     {
         return self::where(['phone_number'=>$tel])->sum ('commision') ? self::where(['phone_number'=>$tel])->sum ('commision') : 0;
     }
+
+    
 }
