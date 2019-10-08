@@ -34,7 +34,7 @@ a {
 a,button{cursor:pointer;} 
 
 body {
-	background: #f4f4f4;
+	/* background: #f4f4f4; */
 	font-size: 14px;
 	font-family: "微软雅黑", "PingFang SC", "arial, helvetica, sans-serif";
 }
@@ -42,8 +42,8 @@ body {
 	clear: both;
 }
 .full{
-	width: 1210px;
-	min-width: 1210px;
+	/* width: 1210px; */
+	/* min-width: 1210px; */
 	margin: 0 auto;
 }
 .full-big{
@@ -92,10 +92,9 @@ aside a:visited{color: rgb(65,65,65);}*/
 .pic img{display: none;}
 
 /*上传图片插件的样式*/
-.img-box{
-	/* padding-left: 3%; */
-	
-}
+/* .img-box{
+	padding-left: 3%;
+} */
 .img-box .up-p{
 	margin-bottom: 20px;
 	font-size: 16px;
