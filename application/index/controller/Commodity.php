@@ -21,19 +21,24 @@ class Commodity extends Controller
             $member_grade_name = $request->only(["member_grade_name"])["member_grade_name"]; //会员等级
             $goods_type = db("wares")->where("status", 1)->where("store_id","EQ",$store_id)	->select();
             $goods_type = _tree_sort(recursionArr($goods_type), 'sort_number');
-
             foreach($goods_type as $key => $value)
             {
-                $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("store_id","EQ",$store_id)->where("label",1)->where('limit_goods','0')->select();
-                foreach($goods_type[$key]['child'] as $k => $v){
-                    if(!empty($goods_type[$key]['child'][$k]["scope"])){
-                        $goods_type[$key]['child'][$k]["scope"] = explode(",",$goods_type[$key]['child'][$k]["scope"]);
-                        if(!in_array($member_grade_name,$goods_type[$key]['child'][$k]["scope"])){ 
-                            unset($goods_type[$key]['child'][$k]);
+                $child=count($value['child']);
+                if($child==0){
+                    //没有二级分类
+                    $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("store_id","EQ",$store_id)->where("label",1)->where('limit_goods','0')->field('id,goods_name,goods_show_image')->select();
+                    foreach($goods_type[$key]['child'] as $k => $v){
+                        if(!empty($goods_type[$key]['child'][$k]["scope"])){
+                            $goods_type[$key]['child'][$k]["scope"] = explode(",",$goods_type[$key]['child'][$k]["scope"]);
+                            if(!in_array($member_grade_name,$goods_type[$key]['child'][$k]["scope"])){ 
+                                unset($goods_type[$key]['child'][$k]);
+                            }
                         }
-                        
                     }
-                    
+                    $goods_type[$key]['is_good_type']=0;   //0   商品      1    商品分类
+                }else{
+                    //有二级分类
+                    $goods_type[$key]['is_good_type']=1;   //0   商品      1    商品分类
                 }
                 $goods_type[$key]['child'] = array_values($goods_type[$key]['child']);
             }
@@ -439,6 +444,57 @@ class Commodity extends Controller
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
+            }
+        }
+        /**
+         * lilu
+         * 分类页面获取二级分类下面的商品信息
+         * pid    二级分类id
+         * order   排序规则    1   默认  综合   2  最新   3  价格    4  价格
+         */
+        public function get_second_type_list(){
+            $input=input();
+            if(empty($input)){
+                return ajax_error('传递参数错误');
+            }else{
+                $where['store_id']=$input['uniacid'];
+                $where['pid']=$input['pid'];    //二级分类id
+                if($input['order']==1){     //综合排序
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }elseif($input['order']==2){    //最新
+                    $goods_list=db('goods')->where($where)->order('date desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }elseif($input['order']==3){     //价格  --升序
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }elseif($input['order']==4){     //价格-- 降序
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                   
+                }elseif($input['order']==5){     //销量----升序
+                    $goods_list=db('goods')->where($where)->order('goods_volume asc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }
+                elseif($input['order']==6){     //销量----降序
+                    $goods_list=db('goods')->where($where)->order('goods_volume desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }
+                if($goods_list){
+                    foreach($goods_list as $k=>$v){
+                        $member_grade_id = db("member")->where("member_openid", $input['open_id'])->value("member_grade_id");
+                        $discount = db("member_grade")->where("member_grade_id", $member_grade_id) ->value("member_consumption_discount");
+                        if($v['goods_member']==1){   //参加折扣
+                            $discount=$discount;
+                        }else{
+                            $discount=1;
+                        }
+                        $goods_list[$k]['price']=round($v['goods_new_money']*$discount,2);
+                    }
+                    if($input['order']==3){
+                        array_multisort(array_column($goods_list,'price'),SORT_ASC,$goods_list);
+                    }elseif($input['order']==4){
+                        array_multisort(array_column($goods_list,'price'),SORT_DESC,$goods_list);
+                    }
+                    return ajax_success('获取成功',$goods_list);
+                }else{
+                    return ajax_success('获取成功');
+                }
+                
             }
         }
 

@@ -44,6 +44,7 @@ Route::group("",[
     "store_goto_admin"=>"index/Store/store_goto_admin",//店铺跳转后台
     "store_all_data"=>"index/Store/store_all_data",//所有店铺信息返回
     "store_logo_index"=>"index/Store/store_logo_index",//店铺loge
+    "sj_store_add"=>"index/Store/sj_store_add",//手机端创建店铺
     /*TODO:PC端店铺结束*/
 
 
@@ -220,6 +221,7 @@ Route::group("",[
     "approve_detailed"=>"index/Commodity/approve_detailed",      //选择自提地址详情
     "approve_address"=>"index/Commodity/approve_address",        //默认上门自提地址
     "getSearchGood"=>"index/Commodity/getSearchGood",            //小程序前端搜索框（商品）
+    "get_second_type_list"=>"index/Commodity/get_second_type_list",   //小程序前端二级分类下的商品
 
 
 
@@ -1246,6 +1248,8 @@ Route::group("rec",[
 
     //我的
     "user_store"=>"rec/User/user_store",
+    //分销佣金列表
+    "user_commission" =>"rec/User/user_commission",
 
     //发票
     "send_invoice" =>"rec/Invoice/requestBilling",
@@ -1281,6 +1285,7 @@ Route::group("rec",[
 
     //合伙人考核
     "assessment"=>"rec/Meal/assessment",
+
 
 
 ]);
