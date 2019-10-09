@@ -168,7 +168,7 @@ Class Order extends Controller{
         returnArray($data);
         
         $res = $data['wx_pay'];
-        $data ? returnJson(1,'支付信息获取成功',$res) : returnJson(0,'支付信息获取失败',$res);
+        $res ? returnJson(1,'支付信息获取成功',$res) : returnJson(0,'支付信息获取失败',$res);
 
     } 
 

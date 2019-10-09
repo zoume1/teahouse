@@ -67,10 +67,26 @@ class Balance extends Controller
                             ];
                         }
                 Db::name("member")->where("member_id",$user_id)->update($new_data);
-                //对订单状态进行修改
+                //对订单状态进行修改----支付成功
                 $result= Db::name("order")
                     ->where("parts_order_number",$order_num)
                     ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>1]);
+                //余额支付，减去商品库存
+                $goods_order=db('order')->where("parts_order_number",$order_num)->select();
+                foreach($goods_order as $k => $v){
+                    if($v['is_limit']==1){
+                        db('limited')->where('goods_id',$v['goods_id'])->setDec('goods_repertory',$v['order_quantity']);
+                    }
+                    if($goods_order[$k]['special_id'] != 0){
+                        $boolw = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setInc('volume',$goods_order[$k]['order_quantity']);
+                        //按照需求下单即减库存,付款时间超过30分钟恢复库存
+                        $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
+                    } else {
+                        //按照需求下单即减库存,付款时间超过30分钟恢复库存
+                        $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
+                        $booltt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setInc('goods_volume',$goods_order[$k]['order_quantity']);
+                    }
+                }
                 //如果修改成功则进行钱抵扣
                 if ($result > 0) {
                     //做消费记录
