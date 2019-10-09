@@ -71,7 +71,7 @@ class  AdminWx extends Controller{
                     if($year > 0){
                         $data["end_time"] = strtotime("+$year  year");//结束时间
                     } else {
-                        $data["end_time"] = strtotime("+10  day");//结束时间
+                        $data["end_time"] = strtotime("+30  day");//结束时间
 
                     }
                     $data["explains"] ="微信扫码支付直接通过";//审核说明
@@ -116,7 +116,7 @@ class  AdminWx extends Controller{
                     if($year > 0){
                         $data["end_time"] = strtotime("+$year  year");//结束时间
                     } else {
-                        $data["end_time"] = strtotime("+10  day");//结束时间
+                        $data["end_time"] = strtotime("+30  day");//结束时间
 
                     }
                     $data["explains"] ="微信扫码支付直接通过";//审核说明
@@ -319,7 +319,7 @@ class  AdminWx extends Controller{
                     if($year > 0){
                         $data["end_time"] = strtotime("+$year  year");//结束时间
                     } else {
-                        $data["end_time"] = strtotime("+10  day");//结束时间
+                        $data["end_time"] = strtotime("+30  day");//结束时间
 
                     }
                     $data["explains"] ="支付宝扫码支付直接通过";//审核说明
@@ -368,7 +368,7 @@ class  AdminWx extends Controller{
                     if($year > 0){
                         $data["end_time"] = strtotime("+$year  year");//结束时间
                     } else {
-                        $data["end_time"] = strtotime("+10  day");//结束时间
+                        $data["end_time"] = strtotime("+30  day");//结束时间
 
                     }
                     $data["explains"] = "支付宝扫码支付直接通过";//审核说明
