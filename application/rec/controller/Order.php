@@ -117,6 +117,9 @@ Class Order extends Controller{
                     $pay = new WechatPay();
                     $data = $pay->get_pay($order_id);
 
+                    //存入微信支付返回参数
+                    $order -> where('id',$order_id)->update(['wx_pay'=>$data]);
+
                     $data ? returnJson(1,'成功',$data) : returnJson(0,'失败');
 
                     break;   // 跳出循环
@@ -133,6 +136,9 @@ Class Order extends Controller{
                     $pay = new WechatPay();
                     $data = $pay->get_pay($order_id);
 
+                    //存入微信支付返回参数
+                    $order -> where('id',$order_id)->update(['wx_pay'=>$data]);
+
                     $data ? returnJson(1,'成功',$data) : returnJson(0,'失败');
 
                     break;
@@ -143,6 +149,28 @@ Class Order extends Controller{
         }
 
     }
+
+    /**
+     * 重新购买
+     * @return array
+     * @author fyk
+     */
+    public function shop_wxpay()
+    {
+        $request = Request::instance();
+        $param = $request->param();
+
+        if(!$param['store_id'])returnJson(0,'店铺ID不能为空');
+        if(!$param['store_name'])returnJson(0,'店铺名不能为空');
+
+        $data = MealOrder::where(['store_id'=>$param['store_id'],'store_name'=>$param['store_name']])->field('wx_pay')->find();
+         //判断
+        returnArray($data);
+        
+        $res = $data['wx_pay'];
+        $data ? returnJson(1,'支付信息获取成功',$res) : returnJson(0,'支付信息获取失败',$res);
+
+    } 
 
 
 }
