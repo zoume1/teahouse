@@ -117,6 +117,9 @@ Class Order extends Controller{
                     $pay = new WechatPay();
                     $data = $pay->get_pay($order_id);
 
+                    //存入微信支付返回参数
+                    $order -> where('id',$order_id)->update(['wx_pay'=>$data]);
+
                     $data ? returnJson(1,'成功',$data) : returnJson(0,'失败');
 
                     break;   // 跳出循环
@@ -132,6 +135,9 @@ Class Order extends Controller{
 
                     $pay = new WechatPay();
                     $data = $pay->get_pay($order_id);
+
+                    //存入微信支付返回参数
+                    $order -> where('id',$order_id)->update(['wx_pay'=>$data]);
 
                     $data ? returnJson(1,'成功',$data) : returnJson(0,'失败');
 
