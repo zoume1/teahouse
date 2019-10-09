@@ -598,6 +598,8 @@
                     this.getRemitTime(); //初始化日期选择
                     this.getOrderInfo()
                 }
+                // 邀请金额
+                this.getInvMoney();
                 // this.getCookie('TCid') ? : ; //套餐订单  增值服务商品信息
                 this.getAllAddr(); // 收货地址
                 this.getacountMoney(); //用户账户余额
@@ -944,7 +946,8 @@
                         url = 'order_package_balance';
                         param = {
                             id: orderInfo.id,
-                            password: this.password
+                            password: this.password,
+                            pay_money: this.payment
                         }
                     }
 
@@ -1009,6 +1012,12 @@
                     this.showVoucherPop = false;
                     this.showPayWay = true;
                 },
+                // 获取邀请码金额
+                getInvMoney: function() {
+                    this.myAjax('getShareCode', {}, function(data){
+                        console.log(111, data);
+                    })
+                }
             },
             watch: {
                 // 监听邀请码
