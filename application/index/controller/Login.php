@@ -277,7 +277,7 @@ class Login extends Controller{
      * @param Request $request
      */
     public function memberCode(){
-        $code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $code = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
         $rand = $code[rand(0,25)]
             .strtoupper(dechex(date('m')))
             .date('d').substr(time(),-5)
@@ -285,7 +285,7 @@ class Login extends Controller{
             .sprintf('%02d',rand(0,99));
         for(
             $a = md5( $rand, true ),
-            $s = '0123456789ABCDEFGHIJKLMNOPQRSTUV',
+            $s = '0123456789ABCDEFGHJKLMNPQRSTUV',
             $d = '',
             $f = 0;
             $f < 6;

@@ -206,10 +206,9 @@ class Commodity extends Controller
                     }
                 }elseif($is_limit['end_time']>0){
                        $goods[0]['limit_condition']='0';
-                }else{
-
                 }
                 $goods[0]['limit_number']=$is_limit['limit_number'];
+                $goods[0]['goods_repertory']=$is_limit['goods_repertory'];
                 $goods[0]['limit_price']=$goods[0]['limit_price'];
             }else{
                 $goods[0]['limit_condition']=0;   //未开启限时限购
@@ -444,6 +443,55 @@ class Commodity extends Controller
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
+            }
+        }
+        /**
+         * lilu
+         * 分类页面获取二级分类下面的商品信息
+         * pid    二级分类id
+         * order   排序规则    1   默认  综合   2  最新   3  价格    4  价格
+         */
+        public function get_second_type_list(){
+            $input=input();
+            if(empty($input)){
+                return ajax_error('传递参数错误');
+            }else{
+                $where['store_id']=$input['uniacid'];
+                $where['pid']=$input['pid'];    //二级分类id
+                if($input['order']==1){     //综合排序
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }elseif($input['order']==2){    //最新
+                    $goods_list=db('goods')->where($where)->order('date desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }elseif($input['order']==3){     //价格  --升序
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }elseif($input['order']==4){     //价格-- 降序
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }elseif($input['order']==5){     //销量----升序
+                    $goods_list=db('goods')->where($where)->order('goods_volume asc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }elseif($input['order']==6){     //销量----降序
+                    $goods_list=db('goods')->where($where)->order('goods_volume desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                }
+                if($goods_list){
+                    foreach($goods_list as $k=>$v){
+                        $member_grade_id = db("member")->where("member_openid", $input['open_id'])->value("member_grade_id");
+                        $discount = db("member_grade")->where("member_grade_id", $member_grade_id) ->value("member_consumption_discount");
+                        if($v['goods_member']==1){   //参加折扣
+                            $discount=$discount;
+                        }else{
+                            $discount=1;
+                        }
+                        $goods_list[$k]['price']=round($v['goods_new_money']*$discount,2);
+                    }
+                    if($input['order']==3){
+                        array_multisort(array_column($goods_list,'price'),SORT_ASC,$goods_list);
+                    }elseif($input['order']==4){
+                        array_multisort(array_column($goods_list,'price'),SORT_DESC,$goods_list);
+                    }
+                    return ajax_success('获取成功',$goods_list);
+                }else{
+                    return ajax_success('获取成功');
+                }
+                
             }
         }
 

@@ -35,20 +35,67 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
+
+            $array_city = [
+            ['name'=>'成都市','rank_status'=>3],
+            ['name'=>'杭州市'],
+            ['name'=>'武汉市'],
+            ['name'=>'重庆市'],
+            ['name'=>'南京市'],
+            ['name'=>'天津市'],
+            ['name'=>'苏州市'],
+            ['name'=>'西安市'],
+            ['name'=>'长沙市'],
+            ['name'=>'沈阳市'],
+            ['name'=>'青岛市'],
+            ['name'=>'郑州市'],
+            ['name'=>'大连市'],
+            ['name'=>'东莞市'],
+            ['name'=>'宁波市'],
+            ['name'=>'厦门市'],
+            ['name'=>'福州市'],
+            ['name'=>'无锡市'],
+            ['name'=>'合肥市'],
+            ['name'=>'昆明市'],
+            ['name'=>'哈尔滨市'],
+            ['name'=>'济南市'],
+            ['name'=>'佛山市'],
+            ['name'=>'长春市'],
+            ['name'=>'温州市'],
+            ['name'=>'石家庄市'],
+            ['name'=>'南宁市'],
+            ['name'=>'常州市'],
+            ['name'=>'泉州市'],
+            ['name'=>'南昌市'],
+            ['name'=>'贵阳市'],
+            ['name'=>'太原市'],
+            ['name'=>'烟台市'],
+            ['name'=>'嘉兴市'],
+            ['name'=>'南通市'],
+            ['name'=>'金华市'],
+            ['name'=>'珠海市'],
+            ['name'=>'惠州市'],
+            ['name'=>'徐州市'],
+            ['name'=>'海口市'],
+            ['name'=>'乌鲁木齐市'],
+            ['name'=>'绍兴市'],
+            ['name'=>'中山市'],
+            ['name'=>'台州市'],
+            ['name'=>'兰州市']];
             //生成分销代理订单
             // $one = new CityDetail;
             // $bool = $one->city_store_update('云南省',31);
             // halt($bool);
   
-            $order_number='TC2019060616044231';
-            $enter_all_data = Db::name("set_meal_order")
-                    ->where("order_number",$order_number)
-                    ->find();
+            // $order_number='TC2019060616044231';
+            // $enter_all_data = Db::name("set_meal_order")
+            //         ->where("order_number",$order_number)
+            //         ->find();
             
-            $store_data_rest = Db::name('store')->where('id',$enter_all_data['store_id'])->find();
-            // halt($store_data_rest);
-            CityDetail::store_order_commission($enter_all_data,$store_data_rest);
-            halt(222);
+            // $store_data_rest = Db::name('store')->where('id',$enter_all_data['store_id'])->find();
+            // // halt($store_data_rest);
+            // CityDetail::store_order_commission($enter_all_data,$store_data_rest);
+            // halt(222);
             //     $rest = db('store')->field('address_data,id')->select();
             //     // halt($rest);
             //     $city = "北京市";
@@ -71,7 +118,7 @@ class Bill extends Controller{
             //     }
 
             //     $rest->cheshi2();
-            return  jsonError("失败",array(),ERROR_100);
+            // return  jsonError("失败",array(),ERROR_100);
             }
         }
     

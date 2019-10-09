@@ -221,6 +221,7 @@ Route::group("",[
     "approve_detailed"=>"index/Commodity/approve_detailed",      //选择自提地址详情
     "approve_address"=>"index/Commodity/approve_address",        //默认上门自提地址
     "getSearchGood"=>"index/Commodity/getSearchGood",            //小程序前端搜索框（商品）
+    "get_second_type_list"=>"index/Commodity/get_second_type_list",   //小程序前端二级分类下的商品
 
 
 
