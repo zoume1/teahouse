@@ -12,6 +12,7 @@ use think\Request;
 use think\Session;
 use think\Db;
 use app\admin\model\Store as AddStore;
+use app\admin\controller\Qiniu;
 
 use app\index\controller\Login as LoginPass;
 class  Store extends  Controller{
@@ -59,6 +60,21 @@ class  Store extends  Controller{
             }
             $card_positive_images = base64_upload_flie($card_positive);//身份证正面
             $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
+             //测试七牛上传图片
+             $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
+            $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
+             $bucket = 'goods';
+            $domain='teahouse.siring.cn';
+            $qiniu=new Qiniu();
+           //获取店铺七牛云的配置项
+           $rr=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$card_side_file);
+           if($rr){
+                $card_side_file= $rr[0];
+           }
+           $rr2=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$card_positive_images);
+           if($rr2){
+                $card_positive_images= $rr2[0];
+           }
             $phone_number = db("pc_user")->where("id",$user_id)->find();//获取手机号
             $data = [
                 "is_business"=>$is_business,
@@ -113,6 +129,10 @@ class  Store extends  Controller{
                 $mobile = $user_data['phone_number'];
                 $content = "【智慧茶仓】尊敬的用户您好！您的店铺申请成功，请及时登陆网站，选择套餐，完成店铺入驻";
                 $output = sendMessage($content,$mobile);
+                //发送开发人员--给新注册的店铺注册七牛云子域名
+                $mobile2 ='13414098760';
+                $content2 = "【智慧茶仓】《".$store_name."》已生成，请尽快申请七牛云子域名";
+                $output = sendMessage($content2,$mobile2);
                 return ajax_success("您的资料已提交,请耐心等待审核",["store_id"=>$bool]);
             }else{
                 return ajax_error("网络错误，请重新提交");
@@ -384,6 +404,114 @@ class  Store extends  Controller{
         }
     }
 
+    /**
+     **************fyk*******************
+     * @param Request $request
+     * Notes:手机端创建店铺
+     **************************************
+     */
+    public function  sj_store_add(Request $request){
+        if($request->isPost()){
+            $user_id = Session::get("user");
+            if($user_id){
+                $user_id = Session::get("user");
+            }else{
+                $user_id = $request->only(["user_id"])["user_id"];
+            }
 
+            $store_code = new LoginPass;
+            $is_business =$request->only(["is_business"])["is_business"];
+            $id_card =$request->only(["id_card"])["id_card"];
+            $contact_name =$request->only(["contact_name"])["contact_name"];
+            $address_data =$request->only(["address_data"])["address_data"];
+            $address_real_data =$request->only(["address_real_data"])["address_real_data"];
+            $store_introduction =$request->only(["store_introduction"])["store_introduction"];
+            $business_name =$request->only(["business_name"])["business_name"];
+            $licence_no =$request->only(["licence_no"])["licence_no"];
+            $store_name =$request->only(["store_name"])["store_name"];
+        
+            if(empty($id_card) || empty($contact_name) || empty($address_data) ||empty($address_real_data) ||empty($store_introduction || empty($store_name)) ){
+                    return ajax_error("请注意填写完所有资料");
+            }
+            if($is_business ==2){
+                if(empty($business_name) || empty($licence_no)){
+                    return ajax_error("请填写企业信息");
+                }
+            }
+            $card_positive =$request->only(["card_positive"])["card_positive"]; //身份证正面
+            if(empty($card_positive)){
+                return ajax_error("请上传身份证正面图");
+            }
+            $card_side_file = $request->only(["card_side"])["card_side"];//身份证反面
+            if(empty($card_side_file)){
+                return ajax_error("请上传身份证反面图");
+            }
+            $card_positive_images = $card_positive;//身份证正面
+            $card_side_file = $card_side_file ; //身份证反面
+             
+            $phone_number = db("pc_user")->where("id",$user_id)->find();//获取手机号
+            $data = [
+                "is_business"=>$is_business,
+                "id_card"=>$id_card,
+                "contact_name"=>$contact_name,
+                "address_data"=>$address_data,
+                "address_real_data"=>$address_real_data,
+                "card_positive"=>$card_positive_images,
+                "card_side"=>$card_side_file,
+                "store_introduction"=>$store_introduction,
+                "business_name"=>$business_name,
+                "licence_no"=>$licence_no,
+                "user_id"=>$user_id,
+                "phone_number"=>$phone_number['phone_number'],
+                "share_store_id" => $phone_number['invite_id'], //上级邀请user_id
+                'share_code'=>$phone_number['my_invitation'],   //本店邀请码
+                'highe_share_code'=>$phone_number['invitation'],   //上级分享码
+                //店铺状态(1审核通过,-1审核不通过,2审核中）
+                "status"=>1,
+                "store_name"=>$store_name,
+                "create_time"=>time(),
+            ];
+
+            $bool = Db::name("store")->insertGetId($data);
+            if($bool > 0){
+                    $user_data =Db::table("tb_pc_user")
+                        ->field("phone_number,password")
+                        ->where("id",$user_id)
+                        ->find();
+                    //审核通过则在后台添加一个登录账号，不通过则不添加
+                   $is_set = Db::name("admin")->where("store_id",$bool)->find();
+                   if(!$is_set){
+                     //先判断该店铺是否已经添加过admin表
+                     //插入到后台
+                     $array =[
+                         "account"=>$user_data['phone_number'], //手机号
+                         "passwd"=>$user_data['password'],//登录密码
+                         "sex"=>1,
+                         "stime"=>date("Y-m-d H:i:s"),
+                         "role_id"=>8,//普通访客
+                         "phone"=>$user_data['phone_number'],
+                         "status"=>0,//0可以登录后台，1被禁用
+                         "name"=>$user_data['phone_number'],
+                         "store_id"=>$bool,
+                         "is_own"=>1, //1为商家，0为商家下面的员工或者admin
+                     ];
+                     Db::name("admin")->insertGetId($array);
+                 } else {
+                    return ajax_error("网络错误，请重新提交");
+                 }
+                
+                $mobile = $user_data['phone_number'];
+                $content = "【智慧茶仓】尊敬的用户您好！您的店铺申请成功，请及时登陆网站，选择套餐，完成店铺入驻";
+                $output = sendMessage($content,$mobile);
+                //发送开发人员--给新注册的店铺注册七牛云子域名
+                $mobile2 ='13414098760';
+                $content2 = "【智慧茶仓】《".$store_name."》已生成，请尽快申请七牛云子域名";
+                $output = sendMessage($content2,$mobile2);
+                return ajax_success("您的资料已提交,请耐心等待审核",["store_id"=>$bool]);
+            }else{
+                return ajax_error("网络错误，请重新提交");
+            }
+        }
+    }
 
 }

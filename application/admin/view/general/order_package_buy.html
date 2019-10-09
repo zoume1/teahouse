@@ -248,7 +248,7 @@
                         <input type="checkbox" id="invite-code"
                             @change="useDiscount"
                             :checked="inputCodeYet">
-                        <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
+                        <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>{{discountPrice}}</i>元)</span></label>
                         <input type="text" :class="{'invite-code-input': true, 'bandCode': inputCodeYet}" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
                             v-show="showInviteCode"
                             v-model="inviteCode"
@@ -559,7 +559,7 @@
             el: '#app',
             data: {
                 showInviteCode: false,
-                discountPrice: 30,
+                discountPrice: 0,
                 protocolFlag: true,
                 // selectData: [],
                 gifFlag: -1,
@@ -883,6 +883,7 @@
                         if(data.body.status == 1){
                             layer.msg(data.body.info);
                             _this.correctCode = true;
+                            _this.discountPrice = data.body.data.share_money;
                         }else{
                             layer.msg(data.body.info);
                             _this.correctCode = false;
@@ -902,7 +903,6 @@
                 buy: function(){
                     this.showPayWay = true;
                     this.getWxCode(); //获取微信支付二维码
-                    // alert('下单成功！');
                 },
                 // 关闭支付弹窗
                 closePop: function(){
@@ -944,7 +944,8 @@
                         url = 'order_package_balance';
                         param = {
                             id: orderInfo.id,
-                            password: this.password
+                            password: this.password,
+                            pay_money: this.payment
                         }
                     }
 
@@ -1008,7 +1009,7 @@
                 closeVoucher: function(){
                     this.showVoucherPop = false;
                     this.showPayWay = true;
-                },
+                }
             },
             watch: {
                 // 监听邀请码
@@ -1016,7 +1017,7 @@
                     var _this = this;
                     if (typeof code === 'string'){
                         if (code.trim().length !== 0){
-                            this.debounce(this.textInviteCode,1500);
+                            this.debounce(this.textInviteCode, 500);
                         }else {}
                     }
                 }
@@ -1039,9 +1040,14 @@
                 },
                 // 最终付款金额
                 payment: function(){
+                    var orderInfo = this.orderInfo[0];
                     var sum = this.totalPrice;
                     if(this.correctCode){
-                        return (sum - this.discountPrice).toFixed(2);
+                        if(orderInfo.last_money != 0){
+                            return (sum - this.discountPrice - orderInfo.last_money).toFixed(2);
+                        }else{
+                            return (sum - this.discountPrice).toFixed(2);
+                        }
                     }else{
                         return sum;
                     }
@@ -1060,7 +1066,6 @@
                 // 优惠 价格展示
                 showDiscount: function(){
                     var orderInfo = this.orderInfo[0];
-                    console.log(orderInfo);
                     if (orderInfo) {
                         if (this.correctCode) {
                             // 使用邀请码

@@ -54,7 +54,7 @@ class  Order extends  Controller{
                 if($v['status']==1 && $time_now >0){
                     //未支付并且已过期，（状态修改为已关闭）
                     db('order')->where('id',$v['id'])->update(['status'=>0]);
-                    unset($data[$k]);
+                    // unset($data[$k]);
                     continue;
                 }
                 //获取相同订单的数据

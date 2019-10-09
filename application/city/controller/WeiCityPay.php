@@ -38,10 +38,6 @@ class WeiCityPay extends Controller{
             return  $res; exit();
         }
 
-    }
-
-
-
 
 
     /**

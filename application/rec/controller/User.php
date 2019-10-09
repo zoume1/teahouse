@@ -17,6 +17,7 @@ use think\captcha\Captcha;
 use think\Session;
 use app\index\controller\Login as Loging;
 use think\Loader;
+use think\Db;
 //include('../extend/lib/SendApi.php');
 //include('../extend/SampleCode/php/wxBizMsgCrypt.php');
 class User extends Controller{
@@ -294,6 +295,40 @@ class User extends Controller{
 
         $data ? returnJson(1,'获取成功',$data) : returnJson(0,'获取失败');
 
+    }
+
+    /**
+     * 我的分销佣金
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function user_commission()
+    {
+        $request = Request::instance();
+        $param = $request->param();
+
+        if(!$param['phone'])returnJson(0,'用户手机号不能为空');
+
+        if(!empty($param['start_time'])){
+            $where['create_time'] = ['gt',$param['start_time']];
+        }
+        if(!empty($param['end_time'])){
+            $where['create_time'] = ['lt',$param['end_time']];
+        }
+        if(!empty($param['start_time']) && !empty($param['end_time'])){
+            $where['create_time'] = ['between',[$param['start_time'],$param['end_time']]];
+        }
+        $where['phone_number'] = $param['phone'];
+
+        $commission = CityDetail::dist_commission($param['phone']); //分销佣金
+
+        $data = CityDetail::where($where)->field('phone_number,set_meal,commision,create_time')->select();
+
+        $res = $data ? ['code' => 1,'msg' => '获取成功','total_commision'=>$commission, 'data'=>$data] : ['code' => 0,'msg' => '获取失败'];
+
+        return json($res);
     }
 
 

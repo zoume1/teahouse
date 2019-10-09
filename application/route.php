@@ -44,6 +44,7 @@ Route::group("",[
     "store_goto_admin"=>"index/Store/store_goto_admin",//店铺跳转后台
     "store_all_data"=>"index/Store/store_all_data",//所有店铺信息返回
     "store_logo_index"=>"index/Store/store_logo_index",//店铺loge
+    "sj_store_add"=>"index/Store/sj_store_add",//手机端创建店铺
     /*TODO:PC端店铺结束*/
 
 
@@ -63,7 +64,14 @@ Route::group("",[
     "city_login"=>"index/index/city_login", //合伙人后台登陆
     "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
     "get_bank_list"=>"index/My/get_bank_list", //获取用户的银行卡列表
-
+    "merchant"=>"index/index/merchant", //实力商家
+    "more_server"=>"index/index/more_server", //更多服务
+    "zycy"=>"index/index/zycy", //自有茶园
+    "zygc"=>"index/index/zygc", //自有工厂
+    "zyck"=>"index/index/zyck", //自有仓库
+    "wyb"=>"index/index/wyb", //万用版
+    "zyb"=>"index/index/zyb", //专业版
+    "gjb"=>"index/index/gjb", //高级版
 
 
     /*TODO：start*/
@@ -213,6 +221,7 @@ Route::group("",[
     "approve_detailed"=>"index/Commodity/approve_detailed",      //选择自提地址详情
     "approve_address"=>"index/Commodity/approve_address",        //默认上门自提地址
     "getSearchGood"=>"index/Commodity/getSearchGood",            //小程序前端搜索框（商品）
+    "get_second_type_list"=>"index/Commodity/get_second_type_list",   //小程序前端二级分类下的商品
 
 
 
@@ -684,6 +693,7 @@ Route::group("admin",[
     "goods_type_ajax_add"=>"admin/GoodsType/ajax_add",//商品分类列表组ajax显示
     "goods_type_dels"=>"admin/GoodsType/dels",        //商品分类列表组批量删除
     "goods_type_search"=>"admin/GoodsType/search",    //商品分类列表组模糊搜索 
+    "delete_catetory_image"=>"admin/GoodsType/delete_catetory_image",    //商品分类列表组分类图片删除
 
     /*TODO：分销开始*/
     "distribution_setting_index"=>"admin/Distribution/setting_index",  //分销设置页面
@@ -1238,6 +1248,8 @@ Route::group("rec",[
 
     //我的
     "user_store"=>"rec/User/user_store",
+    //分销佣金列表
+    "user_commission" =>"rec/User/user_commission",
 
     //发票
     "send_invoice" =>"rec/Invoice/requestBilling",
@@ -1274,6 +1286,8 @@ Route::group("rec",[
     //合伙人考核
     "assessment"=>"rec/Meal/assessment",
 
+    //重新支付
+    "shop_wxpay" => "rec/Order/shop_wxpay",
 
 ]);
 

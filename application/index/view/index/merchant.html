@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>实力商家</title>
+  <link rel="stylesheet" href="__STATIC__/index/css/common.css">
+  <style>
+    .wisdom-container {
+      width: 1350px;
+      margin: 0 auto;
+    }
+
+    .wisdom-banner {
+      margin-bottom: 20px;
+    }
+
+    .wisdom-programme {
+      padding: 0 0 20px;
+    }
+
+    .wisdom-programme .wisdom-programme-container .wisdom-programme-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 130px;
+    }
+
+    .wisdom-programme .wisdom-programme-container .programme-item-text,
+    .wisdom-programme .wisdom-programme-container .programme-item-image {
+      flex-basis: 45%;
+    }
+
+    .wisdom-programme-container .programme-item-text .programme-item-subtitle {
+      font-size: 28px;
+      color: #333333;
+      line-height: 32px;
+      margin-bottom: 30px;
+    }
+
+    .wisdom-programme-container .programme-item-text .programme-item-describe {
+      font-size: 22px;
+      color: #333333;
+      line-height: 28px;
+    }
+
+    .app-scene-container {
+      width: 1350px;
+      margin: 0 auto;
+    }
+
+    .app-scene-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 50px;
+      border-top: 1px solid #eee;
+    }
+
+    .app-scene-nav .app-scene-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #515151;
+    }
+
+    .app-scene-nav .app-scene-nav-container .app-scene-nav-item {
+      float: left;
+      font-size: 16px;
+      color: #515151;
+      margin-left: 60px;
+      cursor: pointer;
+      padding: 0 5px;
+      border-radius: 3px;
+    }
+
+    .app-scene-nav .app-scene-nav-container div.scene-nav-item-on {
+      position: relative;
+      color: #fff;
+      background-color: rgb(95,57,207);
+    }
+
+    .app-scene-nav-container .app-scene-nav-item:hover {
+      color: #fff;
+      background-color: rgb(95,57,207);
+    }
+
+    .detail {
+      display: inline-block;
+      padding: 5px 20px;
+      color: #ffffff;
+      border-radius: 3px;
+      background-color: rgb(95,57,207);
+      margin-top: 50px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <div class="header-container">
+        <div class="header-section logo">
+          <!-- <div class="logo-container">
+                        <img src="__STATIC__/index/img/logo.png" width="50" height="40">
+                    </div>
+                    <span>宣铭科技</span> -->
+          <img src="__STATIC__/index/img/logo1.png" height="70">
+          <!--<p style="font-size:35px;font-weight:bolder;margin-left:7px;">智慧茶仓</p>-->
+        </div>
+        <div class="header-section nav">
+          <ul class="nav-ul clearfix">
+            <li class="nav-li"><a href="javascript:;" class="nav-a">首页</a></li>
+            <li class="nav-li"><a href="javascript:;" class="nav-a nav-on">智慧茶仓</a></li>
+            <li class="nav-li"><a href="javascript:;" class="nav-a">城市合伙人</a></li>
+            <li class="nav-li"><a href="javascript:;" class="nav-a">关于我们</a></li>
+          </ul>
+        </div>
+        {if !empty($phone_num)}
+        <div class="header-section loaded-common">
+          <div class="loaded-inner">
+            <span class="loaded-icon"></span>
+            <a href="javascript:;" target="_blank">
+              <span class="loaded-mobile">{$phone_num}</span>
+            </a>
+            <i class="caret"></i>
+            <ul class="loaded-menu">
+              <li><a href="javascript:;" class="backstage">进入后台</a></li>
+              <li><a href="javascript:;" class="logout">退出登录</a></li>
+            </ul>
+          </div>
+        </div>
+        {else}
+        <div class="header-section login">
+          <a href="javascript:;" class="sign-in">登录</a>
+          <a href="javascript:;" class="register">注册</a>
+        </div>
+        {/if}
+      </div>
+    </div>
+    <div class="app-scene">
+      <div class="app-scene-container">
+        <div class="app-scene-nav">
+          <div class="app-scene-title">应用服务</div>
+          <div class="app-scene-nav-container clearfix">
+            <!-- scene-nav-item-on -->
+            <div class="app-scene-nav-item">源头厂家</div>
+            <div class="app-scene-nav-item scene-nav-item-on">实力商家</div>
+            <div class="app-scene-nav-item">更多服务</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wisdom">
+        <div class="wisdom-container">
+          <div class="wisdom-banner">
+            <img src="__STATIC__/index/img/u1237.png" width="1350" height="460">
+          </div>
+          <div class="wisdom-programme">
+            <div class="wisdom-programme-container">
+              <div class="wisdom-programme-item" style="padding: 0 100px;">
+                <div class="programme-item-text">
+                  <h3 class="programme-item-subtitle">全行业电商，网上开店工具（万用版）</h3>
+                  <p class="programme-item-describe">• 微信小程序开店，帮你提升销量</p>
+                  <p class="programme-item-describe">• 系统化管理客户，更多会员更多成交</p>
+                  <p class="programme-item-describe">• 用户数据分析，实现精准营销</p>
+                  <p class="programme-item-describe">• 分销拓展销售渠道，让更多人帮你卖货</p>
+                  <a href="wyb.html" class="detail">了解详情 ></a>
+                </div>
+                <div class="programme-item-image">
+                  <img src="__STATIC__/index/img/u1236.png" width="476" height="410">
+                </div>
+              </div>
+              <div class="wisdom-programme-item" style="background-color: rgb(230,230,230)">
+                <div class="programme-item-image">
+                  <img src="__STATIC__/index/img/u1235.png" width="490" height="410">
+                </div>
+                <div class="programme-item-text">
+                  <h3 class="programme-item-subtitle">万用版基础上，增加茶行业深度服务（专业版）</h3>
+                  <p class="programme-item-describe">• 微信小程序开店，客户/营销/管理一步到位</p>
+                  <p class="programme-item-describe">• 买茶代存，解决客户存茶需求</p>
+                  <p class="programme-item-describe">• 产品防伪溯源，电子标签新玩法</p>
+                  <p class="programme-item-describe">• 友圈社交线下活动新玩法</p>
+                  <a href="zyb.html" class="detail">了解详情 ></a>
+                </div>
+              </div>
+              <div class="wisdom-programme-item">
+                <div class="programme-item-text">
+                  <h3 class="programme-item-subtitle">茶行业进阶版，满足更多定制化服务（高级版）</h3>
+                  <p class="programme-item-describe">• 万用版、专业版功能尽享</p>
+                  <p class="programme-item-describe">• 众筹定制再生产，解决积压库存</p>
+                  <p class="programme-item-describe">• 个性化产品及包装，推动茶叶销售</p>
+                  <p class="programme-item-describe">• RFID智能化仓储管理系统</p>
+                  <a href="gjb.html" class="detail">了解详情 ></a>
+                </div>
+                <div class="programme-item-image">
+                  <img src="__STATIC__/index/img/u1234.png" width="510" height="410">
+                </div>
+              </div>
+              <!-- <div class="wisdom-programme-item">
+                                <div class="programme-item-image">
+                                    <img src="__STATIC__/index/img/img31.png" width="504" height="343">
+                                </div>
+                                <div class="programme-item-text">
+                                    <h3 class="programme-item-subtitle">分销拓展销售渠道，让更多人帮你卖货</h3>
+                                    <p class="programme-item-describe">你的员工帮你卖；你的客户帮你卖；300万商家帮你卖</p>
+                                </div>
+                            </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 合作伙伴 -->
+      <!-- <div class="partner">
+            <div class="partner-container">
+                <h2 class="title-h2" style="display: none;">合作伙伴</h2>
+                <div class="partner-items" style="display: none;">
+                    <div class="tpl">
+                        <img src="__STATIC__/index/img/p-logo1.png">
+                    </div>
+                </div>
+                <div class="friendly-link">
+                    <span class="link-title">友情链接：</span>
+                    <a href="https://mp.weixin.qq.com/" target="_blank">微信公众平台</a>
+                    <a href="https://open.weixin.qq.com/" target="_blank">微信开放平台</a>
+                    <a href="https://pay.weixin.qq.com/index.php" target="_blank">微信支付平台</a>
+                    <a href="https://m.kuaidi100.com/" target="_blank">快递100</a>
+                </div>
+            </div>
+        </div> -->
+      <!-- footer -->
+      <div class="footer">
+        <div class="ft-top clearfix">
+          <dl>
+            <dt>快速通道</dt>
+            <dd><a href="">源头厂家</a></dd>
+            <dd><a href="">实力商家</a></dd>
+            <dd><a href="">关于我们</a></dd>
+            <dd><a href="">城市合伙人</a></dd>
+            <dd><a href="">更多服务</a></dd>
+          </dl>
+          <dl>
+            <dt>加入城市合伙人</dt>
+            <dd>开店咨询热线：</dd>
+            <dd>0755-36609696</dd>
+            <dd>咨询时间：</dd>
+            <dd>周一到周日</dd>
+            <dd>09:00-18:00</dd>
+          </dl>
+          <dl>
+            <dt>公众号快捷入口</dt>
+            <dd>
+              <img src="__STATIC__/index/img/u3039.png" alt="" width="100" height="100">
+            </dd>
+            <dd>总部：北京西城区马连道第</dd>
+            <dd>三区商业街2079</dd>
+          </dl>
+          <dl class="right">
+            <dd>
+              <img src="__STATIC__/index/img/u3030.png" alt="" width="50" height="50">
+              <span>客服热线</span>
+              <p class="phone">400 022 8258</p>
+            </dd>
+          </dl>
+          <dl class="right">
+            <dd>
+              <img src="__STATIC__/index/img/u3024.png" alt="" width="50" height="50">
+              <span>09:00 - 22:00</span>
+            </dd>
+            <dd>
+              <img src="__STATIC__/index/img/u3026.png" alt="" width="50" height="50">
+              <span>13922830809</span>
+            </dd>
+            <dd>
+              <img src="__STATIC__/index/img/u3028.png" alt="" width="50" height="50">
+              <span>415364124</span>
+            </dd>
+          </dl>
+        </div>
+        <div class="links">
+          <dl>
+            <dt>友情链接：</dt>
+            <dd><a href="https://mp.weixin.qq.com/" target="_blank">微信公众平台</a></dd>
+            <dd><a href="https://open.weixin.qq.com/" target="_blank">微信开放平台</a></dd>
+            <dd><a href="https://pay.weixin.qq.com/index.php" target="_blank">微信支付平台</a></dd>
+          </dl>
+        </div>
+        <div class="footer-copy">
+          <div class="comm-copy">
+            <img src="__STATIC__/index/img/jgwablogo.png" width="20" height="20">
+            <span class="jgwbab-txt">京ICP备16042486号-1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- aside -->
+    <div class="aside-container">
+      <ul>
+        <li class="aside-item">
+          <img src="__STATIC__/index/img/icon4.png" width="32" height="32">
+          <span class="aside-text">热线</span>
+          <div class="float-container">
+            <div class="float-title">
+              <img src="__STATIC__/index/img/icon8.png" width="32" height="32">客服热线：
+            </div>
+            <p class="contact-number">400-022-8258</p>
+          </div>
+        </li>
+        <li class="aside-item">
+          <img src="__STATIC__/index/img/icon5.png" width="32" height="32">
+          <span class="aside-text">客服</span>
+          <div class="float-container">
+            <div class="float-title">
+              <img src="__STATIC__/index/img/icon9.png" width="32" height="32">QQ客服：
+            </div>
+            <p class="contact-number interactive-bg">
+              <a id="qq" target="_blank"
+                href="http://wpa.qq.com/msgrd?v=3&amp;uin=415364124&amp;site=qq&amp;menu=yes">415364124</a>
+            </p>
+            <p class="contact-number interactive-bg">
+              <a id="qq" target="_blank"
+                href="http://wpa.qq.com/msgrd?v=3&amp;uin=717797081&amp;site=qq&amp;menu=yes">717797081</a>
+            </p>
+          </div>
+        </li>
+        <li class="aside-item">
+          <img src="__STATIC__/index/img/u120.png" width="32" height="32">
+          <span class="aside-text">扫一扫</span>
+          <div class="float-container">
+            <div class="float-title">
+              <img src="__STATIC__/index/img/icon10.png" width="32" height="32">微信客服：
+            </div>
+            <p class="contact-number interactive-bg">
+              xcx_zhihuichacang
+              <span class="wx-qrcode">
+                <img src="__STATIC__/index/img/qrcode2.png" width="150" height="150">
+              </span>
+            </p>
+            <p class="contact-number interactive-bg">
+              siring98
+              <span class="wx-qrcode">
+                <img src="__STATIC__/index/img/u120.png" width="150" height="150">
+              </span>
+            </p>
+          </div>
+        </li>
+        <li class="aside-item">
+          <img src="__STATIC__/index/img/icon7.png" width="32" height="32">
+          <span class="aside-text">回顶部</span>
+        </li>
+      </ul>
+    </div>
+    <script src="__STATIC__/index/js/jquery.js"></script>
+    <script src="__STATIC__/index/js/common.js"></script>
+</body>
+
+</html>

@@ -125,9 +125,6 @@ class  Order extends  Controller
 
         }
     }
-
-
-
     /**
      **************郭杨*******************
      * @param Request $request
@@ -191,14 +188,18 @@ class  Order extends  Controller
                         $limit_number=db('order')->where($ww)->sum('order_quantity');
                     }else{
                         //限时
-                      
-                        $ww['order_create_time']=array('between',array($is_limit['create_time'],$li_limit['end_time']));
+                        $ww['order_create_time']=array('between',array($is_limit['create_time'],$is_limit['end_time']));
                         $limit_number=db('order')->where($ww)->sum('order_quantity');
                     }
                     $nn=$is_limit['limit_number']-$limit_number-$numbers[$keys];
                     if($nn < 0){
                         //当前用户购买超过限制
                         return ajax_error('用户购买数量已超过限购数量');
+                    }
+                    //判断商品的限购库存是否足够
+                    $mm=$is_limit['goods_repertory']-$numbers[$keys]-$limit_number;
+                    if($mm<0){
+                        return ajax_error('商品库存不足，无法进行购买');
                     }
                     $limit=1;
                 }else{
@@ -527,6 +528,11 @@ class  Order extends  Controller
                        //当前用户购买超过限制
                        return ajax_error('用户购买数量已超过限购数量');
                    }
+                    //判断商品的限购库存是否足够
+                    $mm=$is_limit['goods_repertory']-$numbers[$keys]-$limit_number;
+                    if($mm<0){
+                        return ajax_error('商品库存不足，无法进行购买');
+                    }
                    $limit=1;
                }else{
                    $limit=0;
@@ -655,10 +661,8 @@ class  Order extends  Controller
                                  
                             }else{
                                  $re2=db('special')->where('id',$goods_standard_id[$keys])->setDec('stock',$numbers[$keys]);
-
                             }
                         }
-
                     } else {
                         $parts_order_number ="RC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].($user_id+1001); //订单编号
                         $is_address_status = Db::name('store_house')
@@ -927,7 +931,6 @@ class  Order extends  Controller
             }
         }
     }
-
     /**
      **************李火生*******************
      * @param Request $request
@@ -941,7 +944,6 @@ class  Order extends  Controller
             $open_id =$request->only("open_id")["open_id"]; //用户open_ID
             $uniacid = input("uniacid");
             $member_id =Db::name("member")->where("member_openid",$open_id)->value("member_id");
-            
             // $da_change =Db::table("tb_set_meal_order")
             //      ->alias('a')
             //     ->field("a.id,a.order_number,a.create_time,a.goods_name,a.goods_quantity,
@@ -2133,7 +2135,8 @@ class  Order extends  Controller
         if($val["result_code"] == "SUCCESS" ){
 
             $order_type = Db::name("order")->where("parts_order_number",$val["out_trade_no"])->find();
-            if($order_type['order_type'] == 2){
+            //订单类型
+            if($order_type['order_type'] == 2){   //到店自提
                 $status = 5;
             } else {
                 $status = 2;
@@ -2146,9 +2149,6 @@ class  Order extends  Controller
             $host_rest = Db::name("house_order")
             ->where("parts_order_number",$val["out_trade_no"])
             ->update(["status"=>3,"pay_time"=>time(),"si_pay_type"=>2]);
-            
-
-
             if($res){
                 $order = GoodsOrder::getOrderInforMation($order_type);
                 $model = OrderModel::grantMoney($order);
@@ -2159,13 +2159,16 @@ class  Order extends  Controller
                 ->select();
 
                 foreach($goods_order as $k => $v){
+                    if($v['is_limit']==1){
+                        db('limited')->where('goods_id',$v['goods_id'])->setDec('goods_repertory',$v['order_quantity']);
+                    }
                     if($goods_order[$k]['special_id'] != 0){
                         $boolw = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setInc('volume',$goods_order[$k]['order_quantity']);
-                        //按照需求下单即减库存,付款时间超过30分钟恢复库存
-                        $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
+                        // //按照需求下单即减库存,付款时间超过30分钟恢复库存
+                        // $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
                     } else {
                         //按照需求下单即减库存,付款时间超过30分钟恢复库存
-                        $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
+                        // $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
                         $booltt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setInc('goods_volume',$goods_order[$k]['order_quantity']);
                     }
                 }
