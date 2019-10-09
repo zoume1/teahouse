@@ -18,6 +18,7 @@ use app\index\controller\Login as Login;
 use app\admin\model\AdderOrder as add;
 use app\admin\model\Store as Store;
 use app\admin\controller\Qiniu;
+use app\city\model\StoreCommission;
 
 class  General extends  Base {
    
@@ -2133,6 +2134,7 @@ class  General extends  Base {
         if($request->isPost()){
             $password =$request->only(["password"])["password"];
             $meal_order_id =$request->only(["id"])["id"];//订单的id
+            $pay_money =$request->only(["pay_money"])["pay_money"];//订单的金额
             $store_pass = Db::name("store")
                 ->where("id",$this->store_ids)
                 ->field("store_pay_pass,store_wallet")
@@ -2143,8 +2145,6 @@ class  General extends  Base {
             if(md5($password) !==$store_pass["store_pay_pass"]){
                 exit(json_encode(array("status" => 3, "info" => "支付密码错误")));
             }
-            //套餐购买成功
-            db('store')->where('id',$this->store_ids)->update(['store_use'=>1]);
             $order_data = Db::name("meal_orders")
                 ->where("id",$meal_order_id)
                 ->find();
@@ -2152,7 +2152,8 @@ class  General extends  Base {
             if($store_pass["store_wallet"]<$order_data['amount_money']){
                 exit(json_encode(array("status" => 3, "info" => "账号余额不足")));
             }
-
+            //套餐购买成功
+            db('store')->where('id',$this->store_ids)->update(['store_use'=>1]);
             //先判断是第一次购买还是套餐升级  
             $is_set_order = Db::name("set_meal_order")
             ->where("store_id",$this->store_ids)
@@ -2177,6 +2178,7 @@ class  General extends  Base {
                     $data["status"] =1; //订单状态（-1为未付款，1已付款)
                     $data["apply"] = 1; //订单状态（-1为未付款，1已付款)
                     $data["audit_status"] =1; //订单审核状态（1审核通过，-1审核不通过,0待审核)
+                    $data['pay_money'] = $pay_money;
                     $res = Db::name("set_meal_order")
                         ->where("order_number",$is_set_order["order_number"])
                         ->update($data);
@@ -2204,7 +2206,7 @@ class  General extends  Base {
                 //进行账号余额减然后插入消费表中
                 $new_wallet = Db::name("store")
                 ->where("id",$this->store_ids)
-                ->setDec("store_wallet",$order_data['amount_money']);
+                ->setDec("store_wallet",$order_data['pay_money']);
                 exit(json_encode(array("status" => 1, "info" => "支付成功")));
             }else{
                 exit(json_encode(array("status" => 3, "info" => "支付失败")));
@@ -3228,6 +3230,7 @@ class  General extends  Base {
     {
         if ($request->isPost()) {
             $data = input();
+            $share_money = StoreCommission::commission_setting();
             if(isset($data['code'])){
                 $code = trim($data['code']);
                 //本店铺的分享码和电话
@@ -3253,9 +3256,9 @@ class  General extends  Base {
                             $rest = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$share_code["user_id"],"highe_share_code"=>$code]);
                             $boole = db("pc_user")->where("id",$store_data["user_id"])->update(["invite_id"=>$share_code["user_id"],"invitation"=>$code]);
                         }
-                        return ajax_success("分享码正确");
+                        return ajax_success("分享码正确",['share_money'=>$share_money['share_money']]);
                     }
-                    return ajax_success("分享码正确");
+                    return ajax_success("分享码正确",['share_money'=>$share_money['share_money']]);
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
