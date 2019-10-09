@@ -1040,9 +1040,14 @@
                 },
                 // 最终付款金额
                 payment: function(){
+                    var orderInfo = this.orderInfo[0];
                     var sum = this.totalPrice;
                     if(this.correctCode){
-                        return (sum - this.discountPrice).toFixed(2);
+                        if(orderInfo.last_money != 0){
+                            return (sum - this.discountPrice - orderInfo.last_money).toFixed(2);
+                        }else{
+                            return (sum - this.discountPrice).toFixed(2);
+                        }
                     }else{
                         return sum;
                     }
@@ -1061,7 +1066,6 @@
                 // 优惠 价格展示
                 showDiscount: function(){
                     var orderInfo = this.orderInfo[0];
-                    console.log(orderInfo);
                     if (orderInfo) {
                         if (this.correctCode) {
                             // 使用邀请码
