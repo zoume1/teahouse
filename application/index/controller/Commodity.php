@@ -206,10 +206,9 @@ class Commodity extends Controller
                     }
                 }elseif($is_limit['end_time']>0){
                        $goods[0]['limit_condition']='0';
-                }else{
-
                 }
                 $goods[0]['limit_number']=$is_limit['limit_number'];
+                $goods[0]['goods_repertory']=$is_limit['goods_repertory'];
                 $goods[0]['limit_price']=$goods[0]['limit_price'];
             }else{
                 $goods[0]['limit_condition']=0;   //未开启限时限购
@@ -467,11 +466,9 @@ class Commodity extends Controller
                     $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
                 }elseif($input['order']==4){     //价格-- 降序
                     $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
-                   
                 }elseif($input['order']==5){     //销量----升序
                     $goods_list=db('goods')->where($where)->order('goods_volume asc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
-                }
-                elseif($input['order']==6){     //销量----降序
+                }elseif($input['order']==6){     //销量----降序
                     $goods_list=db('goods')->where($where)->order('goods_volume desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
                 }
                 if($goods_list){
