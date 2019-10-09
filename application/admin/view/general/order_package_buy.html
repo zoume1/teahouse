@@ -248,7 +248,7 @@
                         <input type="checkbox" id="invite-code"
                             @change="useDiscount"
                             :checked="inputCodeYet">
-                        <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>5</i>元)</span></label>
+                        <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>{{discountPrice}}</i>元)</span></label>
                         <input type="text" :class="{'invite-code-input': true, 'bandCode': inputCodeYet}" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
                             v-show="showInviteCode"
                             v-model="inviteCode"
@@ -559,7 +559,7 @@
             el: '#app',
             data: {
                 showInviteCode: false,
-                discountPrice: 5,
+                discountPrice: 0,
                 protocolFlag: true,
                 // selectData: [],
                 gifFlag: -1,
@@ -598,8 +598,6 @@
                     this.getRemitTime(); //初始化日期选择
                     this.getOrderInfo()
                 }
-                // 邀请金额
-                this.getInvMoney();
                 // this.getCookie('TCid') ? : ; //套餐订单  增值服务商品信息
                 this.getAllAddr(); // 收货地址
                 this.getacountMoney(); //用户账户余额
@@ -885,6 +883,7 @@
                         if(data.body.status == 1){
                             layer.msg(data.body.info);
                             _this.correctCode = true;
+                            _this.discountPrice = data.body.data.share_money;
                         }else{
                             layer.msg(data.body.info);
                             _this.correctCode = false;
@@ -904,7 +903,6 @@
                 buy: function(){
                     this.showPayWay = true;
                     this.getWxCode(); //获取微信支付二维码
-                    // alert('下单成功！');
                 },
                 // 关闭支付弹窗
                 closePop: function(){
@@ -1011,12 +1009,6 @@
                 closeVoucher: function(){
                     this.showVoucherPop = false;
                     this.showPayWay = true;
-                },
-                // 获取邀请码金额
-                getInvMoney: function() {
-                    this.myAjax('getShareCode', {}, function(data){
-                        console.log(111, data);
-                    })
                 }
             },
             watch: {
@@ -1025,7 +1017,7 @@
                     var _this = this;
                     if (typeof code === 'string'){
                         if (code.trim().length !== 0){
-                            this.debounce(this.textInviteCode,1500);
+                            this.debounce(this.textInviteCode, 500);
                         }else {}
                     }
                 }
