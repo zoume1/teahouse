@@ -3248,9 +3248,9 @@ class  General extends  Base {
                             $rest = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$share_code["user_id"],"highe_share_code"=>$code]);
                             $boole = db("pc_user")->where("id",$store_data["user_id"])->update(["invite_id"=>$share_code["user_id"],"invitation"=>$code]);
                         }
-                        return ajax_success("分享码正确",['share_money'=>$share_money['share_money']]);
+                        return ajax_success("分享码正确",['share_money'=>$share_money['money']]);
                     }
-                    return ajax_success("分享码正确",['share_money'=>$share_money['share_money']]);
+                    return ajax_success("分享码正确",['share_money'=>$share_money['money']]);
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
