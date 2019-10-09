@@ -1731,6 +1731,8 @@ class  General extends  Base {
                     "status"=>-1,//订单状态（-1为未付款，1为已付款）
                     "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
                     "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
+                    "false_data"=>1//记录
+
                 ];
                 $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
                 $bool =Db::table("tb_set_meal_order")->insert($data);
@@ -1752,6 +1754,7 @@ class  General extends  Base {
                     "status"=>-1,//订单状态（-1为未付款，1为已付款）
                     "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
                     "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
+                    "false_data"=>1//记录
                 ];
                 $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
                 $bool =Db::table("tb_set_meal_order")->insert($data);
@@ -1773,6 +1776,7 @@ class  General extends  Base {
                     "status"=>-1,//订单状态（-1为未付款，1为已付款）
                     "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
                     "status_type"=>0,//版本开启状态状态（1为正常状态，0为关闭状态）
+                    "false_data"=>0//伪造记录
                 ];
                 $set_meal_id2 = Db::table("tb_meal_orders")->insertGetId($data2);
                 $bool2 =Db::table("tb_set_meal_order")->insert($data2);
@@ -1795,6 +1799,7 @@ class  General extends  Base {
                     "status"=>-1,//订单状态（-1为未付款，1为已付款）
                     "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
                     "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
+                    "false_data"=>1//伪造记录
                 ];
                 $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
                 $bool =Db::table("tb_set_meal_order")->insert($data);
@@ -1816,6 +1821,7 @@ class  General extends  Base {
                     "status"=>-1,//订单状态（-1为未付款，1为已付款）
                     "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
                     "status_type"=>0,//版本开启状态状态（1为正常状态，0为关闭状态）
+                    "false_data"=>0//伪造记录
                 ];
                 $set_meal_id2 = Db::table("tb_meal_orders")->insertGetId($data2);
                 $bool2 =Db::table("tb_set_meal_order")->insert($data2);
@@ -1837,6 +1843,7 @@ class  General extends  Base {
                     "status"=>-1,//订单状态（-1为未付款，1为已付款）
                     "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
                     "status_type"=>0,//版本开启状态状态（1为正常状态，0为关闭状态）
+                    "false_data"=>0//伪造记录
                 ];
                 $set_meal_id3 = Db::table("tb_meal_orders")->insertGetId($data3);
                 $bool3 =Db::table("tb_set_meal_order")->insert($data3);
@@ -2516,6 +2523,7 @@ class  General extends  Base {
                 ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
                 ->where("is_del",1)
                 ->where("store_id",$store_id)
+                ->where("false_data",'1')
                 ->order("tb_meal_orders.create_time","desc")
                 ->paginate(20 ,false, [
                     'query' => request()->param(),
@@ -3248,9 +3256,9 @@ class  General extends  Base {
                             $rest = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$share_code["user_id"],"highe_share_code"=>$code]);
                             $boole = db("pc_user")->where("id",$store_data["user_id"])->update(["invite_id"=>$share_code["user_id"],"invitation"=>$code]);
                         }
-                        return ajax_success("分享码正确",['share_money'=>$share_money['share_money']]);
+                        return ajax_success("分享码正确",['share_money'=>$share_money['money']]);
                     }
-                    return ajax_success("分享码正确",['share_money'=>$share_money['share_money']]);
+                    return ajax_success("分享码正确",['share_money'=>$share_money['money']]);
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
