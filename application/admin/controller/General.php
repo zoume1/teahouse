@@ -2206,7 +2206,7 @@ class  General extends  Base {
                 //进行账号余额减然后插入消费表中
                 $new_wallet = Db::name("store")
                 ->where("id",$this->store_ids)
-                ->setDec("store_wallet",$order_data['pay_money']);
+                ->setDec("store_wallet",$pay_money);
                 exit(json_encode(array("status" => 1, "info" => "支付成功")));
             }else{
                 exit(json_encode(array("status" => 3, "info" => "支付失败")));
@@ -3256,9 +3256,9 @@ class  General extends  Base {
                             $rest = db("store")->where("id",$this->store_ids)->update(["share_store_id"=>$share_code["user_id"],"highe_share_code"=>$code]);
                             $boole = db("pc_user")->where("id",$store_data["user_id"])->update(["invite_id"=>$share_code["user_id"],"invitation"=>$code]);
                         }
-                        return ajax_success("分享码正确",['share_money'=>$share_money['share_money']]);
+                        return ajax_success("分享码正确",['share_money'=>$share_money['money']]);
                     }
-                    return ajax_success("分享码正确",['share_money'=>$share_money['share_money']]);
+                    return ajax_success("分享码正确",['share_money'=>$share_money['money']]);
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
