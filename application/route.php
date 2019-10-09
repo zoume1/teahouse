@@ -1286,7 +1286,8 @@ Route::group("rec",[
     //合伙人考核
     "assessment"=>"rec/Meal/assessment",
 
-
+    //重新支付
+    "shop_wxpay" => "rec/Order/shop_wxpay",
 
 ]);
 
