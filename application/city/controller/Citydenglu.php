@@ -86,6 +86,8 @@ class Citydenglu extends Controller
         $user_data = UserModel::detail(['user_id'=> $user['user_id']]);
         $store_count_money = CityDetail::city_store_commission($user['user_id']);
         $create_time = $user_data['create_time'];
+        $number = CityCopartner::get_number($user);
+        $number ? $status = 0 : $status = 1;
         $rest_data = [
             'phone_number' => $user_data['phone_number'], //账号
             'city_address'=> $user_data['city_address'],  //代理城市
@@ -96,6 +98,7 @@ class Citydenglu extends Controller
             'commission_count'=> $user_data['reach_commission'], //我邀请的累计获得佣金
             'commission' => $user_data['commission'], //保底佣金总额
             'reach_commission' => $user_data['reach_commission'],//达标佣金总额
+            'lock_status' => $status //能否提现
         ];
         return jsonSuccess('发送成功',$rest_data);
     }
