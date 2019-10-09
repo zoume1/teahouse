@@ -79,11 +79,7 @@ class Balance extends Controller
                     }
                     if($goods_order[$k]['special_id'] != 0){
                         $boolw = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setInc('volume',$goods_order[$k]['order_quantity']);
-                        //按照需求下单即减库存,付款时间超过30分钟恢复库存
-                        $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
                     } else {
-                        //按照需求下单即减库存,付款时间超过30分钟恢复库存
-                        $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
                         $booltt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setInc('goods_volume',$goods_order[$k]['order_quantity']);
                     }
                 }
