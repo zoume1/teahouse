@@ -248,7 +248,7 @@
                         <input type="checkbox" id="invite-code"
                             @change="useDiscount"
                             :checked="inputCodeYet">
-                        <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>30</i>元)</span></label>
+                        <label for="invite-code">使用邀请码 <span>(填写推荐邀请码，优惠<i>5</i>元)</span></label>
                         <input type="text" :class="{'invite-code-input': true, 'bandCode': inputCodeYet}" placeholder="填写您的邀请人的会员绑定手机号或邀请码"
                             v-show="showInviteCode"
                             v-model="inviteCode"
@@ -559,7 +559,7 @@
             el: '#app',
             data: {
                 showInviteCode: false,
-                discountPrice: 30,
+                discountPrice: 5,
                 protocolFlag: true,
                 // selectData: [],
                 gifFlag: -1,
