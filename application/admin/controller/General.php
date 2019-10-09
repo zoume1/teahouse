@@ -1543,7 +1543,7 @@ class  General extends  Base {
     
              if($data){
                 if($data[0]['year'] == 0){
-                    $data[0]['year'] = 10;
+                    $data[0]['year'] = 30;
                     $data[0]['unit'] = "天";
                 }
                 foreach ($data as $k=>$v){
@@ -2163,7 +2163,7 @@ class  General extends  Base {
                     if($year > 0){
                         $data["end_time"] = strtotime("+$year  year");//结束时间
                     } else {
-                        $data["end_time"] = strtotime("+10  day");//结束时间
+                        $data["end_time"] = strtotime("+30  day");//结束时间
 
                     }
                     $data["explains"] ="账户余额支付";//审核说明
@@ -2212,7 +2212,7 @@ class  General extends  Base {
         if($year > 0){
             $data["end_time"] = strtotime("+$year  year");//结束时间
         } else {
-            $data["end_time"] = strtotime("+10  day");//结束时间
+            $data["end_time"] = strtotime("+30  day");//结束时间
 
         }
         $data["explains"] ="余额支付直接通过";//审核说明
