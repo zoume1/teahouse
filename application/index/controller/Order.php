@@ -188,7 +188,6 @@ class  Order extends  Controller
                         $limit_number=db('order')->where($ww)->sum('order_quantity');
                     }else{
                         //限时
-                      
                         $ww['order_create_time']=array('between',array($is_limit['create_time'],$is_limit['end_time']));
                         $limit_number=db('order')->where($ww)->sum('order_quantity');
                     }
@@ -196,6 +195,11 @@ class  Order extends  Controller
                     if($nn < 0){
                         //当前用户购买超过限制
                         return ajax_error('用户购买数量已超过限购数量');
+                    }
+                    //判断商品的限购库存是否足够
+                    $mm=$is_limit['goods_repertory']-$numbers[$keys]-$limit_number;
+                    if($mm<0){
+                        return ajax_error('商品库存不足，无法进行购买');
                     }
                     $limit=1;
                 }else{
@@ -524,6 +528,11 @@ class  Order extends  Controller
                        //当前用户购买超过限制
                        return ajax_error('用户购买数量已超过限购数量');
                    }
+                    //判断商品的限购库存是否足够
+                    $mm=$is_limit['goods_repertory']-$numbers[$keys]-$limit_number;
+                    if($mm<0){
+                        return ajax_error('商品库存不足，无法进行购买');
+                    }
                    $limit=1;
                }else{
                    $limit=0;
