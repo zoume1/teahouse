@@ -192,7 +192,7 @@ class  Order extends  Controller
                     }else{
                         //限时
                       
-                        $ww['order_create_time']=array('between',array($is_limit['create_time'],$li_limit['end_time']));
+                        $ww['order_create_time']=array('between',array($is_limit['create_time'],$is_limit['end_time']));
                         $limit_number=db('order')->where($ww)->sum('order_quantity');
                     }
                     $nn=$is_limit['limit_number']-$limit_number-$numbers[$keys];
