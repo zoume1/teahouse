@@ -361,7 +361,7 @@ class  Control extends  Controller{
                     if($year > 0){
                         $data["end_time"] = strtotime("+$year  year");//结束时间
                     } else {
-                        $data["end_time"] = strtotime("+10  day");//结束时间
+                        $data["end_time"] = strtotime("+30  day");//结束时间
                     }
                     $data["explains"] = $explains; //审核说明
                     $data["status"] =1; //订单状态（-1为未付款，1已付款)
