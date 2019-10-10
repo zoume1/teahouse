@@ -31,7 +31,7 @@
         .li_on a{color: rgb(33,165,250) !important;}
         a:hover{text-decoration: none;}
         .li_on {color: rgb(33,165,250) !important;border-bottom: 3px solid rgb(33,165,250);font-weight: 700;}
-        .figure{display: flex; color: rgb(33,165,250);background-color: rgb(236,255,255);margin: 0 10px;padding: 0 10px;line-height: 50px;font-size: 16px;}
+        .figure{display: flex; color: rgb(33,165,250);background-color: rgb(236,255,255);margin: 0 10px;padding: 10px;height: 50px;font-size: 16px;}
         .figure div {margin-right: 30px;}
         .red{color: red;font-size: 18px;}
         .tx_btn{border: 1px solid red;border-radius: 3px;color: red;padding:3px; }
@@ -41,6 +41,9 @@
         .seach_list {display: flex; align-items: center;padding: 4px;}
         .layui-elem-quote {padding: 6px !important;}
         .zs{margin-left: 30px; color: rgb(148,148,148);font-size: 18px;}
+        .all_close{line-height: 19px;width: 50px;text-align: center;border-radius: 3px;margin-left: auto;margin-right: 0 !important;font-size: 15px;}
+        .close_s{color:red;border: 1px solid red;}
+        .close_no{color:rgb(102,153,0);border: 1px solid rgb(102,153,0);}
     </style>
 </head>
 <body>
@@ -138,7 +141,10 @@
                 </div>
                 <div class="figure">
                     <div>保底佣金总额：<span class="red commission"></span></div>
-                    <div>达标佣金总额：<span class="red reach_commission"></span></div>
+                    <div>达标佣金总额：<span class="red reach_commission"></span>
+                        <div class="all_close close_s">锁定</div>
+                        <div class="all_close close_no" style="display: none;">已解锁</div> 
+                    </div>
                     <div><span class="tx_btn">申请提现</span></div>
                 </div>
                 <div class="childrenBody">
@@ -281,7 +287,6 @@
             type: "POST",
             data: "",
             success: (res) => {
-                console.log(res)
                 if (res.code == 1) {
                     $(".city_address").text(res.data.city_address);
                     $(".city_store_number").text(res.data.city_store_number);
@@ -292,6 +297,13 @@
                     $(".invitation_store_number").text(res.data.invitation_store_number);
                     $(".phone_number").text(res.data.phone_number);
                     $(".store_count_money").text("￥" + (res.data.store_count_money).toFixed(2));
+                    if(res.data.lock_status == 0) {
+                        $('.close_s').show();
+                        $('.close_no').hide();
+                    } else {
+                        $('.close_s').hide();
+                        $('.close_no').show();
+                    }
                 }
             },
             error: (e) => { console.log(e) }
