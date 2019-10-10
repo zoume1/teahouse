@@ -184,7 +184,7 @@ class  City extends  Controller{
             if($bool){
                 if($data['status'] == 1){
                     $mobile = $user_data['phone_number'];
-                    $content = "【智慧茶仓】尊敬的用户您好！您的城市合伙人资料审核通过，请及时登陆网站，购买入驻套餐，完成城市入驻";
+                    $content = "【智慧茶仓】尊敬的用户您好！您的城市合伙人资料审核通过，请及时登陆网站，购买入驻套餐，完成城市入驻。";
                     $output = sendMessage($content,$mobile);
                 }
                 $this->success("更新成功", url("admin/City/city_datum_verify"));

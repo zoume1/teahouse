@@ -102,6 +102,7 @@
    .add{text-align:center;font-size: 18px;border: 1px dashed rgb(153, 153, 153);color: rgb(153, 153, 153);cursor:pointer;margin-top: 5px;width:100%;padding: 2px;}
    .tog{position: absolute;right: 0;top: 30px;background-color: #fff;border: 1px solid rgb(255, 223, 223);padding: 10px;z-index: 1000;}
    .tog>div{cursor:pointer;}
+   .seach_laber{width: auto !important; text-align: left;}
 </style>
 
 {/block}
@@ -118,6 +119,7 @@
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         省份
+                        <span id="province_number"></span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="province" data-id="1">
@@ -140,6 +142,7 @@
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         特级城市
+                        <span id="supers_number">（{$data.two_number}个）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="supers" data-id="2">
@@ -167,6 +170,7 @@
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         一级城市
+                        <span id="one_number">（{$data.three_number}个）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="one" data-id="3">
@@ -193,6 +197,7 @@
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         二级城市
+                        <span id="two_number">（{$data.four_number}个）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="two" data-id="4">
@@ -219,6 +224,7 @@
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         三级城市
+                        <span id="three_number">（{$data.five_number}个）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="three" data-id="5">
@@ -298,34 +304,32 @@
     <script>
         function dHtml(id, name) {
             let dHtml = `<div class="flex"  data-id="${id}">
-                                <div class="names">${name}</div>
-                                <div style="flex: 1;"></div>
-                                <div class="all_btn move noshow">移动</div>
-                                <div class="tog noshow">
-                                        <div class="choose" data-city="supers" data-id="2">特级城市</div>
-                                        <div class="choose" data-city="one" data-id="3">一级城市</div>
-                                        <div class="choose" data-city="two" data-id="4">二级城市</div>
-                                        <div class="choose" data-city="three" data-id="5">三级城市</div>
-                                </div>
-                            </div>`;
+                                    <div class="names">${name}</div>
+                                    <div style="flex: 1;"></div>
+                                    <div class="all_btn move noshow">移动</div>
+                                    <div class="tog noshow">
+                                            <div class="choose" data-city="supers" data-id="2">特级城市</div>
+                                            <div class="choose" data-city="one" data-id="3">一级城市</div>
+                                            <div class="choose" data-city="two" data-id="4">二级城市</div>
+                                            <div class="choose" data-city="three" data-id="5">三级城市</div>
+                                    </div>
+                                </div>`;
             return dHtml;
         }
         //获取省份
-        let province_lv = ChineseDistricts_new["86"];
-        for(let i in province_lv) {
+        let province_lv = ChineseDistricts_new["86"], pro_num = new Array;
+        for (let i in province_lv) {
             var dhtml;
             dhtml = `<div class="flex"  data-id="${i}">
-                            <div class="names">${province_lv[i]}</div>
+                    <div class="names">${province_lv[i]}</div>
                     </div>`;
             $("#province").append(dhtml);
+            pro_num.push(province_lv[i]);
         }
-
-        // function getCity(num) {
-
-        // }
+        $('#province_number').text(`（${pro_num.length}个）`);
 
 
-        $('#province').on('click', '.flex', function(){
+        $('#province').on('click', '.flex', function () {
             let province_id = $(this).data('id');
             let citys = ChineseDistricts_new[province_id], arr=new Array;
             for(let i in citys) {
@@ -343,21 +347,25 @@
                         $('#two').find(".flex").remove();
                         $('#three').find(".flex").remove();
                         if(data.two != '' || data.two != null) {
+                            $('#supers_number').text(`（${data.two.length}个）`);
                             for(let i = 0; i < data.two.length; i ++) {
                                 $('#supers').find(".add").before(dHtml(data.two[i].id, data.two[i].name));
                             }
                         }
                         if(data.three != '' || data.three != null) {
+                            $('#one_number').text(`（${data.three.length}个）`);
                             for(let i = 0; i < data.three.length; i ++) {
                                 $('#one').find(".add").before(dHtml(data.three[i].id, data.three[i].name));
                             }
                         }
                         if(data.four != '' || data.four != null) {
+                            $('#two_number').text(`（${data.four.length}个）`);
                             for(let i = 0; i < data.four.length; i ++) {
                                 $('#two').find(".add").before(dHtml(data.four[i].id, data.four[i].name));
                             }
                         }
                         if(data.five != '' || data.five != null) {
+                            $('#three_number').text(`（${data.five.length}个）`);
                             for(let i = 0; i < data.five.length; i ++) {
                                 $('#three').find(".add").before(dHtml(data.five[i].id, data.five[i].name));
                             }
