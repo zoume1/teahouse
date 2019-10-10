@@ -151,7 +151,7 @@ class CityRank extends Model
             'two'=>$two,
             'two_number'=>count($two),
             'three'=>$three,
-            'three_numebr'=>count($three),
+            'three_number'=>count($three),
             'four'=>$four,
             'four_number'=>count($four),
             'five'=>$five,

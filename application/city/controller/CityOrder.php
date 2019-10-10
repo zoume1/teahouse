@@ -26,10 +26,10 @@ class CityOrder extends Controller
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function order_index()
+    public function city_order_index()
     {
         $order_object = new Order;
-        $restul = $order_object -> order_index();
+        $restul = $order_object -> city_order_index();
         return $restul ? jsonSuccess('订单信息返回成功',$restul) : jsonError('订单信息返回失败');
     }
 
