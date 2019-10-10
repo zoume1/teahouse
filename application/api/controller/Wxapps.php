@@ -1274,7 +1274,7 @@ class  Wxapps extends  Controller{
                             $pp2['status']=array('between',array(2,8));
                             $num=db('order')->where($pp2)->count();
                             $list2[$kk]['sale_num']=$num;    //商品已出售数量
-                            $list2[$kk]['goods_show_images']=$list['goods_show_images'];    //商品已出售数量
+                            $list2[$kk]['goods_show_images']=$list[$kk]['goods_show_images'];    //商品已出售数量
                         }
                         if($list2){
                             return   ajax_success('获取成功',$list2);
