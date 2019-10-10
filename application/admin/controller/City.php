@@ -126,8 +126,14 @@ class  City extends  Controller{
      * [城市等级设置]
      * 郭杨
      */    
-    public function city_rank_setting(){
-        $data = CityRank::getList();
+    public function city_rank_setting(Request $request){
+        if($request -> isPost()){
+            $city = Request::instance()->param();
+            halt($city);
+            $data = CityRank::getList($city);
+        } else {
+            $data = CityRank::getList();
+        }
         return view("city_rank_setting",['data'=>$data]);
     }
 

@@ -293,16 +293,34 @@
             form.render();
         })
     </script>
+    <script src="__STATIC__/admin/common/diliweizhi/new_distpicker.js"></script>
     <script>
         //获取省份
-        let province_lv = ChineseDistricts["86"];
+        let province_lv = ChineseDistricts_new["86"];
         for(let i in province_lv) {
             var dhtml;
-            dhtml = `<div class="flex"  data-id="">
+            dhtml = `<div class="flex"  data-id="${i}">
                             <div class="names">${province_lv[i]}</div>
                     </div>`;
             $("#province").append(dhtml);
         }
+
+        $('#province').on('click', '.flex', function(){
+            let province_id = $(this).data('id');
+            let citys = ChineseDistricts_new[province_id], arr=new Array;
+            for(let i in citys) {
+                arr.push(citys[i]);
+            }
+            $.ajax({
+                url: "city_rank_setting",
+                type: "POST",
+                data: { city: arr},
+                success: (res) => {console.log(res)},
+                error: (e) => { console.error(e)}
+                
+            })
+        })
+
         //新增input框
         function add(e) {
             let dif = $(e).parent()[0].id;
