@@ -179,7 +179,7 @@ class  City extends  Controller{
     public function city_datum_verify_update(Request $request){
         if($request->isPost()){
             $data = input();
-            $user_data = CityCopartner::detail(['user_id'=>$data['user_id']]);
+            $user_data = CityCopartner::detail(['user_id'=>$data['id']]);
             $bool = CityCopartner::meal_update($data);
             if($bool){
                 if($data['status'] == 1){
