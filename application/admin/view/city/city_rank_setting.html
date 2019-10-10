@@ -298,11 +298,16 @@
         let province_lv = ChineseDistricts["86"];
         for(let i in province_lv) {
             var dhtml;
-            dhtml = `<div class="flex"  data-id="">
+            dhtml = `<div class="flex"  data-id="${i}">
                             <div class="names">${province_lv[i]}</div>
                     </div>`;
             $("#province").append(dhtml);
         }
+
+        $('#province').on('click', '.flex', function(){
+            console.log($(this).data('id'))
+        })
+
         //新增input框
         function add(e) {
             let dif = $(e).parent()[0].id;
