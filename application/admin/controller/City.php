@@ -126,15 +126,23 @@ class  City extends  Controller{
      * [城市等级设置]
      * 郭杨
      */    
-    public function city_rank_setting(Request $request){
+    public function city_rank_setting(){
+        $data = CityRank::getList($city='');
+        return view("city_rank_setting",['data'=>$data]);
+       
+    }
+
+    /**
+     * [城市等级设置]
+     * 郭杨
+     */    
+    public function city_rank_search(Request $request){
         if($request -> isPost()){
             $city = Request::instance()->param();
-            halt($city);
-            $data = CityRank::getList($city);
-        } else {
-            $data = CityRank::getList();
+            $data = CityRank::getList($city['city']);
+            return jsonSuccess('返回成功',$data);
         }
-        return view("city_rank_setting",['data'=>$data]);
+        
     }
 
     /**
