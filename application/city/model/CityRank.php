@@ -99,7 +99,7 @@ class CityRank extends Model
                     break;
                 case 2:
                     if(!empty($city)){
-                        if(in_array($value, $city)){
+                        if(in_array($value['name'], $city)){
                             $two[] = $value;
                         }
                     } else {
@@ -109,7 +109,7 @@ class CityRank extends Model
                     break;
                 case 3:
                     if(!empty($city)){
-                        if(in_array($value, $city)){
+                        if(in_array($value['name'], $city)){
                             $three[] = $value;
                         }
                     } else {
@@ -119,7 +119,7 @@ class CityRank extends Model
                     break;
                 case 4:
                     if(!empty($city)){
-                        if(in_array($value, $city)){
+                        if(in_array($value['name'], $city)){
                             $four[] = $value;
                         }
                     } else {
@@ -128,7 +128,7 @@ class CityRank extends Model
                     break;
                 case 5:
                     if(!empty($city)){
-                        if(in_array($value, $city)){
+                        if(in_array($value['name'], $city)){
                             $five[] = $value;
                         }
                     } else {

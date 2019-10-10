@@ -312,7 +312,7 @@
                 arr.push(citys[i]);
             }
             $.ajax({
-                url: "city_rank_setting",
+                url: "city_rank_search",
                 type: "POST",
                 data: { city: arr},
                 success: (res) => {console.log(res)},
