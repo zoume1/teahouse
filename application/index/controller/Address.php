@@ -214,12 +214,9 @@ class Address extends  Controller{
                 }else{
                     return ajax_error('设置失败',['status'=>0]);
                 }
-
             }
         }
     }
-
-
     /**
      **************李火生*******************
      * @param Request $request

@@ -413,8 +413,6 @@ class  General extends  Base {
      **************************************
      * @return \think\response\View
      */
-
-
     public function decoration_routine_index(Request $request){
         if($request->isPost()){
             $list = Db::table("applet")
