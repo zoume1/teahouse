@@ -1261,10 +1261,10 @@ class  Wxapps extends  Controller{
                             $list2[$kk]['sale_time']=$vv['create_time'];
                             $list2[$kk]['sale_end_time']=$vv['end_time'];
                             $list2[$kk]['pro_kc']=$vv['goods_repertory'];      //商品库存
-                            $goods_images=$vv['goods_show_images'];
-                            if (strpos($goods_images, 'http') === false && $goods_images != "") {
-                                $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
-                            }
+                            // $goods_images=$vv['goods_show_images'];
+                            // if (strpos($goods_images, 'http') === false && $goods_images != "") {
+                            //     $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
+                            // }
                             $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
                             $list2[$kk]['price']=$info['limit_price'];    //商品价格
                             $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
@@ -1274,7 +1274,7 @@ class  Wxapps extends  Controller{
                             $pp2['status']=array('between',array(2,8));
                             $num=db('order')->where($pp2)->count();
                             $list2[$kk]['sale_num']=$num;    //商品已出售数量
-                            $list2[$kk]['goods_show_images']=$list[$kk]['goods_show_images'];    //商品已出售数量
+                            $list2[$kk]['thumb']=$list[$kk]['goods_show_images'];    //商品已出售数量
                         }
                         if($list2){
                             return   ajax_success('获取成功',$list2);

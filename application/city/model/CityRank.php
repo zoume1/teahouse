@@ -87,7 +87,7 @@ class CityRank extends Model
      * @return false|static[]
      * @throws \think\exception\DbException
      */
-    public static function getList()
+    public static function getList($city)
     {
         $model = new static;
         $data =  $model->all()->toArray();
@@ -98,16 +98,42 @@ class CityRank extends Model
                     $one[] = $value;
                     break;
                 case 2:
-                    $two[] = $value;
+                    if(!empty($city)){
+                        if(in_array($value['name'], $city)){
+                            $two[] = $value;
+                        }
+                    } else {
+                        $two[] = $value;
+                    }
+                    
                     break;
                 case 3:
-                    $three[] = $value;
+                    if(!empty($city)){
+                        if(in_array($value['name'], $city)){
+                            $three[] = $value;
+                        }
+                    } else {
+                        $three[] = $value;
+                    }
+                    
                     break;
                 case 4:
-                    $four[] = $value;
+                    if(!empty($city)){
+                        if(in_array($value['name'], $city)){
+                            $four[] = $value;
+                        }
+                    } else {
+                        $four[] = $value;
+                    }
                     break;
                 case 5:
-                    $five[] = $value;
+                    if(!empty($city)){
+                        if(in_array($value['name'], $city)){
+                            $five[] = $value;
+                        }
+                    } else {
+                        $five[] = $value;
+                    }
                     break;
                 default:
                     break;
