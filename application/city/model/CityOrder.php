@@ -107,7 +107,7 @@ class CityOrder extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function order_index()
+    public function city_order_index()
     {
         $user = Session::get('User');
         if(!empty($user)){

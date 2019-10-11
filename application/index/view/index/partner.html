@@ -305,7 +305,7 @@
             </li>
         </ul>
     </div>
-
+    <!-- 申请前协议 -->
     <div class="agreement">
         <div class="agr">
                 <div style="text-align: center;font-size:25px;margin: 10px 0;">城市合伙人协议</div>
@@ -768,6 +768,7 @@
     <script src="__STATIC__/index/js/common.js"></script>
     <script src="__STATIC__/index/js/swiper-4.3.5.min.js"></script>
     <script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp.js"></script>
+    <script src="__STATIC__/admin/common/diliweizhi/new_distpicker.js"></script>
     <script>
         var representative = new Swiper('.swiper-container', {
             watchSlidesProgress: true,
@@ -889,12 +890,11 @@
             }
             myEvent.aa = function () {
                 let city_lv = $("#province_sq  option:selected").data("code");
-                console.log(ChineseDistricts[city_lv])
             }
             //获取申请城市
             myEvent.chooseLv = function () {
                 // console.log($("#choose_lv  option:selected").val());
-                let province_lv = ChineseDistricts[$("#province_sq  option:selected").data("code")];
+                let province_lv = ChineseDistricts_new[$("#province_sq  option:selected").data("code")];
                 let city_lv = $("#choose_lv  option:selected").val();
                 if (city_lv > 0) {
                     $.ajax({

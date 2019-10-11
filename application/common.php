@@ -1468,7 +1468,7 @@ function show_ds_orderer($status){
     //手机号的验证规则
     function isMobile($value)
     {
-        $rule = '^1(3|4|5|7|8)[0-9]\d{8}$^';
+        $rule = '^1(3|4|5|7|8|9)[0-9]\d{8}$^';
         $result = preg_match($rule, $value);
         if ($result) {
             return true;

@@ -100,8 +100,9 @@
    .noshow {display: none;}
    .save{margin-right: 5px;}
    .add{text-align:center;font-size: 18px;border: 1px dashed rgb(153, 153, 153);color: rgb(153, 153, 153);cursor:pointer;margin-top: 5px;width:100%;padding: 2px;}
-   .tog{position: absolute;right: 0;top: 30px;background-color: #fff;border: 1px solid rgb(255, 223, 223);padding: 10px;}
+   .tog{position: absolute;right: 0;top: 30px;background-color: #fff;border: 1px solid rgb(255, 223, 223);padding: 10px;z-index: 1000;}
    .tog>div{cursor:pointer;}
+   .seach_laber{width: auto !important; text-align: left;}
 </style>
 
 {/block}
@@ -118,6 +119,7 @@
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         省份
+                        <span id="province_number"></span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="province" data-id="1">
@@ -140,15 +142,17 @@
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         特级城市
+                        <span id="supers_number">（{$data.two_number}个）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="supers" data-id="2">
+
                         {if !empty($data['two'])}{volist name="$data['two']" id="two"}
                         <div class="flex"  data-id="{$two.id}">
                                 <div class="names">{$two.name}</div>
                                 <div style="flex: 1;"></div>
                                 <div class="all_btn move noshow">移动</div>
-                                <div class="all_btn del noshow">删除</div>
+                                <!-- <div class="all_btn del noshow">删除</div> -->
                                 <div class="tog noshow">
                                         <div class="choose" data-city="supers" data-id="2">特级城市</div>
                                         <div class="choose" data-city="one" data-id="3">一级城市</div>
@@ -166,6 +170,7 @@
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         一级城市
+                        <span id="one_number">（{$data.three_number}个）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="one" data-id="3">
@@ -174,7 +179,7 @@
                                 <div class="names">{$three.name}</div>
                                 <div style="flex: 1;"></div>
                                 <div class="all_btn move noshow">移动</div>
-                                <div class="all_btn del noshow">删除</div>
+                                <!-- <div class="all_btn del noshow">删除</div> -->
                                 <div class="tog noshow">
                                         <div class="choose" data-city="supers" data-id="2">特级城市</div>
                                         <div class="choose" data-city="one" data-id="3">一级城市</div>
@@ -192,6 +197,7 @@
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         二级城市
+                        <span id="two_number">（{$data.four_number}个）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="two" data-id="4">
@@ -200,7 +206,7 @@
                                 <div class="names">{$four.name}</div>
                                 <div style="flex: 1;"></div>
                                 <div class="all_btn move noshow">移动</div>
-                                <div class="all_btn del noshow">删除</div>
+                                <!-- <div class="all_btn del noshow">删除</div> -->
                                 <div class="tog noshow">
                                         <div class="choose" data-city="supers" data-id="2">特级城市</div>
                                         <div class="choose" data-city="one" data-id="3">一级城市</div>
@@ -218,6 +224,7 @@
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         三级城市
+                        <span id="three_number">（{$data.five_number}个）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="three" data-id="5">
@@ -226,7 +233,7 @@
                                 <div class="names">{$five.name}</div>
                                 <div style="flex: 1;"></div>
                                 <div class="all_btn move noshow">移动</div>
-                                <div class="all_btn del noshow">删除</div>
+                                <!-- <div class="all_btn del noshow">删除</div> -->
                                 <div class="tog noshow">
                                         <div class="choose" data-city="supers" data-id="2">特级城市</div>
                                         <div class="choose" data-city="one" data-id="3">一级城市</div>
@@ -295,17 +302,34 @@
     </script>
     <script src="__STATIC__/admin/common/diliweizhi/new_distpicker.js"></script>
     <script>
+        function dHtml(id, name) {
+            let dHtml = `<div class="flex"  data-id="${id}">
+                                    <div class="names">${name}</div>
+                                    <div style="flex: 1;"></div>
+                                    <div class="all_btn move noshow">移动</div>
+                                    <div class="tog noshow">
+                                            <div class="choose" data-city="supers" data-id="2">特级城市</div>
+                                            <div class="choose" data-city="one" data-id="3">一级城市</div>
+                                            <div class="choose" data-city="two" data-id="4">二级城市</div>
+                                            <div class="choose" data-city="three" data-id="5">三级城市</div>
+                                    </div>
+                                </div>`;
+            return dHtml;
+        }
         //获取省份
-        let province_lv = ChineseDistricts_new["86"];
-        for(let i in province_lv) {
+        let province_lv = ChineseDistricts_new["86"], pro_num = new Array;
+        for (let i in province_lv) {
             var dhtml;
             dhtml = `<div class="flex"  data-id="${i}">
-                            <div class="names">${province_lv[i]}</div>
+                    <div class="names">${province_lv[i]}</div>
                     </div>`;
             $("#province").append(dhtml);
+            pro_num.push(province_lv[i]);
         }
+        $('#province_number').text(`（${pro_num.length}个）`);
 
-        $('#province').on('click', '.flex', function(){
+
+        $('#province').on('click', '.flex', function () {
             let province_id = $(this).data('id');
             let citys = ChineseDistricts_new[province_id], arr=new Array;
             for(let i in citys) {
@@ -315,12 +339,46 @@
                 url: "city_rank_search",
                 type: "POST",
                 data: { city: arr},
-                success: (res) => {console.log(res)},
+                success: (res) => {
+                    let data = res.data;
+                    if(res.code == 1) {
+                        $('#supers').find(".flex").remove();
+                        $('#one').find(".flex").remove();
+                        $('#two').find(".flex").remove();
+                        $('#three').find(".flex").remove();
+                        if(data.two != '' || data.two != null) {
+                            $('#supers_number').text(`（${data.two.length}个）`);
+                            for(let i = 0; i < data.two.length; i ++) {
+                                $('#supers').find(".add").before(dHtml(data.two[i].id, data.two[i].name));
+                            }
+                        }
+                        if(data.three != '' || data.three != null) {
+                            $('#one_number').text(`（${data.three.length}个）`);
+                            for(let i = 0; i < data.three.length; i ++) {
+                                $('#one').find(".add").before(dHtml(data.three[i].id, data.three[i].name));
+                            }
+                        }
+                        if(data.four != '' || data.four != null) {
+                            $('#two_number').text(`（${data.four.length}个）`);
+                            for(let i = 0; i < data.four.length; i ++) {
+                                $('#two').find(".add").before(dHtml(data.four[i].id, data.four[i].name));
+                            }
+                        }
+                        if(data.five != '' || data.five != null) {
+                            $('#three_number').text(`（${data.five.length}个）`);
+                            for(let i = 0; i < data.five.length; i ++) {
+                                $('#three').find(".add").before(dHtml(data.five[i].id, data.five[i].name));
+                            }
+                        }
+                        
+                    }
+
+                },
                 error: (e) => { console.error(e)}
                 
             })
         })
-
+        
         //新增input框
         function add(e) {
             let dif = $(e).parent()[0].id;
@@ -378,8 +436,9 @@
             })
         }
 
-         //点击选中改变样式
-         $(".flex").click(function() {
+        //点击选中改变样式
+        $('#province').add('#one').add('#two').add('#three').add('#supers').on('click','.flex', function(){
+        //  $(".flex").click(function() {
                 $(this).addClass("felx_c");
                 $(this).find(".del").removeClass("noshow");
                 $(this).find(".move").removeClass("noshow");
@@ -389,11 +448,11 @@
         })
 
         //移动弹框
-        $('.move').click(function() {
+        $('#province').add('#one').add('#two').add('#three').add('#supers').on('click','.move', function(){
             $(this).parent().find(".tog").toggle();
         })
         //移动分组
-        $(".choose").click(function(){
+        $('#province').add('#one').add('#two').add('#three').add('#supers').on('click','.choose', function(){
             let choose_name = $(this).parents(".flex").find('.names').text();//城市名
             let choose_city_id = $(this).data("id"); //城市等级
             let choose_city = $(this).data("city"); //城市所属id

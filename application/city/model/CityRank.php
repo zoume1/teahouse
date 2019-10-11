@@ -147,10 +147,15 @@ class CityRank extends Model
         isset($five) ? $five : $five = [];
         $rest = [
             'one'=>$one,
+            'one_number'=>count($one),
             'two'=>$two,
+            'two_number'=>count($two),
             'three'=>$three,
+            'three_number'=>count($three),
             'four'=>$four,
+            'four_number'=>count($four),
             'five'=>$five,
+            'five_number'=>count($five),
         ];
         return  $rest;
     }
