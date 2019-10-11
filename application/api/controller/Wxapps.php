@@ -701,7 +701,7 @@ class  Wxapps extends  Controller{
                                 $list = db("goods")
                                     ->where(['pid'=>$sourceid,'status'=>1,'store_id'=>$uniacid,'limit_goods'=>'0'])
                                     ->limit(0,$count)
-                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money,goods_repertory,goods_sign")
+                                    ->field("goods_name title,id,goods_selling,goods_member,goods_show_image,goods_new_money,scope,goods_volume,goods_standard,goods_bottom_money,goods_repertory,goods_sign,goods_show_images")
                                     ->select();
                                 $member_grade_id = db("member")
                                     ->where("member_openid", $member_id)
@@ -735,6 +735,8 @@ class  Wxapps extends  Controller{
                                         continue;
 
                                     }
+                                    //获取上品的图片
+                                    $se = explode(",", $vvs["goods_show_images"]);
                                     if (!empty($list[$kks]["scope"])) {
                                         $list[$kks]["scope"] = explode(",", $list[$kks]["scope"]);
                                     }
@@ -750,7 +752,7 @@ class  Wxapps extends  Controller{
                                         $standard[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->select();
                                         $min[$kks] = db("special")->where("goods_id", $list[$kks]['id'])->min("price") ;//最低价格
                                         $list[$kks]["goods_standard"] = $standard[$kks];
-                                        $list[$kks]["thumb"] = $list[$kks]["goods_show_image"]; //图片
+                                        $list[$kks]["thumb"] = $se[0]; //图片
                                         $list[$kks]["member_grade_img"] =$member_grade_img;
                                         $list[$kks]['sale_num'] = db('special')->where('goods_id',$vvs['id'])->sum('volume');; //销量
                                         $list[$kks]["price"] =round($min[$kks] * $discount2,2) ; //价钱
