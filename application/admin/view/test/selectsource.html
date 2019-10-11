@@ -182,13 +182,17 @@
                                 <span style="font-weight: bold">|-{$v['name']}</span></div>
                             {else}
                             <div class="text" style="font-weight: bold;" onclick="tog(this)">|-{$v['name']}</div>
+                            {if $v['second_cate']}
                             <div class="line texts" style="display: none;">
-                                    <div class="icon icon-link1"></div>
-                                    <div class="icon icon-link1"></div>
-                                    <!--cateid-->
-                                    <nav data-href="cateid:{$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
-                                    <div class="text " style="font-weight: bold;">||-{$v['name']}</div>
-                            </div>
+                                   {foreach $v['second_cate'] as $v2}
+                                        <div class="icon icon-link1"></div>
+                                        <div class="icon icon-link1"></div>
+                                        <!--cateid-->
+                                        <nav data-href="cateid:{$v2['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                                        <div class="text " style="font-weight: bold;">||-{$v2['name']}</div>
+                                    {/foreach}
+                                </div>
+                                {/if}
                             {/if}
                         </div>
                         
