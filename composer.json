@@ -1,5 +1,6 @@
 {
     "require": {
-        "overtrue/wechat": "~3.1"
+        "overtrue/wechat": "~3.1",
+        "anerg2046/sns_auth": "^2.0"
     }
 }
