@@ -70,20 +70,19 @@ class  Order extends  Controller{
                 $data2[$k]['detail']=$order;
                 $data2[$k]['num']=$num;
             }
-
-        $all_idents = $data2;//这里是需要分页的数据
-        $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
-        $listRow = 20;//每页20行记录
-        $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
-        $data2 = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
-            'var_page' => 'page',
-            'path' => url('admin/Order/order_index'),//这里根据需要修改url
-            'query' => [],
-            'fragment' => '',
-        ]);
-        $data2->appends($_GET);
-        $this->assign('access', $data2->render());
-        return view("order_index",["data"=>$data2]);
+            $all_idents = $data2;//这里是需要分页的数据
+            $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+            $listRow = 20;//每页20行记录
+            $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+            $data2 = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+                'var_page' => 'page',
+                'path' => url('admin/Order/order_index'),//这里根据需要修改url
+                'query' => [],
+                'fragment' => '',
+            ]);
+            $data2->appends($_GET);
+            $this->assign('access', $data2->render());
+            return view("order_index",["data"=>$data2]);
     }
 
     /**
@@ -188,7 +187,6 @@ class  Order extends  Controller{
                     /*添加一天（23：59：59）*/
                     $t=date('Y-m-d H:i:s',strtotime($date_max)+1*24*60*60);
                     $timemax  =strtotime($t);
-
                 }
                 if(!empty($time_min) && empty($date_max)){
                     $time_condition  = "order_create_time>{$timemin}";
@@ -245,6 +243,18 @@ class  Order extends  Controller{
                 $data2[$k]['detail']=$order;
                 $data2[$k]['num']=$num;
             }
+            $all_idents = $data2;//这里是需要分页的数据
+            $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
+            $listRow = 20;//每页20行记录
+            $showdata = array_slice($all_idents, ($curPage - 1) * $listRow, $listRow, true);// 数组中根据条件取出一段值，并返回
+            $data2 = Bootstrap::make($showdata, $listRow, $curPage, count($all_idents), false, [
+                'var_page' => 'page',
+                'path' => url('admin/Order/order_index'),//这里根据需要修改url
+                'query' => [],
+                'fragment' => '',
+            ]);
+            $data2->appends($_GET);
+            $this->assign('access', $data2->render());
             return view("order_index",["data"=>$data2]);
 
     }
