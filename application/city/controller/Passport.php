@@ -84,7 +84,7 @@ class Passport extends Controller
             $rest = new UserModel;
             if($rest->submit($data))
             {
-                return $this->renderSuccess('注册成功');
+                return $this->renderSuccess('您的资料已提交，请耐心等待审核通过');
             }
 
             return $this->renderError($rest->getError() ?: '注册失败');
@@ -100,7 +100,7 @@ class Passport extends Controller
      */
     public function chooseCity()
     {
-        $data = CityRank::getList();
+        $data = CityRank::getList($city = '');
         
         if($data['one'])
         {

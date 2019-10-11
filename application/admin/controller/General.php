@@ -50,11 +50,11 @@ class  General extends  Base {
      */
     public function general_index(){
         $code_object = new Login;
-        $share_code = $code_object->memberCode();
         $code = Db::table("tb_store")
             ->where("id",$this->store_ids)
             ->value('share_code');
         if(empty($code)){
+            $share_code = $code_object->memberCode();
             $boole = Db::table("tb_store")
             ->where("id",$this->store_ids)
             ->update(['share_code'=>$share_code]);
