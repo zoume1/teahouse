@@ -173,7 +173,7 @@ class Test extends  Controller{
                 foreach ($list as $key=>&$value){
                     $list[$key]['subcate'] =null;
                     //获取二级分类
-                    
+                    $list[$key]['second_cate']=db('wares')->where('pid',$value['id'])->field('id,name')->select();
                 }
                 break;
             case 'piccate':
