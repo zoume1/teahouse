@@ -152,8 +152,8 @@ class Test extends  Controller{
 //                    $value['subcate'] =$subcate;
 //                }
                 break;
-                //这是商品栏目的来源
-            case 'goodscate':
+                
+            case 'goodscate':    //这是商品栏目的来源
 //                $list = Db::table("ims_sudu8_page_cate")->where("uniacid",$uniacid)->where("type","showPro")->where("cid",0)->field("id,name")->select();
 //
 //                foreach ($list as $key => &$value) {
@@ -169,9 +169,11 @@ class Test extends  Controller{
 //                    $cates[$key]['subcate'] =$catess;
 //                }
                 //商品分类
-                $list =Db::table("tb_wares")->where(["pid"=>0,'store_id'=>$uniacid])->field("id,name")->select();
+                $list =Db::table("tb_wares")->where(["pid"=>0,'store_id'=>$uniacid])->field("id,name")->select();   //一级分类
                 foreach ($list as $key=>&$value){
                     $list[$key]['subcate'] =null;
+                    //获取二级分类
+                    
                 }
                 break;
             case 'piccate':
