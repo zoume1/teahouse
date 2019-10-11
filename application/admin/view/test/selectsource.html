@@ -14,7 +14,7 @@
 
         #selectUrl_url .modal-dialog {width: 930px;}
 
-        #selectUrl_url .line {border-bottom: 1px dashed #ddd; color: #999; height: 36px; line-height: 36px;}
+        #selectUrl_url .line { color: #999; height: 36px; line-height: 36px;}
         #selectUrl_url .line:hover{background-color: #eee;}
         #selectUrl_url .line .icon {height: 35px; width: 30px; position: relative; float: left;}
 
@@ -65,7 +65,7 @@
 
         #selectUrl .modal-dialog {width: 930px;}
 
-        #selectUrl .line {border-bottom: 1px dashed #ddd; color: #999; height: 36px; line-height: 36px;}
+        #selectUrl .line { color: #999; height: 36px; line-height: 36px;}
 
         #selectUrl .line .icon {height: 35px; width: 30px; position: relative; float: left;}
 
@@ -82,6 +82,8 @@
         #selectUrl .line .btn-sm {float: right; margin-top: 5px; margin-right: 5px; height: 24px; line-height: 24px; padding: 0 10px;}
 
         #selectUrl .line .text {display: block;}
+
+        .line .text {border-bottom: 1px dashed #ddd;}
 
         #selectUrl .line .label-sm {padding: 2px 5px;}
 
@@ -165,7 +167,7 @@
                     <div id="select-diypage-list">
                         {if $list}
                         {foreach $list as $v}
-                        <div class="line">
+                        <div class="line" style="height: auto;">
                             <div class="icon icon-link1"></div>
                             <!--cateid-->
                             <nav data-href="cateid:{$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
@@ -179,9 +181,18 @@
                                 {/if}
                                 <span style="font-weight: bold">|-{$v['name']}</span></div>
                             {else}
-                            <div class="text" style="font-weight: bold">|-{$v['name']}</div>
+                            <div class="text" style="font-weight: bold;" onclick="tog(this)">|-{$v['name']}</div>
+                            <div class="line texts" style="display: none;">
+                                    <div class="icon icon-link1"></div>
+                                    <div class="icon icon-link1"></div>
+                                    <!--cateid-->
+                                    <nav data-href="cateid:{$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                                    <div class="text " style="font-weight: bold;">||-{$v['name']}</div>
+                            </div>
                             {/if}
                         </div>
+                        
+
                         {if $v['subcate']}
                         {foreach $v['subcate'] as $vi}
                         <div class="line">
@@ -223,4 +234,9 @@
     </div>
 
 </div>
+<script>
 
+        function tog(e) {
+            $(e).nextAll('.texts').toggle();
+        }
+        </script>
