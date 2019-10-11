@@ -1215,7 +1215,7 @@ Route::group("city",[
     "myInviteStore_search"=>"city/Citydenglu/myInviteStore_search",                //我邀请的商户明细搜索
     "copartner_order_index"=>"city/Citydenglu/copartner_order_index",//我邀请的商户明细
     "city_server_index"=>"city/Citydenglu/city_server_index",//合伙人系统固定页面
-    "order_index"=>"city/CityOrder/order_index",//城市合伙人订单显示
+    "city_order_index"=>"city/CityOrder/city_order_index",//城市合伙人订单显示
     "cityWhatChatPay"=>"city/CityOrder/cityWhatChatPay",//城市合伙人订单微信支付
     "city_WhatChatPay"=>"city/WeiCityPay/city_WhatChatPay",//公众号订单微信支付
     "cityAlipayCode"=>"city/CityOrder/cityAlipayCode",//城市合伙人订单支付宝支付
