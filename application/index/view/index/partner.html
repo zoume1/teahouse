@@ -26,7 +26,7 @@
         .foot-box{width: 100%;height: 100px;background-color: rgb(0, 0, 0, .5);display: flex;justify-content: center;align-content: stretch;position: fixed;bottom:0px;}
         .city-title{display: flex;justify-content: space-between;padding: 10px 0;}
         .title-l{font-weight: 700;font-size: 16px;}
-        .city-apply{color: #fff;background-color:rgb(152,145,52);padding:0 10px;margin-right: 15px;line-height: 23px;border-radius: 3px;}
+        .city-apply{color: #fff;background-color:rgb(152,145,52);padding:0 10px;margin-right: 15px;line-height: 23px;border-radius: 3px;cursor: pointer;}
         .city-login{line-height: 23px;}
         .apply_main{background-color: rgb(0, 0, 0, .5);width:100%;height: 100%;position: absolute;top:-80px;display: none;z-index: 1000;}
         .apply_t{width: 45%;margin:auto;margin-top:5%;background-color:#fff;padding: 20px 50px;border-radius: 15px;}
@@ -44,7 +44,7 @@
         .deal_main{overflow-y:scroll;width: 100%;padding: 10px 20px;height: 300px;overflow-y: scroll;display: none;}
         .upimg-div .up-section {width: 300px; height: 150px;}
         .tips{color: rgb(215, 215, 215);text-align: center;}
-        .agreement{background-color: rgb(0, 0, 0, .5);width:100%;height: 100%;position: absolute;top:-80px;z-index: 1000;display: none;}
+        .agreement{background-color: rgb(0, 0, 0, .8);width:100%;height: 100%;position: absolute;top:-80px;z-index: 1000;display: none;}
         .agr{width: 60%;margin:auto;margin-top:5%;background-color:#fff;padding: 20px 50px;overflow-y: scroll;height: 800px;}
         .btn_all{display:flex;justify-content : space-around;margin-top: 300px;}
         .btn_s{color: #fff;width: 150px;border-radius: 5px;text-align: center;font-size: 28px;cursor: pointer;}
@@ -102,10 +102,10 @@
                     <div class="title-l">服务窗口</div>
                     <div style="flex:1;"></div>
                     <div class="city-apply">申请城市合伙人</div>
-                    <div class="city-login"><a href="city_login">合伙人后台登录</a></div>
+                    <div class="city-login"><a href="city_login" style="color: black;">合伙人后台登录</a></div>
                 </div>
                 <div class="partner-info-banner">
-                    <img src="__STATIC__/index/img/img32.jpg" width="1350" height="425">
+                    <img src="http://zhihuichacang.com/img1137010.png" width="1350" height="auto">
                 </div>
                 <div class="partner-info-detail">
                     <div class="partner-info-item">
@@ -505,10 +505,10 @@
                                     <div class="z_photo upimg-div clear">
                                         <section class="z_file fl" style="width: 300px;">
                                             <img src="__STATIC__/index/img/id2.png" class="add-img"
-                                                style="width: 300px;">
+                                                style="width: 300px;height: 150px;">
                                             <input type="file" name="id_image" id="file" class="file" value=""
                                                 accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1" required
-                                                style="width: 300px;" />
+                                                style="width: 300px;height: 150px;" />
                                             <div class="tips">+身份证正面照</div>
                                         </section>
                                     </div>
@@ -530,7 +530,7 @@
                                             <img src="__STATIC__/index/img/id3.png" class="add-img company-item"
                                                 style="width: 120px;height: 150px;">
                                             <img src="__STATIC__/index/img/id1.png" class="add-img personal-item"
-                                                style="width: 300px;display: none;">
+                                                style="width: 300px;display: none;height: 150px;">
                                             <input type="file" name="id_image_reverse" id="file1" class="file" value=""
                                                 accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1"
                                                 style="width: 120px;height: 150px;" />
@@ -1022,7 +1022,7 @@
         })
 
         //调起申请弹框
-        $(".btn-r").click(function () {
+        $(".btn-r").add('.city-apply').click(function () {
             $(".agreement").show();
             $('input[name=user_name]').focus();
         })
