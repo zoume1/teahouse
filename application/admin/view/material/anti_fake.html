@@ -29,8 +29,11 @@
     .bot-operate{ width: 97%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
-
     .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
+    .details{border: 1px solid rgb(51,204,255);padding: 5px;border-radius: 3px;margin-right: 20px;}
+    .complete{color: rgb(0,0,255);border: 1px solid rgb(0,0,255);padding: 5px;border-radius: 3px;}
+    .unfinished{color: rgb(188,188,188);border: 1px solid rgb(188,188,188);padding: 5px;border-radius: 3px;}
+    .green_zi{color:rgb(102,153,0);}
 </style>
 {/block}
 
@@ -158,7 +161,7 @@
                             <td>
                                 <div style="display:flex;justify-content: center;">
                                     <div class="table-cell-div details">
-                                        <a href="{:url('admin/Material/chip_details')}" style="color: rgb(10,135,255);">芯片详情</a>
+                                        <a href="{:url('admin/Material/fake_chip')}" style="color: rgb(10,135,255);">芯片详情</a>
                                     </div>
                                     <div class="complete">已生成商品</div>
                                     <div class="unfinished">未生成商品</div>
@@ -168,12 +171,7 @@
                     </tbody>
                 </table>
             </div>
-            <style>
-                .details{border: 1px solid rgb(51,204,255);padding: 5px;border-radius: 3px;margin-right: 20px;}
-                .complete{color: rgb(0,0,255);border: 1px solid rgb(0,0,255);padding: 5px;border-radius: 3px;}
-                .unfinished{color: rgb(188,188,188);border: 1px solid rgb(188,188,188);padding: 5px;border-radius: 3px;}
-                .green_zi{color:rgb(102,153,0);}
-            </style>
+           
             <div class="bot-operate">
                 <div class="opation">
                     <select>
