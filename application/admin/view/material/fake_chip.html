@@ -16,7 +16,6 @@
     .bot-operate .opation{float: left}
     .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
     .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
-    .green_zi{color:rgb(102,153,0);}
 </style>
 {/block}
 
@@ -71,16 +70,10 @@
                                 <div class="table-cell-div">子标编号</div>
                             </th>
                             <th>
-                                <div class="table-cell-div">溯源状态</div>
+                                <div class="table-cell-div">入库数量</div>
                             </th>
                             <th>
-                                <div class="table-cell-div">扫码次数</div>
-                            </th>
-                            <th>
-                                <div class="table-cell-div">NFC次数</div>
-                            </th>
-                            <th>
-                                <div class="table-cell-div">保险单号</div>
+                                <div class="table-cell-div">操作</div>
                             </th>
                         </tr>
                     </thead>
@@ -91,11 +84,11 @@
                             <td>2</td>
                             <td>3</td>
                             <td>4</td>
-                            <td class="green_zi">5</td>
+                            <td>5</td>
                             <td>6</td>
-                            <td>7</td>
-                            <td>8</td>
-                            <td>9</td>
+                            <td>
+                                <a href="{:url('admin/Material/chip_details')}" style="color: rgb(10,135,255);">详情</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
