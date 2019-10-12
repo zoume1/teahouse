@@ -37,7 +37,7 @@ class WeiCityPay extends Controller{
             $res = $wechatpay->pay($order['city_meal_name'],$order['user_name'],$order['order_number'],$pay_money,$url,$order['openid']);
             return  $res; exit();
         }
-
+    }    
 
 
     /**

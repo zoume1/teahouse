@@ -166,7 +166,8 @@ class User extends Model
     {
         $user = self::useGlobalScope(false)->where([
             'phone_number' => $data['phone_number'],
-            'password' =>  changcang_hash($data['password'])
+            'password' =>  changcang_hash($data['password']),
+            'status' => STATUS_NOPAY
         ])->find();
         return $user ? $user->toArray() : false;
     }
