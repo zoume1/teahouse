@@ -458,6 +458,23 @@ class  Material extends  Controller{
      * @return \think\response\View
      */
     public function anti_fake(){
+        $input=input();
+        if(!empty($input)){
+            //检索
+
+        }else{
+            $sql='SELECT * FROM v_test ';
+        }
+        $con=mysqli_connect("39.97.124.73","root","Lingtian2118",'lingtian_wms_xm');
+        halt(1111);
+        if($con)
+        {
+            dump(123123);
+           $res= mysqli_query($con,$sql);   
+           halt($res);
+          //   $re2=DB::name($re)->insertGetId($member);
+        }
+        halt($con);
         return view("anti_fake");
     }
 
@@ -591,6 +608,14 @@ class  Material extends  Controller{
             echo json_encode(['code' => 0, 'msg' => '数据有误']);
         }
 
+    }
+    /**
+     * lilu
+     * 物联--防伪溯源--芯片
+     */
+    public function fake_chip(){
+
+        return view('fake_chip');
     }
     /**
      * lilu
