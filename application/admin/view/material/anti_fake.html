@@ -44,17 +44,19 @@
     <div class="wrapper">
         <div class="inner">
             <div class="search-hd">
-                <div class="search-box">
-                    <div class="s-input">
-                        <label>输入搜索：</label>
-                        <input type="text" placeholder="商品名称/商品编号" id="searchTxt">
+                <form class="layui-form" action="{:url('admin/Material/anti_fake')}">
+                    <div class="search-box">
+                        <div class="s-input">
+                            <label>输入搜索：</label>
+                            <input type="text" name="anti_name" placeholder="商品名称/商品编号" id="searchTxt">
+                        </div>
+                        <div class="date-input">
+                            <label>生产日期：</label>
+                            <input type="text" name="anti_date" data-type="date" id="searchDate">
+                        </div>
+                        <button class="layui-btn">立即搜索</button>
                     </div>
-                    <div class="date-input">
-                        <label>生产日期：</label>
-                        <input type="text" data-type="date" id="searchDate">
-                    </div>
-                    <button class="layui-btn">立即搜索</button>
-                </div>
+                </form>
                 <!-- <form action="{:url('admin/Phpexcel/import_excel')}" enctype="multipart/form-data" method="post">
                     <input  type="file" name="file_stu" />
                     <input type="submit"  value="导入" />
