@@ -1528,7 +1528,9 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_store_user(){
-
+        $data = db('store')->paginate(20,false, [
+            'query' => request()->param(),
+        ]);
         return view("control_store_user");
     }
 
