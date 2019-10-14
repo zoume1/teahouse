@@ -36,7 +36,7 @@ class User extends Model
     public function login($data)
     {
         // 验证用户名密码是否正确
-        $user = $this->isStatus($data);
+        $user = $this->isStatues($data);
         if (!$user) {
             $this->error = '登录失败, 账号或密码错误';
             return ERROR_100;
@@ -168,6 +168,21 @@ class User extends Model
             'phone_number' => $data['phone_number'],
             'password' =>  changcang_hash($data['password']),
             'status' => STATUS_NOPAY
+        ])->find();
+        return $user ? $user->toArray() : false;
+    }
+
+        /**
+     * 城市合伙人信息
+     * @param $admin_user_id
+     * @return null|static
+     * @throws \think\exception\DbException
+     */
+    public function isStatues($data)
+    {
+        $user = self::useGlobalScope(false)->where([
+            'phone_number' => $data['phone_number'],
+            'password' =>  changcang_hash($data['password']),
         ])->find();
         return $user ? $user->toArray() : false;
     }
