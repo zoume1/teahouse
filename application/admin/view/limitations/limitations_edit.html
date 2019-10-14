@@ -102,7 +102,8 @@
 								<div style="width: 100%">*限购份数不填，表示不限购，调整价格，可设为例如：9.9元，时限过期后，商品自动恢复原价</div>
 						</div>
 					</div>
-		    {if $scope['miao']!=0 }
+					
+		    {if $scope['miao']['miao_status']!=0 }
 			<div class="form-item">
 				<label class="form-label">开启秒杀</label>
 				<div class="form-input line">
