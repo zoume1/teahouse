@@ -20,14 +20,15 @@
     {block name="content"}
     <div class="childrenBody">
             {include file="template/_top" /}
-        <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('')}">
+        <blockquote class="layui-elem-quote news_search">   
+                   
+            <form class="layui-form" action="{:url('admin/Control/control_user_search')}">
                 <div class="seach">
                     <div class="seach_list">
                         <div class="seach_laber">输入搜索：</div>
                         <div class="seach_input">
-                            <input type="text" name="goods_number" lay-verify="title" autocomplete="off"
-                                placeholder="姓名/公司名" class="layui-input">
+                            <input type="text" name="name" lay-verify="title" autocomplete="off"
+                                placeholder="姓名/公司名/注册手机号" class="layui-input">
                         </div>
                     </div>
                     
@@ -45,19 +46,21 @@
                         <th>最后登录时间</th>
                     </tr>
                 </thead>
+                {if !empty($data)}{volist name="data" id="value"}
                 <tbody class="news_content">
                     <tr>
-                        <th>1</th>
-                        <th>23231435</th>
-                        <th>3432543543</th>
-                        <th>432543543</th>
+                        <th>{$value.id}</th>
+                        <th>{$value.phone_number}</th>
+                        <th>{$value.create_time|date="Y-m-d",###}</th>
+                        <th>{$value.login_time|date="Y-m-d",###}</th>
                     </tr>
                 </tbody>
+                {/volist}{/if}
             </table>
             <div id="page">
                 
             </div>
-
+            {if !empty($data)}{$data->render()}{/if}
         </div>
 
     </div>
