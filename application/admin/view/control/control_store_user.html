@@ -1,0 +1,91 @@
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+     body {background: #fff;}
+    #page {width: 97%;height: 50px;line-height: 50px;border: solid 1px #E2E2E2;padding-left: 50px;background: #FDFDFE;}
+    .on {color: #21A5FA ; border-bottom: solid 3px #21A5FA;}
+    .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
+    .distribution_list ul {display: flex; align-items: center;}
+    .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+</style>
+
+{/block}
+
+<body>
+
+    {block name="content"}
+    <div class="childrenBody">
+            {include file="template/_top" /}
+        <blockquote class="layui-elem-quote news_search">   
+                   
+            <form class="layui-form" action="{:url('admin/Control/control_user_search')}">
+                <div class="seach">
+                    <div class="seach_list">
+                        <div class="seach_laber">输入搜索：</div>
+                        <div class="seach_input">
+                            <input type="text" name="name" lay-verify="title" autocomplete="off"
+                                placeholder="姓名/公司名/注册手机号" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <button class="layui-btn" type="submit" id="seach">立即搜索</button>
+                </div>
+            </form>
+        </blockquote>
+        <div class="layui-form news_list">
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th>序列号</th>
+                        <th>注册手机号</th>
+                        <th>注册时间</th>
+                        <th>最后登录时间</th>
+                    </tr>
+                </thead>
+                {if !empty($data)}{volist name="data" id="value"}
+                <tbody class="news_content">
+                    <tr>
+                        <th>{$value.id}</th>
+                        <th>{$value.phone_number}</th>
+                        <th>{$value.create_time|date="Y-m-d",###}</th>
+                        <th>{$value.login_time|date="Y-m-d",###}</th>
+                    </tr>
+                </tbody>
+                {/volist}{/if}
+            </table>
+            <div id="page">
+                
+            </div>
+            {if !empty($data)}{$data->render()}{/if}
+        </div>
+
+    </div>
+
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery;
+        })
+    </script>
+
+    {/block}
+
+</body>
+
+</html>

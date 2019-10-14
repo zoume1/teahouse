@@ -208,6 +208,7 @@ class Login extends Controller{
                         Session("user_id", $res_admin[0]["id"]);
                         Session("user_info", $res_admin);
                         Session("store_id", $res_admin[0]["store_id"]);
+                        $bool = db('store')->where('id',$res_admin[0]["store_id"])->update(["login_time"=>time()]);
                         exit(json_encode(array("status"=>2,"info"=>"登录成功")));
                     }else{
                         return ajax_error('用户或密码错误',['status'=>0]);

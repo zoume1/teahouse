@@ -1018,6 +1018,8 @@ Route::group("admin",[
     /*总控*/
     "control_index"=>"admin/Control/control_index",                //总控店铺
     "control_meal_index"=>"admin/Control/control_meal_index",      //入驻套餐
+    "control_store_user"=>"admin/Control/control_store_user",      //注册用户
+    "control_user_search"=>"admin/Control/control_user_search",      //注册用户搜索
     "control_meal_add"=>"admin/Control/control_meal_add",          //添加入驻套餐
     "control_meal_status"=>"admin/Control/control_meal_status",    //入驻套餐首页显示
     "control_meal_edit"=>"admin/Control/control_meal_edit",        //入驻套餐编辑
