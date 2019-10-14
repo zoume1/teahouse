@@ -180,11 +180,14 @@ class  City extends  Controller{
         if($request->isPost()){
             $data = input();
             $user_data = CityCopartner::detail(['user_id'=>$data['id']]);
+            $mobile = $user_data['phone_number'];
             $bool = CityCopartner::meal_update($data);
             if($bool){
                 if($data['status'] == 1){
-                    $mobile = $user_data['phone_number'];
                     $content = "【智慧茶仓】尊敬的用户您好！您的城市合伙人资料审核通过，请及时登陆网站，购买入驻套餐，完成城市入驻。";
+                    $output = sendMessage($content,$mobile);
+                } elseif($data['status'] == 3){
+                    $content = "【智慧茶仓】尊敬的用户您好！您的城市合伙人资料审核未通过，请联系管理员或者重新注册。";
                     $output = sendMessage($content,$mobile);
                 }
                 $this->success("更新成功", url("admin/City/city_datum_verify"));
