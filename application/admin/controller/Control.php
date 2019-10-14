@@ -1523,5 +1523,14 @@ class  Control extends  Controller{
          }
      }
 
+        /**
+     * [注册用户]
+     * 郭杨
+     */    
+    public function control_store_user(){
+
+        return view("control_store_user");
+    }
+
 
 }
