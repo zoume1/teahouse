@@ -1794,6 +1794,27 @@ function returnArray($data){
         
   }
 
+/**
+   * 城市对应茶商数量
+   * 
+   */
+  function city_store_number($member_id){
+    $address_list=db('user_address')->where(['user_id'=>$member_id,'status'=>1])->find();
+    if($address_list){
+        $address=$address_list['address_name'].$address_list['harvester_real_address'];
+        return $address;
+    }else{
+        $address_list2=db('user_address')->where('user_id',$member_id)->find();
+        if($address_list2){
+            db('user_address')->where('user_id',$member_id)->update(['status'=>1]);
+            $address=$address_list2['address_name'].$address_list2['harvester_real_address'];
+            return $address;
+        }else{
+            return '暂无收货地址';
+        }
+    }
+    
+}
 
 
 
