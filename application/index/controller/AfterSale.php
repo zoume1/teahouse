@@ -534,11 +534,11 @@ class  AfterSale extends Controller{
      */
     public function  after_sale_completed(Request $request){
         if($request->isPost()){
-            $condition ="`status` = '4'";
             $member_id =$request->only(["member_id"])["member_id"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
-                ->where($condition)
+                ->where('status',4)
+                ->whereOr('status',6)
                 ->order("operation_time","desc")
                 ->select();
             if(!empty($data)){

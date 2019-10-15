@@ -118,58 +118,60 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {foreach $data as $k =>$vo}
                         <tr>
-                            <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="">
+                            <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
                             </td>
                             <td>
-                                <div class="table-cell-div">2</div>
+                                <div class="table-cell-div">{$vo.goods_number}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div green_zi">3</div>
+                                <div class="table-cell-div green_zi">{$vo.goods_name}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div green_zi">4</div>
+                                <div class="table-cell-div green_zi">{$vo.goods_brand}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div green_zi">5</div>
+                                <div class="table-cell-div green_zi">{$vo.produce}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">6</div>
+                                <div class="table-cell-div">{$vo.category}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">7</div>
+                                <div class="table-cell-div">{$vo.goods_type}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">8</div>
+                                <div class="table-cell-div">{$vo.unit}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">9</div>
+                                <div class="table-cell-div">{$vo.pick_size}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">10</div>
+                                <div class="table-cell-div">{$vo.stock_date}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div green_zi">11</div>
+                                <div class="table-cell-div green_zi">{$vo.frement_date}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div green_zi">12</div>
+                                <div class="table-cell-div green_zi">{$vo.pack_date}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div green_zi">13</div>
+                                <div class="table-cell-div green_zi">{$vo.date}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div green_zi">13</div>
+                                <div class="table-cell-div green_zi">{$vo.produce}</div>
                             </td>
                             <td>
                                 <div style="display:flex;justify-content: center;">
                                     <div class="table-cell-div details">
                                         <a href="{:url('admin/Material/fake_chip')}" style="color: rgb(10,135,255);">芯片详情</a>
                                     </div>
-                                    <div class="complete">已生成商品</div>
+                                    <!-- <div class="complete">已生成商品</div> -->
                                     <div class="unfinished">未生成商品</div>
                                 </div>
                             </td>
                         </tr>
+                        {/foreach}
                     </tbody>
                 </table>
             </div>

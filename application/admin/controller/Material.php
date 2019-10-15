@@ -463,19 +463,18 @@ class  Material extends  Controller{
             //检索
 
         }else{
-            $sql='SELECT * FROM v_test ';
+            // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
+            $sql='SELECT v_test.* FROM  v_test ';
         }
-        $con=mysqli_connect("39.97.124.73","root","Lingtian2118",'lingtian_wms_xm');
-        halt(1111);
+        $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
         if($con)
         {
-            dump(123123);
-           $res= mysqli_query($con,$sql);   
-           halt($res);
-          //   $re2=DB::name($re)->insertGetId($member);
+            $sql2='alter table v_test add  column is_produce int(4)  default 0';
+            mysqli_query($con,$sql2);    //新增默认字段
+            $res= mysqli_query($con,$sql);
+            $rr=$res->fetch_all(MYSQLI_ASSOC);
         }
-        halt($con);
-        return view("anti_fake");
+        return view("anti_fake",['data'=>$rr]);
     }
 
     /**
@@ -613,9 +612,25 @@ class  Material extends  Controller{
      * lilu
      * 物联--防伪溯源--芯片
      */
-    public function fake_chip(){
+    public function fake_chip()
+    {
+        $input=input();
+        if(!empty($input)){
+            //检索
 
-        return view('fake_chip');
+        }else{
+            // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
+            $sql='SELECT id,goods_name,parent_code,child_code FROM  v_test ';
+        }
+        $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
+        if($con)
+        {
+            $sql2='alter table v_test add  column is_produce int(4)  default 0';
+            mysqli_query($con,$sql2);    //新增默认字段
+            $res= mysqli_query($con,$sql);
+            $rr=$res->fetch_all(MYSQLI_ASSOC);
+        }
+        return view("fake_chip",['data'=>$rr]);
     }
     /**
      * lilu
