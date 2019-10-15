@@ -1528,7 +1528,9 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_store_user(){
-        $data = db('store')->paginate(20,false, [
+        $data = db('store')
+        ->order('create_time desc')
+        ->paginate(20,false, [
             'query' => request()->param(),
         ]);
         return view("control_store_user",['data'=>$data]);
@@ -1544,11 +1546,13 @@ class  Control extends  Controller{
             $condition =" `business_name` like '%{$search_a}%' or `contact_name` like '%{$search_a}%' or `phone_number` like '%{$search_a}%'";
             $data = db('store')
             ->where($condition)
+            ->order('create_time desc')
             ->paginate(20,false, [
                 'query' => request()->param(),
             ]);
         } else {
-            $data = db('store')->paginate(20,false, [
+            $data = db('store')
+            ->paginate(20,false, [
                 'query' => request()->param(),
             ]);
         }
