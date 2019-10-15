@@ -11,27 +11,42 @@
     <meta http-equiv="cache-control" content="no-cache">
     <title>立即分销邀请</title>
 </head>
-<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
 {block name="css"}
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
+
+<script src="https://cdn.bootcss.com/jquery/2.1.2/jquery.js"></script>
+<script src="__STATIC__/admin/index/js/index.js"></script>
 <style type="text/css">
     * {margin: 0;padding: 0;}
     body {background: #fff;}
-    .wrapper {padding: 20px; text-align: center;}
+    .wrapper {padding: 20px 10px; text-align: center;}
     .wrapper h2{color: #f00; font-size: 20px; font-weight: 700;}
     .subtitle{margin: 20px 0; font-size: 18px;}
     .layui-input-block{display: flex; justify-content: center;}
     .layui-input-block input{width: 800px;}
     .tips{color: #f00;}
-    
+    .wallet button a{color: #fff; display: block;}
+    .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
+    .distribution_list ul {display: flex; align-items: center; margin-bottom: 10px;}
+    .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
+    .wallet{background-color: rgb(236, 255, 255); padding: 14px 20px; margin-bottom: 10px;}
+    .wallet>div{display: flex; align-items: center;}
+    .wallet span{font-size: 20px; color: #f00; margin-right: 10px;}
+    .wallet button{height: 30px; line-height: 30px; background-color: #f00; color: #fff;}
+    .layui-form{display: flex; align-items: center; flex-direction: column;}
+    .layui-form .layui-input-block{display: flex; align-items: center;}
+    .layui-form .layui-input-block input{flex: 1;}
 </style>
 
 {/block}
 
 <body>
 {block name="content"}
-    <div class="wrapper layui-form">
+<div class="wrapper">
+    <div class="childrenBody">
+        {include file="template/_top" /}
+    </div>
         <div class="way1">
             <h2>方法一</h2>
             <p class="subtitle">
