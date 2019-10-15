@@ -30,6 +30,9 @@ class Store extends Model
     //查询个人店铺总数
     public static function store_num($uid)
     {
-        return self::where(['user_id'=>$uid,'store_del'=>1])->count();
+        $where['user_id'] = $uid ;
+        $where['store_del'] = 1 ;
+        $where['status'] != 3 ;
+        return self::where($where)->count();
     }
 }
