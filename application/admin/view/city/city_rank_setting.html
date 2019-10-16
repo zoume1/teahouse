@@ -413,7 +413,10 @@
                         <div>${input_text}</div>
                         <div style="flex: 1;"></div>`;
             if(dif != "province") {
-                html_save  +=` <div class="all_btn move noshow">移动</div>`;
+                html_save  +=` 
+                <input class="cha_input noshow" type="text" value="0">
+                <div class="all_btn move noshow">移动</div>`;
+                
             }
             html_save += `<div class="all_btn del noshow">删除</div>
                         <div class="tog noshow">
