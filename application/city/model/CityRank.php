@@ -148,14 +148,19 @@ class CityRank extends Model
         $rest = [
             'one'=>$one,
             'one_number'=>count($one),
+            'store_one_number'=>array_sum(array_column($one, 'store_number')),
             'two'=>$two,
             'two_number'=>count($two),
+            'store_two_number'=>array_sum(array_column($two, 'store_number')),
             'three'=>$three,
             'three_number'=>count($three),
+            'store_three_number'=>array_sum(array_column($three, 'store_number')),
             'four'=>$four,
             'four_number'=>count($four),
+            'store_four_number'=>array_sum(array_column($four, 'store_number')),
             'five'=>$five,
             'five_number'=>count($five),
+            'store_five_number'=>array_sum(array_column($five, 'store_number')),
         ];
         return  $rest;
     }
