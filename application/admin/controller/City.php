@@ -373,6 +373,23 @@ class  City extends  Controller{
         
     }
 
+    /**
+     * [城市茶商数量移动]
+     * 郭杨
+     */    
+    public function city_store_number_update(Request $request){
+        if($request->isAjax()){
+            $data = input();
+            $rest = CityRank::rank_update($data);
+            if($rest){
+                return $this->renderSuccess('修改成功');
+            } else {
+                return $this->renderError('修改失败');
+            }
+        }
+        
+    }
+
 
 
 
