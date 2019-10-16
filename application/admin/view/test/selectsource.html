@@ -16,7 +16,7 @@
 
         #selectUrl_url .line { color: #999; height: 36px; line-height: 36px;}
         #selectUrl_url .line:hover{background-color: #eee;}
-        #selectUrl_url .line .icon {height: 35px; width: 30px; position: relative; float: left;}
+        #selectUrl_url .line .icon {height: 35px; width: 30px; position: relative; float: left; text-align: center;line-height: inherit;cursor: pointer;}
 
         #selectUrl_url .line .icon.icon-1:before {content: ""; width: 10px; height: 10px; border: 1px dashed #ccc; position: absolute; top: 12px; left: 10px;}
 
@@ -168,7 +168,11 @@
                         {if $list}
                         {foreach $list as $v}
                         <div class="line" style="height: auto;">
-                            <div class="icon icon-link1"></div>
+                            {if $v['second_cate']}
+                            <div class="icon icon-link1 togBtn" onclick="tog(this)">+</div>
+                            {else}
+                            <div class="icon icon-link1">-</div>
+                            {/if}
                             <!--cateid-->
                             <nav data-href="cateid:{$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                             {if $type == "picartcate"}
@@ -181,7 +185,7 @@
                                 {/if}
                                 <span style="font-weight: bold">|-{$v['name']}</span></div>
                             {else}
-                            <div class="text" style="font-weight: bold;" onclick="tog(this)">|-{$v['name']}</div>
+                            <div class="text" style="font-weight: bold;">|-{$v['name']}</div>
                             {if $v['second_cate']}
                             <div class="line texts" style="display: none;">
                                    {foreach $v['second_cate'] as $v2}
@@ -242,5 +246,7 @@
 
         function tog(e) {
             $(e).nextAll('.texts').toggle();
+            if($(e).siblings('.texts').is(':hidden')) $(e).text('+');
+            else $(e).text('-');
         }
         </script>

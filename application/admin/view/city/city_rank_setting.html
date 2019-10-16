@@ -95,6 +95,7 @@
    .felx_c{border-top:1px solid rgb(26, 188, 156);border-bottom:1px solid rgb(26, 188, 156);background-color: rgb(249, 249, 249);}
    .input_k{border:1px solid rgb(26, 188, 156);border-radius: 3px;display: flex;justify-content : space-between;width: 100%;line-height: 30px;padding: 2px;}
    .all_btn{color: rgb(26, 188, 156);cursor:pointer;}
+   .cha_input{border: 0;width: 50px;color: rgb(26, 188, 156);background-color: rgb(249, 249, 249);margin-right: 5px;}
    .move{margin-right: 5px;}
    /* .del, .move{display: none;} */
    .noshow {display: none;}
@@ -103,6 +104,7 @@
    .tog{position: absolute;right: 0;top: 30px;background-color: #fff;border: 1px solid rgb(255, 223, 223);padding: 10px;z-index: 1000;}
    .tog>div{cursor:pointer;}
    .seach_laber{width: auto !important; text-align: left;}
+   input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance: none !important;}
 </style>
 
 {/block}
@@ -115,7 +117,7 @@
     <div id="app">
         
         <!-- <form class="layui-form layui-form-lists" action="{:url('')}" method="post" enctype="multipart/form-data"> -->
-            <div style="width: 15%;">
+            <div style="width: 17%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         省份
@@ -138,11 +140,12 @@
                     </div> -->
                 </div>
             </div>
-            <div style="width: 15%;">
+            <div style="width: 17%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         特级城市
                         <span id="supers_number">（{$data.two_number}个）</span>
+                        <span id='supers_store_number' style="float: right;">茶商（{$data.store_two_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="supers" data-id="2">
@@ -151,6 +154,7 @@
                         <div class="flex"  data-id="{$two.id}">
                                 <div class="names">{$two.name}</div>
                                 <div style="flex: 1;"></div>
+                                <input class="cha_input noshow" type="number" value="{$two.store_number}" onchange="num_update(this)">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -166,11 +170,12 @@
                     </div>
                 </div>
             </div>
-            <div style="width: 15%;">
+            <div style="width: 17%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         一级城市
                         <span id="one_number">（{$data.three_number}个）</span>
+                        <span id='one_store_number' style="float: right;">茶商（{$data.store_three_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="one" data-id="3">
@@ -178,6 +183,7 @@
                         <div class="flex"  data-id="{$three.id}">
                                 <div class="names">{$three.name}</div>
                                 <div style="flex: 1;"></div>
+                                <input class="cha_input noshow" type="number" value="{$three.store_number}">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -193,11 +199,12 @@
                     </div>
                 </div>
             </div>
-            <div style="width: 15%;">
+            <div style="width: 17%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         二级城市
                         <span id="two_number">（{$data.four_number}个）</span>
+                        <span id='two_store_number' style="float: right;">茶商（{$data.store_four_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="two" data-id="4">
@@ -205,6 +212,7 @@
                         <div class="flex"  data-id="{$four.id}">
                                 <div class="names">{$four.name}</div>
                                 <div style="flex: 1;"></div>
+                                <input class="cha_input noshow" type="number" value="{$four.store_number}">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -220,11 +228,12 @@
                     </div>
                 </div>
             </div>
-            <div style="width: 15%;">
+            <div style="width: 17%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         三级城市
                         <span id="three_number">（{$data.five_number}个）</span>
+                        <span id='three_store_number' style="float: right;">茶商（{$data.store_five_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="three" data-id="5">
@@ -232,6 +241,7 @@
                         <div class="flex"  data-id="{$five.id}">
                                 <div class="names">{$five.name}</div>
                                 <div style="flex: 1;"></div>
+                                <input class="cha_input noshow" type="number" value="{$five.store_number}">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -285,6 +295,7 @@
                                     alert(res.msg)
                                     _this.parent().remove();
                                     layer.close(index);
+                                    window.location.reload();
                                 } else {
                                     alert(res.msg);
                                 }
@@ -302,10 +313,11 @@
     </script>
     <script src="__STATIC__/admin/common/diliweizhi/new_distpicker.js"></script>
     <script>
-        function dHtml(id, name) {
+        function dHtml(id, name, number) {
             let dHtml = `<div class="flex"  data-id="${id}">
                                     <div class="names">${name}</div>
                                     <div style="flex: 1;"></div>
+                                    <input class="cha_input noshow" type="number" value="${number}">
                                     <div class="all_btn move noshow">移动</div>
                                     <div class="all_btn del noshow">删除</div>
                                     <div class="tog noshow">
@@ -349,26 +361,30 @@
                         $('#three').find(".flex").remove();
                         if(data.two != '' || data.two != null) {
                             $('#supers_number').text(`（${data.two.length}个）`);
+                            $('#supers_store_number').text(`茶商（${data.store_two_number}）`);
                             for(let i = 0; i < data.two.length; i ++) {
-                                $('#supers').find(".add").before(dHtml(data.two[i].id, data.two[i].name));
+                                $('#supers').find(".add").before(dHtml(data.two[i].id, data.two[i].name, data.two[i].store_number));
                             }
                         }
                         if(data.three != '' || data.three != null) {
                             $('#one_number').text(`（${data.three.length}个）`);
+                            $('#one_store_number').text(`茶商（${data.store_three_number}）`);
                             for(let i = 0; i < data.three.length; i ++) {
-                                $('#one').find(".add").before(dHtml(data.three[i].id, data.three[i].name));
+                                $('#one').find(".add").before(dHtml(data.three[i].id, data.three[i].name, data.three[i].store_number));
                             }
                         }
                         if(data.four != '' || data.four != null) {
                             $('#two_number').text(`（${data.four.length}个）`);
+                            $('#two_store_number').text(`茶商（${data.store_four_number}）`);
                             for(let i = 0; i < data.four.length; i ++) {
-                                $('#two').find(".add").before(dHtml(data.four[i].id, data.four[i].name));
+                                $('#two').find(".add").before(dHtml(data.four[i].id, data.four[i].name, data.four[i].store_number));
                             }
                         }
                         if(data.five != '' || data.five != null) {
                             $('#three_number').text(`（${data.five.length}个）`);
+                            $('#three_store_number').text(`茶商（${data.store_five_number}）`);
                             for(let i = 0; i < data.five.length; i ++) {
-                                $('#three').find(".add").before(dHtml(data.five[i].id, data.five[i].name));
+                                $('#three').find(".add").before(dHtml(data.five[i].id, data.five[i].name, data.five[i].store_number));
                             }
                         }
                         
@@ -381,11 +397,33 @@
         })
         
         //新增input框
+        function num_update(e) {
+            let dif = $(e).parent('.flex').data('id');
+            let store_number = $(e).val();
+            $.ajax({
+                url: "city_store_number_update",
+                type: "POST",
+                data: {
+                    id: dif,
+                    store_number: store_number
+                },
+                success: (res) => {
+                    alert(res.msg);
+                    window.location.reload();
+                },
+                error: (e) => {
+                    console.error(e)
+                }
+            })
+        }
+
+        //新增input框
         function add(e) {
             let dif = $(e).parent()[0].id;
             let html_add = `<div class="input_k">
-                        <input class="input_text" type="text" style="border:none;"  autofocus="autofocus">
+                        <input class="input_text" type="text" style="border:none;width:130px;"  autofocus="autofocus">
                         <div style="flex: 1;"></div>
+                        <input class="input_number" type="number" style="border:none;width:60px;" value="0">
                         <div class="all_btn save" onclick="save(this,${dif})">保存</div>
                         <div class="all_btn" onclick="cancel(this)">取消</div>
                     </div>`;
@@ -398,12 +436,16 @@
         //input保存
         function save(e,dif) {
             let input_text = $(e).parent(".input_k").children(".input_text").val();
+            let input_number = $(e).parent(".input_k").children(".input_number").val();
             let city_id = $(e).parents(".flex_mian").data("id");
             let html_save = `<div class="flex">
                         <div>${input_text}</div>
                         <div style="flex: 1;"></div>`;
             if(dif != "province") {
-                html_save  +=` <div class="all_btn move noshow">移动</div>`;
+                html_save  +=` 
+                <input class="cha_input noshow" type="number" value="${input_number}">
+                <div class="all_btn move noshow">移动</div>`;
+                
             }
             html_save += `<div class="all_btn del noshow">删除</div>
                         <div class="tog noshow">
@@ -418,7 +460,8 @@
                 type: "POST",
                 data: {
                     name: input_text,
-                    rank_status: city_id
+                    rank_status: city_id,
+                    store_number: input_number
                 },
                 success: (res) => {
                     if(res.code == 1) {
@@ -443,6 +486,8 @@
                 $(this).addClass("felx_c");
                 $(this).find(".del").removeClass("noshow");
                 $(this).find(".move").removeClass("noshow");
+                $(this).find(".cha_input").removeClass("noshow");
+                $(this).siblings().find(".cha_input").addClass("noshow");
                 $(this).siblings().find(".del").addClass("noshow");
                 $(this).siblings().find(".move").addClass("noshow");
                 $(this).siblings().removeClass("felx_c");

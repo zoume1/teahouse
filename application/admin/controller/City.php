@@ -128,6 +128,7 @@ class  City extends  Controller{
      */    
     public function city_rank_setting(){
         $data = CityRank::getList($city='');
+        // halt($data);
         return view("city_rank_setting",['data'=>$data]);
        
     }
@@ -368,6 +369,23 @@ class  City extends  Controller{
             $this->success("删除成功",url("admin/City/city_market"));
         } else {
             $this->error("删除失败",url("admin/City/city_market"));
+        }
+        
+    }
+
+    /**
+     * [城市茶商数量移动]
+     * 郭杨
+     */    
+    public function city_store_number_update(Request $request){
+        if($request->isAjax()){
+            $data = input();
+            $rest = CityRank::rank_update($data);
+            if($rest){
+                return $this->renderSuccess('修改成功');
+            } else {
+                return $this->renderError('修改失败');
+            }
         }
         
     }
