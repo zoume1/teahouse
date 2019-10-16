@@ -23,6 +23,7 @@ use think\Request;
 use app\city\model\StoreCommission;
 use app\city\model\CitySetting;
 use app\city\model\CityCopartner;
+use app\city\model\CityRank;
 
 
 
@@ -1798,21 +1799,9 @@ function returnArray($data){
    * 城市对应茶商数量
    * 
    */
-  function city_store_number($member_id){
-    $address_list=db('user_address')->where(['user_id'=>$member_id,'status'=>1])->find();
-    if($address_list){
-        $address=$address_list['address_name'].$address_list['harvester_real_address'];
-        return $address;
-    }else{
-        $address_list2=db('user_address')->where('user_id',$member_id)->find();
-        if($address_list2){
-            db('user_address')->where('user_id',$member_id)->update(['status'=>1]);
-            $address=$address_list2['address_name'].$address_list2['harvester_real_address'];
-            return $address;
-        }else{
-            return '暂无收货地址';
-        }
-    }
+  function city_store_number($city){
+    $city_data = CityRank::rank_find($city);
+    return $city_data ? $city_data['store_number'] : 0;
     
 }
 
