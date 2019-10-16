@@ -19,7 +19,7 @@
     }
     img  {width: 50px;}
     .tog_btn {border: 1px solid;border-radius: 3px;width: 20px;display: inline-block;cursor: pointer;text-align: center;}
-    .td_one {width: 300px;text-align: left !important;padding-left: 40px !important;}
+    .td_one {width: 300px;text-align: left !important;padding-left: 40px !important;-moz-user-select:none;}
 </style>
 
 {/block}
@@ -91,9 +91,9 @@
                         <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
                         <td class="td_one">
                             {if $value['has_second']==1}
-                            <span class="tog_btn togType" data-id="{$value.id}">+</span>
+                            <span class="tog_btn togType" data-id="{$value.id}" onselectstart="return false;">+</span>
                             {else}
-                            <span class="tog_btn">-</span>
+                            <span class="tog_btn" onselectstart="return false;">-</span>
                             {/if}
                             {$value.name}
                         </td>
