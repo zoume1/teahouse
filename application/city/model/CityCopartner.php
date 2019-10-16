@@ -170,7 +170,7 @@ class CityCopartner extends Model
             'invitation_store_number' => $user_data['invitation_store_number'],
             'number' => $number,
             'my_invitation' => $user_data['my_invitation'],
-            'tea_merchants ' => city_store_number($user_data['city_address'])
+            'tea_merchants' => city_store_number($user_data['city_address'])
         ];
 
         return $data;
