@@ -295,6 +295,7 @@
                                     alert(res.msg)
                                     _this.parent().remove();
                                     layer.close(index);
+                                    window.location.reload();
                                 } else {
                                     alert(res.msg);
                                 }
@@ -408,6 +409,7 @@
                 },
                 success: (res) => {
                     alert(res.msg);
+                    window.location.reload();
                 },
                 error: (e) => {
                     console.error(e)
