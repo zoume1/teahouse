@@ -47,11 +47,22 @@ class Information extends Controller{
         $data['order_money3']=round($data['order_money3'],2);
         //待付款订单
         //1.普通订单
-        $data['daifu_num']=db('order')->where(['store_id'=>$store_id,'status'=>1])->count('order_amount');   //
+        $data['daifu_num']=db('order')->where(['store_id'=>$store_id,'status'=>1])->count();   //
+        //2.众筹订单
+        $data['daifu_num_crowd']=db('crowd_order')->where(['store_id'=>$store_id,'status'=>1])->count();   //
+        $data['daifu_count']=$data['daifu_num']+$data['daifu_num_crowd'];     //代付订单的总和
         //待发货订单
-        $data['fahuo_num']=db('order')->where(['store_id'=>$store_id,'status'=>5])->count('order_amount');   //
+        //1.普通订单
+        $data['fahuo_num']=db('order')->where(['store_id'=>$store_id,'status'=>5])->count();   //
+        //2.众筹订单
+        $data['fahuo_num_crowd']=db('crowd_order')->where(['store_id'=>$store_id,'status'=>2])->count();   //
+        $data['fahuo_count']=$data['fahuo_num']+$data['fahuo_num_crowd'];     //待发货订单的总和
         //已完成订单
-        $data['yiwan_num']=db('order')->where(['store_id'=>$store_id,'status'=>8])->count('order_amount');   //
+        $data['yiwan_num']=db('order')->where(['store_id'=>$store_id,'status'=>8])->count();   //
+        //待处理售后订单
+        $pp['store_id']=$store_id;
+        $pp['status']='1';
+        $data['after_sale_num']=db('after_sale')->where($pp)->count();
 
         //商品模块
         $data['shang']=db('goods')->where(['store_id'=>$store_id,'label'=>1])->count();
