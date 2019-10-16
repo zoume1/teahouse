@@ -29,14 +29,22 @@ class GoodsType extends Controller{
         $goods = [];
         $store_id = Session::get("store_id");
          
-        $wares = db("wares") ->where('store_id','EQ',$store_id)-> select();
+        $wares = db("wares") ->where('store_id','EQ',$store_id)->where('pid',0)-> select();
         if($pid == 0)
         {
             $goods = getSelectListes("wares");
         }
-
         foreach ($wares as $key => $value)
         {
+            //获取二级分类的信息
+            $cate=db('wares')->where('pid',$value['id'])->select();
+            if(empty($cate)){
+                $wares[$key]['has_second']=0;
+                $wares[$key]['second_category']='null';
+            }else{
+                $wares[$key]['has_second']=1;
+                $wares[$key]['second_category']=$cate;
+            }
             if ($value["pid"]) {
                 $res = db("wares") -> where("id", $value['pid']) -> field("name") -> find();
                 $wares[$key]["names"] = $res["name"];

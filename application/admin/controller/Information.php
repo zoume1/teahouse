@@ -29,7 +29,7 @@ class Information extends Controller{
         $data['order_money']=db('order')->where($where)->sum('order_amount');   //今日总销售额     2-8
         $data['order_money']=round($data['order_money'],2);
         //昨日订单数
-        $start_time2=strtotime(date("Y-m-d "))-24*3600;
+        $start_time2=strtotime(date("Y-m-d"))-24*3600;
         $end_time2=strtotime(date("Y-m-d"));
         $where2['order_create_time']=array('between',array($start_time2,$end_time2));
         $where2['store_id']=Session::get('store_id');
@@ -46,6 +46,7 @@ class Information extends Controller{
         $data['order_money3']=db('order')->where($where3)->sum('order_amount');   //七日总销售额     2-8
         $data['order_money3']=round($data['order_money3'],2);
         //待付款订单
+        //1.普通订单
         $data['daifu_num']=db('order')->where(['store_id'=>$store_id,'status'=>1])->count('order_amount');   //
         //待发货订单
         $data['fahuo_num']=db('order')->where(['store_id'=>$store_id,'status'=>5])->count('order_amount');   //
