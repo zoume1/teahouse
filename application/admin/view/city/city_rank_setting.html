@@ -95,7 +95,7 @@
    .felx_c{border-top:1px solid rgb(26, 188, 156);border-bottom:1px solid rgb(26, 188, 156);background-color: rgb(249, 249, 249);}
    .input_k{border:1px solid rgb(26, 188, 156);border-radius: 3px;display: flex;justify-content : space-between;width: 100%;line-height: 30px;padding: 2px;}
    .all_btn{color: rgb(26, 188, 156);cursor:pointer;}
-   .cha_input{border: 0;width: 50px;color: rgb(26, 188, 156);background-color: rgb(249, 249, 249);}
+   .cha_input{border: 0;width: 50px;color: rgb(26, 188, 156);background-color: rgb(249, 249, 249);margin-right: 5px;}
    .move{margin-right: 5px;}
    /* .del, .move{display: none;} */
    .noshow {display: none;}
@@ -104,6 +104,7 @@
    .tog{position: absolute;right: 0;top: 30px;background-color: #fff;border: 1px solid rgb(255, 223, 223);padding: 10px;z-index: 1000;}
    .tog>div{cursor:pointer;}
    .seach_laber{width: auto !important; text-align: left;}
+   input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance: none !important;}
 </style>
 
 {/block}
@@ -116,7 +117,7 @@
     <div id="app">
         
         <!-- <form class="layui-form layui-form-lists" action="{:url('')}" method="post" enctype="multipart/form-data"> -->
-            <div style="width: 15%;">
+            <div style="width: 17%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         省份
@@ -139,7 +140,7 @@
                     </div> -->
                 </div>
             </div>
-            <div style="width: 15%;">
+            <div style="width: 17%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         特级城市
@@ -153,7 +154,7 @@
                         <div class="flex"  data-id="{$two.id}">
                                 <div class="names">{$two.name}</div>
                                 <div style="flex: 1;"></div>
-                                <input class="cha_input noshow" type="text" value="{$two.store_number}">
+                                <input class="cha_input noshow" type="number" value="{$two.store_number}" onchange="num_update(this)">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -169,7 +170,7 @@
                     </div>
                 </div>
             </div>
-            <div style="width: 15%;">
+            <div style="width: 17%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         一级城市
@@ -182,7 +183,7 @@
                         <div class="flex"  data-id="{$three.id}">
                                 <div class="names">{$three.name}</div>
                                 <div style="flex: 1;"></div>
-                                <input class="cha_input noshow" type="text" value="{$three.store_number}">
+                                <input class="cha_input noshow" type="number" value="{$three.store_number}">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -198,7 +199,7 @@
                     </div>
                 </div>
             </div>
-            <div style="width: 15%;">
+            <div style="width: 17%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         二级城市
@@ -211,7 +212,7 @@
                         <div class="flex"  data-id="{$four.id}">
                                 <div class="names">{$four.name}</div>
                                 <div style="flex: 1;"></div>
-                                <input class="cha_input noshow" type="text" value="{$four.store_number}">
+                                <input class="cha_input noshow" type="number" value="{$four.store_number}">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -227,7 +228,7 @@
                     </div>
                 </div>
             </div>
-            <div style="width: 15%;">
+            <div style="width: 17%;">
                 <blockquote class="layui-elem-quote news_search">
                     <div class="seach_laber">
                         三级城市
@@ -240,7 +241,7 @@
                         <div class="flex"  data-id="{$five.id}">
                                 <div class="names">{$five.name}</div>
                                 <div style="flex: 1;"></div>
-                                <input class="cha_input noshow" type="text" value="{$five.store_number}">
+                                <input class="cha_input noshow" type="number" value="{$five.store_number}">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -315,7 +316,7 @@
             let dHtml = `<div class="flex"  data-id="${id}">
                                     <div class="names">${name}</div>
                                     <div style="flex: 1;"></div>
-                                    <input class="cha_input noshow" type="text" value="${number}">
+                                    <input class="cha_input noshow" type="number" value="${number}">
                                     <div class="all_btn move noshow">移动</div>
                                     <div class="all_btn del noshow">删除</div>
                                     <div class="tog noshow">
@@ -395,6 +396,26 @@
         })
         
         //新增input框
+        function num_update(e) {
+            let dif = $(e).parent('.flex').data('id');
+            let store_number = $(e).val();
+            $.ajax({
+                url: "city_store_number_update",
+                type: "POST",
+                data: {
+                    id: dif,
+                    store_number: store_number
+                },
+                success: (res) => {
+                    alert(res.msg);
+                },
+                error: (e) => {
+                    console.error(e)
+                }
+            })
+        }
+
+        //新增input框
         function add(e) {
             let dif = $(e).parent()[0].id;
             let html_add = `<div class="input_k">
@@ -420,7 +441,7 @@
                         <div style="flex: 1;"></div>`;
             if(dif != "province") {
                 html_save  +=` 
-                <input class="cha_input noshow" type="text" value="${input_number}">
+                <input class="cha_input noshow" type="number" value="${input_number}">
                 <div class="all_btn move noshow">移动</div>`;
                 
             }
