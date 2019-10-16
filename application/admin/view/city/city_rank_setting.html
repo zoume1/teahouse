@@ -144,7 +144,7 @@
                     <div class="seach_laber">
                         特级城市
                         <span id="supers_number">（{$data.two_number}个）</span>
-                        <span style="float: right;">茶商（{$data.two_number}）</span>
+                        <span id='supers_store_number' style="float: right;">茶商（{$data.two_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="supers" data-id="2">
@@ -174,7 +174,7 @@
                     <div class="seach_laber">
                         一级城市
                         <span id="one_number">（{$data.three_number}个）</span>
-                        <span style="float: right;">茶商（{$data.store_three_number}）</span>
+                        <span id='one_store_number' style="float: right;">茶商（{$data.store_three_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="one" data-id="3">
@@ -203,7 +203,7 @@
                     <div class="seach_laber">
                         二级城市
                         <span id="two_number">（{$data.four_number}个）</span>
-                        <span style="float: right;">茶商（{$data.store_four_number}）</span>
+                        <span id='two_store_number' style="float: right;">茶商（{$data.store_four_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="two" data-id="4">
@@ -232,7 +232,7 @@
                     <div class="seach_laber">
                         三级城市
                         <span id="three_number">（{$data.five_number}个）</span>
-                        <span style="float: right;">茶商（{$data.store_five_number}）</span>
+                        <span id='three_store_number' style="float: right;">茶商（{$data.store_five_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="three" data-id="5">
@@ -358,24 +358,28 @@
                         $('#three').find(".flex").remove();
                         if(data.two != '' || data.two != null) {
                             $('#supers_number').text(`（${data.two.length}个）`);
+                            $('#supers_store_number').text(`茶商（${data.store_two_number}）`);
                             for(let i = 0; i < data.two.length; i ++) {
                                 $('#supers').find(".add").before(dHtml(data.two[i].id, data.two[i].name));
                             }
                         }
                         if(data.three != '' || data.three != null) {
                             $('#one_number').text(`（${data.three.length}个）`);
+                            $('#one_store_number').text(`茶商（${data.store_three_number}）`);
                             for(let i = 0; i < data.three.length; i ++) {
                                 $('#one').find(".add").before(dHtml(data.three[i].id, data.three[i].name));
                             }
                         }
                         if(data.four != '' || data.four != null) {
                             $('#two_number').text(`（${data.four.length}个）`);
+                            $('#two_store_number').text(`茶商（${data.store_four_number}）`);
                             for(let i = 0; i < data.four.length; i ++) {
                                 $('#two').find(".add").before(dHtml(data.four[i].id, data.four[i].name));
                             }
                         }
                         if(data.five != '' || data.five != null) {
                             $('#three_number').text(`（${data.five.length}个）`);
+                            $('#three_store_number').text(`茶商（${data.store_five_number}）`);
                             for(let i = 0; i < data.five.length; i ++) {
                                 $('#three').find(".add").before(dHtml(data.five[i].id, data.five[i].name));
                             }
