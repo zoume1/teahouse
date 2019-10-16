@@ -95,6 +95,7 @@
    .felx_c{border-top:1px solid rgb(26, 188, 156);border-bottom:1px solid rgb(26, 188, 156);background-color: rgb(249, 249, 249);}
    .input_k{border:1px solid rgb(26, 188, 156);border-radius: 3px;display: flex;justify-content : space-between;width: 100%;line-height: 30px;padding: 2px;}
    .all_btn{color: rgb(26, 188, 156);cursor:pointer;}
+   .cha_input{border: 0;width: 50px;color: rgb(26, 188, 156);background-color: rgb(249, 249, 249);}
    .move{margin-right: 5px;}
    /* .del, .move{display: none;} */
    .noshow {display: none;}
@@ -143,7 +144,7 @@
                     <div class="seach_laber">
                         特级城市
                         <span id="supers_number">（{$data.two_number}个）</span>
-                        <span id="supers_number">（{$data.store_two_number}个）</span>
+                        <span style="float: right;">茶商（{$data.two_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="supers" data-id="2">
@@ -152,6 +153,7 @@
                         <div class="flex"  data-id="{$two.id}">
                                 <div class="names">{$two.name}</div>
                                 <div style="flex: 1;"></div>
+                                <input class="cha_input noshow" type="text" value="2233">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -172,7 +174,7 @@
                     <div class="seach_laber">
                         一级城市
                         <span id="one_number">（{$data.three_number}个）</span>
-                        <span id="one_number">（{$data.store_three_number}个）</span>
+                        <span style="float: right;">茶商（{$data.store_three_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="one" data-id="3">
@@ -180,6 +182,7 @@
                         <div class="flex"  data-id="{$three.id}">
                                 <div class="names">{$three.name}</div>
                                 <div style="flex: 1;"></div>
+                                <input class="cha_input noshow" type="text" value="2233">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -200,7 +203,7 @@
                     <div class="seach_laber">
                         二级城市
                         <span id="two_number">（{$data.four_number}个）</span>
-                        <span id="two_number">（{$data.store_four_number}个）</span>
+                        <span style="float: right;">茶商（{$data.store_four_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="two" data-id="4">
@@ -208,6 +211,7 @@
                         <div class="flex"  data-id="{$four.id}">
                                 <div class="names">{$four.name}</div>
                                 <div style="flex: 1;"></div>
+                                <input class="cha_input noshow" type="text" value="2233">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -228,7 +232,7 @@
                     <div class="seach_laber">
                         三级城市
                         <span id="three_number">（{$data.five_number}个）</span>
-                        <span id="three_number">（{$data.store_five_number}个）</span>
+                        <span style="float: right;">茶商（{$data.store_five_number}）</span>
                     </div>
                 </blockquote>
                 <div class="flex_mian m_t" id="three" data-id="5">
@@ -236,6 +240,7 @@
                         <div class="flex"  data-id="{$five.id}">
                                 <div class="names">{$five.name}</div>
                                 <div style="flex: 1;"></div>
+                                <input class="cha_input noshow" type="text" value="2233">
                                 <div class="all_btn move noshow">移动</div>
                                 <div class="all_btn del noshow">删除</div>
                                 <div class="tog noshow">
@@ -447,6 +452,8 @@
                 $(this).addClass("felx_c");
                 $(this).find(".del").removeClass("noshow");
                 $(this).find(".move").removeClass("noshow");
+                $(this).find(".cha_input").removeClass("noshow");
+                $(this).siblings().find(".cha_input").addClass("noshow");
                 $(this).siblings().find(".del").addClass("noshow");
                 $(this).siblings().find(".move").addClass("noshow");
                 $(this).siblings().removeClass("felx_c");
