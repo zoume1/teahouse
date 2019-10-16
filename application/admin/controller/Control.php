@@ -669,8 +669,8 @@ class  Control extends  Controller{
 
 
     /**
-     * [店铺分析]
-     * 郭杨
+     * 店铺分析
+     * 
      */    
     public function control_store_index(){ 
         //今日注册店铺数量
@@ -1528,7 +1528,7 @@ class  Control extends  Controller{
      * 郭杨
      */    
     public function control_store_user(){
-        $data = db('store')
+        $data = db('pc_user')
         ->order('create_time desc')
         ->paginate(20,false, [
             'query' => request()->param(),
@@ -1543,15 +1543,15 @@ class  Control extends  Controller{
     public function control_user_search(){
         $search_a = input('name')?input('name'):null;
         if(!empty($search_a)){
-            $condition =" `business_name` like '%{$search_a}%' or `contact_name` like '%{$search_a}%' or `phone_number` like '%{$search_a}%'";
-            $data = db('store')
+            $condition ="`phone_number` like '%{$search_a}%'";
+            $data = db('pc_user')
             ->where($condition)
             ->order('create_time desc')
             ->paginate(20,false, [
                 'query' => request()->param(),
             ]);
         } else {
-            $data = db('store')
+            $data = db('pc_user')
             ->paginate(20,false, [
                 'query' => request()->param(),
             ]);
