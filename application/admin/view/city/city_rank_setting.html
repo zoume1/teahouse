@@ -311,10 +311,11 @@
     </script>
     <script src="__STATIC__/admin/common/diliweizhi/new_distpicker.js"></script>
     <script>
-        function dHtml(id, name) {
+        function dHtml(id, name, number) {
             let dHtml = `<div class="flex"  data-id="${id}">
                                     <div class="names">${name}</div>
                                     <div style="flex: 1;"></div>
+                                    <input class="cha_input noshow" type="text" value="${number}">
                                     <div class="all_btn move noshow">移动</div>
                                     <div class="all_btn del noshow">删除</div>
                                     <div class="tog noshow">
@@ -360,28 +361,28 @@
                             $('#supers_number').text(`（${data.two.length}个）`);
                             $('#supers_store_number').text(`茶商（${data.store_two_number}）`);
                             for(let i = 0; i < data.two.length; i ++) {
-                                $('#supers').find(".add").before(dHtml(data.two[i].id, data.two[i].name));
+                                $('#supers').find(".add").before(dHtml(data.two[i].id, data.two[i].name, data.two[i].store_number));
                             }
                         }
                         if(data.three != '' || data.three != null) {
                             $('#one_number').text(`（${data.three.length}个）`);
                             $('#one_store_number').text(`茶商（${data.store_three_number}）`);
                             for(let i = 0; i < data.three.length; i ++) {
-                                $('#one').find(".add").before(dHtml(data.three[i].id, data.three[i].name));
+                                $('#one').find(".add").before(dHtml(data.three[i].id, data.three[i].name, data.three[i].store_number));
                             }
                         }
                         if(data.four != '' || data.four != null) {
                             $('#two_number').text(`（${data.four.length}个）`);
                             $('#two_store_number').text(`茶商（${data.store_four_number}）`);
                             for(let i = 0; i < data.four.length; i ++) {
-                                $('#two').find(".add").before(dHtml(data.four[i].id, data.four[i].name));
+                                $('#two').find(".add").before(dHtml(data.four[i].id, data.four[i].name, data.four[i].store_number));
                             }
                         }
                         if(data.five != '' || data.five != null) {
                             $('#three_number').text(`（${data.five.length}个）`);
                             $('#three_store_number').text(`茶商（${data.store_five_number}）`);
                             for(let i = 0; i < data.five.length; i ++) {
-                                $('#three').find(".add").before(dHtml(data.five[i].id, data.five[i].name));
+                                $('#three').find(".add").before(dHtml(data.five[i].id, data.five[i].name, data.five[i].store_number));
                             }
                         }
                         
@@ -397,8 +398,9 @@
         function add(e) {
             let dif = $(e).parent()[0].id;
             let html_add = `<div class="input_k">
-                        <input class="input_text" type="text" style="border:none;"  autofocus="autofocus">
+                        <input class="input_text" type="text" style="border:none;width:130px;"  autofocus="autofocus">
                         <div style="flex: 1;"></div>
+                        <input class="input_number" type="number" style="border:none;width:60px;" value="0">
                         <div class="all_btn save" onclick="save(this,${dif})">保存</div>
                         <div class="all_btn" onclick="cancel(this)">取消</div>
                     </div>`;
@@ -411,13 +413,14 @@
         //input保存
         function save(e,dif) {
             let input_text = $(e).parent(".input_k").children(".input_text").val();
+            let input_number = $(e).parent(".input_k").children(".input_number").val();
             let city_id = $(e).parents(".flex_mian").data("id");
             let html_save = `<div class="flex">
                         <div>${input_text}</div>
                         <div style="flex: 1;"></div>`;
             if(dif != "province") {
                 html_save  +=` 
-                <input class="cha_input noshow" type="text" value="0">
+                <input class="cha_input noshow" type="text" value="${input_number}">
                 <div class="all_btn move noshow">移动</div>`;
                 
             }
@@ -434,7 +437,8 @@
                 type: "POST",
                 data: {
                     name: input_text,
-                    rank_status: city_id
+                    rank_status: city_id,
+                    store_number: input_number
                 },
                 success: (res) => {
                     if(res.code == 1) {
