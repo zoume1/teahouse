@@ -107,6 +107,32 @@
                             <a href="{:url('admin/GoodsType/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>
                     </tr>
+                    {if $value['has_second']==1}
+                        {volist name="value['second_category']" id="value2"}
+                            <tr>
+                                <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value2.id}"></td>
+                                <td>{$value2.name}</td>
+                                <td>
+                                    {if $value2['category_images']}
+                                        <img  src="{$value2['category_images']}" width="50px" >
+                                    {else}
+                                        暂无分类图片
+                                    {/if}
+                                </td>
+                                <td>{if $value2.pid !=0}{$value2.name} {else} 顶级 {/if}</td>
+                                <td>{$value2.rank}</td>
+                                <td>{$value2.sort_number}</td>
+                                <td class="td-status">
+                                    {if $value2.status == 1} 已显示 {else} 已禁用 {/if}
+                                </td>
+                                <td>
+                                    <a class="layui-btn layui-btn-mini edit" href="{:url('admin/GoodsType/edit',['id'=>$value2.id])}"> 编辑
+                                    </a>
+                                    <a href="{:url('admin/GoodsType/del',['id'=>$value2.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {/if}
                     {/volist}
                 </tbody>
             </table>
