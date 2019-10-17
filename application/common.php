@@ -790,6 +790,23 @@ function show_order_statues($status){
 }
 /**
  * lilu
+ * 店铺积分订单
+ */
+function integral_order_statues($status){
+    if($status==0){
+        echo '<button type="button" class=" layui-btn layui-btn-mini static_btus" >已关闭</button>';
+    }else if($status==1){
+        echo '<button type="button" class=" layui-btn layui-btn-mini static_btus color2" >待发货</button>';
+    }else  if($status==3){
+        echo '<button type="button" class=" layui-btn layui-btn-mini static_btus color3" >已发货</button>';
+    }else  if($status==5){
+        echo '<button type="button" class=" layui-btn layui-btn-mini static_btus color4" >已完成</button>';
+    }else  if($status==9){
+        echo '<button type="button" class=" layui-btn layui-btn-mini static_btus" >取消订单</button>';
+    }
+}
+/**
+ * lilu
  * 总控增值订单
  */
 function show_order_statues2($status){

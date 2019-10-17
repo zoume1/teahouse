@@ -177,10 +177,6 @@
 		background: #A1A1A1;
 	}
 
-	/*  待发货*/
-	.color8 {
-		background: #CC00CC;
-	}
 </style>
 
 {/block}
@@ -347,14 +343,14 @@
 						<td class="">
 							<div class="tdimg"><img src="{$value.goods_show_image}" /></div>
 						</td>
-						<td>{$value.goods_name}</td>
+						<td >{$value.goods_name}</td>
 						<td>{$value.order_quantity}</td>
 						<td>{$value.user_account_name}</td>
 						<td>{$value.order_create_time |date="Y-m-d H:i:s",###}</td>
 						<td>{$value.order_amount}</td>
 						<td>
 							<div class="static_btus" data-id="{$value.id}" data-value="{$value.status}">
-								{$value.status|show_order_statues}
+								{$value.status|integral_order_statues}
 							</div>
 						</td>
 					</tr>
