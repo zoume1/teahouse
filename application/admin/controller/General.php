@@ -1580,6 +1580,7 @@ class  General extends  Base {
      */
     public function order_package_condition(Request $request){
         if($request->isPost()){
+            $time = time();
             $store_id = $this->store_ids;  //店铺id
             $enter_all_id = $request->only(['id'])['id'];//套餐id
             $years =$request->only(["year"])["year"]; //年份            
@@ -1604,12 +1605,14 @@ class  General extends  Base {
                     $isset_ids =Db::name("meal_orders")
                         ->where("store_id",$store_id)
                         ->where("enter_all_id",">",$enter_all_id)
+                        ->where("end_time",">",$time)
                         ->value("id");
                     
                 $isset_idData =Db::name("meal_orders")
                         ->where("store_id",$store_id)
                         ->where("enter_all_id","EQ",$enter_all_id)
                         ->where("audit_status","EQ",1)
+                        ->where("end_time",">",$time)
                         ->value("id");
 
                     if($isset_ids){
@@ -1627,6 +1630,7 @@ class  General extends  Base {
                     ->where("store_id",$store_id)
                     ->where("enter_all_id",">",$enter_all_id)
                     ->where("audit_status","EQ",1)
+                    ->where("end_time",">",$time)
                     ->value("id");
                 if($isset_ids){
                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐，请选择其他年份或版本套餐","data"=>["id"=>$isset_ids])));
@@ -1635,6 +1639,7 @@ class  General extends  Base {
                     ->where("store_id",$store_id)
                     ->where("enter_all_id","EQ",$enter_all_id)
                     ->where("audit_status","EQ",1)
+                    ->where("end_time",">",$time)
                     ->value("id");
                if($isset_idData){
                     exit(json_encode(array("status"=>3,"info"=>"不能重复购买相同套餐，请选择其他年份或版本套餐","data"=>["id"=>$isset_ids])));
@@ -1645,6 +1650,7 @@ class  General extends  Base {
                $set_id =Db::name("meal_orders")
                    ->where('store_id',$store_id)
                    ->where("audit_status","EQ",1)
+                   ->where("end_time",">",$time)
                    ->value("enter_all_id");
                 if($set_id){
                     $year =Db::name("enter_all")->where("id",$set_id)->value("year"); //当前套餐的年份                 
