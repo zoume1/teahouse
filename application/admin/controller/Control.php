@@ -1453,14 +1453,16 @@ class  Control extends  Controller{
           //获取店铺id
         //   $store_id=Session::get('store_id');
         $store_info=Db::table('applet')->select();
+        $template_id=Db::table('applet')->max('template_id');
         $data['auditid']='0';
         $data['is_chuan']='0';
         $data['is_que']='0';
         $data['is_fabu']='0';
         $data['version']=$input['version'];
-        foreach($store_info as $k =>$v){
-            $re=Db::table('applet')->where('id',$v['id'])->update($data);
-        }
+        $data['template_id']=$template_id;
+        // foreach($store_info as $k =>$v){
+            $re=Db::table('applet')->where('id',77)->update($data);
+        // }
           if($re !== false){
             return ajax_success('保存成功');
         }else{
