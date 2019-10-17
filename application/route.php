@@ -549,6 +549,9 @@ Route::group("admin",[
     "changeOderPrice"=>"admin/Order/changeOderPrice",//订单改价
     "get_receipt_detail"=>"admin/Order/get_receipt_detail",//获取发票详情
     "receipt_do"=>"admin/Order/receipt_do",                //申请发票处理
+    "integral_confirm_shipment"=>"admin/Order/integral_confirm_shipment",                //订单确认发货（填写订单编号）----积分订单
+    "integral_information_return"=>"admin/Order/integral_information_return",                //初始订单的基本信息
+    "integral_notice"=>"admin/Order/integral_notice",                //积分订单---获取批注
     /*TODO:订单结束*/
 
     /*TODO:地址订单开始*/
