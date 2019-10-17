@@ -512,8 +512,8 @@
 			var order_num = $(this).parent().data("num");    //订单号
 			var way = 0;
 			$(".operation").data("value", order_num);
-			$(".repay_tip").data("num", data_id);
-			$(".repay_tip").data("id", order_num);
+			$(".repay_tip").data("num", order_num);
+			$(".repay_tip").data("id", data_id);
 			var data_value = $(this).parent().data("value");    //订单状态
 			var data_type = $(this).data("type");    //订单类型
 			$(".operation").empty();
