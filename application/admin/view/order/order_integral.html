@@ -523,12 +523,12 @@
 				type: "POST",
 				url: "{:url('admin/Order/integral_notice')}",
 				data: {
-					"order_id": data_id,
+					"order_id": order_num,
 				},
 				async: false,
 				success: function (data) {
 					var data = JSON.parse(data);
-					// console.log(data)
+					console.log(data)
 					way = data.data.order_type;   //邮寄方式    
 					for (var i = 0; i < data.data.datas.length; i++) {
 						var dhtm0 = "";
@@ -644,15 +644,14 @@
 			
 			//    快递单号
 			var danhao = $(".danhao").val();
-			if(status == 1) change_status = 3;
-			else change_status = 5;
+			change_status = 3;
 			if (order_type == 2) {
 				danhao = ''; curier = ''; curier2 = '';
 			}
 			if (danhao != '' || order_type == 2) {
 				$.ajax({
 					type: "POST",
-					url: "{:url('admin/Order/order_confirm_shipment')}",
+					url: "{:url('admin/Order/integral_confirm_shipment')}",
 					data: {
 						"order_id": value,
 						"courier_number": danhao,
@@ -722,7 +721,7 @@
 			h = date.getHours() + ':';
 			m = date.getMinutes() + ':';
 			s = date.getSeconds();
-			return Y + M + D;
+			return Y.toString() + M.toString() + D.toString();
 		}
 	</script>
 
