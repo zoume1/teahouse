@@ -76,13 +76,13 @@ class CityDetail extends Model
         $model = new static;
         $address_two = explode(",", $store_data['address_data']);
         $city_user_id = AddStore::find_city_user($address_two[CITY_ONE_STATUS]);
-        $retutn_data = find_rank_data($store_data['highe_share_code'],$order_data['pay_money'],$city_user_id);
+        $retutn_data = find_rank_data($store_data['highe_share_code'],$order_data['amount_money'],$city_user_id);
         $data = [
             'order_number' => $order_data['order_number'],
             'phone_number' => $store_data['phone_number'],
             'share_code' => $store_data['share_code'], //自己的分享码
             'set_meal' => enter_name($order_data['enter_all_id']),  
-            'meal_price' =>$order_data['pay_money'],
+            'meal_price' =>$order_data['amount_money'],
             'highe_share_code' => $store_data['highe_share_code'],
             'commision' => $retutn_data['commision'],
             'higher_phone' => $retutn_data['higher_phone'],

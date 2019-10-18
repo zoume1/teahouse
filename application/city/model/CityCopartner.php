@@ -35,6 +35,7 @@ class CityCopartner extends Model
         // 查询条件
         !empty($search) && $model->setWhere($search);
         $rest = $model->order(['create_time' => 'desc'])
+        ->where('status', '>',0)
         ->paginate(20, false, [
             'query' => \request()->request()
         ]);

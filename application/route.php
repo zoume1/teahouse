@@ -1146,6 +1146,7 @@ Route::group("admin",[
    "city_datum_verify"=>"admin/City/city_datum_verify",          //城市入驻资料审核
    "city_datum_verify_edit"=>"admin/City/city_datum_verify_edit",//城市入驻资料审核编辑
    "city_datum_verify_update"=>"admin/City/city_datum_verify_update",//城市入驻资料审核更新
+   "city_datum_verify_delete"=>"admin/City/city_datum_verify_delete",//城市入驻资料删除
    "city_price_examine"=>"admin/City/city_price_examine",        //城市入驻费用审核
    "city_price_examine_update"=>"admin/City/city_price_examine_update",      //城市入驻费用审核编辑
    " city_price_examine_replace"=>"admin/City/city_price_examine_replace",      //城市入驻费用点击审核
