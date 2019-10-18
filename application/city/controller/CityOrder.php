@@ -96,6 +96,7 @@ class CityOrder extends Controller
                     'order_price'=>$pay_money,
                     'payment_document'=>$id_image,
                     'pay_status' => CITY_HK,
+                    'account_status' => CITY_ZFB,
                     'remittance_account'=>$remittance_account,
                     'judge_status' => CITY_ZFB
                 ];

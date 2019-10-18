@@ -46,7 +46,7 @@ class StoreCommission extends Model
     public static function commission_setting_update($data)
     {
         $rest_data = [
-            'commission'=>$data['commission'],
+            'commission'=>$data['commissions'],
             'money'=>$data['money']
         ];
         $model = new static;
