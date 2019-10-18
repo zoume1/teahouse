@@ -109,6 +109,10 @@ class Test extends  Controller{
             $catess =Db::table("tb_goods")->where("pid",$value['id'])->field("id,goods_name name")->select();
             $cates[$key]['subcate'] =$catess;
         }
+        //二级分类
+        $pp['pid']=array('gt',0);
+        $pp['store_id']=$uniacid;
+        $second_cate =Db::table("tb_wares")->where($pp)->field("id,name")->select();
         //活动栏目
 //        $pic =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select();
 //        $cates =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select(); //一级
@@ -116,7 +120,7 @@ class Test extends  Controller{
 //            $catess =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
 //            $value['subcate'] =$catess;
 //        }
-
+       $this->assign('second_cate',$second_cate);
        $this->assign('da_change',$da_change);
         $this->assign("diypage",$diypage);
         $this->assign("article",$article);

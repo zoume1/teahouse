@@ -59,7 +59,7 @@ class Store extends Model
      */
     public static function find_city_user($address)
     {
-        $user = CityCopartner::detail(['city_address'=>$address,'judge_status'=>ADDRESS_ONE]);
+        $user = CityCopartner::detail(['city_address'=>$address,'judge_status'=>ADDRESS_ONE,'is_delete'=>0]);
         return $user ? $user['user_id'] : 0;
         
     }
