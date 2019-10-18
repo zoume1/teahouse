@@ -440,7 +440,7 @@
 						<div class="seach_laber">入驻商名称：</div>
 						<div class="seach_input">
 							<input type="text" name="name" lay-verify="title" autocomplete="off"
-								placeholder="姓名/公司名" class="layui-input">
+								placeholder="姓名/公司名/用户账号" class="layui-input">
 						</div>
 					</div>
 					<div class="seach_list">
@@ -480,7 +480,6 @@
 						<th>到期时间</th>
 						<th>支付方式</th>
 						<th>到账情况</th>
-						<th>店铺开通</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -500,14 +499,7 @@
 						<td>{$value.pay_status|city_pay}</td>
 						<td>{$value.account_status|city_pay_status}</td>
 						<td>
-                                <input type="checkbox" class="Status" name="status" value="0"
-                                lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="">
-						</td>
-						<td>
 							<div class="line">
-                                <div style="margin-right: 10px;" data-id="">
-                                      {$value.judge_status|city_status}
-								</div>
 								<div class="static_btus" data-id="" data-value="" data-type="">
 									{if $value.pay_status == 3}
 									<a href="{:url('admin/City/city_price_examine_update',['id'=>$value.id])}" class="">{$value.account_status|city_remit}</a>

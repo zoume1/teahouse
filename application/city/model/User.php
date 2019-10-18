@@ -41,6 +41,10 @@ class User extends Model
             $this->error = '登录失败, 账号或密码错误';
             return ERROR_100;
         } 
+        if ($user['is_delete']) {
+            $this->error = '您的账号已冻结，详情请联系平台管理员';
+            return ERROR_107;
+        }
         $is_login = $this->useApplyStatus($user);
         if($is_login == STATUS_NOPAY || $is_login == ERROR_104){
              // 保存登录状态
