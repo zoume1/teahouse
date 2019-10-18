@@ -34,6 +34,9 @@ class MealOrder extends Model{
             'pay_money'=>$pay,
             'openid' =>$openid,
             'images_url'=>$img,
+            "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
+            "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
+            "false_data"=>1,//记录
             'create_time'=>time()
         ]);
 
@@ -65,6 +68,9 @@ class MealOrder extends Model{
             'pay_money'=>$pay,
             'openid' =>$openid,
             'images_url'=>$img,
+            "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
+            "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
+            "false_data"=>1,//记录
             'create_time'=>time()
         ],['id' => $id,]);
         if($data !== false){

@@ -156,6 +156,7 @@ Class Order extends Controller{
                 try {
                     //店铺logo
                     $img = $this->imgurl($param['enter_all_id']);
+                    print_r($img);die;
                     //生成订单
                     $order = new MealOrder();
                     $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
@@ -251,9 +252,10 @@ Class Order extends Controller{
      * @return string
      */
     function imgurl($enter_data){
-        if($enter_data === 5){
+    
+        if($enter_data = 5){
             $images_url ="/static/admin/common/img/wanyong.png";
-        }else if($enter_data === 7){
+        }else if($enter_data = 7){
             $images_url ="/static/admin/common/img/hangye.png";
         }else{
             $images_url ="/static/admin/common/img/jingjie.png";

@@ -113,6 +113,10 @@ class CityWx extends Controller{
             if (!$validate->check($store)) {
                 return jsonError($validate->getError());
             }
+            $bool_status = CityComment::proving_comment($store["store_id"]);
+            if(!$bool_status){
+                return jsonError('您这个月已经对合伙人进行过评价，请下个月再次评价');
+            }
             $store_data = $store_object->detail(['id'=>$store["store_id"]]);
             $address_two = explode(",", $store_data['address_data']);
             $chang_address = CityDetaile::city_address_change($address_two[1]);

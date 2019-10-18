@@ -45,7 +45,8 @@ class CityComment extends Model
      */
     public static function detail($store_id)
     {
-        return self::where('store_id','=',$store_id)->select();
+        $rest =  self::where('store_id','=',$store_id)->select();
+        return $rest ? $rest->toArray() : false;
     }
 
     /**gy
@@ -57,11 +58,16 @@ class CityComment extends Model
     public static function proving_comment($store_id)
     {
         $model = new static;
+        $time = time();
         $data_rest = $model->detail($store_id);
-        $count_array = count($data_rest);
-        if($count_array){
-            $last = array_pop($count_array);
-            halt($last);
+        if($data_rest){
+            $last = end($data_rest);
+            if($time < $last['end_time']){
+                return false;
+            }
+            return true;
+        } else {
+            return true;
         }
 
     }

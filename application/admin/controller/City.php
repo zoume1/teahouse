@@ -324,7 +324,7 @@ class  City extends  Controller{
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
-            
+        halt($data);
         return view("city_market",['data'=>$data]);
         
     }
