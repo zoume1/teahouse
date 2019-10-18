@@ -16,7 +16,7 @@ class MealOrder extends Model{
     protected $resultSetType = 'collection';
 
     //新增
-    public function add($uid,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$openid)
+    public function add($uid,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$openid,$img)
     {
         $data = new MealOrder;
         $data->save([
@@ -33,6 +33,7 @@ class MealOrder extends Model{
             'unit' =>'年',
             'pay_money'=>$pay,
             'openid' =>$openid,
+            'images_url'=>$img,
             'create_time'=>time()
         ]);
 
@@ -46,7 +47,7 @@ class MealOrder extends Model{
     }
 
     //编辑
-    public function edit($store_id,$uid,$name,$quantity,$money,$enter_all_id,$store_name,$pay,$openid)
+    public function edit($store_id,$uid,$name,$quantity,$money,$enter_all_id,$store_name,$pay,$openid,$img)
     {
         $data = new MealOrder;
         $data->save([
@@ -62,6 +63,7 @@ class MealOrder extends Model{
             'unit' =>'年',
             'pay_money'=>$pay,
             'openid' =>$openid,
+            'images_url'=>$img,
             'create_time'=>time()
         ],['store_id' => $store_id,]);
 
