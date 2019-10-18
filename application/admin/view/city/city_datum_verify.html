@@ -266,6 +266,7 @@
 
             //账号状态
             form.on('switch(isShow)', function (data) {
+                console.log($(this).val());
                 if ($(this).val() == 0) {
                     $(this).val(1);
                 } else {
@@ -276,10 +277,10 @@
                 var status = $(this).val();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/status')}",
+                    url: "{:url('admin/City/setCitySwitchStatusUpdate')}",
                     data: {
                         "id": id,
-                        "status": status
+                        "is_delete": status
                     },
                     success: function (data) {
                         console.log("成功")

@@ -50,9 +50,6 @@ class CityEvaluate extends Model
             'one'=>$data['one'],
             'two'=>$data['two'],
             'three'=>$data['three'],
-            'six'=>$data['six'],
-            'seven'=>$data['seven'],
-            'eight'=>$data['eight']
         ];
         $model = new static;
         $rest = $model -> allowField(true)->save($rest_data,['id'=>EONE]);

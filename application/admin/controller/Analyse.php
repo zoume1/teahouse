@@ -953,7 +953,7 @@ class  Analyse extends  Controller{
             $order_id = $request->only("order_id")["order_id"];   //订单号
             $rest = Db::name("adder_order")->where("parts_order_number",$order_id)->find();
             $datas = Db::name("note_notification")
-                ->where("order_id",$rest['id'])
+                ->where("order_num",$rest['parts_order_number'])
                 ->order("create_time","desc")
                 ->select();
             $data =[
