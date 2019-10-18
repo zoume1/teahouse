@@ -662,13 +662,13 @@
 								</div>
 								{/if}
 								{if $vo.is_receipt==1}
-								<div class="static_btus_y" data-id="{$vo.parts_order_number}">
-										<div class=" layui-btn layui-btn-mini not_apply applyed ">申请开票</div>
+								<div class="static_btus_y static_btus_kp" data-id="{$vo.parts_order_number}">
+										<div class=" layui-btn layui-btn-mini not_apply apply ">申请开发票</div>
 									</div>
 								{/if}
 								{if $vo.is_receipt==2}
 								<div class="static_btus_y" data-id="{$vo.parts_order_number}">
-										<div class=" layui-btn layui-btn-mini not_apply applyed ">已开票</div>
+										<div class=" layui-btn layui-btn-mini not_apply applyed ">已经开发票</div>
 									</div>
 								{/if}
 								<div class="static_btus2" data-id="{$vo.parts_order_number}">
@@ -1183,7 +1183,7 @@
 
 		});
 		//开票
-		$(".static_btus1").click(function () {
+		$(".static_btus_kp").click(function () {
 			$(".popup_kp").removeClass("noshow");
 			var data_id = $(this).data("id");
 			$('.popup_content_kp').empty();
@@ -1420,7 +1420,7 @@
 			h = date.getHours() + ':';
 			m = date.getMinutes() + ':';
 			s = date.getSeconds();
-			return Y + M + D;
+			return Y.toString() + M.toString() + D.toString();
 		}
 	</script>
 
