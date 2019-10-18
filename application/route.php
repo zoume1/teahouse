@@ -62,6 +62,7 @@ Route::group("",[
     "my_shop"=>"index/index/my_shop", //我的店铺
     "city_forget"=>"index/index/city_forget", //申请城市合伙人忘记密码
     "city_login"=>"index/index/city_login", //合伙人后台登陆
+    "city_out"=>"index/index/city_out",     //合伙人后台退出
     "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
     "get_bank_list"=>"index/My/get_bank_list", //获取用户的银行卡列表
     "merchant"=>"index/index/merchant", //实力商家
@@ -1149,6 +1150,7 @@ Route::group("admin",[
    "city_rank_add"=>"admin/City/city_rank_add",                //城市等级添加
    "city_rank_delete"=>"admin/City/city_rank_delete",          //城市等级删除
    "city_rank_update"=>"admin/City/city_rank_update",          //城市等级移动
+   "setCitySwitchStatusUpdate"=>"admin/City/setCitySwitchStatusUpdate",          //城市入驻资料账号开关
    "city_store_number_update"=>"admin/City/city_store_number_update",  //城市等级茶商数量修改
    "city_market"=>"admin/City/city_market",  //城市市场反馈
    "city_market_feedback"=>"admin/City/city_market_feedback",  //城市市场点击回复
@@ -1214,6 +1216,7 @@ Route::group("city",[
     "chooseCity" => "city/Passport/chooseCity", //城市合伙人选择省份直辖市
     "chooseRank" => "city/Passport/chooseRank", //城市合伙人选择等级
     "logCityTenantDetail"=>"city/Citydenglu/logCityTenantDetail",    //登陆后-城市累计商户明细
+    "city_out_log"=>"city/Citydenglu/city_out_log",    //城市合伙人退出
     "myInviteStore"=>"city/Citydenglu/myInviteStore",                //我邀请的商户明细
     "logCityTenantDetail_search"=>"city/Citydenglu/logCityTenantDetail_search",    //登陆后-城市累计商户明细搜索
     "myInviteStore_search"=>"city/Citydenglu/myInviteStore_search",                //我邀请的商户明细搜索

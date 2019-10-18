@@ -53,7 +53,6 @@ class  City extends  Controller{
             $two = CitySetting::city_setting_update($data);
             $three = CityDecay::city_decay_update($data);
             $four = CityEvaluate::city_evaluate_update($data);
-
             if( $one||$two||$three||$four )
             {
                 $this->success("更新成功", url("admin/City/city_setting"));
@@ -390,7 +389,22 @@ class  City extends  Controller{
         
     }
 
-
+    /**
+     * [城市入驻资料账号开关]
+     * 郭杨
+     */    
+    public function setCitySwitchStatusUpdate(Request $request){
+        if($request->isAjax()){
+            $data = input();
+            $rest = CityCopartner::meal_update($data);
+            if($rest){
+                return $this->renderSuccess('修改成功');
+            } else {
+                return $this->renderError('修改失败');
+            }
+        }
+        
+    }
 
 
     
