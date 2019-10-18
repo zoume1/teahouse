@@ -45,6 +45,34 @@ class MealOrder extends Model{
 
     }
 
+    //编辑
+    public function edit($store_id,$uid,$name,$quantity,$money,$enter_all_id,$store_name,$pay,$openid)
+    {
+        $data = new MealOrder;
+        $data->save([
+            'user_id' => $uid,
+            'order_number' => $this->get_sn(),
+            'goods_name' => $name,
+            'goods_quantity' => $quantity,
+            'amount_money' => $money,
+            'pay_type' => 4,
+            'enter_all_id' => $enter_all_id,
+            'store_name' => $store_name,
+            'status'=> -1,
+            'unit' =>'年',
+            'pay_money'=>$pay,
+            'openid' =>$openid,
+            'create_time'=>time()
+        ],['store_id' => $store_id,]);
+
+        if($data !== false){
+            return $data;
+        }else{
+            return false;
+        }
+
+
+    }
 
     //生成发票订单号
     function get_sn() {
