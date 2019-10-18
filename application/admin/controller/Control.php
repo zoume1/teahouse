@@ -1460,9 +1460,9 @@ class  Control extends  Controller{
         $data['is_fabu']='0';
         $data['version']=$input['version'];
         $data['template_id']=$template_id;
-        // foreach($store_info as $k =>$v){
-            $re=Db::table('applet')->where('id',77)->update($data);
-        // }
+        foreach($store_info as $k =>$v){
+            $re=Db::table('applet')->where('id',$v['id'])->update($data);
+        }
           if($re !== false){
             return ajax_success('保存成功');
         }else{

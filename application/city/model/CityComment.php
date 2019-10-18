@@ -17,6 +17,8 @@ use app\common\exception\BaseException;
 class CityComment extends Model
 {
     protected $table = "tb_city_comment";
+    // 设置返回数据集的对象名
+	protected $resultSetType = 'collection';
 
 
     /**gy
@@ -33,5 +35,16 @@ class CityComment extends Model
         $rest = $model->save($data);
         return $rest ? $rest : false;
         
+    }
+
+    /**gy
+     * 获取店铺评论信息
+     * @param $meal_id
+     * @return null|static
+     * @throws \think\exception\DbException
+     */
+    public static function detail($store_id)
+    {
+        return self::where('store_id','=',$store_id)->select();
     }
 }
