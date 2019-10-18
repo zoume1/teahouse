@@ -7,6 +7,7 @@
  */
 namespace app\rec\controller;
 use app\rec\model\MealOrder;
+use app\rec\model\OrdersMeal;
 use app\rec\model\Store;
 use think\Request;
 use think\Validate;
@@ -63,38 +64,8 @@ Class Order extends Controller{
 
                     $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
                 } else {
-                    $rules = [
-                        'goods_name' => 'require',
-                        'goods_quantity' => 'require',
-                        'amount_money' => 'require',
-                        'store_id' => 'require',
-                        'enter_all_id' => 'require',
-                        'user_id' => 'require',
-                        //发票资料
-                        'type' => 'require',
-                        'status' => 'require',
-                        'rise' => 'require',
-                        'price' => 'require',
-
-                    ];
-                    $message = [
-                        'goods_name.require' => '套餐名称不能为空',
-                        'goods_quantity.require' => '数量不能为空',
-                        'amount_money.require' => '金额不能为空',
-                        'store_id.require' => '店铺id不能为空',
-                        'enter_all_id.require' => '套餐id不能为空',
-                        'user_id.require' => '用户id不能为空',
-                        //发票
-                        'type.require' => '发票类型不能为空',
-                        'status.require' => '发票样式不能为空',
-                        'rise.require' => '抬头不能为空',
-                        'price.require' => '金额不能为空',
-                    ];
                     //验证
-                    $validate = new Validate($rules, $message);
-                    if (!$validate->check($param)) {
-                        return json(['code' => 0, 'msg' => $validate->getError()]);
-                    }
+                    $param = $this->Verification($param);
                     //查询个人信息
                     $user = new \app\rec\model\User();
                     $user_all = $user->user_index($param['user_id']);
@@ -104,12 +75,18 @@ Class Order extends Controller{
                     // 启动事务
                     Db::startTrans();
                     try {
+                        //店铺logo
+                        $img = $this->imgurl($param['enter_all_id']);
                         //生成订单
                         $order = new MealOrder();
-                        $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid']);
+                        $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
                         $no = $order_list->order_number;
                         $order_id = $order_list->id;
                         //            print_r($order_id);die;
+                        //另一个订单表
+                        $meal_orders = new OrdersMeal();
+                        $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
+
                         // 提交事务
                         Db::commit();
                         $type = $param['type'];
@@ -164,9 +141,14 @@ Class Order extends Controller{
                 }
                 break;   // 跳出循环
             case 2: //过期订单
+<<<<<<< HEAD
             	
 				$param = $this->Verification($param);
 				
+=======
+                //验证
+                $param = $this->Verification($param);
+>>>>>>> f80e0e07fefc08a770967a5438980e4fa4a8e44a
                 //查询个人信息
                 $user = new \app\rec\model\User();
                 $user_all = $user->user_index($param['user_id']);
@@ -178,6 +160,7 @@ Class Order extends Controller{
                 // 启动事务
                 Db::startTrans();
                 try {
+<<<<<<< HEAD
 
                     
                     //生成订单
@@ -186,6 +169,20 @@ Class Order extends Controller{
                     $no = $order_list->order_number;
                     $order_id = $order_list->id;
                      //           print_r($order_id);die;
+=======
+                    //店铺logo
+                    $img = $this->imgurl($param['enter_all_id']);
+                    //生成订单
+                    $order = new MealOrder();
+                    $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
+                    $no = $order_list->order_number;
+                    $order_id = $order_list->id;
+                    //            print_r($order_id);die;
+                    //另一个订单表
+                    $meal_orders = new OrdersMeal();
+                    $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
+
+>>>>>>> f80e0e07fefc08a770967a5438980e4fa4a8e44a
                     // 提交事务
                     Db::commit();
                     $type = $param['type'];
@@ -270,7 +267,7 @@ Class Order extends Controller{
      * @param $enter_data
      * @return string
      */
-    function ingurl($enter_data){
+    function imgurl($enter_data){
         if($enter_data === 5){
             $images_url ="/static/admin/common/img/wanyong.png";
         }else if($enter_data === 7){

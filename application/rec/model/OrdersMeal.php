@@ -2,17 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: PHP
- * Date: 2019/9/18
- * Time: 11:52
+ * Date: 2019/10/18
+ * Time: 16:44
  */
 namespace app\rec\model;
 
 
 use think\Model;
 
-class MealOrder extends Model{
+class OrdersMeal extends Model{
 
-    protected $table = "tb_set_meal_order";
+    protected $table = "tb_meal_orders";
     protected $resultSetType = 'collection';
 
     //新增
@@ -49,7 +49,6 @@ class MealOrder extends Model{
     //编辑
     public function edit($store_id,$uid,$name,$quantity,$money,$enter_all_id,$store_name,$pay,$openid,$img)
     {
-    
         $data = new MealOrder;
         $data->save([
             'user_id' => $uid,
@@ -66,7 +65,8 @@ class MealOrder extends Model{
             'openid' =>$openid,
             'images_url'=>$img,
             'create_time'=>time()
-        ],['id' => $id,]);
+        ],['store_id' => $store_id,]);
+
         if($data !== false){
             return $data;
         }else{
