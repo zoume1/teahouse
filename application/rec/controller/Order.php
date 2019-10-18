@@ -85,7 +85,7 @@ Class Order extends Controller{
                         //            print_r($order_id);die;
                         //另一个订单表
                         $meal_orders = new OrdersMeal();
-                        $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
+                        $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img);
 
                         // 提交事务
                         Db::commit();
@@ -165,7 +165,7 @@ Class Order extends Controller{
                     //            print_r($order_id);die;
                     //另一个订单表
                     $meal_orders = new OrdersMeal();
-                    $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
+                    $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img);
 
                     // 提交事务
                     Db::commit();
@@ -252,7 +252,6 @@ Class Order extends Controller{
      * @return string
      */
     function imgurl($enter_data){
-    
         if($enter_data = 5){
             $images_url ="/static/admin/common/img/wanyong.png";
         }else if($enter_data = 7){
