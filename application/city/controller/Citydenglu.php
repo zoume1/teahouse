@@ -102,4 +102,16 @@ class Citydenglu extends Controller
         ];
         return jsonSuccess('发送成功',$rest_data);
     }
+
+
+    /**
+     **************郭杨*******************
+     * @param Request $request
+     * Notes:[退出]
+     **************************************
+     */
+    public function city_out_log(){
+        Session::delete("User");
+        $this->redirect("index/index/city_out");
+    }
 }

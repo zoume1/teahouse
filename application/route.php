@@ -62,6 +62,7 @@ Route::group("",[
     "my_shop"=>"index/index/my_shop", //我的店铺
     "city_forget"=>"index/index/city_forget", //申请城市合伙人忘记密码
     "city_login"=>"index/index/city_login", //合伙人后台登陆
+    "city_out"=>"index/index/city_out",     //合伙人后台退出
     "get_wenshidu"=>"index/index/get_wenshidu", //获取温湿度
     "get_bank_list"=>"index/My/get_bank_list", //获取用户的银行卡列表
     "merchant"=>"index/index/merchant", //实力商家
@@ -549,6 +550,9 @@ Route::group("admin",[
     "changeOderPrice"=>"admin/Order/changeOderPrice",//订单改价
     "get_receipt_detail"=>"admin/Order/get_receipt_detail",//获取发票详情
     "receipt_do"=>"admin/Order/receipt_do",                //申请发票处理
+    "integral_confirm_shipment"=>"admin/Order/integral_confirm_shipment",                //订单确认发货（填写订单编号）----积分订单
+    "integral_information_return"=>"admin/Order/integral_information_return",                //初始订单的基本信息
+    "integral_notice"=>"admin/Order/integral_notice",                //积分订单---获取批注
     /*TODO:订单结束*/
 
     /*TODO:地址订单开始*/
@@ -1142,6 +1146,7 @@ Route::group("admin",[
    "city_datum_verify"=>"admin/City/city_datum_verify",          //城市入驻资料审核
    "city_datum_verify_edit"=>"admin/City/city_datum_verify_edit",//城市入驻资料审核编辑
    "city_datum_verify_update"=>"admin/City/city_datum_verify_update",//城市入驻资料审核更新
+   "city_datum_verify_delete"=>"admin/City/city_datum_verify_delete",//城市入驻资料删除
    "city_price_examine"=>"admin/City/city_price_examine",        //城市入驻费用审核
    "city_price_examine_update"=>"admin/City/city_price_examine_update",      //城市入驻费用审核编辑
    " city_price_examine_replace"=>"admin/City/city_price_examine_replace",      //城市入驻费用点击审核
@@ -1149,6 +1154,8 @@ Route::group("admin",[
    "city_rank_add"=>"admin/City/city_rank_add",                //城市等级添加
    "city_rank_delete"=>"admin/City/city_rank_delete",          //城市等级删除
    "city_rank_update"=>"admin/City/city_rank_update",          //城市等级移动
+   "setCitySwitchStatusUpdate"=>"admin/City/setCitySwitchStatusUpdate",          //城市入驻资料账号开关
+   "city_store_number_update"=>"admin/City/city_store_number_update",  //城市等级茶商数量修改
    "city_market"=>"admin/City/city_market",  //城市市场反馈
    "city_market_feedback"=>"admin/City/city_market_feedback",  //城市市场点击回复
    "city_market_feedback_update"=>"admin/City/city_market_feedback_update",  //城市市场回复更新
@@ -1213,6 +1220,7 @@ Route::group("city",[
     "chooseCity" => "city/Passport/chooseCity", //城市合伙人选择省份直辖市
     "chooseRank" => "city/Passport/chooseRank", //城市合伙人选择等级
     "logCityTenantDetail"=>"city/Citydenglu/logCityTenantDetail",    //登陆后-城市累计商户明细
+    "city_out_log"=>"city/Citydenglu/city_out_log",    //城市合伙人退出
     "myInviteStore"=>"city/Citydenglu/myInviteStore",                //我邀请的商户明细
     "logCityTenantDetail_search"=>"city/Citydenglu/logCityTenantDetail_search",    //登陆后-城市累计商户明细搜索
     "myInviteStore_search"=>"city/Citydenglu/myInviteStore_search",                //我邀请的商户明细搜索

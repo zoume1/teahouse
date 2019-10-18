@@ -23,6 +23,7 @@ use think\Request;
 use app\city\model\StoreCommission;
 use app\city\model\CitySetting;
 use app\city\model\CityCopartner;
+use app\city\model\CityRank;
 
 
 
@@ -37,6 +38,7 @@ define("ERROR_103",103);//合伙人申请被拒绝
 define("ERROR_104",104);//合伙人未购买套餐
 define("ERROR_105",105);//合伙人购买套餐正在审核中
 define("ERROR_106",106);//购买的城市套餐汇款未到账
+define("ERROR_107",107);//账号已冻结
 
 
 
@@ -785,6 +787,23 @@ function show_order_statues($status){
         echo '<button type="button" class=" layui-btn layui-btn-mini cancel-btu static_btus" >退货</button>';
     }else  if($status==12){
         echo '<button type="button" class=" layui-btn layui-btn-mini cancel-btu static_btus btn-ytk" >待服务</button>';
+    }
+}
+/**
+ * lilu
+ * 店铺积分订单
+ */
+function integral_order_statues($status){
+    if($status==0){
+        echo '<button type="button" class=" layui-btn layui-btn-mini static_btus" >已关闭</button>';
+    }else if($status==1){
+        echo '<button type="button" class=" layui-btn layui-btn-mini static_btus color2" >待发货</button>';
+    }else  if($status==3){
+        echo '<button type="button" class=" layui-btn layui-btn-mini static_btus color3" >已发货</button>';
+    }else  if($status==5){
+        echo '<button type="button" class=" layui-btn layui-btn-mini static_btus color4" >已完成</button>';
+    }else  if($status==9){
+        echo '<button type="button" class=" layui-btn layui-btn-mini static_btus" >取消订单</button>';
     }
 }
 /**
@@ -1794,6 +1813,15 @@ function returnArray($data){
         
   }
 
+/**
+   * 城市对应茶商数量
+   * 
+   */
+  function city_store_number($city){
+    $city_data = CityRank::rank_find($city);
+    return $city_data ? $city_data['store_number'] : 0;
+    
+}
 
 
 

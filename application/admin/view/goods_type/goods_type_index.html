@@ -18,6 +18,8 @@
 		background: #FDFDFE;
     }
     img  {width: 50px;}
+    .tog_btn {border: 1px solid;border-radius: 3px;width: 20px;display: inline-block;cursor: pointer;text-align: center;}
+    .td_one {width: 300px;text-align: left !important;padding-left: 40px !important;-moz-user-select:none;}
 </style>
 
 {/block}
@@ -84,10 +86,17 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
-                    {volist name="wares" id="value"}
-                    <tr>
+                    {volist name="wares" id="value" key="key"}
+                    <tr >
                         <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
-                        <td>{$value.name}</td>
+                        <td class="td_one">
+                            {if $value['has_second']==1}
+                            <span class="tog_btn togType" data-id="{$value.id}" onselectstart="return false;">+</span>
+                            {else}
+                            <span class="tog_btn" onselectstart="return false;">-</span>
+                            {/if}
+                            {$value.name}
+                        </td>
                         <td>
                             {if $value['category_images']}
                                 <img  src="{$value['category_images']}" width="50px" >
@@ -107,6 +116,35 @@
                             <a href="{:url('admin/GoodsType/del',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                         </td>
                     </tr>
+                    {if $value['has_second']==1}
+                        {volist name="value['second_category']" id="value2" key="k2"}
+                            <tr class="id_{$value.id}" style="display: none;">
+                                <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value2.id}"></td>
+                                <td class="td_one">
+                                    <span style="display: inline-block;width: 35px;"></span>
+                                    {$value2.name}
+                                </td>
+                                <td>
+                                    {if $value2['category_images']}
+                                        <img  src="{$value2['category_images']}" width="50px" >
+                                    {else}
+                                        暂无分类图片
+                                    {/if}
+                                </td>
+                                <td>{if $value2.pid !=0}{$value2.name} {else} 顶级 {/if}</td>
+                                <td>{$value2.rank}</td>
+                                <td>{$value2.sort_number}</td>
+                                <td class="td-status">
+                                    {if $value2.status == 1} 已显示 {else} 已禁用 {/if}
+                                </td>
+                                <td>
+                                    <a class="layui-btn layui-btn-mini edit" href="{:url('admin/GoodsType/edit',['id'=>$value2.id])}"> 编辑
+                                    </a>
+                                    <a href="{:url('admin/GoodsType/del',['id'=>$value2.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    {/if}
                     {/volist}
                 </tbody>
             </table>
@@ -249,6 +287,13 @@
                 });
 
             })
+        })
+
+        $('.togType').click(function() {
+            let id =  $(this).data("id");
+            $(`.id_${id}`).toggle();
+            if($(`.id_${id}`).is(':hidden')) $(this).text('+');
+            else $(this).text('-');
         })
     </script>
 

@@ -18,7 +18,7 @@ use app\city\model\CityRank;
 use app\city\model\StoreCommission;
 use app\city\model\CityCopartner;
 use app\city\model\CityOrder;
-
+const CITY_STATUS_ONE = -1;
 
 class  City extends  Controller{
     
@@ -53,7 +53,6 @@ class  City extends  Controller{
             $two = CitySetting::city_setting_update($data);
             $three = CityDecay::city_decay_update($data);
             $four = CityEvaluate::city_evaluate_update($data);
-
             if( $one||$two||$three||$four )
             {
                 $this->success("更新成功", url("admin/City/city_setting"));
@@ -128,6 +127,7 @@ class  City extends  Controller{
      */    
     public function city_rank_setting(){
         $data = CityRank::getList($city='');
+        // halt($data);
         return view("city_rank_setting",['data'=>$data]);
        
     }
@@ -372,7 +372,56 @@ class  City extends  Controller{
         
     }
 
+    /**
+     * [城市茶商数量移动]
+     * 郭杨
+     */    
+    public function city_store_number_update(Request $request){
+        if($request->isAjax()){
+            $data = input();
+            $rest = CityRank::rank_update($data);
+            if($rest){
+                return $this->renderSuccess('修改成功');
+            } else {
+                return $this->renderError('修改失败');
+            }
+        }
+        
+    }
 
+    /**
+     * [城市入驻资料账号开关]
+     * 郭杨
+     */    
+    public function setCitySwitchStatusUpdate(Request $request){
+        if($request->isAjax()){
+            $data = input();
+            $rest = CityCopartner::meal_update($data);
+            if($rest){
+                return $this->renderSuccess('修改成功');
+            } else {
+                return $this->renderError('修改失败');
+            }
+        }
+        
+    }
+
+    /**
+     * [城市入驻费用审核删除]
+     * 郭杨
+     */    
+    public function city_datum_verify_delete(Request $request){
+        if($request->isAjax()){
+            $data = Request::instance()->param();
+            $data['status'] = CITY_STATUS_ONE;
+            $rest = CityCopartner :: meal_update($data);
+            if($rest){
+                return $this->renderSuccess('删除成功');
+            } else {
+                return $this->renderError('删除失败');
+            }
+        }
+    }
 
 
     

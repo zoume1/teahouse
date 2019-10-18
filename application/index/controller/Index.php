@@ -164,4 +164,12 @@ class Index extends Controller
         return view("city_login");
     }
 
+    /**
+     * gy
+     * 合伙人后台退出
+     */
+    public function city_out(){
+        return view("city_login");
+    }
+
 }

@@ -41,7 +41,7 @@
     .bot li{height: 65px; line-height: 65px; list-style: disc;}
     .bot li button{background-color: #f00; float: right; transform: translateY(50%);}
     .bot li a{color: #669900;}
-    td.table-cell{display: flex; align-items: center;padding: 9px 0px;}
+    td.table-cell{display: flex; align-items: center;padding: 9px 0px;justify-content: center;}
     .table-cell button{height: 22px; line-height: 22px; border-radius: 4px; padding: 0 10px;}
     
     .wait-check{color: #669900; margin-left: 10px;}
@@ -165,6 +165,7 @@
                             {/switch}
                         </td>
                         <td class="table-cell">
+                            
                             <div data-id="{$value.store_id}" data-value="{$value.store_status}">
                                 <a class="wait-check" href="{:url('admin/Control/control_order_add',['id'=>$value.store_id])}">{$value.store_status|enter_status}</a>
                             </div>

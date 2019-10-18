@@ -14,9 +14,9 @@
 
         #selectUrl_url .modal-dialog {width: 930px;}
 
-        #selectUrl_url .line { color: #999; height: 36px; line-height: 36px;}
+        #selectUrl_url .line { color: #999; line-height: 36px;}
         #selectUrl_url .line:hover{background-color: #eee;}
-        #selectUrl_url .line .icon {height: 35px; width: 30px; position: relative; float: left;}
+        #selectUrl_url .line .icon {height: 35px; width: 30px; position: relative; float: left; text-align: center;line-height: inherit;cursor: pointer;font-size: 22px;-moz-user-select:none;}
 
         #selectUrl_url .line .icon.icon-1:before {content: ""; width: 10px; height: 10px; border: 1px dashed #ccc; position: absolute; top: 12px; left: 10px;}
 
@@ -65,7 +65,7 @@
 
         #selectUrl .modal-dialog {width: 930px;}
 
-        #selectUrl .line { color: #999; height: 36px; line-height: 36px;}
+        #selectUrl .line { color: #999; line-height: 36px;}
 
         #selectUrl .line .icon {height: 35px; width: 30px; position: relative; float: left;}
 
@@ -168,7 +168,11 @@
                         {if $list}
                         {foreach $list as $v}
                         <div class="line" style="height: auto;">
-                            <div class="icon icon-link1"></div>
+                            {if $v['second_cate']}
+                            <div class="icon icon-link1 togBtn" onclick="tog(this)"  onselectstart="return false;">+</div>
+                            {else}
+                            <div class="icon icon-link1"  onselectstart="return false;">-</div>
+                            {/if}
                             <!--cateid-->
                             <nav data-href="cateid:{$v['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                             {if $type == "picartcate"}
@@ -181,21 +185,23 @@
                                 {/if}
                                 <span style="font-weight: bold">|-{$v['name']}</span></div>
                             {else}
-                            <div class="text" style="font-weight: bold;" onclick="tog(this)">|-{$v['name']}</div>
-                            {if $v['second_cate']}
-                            <div class="line texts" style="display: none;">
-                                   {foreach $v['second_cate'] as $v2}
-                                        <div class="icon icon-link1"></div>
-                                        <div class="icon icon-link1"></div>
-                                        <!--cateid-->
-                                        <nav data-href="cateid:{$v2['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
-                                        <div class="text " style="font-weight: bold;">||-{$v2['name']}</div>
-                                    {/foreach}
-                                </div>
-                                {/if}
+                            <div class="text" style="font-weight: bold;">|-{$v['name']}</div>
+                           
                             {/if}
                         </div>
-                        
+                        {if $v['second_cate']}
+                        <div class="texts" style="display: none;">
+                            {foreach $v['second_cate'] as $v2}
+                            <div class="line">
+                                <div class="icon icon-link1"></div>
+                                <div class="icon icon-link1"></div>
+                                <!--cateid-->
+                                <nav data-href="cateid:{$v2['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                                <div class="text " style="font-weight: bold;">||-{$v2['name']}</div>
+                            </div>
+                            {/foreach}
+                        </div>
+                        {/if}
 
                         {if $v['subcate']}
                         {foreach $v['subcate'] as $vi}
@@ -241,6 +247,8 @@
 <script>
 
         function tog(e) {
-            $(e).nextAll('.texts').toggle();
+            $(e).parent('.line').nextAll('.texts').toggle();
+            if($(e).parent('.line').siblings('.texts').is(':hidden')) $(e).text('+');
+            else $(e).text('-');
         }
         </script>

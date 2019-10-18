@@ -54,11 +54,9 @@
 	/* .static_btus button {
 		width: 100%;
 	} */
-
 	/*
      * 弹窗
      */
-
 	.popup {
 		width: 100%;
 		height: 100%;
@@ -105,7 +103,7 @@
 	}
 
 	.repany .layui-input {
-		width: 620px;
+		width: 530px;
 	}
 
 	.repany {
@@ -122,7 +120,7 @@
 	}
 
 	.danhao {
-		width: 200px;
+		width: 400px;
 		margin-right: 10px;
 	}
 
@@ -176,10 +174,17 @@
 	.color5 {
 		background: #A1A1A1;
 	}
-
-	/*  待发货*/
-	.color8 {
-		background: #CC00CC;
+	
+	.repay_tip {
+		display: inline-block;
+		width: 100px;
+		height: 35px;
+		text-align: center;
+		line-height: 35px;
+		color: #fff;
+		background: #669900;
+		border-radius: 5px;
+		cursor: pointer;
 	}
 </style>
 
@@ -200,7 +205,8 @@
 				<div class="repany">
 					<span class="span">官方回复</span>
 					<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注"
-						class="layui-input">
+						class="layui-input Information">
+					<span class="repay_tip">批注</span>
 				</div>
 				<div class="chat">
 					<div class="chat_list">
@@ -232,7 +238,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="popup popup_two noshow">
+	<!-- <div class="popup popup_two noshow">
 		<div class="popup_doms">
 			<div class="popup_title">
 				处理回复（个人信息处有提示信息）
@@ -270,7 +276,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="childrenBody">
 		{include file="template/_top" /}
@@ -318,7 +324,13 @@
 
 			</form>
 		</blockquote>
-
+		<div class="seach_button_all">
+			<a href="{:url('admin/Order/order_integral', ['status' => -1])}" class=" layui-btn layui-btn-mini static_btus color5" >全部</a>
+			<a href="{:url('admin/Order/order_integral', ['status' => 1])}" class=" layui-btn layui-btn-mini static_btus color2" >待发货</a>
+			<a href="{:url('admin/Order/order_integral', ['status' => 3])}" class=" layui-btn layui-btn-mini static_btus color3" >已发货</a>
+			<a href="{:url('admin/Order/order_integral', ['status' => 5])}" class=" layui-btn layui-btn-mini static_btus color4" >已完成</a>
+		</div>
+		
 		<div class="layui-form news_list">
 			<table class="layui-table">
 				<colgroup>
@@ -339,7 +351,6 @@
 				</thead>
 				<tbody class="news_content">
 					{if !empty($data)}{volist name="data" id = "value"}
-
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"
 								data-id="{$value.id}"></td>
@@ -347,14 +358,14 @@
 						<td class="">
 							<div class="tdimg"><img src="{$value.goods_show_image}" /></div>
 						</td>
-						<td>{$value.goods_name}</td>
+						<td >{$value.goods_name}</td>
 						<td>{$value.order_quantity}</td>
 						<td>{$value.user_account_name}</td>
 						<td>{$value.order_create_time |date="Y-m-d H:i:s",###}</td>
 						<td>{$value.order_amount}</td>
 						<td>
-							<div class="static_btus" data-id="{$value.id}" data-value="{$value.status}">
-								{$value.status|show_order_statues}
+							<div class="" data-id="{$value.id}" data-value="{$value.status}" data-num="{$value.parts_order_number}">
+								{$value.status|integral_order_statues}
 							</div>
 						</td>
 					</tr>
@@ -502,10 +513,211 @@
 			})
 		})
 		$(".static_btus").click(function () {
-			$(".popup_two").removeClass("noshow");
+			var _this = this;
+			var data_id = $(this).parent().data("id");    //订单id
+			var order_num = $(this).parent().data("num");    //订单号
+			var way = 0;
+			$(".operation").data("value", order_num);
+			$(".repay_tip").data("num", order_num);
+			$(".repay_tip").data("id", data_id);
+			var data_value = $(this).parent().data("value");    //订单状态
+			var data_type = $(this).data("type");    //订单类型
+			$(".operation").empty();
+			$(".chat").empty();
+			//获取批注
+			$.ajax({
+				type: "POST",
+				url: "{:url('admin/Order/integral_notice')}",
+				data: {
+					"order_id": order_num,
+				},
+				async: false,
+				success: function (data) {
+					var data = JSON.parse(data);
+					console.log(data)
+					way = data.data.order_type;   //邮寄方式    
+					for (var i = 0; i < data.data.datas.length; i++) {
+						var dhtm0 = "";
+						dhtm0 += '<div class="chat_list">';
+						dhtm0 += '	<span class="span">' + timestampToTime(data.data.datas[i].create_time) + '</span>';
+						dhtm0 += '<span>' + data.data.datas[i].information + '</span>';
+						dhtm0 += '</div>';
+						$(".chat").append(dhtm0);
+					}
+				},
+				error: function (data) {
+
+				}
+			});
+			//获取订单的信息
+			var express = 0;
+			var express_name = '';
+			var harvester_address, harvester, harvest_phone_num;
+			$.ajax({
+				type: "POST",
+				url: "{:url('admin/Order/integral_information_return')}",
+				data: {
+					"order_id": order_num,
+				},
+				async: false,
+				success: function (data) {
+					var data = JSON.parse(data);
+					// console.log(data)
+					way = data.data.order_type;   //邮寄方式  
+					express = data.data.courier_number;
+					express_name = data.data.express_name;
+					express_name_ch = data.data.express_name_ch;
+					harvest_phone_num = data.data.harvest_phone_num;
+					harvester_address = data.data.harvester_address;
+					harvester = data.data.harvester;
+					order_type = data.data.order_type;
+					order_type_status = data.data.status;
+					// $(".operation").find('.curier').value(express);
+					// $(".operation").find('.danhao').val(express_name);
+				},
+				error: function (data) {
+
+				}
+			});
+			var dhtml1 = "";
+			dhtml1 += '<div class="select_static">';
+			dhtml1 += '</div>';
+			dhtml1 += '<div class="select_courier">';
+			dhtml1 += '<span class="operation_title">选择快递</span>';
+			dhtml1 += '<select name="" class="curier"  id="curier">';
+			dhtml1 += '<option value="ems1">EMS</option>';
+			dhtml1 += '<option value="youzhengguonei">邮政包裹/平邮</option>';
+			dhtml1 += '<option value="bjemstckj">北京EMS</option>';
+			dhtml1 += '<option value="shunfeng">顺丰</option>';
+			dhtml1 += '<option value="shentong">申通</option>';
+			dhtml1 += '<option value="yuantong">圆通 </option>';
+			dhtml1 += '<option value="zhongtong">中通</option>';
+			dhtml1 += '<option value="huitongkuaidi">百世汇通</option>';
+			dhtml1 += '<option value="baishiwuliu">百世物流</option>';
+			dhtml1 += '<option value="yunda">韵达</option>';
+			dhtml1 += '<option value="zhaijisong">宅急送</option>';
+			dhtml1 += '<option value="tiantian">天天</option>';
+			dhtml1 += '<option value="debangwuliu">德邦</option>';
+			dhtml1 += '<option value="guotongkuaidi">国通</option>';
+			dhtml1 += '<option value="zengyisudi">增益</option>';
+			dhtml1 += '<option value="suer">速尔</option>';
+			dhtml1 += '<option value="ztky">中铁物流</option>';
+			dhtml1 += '<option value="zhongtiewuliu">中铁快运</option>';
+			dhtml1 += '<option value="ganzhongnengda">能达</option>';
+			dhtml1 += '<option value="youshuwuliu">优速</option>';
+			dhtml1 += '<option value="quanfengkuaidi">全峰</option>';
+			dhtml1 += '<option value="quanfengkuaidi">其他物流</option>';
+
+			dhtml1 += '</select>';
+			dhtml1 += '</div>';
+			
+			$('.tip').remove();
+			var tip = '';
+			if (data_value == '5' ) {    //已完成
+				dhtml1 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" readonly class="layui-input danhao" value="' + express + '"  >';
+			} else if (data_value == '3'){ //已发货
+				dhtml1 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao" value="' + express + '"   >';
+				dhtml1 += '<button type="button" class="submit_btns" data-id="">修改单号</button>';
+			} else { //代发货
+				dhtml1 += '<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入单号" class="layui-input danhao"  >';
+				dhtml1 += '<button type="button" class="submit_btns" data-id="">确认发货</button>';
+			}
+			$(".operation").data("order_type", order_type);
+			$(".operation").data("status", data_value);
+			$(".operation").append(dhtml1);
+			if(data_value == 3) {
+				$(`#curier option[value=${express_name}]`).attr("selected","selected");
+			}
+		
+			$(".popup_one").removeClass("noshow");
+
 		});
 		$(".popup_x").click(function () {
-			$(".popup_two").addClass("noshow");
+			$(".popup_one").addClass("noshow");
+		});
+
+		//点击操作按钮
+		$(".operation").on("click", ".submit_btns", function () {
+			$(".popup").addClass("noshow");
+			var repay = $(".repay").val(), change_status;
+			var status = $(this).parent(".operation").data("status");   //订单状态
+			var value = $(this).parent(".operation").data("value");   //订单的id
+			var order_type = $(this).parent(".operation").data("order_type");   //订单的类型
+			// console.log(order_type)
+			//    快递选择
+			var curier = $("#curier option:selected").val();
+			var curier2 = $("#curier option:selected").text();
+			
+			//    快递单号
+			var danhao = $(".danhao").val();
+			change_status = 3;
+			if (order_type == 2) {
+				danhao = ''; curier = ''; curier2 = '';
+			}
+			if (danhao != '' || order_type == 2) {
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/Order/integral_confirm_shipment')}",
+					data: {
+						"order_id": value,
+						"courier_number": danhao,
+						"status": change_status,
+						"express_name": curier,
+						"express_name_ch": curier2,
+						"order_type": order_type
+					},
+					success: function (data) {
+						location.reload();
+						var data = eval('(' + data + ')');
+						console.log(data);
+	
+					},
+					error: function (data) {
+	
+					}
+				});
+			} else {
+				alert('请输入单号')
+			}
+			
+
+		});
+		// 点击批注
+
+		$(".repay_tip").click(function () {
+			var order_num = $(this).data("num");
+			var order_id = $(this).data("id");
+			var Information = $(".Information").val();
+			if (Information != '') {
+				$.ajax({
+					type: "POST",
+					url: "{:url('admin/Notification/option_add_notice')}",
+					data: {
+						"order_id": order_id,
+						"order_num": order_num,
+						"information": Information,
+					},
+					async: false,
+					success: function (data) {
+						var data = eval('(' + data + ')');
+						var dhtm0 = "";
+						dhtm0 += '<div class="chat_list">';
+						dhtm0 += '	<span class="span">' + timestampToTime(data.data.create_time) + '</span>';
+						dhtm0 += '<span>' + data.data.information + '</span>';
+						dhtm0 += '</div>';
+						$(".chat").append(dhtm0);
+						$(".Information").val("");
+
+					},
+					error: function (data) {
+
+					}
+				});
+
+			}
+			else {
+				alert("批注不能为空");
+			}
 		});
 		function timestampToTime(timestamp) {
 			var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -515,7 +727,7 @@
 			h = date.getHours() + ':';
 			m = date.getMinutes() + ':';
 			s = date.getSeconds();
-			return Y + M + D;
+			return Y.toString() + M.toString() + D.toString();
 		}
 	</script>
 

@@ -11,7 +11,7 @@
     .distribution_list {margin-bottom: 10px; border-bottom: solid 1px #D7D7D7;}
     .distribution_list ul {display: flex; align-items: center;}
     .distribution_list a {font-size: 14px; padding: 9px; color: #5E5E5E;}
-    .static_btus {display: inline-block; height: 24px; line-height: 24px; margin: 0 12px; overflow: hidden;color: white;}
+    .static_btus {display: inline-block; height: 24px; line-height: 24px; margin: 0 12px; color: white;}
     .static_btus >a {color: #fff;}
     .static_btus button {width: 100%; padding: 0 10px; border-radius: 4px; }
     .payment-has-been {background: #669900;}
@@ -146,8 +146,9 @@
                                 lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.user_id}">
                             {/if}
                         </td>
-                        <td>
+                        <td style="width: 300px;">
                             <a class="static_btus" href="{:url('admin/City/city_datum_verify_edit',['id'=>$value.user_id])}">{$value.status|city_status}</a>
+                            <button  id="verify_del" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="{$value.user_id}"><i class="layui-icon"></i> 删除</button>
                         </td>
                     </tr>
                     {/volist}{/if}
@@ -266,6 +267,7 @@
 
             //账号状态
             form.on('switch(isShow)', function (data) {
+                console.log($(this).val());
                 if ($(this).val() == 0) {
                     $(this).val(1);
                 } else {
@@ -276,10 +278,10 @@
                 var status = $(this).val();
                 $.ajax({
                     type: "POST",
-                    url: "{:url('admin/Goods/status')}",
+                    url: "{:url('admin/City/setCitySwitchStatusUpdate')}",
                     data: {
                         "id": id,
-                        "status": status
+                        "is_delete": status
                     },
                     success: function (data) {
                         console.log("成功")
@@ -289,6 +291,31 @@
                     }
                 });
 
+            })
+
+
+            $('#verify_del').click(function () {
+                let id = $(this).data('id');
+                layer.confirm('你确认要删除吗？', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "{:url('admin/City/city_datum_verify_delete')}",
+                            data: {
+                                "id": id,
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                layer.msg(data.msg);
+                                window.location.reload();
+                            },
+                            error: function(e) {
+                                console.log(e)
+                            }
+                        });
+                    })
+                
             })
             form.render();
 

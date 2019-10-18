@@ -111,7 +111,7 @@
             <div class="form-item m_t">
                     <label class="form-label" style="width:20%">上级商户佣金比例</label>
                     <div class="form-input m_r">
-                        <input type="text" name="commission" value="{$store_data['commission']}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
+                        <input type="text" name="commissions" value="{$store_data['commission']}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
@@ -396,7 +396,7 @@
             </blockquote>
             {if !empty($cityevalute)}
             <div class="form-item m_t">
-                    <label class="form-label" style="width:20%">1分以下</label>
+                    <label class="form-label" style="width:20%">0-4分</label>
                     <div class="form-input m_r">
                         <input type="text" name="one" value="{$cityevalute.one}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
@@ -407,7 +407,7 @@
                     </div>
             </div>
             <div class="form-item">
-                    <label class="form-label" style="width:20%">1~2分</label>
+                    <label class="form-label" style="width:20%">4-7分</label>
                     <div class="form-input m_r">
                         <input type="text" name="two" value="{$cityevalute.two}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
@@ -418,49 +418,17 @@
                     </div>
             </div>
             <div class="form-item">
-                    <label class="form-label" style="width:20%">2~3分</label>
+                    <label class="form-label" style="width:20%">7-10分</label>
                     <div class="form-input m_r">
                         <input type="text" name="three" value="{$cityevalute.three}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
                         class="layui-input">
                         <span >%</span>
                         <div class="tips"><span class="red">*</span>
-                            扣减保底佣金比例
+                            增加保底佣金比例
                         </div>
                     </div>
             </div>
-            <div class="form-item">
-                    <label class="form-label" style="width:20%">6~7分</label>
-                    <div class="form-input m_r">
-                        <input type="text" name="six" value="{$cityevalute.six}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
-                        class="layui-input">
-                        <span >%</span>
-                        <div class="tips"><span class="red">*</span>
-                            扣减保底佣金比例
-                        </div>
-                    </div>
-            </div>
-            <div class="form-item">
-                    <label class="form-label" style="width:20%">7~8分</label>
-                    <div class="form-input m_r">
-                        <input type="text" name="seven" value="{$cityevalute.seven}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
-                        class="layui-input">
-                        <span >%</span>
-                        <div class="tips"><span class="red">*</span>
-                            扣减保底佣金比例
-                        </div>
-                    </div>
-            </div>
-            <div class="form-item">
-                    <label class="form-label" style="width:20%">8分以上</label>
-                    <div class="form-input m_r">
-                        <input type="text" name="eight" value="{$cityevalute.eight}" lay-verify="title" autocomplete="off" placeholder="  请输入数字"
-                        class="layui-input">
-                        <span >%</span>
-                        <div class="tips"><span class="red">*</span>
-                            扣减保底佣金比例
-                        </div>
-                    </div>
-            </div>
+            
             {else}
             <div class="form-item m_t">
                 <label class="form-label" style="width:20%">1分以下</label>
