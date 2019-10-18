@@ -495,11 +495,16 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function order_integral(){
-        $input=input('get.');
+        $input=input();
         $where=[];
         if($input){
-            $where['status']=$input['status'];
+            if($input['status']=='-1'){
+
+            }else{
+                $where['status']=$input['status'];
+            }
         }
+        halt($where);
         $store_id = Session::get("store_id");
         $data =Db::name("buyintegral")
             ->order("order_create_time","desc")

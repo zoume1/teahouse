@@ -2129,12 +2129,12 @@ class  Order extends  Controller
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         $pp=json_encode($xml_data);
-        $p['msg']=$pp.'小程序支付回调';
-        db('test')->insert($p);
         $val = json_decode($pp, true);
         if($val["result_code"] == "SUCCESS" ){
 
             $order_type = Db::name("order")->where("parts_order_number",$val["out_trade_no"])->find();
+            if($order_type['status']==1){
+
             //订单类型
             if($order_type['order_type'] == 2){   //到店自提
                 $status = 5;
@@ -2219,6 +2219,7 @@ class  Order extends  Controller
             }else{
                 return ajax_error("失败");
             }
+        }
         }
     }
 
