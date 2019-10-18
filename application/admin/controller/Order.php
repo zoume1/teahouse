@@ -49,14 +49,14 @@ class  Order extends  Controller{
             foreach($data as $k=>$v){
                 //去除过期的未支付的订单
                 //获取订单过期的配置参数
-                $time=db('order_setting')->where('store_id',$store_id)->value('normal_time');
-                $time_now=time()-$v['order_create_time']-$time*60;
-                if($v['status']==1 && $time_now >0){
-                    //未支付并且已过期，（状态修改为已关闭）
-                    db('order')->where('id',$v['id'])->update(['status'=>0]);
-                    // unset($data[$k]);
-                    continue;
-                }
+                // $time=db('order_setting')->where('store_id',$store_id)->value('normal_time');
+                // $time_now=time()-$v['order_create_time']-$time*60;
+                // if($v['status']==1 && $time_now >0){
+                //     //未支付并且已过期，（状态修改为已关闭）
+                //     db('order')->where('id',$v['id'])->update(['status'=>0]);
+                //     // unset($data[$k]);
+                //     continue;
+                // }
                 //获取相同订单的数据
                 $list=db('order')->where('parts_order_number',$v['parts_order_number'])->select();
                 $order=[];
@@ -1093,7 +1093,6 @@ class  Order extends  Controller{
 
             }
         }
-
         // foreach($data as $k=>$v){
         //     //获取打赏订单的状态
         //     if($v['status']=='1'){
@@ -1108,5 +1107,93 @@ class  Order extends  Controller{
         //     }
         // }
         return view("reward_index",["data"=>$data]);
+    }
+     /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:这是处理回复-----积分订单---获取批注
+     **************************************
+     * @param Request $request
+     */
+    public function integral_notice(Request $request){
+        if($request->isPost()){
+            $order_id = $request->only("order_id")["order_id"];   //订单号
+            $rest = Db::name("buyintegral")->where("parts_order_number",$order_id)->find();
+            $datas = Db::name("note_notification")
+                ->where("order_num",$rest['parts_order_number'])
+                ->order("create_time","desc")
+                ->select();
+            $data =[
+                "datas"=>$datas,
+                "order_type"=>$rest['order_type'],
+                "express_name"=>$rest['express_name'],
+                "express_name_ch"=>$rest['express_name_ch'],
+                "courier_number"=>$rest['courier_number']
+            ];
+            if(!empty($data)){
+                return ajax_success("数据返回成功",$data);
+            }else{
+                return ajax_error("没有数据",["status"=>0]);
+            }
+        }
+    }
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:初始订单的基本信息
+     **************************************
+     * @param Request $request
+     */
+    public function integral_information_return(Request $request){
+        if($request->isPost()){
+            $order_id =$request->only(["order_id"])["order_id"];
+            if(!empty($order_id)){
+                $data =Db::name("buyintegral")->where("parts_order_number",$order_id)->find();
+                if(!empty($data)){
+                    $data['store_name'] = db("store")->where("id",$data['store_id'])->value('store_name');
+                    $data['parts_goods_name'] = Db::name("order")->where("id",$order_id)->field('parts_goods_name')->select();
+                    $data['order_quantity'] = Db::name("order")->where("id",$order_id)->field('order_quantity')->select();
+                    $data["goods_franking"] = Db::name("goods")->where("id",$data["goods_id"])->value("goods_franking");
+                    return ajax_success("数据返回成功",$data);
+                }else{
+                    return ajax_error("没有数据信息",["status"=>0]);
+                }
+            }
+        }
+    }
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:订单确认发货（填写订单编号）----积分订单
+     **************************************
+     */
+    public function  integral_confirm_shipment(Request $request){
+        if($request->isPost()){
+            $order_id =$request->only(["order_id"])["order_id"];
+            $order_type =$request->only(["order_type"])["order_type"];
+            $status =$request->only(["status"])["status"];
+
+            if($order_type != 2){
+                $courier_number =$request->only(["courier_number"])["courier_number"];
+                $express_name =$request->only(["express_name"])["express_name"];
+                $express_name2 =$request->only(["express_name_ch"])["express_name_ch"];
+                $data =[
+                    "status"=>$status,
+                    "courier_number"=>$courier_number,
+                    "express_name"=>$express_name,
+                    "express_name_ch"=>$express_name2,
+                ];
+            } else {
+                $data =[
+                    "status"=>$status,
+                ];
+            }
+            $bool = Db::name("buyintegral")->where("parts_order_number",$order_id)->update($data);
+            if($bool){
+                return ajax_success("发货成功",["status"=>1]);
+            }else{
+                return ajax_error("发货失败",["status"=>0]);
+            }
+        }
     }
 }

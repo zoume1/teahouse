@@ -482,6 +482,7 @@ class Coupon extends Controller
                                 $rest = db("member")->where("member_id",$user_id)->setDec('member_integral_wallet',$datas["order_amount"]);//消费积分
                                 $volume = db("bonus_mall")->where("id",$commodity_id)->setDec("goods_repertory",$datas["order_quantity"]);//库存减少
                                 //销量
+                                db("bonus_mall")->where("id",$commodity_id)->setInc("sale_number",$datas["order_quantity"]);//销量增加
                                 //库存
                                 $many = db("member")->where("member_id",$user_id)->value("member_integral_wallet");//获取所有积分
                                 $integral_data = [

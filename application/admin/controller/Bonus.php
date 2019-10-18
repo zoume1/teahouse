@@ -55,6 +55,10 @@ class Bonus extends Controller
         if ($request->isPost()) {
             $store_id = Session::get("store_id");
             $goods_data = $request->param();
+            if(empty($goods_data['goods_delivery'])){
+                return $this->error('缺少必填参数');
+            }
+            $goods_data['goods_delivery']=json_encode($goods_data['goods_delivery']);
             // $list = [];
             // $show_images = $request->file("goods_show_images");
             //测试七牛上传图片
@@ -90,9 +94,8 @@ class Bonus extends Controller
             if (!empty($mall[$key]["goods_show_images"])) {
                 $mall[$key]["goods_show_images"] = explode(",", $mall[$key]["goods_show_images"]);
             }
+            $mall[$key]['goods_delivery']=json_decode($value['goods_delivery'],true);
         }
-
-
         return view('bonus_edit', ["mall" => $mall]);
     }
 
@@ -106,6 +109,10 @@ class Bonus extends Controller
         if ($request->isPost()) {
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
+            if(empty($goods_data['goods_delivery'])){
+                return $this->error('缺少必填参数');
+            }
+            $goods_data['goods_delivery']=json_encode($goods_data['goods_delivery']);
             $store_id=Session::get('store_id');
             // $show_images = $request->file("goods_show_images");
             // $list = [];
