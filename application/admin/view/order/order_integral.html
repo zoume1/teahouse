@@ -324,7 +324,13 @@
 
 			</form>
 		</blockquote>
-
+		<div class="seach_button_all">
+			<a href="{:url('admin/Order/order_integral', ['status' => -1])}" class=" layui-btn layui-btn-mini static_btus color5" >全部</a>
+			<a href="{:url('admin/Order/order_integral', ['status' => 1]')}" class=" layui-btn layui-btn-mini static_btus color2" >待发货</a>
+			<a href="{:url('admin/Order/order_integral', ['status' => 3]')}" class=" layui-btn layui-btn-mini static_btus color3" >已发货</a>
+			<a href="{:url('admin/Order/order_integral', ['status' => 5]')}" class=" layui-btn layui-btn-mini static_btus color4" >已完成</a>
+		</div>
+		
 		<div class="layui-form news_list">
 			<table class="layui-table">
 				<colgroup>
