@@ -47,4 +47,22 @@ class CityComment extends Model
     {
         return self::where('store_id','=',$store_id)->select();
     }
+
+    /**gy
+     * 获取店铺评论信息
+     * @param $meal_id
+     * @return null|static
+     * @throws \think\exception\DbException
+     */
+    public static function proving_comment($store_id)
+    {
+        $model = new static;
+        $data_rest = $model->detail($store_id);
+        $count_array = count($data_rest);
+        if($count_array){
+            $last = array_pop($count_array);
+            halt($last);
+        }
+
+    }
 }
