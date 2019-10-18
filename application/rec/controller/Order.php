@@ -7,6 +7,7 @@
  */
 namespace app\rec\controller;
 use app\rec\model\MealOrder;
+use app\rec\model\OrdersMeal;
 use app\rec\model\Store;
 use think\Request;
 use think\Validate;
@@ -82,6 +83,10 @@ Class Order extends Controller{
                         $no = $order_list->order_number;
                         $order_id = $order_list->id;
                         //            print_r($order_id);die;
+                        //另一个订单表
+                        $meal_orders = new OrdersMeal();
+                        $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
+
                         // 提交事务
                         Db::commit();
                         $type = $param['type'];
@@ -156,6 +161,10 @@ Class Order extends Controller{
                     $no = $order_list->order_number;
                     $order_id = $order_list->id;
                     //            print_r($order_id);die;
+                    //另一个订单表
+                    $meal_orders = new OrdersMeal();
+                    $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
+
                     // 提交事务
                     Db::commit();
                     $type = $param['type'];
