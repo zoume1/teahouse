@@ -23,10 +23,11 @@ class WechatPay extends Controller{
         // 查询订单信息
         $url = 'https://www.zhihuichacang.com/set_meal_notify';//回调请求域名
         $order = db('set_meal_order') -> getById($id);
-
+		
         $pay =1;//先测试1分钱
         if(!$order)returnJson(0,'当前订单不存在');
         if($order['status'] != -1)returnJson(0,'当前订单状态异常');
+        if($order['openid'] === null)returnJson(0,'当前订单openid异常');
         $wechatpay = new WeiPay();
         $res = $wechatpay->pay($order['goods_name'],$order['store_name'],$order['order_number'],$pay,$url,$order['openid']);
 

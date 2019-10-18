@@ -55,7 +55,7 @@ Class Order extends Controller{
 			
 			$pay = new WechatPay();
             $data = $pay->get_pay($order_all['id']);
-
+			print_r($data);die;
             //存入微信支付返回参数
             MealOrder::where('id',$order_all['id'])->update(['wx_pay'=>$data,'wx_time'=>date( 'Y-m-d H:i:s' )]);
 
