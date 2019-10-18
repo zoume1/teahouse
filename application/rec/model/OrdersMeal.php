@@ -16,7 +16,7 @@ class OrdersMeal extends Model{
     protected $resultSetType = 'collection';
 
     //新增
-    public function add($uid,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$openid,$img)
+    public function add($uid,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$img)
     {
         $data = new OrdersMeal;
         $data->save([
@@ -32,7 +32,6 @@ class OrdersMeal extends Model{
             'status'=> -1,
             'unit' =>'年',
             'pay_money'=>$pay,
-            'openid' =>$openid,
             'images_url'=>$img,
             "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
             "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
@@ -50,7 +49,7 @@ class OrdersMeal extends Model{
     }
 
     //编辑
-    public function edit($store_id,$uid,$name,$quantity,$money,$enter_all_id,$store_name,$pay,$openid,$img)
+    public function edit($store_id,$uid,$name,$quantity,$money,$enter_all_id,$store_name,$pay,$img)
     {
         $data = new OrdersMeal;
         $data->save([
@@ -65,7 +64,6 @@ class OrdersMeal extends Model{
             'status'=> -1,
             'unit' =>'年',
             'pay_money'=>$pay,
-            'openid' =>$openid,
             'images_url'=>$img,
             "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
             "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
