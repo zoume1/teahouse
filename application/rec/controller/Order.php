@@ -141,14 +141,8 @@ Class Order extends Controller{
                 }
                 break;   // 跳出循环
             case 2: //过期订单
-<<<<<<< HEAD
-            	
-				$param = $this->Verification($param);
-				
-=======
                 //验证
                 $param = $this->Verification($param);
->>>>>>> f80e0e07fefc08a770967a5438980e4fa4a8e44a
                 //查询个人信息
                 $user = new \app\rec\model\User();
                 $user_all = $user->user_index($param['user_id']);
@@ -160,16 +154,6 @@ Class Order extends Controller{
                 // 启动事务
                 Db::startTrans();
                 try {
-<<<<<<< HEAD
-
-                    
-                    //生成订单
-                    $order = new MealOrder();
-                    $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid']);
-                    $no = $order_list->order_number;
-                    $order_id = $order_list->id;
-                     //           print_r($order_id);die;
-=======
                     //店铺logo
                     $img = $this->imgurl($param['enter_all_id']);
                     //生成订单
@@ -182,7 +166,6 @@ Class Order extends Controller{
                     $meal_orders = new OrdersMeal();
                     $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
 
->>>>>>> f80e0e07fefc08a770967a5438980e4fa4a8e44a
                     // 提交事务
                     Db::commit();
                     $type = $param['type'];
