@@ -2,23 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: PHP
- * Date: 2019/9/18
- * Time: 11:52
+ * Date: 2019/10/18
+ * Time: 16:44
  */
 namespace app\rec\model;
 
 
 use think\Model;
 
-class MealOrder extends Model{
+class OrdersMeal extends Model{
 
-    protected $table = "tb_set_meal_order";
+    protected $table = "tb_meal_orders";
     protected $resultSetType = 'collection';
 
     //新增
     public function add($uid,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$openid,$img)
     {
-        $data = new MealOrder;
+        $data = new OrdersMeal;
         $data->save([
             'user_id' => $uid,
             'order_number' => $this->get_sn(),
@@ -52,7 +52,7 @@ class MealOrder extends Model{
     //编辑
     public function edit($store_id,$uid,$name,$quantity,$money,$enter_all_id,$store_name,$pay,$openid,$img)
     {
-        $data = new MealOrder;
+        $data = new OrdersMeal;
         $data->save([
             'user_id' => $uid,
             'order_number' => $this->get_sn(),
