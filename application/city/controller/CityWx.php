@@ -14,6 +14,9 @@ use think\Config;
 use app\admin\model\Store;
 use app\city\model\CityComment;
 use app\city\model\CityCopartner;
+use app\rec\model\CityDetail;
+use app\city\model\CityDetail as CityDetaile;
+
 //微信授权登录 获取个人信息
 class CityWx extends Controller{
     //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf120ba19ce55a392&redirect_uri=xxx&response_type=code&scope=xxx&state=STATE#wechat_redirect
@@ -103,32 +106,35 @@ class CityWx extends Controller{
             $store_object = new Store;
             $validate     = new Validate([
                 ['store_id', 'require', '店铺id不能为空'],
+                ['grade', 'require', '评论级别不能为空']
 
             ]);
             //验证部分数据合法性
             if (!$validate->check($store)) {
                 return jsonError($validate->getError());
             }
-            $store_data = $store_object->detail($store);
+            $store_data = $store_object->detail(['id'=>$store["store_id"]]);
             $address_two = explode(",", $store_data['address_data']);
-            $user_id = $store_object->find_city_user($address_two[2]);
+            $chang_address = CityDetaile::city_address_change($address_two[1]);
+            $user_id = $store_object->find_city_user($chang_address);
             if($user_id){
                 $data = [
                     'store_id' => $store['store_id'],
                     'create_time'=> time(),
+                    'end_time' => strtotime(date('Y-m-d H:i:s',strtotime('+1month'))),
                     'city_user_id'=> $user_id,
                     'grade' => $store['grade']
                 ];
                 $bool = CityComment::store_comment_add($data);
                 if($bool){
-                    return jsonSuccess('评价成功',$user_data);
+                    return jsonSuccess('评价成功');
                 } else {
                     return jsonError('评价失败');
                 }
-            }
-            return jsonSuccess('发送成功',$user_data);
-        }
-        
+            } else {
+                return jsonError('您店铺所在城市暂时没有合伙人入驻');
+            }    
+        }   
     }
 
 }

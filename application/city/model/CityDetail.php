@@ -75,7 +75,8 @@ class CityDetail extends Model
     {
         $model = new static;
         $address_two = explode(",", $store_data['address_data']);
-        $city_user_id = AddStore::find_city_user($address_two[CITY_ONE_STATUS]);
+        $chang_address = city_address_change($address_two[CITY_ONE_STATUS]);
+        $city_user_id = AddStore::find_city_user($chang_address);
         $retutn_data = find_rank_data($store_data['highe_share_code'],$order_data['amount_money'],$city_user_id);
         $data = [
             'order_number' => $order_data['order_number'],
@@ -91,7 +92,7 @@ class CityDetail extends Model
             'create_time' => $order_data['create_time'],
             'update_time' => time(),
             'city_user_id' => $city_user_id,
-            'city_address' => $address_two[CITY_ONE_STATUS],
+            'city_address' => $chang_address,
             'store_id'=>$store_data['id'],
             'user_name'=>$store_data['contact_name'],
         ];
@@ -230,6 +231,34 @@ class CityDetail extends Model
             $time_condition  = "create_time > {$start_time} and create_time< {$end_time} ";
             $this->where($time_condition);
         }
+    }
+
+
+    /**gy
+     *  城市装换
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function city_address_change($data)
+    {
+       
+        switch ($data)
+        {
+            case '北京市市辖区':
+                $rest = '北京市' ;
+                break;  
+            case '上海市市辖区':
+                $rest = '上海市';
+                break;
+            default:
+                $rest = $data;
+        }
+
+        return $rest;
+        
     }
 
 }
