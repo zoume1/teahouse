@@ -148,9 +148,7 @@
                         </td>
                         <td style="width: 300px;">
                             <a class="static_btus" href="{:url('admin/City/city_datum_verify_edit',['id'=>$value.user_id])}">{$value.status|city_status}</a>
-                            <button onclick="if(!confirm('确定要删除吗？')) return false" id="verify_del"
-                                class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="{$value.id}"><i
-                                    class="layui-icon"></i> 删除</button>
+                            <button  id="verify_del" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="{$value.user_id}"><i class="layui-icon"></i> 删除</button>
                         </td>
                     </tr>
                     {/volist}{/if}
@@ -298,19 +296,26 @@
 
             $('#verify_del').click(function () {
                 let id = $(this).data('id');
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('admin/City/city_datum_verify_delete')}",
-                    data: {
-                        "id": id,
-                    },
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function(e) {
-                        console.log(e)
-                    }
-                })
+                layer.confirm('你确认要删除吗？', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "{:url('admin/City/city_datum_verify_delete')}",
+                            data: {
+                                "id": id,
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                layer.msg(data.msg);
+                                window.location.reload();
+                            },
+                            error: function(e) {
+                                console.log(e)
+                            }
+                        });
+                    })
+                
             })
             form.render();
 

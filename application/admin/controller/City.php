@@ -410,7 +410,7 @@ class  City extends  Controller{
      * [城市入驻费用审核删除]
      * 郭杨
      */    
-    public function city_datum_verify_deletee(Request $request){
+    public function city_datum_verify_delete(Request $request){
         if($request->isAjax()){
             $data = Request::instance()->param();
             $data['status'] = CITY_STATUS_ONE;
