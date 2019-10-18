@@ -18,7 +18,7 @@ use app\city\model\CityRank;
 use app\city\model\StoreCommission;
 use app\city\model\CityCopartner;
 use app\city\model\CityOrder;
-
+const CITY_STATUS_ONE = -1;
 
 class  City extends  Controller{
     
@@ -404,6 +404,23 @@ class  City extends  Controller{
             }
         }
         
+    }
+
+    /**
+     * [城市入驻费用审核删除]
+     * 郭杨
+     */    
+    public function city_datum_verify_deletee(Request $request){
+        if($request->isAjax()){
+            $data = Request::instance()->param();
+            $data['status'] = CITY_STATUS_ONE;
+            $rest = CityCopartner :: meal_update($data);
+            if($rest){
+                return $this->renderSuccess('删除成功');
+            } else {
+                return $this->renderError('删除失败');
+            }
+        }
     }
 
 

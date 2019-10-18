@@ -11,6 +11,9 @@ use think\Request;
 use think\Validate;
 use think\Controller;
 use think\Config;
+use app\admin\model\Store;
+use app\city\model\CityComment;
+use app\city\model\CityCopartner;
 //微信授权登录 获取个人信息
 class CityWx extends Controller{
     //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf120ba19ce55a392&redirect_uri=xxx&response_type=code&scope=xxx&state=STATE#wechat_redirect
@@ -82,6 +85,50 @@ class CityWx extends Controller{
     
         }
 
+    }
+
+    /**
+     *   公众号店铺评论城市合伙人
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function WeiChatStoreComment(Request $request)
+    {
+
+        if ($request->isPost()) 
+        {
+            $store = Request::instance()->param();
+            $store_object = new Store;
+            $validate     = new Validate([
+                ['store_id', 'require', '店铺id不能为空'],
+
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($store)) {
+                return jsonError($validate->getError());
+            }
+            $store_data = $store_object->detail($store);
+            $address_two = explode(",", $store_data['address_data']);
+            $user_id = $store_object->find_city_user($address_two[2]);
+            if($user_id){
+                $data = [
+                    'store_id' => $store['store_id'],
+                    'create_time'=> time(),
+                    'city_user_id'=> $user_id,
+                    'grade' => $store['grade']
+                ];
+                $bool = CityComment::store_comment_add($data);
+                if($bool){
+                    return jsonSuccess('评价成功',$user_data);
+                } else {
+                    return jsonError('评价失败');
+                }
+            }
+            return jsonSuccess('发送成功',$user_data);
+        }
+        
     }
 
 }
