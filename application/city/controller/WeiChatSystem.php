@@ -198,7 +198,7 @@ class WeiChatSystem extends Controller
                 ->where('user_id',$user_id['user_id'])  
                 ->where('return_time','>',0)
                 ->count();
-                return jsonSuccess("发送成功", $number);
+                return jsonSuccess("发送成功",['number'=>$number,'comment_value'=>10]);
             }
         }
     }
