@@ -495,10 +495,21 @@ class  Order extends  Controller{
      * @return \think\response\View
      */
     public function order_integral(){
+        $input=input();
+        $where=[];
+        if($input){
+            if($input['status']=='-1'){
+
+            }else{
+                $where['status']=$input['status'];
+            }
+        }
+        halt($where);
         $store_id = Session::get("store_id");
         $data =Db::name("buyintegral")
             ->order("order_create_time","desc")
             ->where('store_id','EQ',$store_id)
+            ->where($where)
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
@@ -932,8 +943,8 @@ class  Order extends  Controller{
         //获取参数
         $input=input();
         //修改订单开发票的状态
-        $re=db('order')->where('parts_order_number',$input['parts_order_number'])->update(['is_receipt'=>1]);
-        if($re){
+        $re=db('order')->where('parts_order_number',$input['parts_order_number'])->update(['is_receipt'=>2]);
+        if($re !==false){
             return ajax_success('获取成功',$re);
         }else{
             return ajax_error('获取失败');
