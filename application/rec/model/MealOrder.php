@@ -46,8 +46,9 @@ class MealOrder extends Model{
     }
 
     //编辑
-    public function edit($store_id,$uid,$name,$quantity,$money,$enter_all_id,$store_name,$pay,$openid)
+    public function edit($id,$uid,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$openid)
     {
+    
         $data = new MealOrder;
         $data->save([
             'user_id' => $uid,
@@ -63,8 +64,7 @@ class MealOrder extends Model{
             'pay_money'=>$pay,
             'openid' =>$openid,
             'create_time'=>time()
-        ],['store_id' => $store_id,]);
-
+        ],['id' => $id,]);
         if($data !== false){
             return $data;
         }else{

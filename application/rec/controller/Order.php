@@ -182,10 +182,10 @@ Class Order extends Controller{
                     
                     //生成订单
                     $order = new MealOrder();
-                    $order_list = $order->edit($param['store_id'],$param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'],  $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid']);
+                    $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid']);
                     $no = $order_list->order_number;
                     $order_id = $order_list->id;
-                                print_r($order_id);die;
+                     //           print_r($order_id);die;
                     // 提交事务
                     Db::commit();
                     $type = $param['type'];
