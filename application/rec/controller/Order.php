@@ -77,7 +77,26 @@ Class Order extends Controller{
                     try {
                         //店铺logo
                         $img = $this->imgurl($param['enter_all_id']);
-                        //生成订单
+                        //是否开发票
+                        if($param['invoice'] = 2){
+                            //生成不开发票订单
+                            $order = new MealOrder();
+                            $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
+                            $order_id = $order_list->id;
+                            //            print_r($order_id);die;
+                            //另一个订单表
+                            $meal_orders = new OrdersMeal();
+                            $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img);
+
+                            $pay = new WechatPay();
+                            $data = $pay->get_pay($order_id);
+
+                            //存入微信支付返回参数
+                            $order->where('id', $order_id)->update(['wx_pay' => $data]);
+
+                            $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
+                        }
+                        //生成开发票订单
                         $order = new MealOrder();
                         $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
                         $no = $order_list->order_number;
@@ -155,7 +174,26 @@ Class Order extends Controller{
                 try {
                     //店铺logo
                     $img = $this->imgurl($param['enter_all_id']);
-                    //生成订单
+                    //是否开发票
+                    if($param['invoice'] = 2){
+                        //生成不开发票订单
+                        $order = new MealOrder();
+                        $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
+                        $order_id = $order_list->id;
+                        //            print_r($order_id);die;
+                        //另一个订单表
+                        $meal_orders = new OrdersMeal();
+                        $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img);
+
+                        $pay = new WechatPay();
+                        $data = $pay->get_pay($order_id);
+
+                        //存入微信支付返回参数
+                        $order->where('id', $order_id)->update(['wx_pay' => $data]);
+
+                        $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
+                    }
+                    //生成开发票订单
                     $order = new MealOrder();
                     $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
                     $no = $order_list->order_number;
