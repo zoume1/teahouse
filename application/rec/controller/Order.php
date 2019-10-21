@@ -52,8 +52,9 @@ Class Order extends Controller{
         $ifout = $param['ifout'];//判断是过期订单还是正常订单 1正常 2过期
         switch($ifout) {
             case 1:
+            	
                 $order_all = MealOrder::where('store_id', $param['store_id'])->find();
-
+			
                 if ($order_all) {
 
                     $pay = new WechatPay();
@@ -66,20 +67,23 @@ Class Order extends Controller{
                 } else {
                     //验证
                     $param = $this->Verification($param);
+                    	
                     //查询个人信息
                     $user = new \app\rec\model\User();
                     $user_all = $user->user_index($param['user_id']);
-
+				
                     //查询店铺信息
                     $store_all = Store::where('id', $param['store_id'])->find()->toArray();
+                    
                     // 启动事务
                     Db::startTrans();
                     try {
                         //店铺logo
                         $img = $this->imgurl($param['enter_all_id']);
                         //是否开发票
-                        if($param['invoice'] = 2){
+                        if($param['invoice'] === 2){
                             //生成不开发票订单
+                            
                             $order = new MealOrder();
                             $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
                             $order_id = $order_list->id;
@@ -98,6 +102,7 @@ Class Order extends Controller{
                         }
                         //生成开发票订单
                         $order = new MealOrder();
+                        
                         $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
                         $no = $order_list->order_number;
                         $order_id = $order_list->id;
@@ -176,7 +181,7 @@ Class Order extends Controller{
                     //店铺logo
                     $img = $this->imgurl($param['enter_all_id']);
                     //是否开发票
-                    if($param['invoice'] = 2){
+                    if($param['invoice'] === 2){
                         //生成不开发票订单
                         $order = new MealOrder();
                         $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img);
