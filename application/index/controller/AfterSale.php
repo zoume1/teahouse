@@ -424,8 +424,10 @@ class  AfterSale extends Controller{
     public function  after_sale_all(Request $request){
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];
+            $store_id =$request->only(["store_id"])["store_id"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
+                ->where("store_id",$store_id)
                 ->order("operation_time","desc")
                 ->select();
             if(!empty($data)){
@@ -467,8 +469,10 @@ class  AfterSale extends Controller{
         if($request->isPost()){
             $condition ="`status` = '1' or `status` = '2' or `status` = '3'";
             $member_id =$request->only(["member_id"])["member_id"];
+            $store_id =$request->only(["store_id"])["store_id"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
+                ->where("store_id",$store_id)
                 ->where($condition)
                 ->order("operation_time","desc")
                 ->select();
@@ -503,8 +507,10 @@ class  AfterSale extends Controller{
         if($request->isPost()){
             $condition ="`status` = '5'";
             $member_id =$request->only(["member_id"])["member_id"];
+            $store_id =$request->only(["store_id"])["store_id"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
+                ->where("store_id",$store_id)
                 ->where($condition)
                 ->order("operation_time","desc")
                 ->select();
@@ -538,8 +544,10 @@ class  AfterSale extends Controller{
     public function  after_sale_completed(Request $request){
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];
+            $store_id =$request->only(["store_id"])["store_id"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
+                ->where("store_id",$store_id)
                 ->where('status',4)
                 ->whereOr('status',6)
                 ->order("operation_time","desc")
