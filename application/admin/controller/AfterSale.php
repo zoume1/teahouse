@@ -177,7 +177,7 @@ class  AfterSale extends  Controller{
             $map['operation_time']=date('Y-m-d H:i:s',time());
             $map['wallet_remarks']='售后单号为'.$order_info['sale_order_number'].'退款成功';
             $map['wallet_img']='';
-            $goods_name=db('order')->where('order_id',$order_info['order_id'])->value('parts_goods_name');
+            $goods_name=db('order')->where('id',$order_info['order_id'])->value('parts_goods_name');
             halt($goods_name);
             $map['title']=$goods_name;
             $map['order_nums']=date('Y-m-d H:i:s',time());
