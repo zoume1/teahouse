@@ -424,7 +424,7 @@ class  AfterSale extends Controller{
     public function  after_sale_all(Request $request){
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];
-            $store_id =$request->only(["store_id"])["store_id"];
+            $store_id =$request->only(["uniacid"])["uniacid"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
                 ->where("store_id",$store_id)
@@ -469,7 +469,7 @@ class  AfterSale extends Controller{
         if($request->isPost()){
             $condition ="`status` = '1' or `status` = '2' or `status` = '3'";
             $member_id =$request->only(["member_id"])["member_id"];
-            $store_id =$request->only(["store_id"])["store_id"];
+            $store_id =$request->only(["uniacid"])["uniacid"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
                 ->where("store_id",$store_id)
@@ -507,7 +507,7 @@ class  AfterSale extends Controller{
         if($request->isPost()){
             $condition ="`status` = '5'";
             $member_id =$request->only(["member_id"])["member_id"];
-            $store_id =$request->only(["store_id"])["store_id"];
+            $store_id =$request->only(["uniacid"])["uniacid"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
                 ->where("store_id",$store_id)
@@ -544,7 +544,7 @@ class  AfterSale extends Controller{
     public function  after_sale_completed(Request $request){
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];
-            $store_id =$request->only(["store_id"])["store_id"];
+            $store_id =$request->only(["uniacid"])["uniacid"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
                 ->where("store_id",$store_id)
