@@ -545,11 +545,11 @@ class  AfterSale extends Controller{
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];
             $store_id =$request->only(["uniacid"])["uniacid"];
+            $where['member_id']=$member_id;
+            $where['store_id']=$store_id;
+            $where['status']=array('in',array(4,6));
             $data =Db::name("after_sale")
-                ->where("member_id",$member_id)
-                ->where("store_id",$store_id)
-                ->where('status',4)
-                ->whereOr('status',6)
+                ->where($where)
                 ->order("operation_time","desc")
                 ->select();
             if(!empty($data)){
