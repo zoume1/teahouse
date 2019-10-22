@@ -217,6 +217,9 @@ class  AfterSale extends Controller{
                 ->find();
             $data["goods_images"] =$goods_data["goods_image"];
             $data["goods_name"] =$goods_data["parts_goods_name"];
+            //获取售后地址
+            $address=db('about_us')->where('store_id',$store_id)->find();
+            $data['after_address']=$address['business_address'];
             if(!empty($data)){
                 return ajax_success("售后信息返回成功",$data);
             }else{
