@@ -21,6 +21,7 @@ use app\city\model\CityCopartner;
 use app\rec\model\CityDetail;
 use app\city\model\CityDetail as CityDetaile;
 
+
 //微信授权登录 获取个人信息
 class CityWx extends Controller
 {
@@ -174,4 +175,10 @@ class CityWx extends Controller
             return jsonSuccess("发送成功", $rest);
         }
     }
+
+
+
+
+
+
 }
