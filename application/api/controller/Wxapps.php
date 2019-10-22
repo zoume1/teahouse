@@ -1303,6 +1303,7 @@ class  Wxapps extends  Controller{
             $data['dai_num']=db('order')->where($where)->count();
             //代发货
             $where2['status']=array('between',array(2,3));   //代发货
+            $where2['order_type']=array('between',array(1,2));   //代发货
             $where2['member_id']=$member_id['member_id'];   //会员id
             $where2['store_id']=$store_id;   //代付款
             $data['fa_num']=db('order')->where($where2)->count();
