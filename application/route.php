@@ -45,6 +45,9 @@ Route::group("",[
     "store_all_data"=>"index/Store/store_all_data",//所有店铺信息返回
     "store_logo_index"=>"index/Store/store_logo_index",//店铺loge
     "sj_store_add"=>"index/Store/sj_store_add",//手机端创建店铺
+
+    "WeiChatScanCodeLogin"=>"index/WeiChatLogin/WeiChatScanCodeLogin",//PC端微信扫码登录
+    "WeiChatScanCodeReturnUrl"=>"index/WeiChatLogin/WeiChatScanCodeReturnUrl",//PC端微信扫码登录回调
     /*TODO:PC端店铺结束*/
 
 
@@ -1236,6 +1239,7 @@ Route::group("city",[
     "city_openid"=>"city/CityWx/city_accredit",//获取code
     "city_wx_code"=>"city/CityWx/city_wx_code",//获取openid跳转
     "WeiChatStoreComment"=>"city/CityWx/WeiChatStoreComment",//公众号店铺评论城市合伙人
+    "allCityCobber"=>"city/CityWx/allCityCobber",//公众号店铺所有城市合伙人
     "WeiChatCityServerShow"=>"city/WeiChatSystem/WeiChatCityServerShow",//公众号城市合伙人系统页面
     "WeiChatCityCommissionShow"=>"city/WeiChatSystem/WeiChatCityCommissionShow",//公众号城市合伙人保底佣金
     "WeiChatCityReachCommissionShow"=>"city/WeiChatSystem/WeiChatCityReachCommissionShow",//城市合伙人公众号达标佣金总额查询页面

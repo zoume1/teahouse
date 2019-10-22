@@ -43,9 +43,9 @@ class CityComment extends Model
      * @return null|static
      * @throws \think\exception\DbException
      */
-    public static function detail($store_id)
+    public static function detail($store)
     {
-        $rest =  self::where('store_id','=',$store_id)->select();
+        $rest =  self::where(['user_id'=>$store['user_id'],'city_user_id'=>$store['city_user_id']])->select();
         return $rest ? $rest->toArray() : false;
     }
 
@@ -55,11 +55,11 @@ class CityComment extends Model
      * @return null|static
      * @throws \think\exception\DbException
      */
-    public static function proving_comment($store_id)
+    public static function proving_comment($store)
     {
         $model = new static;
         $time = time();
-        $data_rest = $model->detail($store_id);
+        $data_rest = $model->detail($store);
         if($data_rest){
             $last = end($data_rest);
             if($time < $last['end_time']){
