@@ -465,6 +465,9 @@ class  Material extends  Controller{
         }else{
             // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
             $sql='SELECT v_test.* FROM  v_test ';
+
+
+
         }
         $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
         if($con)
@@ -476,7 +479,6 @@ class  Material extends  Controller{
         }
         return view("anti_fake",['data'=>$rr]);
     }
-
     /**
      **************GY*******************
      * @param Request $request

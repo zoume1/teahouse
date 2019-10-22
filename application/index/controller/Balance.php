@@ -67,10 +67,19 @@ class Balance extends Controller
                             ];
                         }
                 Db::name("member")->where("member_id",$user_id)->update($new_data);
+                $order_info = Db::name("order")
+                ->where("parts_order_number", $order_num)
+                ->find();
                 //对订单状态进行修改----支付成功
-                $result= Db::name("order")
-                    ->where("parts_order_number",$order_num)
-                    ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>1]);
+                if($order_info['order_type']==2){
+                    $result= Db::name("order")
+                        ->where("parts_order_number",$order_num)
+                        ->update(["status"=>5,"pay_time"=>time(),"si_pay_type"=>1]);
+                    }else{
+                        $result= Db::name("order")
+                            ->where("parts_order_number",$order_num)
+                            ->update(["status"=>2,"pay_time"=>time(),"si_pay_type"=>1]);
+                }
                 //余额支付，减去商品库存
                 $goods_order=db('order')->where("parts_order_number",$order_num)->select();
                 foreach($goods_order as $k => $v){
