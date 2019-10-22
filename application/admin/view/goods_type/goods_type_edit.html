@@ -129,14 +129,14 @@
             </div>
 
         </div> --> 
-        <div class="form-item">
+        <!-- <div class="form-item">
             <label class="form-label">级别</label>
             <div class="form-input">
                 <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/,'')"
                     name="rank" value="{$vo.rank}" lay-verify="title" autocomplete="off" placeholder="请输入"
                     class="layui-input">
             </div>
-        </div>
+        </div> -->
         <div class="form-item">
             <label class="form-label">排序</label>
             <div class="form-input">
@@ -190,10 +190,6 @@
                     var remove = $(this).parent();
                     var id = $(this).data("id");
                     var value = $(this).data("value");
-                    console.log(value)
-                    console.log(id);
-                    alert(id);
-                    alert(value);
                     $.ajax({
                         type: "POST",
                         url: "{:url('admin/GoodsType/delete_catetory_image')}",
