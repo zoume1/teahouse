@@ -101,7 +101,7 @@ class WeiChatLogin extends Controller
         /** 获取配置 */
         $this->getConfig($name);
         /** 获取第三方用户信息 */
-        $userInfo = \OAuth::$name($this->config)->userInfo();
+        $userInfo = OAuth::$name($this->config)->userInfo();
         /**
          * 如果是App登录
          * $userInfo = OAuth::$name($this->config)->setIsApp()->userInfo();
