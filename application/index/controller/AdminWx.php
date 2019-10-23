@@ -39,7 +39,7 @@ class  AdminWx extends Controller{
                     ->where("order_number",$val["out_trade_no"])
                     ->find();
                 //开电子发票
-                if($enter_all_data['openid'] != null){
+                if($enter_all_data['invoice'] ==1){
                     $invoice = new Invoice();
                     $invoice->ele_invoice($enter_all_data['order_number']);
                 }

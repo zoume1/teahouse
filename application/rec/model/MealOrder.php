@@ -16,7 +16,7 @@ class MealOrder extends Model{
     protected $resultSetType = 'collection';
 
     //新增
-    public function add($uid,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$openid,$img)
+    public function add($uid,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$openid,$img,$invoice)
     {
         $data = new MealOrder;
         $data->save([
@@ -37,6 +37,7 @@ class MealOrder extends Model{
             "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
             "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
             "false_data"=>1,//记录
+            "invoice"=>$invoice,
             'create_time'=>time()
         ]);
 
@@ -50,7 +51,7 @@ class MealOrder extends Model{
     }
 
     //编辑
-    public function edit($store_id,$uid,$name,$quantity,$money,$enter_all_id,$store_name,$pay,$openid,$img)
+    public function edit($store_id,$uid,$name,$quantity,$money,$enter_all_id,$store_name,$pay,$openid,$img,$invoice)
     {
     
         $data = new MealOrder;
@@ -71,6 +72,7 @@ class MealOrder extends Model{
             "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
             "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
             "false_data"=>1,//记录
+            "invoice"=>$invoice,
             'create_time'=>time()
         ],['id' => $id,]);
         if($data !== false){
