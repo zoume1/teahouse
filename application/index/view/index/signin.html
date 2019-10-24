@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <meta http-equiv="Pragma" content="no-cache">
-	<meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    
+
     <title>登录</title>
     <link rel="icon" href="__STATIC__/index/img/u9239.png">
     <link rel="stylesheet" href="__STATIC__/index/css/common.css">
@@ -19,32 +20,154 @@
     <!--<link rel="stylesheet" href="__STATIC__/index/js/slider/style.css">-->
     <script src="__STATIC__/index/js/intlTelInput.min.js"></script>
     <style>
-        .sign-in-container{width: 1000px; margin: 0 auto;}
-        .sign-in-container .signin-title-container{padding: 50px 0 20px;}
-        .signin-title-container .signin-cpy{margin-right: 100px; display: flex; align-items: center;}
-        .signin-title-container .signin-cpy .cpy-name{ font-size: 18px; font-weight: 700; color: #515151; margin-left: 8px;}
-        .signin-title-container .signin-subtitle .signin-way{position: relative; margin-right: 80px; font-size: 16px; cursor: pointer; line-height: 27px;}
-        .signin-subtitle .signin-way.way-active::after{position: absolute; bottom: -21px; left: 0; width: 100%; content: ''; border-bottom: 2px solid #38f;}
-        .signin-content-container{border-top: 1px solid #e5e5e5; padding-top: 50px; display: flex; justify-content: space-between;}
-        .signin-content-container .signin-content-inner{width: 450px; position: relative;}
-        .signin-content-inner .signin-form-wrap{width: 350px; margin: 0 auto;}
-        .signin-content-inner .section-group{border-bottom: 1px solid #e5e5e5; display: flex; margin-bottom: 30px; align-items: center; height: 40px;}
-        .signin-content-inner .section-group .form-label{display: inline-block; width: 100px; font-size: 14px; color: #515151; font-weight: 700;}
-        .signin-content-inner .section-group .form-input-wrap{width: 250px; position: relative;}
-        .section-group .form-input-wrap input{border: 0; font-size: 14px;}
-        .intl-tel-input.separate-dial-code .selected-flag{background-color: transparent !important;}
-        .section-group .form-input-wrap .pw-icon{position: absolute; right: 20px; top: 0; width: 24px; height: 24px; background-color: #000; cursor: pointer; background: url(__STATIC__/index/img/icon1.png) no-repeat; background-size: 100%;}
-        .section-group .form-input-wrap .pw-icon.pw-icon-show{background: url(__STATIC__/index/img/icon2.png) no-repeat; background-size: 100%;}
-        .button-primary{display: block; margin-top: 30px; width: 350px; height: 45px; border: 0; outline: none; background-color: #38f; color: #fff; font-size: 16px; box-sizing: border-box; border-radius: 2px; cursor: pointer;}
-        .forget-group{ margin-top: 20px;}
-        .forget-group .forget-pw{float: right;}
-        .forget-group a{color: #38f;}
-        .copyright{text-align: center; margin-top: 50px;color: #515151;}
-        .copyright a{color: #515151;}
-        .qr-code-wrap{width: 350px; margin: 0 auto; text-align: center;}
-        .num{}
+        .sign-in-container {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .sign-in-container .signin-title-container {
+            padding: 50px 0 20px;
+        }
+
+        .signin-title-container .signin-cpy {
+            margin-right: 100px;
+            display: flex;
+            align-items: center;
+        }
+
+        .signin-title-container .signin-cpy .cpy-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #515151;
+            margin-left: 8px;
+        }
+
+        .signin-title-container .signin-subtitle .signin-way {
+            position: relative;
+            margin-right: 80px;
+            font-size: 16px;
+            cursor: pointer;
+            line-height: 27px;
+        }
+
+        .signin-subtitle .signin-way.way-active::after {
+            position: absolute;
+            bottom: -21px;
+            left: 0;
+            width: 100%;
+            content: '';
+            border-bottom: 2px solid #38f;
+        }
+
+        .signin-content-container {
+            border-top: 1px solid #e5e5e5;
+            padding-top: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .signin-content-container .signin-content-inner {
+            width: 450px;
+            position: relative;
+        }
+
+        .signin-content-inner .signin-form-wrap {
+            width: 350px;
+            margin: 0 auto;
+        }
+
+        .signin-content-inner .section-group {
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            margin-bottom: 30px;
+            align-items: center;
+            height: 40px;
+        }
+
+        .signin-content-inner .section-group .form-label {
+            display: inline-block;
+            width: 100px;
+            font-size: 14px;
+            color: #515151;
+            font-weight: 700;
+        }
+
+        .signin-content-inner .section-group .form-input-wrap {
+            width: 250px;
+            position: relative;
+        }
+
+        .section-group .form-input-wrap input {
+            border: 0;
+            font-size: 14px;
+        }
+
+        .intl-tel-input.separate-dial-code .selected-flag {
+            background-color: transparent !important;
+        }
+
+        .section-group .form-input-wrap .pw-icon {
+            position: absolute;
+            right: 20px;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background-color: #000;
+            cursor: pointer;
+            background: url(__STATIC__/index/img/icon1.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .section-group .form-input-wrap .pw-icon.pw-icon-show {
+            background: url(__STATIC__/index/img/icon2.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .button-primary {
+            display: block;
+            margin-top: 30px;
+            width: 350px;
+            height: 45px;
+            border: 0;
+            outline: none;
+            background-color: #38f;
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .forget-group {
+            margin-top: 20px;
+        }
+
+        .forget-group .forget-pw {
+            float: right;
+        }
+
+        .forget-group a {
+            color: #38f;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            color: #515151;
+        }
+
+        .copyright a {
+            color: #515151;
+        }
+
+        .qr-code-wrap {
+            width: 350px;
+            margin: 0 auto;
+            text-align: center;
+        }
     </style>
 </head>
+
 <body>
     <div class="wrapper">
         <div class="header">
@@ -90,7 +213,7 @@
                 <div class="signin-title-container clearfix">
                     <div class="signin-cpy fl">
                         <img src="__STATIC__/index/img/u9239.png" width="40">
-                        <span class="cpy-name" >智慧茶仓</span>
+                        <span class="cpy-name">智慧茶仓</span>
                     </div>
                     <div class="signin-subtitle fl">
                         <p class="signin-way signin-code fl">扫码登录</p>
@@ -115,11 +238,11 @@
                             </div>
                             <!-- 拼图滑块验证码 -->
                             <div class="section-group">
-                            <label class="form-label" >验证码</label>
-                            <div class="num" style="height: 40px">
-                                <div id="imgVer"></div>
+                                <label class="form-label">验证码</label>
+                                <div class="num" style="height: 40px">
+                                    <div id="imgVer"></div>
+                                </div>
                             </div>
-                        </div>
                             <button type="submit" id="sub" class="button-primary">登录</button>
                             <div class="forget-group">
                                 还没账号？<a href="sign_up">立即注册</a>
@@ -133,15 +256,16 @@
                         <div class="form-item">
                             <label class="form-label">分类名称</label>
                             <div class="form-input">
-                                <input type="text" name="name" value="哈哈哈" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" >
+                                <input type="text" name="name" value="哈哈哈" lay-verify="title" autocomplete="off"
+                                    placeholder="请输入" class="layui-input">
                             </div>
                         </div>
                         {/if}
                         <div class="qr-code-wrap" style="display: none;">
                             <img src="__STATIC__/index/img/qrcode.png" width="260" height="260">
                         </div>
-                        
-                        
+
+
 
                     </div>
                     <div class="signin-content-inner">
@@ -170,7 +294,7 @@
     <!--数字验证-->
     <script src="__STATIC__/index/thirdpart/js/swiper-4.3.5.min.js"></script>
     <script src="__STATIC__/index/thirdpart/js/verify.js"></script>
-   
+
     <script>
         var phone = document.querySelector('#phone');
         // http://www.jq22.com/jquery-info12917
@@ -179,65 +303,64 @@
             separateDialCode: true,
         })
 
-        $('.signin-way').click(function(){
+        $('.signin-way').click(function () {
             $(this).addClass('way-active').siblings().removeClass('way-active');
-            if($(this).hasClass('signin-code')){
+            if ($(this).hasClass('signin-code')) {
                 $('.qr-code-wrap').show();
                 $('.signin-form-wrap').hide();
-            }else{
+            } else {
                 $('.qr-code-wrap').hide();
                 $('.signin-form-wrap').show();
             }
         })
-        document.onkeydown = function(e){
-            if(e.keyCode == 13){
+        document.onkeydown = function (e) {
+            if (e.keyCode == 13) {
                 $('.button-primary').click();
             }
         }
         // 拼图验证码 init
-   
+
         $('#imgVer').codeVerify({
-           type: 2,
-           figure: 5,	//位数，仅在type=2时生效
-           arith: 0,	//算法，支持加减乘，不填为随机，仅在type=2时生效
-           width: '115px',
-           height: '40px',
-           fontSize: '20px',
-           btnId: 'sub',
-           ready: function () {
-                       },
-           success: function (e) {
-               
-            //    layer.msg('登录成功');
-            //    setTimeout(function(){
-            //         statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
-            //     }, 1000);
-           },
-           error: function () {
-            layer.msg('验证码不匹配！');
-           }
-       });
-       //imgVer({
-            //el:'$("#imgVer")',
-            //width:'260',
-            //height:'116',
-            //img:[
-                //'',
-                //'/static/index/js/slider/images/ver.jpg',
-                //'/static/index/js/slider/images/ver-1.jpg',
-                //'/static/index/js/slider/images/ver-2.jpg',
-                //'/static/index/js/slider/images/ver-3.jpg',
-            //],
-            //success:function () {
-                //$(".verBox").css({
-                    //"display":"none"
-                //});
-                //layer.msg('登录成功');
-                //setTimeout(function(){
-                    //statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
-                //}, 1000);
-            //},
-            //error:function () {}
+            type: 2,
+            figure: 5,	//位数，仅在type=2时生效
+            arith: 0,	//算法，支持加减乘，不填为随机，仅在type=2时生效
+            width: '115px',
+            height: '40px',
+            fontSize: '20px',
+            btnId: 'sub',
+            ready: function () { },
+            success: function (e) {
+                login();
+                //    layer.msg('登录成功');
+                setTimeout(function(){
+                    statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
+                }, 1000);
+            },
+            error: function () {
+                layer.msg('验证码不匹配！');
+            }
+        });
+        //imgVer({
+        //el:'$("#imgVer")',
+        //width:'260',
+        //height:'116',
+        //img:[
+        //'',
+        //'/static/index/js/slider/images/ver.jpg',
+        //'/static/index/js/slider/images/ver-1.jpg',
+        //'/static/index/js/slider/images/ver-2.jpg',
+        //'/static/index/js/slider/images/ver-3.jpg',
+        //],
+        //success:function () {
+        //$(".verBox").css({
+        //"display":"none"
+        //});
+        //layer.msg('登录成功');
+        //setTimeout(function(){
+        //statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
+        //}, 1000);
+        //},
+        //error:function () {}
         //});
         // $(function(){
         //     if(window.history && window.history.pushState){
@@ -252,10 +375,10 @@
 
         // 登录
         var statusLog = null;
-        $('.button-primary').click(function(){
+        function login() {
             var $phone = $('#phone').val(),
                 $password = $('#password').val();
-            if($phone !== '' && $password !== ''){
+            if ($phone !== '' && $password !== '') {
                 $.ajax({
                     url: 'dolog',
                     type: 'POST',
@@ -264,12 +387,12 @@
                         "account": $phone,
                         "passwd": $password
                     },
-                    success: function(res){
-                        console.log(res);
+                    success: function (res) {
                         statusLog = res.status;
-                        if(res.status == 1){
+                        layer.msg(res.info);
+                        if (res.status == 1) {
                             //$(".num").css({
-                              //  "display":"block"
+                            //  "display":"block"
                             //})
                             // layer.msg(res.info);
                             myEvent.setCookie(btoa('phone'), btoa($phone), 7); //保存帐号到cookie，有效期7天
@@ -278,24 +401,27 @@
                             // setTimeout(function(){
                             //     location.href = 'my_shop';
                             // }, 1000);
-                        }else if(res.status == 2){
+                        } 
+                        // else if (res.status == 2) {
                             //$(".num").css({
-                             //   "display":"block"
+                            //   "display":"block"
                             //})
                             // location.href ="/admin";
-                        }else{
-                            layer.msg(res.info);
-                        }
+                        // } 
+                        // else {
+                        //     layer.msg(res.info);
+                        // }
                     },
-                    error: function(res){
+                    error: function (res) {
                         console.log(res.status, res.statusText);
                     }
                 })
-            }else{
+            } else {
                 layer.msg('请填写手机号或密码！');
             }
-        })
+        }
     </script>
-   
+
 </body>
+
 </html>
