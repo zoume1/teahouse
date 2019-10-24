@@ -425,8 +425,10 @@
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
         // 判断是否登录
-        if(!myEvent.getCookie(btoa('phone')) && !myEvent.getCookie(btoa('password'))){
-            location.pathname.indexOf('sign_in') == -1 ? location.href = 'sign_in' : '';
+        if(myEvent.getCookie('artificial')){
+            if(!myEvent.getCookie(btoa('phone')) && !myEvent.getCookie(btoa('password'))){
+                location.pathname.indexOf('sign_in') == -1 ? location.href = 'sign_in' : '';
+            }
         }
     </script>
     <script>
