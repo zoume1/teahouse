@@ -69,6 +69,8 @@ class Register extends  Controller{
     public function  doRegByPhone(Request $request){
         if($request->isPost())
         {
+            $unionid = Session :: get("unionid");
+            Session :: delete("unionid");
             $my_invitation = new Loging();
             $re = $my_invitation->memberCode();
             $mobile = trim($_POST['mobile']);
@@ -116,7 +118,9 @@ class Register extends  Controller{
                         "invite_id"=> $invite_id,
                         "my_invitation"=>$my_invitation->memberCode(),
                     ];
-                    
+                    if(!empty($unionid)){
+                        $datas['unionid'] = $unionid;
+                    }
                     $res =Db::name('pc_user')->insertGetId($datas);
                     if($res){
                         //注册成功
@@ -135,7 +139,9 @@ class Register extends  Controller{
                     "status"=>1,
                     "my_invitation"=>$my_invitation->memberCode(),
                 ];
-                
+                if(!empty($unionid)){
+                    $datas['unionid'] = $unionid;
+                }
                 $res = Db::name('pc_user')->insertGetId($datas);
                 if($res){
                     //注册成功
