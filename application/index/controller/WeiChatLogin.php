@@ -41,7 +41,7 @@ class WeiChatLogin extends Gateway
      */
     public function WeiChatScanCodeLogin(Request $request)
     {
-        if ($request->isAjax()) {
+        if ($request->isPost()) {
             $name = Request::instance()->param('name');
             $weixin_code = $this->getRedirectUrl();
             if ($name == 'weixin') {
