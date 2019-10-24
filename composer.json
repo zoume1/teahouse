@@ -1,5 +1,10 @@
 {
     "require": {
-        "overtrue/wechat": "~3.1"
+        "overtrue/wechat": "~3.1",
+<<<<<<< HEAD
+        "anerg2046/sns_auth": "^2.0",
+=======
+>>>>>>> bb1d13d27ccb9efa19acab64fb0b896f7150b571
+        "tinymeng/oauth": "~1.0.2"
     }
 }

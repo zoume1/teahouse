@@ -45,6 +45,9 @@ Route::group("",[
     "store_all_data"=>"index/Store/store_all_data",//所有店铺信息返回
     "store_logo_index"=>"index/Store/store_logo_index",//店铺loge
     "sj_store_add"=>"index/Store/sj_store_add",//手机端创建店铺
+
+    "WeiChatScanCodeLogin"=>"index/WeiChatLogin/WeiChatScanCodeLogin",//PC端微信扫码登录
+    "WeiChatScanCodeReturnUrl"=>"index/WeiChatLogin/WeiChatScanCodeReturnUrl",//PC端微信扫码登录回调
     /*TODO:PC端店铺结束*/
 
 

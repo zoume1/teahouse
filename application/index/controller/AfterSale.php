@@ -217,6 +217,9 @@ class  AfterSale extends Controller{
                 ->find();
             $data["goods_images"] =$goods_data["goods_image"];
             $data["goods_name"] =$goods_data["parts_goods_name"];
+            //获取售后地址
+            $address=db('about_us')->where('store_id',$store_id)->find();
+            $data['after_address']=$address['business_address'];
             if(!empty($data)){
                 return ajax_success("售后信息返回成功",$data);
             }else{
@@ -421,8 +424,10 @@ class  AfterSale extends Controller{
     public function  after_sale_all(Request $request){
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];
+            $store_id =$request->only(["uniacid"])["uniacid"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
+                ->where("store_id",$store_id)
                 ->order("operation_time","desc")
                 ->select();
             if(!empty($data)){
@@ -464,8 +469,10 @@ class  AfterSale extends Controller{
         if($request->isPost()){
             $condition ="`status` = '1' or `status` = '2' or `status` = '3'";
             $member_id =$request->only(["member_id"])["member_id"];
+            $store_id =$request->only(["uniacid"])["uniacid"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
+                ->where("store_id",$store_id)
                 ->where($condition)
                 ->order("operation_time","desc")
                 ->select();
@@ -500,8 +507,10 @@ class  AfterSale extends Controller{
         if($request->isPost()){
             $condition ="`status` = '5'";
             $member_id =$request->only(["member_id"])["member_id"];
+            $store_id =$request->only(["uniacid"])["uniacid"];
             $data =Db::name("after_sale")
                 ->where("member_id",$member_id)
+                ->where("store_id",$store_id)
                 ->where($condition)
                 ->order("operation_time","desc")
                 ->select();
@@ -535,10 +544,12 @@ class  AfterSale extends Controller{
     public function  after_sale_completed(Request $request){
         if($request->isPost()){
             $member_id =$request->only(["member_id"])["member_id"];
+            $store_id =$request->only(["uniacid"])["uniacid"];
+            $where['member_id']=$member_id;
+            $where['store_id']=$store_id;
+            $where['status']=array('in',array(4,6));
             $data =Db::name("after_sale")
-                ->where("member_id",$member_id)
-                ->where('status',4)
-                ->whereOr('status',6)
+                ->where($where)
                 ->order("operation_time","desc")
                 ->select();
             if(!empty($data)){
