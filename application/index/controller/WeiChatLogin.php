@@ -11,7 +11,7 @@ namespace app\index\Controller;
 
 use app\rec\model\User as Pc_user;
 use app\admin\model\Admin;
-use app\index\Controller\Gateway as GatewayInterface;
+use app\index\Controller\Gateway ;
 use think\Config;
 use think\Request;
 use think\Session;
@@ -23,7 +23,7 @@ const BOOLETWO = 2;
 
 
 
-class WeiChatLogin extends GatewayInterface
+class WeiChatLogin extends Gateway
 {
     const API_BASE            = 'https://api.weixin.qq.com/sns/';
     protected $AuthorizeURL   = 'https://open.weixin.qq.com/connect/qrconnect';
