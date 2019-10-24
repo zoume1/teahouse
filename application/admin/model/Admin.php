@@ -7,6 +7,7 @@ class Admin extends Model
 {
 
     protected $table = "tb_admin";
+    protected $resultSetType = 'collection';
 
     /**
      * [管理员查找]
@@ -29,5 +30,34 @@ class Admin extends Model
         }
     }
 
+    /**gy
+     * 获取信息
+     * @param $meal_id
+     * @return null|static
+     * @throws \think\exception\DbException
+     */
+    public static function detail($data)
+    {
+        $rest = self::get($data);
+        return $rest ? $rest->toArray() : false;
+    }
 
+
+
+    /**gy
+     *  更新
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function user_update($data)
+    {
+
+        $model = new static;
+        $rest = $model -> allowField(true)->save($data,['id'=>$data['id']]);
+        return $rest ? $rest : false;
+        
+    }
 }
