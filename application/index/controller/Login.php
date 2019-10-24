@@ -194,6 +194,8 @@ class Login extends Controller{
                         if(!empty($unionid)){
                             if(!empty($ress['unionid'])){
                                 return ajax_error('此用户已被绑定',$datas);
+                            } else {
+                                db('pc_user')->where('id',$ress['id'])->update(['unionid' => $unionid]);
                             }
                         }
                         // 前台使用
@@ -212,6 +214,13 @@ class Login extends Controller{
                     ->select();
                 if(!empty($res_admin)){
                     if(password_verify($password,$res_admin[0]["passwd"])){
+                        if(!empty($unionid)){
+                            if(!empty($res_admin[0]['unionid'])){
+                                return ajax_error('此用户已被绑定');
+                            } else {
+                                db('admin')->where('id',$res_admin[0]['id'])->update(['unionid' => $unionid]);
+                            }
+                        }
                         Session("user_id", $res_admin[0]["id"]);
                         Session("user_info", $res_admin);
                         Session("store_id", $res_admin[0]["store_id"]);
