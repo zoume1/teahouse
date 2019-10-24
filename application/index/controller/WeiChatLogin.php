@@ -72,8 +72,7 @@ class WeiChatLogin extends Gateway
         //初始化用户登录状态
         //将unionid存session
         //跳转到新页面
-        // $userinfo = $this-> userinfo();
-        $userinfo = ['unionid' => "oYb9gwBtHKJG9UcVg9lZZOKRTsjQ"];
+        $userinfo = $this-> userinfo();
         $rest = $this->checkUser($userinfo);
         
         switch($rest)
@@ -297,8 +296,7 @@ class WeiChatLogin extends Gateway
                 break;
         }
 
-        // Session::set("unionid", $userinfo['unionid']);
-        Session::set("unionid", BOOLEONE);
+        Session::set("unionid", $userinfo['unionid']);
         Session::set("sign_status", BOOLEONE);
         return $rest;
     }
