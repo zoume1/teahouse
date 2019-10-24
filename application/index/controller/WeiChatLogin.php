@@ -1,18 +1,33 @@
 <?php
 
+/**
+ * Created by PhpStorm.
+ * User: GY
+ * Date: 2019/10/10
+ * Time: 15:21
+ */
+
 namespace app\index\Controller;
 
-use think\Controller;
+use app\rec\model\User as Pc_user;
+use app\admin\model\Admin;
+use app\index\Controller\Gateway as GatewayInterface;
 use think\Config;
+use think\Request;
 use think\Session;
-use think\Model;
-use think\Validate;
 use app\common\exception\BaseException;
-use anerg\OAuth2\OAuth;
 
-class WeiChatLogin extends Controller
+const BOOLEZERO = 0;
+const BOOLEONE = 1;
+const BOOLETWO = 2;
+
+
+
+class WeiChatLogin extends GatewayInterface
 {
-    protected $config;
+    const API_BASE            = 'https://api.weixin.qq.com/sns/';
+    protected $AuthorizeURL   = 'https://open.weixin.qq.com/connect/qrconnect';
+    protected $AccessTokenURL = 'https://api.weixin.qq.com/sns/oauth2/access_token';
 
 
     /**
@@ -24,66 +39,20 @@ class WeiChatLogin extends Controller
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function WeiChatScanCodeLogin($name)
+    public function WeiChatScanCodeLogin(Request $request)
     {
-        if (empty(input('get.'))) {
-            /** 登录 */
-            $result = $this->login($name);
-            halt($result);
-            $this->redirect($result);
+        if ($request->isAjax()) {
+            $name = Request::instance()->param('name');
+            $weixin_code = $this->getRedirectUrl();
+            if ($name == 'weixin') {
+                return jsonSuccess('发送成功', ['weixin_code' => $weixin_code]);
+            } else {
+                return jsonError('参数有误');
+            }
         }
-        /** 登录回调 */
-        $this->WeiChatScanCodeReturnUrl($name);
-        return $this->fetch('index');
     }
 
 
-
-    /**
-     * Description:  获取配置文件
-     * @author: GY
-     * @param $name
-     */
-    public function getConfig($name)
-    {
-        //可以设置代理服务器，一般用于调试国外平台
-        //$this->config['proxy'] = 'http://127.0.0.1:1080';
-        $this->config = Config::get($name);
-        if ($name == 'weixin') {
-            $this->config = $this->config['pc']; //微信pc扫码登录
-        }
-        $this->config['state'] = 'https://www.majiameng.com/login/weixin';
-    }
-
-
-    /**
-     * Description:  登录链接分配，执行跳转操作
-     * Author: GY
-     * @param $name
-     */
-    public function login($name)
-    {
-        /** 获取配置 */
-        $this->getConfig($name);
-        /**
-         * 如果需要微信代理登录，则需要：
-         * 1.将wx_proxy.php放置在微信公众号设定的回调域名某个地址，如 http://www.abc.com/proxy/wx_proxy.php
-         * 2.config中加入配置参数proxy_url，地址为 http://www.abc.com/proxy/wx_proxy.php
-         * 然后获取跳转地址方法是getProxyURL，如下所示
-         */
-        //$this->config['proxy_url'] = 'http://www.abc.com/proxy/wx_proxy.php';
-        $oauth = OAuth::$name($this->config);
-        // if(Tool::isMobile() || Tool::isWeiXin()){
-        //     /**
-        //      * 对于微博，如果登录界面要适用于手机，则需要设定->setDisplay('mobile')
-        //      * 对于微信，如果是公众号登录，则需要设定->setDisplay('mobile')，否则是WEB网站扫码登录
-        //      * 其他登录渠道的这个设置没有任何影响，为了统一，可以都写上
-        //      */
-        //     $oauth->setDisplay('mobile');
-        // }
-        $oauth->setDisplay('mobile');
-        return $oauth->getRedirectUrl();
-    }
 
 
     /**
@@ -95,20 +64,242 @@ class WeiChatLogin extends Controller
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function WeiChatScanCodeReturnUrl($name)
+    public function WeiChatScanCodeReturnUrl()
     {
+        //检验用户是否初次登陆
+        //提醒用户注册账号或者绑定已有账号
+        //保存用户信息
+        //初始化用户登录状态
+        //将unionid存session
+        //跳转到新页面
+        // $userinfo = $this-> userinfo();
+        $userinfo = ['unionid' => "oYb9gwBtHKJG9UcVg9lZZOKRTsjQ"];
+        $rest = $this->checkUser($userinfo);
+        
+        switch($rest)
+        {
+            case BOOLEZERO:
+                $this ->redirect(url("index/index/sign_in"));
+                break;
+            case BOOLEONE:
+                $this ->redirect("index/index/my_shop");
+                break;
+            case BOOLETWO:
+                $this->redirect("/admin");
+                break;
+            default:
+                break;
+        }
+        
+    }
 
-        /** 获取配置 */
-        $this->getConfig($name);
-        /** 获取第三方用户信息 */
-        $userInfo = OAuth::$name($this->config)->userInfo();
-        /**
-         * 如果是App登录
-         * $userInfo = OAuth::$name($this->config)->setIsApp()->userInfo();
-         */
-        //获取登录类型
-        $userInfo['type'] = \tinymeng\OAuth2\Helper\ConstCode::getType($userInfo['channel']);
-        var_dump($userInfo);
-        die;
+
+
+    /**
+     * 得到跳转地址
+     * GY
+     */
+    public function getRedirectUrl()
+    {
+        $this->switchAccessTokenURL();
+        $params = [
+            'appid'         => $this->config['app_id'],
+            'redirect_uri'  => $this->config['callback'],
+            'response_type' => $this->config['response_type'],
+            'scope'         => $this->config['scope'],
+            'state'         => $this->config['state'],
+        ];
+        return $this->AuthorizeURL . '?' . http_build_query($params) . '#wechat_redirect';
+    }
+
+    /**
+     * 获取中转代理地址
+     * GY
+     */
+    public function getProxyURL()
+    {
+        $params = [
+            'appid'         => $this->config['app_id'],
+            'response_type' => $this->config['response_type'],
+            'scope'         => $this->config['scope'],
+            'state'         => $this->config['state'],
+            'return_uri'    => $this->config['callback'],
+        ];
+        return $this->config['proxy_url'] . '?' . http_build_query($params);
+    }
+
+    /**
+     * 获取当前授权用户的openid标识
+     * GY
+     */
+    public function openid()
+    {
+        $this->getToken();
+
+        if (isset($this->token['openid'])) {
+            return $this->token['openid'];
+        } else {
+            throw new \Exception('没有获取到微信用户ID！');
+        }
+    }
+
+    /**
+     * 获取格式化后的用户信息
+     * GY
+     */
+    public function userinfo()
+    {
+        $rsp = $this->userinfoRaw();
+
+        $avatar = $rsp['headimgurl'];
+        if ($avatar) {
+            $avatar = \preg_replace('~\/\d+$~', '/0', $avatar);
+        }
+
+        $userinfo = [
+            'openid'  => $this->openid(),
+            'unionid' => isset($this->token['unionid']) ? $this->token['unionid'] : '',
+            'channel' => 'weixin',
+            'nick'    => $rsp['nickname'],
+            'gender'  => $this->getGender($rsp['sex']),
+            'avatar'  => $avatar,
+        ];
+        return $userinfo;
+    }
+
+    /**
+     * 获取原始接口返回的用户信息
+     * GY
+     */
+    public function userinfoRaw()
+    {
+        $this->getToken();
+
+        return $this->call('userinfo');
+    }
+
+    /**
+     * 发起请求
+     * GY
+     * @param string $api
+     * @param array $params
+     * @param string $method
+     * @return array
+     */
+    private function call($api, $params = [], $method = 'GET')
+    {
+        $method = strtoupper($method);
+
+        $params['access_token'] = $this->token['access_token'];
+        $params['openid']       = $this->openid();
+        $params['lang']         = 'zh_CN';
+
+        $data = $this->$method(self::API_BASE . $api, $params);
+        return json_decode($data, true);
+    }
+
+    /**
+     * 根据第三方授权页面样式切换跳转地址
+     * GY
+     * @return void
+     */
+    private function switchAccessTokenURL()
+    {
+        if ($this->display == 'mobile') {
+            $this->AuthorizeURL = 'https://open.weixin.qq.com/connect/oauth2/authorize';
+        } else {
+            //微信扫码网页登录，只支持此scope
+            $this->config['scope'] = 'snsapi_login';
+        }
+    }
+
+    /**
+     * 默认的AccessToken请求参数
+     * GY
+     * @return array
+     */
+    protected function accessTokenParams()
+    {
+        $params = [
+            'appid'      => $this->config['app_id'],
+            'secret'     => $this->config['app_secret'],
+            'grant_type' => $this->config['grant_type'],
+            'code'       => isset($_REQUEST['code']) ? $_REQUEST['code'] : '',
+        ];
+        return $params;
+    }
+
+    /**
+     * 解析access_token方法请求后的返回值
+     * GY
+     * @param string $token 获取access_token的方法的返回值
+     */
+    protected function parseToken($token)
+    {
+        $data = json_decode($token, true);
+        if (isset($data['access_token'])) {
+            return $data;
+        } else {
+            throw new \Exception("获取微信 ACCESS_TOKEN 出错：{$token}");
+        }
+    }
+
+    /**
+     * 格式化性别
+     *  GY
+     * @param string $gender
+     * @return string
+     */
+    private function getGender($gender)
+    {
+        $return = null;
+        switch ($gender) {
+            case 1:
+                $return = 'm';
+                break;
+            case 2:
+                $return = 'f';
+                break;
+            default:
+                $return = 'n';
+        }
+        return $return;
+    }
+
+
+    /**
+     * 检验是否绑定
+     *  GY
+     * @param string $gender
+     * @return string
+     */
+    private function checkUser($userinfo)
+    {
+        $one = Pc_user::detail(['unionid' => $userinfo['unionid']]);
+        $two = Admin::detail(['unionid' => $userinfo['unionid']]);
+        $rest = BOOLEZERO;
+        if ($one) {
+            $rest = BOOLEONE;
+        } elseif ($two) {
+            $rest = BOOLETWO;
+        }
+        switch ($rest) {
+            case BOOLEONE:
+                Session::set("user", $one["id"]);
+                Session::set('member', ['phone_number' => $one['phone_number']]);
+                break;
+            case BOOLETWO:
+                Session::set("user_id", $two["id"]);
+                Session::set("user_info", [$two]);
+                Session::set("store_id", $two["store_id"]);
+                break;
+            default:
+                break;
+        }
+
+        // Session::set("unionid", $userinfo['unionid']);
+        Session::set("unionid", BOOLEONE);
+        Session::set("sign_status", BOOLEONE);
+        return $rest;
     }
 }

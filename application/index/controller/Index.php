@@ -104,7 +104,9 @@ class Index extends Controller
     }
     // 登录
     public function sign_in(){
-        return view("signin");
+        $unionid = Session::get("sign_status");
+        Session::delete('sign_status');
+        return view("signin",['rest' => $unionid]);
     }
     // 忘记密码
     public function forget_pw(){
