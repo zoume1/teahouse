@@ -79,7 +79,7 @@ class WeiChatLogin extends GatewayInterface
         switch($rest)
         {
             case BOOLEZERO:
-                $this ->redirect("index/index/sign_in",['rest'=>1]);//跳转到绑定账号页面
+                $this ->redirect(url("index/index/sign_in"));
                 break;
             case BOOLEONE:
                 $this ->redirect("index/index/my_shop");
@@ -297,7 +297,9 @@ class WeiChatLogin extends GatewayInterface
                 break;
         }
 
-        Session::set("unionid", $userinfo['unionid']);
+        // Session::set("unionid", $userinfo['unionid']);
+        Session::set("unionid", BOOLEONE);
+        Session::set("sign_status", BOOLEONE);
         return $rest;
     }
 }

@@ -168,6 +168,8 @@ class Login extends Controller{
      */
     public function dolog(Request $request){
         if($request->isPost()){
+            $unionid = Session :: get("unionid");
+            Session :: delete("unionid");
             $user_mobile =$request->only(['account'])["account"];
             $password =$request->only(["passwd"])["passwd"];
             if(empty($user_mobile)){
@@ -185,16 +187,21 @@ class Login extends Controller{
                     $ress =Db::name('pc_user')
                         ->where('phone_number',$user_mobile)
                         ->where('status',1)
-                        ->field("id")
                         ->find();
                     if($ress)
                     {
+                        
+                        if(!empty($unionid)){
+                            if(!empty($ress['unionid'])){
+                                return ajax_error('此用户已被绑定',$datas);
+                            }
+                        }
                         // 前台使用
                         Session::set("user",$ress["id"]);
                         Session::set('member',$datas);
                         return ajax_success('登录成功',$datas);
                     }else{
-                        ajax_error('此用户已被管理员设置停用',$datas);
+                        return ajax_error('此用户已被管理员设置停用',$datas);
                     }
                 }
             }else{
