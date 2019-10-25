@@ -109,7 +109,7 @@ class Index extends Controller
     }
     // 微信登录
     public function sign_weixin(){
-        return view("sign_weixin");
+        return view("signweixin");
     }
     // 忘记密码
     public function forget_pw(){
