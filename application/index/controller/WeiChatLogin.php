@@ -78,7 +78,7 @@ class WeiChatLogin extends Gateway
         switch($rest)
         {
             case BOOLEZERO:
-                $this ->redirect(url("index/index/sign_weixin")); 
+                $this ->redirect("index/index/sign_weixin"); 
                 break;
             case BOOLEONE:
                 $this ->redirect("index/index/my_shop");
