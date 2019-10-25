@@ -274,10 +274,6 @@
                                 </div>
                             </div>
                             <button type="submit" id="sub" class="button-primary">登录</button>
-                            <div class="forget-group">
-                                还没账号？<a href="sign_up">立即注册</a>
-                                <a href="forget_pw" class="forget-pw">忘记密码</a>
-                            </div>
                         </div>
 
                         <!-- <div class="qr-code-wrap" id="login_container" style="display: none;">
@@ -521,28 +517,6 @@
             }
         });
 
-        // 获取微信扫码二维码
-        function getWxCode() {
-            $.ajax({
-                url: 'WeiChatScanCodeLogin',
-                type: 'POST',
-                dataType: 'JSON',
-                data: {
-                    "name": 'weixin'
-                },
-                success: function (res) {
-                    console.log(res);
-                    // if (res.code == 1) {
-                    //     $('div.qr-code-wrap').find('img').attr('src', res.data.weixin_code);
-                    //     var oQrcode = document.getElementById("qrcode");
-                    //     new QRCode(oQrcode, res.data.weixin_code)
-                    // }
-                },
-                error: function (res) {
-                    console.log(res.status, res.statusText);
-                }
-            })
-        }
 
         // 登录
         var statusLog = null;
