@@ -320,9 +320,9 @@
             ready: function () { },
             success: function (e) {
                 login();
-                setTimeout(function () {
-                    statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href = "/admin" : '');
-                }, 1000);
+                // setTimeout(function () {
+                //     statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href = "/admin" : '');
+                // }, 1000);
             },
             error: function () {
                 layer.msg('验证码不匹配！');
