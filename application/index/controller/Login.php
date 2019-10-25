@@ -295,22 +295,30 @@ class Login extends Controller{
      * @param Request $request
      */
     public function memberCode(){
-        $code = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-        $rand = $code[rand(0,25)]
-            .strtoupper(dechex(date('m')))
-            .date('d').substr(time(),-5)
-            .substr(microtime(),2,5)
-            .sprintf('%02d',rand(0,99));
-        for(
-            $a = md5( $rand, true ),
-            $s = '0123456789ABCDEFGHJKLMNPQRSTUV',
-            $d = '',
-            $f = 0;
-            $f < 6;
-            $g = ord( $a[ $f ] ),
-            $d .= $s[ ( $g ^ ord( $a[ $f + 8 ] ) ) - $g & 0x1F ],
-            $f++
-        );
+        // $code = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        // $rand = $code[rand(0,25)]
+        //     .strtoupper(dechex(date('m')))
+        //     .date('d').substr(time(),-5)
+        //     .substr(microtime(),2,5)
+        //     .sprintf('%02d',rand(0,99));
+        // for(
+        //     $a = md5( $rand, true ),
+        //     $s = '0123456789ABCDEFGHJKLMNPQRSTUV',
+        //     $d = '',
+        //     $f = 0;
+        //     $f < 6;
+        //     $g = ord( $a[ $f ] ),
+        //     $d .= $s[ ( $g ^ ord( $a[ $f + 8 ] ) ) - $g & 0x1F ],
+        //     $f++
+        // );
+
+        $a = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+        $d = $a[rand(0,25)].substr(base_convert(md5(uniqid(md5(microtime(true)),true)), 16, 10), 0, 5);
+        $w['invitation'] = array('eq', $d);
+        $user_info = db('user')->field("id")->where($w)->find();
+        if ($user_info) {
+            $this->memberCode();
+        }
         return $d;
     }
 
