@@ -261,12 +261,9 @@
                             </div>
                         </div>
                         {/if} -->
-                        <div class="qr-code-wrap" style="display: none;">
+                        <div class="qr-code-wrap" id="qrcode" style="display: none;">
                             <img src="__STATIC__/index/img/qrcode.png" width="260" height="260">
                         </div>
-
-
-
                     </div>
                     <div class="signin-content-inner">
                         <div class="banner">
@@ -294,6 +291,7 @@
     <!--数字验证-->
     <script src="__STATIC__/index/thirdpart/js/swiper-4.3.5.min.js"></script>
     <script src="__STATIC__/index/thirdpart/js/verify.js"></script>
+    <script src="__STATIC__/index/thirdpart/js/qrcode.min.js"></script>
 
     <script>
         var phone = document.querySelector('#phone');
@@ -308,6 +306,7 @@
             if ($(this).hasClass('signin-code')) {
                 $('.qr-code-wrap').show();
                 $('.signin-form-wrap').hide();
+                getWxCode();
             } else {
                 $('.qr-code-wrap').hide();
                 $('.signin-form-wrap').show();
@@ -318,8 +317,8 @@
                 $('.button-primary').click();
             }
         }
-        // 拼图验证码 init
 
+        // 验证码 init
         $('#imgVer').codeVerify({
             type: 2,
             figure: 5,	//位数，仅在type=2时生效
@@ -331,47 +330,37 @@
             ready: function () { },
             success: function (e) {
                 login();
-                //    layer.msg('登录成功');
-                setTimeout(function(){
-                    statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
+                setTimeout(function () {
+                    statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href = "/admin" : '');
                 }, 1000);
             },
             error: function () {
                 layer.msg('验证码不匹配！');
             }
         });
-        //imgVer({
-        //el:'$("#imgVer")',
-        //width:'260',
-        //height:'116',
-        //img:[
-        //'',
-        //'/static/index/js/slider/images/ver.jpg',
-        //'/static/index/js/slider/images/ver-1.jpg',
-        //'/static/index/js/slider/images/ver-2.jpg',
-        //'/static/index/js/slider/images/ver-3.jpg',
-        //],
-        //success:function () {
-        //$(".verBox").css({
-        //"display":"none"
-        //});
-        //layer.msg('登录成功');
-        //setTimeout(function(){
-        //statusLog == 1 ? location.href = 'my_shop' : (statusLog == 2 ? location.href ="/admin" : '');
-        //}, 1000);
-        //},
-        //error:function () {}
-        //});
-        // $(function(){
-        //     if(window.history && window.history.pushState){
-        //         $(window).on('popstate', function(){
-        //             widnow.history.pushState('forward', null, '#');
-        //             widnow.history.forward(1);
-        //         })
-        //     }
-        //     widnow.history.pushState('forward', null, '#');
-        //     widnow.history.forward(1);
-        // });
+
+        // 获取微信扫码二维码
+        function getWxCode() {
+            $.ajax({
+                url: 'WeiChatScanCodeLogin',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    "name": 'weixin'
+                },
+                success: function (res) {
+                    console.log(res);
+                    // if (res.code == 1) {
+                    //     $('div.qr-code-wrap').find('img').attr('src', res.data.weixin_code);
+                    //     var oQrcode = document.getElementById("qrcode");
+                    //     new QRCode(oQrcode, res.data.weixin_code)
+                    // }
+                },
+                error: function (res) {
+                    console.log(res.status, res.statusText);
+                }
+            })
+        }
 
         // 登录
         var statusLog = null;
@@ -391,26 +380,10 @@
                         statusLog = res.status;
                         layer.msg(res.info);
                         if (res.status == 1) {
-                            //$(".num").css({
-                            //  "display":"block"
-                            //})
-                            // layer.msg(res.info);
                             myEvent.setCookie(btoa('phone'), btoa($phone), 7); //保存帐号到cookie，有效期7天
                             myEvent.setCookie(btoa('password'), btoa($password), 7); //保存帐号到cookie，有效期7天
                             myEvent.setCookie('artificial', 1);
-                            // setTimeout(function(){
-                            //     location.href = 'my_shop';
-                            // }, 1000);
-                        } 
-                        // else if (res.status == 2) {
-                            //$(".num").css({
-                            //   "display":"block"
-                            //})
-                            // location.href ="/admin";
-                        // } 
-                        // else {
-                        //     layer.msg(res.info);
-                        // }
+                        }
                     },
                     error: function (res) {
                         console.log(res.status, res.statusText);
