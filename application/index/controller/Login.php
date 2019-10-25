@@ -315,7 +315,7 @@ class Login extends Controller{
         $a = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
         $d = $a[rand(0,25)].substr(base_convert(md5(uniqid(md5(microtime(true)),true)), 16, 10), 0, 5);
         $w['invitation'] = array('eq', $d);
-        $user_info = db('user')->field("id")->where($w)->find();
+        $user_info = db('pc_user')->field("id")->where($w)->find();
         if ($user_info) {
             $this->memberCode();
         }
