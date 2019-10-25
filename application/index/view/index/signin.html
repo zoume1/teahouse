@@ -394,7 +394,7 @@ var ishttps = 'https:' == document.location.protocol ? true: false,rest_http;
 if(ishttps) rest_http ="https://";
 else rest_http ="http://";
 var obj = new WxLogin({
-  self_redirect:true,
+  self_redirect:false,
   id:"login_container", 
   appid: "wx8995d54b8f1289d9", 
   scope: "snsapi_login", 
