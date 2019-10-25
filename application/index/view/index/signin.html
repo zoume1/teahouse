@@ -396,16 +396,20 @@
         }
     </script>
 
-<script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 </head>
 
 <script type="text/javascript">
+var ishttps = 'https:' == document.location.protocol ? true: false,rest_http;
+
+if(ishttps) rest_http ="https://";
+else rest_http ="http://";
 var obj = new WxLogin({
   self_redirect:true,
   id:"login_container", 
   appid: "wx8995d54b8f1289d9", 
   scope: "snsapi_login", 
-  redirect_uri: encodeURIComponent("http://"+window.location.host+"/WeiChatScanCodeReturnUrl"), 
+  redirect_uri: encodeURIComponent(rest_http+window.location.host+"/WeiChatScanCodeReturnUrl"), 
   state: Math.ceil(Math.random()*1000), 
   style: "black",
   href: ""
