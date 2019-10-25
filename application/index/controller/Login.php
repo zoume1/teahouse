@@ -211,6 +211,7 @@ class Login extends Controller{
                 $res_admin =Db::name('admin')
                     ->where("account",$user_mobile)
                     ->where("status","<>",1)
+                    ->where("admin_status","<>",1)
                     ->select();
                 if(!empty($res_admin)){
                     if(password_verify($password,$res_admin[0]["passwd"])){
