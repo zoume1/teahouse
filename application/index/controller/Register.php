@@ -123,6 +123,7 @@ class Register extends  Controller{
                     if($res){
                         //注册成功
                         Session :: delete("unionid");
+                        Session::set('member',$datas);
                         return ajax_success('注册成功');
                     }else{
                         return ajax_error('请重新注册',['status'=>0]);
@@ -145,6 +146,7 @@ class Register extends  Controller{
                 $res = Db::name('pc_user')->insertGetId($datas);
                 if($res){
                     //注册成功
+                    Session::set('member',$datas);
                     Session :: delete("unionid");
                     return ajax_success('注册成功');
                 }else{
