@@ -329,28 +329,28 @@
             }
         });
 
-        // 获取微信扫码二维码
-        function getWxCode() {
-            $.ajax({
-                url: 'WeiChatScanCodeLogin',
-                type: 'POST',
-                dataType: 'JSON',
-                data: {
-                    "name": 'weixin'
-                },
-                success: function (res) {
-                    console.log(res);
-                    // if (res.code == 1) {
-                    //     $('div.qr-code-wrap').find('img').attr('src', res.data.weixin_code);
-                    //     var oQrcode = document.getElementById("qrcode");
-                    //     new QRCode(oQrcode, res.data.weixin_code)
-                    // }
-                },
-                error: function (res) {
-                    console.log(res.status, res.statusText);
-                }
-            })
-        }
+        // // 获取微信扫码二维码
+        // function getWxCode() {
+        //     $.ajax({
+        //         url: 'WeiChatScanCodeLogin',
+        //         type: 'POST',
+        //         dataType: 'JSON',
+        //         data: {
+        //             "name": 'weixin'
+        //         },
+        //         success: function (res) {
+        //             console.log(res);
+        //             // if (res.code == 1) {
+        //             //     $('div.qr-code-wrap').find('img').attr('src', res.data.weixin_code);
+        //             //     var oQrcode = document.getElementById("qrcode");
+        //             //     new QRCode(oQrcode, res.data.weixin_code)
+        //             // }
+        //         },
+        //         error: function (res) {
+        //             console.log(res.status, res.statusText);
+        //         }
+        //     })
+        // }
 
         // 登录
         var statusLog = null;
