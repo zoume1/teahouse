@@ -261,9 +261,10 @@
                             </div>
                         </div>
                         {/if} -->
-                        <div class="qr-code-wrap" id="qrcode" style="display: none;">
+                        <div class="qr-code-wrap" id="login_container" style="display: none;"></div>
+                        <!-- <div class="qr-code-wrap" id="qrcode" style="display: none;">
                             <img src="__STATIC__/index/img/qrcode.png" width="260" height="260">
-                        </div>
+                        </div> -->
                     </div>
                     <div class="signin-content-inner">
                         <div class="banner">
@@ -397,10 +398,7 @@
 
 <script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 </head>
-<body>
-  <!-- 放置二维码的div -->
-  <div id="login_container"></div>
-</body>
+
 <script type="text/javascript">
 var obj = new WxLogin({
   self_redirect:true,
