@@ -574,7 +574,7 @@
                     },
                     success: function(res){
                         console.log(res);
-                        if(res.status > 1){
+                        if(res.status == 1){
                             myEvent.setCookie(btoa('phone'), btoa($phone), 7); //保存帐号到cookie，有效期7天
                             myEvent.setCookie(btoa('password'), btoa($password), 7); //保存帐号到cookie，有效期7天
                             layer.msg(res.info);
