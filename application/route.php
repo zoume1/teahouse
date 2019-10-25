@@ -61,6 +61,7 @@ Route::group("",[
     "about"=>"index/index/about", //关于我们
     "sign_up"=>"index/index/sign_up", //注册
     "sign_in"=>"index/index/sign_in", //登录
+    "sign_weixin"=>"index/index/sign_weixin", //微信登录
     "forget_pw"=>"index/index/forget_pw", //登录
     "my_shop"=>"index/index/my_shop", //我的店铺
     "city_forget"=>"index/index/city_forget", //申请城市合伙人忘记密码
