@@ -169,7 +169,6 @@ class Login extends Controller{
     public function dolog(Request $request){
         if($request->isPost()){
             $unionid = Session :: get("unionid");
-            Session :: delete("unionid");
             $user_mobile =$request->only(['account'])["account"];
             $password =$request->only(["passwd"])["passwd"];
             if(empty($user_mobile)){
@@ -201,6 +200,7 @@ class Login extends Controller{
                         // 前台使用
                         Session::set("user",$ress["id"]);
                         Session::set('member',$datas);
+                        Session :: delete("unionid");
                         return ajax_success('登录成功',$datas);
                     }else{
                         return ajax_error('此用户已被管理员设置停用',$datas);
@@ -226,6 +226,7 @@ class Login extends Controller{
                         Session("user_info", $res_admin);
                         Session("store_id", $res_admin[0]["store_id"]);
                         $bool = db('store')->where('id',$res_admin[0]["store_id"])->update(["login_time"=>time()]);
+                        Session :: delete("unionid");
                         exit(json_encode(array("status"=>2,"info"=>"登录成功")));
                     }else{
                         return ajax_error('用户或密码错误',['status'=>0]);
