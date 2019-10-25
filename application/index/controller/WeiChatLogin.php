@@ -275,7 +275,7 @@ class WeiChatLogin extends Gateway
     private function checkUser($userinfo)
     {
         $one = Pc_user::detail(['unionid' => $userinfo['unionid']]);
-        $two = Admin::detail(['unionid' => $userinfo['unionid']]);
+        $two = Admin::detail(['unionid' => $userinfo['unionid'],'admin_satatus' =>BOOLEONE]);
         $rest = BOOLEZERO;
         if ($one) {
             $rest = BOOLEONE;
