@@ -104,9 +104,12 @@ class Index extends Controller
     }
     // 登录
     public function sign_in(){
-        $unionid = Session::get("sign_status");
-        Session::delete('sign_status');
-        return view("signin",['rest' => $unionid]);
+
+        return view("signin");
+    }
+    // 微信登录
+    public function sign_weixin(){
+        return view("sign_weixin");
     }
     // 忘记密码
     public function forget_pw(){
