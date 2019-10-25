@@ -314,9 +314,9 @@ class WeiChatLogin extends Gateway
 
 namespace app\index\Controller;
 
+use app\index\controller\Gateway ;
 use app\rec\model\User as Pc_user;
 use app\admin\model\Admin;
-use app\index\controller\Gateway ;
 use think\Config;
 use think\Request;
 use think\Session;
