@@ -98,7 +98,6 @@ class Register extends  Controller{
             if(!empty($invitation)){
                 $number = db("pc_user")->where("phone_number",$invitation)->find();
                 $share_code = db("pc_user")->where("my_invitation",$invitation)->find();
-
                 if(empty($number) && empty($share_code)){
                     return ajax_error("分享码填写有误,请重试");
                 } else {
@@ -124,12 +123,13 @@ class Register extends  Controller{
                     $res =Db::name('pc_user')->insertGetId($datas);
                     if($res){
                         //注册成功
-                        return ajax_success('注册成功',$res);
+                        return ajax_success('注册成功');
                     }else{
                         return ajax_error('请重新注册',['status'=>0]);
                     }
                 }
             } else {
+                
                 $passwords = password_hash($password,PASSWORD_DEFAULT);
                 $datas =[
                     'phone_number'=>$mobile,
@@ -145,7 +145,7 @@ class Register extends  Controller{
                 $res = Db::name('pc_user')->insertGetId($datas);
                 if($res){
                     //注册成功
-                    return ajax_success('注册成功',$res);
+                    return ajax_success('注册成功');
                 }else{
                     return ajax_error('请重新注册',['status'=>0]);
                 }
