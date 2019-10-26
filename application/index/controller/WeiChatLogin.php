@@ -109,7 +109,7 @@ class WeiChatLogin extends Gateway
         $echostr = $_GET["echostr"];
 
         if($this->checkSignature($signature,$timestamp,$nonce)){
-            echo $echostr;
+            return $echostr;
             exit;
         }else{
             echo false;exit;
