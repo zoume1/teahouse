@@ -20,7 +20,6 @@ use app\common\exception\BaseException;
 const BOOLEZERO = 0;
 const BOOLEONE = 1;
 const BOOLETWO = 2;
-const TOKEN = "zhihuiweixin";
 
 
 
@@ -102,25 +101,38 @@ class WeiChatLogin extends Gateway
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function WeiChatScanCodeReturnUrls()
-    {
+    public function WeiChatReturnUrls()
+    {   
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
-        
-        $token = TOKEN;
-        $tmpArr = array($token, $timestamp, $nonce);
+        $echostr = $_GET["echostr"];
+
+        if($this->checkSignature($signature,$timestamp,$nonce)){
+            echo $echostr;
+            exit;
+        }else{
+            echo false;exit;
+        }
+       
+    }
+
+    public function checkSignature($signature,$timestamp,$nonce)
+    {
+        $token = "zhihuiweixin";
+        $tmpArr = array($token,$timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
         $tmpStr = sha1( $tmpStr );
-        
-        if( $tmpStr == $signature ){
+        if($tmpStr == $signature){
             return true;
         }else{
             return false;
         }
-        
     }
+
+
+    
 
 
     /**
