@@ -48,7 +48,7 @@ Route::group("",[
 
     "WeiChatScanCodeLogin"=>"index/WeiChatLogin/WeiChatScanCodeLogin",        //PC端微信扫码登录
     "WeiChatScanCodeReturnUrl"=>"index/WeiChatLogin/WeiChatScanCodeReturnUrl",//PC端微信扫码登录回调
-    "WeiChatScanCodeReturnUrls"=>"index/WeiChatLogin/WeiChatScanCodeReturnUrls",//PC端微信扫码登录回调测试
+    "WeiChatReturnUrls"=>"index/WeiChatLogin/WeiChatReturnUrls",//PC端微信扫码登录回调测试
     /*TODO:PC端店铺结束*/
 
 
