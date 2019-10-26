@@ -92,6 +92,20 @@ class WeiChatLogin extends Gateway
         
     }
 
+    /**
+     * PC端微信扫码登录测试回调
+     * @author: GY
+     * @param $name
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function WeiChatScanCodeReturnUrls()
+    {
+
+        
+    }
 
 
     /**

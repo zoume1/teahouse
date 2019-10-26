@@ -50,10 +50,10 @@ use Guzzle\Http\Client;
     {
         //默认参数
         $config = [
-            // 'app_id'        => 'wx8995d54b8f1289d9',
-            // 'app_secret'    => '3512aad341e45b9957ff082dced823bc',
-            'app_id'        => 'wxf120ba19ce55a392',
-            'app_secret'    => '06c0107cff1e3f5fe6c2eb039ac2d0b7',
+            'app_id'        => 'wx8995d54b8f1289d9',
+            'app_secret'    => '3512aad341e45b9957ff082dced823bc',
+            // 'app_id'        => 'wxf120ba19ce55a392',
+            // 'app_secret'    => '06c0107cff1e3f5fe6c2eb039ac2d0b7',
             'callback'      => 'http://www.zhihuichacang.com/WeiChatScanCodeReturnUrl',
             'response_type' => 'code',
             'grant_type'    => 'authorization_code',
