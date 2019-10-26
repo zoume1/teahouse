@@ -20,6 +20,7 @@ use app\common\exception\BaseException;
 const BOOLEZERO = 0;
 const BOOLEONE = 1;
 const BOOLETWO = 2;
+const TOKEN = "weixin";
 
 
 
@@ -103,7 +104,21 @@ class WeiChatLogin extends Gateway
      */
     public function WeiChatScanCodeReturnUrls()
     {
-
+        $signature = $_GET["signature"];
+        $timestamp = $_GET["timestamp"];
+        $nonce = $_GET["nonce"];
+        
+        $token = TOKEN;
+        $tmpArr = array($token, $timestamp, $nonce);
+        sort($tmpArr, BOOLETWO);
+        $tmpStr = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr );
+        
+        if( $tmpStr == $signature ){
+            return true;
+        }else{
+            return false;
+        }
         
     }
 
