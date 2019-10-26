@@ -20,7 +20,7 @@ use app\common\exception\BaseException;
 const BOOLEZERO = 0;
 const BOOLEONE = 1;
 const BOOLETWO = 2;
-const TOKEN = "weixin";
+const TOKEN = "zhihuiweixin";
 
 
 
@@ -110,7 +110,7 @@ class WeiChatLogin extends Gateway
         
         $token = TOKEN;
         $tmpArr = array($token, $timestamp, $nonce);
-        sort($tmpArr, BOOLETWO);
+        sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
         $tmpStr = sha1( $tmpStr );
         
