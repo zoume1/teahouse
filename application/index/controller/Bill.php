@@ -36,7 +36,7 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-
+            return ajax_success('注册成功');
             $array_city = [
                 ['name'=>'蚌埠市'	,'rank_status'=>'5','store_number'=>1356],	
                 ['name'=>'焦作市'	,'rank_status'=>'5','store_number'=>997],	

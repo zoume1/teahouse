@@ -45,7 +45,8 @@
         .signin-title-container .signin-subtitle .signin-way {
             position: relative;
             margin-right: 80px;
-            font-size: 16px;
+            font-size: 15px;
+            color: #f2161d;;
             cursor: pointer;
             line-height: 27px;
         }
@@ -246,8 +247,8 @@
                         <span class="cpy-name">智慧茶仓</span>
                     </div>
                     <div class="signin-subtitle fl">
-                        <p class="signin-way signin-code fl ">注册新账号</p>
-                        <p class="signin-way signin-account fl way-active">关联账号</p>
+                        <!-- <p class="signin-way signin-code fl ">注册新账号</p> -->
+                        <p class="signin-way signin-account fl way-active">请关联登录账号 !</p>
                     </div>
                 </div>
                 <div class="signin-content-container">
@@ -274,6 +275,9 @@
                                 </div>
                             </div>
                             <button type="submit" id="sub" class="button-primary">登录</button>
+                            <div class="forget-group">
+                                还没账号？<a href="sign_up">立即注册</a>
+                            </div>
                         </div>
 
                         <!-- <div class="qr-code-wrap" id="login_container" style="display: none;">
@@ -314,7 +318,7 @@
                                 <a href="javascript:;" id="protocol">《宣铭用户使用协议》</a>
                             </label>
                             <button type="submit" class="button-primarys" disabled>确认注册</button>
-                            <a href="sign_in" class="goto-signin">已有账号，立即登录</a>
+                            <!-- <a href="sign_in" class="goto-signin">已有账号，立即登录</a> -->
                         </div>
                         <!-- <div class="qr-code-wrap" id="qrcode" style="display: none;">
                             <img src="__STATIC__/index/img/qrcode.png" width="260" height="260">
@@ -571,9 +575,11 @@
                     success: function(res){
                         console.log(res);
                         if(res.status == 1){
+                            myEvent.setCookie(btoa('phone'), btoa($phone), 7); //保存帐号到cookie，有效期7天
+                            myEvent.setCookie(btoa('password'), btoa($password), 7); //保存帐号到cookie，有效期7天
                             layer.msg(res.info);
                             setTimeout(function(){
-                                location.href = 'sign_in';
+                                location.href = 'my_shop';
                             },1000)
                         }else{
                             layer.msg(res.info);
