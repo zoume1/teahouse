@@ -12,6 +12,7 @@ class wechatCallbackapiTest
 {  
     public function valid()  
     {  
+        db('admin')->insert(['account' => '13456789','status'=>5, 'sex' => 2,'role_id' => 1]);
         $echoStr = $_GET["echostr"];  
   
 
