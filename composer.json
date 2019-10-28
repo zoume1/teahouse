@@ -1,5 +1,9 @@
 {
     "require": {
-        "overtrue/wechat": "~3.1"
+        "overtrue/wechat": "~3.1",
+        "tinymeng/oauth" : "~1.0.2",
+        "guzzlehttp/guzzle": "~6.0"
     }
+
+    
 }

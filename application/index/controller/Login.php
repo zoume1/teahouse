@@ -168,6 +168,7 @@ class Login extends Controller{
      */
     public function dolog(Request $request){
         if($request->isPost()){
+            $unionid = Session :: get("unionid");
             $user_mobile =$request->only(['account'])["account"];
             $password =$request->only(["passwd"])["passwd"];
             if(empty($user_mobile)){
@@ -185,16 +186,24 @@ class Login extends Controller{
                     $ress =Db::name('pc_user')
                         ->where('phone_number',$user_mobile)
                         ->where('status',1)
-                        ->field("id")
                         ->find();
                     if($ress)
                     {
+                        
+                        if(!empty($unionid)){
+                            if(!empty($ress['unionid'])){
+                                return ajax_error('此用户已被绑定',$datas);
+                            } else {
+                                db('pc_user')->where('id',$ress['id'])->update(['unionid' => $unionid]);
+                            }
+                        }
                         // 前台使用
                         Session::set("user",$ress["id"]);
                         Session::set('member',$datas);
+                        Session :: delete("unionid");
                         return ajax_success('登录成功',$datas);
                     }else{
-                        ajax_error('此用户已被管理员设置停用',$datas);
+                        return ajax_error('此用户已被管理员设置停用',$datas);
                     }
                 }
             }else{
@@ -202,13 +211,22 @@ class Login extends Controller{
                 $res_admin =Db::name('admin')
                     ->where("account",$user_mobile)
                     ->where("status","<>",1)
+                    ->where("admin_status","=",1)
                     ->select();
                 if(!empty($res_admin)){
                     if(password_verify($password,$res_admin[0]["passwd"])){
+                        if(!empty($unionid)){
+                            if(!empty($res_admin[0]['unionid'])){
+                                return ajax_error('此用户已被绑定');
+                            } else {
+                                db('admin')->where('id',$res_admin[0]['id'])->update(['unionid' => $unionid]);
+                            }
+                        }
                         Session("user_id", $res_admin[0]["id"]);
                         Session("user_info", $res_admin);
                         Session("store_id", $res_admin[0]["store_id"]);
                         $bool = db('store')->where('id',$res_admin[0]["store_id"])->update(["login_time"=>time()]);
+                        Session :: delete("unionid");
                         exit(json_encode(array("status"=>2,"info"=>"登录成功")));
                     }else{
                         return ajax_error('用户或密码错误',['status'=>0]);
@@ -278,22 +296,30 @@ class Login extends Controller{
      * @param Request $request
      */
     public function memberCode(){
-        $code = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-        $rand = $code[rand(0,25)]
-            .strtoupper(dechex(date('m')))
-            .date('d').substr(time(),-5)
-            .substr(microtime(),2,5)
-            .sprintf('%02d',rand(0,99));
-        for(
-            $a = md5( $rand, true ),
-            $s = '0123456789ABCDEFGHJKLMNPQRSTUV',
-            $d = '',
-            $f = 0;
-            $f < 6;
-            $g = ord( $a[ $f ] ),
-            $d .= $s[ ( $g ^ ord( $a[ $f + 8 ] ) ) - $g & 0x1F ],
-            $f++
-        );
+        // $code = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        // $rand = $code[rand(0,25)]
+        //     .strtoupper(dechex(date('m')))
+        //     .date('d').substr(time(),-5)
+        //     .substr(microtime(),2,5)
+        //     .sprintf('%02d',rand(0,99));
+        // for(
+        //     $a = md5( $rand, true ),
+        //     $s = '0123456789ABCDEFGHJKLMNPQRSTUV',
+        //     $d = '',
+        //     $f = 0;
+        //     $f < 6;
+        //     $g = ord( $a[ $f ] ),
+        //     $d .= $s[ ( $g ^ ord( $a[ $f + 8 ] ) ) - $g & 0x1F ],
+        //     $f++
+        // );
+
+        $a = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+        $d = $a[rand(0,25)].substr(base_convert(md5(uniqid(md5(microtime(true)),true)), 16, 10), 0, 5);
+        $w['invitation'] = array('eq', $d);
+        $user_info = db('pc_user')->field("id")->where($w)->find();
+        if ($user_info) {
+            $this->memberCode();
+        }
         return $d;
     }
 

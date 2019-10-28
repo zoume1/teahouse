@@ -69,6 +69,7 @@ class Register extends  Controller{
     public function  doRegByPhone(Request $request){
         if($request->isPost())
         {
+            $unionid = Session :: get("unionid");
             $my_invitation = new Loging();
             $re = $my_invitation->memberCode();
             $mobile = trim($_POST['mobile']);
@@ -96,7 +97,6 @@ class Register extends  Controller{
             if(!empty($invitation)){
                 $number = db("pc_user")->where("phone_number",$invitation)->find();
                 $share_code = db("pc_user")->where("my_invitation",$invitation)->find();
-
                 if(empty($number) && empty($share_code)){
                     return ajax_error("分享码填写有误,请重试");
                 } else {
@@ -116,16 +116,21 @@ class Register extends  Controller{
                         "invite_id"=> $invite_id,
                         "my_invitation"=>$my_invitation->memberCode(),
                     ];
-                    
+                    if(!empty($unionid)){
+                        $datas['unionid'] = $unionid;
+                    }
                     $res =Db::name('pc_user')->insertGetId($datas);
                     if($res){
                         //注册成功
-                        return ajax_success('注册成功',$res);
+                        Session :: delete("unionid");
+                        Session::set('member',$datas);
+                        return ajax_success('注册成功');
                     }else{
                         return ajax_error('请重新注册',['status'=>0]);
                     }
                 }
             } else {
+                
                 $passwords = password_hash($password,PASSWORD_DEFAULT);
                 $datas =[
                     'phone_number'=>$mobile,
@@ -135,11 +140,15 @@ class Register extends  Controller{
                     "status"=>1,
                     "my_invitation"=>$my_invitation->memberCode(),
                 ];
-                
+                if(!empty($unionid)){
+                    $datas['unionid'] = $unionid;
+                }
                 $res = Db::name('pc_user')->insertGetId($datas);
                 if($res){
                     //注册成功
-                    return ajax_success('注册成功',$res);
+                    Session::set('member',$datas);
+                    Session :: delete("unionid");
+                    return ajax_success('注册成功');
                 }else{
                     return ajax_error('请重新注册',['status'=>0]);
                 }

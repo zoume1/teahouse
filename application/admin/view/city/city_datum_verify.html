@@ -127,6 +127,7 @@
                         <th>用户账号(手机号)</th>
                         <th>联系人姓名</th>
                         <th>入驻身份</th>
+                        <th>申请城市</th>
                         <th>账号状态</th>
                         <th>操作</th>
                     </tr>
@@ -138,6 +139,7 @@
                         <td>{$value.phone_number}</td>
                         <td>{$value.user_name}</td>
                         <td>{if $value.id_status == 1}企业{else}个人{/if}</td>
+                        <td>{$value.city_address}</td>
                         <td>
                             {if $value.is_delete == 1}
                             <input type="checkbox" class="Status" name="is_delete" value="{$value.is_delete}"

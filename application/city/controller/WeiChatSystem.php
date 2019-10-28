@@ -185,6 +185,10 @@ class WeiChatSystem extends Controller
     {
 
         if ($request->isPost()) {
+            $firstday = date('Y-m-01', strtotime(date("Y-m-d")));
+            $Begin = strtotime(date('Y-m-01', strtotime(date("Y-m-d"))));
+            $End= strtotime(date('Y-m-d', strtotime("$firstday +1 month -1 day")));
+            $time_condition  = "create_time>{$Begin} and create_time< {$End}";
             $user_id = $request->param();
             $validate     = new Validate([
                 ['user_id', 'require', 'user_id不能为空'],
@@ -198,7 +202,14 @@ class WeiChatSystem extends Controller
                 ->where('user_id',$user_id['user_id'])  
                 ->where('return_time','>',0)
                 ->count();
-                return jsonSuccess("发送成功",['number'=>$number,'comment_value'=>10]);
+
+                $comment_value = Db::name('city_comment')
+                ->where('city_user_id',$user_id['user_id'])  
+                ->where($time_condition)
+                ->avg('grade');
+
+                $comment = $comment_value ? $comment_value : 5;
+                return jsonSuccess("发送成功",['number'=>$number,'comment_value'=>$comment]);
             }
         }
     }

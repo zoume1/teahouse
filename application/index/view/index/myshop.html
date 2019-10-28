@@ -108,6 +108,10 @@
                         <span class="dash">-</span>
                         <a href="javascript:;" class="logout">退出</a>
                     </span>
+                    {else}
+                    <span class="right">
+                        <a href="javascript:;" class="logout">退出</a>
+                    </span>
                     {/if}
                 </div>
                 <div class="select">
@@ -424,9 +428,11 @@
     <script src="__STATIC__/index/js/layer/layer.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
-        // 判断是否登录
-        if(!myEvent.getCookie(btoa('phone')) && !myEvent.getCookie(btoa('password'))){
-            location.pathname.indexOf('sign_in') == -1 ? location.href = 'sign_in' : '';
+        判断是否登录
+        if(myEvent.getCookie('artificial')){
+            if(!myEvent.getCookie(btoa('phone')) && !myEvent.getCookie(btoa('password'))){
+                location.pathname.indexOf('sign_in') == -1 ? location.href = 'sign_in' : '';
+            }
         }
     </script>
     <script>

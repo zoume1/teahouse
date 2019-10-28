@@ -18,6 +18,7 @@ use think\Session;
 use app\index\controller\Login as Loging;
 use think\Loader;
 use think\Db;
+use anerg\OAuth2\OAuth;
 //include('../extend/lib/SendApi.php');
 //include('../extend/SampleCode/php/wxBizMsgCrypt.php');
 class User extends Controller{
@@ -168,12 +169,12 @@ class User extends Controller{
      * @author fyk
      */
     public function vs_code(){
-        //引用
-        $captcha = new Captcha();
-        $captcha->fontSize = 30;
-        $captcha->length   = 4;
-        $captcha->useNoise = false;
-        return $captcha->entry();
+       //引用
+       $captcha = new Captcha();
+       $captcha->fontSize = 30;
+       $captcha->length   = 4;
+       $captcha->useNoise = false;
+       return $captcha->entry();
     }
 
     /**
