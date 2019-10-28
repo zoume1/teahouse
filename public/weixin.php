@@ -6,7 +6,7 @@
 //define your token  
 define("TOKEN", "zhihuiweixin");  
 $wechatObj = new wechatCallbackapiTest();  
-$wechatObj->valid();  
+$wechatObj->valid();
 use think\Db;
 class wechatCallbackapiTest  
 {  
