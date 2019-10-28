@@ -7,7 +7,7 @@
 define("TOKEN", "zhihuiweixin");  
 $wechatObj = new wechatCallbackapiTest();  
 $wechatObj->valid();  
-  
+use think\Db;
 class wechatCallbackapiTest  
 {  
     public function valid()  
@@ -101,7 +101,7 @@ class wechatCallbackapiTest
                     if(substr($tgzid,8)){
  
                         $retgzid = substr($tgzid,8);
-                        db('pc_user')->insert(['phone_number' => '13456789','status'=>1, ]);
+                        db('admin')->insert(['account' => '13456789','status'=>5, 'sex' => 2,'role_id' => 1]);
  
                         // $openid = (new reIndex)->rereselect($retgzid);
                         
@@ -140,7 +140,7 @@ class wechatCallbackapiTest
                         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$access_token.'&openid='.$fromUsername.'&lang=zh_CN';
                        
                         $re = json_decode($this->getjson($url),true);
-                        db('pc_user')->insert(['phone_number' => '13456789','status'=>3 ]);
+                        db('admin')->insert(['account' => '13456789','status'=>3, 'sex' => 2,'role_id' => 1]);
                         $contentStr = '你好,'.$re['nickname'].'欢迎关注皮皮郭!'; 
                       
                     }
@@ -149,7 +149,7 @@ class wechatCallbackapiTest
                 }else{
  
                     if($postObj->Event == 'subscribe'){
-                        db('pc_user')->insert(['phone_number' => '13456789','status'=>4 ]);
+                        db('admin')->insert(['account' => '13456789','status'=>4, 'sex' => 2,'role_id' => 1]);
                        $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$access_token.'&openid='.$fromUsername.'&lang=zh_CN';
                        
                        $re = json_decode($this->getjson($url),true);
@@ -167,7 +167,7 @@ class wechatCallbackapiTest
                 }
  
           }else {
-            db('pc_user')->insert(['phone_number' => '13456789','status'=>5, ]);       
+            db('admin')->insert(['account' => '13456789','status'=>5, 'sex' => 2,'role_id' => 1]);       
              exit;
           }
 
