@@ -458,25 +458,54 @@ class  Material extends  Controller{
      * @return \think\response\View
      */
     public function anti_fake(){
-        $input=input();
-        if(!empty($input)){
-            //检索
-
-        }else{
-            // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
-            $sql='SELECT v_test.* FROM  v_test ';
-
-
-
-        }
+        $store_id=Session::get('store_id');
+        // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
         $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
         if($con)
         {
-            $sql2='alter table v_test add  column is_produce int(4)  default 0';
-            mysqli_query($con,$sql2);    //新增默认字段
+            //1.获取商品列表，导入自己的数据库
+            $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity ';
             $res= mysqli_query($con,$sql);
             $rr=$res->fetch_all(MYSQLI_ASSOC);
+            foreach($rr as $k =>$v){
+                $v['create_time']=time();
+                $v['store_id']=$store_id;
+                $v['produceUid']='50';
+                db('anti_goods')->insert($v);
+            }
+            //2.获取目标列表，导入自己的数据库
+            $sql2='SELECT v_trace_master.* FROM  v_trace_master ';
+            $res2= mysqli_query($con,$sql2);
+            $rr2=$res2->fetch_all(MYSQLI_ASSOC);
+            foreach($rr2 as $k2 =>$v2){
+                $v2['create_time']=time();
+                $v2['store_id']=$store_id;
+                $v2['produceUid']='50';
+                db('anti_parent_code')->insert($v2);
+            }
+            $sql2='SELECT v_trace_master.* FROM  v_trace_master ';
+            $res2= mysqli_query($con,$sql2);
+            $rr2=$res2->fetch_all(MYSQLI_ASSOC);
+            foreach($rr2 as $k2 =>$v2){
+                $v2['create_time']=time();
+                $v2['store_id']=$store_id;
+                $v2['produceUid']='50';
+                db('anti_parent_code')->insert($v2);
+            }
+            halt($rr);
         }
+       
+    }
+
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:防伪溯源
+     **************************************
+     * @return \think\response\View
+     */
+    public function anti_fake2(){
+      
         return view("anti_fake",['data'=>$rr]);
     }
     /**
