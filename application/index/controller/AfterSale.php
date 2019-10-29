@@ -436,8 +436,8 @@ class  AfterSale extends Controller{
                     if(empty($value['who_handle'])){
                         //未处理
                         //获取后台配置参数
-                        $data = Db::name('order_setting')->where("store_id","EQ",$store_id)->find();
-                        $time=$data['after_sale_time'];
+                        $data2 = Db::name('order_setting')->where("store_id","EQ",$store_id)->find();
+                        $time=$data2['after_sale_time'];
                         if(time()-$time*24*60*60-$value['operation_time']>0){   //超过处理时间，系统自动修改为已处理
                             //修改当前的申请记录状态，记录当前的时间未handle时间
                             db('after_sale')->where('id',$value['id'])->update(['who_handle'=>4,'handle_time'=>time(),'status'=>2]);
