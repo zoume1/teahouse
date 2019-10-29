@@ -584,12 +584,12 @@
                     <p>申请城市（必选）</p>
                     <div class="sq" data-toggle="distpicker" id="c-dists" style="display: inline-block;width: 25%;">
                         <select id="province_sq" name="apply_city_one" data-province="---- 选择省 ----"
-                            style="width: 100%;" onchange="myEvent.aa()"></select>
+                            style="width: 100%;" onchange="myEvent.chooseLv()"></select>
                     </div>
                     <!-- <select name="apply_city_one" id="province_sq">
                         <option value="0">选择省份直辖市</option>
                 </select> -->
-                    <select name="city_rank" id="choose_lv" onchange="myEvent.chooseLv()">
+                    <select name="city_rank" id="choose_lv">
                         <option value="0">选择城市等级</option>
                         <option value="2">特级城市</option>
                         <option value="3">一级城市</option>
@@ -889,37 +889,58 @@
                     }
                 }
             }
-            myEvent.aa = function () {
-                let city_lv = $("#province_sq  option:selected").data("code");
-            }
+            // myEvent.aa = function () {
+            //     let city_lv = $("#province_sq  option:selected").data("code");
+            // }
             //获取申请城市
             myEvent.chooseLv = function () {
                 // console.log($("#choose_lv  option:selected").val());
-                let province_lv = ChineseDistricts_new[$("#province_sq  option:selected").data("code")];
-                let city_lv = $("#choose_lv  option:selected").val();
-                if (city_lv > 0) {
-                    $.ajax({
+                let province_lv = ChineseDistricts_new[$("#province_sq  option:selected").data("code")], arr = new Array;
+                for (let i in province_lv) {
+                    arr.push(province_lv[i]);
+                }
+                $.ajax({
                         url: "city/chooseRank",
                         type: "POST",
                         data: {
-                            rank_status: city_lv
+                            city: arr
                         },
                         success: (res) => {
                             let citys = res.data;
                             $("#citys").empty();
-                            $("#citys").append("<option value ='0'>选择城市</option>");
-                            for (let key in citys) {
-                                for (let i in province_lv) {
-                                    var now_city = citys[key].name;
-                                    if (province_lv[i].indexOf(now_city) != -1) {
-                                        $("#citys").append("<option value='" + now_city + "'>" + now_city + "</option>");
-                                    }
-                                }
+                            // $("#citys").append("<option value ='0'>选择城市</option>");
+                            for (let i in citys) {
+                                $("#citys").append("<option data-rank='" + citys[i].rank_status + "' value='" + citys[i].name + "'>" + citys[i].name + "</option>");
+                                $("#choose_lv").val(citys[0].rank_status);
                             }
+                            
                         },
                         error: (e) => { console.error(e) }
                     })
-                }
+                // let city_lv = $("#choose_lv  option:selected").val();
+                // if (city_lv > 0) {
+                //     $.ajax({
+                //         url: "city/chooseRank",
+                //         type: "POST",
+                //         data: {
+                //             rank_status: city_lv
+                //         },
+                //         success: (res) => {
+                //             let citys = res.data;
+                //             $("#citys").empty();
+                //             $("#citys").append("<option value ='0'>选择城市</option>");
+                //             for (let key in citys) {
+                //                 for (let i in province_lv) {
+                //                     var now_city = citys[key].name;
+                //                     if (province_lv[i].indexOf(now_city) != -1) {
+                //                         $("#citys").append("<option value='" + now_city + "'>" + now_city + "</option>");
+                //                     }
+                //                 }
+                //             }
+                //         },
+                //         error: (e) => { console.error(e) }
+                //     })
+                // }
             }
             window.myEvent = myEvent;
         }(window.myEvent || {}));
