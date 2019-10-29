@@ -118,7 +118,7 @@ class Passport extends Controller
     {
         if ($request->isPost()) {
             $model = new CityRank();
-            $rank = $request->only(['rank_status'])['rank_status'];
+            // $rank = $request->only(['rank_status'])['rank_status'];
             $city = $request->only(['city'])['city']; //选择下的所有城市
 
             $data =  $model->all()->toArray();
