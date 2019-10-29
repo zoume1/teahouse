@@ -427,6 +427,10 @@ Route::group("",[
     /**  分享 */
     "qr_back_points"=>"index/My/qr_back_points",        //微信小程序--分享返积分
 
+    /***资金明细 */
+    "serial_add"=>"index/Serial/serial_add",        //添加分销明细
+     
+
 ]);
 
 /**
