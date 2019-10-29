@@ -10,7 +10,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Db;
 use think\Request;
-use  think\Session;
+use think\Session;
 
 class Findpwd extends Controller{
     /**
