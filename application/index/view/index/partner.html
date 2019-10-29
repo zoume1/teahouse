@@ -589,16 +589,17 @@
                     <!-- <select name="apply_city_one" id="province_sq">
                         <option value="0">选择省份直辖市</option>
                 </select> -->
-                    <select name="city_rank" id="choose_lv">
-                        <option value="0">选择城市等级</option>
+                    <select name="city_address" id="citys" onchange="myEvent.getRank()">
+                        <option value="0">选择城市</option>
+                    </select>
+                    <select name="city_rank" id="choose_lv" disabled>
+                        <option value="0">城市等级（选择城市后显示以及等级费用）</option>
                         <option value="2">特级城市</option>
                         <option value="3">一级城市</option>
                         <option value="4">二级城市</option>
                         <option value="5">三级城市</option>
                     </select>
-                    <select name="city_address" id="citys">
-                        <option value="0">选择城市</option>
-                    </select>
+                   
                     <!-- <button class="btn-sub" type="submit" id="submit" >立即申请</button> -->
                     <div class="btn-sub" id="submit">立即申请</div>
                 </div>
@@ -889,12 +890,8 @@
                     }
                 }
             }
-            // myEvent.aa = function () {
-            //     let city_lv = $("#province_sq  option:selected").data("code");
-            // }
             //获取申请城市
             myEvent.chooseLv = function () {
-                // console.log($("#choose_lv  option:selected").val());
                 let province_lv = ChineseDistricts_new[$("#province_sq  option:selected").data("code")], arr = new Array;
                 for (let i in province_lv) {
                     arr.push(province_lv[i]);
@@ -908,7 +905,6 @@
                         success: (res) => {
                             let citys = res.data;
                             $("#citys").empty();
-                            // $("#citys").append("<option value ='0'>选择城市</option>");
                             for (let i in citys) {
                                 $("#citys").append("<option data-rank='" + citys[i].rank_status + "' value='" + citys[i].name + "'>" + citys[i].name + "</option>");
                                 $("#choose_lv").val(citys[0].rank_status);
@@ -917,30 +913,11 @@
                         },
                         error: (e) => { console.error(e) }
                     })
-                // let city_lv = $("#choose_lv  option:selected").val();
-                // if (city_lv > 0) {
-                //     $.ajax({
-                //         url: "city/chooseRank",
-                //         type: "POST",
-                //         data: {
-                //             rank_status: city_lv
-                //         },
-                //         success: (res) => {
-                //             let citys = res.data;
-                //             $("#citys").empty();
-                //             $("#citys").append("<option value ='0'>选择城市</option>");
-                //             for (let key in citys) {
-                //                 for (let i in province_lv) {
-                //                     var now_city = citys[key].name;
-                //                     if (province_lv[i].indexOf(now_city) != -1) {
-                //                         $("#citys").append("<option value='" + now_city + "'>" + now_city + "</option>");
-                //                     }
-                //                 }
-                //             }
-                //         },
-                //         error: (e) => { console.error(e) }
-                //     })
-                // }
+            }
+            //城市等级联动
+            myEvent.getRank = function () {
+                let rank = $("#citys  option:selected").data("rank");
+                $("#choose_lv").val(rank);
             }
             window.myEvent = myEvent;
         }(window.myEvent || {}));
@@ -1002,10 +979,10 @@
                 layer.msg("请选择省份");
                 return false;
             }
-            if ($("#choose_lv  option:selected").val() == 0) {
-                layer.msg("请选择城市等级");
-                return false;
-            }
+            // if ($("#choose_lv  option:selected").val() == 0) {
+            //     layer.msg("请选择城市等级");
+            //     return false;
+            // }
             if ($("#citys  option:selected").val() == 0) {
                 layer.msg("请选择城市");
                 return false;
@@ -1015,7 +992,7 @@
                 return false;
             }
             // var datas = $('#form1').serialize() + "&id_image=" + myEvent.data.zm + "&id_image_reverse=" +  myEvent.data.fm;
-
+            $("#choose_lv").removeAttr("disabled");
             var datas = new FormData(document.getElementById("form1"));
             $.ajax({            //几个参数需要注意一下
                 type: "POST",//方法类型
@@ -1027,6 +1004,7 @@
                 success: function (result) {
                     console.log(result);//打印服务端返回的数据(调试用)
                     layer.msg(result.msg);
+                    $("#choose_lv").attr("disabled", "disabled");
                     setTimeout(function(){
                         $(".apply_main").hide();
                     },2000)
