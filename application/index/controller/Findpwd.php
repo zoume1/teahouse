@@ -10,7 +10,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Db;
 use think\Request;
-use  think\Session;
+use think\Session;
 
 class Findpwd extends Controller{
     /**
@@ -233,8 +233,8 @@ class Findpwd extends Controller{
             }
             //存入session中
             if (strlen($mobileCode)> 0){
-                session('identifying_code',$mobileCode);
-                session('phone_number',$mobile);
+                Session::set('identifying_code',$mobileCode);
+                Session::set('phone_number',$mobile);
             }
             $content = "【智慧茶仓】尊敬的用户，您本次验证码为{$mobileCode}，十分钟内有效";
             $output = sendMessage($content,$mobile);

@@ -21,8 +21,7 @@ const BOOLEZERO = 0;
 const BOOLEONE = 1;
 const BOOLETWO = 2;
 
-$wechatObj = new wechatCallbackapiTest();  
-$wechatObj->WeiChatReturnUrls(); 
+
 
 
 class WeiChatLogin extends Gateway
