@@ -18,6 +18,17 @@ class Article extends Controller{
         $this->appSecret= '06c0107cff1e3f5fe6c2eb039ac2d0b7'; 
 
     }
+    
+    public function getqrcodeticket($value = ''){
+          //@header('Content-type: text/plain;charset=UTF-8');
+          //header("Access-Control-Allow-Origin: *");
+          // request()->header('user-agent');
+          //公众号 appid 和秘钥AppID 和 AppSecret 可登录微信公众平台官网-设置-开发设置中获得（需要已经绑定成为开发者，且帐号没有异常状态）
+          $appid = $this -> appId;
+          $appsecret = $this -> 
+
+
+    }
 	
 	 // 获取code
     public function code(){
@@ -40,7 +51,6 @@ class Article extends Controller{
     // 二维码呈现
     public function member(){
         
-        $this->code();
         $code  =  $_GET['code'];   
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->appId.'&secret='.$this->appSecret.'&code='.$code.'&grant_type=authorization_code';
         $res = $this->curl_post($url);
