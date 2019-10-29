@@ -1,6 +1,7 @@
 <?php
 
 namespace app\city\controller;
+
 use think\Session;
 use think\Validate;
 use think\Request;
@@ -30,9 +31,8 @@ class Passport extends Controller
         if ($this->request->isPost()) {
             $model = new UserModel;
             $code = $model->login($this->postData('User'));
-            return jsonSuccess($model->getError(),array(),$code);
+            return jsonSuccess($model->getError(), array(), $code);
         }
-        
     }
 
     /**
@@ -49,14 +49,13 @@ class Passport extends Controller
             $model = new UserModel;
             $data = $this->postData('User');
             $code = $model->login($data);
-            if($code == 1 || $code == ERROR_104){
+            if ($code == 1 || $code == ERROR_104) {
                 $return_data = $model->watchat_login($data);
-                return jsonSuccess($model->getError(),$return_data,$code);
+                return jsonSuccess($model->getError(), $return_data, $code);
             }
 
-            return jsonSuccess($model->getError(),array(),$code);
+            return jsonSuccess($model->getError(), array(), $code);
         }
-        
     }
 
     /**
@@ -69,7 +68,7 @@ class Passport extends Controller
     }
 
 
-        /**
+    /**
      * 城市合伙人PC端申请注册
      * @return array|mixed
      * @throws \think\db\exception\DataNotFoundException
@@ -82,8 +81,7 @@ class Passport extends Controller
         if ($request->isPost()) {
             $data = Request::instance()->param();
             $rest = new UserModel;
-            if($rest->submit($data))
-            {
+            if ($rest->submit($data)) {
                 return $this->renderSuccess('您的资料已提交，请耐心等待审核通过');
             }
 
@@ -101,12 +99,11 @@ class Passport extends Controller
     public function chooseCity()
     {
         $data = CityRank::getList($city = '');
-        
-        if($data['one'])
-        {
-            return jsonSuccess('发送成功',$data['one']);
+
+        if ($data['one']) {
+            return jsonSuccess('发送成功', $data['one']);
         }
-        return jsonError('发送失败'); 
+        return jsonError('发送失败');
     }
 
 
@@ -120,13 +117,21 @@ class Passport extends Controller
     public function chooseRank(Request $request)
     {
         if ($request->isPost()) {
-            $rank = $request->only(['rank_status'])['rank_status'];      
-            $data = CityRank::detail($rank);
-            if($data)
-            {
-                return jsonSuccess('发送成功',$data->toArray());
+            $model = new CityRank();
+            // $rank = $request->only(['rank_status'])['rank_status'];
+            $city = $request->only(['city'])['city']; //选择下的所有城市
+
+            $data =  $model->all()->toArray();
+            foreach ($data as $key => $value) {
+                if (!empty($city)) {
+                    if (in_array($value['name'], $city)) {
+                        $one[] = $value;
+                    }
+                } else {
+                    $one[] = $value;
+                }
             }
-            return jsonError('发送失败'); 
+            return jsonSuccess('发送成功',$one);
         }
     }
 
@@ -145,12 +150,12 @@ class Passport extends Controller
             $data = Request::instance()->param();
             $model = new UserModel;
             $rest = $model->forget($data);
-            if($rest){
+            if ($rest) {
                 return jsonSuccess('修改密码成功');
             } else {
                 return jsonError($model->getError());
             }
-        }     
+        }
     }
 
     /**
@@ -164,19 +169,17 @@ class Passport extends Controller
     {
         $user = Session::get('User');
         $order = Db::name('city_order')
-                ->where('city_user_id','=',$user['user_id'])
-                ->where('judge_status','>',1)
-                ->find();
-        if($order){
+            ->where('city_user_id', '=', $user['user_id'])
+            ->where('judge_status', '>', 1)
+            ->find();
+        if ($order) {
             $remittance = [
                 'remittance_account' => $order['remittance_account'],
                 'payment_document' => $order['payment_document'],
-                'order_number'=>$order['order_number']
+                'order_number' => $order['order_number']
             ];
-            return jsonSuccess('返回凭证成功',$remittance);
+            return jsonSuccess('返回凭证成功', $remittance);
         }
         return jsonError('返回凭证失败');
-         
     }
-
 }

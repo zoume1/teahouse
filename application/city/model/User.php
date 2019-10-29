@@ -349,7 +349,7 @@ class User extends Model
             return false;
         }
 
-        if (session('identifying_code') != $data['identifying_code']) {
+        if (Session::get('identifying_code') != $data['identifying_code']) {
             $this->error = '短信验证码错误';
             return false;
         }
