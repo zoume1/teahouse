@@ -6,6 +6,7 @@
  * Time: 11:09
  */
 namespace app\rec\controller;
+use EasyWeChat\Foundation\Application;
 use app\rec\model\Wechat as WechatAll;
 use think\Request;
 use think\Validate;
@@ -67,6 +68,30 @@ class Wechat extends Controller{
         
 
 
+    }
+	
+	public function checkSignature(){
+        //获取由微信服务器发过来的数据
+        $nonce = $_GET['nonce'];
+        $token = 'agent';
+        $timestamp = $_GET['timestamp'];
+        $echostr = isset($_GET['echostr'])?$_GET['echostr']:'';
+        $signature = $_GET['signature'];
+       
+        //开始验证数据
+        $array = array();
+
+                $array =  array($nonce,$timestamp,$token);
+        sort($array);
+
+        $str = sha1(sha1implode($array));
+    
+        //对比数据
+        if ($str == $signature && $echostr) {
+            echo $echostr;
+        } else {
+            $this ->re1();
+        }
     }
 
     /**
@@ -133,8 +158,7 @@ class Wechat extends Controller{
         curl_close($curl);
         return json_decode($data,true);
     }
-
-   
+    
 
 
 }

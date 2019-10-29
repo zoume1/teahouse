@@ -1307,6 +1307,9 @@ Route::group("rec",[
 
     //重新支付
     "shop_wxpay" => "rec/Order/shop_wxpay",
+    
+    "index_code" =>"rec/Wxconfig/index_code",
+    "checkSignature"=>"rec/Wechat/checkSignature",
 
 ]);
 
