@@ -1824,6 +1824,33 @@ function returnArray($data){
 }
 
 
+function serail_status($status){
+    switch($status){
+        case 1:
+            echo "订单";  
+            break;
+        case 2:
+            echo "退款";
+            break;
+        case 3:
+            echo "代理收入";
+            break;
+        case 4:
+            echo "充值";
+            break;
+        case 5:
+            echo "提现";
+            break;
+        case 6:
+            echo "退货";
+            break;
+        default:
+            break;
+
+    }
+}
+
+
 
     
 
