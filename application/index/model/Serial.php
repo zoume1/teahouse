@@ -1,6 +1,6 @@
 <?php
 
-namespace app\city\model;
+namespace app\index\model;
 use think\Session;
 use think\Model;
 use think\Db;
@@ -17,10 +17,33 @@ use app\common\exception\BaseException;
 class Serial extends Model
 {
     protected $table = "tb_serial";
+	protected $resultSetType = 'collection';
+
+
+
 
 
     /**gy
-     *  分销明细
+     * 分销明细列表
+     * @param $meal_id
+     * @return null|static
+     * @throws \think\exception\DbException
+     */
+    public static function index($search)
+    {
+        // halt($search);
+        $model = new static;
+        // 查询条件
+        !empty($search) && $model->setWhere($search);
+        $rest = $model->order(['create_time' => 'desc'])
+        ->paginate(20, false, [
+            'query' => \request()->request()
+        ]);
+        return $rest;
+    }
+
+    /**gy
+     *  分销明细添加
      * @param $data
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
@@ -35,35 +58,21 @@ class Serial extends Model
         
     }
 
-    /**gy
-     * 分销明细列表
+
+        /**gy
+     * 获取城市入驻资料
      * @param $meal_id
      * @return null|static
      * @throws \think\exception\DbException
      */
-    public static function index()
+    public static function detail($id)
     {
-        $data = Db::name('serial')
-        ->where('return_time','>',0)
-        ->order("create_time desc")
-        ->select();
-        return $data;
-    }
-
-
-    /**获取所有市场反馈
-     * gy
-     * @param $useid
-     * @return false|static[]
-     * @throws \think\exception\DbException
-     */
-    public static function getList()
-    {
-        return self::all();
+        $rest =  self::get($id);
+        return $rest ? $rest->toArray() :false;
     }
 
     /**gy
-     *  市场反馈更新
+     *  分销明细列表更新
      * @param $data
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
@@ -77,6 +86,41 @@ class Serial extends Model
         $rest = $model -> allowField(true)->save($data,['id'=>$data['id']]);
         return $rest ? $rest : false;
         
+    }
+
+    /**
+     * 设置检索查询条件
+     * @param $query
+     */
+    private function setWhere($query)
+    {
+        $store_id = Session :: get("store_id");
+        $this->where('store_id', '=', $store_id);
+        if (isset($query['start_time']) && !empty($query['end_time'])) {
+            $start_time = strtotime($query['start_time']);
+            $time_condition  = "create_time > {$start_time} ";
+            $this->where($time_condition);
+        }
+        if (isset($query['end_time']) && !empty($query['end_time'])) {
+            $end_time = strtotime($query['end_time']);
+            $time_condition  = "create_time < {$end_time} ";
+            $this->where($time_condition);
+        }
+        if(isset($query['end_time']) && !empty($query['end_time']) && isset($query['start_time']) && !empty($query['start_time'])){
+            $start_time = strtotime($query['start_time']);
+            $end_time = strtotime($query['end_time']);
+            $time_condition  = "create_time > {$start_time} and create_time< {$end_time} ";
+            $this->where($time_condition);
+        }
+        if (isset($query['status']) && !empty($query['status'])) {
+            $this->where('status', '=', $query['status']);
+        }
+        if (isset($query['type']) && !empty($query['type'])) {
+            $this->where('type', '=', $query['type']);
+        }
+        if (isset($query['phone_number']) && !empty($query['phone_number'])) {
+            $this->where('phone_number', '=', $query['phone_number']);
+        }
     }
 
 }

@@ -56,30 +56,36 @@
                 <button class="layui-btn"><a href="{:url('admin/Store/store_wallet_reduce')}">提现</a></button>
             </div>
         </div>
-        <div class="inner">
+        <form class="layui-form" action="{:url('admin/General/capital_management')}">
             <div class="search-hd">
                 <div class="search-box layui-form">
                     <div class="date-input">
                         <label>时间：</label>
-                        <input type="text" data-type="date" id="searchDateStart">~
-                        <input type="text" data-type="date" id="searchDateend">
+                        <input type="text" name="start_time" data-type="date" id="searchDateStart">~
+                        <input type="text" name="end_time" data-type="date" id="searchDateend">
                     </div>
                     <div>
                         <label class="layui-form-label">类型：</label>
                         <div class="layui-input-block">
-                            <select name="recharge-type">
+                            <select name="status">
                                 <option value="">请选择</option>
-                                <option value="0">充值</option>
-                                <option value="1">提现</option>
-                                <option value="2">订单</option>
-                                <option value="3">代理收入</option>
-                                <option value="4">退款</option>
+                                <option value="充值">充值</option>
+                                <option value="提现">提现</option>
+                                <option value="退款">退款</option>
+                                <option value="普通订单">普通订单</option>
+                                <option value="众筹订单">众筹订单</option>
+                                <option value="众筹打赏">众筹打赏</option>
+                                <option value="定制订单">定制订单</option>
+                                <option value="活动订单">活动订单</option>
+                                <option value="增值订单">增值订单</option>
+                                <option value="套餐订单">套餐订单</option>
                             </select>
                         </div>
                     </div>
                     <button class="layui-btn">搜索</button>
                 </div>
             </div>
+        </form>
             <div class="layui-form" lay-filter="test2">
                 <table class="layui-table">
                     <thead>
@@ -104,12 +110,13 @@
                             <th class="table-cell">
                                 <div class="table-cell-div">类型</div>
                             </th>
-                            <th class="table-cell">
+                            <!-- <th class="table-cell">
                                 <div class="table-cell-div">操作</div>
-                            </th>
+                            </th> -->
                         </tr>
                     </thead>
                     <tbody>
+                        {if !empty($data)}{volist name="data" id="value"}
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
@@ -117,30 +124,39 @@
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">2</div>
+                                <div class="table-cell-div">{$value.serial_number}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">3</div>
+                                <div class="table-cell-div">{$value.create_time}</div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">4</div>
+                                {if $value.type == 1}
+                                <div class="table-cell-div">{$value.money}</div>
+                                {else}
+                                <div class="table-cell-div">N/F</div>
+                                {/if}
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">5</div>
+                                {if $value.type == 2}
+                                <div class="table-cell-div">{$value.money}</div>
+                                {else}
+                                <div class="table-cell-div">N/F</div>
+                                {/if}
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">6</div>
+                                <div class="table-cell-div">{$value.status}</div>
                             </td>
-                            <td class="table-cell">
+                            <!-- <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <a href="capital_management_details" class="layui-btn layui-btn-mini">详情</a>
+                                    <a href="{:url('admin/General/capital_management_details',['id'=>$value.id])}" class="layui-btn layui-btn-mini">详情</a>
                                 </div>
-                            </td>
+                            </td> -->
                         </tr>
+                         {/volist} {/if}
                     </tbody>
                 </table>
             </div>
-            <div class="bot-operate">
+            <!-- <div class="bot-operate">
                 <div class="opation">
                     <select>
                         <option check="" value="0">请选择</option>
@@ -150,7 +166,8 @@
                 <div>
                     <button type="button" id="operation-btn" class="operation-btn">确定</button>
                 </div>
-            </div>
+            </div> -->
+            {if !empty($data)}{$data->render()}{/if}
         </div>
     </div>
 {/block}

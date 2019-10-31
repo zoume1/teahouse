@@ -62,42 +62,40 @@
 
 	<div class="childrenBody">
 		<blockquote class="layui-elem-quote news_search">
-			<form class="layui-form" action="{:url('admin/Category/search')}">
+			<form class="layui-form" action="{:url('admin/Property/property_day')}">
 				<div class="seach">
 					<div class="seach_list">
 						<div class="seach_laber">账号</div>
 						<div class="seach_input">
-							<input type="text" name="" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" style="">
+							<input type="text" name="phone_number" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" style="">
 
 						</div>
 					</div>
                     <div class="seach_list">
 						<div class="seach_laber">收支类型</div>
 						<div class="seach_input">
-							<select name="">
-								<option value="" selected="">全部</option>
+							<select name="type">
+								<option value="" selected="">请选择</option>
 								<option value="1">收入</option>
-								<option value="0">支出</option>
+								<option value="2">支出</option>
 							</select>
 						</div>
                     </div>
                     <div class="seach_list">
 						<div class="seach_laber">账单类型</div>
 						<div class="seach_input">
-							<select name="">
-								<option value="" selected="">请选择</option>
-                                <option value="">全部</option>
-                                <option value="1">订单</option>
-                                <option value="2">提现</option>
-                                <option value="3">返现</option>
-                                <option value="4">退款到余额</option>
-                                <option value="5">配送费</option>
-                                <option value="6">活动报名费</option>
-                                <option value="7">税费</option>
-                                <option value="8">开票手续费</option>
-                                <option value="9">会员等级充值费</option>
-                                <option value="10">仓储费</option>
-                                <option value="11">仓储保险费</option>
+							<select name="status">
+									<option value="">请选择</option>
+									<option value="充值">充值</option>
+									<option value="提现">提现</option>
+									<option value="退款">退款</option>
+									<option value="普通订单">普通订单</option>
+									<option value="众筹订单">众筹订单</option>
+									<option value="众筹打赏">众筹打赏</option>
+									<option value="定制订单">定制订单</option>
+									<option value="活动订单">活动订单</option>
+									<option value="增值订单">增值订单</option>
+									<option value="套餐订单">套餐订单</option>
 							</select>
 						</div>
                     </div>
@@ -105,15 +103,14 @@
 					<div class="seach_list">
 						<div class="seach_laber">开始时间</div>
 						<div class="seach_input">
-							<span class="time"><input type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""   name="date_min">
+							<span class="time"><input  name="start_time" type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" >
 							</span>
 						</div>
 					</div>
 					<div class="seach_list">
 						<div class="seach_laber">结束时间</div>
 						<div class="seach_input">
-							<span class="time"><input type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  name="date_max" ></span>
-
+							<span class="time"><input type="text"  name="end_time" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" ></span>
 						</div>
 					</div>
 					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
@@ -136,26 +133,39 @@
 						<th>收入（元 ）</th>
 						<th>支出（元 ）</th>
 						<th>类型</th>
-						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody class="news_content">
+					{if !empty($data)}{volist name="data" id="value"}
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>
+						<td>{$value.phone_number}</td>
+						<td>{$value.create_time}</td>
+						<td class="table-cell">
+                                {if $value.type == 1}
+                                <div class="table-cell-div">{$value.money}</div>
+                                {else}
+                                <div class="table-cell-div">N/F</div>
+                                {/if}
+                            </td>
+                            <td class="table-cell">
+                                {if $value.type == 2}
+                                <div class="table-cell-div">{$value.money}</div>
+                                {else}
+                                <div class="table-cell-div">N/F</div>
+                                {/if}
+                            </td>
+						<td>{$value.status}</td>
+						<!-- <td>
 							<a class="layui-btn layui-btn-mini edit" href="{:url('admin/Property/property_day_index')}"> 详情
                         </a>
-                    </td>
+                    </td> -->
 						
 					</tr>
+					{/volist}{/if}
 				</tbody>
 			</table>
-			<div id="page">
+			<!-- <div id="page">
 				<div class="opation up-form-select" style="width: 200px; float: left;">
 					<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
 						<option check="" value="0">请选择</option>
@@ -166,7 +176,8 @@
 					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
-			</div>
+			</div> -->
+			{if !empty($data)}{$data->render()}{/if}
 
 		</div>
 
