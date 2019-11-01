@@ -38,11 +38,13 @@ class  AddeOrder extends  Controller{
                     if($data['special_id'] > 0){
                         $special = Db::name("analyse_special")->where("id",$data['special_id'])->find();
                         $price = $special['price'];
+                        $accounting = $special['cost'];
                         $goods_standard= $special['goods_standard'];
                         $stock = $special['stock'];
                     } else {
                         $price = $goods['goods_new_money'];
                         $goods_standard= 0;
+                        $accounting = $goods['goods_cost'];
                         $stock = $goods['goods_repertory'];
                     }
                     $analyse = [
@@ -61,7 +63,8 @@ class  AddeOrder extends  Controller{
                         'user_account_name'=>$store_data['contact_name'], //账号名字
                         'user_phone_number'=>$store_data['phone_number'], //联系方式
                         'goods_describe' => $goods['goods_describe'], //商品买点
-                        'goods_image' => $goods['goods_show_image']
+                        'goods_image' => $goods['goods_show_image'],  //商品图片
+                        'accounting' => $accounting * $data['order_quantity'] ,  //商品成本
                     ];
 
                     $bool = Db::name("adder_order")->insert($analyse);
@@ -69,8 +72,8 @@ class  AddeOrder extends  Controller{
                         $restult = [
                             'order_number'=>$parts_order_number,        //订单号
                             'goods_id'=>$data['goods_id'],              //商品
-                            'goods_quantity'=>$data['order_quantity'],    //订单数量
-                            'amount_money'=>$price,                      //商品单价
+                            'goods_quantity'=>$data['order_quantity'],  //订单数量
+                            'amount_money'=>$price,                     //商品单价
                             'store_name'=>$store_data['store_name'],    //店铺名
                             'goods_name'=> $goods['goods_name'],        //商品名称
                             'goods_franking'=> $goods['goods_franking'],//商品统一邮费

@@ -14,7 +14,7 @@ use think\Controller;
 use think\Request;
 use think\Db;
 use app\admin\model\Goods;
-use\app\admin\model\MemberGrade;
+use app\admin\model\MemberGrade;
 use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
 use app\common\model\dealer\Setting;
@@ -23,6 +23,7 @@ use app\city\controller\Picture;
 use app\admin\model\Store;
 use app\city\model\CityDetail;
 use app\city\model\CityRank;
+use app\index\model\Serial as Serials;
 
 class Bill extends Controller{
 
@@ -36,10 +37,15 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-
-            $rest = $this -> buildQrcode();
-
-            return ajax_success($rest);
+            $data =[
+                'serial_number' => 'RET223456789',
+                'create_time' => time(),
+                'type'=> 1,
+                'status'=> '普通订单',
+                'money'=> 12
+            ];
+            $rest = Serials::serial_add($data);
+            halt($rest);
             // $array_city = [
             //     ['name'=>'蚌埠市'	,'rank_status'=>'5','store_number'=>1356],	
             //     ['name'=>'焦作市'	,'rank_status'=>'5','store_number'=>997],	
