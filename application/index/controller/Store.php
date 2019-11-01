@@ -69,11 +69,11 @@ class  Store extends  Controller{
             $domain='teahouse.siring.cn';
             $qiniu=new Qiniu();
            //获取店铺七牛云的配置项
-           $rr=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$image_one);
+           $rr=$qiniu->uploadimg('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$image_one);
            if($rr){
                 $card_side_file= $rr[0];
            }
-           $rr2=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$image_two);
+           $rr2=$qiniu->uploadimg('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$image_two);
            if($rr2){
                 $card_positive_images= $rr2[0];
            }
