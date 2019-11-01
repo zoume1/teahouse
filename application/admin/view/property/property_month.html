@@ -102,19 +102,20 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
+					{if !empty($data)}{volist name="data" id="value"}
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id=""></td>
-						<td>1000001</td>
-						
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
-						<td>1000001</td>
+						<td>{$value.time}</td>
+						<td>{$value.money}</td>
+						<td>{$value.gross_profit}</td>
+						<td>{$value.talk_money}</td>
+						<td>{$value.pure_profit}</td>
 						
 					</tr>
+					{/volist}{/if}
 				</tbody>
 			</table>
-			<div id="page">
+			<!-- <div id="page">
 				<div class="opation up-form-select" style="width: 200px; float: left;">
 					<select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
 						<option check="" value="0">请选择</option>
@@ -125,7 +126,8 @@
 					<button type="button" id="opration_btu" style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
 					</button>
 				</div>
-			</div>
+			</div> -->
+			{if !empty($data)}{$data->render()}{/if}
 
 		</div>
 

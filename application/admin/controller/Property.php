@@ -35,11 +35,20 @@ class  Property extends  Controller{
      * @return \think\response\View
      */
     public function property_month(){
-        $store_id = Session :: get("store_id");
-        $query = 'Select FROM_UNIXTIME(tb_serial.create_time,"%Y-%m") as time ,SUM(money) as money ,SUM(talk_money) as talk_money
-        FROM  tb_serial
+        $store_id =  Session :: get("store_id");
+        $query = 'Select FROM_UNIXTIME(tb_serial.create_time,"%Y-%m") as time ,SUM(money) as money ,SUM(talk_money) as talk_money,SUM(prime) as prime
+        FROM  tb_serial  
+        WHERE tb_serial.store_id = '.$store_id.'
         Group by FROM_UNIXTIME(tb_serial.create_time,"%Y-%m")';
-        return view("property_month");
+        $data = Db::query($query);
+        foreach($data as $key => $value){
+            $data[$key]['gross_profit'] =  $data[$key]['money'] -  $data[$key]['prime']; //毛利
+            $data[$key]['pure_profit'] =  $data[$key]['gross_profit'] -  $data[$key]['talk_money']; //纯利
+        }
+        $url = 'admin/Property/property_month';
+        $pag_number = 20;
+        $data = paging_data($data,$url,$pag_number);
+        return view("property_month",['data'=>$data]);
     }
 
 
