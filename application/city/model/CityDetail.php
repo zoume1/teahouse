@@ -75,7 +75,7 @@ class CityDetail extends Model
     {
         $model = new static;
         $address_two = explode(",", $store_data['address_data']);
-        $chang_address = city_address_change($address_two[CITY_ONE_STATUS]);
+        $chang_address = $this->city_address_change($address_two[CITY_ONE_STATUS]);
         $city_user_id = AddStore::find_city_user($chang_address);
         $retutn_data = find_rank_data($store_data['highe_share_code'],$order_data['amount_money'],$city_user_id);
         $data = [
