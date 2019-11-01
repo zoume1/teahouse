@@ -428,7 +428,7 @@
     <script src="__STATIC__/index/js/layer/layer.js"></script>
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
-        判断是否登录
+        // 判断是否登录
         if(myEvent.getCookie('artificial')){
             if(!myEvent.getCookie(btoa('phone')) && !myEvent.getCookie(btoa('password'))){
                 location.pathname.indexOf('sign_in') == -1 ? location.href = 'sign_in' : '';
@@ -855,9 +855,9 @@
                 reader.onload = function(e){
                     $(_this).siblings('img').attr('src', e.target.result);
                     if(_this.id == 'p-f' || _this.id == 'c-f'){
-                        myEvent.data.pf = e.target.result;
+                        myEvent.data.pf = file;
                     }else{
-                        myEvent.data.pb = e.target.result;
+                        myEvent.data.pb = file;
                     }
                 }
             }

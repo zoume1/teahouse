@@ -13,8 +13,6 @@ use think\Session;
 use think\Db;
 use app\admin\model\Store as AddStore;
 use app\admin\controller\Qiniu;
-use app\city\controller\Picture;
-
 
 use app\index\controller\Login as LoginPass;
 class  Store extends  Controller{
@@ -52,39 +50,10 @@ class  Store extends  Controller{
                     return ajax_error("请填写企业信息");
                 }
             }
-            $card_positives =$request->only(["card_positive"])["card_positive"]; //身份证正面
-            if(empty($card_positives)){
-                return ajax_error("请上传身份证正面图");
-            }
-            $card_side_files = $request->only(["card_side"])["card_side"];//身份证反面
-            if(empty($card_side_files)){
-                return ajax_error("请上传身份证反面图");
-            }
-            $image_one = 'card_positive';
-            $image_two = 'card_side';
-        //     // $card_positive_images = base64_upload_flie($card_positive);//身份证正面
-        //     // $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
-        //      //测试七牛上传图片
-        //      $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
-        //     $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
-        //      $bucket = 'goods';
-        //     $domain='teahouse.siring.cn';
-        //     $qiniu=new Qiniu();
-        //    //获取店铺七牛云的配置项
-        //    $rr=$qiniu->uploadimg('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$image_two);
-        //    halt($rr);
-        //    if($rr){
-        //         $card_side_file= $rr[0];
-        //    }
-        //    $rr2=$qiniu->uploadimg('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$image_one);
-        //    if($rr2){
-        //         $card_positive_images= $rr2[0];
-        //    }
+            $card_positive =$request->only(["card_positive"])["card_positive"]; //身份证正面
+            $card_side_file = $request->only(["card_side"])["card_side"];//身份证反面
+ 
 
-            $rest = new Picture;
-            $card_positive_images = $rest->upload_picture($image_one);
-            halt($card_positive_images);
-            $card_side_file = $rest->upload_picture($image_two);
             $phone_number = db("pc_user")->where("id",$user_id)->find();//获取手机号
             $data = [
                 "is_business"=>$is_business,
@@ -92,7 +61,7 @@ class  Store extends  Controller{
                 "contact_name"=>$contact_name,
                 "address_data"=>$address_data,
                 "address_real_data"=>$address_real_data,
-                "card_positive"=>$card_positive_images,
+                "card_positive"=>$card_positive,
                 "card_side"=>$card_side_file,
                 "store_introduction"=>$store_introduction,
                 "business_name"=>$business_name,
