@@ -855,9 +855,9 @@
                 reader.onload = function(e){
                     $(_this).siblings('img').attr('src', e.target.result);
                     if(_this.id == 'p-f' || _this.id == 'c-f'){
-                        myEvent.data.pf = e.target.result;
+                        myEvent.data.pf = file;
                     }else{
-                        myEvent.data.pb = e.target.result;
+                        myEvent.data.pb = file;
                     }
                 }
             }
